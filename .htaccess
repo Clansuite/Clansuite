@@ -1,0 +1,6 @@
+php_flag allow_call_time_pass_reference Off
+php_value error_reporting 2047
+php_flag magic_quotes_gpc Off
+php_flag register_globals Off
+php_flag short_open_tag Off
+php_flag zend.ze1_compatibility_mode On
