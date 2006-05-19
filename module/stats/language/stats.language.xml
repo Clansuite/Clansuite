@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tmx version="1.4">
+	<header
+		creationtool="hand made"
+		creationtoolversion="1"
+		datatype="PlainText"
+		segtype="sentence"
+		adminlang="en-us"
+		srclang="EN"
+		o-tmf="ABCTransMem">
+	</header>
+	<body> 
+		<tu tuid="submittedby" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>submitted by</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>eingetragen von</seg>
+			</tuv>
+		</tu>
+		<tu tuid="lastcomment" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>Last comment</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Letzter Kommentar</seg>
+			</tuv>
+		</tu>
+	
+	</body>
+</tmx>
