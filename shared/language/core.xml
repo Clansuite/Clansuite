@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tmx version="1.4">
+	<header
+		creationtool="hand made"
+		creationtoolversion="1"
+		datatype="PlainText"
+		segtype="sentence"
+		adminlang="en-us"
+		srclang="EN"
+		o-tmf="ABCTransMem">
+	</header>
+	<body>
+		
+		<tu tuid="welcome" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>welcome</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Willkommen</seg>
+			</tuv>
+		</tu>
+		<tu tuid="to" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>to</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>zu</seg>
+			</tuv>
+		</tu>
+		<tu tuid="on" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>on</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>am</seg>
+			</tuv>
+		</tu>
+		<tu tuid="acct_disabled" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>Your Account was disabled</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Ihr Zugangskonto wurde deaktiviert</seg>
+			</tuv>
+		</tu>
+		<tu tuid="pls_register" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>Please register</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Bitte Registrieren</seg>
+			</tuv>
+		</tu>
+		
+		<tu tuid="comment" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>comment</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Kommentar</seg>
+			</tuv>
+		</tu>
+		<tu tuid="comments" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>comments</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>Kommentare</seg>
+			</tuv>
+		</tu>
+		<tu tuid="test_utf8" datatype="plaintext">
+			<tuv xml:lang="EN">
+				<seg>àèéìòù€</seg>
+			</tuv>
+			<tuv xml:lang="DE">
+				<seg>àèéìòù€</seg>
+			</tuv>
+		</tu>
+	</body>
+</tmx>
