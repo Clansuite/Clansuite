@@ -33,10 +33,10 @@
 // +----------------------------------------------------------------+
 
 class Dao {
-    var $Db;
-    var $table;
-    var $pk;
-    var $seq;
+    public $Db;
+    public $table;
+    public $pk;
+    public $seq;
        
     function Db(&$Db) {
         $this->Db =& $Db;
@@ -95,17 +95,17 @@ define('DB_FETCH_OBJECT', 4);
 // --
 
 class Db {
-    var $prepareTokens = array();
-    var $prepareQueries = array();
+    public $prepareTokens = array();
+    public $prepareQueries = array();
 
-    var $driver;
-    var $Debug;
+    public $driver;
+    public $Debug;
 
-    var $fetchmode = DB_FETCH_ASSOC;
-    var $autoFreeResult = 1;
-    var $autoCommit = 1;
-    var $lastQuery = "";
-    var $_TconnectId;
+    public $fetchmode = DB_FETCH_ASSOC;
+    public $autoFreeResult = 1;
+    public $autoCommit = 1;
+    public $lastQuery = "";
+    private $_TconnectId;
         
    function Db() {
         if (!extension_loaded($this->driver)) {

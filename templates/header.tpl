@@ -18,8 +18,10 @@
 	 <meta name="ICBM" content="40.428618, -86.913786" />
 	 <meta name="DC.title" content="clansuite.knd-squad.de | Clansuite - the e-Sport CMS." />
 	 <link rel="Shortcut Icon" href="/favicon.ico" type="image/x-icon" />
-	 {* todo: verfeinern nach umstellung von smartertemplate *}
-	 <title>{if isset($pagetitle)} $pagetitle {else} {php} echo $_CONFIG['version'] {/php} {/if}
+	 {* todo: verfeinern nach umstellung von smartertemplate 
+	  {$title|default:"{$clansuite_version}"} <- warum geht sowas nicht?
+	 *}
+	 <title>{if isset($title)} {$title} {else} {$clansuite_version} {/if}
 	 </title>
   
 	<link rel="stylesheet" type="text/css" href="{php} echo WWW_ROOT.'/shared/style.css'; {/php}" />

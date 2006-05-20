@@ -1,4 +1,4 @@
-{include file="file:../header.tpl"}
+{include file="header.tpl"}
 
 <!-- BEGIN news -->
 <h1>News</h1>
@@ -23,4 +23,4 @@
 {/foreach}
 <!-- END news -->
 
-{include file="file:../footer.tpl"}
+{include file="file:footer.tpl"}

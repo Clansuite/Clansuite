@@ -90,7 +90,7 @@ function getRemoteHost() {
 
 class Settings {
 
-var $properties = array();
+public $properties = array();
 
    function Settings() {
        $this->properties = parse_ini_file(_SETTINGS_FILE, true);
@@ -126,8 +126,8 @@ var $properties = array();
 // +----------------------------------------------------------------+
 
 class Upload {
-    var $chmod = 604;
-    var $tmp, $filename, $type, $size, $error;
+    private $chmod = 604;
+    public $tmp, $filename, $type, $size, $error;
     function Upload($name) {
         if (isset($_FILES[$name])) {
             $this->tmp      = @$_FILES[$name]['tmp_name'];
