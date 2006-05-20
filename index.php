@@ -34,8 +34,5 @@
 
 include 'shared/prepend.php';
 
-$MainPage->assign('username', $_SESSION['User']['nick'] );
-$MainPage->assign('clansuite_version', $_CONFIG['version']);
 $MainPage->display("index.tpl");
-
 ?>

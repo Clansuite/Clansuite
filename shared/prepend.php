@@ -85,6 +85,7 @@ header('X-Powered-By: Clansuite CMS/'.$_CONFIG['version'].' (clansuite.sourcefor
 ############ Error Reporting & Errorhandler ############
 require_once (dirname(__FILE__).'/class.errorhandler.php');
 error_reporting(E_ALL ^ E_NOTICE);
+#error_reporting(E_STRICT); 
 set_error_handler('raiseError');
 
 ############ Lib für unsortiertes ############
@@ -126,9 +127,9 @@ $MainPage->cache_dir = $_SERVER['DOCUMENT_ROOT'] . '/'.  WWW_ROOT . '/' . '/cach
 // Smarty Settings
 $MainPage->compile_check = true;
 $MainPage->debugging = true;
-$ModulPage->caching = true;
 
 // Var Assignments
+$MainPage->assign('clansuite_version', $_CONFIG['version']);
 $MainPage->assign('corelanguage', $corelanguage);
 $MainPage->assign('authed', $_SESSION['User']['authed'] );
 $MainPage->assign('username', $_SESSION['User']['nick'] );
@@ -136,8 +137,8 @@ $MainPage->assign('usergroup', "ADMIN" //$_SESSION['User']['groups']
 );
 
 // todo: docu, smarty_extensions library
-// einmal-funktion zur initialisierung der modultemplatepfade
-function Smarty_Modul($modulname)
+// einmal-funktion zur initialisierung der modultemplatepfade / language
+function ModulInit($modulname, $title)
    { global $ModulPage;
 
         $ModulPage = new Smarty();
@@ -151,6 +152,14 @@ function Smarty_Modul($modulname)
 		$ModulPage->debugging = true;
 		
         $ModulPage->assign('modulname', '$modulname');
+        $ModulPage->assign('title', '$title');
+        
+        //ModulLanguage Init
+        $ModulLanguageFile = ROOT.'/module/'.$modulname.'/language/'.$modulname.'.language.xml';
+		$ModulLangInit = new TMXResourceBundle($ModulLanguageFile, "DE"); // english
+		$modullanguage = $ModulLangInit->getResource(); // language array for english
+		$ModulPage->assign('modullanguage', $modullanguage);
+        
  }
  
 ############ PHP InputFilter ############ 
