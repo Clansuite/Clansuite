@@ -164,7 +164,7 @@ function ModulInit($modulname, $title)
  
 ############ PHP InputFilter ############ 
 require_once (dirname(__FILE__).'/class.inputfilter.php');
-$Query_filter = new InputFilter(); global $Query_filter; # create filter object
+$queryFilter = new InputFilter(); global $queryFilter; 			# create filter object
 
 ############ Session Management ############
 require_once(dirname(__FILE__).'/class.session.php');
