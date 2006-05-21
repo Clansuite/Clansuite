@@ -84,7 +84,7 @@ header('X-Powered-By: Clansuite CMS/'.$_CONFIG['version'].' (clansuite.sourcefor
 
 ############ Error Reporting & Errorhandler ############
 require_once (dirname(__FILE__).'/class.errorhandler.php');
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL);
 #error_reporting(E_STRICT); 
 set_error_handler('raiseError');
 
