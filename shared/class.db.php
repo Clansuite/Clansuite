@@ -462,8 +462,7 @@ class DbResult {
 class DbMysql extends Db {
     var $driver = 'mysql';
     var $query_counter = 0;
-    var $Query_filter;
-     
+        
     function quote($s) {
         switch (true) {
         	#case is_object($s): return $s;
@@ -495,8 +494,8 @@ class DbMysql extends Db {
     // returns object|true|false
     function _query($query) {
         $this->query_counter++;
-        $query_filtered = InputFilter::safeSQL($query, $this->connectId);
-        return @mysql_query($query_filtered, $this->connectId);
+        $queryFiltered = InputFilter::safeSQL($query, $this->connectId);
+        return @mysql_query($queryFiltered, $this->connectId);
     }
     function _affectedRows() {
         return @mysql_affected_rows($this->connectId);
