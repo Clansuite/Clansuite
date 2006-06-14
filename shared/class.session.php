@@ -173,8 +173,7 @@ class Session {
 	}
 	
 	
-	### end of session handler functions ###
-	### everything down here is additional session-related stuff ###
+	
 	
 	
 	/**
