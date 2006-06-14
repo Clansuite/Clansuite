@@ -18,6 +18,8 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA  */
 /*****************************************************************************/
 
+
+#class.init.php
 // TOC of File: 
 // 1. Settings: $_CONFIG, DEFINES, VARS
 // 2. load libraries
@@ -26,12 +28,15 @@
 $_CONFIG['version'] = "Clansuite 0.1 - alpha";
 $_CONFIG['author'] = "Jens-Andre Koch <knd.vain@gmail.com>";
 $_CONFIG['starttime'] = (float) array_sum(explode(' ', microtime())); // Benchmark
-
-############ Define -> Constants ############
 define('CLANSUITE', '1');
-define('DEBUG', '0');
-#ini_set(xdebug.auto_profile_mode,1 );
-#xdebug_start_profiling() ;
+
+// XDEBUG Loader
+if (defined('DEBUG') and (DEBUG & 8) and extension_loaded("xdebug")) {
+    xdebug_start_trace();
+    xdebug_enable();
+	ini_set(xdebug.auto_profile_mode, 1 );
+	xdebug_start_profiling();
+}
 
 ## Pfade einmal ermitteln und als Defines setzen
 # Das ja doll hier: Welche Pfade brauchst du denn nun wirklich, nimm Unbenötigte raus.
@@ -56,26 +61,54 @@ define ('WWW_ROOT', '/work/clansuite');
 define("COOKIE_EXPIRE", 60*60*24*100);  //100 days by default
 define("COOKIE_PATH", "/");  //Available in whole domain
 
-# Scanner für aktivierte Classes ?
-# oder scan in Db? TODO
-#$classes = get_declared_classes();
-#foreach $classes as $classname
-#{ print new Reflection_Class($classname);
-#} tiefstes php5
+   	/**
+     * Private static function commonSettings()
+     *
+     * This will make sure that: 
+	 * - php.ini Settings are set to correct values.
+     * - buffers are unset
+     * - the global scope is unset, except get, post, cookie, server, files
+	 *
+	 * @return void
+     */
+    private static function fixSettings()
+    {
+        ini_set('arg_separator.output','&amp;');
+		ini_set('register_globals','off');
+		// At the present time, you will not be able to log-in to Clansuite,
+		// unless your browser supports cookies.
+		ini_set('session.use_trans_sid','0');
+		ini_set('session.use_cookies','1');
+		ini_set('session.use_only_cookies','1');
+		ini_set('display_errors', 1);
+		ini_set('magic_quotes_runtime', 0);
+		ini_set('magic_quotes_gpc', 0 );
+		ini_set('zend.ze1_compatibility_mode', 0);
+		ini_set('implicit_flush', 0);
+		ini_set('zlib.output_compression', 			0 );
+		ini_set('zlib.output_compression_level', 3); // 
+        set_magic_quotes_runtime(0);
+        // clean any existing buffers for sanity
+        // off: ob_start('ob_gzhandler');
+        while(ob_get_level() > 0)
+        {
+            ob_end_clean();
+        }
+        //allowed vars
+        $safelist = array('_GET', '_POST', '_COOKIE', '_SERVER', '_FILES');
+        foreach($GLOBALS as $name => $value)
+        {
+            if(array_search($name, $safelist) === FALSE)
+            {
+                unset($$name);
+            }
+        }
+        return;
+    }
+
+$cfg->debug == 1 ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 
-############ INI_SETS ############
-ini_set('arg_separator.output','&amp;');
-ini_set('register_globals','off');
-ini_set('session.use_trans_sid','0');
-ini_set('session.use_cookies','1');
-ini_set('session.use_only_cookies','1');
-ini_set('display_errors', 1);
-ini_set('magic_quotes_runtime', 0);
-ini_set('magic_quotes_gpc', 0 );
-ini_set('zend.ze1_compatibility_mode', 0);
-ini_set('zlib.output_compression_level', 3); // gzip the output
-#ob_start('ob_gzhandler');
 header('X-Powered-By: Clansuite CMS/'.$_CONFIG['version'].' (clansuite.sourceforge.net)',false);
 
 #####################################################################
@@ -85,7 +118,6 @@ header('X-Powered-By: Clansuite CMS/'.$_CONFIG['version'].' (clansuite.sourcefor
 ############ Error Reporting & Errorhandler ############
 require_once (dirname(__FILE__).'/class.errorhandler.php');
 error_reporting(E_ALL);
-#error_reporting(E_STRICT); 
 set_error_handler('raiseError');
 
 ############ Lib für unsortiertes ############
@@ -126,7 +158,7 @@ $MainPage->cache_dir = $_SERVER['DOCUMENT_ROOT'] . '/'.  WWW_ROOT . '/' . '/cach
 
 // Smarty Settings
 $MainPage->compile_check = true;
-$MainPage->debugging = true;
+$MainPage->debugging	 = DEBUG ? true : false;
 
 // Var Assignments
 $MainPage->assign('clansuite_version', $_CONFIG['version']);
@@ -140,16 +172,21 @@ $MainPage->assign('usergroup', "ADMIN" //$_SESSION['User']['groups']
 // einmal-funktion zur initialisierung der modultemplatepfade / language
 function ModulInit($modulname, $title)
    { global $ModulPage;
+   	 	
+   	 	require('Smarty_Test.class.php');
 
-        $ModulPage = new Smarty();
+		$ModulPage = new Smarty_Test();
+        #$ModulPage = new Smarty();
       	$ModulPage->template_dir =  ROOT.'/module/'.$modulname . '/templates';
-		$ModulPage->compile_dir =  ROOT.'/module/'. $modulname . '/templates/templates_c/';
+		$ModulPage->compile_dir =  ROOT.'/module/'. $modulname . '/templates/templates_c';
 		$ModulPage->config_dir =  ROOT.'/module/'. $modulname . '/templates/configs/';
 		$ModulPage->cache_dir = ROOT.'/module/'. $modulname . '/templates/cache/';
 
         $ModulPage->caching = true;
         $ModulPage->compile_check = true;
 		$ModulPage->debugging = true;
+		
+		$ModulPage->test();
 		
         $ModulPage->assign('modulname', '$modulname');
         $ModulPage->assign('title', '$title');
