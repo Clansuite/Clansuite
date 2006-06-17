@@ -133,7 +133,7 @@ $tpl->autoload_filters = array('pre' 	=> array('inserttplnames'),
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
-@$Db = new Db($dsn, $user, $password, array(PDO_ATTR_PERSISTENT => true));
+$Db = new Db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
 
 //----------------------------------------------------------------
 // Assign Paths to Template (tpl)
