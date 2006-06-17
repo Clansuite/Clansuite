@@ -185,7 +185,6 @@ class session
 	function _session_write( $id, $data )
 	{ 
 		global $Db;
-		echo 'WRITE';
 		// adjust ExpireTime
 		$seconds	= $this->session_expire_time * 60;
 		$expires	= time() + $seconds; // d.h. jetzt + expire*60

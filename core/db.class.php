@@ -105,8 +105,6 @@ class Db
 			$this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			// table-names in lower-case
 			$this->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
-			// buffering
-			$this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 		}
 
 		catch (PDOException $e)
