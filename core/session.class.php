@@ -170,9 +170,8 @@ class session
 		# get the session_data from database
 		$table 	= "SELECT session_data FROM " . DB_PREFIX . "session ";
 		$where	= "WHERE session_name='$this->session_name' AND session_id='$id'";
-		$result	= $Db->exec($table.$where);
+		$result	= $Db->query($table.$where);
 		# return the session_data, if it is not null
-		var_dump($result);
 		if($result!=0)
 		{ $return_value = $result; }
 		return $return_value;
@@ -191,14 +190,14 @@ class session
 		// SELECT WHERE | session_id
 		$table = "SELECT session_id FROM ". DB_PREFIX ."session ";
 		$where = "WHERE session_id='$id'";
-		$session_id = $Db->exec($table.$where);
+		$session_id = $Db->query($table.$where);
 
 		if ( $session_id )
 		{ // UPDATE | aktualisiert die jeweilige Session
 
 			$table 	= "UPDATE " . DB_PREFIX . "session ";
 			$set	= "SET session_expire = ?, session_data= ? WHERE session_id= ?";
-			$Db->exec($table.$set, $expires, $data, $id);
+			$Db->query($table.$set, $expires, $data, $id);
 
 			// 	Session::SessionControl();
 
@@ -208,7 +207,7 @@ class session
 			$table 		= "INSERT INTO ".DB_PREFIX."session ";
 			$values 	= "(session_id, session_name, session_expire, session_data, session_visibility,user_id) VALUES ($id, $this->session_name, $expires, $data, 1, 0)";
 			echo $values;
-			$Db->exec($table.$values);
+			$Db->query($table.$values);
     	}
 		return true;
 	}
@@ -228,7 +227,7 @@ class session
 		// delete the session from the database
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
 		$where = "session_name='$this->session_name' AND session_id = '$id'";
-		$row_count = $Db->exec($table.$where);
+		$row_count = $Db->query($table.$where);
 
 		// if there are Sessions left optimize them
 
@@ -246,7 +245,7 @@ class session
 
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
 		$where = "session_name ='$this->session_name' and session_expire < '" . time() . "'";
-		$row_count = $Db->exec($table.$where);
+		$row_count = $Db->query($table.$where);
 
 		// if there are Sessions left optimize them
 
@@ -261,7 +260,7 @@ class session
 	{
 		global $Db;
 
-		$Db->exec('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+		$Db->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
 	}
 
 	//----------------------------------------------------------------
@@ -324,12 +323,12 @@ class session
 		// 2 Tage alte registrierte, aber nicht aktivierte User löschen!
 		$table = "DELETE FROM " . DB_PREFIX . "users ";
 		$where = "disabled = 1 AND (joined + INTERVAL 2 DAY)<Now() AND (timestamp + INTERVAL 2 DAY)<Now()";
-		$Db->exec($table.$where);
+		$Db->query($table.$where);
 
 		// Zeitstempel in users-table setzen
 		$table 	= 'UPDATE ' . DB_PREFIX . 'users ';
 		$set	= "SET timestamp = NOW() WHERE user_id = $_SESSION[User][user_id]";
-		$Db->exec($table.$set);
+		$Db->query($table.$set);
 
 		if(isset($_SESSION['authed']))
 		{
