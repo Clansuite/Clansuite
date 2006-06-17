@@ -169,12 +169,14 @@ class session
 		$return_value = "";
 		# get the session_data from database
 		$table 	= "SELECT session_data FROM " . DB_PREFIX . "session ";
-		$where	= "WHERE session_name='$this->session_name' AND session_id='$id'";
-		$result	= $Db->query($table.$where);
+		$where	= "WHERE session_name= ? AND session_id= ?";
+		$stmt	= $Db->prepare($table.$where);
+		$stmt->execute(array($this->session_name, $id));
+				
 		# return the session_data, if it is not null
-		if($result!=0)
-		{ $return_value = $result; }
-		return $return_value;
+		if($stmt->rowCount() != 0)
+		{ return $stmt; }
+		else { echo 'Session does not exist!'; }
 	}
 
 	//----------------------------------------------------------------
@@ -188,16 +190,15 @@ class session
 		$seconds	= $this->session_expire_time * 60;
 		$expires	= time() + $seconds; // d.h. jetzt + expire*60
 		// SELECT WHERE | session_id
-		$table = "SELECT session_id FROM ". DB_PREFIX ."session ";
-		$where = "WHERE session_id='$id'";
-		$session_id = $Db->query($table.$where);
+		$session_id = $Db->execute("SELECT session_id FROM ". DB_PREFIX ."session WHERE session_id='$id'");
 
 		if ( $session_id )
 		{ // UPDATE | aktualisiert die jeweilige Session
 
 			$table 	= "UPDATE " . DB_PREFIX . "session ";
-			$set	= "SET session_expire = $expires, session_data = $data WHERE session_id = $id";
-			$Db->query($table.$set);
+			$set	= "SET session_expire = ?, session_data = ? WHERE session_id = ?";
+			$stmt = $Db->prepare($table.$set);
+			$stmt->execute(array($expires,$data,$id));
 
 			// 	Session::SessionControl();
 
@@ -206,8 +207,7 @@ class session
 		{
 			$table 		= "INSERT INTO ".DB_PREFIX."session ";
 			$values 	= "(session_id, session_name, session_expire, session_data, session_visibility,user_id) VALUES ($id, $this->session_name, $expires, $data, 1, 0)";
-			echo $values;
-			$Db->query($table.$values);
+			$Db->execute($table.$values);
     	}
 		return true;
 	}
@@ -227,7 +227,7 @@ class session
 		// delete the session from the database
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
 		$where = "session_name='$this->session_name' AND session_id = '$id'";
-		$row_count = $Db->query($table.$where);
+		$row_count = $Db->execute($table.$where);
 
 		// if there are Sessions left optimize them
 
@@ -244,8 +244,8 @@ class session
 		global $Db;
 
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
-		$where = "session_name ='$this->session_name' AND session_expire < " . time();
-		$row_count = $Db->query($table.$where);
+		$where = "session_name = '$this->session_name' AND session_expire < " . time();
+		$row_count = $Db->exec($table.$where);
 
 		// if there are Sessions left optimize them
 
