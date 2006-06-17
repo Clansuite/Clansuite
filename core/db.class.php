@@ -124,11 +124,23 @@ class Db
 	{
 		$return_value = array();
 		
-		$res = $this->query('SELECT ' . $cols . ' FROM '. DB_PREFIX . $from . ' WHERE ' . $where . ' ' . $more);	
-		while( $row = $res->fetch(PDO::FETCH_ASSOC) )
+		if ( is_array( $cols ) )
 		{
-			array_push( $return_value, $row );	
+			$res = $this->query('SELECT ' . $cols['SELECT'] . ' FROM '. DB_PREFIX . $cols['FROM'] . ' WHERE ' . $cols['WHERE'] . ' ' . $cols['MORE']);	
+			while( $row = $res->fetch(PDO::FETCH_ASSOC) )
+			{
+				array_push( $return_value, $row );	
+			}
 		}
+		else
+		{
+			$res = $this->query('SELECT ' . $cols . ' FROM '. DB_PREFIX . $from . ' WHERE ' . $where . ' ' . $more);	
+			while( $row = $res->fetch(PDO::FETCH_ASSOC) )
+			{
+				array_push( $return_value, $row );	
+			}
+		}
+		
 		return $return_value;
 	}
 	
