@@ -47,11 +47,12 @@ class debug
 	//----------------------------------------------------------------
 	function show_console()
 	{
-		global $tpl, $cfg, $error, $lang, $modules;
+		global $Db, $tpl, $cfg, $error, $lang, $modules;
 
 		$tpl->assign('request'		, $_REQUEST );
 		$tpl->assign('session'		, $_SESSION );
 		$tpl->assign('cookies'		, $_COOKIE );
+		$tpl->assign('queries'		, $Db->queries );
 		$tpl->assign('config'		, $cfg );
 		$tpl->assign('error_log'	, $error->error_log );
 		$tpl->assign('lang_loaded'	, $lang->loaded );

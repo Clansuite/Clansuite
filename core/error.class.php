@@ -112,7 +112,8 @@ class error
 				$tpl->assign( 'error_type'	, 1 );
 				$tpl->assign( 'error_head'	, $error_head );
 				$tpl->assign( 'debug_info'	, $string );
-				die ( $tpl->display( 'error.tpl' ) );				
+				$content = $tpl->fetch( 'error.tpl' );
+				die ( $content );				
 				break;
 			
 			case '2':
