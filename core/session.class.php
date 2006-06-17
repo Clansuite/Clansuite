@@ -185,6 +185,7 @@ class session
 	function _session_write( $id, $data )
 	{ 
 		global $Db;
+
 		// adjust ExpireTime
 		$seconds	= $this->session_expire_time * 60;
 		$expires	= time() + $seconds; // d.h. jetzt + expire*60
@@ -205,8 +206,8 @@ class session
 		else
 		{
 			$table 		= "INSERT INTO ".DB_PREFIX."session ";
-			$values 	= "(session_id, session_name, session_expire, session_data, session_visibility,user_id) VALUES ($id, $this->session_name, $expires, $data, 1, 0)";
-			$Db->execute($table.$values);
+			$values 	= "(session_id, session_name, session_expire, session_data, session_visibility,user_id) VALUES('$id', '$this->session_name', '$expires', '$data', 1, 0)";
+			$Db->query($table.$values);
     	}
 		return true;
 	}
@@ -243,7 +244,7 @@ class session
 		global $Db;
 
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
-		$where = "session_name = '$this->session_name' AND session_expire < " . time();
+		$where = "WHERE session_name = '$this->session_name' AND session_expire < " . time();
 		$row_count = $Db->exec($table.$where);
 
 		// if there are Sessions left optimize them
