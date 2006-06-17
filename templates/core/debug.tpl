@@ -33,6 +33,15 @@
 	{/section}
 	</table></span></td></tr>
 
+	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('4')">$Db: all Queries</a></b></td></tr>
+	<tr><td width=100% colspan=2><span style="display:none" id="span_4"><table border=0 width=100%>
+		{foreach key=schluessel item=wert from=$queries}
+			<tr bgcolor=#eeeeee><td width=100 valign=top>
+			<font color=blue>{$schluessel}</font></td><td><font color=green>
+			{$wert|@debug_print_var}</font>
+			</td></tr>
+		{/foreach}
+	 </table></span></td></tr>
 
 	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('4')">$_REQUEST: Incoming Variables</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_4"><table border=0 width=100%>

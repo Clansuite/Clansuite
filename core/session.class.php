@@ -196,8 +196,8 @@ class session
 		{ // UPDATE | aktualisiert die jeweilige Session
 
 			$table 	= "UPDATE " . DB_PREFIX . "session ";
-			$set	= "SET session_expire = ?, session_data= ? WHERE session_id= ?";
-			$Db->query($table.$set, $expires, $data, $id);
+			$set	= "SET session_expire = $expires, session_data = $data WHERE session_id = $id";
+			$Db->query($table.$set);
 
 			// 	Session::SessionControl();
 
@@ -244,7 +244,7 @@ class session
 		global $Db;
 
 		$table = "DELETE FROM " . DB_PREFIX . "session ";
-		$where = "session_name ='$this->session_name' and session_expire < '" . time() . "'";
+		$where = "session_name ='$this->session_name' AND session_expire < " . time();
 		$row_count = $Db->query($table.$where);
 
 		// if there are Sessions left optimize them

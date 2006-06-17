@@ -68,232 +68,248 @@ if (!defined('IN_CS'))
 */
 class Db
 {
-	   /**
-  	   * Db Connection Object
-  	   * @var object $Db
-  	   */
-	   protected $Db;
-	   
-	   /**
-  	   * Number of executed queries
-  	   * @var  integer $executesCounter
-  	   */
-       public $executesCounter;
-       
-	   /**
-  	   * Number of performed statements
-  	   * @var  integer $statementsCounter
-  	   */
-       public $statementsCounter;
-       
-       /**
-        * Constructor 
-		* a. PDO Connection erstellen
-        * b. exec & stats Counter auf Null setzen
-        *
-        * @param $dsn, $user, $pass, $driver_options
-		*/ 
+	//----------------------------------------------------------------
+	// DB Object
+	//----------------------------------------------------------------
+	protected $Db;
 
-		public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
-		{
-			global $error, $lang;
-			
-			try
-			{
-				$this->Db = new PDO($dsn, $user, $pass, $driver_options);
-			
-				// error 
-				$this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-				// table-names in lower-case
-				$this->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
-			}
+	//----------------------------------------------------------------
+	// Number of executed queries
+	//----------------------------------------------------------------
+	public $executesCounter;
 
-			catch (PDOException $e)
-			{
-				$error->show( $lang->t('Database Error'), $e->getMessage(), 1 );
-			}
+	//----------------------------------------------------------------
+	// Number of performed statements
+	//----------------------------------------------------------------
+	public $statementsCounter;
+
+	//----------------------------------------------------------------
+	// Queries Array
+	//----------------------------------------------------------------
+	public $queries = array();
+	
+	//----------------------------------------------------------------
+	// Constructor
+	// Create DB Object
+	// Set counters to zero
+	//----------------------------------------------------------------
+	public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
+	{
+		global $error, $lang;
 		
-			$this->executesCounter = 0;
-			$this->statementsCounter = 0;
+		try
+		{
+			$this->Db = new PDO($dsn, $user, $pass, $driver_options);
+		
+			// error 
+			$this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+			// table-names in lower-case
+			$this->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
 		}
-       
-       /**
-        * __call : Allgemeine Funktions und Parameter Weiterleitung an Db
-        * @param $func, $args
-        */
-       public function __call($func, $args) {
-           return call_user_func_array(array(&$this->Db, $func), $args);
-       }
-       
-       /**
-        * prepare
-        * a. stats Counter erhöhen
-        * b. weiterleiten an Db mit 'prepare' und parametern
-        * c. Rückgabewerte DbStatements
-        * @return DbStatements($this, $DbStatements)
-        */
-       public function prepare() {
-           $this->statementsCounter++;
-          
-           $args = func_get_args();
-           $DbStatements = call_user_func_array(array(&$this->Db, 'prepare'), $args);
-          
-           return new DbStatements($this, $DbStatements);
-       }
-       
-       /**
-        * query
-        * a. exec & stats Counter erhöhen
-        * b. weiterleiten an Db mit 'query' und parametern
-        * c. Rückgabewerte DbStatements
-        * @return DbStatements($this, $DbStatements);
-        */
-       public function query()
-       {
-           $this->executesCounter++;
-           $this->statementsCounter++;
-          
-           $args = func_get_args();
-           $DbStatements = call_user_func_array(array(&$this->Db, 'query'), $args);
-          
-           return new DbStatements($this, $DbStatements);
-       }
-       
-       
-       /**
-        * exec
-        * a. exec Counter erhöhen
-        * b. weiterleiten an Db mit 'exec' und parametern 
-        * @return DbStatements($this, $DbStatements);
-        */
-       public function exec()
-       {
-			global $error, $lang;
-			
-			try
-			{
-			   $this->executesCounter++;
-			  
-			   $args = func_get_args();
-			   var_dump($args);
-			   return call_user_func_array(array(&$this->Db, 'exec'), $args);
-			}
 
-			catch (PDOException $e)
-			{
-				$error->show( $lang->t('Database Error'), $e->getMessage(), 1 );
-			}
+		catch (PDOException $e)
+		{
+			$error->show( $lang->t('Database Error'), $e->getMessage(), 1 );
+		}
 
-       }
-       
-   } // end of class Db
+		$this->executesCounter = 0;
+		$this->statementsCounter = 0;
+	}
 
-   /**
-    * class DbStatements 
-    * Abgeleitetes Objekt liefern
- 	*
-    */
-   class DbStatements implements IteratorAggregate
-   {
-       
-       /**
-  	   * DbStatements Object
-  	   * @var object $DbStatements
-  	   */
-	   protected $DbStatements;
-	   
-	   /**
-  	   * Db Connection Object
-  	   * @var object $Db
-  	   */
-       protected $Db;
-       
-	   /**
-        * __construct
-		*
-		* @param $Db, $DbStatements 
-        */
-	   public function __construct($Db, $DbStatements) {
-           $this->Db = $Db;
-           $this->DbStatements = $DbStatements;
-       }
-       
-	   /**
-        * __call : Allgemeine Funktions und Parameter Weiterleitung in DbStatements
-        * @param $func, $args
-        * @return 
-        */
-       public function __call($func, $args) {
-           return call_user_func_array(array(&$this->DbStatements, $func), $args);
-       }
-	   
-	   /**
-        * bindColumn
-		* 
-        * @param $column
-        * @param &$param
-        * @param $type
-        */
-       public function bindColumn($column, &$param, $type=NULL) {
-           if ($type === NULL)
-               $this->DbStatements->bindColumn($column, $param);
-           else
-               $this->DbStatements->bindColumn($column, $param, $type);
-       }
-	   
-	   /**
-        * bindParam
-        *
-        * @param $column
-        * @param &$param
-        * @param $type
-        * @return 
-        */
-       public function bindParam($column, &$param, $type=NULL) {
-           if ($type === NULL)
-               $this->DbStatements->bindParam($column, $param);
-           else
-               $this->DbStatements->bindParam($column, $param, $type);
-       }
-	   /**
-        * execute
-        * a. exec Counter in Db erhöhen
-        * b. weiterleiten an DbStatements mit execute und parametern 
-        * @return of Function DbStatements $func 'execute' + $args
-        */
-       public function execute() {
-           $this->Db->executesCounter++;
-           $args = func_get_args();
-           return call_user_func_array(array(&$this->DbStatements, 'execute'), $args);
-       }
-	   /**
-        * __get : Rückgabe liefern
-        * @param $property
-        * @return return $this->DbStatements->$property
-        */
-       public function __get($property) {
-           return $this->DbStatements->$property;
-       }
-        
-	   /**
-	    * holt das Objekt
-	    * @return $this->DbStatements
-   	    */
-       public function getIterator() {
-           return $this->DbStatements;
-       }
-   }
+	/**
+	* __call : Allgemeine Funktions und Parameter Weiterleitung an Db
+	* @param $func, $args
+	*/
+	public function __call($func, $args)
+	{
+	   return call_user_func_array(array(&$this->Db, $func), $args);
+	}
+
+	/**
+	* prepare
+	* a. stats Counter erhöhen
+	* b. weiterleiten an Db mit 'prepare' und parametern
+	* c. Rückgabewerte DbStatements
+	* @return DbStatements($this, $DbStatements)
+	*/
+	public function prepare()
+	{
+	   $this->statementsCounter++;
+	  
+	   $args = func_get_args();
+	   $DbStatements = call_user_func_array(array(&$this->Db, 'prepare'), $args);
+	  
+	   return new DbStatements($this, $DbStatements);
+	}
+
+	//----------------------------------------------------------------
+	// Deliver query to DB
+	// Increase counters
+	//----------------------------------------------------------------
+	public function query()
+	{
+		global $error, $lang;
+		try
+		{
+			$this->executesCounter++;
+			$this->statementsCounter++;
+
+			$args = func_get_args();
+			$DbStatements = call_user_func_array(array(&$this->Db, 'query'), $args);
+		}
+		
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		foreach ($args as $q)
+		{
+			$this->queries[] = $q;
+		}
+		var_dump($this->queries);		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+
+		return new DbStatements($this, $DbStatements);
+	}
+
+
+	/**
+	* exec
+	* a. exec Counter erhöhen
+	* b. weiterleiten an Db mit 'exec' und parametern 
+	* @return DbStatements($this, $DbStatements);
+	*/
+	public function exec()
+	{
+		global $error, $lang;
+		
+		try
+		{
+		   $this->executesCounter++;
+		  
+		   $args = func_get_args();
+		   var_dump($args);
+		   return call_user_func_array(array(&$this->Db, 'exec'), $args);
+		}
+
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+	}
+
+}
+
+//----------------------------------------------------------------
+// Deliver extende object
+//----------------------------------------------------------------
+class DbStatements implements IteratorAggregate
+{
+
+	/**
+	* DbStatements Object
+	* @var object $DbStatements
+	*/
+	protected $DbStatements;
+
+	/**
+	* Db Connection Object
+	* @var object $Db
+	*/
+	protected $Db;
+
+	/**
+	* __construct
+	*
+	* @param $Db, $DbStatements 
+	*/
+	public function __construct($Db, $DbStatements) {
+	   $this->Db = $Db;
+	   $this->DbStatements = $DbStatements;
+	}
+
+	/**
+	* __call : Allgemeine Funktions und Parameter Weiterleitung in DbStatements
+	* @param $func, $args
+	* @return 
+	*/
+	public function __call($func, $args) {
+	   return call_user_func_array(array(&$this->DbStatements, $func), $args);
+	}
+
+	/**
+	* bindColumn
+	* 
+	* @param $column
+	* @param &$param
+	* @param $type
+	*/
+	public function bindColumn($column, &$param, $type=NULL) {
+	   if ($type === NULL)
+	       $this->DbStatements->bindColumn($column, $param);
+	   else
+	       $this->DbStatements->bindColumn($column, $param, $type);
+	}
+
+	/**
+	* bindParam
+	*
+	* @param $column
+	* @param &$param
+	* @param $type
+	* @return 
+	*/
+	public function bindParam($column, &$param, $type=NULL) {
+	   if ($type === NULL)
+	       $this->DbStatements->bindParam($column, $param);
+	   else
+	       $this->DbStatements->bindParam($column, $param, $type);
+	}
+	/**
+	* execute
+	* a. exec Counter in Db erhöhen
+	* b. weiterleiten an DbStatements mit execute und parametern 
+	* @return of Function DbStatements $func 'execute' + $args
+	*/
+	public function execute() {
+	   $this->Db->executesCounter++;
+	   $args = func_get_args();
+	   return call_user_func_array(array(&$this->DbStatements, 'execute'), $args);
+	}
+	/**
+	* __get : Rückgabe liefern
+	* @param $property
+	* @return return $this->DbStatements->$property
+	*/
+	public function __get($property) {
+	   return $this->DbStatements->$property;
+	}
+
+	/**
+	* holt das Objekt
+	* @return $this->DbStatements
+	*/
+	public function getIterator() {
+	   return $this->DbStatements;
+	}
+}
    
-   /**
-    * DbError
-    *
-    *
-    */
-   class DbError extends Db {
-   // Fetch extended error information associated with the last operation
-   //echo "\nPDO::errorInfo():\n";
-   //print_r($err->errorInfo());
-   }
+//----------------------------------------------------------------
+// DB Error Handler
+//----------------------------------------------------------------
+class DbError extends Db
+{
+	// Fetch extended error information associated with the last operation
+	//echo "\nPDO::errorInfo():\n";
+	//print_r($err->errorInfo());
+}
 
 
    
