@@ -42,7 +42,6 @@ ini_set('zlib.output_compression',				true);
 ini_set('zlib.output_compression_level',	'6');
 ini_set('arg_separator.input', 						'&amp;'); 
 ini_set('arg_separator.output',						'&amp;'); 
-
 //----------------------------------------------------------------
 // Reverse the effect of register_globals
 //----------------------------------------------------------------

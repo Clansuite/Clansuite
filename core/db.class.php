@@ -175,6 +175,7 @@ class Db
 			   $this->executesCounter++;
 			  
 			   $args = func_get_args();
+			   var_dump($args);
 			   return call_user_func_array(array(&$this->Db, 'exec'), $args);
 			}
 
