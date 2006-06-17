@@ -116,22 +116,33 @@ class Db
 		$this->statementsCounter = 0;
 	}
 
-	/**
-	* __call : Allgemeine Funktions und Parameter Weiterleitung an Db
-	* @param $func, $args
-	*/
+	//----------------------------------------------------------------
+	// SELECT Statement
+	// Return associated array
+	//----------------------------------------------------------------
+	public function select( $cols='*', $from, $where='', $more='' )
+	{
+		$return_value = array();
+		
+		$res = $this->query('SELECT ' . $cols . ' FROM '. DB_PREFIX . $from . ' WHERE ' . $where . ' ' . $more);	
+		while( $row = $res->fetch(PDO::FETCH_ASSOC) )
+		{
+			array_push( $return_value, $row );	
+		}
+		return $return_value;
+	}
+	
+	//----------------------------------------------------------------
+	// Call forward to DB
+	//----------------------------------------------------------------
 	public function __call($func, $args)
 	{
 	   return call_user_func_array(array(&$this->Db, $func), $args);
 	}
 
-	/**
-	* prepare
-	* a. stats Counter erhöhen
-	* b. weiterleiten an Db mit 'prepare' und parametern
-	* c. Rückgabewerte DbStatements
-	* @return DbStatements($this, $DbStatements)
-	*/
+	//----------------------------------------------------------------
+	// Prepare a query
+	//----------------------------------------------------------------
 	public function prepare()
 	{
 	   $this->statementsCounter++;
@@ -168,20 +179,16 @@ class Db
 		{
 			$this->queries[] = $q;
 		}
-		var_dump($this->queries);		
+
 		if($is_error)
 		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
 
 		return new DbStatements($this, $DbStatements);
 	}
 
-
-	/**
-	* exec
-	* a. exec Counter erhöhen
-	* b. weiterleiten an Db mit 'exec' und parametern 
-	* @return DbStatements($this, $DbStatements);
-	*/
+	//----------------------------------------------------------------
+	// Execute a statement
+	//----------------------------------------------------------------
 	public function exec()
 	{
 		global $error, $lang;
@@ -192,7 +199,7 @@ class Db
 		  
 		   $args = func_get_args();
 		   var_dump($args);
-		   return call_user_func_array(array(&$this->Db, 'exec'), $args);
+		   return call_user_func_array(array(&$this->Db, 'execute'), $args);
 		}
 
 		catch (PDOException $e)
