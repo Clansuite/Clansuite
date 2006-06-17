@@ -1,0 +1,349 @@
+<small>
+  <a href="#daily_statistics">
+    Daily Statistics
+  </a>
+
+  |
+
+  <a href="#pages">
+    Top Pages
+  </a>
+
+  |
+
+  <a href="#referers">
+    Top Referers
+  </a>
+
+  |
+
+  <a href="#entry_pages">
+    Top Entry Pages
+  </a>
+
+  |
+
+  <a href="#exit_pages">
+    Top Exit Pages
+  </a>
+
+  |
+
+  <a href="#exit_targets">
+    Top Exit Targets
+  </a>
+
+  |
+
+  <a href="#hosts">
+    Top Hosts
+  </a>
+
+  <br />
+
+  <a href="#operating_systems">
+    Top Operating Systems
+  </a>
+
+  |
+
+  <a href="#user_agents">
+    Top User Agents
+  </a>
+
+  |
+
+  <a href="#search_engines">
+    Top Search Engines
+  </a>
+
+  |
+
+  <a href="#search_keywords">
+    Top Search Keywords
+  </a>
+</small>
+
+<br />
+<br />
+
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="2">
+      Monthly Statistics for {month} {year} for Site '{client}'
+    </th>
+  </tr>
+  <tr valign="baseline" bgcolor="#bdd0e1">
+    <td align="left" bgcolor="#a9bbcf" width="75%">
+      Total Page Impressions
+    </td>
+    <td align="right" width="25%">
+      {total_pi}
+    </td>
+  </tr>
+  <tr valign="baseline" bgcolor="#bdd0e1">
+    <td align="left" bgcolor="#a9bbcf">
+      Total Visits
+    </td>
+    <td align="right">
+      {total_visits}
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<a id="daily_statistics" name="daily_statistics"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" bgcolor="#ffffff" colspan="5">
+      Daily Statistics for {month} {year}
+
+      <br />
+
+      <img alt="" src="graph.php?client_id={client_id}&amp;what=access_statistics&amp;start={start}&amp;end={end}&amp;interval=day&amp;width=700&amp;height=260" />
+    </th>
+  </tr>
+  <tr valign="baseline" bgcolor="#bdd0e1">
+    <td bgcolor="#79a0c7" width="10%">
+      &nbsp;
+    </td>
+    <td align="center" bgcolor="#79a0c7" colspan="2" width="45%">
+      Page Impressions
+    </td>
+    <td align="center" bgcolor="#79a0c7" colspan="2" width="45%">
+      Visits
+    </td>
+  </tr>
+  {daily_statistics}
+</table>
+
+<br />
+
+<a id="pages" name="pages"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_pages} Total Pages
+    </th>
+  </tr>
+  <tr valign="baseline" bgcolor="#bdd0e1">
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Page Impressions
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Page
+    </td>
+  </tr>
+  {pages}
+</table>
+
+<br />
+
+<a id="referers" name="referers"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_referers} Total Referers
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors refered here
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Referer
+    </td>
+  </tr>
+  {referers}
+</table>
+
+<br />
+
+<a id="entry_pages" name="entry_pages"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_entry_pages} Total Entry Pages
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors entered here
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Page
+    </td>
+  </tr>
+  {entry_pages}
+</table>
+
+<br />
+
+<a id="exit_pages" name="exit_pages"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_exit_pages} Total Exit Pages
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors exited here
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Page
+    </td>
+  </tr>
+  {exit_pages}
+</table>
+
+<br />
+
+<a id="exit_targets" name="exit_targets"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_exit_targets} Total Exit Targets
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Clicks
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Target URL
+    </td>
+  </tr>
+  {exit_targets}
+</table>
+
+<br />
+
+<a id="hosts" name="hosts"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_hosts} Total Hosts
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors from there
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Host
+    </td>
+  </tr>
+  {hosts}
+</table>
+
+<br />
+
+<a id="operating_systems" name="operating_systems"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_operating_systems} Total Operating Systems
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors used this
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Operating System
+    </td>
+  </tr>
+  {operating_systems}
+</table>
+
+<br />
+
+<a id="user_agents" name="user_agents"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_user_agents} Total User Agents
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors used this
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      User Agent
+    </td>
+  </tr>
+  {user_agents}
+</table>
+
+<br />
+
+<a id="search_engines" name="search_engines"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_search_engines} Total Search Engines
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors used this
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Search Engine
+    </td>
+  </tr>
+  {search_engines}
+</table>
+
+<br />
+
+<a id="search_keywords" name="search_keywords"></a>
+<table cellspacing="1" cellpadding="3" align="center" bgcolor="#000000" border="0" width="760">
+  <tr valign="middle" bgcolor="#79a0c7">
+    <th align="center" colspan="4">
+      Top {limit} of {total_search_keywords} Total Search Keywords
+    </th>
+  </tr>
+  <tr>
+    <td bgcolor="#a9bbcf" width="10%">
+      &nbsp;
+    </td>
+    <td align="left" bgcolor="#a9bbcf" colspan="2" width="20%">
+      Visitors searched for this
+    </td>
+    <td align="left" bgcolor="#a9bbcf" width="70%">
+      Search Keyword(s)
+    </td>
+  </tr>
+  {search_keywords}
+</table>

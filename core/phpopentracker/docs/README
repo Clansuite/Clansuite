@@ -1,0 +1,53 @@
+INSTALLATION
+
+  Either copy the phpOpenTracker/ directory to a directory that is
+  listed in your php.ini's include_path directive, or - and this is
+  the prefered way - use the PEAR Installer to install the
+  phpOpenTracker sources to your PHP library directory
+
+    pear install phpOpenTracker-X.X.X.tar.gz
+
+  If you already installed a previous version of phpOpenTracker, you
+  may want to upgrade it with  
+
+    pear upgrade phpOpenTracker-X.X.X.tar.gz
+
+  You should now be able, for instance, to use the following lines
+  of code to invoke the phpOpenTracker Logging Engine:
+
+    <?php
+    require_once 'phpOpenTracker.php';
+    phpOpenTracker::log();
+    ?>
+
+  If you cannot install, either by hand, or using the PEAR Installer, 
+  to a directory that is set up as an include_path, you will need
+  to specify the full path to the phpOpenTracker.php file:
+
+    <?php
+    require_once '/path/to/phpOpenTracker.php';
+    phpOpenTracker::log();
+    ?>
+
+
+DOCUMENTATION
+
+  The phpOpenTracker Manual can be read online here
+
+    * English Version
+
+      http://www.phpOpenTracker.de/docs/en/
+
+    * German Version
+
+      http://www.phpOpenTracker.de/docs/de/
+
+  and downloaded for offline reading here
+
+    * English Version
+
+      http://www.phpOpenTracker.de/docs/en/manual.html
+
+    * German Version
+
+      http://www.phpOpenTracker.de/docs/de/manual.html
