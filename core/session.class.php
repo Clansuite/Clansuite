@@ -190,15 +190,15 @@ class session
 		$seconds	= $this->session_expire_time * 60;
 		$expires	= time() + $seconds; // d.h. jetzt + expire*60
 		// SELECT WHERE | session_id
-		$session_id = $Db->execute("SELECT session_id FROM ". DB_PREFIX ."session WHERE session_id='$id'");
-
+		$session_id = $Db->select('*', 'session', "session_id='$id'");//"SELECT * FROM ". DB_PREFIX ."session WHERE session_id='$id'");
+		var_dump($session_id);
 		if ( $session_id )
 		{ // UPDATE | aktualisiert die jeweilige Session
 
 			$table 	= "UPDATE " . DB_PREFIX . "session ";
 			$set	= "SET session_expire = ?, session_data = ? WHERE session_id = ?";
 			$stmt = $Db->prepare($table.$set);
-			$stmt->execute(array($expires,$data,$id));
+			$stmt->query(array($expires,$data,$id));
 
 			// 	Session::SessionControl();
 
@@ -327,7 +327,7 @@ class session
 
 		// Zeitstempel in users-table setzen
 		$table 	= 'UPDATE ' . DB_PREFIX . 'users ';
-		$set	= "SET timestamp = NOW() WHERE user_id = $_SESSION[User][user_id]";
+		$set	= "SET timestamp = NOW() WHERE user_id = '$_SESSION[User][user_id]'";
 		$Db->query($table.$set);
 
 		if(isset($_SESSION['authed']))
