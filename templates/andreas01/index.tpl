@@ -74,8 +74,52 @@ Online:
 Guests
 Members
 
-{php} phpOpenTracker::plot(  array(    'api_call' => 'access_statistics',
-    'range'    => 'today',  'interval' => 'hour',   'mode'     => 'line'  ));
+{php}
+printf(
+
+  "%s page impressions on this document (%s today)",
+
+
+
+  phpOpenTracker::get(
+
+    array(
+
+      'api_call'    => 'page_impressions',
+
+      'range'       => 'total',
+
+      'constraints' => array(
+
+        'document' => 'this'
+
+      )
+
+    )
+
+  ),
+
+
+
+  phpOpenTracker::get(
+
+    array(
+
+      'api_call'    => 'page_impressions',
+
+      'range'       => 'today',
+
+      'constraints' => array(
+
+        'document' => 'this'
+
+      ),
+
+    )
+
+  )
+
+);
 {/php}
 
 </div>
