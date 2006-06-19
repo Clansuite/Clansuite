@@ -97,6 +97,7 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 //----------------------------------------------------------------
 // Load up DSN & Connect DB
 //----------------------------------------------------------------
+require (CORE_ROOT . '/db.class.php');
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
@@ -104,23 +105,34 @@ $Db = new Db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
 
 //----------------------------------------------------------------
 // Load Smarty Template Engine
-// Set __autoload() for class-loading 
 //----------------------------------------------------------------
 require (CORE_ROOT . '/smarty/Smarty.class.php');
+$tpl 				= new Smarty;
 
 //----------------------------------------------------------------
 // Init PhpOpenTracker
 //----------------------------------------------------------------
 require (CORE_ROOT . '/phpopentracker.php');
- phpOpenTracker::log();
+phpOpenTracker::log();
 
-function __autoload($className) 
-{ require_once CORE_ROOT . '/' . $className . '.class.php'; } 
+
+//----------------------------------------------------------------
+// Require Core Classes
+//----------------------------------------------------------------
+require (CORE_ROOT . '/session.class.php');
+require (CORE_ROOT . '/input.class.php');
+require (CORE_ROOT . '/debug.class.php');
+require (CORE_ROOT . '/error.class.php');
+require (CORE_ROOT . '/modules.class.php');
+require (CORE_ROOT . '/functions.class.php');
+require (CORE_ROOT . '/language.class.php');
+require (CORE_ROOT . '/security.class.php');
+require (CORE_ROOT . '/users.class.php');
+
 
 //----------------------------------------------------------------
 // Create objects out of classes
 //----------------------------------------------------------------
-$tpl 				= new Smarty;
 $session		= new session;
 $input			= new input;
 $debug 			= new debug;
