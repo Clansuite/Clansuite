@@ -90,6 +90,10 @@ class phpOpenTracker_API {
   */
   function phpOpenTracker_API() {
     $this->config = &phpOpenTracker_Config::getConfig();
+/* commented out by vain:
+		1. "class_exists" doesn't work
+		2. so "new Cache_Lite" will execute our autoloader, returning a
+		   file not found
 
     if ($this->config['query_cache']) {
       @include_once 'Cache/Lite.php';
@@ -107,7 +111,7 @@ class phpOpenTracker_API {
         );
       }
     }
-
+*/
     $this->_loadPlugins();
   }
 
