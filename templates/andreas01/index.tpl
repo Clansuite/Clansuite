@@ -67,6 +67,17 @@ v1.0 released on OSWD.org.</p>
 
 <h3>Version:</h3>
 <p>andreas01 v1.3</p>
+
+<h3>Stats</h3>
+Online:
+
+Guests
+Members
+
+{php} phpOpenTracker::plot(  array(    'api_call' => 'access_statistics',
+    'range'    => 'today',  'interval' => 'hour',   'mode'     => 'line'  ));
+{/php}
+
 </div>
 
 <div id="content">
@@ -80,7 +91,7 @@ v1.0 released on OSWD.org.</p>
 </div>
 
 <div id="footer">
-Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>.
+Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {php} echo $Db->executesCounter; {/php}
 </div>
 
 </div>
