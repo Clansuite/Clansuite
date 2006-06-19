@@ -26,7 +26,7 @@ if (!defined('POT_CONFIG_PATH')) {
 }
 
 require POT_INCLUDE_PATH . 'Config.php';
-@include POT_CONFIG_PATH . 'phpOpenTracker.php';
+include POT_CONFIG_PATH . 'phpOpenTracker.php';
 
 require POT_INCLUDE_PATH . 'Container.php';
 require POT_INCLUDE_PATH . 'DB.php';
