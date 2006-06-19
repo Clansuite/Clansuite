@@ -145,7 +145,7 @@ $PHPOPENTRACKER_CONFIGURATION['clean_referer_string'] = false;
 // $PHPOPENTRACKER_CONFIGURATION['log_reload'] = false;
 
 // The path to your JPGraph installation.
-// $PHPOPENTRACKER_CONFIGURATION['jpgraph_path'] = '';
+//$PHPOPENTRACKER_CONFIGURATION['jpgraph_path'] = '../API/';
 
 // With this directive you can define the names, separated by commas,
 // of plugins for the phpOpenTracker Logging Engine, that should be
@@ -167,7 +167,7 @@ $PHPOPENTRACKER_CONFIGURATION['clean_referer_string'] = false;
 // 0: Don't output error and warning messages.
 // 1: Output error and warning messages. (default)
 // 2: Output additional debugging messages.
-$PHPOPENTRACKER_CONFIGURATION['debug_level'] = 2;
+$PHPOPENTRACKER_CONFIGURATION['debug_level'] = 0;
 
 // When enabled, phpOpenTracker will exit on fatal errors.
 // $PHPOPENTRACKER_CONFIGURATION['exit_on_fatal_errors'] = true;
