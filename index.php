@@ -95,23 +95,38 @@ define('DB_PREFIX'	, $cfg->db_prefix);
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 //----------------------------------------------------------------
+// Load up DSN & Connect DB
+//----------------------------------------------------------------
+$dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
+$user = $cfg->db_username;
+$password = $cfg->db_password;
+$Db = new Db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
+
+//----------------------------------------------------------------
 // Load Smarty Template Engine
 // Set __autoload() for class-loading 
 //----------------------------------------------------------------
 require (CORE_ROOT . '/smarty/Smarty.class.php');
+
+//----------------------------------------------------------------
+// Init PhpOpenTracker
+//----------------------------------------------------------------
+require (CORE_ROOT . '/phpopentracker.php');
+ phpOpenTracker::log();
+
 function __autoload($className) 
 { require_once CORE_ROOT . '/' . $className . '.class.php'; } 
 
 //----------------------------------------------------------------
 // Create objects out of classes
 //----------------------------------------------------------------
-$tpl 			= new Smarty;
+$tpl 				= new Smarty;
 $session		= new session;
 $input			= new input;
 $debug 			= new debug;
 $error 			= new error;
 $modules 		= new modules;
-$functions 		= new functions;
+$functions 	= new functions;
 $lang 			= new language;
 $security		= new security;
 $users			= new users;
@@ -127,14 +142,6 @@ $tpl->debugging		= DEBUG ? true : false;
 $tpl->debug_tpl		= TPL_ROOT . '/core/debug.tpl';
 $tpl->autoload_filters = array('pre' 	=> array('inserttplnames'),
                                'output' => array('gzip') ); 
-
-//----------------------------------------------------------------
-// Load up DSN & Connect DB
-//----------------------------------------------------------------
-$dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
-$user = $cfg->db_username;
-$password = $cfg->db_password;
-$Db = new Db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
 
 //----------------------------------------------------------------
 // Assign Paths to Template (tpl)
