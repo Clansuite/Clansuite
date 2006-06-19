@@ -45,7 +45,7 @@ $PHPOPENTRACKER_CONFIGURATION['db_port'] = 'default';
 $PHPOPENTRACKER_CONFIGURATION['db_socket'] = 'default';
 
 // Username to connect with to your database server
-$PHPOPENTRACKER_CONFIGURATION['db_user'] = 'root';
+$PHPOPENTRACKER_CONFIGURATION['db_user'] = 'clansuite';
 
 // Password to connect with to your database server
 $PHPOPENTRACKER_CONFIGURATION['db_password'] = 'toop';
@@ -155,19 +155,19 @@ $PHPOPENTRACKER_CONFIGURATION['clean_referer_string'] = false;
 // When enabled, the result of a phpOpenTracker API query which is
 // limited to a timerange that lies completely in the past will be
 // stored in a cache.
-$PHPOPENTRACKER_CONFIGURATION['query_cache'] = true;
+//$PHPOPENTRACKER_CONFIGURATION['query_cache'] = false;
 
 // The directory where the phpOpenTracker API Query Cache should
 // store its files.
-$PHPOPENTRACKER_CONFIGURATION['query_cache_dir'] = '/tmp';
+//$PHPOPENTRACKER_CONFIGURATION['query_cache_dir'] = '/tmp';
 
 // The lifetime of a phpOpenTracker API Query Cache entry in seconds.
-$PHPOPENTRACKER_CONFIGURATION['query_cache_lifetime'] = 3600;
+//$PHPOPENTRACKER_CONFIGURATION['query_cache_lifetime'] = 3600;
 
 // 0: Don't output error and warning messages.
 // 1: Output error and warning messages. (default)
 // 2: Output additional debugging messages.
-$PHPOPENTRACKER_CONFIGURATION['debug_level'] = 0;
+$PHPOPENTRACKER_CONFIGURATION['debug_level'] = 2;
 
 // When enabled, phpOpenTracker will exit on fatal errors.
 // $PHPOPENTRACKER_CONFIGURATION['exit_on_fatal_errors'] = true;
