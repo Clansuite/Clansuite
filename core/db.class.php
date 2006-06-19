@@ -58,36 +58,41 @@ if (!defined('IN_CS'))
 }
 
 /**
-* Class Db 
+* Class db 
 * 
-* PDO Init Wrapper! $Db = new PDO;
+* PDO Init Wrapper! $db = new PDO;
 * 
 * added Functions
 * - Execute Counter 
 * - Statement Counter
 */
-class Db
+class db
 {
 	//----------------------------------------------------------------
 	// DB Object
 	//----------------------------------------------------------------
-	protected $Db;
+	protected $db;
 
 	//----------------------------------------------------------------
 	// Number of executed queries
 	//----------------------------------------------------------------
-	public $executesCounter;
+	public $exec_counter;
 
 	//----------------------------------------------------------------
 	// Number of performed statements
 	//----------------------------------------------------------------
-	public $statementsCounter;
+	public $statements_counter;
 
 	//----------------------------------------------------------------
 	// Queries Array
 	//----------------------------------------------------------------
 	public $queries = array();
-	
+
+	//----------------------------------------------------------------
+	// Prepare Statements Array
+	//----------------------------------------------------------------
+	public $prepare_statements = array();
+		
 	//----------------------------------------------------------------
 	// Constructor
 	// Create DB Object
@@ -99,12 +104,12 @@ class Db
 		
 		try
 		{
-			$this->Db = new PDO($dsn, $user, $pass, $driver_options);
+			$this->db = new PDO($dsn, $user, $pass, $driver_options);
 		
 			// error 
-			$this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+			$this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			// table-names in lower-case
-			$this->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
+			$this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
 		}
 
 		catch (PDOException $e)
@@ -112,36 +117,261 @@ class Db
 			$error->show( $lang->t('Database Error'), $e->getMessage(), 1 );
 		}
 
-		$this->executesCounter = 0;
-		$this->statementsCounter = 0;
+		$this->exec_counter = 0;
+		$this->statements_counter = 0;
 	}
 
 	//----------------------------------------------------------------
 	// SELECT Statement
 	// Return associated array
 	//----------------------------------------------------------------
-	public function select( $cols='*', $from, $where='', $more='' )
+	public function select( $cols='*', $from='', $where='', $more='' )
 	{
-		$return_value = array();
-		
 		if ( is_array( $cols ) )
 		{
-			$res = $this->query('SELECT ' . $cols['SELECT'] . ' FROM '. DB_PREFIX . $cols['FROM'] . ' WHERE ' . $cols['WHERE'] . ' ' . $cols['MORE']);	
-			while( $row = $res->fetch(PDO::FETCH_ASSOC) )
-			{
-				array_push( $return_value, $row );	
-			}
+			$sql = 'SELECT ' . $cols['SELECT'] . ' FROM '. DB_PREFIX . $cols['FROM'] . ' WHERE ' . $cols['WHERE'] . ' ' . $cols['MORE'];
+
 		}
 		else
 		{
-			$res = $this->query('SELECT ' . $cols . ' FROM '. DB_PREFIX . $from . ' WHERE ' . $where . ' ' . $more);	
-			while( $row = $res->fetch(PDO::FETCH_ASSOC) )
+			$sql = 'SELECT ' . $cols . ' FROM '. DB_PREFIX . $from . ' WHERE ' . $where . ' ' . $more;
+		}
+
+		$this->last_sql = $sql;
+
+		return $sql;
+	}
+
+	//----------------------------------------------------------------
+	// INSERT Statement
+	// Return PDOStatement Object
+	//----------------------------------------------------------------
+	public function insert( $table='', $data = array(), $more='' )
+	{
+		global $error, $lang;
+		
+		if ( is_array( $data ) )
+		{
+			$ins_sql .= '(';
+			foreach ( $data as $key => $value)
 			{
-				array_push( $return_value, $row );	
+				$ins_sql .= "`$key`,";	
+			}
+			$ins_sql = preg_replace( "/,$/" , "" , $ins_sql  );
+			$ins_sql .= ') VALUES (';
+			foreach ( $data as $key => $value)
+			{
+				$ins_sql .= is_int($value) ? "$value," : "'$value',";	
+			}
+			$ins_sql = preg_replace( "/,$/" , "" , $ins_sql  );
+			$ins_sql .= ')';
+			
+			try
+			{
+				$sql = 'INSERT INTO ' . DB_PREFIX . $table . ' '. $ins_sql . ' ' . $more;
+				$res = $this->prepare( $sql );
+				$res->execute();
+			}
+
+			catch (PDOException $e)
+			{
+				$is_error = true;
+				$message = $e->getMessage();
+			}
+
+			$this->queries[] = $sql;
+			
+			if($is_error)
+			{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+		}
+
+		$res->closeCursor();
+		return $res;
+	}
+	
+	//----------------------------------------------------------------
+	// UPDATE Statement
+	// Return PDOStatement Object
+	//----------------------------------------------------------------
+	public function update( $table='', $where='', $data = array(), $more='' )
+	{
+		global $error, $lang;
+		
+		if ( is_array( $data ) )
+		{
+			$upd_sql = '';
+			foreach ( $data as $key => $value)
+			{
+				$upd_sql .= is_int($value) ? "`$key` = $value," : "`$key` = '$value',";
+			}
+			$upd_sql = preg_replace( "/,$/" , "" , $upd_sql  );
+			
+			try
+			{
+				$sql = 'UPDATE ' . DB_PREFIX . $table . ' SET '. $upd_sql . ' WHERE ' . $where . ' ' . $more;
+				$res = $this->prepare( $sql );
+				$res->execute();
+			}
+
+			catch (PDOException $e)
+			{
+				$is_error = true;
+				$message = $e->getMessage();
+			}
+
+			$this->queries[] = $sql;
+			
+			if($is_error)
+			{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+		}
+
+		$res->closeCursor();
+		return $res;
+	}
+
+	//----------------------------------------------------------------
+	// DELETE Statement
+	// Return PDOStatement Object
+	//----------------------------------------------------------------
+	public function delete( $table='', $where='', $more='' )
+	{
+		global $error, $lang;
+				
+		try
+		{
+			$sql = 'DELETE FROM ' . DB_PREFIX . $table . ' WHERE ' . $where . ' ' . $more;
+			$res = $this->prepare( $sql );
+			$res->execute();
+		}
+
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		$this->queries[] = $sql;
+		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $sql.'<br>'.$e->getMessage(), 1 ); }
+
+		$res->closeCursor();
+		return $res;
+	}
+			
+	//----------------------------------------------------------------
+	// Fetch Array (PDO::FETCH_ASSOC)
+	//----------------------------------------------------------------
+	public function fetch_array( $sql='', $option = PDO::FETCH_ASSOC )
+	{
+		global $error, $lang;
+		
+		try
+		{
+			if(!empty($sql))
+			{
+				$res = $this->prepare( $sql );
+				$res->execute();
+				$return_value = $res->fetch($option);
+				$res->closeCursor();
+			}
+			else
+			{
+				$res = $this->prepare( $this->last_sql );
+				$res->execute();
+				$return_value = $res->fetch($option);	
+				$res->closeCursor();
 			}
 		}
 		
-		return $return_value;
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		$this->queries[] = $sql;
+		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $sql.'<br>'.$e->getMessage(), 1 ); }
+		
+		return $return_value;	
+	}
+	
+	//----------------------------------------------------------------
+	// Fetch ALL
+	//----------------------------------------------------------------
+	public function fetch_all( $sql='', $options = PDO::FETCH_BOTH )
+	{
+		try
+		{
+			if(!empty($sql))
+			{
+				$res = $this->prepare( $sql );
+				$res->execute();
+				$return_value = $res->fetchAll($option);
+				$res->closeCursor();
+			}
+			else
+			{
+				$res = $this->prepare( $this->last_sql );
+				$res->execute();
+				$return_value = $res->fetchAll($option);	
+				$res->closeCursor();
+			}
+		}
+		
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		$this->queries[] = $sql;
+		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $sql.'<br>'.$e->getMessage(), 1 ); }
+		
+		return $return_value;	
+	}	
+	
+	//----------------------------------------------------------------
+	// Affected Rows (rowCount + SELECT COUNT(*) emulation)
+	//----------------------------------------------------------------
+	public function affected_rows( $sql='' )
+	{
+		global $error,$lang;
+		
+		try
+		{
+			if(!empty($sql))
+			{
+				$res = $this->prepare( $sql );
+				$res->execute();
+				$return_value = $res->rowCount()==0 ? count($res->fetchAll()) : 0;;
+				$res->closeCursor();
+			}
+			else
+			{
+				$res = $this->prepare( $this->last_sql );
+				$res->execute();
+				$return_value = $res->rowCount()==0 ? count($res->fetchAll()) : 0;;	
+				$res->closeCursor();
+			}	
+		}
+		
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		$this->queries[] = $sql;
+		
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $sql.'<br>'.$e->getMessage(), 1 ); }
+		
+		return $return_value;		
 	}
 	
 	//----------------------------------------------------------------
@@ -149,36 +379,36 @@ class Db
 	//----------------------------------------------------------------
 	public function __call($func, $args)
 	{
-	   return call_user_func_array(array(&$this->Db, $func), $args);
+	   return call_user_func_array(array($this->db, $func), $args);
 	}
 
 	//----------------------------------------------------------------
-	// Prepare a query
+	// Prepare a statement
 	//----------------------------------------------------------------
-	public function prepare()
+	public function prepare( $sql='' )
 	{
-	   $this->statementsCounter++;
-	  
-	   $args = func_get_args();
-	   $DbStatements = call_user_func_array(array(&$this->Db, 'prepare'), $args);
-	  
-	   return new DbStatements($this, $DbStatements);
+		$this->statements_counter++;
+		
+		$res = $this->db->prepare( $sql );
+		
+		$this->prepare_statements[] = $sql;
+
+		return $res;
 	}
 
 	//----------------------------------------------------------------
 	// Deliver query to DB
 	// Increase counters
 	//----------------------------------------------------------------
-	public function query()
+	public function query( $sql='' )
 	{
 		global $error, $lang;
+		
 		try
 		{
-			$this->executesCounter++;
-			$this->statementsCounter++;
-
-			$args = func_get_args();
-			$DbStatements = call_user_func_array(array(&$this->Db, 'query'), $args);
+			$this->exec_counter++;
+			$this->statements_counter++;			
+			$res = $this->db->query($sql);
 		}
 		
 		catch (PDOException $e)
@@ -187,31 +417,25 @@ class Db
 			$message = $e->getMessage();
 		}
 
-		foreach ($args as $q)
-		{
-			$this->queries[] = $q;
-		}
+		$this->queries[] = $sql;
 
 		if($is_error)
 		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
 
-		return new DbStatements($this, $DbStatements);
+		return $res;
 	}
 
 	//----------------------------------------------------------------
 	// Execute a statement
 	//----------------------------------------------------------------
-	public function exec()
+	public function exec( $sql='' )
 	{
 		global $error, $lang;
-		
+
 		try
 		{
-		   $this->executesCounter++;
-		  
-		   $args = func_get_args();
-		   var_dump($args);
-		   return call_user_func_array(array(&$this->Db, 'execute'), $args);
+			$this->exec_counter++;
+			$res = $this->db->exec( $sql );
 		}
 
 		catch (PDOException $e)
@@ -219,116 +443,17 @@ class Db
 			$is_error = true;
 			$message = $e->getMessage();
 		}
+
+		$this->queries[] = $sql;
 		
 		if($is_error)
 		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+		
+		return $res;
 	}
 
 }
 
-//----------------------------------------------------------------
-// Deliver extende object
-//----------------------------------------------------------------
-class DbStatements implements IteratorAggregate
-{
-
-	/**
-	* DbStatements Object
-	* @var object $DbStatements
-	*/
-	protected $DbStatements;
-
-	/**
-	* Db Connection Object
-	* @var object $Db
-	*/
-	protected $Db;
-
-	/**
-	* __construct
-	*
-	* @param $Db, $DbStatements 
-	*/
-	public function __construct($Db, $DbStatements) {
-	   $this->Db = $Db;
-	   $this->DbStatements = $DbStatements;
-	}
-
-	/**
-	* __call : Allgemeine Funktions und Parameter Weiterleitung in DbStatements
-	* @param $func, $args
-	* @return 
-	*/
-	public function __call($func, $args) {
-	   return call_user_func_array(array(&$this->DbStatements, $func), $args);
-	}
-
-	/**
-	* bindColumn
-	* 
-	* @param $column
-	* @param &$param
-	* @param $type
-	*/
-	public function bindColumn($column, &$param, $type=NULL) {
-	   if ($type === NULL)
-	       $this->DbStatements->bindColumn($column, $param);
-	   else
-	       $this->DbStatements->bindColumn($column, $param, $type);
-	}
-
-	/**
-	* bindParam
-	*
-	* @param $column
-	* @param &$param
-	* @param $type
-	* @return 
-	*/
-	public function bindParam($column, &$param, $type=NULL) {
-	   if ($type === NULL)
-	       $this->DbStatements->bindParam($column, $param);
-	   else
-	       $this->DbStatements->bindParam($column, $param, $type);
-	}
-	/**
-	* execute
-	* a. exec Counter in Db erhöhen
-	* b. weiterleiten an DbStatements mit execute und parametern 
-	* @return of Function DbStatements $func 'execute' + $args
-	*/
-	public function execute() {
-	   $this->Db->executesCounter++;
-	   $args = func_get_args();
-	   return call_user_func_array(array(&$this->DbStatements, 'execute'), $args);
-	}
-	/**
-	* __get : Rückgabe liefern
-	* @param $property
-	* @return return $this->DbStatements->$property
-	*/
-	public function __get($property) {
-	   return $this->DbStatements->$property;
-	}
-
-	/**
-	* holt das Objekt
-	* @return $this->DbStatements
-	*/
-	public function getIterator() {
-	   return $this->DbStatements;
-	}
-}
-   
-//----------------------------------------------------------------
-// DB Error Handler
-//----------------------------------------------------------------
-class DbError extends Db
-{
-	// Fetch extended error information associated with the last operation
-	//echo "\nPDO::errorInfo():\n";
-	//print_r($err->errorInfo());
-}
 
 
    

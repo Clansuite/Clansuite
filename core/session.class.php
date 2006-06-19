@@ -81,6 +81,8 @@ class session
 	//----------------------------------------------------------------
 	function create_session()
 	{
+		global $lang, $error;
+		
 		//----------------------------------------------------------------
 		// Set the ini Vars
 		//----------------------------------------------------------------
@@ -94,18 +96,17 @@ class session
 		//----------------------------------------------------------------
 		setcookie ( 'time', time(), time() + 31536000 );
 
-		if ( !isset($_COOKIE['time']) or $this->session_cookies == false )
+		if ( !isset($_COOKIE['time']) OR $this->session_cookies == 0 )
 		{
+			$this->cookies_available = 0;
 			ini_set("session.use_cookies", '0');
-			ini_set("url_rewriter.tags", '');
-			ini_set("session.use_trans_sid", '1');
 			ini_set("session.use_only_cookies",	'0');
 		}
 		else
 		{
+			$this->cookies_available = 1;
 			ini_set("session.use_cookies", 	'1');
 			ini_set("session.use_only_cookies",	'1');
-			ini_set("session.use_trans_sid", '0');
 		}
 
 		//----------------------------------------------------------------
@@ -119,32 +120,43 @@ class session
 									array(&$this, "_session_destroy"),
 									array(&$this, "_session_gc"     ));
 
-		
-		// Session wird gestartet ... or Error!
+	
+		//----------------------------------------------------------------
+		// Start Session with Error on failure
+		//----------------------------------------------------------------
 		if (!session_start())
-		{ echo 'Session start failed!'; }
-		
-		// Debug: Session-öbergabe Test
-		if (!isset($_SESSION["test"]))
-		{
-		       $_SESSION["test"] = 'erster eintrag';
-		       print_r($_SESSION);
-		}
-		else
-		{ $_SESSION["test"] = 'zweiter eintrag'; }
-		
-		// Session assigned to Class-Var for easy handling (Globalisierung)
+		{ $error->show( $lang->t( 'Session Error' ), $lang->t( 'The session start failed!' ), 3 ); }
+
+		//----------------------------------------------------------------
+		// Create new ID if session is not in DB or corrupted
+		//----------------------------------------------------------------
+		if ( $this->_session_read( session_id() )===false OR strlen( session_id() ) != 32)
+		{ session_regenerate_id(); }
+
+		//----------------------------------------------------------------
+		// Set the Paths
+		//----------------------------------------------------------------
+		if( $this->cookies_available == 0 )
+		{ $this->base_url = WWW_ROOT . '/index.php?' . $this->session_name . '=' . session_id() . '&'; }
+
+		//----------------------------------------------------------------
+		// Completeition... nothing to do here
+		//----------------------------------------------------------------
 		$this->_session =&$_SESSION;
-		
+
+		//----------------------------------------------------------------
+		// Security Check
+		//----------------------------------------------------------------
 		if ( !$this->_session_check_security() )
 		{ $this->_session = array(); }
+
 
 	}
 	
 	//----------------------------------------------------------------
 	// Open a session
 	//----------------------------------------------------------------
-	function _session_open($save_path, $sess_name)
+	function _session_open()
 	{	
 		return true; 
 	}
@@ -154,7 +166,7 @@ class session
 	//----------------------------------------------------------------
 	function _session_close()
 	{
-		//session::_session_gc(0);
+		session::_session_gc(0);
 		return true;
 	}
 
@@ -163,20 +175,21 @@ class session
 	//----------------------------------------------------------------
 	function _session_read ( $id )
 	{ 
-		global $Db;
+		global $db;
+		$sql = $db->select( array( 	'SELECT' 	=> 'session_data',
+									'FROM'		=> 'session',
+									'WHERE'		=> "session_name = '$this->session_name' AND session_id = '$id'" ) );
 		
-		# assign false, if there was an error, we can info the user about it
-		$return_value = "";
-		# get the session_data from database
-		$table 	= "SELECT session_data FROM " . DB_PREFIX . "session ";
-		$where	= "WHERE session_name= ? AND session_id= ?";
-		$stmt	= $Db->prepare($table.$where);
-		$stmt->execute(array($this->session_name, $id));
-				
-		# return the session_data, if it is not null
-		if($stmt->rowCount() != 0)
-		{ return $stmt; }
-		else { echo 'Session does not exist!'; }
+		if ( $db->affected_rows($sql) != 0 )
+		{ 
+			$result = $db->fetch_array($sql);
+			$data = $result['session_data'];
+			return $data;
+		}
+		else
+		{ 
+			return false;
+		}
 	}
 
 	//----------------------------------------------------------------
@@ -184,30 +197,47 @@ class session
 	//----------------------------------------------------------------
 	function _session_write( $id, $data )
 	{ 
-		global $Db;
+		global $db;
 
-		// adjust ExpireTime
-		$seconds	= $this->session_expire_time * 60;
-		$expires	= time() + $seconds; // d.h. jetzt + expire*60
-		// SELECT WHERE | session_id
-		$session_id = $Db->select('*', 'session', "session_id='$id'");//"SELECT * FROM ". DB_PREFIX ."session WHERE session_id='$id'");
-		var_dump($session_id);
-		if ( $session_id )
-		{ // UPDATE | aktualisiert die jeweilige Session
+		//----------------------------------------------------------------
+		// Time Settings
+		//----------------------------------------------------------------
+		$seconds = $this->session_expire_time * 60;
+		$expires = time() + $seconds;
+		
+		//----------------------------------------------------------------
+		// Check if session is in DB
+		//----------------------------------------------------------------
+		$sql = $db->select(array( 	'SELECT' 	=> '*',
+									'FROM'		=> 'session',
+									'WHERE'		=> "session_id='$id'" ) );
+		$in_db = $db->fetch_array($sql);
 
-			$table 	= "UPDATE " . DB_PREFIX . "session ";
-			$set	= "SET session_expire = ?, session_data = ? WHERE session_id = ?";
-			$stmt = $Db->prepare($table.$set);
-			$stmt->query(array($expires,$data,$id));
-
-			// 	Session::SessionControl();
+		if ( $in_db )
+		{
+			//----------------------------------------------------------------
+			// Update Session in DB
+			//----------------------------------------------------------------
+			$db->update('session', "session_id = '$id'", array( 	'session_expire' 	=> $expires,
+																	'session_data'		=> $data ) );
+			$this->session_control();
 
 		}
 		else
 		{
-			$table 		= "INSERT INTO ".DB_PREFIX."session ";
-			$values 	= "(session_id, session_name, session_expire, session_data, session_visibility,user_id) VALUES('$id', '$this->session_name', '$expires', '$data', 1, 0)";
-			$Db->query($table.$values);
+			//----------------------------------------------------------------
+			// Create Session @ DB & Cookies OR $_GET
+			//----------------------------------------------------------------
+			$db->insert('session', array( 	'session_id' 		=> $id,
+											'session_name'		=> $this->session_name,
+											'session_expire'	=> $expires,
+											'session_data'		=> $data,
+											'session_visibility'=> 1,
+											'user_id'			=> 0 ) );
+			if ( $this->cookies_available )
+			{
+				setcookie( $this->session_name, $id );
+			}
     	}
 		return true;
 	}
@@ -217,19 +247,18 @@ class session
 	//----------------------------------------------------------------
 	function _session_destroy( $id )
 	{
-		global $Db;
+		global $db;
 
-		// unset cookiesvar
-
+		//----------------------------------------------------------------
+		// Unset Cookie Vars
+		//----------------------------------------------------------------
 		if(isset($_COOKIE[$this->session_name]))
 		{ unset($_COOKIE[$this->session_name]); }
 
-		// delete the session from the database
-		$table = "DELETE FROM " . DB_PREFIX . "session ";
-		$where = "session_name='$this->session_name' AND session_id = '$id'";
-		$row_count = $Db->execute($table.$where);
-
-		// if there are Sessions left optimize them
+		//----------------------------------------------------------------
+		// Optimize tables
+		//----------------------------------------------------------------
+		$row_count = $db->delete( 'session', "session_name='$this->session_name' AND session_id = '$id'");
 
 		if ( $row_count > 0)
 		{ $this->_session_optimize(); }
@@ -241,13 +270,12 @@ class session
 	//----------------------------------------------------------------
 	function _session_gc ( $max_lifetime )
 	{
-		global $Db;
+		global $db;
 
-		$table = "DELETE FROM " . DB_PREFIX . "session ";
-		$where = "WHERE session_name = '$this->session_name' AND session_expire < " . time();
-		$row_count = $Db->exec($table.$where);
-
-		// if there are Sessions left optimize them
+		//----------------------------------------------------------------
+		// Prune
+		//----------------------------------------------------------------
+		$row_count = $db->delete( 'session', "session_name = '$this->session_name' AND session_expire < " . time() );
 
 		if ( $row_count > 0)
 		{ $this->_session_optimize(); }
@@ -258,9 +286,10 @@ class session
 	//----------------------------------------------------------------
 	function _session_optimize()
 	{
-		global $Db;
+		global $db;
 
-		$Db->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+		$db->exec('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+
 	}
 
 	//----------------------------------------------------------------
@@ -306,9 +335,10 @@ class session
     			return false;
     		}
 		}
-		// Debug :
-		// echo 'SessionSecurity says: This Guy is ok!';
-		// return true if everything is O.K.
+
+		//----------------------------------------------------------------
+		// Return true if everything is ok
+		//----------------------------------------------------------------
 		return true;
 	}
 
@@ -319,17 +349,19 @@ class session
 	//----------------------------------------------------------------
 	function session_control()
 	{
-		global $Db;
+		global $db;
 		// 2 Tage alte registrierte, aber nicht aktivierte User l√∂schen!
+		/*
 		$table = "DELETE FROM " . DB_PREFIX . "users ";
 		$where = "disabled = 1 AND (joined + INTERVAL 2 DAY)<Now() AND (timestamp + INTERVAL 2 DAY)<Now()";
-		$Db->query($table.$where);
-
+		$db->exec($table.$where);
+		
+		
 		// Zeitstempel in users-table setzen
 		$table 	= 'UPDATE ' . DB_PREFIX . 'users ';
 		$set	= "SET timestamp = NOW() WHERE user_id = '$_SESSION[User][user_id]'";
-		$Db->query($table.$set);
-
+		$db->exec($table.$set);
+		*/
 		if(isset($_SESSION['authed']))
 		{
 			if(!isset($_SESSION['lastmove']) || (time() - $_SESSION['lastmove'] > 350))
