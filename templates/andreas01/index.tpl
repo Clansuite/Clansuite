@@ -30,13 +30,13 @@
 <div id="avmenu">
 <h2 class="hide">Menu:</h2>
 <ul>
-<li><a href="{$base_url}">Welcome!</a></li>
-<li><a href="{$base_url}">Current events</a></li>
-<li><a href="{$base_url}">Downloads</a></li>
-<li><a href="{$base_url}">Art gallery</a></li>
-<li><a href="{$base_url}">Collections</a></li>
-<li><a href="{$base_url}">Litterature</a></li>
-<li><a href="{$base_url}">Newsletter</a></li>
+<li><a href="{base_url}">Welcome!</a></li>
+<li><a href="{base_url}">Current events</a></li>
+<li><a href="{base_url}">Downloads</a></li>
+<li><a href="{base_url}">Art gallery</a></li>
+<li><a href="{base_url}">Collections</a></li>
+<li><a href="{base_url}">Litterature</a></li>
+<li><a href="{base_url}">Newsletter</a></li>
 </ul>
 
 <div class="announce">
@@ -135,7 +135,7 @@ printf(
 </div>
 
 <div id="footer">
-Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {php} echo $Db->executesCounter; {/php}
+Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {php} echo $Db->executes_counter; {/php}
 </div>
 
 </div>
