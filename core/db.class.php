@@ -268,7 +268,7 @@ class db
 		
 		try
 		{
-			if(!empty($sql))
+			if($sql!='')
 			{
 				$res = $this->prepare( $sql );
 				$res->execute();
@@ -305,7 +305,7 @@ class db
 	{
 		try
 		{
-			if(!empty($sql))
+			if($sql!='')
 			{
 				$res = $this->prepare( $sql );
 				$res->execute();
@@ -344,7 +344,7 @@ class db
 		
 		try
 		{
-			if(!empty($sql))
+			if($sql!='')
 			{
 				$res = $this->prepare( $sql );
 				$res->execute();
@@ -396,6 +396,36 @@ class db
 		return $res;
 	}
 
+	//----------------------------------------------------------------
+	// Simple Query with closeCursor() !
+	//----------------------------------------------------------------
+	public function simple_query( $sql='' )
+	{
+		global $error, $lang;
+		
+		try
+		{
+			$this->exec_counter++;
+			$this->statements_counter++;			
+			$res = $this->prepare( $sql );
+			$res->execute();
+		}
+		
+		catch (PDOException $e)
+		{
+			$is_error = true;
+			$message = $e->getMessage();
+		}
+
+		$this->queries[] = $sql;
+
+		if($is_error)
+		{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
+		
+		$res->closeCursor();
+		return $res;
+	}
+	
 	//----------------------------------------------------------------
 	// Deliver query to DB
 	// Increase counters

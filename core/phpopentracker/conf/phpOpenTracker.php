@@ -55,39 +55,39 @@ $PHPOPENTRACKER_CONFIGURATION['db_database'] = 'clansuite';
 
 // Name of the Additional Data Table
 // Default: 'pot_add_data'
-$PHPOPENTRACKER_CONFIGURATION['additional_data_table'] = 'pot_add_data';
+$PHPOPENTRACKER_CONFIGURATION['additional_data_table'] = DB_PREFIX . 'pot_add_data';
 
 // Name of the Access Log Table
 // Default: 'pot_accesslog'
-$PHPOPENTRACKER_CONFIGURATION['accesslog_table'] = 'pot_accesslog';
+$PHPOPENTRACKER_CONFIGURATION['accesslog_table'] = DB_PREFIX . 'pot_accesslog';
 
 // Name of the Documents Table
 // Default: 'pot_documents'
-$PHPOPENTRACKER_CONFIGURATION['documents_table'] = 'pot_documents';
+$PHPOPENTRACKER_CONFIGURATION['documents_table'] = DB_PREFIX . 'pot_documents';
 
 // Name of the Exit Targets Table
 // Default: 'pot_exit_targets'
-$PHPOPENTRACKER_CONFIGURATION['exit_targets_table'] = 'pot_exit_targets';
+$PHPOPENTRACKER_CONFIGURATION['exit_targets_table'] = DB_PREFIX . 'pot_exit_targets';
 
 // Name of the Hostnames Table
 // Default: 'pot_hostnames'
-$PHPOPENTRACKER_CONFIGURATION['hostnames_table'] = 'pot_hostnames';
+$PHPOPENTRACKER_CONFIGURATION['hostnames_table'] = DB_PREFIX . 'pot_hostnames';
 
 // Name of the Operating Systems Table
 // Default: 'pot_operating_systems'
-$PHPOPENTRACKER_CONFIGURATION['operating_systems_table'] = 'pot_operating_systems';
+$PHPOPENTRACKER_CONFIGURATION['operating_systems_table'] = DB_PREFIX . 'pot_operating_systems';
 
 // Name of the Referers Table
 // Default: 'pot_referers'
-$PHPOPENTRACKER_CONFIGURATION['referers_table'] = 'pot_referers';
+$PHPOPENTRACKER_CONFIGURATION['referers_table'] = DB_PREFIX . 'pot_referers';
 
 // Name of the User Agents Table
 // Default: 'pot_user_agents'
-$PHPOPENTRACKER_CONFIGURATION['user_agents_table'] = 'pot_user_agents';
+$PHPOPENTRACKER_CONFIGURATION['user_agents_table'] = DB_PREFIX . 'pot_user_agents';
 
 // Name of the Visitors Table
 // Default: 'pot_visitors'
-$PHPOPENTRACKER_CONFIGURATION['visitors_table'] = 'pot_visitors';
+$PHPOPENTRACKER_CONFIGURATION['visitors_table'] = DB_PREFIX . 'pot_visitors';
 
 // Resolution for Merge Tables backend
 // 'day':   One pot_accesslog/pot_visitors table per day.
@@ -167,7 +167,7 @@ $PHPOPENTRACKER_CONFIGURATION['clean_referer_string'] = false;
 // 0: Don't output error and warning messages.
 // 1: Output error and warning messages. (default)
 // 2: Output additional debugging messages.
-$PHPOPENTRACKER_CONFIGURATION['debug_level'] = 0;
+$PHPOPENTRACKER_CONFIGURATION['debug_level'] = DEBUG ? 1 : 0;
 
 // When enabled, phpOpenTracker will exit on fatal errors.
 // $PHPOPENTRACKER_CONFIGURATION['exit_on_fatal_errors'] = true;
