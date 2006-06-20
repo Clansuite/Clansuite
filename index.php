@@ -175,7 +175,6 @@ phpOpenTracker::log();
 // Output all
 //----------------------------------------------------------------
 $_REQUEST['mod']!='' ? $lang->load_lang( $_REQUEST['mod'] ) : '';
-$tpl->assign('base_url'			, $session->base_url );
 $content = $modules->get_content($_REQUEST['mod']);
 $security->check_copyright( TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 $tpl->assign('redirect'			, $functions->redirect );

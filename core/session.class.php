@@ -90,6 +90,7 @@ class session
 		ini_set('session.gc_maxlifetime',  	$this->session_expire_time );
 		ini_set('session.gc_probability',  	$this->session_probability );
 		ini_set('session.name',				$this->session_name );
+
 		
 		//----------------------------------------------------------------
 		// Check if cookies are allowed
@@ -98,14 +99,15 @@ class session
 		if (  !isset($_COOKIE['timestamp']) OR !$this->session_cookies )
 		{
 			$this->cookies_available = 0;
-			ini_set('session.use_cookies', 		0);
-			ini_set('session.use_only_cookies',	0);
+			ini_set('session.use_cookies', 		0 );
+			ini_set('session.use_only_cookies',	0 );
+			ini_set('session.use_trans_sid',	1 );
 		}
 		else
 		{
 			$this->cookies_available = 1;
-			ini_set('session.use_cookies', 		1);
-			ini_set('session.use_only_cookies',	1);
+			ini_set('session.use_cookies', 		1 );
+			ini_set('session.use_only_cookies',	1 );
 		}
 
 		//----------------------------------------------------------------
@@ -133,14 +135,6 @@ class session
 		{ session_regenerate_id(); }
 
 		//----------------------------------------------------------------
-		// Set the Paths
-		//----------------------------------------------------------------
-		if( $this->cookies_available == 0 )
-		{ $this->base_url = WWW_ROOT . '/index.php?' . $this->session_name . '=' . session_id() . '&'; }
-		else
-		{ $this->base_url = WWW_ROOT . '/index.php?'; }
-
-		//----------------------------------------------------------------
 		// Complete... nothing to do here
 		//----------------------------------------------------------------
 		$this->_session =&$_SESSION;
@@ -150,8 +144,6 @@ class session
 		//----------------------------------------------------------------
 		if ( !$this->_session_check_security() )
 		{ $this->_session = array(); }
-
-
 	}
 	
 	//----------------------------------------------------------------

@@ -30,13 +30,13 @@
 <div id="avmenu">
 <h2 class="hide">Menu:</h2>
 <ul>
-<li><a href="{$base_url}">Welcome!</a></li>
-<li><a href="{$base_url}">Current events</a></li>
-<li><a href="{$base_url}">Downloads</a></li>
-<li><a href="{$base_url}">Art gallery</a></li>
-<li><a href="{$base_url}">Collections</a></li>
-<li><a href="{$base_url}">Litterature</a></li>
-<li><a href="{$base_url}">Newsletter</a></li>
+<li><a href="index.php">Home</a></li>
+<li><a href="index.php?mod=news">Newsletter</a></li>
+<li><a href="index.php?mod=schedule">Current events</a></li>
+<li><a href="index.php?mod=downloads">Downloads</a></li>
+<li><a href="index.php?mod=gallery">Gallery</a></li>
+<li><a href="index.php?mod=gb">Guestbook</a></li>
+<li><a href="index.php?mode=impressum">Impressum</a></li>
 </ul>
 
 <div class="announce">
