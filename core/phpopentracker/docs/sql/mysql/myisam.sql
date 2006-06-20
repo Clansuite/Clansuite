@@ -17,7 +17,7 @@
 #
 
 DROP TABLE IF EXISTS pot_accesslog;
-CREATE TABLE pot_accesslog (
+CREATE TABLE cs_pot_accesslog (
   accesslog_id      INT(11)                NOT NULL,
   timestamp         INT(10)    UNSIGNED    NOT NULL,
   weekday           TINYINT(1) UNSIGNED    NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE pot_accesslog (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1 PACK_KEYS=1;
 
 DROP TABLE IF EXISTS pot_add_data;
-CREATE TABLE pot_add_data (
+CREATE TABLE cs_pot_add_data (
   accesslog_id INT(11)      NOT NULL,
   data_field   VARCHAR(32)  NOT NULL,
   data_value   VARCHAR(255) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE pot_add_data (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_documents;
-CREATE TABLE pot_documents (
+CREATE TABLE cs_pot_documents (
   data_id      INT(11)      NOT NULL,
   string       VARCHAR(255) NOT NULL,
   document_url VARCHAR(255) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE pot_documents (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_exit_targets;
-CREATE TABLE pot_exit_targets (
+CREATE TABLE cs_pot_exit_targets (
   data_id INT(11)      NOT NULL,
   string  VARCHAR(255) NOT NULL,
 
@@ -59,7 +59,7 @@ CREATE TABLE pot_exit_targets (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_hostnames;
-CREATE TABLE pot_hostnames (
+CREATE TABLE cs_pot_hostnames (
   data_id INT(11)      NOT NULL,
   string  VARCHAR(255) NOT NULL,
 
@@ -67,7 +67,7 @@ CREATE TABLE pot_hostnames (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_operating_systems;
-CREATE TABLE pot_operating_systems (
+CREATE TABLE cs_pot_operating_systems (
   data_id INT(11)      NOT NULL,
   string  VARCHAR(255) NOT NULL,
 
@@ -75,7 +75,7 @@ CREATE TABLE pot_operating_systems (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_referers;
-CREATE TABLE pot_referers (
+CREATE TABLE cs_pot_referers (
   data_id INT(11)      NOT NULL,
   string  VARCHAR(255) NOT NULL,
 
@@ -83,7 +83,7 @@ CREATE TABLE pot_referers (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_user_agents;
-CREATE TABLE pot_user_agents (
+CREATE TABLE cs_pot_user_agents (
   data_id INT(11)      NOT NULL,
   string  VARCHAR(255) NOT NULL,
 
@@ -91,7 +91,7 @@ CREATE TABLE pot_user_agents (
 ) TYPE=MyISAM DELAY_KEY_WRITE=1;
 
 DROP TABLE IF EXISTS pot_visitors;
-CREATE TABLE pot_visitors (
+CREATE TABLE cs_pot_visitors (
   accesslog_id        INT(11)             NOT NULL,
   visitor_id          INT(11)             NOT NULL,
   client_id           INT(10)    UNSIGNED NOT NULL,

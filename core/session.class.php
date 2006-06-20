@@ -82,31 +82,30 @@ class session
 	function create_session()
 	{
 		global $lang, $error;
-		
+
 		//----------------------------------------------------------------
 		// Set the ini Vars
 		//----------------------------------------------------------------
-		ini_set("session.save_handler",    	"user"                   );
-		ini_set("session.name",				$this->session_name       );
-		ini_set("session.gc_maxlifetime",  	$this->session_expire_time );
-		ini_set("session.gc_probability",  	$this->session_probability);
-
+		ini_set('session.save_handler',    	'user' );
+		ini_set('session.gc_maxlifetime',  	$this->session_expire_time );
+		ini_set('session.gc_probability',  	$this->session_probability );
+		ini_set('session.name',				$this->session_name );
+		
 		//----------------------------------------------------------------
 		// Check if cookies are allowed
 		//----------------------------------------------------------------
-		setcookie ( 'time', time(), time() + 31536000 );
-
-		if ( !isset($_COOKIE['time']) OR $this->session_cookies == 0 )
+		setcookie( 'timestamp', time(), time() + 31536000 );
+		if (  !isset($_COOKIE['timestamp']) OR !$this->session_cookies )
 		{
 			$this->cookies_available = 0;
-			ini_set("session.use_cookies", '0');
-			ini_set("session.use_only_cookies",	'0');
+			ini_set('session.use_cookies', 		0);
+			ini_set('session.use_only_cookies',	0);
 		}
 		else
 		{
 			$this->cookies_available = 1;
-			ini_set("session.use_cookies", 	'1');
-			ini_set("session.use_only_cookies",	'1');
+			ini_set('session.use_cookies', 		1);
+			ini_set('session.use_only_cookies',	1);
 		}
 
 		//----------------------------------------------------------------
@@ -130,7 +129,7 @@ class session
 		//----------------------------------------------------------------
 		// Create new ID if session is not in DB or corrupted
 		//----------------------------------------------------------------
-		if ( $this->_session_read( session_id() )===false OR strlen( session_id() ) != 32)
+		if ( $this->_session_read( session_id() ) === false OR strlen( session_id() ) != 32)
 		{ session_regenerate_id(); }
 
 		//----------------------------------------------------------------
@@ -138,12 +137,14 @@ class session
 		//----------------------------------------------------------------
 		if( $this->cookies_available == 0 )
 		{ $this->base_url = WWW_ROOT . '/index.php?' . $this->session_name . '=' . session_id() . '&'; }
+		else
+		{ $this->base_url = WWW_ROOT . '/index.php?'; }
 
 		//----------------------------------------------------------------
-		// Completeition... nothing to do here
+		// Complete... nothing to do here
 		//----------------------------------------------------------------
 		$this->_session =&$_SESSION;
-
+		
 		//----------------------------------------------------------------
 		// Security Check
 		//----------------------------------------------------------------
@@ -234,10 +235,6 @@ class session
 											'session_data'		=> $data,
 											'session_visibility'=> 1,
 											'user_id'			=> 0 ) );
-			if ( $this->cookies_available )
-			{
-				setcookie( $this->session_name, $id );
-			}
     	}
 		return true;
 	}
@@ -288,8 +285,7 @@ class session
 	{
 		global $db;
 
-		$db->exec('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
-
+		$db->simple_query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
 	}
 
 	//----------------------------------------------------------------

@@ -62,5 +62,14 @@ class functions
 				break;
 		}	
 	}
+	
+	//----------------------------------------------------------------
+	// Give the base_url for smarty
+	//----------------------------------------------------------------
+	function give_base_url ()
+	{
+		global $session;
+		return $session->base_url;
+	}
 }
 ?>

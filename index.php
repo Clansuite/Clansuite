@@ -95,30 +95,10 @@ define('DB_PREFIX'	, $cfg->db_prefix);
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 //----------------------------------------------------------------
-// Load up DSN & Connect DB
-//----------------------------------------------------------------
-require (CORE_ROOT . '/db.class.php');
-$dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
-$user = $cfg->db_username;
-$password = $cfg->db_password;
-$Db = new Db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
-
-//----------------------------------------------------------------
-// Load Smarty Template Engine
-//----------------------------------------------------------------
-require (CORE_ROOT . '/smarty/Smarty.class.php');
-$tpl 				= new Smarty;
-
-//----------------------------------------------------------------
-// Init PhpOpenTracker
-//----------------------------------------------------------------
-require (CORE_ROOT . '/phpopentracker.php');
-phpOpenTracker::log();
-
-
-//----------------------------------------------------------------
 // Require Core Classes
 //----------------------------------------------------------------
+require (CORE_ROOT . '/phpOpenTracker.php');
+require (CORE_ROOT . '/smarty/Smarty.class.php');
 require (CORE_ROOT . '/session.class.php');
 require (CORE_ROOT . '/input.class.php');
 require (CORE_ROOT . '/debug.class.php');
@@ -128,17 +108,18 @@ require (CORE_ROOT . '/functions.class.php');
 require (CORE_ROOT . '/language.class.php');
 require (CORE_ROOT . '/security.class.php');
 require (CORE_ROOT . '/users.class.php');
-
+require (CORE_ROOT . '/db.class.php');
 
 //----------------------------------------------------------------
 // Create objects out of classes
 //----------------------------------------------------------------
+$tpl 			= new Smarty;
 $session		= new session;
 $input			= new input;
 $debug 			= new debug;
 $error 			= new error;
 $modules 		= new modules;
-$functions 	= new functions;
+$functions 		= new functions;
 $lang 			= new language;
 $security		= new security;
 $users			= new users;
@@ -154,6 +135,14 @@ $tpl->debugging		= DEBUG ? true : false;
 $tpl->debug_tpl		= TPL_ROOT . '/core/debug.tpl';
 $tpl->autoload_filters = array('pre' 	=> array('inserttplnames'),
                                'output' => array('gzip') ); 
+
+//----------------------------------------------------------------
+// Load up DSN & Connect DB
+//----------------------------------------------------------------
+$dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
+$user = $cfg->db_username;
+$password = $cfg->db_password;
+$db = new db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
 
 //----------------------------------------------------------------
 // Assign Paths to Template (tpl)
@@ -178,19 +167,25 @@ $error->set_callback();
 $session->create_session();
 
 //----------------------------------------------------------------
+// Logging
+//----------------------------------------------------------------
+//phpOpenTracker::log();
+
+//----------------------------------------------------------------
 // Output all
 //----------------------------------------------------------------
 $_REQUEST['mod']!='' ? $lang->load_lang( $_REQUEST['mod'] ) : '';
+$tpl->assign('base_url'			, $session->base_url );
 $content = $modules->get_content($_REQUEST['mod']);
 $security->check_copyright( TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
-$tpl->assign('redirect', $functions->redirect );
-$tpl->assign('css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
-$tpl->assign('javascript' , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
+$tpl->assign('redirect'			, $functions->redirect );
+$tpl->assign('css'				, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
+$tpl->assign('javascript' 		, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('additional_head'	, $content['ADDITIONAL_HEAD'] );
 $tpl->assign('std_page_title' 	, $cfg->std_page_title );
 $tpl->assign('mod_page_title' 	, $content['MOD_PAGE_TITLE'] );
-$tpl->assign('copyright'	, $cfg->copyright );
-$tpl->assign('content'	, $content['OUTPUT'] );
+$tpl->assign('copyright'		, $cfg->copyright );
+$tpl->assign('content'			, $content['OUTPUT'] );
 
 $tpl->display($cfg->tpl_wrapper_file);
 

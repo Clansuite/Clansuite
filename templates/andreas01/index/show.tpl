@@ -2,7 +2,7 @@
 <b>{translate}Hello{/translate}</b><br />
 <b>{translate}Welcome{/translate}</b><br />
 <i>{translate u="Benutzernamen_variable"}How are you, %u ?{/translate}</i>
-
+{$base_url}
 {* direktes Ansprechen der Sprachzuweisung *}
 {* class language :: function t t(); *} 
 <br />
