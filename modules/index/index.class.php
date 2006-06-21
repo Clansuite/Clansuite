@@ -56,10 +56,10 @@ class module_index
 		switch ($_REQUEST['action'])
 		{
 			case 'show':
-				$this->index_show();
+				$this->show();
 				break;
 			default:
-				$this->index_show();
+				$this->show();
 				break;	
 		}
 		
@@ -71,7 +71,7 @@ class module_index
 	/**
 	* @desc Show the entracne - welcome message etc.
 	*/
-	function index_show()
+	function show()
 	{
 		global $tpl, $error, $lang;
 		
@@ -83,7 +83,7 @@ class module_index
 	* @desc Give the time
 	* @desc type: unix,german,english	
 	*/
-	function index_time( $type='unix', $seperator='.' )
+	function time( $type='unix', $seperator='.' )
 	{
 		switch($type)
 		{
