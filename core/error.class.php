@@ -79,21 +79,21 @@ class error
 			case E_WARNING:
 				if (DEBUG)
 				{
-					$this->error_log['warning'][] = "$errno: $errstr | File: $errfile";
+					$this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
 			case E_USER_NOTICE:
 			case E_NOTICE:
 				if (DEBUG)
 				{
-					$this->error_log['notice'][] = "$errno: $errstr | File: $errfile";
+					$this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
 			
 			default:
 				if (DEBUG)
 				{
-					$this->error_log['unknown'][] = "$errno: $errstr | File: $errfile";
+					$this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
 		}
@@ -102,7 +102,7 @@ class error
 	//----------------------------------------------------------------
 	// Script Error Handler
 	//----------------------------------------------------------------
-	function show( $error_head = 'Unknown Error', $string = '', $level = 3 )
+	function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
 	{
 		global $tpl;
 		
@@ -112,6 +112,7 @@ class error
 				$tpl->assign( 'error_type'	, 1 );
 				$tpl->assign( 'error_head'	, $error_head );
 				$tpl->assign( 'debug_info'	, $string );
+				$redirect!='' ? $tpl->assign( 'redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
 				$content = $tpl->fetch( 'error.tpl' );
 				die ( $content );				
 				break;

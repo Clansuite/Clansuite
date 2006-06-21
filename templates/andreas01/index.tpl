@@ -135,7 +135,7 @@ printf(
 </div>
 
 <div id="footer">
-Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {php} echo $Db->executes_counter; {/php}
+Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {$exec_counter}
 </div>
 
 </div>

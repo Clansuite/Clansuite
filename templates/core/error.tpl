@@ -1,3 +1,12 @@
+{if $error_type==1}
+<html>
+<head>
+{$redirect}
+<title>{$error_head}</title>
+</head>
+<body>
+{/if}
+
 <p>
 <fieldset style="border-color: red; background: 
 {if $error_type==1}red
@@ -16,3 +25,8 @@
 	</label>
 </fieldset>
 </p>
+
+{if $error_type==1}
+</body>
+</html>
+{/if}

@@ -185,8 +185,9 @@ class db
 			{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
 		}
 
+		$return_value = $res->rowCount();
 		$res->closeCursor();
-		return $res;
+		return $return_value;
 	}
 	
 	//----------------------------------------------------------------
@@ -224,9 +225,10 @@ class db
 			if($is_error)
 			{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
 		}
-
+		
+		$return_value = $res->rowCount();
 		$res->closeCursor();
-		return $res;
+		return $return_value;
 	}
 
 	//----------------------------------------------------------------
@@ -254,9 +256,10 @@ class db
 		
 		if($is_error)
 		{ $error->show( $lang->t('Database Error'), $sql.'<br>'.$e->getMessage(), 1 ); }
-
+		
+		$return_value = $res->rowCount();
 		$res->closeCursor();
-		return $res;
+		return $return_value;
 	}
 			
 	//----------------------------------------------------------------
@@ -344,7 +347,15 @@ class db
 		
 		try
 		{
-			if($sql!='')
+			if( is_object ($sql) )
+			{
+				$return_value = $sql->rowCount();	
+			}
+			else if ( is_object ($this->last_sql) )
+			{
+				$return_value = $this->last_sql->rowCount();
+			}
+			else if($sql!='')
 			{
 				$res = $this->prepare( $sql );
 				$res->execute();
@@ -387,6 +398,7 @@ class db
 	//----------------------------------------------------------------
 	public function prepare( $sql='' )
 	{
+		$this->exec_counter++;
 		$this->statements_counter++;
 		
 		$res = $this->db->prepare( $sql );

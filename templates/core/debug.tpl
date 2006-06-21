@@ -6,6 +6,17 @@
 	<table border=1px width="100%" bgcolor="#CCCCCC">
 	<tr bgcolor=#cccccc><th colspan=2>clansuite Debug Console</th></tr>
 
+		
+	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('8')">$error->error_log: Advanced Error Logging</a></b></td></tr>
+	<tr><td width=100% colspan=2><span style="display:none" id="span_8"><table border=0 width=100%>
+		{foreach key=schluessel item=wert from=$error_log}
+			<tr bgcolor=#eeeeee><td width=100 valign=top>
+			<font color=red>{$schluessel}</font></td><td><font color=blue>
+			{$wert|@debug_print_var}</font>
+			</td></tr>
+		{/foreach}
+	</table></span></td></tr>
+	
 	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('1')">Included templates & config files (load time in seconds):</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_1"><table border=0 width=100%>
 	{section name=templates loop=$_debug_tpls}
@@ -96,16 +107,6 @@
 					<font color=blue>{$schluessel|@debug_print_var}</font></td><td><font color=green>
 					{$wert|@debug_print_var}</font>
 				{/if}
-			</td></tr>
-		{/foreach}
-	</table></span></td></tr>
-	
-	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('8')">$error->error_log: Advanced Error Logging</a></b></td></tr>
-	<tr><td width=100% colspan=2><span style="display:none" id="span_8"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$error_log}
-			<tr bgcolor=#eeeeee><td width=100 valign=top>
-			<font color=blue>{$schluessel}</font></td><td><font color=green>
-			{$wert|@debug_print_var}</font>
 			</td></tr>
 		{/foreach}
 	</table></span></td></tr>

@@ -114,8 +114,8 @@ class modules
 			
 			$mod = $cfg->std_module;
 				
-			$content['OUTPUT'] = $lang->t('This modules does not exist! You are being redirected in 5 seconds...');
-			$functions->redirect( WWW_ROOT, 'metatag', '5' );
+			$content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 5 seconds...');
+			$functions->redirect( '/index.php', 'metatag', '5' );
 			return $content;
 		}
 	}
