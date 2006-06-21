@@ -66,12 +66,11 @@ class session
 	//----------------------------------------------------------------
 	// Init class session | set common session vars
 	//----------------------------------------------------------------
-	private $_session 				= array();    // clear array
-	public $session_name 			= 'suiteSID'; // custom session_name
-	public $session_expire_time 	= 30; 		  // expiretime minutes
-	public $session_probability 	= 30;		  // clean up in 30 of 100 cases
-	public $session_cookies 		= 1;       // cookies verwenden
-	public $session_cookies_only 	= 0;       // nur Cookies verwenden
+	public $session_name 			= 'suiteSID';
+	public $session_expire_time 	= 30; // minutes
+	public $session_probability 	= 30; // precenatge		  
+	public $session_cookies 		= 1;       
+	public $session_cookies_only 	= 0;       
 	public $session_security 		= array('check_ip' 		=> true,
 											'check_browser' => true);
 											
@@ -84,12 +83,15 @@ class session
 		global $cfg, $lang, $error, $functions, $input;
 
 		//----------------------------------------------------------------
-		// Set the ini Vars
+		// Set the ini Vars and look for configs
 		//----------------------------------------------------------------
 		ini_set('session.save_handler',    	'user' );
 		ini_set('session.gc_maxlifetime',  	$this->session_expire_time );
 		ini_set('session.gc_probability',  	$this->session_probability );
 		ini_set('session.name',				$this->session_name );
+		$this->session_name 			= $cfg->session_name;
+		$this->session_cookies 			= $cfg->use_cookies;
+		$this->session_cookies_only 	= $cfg->use_cookies_only;
 		
 		//----------------------------------------------------------------
 		// Check if cookies are allowed
