@@ -72,8 +72,8 @@ class session
 	public $session_probability 	= 30;		  // clean up in 30 of 100 cases
 	public $session_cookies 		= 1;       // cookies verwenden
 	public $session_cookies_only 	= 0;       // nur Cookies verwenden
-	public $session_security 		= array('check_ip' 		=> false,
-											'check_browser' => false);
+	public $session_security 		= array('check_ip' 		=> true,
+											'check_browser' => true);
 											
 	//----------------------------------------------------------------
 	// Overwrite php.ini settings
@@ -81,7 +81,7 @@ class session
 	//----------------------------------------------------------------
 	function create_session()
 	{
-		global $lang, $error;
+		global $cfg, $lang, $error, $functions, $input;
 
 		//----------------------------------------------------------------
 		// Set the ini Vars
@@ -90,22 +90,33 @@ class session
 		ini_set('session.gc_maxlifetime',  	$this->session_expire_time );
 		ini_set('session.gc_probability',  	$this->session_probability );
 		ini_set('session.name',				$this->session_name );
-
 		
 		//----------------------------------------------------------------
 		// Check if cookies are allowed
 		//----------------------------------------------------------------
 		setcookie( 'timestamp', time(), time() + 31536000 );
+		
 		if (  !isset($_COOKIE['timestamp']) OR !$this->session_cookies )
 		{
+			if( isset($_GET[$this->session_name]) AND !$input->check( $_GET[$this->session_name], 'is_int|is_abc' ) )
+			{
+				$error->show($lang->t('Session Error'), $lang->t('The session you are using is corrupted! You are being redirected in 5 seconds...'), 1, '/index.php');
+			}
 			$this->cookies_available = 0;
 			ini_set('session.use_cookies', 		0 );
 			ini_set('session.use_only_cookies',	0 );
 			ini_set('session.use_trans_sid',	1 );
+			ini_set('url_rewriter.tags',			"a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
 		}
 		else
 		{
+			if( isset($_COOKIE[$this->session_name]) AND !$input->check( $_COOKIE[$this->session_name], 'is_int|is_abc' ) )
+			{
+				setcookie($this->session_name, false);
+				$error->show($lang->t('Session Error'), $lang->t('The session you are using is corrupted! You are being redirected in 5 seconds...'), 1, '/index.php');
+			}
 			$this->cookies_available = 1;
+			ini_set('session.use_trans_sid',	0 );
 			ini_set('session.use_cookies', 		1 );
 			ini_set('session.use_only_cookies',	1 );
 		}
@@ -135,16 +146,11 @@ class session
 		{ session_regenerate_id(); }
 
 		//----------------------------------------------------------------
-		// Complete... nothing to do here
-		//----------------------------------------------------------------
-		$this->_session =&$_SESSION;
-		
-		//----------------------------------------------------------------
 		// Security Check
 		//----------------------------------------------------------------
 		if ( !$this->_session_check_security() )
-		{ $this->_session = array(); }
-	}
+		{ die ( $functions->redirect('index.php?mod=login') ); }
+}
 	
 	//----------------------------------------------------------------
 	// Open a session
@@ -173,7 +179,7 @@ class session
 									'FROM'		=> 'session',
 									'WHERE'		=> "session_name = '$this->session_name' AND session_id = '$id'" ) );
 		
-		if ( $db->affected_rows($sql) != 0 )
+		if ( $db->affected_rows($sql) > 0 )
 		{ 
 			$result = $db->fetch_array($sql);
 			$data = $result['session_data'];
@@ -239,10 +245,16 @@ class session
 		global $db;
 
 		//----------------------------------------------------------------
+		// Unset Session
+		//----------------------------------------------------------------
+		unset($_SESSION);
+		
+		//----------------------------------------------------------------
 		// Unset Cookie Vars
 		//----------------------------------------------------------------
 		if(isset($_COOKIE[$this->session_name]))
 		{ unset($_COOKIE[$this->session_name]); }
+		setcookie( $this->session_name, false );
 
 		//----------------------------------------------------------------
 		// Optimize tables
@@ -290,17 +302,13 @@ class session
 		//----------------------------------------------------------------
 		if(in_array("check_ip", $this->session_security))
 		{
-			
-			// get the clientip
-			$ip	= $_SESSION[ClientIP];
-			// if it is null, than set it
-			if($ip === null)
+			if($_SESSION['client_ip'] === null)
 		    {
-    			$_SESSION[ClientIP] = $_SERVER['REMOTE_ADDR'];
+    			$_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
 		    }
-				// else check, if it is right or not and return false on a mess
-  			else if($_SERVER['REMOTE_ADDR'] !== $ip)
+  			else if($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
 		    {
+    			session::_session_destroy();
     			return false;
 		    }
 		}
@@ -310,16 +318,13 @@ class session
 		//----------------------------------------------------------------
 		if(in_array("check_browser", $this->session_security))
 		{
-			// get the client browserinfo
-			$browser = $_Session[Client-Browser];
-			// if it is null, than set it
-			if($browser === null)
+			if($_SESSION['client_browser'] === null)
     		{
-    			$_SESSION['Client-Browser'] = $_SERVER["HTTP_USER_AGENT"];
+    			$_SESSION['client_browser'] = $_SERVER["HTTP_USER_AGENT"];
     		}
-    		// else check, if it is right or not and return false on a mess
-	        else if($_SERVER["HTTP_USER_AGENT"] !== $browser)
+	        else if($_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'])
     		{
+    			session::_session_destroy();
     			return false;
     		}
 		}
@@ -337,7 +342,7 @@ class session
 	//----------------------------------------------------------------
 	function session_control()
 	{
-		global $db;
+		global $db, $functions;
 		// 2 Tage alte registrierte, aber nicht aktivierte User löschen!
 		/*
 		$table = "DELETE FROM " . DB_PREFIX . "users ";
@@ -357,8 +362,8 @@ class session
 				$_SESSION['lastmove'] = time();
 			}
 			else
-			{ // todo: a. you forgot to logout b. send user back
-				die(header("location:logout.php"));
+			{
+				die ( $functions->redirect('index.php?mod=login') );
 			}
 		}
 	}

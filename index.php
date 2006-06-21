@@ -46,11 +46,11 @@ ini_set('arg_separator.output',						'&amp;');
 //----------------------------------------------------------------
 // Reverse the effect of register_globals
 //----------------------------------------------------------------
-if (@ini_get('register_globals'))
+if (ini_get('register_globals'))
 {
 	foreach($GLOBALS as $s_variable_name => $m_variable_value)
 	{
-		if (!in_array($s_variable_name, array('GLOBALS', 'argv', 'argc', '_FILES', '_COOKIE', '_POST', '_GET', '_SERVER', '_ENV', '_SESSION', 's_variable_name', 'm_variable_value')))
+		if (!in_array($s_variable_name, array('argv', 'argc', '_FILES', '_COOKIE', '_GET', '_POST', '_SERVER', '_ENV', '_SESSION', 's_variable_name', 'm_variable_value')))
 		{
 			unset($GLOBALS[$s_variable_name]);
 		}
@@ -63,7 +63,7 @@ if (@ini_get('register_globals'))
 // Path Assignments
 //----------------------------------------------------------------
 define('BASEDIR'		, str_replace( '\\', '/', dirname(__FILE__) ) . '/'); 
-define('BASE_URL_SEED'	, 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']);
+define('BASE_URL_SEED'	, 'http://'.$_SERVER['SERVER_NAME']);
 if ( dirname($_SERVER['PHP_SELF']) == "\\" )
 { define( 'BASE_URL_SEED2', BASE_URL_SEED ); }
 else
@@ -150,7 +150,7 @@ $db = new db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
 $tpl->assign('www_root'			, WWW_ROOT );
 $tpl->assign('www_tpl_root'		, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
 $tpl->assign('www_core_tpl_root', WWW_ROOT . '/' . $cfg->tpl_folder . '/core' );
-                              
+
 //----------------------------------------------------------------
 // Clean $_REQUEST input from violent code
 //----------------------------------------------------------------
@@ -177,6 +177,7 @@ phpOpenTracker::log();
 $_REQUEST['mod']!='' ? $lang->load_lang( $_REQUEST['mod'] ) : '';
 $content = $modules->get_content($_REQUEST['mod']);
 $security->check_copyright( TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
+$tpl->assign('exec_counter'		, $db->exec_counter );
 $tpl->assign('redirect'			, $functions->redirect );
 $tpl->assign('css'				, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript' 		, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
@@ -192,5 +193,4 @@ $tpl->display($cfg->tpl_wrapper_file);
 // Show Debug Console
 //----------------------------------------------------------------
 DEBUG ? $debug->show_console() : '';
-
 ?>
