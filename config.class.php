@@ -123,7 +123,7 @@ class config
 		$this->debug		= 1;
 		$this->debug_popup	= 0;
 		$this->version		= (float) 0.1;
-		$this->copyright	= 'clansuite.com | (c) 2006 under GPL v2 License (see LICENSE.txt)';
+		$this->copyright	= 'clansuite.com | (c) 2006 under GPL v2 License (see COPYING.txt)';
 
 		//----------------------------------------------------------------
 		// Create a nice and proper $this->modules white-list
