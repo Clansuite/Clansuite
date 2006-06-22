@@ -85,17 +85,22 @@ class session
 		//----------------------------------------------------------------
 		// Set the ini Vars and look for configs
 		//----------------------------------------------------------------
+		$this->session_name 				= $cfg->session_name;
+		$this->session_cookies 				= $cfg->use_cookies;
+		$this->session_cookies_only 		= $cfg->use_cookies_only;
 		ini_set('session.save_handler',    	'user' );
 		ini_set('session.gc_maxlifetime',  	$this->session_expire_time );
 		ini_set('session.gc_probability',  	$this->session_probability );
 		ini_set('session.name',				$this->session_name );
-		$this->session_name 			= $cfg->session_name;
-		$this->session_cookies 			= $cfg->use_cookies;
-		$this->session_cookies_only 	= $cfg->use_cookies_only;
-		
+		ini_set('session.use_trans_sid',	1 );
+		ini_set('url_rewriter.tags',		"a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
+		ini_set('session.use_cookies', 		$cfg->use_cookies );
+		ini_set('session.use_only_cookies',	$cfg->use_cookies_only );
+
 		//----------------------------------------------------------------
 		// Check if cookies are allowed
 		//----------------------------------------------------------------
+		/*
 		setcookie( 'timestamp', time(), time() + 31536000 );
 		
 		if (  !isset($_COOKIE['timestamp']) OR !$this->session_cookies )
@@ -108,7 +113,7 @@ class session
 			ini_set('session.use_cookies', 		0 );
 			ini_set('session.use_only_cookies',	0 );
 			ini_set('session.use_trans_sid',	1 );
-			ini_set('url_rewriter.tags',			"a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
+			ini_set('url_rewriter.tags',		"a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
 		}
 		else
 		{
@@ -122,9 +127,10 @@ class session
 			ini_set('session.use_cookies', 		1 );
 			ini_set('session.use_only_cookies',	1 );
 		}
+		*/
 
 		//----------------------------------------------------------------
-		// Set the hnadlers
+		// Set the handlers
 		//----------------------------------------------------------------
 		session_set_save_handler(
 									array(&$this, "_session_open"   ),

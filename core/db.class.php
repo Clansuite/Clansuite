@@ -171,6 +171,7 @@ class db
 				$sql = 'INSERT INTO ' . DB_PREFIX . $table . ' '. $ins_sql . ' ' . $more;
 				$res = $this->prepare( $sql );
 				$res->execute();
+				$return_value = $this->db->lastInsertId();
 			}
 
 			catch (PDOException $e)
@@ -184,8 +185,7 @@ class db
 			if($is_error)
 			{ $error->show( $lang->t('Database Error'), $e->getMessage(), 1 ); }
 		}
-
-		$return_value = $res->rowCount();
+			
 		$res->closeCursor();
 		return $return_value;
 	}
