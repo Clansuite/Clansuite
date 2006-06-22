@@ -53,13 +53,12 @@ class input
 		if ( ( isset($_REQUEST['id']) AND $this->check( $_REQUEST['id'] , 'is_violent' ) )
 			OR ( isset($_REQUEST['action']) AND $this->check( $_REQUEST['action'] , 'is_violent' ) )
 			OR ( isset($_REQUEST['mod']) AND $this->check( $_REQUEST['mod'] , 'is_violent' ) )
-			OR ( isset($_REQUEST['sid']) AND $this->check( $_REQUEST['sid'] , 'is_violent' ) ) )
+			OR ( isset($_REQUEST[$cfg->session_name]) AND $this->check( $_REQUEST[$cfg->session_name] , 'is_violent' ) ) )
 		{
 			$security->intruder_alert();	
 		}
 		
-		$_REQUEST['id'] 	= isset ($_REQUEST['id']) 		? (int) $_REQUEST['id'] : '';
-		$_REQUEST['sid'] 	= isset ($_REQUEST['sid']) 		? $this->check($_REQUEST['sid'], 'is_int|is_abc') ? $_REQUEST['sid'] : '' : '';
+		$_REQUEST['id'] 	= isset ($_REQUEST['id']) 		? (int) $_REQUEST['id'] : null;
 		$_REQUEST['mod'] 	= isset ($_REQUEST['mod']) 		? $this->check($_REQUEST['mod'], 'is_int|is_abc') ? $_REQUEST['mod'] : $cfg->std_module : $cfg->std_module;
 		$_REQUEST['action']	= isset ($_REQUEST['action']) 	? $this->check($_REQUEST['action'], 'is_int|is_abc|is_custom', '_') ? $_REQUEST['action'] : $cfg->std_module_action : $cfg->std_module_action;
 	}
@@ -272,7 +271,7 @@ class input
 			$r_bool = preg_match($reg_exp, $string) ? true : false;
 		}
 		
-		if ($r_bool == false)
+		if ($r_bool == false AND $a_types[0] != 'is_violent')
         {
             $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
