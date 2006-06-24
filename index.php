@@ -152,8 +152,10 @@ $tpl->assign('www_tpl_root'		, WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAM
 $tpl->assign('www_core_tpl_root', WWW_ROOT . '/' . $cfg->tpl_folder . '/core' );
 
 //----------------------------------------------------------------
+// Revert magic_quotes() if still enabled
 // Clean $_REQUEST input from violent code
 //----------------------------------------------------------------
+$input->fix_magic_quotes();
 $input->essential_cleanup();
 
 //----------------------------------------------------------------
