@@ -49,7 +49,8 @@ class error
 	{
 		global $lang;
 		$lang->load_lang('error');
-		set_error_handler(array( $this, 'advanced_error_handler') );
+		set_error_handler ( array( $this, 'advanced_error_handler') );
+		set_exception_handler ( array( $this, 'exception_handler' ) );
 	}
 
 	//----------------------------------------------------------------
@@ -131,6 +132,15 @@ class error
 				echo ( $tpl->fetch( 'error.tpl' ) );				
 				break;
 		}	
+	}
+	
+	//----------------------------------------------------------------
+	// Exception Handler
+	//----------------------------------------------------------------
+	function exception_handler( $e )
+	{
+		global $lang;
+		$this->show( $e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage(), 1 );	
 	}
 }
 

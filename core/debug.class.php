@@ -53,7 +53,8 @@ class debug
 		$tpl->assign('session'		, $_SESSION );
 		$tpl->assign('cookies'		, $_COOKIE );
 		$tpl->assign('queries'		, $db->queries );
-		$tpl->assign('prepares'		, $db->prepare_statements );
+		$tpl->assign('prepares'		, $db->prepares );
+		$tpl->assign('execs'		, $db->execs );
 		$tpl->assign('config'		, $cfg );
 		$tpl->assign('error_log'	, $error->error_log );
 		$tpl->assign('lang_loaded'	, $lang->loaded );
