@@ -44,7 +44,7 @@
 	{/section}
 	</table></span></td></tr>
 
-	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('11')">$db: All Queries</a></b></td></tr>
+	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('11')">$db: All Queries, Prepares, Execs</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_11"><table border=0 width=100%>
 			<tr bgcolor=#eeeeee><td width=100 valign=top>
 			<font color=blue>Queries:</font></td><td><font color=green>
@@ -63,7 +63,16 @@
 			{/foreach}
 			</font>
 			</td></tr>
-		
+			
+			<tr bgcolor=#eeeeee><td width=100 valign=top>
+			<font color=blue>Execs:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$execs}
+			{$wert|@debug_print_var}
+			<br>
+			{/foreach}
+			</font>
+			</td></tr>
+					
 	 </table></span></td></tr>
 
 	<tr bgcolor=#cccccc><td colspan=2><b><a href="javascript:clip('4')">$_REQUEST: Incoming Variables</a></b></td></tr>
