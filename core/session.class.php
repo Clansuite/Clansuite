@@ -183,13 +183,11 @@ class session
 	function _session_read ( $id )
 	{ 
 		global $db;
-		$sql = $db->select( array( 	'SELECT' 	=> 'session_data',
-									'FROM'		=> 'session',
-									'WHERE'		=> "session_name = '$this->session_name' AND session_id = '$id'" ) );
-		
-		if ( $db->affected_rows($sql) > 0 )
+		$stmt = $db->prepare( 'SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
+		$stmt->execute( array( $this->session_name, $id ) );
+
+		if ( $result = $stmt->fetch() )
 		{ 
-			$result = $db->fetch_array($sql);
 			$data = $result['session_data'];
 			return $data;
 		}
@@ -215,18 +213,16 @@ class session
 		//----------------------------------------------------------------
 		// Check if session is in DB
 		//----------------------------------------------------------------
-		$sql = $db->select(array( 	'SELECT' 	=> '*',
-									'FROM'		=> 'session',
-									'WHERE'		=> "session_id='$id'" ) );
-		$in_db = $db->fetch_array($sql);
+		$stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+		$stmt->execute( array( $id ) );
 
-		if ( $in_db )
+		if ( $stmt->fetch() )
 		{
 			//----------------------------------------------------------------
 			// Update Session in DB
 			//----------------------------------------------------------------
-			$db->update('session', "session_id = '$id'", array( 	'session_expire' 	=> $expires,
-																	'session_data'		=> $data ) );
+			$stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ? WHERE session_id = ?' );
+			$stmt->execute( array( $expires, $data, $id ) );
 			$this->session_control();
 
 		}
@@ -235,12 +231,8 @@ class session
 			//----------------------------------------------------------------
 			// Create Session @ DB & Cookies OR $_GET
 			//----------------------------------------------------------------
-			$db->insert('session', array( 	'session_id' 		=> $id,
-											'session_name'		=> $this->session_name,
-											'session_expire'	=> $expires,
-											'session_data'		=> $data,
-											'session_visibility'=> 1,
-											'user_id'			=> 0 ) );
+			$stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id) VALUES(?,?,?,?,?,?)' );
+			$stmt->execute( array( $id, $this->session_name, $expires, $data, 1, 0 ) );
     	}
 		return true;
 	}
@@ -267,9 +259,10 @@ class session
 		//----------------------------------------------------------------
 		// Optimize tables
 		//----------------------------------------------------------------
-		$row_count = $db->delete( 'session', "session_name='$this->session_name' AND session_id = '$id'");
+		$stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
+		$stmt->execute( array( $this->session_name, $id ) );
 
-		if ( $row_count > 0)
+		if ( $stmt->rowCount() > 0)
 		{ $this->_session_optimize(); }
 
 	}
@@ -284,9 +277,10 @@ class session
 		//----------------------------------------------------------------
 		// Prune
 		//----------------------------------------------------------------
-		$row_count = $db->delete( 'session', "session_name = '$this->session_name' AND session_expire < " . time() );
+		$stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
+		$stmt->execute( array( $this->session_name, time() ) );
 
-		if ( $row_count > 0)
+		if ( $stmt->rowCount() > 0)
 		{ $this->_session_optimize(); }
 	}
 
