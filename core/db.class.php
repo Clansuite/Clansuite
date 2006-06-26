@@ -57,15 +57,9 @@ if (!defined('IN_CS'))
 	die( 'You are not allowed to view this page statically.' );	
 }
 
-/**
-* Class db 
-* 
-* PDO Init Wrapper! $db = new PDO;
-* 
-* added Functions
-* - Execute Counter 
-* - Statement Counter
-*/
+//----------------------------------------------------------------
+// PDO Wrapper Class
+//----------------------------------------------------------------
 class db
 {
 	//----------------------------------------------------------------
@@ -153,8 +147,10 @@ class db
 			
 		$res = $this->prepare( $sql );
 		$this->prepared_counter++;
+		
 		$res->execute();
 		$this->exec_counter++;
+		
 		$res->closeCursor();
 		
 		$this->prepares[] = $sql;
