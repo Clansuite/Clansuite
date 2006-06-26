@@ -63,9 +63,9 @@ class module_index
 				break;	
 		}
 		
-		return array( 	'OUTPUT' 			=> $this->output,
-						'MOD_PAGE_TITLE'	=> $this->mod_page_title,
-						'ADDITIONAL_HEAD'	=> $this->additional_head );
+		return array( 	'OUTPUT' => $this->output,
+				'MOD_PAGE_TITLE' => $this->mod_page_title,
+				'ADDITIONAL_HEAD' => $this->additional_head );
 	}
 	
 	/**

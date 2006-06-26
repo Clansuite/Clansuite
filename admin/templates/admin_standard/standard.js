@@ -1,6 +1,5 @@
-<?php
 /**
-* INDEX
+* @desc Initialize objects, create DB link, load templates, clean input
 *
 * PHP versions 5.1.4
 *
@@ -23,25 +22,19 @@
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @license    see COPYING.txt
-* @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+* @version    SVN: $Id$
 * @link       http://gna.org/projects/clansuite
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Load public config
-//----------------------------------------------------------------
-include ('public.config.php');
-
-//--------------------------------------------------------
-// SETUP EVERYTHING
-//--------------------------------------------------------
-include 'core/prepend.php';
-
-$tpl->display(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file);
-
-//----------------------------------------------------------------
-// Show Debug Console
-//----------------------------------------------------------------
-DEBUG ? $debug->show_console() : '';
-?>
+function clip (id)
+{
+	if (document.getElementById("span_" + id).style.display == 'none')
+	{
+		document.getElementById("span_" + id).style.display = "block";
+	}
+	else
+	{ 
+		document.getElementById("span_" + id).style.display = "none";
+	}
+}

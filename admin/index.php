@@ -1,6 +1,6 @@
 <?php
 /**
-* INDEX
+* ACP - INDEX
 *
 * PHP versions 5.1.4
 *
@@ -23,25 +23,42 @@
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @license    see COPYING.txt
-* @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+* @version    SVN: $Id: $
 * @link       http://gna.org/projects/clansuite
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
+//--------------------------------------------------------
 // Load public config
-//----------------------------------------------------------------
-include ('public.config.php');
+// Create Object $cfg 
+//--------------------------------------------------------
+require ('admin.config.php');
 
 //--------------------------------------------------------
 // SETUP EVERYTHING
 //--------------------------------------------------------
-include 'core/prepend.php';
+include '../core/prepend.php';
 
-$tpl->display(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file);
+$tpl->template_dir = array( ROOT . '/admin/templates/admin_standard/', 
+			    ROOT . '/templates/core/' ) ;
+$tpl->debug_tpl		  = ROOT . '/templates/core/debug.tpl';
+
+
+// logic
+// if user-right^group whatever !== admin
+// { beam user ! redirect }
+// else { 
+
+// include menu with tpl assign menu
+include 'menu/menu.php';
+
+// output all
+$tpl->display($cfg->tpl_wrapper_file);
 
 //----------------------------------------------------------------
 // Show Debug Console
 //----------------------------------------------------------------
 DEBUG ? $debug->show_console() : '';
+
+//}
 ?>

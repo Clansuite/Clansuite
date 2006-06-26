@@ -1,0 +1,64 @@
+/* Note: this styles are also used in wysiwyg editor */
+
+/* Start of mainframe & left, center, right, header, footer specification */
+#frame { width: 925px;  margin: 0px auto;  /* margin centers ! */}
+#contentheader { height: 90px; text-align: center; background: #F0F0F0; 
+			   	 padding: 0.1em 1em; margin-top: 1em 0; border: #c0c0c0 1px solid; 
+				}
+#contentleft 	{ width: 12%; margin: 1em 0; float:left; text-align:left; }
+#contentcenter 	{ font-size: 1em; line-height: 1,4em; width: 72%; padding: 0.1em 1em; margin: 1em 0; float: left; height: 100%;}
+#contentright 	{ width: 12%; margin: 1em 0; float:left; text-align:left;	}
+
+#contentfooter 	{ clear:both; height: 70px; font-size: 11px; border-top: 1px solid #222; }
+
+/* common */
+html { height: 100%; }
+body { font: 12px tahoma, verdana; color: #000; }
+
+#left 	{ float:left; border: #ffc0c0 1px solid;}
+#right 	{ float:right; border: #aac0c0 1px solid;}
+
+a:link { text-decoration: none; color: #3399cc; font-weight: bold; }
+a:visited { text-decoration: none; color: #336699; font-weight: bold; }
+a:hover { text-decoration: underline; color: #3399cc; font-weight: bold; }
+p { margin: 1em 0; }
+h1 { font-size: 20px; font-weight: bold; color: #777; margin: 0.5em 0; padding: 0; }
+h2 { font-size: 17px; font-weight: bold; color: #777; margin: 0.5em 0; padding: 0; }
+h3 { font-size: 14px; font-weight: bold; color: #777; margin: 0.5em 0; padding: 0; }
+form { margin: 0; }
+form .description { margin: 0; font-size: 10px; }
+label { display: block; font-weight: bold; margin-bottom: 2px; margin-top: 0.5em; color: #333333; }
+.label { font-weight: bold; margin-bottom: 2px; margin-top: 0.5em; color: #333333; }
+.submit { margin-top: 0.5em; }
+hr { color: #dddddd; }
+.note { font-size: 14px; font-weight: bold; color: #FF6600; margin: 0.5em 0; padding: 0; }
+.error { color: red; }
+img { border: 0px; }
+.oops  { display: none;   /*--Support for upgrading to a modern browser--*/ }
+
+
+/* definition list as table 
+dl { border-bottom: 1px solid #999; border-right: 1px solid #999,}
+dt { width: 15em; padding: .5em; float: left; margin: 0; border-top: 1px solid #f2f2f2; font-weight: bold; }
+dd { margin-left: 16em; padding: .5em; }
+dd.first { border-top: 1px solid #f2f2f2; width: 25%;}
+*/
+
+/* left & right boxes */
+.boxed { background: #f2f2f2; padding: 0.1em 1em;  margin: 1em 0; margin-left: 10px; border: #eeeeee 1px solid; 
+	   	 			 border-color: #eeeeee #c0c0c0 #c0c0c0 #eeeeee;}
+.boxed .title { margin: 0.3em 0; text-decoration: underline; font-size: 11px;  }
+
+/* custom */
+.block { background: #f2f2f2; padding: 0.1em 1em; margin: 1em 0; border: #eeeeee 1px solid; }
+.light { color: #999999; }
+.small { font-size: 11px; }
+.big { font-size: 13px; }
+
+/* header */
+#header { padding: 0.8em; background: #6699cc; color: #99CCFF; }
+#header a:link, #header a:visited { text-decoration: none; color: #ffffff; font-weight: bold; }
+#header a:hover { text-decoration: underline; }
+#header a.account:link, #header a.account:visited { text-decoration: none; color: #ffffc9; font-weight: bold; }
+#header a.account:hover { text-decoration: underline; }
+#main { margin: 1em; padding-bottom: 2em; }
