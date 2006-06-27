@@ -1,0 +1,3 @@
+<Files *.tpl>
+  Deny from all
+</Files>
