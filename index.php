@@ -130,10 +130,12 @@ $users			= new users;
 $tpl->template_dir 	= array( TPL_ROOT . '/' . TPL_NAME . '/', TPL_ROOT . '/core/' ) ;
 $tpl->compile_dir	= CORE_ROOT .'/smarty/templates_c/';
 $tpl->config_dir	= CORE_ROOT .'/smarty/configs/';
+$tpl->caching		= true;
 $tpl->cache_dir		= CORE_ROOT .'/smarty/cache/';
 $tpl->debugging		= DEBUG ? true : false;
 $tpl->debug_tpl		= TPL_ROOT . '/core/debug.tpl';
-$tpl->autoload_filters = array ( 'pre' 	=> array('inserttplnames') ); 
+$tpl->autoload_filters = array( 'pre' 		=> array('inserttplnames'),
+								'output' 	=> array('gzip') );
 
 //----------------------------------------------------------------
 // Load up DSN & Connect DB
