@@ -97,6 +97,13 @@ class config
 		$this->session_name		= 'suiteSID';
 		
 		//----------------------------------------------------------------
+		// Error Handling
+		//----------------------------------------------------------------
+		$this->suppress_errors 	= 0;
+		$this->debug			= 0;
+		$this->debug_popup		= 0;
+				
+		//----------------------------------------------------------------
 		// Init modules (white-list)
 		// $this->prepare_modules = array( 'module_name' => array( 'sub_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) ) );
 		// Later: $this->modules (See end of file)
@@ -122,8 +129,6 @@ class config
 		//----------------------------------------------------------------
 		// Developers configurations
 		//----------------------------------------------------------------
-		$this->debug		= 1;
-		$this->debug_popup	= 0;
 		$this->version		= (float) 0.1;
 		$this->copyright	= 'clansuite.com | (c) 2006 under GPL v2 License (see COPYING.txt)';
 

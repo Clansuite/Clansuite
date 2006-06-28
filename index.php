@@ -133,8 +133,7 @@ $tpl->config_dir	= CORE_ROOT .'/smarty/configs/';
 $tpl->cache_dir		= CORE_ROOT .'/smarty/cache/';
 $tpl->debugging		= DEBUG ? true : false;
 $tpl->debug_tpl		= TPL_ROOT . '/core/debug.tpl';
-$tpl->autoload_filters = array('pre' 	=> array('inserttplnames'),
-                               'output' => array('gzip') ); 
+$tpl->autoload_filters = array ( 'pre' 	=> array('inserttplnames') ); 
 
 //----------------------------------------------------------------
 // Load up DSN & Connect DB
@@ -161,7 +160,7 @@ $input->essential_cleanup();
 //----------------------------------------------------------------
 // Set the callback function for errors
 //----------------------------------------------------------------
-$error->set_callback();
+$error->set_callbacks();
 
 //----------------------------------------------------------------
 // Create a user session
