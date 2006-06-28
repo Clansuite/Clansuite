@@ -1,0 +1,30 @@
+a:link {
+  color: #2564c4;
+}
+
+a:visited {
+  color: #2564c4;
+}
+
+a:hover {
+  color: #1d4c93;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #2564c4;
+}
+
+body {
+  background-color: #ffffff;
+  color: #000000;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+body, td {
+  font-family: "Bitstream Vera Sans Serif", Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif;
+  font-size: 90%;
+}
