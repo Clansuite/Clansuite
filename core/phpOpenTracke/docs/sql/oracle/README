@@ -1,7 +1,0 @@
-Use the oracle.sql file to create the Oracle objects in an existing schema.
-
-It is recommended for high-traffic systems to use different tablespaces and 
-devices to store the Oracle objects.
-
-Set the parameteres in pot_oracle.sh to match your environment and execute the 
-script as $ORACLE_OWNER. You may also perform all the actions manually.
