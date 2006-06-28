@@ -183,6 +183,7 @@ class session
 	function _session_read ( $id )
 	{ 
 		global $db;
+
 		$stmt = $db->prepare( 'SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
 		$stmt->execute( array( $this->session_name, $id ) );
 

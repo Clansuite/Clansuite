@@ -45,9 +45,10 @@ class error
 	//----------------------------------------------------------------
 	// Set normal error handlers and load error.xml
 	//----------------------------------------------------------------
-	function set_callback()
+	function set_callbacks()
 	{
-		global $lang;
+		global $lang, $cfg;
+		
 		$lang->load_lang('error');
 		set_error_handler ( array( $this, 'advanced_error_handler') );
 		set_exception_handler ( array( $this, 'exception_handler' ) );
@@ -72,7 +73,7 @@ class error
 				$tpl->assign( 'debug_info'	, $errstr );
 				$tpl->assign( 'file'		, $errfile );
 				$tpl->assign( 'line'		, $errline );
-				die ( $tpl->display( 'error.tpl' ) );
+				die ( $cfg->suppress_errors == 0 ? $tpl->display( 'error.tpl' ) : '' );
 			case E_PARSE:
 			case E_COMPILE_WARNING:
 			case E_CORE_WARNING:
@@ -80,6 +81,8 @@ class error
 			case E_WARNING:
 				if (DEBUG)
 				{
+					if ( $cfg->suppress_errors == 0 )
+					{ echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline"; }
 					$this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
@@ -87,6 +90,8 @@ class error
 			case E_NOTICE:
 				if (DEBUG)
 				{
+					if ( $cfg->suppress_errors == 0 )
+					{ echo "<b>Notice:</b> $errno: $errstr | File: $errfile | Line: $errline"; }
 					$this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
@@ -139,8 +144,10 @@ class error
 	//----------------------------------------------------------------
 	function exception_handler( $e )
 	{
-		global $lang;
-		$this->show( $e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage(), 1 );	
+		global $cfg, $lang;
+		
+		if ( $cfg->suppress_errors == 0 )
+		{ $this->show( $e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage(), 1 );	}
 	}
 }
 
