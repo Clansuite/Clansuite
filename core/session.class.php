@@ -98,38 +98,6 @@ class session
 		ini_set('session.use_only_cookies',	$cfg->use_cookies_only );
 
 		//----------------------------------------------------------------
-		// Check if cookies are allowed
-		//----------------------------------------------------------------
-		/*
-		setcookie( 'timestamp', time(), time() + 31536000 );
-		
-		if (  !isset($_COOKIE['timestamp']) OR !$this->session_cookies )
-		{
-			if( isset($_GET[$this->session_name]) AND !$input->check( $_GET[$this->session_name], 'is_int|is_abc' ) )
-			{
-				$error->show($lang->t('Session Error'), $lang->t('The session you are using is corrupted! You are being redirected in 5 seconds...'), 1, '/index.php');
-			}
-			$this->cookies_available = 0;
-			ini_set('session.use_cookies', 		0 );
-			ini_set('session.use_only_cookies',	0 );
-			ini_set('session.use_trans_sid',	1 );
-			ini_set('url_rewriter.tags',		"a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
-		}
-		else
-		{
-			if( isset($_COOKIE[$this->session_name]) AND !$input->check( $_COOKIE[$this->session_name], 'is_int|is_abc' ) )
-			{
-				setcookie($this->session_name, false);
-				$error->show($lang->t('Session Error'), $lang->t('The session you are using is corrupted! You are being redirected in 5 seconds...'), 1, '/index.php');
-			}
-			$this->cookies_available = 1;
-			ini_set('session.use_trans_sid',	0 );
-			ini_set('session.use_cookies', 		1 );
-			ini_set('session.use_only_cookies',	1 );
-		}
-		*/
-
-		//----------------------------------------------------------------
 		// Set the handlers
 		//----------------------------------------------------------------
 		session_set_save_handler(
