@@ -157,7 +157,7 @@ class input
 	// $input->check( '235432asdlfkj_;', 'is_int|is_abc|is_custom', '_;' ); Will return bool(true)
 	//
 	//----------------------------------------------------------------
-	function check( $string = '', $types = '', $pattern = '' )
+	function check( $string = '', $types = '', $pattern = '', $length = 0 )
 	{
 		global $error, $lang, $cfg;
 		
@@ -178,7 +178,11 @@ class input
 					// give-trough
 					// @input : $pattern
 					case 'is_custom':
-						$reg_exp .= $pattern; 	
+						$incoming = str_split( $pattern );
+						foreach ( $incoming as $key => $value )
+						{
+							$reg_exp .= '\\'.$value;
+						}
 						break;
 				
 				    // Normal RegExp Cases
@@ -196,7 +200,14 @@ class input
 
 			}
 			
-			$reg_exp .= ']+$/';
+			if ( $length == 0 )
+			{
+				$reg_exp .= ']+$/';
+			}
+			else
+			{
+				$reg_exp .= ']{1,'. $length .'}$/';
+			}
 			$r_bool = preg_match($reg_exp, $string) ? true : false;
 		}
 		else
@@ -271,6 +282,8 @@ class input
 		    }
 
 			$r_bool = preg_match($reg_exp, $string) ? true : false;
+			if( $length != 0 AND strlen( $string ) > $length  )
+			{ $r_bool = false; }
 		}
 		
 		if ($r_bool == false AND $a_types[0] != 'is_violent')
