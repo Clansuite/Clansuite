@@ -33,7 +33,7 @@ $PHPOPENTRACKER_CONFIGURATION = &phpOpenTracker_Config::getConfig();
 
 // Database Type
 // Available values: 'mssql', 'mysql', 'mysql_merge', 'oci8', 'pgsql'
-$PHPOPENTRACKER_CONFIGURATION['db_type'] = 'mysql';
+$PHPOPENTRACKER_CONFIGURATION['db_type'] = 'pdo';
 
 // The host of your database server
 $PHPOPENTRACKER_CONFIGURATION['db_host'] = 'localhost';
