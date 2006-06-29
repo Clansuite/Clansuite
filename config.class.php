@@ -57,7 +57,7 @@ class config
 		// Standard Path configurations
 		//----------------------------------------------------------------
 		$this->www_root		= BASE_URL_SEED2;
-		$this->root		= BASEDIR;
+		$this->root			= BASEDIR;
 		$this->core_folder	= 'core';
 		$this->lang_folder	= 'languages';
 		$this->tpl_folder	= 'templates';
@@ -66,40 +66,40 @@ class config
 		//----------------------------------------------------------------
 		// Mail configuration
 		//----------------------------------------------------------------
-		$this->mailmethod 	= "mail";
-		$this->host 		= "clansuite.localhost.de";
+		$this->mailmethod 		= "mail";
+		$this->host 			= "clansuite.localhost.de";
 		$this->smtp_username 	= "clansuite";
 		$this->smtp_password 	= "toop";
 		$this->path_to_sendmail = "/usr/sbin/sendmail";
-		$this->from		= "system@clansuite.com";
-		$this->from_name	= "Clansuite Mailer";
+		$this->from				= "system@clansuite.com";
+		$this->from_name		= "Clansuite Mailer";
 				
 		//----------------------------------------------------------------
 		// Standard configurations
 		//----------------------------------------------------------------
-		$this->tpl_name 		= 'andreas01';
+		$this->tpl_name 			= 'andreas01';
 		$this->tpl_wrapper_file 	= 'index.tpl';
-		$this->language 		= 'de';
-		$this->std_module		= 'index';
+		$this->language 			= 'de';
+		$this->std_module			= 'index';
 		$this->std_module_action	= 'show';
 		$this->min_pass_length		= '6';
-		$this->encryption		= 'sha1';
-		$this->salt			= '1-3-5-8-4-1';
+		$this->encryption			= 'sha1';
+		$this->salt					= '1-3-5-8-4-1';
 		$this->std_page_title		= 'clansuite.com';
-		$this->std_css			= 'standard.css';
+		$this->std_css				= 'standard.css';
 		$this->std_javascript		= 'standard.js';
 		
 		//----------------------------------------------------------------
 		// Session configurations
 		//----------------------------------------------------------------
 		$this->use_cookies 		= 1;
-		$this->use_cookies_only 	= 0;
+		$this->use_cookies_only = 0;
 		$this->session_name		= 'suiteSID';
 		
 		//----------------------------------------------------------------
 		// Error Handling
 		//----------------------------------------------------------------
-		$this->suppress_errors 		= 0;
+		$this->suppress_errors 	= 0;
 		$this->debug			= 1;
 		$this->debug_popup		= 0;
 				
@@ -108,11 +108,9 @@ class config
 		// $this->prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
 		// Later: $this->modules (See end of file)
 		//----------------------------------------------------------------
-		$prepare_modules = array( 	
-		'index' 	=> array( 'index.class.php', 	'index', 	'module_index'),
-		'account' 	=> array( 'account.class.php', 	'account', 	'module_account'),
-		'admin' 	=> array( 'admin.class.php', 	'admin', 	'module_admin')
-		);
+		$prepare_modules = array( 	'index' 	=> array( 'index.class.php'		, 'index'		, 'module_index' 	),
+									'account' 	=> array( 'account.class.php'	, 'account'		, 'module_account' ),
+									'admin' 	=> array( 'admin.class.php'		, 'admin'		, 'module_admin' 	), );
 
 		
 
