@@ -214,17 +214,24 @@ class module_account
     	//todo: 
     	//entfällt der check, wenn db-felder UNIQUE KEYs sind ?
 	//select count(*) ??? anstelle getrow?
-    	$user1 = $db->getRow("SELECT * FROM users WHERE email = ?", $email);
-    	$user2 = $db->getRow("SELECT * FROM users WHERE nick = ?", $nick);
-    
+	
+	$stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'users WHERE email = ?' );
+	$stmt->execute( array( $email ) );
+	$user1 = $stmt->fetch();
+
+	$stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'users WHERE nick = ?' );
+	$stmt->execute( array( $nick ) );
+	$user2 = $stmt->fetch();
+	
 	if ($user1) { $err['email_exists'] = 1; }
 	if ($user2) { $err['nick_exists'] = 1; }
     
     	if (count($err) == 0) {
         
         $password = genString(6);
-        $db->execute("INSERT INTO users (email, nick, password, joined) VALUES (?, ?, ?, NOW())", $email, $nick, md5($password));
-        $user_id = $db->insertId();
+        #$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX .'users (email, nick, password, joined) VALUES (?, ?, ?, NOW())", $email, $nick, md5($password));
+        #$stmt->execute( array( $nick ) );
+        #$user_id = $db->lastInsertId();
         
         include ROOT.'/core/mail.class.php';
         
