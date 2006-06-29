@@ -108,9 +108,11 @@ class config
 		// $this->prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
 		// Later: $this->modules (See end of file)
 		//----------------------------------------------------------------
-		$prepare_modules = array( 	'index' 	=> array( 'index.class.php'		, 'index'		, 'module_index' 	),
-									'account' 	=> array( 'account.class.php'	, 'account'		, 'module_account' ),
-									'admin' 	=> array( 'admin.class.php'		, 'admin'		, 'module_admin' 	), );
+		$prepare_modules = array( 	
+		'index' 	=> array( 'index.class.php', 	'index', 	'module_index'),
+		'account' 	=> array( 'account.class.php', 	'account', 	'module_account'),
+		'admin' 	=> array( 'admin.class.php', 	'admin', 	'module_admin')
+		);
 
 		
 
