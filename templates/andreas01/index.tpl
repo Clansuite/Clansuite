@@ -69,58 +69,13 @@ v1.0 released on OSWD.org.</p>
 <p>andreas01 v1.3</p>
 
 <h3>Stats</h3>
-Online:
+Online: {$stats_online}<br />
 
-Guests
-Members
+Siteimpressions: {$stats_page_impressions}<br />
 
-{php}
-printf(
-
-  "%s page impressions on this document (%s today)",
+All Impressions: {$stats_all_impressions}<br />
 
 
-
-  phpOpenTracker::get(
-
-    array(
-
-      'api_call'    => 'page_impressions',
-
-      'range'       => 'total',
-
-      'constraints' => array(
-
-        'document' => 'this'
-
-      )
-
-    )
-
-  ),
-
-
-
-  phpOpenTracker::get(
-
-    array(
-
-      'api_call'    => 'page_impressions',
-
-      'range'       => 'today',
-
-      'constraints' => array(
-
-        'document' => 'this'
-
-      ),
-
-    )
-
-  )
-
-);
-{/php}
 
 </div>
 
