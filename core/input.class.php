@@ -255,7 +255,7 @@ class input
 				
 				// Check if mail is valid ?	
 				case 'is_email':
-					$reg_exp = "^([-!#\$%&'*+./0-9=?A-Z^_`a-z{|}~])+@([-!#\$%&'*+/0-9=?A-Z^_`a-z{|}~]+\\.)+[a-zA-Z]{2,6}\$";
+					$reg_exp = '/^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?)$/';
 					break;
 				
 		        // Check if valid ip ?	
