@@ -142,13 +142,13 @@ class db
 	//----------------------------------------------------------------
 	// Simple Query with closeCursor() !
 	//----------------------------------------------------------------
-	public function simple_query( $sql='' )
+	public function simple_query( $sql='', $args = array() )
 	{
 			
 		$res = $this->prepare( $sql );
 		$this->prepared_counter++;
 		
-		$res->execute();
+		$res->execute($args);
 		$this->exec_counter++;
 		
 		$res->closeCursor();

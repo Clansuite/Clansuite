@@ -42,8 +42,7 @@ if (!defined('IN_CS'))
 // Start of users class
 //----------------------------------------------------------------
 class users
-{
-	
+{	
 	//----------------------------------------------------------------
 	// Get a user from any kind of given type
 	//----------------------------------------------------------------
@@ -52,13 +51,11 @@ class users
 		switch( $type )
 		{
 			case 'id':
-				if ( $_SESSION['user']['user_id'] > 0 ) 
-				{ return $_SESSION['user']['user_id']; }
-    			  	else  { return 0; }
+				
 				break;
 				
 			case 'email':
-				return $_SESSION['user']['email'];
+
 				break;
 				
 			case 'name':
@@ -66,7 +63,7 @@ class users
 				break;
 				
 			case 'nick':
-				return $_SESSION['user']['nick'];
+
 				break;
 				
 			case 'clan_id':
@@ -97,24 +94,30 @@ class users
 	 * @param: $user_id, $email, $nick
 	 * @return: $user obj, $_SESSION userdata
 	 */	
-	function create_user($user_id = null, $email = null, $nick = null) {
+	function create_user($user_id = null, $email = null, $nick = null)
+	{
         global $db;
         
         # $user initialisieren
-	if ($user_id) { 
-            $stmt = $db->query("SELECT * FROM " . DB_PREFIX . "users WHERE user_id = ?", $user_id);
+		if ($user_id)
+		{ 
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?', array ( $user_id ) );
             $user = $stmt->fetch();
         
-        } else if ($email) {
-            $stmt = $db->query("SELECT * FROM " . DB_PREFIX . "users WHERE email = ?", $email);
+        }
+        else if ($email)
+        {
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?', array ( $email ) );
             $user = $stmt->fetch();
         
-        } else if ($nick) {
-            $stmt = $db->query("SELECT * FROM " . DB_PREFIX . "users WHERE nick = ?", $nick);
+        }
+        else if ($nick)
+        {
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?', array ( $nick ) );
             $user = $stmt->fetch();
         }
         
-        $_SESSION['suiteSid'] 	= 	session_id();   
+        //$_SESSION['suiteSid'] 	= 	session_id();   
         
         // user :: Das $user-Array ist also nur gesetzt, 
         // wenn die Funktion user['param'] aufgerufen wurde.        
@@ -158,21 +161,23 @@ class users
 	* @return $user_id
 	*/
 	function check_user($email, $password) 
-	{ global $db;
+	{
+		global $db;
 		
-	 // anhand email user_id, und password auslesen
-	 $user = $db->getRow("SELECT user_id, password FROM " . DB_PREFIX . "users WHERE email = ? LIMIT 1", $email);
+	 	// anhand email user_id, und password auslesen
+	 	$user = $db->simple_query('SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1', array ( $email ) );
 		
-	// falls $user mit daten gefüllt wurde, das pw überprüfen
-	if ($user && $user['password'] == md5($password)) 
-	 { 	// user existiert und Passwort ist ok!
-			// user ID zurückliefern
-			return $user['user_id'];
-				}
-			else	{ // email&pw kombi gibts nicht
-				return false;
-		 }
-	 }
+		// falls $user mit daten gefüllt wurde, das pw überprüfen
+		if ($user && $user['password'] == md5($password)) 
+		{ 	// user existiert und Passwort ist ok!
+				// user ID zurückliefern
+				return $user['user_id'];
+		}
+		else
+		{ // email&pw kombi gibts nicht
+			return false;
+		}
+	}
 
 	/**
 	*	users::login
