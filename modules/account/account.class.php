@@ -129,8 +129,8 @@ class module_account
 	$this->mod_page_title = $lang->t( 'User :: ' . $title );
 	
 	return array( 	'OUTPUT' 	  => $this->output,
-					'MOD_PAGE_TITLE'  => $this->mod_page_title,
-					'ADDITIONAL_HEAD' => $this->additional_head );
+			'MOD_PAGE_TITLE'  => $this->mod_page_title,
+			'ADDITIONAL_HEAD' => $this->additional_head );
 	}
 	
 	/**
@@ -197,7 +197,7 @@ class module_account
 	*/
 	function register()
 	{
-	global $db, $input;
+	global $db, $tpl, $input;
 	
 	$email = $_POST['email'];
 	$email2 = $_POST['email2'];
@@ -206,11 +206,13 @@ class module_account
 	$err = array();
 
 	if ($email && $email2 && $nick 
-	&& $input->check( $email, 'is_email' ) 
-	&& $email == $email2 
-	&& $input->check( $nick, 'is_abc' )) {
+		&& $input->check( $email, 'is_email' ) 
+		&& $email == $email2 
+		&& $input->check( $nick, 'is_abc' )) 
+		{
     
-    	//todo: entfällt der check, wenn db-felder UNIQUE KEYs sind ?
+    	//todo: 
+    	//entfällt der check, wenn db-felder UNIQUE KEYs sind ?
 	//select count(*) ??? anstelle getrow?
     	$user1 = $db->getRow("SELECT * FROM users WHERE email = ?", $email);
     	$user2 = $db->getRow("SELECT * FROM users WHERE nick = ?", $nick);
@@ -243,9 +245,9 @@ class module_account
             exit;
         	}
     	}
+	}
 	$this->output .= $tpl->fetch('account/register.tpl');
 	}
-	
 		
 	/**
 	* Send Activation Email	
@@ -414,5 +416,5 @@ class module_account
 	    return $s;
 	}
 	
-}}
+}
 ?>
