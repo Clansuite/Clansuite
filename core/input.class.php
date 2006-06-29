@@ -282,7 +282,11 @@ class input
 		    }
 
 			$r_bool = preg_match($reg_exp, $string) ? true : false;
-			if( $length != 0 AND strlen( $string ) > $length  )
+			
+			if ( $length != 0 AND strlen( $string ) > $length )
+			{ $r_bool = false; }
+			
+			if ( strlen( $string ) == 0 )
 			{ $r_bool = false; }
 		}
 		
