@@ -100,18 +100,18 @@ class config
 		// Error Handling
 		//----------------------------------------------------------------
 		$this->suppress_errors 	= 0;
-		$this->debug			= 0;
+		$this->debug			= 1;
 		$this->debug_popup		= 0;
 				
 		//----------------------------------------------------------------
 		// Init modules (white-list)
-		// $this->prepare_modules = array( 'module_name' => array( 'sub_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) ) );
+		// $this->prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
 		// Later: $this->modules (See end of file)
 		//----------------------------------------------------------------
-		$prepare_modules = array( 	'index' => array( 	'index' => array( 'index.class.php', 'index', 'module_index' ) ),
-									'admin' => array( 	'admin' 		=> array( 'admin.class.php', 'admin', 'module_admin' ),
-														'admin_configs' => array( 'admin_configs.class.php', 'admin', 'module_admin_configs' ),
-														'admin_gb' 		=> array( 'admin_gb.class.php', 'admin', 'module_admin_gb' ) ) );
+		$prepare_modules = array( 	'index' 	=> array( 'index.class.php'		, 'index'		, 'module_index' 	),
+									'account' 	=> array( 'account.class.php'	, 'account'		, 'module_aaccount' ),
+									'admin' 	=> array( 'admin.class.php'		, 'admin'		, 'module_admin' 	), );
+
 		
 
 		
@@ -135,14 +135,11 @@ class config
 		//----------------------------------------------------------------
 		// Create a nice and proper $this->modules white-list
 		//----------------------------------------------------------------
-		foreach ( $prepare_modules as $mod => $args )
+		foreach ( $prepare_modules as $mod => $values )
 		{
-			foreach( $args as $sub => $values )
-			{
-				$this->modules[$mod][$sub]['file_name'] 	= $values[0];
-				$this->modules[$mod][$sub]['folder_name'] 	= $values[1];
-				$this->modules[$mod][$sub]['class_name'] 	= $values[2];
-			}
+			$this->modules[$mod]['file_name'] 	= $values[0];
+			$this->modules[$mod]['folder_name'] = $values[1];
+			$this->modules[$mod]['class_name'] 	= $values[2];
 		}
 	}
 }

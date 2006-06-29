@@ -41,7 +41,7 @@ function smarty_outputfilter_gzip($tpl_source, &$smarty)
 		the browsers do support output compression, including Phoenix and Opera.
 		default: yes
 	*/
-	$force_compession	=	true;
+	$force_compession	=	false;
 	
 	//~ message to append to the template source, if it is compressed
 	$append_message = "\n<!-- zlib compression level ".$compression_level." -->";

@@ -61,7 +61,7 @@ class input
 		
 		$_REQUEST['id'] 	= isset ($_REQUEST['id']) 		? (int) $_REQUEST['id'] : null;
 		$_REQUEST['mod'] 	= isset ($_REQUEST['mod']) 		? $this->check($_REQUEST['mod'], 'is_int|is_abc|is_custom', '_') ? $_REQUEST['mod'] : $cfg->std_module : $cfg->std_module;
-		$_REQUEST['sub'] 	= isset ($_REQUEST['sub']) 		? $this->check($_REQUEST['sub'], 'is_int|is_abc|is_custom', '_') ? $_REQUEST['sub'] : $_REQUEST['mod'] : $_REQUEST['mod'];
+		$_REQUEST['sub'] 	= isset ($_REQUEST['sub']) 		? $this->check($_REQUEST['sub'], 'is_int|is_abc|is_custom', '_') ? $_REQUEST['sub'] : '' : '';
 		$_REQUEST['action']	= isset ($_REQUEST['action']) 	? $this->check($_REQUEST['action'], 'is_int|is_abc|is_custom', '_') ? $_REQUEST['action'] : $cfg->std_module_action : $cfg->std_module_action;
 	}
 	

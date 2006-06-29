@@ -129,7 +129,7 @@ printf(
 
 <p>
 {* This calls the method "index_time" from the registered module "index" with the sub "index" and delivers 2 parameters: "english" and "-" seperated by "|" *}
-{mod name="index" sub="index" func="index_time" params="english|-"}<br>
+{mod name="index" func="time" params="english|-"}<br>
 {$content}
 </p>
 </div>

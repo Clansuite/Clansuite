@@ -36,12 +36,12 @@ define('IN_CS', true);
 //----------------------------------------------------------------
 // Alter php.ini settings
 //----------------------------------------------------------------
-ini_set('display_errors', 								true);
+ini_set('display_errors', 					true);
 ini_set('zend.ze1_compatibility_mode', 		false);
-ini_set('zlib.output_compression',				true);
+ini_set('zlib.output_compression',			true);
 ini_set('zlib.output_compression_level',	'6');
-ini_set('arg_separator.input', 						'&amp;'); 
-ini_set('arg_separator.output',						'&amp;'); 
+ini_set('arg_separator.input', 				'&amp;'); 
+ini_set('arg_separator.output',				'&amp;'); 
 
 //----------------------------------------------------------------
 // Reverse the effect of register_globals
@@ -130,12 +130,10 @@ $users			= new users;
 $tpl->template_dir 	= array( TPL_ROOT . '/' . TPL_NAME . '/', TPL_ROOT . '/core/' ) ;
 $tpl->compile_dir	= CORE_ROOT .'/smarty/templates_c/';
 $tpl->config_dir	= CORE_ROOT .'/smarty/configs/';
-$tpl->caching		= true;
 $tpl->cache_dir		= CORE_ROOT .'/smarty/cache/';
 $tpl->debugging		= DEBUG ? true : false;
 $tpl->debug_tpl		= TPL_ROOT . '/core/debug.tpl';
-$tpl->autoload_filters = array( 'pre' 		=> array('inserttplnames'),
-								'output' 	=> array('gzip') );
+$tpl->autoload_filters = array( 'pre' 		=> array('inserttplnames') );
 
 //----------------------------------------------------------------
 // Load up DSN & Connect DB
@@ -168,6 +166,11 @@ $error->set_callbacks();
 // Create a user session
 //----------------------------------------------------------------
 $session->create_session();
+
+//----------------------------------------------------------------
+// Create a user - Guest/Member
+//----------------------------------------------------------------
+$users->create_user();
 
 //----------------------------------------------------------------
 // Logging

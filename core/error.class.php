@@ -79,19 +79,15 @@ class error
 			case E_CORE_WARNING:
 			case E_USER_WARNING:
 			case E_WARNING:
+				if ( $cfg->suppress_errors == 0 )
+				{ echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br>"; }
 				if (DEBUG)
-				{
-					if ( $cfg->suppress_errors == 0 )
-					{ echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline"; }
-					$this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-				}
+				{ $this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline"; }
 				break;
 			case E_USER_NOTICE:
 			case E_NOTICE:
 				if (DEBUG)
 				{
-					if ( $cfg->suppress_errors == 0 )
-					{ echo "<b>Notice:</b> $errno: $errstr | File: $errfile | Line: $errline"; }
 					$this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
 				}
 				break;
