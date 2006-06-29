@@ -168,7 +168,7 @@ class db
 		
 		$this->queries_counter++;
 		$res = $this->db->query($sql);
-			
+	
 		$this->queries[] = $sql;
 
 		return $res;
