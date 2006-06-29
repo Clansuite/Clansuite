@@ -1,11 +1,14 @@
 <h2>Register</h2>
 
     {php}
-        if (isset($err['email_exists'])) { echo '<p class="error">There is already an account with such email.</p>'; }
-        if (isset($err['nick_exists'])) { echo '<p class="error">There is already an account with such nick.</p>'; }
+    global $err;
+    #var_dump($err);
+    if ( $err['email_wrong'] 	== 1 ) { echo '<p class="error">The email address is wrong!</p>';}
+    if ( $err['nick_wrong'] 	== 1 ) { echo '<p class="error">The nick is wrong!</p>';}
+    if ( $err['email_exists'] 	== 1 ) { echo '<p class="error">There is already an account with such email. <br /> Choose another!</p>';}
+    if ( $err['nick_exists'] 	== 1 ) { echo '<p class="error">There is already an account with such nick. <br /> Choose another!</p>';}
     {/php}
-
-
+    
     <form action="index.php?mod=account&action=register" method="post">
     <table>
         <tr>

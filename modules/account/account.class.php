@@ -72,6 +72,7 @@ class module_account
 			// ----- ( Register ) ----
 			
 			case 'register':
+				$title = ' Registration ';
 				$this->register();
 				break;
 			
@@ -197,53 +198,73 @@ class module_account
 	*/
 	function register()
 	{
-	global $db, $tpl, $input;
+	global $db, $tpl, $input, $err;
 	
 	$email = $_POST['email'];
 	$email2 = $_POST['email2'];
 	$nick = $_POST['nick'];
-
+	
 	$err = array();
-
-	if ($email && $email2 && $nick 
-		&& $input->check( $email, 'is_email' ) 
-		&& $email == $email2 
-		&& $input->check( $nick, 'is_abc' )) 
-		{
-    
-    	//todo: 
-    	//entfällt der check, wenn db-felder UNIQUE KEYs sind ?
-	//select count(*) ??? anstelle getrow?
 	
-	$stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'users WHERE email = ?' );
+	if (!isset($email) && !isset($email2) && !isset($nick))
+	{ // formular ist nicht vollständig ausgefüllt 
+	  $err['formular_empty'] = 1;
+	}
+	else 
+	{ // formular ist vollständig
+	
+	  // emails entsprechen einander
+	  if ( $email !== $email2 ) 
+	  { $err['emails_mismatching'] = 1; }
+	
+	  // email ist ok
+	  if  ( $input->check( $email, 'is_email' ) == false ) 
+	  { $err['email_wrong'] = 1; }
+	  
+	  // nick ist ok		 
+	  if ( $input->check( $nick, 'is_abc|is_int|is_custom', '_()<>[]|.:\'{}$', 25 ) == false )
+          { $err['nick_wrong'] = 1;  } 
+		    
+    	// email existiert noch nicht
+	$stmt = $db->prepare( 'SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
 	$stmt->execute( array( $email ) );
-	$user1 = $stmt->fetch();
-
-	$stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'users WHERE nick = ?' );
-	$stmt->execute( array( $nick ) );
-	$user2 = $stmt->fetch();
+	if ($stmt->fetchColumn() > 0) { $err['email_exists'] = 1; }
 	
-	if ($user1) { $err['email_exists'] = 1; }
-	if ($user2) { $err['nick_exists'] = 1; }
-    
-    	if (count($err) == 0) {
+	// nick existiert noch nicht
+	$stmt = $db->prepare( 'SELECT COUNT(nick) FROM ' . DB_PREFIX .'users WHERE nick = ?' );
+	$stmt->execute( array( $nick ) );
+	if ($stmt->fetchColumn() > 0) { $err['nick_exists'] = 1; }
+	
+	// es liegen keine der obigen fehler vor
+  	if ( count($err) == 0  ) {
         
-        $password = genString(6);
-        #$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX .'users (email, nick, password, joined) VALUES (?, ?, ?, NOW())", $email, $nick, md5($password));
-        #$stmt->execute( array( $nick ) );
-        #$user_id = $db->lastInsertId();
+        // password generieren
+        $password = $this->genString(6);
         
+        // user eintragen
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick,:password, :joined)');
+        $stmt->execute( array( 	':email' 	=> $email,
+        			':nick' 	=> $nick,
+        			':password' 	=> $password,
+        			':joined' 	=> 'time()' )
+       	);
+        $user_id = $stmt->lastInsertId();
+        
+        // mailer laden
         include ROOT.'/core/mail.class.php';
         
         $body  = "To activate an account click on the link below:\r\n";
-        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
+        $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
         $body .= "Password: %s";
         $body  = sprintf($body, $user_id, md5(md5($password)), $password);
         
         $mailer->Subject = 'Account activation';
         $mailer->Body = $body;
         $mailer->AddAddress($email, $nick);
-              
+        
+        echo $body;
+        
+        // mail senden 
         if ($mailer->send()) {
             header('Location: /index.php?mod=account&action=register-done');
             exit;
@@ -253,6 +274,7 @@ class module_account
         	}
     	}
 	}
+	// tpl ausgeben
 	$this->output .= $tpl->fetch('account/register.tpl');
 	}
 		
