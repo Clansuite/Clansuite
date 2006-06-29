@@ -141,9 +141,9 @@ class module_account
 	 
 		global $tpl, $user;
 		
-		$email = post('email');
-		$password = post('password');
-		$remember = post('remember');
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+		$remember = $_POST['remember'];
 
 		echo $email;
 		echo $password;
@@ -163,7 +163,7 @@ class module_account
 		{
 		
 		// User existiert nicht oder Passwort falsch!
-		unset($user['user_id']);
+		unset($user['{/php}']);
 		
 		// Login-Attempts
 		// bei 3-5 versuchen 20min ip ban? 
@@ -187,7 +187,7 @@ class module_account
 	{
 	global $session, $functions;
 	
-	$session::_session_destroy;
+	$session->_session_destroy;
 		
 	$functions->redirect( '/index.php', 'metatag', '2' );
 	}
@@ -199,9 +199,9 @@ class module_account
 	{
 	global $db, $input;
 	
-	$email = post('email');
-	$email2 = post('email2');
-	$nick = post('nick');
+	$email = $_POST['email'];
+	$email2 = $_POST['email2'];
+	$nick = $_POST['nick'];
 
 	$err = array();
 
@@ -222,19 +222,20 @@ class module_account
         
         $password = genString(6);
         $db->execute("INSERT INTO users (email, nick, password, joined) VALUES (?, ?, ?, NOW())", $email, $nick, md5($password));
-        $id_user = $db->insertId();
+        $user_id = $db->insertId();
         
         include ROOT.'/core/mail.class.php';
-        $domain = $_SERVER['SERVER_NAME'];
-
+        
         $body  = "To activate an account click on the link below:\r\n";
-        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&id_user=%s&code=%s\r\n";
+        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
         $body .= "Password: %s";
-        $body  = sprintf($body, $id_user, md5(md5($password)), $password);
+        $body  = sprintf($body, $user_id, md5(md5($password)), $password);
         
-        $Mail = new Mail($domain, 'noreply@'.$domain, $email, "Account activation", $body);
-        
-        if ($Mail->send()) {
+        $mailer->Subject = 'Account activation';
+        $mailer->Body = $body;
+        $mailer->AddAddress($email, $nick);
+              
+        if ($mailer->send()) {
             header('Location: /index.php?mod=account&action=register-done');
             exit;
         } else {
@@ -242,7 +243,7 @@ class module_account
             exit;
         	}
     	}
-	
+	$this->output .= $tpl->fetch('account/register.tpl');
 	}
 	
 		
@@ -253,7 +254,7 @@ class module_account
 	{
 	global $db;
 	
-	$email = post('email');
+	$email = $_POST['email'];
 
 	$noSuchAccount = false;
 	$errorWhileSending = false;
@@ -265,19 +266,20 @@ class module_account
     	if ($u1->exists() && !$u1->isActivated()) {
         
         $password = genString(6);
-        $db->execute("UPDATE users SET password = ? WHERE id_user = ?", md5($password), $u1->getId());
+        $db->execute("UPDATE users SET password = ? WHERE user_id = ?", md5($password), $u1->getId());
         
         include ROOT.'/core/mail.class.php';
-        $domain = $_SERVER['SERVER_NAME'];
-
+        
         $body  = "To activate an account click on the link below:\r\n";
-        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&id_user=%s&code=%s\r\n";
+        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
         $body .= "Password: %s";
         $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
         
-        $Mail = new Mail($domain, 'noreply@'.$domain, $email, "Account activation", $body);
+        $mailer->Subject = 'Account activation';
+        $mailer->Body = $body;
+        $mailer->AddAddress($email, $nick);
         
-        if ($Mail->send()) {
+        if ($mailer->send()) {
             header('Location: index.php?mod=account&action=activation-email-sent');
             exit;
         } else {
@@ -294,20 +296,20 @@ class module_account
 	/**
 	 * Activate Account
 	 */
-	function activate-account(){
-	$id_user = (int) get('id_user');
+	function activate_account(){
+	$user_id = (int) get('user_id');
 	$code = get('code');
 	
 	$alreadyActivated = false;
 	$success = false;
 	
-	if ($id_user && $code) {
-	    $user = $db->getRow("SELECT * FROM users WHERE id_user = ?", $id_user);
+	if ($user_id && $code) {
+	    $user = $db->getRow("SELECT * FROM users WHERE user_id = ?", $user_id);
 	    if ($user) {
 	        if ($user['level'] != 0) {
 	            $alreadyActivated = true;
 	        } else if ($code == md5($user['password'])) {
-	            $db->execute("UPDATE users SET level = 1 WHERE id_user = ?", $id_user);
+	            $db->execute("UPDATE users SET level = 1 WHERE user_id = ?", $user_id);
 	            $success = true;
 	        }
 	    }
@@ -320,17 +322,17 @@ class module_account
 	 */	
 	function activate_password()
 	{
-	$id_user = (int) get('id_user');
+	$user_id = (int) get('user_id');
 	$code = get('code');
 	
 	$noNewPassword = false;
 	$success = false;
 	
-	if ($id_user && $code) {
-	    $user = $db->getRow("SELECT * FROM users WHERE id_user = ?", $id_user);
+	if ($user_id && $code) {
+	    $user = $db->getRow("SELECT * FROM users WHERE user_id = ?", $user_id);
 	    if ($user) {
 	        if ($code == md5($user['new_password'])) {
-	            $db->execute("UPDATE users SET password = new_password, new_password = null WHERE id_user = ?", $id_user);
+	            $db->execute("UPDATE users SET password = new_password, new_password = null WHERE user_id = ?", $user_id);
 	            $success = true;
 	        } else {
 	            if ($user['new_password'] === null) {
@@ -346,8 +348,9 @@ class module_account
 	/**
 	 * Forgot Password
 	 */
-	function forgot_password();
-	$email = post('email');
+	function forgot_password(){
+	
+	$email = $_POST['email'];
 
 	$errorWhileSending = false;
 	$noSuchAccount = false;
@@ -358,19 +361,20 @@ class module_account
 	    if ($u1->exists() && $u1->isActivated()) {
 	
 	        $password = genString(6);
-	        $db->execute("UPDATE users SET new_password = ? WHERE id_user = ?", md5($password), $u1->getId());
+	        $db->execute("UPDATE users SET new_password = ? WHERE user_id = ?", md5($password), $u1->getId());
 	       
-	        include ROOT.'/shared/Mail.php';
-	        $domain = $_SERVER['SERVER_NAME'];
-	
+	        include ROOT.'/core/mail.class.php';
+	        	
 	        $body  = "To activate new password click on the link below:\r\n";
-	        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-password&id_user=%s&code=%s\r\n";
+	        $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-password&user_id=%s&code=%s\r\n";
 	        $body .= "New Password: %s";
 	        $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
 	        
-	        $Mail = new Mail($domain, 'noreply@'.$domain, $email, "New password", $body);
-	        
-	        if ($Mail->send()) {
+	        $mailer->Subject = 'New password';
+        	$mailer->Body = $body;
+        	$mailer->AddAddress($email, $nick);
+	        	        
+	        if ($mailer->send()) {
 	            header('location: index.php?mod=account&action=forgot-password-sent');
 	            exit;
 	        } else {
@@ -410,5 +414,5 @@ class module_account
 	    return $s;
 	}
 	
-}
+}}
 ?>

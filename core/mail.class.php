@@ -52,7 +52,7 @@ class mailer extends phpmailer
 	//----------------------------------------------------------------
 	// Set default Vars
 	//----------------------------------------------------------------
-    public $WordWrap = 70;
+    	public $WordWrap = 70;
 	public $Encoding = "base64";
 	public $Priority = 3;
 	public $CharSet  = "UTF-8";
@@ -98,13 +98,13 @@ class mailer extends phpmailer
     	 $mailer->IsMail();}
     	}	
     	
-		// set From, FromName and AddReply to $cfg-settings	
+	// set From, FromName and AddReply to $cfg-settings	
     	mailer:from($cfg->from, $cfg->from_name);
 	
 	}
 	
 	// Replace the default error_handler
-    function error_handler($msg) 
+    	function error_handler($msg) 
 	{
     	global $error;
     	
@@ -127,5 +127,5 @@ class mailer extends phpmailer
 	}
 	
 }
-
+$mailer = new mailer;
 ?>
