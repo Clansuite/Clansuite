@@ -109,6 +109,7 @@ require (CORE_ROOT . '/language.class.php');
 require (CORE_ROOT . '/security.class.php');
 require (CORE_ROOT . '/users.class.php');
 require (CORE_ROOT . '/db.class.php');
+require (CORE_ROOT . '/stats.class.php');
 
 //----------------------------------------------------------------
 // Create objects out of classes
@@ -123,6 +124,8 @@ $functions 		= new functions;
 $lang 			= new language;
 $security		= new security;
 $users			= new users;
+$tracker 		= new phpOpenTracker;
+$stats			= new stats;
 
 //----------------------------------------------------------------
 // Smarty Settings
@@ -175,7 +178,8 @@ $users->create_user();
 //----------------------------------------------------------------
 // Logging
 //----------------------------------------------------------------
-phpOpenTracker::log();
+$tracker->log();
+$stats->create_stats_vars();
 
 //----------------------------------------------------------------
 // Output all
