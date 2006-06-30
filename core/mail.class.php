@@ -41,14 +41,13 @@ if (!defined('IN_CS'))
 // Get phpmailer class
 //----------------------------------------------------------------
 require (CORE_ROOT . '/phpmailer/class.phpmailer.php');
-	
+global $cfg;
+
 //----------------------------------------------------------------
 // Start of mailer class extended by phpmailer
 //----------------------------------------------------------------
 class mailer extends phpmailer
 {	
-	global $cfg;
-
 	//----------------------------------------------------------------
 	// Set default Vars
 	//----------------------------------------------------------------
@@ -56,8 +55,7 @@ class mailer extends phpmailer
 	public $Encoding = "base64";
 	public $Priority = 3;
 	public $CharSet  = "UTF-8";
-	$mailer->IsHTML(true); // set altBODY for non-html
-	
+		
 	/* 
 	* Function zur Initialisierung der Mail-Methode
 	* in Abhängigkeit von (@link $cfg['mailmethod])
@@ -66,40 +64,43 @@ class mailer extends phpmailer
 	* @input :  $mailmethod
 	* @output : assigns $mailer->method
 	*/
-	function __construct($cfg->mailmethod)
+	function __construct()
 	{
 		global $cfg;
 	
 		$mailer->SMTPAuth = FALSE;
-		$mailer->Host = implode(';',$cfg['smtphost']);
+		$mailer->Host = $cfg->smtphost;
 	
     	/* smtp mit auth */
-    	if($cfg->mailmethod) == "smtp") 	
+    	if($cfg->mailmethod == "smtp") 	
     	{
     	 $mailer->IsSMTP();
     	 $mailer->SMTPAuth = TRUE;
-    	 $mailer->User = $cfg['smtpusername'];
-    	 $mailer->Password = $cfg['smtppassword'];
+    	 $mailer->User = $cfg->smtpusername;
+    	 $mailer->Password = $cfg->smtppassword;
     	}
     	/* sendmail */
-    	elseif($cfg->mailmethod) == "sendmail")
+    	elseif($cfg->mailmethod == "sendmail")
     	{
     	 $mailer->IsSendmail();
-    	 $mailer->Sendmail = $cfg['sendmailpath'];
+    	 $mailer->Sendmail = $cfg->sendmailpath;
     	}
     	/* qmail */
-    	elseif($cfg->mailmethod) == "qmail")
+    	elseif($cfg->mailmethod == "qmail")
     	{
     	 $mailer->IsQmail();
     	}
     	/* mail */
     	else 
     	{
-    	 $mailer->IsMail();}
+    	 #$mailer->IsMail();
     	}	
     	
-	// set From, FromName and AddReply to $cfg-settings	
-    	mailer:from($cfg->from, $cfg->from_name);
+    	$mailer->From = $cfg->from;
+	$mailer->FromName = $cfg->from_name;
+	#$mailer->AddReplyTo($cfg->from, $cfg->from_name);
+	
+	#$mailer->IsHTML(true); // set altBODY for non-html
 	
 	}
 	
@@ -115,17 +116,7 @@ class mailer extends phpmailer
         exit;
     }
 	
-	/* function from 
-	*  relative assign From, FromName, AddReply to mailer
-	*  @input $sender_mail, $sender_name
-	*/
-	function from($sender_mail, $sender_name)
-	{
-		$mailer->From = $sender_mail;
-		$mailer->FromName = $sender_name;
-		$mailer->AddReplyTo($sender_mail, $sender_name);
-	}
-	
+		
 }
 $mailer = new mailer;
 ?>

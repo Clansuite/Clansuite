@@ -198,7 +198,7 @@ class module_account
 	*/
 	function register()
 	{
-	global $db, $tpl, $input, $err;
+	global $db, $tpl, $input, $functions, $err;
 	
 	$email = $_POST['email'];
 	$email2 = $_POST['email2'];
@@ -242,34 +242,39 @@ class module_account
         $password = $this->genString(6);
         
         // user eintragen
-        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick,:password, :joined)');
+        $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick,:password, :joined)');
         $stmt->execute( array( 	':email' 	=> $email,
         			':nick' 	=> $nick,
-        			':password' 	=> $password,
+        			':password' 	=> md5($password),
         			':joined' 	=> 'time()' )
        	);
-        $user_id = $stmt->lastInsertId();
+        
+        // user_id ermitteln
+        // old: $user_id = $stmt->lastInsertId();
+        $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX .'users WHERE email = ? AND nick = ?' );
+	$stmt->execute( array( $email, $nick ) );
+	$user = $stmt->fetch(PDO::FETCH_ASSOC);        
         
         // mailer laden
         include ROOT.'/core/mail.class.php';
         
-        $body  = "To activate an account click on the link below:\r\n";
+        $body  = "To activate your account click on the link below:\r\n";
         $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
         $body .= "Password: %s";
-        $body  = sprintf($body, $user_id, md5(md5($password)), $password);
+        $body  = sprintf($body, $user['user_id'], md5(md5($password)), $password);
         
         $mailer->Subject = 'Account activation';
         $mailer->Body = $body;
         $mailer->AddAddress($email, $nick);
         
-        echo $body;
+        echo "Debug Email Body :".$body;
         
         // mail senden 
         if ($mailer->send()) {
-            header('Location: /index.php?mod=account&action=register-done');
+            $functions->redirect( '/index.php?mod=account&action=register-done', 'header' );
             exit;
         } else {
-            header('Location: /index.php?mod=account&action=register-error');
+            $functions->redirect( '/index.php?mod=account&action=register-error', 'header' );
             exit;
         	}
     	}
@@ -328,8 +333,9 @@ class module_account
 	 * Activate Account
 	 */
 	function activate_account(){
-	$user_id = (int) get('user_id');
-	$code = get('code');
+	
+	$user_id = (int) $_GET['user_id'];
+	$code = $_GET['code'];
 	
 	$alreadyActivated = false;
 	$success = false;
@@ -353,8 +359,8 @@ class module_account
 	 */	
 	function activate_password()
 	{
-	$user_id = (int) get('user_id');
-	$code = get('code');
+	$user_id = (int) $_GET['user_id'];
+	$code = $_GET['code'];
 	
 	$noNewPassword = false;
 	$success = false;
