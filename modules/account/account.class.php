@@ -288,7 +288,7 @@ class module_account
 	*/	
 	function activation_email()
 	{
-	global $db;
+	global $db, $functions;
 	
 	$email = $_POST['email'];
 
@@ -302,7 +302,9 @@ class module_account
     	if ($u1->exists() && !$u1->isActivated()) {
         
         $password = genString(6);
-        $db->execute("UPDATE users SET password = ? WHERE user_id = ?", md5($password), $u1->getId());
+        $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET password = ? WHERE user_id = ?');
+        $stmt->execute( array( 	md5($password), $u1->getId() ) );
+       
         
         include ROOT.'/core/mail.class.php';
         
@@ -316,7 +318,7 @@ class module_account
         $mailer->AddAddress($email, $nick);
         
         if ($mailer->send()) {
-            header('Location: index.php?mod=account&action=activation-email-sent');
+            $functions->redirect( '/index.php?mod=account&action=activation-email-sent', 'header' );
             exit;
         } else {
             $errorWhileSending = true;
@@ -341,12 +343,16 @@ class module_account
 	$success = false;
 	
 	if ($user_id && $code) {
-	    $user = $db->getRow("SELECT * FROM users WHERE user_id = ?", $user_id);
-	    if ($user) {
-	        if ($user['level'] != 0) {
+	     $stmt = $db->prepare( 'SELECT activated FROM ' . DB_PREFIX .'users WHERE user_id = ?' );
+	     $stmt->execute( array( $user_id ) );
+	     $user = $stmt->fetch(PDO::FETCH_ASSOC);        
+           
+           if ($user) {
+	        if ($user['status'] != 0) {
 	            $alreadyActivated = true;
 	        } else if ($code == md5($user['password'])) {
-	            $db->execute("UPDATE users SET level = 1 WHERE user_id = ?", $user_id);
+	            $stmt = $db->prepare('UPDATE users SET level = 1 WHERE user_id = ?');
+	            $stmt->execute( array ( $user_id ) );
 	            $success = true;
 	        }
 	    }
@@ -366,10 +372,17 @@ class module_account
 	$success = false;
 	
 	if ($user_id && $code) {
-	    $user = $db->getRow("SELECT * FROM users WHERE user_id = ?", $user_id);
+	    $stmt = $db->prepare( 'SELECT password, new_password FROM ' . DB_PREFIX .'users WHERE user_id = ?' );
+	    $stmt->execute( array( $user_id ) );
+	    $user = $stmt->fetch(PDO::FETCH_ASSOC);  
+	    
 	    if ($user) {
 	        if ($code == md5($user['new_password'])) {
-	            $db->execute("UPDATE users SET password = new_password, new_password = null WHERE user_id = ?", $user_id);
+	            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX .'users SET :password, :new_password WHERE :user_id' );
+	            $stmt->execute( array( ':password' 	  => $user['new_password'],
+        				   ':newpassword' => null,
+        				   ':userid' 	=> $user_id )
+       		    );
 	            $success = true;
 	        } else {
 	            if ($user['new_password'] === null) {
@@ -386,6 +399,7 @@ class module_account
 	 * Forgot Password
 	 */
 	function forgot_password(){
+	global $db, $tpl, $functions;
 	
 	$email = $_POST['email'];
 
@@ -398,7 +412,8 @@ class module_account
 	    if ($u1->exists() && $u1->isActivated()) {
 	
 	        $password = genString(6);
-	        $db->execute("UPDATE users SET new_password = ? WHERE user_id = ?", md5($password), $u1->getId());
+	        $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET new_password = ? WHERE user_id = ?');
+        	$stmt->execute( array( md5($password), $u1->getId());
 	       
 	        include ROOT.'/core/mail.class.php';
 	        	
@@ -412,8 +427,8 @@ class module_account
         	$mailer->AddAddress($email, $nick);
 	        	        
 	        if ($mailer->send()) {
-	            header('location: index.php?mod=account&action=forgot-password-sent');
-	            exit;
+	            $functions->redirect( '/index.php?mod=account&action=forgot-password-sent', 'header' );
+          	    exit;
 	        } else {
 	            $errorWhileSending = true;
 	        }
