@@ -1,1 +1,1 @@
-Set the configs in here..
+{$cfg|@debug_print_var}

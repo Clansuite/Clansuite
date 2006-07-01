@@ -43,15 +43,15 @@ class module_admin
     public $mod_page_title     = '';
     public $additional_head = '';
     
-    /**
-* @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-* @desc Loads necessary language files
-*/
+    //----------------------------------------------------------------
+    // First function to run - switches between $_REQUEST['action'] Vars to the functions
+    // Loading necessary language files
+    //----------------------------------------------------------------
     function auto_run()
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Entrance' );
+        $this->mod_page_title = $lang->t('Admin Control Panel' );
         
         switch ($_REQUEST['action'])
         {

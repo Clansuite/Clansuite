@@ -47,12 +47,32 @@ class functions
     //----------------------------------------------------------------
     // Redirection modes
     //----------------------------------------------------------------
-    function redirect($url = '', $type = '', $time = '0' )
+    function redirect($url = '', $type = '', $time = 0 )
     {
-        switch ($type)
+        global $session;
+        
+        $type = split('[|]', $type);
+        switch ($type[0])
         {
             case 'header':
-                header('Location: ' . $url );
+                if( $type[1] != 'relative' OR isset($_COOKIE[$session->session_name]) )
+                {
+                    session_write_close();
+                    header('Location: ' . $url );
+                    exit();
+                }
+                else
+                {
+                    session_write_close(); 
+                    if( preg_match( '/(.*)?(.*)=(.*)/', $url ) )
+                    {
+                        header('Location: ' . $url.'&'.SID );
+                    }
+                    else
+                    {        
+                        header('Location: ' . $url.'?'.SID );
+                    }
+                }       
                 break;
                 
             case 'metatag':
