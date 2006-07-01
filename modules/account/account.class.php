@@ -331,7 +331,8 @@ class module_account
                 $stmt->execute(array(md5($password), $u1->getId() ) );
                 
                 
-                include ROOT.'/core/mail.class.php';
+                require ( ROOT.'/core/mail.class.php' );
+                $mailer = new mailer;
                 
                 $body  = "To activate an account click on the link below:\r\n";
                 $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
