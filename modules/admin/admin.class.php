@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -33,49 +33,49 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
-	
+
 class module_admin
 {
-	public $output 			= '';
-	public $mod_page_title 	= '';
-	public $additional_head = '';
-	
-	/**
-	* @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-	* @desc Loads necessary language files
-	*/
-	function auto_run()
-	{
-		global $lang;
-		
-		$this->mod_page_title = $lang->t( 'Entrance' );
-		
-		switch ($_REQUEST['action'])
-		{
-			case 'show':
-				$this->show();
-				break;
-			default:
-				$this->show();
-				break;	
-		}
-		
-		return array( 	'OUTPUT' 			=> $this->output,
-						'MOD_PAGE_TITLE'	=> $this->mod_page_title,
-						'ADDITIONAL_HEAD'	=> $this->additional_head );
-	}
-	
-	//----------------------------------------------------------------
-	// Show the entracne - welcome message etc.
-	//----------------------------------------------------------------
-	function show()
-	{
-		global $tpl, $error, $lang;
-		
-		$this->output .= $tpl->fetch('admin/show.tpl');
-	}
+    public $output     = '';
+    public $mod_page_title     = '';
+    public $additional_head = '';
+    
+    /**
+* @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+* @desc Loads necessary language files
+*/
+    function auto_run()
+    {
+        global $lang;
+        
+        $this->mod_page_title = $lang->t('Entrance' );
+        
+        switch ($_REQUEST['action'])
+        {
+        case 'show':
+            $this->show();
+            break;
+            default:
+            $this->show();
+            break;
+        }
+        
+        return array( 'OUTPUT'          => $this->output,
+                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      'ADDITIONAL_HEAD' => $this->additional_head );
+    }
+    
+    //----------------------------------------------------------------
+    // Show the entracne - welcome message etc.
+    //----------------------------------------------------------------
+    function show()
+    {
+        global $tpl, $error, $lang;
+        
+        $this->output .= $tpl->fetch('admin/show.tpl');
+    }
 }
 ?>

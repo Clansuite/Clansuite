@@ -36,12 +36,14 @@ if (!defined('IN_CS'))
     die('You are not allowed to view this page statically.' );
 }
 
-
+//----------------------------------------------------------------
+// Start config class
+//----------------------------------------------------------------
 class config
 {
     function __construct()
     {
-        
+
         //----------------------------------------------------------------
         // Database related configurations
         //----------------------------------------------------------------
@@ -52,7 +54,7 @@ class config
         $this->db_host      = 'localhost';
         $this->db_prefix    = 'cs_';
         $this->db_abs_layer = 'pdo';
-        
+
         //----------------------------------------------------------------
         // Standard Path configurations
         //----------------------------------------------------------------
@@ -62,7 +64,7 @@ class config
         $this->lang_folder  = 'languages';
         $this->tpl_folder   = 'templates';
         $this->mod_folder   = 'modules';
-        
+
         //----------------------------------------------------------------
         // Mail configuration
         //----------------------------------------------------------------
@@ -73,7 +75,7 @@ class config
         $this->path_to_sendmail = "/usr/sbin/sendmail";
         $this->from             = "system@clansuite.com";
         $this->from_name        = "Clansuite Mailer";
-        
+
         //----------------------------------------------------------------
         // Standard configurations
         //----------------------------------------------------------------
@@ -88,21 +90,21 @@ class config
         $this->std_page_title       = 'clansuite.com';
         $this->std_css              = 'standard.css';
         $this->std_javascript       = 'standard.js';
-        
+
         //----------------------------------------------------------------
         // Session configurations
         //----------------------------------------------------------------
         $this->use_cookies      = 1;
         $this->use_cookies_only = 0;
         $this->session_name     = 'suiteSID';
-        
+
         //----------------------------------------------------------------
         // Error Handling
         //----------------------------------------------------------------
         $this->suppress_errors  = 0;
         $this->debug            = 1;
         $this->debug_popup      = 0;
-        
+
         //----------------------------------------------------------------
         // Init modules (white-list)
         // $this->prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
@@ -111,11 +113,11 @@ class config
         $prepare_modules = array(   'index'     => array('index.class.php'    , 'index'    , 'module_index'     ),
                                     'account'   => array('account.class.php'  , 'account'  , 'module_account'   ),
                                     'admin'     => array('admin.class.php'    , 'admin'    , 'module_admin'     ), );
-        
-        
-        
-        
-        
+
+
+
+
+
         //----------------------------------------------------------------
         //
         //
@@ -123,9 +125,10 @@ class config
         //
         //
         //----------------------------------------------------------------
-        
-        
-        
+
+
+
+
         //----------------------------------------------------------------
         // Developers configurations
         //----------------------------------------------------------------

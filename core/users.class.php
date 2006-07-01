@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -34,7 +34,7 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
 
@@ -42,186 +42,181 @@ if (!defined('IN_CS'))
 // Start of users class
 //----------------------------------------------------------------
 class users
-{	
-	//----------------------------------------------------------------
-	// Get a user from any kind of given type
-	//----------------------------------------------------------------
-	function get( $value='', $type='' )
-	{
-		switch( $type )
-		{
-			case 'id':
-				
-				break;
-				
-			case 'email':
-
-				break;
-				
-			case 'name':
-			
-				break;
-				
-			case 'nick':
-
-				break;
-				
-			case 'clan_id':
-			
-				break;
-				
-			case 'squad_id':
-			
-				break;
-			
-			default:
-				// per id! => get('2')
-				break;
-		}
-	}
-	
-	function exists() 	{ return $_SESSION['user']['user_id'] > 0; }
-    	function isLoggedIn() 	{ return $_SESSION['authed'] > 0; }
-    	function isAuthenticated() { return $_SESSION['user']['authed']; }
-
-	/**
-	 * user
-	 * Auto-Konstruktor
-	 * erzeugt Userobject und Sessiondaten des users
-	 * 1. ohne Param = Gast
-	 * 2. mit Param = entsprechender user
-	 *
-	 * @param: $user_id, $email, $nick
-	 * @return: $user obj, $_SESSION userdata
-	 */	
-	function create_user($user_id = null, $email = null, $nick = null)
-	{
+{
+    //----------------------------------------------------------------
+    // Get a user from any kind of given type
+    //----------------------------------------------------------------
+    function get($value='', $type='' )
+    {
+        switch ($type )
+        {
+            case 'id':
+                
+                break;
+                
+            case 'email':
+                
+                break;
+                
+            case 'name':
+                
+                break;
+                
+            case 'nick':
+                
+                break;
+                
+            case 'clan_id':
+                
+                break;
+                
+            case 'squad_id':
+                
+                break;
+                
+                default:
+                // per id! => get('2')
+                break;
+        }
+    }
+    
+    function exists()
+    {
+        return $_SESSION['user']['user_id'] > 0;
+    }
+    function isLoggedIn()
+    {
+        return $_SESSION['authed'] > 0;
+    }
+    function isAuthenticated()
+    {
+        return $_SESSION['user']['authed'];
+    }
+    
+    //----------------------------------------------------------------
+    // Create user-object and $_SESSION data
+    //----------------------------------------------------------------
+    function create_user($user_id = null, $email = null, $nick = null)
+    {
         global $db;
         
         # $user initialisieren
-		if ($user_id)
-		{ 
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?', array ( $user_id ) );
-            $user = $stmt->fetch();
-        
-        }
-        else if ($email)
+        if ($user_id)
         {
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?', array ( $email ) );
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?', array($user_id ) );
             $user = $stmt->fetch();
-        
+            
         }
-        else if ($nick)
+        else
+        if ($email)
         {
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?', array ( $nick ) );
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?', array($email ) );
+            $user = $stmt->fetch();
+            
+        }
+        else
+        if ($nick)
+        {
+            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?', array($nick ) );
             $user = $stmt->fetch();
         }
         
-        //$_SESSION['suiteSid'] 	= 	session_id();   
+        //$_SESSION['suiteSid'] 	= 	session_id();
         
-        // user :: Das $user-Array ist also nur gesetzt, 
-        // wenn die Funktion user['param'] aufgerufen wurde.        
-        if (isset($user) && $user) {   
-	
-    	$_SESSION['user']['authed'] 	= '1';
-    	$_SESSION['user']['user_id'] 	= $user['user_id'];
-    	
-	$_SESSION['user']['password'] 	= $user['password'];
-    	$_SESSION['user']['email'] 	= $user['email'];
-        $_SESSION['user']['nick'] 	= $user['nick'];
-        
-	$_SESSION['user']['first_name']	= $user['first_name'];
-      	$_SESSION['user']['last_name']	= $user['last_name'];
-        
-		   
-		    
-    	//$_SESSION['user']['::Gruppen::'] = user::get_groups_by_userid($_SESSION['user']['user_id']);
-	//$_SESSION['user']['::Rights::']  = user::get_rights_by_userid($_SESSION['user']['user_id']);
-    	//$_SESSION['user']['rights']   = user::get_allrights_by_userid($user_id);
-        
-	//SpeedUp der Rechte Tabelle
-	//user::generate_liveusers_table();
-	
-	}
-        
-        else # GUEST :: wenn keine Parameter übergeben wurden, ist der user ein Gast 
+        // user :: Das $user-Array ist also nur gesetzt,
+        // wenn die Funktion user['param'] aufgerufen wurde.
+        if (isset($user) && $user)
         {
-        $_SESSION['user']['authed'] 	= 	0;
-    	$_SESSION['user']['nick'] 	= 	'Gast';
-    	#_SESSION['::Gruppen::']	= 	'Gast';
-	}
-	}
-	
-	/* 	 
-	* user::check_user
-	* Es wird überprüft, ob email und pw einem user zugeordnet werden können.
-	* Falls ja, wird die entsprechende userID zurückgeliefert.
-	* @param $email
-	* @param $password
-	* @return $user_id
-	*/
-	function check_user($email, $password) 
-	{
-		global $db;
-		
-	 	// anhand email user_id, und password auslesen
-	 	$user = $db->simple_query('SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1', array ( $email ) );
-		
-		// falls $user mit daten gefüllt wurde, das pw überprüfen
-		if ($user && $user['password'] == md5($password)) 
-		{ 	// user existiert und Passwort ist ok!
-				// user ID zurückliefern
-				return $user['user_id'];
-		}
-		else
-		{ // email&pw kombi gibts nicht
-			return false;
-		}
-	}
-
-	/**
-	*	users::login
-	*	1. Set userdata to Session
-	*	2. Set RememberMe-Cookie
-	*	3. Update SessionTable with user_id
-	*	4. login_attempts zurücksetzen
-	*	5. stats updaten
-	*	@param $user_id
-	*	@param $remember
-	*/
-	
-	
-	function login($user_id, $rememberme) { 
-	global $user, $db;
-	
-	// 1. init new object with ID
-	// userdata -> Session 
-	$user = new user($user_id);
-	
-	// 2. Remember-Me -> if user has selected this, 
-	//logindata will be stored in cookie
-	
-	if ($rememberme) {  
-        setcookie('userid', $user_id, $cfg->remembermetime, '/');
-        setcookie('password',$_SESSION['user']['password'], $cfg->remembermetime, '/' );
-	}
-	
-	// 3. Der Session ohne user_id wird nun die user_id zugeordnet.
-	// Es lassen sich also GuestSession und userSessions unterscheiden.
-	
-	$SessionId      = $db->GetOne("SELECT SessionId FROM " . DB_PREFIX . "session WHERE SessionId='" . session_id() . "'" );
-	if ( $SessionId === $_SESSION['SessionID'] )
-	{ // fügt der jeweiligen Session die user_id hinzu
-	$db->execute("UPDATE " . DB_PREFIX . "session SET user_id = ? WHERE SessionId = ?", $_SESSION['user']['user_id'], $_SESSION['SessionID']);
-	}
-	
-	// 4. Login attempts löschen
-	unset($_SESSION['login_attempts']);
-	
-	// 5. Stats-Updaten
-	// 	 
-	}
-	   
+            
+            $_SESSION['user']['authed']     = '1';
+            $_SESSION['user']['user_id']     = $user['user_id'];
+            
+            $_SESSION['user']['password']     = $user['password'];
+            $_SESSION['user']['email']     = $user['email'];
+            $_SESSION['user']['nick']     = $user['nick'];
+            
+            $_SESSION['user']['first_name']    = $user['first_name'];
+            $_SESSION['user']['last_name']    = $user['last_name'];
+            
+            
+            
+            //$_SESSION['user']['::Gruppen::'] = user::get_groups_by_userid($_SESSION['user']['user_id']);
+            //$_SESSION['user']['::Rights::']  = user::get_rights_by_userid($_SESSION['user']['user_id']);
+            //$_SESSION['user']['rights']   = user::get_allrights_by_userid($user_id);
+            
+            //SpeedUp der Rechte Tabelle
+            //user::generate_liveusers_table();
+            
+        }
+        else
+        # GUEST :: wenn keine Parameter übergeben wurden, ist der user ein Gast
+        {
+            $_SESSION['user']['authed']     =     0;
+            $_SESSION['user']['nick']     =     'Gast';
+            #_SESSION['::Gruppen::']    =     'Gast';
+        }
+    }
+    
+    //----------------------------------------------------------------
+    // Check the user
+    //----------------------------------------------------------------
+    function check_user($email, $password)
+    {
+        global $db;
+        
+        // anhand email user_id, und password auslesen
+        $user = $db->simple_query('SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1', array($email ) );
+        
+        // falls $user mit daten gefüllt wurde, das pw überprüfen
+        if ($user && $user['password'] == md5($password))
+        {
+            // user existiert und Passwort ist ok!
+            // user ID zurückliefern
+            return $user['user_id'];
+        }
+        else
+        {
+            // email&pw kombi gibts nicht
+            return false;
+        }
+    }
+    
+    //----------------------------------------------------------------
+    // Login the user
+    //----------------------------------------------------------------
+    function login($user_id, $rememberme)
+    {
+        global $user, $db;
+        
+        // 1. init new object with ID
+        // userdata -> Session
+        $user = new user($user_id);
+        
+        // 2. Remember-Me -> if user has selected this,
+        //logindata will be stored in cookie
+        
+        if ($rememberme)
+        {
+            setcookie('userid', $user_id, $cfg->remembermetime, '/');
+            setcookie('password',$_SESSION['user']['password'], $cfg->remembermetime, '/' );
+        }
+        
+        // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
+        // Es lassen sich also GuestSession und userSessions unterscheiden.
+        
+        $SessionId      = $db->GetOne("SELECT SessionId FROM " . DB_PREFIX . "session WHERE SessionId='" . session_id() . "'" );
+        if ($SessionId === $_SESSION['SessionID'] )
+        {
+            // fügt der jeweiligen Session die user_id hinzu
+            $db->execute("UPDATE " . DB_PREFIX . "session SET user_id = ? WHERE SessionId = ?", $_SESSION['user']['user_id'], $_SESSION['SessionID']);
+        }
+        
+        // 4. Login attempts löschen
+        unset($_SESSION['login_attempts']);
+        
+        // 5. Stats-Updaten
+        //
+    }
+    
 }
-
 ?>

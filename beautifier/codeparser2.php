@@ -59,6 +59,9 @@ function privateParseString($str)
     // set one space between control keyword and condition
     # a \n was added by Diego Belotti http://www.diegobelotti.com/ to put a line break BEFORE {
     $str=preg_replace("/(if|for|while|switch|foreach)\s*(\([^{]+\))\s*{/i", "\\1 \\2 \n{", $str);
+    
+    // Set tabs to 4 spaces
+    $str=preg_replace("/(\t)+/", "    ", $str);
 
     return $str;
 }
