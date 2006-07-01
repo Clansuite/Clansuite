@@ -73,8 +73,9 @@ class modules
         if (array_key_exists($mod, $cfg->modules ) )
         {
             $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/module.config.php';
-            if (file_exists($config_file ) )
+            if ( file_exists( $config_file ) )
             {
+                require( $config_file );
                 if ($sub!='' )
                 {
                     if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
@@ -154,6 +155,7 @@ class modules
             {
                 if ($sub!='' )
                 {
+                    require( $config_file );
                     if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
                     {
                         $folder_name = $cfg->modules[$mod]['folder_name'];
@@ -185,9 +187,9 @@ class modules
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
                 
-                if (file_exists($file ) )
+                if (file_exists( $file ) )
                 {
-                    require_once($file );
+                    require_once( $file );
                     ${$mod} = new $class_name;
                     $content = ${$mod}->auto_run();
                     

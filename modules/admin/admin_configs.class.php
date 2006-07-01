@@ -53,7 +53,7 @@ class module_admin_configs
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Entrance' );
+        $this->mod_page_title = $lang->t('Admin Control Panel - Configurations' );
         
         switch ($_REQUEST['action'])
         {
@@ -76,10 +76,10 @@ class module_admin_configs
     //----------------------------------------------------------------
     function show()
     {
-        global $tpl, $error, $lang;
+        global $cfg, $tpl, $error, $lang;
 
-        $this->output .= $tpl->fetch('index/show.tpl');
-        $this->output .= $error->show($lang->t('Module Failure'), $lang->t('The Module has a failure (testing $error->show... Level 2 Failure...)'), 2);
+        $tpl->assign('cfg', $cfg);
+        $this->output .= $tpl->fetch('admin/configs.tpl');
     }
 }
 ?>

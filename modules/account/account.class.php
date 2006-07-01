@@ -129,13 +129,13 @@ class module_account
         // Titelzeile zusammensetzen
         $this->mod_page_title = $lang->t('User :: ' . $title );
         
-        return array( 'OUTPUT'       => $this->output,
+        return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
     
     //----------------------------------------------------------------
-    // Show the entracne - welcome message etc.
+    // Login
     //----------------------------------------------------------------
     function login()
     {
@@ -153,11 +153,11 @@ class module_account
         if ($email && $password)
         {
             
-            $userid = user::check_user($email, $password);
+            $userid = $this->check_user($email, $password);
             
             if ($userid != false)
             {
-                user::login($userid, $remember);
+                $this->login($userid, $remember);
                 header('Location: index.php?mod=admin');
                 exit;
             }
@@ -219,7 +219,7 @@ class module_account
         else
         {
             // formular ist vollständig
-            
+            $functions->redirect('/index.php?mod=account&action=register-done', 'header|relative' );
             // emails entsprechen einander
             if ($email !== $email2 )
             {
@@ -292,12 +292,12 @@ class module_account
                 // mail senden
                 if ($mailer->send())
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-done', 'header' );
+                    $functions->redirect('/index.php?mod=account&action=register-done', 'header|relative' );
                     exit;
                 }
                 else
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-error', 'header' );
+                    $functions->redirect('/index.php?mod=account&action=register-error', 'header|relative' );
                     exit;
                 }
             }
@@ -344,7 +344,7 @@ class module_account
                 
                 if ($mailer->send())
                 {
-                    $functions->redirect('/index.php?mod=account&action=activation-email-sent', 'header' );
+                    $functions->redirect('/index.php?mod=account&action=activation-email-sent', 'header|relative');
                     exit;
                 }
                 else
@@ -465,7 +465,7 @@ class module_account
                 
                 $password = genString(6);
                 $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET new_password = ? WHERE user_id = ?');
-                $stmt->execute(array(md5($password), $u1->getId());
+                $stmt->execute(array(md5($password), $u1->getId()));
                 
                 require ( ROOT.'/core/mail.class.php' );
                 $mailer = new mailer;

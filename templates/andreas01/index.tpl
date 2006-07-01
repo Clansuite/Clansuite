@@ -31,8 +31,8 @@
 <h2 class="hide">Menu:</h2>
 <ul>
 <li><a href="index.php">Home</a></li>
-<li><a href="index.php?mod=news">Newsletter</a></li>
-<li><a href="index.php?mod=schedule">Current events</a></li>
+<li><a href="index.php?mod=account">Account</a></li>
+<li><a href="index.php?mod=admin">ACPs</a></li>
 <li><a href="index.php?mod=downloads">Downloads</a></li>
 <li><a href="index.php?mod=gallery">Gallery</a></li>
 <li><a href="index.php?mod=gb">Guestbook</a></li>
