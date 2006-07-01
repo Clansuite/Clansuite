@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -33,13 +33,13 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
-	
+
 //----------------------------------------------------------------
 // Subfiles of the module
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$sub_files = array( 'admin_configs' => array( 'admin_configs.class.php', 'module_admin_configs' ),
-					'admin_gb' 		=> array( 'admin_gb.class.php', 'module_admin_gb' ) );
+$sub_files = array( 'admin_configs' => array('admin_configs.class.php'  , 'module_admin_configs' ),
+                    'admin_gb'      => array('admin_gb.class.php'       , 'module_admin_gb' ) );

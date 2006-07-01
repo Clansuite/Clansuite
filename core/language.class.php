@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -33,152 +33,155 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
 //----------------------------------------------------------------
 // Start lanugage class
-//----------------------------------------------------------------	
+//----------------------------------------------------------------
 class language
 {
-   //----------------------------------------------------------------
-   // Public $xml array for languagefile data after parsing xml-file
-   // $loaded array for storing all loaded XML language files
-   //----------------------------------------------------------------
-   public $xml 		= array();
-   public $loaded 	= array();
-
-   //----------------------------------------------------------------
-   // Conrtuctor to register {translate} in SMARTY Template Engine
-   //----------------------------------------------------------------
-   
-   function __construct()
-   {
-		global $tpl;
-		
-		$tpl->register_block("translate", array('language',"smarty_translate"), false);
-   }
-   
-   //----------------------------------------------------------------
-   // Function for SMARTY to handle {translate}
-   //----------------------------------------------------------------
-   static function smarty_translate($params, $string, &$smarty) 
-   {
-	   global $lang;
-	   
-	   foreach($params as $key => $value)
-	   {
-		  $params["%$key"] = $value;
-		  unset($params[$key]);
-	   }
-	   echo ($lang->t($string, $params));
-   }
-
-   //----------------------------------------------------------------
-   // Translate a string into the given language
-   //----------------------------------------------------------------
-   function t( $string, $args = array() ) 
-   {
-		global $lang;
-
-		foreach($lang->xml as $parent)
-		{
-			foreach($parent[0]['children'] as $tag) 
-			{
-			  if ($tag['tag'] == "MESSAGE") {
-				 if ($tag['children'][0]['value'] == $string) {
-					if ($tag['children'][1]['value'] != "") {
-					   return strtr ($tag['children'][1]['value'], $args);
-					}
-				 }
-			  }
-			}
-		}
-
-		return strtr ($string, $args);
-   }
-   
-   //----------------------------------------------------------------
-   // Just add another XML File to $lang->xml tree
-   //----------------------------------------------------------------
-   function load_lang( $xml_file_name='' )
-   {
-		global $cfg;
-		
-		$file = LANG_ROOT . '/' . $cfg->language . '/' . $xml_file_name . '.xml';
-		
-		if (file_exists($file))
-		{
-			if( !in_array( $xml_file_name, $this->loaded ) )
-			{
-				array_push( $this->xml, $this->get_xml_tree($file) );
-				array_push( $this->loaded, $xml_file_name );
-			}
-		}	   
-   }
-
-   //----------------------------------------------------------------
-   // Handle all children attributes from XML file
-   //----------------------------------------------------------------
-   function get_children($vals, &$i) 
-   {
-	   global $lang;
-	   
-	   $children = array();
-	   
-	   if(!isset($vals[$i]['attributes']))
-	   {
-		  $vals[$i]['attributes'] = "";
-	   }
-	   
-	   while(++$i < count($vals))
-	   {
-		  if(!isset($vals[$i]['attributes']))
-		  {
-			 $vals[$i]['attributes'] = "";
-		  }
-
-		  if(!isset($vals[$i]['value']))
-		  {
-			 $vals[$i]['value'] = "";
-		  }
-
-		  switch ($vals[$i]['type'])
-		  {
-			  case 'complete':
-				 array_push($children, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'value' => $vals[$i]['value']));
-				 break;
-			  case 'open':
-				 array_push($children, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'children' => $lang->get_children($vals, $i)));
-				 break;
-			  case 'close':
-				 return $children;
-				 break;
-		  }
-	   }
-
-	   return $children;
-   }
-
-   //----------------------------------------------------------------
-   // XML file parsing
-   // Return Treestructure
-   //----------------------------------------------------------------
-   function get_xml_tree($file) 
-   {   
-	   global $lang;
-	   
-	   $data = implode ("", file($file));
-	   $xml  = xml_parser_create ();
-	   xml_parser_set_option ($xml, XML_OPTION_SKIP_WHITE, 1);
-	   xml_parse_into_struct ($xml, $data, &$vals, &$index);
-	   xml_parser_free ($xml);
-
-	   $tree = array ();
-	   $i = 0;
-	   array_push ($tree, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'children' => $lang->get_children($vals, $i)));
-
-	   return $tree;
-   } 
+    //----------------------------------------------------------------
+    // Public $xml array for languagefile data after parsing xml-file
+    // $loaded array for storing all loaded XML language files
+    //----------------------------------------------------------------
+    public $xml     = array();
+    public $loaded     = array();
+    
+    //----------------------------------------------------------------
+    // Conrtuctor to register {translate} in SMARTY Template Engine
+    //----------------------------------------------------------------
+    
+    function __construct()
+    {
+        global $tpl;
+        
+        $tpl->register_block("translate", array('language',"smarty_translate"), false);
+    }
+    
+    //----------------------------------------------------------------
+    // Function for SMARTY to handle {translate}
+    //----------------------------------------------------------------
+    static function smarty_translate($params, $string, &$smarty)
+    {
+        global $lang;
+        
+        foreach ($params as $key => $value)
+        {
+            $params["%$key"] = $value;
+            unset($params[$key]);
+        }
+        echo($lang->t($string, $params));
+    }
+    
+    //----------------------------------------------------------------
+    // Translate a string into the given language
+    //----------------------------------------------------------------
+    function t($string, $args = array() )
+    {
+        global $lang;
+        
+        foreach ($lang->xml as $parent)
+        {
+            foreach ($parent[0]['children'] as $tag)
+            {
+                if ($tag['tag'] == "MESSAGE")
+                {
+                    if ($tag['children'][0]['value'] == $string)
+                    {
+                        if ($tag['children'][1]['value'] != "")
+                        {
+                            return strtr($tag['children'][1]['value'], $args);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return strtr($string, $args);
+    }
+    
+    //----------------------------------------------------------------
+    // Just add another XML File to $lang->xml tree
+    //----------------------------------------------------------------
+    function load_lang($xml_file_name='' )
+    {
+        global $cfg;
+        
+        $file = LANG_ROOT . '/' . $cfg->language . '/' . $xml_file_name . '.xml';
+        
+        if (file_exists($file))
+        {
+            if (!in_array($xml_file_name, $this->loaded ) )
+            {
+                array_push($this->xml, $this->get_xml_tree($file) );
+                array_push($this->loaded, $xml_file_name );
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------
+    // Handle all children attributes from XML file
+    //----------------------------------------------------------------
+    function get_children($vals, &$i)
+    {
+        global $lang;
+        
+        $children = array();
+        
+        if (!isset($vals[$i]['attributes']))
+        {
+            $vals[$i]['attributes'] = "";
+        }
+        
+        while (++$i < count($vals))
+        {
+            if (!isset($vals[$i]['attributes']))
+            {
+                $vals[$i]['attributes'] = "";
+            }
+            
+            if (!isset($vals[$i]['value']))
+            {
+                $vals[$i]['value'] = "";
+            }
+            
+            switch ($vals[$i]['type'])
+            {
+                case 'complete':
+                    array_push($children, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'value' => $vals[$i]['value']));
+                    break;
+                case 'open':
+                    array_push($children, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'children' => $lang->get_children($vals, $i)));
+                    break;
+                case 'close':
+                    return $children;
+                    break;
+            }
+        }
+        
+        return $children;
+    }
+    
+    //----------------------------------------------------------------
+    // XML file parsing
+    // Return Treestructure
+    //----------------------------------------------------------------
+    function get_xml_tree($file)
+    {
+        global $lang;
+        
+        $data = implode("", file($file));
+        $xml  = xml_parser_create();
+        xml_parser_set_option($xml, XML_OPTION_SKIP_WHITE, 1);
+        xml_parse_into_struct($xml, $data, &$vals, &$index);
+        xml_parser_free($xml);
+        
+        $tree = array();
+        $i = 0;
+        array_push($tree, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'children' => $lang->get_children($vals, $i)));
+        
+        return $tree;
+    }
 }
 ?>

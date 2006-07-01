@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -34,33 +34,33 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
 //----------------------------------------------------------------
 // Start debug class
-//----------------------------------------------------------------	
+//----------------------------------------------------------------
 class debug
-{	
-	//----------------------------------------------------------------
-	// Print debug console
-	//----------------------------------------------------------------
-	function show_console()
-	{
-		global $db, $tpl, $cfg, $error, $lang, $modules;
-
-		$tpl->assign('request'		, $_REQUEST );
-		$tpl->assign('session'		, $_SESSION );
-		$tpl->assign('cookies'		, $_COOKIE );
-		$tpl->assign('queries'		, $db->queries );
-		$tpl->assign('prepares'		, $db->prepares );
-		$tpl->assign('execs'		, $db->execs );
-		$tpl->assign('config'		, $cfg );
-		$tpl->assign('error_log'	, $error->error_log );
-		$tpl->assign('lang_loaded'	, $lang->loaded );
-		$tpl->assign('debug_popup'	, $cfg->debug_popup );
-		$tpl->assign('mods_loaded'	, $modules->loaded );
-		$tpl->display( 'debug.tpl' );
-	}
+{
+    //----------------------------------------------------------------
+    // Print debug console
+    //----------------------------------------------------------------
+    function show_console()
+    {
+        global $db, $tpl, $cfg, $error, $lang, $modules;
+        
+        $tpl->assign('request'      , $_REQUEST );
+        $tpl->assign('session'      , $_SESSION );
+        $tpl->assign('cookies'      , $_COOKIE );
+        $tpl->assign('queries'      , $db->queries );
+        $tpl->assign('prepares'     , $db->prepares );
+        $tpl->assign('execs'        , $db->execs );
+        $tpl->assign('config'       , $cfg );
+        $tpl->assign('error_log'    , $error->error_log );
+        $tpl->assign('lang_loaded'  , $lang->loaded );
+        $tpl->assign('debug_popup'  , $cfg->debug_popup );
+        $tpl->assign('mods_loaded'  , $modules->loaded );
+        $tpl->display('debug.tpl' );
+    }
 }
 ?>

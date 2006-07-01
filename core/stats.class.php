@@ -5,7 +5,7 @@
 * PHP versions 5.1.4
 *
 * LICENSE:
-* 
+*
 *    This program is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License, or
@@ -34,7 +34,7 @@
 //----------------------------------------------------------------
 if (!defined('IN_CS'))
 {
-	die( 'You are not allowed to view this page statically.' );	
+    die('You are not allowed to view this page statically.' );
 }
 
 //----------------------------------------------------------------
@@ -42,31 +42,28 @@ if (!defined('IN_CS'))
 //----------------------------------------------------------------
 class stats
 {
-	//----------------------------------------------------------------
-	// Create the needed variables and assign them to the tpl
-	//----------------------------------------------------------------
-	function create_stats_vars()
-	{
-		global $tracker, $tpl;
-		
-		$all_impressions = $tracker->get( array(	
-							'api_call'  => 'page_impressions',
-							'range'     => 'total' ) );
-
-		$page_impressions = $tracker->get( array(	
-							'api_call'  => 'page_impressions',
-							'range'     => 'total',
-							'constraints' => array( 'document' => $_SESSION['_phpOpenTracker_Container']['document_url'] ) ) );
-							
-		$online = $tracker->get( array(	
-							        'api_call'  => 'visits',
-							        'start'     => time()-300,
-							        'end'       => time(),
-							        'interval'  => 3600 ) );
-
-		$tpl->assign( 'stats_online', 				$online );
-		$tpl->assign( 'stats_all_impressions', 		$all_impressions );
-		$tpl->assign( 'stats_page_impressions', 	$page_impressions );
-	}
-}	
+    //----------------------------------------------------------------
+    // Create the needed variables and assign them to the tpl
+    //----------------------------------------------------------------
+    function create_stats_vars()
+    {
+        global $tracker, $tpl;
+        
+        $all_impressions = $tracker->get( array('api_call'  => 'page_impressions',
+                                                'range'     => 'total' ) );
+        
+        $page_impressions = $tracker->get(array('api_call'  => 'page_impressions',
+                                                'range'     => 'total',
+                                                'constraints' => array('document' => $_SESSION['_phpOpenTracker_Container']['document_url'] ) ) );
+        
+        $online = $tracker->get( array( 'api_call'  => 'visits',
+                                        'start'     => time()-300,
+                                        'end'       => time(),
+                                        'interval'  => 3600 ) );
+        
+        $tpl->assign('stats_online'             , $online );
+        $tpl->assign('stats_all_impressions'    , $all_impressions );
+        $tpl->assign('stats_page_impressions'   , $page_impressions );
+    }
+}
 ?>
