@@ -276,7 +276,8 @@ class module_account
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // mailer laden
-                include ROOT.'/core/mail.class.php';
+                require ( ROOT.'/core/mail.class.php' );
+                $mailer = new mailer;
                 
                 $body  = "To activate your account click on the link below:\r\n";
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
@@ -292,12 +293,12 @@ class module_account
                 // mail senden
                 if ($mailer->send())
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-done', 'header|relative' );
+                    $functions->redirect('/index.php?mod=account&action=register-done');
                     exit;
                 }
                 else
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-error', 'header|relative' );
+                    $functions->redirect('/index.php?mod=account&action=register-error');
                     exit;
                 }
             }
@@ -345,7 +346,7 @@ class module_account
                 
                 if ($mailer->send())
                 {
-                    $functions->redirect('/index.php?mod=account&action=activation-email-sent', 'header|relative');
+                    $functions->redirect('/index.php?mod=account&action=activation-email-sent');
                     exit;
                 }
                 else

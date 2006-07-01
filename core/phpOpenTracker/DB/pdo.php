@@ -83,7 +83,6 @@ class phpOpenTracker_DB_pdo extends phpOpenTracker_DB
         $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_SILENT);
         $this->result = $db->prepare($query);
         $this->result->execute();
-
         $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         if (!$this->result && $warnOnFailure)
         {
@@ -98,6 +97,8 @@ class phpOpenTracker_DB_pdo extends phpOpenTracker_DB
     //----------------------------------------------------------------
     function escapeString($string)
     {
+        global $db;
+        
         return addslashes($string);
     }
     

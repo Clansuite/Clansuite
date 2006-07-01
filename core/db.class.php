@@ -131,7 +131,7 @@ class db
     public function prepare($sql='' )
     {
         
-        $res = $this->db->prepare($sql );
+        $res = $this->db->prepare( $sql );
         $this->prepared_counter++;
         
         $this->prepares[] = $sql;
@@ -142,10 +142,10 @@ class db
     //----------------------------------------------------------------
     // Simple Query with closeCursor() !
     //----------------------------------------------------------------
-    public function simple_query($sql='', $args = array() )
+    public function simple_query($sql='', $args = '' )
     {
         
-        $res = $this->prepare($sql );
+        $res = $this->prepare( $sql );
         $this->prepared_counter++;
         
         $res->execute($args);

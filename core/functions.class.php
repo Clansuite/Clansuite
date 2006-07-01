@@ -51,11 +51,11 @@ class functions
     {
         global $session;
         
-        $type = split('[|]', $type);
-        switch ($type[0])
+        switch ($type)
         {
             case 'header':
-                if( $type[1] != 'relative' OR isset($_COOKIE[$session->session_name]) )
+                $c = parse_url($url);
+                if( array_key_exists('host', $c) OR isset($_COOKIE[$session->session_name]) )
                 {
                     session_write_close();
                     header('Location: ' . $url );
@@ -64,7 +64,7 @@ class functions
                 else
                 {
                     session_write_close(); 
-                    if( preg_match( '/(.*)?(.*)=(.*)/', $url ) )
+                    if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
                     {
                         header('Location: ' . $url.'&'.SID );
                     }
@@ -80,7 +80,25 @@ class functions
                 break;
                 
             default:
-                header('Location: ' . $url );
+                $c = parse_url($url);
+                if( array_key_exists('host', $c) OR isset($_COOKIE[$session->session_name]) )
+                {
+                    session_write_close();
+                    header('Location: ' . $url );
+                    exit();
+                }
+                else
+                {
+                    session_write_close(); 
+                    if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
+                    {
+                        header('Location: ' . $url.'&'.SID );
+                    }
+                    else
+                    {        
+                        header('Location: ' . $url.'?'.SID );
+                    }
+                }       
                 break;
         }
     }
