@@ -219,7 +219,7 @@ class module_account
         else
         {
             // formular ist vollständig
-            $functions->redirect('/index.php?mod=account&action=register-done', 'header|relative' );
+
             // emails entsprechen einander
             if ($email !== $email2 )
             {
