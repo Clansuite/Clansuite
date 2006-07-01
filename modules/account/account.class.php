@@ -42,8 +42,8 @@ if (!defined('IN_CS'))
 //----------------------------------------------------------------
 class module_account
 {
-    public $output     = '';
-    public $mod_page_title     = '';
+    public $output          = '';
+    public $mod_page_title  = '';
     public $additional_head = '';
     
     //----------------------------------------------------------------
