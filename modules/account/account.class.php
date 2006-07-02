@@ -197,42 +197,61 @@ class module_account
     //----------------------------------------------------------------
     function register()
     {
-        global $db, $tpl, $input, $functions, $error, $security, $lang;
+        global $db, $tpl, $cfg, $input, $functions, $error, $security, $lang;
         
         $email  = $_POST['email'];
         $email2 = $_POST['email2'];
         $nick   = $_POST['nick'];
+        $pass   = $_POST['password'];
+        $pass2  = $_POST['password2'];
         
         $err = array();
         
-        if (!isset($email) && !isset($email2) && !isset($nick))
+        if ( empty($email) OR empty($email2) OR empty($nick) OR empty($pass) OR empty($pass2) )
         {
-            // formular ist nicht vollständig ausgefüllt
-            $err['formular_empty'] = 1;
+            if( isset($_POST['submit']) )
+            {
+                // Not all necessary fields are filled
+                $err['not_filled'] = 1;
+            }
         }
         else
         {
-            // formular ist vollständig
+            //----------------------------------------------------------------
+            // Form is filled
+            //----------------------------------------------------------------
 
-            // emails entsprechen einander
+            // Check both mails
             if ($email != $email2 )
             {
                 $err['emails_mismatching'] = 1;
             }
             
-            // email ist ok
+            // Check mail
             if ($input->check($email, 'is_email' ) == false )
             {
                 $err['email_wrong'] = 1;
             }
             
-            // nick ist ok
+            // Check nick
             if ($input->check($nick, 'is_abc|is_int|is_custom', '-_()<>[]|.:\'{}$', 25 ) == false )
             {
                 $err['nick_wrong'] = 1;
             }
+
+            // Check both passwords
+            if ($pass != $pass2 )
+            {
+                $err['passes_do_not_fit'] = 1;
+            }
             
-            // email existiert noch nicht
+            // Check password
+            if ($input->check($pass, 'is_pass_length') == false )
+            {
+                $err['pass_too_short'] = 1;
+            }
+                        
+            // Check if mail already exists
             $stmt = $db->prepare('SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
             $stmt->execute( array( $email ) );
             if ($stmt->fetchColumn() > 0)
@@ -240,23 +259,18 @@ class module_account
                 $err['email_exists'] = 1;
             }
                         
-            // nick existiert noch nicht
+            // Check if nick already exists
             $stmt = $db->prepare('SELECT COUNT(nick) FROM ' . DB_PREFIX .'users WHERE nick = ?' );
             $stmt->execute( array( $nick ) );
             if ($stmt->fetchColumn() > 0)
             {
                 $err['nick_exists'] = 1;
             }
-                        
-            // nick existiert noch nicht
-            $stmt = $db->prepare('SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
-            $stmt->execute( array( $email ) );
-            if ($stmt->fetchColumn() > 0)
-            {
-                $err['email_exists'] = 1;
-            }
             
-            // es liegen keine der obigen fehler vor
+            //----------------------------------------------------------------
+            // No errors - then proceed
+            // Register the user!
+            //----------------------------------------------------------------
             if ( count($err) == 0  )
             {               
                 // user eintragen
@@ -293,10 +307,16 @@ class module_account
                 else
                 {
                     $functions->redirect('/index.php?mod=account&action=register-error');
+                    exit;
                 }
             }
         }
-        // tpl ausgeben
+        
+        // Assign vars
+        $tpl->assign( 'min_length', $cfg->min_pass_length );
+        $tpl->assign( 'err', $err );
+        
+        // Get the template
         $this->output .= $tpl->fetch('account/register.tpl');
     }
     
