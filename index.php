@@ -191,6 +191,10 @@ $stats->create_stats_vars();
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
 $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
+
+//----------------------------------------------------------------
+// Assign the results
+//----------------------------------------------------------------
 $tpl->assign('exec_counter'     , $db->exec_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
@@ -201,6 +205,9 @@ $tpl->assign('mod_page_title'   , $content['MOD_PAGE_TITLE'] );
 $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
+//----------------------------------------------------------------
+// Admin module ? NO? -> normal module
+//----------------------------------------------------------------
 $_REQUEST['mod']=='admin' ? $tpl->display('admin/index.tpl') : $tpl->display($cfg->tpl_wrapper_file);
 
 //----------------------------------------------------------------

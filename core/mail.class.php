@@ -37,52 +37,59 @@ if (!defined('IN_CS'))
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Get swift mailer class
-//----------------------------------------------------------------
-require( CORE_ROOT . '/swiftmailer/swift.php');
-        
-//----------------------------------------------------------------
-// Include Connection Class & Set $connection
-//----------------------------------------------------------------
-if ($cfg->mailmethod != 'smtp')
+class mailer
 {
-    require( CORE_ROOT . '/swiftmailer/Swift/Swift_Sendmail_Connection.php'); 
-}
-
-
-switch ($cfg->mailmethod) {
-
-    case 'smtp':
-    require('Swift/Swift/Swift_SMTP_Connection.php');
-    $connection = new Swift_SMTP_Connection( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
-    break;
-    
-    case 'sendmail':
-    $connection = new Swift_Sendmail_Connection;
-    break;
-    
-    case 'exim':
-    $connection = new Swift_Sendmail_Connection('/usr/sbin/exim -bs');
-    break;
-    
-    case 'qmail':
-    $connection = new Swift_Sendmail_Connection('/usr/sbin/qmail -bs');
-    break;
-    
-    case 'postfix':
-    $connection = new Swift_Sendmail_Connection('/usr/sbin/postfix -bs');
-    break;
-    
-    default:
-    $connection = new Swift_Sendmail_Connection;
-    }
+    function __construct()
+    {
+        global $cfg;
         
-    //----------------------------------------------------------------
-    // $mailer init
-    //----------------------------------------------------------------
-    global $swiftmailer;
-    $swiftmailer = new Swift($connection, $cfg->mailerhost);
+        //----------------------------------------------------------------
+        // Get swift mailer class
+        //----------------------------------------------------------------
+        require( CORE_ROOT . '/swiftmailer/swift.php');
+                
+        //----------------------------------------------------------------
+        // Include Connection Class & Set $connection
+        //----------------------------------------------------------------
+        if ($cfg->mailmethod != 'smtp')
+        {
+            require( CORE_ROOT . '/swiftmailer/Swift/Swift_Sendmail_Connection.php'); 
+        }
+
+
+        switch ($cfg->mailmethod)
+        {
+            case 'smtp':
+                require('Swift/Swift/Swift_SMTP_Connection.php');
+                $connection = new Swift_SMTP_Connection( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
+                break;
+            
+            case 'sendmail':
+                $connection = new Swift_Sendmail_Connection;
+                break;
+            
+            case 'exim':
+                $connection = new Swift_Sendmail_Connection('/usr/sbin/exim -bs');
+                break;
+            
+            case 'qmail':
+                $connection = new Swift_Sendmail_Connection('/usr/sbin/qmail -bs');
+                break;
+            
+            case 'postfix':
+                $connection = new Swift_Sendmail_Connection('/usr/sbin/postfix -bs');
+                break;
+            
+            default:
+                $connection = new Swift_Sendmail_Connection;
+        }
+            
+        //----------------------------------------------------------------
+        // $mailer init
+        //----------------------------------------------------------------
+        global $swiftmailer;
+        $swiftmailer = new Swift($connection, $cfg->mailerhost);
+    }
     
     
     function sendmail($to_address, $from_address, $subject, $body)
@@ -101,11 +108,11 @@ switch ($cfg->mailmethod) {
         }
         else
         {
-            echo "The mailer failed to connect. Errors: <pre>".print_r($swiftmailer->errors, 1)."</pre><br />
-            Log: <pre>".print_r($swiftmailer->transactions, 1)."</pre>";
+            $error->show( $lang->t( 'The mailer failed to connect. Errors:') .'<pre>' . print_r($swiftmailer->errors, 1) . '</pre>' . 'Log: <pre>' . print_r($swiftmailer->transactions, 1) .'</pre>' );
             $error->error_log['mailer']['error'] = $lang->t('Mailer Error! Description: ') . print_r($swiftmailer->errors, 1);
             return false;
         }
     }
+}
 
 ?>
