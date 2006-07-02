@@ -98,6 +98,16 @@ class db
     public $prepares = array();
     
     //----------------------------------------------------------------
+    // Active Queries to prevent buffering failures
+    //----------------------------------------------------------------
+    public $query_active = 0;
+    
+    //----------------------------------------------------------------
+    // The active PDOStatement as reference
+    //----------------------------------------------------------------
+    public $query_active_reference;
+    
+    //----------------------------------------------------------------
     // Constructor
     // Create DB Object
     // Set counters to zero
@@ -130,19 +140,16 @@ class db
     //----------------------------------------------------------------
     public function prepare($sql='' )
     {
-        
-        $res = $this->db->prepare( $sql );
         $this->prepared_counter++;
-        
         $this->prepares[] = $sql;
         
-        return $res;
+        return new db_statements( $this->db->prepare( $sql ) );
     }
     
     //----------------------------------------------------------------
     // Simple Query with closeCursor() !
     //----------------------------------------------------------------
-    public function simple_query($sql='', $args = '' )
+    public function simple_query($sql='', $args = array() )
     {
         
         $res = $this->prepare( $sql );
@@ -163,13 +170,12 @@ class db
     // Deliver query to DB
     // Increase counter
     //----------------------------------------------------------------
-    public function query($sql='' )
+    public function query( $sql='' )
     {
         
         $this->queries_counter++;
-        $res = $this->db->query($sql);
-        
         $this->queries[] = $sql;
+        $res = $this->db->query($sql);
         
         return $res;
     }
@@ -189,5 +195,55 @@ class db
         return $res;
     }
     
+}
+
+//----------------------------------------------------------------
+// Db Statements Wrapper
+//----------------------------------------------------------------
+class db_statements
+{
+    public $db_statement;
+    
+    //----------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------
+    function __construct($db_statement)
+    {
+        $this->db_statement = $db_statement; 
+    }
+    
+    //----------------------------------------------------------------
+    // Non-existing methods
+    //----------------------------------------------------------------
+    function __call($func, $args)
+    {
+        return call_user_func_array(array($this->db_statement, $func), $args);        
+    }
+    
+    //----------------------------------------------------------------
+    // $stmt->execute
+    //----------------------------------------------------------------
+    function execute( $args = array() )
+    {
+        global $db;
+        
+        $db->query_counter++;
+        if ( $db->query_active == 1 )
+        {
+            $db->query_active_reference->closeCursor();
+        }
+
+        $db->queries[] = $this->db_statement->queryString;
+
+        $res = call_user_func(array($this->db_statement, 'execute'), $args);
+
+        if ( $res )
+        {
+            $db->query_active = 1;
+            $db->query_active_reference = $this;
+            return $res;
+        }
+        return $res;
+    }   
 }
 ?>
