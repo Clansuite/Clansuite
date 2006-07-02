@@ -142,7 +142,7 @@ class error
     //----------------------------------------------------------------
     // Exception Handler
     //----------------------------------------------------------------
-    function exception_handler($e )
+    function exception_handler( $e )
     {
         global $cfg, $lang;
         
