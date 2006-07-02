@@ -1,5 +1,5 @@
-<h1>Activation email</h1>
+<h1>{translate}Activation email{/translate}</h1>
 
 <p>
-Activation email has been sent.
+{translate}Activation email has been sent.{/translate}
 </p>

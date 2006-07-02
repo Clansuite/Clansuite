@@ -1,4 +1,4 @@
-<h2>Register</h2>
+<h2>{translate}Register{/translate}</h2>
 
     {if $err.not_filled == 1}{translate}<p class="error">Please fill out all required fields!{/translate}</p>{/if}
     {if $err.nick_wrong == 1}{translate}<p class="error">The nickname contains violating characters!{/translate}</p>{/if}
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" name="submit" value="Register">
+                <input type="submit" name="submit" value="{translate}Register{/translate}">
             </td>
         </tr>
     </table>
