@@ -160,7 +160,7 @@ class input
     // $input->check('235432asdlfkj_;', 'is_int|is_abc|is_custom', '_;' );
     // Will return bool(true)
     //----------------------------------------------------------------
-    function check($string = '', $types = '', $pattern = '', $length = 0 )
+    function check( $string = '', $types = '', $pattern = '', $length = 0 )
     {
         global $error, $lang, $cfg;
         
@@ -181,8 +181,8 @@ class input
                     // give-trough
                     // @input : $pattern
                     case 'is_custom':
-                        $incoming = str_split($pattern );
-                        foreach ($incoming as $key => $value )
+                        $incoming = str_split( $pattern );
+                        foreach ( $incoming as $key => $value )
                         {
                             $reg_exp .= '\\'.$value;
                         }
