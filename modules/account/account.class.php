@@ -277,7 +277,7 @@ class module_account
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick, :password, :joined)');
                 $stmt->execute( array(  ':email'        => $email,
                                         ':nick'         => $nick,
-                                        ':password'     => $security->build_salted_hash($password),
+                                        ':password'     => $security->build_salted_hash($pass),
                                         ':joined'       => time() ) );
                 
                 // user_id ermitteln
@@ -297,7 +297,7 @@ class module_account
                 $body  = $lang->t("To activate your account click on the link below:\r\n");
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
                 $body .= "Password: %s";
-                $body  = sprintf($body, $user['user_id'], $security->build_salted_hash($password), $password);
+                $body  = sprintf($body, $user['user_id'], $security->build_salted_hash($pass), $pass);
                                               
                 // mail senden
                 if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
