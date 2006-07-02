@@ -139,29 +139,25 @@ class module_account
     //----------------------------------------------------------------
     function login()
     {
-        global $tpl, $user;
+        global $tpl, $users, $functions;
         
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $remember = $_POST['remember'];
-        
-        echo $email;
-        echo $password;
+        $rememberme = $_POST['remember'];
         
         if ($email && $password)
         {
             
-            $userid = $this->check_user($email, $password);
+            $userid = $users->check_user($email, $password);
             
             if ($userid != false)
             {
-                $this->login($userid, $remember);
-                header('Location: index.php?mod=admin');
+                $users->login($userid, $rememberme);
+                $functions->redirect('/index.php?mod=admin');
                 exit;
             }
             else
-            {
-                
+            {                
                 // User existiert nicht oder Passwort falsch!
                 unset($user['{/php}']);
                 
@@ -238,12 +234,12 @@ class module_account
             
             // email existiert noch nicht
             $stmt = $db->prepare('SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
-            $stmt->execute(array($email ) );
+            $stmt->execute( array( $email ) );
             if ($stmt->fetchColumn() > 0)
             {
                 $err['email_exists'] = 1;
             }
-            
+                        
             // nick existiert noch nicht
             $stmt = $db->prepare('SELECT COUNT(nick) FROM ' . DB_PREFIX .'users WHERE nick = ?' );
             $stmt->execute(array($nick ) );
@@ -251,7 +247,7 @@ class module_account
             {
                 $err['nick_exists'] = 1;
             }
-            
+                        
             // es liegen keine der obigen fehler vor
             if (count($err) == 0  )
             {

@@ -93,6 +93,10 @@ class users
         return $_SESSION['user']['authed'];
     }
     
+    function isActivated() 	{ return $_SESSION['User']['user_id'] && $this->activated > 0; }
+    function getId() 	{ if ( $_SESSION['User']['user_id'] > 0 ) { return $_SESSION['User']['user_id']; }
+    			  		  else  { return 0; }		}
+    
     //----------------------------------------------------------------
     // Create user-object and $_SESSION data
     //----------------------------------------------------------------
@@ -121,21 +125,22 @@ class users
             $user = $stmt->fetch();
         }
         
-        //$_SESSION['suiteSid'] 	= 	session_id();
+        $_SESSION['sessionid'] 	= 	session_id();
         
         // user :: Das $user-Array ist also nur gesetzt,
         // wenn die Funktion user['param'] aufgerufen wurde.
         if (isset($user) && $user)
         {
             
-            $_SESSION['user']['authed']     = '1';
-            $_SESSION['user']['user_id']     = $user['user_id'];
+            // $_SESSION mit $user daten füllen
+            $_SESSION['user']['authed']       = '1';
+            $_SESSION['user']['user_id']      = $user['user_id'];
             
             $_SESSION['user']['password']     = $user['password'];
-            $_SESSION['user']['email']     = $user['email'];
-            $_SESSION['user']['nick']     = $user['nick'];
+            $_SESSION['user']['email']        = $user['email'];
+            $_SESSION['user']['nick']         = $user['nick'];
             
-            $_SESSION['user']['first_name']    = $user['first_name'];
+            $_SESSION['user']['first_name']   = $user['first_name'];
             $_SESSION['user']['last_name']    = $user['last_name'];
             
             
@@ -159,41 +164,46 @@ class users
     
     //----------------------------------------------------------------
     // Check the user
+    // input $email $password
+    // output return $user_id
     //----------------------------------------------------------------
     function check_user($email, $password)
     {
         global $db;
         
         // anhand email user_id, und password auslesen
-        $user = $db->simple_query('SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1', array($email ) );
+        $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
+        $stmt->execute( array( $email ) );
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         // falls $user mit daten gefüllt wurde, das pw überprüfen
-        if ($user && $user['password'] == md5($password))
+        if ( is_array($user) && $user['password'] == md5($password) )
         {
-            // user existiert und Passwort ist ok!
-            // user ID zurückliefern
+            // demnach existiert ein user mit der kombination von email & pw
+            // und es wird die user_id zurückgeliefert
             return $user['user_id'];
         }
         else
         {
-            // email&pw kombi gibts nicht
+            // Die Kombination von Email und Pw exisitert nicht!
             return false;
         }
     }
     
     //----------------------------------------------------------------
     // Login the user
+    // input $user_id, $rememberme
     //----------------------------------------------------------------
     function login($user_id, $rememberme)
     {
-        global $user, $db;
+        global $users, $db;
         
-        // 1. init new object with ID
-        // userdata -> Session
-        $user = new user($user_id);
+        // 1. Benutzerdaten holen
+        // anhand $user_id entsprechende userdata in Session ablegen
+        $this->create_user($user_id);
         
-        // 2. Remember-Me -> if user has selected this,
-        //logindata will be stored in cookie
+        // 2. Remember-Me 
+        // ( Logindata als Cookie ablegen )
         
         if ($rememberme)
         {
@@ -202,21 +212,78 @@ class users
         }
         
         // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
-        // Es lassen sich also GuestSession und userSessions unterscheiden.
-        
-        $SessionId      = $db->GetOne("SELECT SessionId FROM " . DB_PREFIX . "session WHERE SessionId='" . session_id() . "'" );
-        if ($SessionId === $_SESSION['SessionID'] )
-        {
-            // fügt der jeweiligen Session die user_id hinzu
-            $db->execute("UPDATE " . DB_PREFIX . "session SET user_id = ? WHERE SessionId = ?", $_SESSION['user']['user_id'], $_SESSION['SessionID']);
-        }
-        
+        // Es lassen sich also Guest-Session und User-Session unterscheiden.
+        $this->session_set_user_id();
+                
         // 4. Login attempts löschen
         unset($_SESSION['login_attempts']);
         
         // 5. Stats-Updaten
         //
     }
+    
+    //----------------------------------------------------------------
+    // Es wird überprüft, ob ein Login Cookie gesetzt ist. 
+    //----------------------------------------------------------------
+    function check_login_cookie() 
+    { 
+        global $Db;
+
+        // 1. wenn remember-me cookie gesetzt ist,
+        // die entsprechenden daten aus db holen
+        if ($_COOKIE['userid'] && $_COOKIE['password']) {
+        
+        $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE user_id = ? LIMIT 1' );
+        $stmt->execute( array( (int) $_COOKIE['userid'] ) );
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+       
+	    // 2. Wenn die Db-Daten mit dem Cookie übereinstimmen, das
+	    // $user Array aktualisieren
+	    if (isset($user) && $_COOKIE['password'] == $user['password']
+	    		         && $_COOKIE['userid']   == $user['user_id']) 
+		
+		{	// 3. Class $User mit ID initialisieren
+	        $this->create_user($user['user_id']);
+	        
+	       	// 4. der Session wird die user_id zugeordnet
+			$this->session_set_user_id();
+	    
+	    } else {
+	    
+        		// Die unzutreffenden Cookies löschen
+        	    setcookie('userid', '', time()-3600*24, '/' );
+        		setcookie('password', '', time()-3600*24, '/');    
+	    
+	    } // end-if userid/password ok
+        unset($user);
+    } // end-if cookie set
+    
+    } // end function check-login-cookie
+
+
+    // ----
+    // Der Session wird die user_id zugeordnet.
+    // ----
+    function session_set_user_id() 
+    {
+	global $db;
+	
+	$stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
+    $stmt->execute( array( session_id() ) );
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($session['session_id'] === $_SESSION['sessionid'] )
+        {
+            // fügt der jeweiligen Session die user_id hinzu
+            $stmt = $db->prepare('UPDATE '. DB_PREFIX .'session SET user_id = ? WHERE session_id = ?');
+            $stmt->execute( 
+                            array(  $_SESSION['user']['user_id'], 
+                                    $_SESSION['sessionid'] 
+                           )
+            );
+         
+        }
+	}
     
 }
 ?>
