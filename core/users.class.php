@@ -28,6 +28,37 @@
 * @since      File available since Release 0.1
 */
 
+/*
+//----------------------------------------------------------------
+// Table structure for `cs_users`
+//----------------------------------------------------------------
+
+CREATE TABLE `cs_users` (
+  `user_id` int(10) unsigned NOT NULL auto_increment,
+  `email` varchar(150) NOT NULL default '',
+  `nick` varchar(25) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
+  `new_password` varchar(32) default NULL,
+  `joined` date default NULL,
+  `timestamp` timestamp NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `first_name` varchar(25) NOT NULL default '',
+  `last_name` varchar(25) NOT NULL default '',
+  `infotext` text NOT NULL,
+  `disabled` tinyint(1) default NULL,
+  `activated` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`user_id`),
+  KEY `email` (`email`),
+  KEY `nick` (`nick`)
+) ENGINE=MyISAM;
+
+-- 
+-- Daten für Tabelle `cs_users`
+-- 
+
+INSERT INTO `cs_users` (`user_id`, `email`, `nick`, `password`, `new_password`, `joined`, `timestamp`, `first_name`, `last_name`, `infotext`, `disabled`, `activated`) VALUES (1, 'admin@localhost.de', 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, '2005-07-28', '2006-07-02 14:13:20', 'john', 'vain', '', NULL, 0);
+INSERT INTO `cs_users` (`user_id`, `email`, `nick`, `password`, `new_password`, `joined`, `timestamp`, `first_name`, `last_name`, `infotext`, `disabled`, `activated`) VALUES (2, 'gast@localhost.de', 'gastnick', '21232f297a57a5a743894a0e4a801fc3', NULL, '2006-04-11', '2006-07-02 14:13:20', 'gastvorname', 'gastnachname', 'infotext gast', NULL, 0);
+
+*/
 
 //----------------------------------------------------------------
 // Security Handler
