@@ -199,6 +199,11 @@ font-weight:bold;
 display:none;
 }
 
+
+
+
+
+
 .redirect
 {
     padding: 10px;
@@ -209,4 +214,15 @@ display:none;
     border: 1px solid #000000;
     vertical-align: middle;
     text-align: center;
+}
+
+.font_mini
+{
+    font-size: 10px;
+}
+
+.error
+{
+    color: red;
+    font-weight: bold;
 }
