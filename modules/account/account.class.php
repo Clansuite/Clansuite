@@ -69,7 +69,7 @@ class module_account
                 $title = ' Logout ';
                 break;
                 
-                // ----- ( Register ) ----
+            // ----- ( Register ) ----
                 
             case 'register':
                 $title = ' Registration ';
@@ -139,8 +139,6 @@ class module_account
     //----------------------------------------------------------------
     function login()
     {
-        global $user;
-        
         global $tpl, $user;
         
         $email = $_POST['email'];
@@ -276,22 +274,21 @@ class module_account
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // mailer laden
-                require ( ROOT.'/core/mail.class.php' );
-                $mailer = new mailer;
+                require ( ROOT . '/core/mail.class.php' );
+                
+                $to_address = '"' . $nick . '" <' . $email . '>';
+               
+                $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                
+                $subject = 'Account activation';    
                 
                 $body  = "To activate your account click on the link below:\r\n";
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
                 $body .= "Password: %s";
                 $body  = sprintf($body, $user['user_id'], md5(md5($password)), $password);
-                
-                $mailer->Subject = 'Account activation';
-                $mailer->Body = $body;
-                $mailer->AddAddress($email, $nick);
-                
-                echo "Debug Email Body :".$body;
-                
+                                              
                 // mail senden
-                if ($mailer->send())
+                if (sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     $functions->redirect('/index.php?mod=account&action=register-done');
                     exit;
@@ -330,21 +327,22 @@ class module_account
                 $password = genString(6);
                 $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET password = ? WHERE user_id = ?');
                 $stmt->execute(array(md5($password), $u1->getId() ) );
-                
-                
+                 
                 require ( ROOT.'/core/mail.class.php' );
-                $mailer = new mailer;
+                
+                $to_address = '"' . $nick . '" <' . $email . '>';
+               
+                $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                
+                $subject = 'Account activation';
                 
                 $body  = "To activate an account click on the link below:\r\n";
-                $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
+                $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
                 $body .= "Password: %s";
                 $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
                 
-                $mailer->Subject = 'Account activation';
-                $mailer->Body = $body;
-                $mailer->AddAddress($email, $nick);
-                
-                if ($mailer->send())
+                // mail senden
+                if (sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     $functions->redirect('/index.php?mod=account&action=activation-email-sent');
                     exit;
@@ -470,18 +468,20 @@ class module_account
                 $stmt->execute(array(md5($password), $u1->getId()));
                 
                 require ( ROOT.'/core/mail.class.php' );
-                $mailer = new mailer;
+                
+                $to_address = '"' . $email . '" <' . $email . '>';
+               
+                $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                
+                $subject = 'New password';
                 
                 $body  = "To activate new password click on the link below:\r\n";
-                $body .= "http://$domain".WWW_ROOT."/index.php?mod=account&action=activate-password&user_id=%s&code=%s\r\n";
+                $body .= WWW_ROOT."/index.php?mod=account&action=activate-password&user_id=%s&code=%s\r\n";
                 $body .= "New Password: %s";
                 $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
-                
-                $mailer->Subject = 'New password';
-                $mailer->Body = $body;
-                $mailer->AddAddress($email, $nick);
-                
-                if ($mailer->send())
+                                
+                // mail senden
+                if (sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     header('location: index.php?mod=account&action=forgot-password-sent');
                     exit;
