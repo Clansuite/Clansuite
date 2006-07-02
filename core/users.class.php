@@ -138,21 +138,24 @@ class users
         # $user initialisieren
         if ($user_id)
         {
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?', array($user_id ) );
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
             
         }
         else
         if ($email)
         {
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?', array($email ) );
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?');
+            $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
             
         }
         else
         if ($nick)
         {
-            $stmt = $db->simple_query('SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?', array($nick ) );
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
         
