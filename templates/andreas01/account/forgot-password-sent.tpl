@@ -1,2 +1,2 @@
-<h1>Forgot Password</h1>
-    <p>New password has been sent to you by email.</p>
+<h1>{translate}Forgot Password{/translate}</h1>
+    <p>{translate}New password has been sent to you by email.{/translate}</p>

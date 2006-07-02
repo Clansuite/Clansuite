@@ -1,9 +1,7 @@
-<h1>Activate account</h1>
+<h1>{translate}Activate account{/translate}</h1>
     <p>
-        {php}
-            if ($alreadyActivated) echo '<p>Your account is already activated.</p>';
-            else if ($success) echo '<p>Your account has been activated.</p>';
-            else echo '<p class="error">Account activation failed. Check if the code and user id are valid in the URL.</p>';
-        {/php}
-
+        {if $alreadyActivated == 1}{translate}<p class="error">Your account is already activated.{/translate}</p>{/translate}
+        {elseif $success == 1}<p>{translate}Your account has been activated.{/translate}</p>
+        {else}<p class="error">{translate}Account activation failed. Check if the code and user id are valid in the URL.{/translate}</p>
+        {/if}
     </p>
