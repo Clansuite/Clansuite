@@ -197,11 +197,11 @@ class module_account
     //----------------------------------------------------------------
     function register()
     {
-        global $db, $tpl, $input, $functions, $err;
+        global $db, $tpl, $input, $functions, $error, $security, $lang;
         
-        $email = $_POST['email'];
+        $email  = $_POST['email'];
         $email2 = $_POST['email2'];
-        $nick = $_POST['nick'];
+        $nick   = $_POST['nick'];
         
         $err = array();
         
@@ -215,7 +215,7 @@ class module_account
             // formular ist vollständig
 
             // emails entsprechen einander
-            if ($email !== $email2 )
+            if ($email != $email2 )
             {
                 $err['emails_mismatching'] = 1;
             }
@@ -227,7 +227,7 @@ class module_account
             }
             
             // nick ist ok
-            if ($input->check($nick, 'is_abc|is_int|is_custom', '_()<>[]|.:\'{}$', 25 ) == false )
+            if ($input->check($nick, 'is_abc|is_int|is_custom', '-_()<>[]|.:\'{}$', 25 ) == false )
             {
                 $err['nick_wrong'] = 1;
             }
@@ -242,57 +242,57 @@ class module_account
                         
             // nick existiert noch nicht
             $stmt = $db->prepare('SELECT COUNT(nick) FROM ' . DB_PREFIX .'users WHERE nick = ?' );
-            $stmt->execute(array($nick ) );
+            $stmt->execute( array( $nick ) );
             if ($stmt->fetchColumn() > 0)
             {
                 $err['nick_exists'] = 1;
             }
                         
-            // es liegen keine der obigen fehler vor
-            if (count($err) == 0  )
+            // nick existiert noch nicht
+            $stmt = $db->prepare('SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
+            $stmt->execute( array( $email ) );
+            if ($stmt->fetchColumn() > 0)
             {
-                
-                // password generieren
-                $password = $this->genString(6);
-                
+                $err['email_exists'] = 1;
+            }
+            
+            // es liegen keine der obigen fehler vor
+            if ( count($err) == 0  )
+            {               
                 // user eintragen
-                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick,:password, :joined)');
-                $stmt->execute(array(':email'     => $email,
-                ':nick'     => $nick,
-                ':password'     => md5($password),
-                ':joined'     => 'time()' )
-                );
+                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick, :password, :joined)');
+                $stmt->execute( array(  ':email'        => $email,
+                                        ':nick'         => $nick,
+                                        ':password'     => $security->build_salted_hash($password),
+                                        ':joined'       => time() ) );
                 
                 // user_id ermitteln
                 // old: $user_id = $stmt->lastInsertId();
                 $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX .'users WHERE email = ? AND nick = ?' );
-                $stmt->execute(array($email, $nick ) );
+                $stmt->execute( array( $email, $nick ) );
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // mailer laden
                 require ( ROOT . '/core/mail.class.php' );
+                $mailer = new mailer;
                 
-                $to_address = '"' . $nick . '" <' . $email . '>';
-               
-                $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                $to_address     = '"' . $nick . '" <' . $email . '>';
+                $from_address   = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                $subject        = $lang->t('Account activation');    
                 
-                $subject = 'Account activation';    
-                
-                $body  = "To activate your account click on the link below:\r\n";
+                $body  = $lang->t("To activate your account click on the link below:\r\n");
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
                 $body .= "Password: %s";
-                $body  = sprintf($body, $user['user_id'], md5(md5($password)), $password);
+                $body  = sprintf($body, $user['user_id'], $security->build_salted_hash($password), $password);
                                               
                 // mail senden
-                if (sendmail($to_address, $from_address, $subject, $body) == true )
+                if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-done');
-                    exit;
+                    $functions->redirect('/index.php?mod=account&action=register-done', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
                 }
                 else
                 {
                     $functions->redirect('/index.php?mod=account&action=register-error');
-                    exit;
                 }
             }
         }
@@ -325,7 +325,7 @@ class module_account
                 $stmt->execute(array(md5($password), $u1->getId() ) );
                  
                 require ( ROOT.'/core/mail.class.php' );
-                
+                $mailer = new mailer;
                 $to_address = '"' . $nick . '" <' . $email . '>';
                
                 $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
@@ -338,7 +338,7 @@ class module_account
                 $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
                 
                 // mail senden
-                if (sendmail($to_address, $from_address, $subject, $body) == true )
+                if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     $functions->redirect('/index.php?mod=account&action=activation-email-sent');
                     exit;
@@ -464,6 +464,7 @@ class module_account
                 $stmt->execute(array(md5($password), $u1->getId()));
                 
                 require ( ROOT.'/core/mail.class.php' );
+                $mailer = new mailer;
                 
                 $to_address = '"' . $email . '" <' . $email . '>';
                
@@ -477,7 +478,7 @@ class module_account
                 $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
                                 
                 // mail senden
-                if (sendmail($to_address, $from_address, $subject, $body) == true )
+                if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     header('location: index.php?mod=account&action=forgot-password-sent');
                     exit;

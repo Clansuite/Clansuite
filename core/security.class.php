@@ -54,7 +54,7 @@ class security
     //----------------------------------------------------------------
     // MD5 Hash creation
     //----------------------------------------------------------------
-    function generate_md5($string = '' )
+    function generate_md5( $string = '' )
     {
         return md5(md5($string ) );
     }
@@ -62,7 +62,7 @@ class security
     //----------------------------------------------------------------
     // SHA1 Hash creation
     //----------------------------------------------------------------
-    function generate_sha1($string = '' )
+    function generate_sha1( $string = '' )
     {
         return sha1(sha1($string ) );
     }
@@ -70,7 +70,7 @@ class security
     //----------------------------------------------------------------
     // Build salted Hash string
     //----------------------------------------------------------------
-    function build_salted_hash($string = '' )
+    function build_salted_hash( $string = '' )
     {
         global $cfg;
         
@@ -99,7 +99,7 @@ class security
     //----------------------------------------------------------------
     // Check for {$copyright} tag in $cfg->tpl_wrapper_file
     //----------------------------------------------------------------
-    function check_copyright($file)
+    function check_copyright( $file )
     {
         global $lang, $error;
         

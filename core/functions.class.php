@@ -47,9 +47,9 @@ class functions
     //----------------------------------------------------------------
     // Redirection modes
     //----------------------------------------------------------------
-    function redirect($url = '', $type = '', $time = 0 )
+    function redirect($url = '', $type = '', $time = 0, $message = '' )
     {
-        global $session;
+        global $session, $tpl, $cfg;
         
         switch ($type)
         {
@@ -77,6 +77,14 @@ class functions
                 
             case 'metatag':
                 $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                break;
+                
+            case 'metatag|newsite':
+                $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                $tpl->assign( 'redirect', $redirect );
+                $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
+                $tpl->assign( 'message', $message );
+                die( $tpl->display( 'redirect/redirect.tpl' ) );
                 break;
                 
             default:

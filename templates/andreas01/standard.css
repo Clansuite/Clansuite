@@ -198,3 +198,15 @@ font-weight:bold;
 .hide{
 display:none;
 }
+
+.redirect
+{
+    padding: 10px;
+    position: relative;
+    top: 300px;
+    background: #CCCCCC;
+    width: 200px;
+    border: 1px solid #000000;
+    vertical-align: middle;
+    text-align: center;
+}
