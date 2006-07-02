@@ -38,83 +38,74 @@ if (!defined('IN_CS'))
 }
 
 //----------------------------------------------------------------
-// Get phpmailer class
+// Get swift mailer class
 //----------------------------------------------------------------
-require(CORE_ROOT . '/phpmailer/class.phpmailer.php');
-global $cfg;
-
+require( CORE_ROOT . '/swiftmailer/swift.php');
+        
 //----------------------------------------------------------------
-// Start of mailer class extended by phpmailer
+// Include Connection Class & Set $connection
 //----------------------------------------------------------------
-class mailer extends phpmailer
+if ($cfg->mailmethod != 'smtp')
 {
-    //----------------------------------------------------------------
-    // Set default Vars
-    //----------------------------------------------------------------
-    public $WordWrap = 70;
-    public $Encoding = "base64";
-    public $Priority = 3;
-    public $CharSet  = "UTF-8";
+    require( CORE_ROOT . '/swiftmailer/Swift/Swift_Sendmail_Connection.php'); 
+}
+
+
+switch ($cfg->mailmethod) {
+
+    case 'smtp':
+    require('Swift/Swift/Swift_SMTP_Connection.php');
+    $connection = new Swift_SMTP_Connection( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
+    break;
     
-    /*
-* Function zur Initialisierung der Mail-Methode
-* in Abhängigkeit von (@link $cfg['mailmethod])
-* bei SMTP wird Auth verwendet
-* Möglichkeiten: mail(), smtp, sendmail, qmail
-* @input :  $mailmethod
-* @output : assigns $mailer->method
-*/
-    function __construct()
+    case 'sendmail':
+    $connection = new Swift_Sendmail_Connection;
+    break;
+    
+    case 'exim':
+    $connection = new Swift_Sendmail_Connection('/usr/sbin/exim -bs');
+    break;
+    
+    case 'qmail':
+    $connection = new Swift_Sendmail_Connection('/usr/sbin/qmail -bs');
+    break;
+    
+    case 'postfix':
+    $connection = new Swift_Sendmail_Connection('/usr/sbin/postfix -bs');
+    break;
+    
+    default:
+    $connection = new Swift_Sendmail_Connection;
+    }
+        
+    //----------------------------------------------------------------
+    // $mailer init
+    //----------------------------------------------------------------
+    global $swiftmailer;
+    $swiftmailer = new Swift($connection, $cfg->mailerhost);
+    
+    
+    function sendmail($to_address, $from_address, $subject, $body)
     {
-        global $cfg;
+        global $error, $swiftmailer;
         
-        $mailer->SMTPAuth = FALSE;
-        $mailer->Host = $cfg->smtphost;
-        
-        /* smtp mit auth */
-        if ($cfg->mailmethod == "smtp")
+        //If anything goes wrong you can see what happened in the logs
+        if ($swiftmailer->isConnected())
         {
-            $mailer->IsSMTP();
-            $mailer->SMTPAuth = TRUE;
-            $mailer->User = $cfg->smtpusername;
-            $mailer->Password = $cfg->smtppassword;
+            //Sends a simple email
+            $swiftmailer->send($to_address, $from_address, $subject, $body);
+            
+            //Closes cleanly... works without this but it's not as polite.
+            $swiftmailer->close();
+            return true;
         }
-        /* sendmail */
-        elseif ($cfg->mailmethod == "sendmail")
-        {
-            $mailer->IsSendmail();
-            $mailer->Sendmail = $cfg->sendmailpath;
-        }
-        /* qmail */
-        elseif ($cfg->mailmethod == "qmail")
-        {
-            $mailer->IsQmail();
-        }
-        /* mail */
         else
         {
-            #$mailer->IsMail();
+            echo "The mailer failed to connect. Errors: <pre>".print_r($swiftmailer->errors, 1)."</pre><br />
+            Log: <pre>".print_r($swiftmailer->transactions, 1)."</pre>";
+            $error->error_log['mailer']['error'] = $lang->t('Mailer Error! Description: ') . print_r($swiftmailer->errors, 1);
+            return false;
         }
-        
-        $mailer->From = $cfg->from;
-        $mailer->FromName = $cfg->from_name;
-        #$mailer->AddReplyTo($cfg->from, $cfg->from_name);
-        
-        #$mailer->IsHTML(true);
-        // set altBODY for non-html
-        
     }
-    
-    // Replace the default error_handler
-    function error_handler($msg)
-    {
-        global $error;
-        
-        print("Mailer Error");
-        print("Description:");
-        printf("%s", $msg);
-        $error->error_log['mailer']['error'] = $lang->t('Mailer Error! Description: ') . $msg;
-        exit;
-    }
-}
+
 ?>

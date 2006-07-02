@@ -68,13 +68,18 @@ class config
         //----------------------------------------------------------------
         // Mail configuration
         //----------------------------------------------------------------
-        $this->mailmethod       = "mail";
-        $this->host             = "clansuite.localhost.de";
-        $this->smtp_username    = "clansuite";
-        $this->smtp_password    = "toop";
-        $this->path_to_sendmail = "/usr/sbin/sendmail";
-        $this->from             = "system@clansuite.com";
-        $this->from_name        = "Clansuite Mailer";
+        // methods: smtp, sendmail, exim, 
+        $this->mailmethod       = 'mail';
+        $this->mailerhost       = $_SERVER['SERVER_NAME'];
+        // if no port is given: ports 25 & 465 are used
+        $this->mailerport       = '';        
+        $this->smtp_username    = 'clansuite';
+        $this->smtp_password    = 'toop';
+        // encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
+        $this->mailencryption   = 'SWIFT_OPEN';
+                
+        $this->from             = 'system@clansuite.com';
+        $this->from_name        = 'Clansuite Mailer';
 
         //----------------------------------------------------------------
         // Standard configurations

@@ -190,7 +190,7 @@ class session
         $stmt = $db->prepare('SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute(array($id ) );
         
-        if ($stmt->fetch() )
+        if ($stmt->fetchAll() )
         {
             //----------------------------------------------------------------
             // Update Session in DB
