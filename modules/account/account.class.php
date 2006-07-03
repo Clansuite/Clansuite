@@ -204,7 +204,7 @@ class module_account
         $nick   = $_POST['nick'];
         $pass   = $_POST['password'];
         $pass2  = $_POST['password2'];
-        
+
         $err = array();
         
         if ( empty($email) OR empty($email2) OR empty($nick) OR empty($pass) OR empty($pass2) )
@@ -286,7 +286,7 @@ class module_account
                 $stmt->execute( array( $email, $nick ) );
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                // mailer laden
+                // Load mailer
                 require ( ROOT . '/core/mail.class.php' );
                 $mailer = new mailer;
                 
@@ -296,18 +296,21 @@ class module_account
                 
                 $body  = $lang->t("To activate your account click on the link below:\r\n");
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
-                $body .= "Password: %s";
-                $body  = sprintf($body, $user['user_id'], $security->build_salted_hash($pass), $pass);
-                                              
-                // mail senden
-                if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+                $body .= $lang->t('Username').": %s\r\n";
+                $body .= $lang->t('Password').": %s\r\n";
+                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+                $body  = sprintf($body, $user['user_id'], md5(microtime()), $nick, $pass);
+                              
+                // Send mail
+                if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     $functions->redirect('/index.php?mod=account&action=register-done', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
                 }
                 else
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-error');
-                    exit;
+                    $this->output .= $error->show( $lang->t( 'Mailer Error' ), $lang->t( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
+                    return;
                 }
             }
         }
@@ -358,7 +361,7 @@ class module_account
                 $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
                 
                 // mail senden
-                if ($mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+                if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
                     $functions->redirect('/index.php?mod=account&action=activation-email-sent');
                     exit;

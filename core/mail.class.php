@@ -88,6 +88,7 @@ class mailer
         // $mailer init
         //----------------------------------------------------------------
         global $swiftmailer;
+        
         $swiftmailer = new Swift($connection, $cfg->mailerhost);
     }
     
