@@ -1,12 +1,12 @@
 <h2>{translate}Register{/translate}</h2>
 
-    {if $err.not_filled == 1}{translate}<p class="error">Please fill out all required fields!{/translate}</p>{/if}
-    {if $err.nick_wrong == 1}{translate}<p class="error">The nickname contains violating characters!{/translate}</p>{/if}
-    {if $err.email_wrong == 1}{translate}<p class="error">The email address is wrong!{/translate}</p>{/if}
-    {if $err.email_exists == 1}{translate}<p class="error">The email address already exists in our database!{/translate}</p>{/if}
-    {if $err.nick_exists == 1}{translate}<p class="error">The nickname already exists in our database!{/translate}</p>{/if}
-    {if $err.pass_too_short == 1}{translate}<p class="error">The password is too short!{/translate}</p>{/if}
-    {if $err.passes_do_not_fit == 1}{translate}<p class="error">The passwords aren't the same!{/translate}</p>{/if}
+    {if $err.not_filled == 1}<p class="error">{translate}Please fill out all required fields!{/translate}</p>{/if}
+    {if $err.nick_wrong == 1}<p class="error">{translate}The nickname contains violating characters!{/translate}</p>{/if}
+    {if $err.email_wrong == 1}<p class="error">{translate}The email address is wrong!{/translate}</p>{/if}
+    {if $err.email_exists == 1}<p class="error">{translate}The email address already exists in our database!{/translate}</p>{/if}
+    {if $err.nick_exists == 1}<p class="error">{translate}The nickname already exists in our database!{/translate}</p>{/if}
+    {if $err.pass_too_short == 1}<p class="error">{translate}The password is too short!{/translate}</p>{/if}
+    {if $err.passes_do_not_fit == 1}<p class="error">{translate}The passwords aren't the same!{/translate}</p>{/if}
     
     <form action="index.php?mod=account&action=register" method="post">
     <table>

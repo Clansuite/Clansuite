@@ -214,7 +214,7 @@ class session
     //----------------------------------------------------------------
     // Destroy a session
     //----------------------------------------------------------------
-    function _session_destroy($id )
+    function _session_destroy( $id )
     {
         global $db;
         
@@ -228,17 +228,18 @@ class session
         //----------------------------------------------------------------
         if (isset($_COOKIE[$this->session_name]))
         {
-            unset($_COOKIE[$this->session_name]);
             setcookie($this->session_name, false );
         }
-        
-        
+                
         //----------------------------------------------------------------
-        // Optimize tables
+        // Delete session from DB
         //----------------------------------------------------------------
         $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
         
+        //----------------------------------------------------------------
+        // Optimize DB
+        //----------------------------------------------------------------
         if ($stmt->rowCount() > 0)
         {
             $this->_session_optimize();

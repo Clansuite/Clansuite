@@ -99,8 +99,10 @@ class config
         //----------------------------------------------------------------
         // User configurations
         //----------------------------------------------------------------
-        $this->login_method     = 'nick';
-        $this->remember_me_time = 7776000; // 90 Days
+        $this->login_method         = 'nick';
+        $this->remember_me_time     = 7776000; // 90 Days
+        $this->max_login_attempts   = 5;
+        $this->login_ban_minutes    = 30;
         
         //----------------------------------------------------------------
         // Session configurations
