@@ -93,7 +93,7 @@ class session
         ini_set('session.gc_probability'    , $this->session_probability );
         ini_set('session.name'              , $this->session_name );
         ini_set('session.use_trans_sid'     , 1 );
-        ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,fieldset=,meta=content=\"5; URL");
+        ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=,meta=content=\"5; URL");
         ini_set('session.use_cookies'       , $cfg->use_cookies );
         ini_set('session.use_only_cookies'  , $cfg->use_cookies_only );
         
