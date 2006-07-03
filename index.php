@@ -195,7 +195,7 @@ $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_f
 //----------------------------------------------------------------
 // Assign the results
 //----------------------------------------------------------------
-$tpl->assign('exec_counter'     , $db->exec_counter );
+$tpl->assign('query_counter'     , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
