@@ -68,19 +68,9 @@ class db
     protected $db;
     
     //----------------------------------------------------------------
-    // Number of exec's
-    //----------------------------------------------------------------
-    public $exec_counter = 0;
-    
-    //----------------------------------------------------------------
     // Number of performed statements
     //----------------------------------------------------------------
     public $query_counter = 0;
-    
-    //----------------------------------------------------------------
-    // Number of prepared statements
-    //----------------------------------------------------------------
-    public $prepared_counter = 0;
     
     //----------------------------------------------------------------
     // Queries Array
@@ -140,7 +130,6 @@ class db
     //----------------------------------------------------------------
     public function prepare($sql='' )
     {
-        $this->prepared_counter++;
         $this->prepares[] = $sql;
         
         return new db_statements( $this->db->prepare( $sql ) );
@@ -153,15 +142,10 @@ class db
     {
         
         $res = $this->prepare( $sql );
-        $this->prepared_counter++;
         
         $res->execute($args);
-        $this->exec_counter++;
         
         $res->closeCursor();
-        
-        $this->prepares[] = $sql;
-        $this->queries[] = $sql;
         
         return $res;
     }
@@ -173,7 +157,7 @@ class db
     public function query( $sql='' )
     {
         
-        $this->queries_counter++;
+        $this->query_counter++;
         $this->queries[] = $sql;
         $res = $this->db->query($sql);
         
