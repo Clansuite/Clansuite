@@ -178,6 +178,7 @@ $session->create_session();
 // Create a user - Guest/Member
 //----------------------------------------------------------------
 $users->create_user();
+$users->check_login_cookie();
 
 //----------------------------------------------------------------
 // Logging

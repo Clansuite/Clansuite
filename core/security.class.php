@@ -48,6 +48,7 @@ class security
     function generate_salt()
     {
         $salt = rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
+        $salt .= '-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
         return $salt;
     }
     
@@ -68,7 +69,7 @@ class security
     }
     
     //----------------------------------------------------------------
-    // Build salted Hash string
+    // Build salted Hash string (Cookie Hash)
     //----------------------------------------------------------------
     function build_salted_hash( $string = '' )
     {
@@ -76,24 +77,32 @@ class security
         
         $salt = split('-', $cfg->salt);
         
-        switch ($cfg->encryption )
+        switch ( $cfg->encryption )
         {
             case 'sha1':
-                $hash = $this->generate_sha1($string );
+                $hash = $this->generate_sha1( $string );
                 break;
                 
             case 'md5':
-                $hash = $this->generate_md5($string );
+                $hash = $this->generate_md5( $string );
                 break;
         }
         
         
-        for ($x=0; $x<3; $x++)
+        for ($x=0; $x<6; $x++)
         {
-            $hash = str_replace($salt[$x], $salt[$x+3], $hash );
+            $hash = str_replace( $salt[$x], $salt[$x+6], $hash );
         }
         
         return $hash;
+    }
+    
+    //----------------------------------------------------------------
+    // Build the DB salted Hash
+    //----------------------------------------------------------------
+    function db_salted_hash( $string = '' )
+    {
+        return $this->build_salted_hash( $this->build_salted_hash( $string ) );
     }
     
     //----------------------------------------------------------------

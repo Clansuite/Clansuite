@@ -139,22 +139,28 @@ class module_account
     //----------------------------------------------------------------
     function login()
     {
-        global $tpl, $users, $functions;
+        global $tpl, $users, $functions, $cfg, $lang;
         
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $rememberme = $_POST['remember'];
+        $nick        = $_POST['nickname'];
+        $email       = $_POST['email'];
+        $password    = $_POST['password'];
+        $remember_me = $_POST['remember_me'];
         
-        if ($email && $password)
+        if( $cfg->login_method == 'nick' )
+        { $value = $nick; }
+        if( $cfg->login_method == 'email' )
+        { $value = $email; }
+
+
+        if (isset($value) && !empty($password))
         {
             
-            $userid = $users->check_user($email, $password);
-            
-            if ($userid != false)
+            $user_id = $users->check_user($cfg->login_method, $value, $password);
+
+            if ($user_id != false)
             {
-                $users->login($userid, $rememberme);
-                $functions->redirect('/index.php?mod=admin');
-                exit;
+                $users->login( $user_id, $remember_me, $password );
+                $functions->redirect('/index.php?mod=admin', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
             {                
@@ -163,6 +169,7 @@ class module_account
                 
                 // Login-Attempts
                 // bei 3-5 versuchen 20min ip ban?
+                // ne - confirmation per mail, bei 5 versuchen - also neues passwort wird gemailed
                 if (!isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = '1';
@@ -177,6 +184,11 @@ class module_account
                 
             }
         }
+        
+        // Assign Vars
+        $tpl->assign('cfg', $cfg);
+        
+        // Output Template
         $this->output .= $tpl->fetch('account/login.tpl');
     }
     
@@ -277,7 +289,7 @@ class module_account
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick, :password, :joined)');
                 $stmt->execute( array(  ':email'        => $email,
                                         ':nick'         => $nick,
-                                        ':password'     => $security->build_salted_hash($pass),
+                                        ':password'     => $security->db_salted_hash($pass),
                                         ':joined'       => time() ) );
                 
                 // user_id ermitteln
