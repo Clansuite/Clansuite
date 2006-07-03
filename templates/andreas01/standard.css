@@ -226,3 +226,13 @@ display:none;
     color: red;
     font-weight: bold;
 }
+
+.input_text
+{
+    border: thin solid black;
+}
+
+.input_submit
+{
+    border: thin solid black;
+}

@@ -11,34 +11,32 @@
     <form action="index.php?mod=account&action=register" method="post">
     <table>
         <tr>
+            <td>{translate}Nick:{/translate}</td>
+            <td><input class='input_text' type="text" name="nick" value="{$smarty.post.nick|escape:"htmlall"}"></td>
+        </tr>
+        <tr>
             <td>{translate}Email:{/translate}</td>
-            <td><input type="text" name="email" value="{$smarty.post.email|escape:"htmlall"}"></td>
+            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"htmlall"}"></td>
         </tr>
         <tr>
             <td>{translate}Confirm email:{/translate}</td>
-            <td><input type="text" name="email2" value="{$smarty.post.email2|escape:"htmlall"}"></td>
+            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"htmlall"}"></td>
         </tr>
-        <tr>
-            <td>{translate}Nick:{/translate}</td>
-            <td><input type="text" name="nick" value="{$smarty.post.nick|escape:"htmlall"}"></td>
-        </tr>
+
         <tr>
             <td valign='top'>{translate}Password:{/translate}</td>
-            <td><input type="password" name="password" value=""><br /><span class='font_mini'>{translate}Minimum: {/translate}{$min_length}</span></td>
+            <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""><br /><span class='font_mini'>{translate}Minimum: {/translate}{$min_length}</span></td>
         </tr>
         <tr>
-            <td>{translate}Password again:{/translate}</td>
-            <td><input type="password" name="password2" value=""></td>
+            <td>{translate}Confirm Password:{/translate}</td>
+            <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <span id='password_verification' style='width: 1px; height: 20px; background: red;'></span>
-            </td>
+            <td>{translate}Password Security{/translate}</td>
+            <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <input type="submit" name="submit" value="{translate}Register{/translate}">
-            </td>
+            <td cospan='2'><input class='input_submit' type="submit" name="submit" value="{translate}Register{/translate}"></td>
         </tr>
     </table>
     </form>
