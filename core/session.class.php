@@ -229,8 +229,9 @@ class session
         if (isset($_COOKIE[$this->session_name]))
         {
             unset($_COOKIE[$this->session_name]);
+            setcookie($this->session_name, false );
         }
-        setcookie($this->session_name, false );
+        
         
         //----------------------------------------------------------------
         // Optimize tables

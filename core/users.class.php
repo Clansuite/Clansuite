@@ -131,51 +131,52 @@ class users
     //----------------------------------------------------------------
     // Create user-object and $_SESSION data
     //----------------------------------------------------------------
-    function create_user($user_id = null, $email = null, $nick = null)
+    function create_user($user_id = '', $email = '', $nick = '')
     {
-        global $db;
+        global $db, $session, $lang;
         
         # $user initialisieren
-        if ($user_id)
+        if ( !empty($user_id) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
             
         }
-        else
-        if ($email)
+        else if ( !empty($email) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?');
             $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
             
         }
-        else
-        if ($nick)
+        else if ( !empty($nick) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
             $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
         
-        $_SESSION['sessionid'] 	= 	session_id();
+        $_SESSION[$session->session_name] = session_id();
         
         // user :: Das $user-Array ist also nur gesetzt,
         // wenn die Funktion user['param'] aufgerufen wurde.
-        if (isset($user) && $user)
+        if ( is_array($user) )
         {
             
             // $_SESSION mit $user daten füllen
-            $_SESSION['user']['authed']       = '1';
-            $_SESSION['user']['user_id']      = $user['user_id'];
+            $_SESSION['user']['authed']     = '1';
+            $_SESSION['user']['user_id']    = $user['user_id'];
             
-            $_SESSION['user']['password']     = $user['password'];
-            $_SESSION['user']['email']        = $user['email'];
-            $_SESSION['user']['nick']         = $user['nick'];
+            $_SESSION['user']['password']   = $user['password'];
+            $_SESSION['user']['email']      = $user['email'];
+            $_SESSION['user']['nick']       = $user['nick'];
             
-            $_SESSION['user']['first_name']   = $user['first_name'];
-            $_SESSION['user']['last_name']    = $user['last_name'];
+            $_SESSION['user']['first_name'] = $user['first_name'];
+            $_SESSION['user']['last_name']  = $user['last_name'];
+            
+            $_SESSION['user']['disabled']   = $user['disabled'];
+            $_SESSION['user']['activated']  = $user['activated'];
             
             
             
@@ -190,28 +191,39 @@ class users
         else
         # GUEST :: wenn keine Parameter übergeben wurden, ist der user ein Gast
         {
-            $_SESSION['user']['authed']     =     0;
-            $_SESSION['user']['nick']     =     'Gast';
-            #_SESSION['::Gruppen::']    =     'Gast';
+            $_SESSION['user']['authed']     = 0;
+            $_SESSION['user']['user_id']    = 0;
+            $_SESSION['user']['nick']       = $lang->t('Gast');
+            #_SESSION['::Gruppen::']        = 'Guests';
         }
     }
     
     //----------------------------------------------------------------
     // Check the user
-    // input $email $password
     // output return $user_id
     //----------------------------------------------------------------
-    function check_user($email, $password)
+    function check_user($login_method = 'nick', $value, $password)
     {
-        global $db;
+        global $db, $security;
         
-        // anhand email user_id, und password auslesen
-        $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
-        $stmt->execute( array( $email ) );
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if( $login_method == 'nick' )
+        {
+            // anhand email user_id, und password auslesen
+            $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE nick = ? LIMIT 1' );
+            $stmt->execute( array( $value ) );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
         
+        if( $login_method == 'email' )
+        {
+            // anhand email user_id, und password auslesen
+            $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
+            $stmt->execute( array( $value ) );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        }        
+
         // falls $user mit daten gefüllt wurde, das pw überprüfen
-        if ( is_array($user) && $user['password'] == md5($password) )
+        if ( is_array($user) && $user['password'] == $security->db_salted_hash( $password ) )
         {
             // demnach existiert ein user mit der kombination von email & pw
             // und es wird die user_id zurückgeliefert
@@ -228,9 +240,9 @@ class users
     // Login the user
     // input $user_id, $rememberme
     //----------------------------------------------------------------
-    function login($user_id, $rememberme)
+    function login($user_id, $remember_me, $password)
     {
-        global $users, $db;
+        global $users, $db, $security, $cfg;
         
         // 1. Benutzerdaten holen
         // anhand $user_id entsprechende userdata in Session ablegen
@@ -239,10 +251,10 @@ class users
         // 2. Remember-Me 
         // ( Logindata als Cookie ablegen )
         
-        if ($rememberme)
+        if ( $remember_me == 1 )
         {
-            setcookie('userid', $user_id, $cfg->remembermetime, '/');
-            setcookie('password',$_SESSION['user']['password'], $cfg->remembermetime, '/' );
+            setcookie('user_id', $user_id, time() + $cfg->remember_me_time);
+            setcookie('password',$security->build_salted_hash( $password ), time() + $cfg->remember_me_time);
         }
         
         // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
@@ -261,61 +273,72 @@ class users
     //----------------------------------------------------------------
     function check_login_cookie() 
     { 
-        global $Db;
+        global $db, $security, $cfg;
 
-        // 1. wenn remember-me cookie gesetzt ist,
-        // die entsprechenden daten aus db holen
-        if ($_COOKIE['userid'] && $_COOKIE['password']) {
-        
-        $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE user_id = ? LIMIT 1' );
-        $stmt->execute( array( (int) $_COOKIE['userid'] ) );
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-       
-	    // 2. Wenn die Db-Daten mit dem Cookie übereinstimmen, das
-	    // $user Array aktualisieren
-	    if (isset($user) && $_COOKIE['password'] == $user['password']
-	    		         && $_COOKIE['userid']   == $user['user_id']) 
-		
-		{	// 3. Class $User mit ID initialisieren
-	        $this->create_user($user['user_id']);
+        //----------------------------------------------------------------
+        // Check for login cookie
+        //----------------------------------------------------------------
+        if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
+        {
+            $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE user_id = ? LIMIT 1' );
+            $stmt->execute( array( (int) $_COOKIE['user_id'] ) );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            //----------------------------------------------------------------
+            // Proceed if match
+            //----------------------------------------------------------------
+	        if (    is_array($user) && 
+                    $security->build_salted_hash( $_COOKIE['password'] ) == $user['password'] &&
+                    $_COOKIE['user_id'] == $user['user_id'] ) 
+		    
+		    {
+                //----------------------------------------------------------------
+                // Update the cookie
+                //----------------------------------------------------------------
+                setcookie('user_id', $_COOKIE['user_id'], time() + $cfg->remember_me_time);
+                setcookie('password',$_COOKIE['password'], time() + $cfg->remember_me_time);
+                
+                //----------------------------------------------------------------
+                // Create $_SESSION['user']
+                //----------------------------------------------------------------
+                $this->create_user($user['user_id']);
+	            
+	       	    //----------------------------------------------------------------
+                // Update Session in DB
+                //----------------------------------------------------------------
+			    $this->session_set_user_id();
 	        
-	       	// 4. der Session wird die user_id zugeordnet
-			$this->session_set_user_id();
-	    
-	    } else {
-	    
-        		// Die unzutreffenden Cookies löschen
-        	    setcookie('userid', '', time()-3600*24, '/' );
-        		setcookie('password', '', time()-3600*24, '/');    
-	    
-	    } // end-if userid/password ok
-        unset($user);
-    } // end-if cookie set
+	        }
+            else
+            {
+                //----------------------------------------------------------------
+                // Delete cookies, if no match
+                //----------------------------------------------------------------
+        	    setcookie('user_id', false );
+        		setcookie('password', false );    
+	        }
+        }
     
-    } // end function check-login-cookie
+    }
 
 
-    // ----
-    // Der Session wird die user_id zugeordnet.
-    // ----
+    //----------------------------------------------------------------
+    // Bind user_id to session
+    //----------------------------------------------------------------
     function session_set_user_id() 
     {
-	global $db;
-	
-	$stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
-    $stmt->execute( array( session_id() ) );
-    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+	    global $db;
+	    
+	    $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
+        $stmt->execute( array( session_id() ) );
+        $session_res = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($session['session_id'] === $_SESSION['sessionid'] )
+        if ($session_res['session_id'] == $_SESSION[$session->session_name] )
         {
             // fügt der jeweiligen Session die user_id hinzu
             $stmt = $db->prepare('UPDATE '. DB_PREFIX .'session SET user_id = ? WHERE session_id = ?');
-            $stmt->execute( 
-                            array(  $_SESSION['user']['user_id'], 
-                                    $_SESSION['sessionid'] 
-                           )
-            );
-         
+            $stmt->execute( array(  $_SESSION['user']['user_id'], 
+                                    $_SESSION[$session->session_name] ) );
         }
 	}
     

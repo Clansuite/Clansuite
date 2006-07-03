@@ -91,11 +91,17 @@ class config
         $this->std_module_action    = 'show';
         $this->min_pass_length      = '6';
         $this->encryption           = 'sha1';
-        $this->salt                 = '1-3-5-8-4-1';
+        $this->salt                 = '1-3-5-8-4-1-7-2-4-1-4-1';
         $this->std_page_title       = 'clansuite.com';
         $this->std_css              = 'standard.css';
         $this->std_javascript       = 'standard.js';
-
+        
+        //----------------------------------------------------------------
+        // User configurations
+        //----------------------------------------------------------------
+        $this->login_method     = 'nick';
+        $this->remember_me_time = 7776000; // 90 Days
+        
         //----------------------------------------------------------------
         // Session configurations
         //----------------------------------------------------------------
