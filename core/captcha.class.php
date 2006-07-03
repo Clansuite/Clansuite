@@ -40,19 +40,19 @@
 */
 class captcha {
     
-    var $strlength = '4';
+    public  $strlength = '4';
     
     // image settings
-    var $img_height = 50;
-    var $img_width = 200;
+    public  $img_height = 50;
+    public  $img_width = 200;
     // font settings
-    var $font_site = 30;
-    var $font_heigth = 45;
-    var $font = '../templates/core/fonts/Vera.ttf';
+    public  $font_site = 30;
+    public  $font_heigth = 45;
+    public  $font = '../templates/core/fonts/Vera.ttf';
     // graphic-effects
-    var $waves = false;
+    public  $waves = false;
     // type of captcha
-    var $captcha_type = array('img','number-2-ascii','logic');
+    public  $captcha_type = array('img','number-2-ascii','logic');
     
     function gd_version()
     {
@@ -285,7 +285,4 @@ class captcha {
     }
     
 }
-
-$captcha_image = new captcha;
-
 ?>

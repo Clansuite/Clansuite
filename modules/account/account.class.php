@@ -156,13 +156,20 @@ class module_account
         $remember_me = $_POST['remember_me'];
         $submit      = $_POST['submit'];
         
+        $err = array();
+        
+        //----------------------------------------------------------------
+        // Login method
+        //----------------------------------------------------------------
         if( $cfg->login_method == 'nick' )
         { $value = $nick; }
         if( $cfg->login_method == 'email' )
         { $value = $email; }
 
-
-        if (isset($value) && !empty($password))
+        //----------------------------------------------------------------
+        // Form filled?
+        //----------------------------------------------------------------
+        if ( isset($value) && !empty($password) && !empty($value) )
         {
             
             $user_id = $users->check_user($cfg->login_method, $value, $password);
@@ -173,10 +180,7 @@ class module_account
                 $functions->redirect('/index.php?mod=admin', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
-            {                
-                // User existiert nicht oder Passwort falsch!
-                unset($user['{/php}']);
-                
+            {              
                 //----------------------------------------------------------------
                 // Log login attempts
                 // At a specific number, ban ip
@@ -348,7 +352,7 @@ class module_account
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // Load mailer
-                require ( ROOT . '/core/mail.class.php' );
+                require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
                 
                 $to_address     = '"' . $nick . '" <' . $email . '>';
@@ -408,7 +412,7 @@ class module_account
                 $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET password = ? WHERE user_id = ?');
                 $stmt->execute(array(md5($password), $u1->getId() ) );
                  
-                require ( ROOT.'/core/mail.class.php' );
+                require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
                 $to_address = '"' . $nick . '" <' . $email . '>';
                
@@ -547,7 +551,7 @@ class module_account
                 $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET new_password = ? WHERE user_id = ?');
                 $stmt->execute(array(md5($password), $u1->getId()));
                 
-                require ( ROOT.'/core/mail.class.php' );
+                require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
                 
                 $to_address = '"' . $email . '" <' . $email . '>';

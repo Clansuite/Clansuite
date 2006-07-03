@@ -128,8 +128,10 @@ class users
     function create_user($user_id = '', $email = '', $nick = '')
     {
         global $db, $session, $lang;
-        
-        # $user initialisieren
+             
+        //----------------------------------------------------------------
+        // DB User Queries
+        //----------------------------------------------------------------
         if ( !empty($user_id) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
@@ -150,15 +152,31 @@ class users
             $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
+        else
+        {
+            $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+            $stmt->execute( array( session_id() ) );
+            $session_res = $stmt->fetch();               
+        }
         
         $_SESSION[$session->session_name] = session_id();
         
-        // user :: Das $user-Array ist also nur gesetzt,
-        // wenn die Funktion user['param'] aufgerufen wurde.
+        //----------------------------------------------------------------
+        // If session does mismatch to DB
+        //----------------------------------------------------------------
+        if ( $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
+        {
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt->execute( array( $session_res['user_id'] ) );
+            $user = $stmt->fetch();  
+        }
+
+        //----------------------------------------------------------------
+        // Create $_SESSION user
+        //----------------------------------------------------------------
         if ( is_array($user) )
         {
             
-            // $_SESSION mit $user daten füllen
             $_SESSION['user']['authed']     = '1';
             $_SESSION['user']['user_id']    = $user['user_id'];
             
@@ -183,7 +201,6 @@ class users
             
         }
         else
-        # GUEST :: wenn keine Parameter übergeben wurden, ist der user ein Gast
         {
             $_SESSION['user']['authed']     = 0;
             $_SESSION['user']['user_id']    = 0;
@@ -246,7 +263,7 @@ class users
     //----------------------------------------------------------------
     function login($user_id, $remember_me, $password)
     {
-        global $users, $db, $security, $cfg;
+        global $db, $security, $cfg;
         
         // 1. Benutzerdaten holen
         // anhand $user_id entsprechende userdata in Session ablegen
@@ -322,7 +339,6 @@ class users
         		setcookie('password', false );    
 	        }
         }
-    
     }
 
 
@@ -331,7 +347,7 @@ class users
     //----------------------------------------------------------------
     function session_set_user_id() 
     {
-	    global $db;
+	    global $db, $session;
 	    
 	    $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
         $stmt->execute( array( session_id() ) );
@@ -344,7 +360,6 @@ class users
             $stmt->execute( array(  $_SESSION['user']['user_id'], 
                                     $_SESSION[$session->session_name] ) );
         }
-	}
-    
+	}    
 }
 ?>
