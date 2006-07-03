@@ -122,7 +122,16 @@ class module_account
                 // ----- ( default ) ----
                 
             default:
-                $this->login();
+                if ( $_SESSION['user']['authed'] == 1 )
+                {
+                    $title = ' Logout ';
+                    $this->logout();
+                }
+                else
+                {
+                    $title = ' Login ';
+                    $this->login();
+                }
                 break;
         }
         
@@ -145,6 +154,7 @@ class module_account
         $email       = $_POST['email'];
         $password    = $_POST['password'];
         $remember_me = $_POST['remember_me'];
+        $submit      = $_POST['submit'];
         
         if( $cfg->login_method == 'nick' )
         { $value = $nick; }
@@ -167,26 +177,43 @@ class module_account
                 // User existiert nicht oder Passwort falsch!
                 unset($user['{/php}']);
                 
-                // Login-Attempts
-                // bei 3-5 versuchen 20min ip ban?
-                // ne - confirmation per mail, bei 5 versuchen - also neues passwort wird gemailed
+                //----------------------------------------------------------------
+                // Log login attempts
+                // At a specific number, ban ip
+                //----------------------------------------------------------------
                 if (!isset($_SESSION['login_attempts']))
                 {
-                    $_SESSION['login_attempts'] = '1';
+                    $_SESSION['login_attempts'] = 1;
                 }
                 else
                 {
                     $_SESSION['login_attempts']++;
                 }
                 
-                #echo 'Ihre Anmeldedaten waren nicht korrekt!';
-                #echo 'Dies ist Ihr '. $_SESSION['login_attempts'].'ter Versuch sich anzumelden !';
+                //----------------------------------------------------------------
+                // Ban ip
+                //----------------------------------------------------------------
+                if ( $_SESSION['login_attempts'] > $cfg->max_login_attempts )
+                {
+                    die( $functions->redirect('http://www.clansuite.com', 'metatag|newsite', 5 , $lang->t('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$cfg->login_ban_minutes.'</b>' ) );
+                }
                 
+                //----------------------------------------------------------------
+                // Error: Mismatch & Login Attempts
+                //----------------------------------------------------------------
+                $err['mismatch'] = 1;
+                $err['login_attempts'] = $_SESSION['login_attempts'];                
             }
         }
+        else
+        {
+            if ( isset ( $submit ) )
+            { $err['not_filled'] = 1; }
+        } 
         
         // Assign Vars
         $tpl->assign('cfg', $cfg);
+        $tpl->assign('err', $err);
         
         // Output Template
         $this->output .= $tpl->fetch('account/login.tpl');
@@ -197,11 +224,32 @@ class module_account
     //----------------------------------------------------------------
     function logout()
     {
-        global $session, $functions;
+        global $session, $functions, $tpl, $lang;
         
-        $session->_session_destroy;
+        $confirm = $_POST['confirm'];
         
-        $functions->redirect('/index.php', 'metatag', '2' );
+        if( $confirm == '1' )
+        {
+            //----------------------------------------------------------------
+            // Destrox the session
+            //----------------------------------------------------------------
+            $session->_session_destroy;
+ 
+            //----------------------------------------------------------------
+            // Delete cookies
+            //----------------------------------------------------------------
+            setcookie('user_id', false );
+        	setcookie('password', false );
+            
+            //----------------------------------------------------------------
+            // Redirect
+            //----------------------------------------------------------------             
+            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t( 'You have successfully logged out...') );
+        }
+        else
+        {
+            $this->output .= $tpl->fetch( 'account/logout.tpl' );
+        }
     }
     
     //----------------------------------------------------------------
@@ -216,12 +264,13 @@ class module_account
         $nick   = $_POST['nick'];
         $pass   = $_POST['password'];
         $pass2  = $_POST['password2'];
+        $submit = $_POST['submit'];
 
         $err = array();
         
         if ( empty($email) OR empty($email2) OR empty($nick) OR empty($pass) OR empty($pass2) )
         {
-            if( isset($_POST['submit']) )
+            if( isset($submit) )
             {
                 // Not all necessary fields are filled
                 $err['not_filled'] = 1;
