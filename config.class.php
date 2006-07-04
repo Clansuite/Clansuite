@@ -125,7 +125,8 @@ class config
         //----------------------------------------------------------------
         $prepare_modules = array(   'index'     => array('index.class.php'    , 'index'    , 'module_index'     ),
                                     'account'   => array('account.class.php'  , 'account'  , 'module_account'   ),
-                                    'admin'     => array('admin.class.php'    , 'admin'    , 'module_admin'     ), );
+                                    'admin'     => array('admin.class.php'    , 'admin'    , 'module_admin'     ),
+                                    'captcha'   => array('captcha.class.php'  , 'captcha'  , 'module_captcha'   ), );
 
 
 
