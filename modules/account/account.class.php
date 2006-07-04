@@ -263,12 +263,13 @@ class module_account
     {
         global $db, $tpl, $cfg, $input, $functions, $error, $security, $lang;
         
-        $email  = $_POST['email'];
-        $email2 = $_POST['email2'];
-        $nick   = $_POST['nick'];
-        $pass   = $_POST['password'];
-        $pass2  = $_POST['password2'];
-        $submit = $_POST['submit'];
+        $email      = $_POST['email'];
+        $email2     = $_POST['email2'];
+        $nick       = $_POST['nick'];
+        $pass       = $_POST['password'];
+        $pass2      = $_POST['password2'];
+        $submit     = $_POST['submit'];
+        $captcha    = $_POST['captcha'];
 
         $err = array();
         
@@ -309,7 +310,13 @@ class module_account
             {
                 $err['passes_do_not_fit'] = 1;
             }
-            
+
+            // Check both passwords
+            if (strtolower($captcha) != strtolower($_SESSION['captcha_string']) )
+            {
+                $err['wrong_captcha'] = 1;
+            }
+                        
             // Check password
             if ($input->check($pass, 'is_pass_length') == false )
             {
@@ -383,7 +390,7 @@ class module_account
         // Assign vars
         $tpl->assign( 'min_length', $cfg->min_pass_length );
         $tpl->assign( 'err', $err );
-        $tpl->assign( 'captcha_url',  WWW_ROOT . '/' . $cfg->core_folder . '/captcha.class.php');
+        $tpl->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
         
         // Get the template
         $this->output .= $tpl->fetch('account/register.tpl');
