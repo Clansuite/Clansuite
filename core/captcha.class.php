@@ -38,25 +38,31 @@
 *
 *  @version $Id: captcha.class.php 128 2006-06-09 12:07:21Z vain $
 */
-class captcha {
-    
-    public  $strlength = '4';
+class captcha
+{    
+    public  $str_length = 4;
     
     // image settings
-    public  $img_height = 50;
-    public  $img_width = 200;
+    public  $img_height = 40;
+    public  $img_width = 140;
     // font settings
-    public  $font_site = 30;
-    public  $font_heigth = 45;
-    public  $font = '../templates/core/fonts/Vera.ttf';
-    // graphic-effects
-    public  $waves = false;
-    // type of captcha
-    public  $captcha_type = array('img','number-2-ascii','logic');
+    public  $font = '/fonts/Vera.ttf';
     
+    //----------------------------------------------------------------
+    // Contructor
+    //----------------------------------------------------------------
+    function __construct()
+    {
+        $this->generate_Image();
+    }
+    
+    //----------------------------------------------------------------
+    // Get GD Version
+    //----------------------------------------------------------------
     function gd_version()
     {
         static $gd_version_number = null;
+        
         if ($gd_version_number === null)
         {
             ob_start();
@@ -76,32 +82,19 @@ class captcha {
         return $gd_version_number;
     }
     
-    /**
-    * Init Class, init function  -> generate_image();
-    */
-    function captcha()
+    //----------------------------------------------------------------
+    // Get a random captcha string by size (@link $strlength)
+    //----------------------------------------------------------------
+    function randomString($str_length)
     {
-        $this->generate_Image();
-    }
-    
-    /**
-    * get a random captcha string by size (@link $strlength)
-    *
-    * @param int $strlength
-    * @return $captchastr
-    */
-    function randomString($strlength)
-    {
-        /**
-        * Exclusion of Characters
-        * (@link http://www.lookuptables.com/ ASCII Chars Lookuptable)
-        *
-        * Excluded-Chars: 0, 1, 7, I, O
-        */
+        //----------------------------------------------------------------
+        // Exclusion of characters
+        // Excluded-Chars: 0, 1, 7, I, O
+        //----------------------------------------------------------------
         $excludeChars = array(48, 49, 55, 73, 79);
         
-        $captchastr = '';
-        while (strlen($captchastr) < $strlength)
+        $captcha_str = '';
+        while (strlen($captcha_str) < $str_length)
         {
             $random=rand(48,122);
             if (!in_array($random, $excludeChars) &&
@@ -110,33 +103,31 @@ class captcha {
             | ($random >= 97 && $random <= 122)  // ASCII 97->122: a-z
             )
             {
-                $captchastr.=chr($random);
+                $captcha_str.=chr($random);
             }
         }
-        return $captchastr;
+        return $captcha_str;
     }
     
     
-    /**
-    * generate the captcha image
-    *
-    * @return image!
-    */
+    //----------------------------------------------------------------
+    // Generate the image
+    //----------------------------------------------------------------
     function generate_image()
     {
         // random captcha string
-        $strlength = rand(3,5);
-        $captchastr = $this->randomString($strlength);
+        $str_length = rand(3,5);
+        $captcha_str = $this->randomString($str_length);
         
         // set string to session
-        session_start();
-        $_SESSION['captchastr'] = $captchastr;
+        $_SESSION['captcha_string'] = $captcha_str;
         
         // send headers
         header('Expires: Mon, 01 Jan 1997 05:00:00 GMT');
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Cache-Control: post-check=0, pre-check=0', false);
         header('Pragma: no-cache');
+        header('Content-Type: image/jpeg');
         header('Easy-Captcha: by Jens-André Koch');
         
         //initialize image $captcha with dimensions from $img_width, $img_heigth
@@ -158,28 +149,26 @@ class captcha {
         // switch between captcha types
         switch ($captchatype_randomizer = rand(1,2))
         {
-        case 1:
-            // viel stuff @ image
-            
+            case 1:
             // create backgroundcolor from random RGB colors
-            $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
+                $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
             
             /**
             * Background Fill Effects
             */
             switch ($background_randomizer = rand(1,2))
             {
-            case 1:
-                // Solid
-                imagefill($captcha, 0, 0, $background_color );
-                break;
-            case 2:
-                // Gradient
-                for ($i = 0, $rd = rand(0, 100), $gr = rand(0, 100), $bl= rand(0, 100); $i <= $this->img_height; $i++)
-                {
-                    $g = @imagecolorallocate($captcha, $rd+=2, $gr+=2, $bl+=2);
-                    @imageline($captcha, 0, $i, $this->img_width, $i, $g);
-                }
+                case 1:
+                    // Solid
+                    imagefill($captcha, 0, 0, $background_color );
+                    break;
+                case 2:
+                    // Gradient
+                    for ($i = 0, $rd = rand(0, 100), $gr = rand(0, 100), $bl= rand(0, 100); $i <= $this->img_height; $i++)
+                    {
+                        $g = @imagecolorallocate($captcha, $rd+=2, $gr+=2, $bl+=2);
+                        @imageline($captcha, 0, $i, $this->img_width, $i, $g);
+                    }
                 break;
             }
             
@@ -194,8 +183,8 @@ class captcha {
             }
             
             
-            // loop through $captchastr and apply random font-effect to every char
-            for ($i=0; $i<=$strlength; $i++)
+            // loop through $captcha_str and apply random font-effect to every char
+            for ($i=0; $i<=$str_length; $i++)
             {
                 /**
                 * Font Rotation Effect
@@ -216,7 +205,7 @@ class captcha {
                 // imagettftext( resource image, float size, float angle, int x, int y, int color, string fontfile, string text )
                 // $i*25 = spaces the characters 25 pixels apart
                 // todo : substr durch $char =  ersetzen
-                imagettftext($captcha,$fontsize = rand(16,32),$rotangle,15+($i*25),30,$text_color+($i*12),$this->font,$captchastr[$i]);
+                imagettftext($captcha,$fontsize = rand(16,32),$rotangle,15+($i*25),30,$text_color+($i*12),$this->font,$captcha_str[$i]);
             }
             // interlacen
             #$this->interlace($captcha);
@@ -235,29 +224,24 @@ class captcha {
             $white = ImageColorAllocate($captcha, 255, 255, 255);
             imagefill($captcha, 1, 1, $white );
             
-            // loop through $captchastr and apply random font-effect to every char
-            for ($i=0; $i<=$strlength; $i++)
+            // loop through $captcha_str and apply random font-effect to every char
+            for ($i=0; $i<=$str_length; $i++)
             {
-                imagettftext($captcha,rand(28,35),rand(-5,5),25+($i*17),38,$text_color,$this->font,$captchastr[$i]);
+                imagettftext($captcha,rand(28,35),rand(-5,5),25+($i*17),38,$text_color,$this->font,$captcha_str[$i]);
             }
             break;
         }
-        // switch ($captchatype_randomizer)
-        
-        // DEBUG : print $captchastr with $text_color
-        ImageString($captcha,2, 1, 35, "DEBUG :".$captchastr, $text_color);
-        
-        /**
-        * Final: Render Image! & Free Memory.
-        */
+
+        //----------------------------------------------------------------
+        // Final: Render Image! & Free Memory.
+        //----------------------------------------------------------------
         ImagePNG($captcha);
         imageDestroy($captcha);
     }
-    
-    /**
-    * Interlaces a Image ( every 2th line is blacked )
-    */
-    
+
+    //----------------------------------------------------------------
+    // Interlaces a Image ( every 2th line is blacked )
+    //----------------------------------------------------------------
     function interlace(&$image)
     {
         $imagex = imagesx($image);
@@ -267,22 +251,7 @@ class captcha {
         {
             imageline($image, 0, $y, $imagex, $y, $black);
         }
-    }
-    
-    // remove old captcha images
-    function remove_old()
-    {
-    }
-    
-    // generate a ascii captcha from random numbers
-    function generate_number_to_ascii()
-    {
-    }
-    
-    // generate a logic captcha, based on random calculations
-    function generate_logic()
-    {
-    }
-    
+    } 
 }
+$captcha = new captcha;
 ?>

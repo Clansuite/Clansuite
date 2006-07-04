@@ -84,7 +84,10 @@ class functions
                 $tpl->assign( 'redirect', $redirect );
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
-                die( $tpl->display( 'redirect/redirect.tpl' ) );
+                session_write_close();
+                echo $tpl->display( 'redirect/redirect.tpl' );
+                exit;
+                //die( $tpl->display( 'redirect/redirect.tpl' ) );
                 break;
                 
             default:
