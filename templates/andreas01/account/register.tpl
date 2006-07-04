@@ -32,8 +32,12 @@
             <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""></td>
         </tr>
         <tr>
-            <td>{translate}Password Security{/translate}</td>
+            <td>{translate}Password Security:{/translate}</td>
             <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
+        </tr>
+        <tr>
+            <td>{translate}Enter Code:{/translate}</td>
+            <td><img src={$captcha_url} style="border:thin solid black;"><br /><input class='input_text' type="text" name="captcha" value=""></td>
         </tr>
         <tr>
             <td cospan='2'><input class='input_submit' type="submit" name="submit" value="{translate}Register{/translate}"></td>

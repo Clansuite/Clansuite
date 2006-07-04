@@ -237,8 +237,8 @@ class module_account
             //----------------------------------------------------------------
             // Destrox the session
             //----------------------------------------------------------------
-            $session->_session_destroy;
- 
+            $session->_session_destroy(session_id());
+
             //----------------------------------------------------------------
             // Delete cookies
             //----------------------------------------------------------------
@@ -383,6 +383,7 @@ class module_account
         // Assign vars
         $tpl->assign( 'min_length', $cfg->min_pass_length );
         $tpl->assign( 'err', $err );
+        $tpl->assign( 'captcha_url',  WWW_ROOT . '/' . $cfg->core_folder . '/captcha.class.php');
         
         // Get the template
         $this->output .= $tpl->fetch('account/register.tpl');
