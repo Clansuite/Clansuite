@@ -36,7 +36,7 @@
 <li><a href="index.php?mod=downloads">Downloads</a></li>
 <li><a href="index.php?mod=gallery">Gallery</a></li>
 <li><a href="index.php?mod=gb">Guestbook</a></li>
-<li><a href="index.php?mode=impressum">Impressum</a></li>
+<li><a href="index.php?mod=impressum">Impressum</a></li>
 </ul>
 
 <div class="announce">

@@ -2,7 +2,10 @@
 <table border="0" cellspacing="5" cellpadding="5">
 <tr class="categories">
 	<td>
-		<a href="/index.php?mod=admin" onMouseover="document.getElementById('sublinks').innerHTML = '<td>Additional Informations</td>'">Home</a>
+		<a href="/index.php">Show WebSite</a>
+	</td>
+	<td>
+		<a href="/index.php?mod=admin" onMouseover="document.getElementById('sublinks').innerHTML = '<td>Additional Informations</td>'">Admin Home</a>
 	</td>
 	<td>
 		<a href="/index.php?mod=admin&sub=admin_configs" onMouseover="document.getElementById('sublinks').innerHTML = document.getElementById('configs_sublinks').innerHTML">

@@ -67,12 +67,11 @@ class session
     // Init class session | set common session vars
     //----------------------------------------------------------------
     public $session_name            = 'suiteSID';
-    public $session_expire_time     = 30; // minutes
+    public $session_expire_time     = 10; // minutes
     public $session_probability     = 30; // precenatge
     public $session_cookies         = 1;
     public $session_cookies_only    = 0;
-    public $session_security        = array('check_ip'      => true,
-                                            'check_browser' => true);
+    public $session_security        = array('check_ip', 'check_browser', 'check_host');
     
     //----------------------------------------------------------------
     // Overwrite php.ini settings
@@ -131,6 +130,12 @@ class session
         {
             die($functions->redirect('index.php?mod=login') );
         }
+        
+        //----------------------------------------------------------------
+        // Control the session
+        //----------------------------------------------------------------
+        $this->session_control();
+        
     }
     
     //----------------------------------------------------------------
@@ -187,26 +192,24 @@ class session
         //----------------------------------------------------------------
         // Check if session is in DB
         //----------------------------------------------------------------
-        $stmt = $db->prepare('SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-        $stmt->execute(array($id ) );
-        
-        if ($stmt->fetchAll() )
+        $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+        $stmt->execute( array( $id ) );
+        $res = $stmt->fetch();
+        if ( is_array($res) )
         {
             //----------------------------------------------------------------
             // Update Session in DB
             //----------------------------------------------------------------
-            $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ? WHERE session_id = ?' );
-            $stmt->execute(array($expires, $data, $id ) );
-            $this->session_control();
-            
+            $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
+            $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
         }
         else
         {
             //----------------------------------------------------------------
             // Create Session @ DB & Cookies OR $_GET
             //----------------------------------------------------------------
-            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id) VALUES(?,?,?,?,?,?)' );
-            $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0 ) );
+            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
+            $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
         }
         return true;
     }
@@ -313,6 +316,22 @@ class session
                 return false;
             }
         }
+        
+        //----------------------------------------------------------------
+        // Check for Host Address
+        //----------------------------------------------------------------
+        if(in_array("check_host", $this->session_security))
+        {
+            if($_SESSION['client_host'] === null)
+            {
+                $_SESSION['client_host'] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
+            }
+            else if(gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'])
+            {
+                session::_session_destroy(session_id());
+                return false;
+            }
+        }
 
         //----------------------------------------------------------------
         // Return true if everything is ok
@@ -322,33 +341,35 @@ class session
 
     //----------------------------------------------------------------
     // Session control
-    // - delete old users
     // - prune timeouts 
     //----------------------------------------------------------------
     function session_control()
     {
-        global $db, $functions;
-        // 2 Tage alte registrierte, aber nicht aktivierte User löschen!
-        /*
-        $table = "DELETE FROM " . DB_PREFIX . "users ";
-        $where = "disabled = 1 AND (joined + INTERVAL 2 DAY)<Now() AND (timestamp + INTERVAL 2 DAY)<Now()";
-        $db->exec($table.$where);
+        global $db, $functions, $lang;
 
-
-        // Zeitstempel in users-table setzen
-        $table 	= 'UPDATE ' . DB_PREFIX . 'users ';
-        $set	= "SET timestamp = NOW() WHERE user_id = '$_SESSION[User][user_id]'";
-        $db->exec($table.$set);
-        */
-        if(isset($_SESSION['authed']))
+        //----------------------------------------------------------------
+        // Prune not activated users
+        //----------------------------------------------------------------
+        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
+        $stmt->execute();
+        
+        //----------------------------------------------------------------
+        // Prune Sessions
+        //----------------------------------------------------------------
+        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
+        $stmt->execute();
+        
+        //----------------------------------------------------------------
+        // Check if session expired
+        //----------------------------------------------------------------
+        if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) AND $_SESSION['user']['user_id'] != 0 )
         {
-            if(!isset($_SESSION['lastmove']) || (time() - $_SESSION['lastmove'] > 350))
+            $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+            $stmt->execute( array( $_REQUEST[$this->session_name] ) );
+            $res = $stmt->fetch();
+            if ( !is_array($res) )
             {
-                $_SESSION['lastmove'] = time();
-            }
-            else
-            {
-                die ( $functions->redirect('index.php?mod=login') );
+                $functions->redirect( '/index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );   
             }
         }
     }
