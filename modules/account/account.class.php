@@ -76,47 +76,22 @@ class module_account
                 $this->register();
                 break;
                 
-            case 'register-done':
-                $title = ' Account created ';
-                $tpl->fetch('account/register-done.tpl');
-                break;
-                
-            case 'register-error':
-                $title = ' Register error ';
-                $tpl->fetch('account/register-error.tpl');
-                break;
-                
                 // ---- ( Activations ) ----
                 
-            case 'activate-account':
+            case 'activate_account':
                 $title = ' Activate account ';
                 $this->activate_account();
                 break;
                 
-            case 'activate-password':
-                $title = ' Activate account ';
-                $this->activate_password();
-                break;
-                
-            case 'activation-email':
+            case 'activation_email':
                 $this->activation_email();
-                break;
-                
-            case 'activation-email-sent':
-                $tpl->fetch('account/activation-email-sent.tpl');
-                $title = ' Activation email sent ';
                 break;
                 
                 // ----- ( forgot password ) ----
                 
-            case 'forgot-password':
+            case 'forgot_password':
                 $this->forgot_password();
                 $title = ' Forgot Password ';
-                break;
-                
-            case 'forgot-password-sent':
-                $tpl->fetch('account/forgot-password-sent.tpl');
-                $title = ' Forgot Password Sent ';
                 break;
                 
                 // ----- ( default ) ----
@@ -345,20 +320,26 @@ class module_account
             //----------------------------------------------------------------
             if ( count($err) == 0  )
             {               
-                // user eintragen
-                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined) VALUES (:email, :nick, :password, :joined)');
-                $stmt->execute( array(  ':email'        => $email,
+                //----------------------------------------------------------------
+                // Insert user into DB
+                //----------------------------------------------------------------
+                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined, code) VALUES (:email, :nick, :password, :joined, :code)');
+                $stmt->execute( array(  ':code'         => md5 ( microtime() ),
+                                        ':email'        => $email,
                                         ':nick'         => $nick,
                                         ':password'     => $security->db_salted_hash($pass),
                                         ':joined'       => time() ) );
                 
-                // user_id ermitteln
-                // old: $user_id = $stmt->lastInsertId();
+                //----------------------------------------------------------------
+                // Get user id (emulation)
+                //----------------------------------------------------------------
                 $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX .'users WHERE email = ? AND nick = ?' );
                 $stmt->execute( array( $email, $nick ) );
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                // Load mailer
+                //----------------------------------------------------------------
+                // Load mailer & send mail
+                //----------------------------------------------------------------
                 require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
                 
@@ -377,7 +358,7 @@ class module_account
                 // Send mail
                 if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
-                    $functions->redirect('/index.php?mod=account&action=register-done', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
+                    $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
                 }
                 else
                 {
@@ -397,144 +378,114 @@ class module_account
     }
     
     //----------------------------------------------------------------
-    // Send Activation Email
+    // Re-Send Activation Email
     //----------------------------------------------------------------
     function activation_email()
     {
-        global $db, $functions;
+        global $db, $functions, $lang, $security, $tpl;
         
         $email = $_POST['email'];
         
-        $noSuchAccount = false;
-        $errorWhileSending = false;
-        $alreadyActivated = false;
-        
-        if ($email)
+        if( empty($email) )
         {
-            $u1 = new User(null, $email);
-            
-            if ($u1->exists() && !$u1->isActivated())
+            $err['no_email'] = 1;   
+        }
+        
+        $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'users WHERE email = ?' );
+        $stmt->execute( array($email) );
+        $res = $stmt->fetch();
+        
+        if ( !is_array($res) )
+        {
+            $err['no_such_mail'];
+        }
+        else
+        {
+            if ( $res['activated'] == 1 )
             {
+                $err['already_activated'];   
+            }
+            
+            if ( count($err) == 0 )
+            {
+                $user_id = $res['user_id'];
+                $nick    = $res['nick'];
+                $code    = $res['code'];
                 
-                $password = genString(6);
-                $stmt = $db->prepare('UPDATE '. DB_PREFIX .'users SET password = ? WHERE user_id = ?');
-                $stmt->execute(array(md5($password), $u1->getId() ) );
-                 
+                // Load mailer
                 require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
-                $to_address = '"' . $nick . '" <' . $email . '>';
-               
-                $from_address = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
                 
-                $subject = 'Account activation';
+                $to_address     = '"' . $nick . '" <' . $email . '>';
+                $from_address   = '"' . $cfg->fromname . '" <' . $cfg->from . '>';
+                $subject        = $lang->t('Account activation (again)');    
                 
-                $body  = "To activate an account click on the link below:\r\n";
+                $body  = $lang->t("To receive your activation email again click on the link below:\r\n");
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate-account&user_id=%s&code=%s\r\n";
-                $body .= "Password: %s";
-                $body  = sprintf($body, $u1->getId(), md5(md5($password)), $password);
-                
-                // mail senden
+                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+                $body .= $lang->t('Username').": %s\r\n";
+                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+                $body  = sprintf($body, $user_id, $code, $nick);
+                              
+                // Send mail
                 if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
-                    $functions->redirect('/index.php?mod=account&action=activation-email-sent');
-                    exit;
+                    $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the activation mail! Please check your mailbox...') );
                 }
                 else
                 {
-                    $errorWhileSending = true;
-                }
-                
-            }
-            else
-            {
-                if (!$u1->exists())
-                {
-                    $noSuchAccount = true;
-                }
-                if ($u1->exists() && $u1->isActivated())
-                {
-                    $alreadyActivated = true;
+                    $this->output .= $error->show( $lang->t( 'Mailer Error' ), $lang->t( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
+                    return;
                 }
             }
         }
+        
+        // Assign tpl vars
+        $tpl->assign( 'err', $err );
+        
+        // Output
+        $output .= $tpl->fetch('account/activation_email.tpl');
     }
     
     //----------------------------------------------------------------
-    // Activate Account
+    // Activate Account    
     //----------------------------------------------------------------
     function activate_account()
     {
+        global $input, $db, $error;
         
         $user_id = (int) $_GET['user_id'];
-        $code = $_GET['code'];
+        $code    = $input->check($_GET['code'], 'is_int|is_abc') ? $_GET['code'] : false;
         
-        $alreadyActivated = false;
-        $success = false;
-        
-        if ($user_id && $code)
+        if ( !$code )
         {
-            $stmt = $db->prepare('SELECT activated FROM ' . DB_PREFIX .'users WHERE user_id = ?' );
-            $stmt->execute(array($user_id ) );
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($user)
+            $this->output .= $error->show( $lang->t('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
+            return;
+        }
+        
+        $stmt = $db->prepare( 'SELECT code,user_id FROM ' . DB_PREFIX . 'users WHERE user_id = ? AND code = ?' );
+        $stmt->execute( array( $user_id, $code ) );
+        $res = $db->fetch();
+        if ( is_array ( $res ) )
+        {
+            if ( $res['activated'] == 1 )
             {
-                if ($user['status'] != 0)
-                {
-                    $alreadyActivated = true;
-                }
-                else
-                if ($code == md5($user['password']))
-                {
-                    $stmt = $db->prepare('UPDATE users SET level = 1 WHERE user_id = ?');
-                    $stmt->execute(array($user_id ) );
-                    $success = true;
-                }
+                $this->output .= $error->show( $lang->t('This account is already activated.'), 2 );
+                return;
+            }
+            else
+            {
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activated = ? WHERE user_id = ?' );
+                $stmt->execute( array ( 1, $user_id ) );
+                $functions->redirect( '/index.php', 'metatag|newsite', 3, $lang->t('Your account has been activated successfully.') );
             }
         }
-        $tpl->fetch(account/activate-account.tpl);
-    }
-    
-    //----------------------------------------------------------------
-    // Activate Password
-    //----------------------------------------------------------------
-    function activate_password()
-    {
-        $user_id = (int) $_GET['user_id'];
-        $code = $_GET['code'];
-        
-        $noNewPassword = false;
-        $success = false;
-        
-        if ($user_id && $code)
+        else
         {
-            $stmt = $db->prepare('SELECT password, new_password FROM ' . DB_PREFIX .'users WHERE user_id = ?' );
-            $stmt->execute(array($user_id ) );
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($user)
-            {
-                if ($code == md5($user['new_password']))
-                {
-                    $stmt = $db->prepare('UPDATE ' . DB_PREFIX .'users SET :password, :new_password WHERE :user_id' );
-                    $stmt->execute(array(':password'       => $user['new_password'],
-                    ':newpassword' => null,
-                    ':userid'     => $user_id )
-                    );
-                    $success = true;
-                }
-                else
-                {
-                    if ($user['new_password'] === null)
-                    {
-                        $noNewPassword = true;
-                    }
-                }
-            }
-            unset($user);
+            $this->output .= $error->show( $lang->t('The activation code does not match to the given user id'), 2 );
+            return;
         }
-    }
-    
+    }    
     
     //----------------------------------------------------------------
     // Forgot Password
@@ -542,6 +493,12 @@ class module_account
     function forgot_password()
     {
         global $db, $tpl, $functions;
+
+                $new_pass   = $functions->random_string(6);
+                $code       = md5 ( microtime() );
+                
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX .'users SET code = ? WHERE user_id = ?' );
+                $stmt->execute( array( $code, $user_id ) );
         
         $email = $_POST['email'];
         

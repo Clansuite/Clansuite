@@ -120,7 +120,9 @@ class config
 
         //----------------------------------------------------------------
         // Init modules (white-list)
-        // $this->prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
+        // Set here the module that is called as standard
+        // You can set subsection of the module in /modules/[modname]/module.config.class
+        // $prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
         // Later: $this->modules (See end of file)
         //----------------------------------------------------------------
         $prepare_modules = array(   'index'     => array('index.class.php'    , 'index'    , 'module_index'     ),
