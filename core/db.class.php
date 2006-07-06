@@ -214,7 +214,8 @@ class db_statements
         $db->query_counter++;
         if ( $db->query_active == 1 )
         {
-            $db->query_active_reference->closeCursor();
+            if ( is_object( $db->query_active_reference ) )
+            { $db->query_active_reference->closeCursor(); }
         }
 
         $db->queries[] = $this->db_statement->queryString;

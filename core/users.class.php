@@ -105,29 +105,12 @@ class users
         }
     }
     
-    function exists()
-    {
-        return $_SESSION['user']['user_id'] > 0;
-    }
-    function isLoggedIn()
-    {
-        return $_SESSION['authed'] > 0;
-    }
-    function isAuthenticated()
-    {
-        return $_SESSION['user']['authed'];
-    }
-    
-    function isActivated() 	{ return $_SESSION['User']['user_id'] && $this->activated > 0; }
-    function getId() 	{ if ( $_SESSION['User']['user_id'] > 0 ) { return $_SESSION['User']['user_id']; }
-    			  		  else  { return 0; }		}
-    
     //----------------------------------------------------------------
     // Create user-object and $_SESSION data
     //----------------------------------------------------------------
     function create_user($user_id = '', $email = '', $nick = '')
     {
-        global $db, $session, $lang;
+        global $db, $session, $lang, $functions;
              
         //----------------------------------------------------------------
         // DB User Queries
@@ -171,6 +154,13 @@ class users
             $user = $stmt->fetch();  
         }
 
+        if ( is_array($user) AND $user['activated'] == 0 )
+        {
+            setcookie('user_id', false);
+            setcookie('password', false);
+            $session->_session_destroy(session_id());
+            $functions->redirect( WWW_ROOT . '/index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the mail...') );
+        }
         //----------------------------------------------------------------
         // Create $_SESSION user
         //----------------------------------------------------------------
