@@ -49,20 +49,44 @@ class input
     function essential_cleanup()
     {
         global $cfg, $security;
-        
-        if (( isset($_REQUEST['id']) AND $this->check($_REQUEST['id'] , 'is_violent' ) )
-            OR(isset($_REQUEST['action']) AND $this->check($_REQUEST['action'] , 'is_violent' ) )
-            OR(isset($_REQUEST['mod']) AND $this->check($_REQUEST['mod'] , 'is_violent' ) )
-            OR(isset($_REQUEST['sub']) AND $this->check($_REQUEST['sub'] , 'is_violent' ) )
-            OR(isset($_REQUEST[$cfg->session_name]) AND $this->check($_REQUEST[$cfg->session_name] , 'is_violent' ) ) )
+
+        $filter = array( '_REQUEST' => $_REQUEST, '_GET' => $_GET, '_POST' => $_POST, '_COOKIE' => $_COOKIE );
+        foreach ( $filter as $key => $value )
         {
-            $security->intruder_alert();
+            $secure = array ( 'id', 'action', 'mod', 'sub', $cfg->session_name, 'user_id' );
+            foreach( $secure as $s_value )
+            {
+                 if ( isset($value[$s_value]) AND $this->check($value[$s_value] , 'is_violent' ) )
+                {
+                    $security->intruder_alert();
+                }
+            }
+            
+            $value['id']      = isset($value['id'])     ? (int) $value['id'] : null;
+            $value['user_id'] = isset($value['user_id'])? (int) $value['user_id'] : null;
+            $value['mod']     = isset($value['mod'])    ? $this->check($value['mod']    , 'is_int|is_abc|is_custom', '_') ? $value['mod'] : $cfg->std_module : $cfg->std_module;
+            $value['sub']     = isset($value['sub'])    ? $this->check($value['sub']    , 'is_int|is_abc|is_custom', '_') ? $value['sub'] : '' : '';
+            $value['action']  = isset($value['action']) ? $this->check($value['action'] , 'is_int|is_abc|is_custom', '_') ? $value['action'] : $cfg->std_module_action : $cfg->std_module_action;
+            
+            switch($key)
+            {
+                case '_REQUEST':
+                    $_REQUEST = $value;
+                    break;
+
+                case '_GET':
+                    $_GET = $value;
+                    break;
+
+                case '_POST':
+                    $_POST = $value;
+                    break;
+                    
+                case '_COOKIE':
+                    $_COOKIE = $value;
+                    break;
+            }
         }
-        
-        $_REQUEST['id']     = isset($_REQUEST['id'])     ? (int) $_REQUEST['id'] : null;
-        $_REQUEST['mod']    = isset($_REQUEST['mod'])    ? $this->check($_REQUEST['mod']    , 'is_int|is_abc|is_custom', '_') ? $_REQUEST['mod'] : $cfg->std_module : $cfg->std_module;
-        $_REQUEST['sub']    = isset($_REQUEST['sub'])    ? $this->check($_REQUEST['sub']    , 'is_int|is_abc|is_custom', '_') ? $_REQUEST['sub'] : '' : '';
-        $_REQUEST['action'] = isset($_REQUEST['action']) ? $this->check($_REQUEST['action'] , 'is_int|is_abc|is_custom', '_') ? $_REQUEST['action'] : $cfg->std_module_action : $cfg->std_module_action;
     }
     
     //----------------------------------------------------------------
@@ -70,8 +94,8 @@ class input
     //----------------------------------------------------------------
     function modify($string='', $modificators='' )
     {
-        $mods     = array();
-        $mods     = split('[|]' ,$modificators);
+        $mods = array();
+        $mods = split('[|]' ,$modificators);
         
         foreach ($mods as $key => $value)
         {
@@ -121,7 +145,7 @@ class input
     //
     // -----------------------------------------------------------------------------
     // | Possible single checks:
-    // | $input->check('thisisastring...asdf', 'is_int', 'optional reg.exp pattern')
+    // | $input->check('thisisastring...asdf', 'is_int', 'optional reg.exp pattern', 'optional length')
     // -----------------------------------------------------------------------------
     //
     // is_int: 0-9
@@ -164,8 +188,8 @@ class input
     {
         global $error, $lang, $cfg;
         
-        $r_bool = false;
-        $bools     = array();
+        $r_bool  = false;
+        $bools   = array();
         $a_types = array();
         $a_types = split('[|]' ,$types);
         
