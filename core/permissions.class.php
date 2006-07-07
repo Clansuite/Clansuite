@@ -76,6 +76,7 @@ class permissions {
       * D. [TODO] Sonderfälle:
       *    a. Implizite Rechte
       *    b. Roles
+      *    c. Areas
       */
     
     
@@ -94,7 +95,7 @@ class permissions {
       */
     
     // Ordnet dem User ein Recht zu 
-    function add_user_right($user_id, $right_id)
+    function add_user_right( $user_id, $right_id )
     {
         }
     
@@ -159,7 +160,7 @@ class permissions {
         
        CREATE TABLE `cs_user_usergroups` (
          `user_id` int(10) unsigned NOT NULL default '0',
-         `usergroups_id` int(5) unsigned NOT NULL default '0',
+         `usergroup_id` int(5) unsigned NOT NULL default '0',
          PRIMARY KEY  (`user_id`,`group_id`)
        ) ENGINE=MyISAM;
     
