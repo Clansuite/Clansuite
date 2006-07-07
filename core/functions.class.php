@@ -123,7 +123,7 @@ class functions
         while (strlen($string) < $str_length)
         {
             $random=rand(48,122);
-            if (!in_array($random, $exclude_chars) &&
+            if (!in_array($random, $excluded_chars) &&
             ( ($random >= 50 && $random <= 57)   // ASCII 48->57: numbers 0-9
             | ($random >= 65 && $random <= 90))  // ASCII 65->90: A-Z
             | ($random >= 97 && $random <= 122)  // ASCII 97->122: a-z
