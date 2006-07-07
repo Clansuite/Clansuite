@@ -422,7 +422,7 @@ class module_account
             
             if ( count($err) == 0 )
             {
-                $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'users WHERE email = ?' );
+                $stmt = $db->prepare( 'SELECT user_id,nick FROM ' . DB_PREFIX . 'users WHERE email = ?' );
                 $stmt->execute( array($email) );
                 $res = $stmt->fetch();
                 
@@ -460,7 +460,7 @@ class module_account
                         $body .= $lang->t('Username').": %s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
                         $body  = sprintf($body, $user_id, $code, $nick);
-                        echo $body;              
+        
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
@@ -545,7 +545,7 @@ class module_account
             
             if ( count($err) == 0 )
             {
-                $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'users WHERE email = ?' );
+                $stmt = $db->prepare( 'SELECT user_id,nick FROM ' . DB_PREFIX . 'users WHERE email = ?' );
                 $stmt->execute( array($email) );
                 $res = $stmt->fetch();
                 
@@ -557,10 +557,15 @@ class module_account
                 {                   
                     if ( count($err) == 0 )
                     {
-                        $user_id = $res['user_id'];
-                        $nick    = $res['nick'];
-                        $code    = md5 ( microtime() );
-                        
+                        $random   = $functions->random_string(7);
+                        $user_id  = $res['user_id'];
+                        $nick     = $res['nick'];
+                        $code     = md5 ( microtime() );
+                        $new_pass = $security->db_salted_hash($random);
+
+                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET code = ?, new_password = ? WHERE user_id = ?' );
+                        $stmt->execute( array ( $code, $new_pass, $user_id ) );
+                                                
                         // Load mailer
                         require ( CORE_ROOT . '/mail.class.php' );
                         $mailer = new mailer;
@@ -575,12 +580,12 @@ class module_account
                         $body .= $lang->t('Username').": %s\r\n";
                         $body .= $lang->t('New Password').": %s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body  = sprintf($body, $user['user_id'], $code, $nick, $new_pass);
-                                      
+                        $body  = sprintf($body, $user_id, $code, $nick, $random);
+
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
-                            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the activation mail! Please check your mailbox...') );
+                            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the password activation mail! Please check your mailbox...') );
                         }
                         else
                         {
@@ -615,21 +620,25 @@ class module_account
             return;
         }
         
-        $stmt = $db->prepare( 'SELECT activated FROM ' . DB_PREFIX . 'users WHERE user_id = ? AND code = ?' );
+        $stmt = $db->prepare( 'SELECT user_id,activated,new_password FROM ' . DB_PREFIX . 'users WHERE user_id = ? AND code = ?' );
         $stmt->execute( array( $user_id, $code ) );
         $res = $stmt->fetch();
         if ( is_array ( $res ) )
         {
-            if ( $res['activated'] == 1 )
+            if ( empty($res['new_password']) )
             {
-                $this->output .= $error->show( $lang->t( 'Already' ), $lang->t('This account has been already activated.'), 2 );
+                $this->output .= $error->show( $lang->t( 'Already' ), $lang->t('There has been no password reset request.'), 2 );
                 return;
             }
             else
-            {
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activated = ? WHERE user_id = ?' );
-                $stmt->execute( array ( 1, $user_id ) );
-                $functions->redirect( '/index.php', 'metatag|newsite', 3, $lang->t('Your account has been activated successfully.') );
+            {                
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET password = new_password WHERE user_id = ?' );
+                $stmt->execute( array ( $user_id ) );
+                
+                setcookie('user_id', false);
+                setcookie('password', false);
+                
+                $functions->redirect( '/index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your new password has been successfully activated. Please login...') );
             }
         }
         else
