@@ -127,11 +127,16 @@ class permissions {
     // Ein Recht modifizieren
     function modify_right( $right_id )
     {
+        $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'rights SET right_name = ? WHERE right_id = ?' );
+        $stmt->execute(array( $right_name, $right_id ) );
+        
         }
     
     // Ein Recht löschen
     function delete_right( $right_id )
     {
+        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
+        $stmt->execute( array( $right_id ) );
         }
     
     /** Abfrage von Rechten
@@ -140,6 +145,8 @@ class permissions {
      */
     function get_right( $right_id = NULL, $right_name = NULL )
     {
+        
+        
         }
     
     
@@ -151,6 +158,22 @@ class permissions {
       */
     function get_rights_by_userid( $user_id )
     {
+        global $db;
+        
+        $stmt = $db->prepare('SELECT ur.right_id, r.right_name
+                              FROM ' . DB_PREFIX .'user_rights ur,
+                                   ' . DB_PREFIX .'rights r
+                              WHERE ur.user_id = ? AND 
+                                    ur.right_id = r.right_id');
+        
+        $stmt->execute( array( $user_id ) );
+        $res = $stmt->fetch();
+        
+        var_dump($res);
+        
+        return $res;   
+        
+        
         }     
     
    /** =================================================
@@ -170,15 +193,17 @@ class permissions {
     // Zuordung eines Users zu einer Benutzergruppe
     function add_user_to_usergroup( $user_id, $usergroup_id )
     {
-        }
-    
-    // Modifizieren der Zuordnung des Users zu einer Benutzergruppe
-    function modify_user_to_usergroup( $user_id, $usergroup_id )
-    {
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'user_usergroups (user_id, usergroup_id) VALUES (?,?)' );
+        $stmt->execute(array( $user_id, $usergroup_id ) );
+       
         }
     
     // Löschen der Zuordnung des Users zu einer Benutzergruppe
-    function delete_user_from_usergroup( $user_id, $usergroup_id ){
+    function delete_user_from_usergroup( $user_id, $usergroup_id )
+    {
+        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'user_usergroups WHERE user_id = ? AND usergroup_id = ?' );
+        $stmt->execute( array( $user_id, $usergroup_id ) );
+        
         }
 
     
@@ -188,7 +213,23 @@ class permissions {
      * @param $user_id
      * @return $groups
      */
-    function get_usergroups_by_userid( $user_id ){}
+    function get_usergroups_by_userid( $user_id )
+    {
+        global $db;
+        
+        $stmt = $db->prepare('SELECT g.group_id, g.group_name
+                              FROM ' . DB_PREFIX .'user_groups ug,
+                                   ' . DB_PREFIX .'groups g
+                              WHERE ug.user_id = ? AND 
+                                    ug.group_id = g.group_id');
+        
+        $stmt->execute( array( $user_id ) );
+        $res = $stmt->fetch();
+        
+        var_dump($res);
+        
+        return $res;   
+        }
    
    
    /** ==================================================
