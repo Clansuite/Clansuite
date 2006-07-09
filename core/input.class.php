@@ -348,7 +348,7 @@ class input
                 // fix all affected arrays
                 foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
                 {
-                    $GLOBALS[$var] = fix_magic_quotes($GLOBALS[$var], $sybase);
+                    $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
                 }
                 
                 $_SERVER['argv'] = $argv;
@@ -374,7 +374,7 @@ class input
         {
             foreach ($var as $key => $val )
             {
-                $var[$key] = fix_magic_quotes($val, $sybase);
+                $var[$key] = $this->fix_magic_quotes($val, $sybase);
             }
             
             return $var;
