@@ -97,11 +97,21 @@ class permissions {
     // Ordnet dem User ein Recht zu 
     function add_user_right( $user_id, $right_id )
     {
+        global $db;
+        
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'user_rights (user_id, right_id) VALUES (?,?)' );
+        $stmt->execute(array( $user_id, $right_id ) );
+        
         }
     
     // Löscht ein Recht beim User
     function delete_user_right( $user_id, $right_id )
     {
+        global $db;
+        
+        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'user_rights WHERE user_id = ? AND right_id = ?' );
+        $stmt->execute( array( $user_id, $right_id ) );
+               
         }
         
     
@@ -122,11 +132,21 @@ class permissions {
     // Ein Recht hinzufügen
     function add_right( $right_name )
     {
+        global $db;
+        
+        // todo: autoincrement bei rechten?
+        
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'rights (right_name) VALUES (?)' );
+        $stmt->execute(array( $right_name ) );
+        
+        
         }
     
     // Ein Recht modifizieren
     function modify_right( $right_id )
     {
+        global $db;
+        
         $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'rights SET right_name = ? WHERE right_id = ?' );
         $stmt->execute(array( $right_name, $right_id ) );
         
@@ -135,6 +155,8 @@ class permissions {
     // Ein Recht löschen
     function delete_right( $right_id )
     {
+        global $db;
+        
         $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
         $stmt->execute( array( $right_id ) );
         }
@@ -193,6 +215,8 @@ class permissions {
     // Zuordung eines Users zu einer Benutzergruppe
     function add_user_to_usergroup( $user_id, $usergroup_id )
     {
+        global $db;
+        
         $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'user_usergroups (user_id, usergroup_id) VALUES (?,?)' );
         $stmt->execute(array( $user_id, $usergroup_id ) );
        
@@ -201,6 +225,8 @@ class permissions {
     // Löschen der Zuordnung des Users zu einer Benutzergruppe
     function delete_user_from_usergroup( $user_id, $usergroup_id )
     {
+        global $db;
+        
         $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'user_usergroups WHERE user_id = ? AND usergroup_id = ?' );
         $stmt->execute( array( $user_id, $usergroup_id ) );
         
@@ -251,6 +277,12 @@ class permissions {
     // Hinzufügen einer Gruppe
     function add_usergroup( $usergroup_pos, $usergroup_name )
     {
+        global $db;
+        
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroups 
+        (usergroup_id, usergroup_pos, usergroup_name) VALUES (?,?)' );
+        $stmt->execute(array( $user_id, $usergroup_id ) );
+        
         }
     
     /** 
@@ -260,11 +292,24 @@ class permissions {
      */    
     function modify_usergroup( $usergroup_id, $usergroup_pos, $usergroup_name )
     {
+        global $db;
+        
+        $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'usergroups 
+        SET usergroup_pos = ?, usergroup_name = ? WHERE usergroup_id = ?' );
+        $stmt->execute(array( $usergroup_pos, $usergroup_name, $usergroup_id ) );
+        
+        
         }
         
     // Löschen einer Gruppe
-    function delete_usergroup()
+    function delete_usergroup( $usergroup_id )
     {
+        global $db;
+        
+        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'usergroup  WHERE usergroup_id = ?' );
+        $stmt->execute( array( $usergroup_id ) );
+        
+        
         }
     
   
@@ -286,19 +331,36 @@ class permissions {
     // Zuordung von Rechten zu einer Gruppe
     function add_usergroup_rights( $right_id, $usergroup_id )
     {
+        global $db;
+        
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroup_rights (usergroup_id, right_id, right_pos) VALUES (?,?,?)' );
+        $stmt->execute(array( $usergroup_id, $right_id, $right_pos ) );
+        
         }
     
     /** 
      * Modifizieren einer Zuordnung
      * a. Verschieben der Posi
      */    
-    function modify_usergroup_rights( $right_id, $right_pos )
+    function modify_usergroup_rights( $right_id, $right_pos, $right_name )
     {
+        global $db;
+        
+        $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'usergroup_rights SET right_name = ?, right_pos = ? WHERE right_id = ?' );
+        $stmt->execute(array( $right_name, $right_pos, $right_id ) );
+        
+        
         }
         
     // Löschen von Rechten aus einer Gruppe
-    function delete_usergroup_rights()
+    function delete_usergroup_rights( $usergroup_id, $right_id)
     {
+        global $db;
+        
+        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'usergroup_rights  WHERE usergroup_id = ? AND right_id = ?' );
+        $stmt->execute( array( $usergroup_id ) );
+        
+        
         }
      
     /**
@@ -308,7 +370,11 @@ class permissions {
      * @param $user_id
      * @return $allrights;
      */
-     function get_rights_by_usergroupid( $usergroup_id ) {}
+     function get_rights_by_usergroupid( $usergroup_id ) {
+        
+        
+        
+        }
        
     
 }
