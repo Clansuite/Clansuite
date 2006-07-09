@@ -27,14 +27,65 @@
 * @since      File available since Release 0.1
 */
 
-function clip (id)
+function passTest()
 {
-	if (document.getElementById("span_" + id).style.display == 'none')
-	{
-		document.getElementById("span_" + id).style.display = "block";
-	}
-	else
-	{ 
-		document.getElementById("span_" + id).style.display = "none";
-	}
+	l_factor = 5;
+    g_factor = 20;
+    max_length = 100;
+    reg_ex = /^[\w]*$/;
+    if( reg_ex.test(document.getElementById('password').value) )
+    { 
+        l_factor = 4;
+        g_factor = 20;    
+    }
+    else
+    {
+        l_factor = 9;
+        g_factor = 30;    
+    }
+    
+    pass1 = document.getElementById('password').value;
+    pass2 = document.getElementById('password2').value;
+    
+    if( pass1 == pass2 && pass1!='' && pass2!='' )
+    {
+        document.getElementById('password').style.background = 'lightblue';
+        document.getElementById('password2').style.background = 'lightblue';
+    }
+    else
+    {
+        document.getElementById('password').style.background = 'white';
+        document.getElementById('password2').style.background = 'white';    
+    }
+    
+    length = document.getElementById('password').value.length;
+    new_length = l_factor*length+l_factor;
+    
+    if( new_length > max_length )
+    { new_length = max_length; }
+    new_color = g_factor*length;
+    
+    if( pass1=='' )
+    {
+        new_length = 0;
+    }
+
+    document.getElementById('password_verification').style.width = new_length+'px';
+    document.getElementById('password_verification').style.background = 'rgb( '+(255-20*length)+', '+new_color+', 0 )';
+}
+
+function mailTest()
+{
+	pass1 = document.getElementById('email').value;
+    pass2 = document.getElementById('email2').value;
+    if( pass1 == pass2 && pass1!='' && pass2!='' )
+    {
+        document.getElementById('email').style.background = 'lightblue';
+        document.getElementById('email2').style.background = 'lightblue';
+    }
+    else
+    {
+        document.getElementById('email').style.background = 'white';
+        document.getElementById('email2').style.background = 'white';
+    }
 }

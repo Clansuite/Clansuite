@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<html>
 <head>
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
@@ -11,17 +10,90 @@
 <meta http-equiv="reply-to" content="{$email}">
 <meta name="description" content="{$description}">
 <meta name="keywords" content="{$keywords}">
-<meta name="creation-date" content="{$creation_date}">
-<meta name="revisit-after" content="5 days">
-<title>{$std_page_title} - {$mod_page_title}</title>
 <link rel="stylesheet" type="text/css" href="{$css}">
-{$additional_head}
+<script src="{$www_tpl_root}/menu.js" type="text/javascript" language="javascript"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
+{$additional_head}
+{$redirect}
+<title>{$std_page_title} - {$mod_page_title}</title>
+
 </head>
 <body>
-{* This calls the method "time" from the redistered module "index" and gives 2 parameters: "english" and "-" seperated by "|" *}
-{mod name="index" func="time" params="english|-"}<br>
-{$content}
-<br><a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>
+<div id="bar">
+<img src="{$www_tpl_root}/images/logo.jpg">
+</div>
+
+
+
+<script type="text/javscript">
+var arrow1 = new Image(4, 7);
+arrow1.src = "{$www_tpl_root}/images/arrow1.gif";
+var arrow2 = new Image(4, 7);
+arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
+</script>
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+    <td id="bar" width="10px">
+        <div id="left_menu">
+            <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu">
+            <tr>
+                <td>
+                    <a class="button" href="javascript:void(0)">Test 1</a>
+    
+                    <div class="section">
+                        <a class="item" href="javascript:void(0)"><span style="width: 100px;">Section Test1<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
+                          <div class="section">
+                              <a class="item" href="example1.hmtl">Sub Section</a>
+                          </div>
+                        <a class="item" href="example2.html"><span style="width: 100px;">Section t2<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
+                          <div class="section">
+                              <a class="item" href="example1.hmtl">Sub Section</a>
+                          </div>
+                    </div>
+                    
+                    <a class="button" href="javascript:void(0)">Test 2</a>
+    
+                    <div class="section">
+                        <a class="item" href="javascript:void(0)"><span style="width: 100px;">Section Test1<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
+                          <div class="section">
+                              <a class="item" href="example1.hmtl">Sub Section</a>
+                          </div>
+                        <a class="item" href="example2.html"><span style="width: 100px;">Section Test2</span></a>
+                    </div>
+    
+     
+                </td>
+            </tr>
+            </table>
+        </div>
+    </td>
+    <td id="bar">
+        <div id="content">
+            {* This calls the method "index_time" from the registered module "index" with the sub "index" and delivers 2 parameters: "english" and "-" seperated by "|" *}
+            {mod name="index" func="time" params="english|-"}<br>
+            {$content}
+        </div>
+    </td>
+    <td id="bar" width="200px">
+        <div id="right_menu">
+            Online: {$stats_online}<br />
+            Siteimpressions: {$stats_page_impressions}<br />
+            All Impressions: {$stats_all_impressions}<br />
+        </div>
+    </td>
+</tr>
+</table>
+<div id="bar" align="center">
+Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {$query_counter}
+</div>
+<script type="text/javascript">
+var menu1 = new XulMenu("menu1");
+menu1.type = "vertical";
+menu1.position.level1.left = 2;
+menu1.arrow1 = "{$www_tpl_root}/images/arrow1.gif";
+menu1.arrow2 = "{$www_tpl_root}/images/arrow2.gif";
+menu1.init();
+</script>
+<br /><br />
 </body>
 </html>

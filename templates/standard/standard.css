@@ -1,15 +1,156 @@
-body {
-	background-color:#FFFFFF;
-	color:#222222;
-	font-family:Verdana,Helvetica,sans-serif;
-	font-size:8pt;
-	margin:20px;
-	text-align:left;
+body
+{
+    background: #E4E0C7;
+    font-family: georgia, tahoma, verdana; font-size: 11px; margin: 2em;
 }
 
-.copyright {
-	color:#333333;
-	font-family:Verdana,Helvetica,sans-serif;
-	font-size:8pt;
-	text-align:center;
+.redirect
+{
+    padding: 10px;
+    position: relative;
+    top: 300px;
+    background: #CCCCCC;
+    width: 200px;
+    border: 1px solid #000000;
+    vertical-align: middle;
+    text-align: center;
 }
+
+.font_mini
+{
+    font-size: 10px;
+}
+
+.error
+{
+    color: red;
+    font-weight: bold;
+}
+
+.input_text
+{
+    border: thin solid black;
+}
+
+.input_submit
+{
+    border: thin solid black;
+}
+
+.input_checkbox
+{
+    border: thin solid black;
+}
+
+table td
+{
+    vertical-align: top;
+}
+
+p
+{
+    font-family: georgia, tahoma, verdana; font-size: 11px; margin: 2em;
+}
+    
+#bar
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 3px;
+    cursor: default;
+}
+
+#content
+{
+    padding: 10px;
+}
+
+#left_menu
+{
+    font-family: georgia, tahoma, verdana; font-size: 11px; margin: 2em;
+}
+
+#right_menu
+{
+    font-family: georgia, tahoma, verdana; font-size: 11px; margin: 2em;
+}
+    
+.XulMenu
+{
+    font-family: georgia, tahoma, verdana;
+    font-size: 11px;
+    -moz-user-select: none;
+}
+
+.XulMenu .button,
+.XulMenu .button:hover,
+.XulMenu .button-active,
+.XulMenu .button-active:hover
+{
+    line-height: normal;
+    padding: 5px 6px 4px 6px;
+    border: 1px solid #ECE9D8;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+    width: 100px;
+}
+
+.XulMenu .button:hover
+{
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+}
+
+.XulMenu .button-active,
+.XulMenu .button-active:hover
+{
+    border-color: #ACA899 #ffffff #ffffff #ACA899;
+}
+
+.XulMenu .item,
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover
+{
+    background: #ECE9D8;
+    line-height: normal;
+    padding: 3px 30px 3px 20px;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+}
+
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover
+{
+    background: #6DCFF6;
+    color: #ffffff;
+}
+
+.XulMenu .section
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px 1px 1px 2px;
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
+}
+.XulMenu .arrow
+{
+    position: absolute;
+    top: 7px;
+    right: 8px;
+	border: 0;
+}
+
+* html .XulMenu td { position: relative; } /* ie 5.0 fix */
