@@ -55,6 +55,23 @@ class modules
     }
     
     //----------------------------------------------------------------
+    // Load whitelist
+    //----------------------------------------------------------------
+    function load_whitelist()
+    {
+        global $db, $cfg;
+        
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules' );
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach( $res as $key => $value )
+        {
+            $cfg->modules[$value['name']] = $value;
+        }
+    }
+    
+    //----------------------------------------------------------------
     // {mod} handler function
     //----------------------------------------------------------------
     static function get_instant_content($params)
@@ -203,7 +220,14 @@ class modules
             }
             else
             {
-                $functions->redirect('/index.php', 'metatag', '5' );
+                if( $_REQUEST['mod'] == 'admin' )
+                {
+                    $functions->redirect('/index.php?mod=admin', 'metatag', '5' );
+                }
+                else
+                {
+                    $functions->redirect('/index.php', 'metatag', '5' );
+                }
                 return $content;
             }
         }

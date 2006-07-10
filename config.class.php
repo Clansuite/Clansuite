@@ -84,7 +84,7 @@ class config
         //----------------------------------------------------------------
         // Standard configurations
         //----------------------------------------------------------------
-        $this->tpl_name             = 'andreas01';
+        $this->tpl_name             = 'standard';
         $this->tpl_wrapper_file     = 'index.tpl';
         $this->language             = 'de';
         $this->std_module           = 'index';
@@ -149,7 +149,7 @@ class config
         // Developers configurations
         //----------------------------------------------------------------
         $this->version      = (float) 0.1;
-        $this->copyright    = 'clansuite.com | (c) 2006 under GPL v2 License (see COPYING.txt)';
+        $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
         
         //----------------------------------------------------------------
         // Create a nice and proper $this->modules white-list
