@@ -2,33 +2,31 @@
 /*****************************************************************************/
 /* Clansuite - just another E-Sport CMS                                      */
 /* Copyright (C) 1999 - 2006 Jens-André Koch (jakoch@web.de)                 */
-/* Lesser General Public Licence                                                                          */
+/* Lesser General Public Licence                                             */
 /*
 /* this uses mygosumenu - xulmenu 
 /* by cagret www.gosu.pl
 /*****************************************************************************/
 
-// Auslesen der Menüdaten aus der Db
-// und in Array ablegen
+//----------------------------------------------------------------
+// Read menu from DB
+//----------------------------------------------------------------
+global $db;
 
-// old: 
-// $adminmenudb = $Db->getAll("SELECT * FROM " . DB_PREFIX . "adminmenu ORDER BY id ASC, parent ASC");
+$stmt = $db->prepare('SELECT *
+                      FROM ' . DB_PREFIX .'adminmenu
+                      ORDER BY id ASC, parent ASC');
+$stmt->execute();
+$adminmenudb = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-// pdo
-
-    global $db;
-
-    $stmt = $db->prepare('SELECT *
-                          FROM ' . DB_PREFIX .'adminmenu
-                          ORDER BY id ASC, parent ASC');
-    $stmt->execute();
-    $adminmenudb = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-function build_menu(&$result, $parent = 0, $level = 0)    {
+function build_menu(&$result, $parent = 0, $level = 0)
+{
     $output = array();
     $rows = count($result);
     for($i = 0; $i < $rows; $i++)
-        if($result[$i]['parent'] == $parent) {
+    {
+        if($result[$i]['parent'] == $parent)
+        {
             $output[$result[$i]['id']] = array(
                 'name' => $result[$i]['title'],
                 'level' => $level,
@@ -43,19 +41,19 @@ function build_menu(&$result, $parent = 0, $level = 0)    {
             else
                 $output[$result[$i]['id']]['expanded'] = true;
         }
+    }    
     return array_values($output);
 }
 
-/*
-* in case we change the menü to a strict css menu
-* this function generates div-ul-li menu lists
-*
-*/
+//----------------------------------------------------------------
+// In case we change the menu to a strict css menu
+// this function generates div-ul-li menu lists
+//----------------------------------------------------------------
 function get_html_list($menu) {
     $result = '<div id="navcontainer"><ul id="navlist">';
     foreach($menu as $entry) {
-    	if (htmlentities($entry['href']) == 'null' ) { $entry['href'] = 'javascript:void(0)'; }
-        $result .= '<li><a href="'.htmlentities($entry['href']);
+    	if ($entry['href'] == 'null' ) { $entry['href'] = 'javascript:void(0)'; }
+        $result .= '<li><a href="'.$entry['href'];
         $result .= '">'.htmlentities($entry['name']);
         if (isset($entry['content']))
         $result .= get_html_list($entry['content']);
@@ -65,41 +63,56 @@ function get_html_list($menu) {
     return $result;
 }
 
-/*
-* this function generates html-div based menu lists
-*
-*/
-function get_html_div($menu) {
+//----------------------------------------------------------------
+// This function generates html-div based menu lists
+//----------------------------------------------------------------
+function get_html_div($menu)
+{
     #$result = '';
-    foreach($menu as $entry) {
-    	if (htmlentities($entry['href']) == 'null' )   { $entry['href'] = 'javascript:void(0)'; }
-    						else   { $entry['href'] = WWW_ROOT.'/'.htmlentities($entry['href']); }
+    foreach($menu as $entry)
+    {
+    	if ($entry['href'] == '' )
+        {
+            $entry['href'] = 'javascript:void(0)';
+        }
         
-        if (htmlentities($entry['type']) === 'button')  { $result .= '<td>'; }      
-        $result .= '<a class="'.htmlentities($entry['type']).'" href="'.htmlentities($entry['href']);
-        $result .= '">'.htmlentities($entry['name']);		
-        if (isset($entry['content']) & (htmlentities($entry['type']) == 'item')) { $result .= '<img class="arrow" src="';
-                                                                                   $result .= WWW_ROOT . '/templates/core/images/arrow1.gif" width="4" height="7" alt="" />'; }
+        if (htmlentities($entry['type']) == 'button')
+        {
+            $result .= '<td>';
+        }
+              
+        $result .= '<a class="'.htmlentities($entry['type']).'" href="'.$entry['href'];
+        $result .= '">'.htmlentities($entry['name']);
+        		
+        if ( isset($entry['content']) AND ( htmlentities($entry['type']) == 'item') )
+        {
+            $result .= '<img class="arrow" src="';
+            $result .= WWW_ROOT . '/templates/core/images/arrow1.gif" width="4" height="7" alt="" />';
+        }
         $result .= '</a>';
-        if (htmlentities($entry['type']) == 'section') { $result .= '<div class="section">'; }
         
-        if (isset($entry['content'])) {
+        if (htmlentities($entry['type']) == 'section')
+        {
+            $result .= '<div class="section">';
+        }
+        
+        if (isset($entry['content']))
+        {
         	$result .= '<div class="section">';
         	$result .= get_html_div($entry['content']);
         	$result .= '</div>';
-        	}
-    	if (htmlentities($entry['type']) === 'button')  { $result .= '</td>'; }
+        }
+    	
+        if (htmlentities($entry['type']) == 'button')
+        {
+            $result .= '</td>';
+        }
     }
     #$result .= '</tr>';
     return $result;
 }
 
 $adminmenu = build_menu($adminmenudb); unset($adminmenudb);
-
-#var_dump($adminmenu);
-#
-# Output of Adminmenü
-#
 {/php}
 
 
@@ -135,7 +148,7 @@ echo get_html_div($adminmenu);
     </script>
     
 		 
-		 <div id="user"><?php echo $_SESSION['User']['first_name'].' "'. $_SESSION['User']['nick'].'" '.$_SESSION['User']['last_name'];; ?></div>
+		 <div id="user"><?php echo $_SESSION['User']['first_name'].' "'. $_SESSION['User']['nick'].'" '.$_SESSION['User']['last_name']; ?></div>
 
 </div>
 <!-- end: Menu- Kopfzeile 2 //-->

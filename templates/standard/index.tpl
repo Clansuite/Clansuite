@@ -23,8 +23,6 @@
 <img src="{$www_tpl_root}/images/logo.jpg">
 </div>
 
-
-
 <script type="text/javscript">
 var arrow1 = new Image(4, 7);
 arrow1.src = "{$www_tpl_root}/images/arrow1.gif";
@@ -32,6 +30,19 @@ var arrow2 = new Image(4, 7);
 arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
 </script>
 <table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+    <td id="header" width="10px">
+    Menu
+    </td>
+    
+    <td id="header">
+    Content
+    </td>
+    
+    <td id="header" width="200px">
+    Infos
+    </td>
+</tr>
 <tr>
     <td id="bar" width="10px">
         <div id="left_menu">
@@ -67,6 +78,7 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
             </table>
         </div>
     </td>
+    
     <td id="bar">
         <div id="content">
             {* This calls the method "index_time" from the registered module "index" with the sub "index" and delivers 2 parameters: "english" and "-" seperated by "|" *}
@@ -74,6 +86,7 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
             {$content}
         </div>
     </td>
+    
     <td id="bar" width="200px">
         <div id="right_menu">
             Online: {$stats_online}<br />
@@ -83,8 +96,8 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
     </td>
 </tr>
 </table>
-<div id="bar" align="center">
-Copyright &copy; 2005 <a href="http://www.clansuite.com"><span class="copyright">{$copyright}</span></a>. Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {$query_counter}
+<div id="bar" style="padding: 5px" align="center">
+<span class="copyright">{$copyright}</span> Queries: {$query_counter}
 </div>
 <script type="text/javascript">
 var menu1 = new XulMenu("menu1");

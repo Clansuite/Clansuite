@@ -11,10 +11,8 @@
 <meta name="description" content="{$description}">
 <meta name="keywords" content="{$keywords}">
 
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/navi.css" />
-
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/example1.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/XulMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
+<script type="text/javascript" src="{$www_core_tpl_root}/admin/menu.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/ie5.js"></script>
 
 {$additional_head}
@@ -23,19 +21,8 @@
 
 {literal}
 
-<style type="text/css">
-    body { font-family: tahoma, verdana; font-size: 11px; color: #000000; margin: 0; padding: 10px; }
-    
-    #header { padding: 0.1em 1em; margin-top: 1em 0; 
-    border: #ACA899 1px solid; 
-    height: 25px; background: #FE9E32; color: #dddddd; }
-    #header a:link, #header a:visited { text-decoration: none; color: #ffffff; font-weight: bold; }
-    #header a:hover { text-decoration: underline; }
-    #header strong { font-size: 13px; }
-    
-    a:link { text-decoration: none; color: #FE9E32; font-weight: bold; }
-    a:visited { text-decoration: none; color: #FE9E32; font-weight: bold; }
-    a:hover { text-decoration: underline; color: #FE9E32; font-weight: bold; }
+<style type="text/css">   
+
     
     #main { margin: 1em; }
     .block { background: #f2f2f2; padding: 0.1em 1em; border: #eeeeee 1px solid; }
@@ -94,12 +81,9 @@
 
 <br />
 <br />
-<br />
-<br />
-And here goes the Admin Interface
-Content: {$content}
-<br />
-<br />
+<div id="content">
+{$content}
+</div>
 <br />
 <br />
 </body>
