@@ -103,7 +103,12 @@ class db
     // Set counters to zero
     //----------------------------------------------------------------
     public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
-    {
+    {   
+        global $lang;
+        
+        try
+        {
+        
         $this->db = new PDO($dsn, $user, $pass, $driver_options);
         
         // Error
@@ -115,8 +120,22 @@ class db
         // UNQUOTE ON PHP 5.2 !!!
         //----------------------------------------------------------------
         //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
-    }
+    } CATCH
+    (PDOException $e) {
+         
+       global $tpl; // $error, $lang;
+       
+       /*
+        $this->output .= $tpl->fetch('error.tpl');
+        $this->output .= $error->show($lang->t('Module Failure'), $lang->t('The Module has a failure (testing $error->show... Level 2 Failure...)'), 2);
+       */
     
+        print $lang->t('<u>DB Connection Failure</u> <br/>');
+        print $lang->t('The Database Connection could not be established. <br/> Error : ' . $e->getMessage() . '<br/>');
+        die();
+        }
+    }
+ 
     //----------------------------------------------------------------
     // Call forward to DB
     //----------------------------------------------------------------
