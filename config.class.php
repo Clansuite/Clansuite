@@ -58,12 +58,13 @@ class config
         //----------------------------------------------------------------
         // Standard Path configurations
         //----------------------------------------------------------------
-        $this->www_root     = BASE_URL_SEED2;
-        $this->root         = BASEDIR;
-        $this->core_folder  = 'core';
-        $this->lang_folder  = 'languages';
-        $this->tpl_folder   = 'templates';
-        $this->mod_folder   = 'modules';
+        $this->www_root      = BASE_URL_SEED2;
+        $this->root          = BASEDIR;
+        $this->core_folder   = 'core';
+        $this->lang_folder   = 'languages';
+        $this->tpl_folder    = 'templates';
+        $this->mod_folder    = 'modules';
+        $this->upload_folder = 'uploads';
 
         //----------------------------------------------------------------
         // Mail configuration

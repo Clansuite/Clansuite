@@ -1,0 +1,1 @@
+INSERT INTO `{DB_PREFIX}_modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`) VALUES ('index', 'Index Module', 'This is the main site.', 'module_index', 'index.class.php', 'index', 0, 'module_index.jpg')
