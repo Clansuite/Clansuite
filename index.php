@@ -88,6 +88,7 @@ define('MOD_ROOT'   , ROOT . $cfg->mod_folder);
 define('TPL_ROOT'   , ROOT . $cfg->tpl_folder);
 define('LANG_ROOT'  , ROOT . $cfg->lang_folder);
 define('CORE_ROOT'  , ROOT . $cfg->core_folder);
+define('UPLOAD_ROOT', ROOT . $cfg->upload_folder);
 define('TPL_NAME'   , $cfg->tpl_name);
 define('WWW_ROOT'   , $cfg->www_root);
 define('DEBUG'      , $cfg->debug);

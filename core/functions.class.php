@@ -87,7 +87,6 @@ class functions
                 session_write_close();
                 echo $tpl->display( 'redirect/redirect.tpl' );
                 exit;
-                //die( $tpl->display( 'redirect/redirect.tpl' ) );
                 break;
                 
             default:
@@ -133,6 +132,31 @@ class functions
             }
         }
         return $string;
+    }
+    
+    //----------------------------------------------------------------
+    // Try a chmod
+    //----------------------------------------------------------------
+    function chmod( $path = '', $chmod = '0755', $redirect_url = '/index.php' )
+    {
+        global $lang;
+        
+        if ( chmod( $path, $chmod ) )
+        {
+            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions (chmod)' ) );
+        }
+        else
+        {
+            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions for the folder could not be set.' ) );
+        }
+    }
+    
+    //----------------------------------------------------------------
+    // Remove comments prefilter
+    //----------------------------------------------------------------
+    function remove_tpl_comments( $tpl_source, &$tpl )
+    {
+        return preg_replace("/<!--.*-->/U",'',$tpl_source);
     }
 }
 ?>
