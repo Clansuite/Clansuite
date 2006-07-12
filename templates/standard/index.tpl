@@ -20,7 +20,8 @@
 </head>
 <body>
 <div id="bar">
-<img src="{$www_tpl_root}/images/logo.jpg">
+<center>
+<img src="{$www_tpl_root}/images/clansuite-header.png"></center>
 </div>
 
 <script type="text/javscript">
@@ -92,6 +93,7 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
             Online: {$stats_online}<br />
             Siteimpressions: {$stats_page_impressions}<br />
             All Impressions: {$stats_all_impressions}<br />
+            <img src="{$www_tpl_root}/images/clansuite-80x15.png">
         </div>
     </td>
 </tr>
