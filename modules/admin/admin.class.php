@@ -75,7 +75,7 @@ class module_admin
     {
         global $tpl, $error, $lang;
         
-        $this->output .= $tpl->fetch('admin/show.tpl');
+        $this->output .= $tpl->fetch('admin/welcome.tpl');
     }
 }
 ?>
