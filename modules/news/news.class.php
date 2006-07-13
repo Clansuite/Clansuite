@@ -32,6 +32,21 @@
 * @link       http://www.clansuite.com
 */
 
+/*
+Tabellenstruktur für Tabelle `suite_news`
+
+CREATE TABLE `cs_news` (
+  `news_id` int(11) NOT NULL auto_increment,
+  `news_title` varchar(255) NOT NULL default '',
+  `news_body` text NOT NULL,
+  `news_category` tinyint(4) NOT NULL default '0',
+  `user_id` int(11) unsigned NOT NULL default '0',
+  `news_added` datetime NOT NULL default '0000-00-00 00:00:00',
+  `news_hidden` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`news_id`,`news_category`)
+) ENGINE=MyISAM;
+*/
+
 //----------------------------------------------------------------
 // Security Handler
 //----------------------------------------------------------------
