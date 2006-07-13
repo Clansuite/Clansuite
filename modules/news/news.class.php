@@ -41,7 +41,7 @@ CREATE TABLE `cs_news` (
   `news_body` text NOT NULL,
   `news_category` tinyint(4) NOT NULL default '0',
   `user_id` int(11) unsigned NOT NULL default '0',
-  `news_added` datetime NOT NULL default '0000-00-00 00:00:00',
+  `news_added` int(11) unsigned NOT NULL default '0',
   `news_hidden` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`news_id`,`news_category`)
 ) ENGINE=MyISAM;
@@ -99,7 +99,6 @@ class module_news
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
         
         // $newslist = newseinträge mit usernick und categorie
-        
         $stmt = $db->prepare('SELECT n.*, u.nick, c.cat_name, c.cat_image_url 
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN ' . DB_PREFIX .'users u USING(user_id)
