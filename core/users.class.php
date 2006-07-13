@@ -203,8 +203,8 @@ class users
             $_SESSION['user']['email']      = '';
 
             
-            $_SESSION['user']['first_name'] = '';
-            $_SESSION['user']['last_name']  = '';
+            $_SESSION['user']['first_name'] = 'Vorname';
+            $_SESSION['user']['last_name']  = 'Nachname';
             
             $_SESSION['user']['disabled']   = '';
             $_SESSION['user']['activated']  = '';
