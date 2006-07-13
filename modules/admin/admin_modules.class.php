@@ -261,7 +261,7 @@ class module_admin_modules
                     file_put_contents ( MOD_ROOT . '/' . $name . '/module.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                    $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`)';
+                    $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`)';
                     $qry .= " VALUES (?,?,?,?,?,?,?,?)";
                     
                     $stmt = $db->prepare( $qry );
@@ -272,7 +272,9 @@ class module_admin_modules
                                             $name . '.class.php',
                                             $name,
                                             $enabled,
-                                            'module_' . $name . '.jpg' ) );
+                                            'module_' . $name . '.jpg',
+                                            (float) 0.1,
+                                            $cfg->version ) );
                                             
                     $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ) );
                 }
