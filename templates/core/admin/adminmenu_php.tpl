@@ -87,7 +87,7 @@ function get_html_div($menu)
         if ( isset($entry['content']) AND ( htmlentities($entry['type']) == 'item') )
         {
             $result .= '<img class="arrow" src="';
-            $result .= WWW_ROOT . '/templates/core/images/arrow1.gif" width="4" height="7" alt="" />';
+            $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
         }
         $result .= '</a>';
         
@@ -128,27 +128,44 @@ $adminmenu = build_menu($adminmenudb); unset($adminmenudb);
     arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
     </script>
 
-<div id="bar">
+<div id="menugradient">
+
+<div id="bar" class="bar">
 <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu">
-<tr>
+  <tr>
+        <td><img src="{$www_core_tpl_root}/images/adminmenu/nubs.gif" alt="" /></td>
+
 
 {php}
 echo get_html_div($adminmenu);
 {/php}
 
-</tr>
+  </tr>
 </table>
-
 
  <script type="text/javascript">
     var menu1 = new XulMenu("menu1");
-    menu1.arrow1 = "{$www_core_tpl_root}/images/arrow1.gif";
-    menu1.arrow2 = "{$www_core_tpl_root}/images/arrow2.gif";
+    menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
+    menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
     menu1.init();
     </script>
     
-		 
-		 <div id="user"><?php echo $_SESSION['User']['first_name'].' "'. $_SESSION['User']['nick'].'" '.$_SESSION['User']['last_name']; ?></div>
-
+    </div>
+		
+    <div id="search" class="XulMenu">
+            
+        <!--
+        <input type="text" name="searchField" value="" />
+        <select name="searchWhat"><option value="">Articles</option><option value="">Links</option><option value="">PHP Manual</option></select>
+        <input type="button" value="Search" />
+        //-->
+           
+        {$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name} 
+        
+                <a class="itembtn" href="{$hmpf-keinplan-www_root}/account/logout.php">
+                <img src="{$www_core_tpl_root}/images/adminmenu/logout.gif" border="0" alt="" />Logout</a>           
+    
+    </div>	 
+    
 </div>
 <!-- end: Menu- Kopfzeile 2 //-->
