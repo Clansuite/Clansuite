@@ -81,7 +81,15 @@ class module_admin_modules
                 $this->mod_page_title = $lang->t( 'Import a module' );
                 $this->import();
                 break;
+
+            case 'update':
+                $this->import();
+                break;
                 
+            case 'add_to_whitelist':
+                $this->import();
+                break;
+                                
             case 'chmod':
                 $this->chmod();
                 break;
@@ -107,7 +115,7 @@ class module_admin_modules
 
         $dir_handler = opendir( MOD_ROOT );
         
-        while( $content = readdir($dir_handler) )
+        while( false !== ($content = readdir($dir_handler)) )
         {
             if ( !preg_match('/^\.(.*)$/', $content) )
             {
@@ -135,7 +143,8 @@ class module_admin_modules
             }
         }
         ksort($container);
-        
+        closedir($dir_handler);
+                
         $tpl->assign('content', $container);
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
@@ -154,22 +163,7 @@ class module_admin_modules
             $err['mod_folder_not_writeable'] = 1;
         }
         
-        require( CORE_ROOT . '/tar.class.php' );
-        
-        /*
-        while ( $content = readdir( MOD_ROOT . '/cpatcha2' ) )
-        {
-            if ( !preg_match('/^\.(.*)$/', $content) )
-            {
-            
-            }            
-        }
-        */
-        $tar = new Archive_Tar( MOD_ROOT . '/captcha2.tar' );
-
-        $tar->createModify(MOD_ROOT . '/captcha2/', '', MOD_ROOT);
-        //$tar->create(  );
-        //$tar->extract( MOD_ROOT );
+        // TODO FTP
         
         $tpl->assign('err', $err);
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
@@ -314,14 +308,12 @@ class module_admin_modules
             $res = $stmt->fetch();
             
             if ( is_array ( $res ) )
-            { 
-                $dump  = 'INSERT INTO `{DB_PREFIX}_modules`';
-                $dump .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`)';
-                $dump .= " VALUES ('$res[name]', '$res[title]', '$res[description]', '$res[class_name]', '$res[file_name]', '$res[folder_name]', 0, '$res[image_name]')";
+            {
+                $info = serialize($res);
                 
-                file_put_contents( UPLOAD_ROOT . '/modules/temp/sql_dump.txt', $dump );
+                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', $info );
                 
-                $tared_files['dump'] = UPLOAD_ROOT . '/modules/temp/sql_dump.txt';
+                $tared_files['info'] = UPLOAD_ROOT . '/modules/temp/mod_info.php';
                 $tared_files['mod'] = MOD_ROOT . '/' . $name . '/';
                 
                 require( CORE_ROOT . '/tar.class.php' );
@@ -329,7 +321,7 @@ class module_admin_modules
                 
                 if ( $tar->createModify( $tared_files['mod'], '', MOD_ROOT ) )
                 {
-                    if ( $tar->addModify( $tared_files['dump'], '', UPLOAD_ROOT . '/modules/temp/' ) )
+                    if ( $tar->addModify( $tared_files['info'], '', UPLOAD_ROOT . '/modules/temp/' ) )
                     {
                         $functions->redirect( '/' . $cfg->upload_folder . '/modules/export/' . $name . '.tar' );
                     }
@@ -339,7 +331,7 @@ class module_admin_modules
 
         $dir_handler = opendir( MOD_ROOT );
         
-        while( $content = readdir($dir_handler) )
+        while( false !== ($content = readdir($dir_handler)) )
         {
             if ( !preg_match('/^\.(.*)$/', $content) )
             {
@@ -356,6 +348,7 @@ class module_admin_modules
                 }
             }
         }
+        closedir( $dir_handler );
         ksort($container);
         
         $tpl->assign('err', $err);
@@ -365,12 +358,18 @@ class module_admin_modules
     }
 
     //----------------------------------------------------------------
-    // Export Module
+    // Import Module
     //----------------------------------------------------------------
     function import()
     {
+        global $tpl, $db, $input, $functions, $lang;
+        
+        $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
+        
+        set_time_limit(0);
+        
         $submit = $_POST['submit'];
-
+        
         $err = array();
         
         if ( !is_writeable( UPLOAD_ROOT ) )
@@ -382,7 +381,73 @@ class module_admin_modules
         {
             $err['mod_folder_not_writeable'] = 1;
         }
+        
+        if ( count ( $err ) == 0 AND !empty( $submit ) )
+        {
+            if ( !preg_match("/\.(tar)$/i", $_FILES['file']['name']) )
+            {
+                $err['wrong_filetype'] = 1;
+            }
+            
+            if ( !is_uploaded_file($_FILES['file']['tmp_name']) )
+            {
+                $err['no_correct_upload'] = 1;
+            }
+            
+            if ( count ($err) == 0 )
+            {
+                if ( move_uploaded_file( $_FILES['file']['tmp_name'], UPLOAD_ROOT . '/modules/import/' . $_FILES['file']['name'] ) )
+                {
+                    require( CORE_ROOT . '/tar.class.php' );
+                    $tar = new Archive_Tar( UPLOAD_ROOT . '/modules/import/' . $_FILES['file']['name'] );
+                    
+                    $tar->extract( UPLOAD_ROOT . '/modules/temp/' );
+                    
+                    $handler = opendir( UPLOAD_ROOT . '/modules/temp/' );
+                    while( false !== ($dh = readdir($handler)) )
+                    {
+                        if ( $dh != '.' && $dh != '..' && $dh != '.svn' && is_dir( UPLOAD_ROOT . '/modules/temp/' . $dh ) )
+                        {
+                            $dirs[] = $dh;
+                        }
+                    }
+                    closedir($handler);
+                    
+                    foreach( $dirs as $value )
+                    {
+                        $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/' . $value . '/', MOD_ROOT . '/' . $value . '/', true, '/index.php?mod=admin&sub=admin_modules&action=import' );
                         
+                        $info = unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php' ) );
+                        
+                        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
+                        $stmt->execute( array ( $info['name'] ) );
+                        
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt->execute( array(  $info['name'],
+                                                $info['title'],
+                                                $info['description'],
+                                                $info['class_name'],
+                                                $info['file_name'],
+                                                $info['folder_name'],
+                                                0,
+                                                $info['image_name'],
+                                                $info['version'],
+                                                $info['cs_version'] ) );
+                        
+                        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ) );
+                    }
+
+                }
+                else
+                {
+                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The file could not be moved to the upload directory.' ) );
+                }
+            }
+        }
+        
+        $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
+                        
+        $tpl->assign('err', $err );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
