@@ -57,7 +57,7 @@ class error
     //----------------------------------------------------------------
     // Advanced error_handler callback function
     //----------------------------------------------------------------
-    function advanced_error_handler($errno, $errstr, $errfile, $errline)
+    function advanced_error_handler( $errno, $errstr, $errfile, $errline )
     {
         global $debug, $tpl, $cfg;
         
@@ -108,34 +108,34 @@ class error
     //----------------------------------------------------------------
     // Script Error Handler
     //----------------------------------------------------------------
-    function show($error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
+    function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
         global $tpl;
         
-        switch ($level )
+        switch ( $level )
         {
-        case '1':
-            $tpl->assign('error_type'    , 1 );
-            $tpl->assign('error_head'    , $error_head );
-            $tpl->assign('debug_info'    , $string );
-            $redirect!='' ? $tpl->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
-            $content = $tpl->fetch('error.tpl' );
-            die($content );
-            break;
-            
-        case '2':
-            $tpl->assign('error_type'    , 2 );
-            $tpl->assign('error_head'    , $error_head );
-            $tpl->assign('debug_info'    , $string );
-            return($tpl->fetch('error.tpl' ) );
-            break;
-            
-        case '3':
-            $tpl->assign('error_type'    , 3 );
-            $tpl->assign('error_head'    , $error_head );
-            $tpl->assign('debug_info'    , $string );
-            echo($tpl->fetch('error.tpl' ) );
-            break;
+            case '1':
+                $tpl->assign('error_type'    , 1 );
+                $tpl->assign('error_head'    , $error_head );
+                $tpl->assign('debug_info'    , $string );
+                $redirect!='' ? $tpl->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
+                $content = $tpl->fetch( 'error.tpl' );
+                die( $content );
+                break;
+                
+            case '2':
+                $tpl->assign('error_type'    , 2 );
+                $tpl->assign('error_head'    , $error_head );
+                $tpl->assign('debug_info'    , $string );
+                return( $tpl->fetch( 'error.tpl' ) );
+                break;
+                
+            case '3':
+                $tpl->assign('error_type'    , 3 );
+                $tpl->assign('error_head'    , $error_head );
+                $tpl->assign('debug_info'    , $string );
+                echo( $tpl->fetch( 'error.tpl' ) );
+                break;
         }
     }
     

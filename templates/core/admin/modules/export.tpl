@@ -1,5 +1,5 @@
 {$chmod_tpl}
-<form action="/index.php?mod=admin&sub=admin_modules&action=export" method="POST">
+
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -17,6 +17,7 @@
 
 </tr>
 {foreach key=schluessel item=wert from=$content.whitelisted}
+<form action="/index.php?mod=admin&sub=admin_modules&action=export" method="POST">
 <tr>
 
     <td id="cell1" align="center">
@@ -40,6 +41,6 @@
     </td>
 
 </tr>
+</form>
 {/foreach}
 </table>
-</form>

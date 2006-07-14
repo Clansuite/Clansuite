@@ -158,5 +158,86 @@ class functions
     {
         return preg_replace("/<!--.*-->/U",'',$tpl_source);
     }
+    
+    //----------------------------------------------------------------
+    // Copy a directory recursively
+    //----------------------------------------------------------------
+    function dir_copy( $source, $dest, $overwrite = true, $redirect_url )
+    {
+        global $lang;
+
+        if($handle = opendir($source))
+        {
+            while( false !== ($file = readdir($handle)) )
+            {
+                if($file != '.' && $file != '..' && $file != '.svn')
+                {
+                    $path = $source . $file;
+                    if(is_file($path))
+                    {
+                        if(!is_file($dest . $file) || $overwrite)
+                        {
+                            if(!@copy($path, $dest . $file))
+                            {
+                                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
+                            }
+                        }
+                        elseif (is_dir($path))
+                        {
+                            if(!is_dir($dest . $file))
+                            {
+                                mkdir($dest . $file);
+                            }
+                            $this->dir_copy($path, $dest . $file, $overwrite);
+                        }
+                    }
+                }
+            }
+            closedir($handle);
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Delete a directory or it's content recursively
+    //----------------------------------------------------------------    
+    function delete_dir_content($directory, $sub=false)
+    {
+    	if(substr($directory,-1) == '/')
+    	{
+    		$directory = substr($directory,0,-1);
+    	}
+    	if(!file_exists($directory) || !is_dir($directory))
+    	{
+    		return false;
+    	}
+        elseif (is_readable($directory))
+    	{
+    		$handle = opendir($directory);
+    		while (false !== ($item = readdir($handle)))
+    		{
+    			if($item != '.' && $item != '..' && $item != '.svn')
+    			{
+    				$path = $directory.'/'.$item;
+    				if(is_dir($path)) 
+    				{
+    					$this->delete_dir_content($path, true);
+    				}
+                    else
+                    {
+    					unlink($path);
+    				}
+    			}
+    		}
+    		closedir($handle);
+    		if($sub == true)
+    		{
+    			if(!rmdir($directory))
+    			{
+    				return FALSE;
+    			}
+    		}
+    	}
+    	return TRUE;
+    }
 }
 ?>

@@ -59,7 +59,7 @@
 </p>
 </form>
 {/if}
-<form action="/index.php?mod=admin&sub=admin_modules&action=update_whitelist" method="POST">
+<form action="/index.php?mod=admin&sub=admin_modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -74,14 +74,18 @@
     <td id="td_header" width="5%" align="center">
     {translate}Enabled{/translate}
     </td>
+    
+    <td id="td_header" width="5%" align="center">
+    {translate}Delete{/translate}
+    </td>    
 
 </tr>
 {foreach key=schluessel item=wert from=$content.whitelisted}
 <tr>
 
     <td id="cell1" align="center">
-    <b>{$wert.title}</b><br />
-    <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
+        <b>{$wert.title}</b><br />
+        <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
     </td>
     
     <td id="cell2">
@@ -95,7 +99,11 @@
     </td>
     
     <td id="cell1" align="center">
-    <input name="enabled" type="checkbox" value="1" {if $wert.enabled == 1} checked{/if}>
+        <input name="enabled" type="checkbox" value="1" {if $wert.enabled == 1} checked{/if}>
+    </td>
+    
+    <td id="cell1" align="center">
+        <input type="checkbox" name="delete" value="1">
     </td>
 
 </tr>
