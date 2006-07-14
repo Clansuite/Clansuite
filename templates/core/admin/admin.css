@@ -3,7 +3,8 @@ body
     padding:0 px;
     background: #E4E0C7;
     font-family: tahoma, verdana, arial, sans-serif;
-    font-size: 11px; margin: 2em;
+    font-size: 11px; 
+    margin: 2em;
 }
 
 a:link,
@@ -125,41 +126,42 @@ p
 
 #header span
 {
-position: absolute;
-right: 38px;
+    position: absolute;
+    right: 38px;
 }
 
 #menugradient {
+    height: 24px; 
     width:100%;
     background: #ECE9D8;
     border-bottom: 1px solid #ACA899;
-    overflow: auto;
+    overflow: auto;     /* Aufgrund des Floatens der Innencontainer */
+    padding-top:    1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    
 }
 
 #bar {
     float: left;
     width: auto;
-    padding-top:    1px;
-    padding-bottom: 1px;
-    padding-left: 5px;
-    cursor: default;
-    /* overflow:auto; /* Aufgrund des Floatens der Innencontainer */
 }
 
 #search
-{
-float:  right;
-width:  auto;
-margin-right: 5px;
-/* background: url('<?php echo WWW_ROOT ?>/admin/images/user.gif') no-repeat 0% 0%;  */
+{   
+    vertical-align: middle;
+    height: 30px;
+    float:  right;
+    width:  auto;
+    margin-right: 5px; 
 }
 
 #search input, 
 #search select 
 {     
-font-family: georgia, tahoma, verdana;
-font-size: 12px;  
-margin-top: 4px;
+    font-family: georgia, tahoma, verdana;
+    font-size: 12px;  
+    margin-top: 4px;
 }
 
 #content
