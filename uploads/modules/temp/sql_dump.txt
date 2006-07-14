@@ -1,1 +1,0 @@
-INSERT INTO `{DB_PREFIX}_modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`) VALUES ('news', 'The website news', 'The website news', 'module_news', 'news.class.php', 'news', 0, 'module_news.jpg')
