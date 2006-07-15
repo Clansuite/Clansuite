@@ -85,9 +85,20 @@ class functions
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
                 session_write_close();
-                echo $tpl->display( 'redirect/redirect.tpl' );
+                echo $tpl->display( 'tools/redirect.tpl' );
                 exit;
                 break;
+                
+            case 'confirm':
+                $tpl->assign( 'link', $url );
+                $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
+                $tpl->assign( 'message', $message );
+                session_write_close();
+                echo $tpl->display( 'tools/confirm.tpl' );                
+                exit;
+                break;
+            
+                
                 
             default:
                 $c = parse_url($url);

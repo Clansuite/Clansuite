@@ -99,17 +99,17 @@
     </td>
     
     <td id="cell1" align="center">
-        <input name="enabled" type="checkbox" value="1" {if $wert.enabled == 1} checked{/if}>
+        <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
     
     <td id="cell1" align="center">
-        <input type="checkbox" name="delete" value="1">
+        <input type="checkbox" name="delete[]" value="{$wert.module_id}">
     </td>
 
 </tr>
 {/foreach}
 </table>
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Update whitelist{/translate}" name="submit">
+    <input class="input_submit" type="submit" value="{translate}Update modules{/translate}" name="submit">
 </p>
 </form>
