@@ -20,7 +20,7 @@
  * @param integer
  * @return string
  */
-function smarty_modifier_debug_print_var($var, $depth = 0, $length = 800)
+function smarty_modifier_debug_print_var($var, $depth = 0, $length = 40)
 {
     $_replace = array("\n"=>'<i>&#92;n</i>', "\r"=>'<i>&#92;r</i>', "\t"=>'<i>&#92;t</i>');
     if (is_array($var)) {
@@ -34,7 +34,7 @@ function smarty_modifier_debug_print_var($var, $depth = 0, $length = 800)
         $results = "<b>".get_class($var)." Object (".count($object_vars).")</b>";
         foreach ($object_vars as $curr_key => $curr_val) {
             $return = smarty_modifier_debug_print_var($curr_val, $depth+1, $length);
-			$results .= "<br>".str_repeat('&nbsp;', $depth*2)."<b>$curr_key</b> =&gt; $return";
+            $results .= "<br>".str_repeat('&nbsp;', $depth*2)."<b>$curr_key</b> =&gt; $return";
         }
     } else if (is_resource($var)) {
         $results = '<i>'.(string)$var.'</i>';
@@ -42,7 +42,7 @@ function smarty_modifier_debug_print_var($var, $depth = 0, $length = 800)
         $results = '<i>empty</i>';
     } else {
         if (strlen($var) > $length ) {
-			$results = substr($var, 0, $length-3).'...';
+            $results = substr($var, 0, $length-3).'...';
         } else {
             $results = $var;
         }
