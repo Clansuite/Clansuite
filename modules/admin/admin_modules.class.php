@@ -83,11 +83,11 @@ class module_admin_modules
                 break;
 
             case 'update':
-                $this->import();
+                $this->update();
                 break;
                 
             case 'add_to_whitelist':
-                $this->import();
+                $this->add_to_whitelist();
                 break;
                                 
             case 'chmod':
@@ -450,6 +450,22 @@ class module_admin_modules
         $tpl->assign('err', $err );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
+    }
+
+    //----------------------------------------------------------------
+    // Update the module list
+    //----------------------------------------------------------------
+    function update()
+    {
+        global $functions, $input, $lang;
+        
+        $submit = $_POST['submit'];
+        $delete = $_POST['delete'];
+        $enabled = $_POST['enabled'];
+        
+        var_dump($enabled);
+        var_dump($delete);
+        
     }
     
     //----------------------------------------------------------------

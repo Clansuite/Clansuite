@@ -233,7 +233,7 @@ class modules
         }
         else
         {
-            $error->error_log['no_module']['not_in_array'] = $lang->t('The module you tried to enter is not registered in config.class.php');
+            $error->error_log['no_module']['not_in_array'] = $lang->t('The module you tried to enter is not registered in the whitelist.');
             
             $mod = $cfg->std_module;
             
