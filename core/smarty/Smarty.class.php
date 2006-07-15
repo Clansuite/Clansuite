@@ -27,7 +27,7 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.13
+ * @version 2.6.14
  */
 
 /* $Id: Smarty.class.php,v 1.524 2006/01/18 19:02:52 mohrt Exp $ */
@@ -137,7 +137,7 @@ class Smarty
      * production.
      *
      * @var boolean
-	 */
+     */
     var $compile_check   =  true;
 
     /**
@@ -150,7 +150,7 @@ class Smarty
 
     /**
      * This enables template caching.
-	 * <ul>
+     * <ul>
      *  <li>0 = no caching</li>
      *  <li>1 = use class cache_lifetime value</li>
      *  <li>2 = use cache_lifetime in cache file</li>
@@ -164,7 +164,7 @@ class Smarty
      *
      * @var string
      */
-	var $cache_dir       =  'cache';
+    var $cache_dir       =  'cache';
 
     /**
      * This is the number of seconds cached content will persist.
@@ -174,7 +174,7 @@ class Smarty
      * </ul>
      *
      * @var integer
-	 */
+     */
     var $cache_lifetime  =  3600;
 
     /**
@@ -464,7 +464,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.13';
+    var $_version              = '2.6.14';
 
     /**
      * current template inclusion depth
