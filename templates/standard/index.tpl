@@ -11,7 +11,7 @@
 <meta name="description" content="{$description}">
 <meta name="keywords" content="{$keywords}">
 <link rel="stylesheet" type="text/css" href="{$css}">
-<script src="{$www_tpl_root}/menu.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
 {$additional_head}
 {$redirect}
