@@ -23,7 +23,6 @@
   
 </head>
 <body>
-<body>
 	
 	
 	<!-- Main-Container //-->
@@ -36,15 +35,16 @@
 	
 	<!-- end: Logo - Kopfzeile //-->
 	
-{include file="admin/adminmenu_php.tpl"}
+    {include file="admin/adminmenu_php.tpl"}
 
 
-<br />
-<br />
-<div id="content">
-{$content}
-</div>
-<br />
-<br />
+    <br />
+    <br />
+    <div id="content">
+    {$content}
+    </div>
+    <br />
+    <br />
+    
 </body>
 </html>
