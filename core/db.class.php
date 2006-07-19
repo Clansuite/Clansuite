@@ -145,6 +145,7 @@ class db
             $db->query_active_reference->closeCursor();
         }
         $this->prepares[] = $sql;
+        var_dump($sql);
         return new db_statements( $this->db->prepare( $sql ) );
     }
     
@@ -231,7 +232,7 @@ class db_statements
         }
 
         $db->queries[] = $this->db_statement->queryString;
-var_dump($db->queries);
+
         $res = call_user_func(array($this->db_statement, 'execute'), $args);
 
         if ( $res )
