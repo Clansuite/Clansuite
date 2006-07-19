@@ -157,6 +157,7 @@ class db
         $res = $this->prepare( $sql );
         $res->execute( $args );
         $res->closeCursor();
+        $res = NULL;
         
         return $res;
     }
@@ -223,13 +224,10 @@ class db_statements
         global $db;
         
         $db->query_counter++;
-        if ( $db->query_active == 1 )
+        if ( is_object( $db->query_active_reference ) )
         {
-            if ( is_object( $db->query_active_reference ) )
-            {
-                $db->query_active_reference->closeCursor();
-                $db->query_active_reference = NULL;
-            }
+            $db->query_active_reference->closeCursor();
+            $db->query_active_reference = NULL;
         }
 
         $db->queries[] = $this->db_statement->queryString;
@@ -238,7 +236,6 @@ class db_statements
 
         if ( $res )
         {
-            $db->query_active = 1;
             $db->query_active_reference = $this;
             return $res;
         }
