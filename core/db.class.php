@@ -150,7 +150,6 @@ class db
     public function prepare($sql='' )
     {
         $this->prepares[] = $sql;
-        var_dump($this->db);
         return new db_statements( $this->db->prepare( $sql ) );
     }
     
