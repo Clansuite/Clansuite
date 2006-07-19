@@ -145,7 +145,7 @@ class db
             $db->query_active_reference->closeCursor();
         }
         $this->prepares[] = $sql;
-        var_dump($sql);
+        #var_dump($sql);
         return new db_statements( $this->db->prepare( $sql ) );
     }
     
