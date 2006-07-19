@@ -135,14 +135,14 @@ p
     width:100%;
     background: #ECE9D8;
     border-bottom: 1px solid #ACA899;
-    overflow: auto;     /* Aufgrund des Floatens der Innencontainer */
+    /* overflow: auto; Aufgrund des Floatens der Innencontainer */
     padding-top:    1px;
     padding-bottom: 1px;
     padding-left: 5px;
-    
 }
 
-#bar {
+#bar
+{
     float: left;
     width: auto;
 }
