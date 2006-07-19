@@ -203,6 +203,7 @@ class session
         $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute( array( $id ) );
         $res = $stmt->fetch();
+        $stmt->closeCursor();
         if ( is_array($res) )
         {
             //----------------------------------------------------------------
@@ -210,6 +211,7 @@ class session
             //----------------------------------------------------------------
             $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
             $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
+            $stmt->closeCursor();
         }
         else
         {
@@ -218,6 +220,7 @@ class session
             //----------------------------------------------------------------
             $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
             $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
+            $stmt->closeCursor();
         }
         return true;
     }
