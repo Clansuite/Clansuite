@@ -13,9 +13,9 @@
 
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
 
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/menu.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/XulMenu.js"></script>
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/ie5.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/menu.css" />
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/ie5.js"></script>
 
 {$additional_head}
 {$redirect}
@@ -35,8 +35,11 @@
 	
 	<!-- end: Logo - Kopfzeile //-->
 	
-    {include file="admin/adminmenu_php.tpl"}
-
+    {include file="admin/adminmenu/adminmenu_php.tpl"}
+    
+    {* abgeschaltet
+    {include file="admin/adminmenu/navi.tpl"}
+    *}
 
     <br />
     <br />
