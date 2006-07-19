@@ -104,42 +104,33 @@ class db
     //----------------------------------------------------------------
     public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
     {   
-        global $lang;
+        global $lang, $tpl;
         
         try
         {
-        
-        $this->db = new PDO($dsn, $user, $pass, $driver_options);
-        
-        // Error
-        $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // Table-names in lower-case
-        $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
-        // Fetch Mode
-        //----------------------------------------------------------------
-        // UNQUOTE ON PHP 5.2 !!!
-        //----------------------------------------------------------------
-        //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
-    } CATCH
-    (PDOException $e) {
-         
-       global $tpl; // $error, $lang;
-       
-       /*
-        $this->output .= $tpl->fetch('error.tpl');
-        $this->output .= $error->show($lang->t('Module Failure'), $lang->t('The Module has a failure (testing $error->show... Level 2 Failure...)'), 2);
-       */
-    
-        print $lang->t('<u>DB Connection Failure</u> <br/>');
-        print $lang->t('The Database Connection could not be established. <br/> Error : ' . $e->getMessage() . '<br/>');
-        die();
+            $this->db = new PDO($dsn, $user, $pass, $driver_options);
+            
+            // Error
+            $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            // Table-names in lower-case
+            $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
+            // Fetch Mode
+            //----------------------------------------------------------------
+            // UNQUOTE ON PHP 5.2 !!!
+            //----------------------------------------------------------------
+            //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+        }
+        CATCH (PDOException $e)
+        {
+            $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>'); 
+            die();
         }
     }
  
     //----------------------------------------------------------------
     // Call forward to DB
     //----------------------------------------------------------------
-    public function __call($func, $args)
+    public function __call( $func, $args )
     {
         return call_user_func_array(array($this->db, $func), $args);
     }
@@ -147,7 +138,7 @@ class db
     //----------------------------------------------------------------
     // Prepare a statement
     //----------------------------------------------------------------
-    public function prepare($sql='' )
+    public function prepare( $sql='' )
     {
         $this->prepares[] = $sql;
         return new db_statements( $this->db->prepare( $sql ) );
@@ -161,7 +152,7 @@ class db
         
         $res = $this->prepare( $sql );
         
-        $res->execute($args);
+        $res->execute( $args );
         
         $res->closeCursor();
         
