@@ -234,7 +234,10 @@ class db_statements
         if ( $db->query_active == 1 )
         {
             if ( is_object( $db->query_active_reference ) )
-            { $db->query_active_reference->closeCursor(); }
+            {
+                $db->query_active_reference->closeCursor();
+                $db->query_active_reference = NULL;
+            }
         }
 
         $db->queries[] = $this->db_statement->queryString;
