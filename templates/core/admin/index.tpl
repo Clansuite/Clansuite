@@ -17,6 +17,9 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ie5.js"></script>
 
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
+<script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
+
 {$additional_head}
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
