@@ -120,7 +120,7 @@ class db
             //----------------------------------------------------------------
             //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
         }
-        CATCH (PDOException $e)
+        catch (PDOException $e)
         {
             $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>'); 
             die();
@@ -140,6 +140,7 @@ class db
     //----------------------------------------------------------------
     public function prepare( $sql='' )
     {
+        $db->query_active_reference->closeCursor();
         $this->prepares[] = $sql;
         return new db_statements( $this->db->prepare( $sql ) );
     }
@@ -151,9 +152,7 @@ class db
     {
         
         $res = $this->prepare( $sql );
-        
         $res->execute( $args );
-        
         $res->closeCursor();
         
         return $res;
