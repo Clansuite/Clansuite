@@ -1,3 +1,5 @@
+<h2> Modulmanagement </h2>
+
 {if isset($content.not_in_whitelist)}
 <form action="/index.php?mod=admin&sub=admin_modules&action=add_to_whitelist" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
