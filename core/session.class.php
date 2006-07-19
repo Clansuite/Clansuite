@@ -72,14 +72,20 @@ class session
     public $session_cookies         = 1;
     public $session_cookies_only    = 0;
     public $session_security        = array('check_ip', 'check_browser', 'check_host');
+    public $db;
     
     //----------------------------------------------------------------
     // Overwrite php.ini settings
     // Start the session
     //----------------------------------------------------------------
-    function create_session()
+    function create_session($db)
     {
         global $cfg, $lang, $error, $functions, $input;
+        
+        //----------------------------------------------------------------
+        // Reference PDO
+        //----------------------------------------------------------------
+        $this->db = $db;
         
         //----------------------------------------------------------------
         // Set the ini Vars and look for configs
@@ -99,12 +105,12 @@ class session
         //----------------------------------------------------------------
         // Set the handlers
         //----------------------------------------------------------------
-        session_set_save_handler(   array(&$this, "_session_open"   ),
-                                    array(&$this, "_session_close"  ),
-                                    array(&$this, "_session_read"   ),
-                                    array(&$this, "_session_write"  ),
-                                    array(&$this, "_session_destroy"),
-                                    array(&$this, "_session_gc"     ));
+        session_set_save_handler(   array($this, "_session_open"   ),
+                                    array($this, "_session_close"  ),
+                                    array($this, "_session_read"   ),
+                                    array($this, "_session_write"  ),
+                                    array($this, "_session_destroy"),
+                                    array($this, "_session_gc"     ));
         
         
         //----------------------------------------------------------------
@@ -136,6 +142,10 @@ class session
         //----------------------------------------------------------------
         $this->session_control();
         
+        //----------------------------------------------------------------
+        // Rergister shutdown
+        //----------------------------------------------------------------
+        register_shutdown_function('session_write_close');
     }
     
     //----------------------------------------------------------------
@@ -162,7 +172,7 @@ class session
     {
         global $db;
         
-        $stmt = $db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
+        $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
         
         if ($result = $stmt->fetch() )
@@ -180,9 +190,7 @@ class session
     // Write a session
     //----------------------------------------------------------------
     function _session_write($id, $data )
-    {
-        global $db;
-        
+    {       
         //----------------------------------------------------------------
         // Time Settings
         //----------------------------------------------------------------
@@ -192,7 +200,7 @@ class session
         //----------------------------------------------------------------
         // Check if session is in DB
         //----------------------------------------------------------------
-        $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+        $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute( array( $id ) );
         $res = $stmt->fetch();
         if ( is_array($res) )
@@ -200,7 +208,7 @@ class session
             //----------------------------------------------------------------
             // Update Session in DB
             //----------------------------------------------------------------
-            $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
+            $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
             $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
         }
         else
@@ -208,7 +216,7 @@ class session
             //----------------------------------------------------------------
             // Create Session @ DB & Cookies OR $_GET
             //----------------------------------------------------------------
-            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
+            $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
             $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
         }
         return true;
@@ -219,8 +227,6 @@ class session
     //----------------------------------------------------------------
     function _session_destroy( $id )
     {
-        global $db;
-
         //----------------------------------------------------------------
         // Unset Session
         //----------------------------------------------------------------
@@ -255,12 +261,10 @@ class session
     //----------------------------------------------------------------
     function _session_gc($max_lifetime )
     {
-        global $db;
-        
         //----------------------------------------------------------------
         // Prune
         //----------------------------------------------------------------
-        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
+        $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array($this->session_name, time() ) );
         
         if ($stmt->rowCount() > 0)
@@ -274,9 +278,7 @@ class session
     //----------------------------------------------------------------
     function _session_optimize()
     {
-        global $db;
-        
-        $db->simple_query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+        $this->db->simple_query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
     }
     
     //----------------------------------------------------------------
@@ -350,13 +352,13 @@ class session
         //----------------------------------------------------------------
         // Prune not activated users
         //----------------------------------------------------------------
-        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
+        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
         $stmt->execute();
         
         //----------------------------------------------------------------
         // Prune Sessions
         //----------------------------------------------------------------
-        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
+        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
         $stmt->execute();
         
         //----------------------------------------------------------------
@@ -364,7 +366,7 @@ class session
         //----------------------------------------------------------------
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) AND $_SESSION['user']['user_id'] != 0 )
         {
-            $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
+            $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
             $stmt->execute( array( $_REQUEST[$this->session_name] ) );
             $res = $stmt->fetch();
             if ( !is_array($res) )
