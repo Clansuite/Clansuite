@@ -140,15 +140,28 @@ class db
     //----------------------------------------------------------------
     public function prepare( $sql='' )
     {
-        /*
+		global $error, $lang;
+
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
             $this->query_active_reference = NULL;
         }
-        */
+
         $this->prepares[] = $sql;
-        return new db_statements( $this->db->prepare( $sql ) );
+
+		$res = $this->db->prepare( $sql );
+
+		if( $res )
+		{
+;			return new db_statements( $res );
+		}
+		else
+		{
+			$error->show( $lang->t('DB Prepare Error'), $lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1); 
+            die();
+		}
+        
     }
     
     //----------------------------------------------------------------
@@ -234,8 +247,8 @@ class db_statements
         }
 
         $db->queries[] = $this->db_statement->queryString;
-        var_dump($this->db_statement);
-        $res = call_user_func(array($this->db_statement, 'execute'), $args);
+
+        $res = $this->db_statement->execute($args);
 
         if ( $res )
         {
@@ -243,6 +256,6 @@ class db_statements
             return $res;
         }
         return $res;
-    }   
+    }
 }
 ?>
