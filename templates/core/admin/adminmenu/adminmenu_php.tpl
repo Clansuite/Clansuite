@@ -75,11 +75,13 @@ function get_html_div($menu)
         {
             $entry['href'] = 'javascript:void(0)';
         }
-
-        $c = parse_url($$entry['href']);
-        if( !array_key_exists('host', $c) )
+        else
         {
-            $entry['href'] = WWW_ROOT . $entry['href'];
+            $c = parse_url($$entry['href']);
+            if( !array_key_exists('host', $c) )
+            {
+                $entry['href'] = WWW_ROOT . $entry['href'];
+            }
         }
                         
         if (htmlentities($entry['type']) == 'button')
