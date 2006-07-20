@@ -140,10 +140,9 @@ class db
     //----------------------------------------------------------------
     public function prepare( $sql='' )
     {
-        var_dump($this->query_active_reference);
-        if( is_object($db->query_active_reference) )
+        if( is_object($this->query_active_reference) )
         {
-            $db->query_active_reference->closeCursor();
+            $this->query_active_reference->closeCursor();
         }
         $this->prepares[] = $sql;
         return new db_statements( $this->db->prepare( $sql ) );
