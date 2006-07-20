@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 20. Juli 2006 um 04:36
+-- Erstellungszeit: 20. Juli 2006 um 04:43
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -30,6 +30,25 @@ CREATE TABLE `cs_adminmenu` (
 -- Daten für Tabelle `cs_adminmenu`
 -- 
 
+INSERT INTO `cs_adminmenu` VALUES (4, 0, 'button', 'System', '', 'System', '_self');
+INSERT INTO `cs_adminmenu` VALUES (3, 0, 'button', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
+INSERT INTO `cs_adminmenu` VALUES (6, 0, 'button', 'Hilfe', '', 'Hilfe', '_self');
+INSERT INTO `cs_adminmenu` VALUES (1, 0, 'button', 'Home', 'index.php', 'Home', '_self');
+INSERT INTO `cs_adminmenu` VALUES (2, 0, 'button', 'Modules', '', 'Modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (7, 6, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
+INSERT INTO `cs_adminmenu` VALUES (8, 6, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
+INSERT INTO `cs_adminmenu` VALUES (5, 0, 'button', 'Users', 'admin/users/index.php', 'Users', '_self');
+INSERT INTO `cs_adminmenu` VALUES (9, 6, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
+INSERT INTO `cs_adminmenu` VALUES (10, 6, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
+INSERT INTO `cs_adminmenu` VALUES (11, 10, 'item', 'unter Clansuitel', 'test.php', 'unter Clansuite', '_self');
+INSERT INTO `cs_adminmenu` VALUES (12, 6, 'item', 'test', '', 'test', '_self');
+INSERT INTO `cs_adminmenu` VALUES (13, 4, 'item', 'Menüeditor', 'admin/menueditor.php', 'Menüeditor', '_self');
+INSERT INTO `cs_adminmenu` VALUES (14, 4, 'item', 'Templateeditor', 'admin/templateeditor.php', 'TemplateEditor', '_self');
+INSERT INTO `cs_adminmenu` VALUES (15, 2, 'item', 'Show all modules', '/index.php?mod=admin&sub=admin_modules&action=show_all', 'Show all modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (16, 2, 'item', 'Install new modules', '/index.php?mod=admin&sub=admin_modules&action=install_new', 'Install new modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (17, 2, 'item', 'Exports a module', '/index.php?mod=admin&sub=admin_modules&action=export', 'Exports a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (18, 2, 'item', 'Imports a module', '/index.php?mod=admin&sub=admin_modules&action=import', 'Imports a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (19, 2, 'item', 'Create a new module', '/index.php?mod=admin&sub=admin_modules&action=create_new', 'Create a new module', '_self');
 
 -- --------------------------------------------------------
 
