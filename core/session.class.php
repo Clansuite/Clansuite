@@ -318,7 +318,7 @@ class session
             }
             else if($_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'])
             {
-                session::_session_destroy(session_id();
+                session::_session_destroy(session_id());
                 return false;
             }
         }
