@@ -243,7 +243,7 @@ class db_statements
         }
         return $res;
         }
-        catch(PDOException as $e)
+        catch(PDOException $e)
         {
             echo $e->getMessage();
         }
