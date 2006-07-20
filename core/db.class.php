@@ -145,7 +145,7 @@ class db
             $db->query_active_reference->closeCursor();
         }
         $this->prepares[] = $sql;
-        #var_dump($sql);
+        var_dump($sql);
         return new db_statements( $this->db->prepare( $sql ) );
     }
     
@@ -223,7 +223,8 @@ class db_statements
     function execute( $args = array() )
     {
         global $db;
-        
+        try
+        {
         $db->query_counter++;
         if ( is_object( $db->query_active_reference ) )
         {
@@ -241,6 +242,11 @@ class db_statements
             return $res;
         }
         return $res;
+        }
+        catch(PDOException)
+        {
+            echo $e->getMessage();
+        }
     }   
 }
 ?>
