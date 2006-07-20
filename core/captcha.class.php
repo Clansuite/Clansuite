@@ -18,7 +18,7 @@
 * {@link http://captcha.megaleecher.net/ Megaleecher Captcha Kill Pro Class}
 */
 /**
-*  @package <b> Easy Captcha Class </b>
+*  @package captcha-unlimited
 *
 *  @author Jens-André Koch <jakoch@web.de>
 *  @copyright (c) Jens-André Koch, 2006
