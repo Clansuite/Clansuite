@@ -140,13 +140,19 @@ class db
     //----------------------------------------------------------------
     public function prepare( $sql='' )
     {
-        if( is_object($db->query_active_reference) )
+        try
         {
-            $db->query_active_reference->closeCursor();
+            if( is_object($db->query_active_reference) )
+            {
+                $db->query_active_reference->closeCursor();
+            }
+            $this->prepares[] = $sql;
+            return new db_statements( $this->db->prepare( $sql ) );
         }
-        $this->prepares[] = $sql;
-        var_dump($sql);
-        return new db_statements( $this->db->prepare( $sql ) );
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+        }
     }
     
     //----------------------------------------------------------------
@@ -223,8 +229,7 @@ class db_statements
     function execute( $args = array() )
     {
         global $db;
-        try
-        {
+
         $db->query_counter++;
         if ( is_object( $db->query_active_reference ) )
         {
@@ -242,11 +247,6 @@ class db_statements
             return $res;
         }
         return $res;
-        }
-        catch(PDOException $e)
-        {
-            echo $e->getMessage();
-        }
     }   
 }
 ?>
