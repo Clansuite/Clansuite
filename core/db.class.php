@@ -104,7 +104,7 @@ class db
     //----------------------------------------------------------------
     public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
     {   
-        global $lang, $tpl;
+        global $lang, $tpl, $error;
         
         try
         {
