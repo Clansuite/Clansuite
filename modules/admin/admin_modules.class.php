@@ -134,7 +134,7 @@ class module_admin_modules
                         $x++;
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
-                        if ( !file_exists( TPL_ROOT . '/' . $content . '/module.config.php' ) )
+                        if ( !file_exists( TPL_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
                         }
@@ -252,7 +252,7 @@ class module_admin_modules
                 if ( mkdir ( MOD_ROOT . '/' . $name, 755 ) )
                 {
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.class.php', $mod_class );
-                    file_put_contents ( MOD_ROOT . '/' . $name . '/module.config.php', $cfg_class );
+                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
                     $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`)';
