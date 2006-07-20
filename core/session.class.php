@@ -302,7 +302,7 @@ class session
             else
             if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
-                session::_session_destroy(session_id();
+                session::_session_destroy(session_id());
                 return false;
             }
         }
