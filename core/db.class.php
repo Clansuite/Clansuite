@@ -143,6 +143,7 @@ class db
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
+            $this->query_active_reference = NULL;
         }
         $this->prepares[] = $sql;
         return new db_statements( $this->db->prepare( $sql ) );
@@ -203,9 +204,9 @@ class db_statements
     //----------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------
-    function __construct($db_statement)
+    function __construct($db_pre_s)
     {
-        $this->db_statement = $db_statement; 
+        $this->db_statement = $db_pre_s; 
     }
     
     //----------------------------------------------------------------
@@ -231,7 +232,7 @@ class db_statements
         }
 
         $db->queries[] = $this->db_statement->queryString;
-
+        var_dump($args);
         $res = call_user_func(array($this->db_statement, 'execute'), $args);
 
         if ( $res )
