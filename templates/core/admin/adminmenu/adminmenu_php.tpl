@@ -79,7 +79,7 @@ function get_html_div($menu)
         $c = parse_url($$entry['href']);
         if( !array_key_exists('host', $c) )
         {
-            $entry['href'] = WWW_ROOT . $entry['href']
+            $entry['href'] = WWW_ROOT . $entry['href'];
         }
                         
         if (htmlentities($entry['type']) == 'button')
