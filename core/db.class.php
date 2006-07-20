@@ -232,7 +232,7 @@ class db_statements
         }
 
         $db->queries[] = $this->db_statement->queryString;
-        var_dump($args);
+        var_dump($this->db_statement);
         $res = call_user_func(array($this->db_statement, 'execute'), $args);
 
         if ( $res )
