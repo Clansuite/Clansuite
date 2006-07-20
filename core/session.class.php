@@ -189,7 +189,7 @@ class session
     //----------------------------------------------------------------
     // Write a session
     //----------------------------------------------------------------
-    function _session_write($id, $data )
+    function _session_write( $id, $data )
     {       
         //----------------------------------------------------------------
         // Time Settings
@@ -204,6 +204,7 @@ class session
         $stmt->execute( array( $id ) );
         $res = $stmt->fetch();
         $stmt->closeCursor();
+        $stmt = NULL;
         if ( is_array($res) )
         {
             //----------------------------------------------------------------
@@ -301,7 +302,7 @@ class session
             else
             if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
-                session::_session_destroy();
+                session::_session_destroy(session_id();
                 return false;
             }
         }
@@ -317,7 +318,7 @@ class session
             }
             else if($_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'])
             {
-                session::_session_destroy();
+                session::_session_destroy(session_id();
                 return false;
             }
         }
