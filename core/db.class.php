@@ -237,7 +237,7 @@ class db_statements
 
         if ( $res )
         {
-            $db->query_active_reference = $this->db_statement;
+            $db->query_active_reference = $this;
             return $res;
         }
         return $res;
