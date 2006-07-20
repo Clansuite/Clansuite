@@ -89,7 +89,7 @@ class modules
         
         if (array_key_exists($mod, $cfg->modules ) )
         {
-            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/module.config.php';
+            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/' . $cfg->modules[$mod]['folder_name'] . '.config.php';
             if ( file_exists( $config_file ) )
             {
                 require( $config_file );
@@ -103,7 +103,7 @@ class modules
                     }
                     else
                     {
-                        $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in module.config.php!'), 3);
+                        $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in modulname.config.php!'), 3);
                     }
                 }
                 else
@@ -115,7 +115,7 @@ class modules
             }
             else
             {
-                $error->show($lang->t('Module Failure'), $lang->t('The module.config.php is missing in the dir of the module you requested!'), 1);
+                $error->show($lang->t('Module Failure'), $lang->t('The modulname.config.php is missing in the dir of the module you requested!'), 1);
             }
             
             //----------------------------------------------------------------
@@ -167,7 +167,7 @@ class modules
         
         if (array_key_exists($mod, $cfg->modules ) )
         {
-            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/module.config.php';
+            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/' . $cfg->modules[$mod]['folder_name'] . '.config.php';
             if (file_exists($config_file ) )
             {
                 if ($sub!='' )
@@ -193,7 +193,7 @@ class modules
             }
             else
             {
-                $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The module.config.php is missing in the dir of the module you requested! You are being redirected in 5 seconds...'), 2);
+                $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The modulename.config.php is missing in the dir of the module you requested! You are being redirected in 5 seconds...'), 2);
             }
             
             //----------------------------------------------------------------
