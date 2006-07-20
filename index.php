@@ -189,8 +189,8 @@ $users->check_login_cookie();
 //----------------------------------------------------------------
 // Logging
 //----------------------------------------------------------------
-$tracker->log();
-$stats->create_stats_vars();
+//$tracker->log();
+//$stats->create_stats_vars();
 
 //----------------------------------------------------------------
 // Output all
@@ -221,4 +221,14 @@ $_REQUEST['mod']=='admin' ? $tpl->display('admin/index.tpl') : $tpl->display($cf
 // Show Debug Console
 //----------------------------------------------------------------
 DEBUG ? $debug->show_console() : '';
+
+//----------------------------------------------------------------
+// DB Cleanup
+//----------------------------------------------------------------
+if( is_object($db->query_active_reference) )
+{
+    $db->query_active_reference->closeCursor();
+    $db->query_active_reference = NULL;
+}
+
 ?>
