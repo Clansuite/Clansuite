@@ -140,7 +140,6 @@ class db
     //----------------------------------------------------------------
     public function prepare( $sql='' )
     {
-        var_dump($this->prepares);
         if( is_object($db->query_active_reference) )
         {
             $db->query_active_reference->closeCursor();
