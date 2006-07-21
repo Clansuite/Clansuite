@@ -280,7 +280,7 @@ class session
     //----------------------------------------------------------------
     function _session_optimize()
     {
-        $this->db->simple_query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+        $this->db->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
     }
     
     //----------------------------------------------------------------
