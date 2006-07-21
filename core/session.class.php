@@ -169,9 +169,7 @@ class session
     // Read a session
     //----------------------------------------------------------------
     function _session_read($id )
-    {
-        global $db;
-        
+    {      
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
         
@@ -247,7 +245,7 @@ class session
         //----------------------------------------------------------------
         // Delete session from DB
         //----------------------------------------------------------------
-        $stmt = $db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
+        $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
 
         //----------------------------------------------------------------
@@ -351,7 +349,7 @@ class session
     //----------------------------------------------------------------
     function session_control()
     {
-        global $db, $functions, $lang;
+        global $functions, $lang;
 
         //----------------------------------------------------------------
         // Prune not activated users
