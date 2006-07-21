@@ -102,7 +102,6 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 //----------------------------------------------------------------
 // Require Core Classes
 //----------------------------------------------------------------
-require(CORE_ROOT . '/phpOpenTracker.php');
 require(CORE_ROOT . '/smarty/Smarty.class.php');
 require(CORE_ROOT . '/session.class.php');
 require(CORE_ROOT . '/input.class.php');
@@ -129,8 +128,6 @@ $functions  = new functions;
 $lang       = new language;
 $security   = new security;
 $users      = new users;
-$tracker    = new phpOpenTracker;
-$stats      = new stats;
 
 //----------------------------------------------------------------
 // Smarty Settings
@@ -185,12 +182,6 @@ $session->create_session($db);
 //----------------------------------------------------------------
 $users->create_user();
 $users->check_login_cookie();
-
-//----------------------------------------------------------------
-// Logging
-//----------------------------------------------------------------
-//$tracker->log();
-//$stats->create_stats_vars();
 
 //----------------------------------------------------------------
 // Output all
