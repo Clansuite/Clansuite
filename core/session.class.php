@@ -168,7 +168,7 @@ class session
     //----------------------------------------------------------------
     // Read a session
     //----------------------------------------------------------------
-    function _session_read($id )
+    function _session_read( $id )
     {      
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
