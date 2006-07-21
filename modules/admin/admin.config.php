@@ -41,6 +41,7 @@ if (!defined('IN_CS'))
 // Subfiles of the module
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$sub_files = array( 'admin_configs' => array('admin_configs.class.php'  , 'module_admin_configs' ),
-                    'admin_modules' => array('admin_modules.class.php'  , 'module_admin_modules' ),
-                    'admin_users'   => array('admin_users.class.php'    , 'module_admin_users' ), );
+$sub_files = array( 'admin_configs'    => array('admin_configs.class.php'    , 'module_admin_configs' ),
+                    'admin_modules'    => array('admin_modules.class.php'    , 'module_admin_modules' ),
+                    'admin_users'      => array('admin_users.class.php'      , 'module_admin_users'   ),
+                    'admin_menueditor' => array('admin_menueditor.class.php' , 'module_admin_menueditor') );
