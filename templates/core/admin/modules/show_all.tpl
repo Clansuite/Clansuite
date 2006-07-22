@@ -1,7 +1,7 @@
 <h2> Modulmanagement </h2>
 
 {if isset($content.not_in_whitelist)}
-<form action="/index.php?mod=admin&sub=admin_modules&action=add_to_whitelist" method="POST">
+<form action="/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -35,22 +35,24 @@
     
     <td id="cell1">
         {if $wert.no_module_config == 1}
-        {translate}The module.config.php is missing! You have to add this file manually into the modules folder.{/translate}
+            {translate}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/translate}
         {/if}
+        <font color="red">{translate}Those values are EXAMPLES! They do not represent the current file settings in any way!{/translate}</font>
         <table border="0" cellpadding="2" cellspacing="2">
-            <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value=""></td></tr>
-            <tr><td><b>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</b></td><td><input class="input_text" type="text" name="name" value=""></td></tr>
-            <tr><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value=""></td></tr>
-            <tr><td><b>{translate}Filename:{/translate}</b></td><td><input class="input_text" type="text" name="file_name" value=""></td></tr>
-            <tr><td><b>{translate}Foldername:{/translate}</b></td><td><input class="input_text" type="text" name="folder_name" value="{$wert.folder_name}"></td></tr>
-            <tr><td><b>{translate}Classname:{/translate}</b></td><td><input class="input_text" type="text" name="class_name" value=""></td></tr>
-            <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="image_name" value=""></td></tr>
-            <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value=""></td></tr>
+            <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][title]" value="{$wert.folder_name|ucfirst}"></td></tr>
+            <tr><td><b>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][name]" value="{$wert.folder_name}"></td></tr>
+            <tr><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][description]" value="{$wert.folder_name|ucfirst} module - your description"></td></tr>
+            <tr><td><b>{translate}Filename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][file_name]" value="{$wert.folder_name}.module.php"></td></tr>
+            <tr><td><b>{translate}Foldername:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][folder_name]" value="{$wert.folder_name}"></td></tr>
+            <tr><td><b>{translate}Classname:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][class_name]" value="module_{$wert.folder_name}"></td></tr>
+            <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
+            <tr><td><b>{translate}Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
+            <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"></td></tr>
         </table>
     </td>
     
     <td id="cell2" align="center">
-        <input type="checkbox" name="add" value="1">
+        <input type="checkbox" name="info[{$wert.folder_name}][add]" value="1">
     </td>    
 
 </tr>
@@ -61,7 +63,7 @@
 </p>
 </form>
 {/if}
-<form action="/index.php?mod=admin&sub=admin_modules&action=update" method="POST">
+<form action="/index.php?mod=admin&sub=modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -104,7 +106,7 @@
         <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
     
-    <td id="cell1" align="center">
+    <td id="cell2" align="center">
         <input type="checkbox" name="delete[]" value="{$wert.module_id}">
     </td>
 
