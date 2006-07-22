@@ -134,7 +134,7 @@ class module_admin_modules
                         $x++;
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
-                        if ( !file_exists( TPL_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
+                        if ( !file_exists( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
                         }
@@ -457,15 +457,82 @@ class module_admin_modules
     //----------------------------------------------------------------
     function update()
     {
-        global $functions, $input, $lang;
+        global $db, $functions, $input, $lang;
         
         $submit = $_POST['submit'];
-        $delete = $_POST['delete'];
-        $enabled = $_POST['enabled'];
+        $delete = isset($_POST['delete']) ? $_POST['delete'] : array();
+        $delete = isset($_POST['confirm']) ? unserialize(urldecode($_GET['delete'])) : $delete;
+        $enabled = isset($_POST['enabled']) ? $_POST['enabled'] : array();
+        $enabled = isset($_POST['confirm']) ? unserialize(urldecode($_GET['enabled'])) : $enabled;
         
-        var_dump($enabled);
-        var_dump($delete);
+        if ( isset( $_POST['abort'] ) )
+        {
+            $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all' );
+        }
         
+        $stmt = $db->prepare( 'SELECT module_id FROM ' . DB_PREFIX . 'modules' );
+        $stmt->execute();
+        $all_modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach( $all_modules as $key => $value )
+        {
+            $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET enabled = ? WHERE module_id = ?' );
+            $stmt->execute( array($e, $value['module_id']) );
+        }
+
+        foreach( $all_modules as $key => $value )
+        {
+            if ( count ( $delete ) > 0 )
+            {
+                $d = in_array( $value['module_id'], $delete  ) ? 1 : 0;
+                if ( !isset ( $_POST['confirm'] ) )
+                {
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=update&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ) );
+                }
+                else
+                {
+                    if ( $d == 1 )
+                    {
+                        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
+                        $stmt->execute( array($value['module_id']) );
+                    }
+                }
+            }
+        }
+        
+        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules have been updated.' ) );
+        
+    }
+
+    //----------------------------------------------------------------
+    // Add a module to the DBs whitelist
+    //----------------------------------------------------------------
+    function add_to_whitelist()
+    {
+        global $db, $cfg, $functions, $lang;
+        
+        $info_array = $_POST['info'];
+        
+        foreach ( $info_array as $info )
+        {
+            if ( $info['add'] == 1 )
+            {
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
+                $stmt->execute( array(  $info['name'],
+                                        $info['title'],
+                                        $info['description'],
+                                        $info['class_name'],
+                                        $info['file_name'],
+                                        $info['folder_name'],
+                                        $info['enabled'],
+                                        $info['image_name'],
+                                        $info['version'],
+                                        $cfg->version ) );
+            }
+        }
+        
+        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module(s) have been stored into the whitelist.' ) );
     }
     
     //----------------------------------------------------------------

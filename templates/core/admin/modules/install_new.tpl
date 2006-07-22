@@ -1,5 +1,5 @@
 {$chmod_tpl}
-<form action="/index.php?mod=admin&sub=admin_modules&action=add_to_whitelist" method="POST">
+<form action="/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
