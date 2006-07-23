@@ -43,7 +43,7 @@
 	{/section}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">$db: All Queries, Prepares, Execs</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">$db: All Queries, Prepares, Execs, PDO Attributes</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_11"><table border=0 width=100%>
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 			<font color=blue>Queries:</font></td><td><font color=green>
