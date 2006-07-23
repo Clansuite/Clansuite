@@ -178,7 +178,7 @@ class functions
     //----------------------------------------------------------------
     // Try a chmod
     //----------------------------------------------------------------
-    function chmod( $path = '', $chmod = '0755', $redirect_url = '/index.php' )
+    function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php' )
     {
         global $lang;
         
