@@ -71,6 +71,16 @@
 			{/foreach}
 			</font>
 			</td></tr>
+			
+			<tr bgcolor=#E4E0C7><td width=100 valign=top>
+			<font color=blue>PDO Attributes:</font></td><td><font color=green>
+			{foreach key=key item=item from=$attributes}
+            {$key}: <font color=brown> {$item} </font> <br>
+            {/foreach}
+			<br>
+			</font>
+			</td></tr>
+			
 					
 	 </table></span></td></tr>
 
