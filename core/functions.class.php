@@ -47,7 +47,7 @@ class functions
     //----------------------------------------------------------------
     // Redirection modes
     //----------------------------------------------------------------
-    function redirect($url = '', $type = '', $time = 0, $message = '' )
+    function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user' )
     {
         global $session, $tpl, $cfg;
         
@@ -106,7 +106,14 @@ class functions
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
                 session_write_close();
-                $tpl->display( 'tools/redirect.tpl' );
+                if ( $use_tpl == 'admin' )
+                {
+                    $tpl->display( 'admin/tools/redirect.tpl' );
+                }
+                else
+                {
+                    $tpl->display( 'tools/redirect.tpl' );
+                }
                 exit;
                 break;
                 
@@ -124,7 +131,14 @@ class functions
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
                 session_write_close();
-                $tpl->display( 'tools/confirm.tpl' );                
+                if ( $use_tpl == 'admin' )
+                {
+                    $tpl->display( 'admin/tools/confirm.tpl' );
+                }
+                else
+                {
+                    $tpl->display( 'tools/confirm.tpl' );
+                }
                 exit;
                 break;
             

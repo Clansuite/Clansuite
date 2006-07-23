@@ -166,6 +166,7 @@ class module_admin_modules
         // TODO FTP
         
         $tpl->assign('err', $err);
+        $tpl->assign('chmod_redirect_url', '/index.php?mod=admin&sub=modules&action=install_new' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/install_new.tpl');   
     }
@@ -270,16 +271,17 @@ class module_admin_modules
                                             (float) 0.1,
                                             $cfg->version ) );
                                             
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ) );
+                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
                 else
                 {
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Could not create the necessary folders!' ) );
+                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
                 }
             }
         }
         
         $tpl->assign('err', $err);
+        $tpl->assign('chmod_redirect_url', '/index.php?mod=admin&sub=modules&action=create_new' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/create_new.tpl');   
     }
@@ -353,6 +355,7 @@ class module_admin_modules
         
         $tpl->assign('err', $err);
         $tpl->assign('content', $container);
+        $tpl->assign('chmod_redirect_url', '/index.php?mod=admin&sub=modules&action=export' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/export.tpl');
     }
@@ -434,13 +437,13 @@ class module_admin_modules
                                                 $info['version'],
                                                 $info['cs_version'] ) );
                         
-                        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ) );
+                        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ), 'admin' );
                     }
 
                 }
                 else
                 {
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The file could not be moved to the upload directory.' ) );
+                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The file could not be moved to the upload directory.' ), 'admin' );
                 }
             }
         }
@@ -448,6 +451,7 @@ class module_admin_modules
         $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
                         
         $tpl->assign('err', $err );
+        $tpl->assign('chmod_redirect_url', '/index.php?mod=admin&sub=modules&action=import' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
@@ -488,7 +492,7 @@ class module_admin_modules
                 $d = in_array( $value['module_id'], $delete  ) ? 1 : 0;
                 if ( !isset ( $_POST['confirm'] ) )
                 {
-                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=update&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ) );
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=update&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ), 'admin' );
                 }
                 else
                 {
@@ -501,7 +505,7 @@ class module_admin_modules
             }
         }
         
-        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules have been updated.' ) );
+        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules have been updated.' ), 'admin' );
         
     }
 
@@ -532,7 +536,7 @@ class module_admin_modules
             }
         }
         
-        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module(s) have been stored into the whitelist.' ) );
+        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module(s) have been stored into the whitelist.' ), 'admin' );
     }
     
     //----------------------------------------------------------------
@@ -542,23 +546,24 @@ class module_admin_modules
     {
         global $functions, $input, $lang;
 
-        $type = $_GET['type'];
+        $type = $_POST['type'];
+        $redirect_url = urldecode($_POST['chmod_redirect_url']);
         
         if ( $input->check( $type, 'is_int|is_abc' ) )
         {
             if ( $type == 'modules' )
             {
-                $functions->chmod( MOD_ROOT, 0755, '/index.php?mod=admin&sub=modules&action=install_new' );
+                $functions->chmod( MOD_ROOT, 0755, $redirect_url );
             }
             
             if ( $type == 'uploads' )
             {
-                $functions->chmod( UPLOAD_ROOT, 0755, '/index.php?mod=admin&sub=modules&action=install_new' );
+                $functions->chmod( UPLOAD_ROOT, 0755, $redirect_url );
             }
         }
         else
         {
-            $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Wrong type given as chmod.' ) );
+            $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Wrong type given as chmod.' ), 'admin' );
         }
     }
 }
