@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 21. Juli 2006 um 18:07
+-- Erstellungszeit: 23. Juli 2006 um 09:45
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -41,11 +41,11 @@ INSERT INTO `cs_adminmenu` VALUES (9, 6, 'item', 'Report Bug & Give Feedback', '
 INSERT INTO `cs_adminmenu` VALUES (10, 6, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
 INSERT INTO `cs_adminmenu` VALUES (13, 4, 'item', 'Menüeditor', 'admin/menueditor.php', 'Menüeditor', '_self');
 INSERT INTO `cs_adminmenu` VALUES (14, 4, 'item', 'Templateeditor', 'admin/templateeditor.php', 'TemplateEditor', '_self');
-INSERT INTO `cs_adminmenu` VALUES (15, 20, 'item', 'Show all modules', '/index.php?mod=admin&sub=admin_modules&action=show_all', 'Show all modules', '_self');
-INSERT INTO `cs_adminmenu` VALUES (16, 20, 'item', 'Install new modules', '/index.php?mod=admin&sub=admin_modules&action=install_new', 'Install new modules', '_self');
-INSERT INTO `cs_adminmenu` VALUES (17, 20, 'item', 'Export a module', '/index.php?mod=admin&sub=admin_modules&action=export', 'Export a module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (18, 20, 'item', 'Import a module', '/index.php?mod=admin&sub=admin_modules&action=import', 'Import a module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (19, 20, 'item', 'Create a new module', '/index.php?mod=admin&sub=admin_modules&action=create_new', 'Create a new module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (15, 20, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (16, 20, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install new modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (17, 20, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (18, 20, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (19, 20, 'item', 'Create a new module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self');
 INSERT INTO `cs_adminmenu` VALUES (20, 4, 'button', 'Modulemanager', '', 'Modulemanager', '_self');
 
 -- --------------------------------------------------------
@@ -118,17 +118,17 @@ CREATE TABLE `cs_modules` (
   `cs_version` float NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=11 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
 -- 
 
+INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0.1);
 INSERT INTO `cs_modules` VALUES (1, 'index', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0.1);
 INSERT INTO `cs_modules` VALUES (2, 'admin', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0.1);
 INSERT INTO `cs_modules` VALUES (3, 'account', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (8, 'news', 'The website news', 'The website news', 'module_news', 'news.module.php', 'news', 0, 'module_news.jpg', 0.1, 0.1);
+INSERT INTO `cs_modules` VALUES (10, 'news', 'News', 'News module - your description', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0.1);
 
 -- --------------------------------------------------------
 
@@ -223,8 +223,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'c133ad76b65b53c6bec9e7ddb810fcb8', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"c133ad76b65b53c6bec9e7ddb810fcb8";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153498456, 1, 'admin');
-INSERT INTO `cs_session` VALUES (0, 'd63b63d4444f0ca1c2206aeece245b95', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"d63b63d4444f0ca1c2206aeece245b95";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153498604, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '2b9cd2e79cc429c9e11df48ba09c76c3', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"127.0.0.1";suiteSID|s:32:"2b9cd2e79cc429c9e11df48ba09c76c3";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153588658, 1, 'admin');
 
 -- --------------------------------------------------------
 
