@@ -42,6 +42,44 @@ if (!defined('IN_CS'))
 //----------------------------------------------------------------
 class debug
 {
+    /**
+     * Returns PDO attributes array
+     */
+    function return_pdo_attributes_array()
+    {
+       global $db,$cfg;
+       
+       // Fehleranzeige unterdrücken 
+       // Wenn das Attribut dem Db-Driver unbekannt ist, wird ein Fehler aufgeworfen.
+       // Grund: SQLSTATE[IM001]: Driver does not support this function: driver does not support that attribute
+       $cfg->suppress_errors = '1';
+       
+       // PDO Errormode für Datenermittlung auf Silent setzen
+       $old_pdo_errormode = $db->getAttribute(PDO::ATTR_ERRMODE);
+       $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+             
+              
+       $attributes_names = array( "AUTOCOMMIT", "ERRMODE", "CASE", 
+                                  "CLIENT_VERSION", "CONNECTION_STATUS",
+                                  "ORACLE_NULLS", "PERSISTENT", "PREFETCH", 
+                                  "SERVER_INFO", "SERVER_VERSION",
+                                  "TIMEOUT"
+        );
+        
+        // buffered queries closen
+        $db->closecursor;
+        foreach ($attributes_names as $val) {
+      
+          $attributes['PDO::ATTR_'.$val] = $db->getAttribute(constant('PDO::ATTR_'.$val));
+          
+        }
+        
+        // PDO Errormode zurücksetzen auf alten Wert
+        $db->setAttribute(PDO::ATTR_ERRMODE, $old_pdo_errormode);
+        
+    return $attributes;
+    }
+    
     //----------------------------------------------------------------
     // Print debug console
     //----------------------------------------------------------------
@@ -55,6 +93,7 @@ class debug
         $tpl->assign('queries'      , $db->queries );
         $tpl->assign('prepares'     , $db->prepares );
         $tpl->assign('execs'        , $db->execs );
+        $tpl->assign('attributes'   , $this->return_pdo_attributes_array() );
         $tpl->assign('config'       , $cfg );
         $tpl->assign('error_log'    , $error->error_log );
         $tpl->assign('lang_loaded'  , $lang->loaded );
