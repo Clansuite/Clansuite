@@ -17,7 +17,7 @@
 
 </tr>
 {foreach key=schluessel item=wert from=$content.whitelisted}
-<form action="/index.php?mod=admin&sub=modules&action=export" method="POST">
+<form action="{$www_root}/index.php?mod=admin&sub=modules&action=export" method="POST">
 <tr>
 
     <td id="cell1" align="center">

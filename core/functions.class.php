@@ -76,10 +76,31 @@ class functions
                 break;
                 
             case 'metatag':
-                $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                $c = parse_url($url);
+                if( array_key_exists('host', $c) )
+                {
+                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                }
+                else
+                {
+                    if( !preg_match( '#^\/(.*)$#', $url ) )
+                    {
+                        $url = '/'. $url;
+                    }
+                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . WWW_ROOT . $url . '">';
+                }
                 break;
                 
             case 'metatag|newsite':
+                $c = parse_url($url);
+                if( !array_key_exists('host', $c) )
+                {
+                    if( !preg_match( '#^\/(.*)$#', $url ) )
+                    {
+                        $url = '/'. $url;
+                    }
+                    $url = WWW_ROOT . $url;
+                }
                 $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
                 $tpl->assign( 'redirect', $redirect );
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
@@ -90,6 +111,15 @@ class functions
                 break;
                 
             case 'confirm':
+                $c = parse_url($url);
+                if( !array_key_exists('host', $c) )
+                {
+                    if( !preg_match( '#^\/(.*)$#', $url ) )
+                    {
+                        $url = '/'. $url;
+                    }
+                    $url = WWW_ROOT . $url;
+                }
                 $tpl->assign( 'link', $url );
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );

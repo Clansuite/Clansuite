@@ -548,12 +548,12 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                $functions->chmod( MOD_ROOT, '0755', '/index.php?mod=admin&sub=admin_modules&action=install_new' );
+                $functions->chmod( MOD_ROOT, '0755', '/index.php?mod=admin&sub=modules&action=install_new' );
             }
             
             if ( $type == 'uploads' )
             {
-                $functions->chmod( UPLOAD_ROOT, '0755', '/index.php?mod=admin&sub=admin_modules&action=install_new' );
+                $functions->chmod( UPLOAD_ROOT, '0755', '/index.php?mod=admin&sub=modules&action=install_new' );
             }
         }
         else

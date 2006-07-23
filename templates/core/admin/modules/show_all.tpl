@@ -1,7 +1,7 @@
 <h2> Modulmanagement </h2>
 
 {if isset($content.not_in_whitelist)}
-<form action="/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
+<form action="{$www_root}/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -63,7 +63,7 @@
 </p>
 </form>
 {/if}
-<form action="/index.php?mod=admin&sub=modules&action=update" method="POST">
+<form action="{$www_root}/index.php?mod=admin&sub=modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
