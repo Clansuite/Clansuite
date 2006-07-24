@@ -120,47 +120,11 @@ class config
         $this->debug_popup      = 0;
 
         //----------------------------------------------------------------
-        // Init modules (white-list)
-        // Set here the module that is called as standard
-        // You can set subsection of the module in /modules/[modname]/module.config.class
-        // $prepare_modules = array( 'module_name' => array( 'file_name.php', 'folder_name in /modules/', 'class_name' ) );
-        // Later: $this->modules (See end of file)
-        //----------------------------------------------------------------
-        $prepare_modules = array(   'index'     => array('index.class.php'    , 'index'    , 'module_index'     ),
-                                    'account'   => array('account.class.php'  , 'account'  , 'module_account'   ),
-                                    'admin'     => array('admin.class.php'    , 'admin'    , 'module_admin'     ),
-                                    'captcha'   => array('captcha.class.php'  , 'captcha'  , 'module_captcha'   ), );
-
-
-
-
-
-        //----------------------------------------------------------------
-        //
-        //
-        //    DO NOT EDIT BELOW IF YOU DO NOT KNOW WHAT YOU ARE DOING
-        //
-        //
-        //----------------------------------------------------------------
-
-
-
-
-        //----------------------------------------------------------------
         // Developers configurations
         //----------------------------------------------------------------
         $this->version      = (float) 0.1;
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
         
-        //----------------------------------------------------------------
-        // Create a nice and proper $this->modules white-list
-        //----------------------------------------------------------------
-        foreach ($prepare_modules as $mod => $values )
-        {
-            $this->modules[$mod]['file_name']     = $values[0];
-            $this->modules[$mod]['folder_name']   = $values[1];
-            $this->modules[$mod]['class_name']    = $values[2];
         }
-    }
 }
 ?>
