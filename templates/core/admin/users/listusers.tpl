@@ -1,5 +1,10 @@
 <h2>Show All Users</h2>
 
+{doc_raw}
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
+<script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
+{doc_raw}
+
 Debugausgabe des Arrays:
 {html_alt_table loop=$users}
 
