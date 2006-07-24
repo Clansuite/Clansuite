@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
+{doc_info DOCTYPE=XHTML LEVEL=Strict}
+{* everything in doc_raw is moved "as is" to header *}
+{doc_raw}
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="{$language}">
 <meta name="author" content="{$author}">
 <meta http-equiv="reply-to" content="{$email}">
@@ -13,20 +13,12 @@
 
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
 
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/menu.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/ie5.js"></script>
-
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
-
 {$additional_head}
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
-  
-</head>
-<body>
-	
+{/doc_raw}
+
+
 	
 	<!-- Main-Container //-->
 			
