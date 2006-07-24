@@ -103,6 +103,7 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 // Require Core Classes
 //----------------------------------------------------------------
 require(CORE_ROOT . '/smarty/Smarty.class.php');
+require(CORE_ROOT . '/smarty/Render_SmartyDoc.class.php');
 require(CORE_ROOT . '/session.class.php');
 require(CORE_ROOT . '/input.class.php');
 require(CORE_ROOT . '/debug.class.php');
@@ -118,7 +119,7 @@ require(CORE_ROOT . '/stats.class.php');
 //----------------------------------------------------------------
 // Create objects out of classes
 //----------------------------------------------------------------
-$tpl        = new Smarty;
+$tpl        = new Render_SmartyDoc;
 $session    = new session;
 $input      = new input;
 $debug      = new debug;
@@ -138,7 +139,9 @@ $tpl->config_dir        = CORE_ROOT .'/smarty/configs/';
 $tpl->cache_dir         = CORE_ROOT .'/smarty/cache/';
 $tpl->debugging         = DEBUG ? true : false;
 $tpl->debug_tpl         = TPL_ROOT . '/core/debug.tpl';
-$tpl->autoload_filters  = array('pre' => array('inserttplnames') );
+$tpl->autoload_filters  = array(    'pre' => array('inserttplnames')                                    
+                                     );
+DEBUG ? $tpl->clear_compiled_tpl() : '';
 
 //----------------------------------------------------------------
 // Load up DSN & Connect DB
@@ -193,7 +196,7 @@ $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_f
 //----------------------------------------------------------------
 // Assign the results
 //----------------------------------------------------------------
-$tpl->assign('query_counter'     , $db->query_counter );
+$tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
@@ -206,7 +209,7 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 //----------------------------------------------------------------
 // Admin module ? NO? -> normal module
 //----------------------------------------------------------------
-$_REQUEST['mod']=='admin' ? $tpl->display('admin/index.tpl') : $tpl->display($cfg->tpl_wrapper_file);
+$_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->display($cfg->tpl_wrapper_file);
 
 //----------------------------------------------------------------
 // Show Debug Console
