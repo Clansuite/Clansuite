@@ -3,14 +3,14 @@
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
-{doc_raw}
+{/doc_raw}
 
 Debugausgabe des Arrays:
 {html_alt_table loop=$users}
 
 <br />
 <center>
-Formatierte Tabelle mit Javascript:
+Formatierte Tabelle mit Javascript: <a href="/index.php?mod=admin&sub=users&action=search">Advanced User-Search</>
  {datatable data=$users  sortable=1 cycle=1 mouseover=1 selectable=2 searchable=1 width="80%" row_onClick="row_clicked( '\$user_id', '\$nick', '\$email')"}
   {column id="user_id" name="User ID" align="left" sorttype="Numerical"}
   {column id="email" name="Email" align="left"}
