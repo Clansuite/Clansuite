@@ -30,23 +30,37 @@ CREATE TABLE `cs_adminmenu` (
 -- Daten für Tabelle `cs_adminmenu`
 -- 
 
-INSERT INTO `cs_adminmenu` VALUES (4, 0, 'button', 'System', '', 'System', '_self');
-INSERT INTO `cs_adminmenu` VALUES (3, 0, 'button', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
-INSERT INTO `cs_adminmenu` VALUES (6, 0, 'button', 'Hilfe', '', 'Hilfe', '_self');
 INSERT INTO `cs_adminmenu` VALUES (1, 0, 'button', 'Home', 'index.php', 'Home', '_self');
-INSERT INTO `cs_adminmenu` VALUES (7, 6, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
-INSERT INTO `cs_adminmenu` VALUES (8, 6, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
-INSERT INTO `cs_adminmenu` VALUES (5, 0, 'button', 'Users', 'admin/users/index.php', 'Users', '_self');
-INSERT INTO `cs_adminmenu` VALUES (9, 6, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
-INSERT INTO `cs_adminmenu` VALUES (10, 6, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
-INSERT INTO `cs_adminmenu` VALUES (13, 4, 'item', 'Menüeditor', 'admin/menueditor.php', 'Menüeditor', '_self');
-INSERT INTO `cs_adminmenu` VALUES (14, 4, 'item', 'Templateeditor', 'admin/templateeditor.php', 'TemplateEditor', '_self');
-INSERT INTO `cs_adminmenu` VALUES (15, 20, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
-INSERT INTO `cs_adminmenu` VALUES (16, 20, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install new modules', '_self');
-INSERT INTO `cs_adminmenu` VALUES (17, 20, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (18, 20, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (19, 20, 'item', 'Create a new module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (20, 4, 'button', 'Modulemanager', '', 'Modulemanager', '_self');
+
+INSERT INTO `cs_adminmenu` VALUES (2, 0, 'button', 'Module', '', 'Module', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'News', '/index.php?mod=admin&sub=news', 'News', '_self');
+        INSERT INTO `cs_adminmenu` VALUES (4, 3, 'item', 'Add News', '/index.php?mod=admin&sub=add_news', 'Add News', '_self');
+
+INSERT INTO `cs_adminmenu` VALUES (5, 0, 'button', 'System', '', 'System', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (6, 5, 'item', 'Menüeditor',     '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (7, 5, 'item', 'Templateeditor', '/index.php?mod=admin&sub=templateditor', 'Templateeditor', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (8, 5, 'item', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
+    
+    INSERT INTO `cs_adminmenu` VALUES (10, 5, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self');
+
+INSERT INTO `cs_adminmenu` VALUES (11, 0, 'button', 'Users', '', 'Users', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (9, 11, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (12, 11, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (13, 11, 'item', 'Groups', '', 'Groups', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (25, 11, 'item', 'Permissions', '', 'Permissions', '_self');
+
+INSERT INTO `cs_adminmenu` VALUES (14, 5, 'button', 'Modulemanager', '', 'Modulemanager', '_self');
+INSERT INTO `cs_adminmenu` VALUES (15, 14, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (16, 14, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install new modules', '_self');
+INSERT INTO `cs_adminmenu` VALUES (17, 14, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (18, 14, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self');
+INSERT INTO `cs_adminmenu` VALUES (19, 14, 'item', 'Create a new module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self');
+
+INSERT INTO `cs_adminmenu` VALUES (20, 0, 'button', 'Hilfe', '', 'Hilfe', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (21, 20, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (22, 20, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (23, 20, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
+    INSERT INTO `cs_adminmenu` VALUES (24, 20, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
 
 -- --------------------------------------------------------
 
