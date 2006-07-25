@@ -100,8 +100,8 @@
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 {* bei src= die anführungsstriche setzen *}
 {literal}                        
-<script type="text/javascript" src={/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/DynamicTreeBuilder.js"></script>
-<script type="text/javascript" src={/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/plugins.js"></script>
+<script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/DynamicTreeBuilder.js"></script>
+<script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/plugins.js"></script>
 <style type="text/css">
     body { background: #F1EFE2; }
     body, table { font-family: georgia, sans-serif; font-size: 11px; }
@@ -124,7 +124,7 @@
 
             <div class="DynamicTree">
                 <div class="wrap1">
-                    <div class="top">Admin Menu Builder</div>
+                    <div class="top">Tree Builder</div>
                     <div class="wrap2" id="tree">
                          {php}
                          echo get_adminmenu_div($adminmenu);
@@ -241,7 +241,3 @@
     </script>
     <script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/actions.js"></script>
     {/literal}
-    
-
-          
-         

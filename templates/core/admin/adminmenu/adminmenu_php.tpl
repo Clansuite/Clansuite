@@ -171,7 +171,7 @@ echo get_html_div($adminmenu);
         <input type="button" value="Search" />
         //-->
            
-        <a class="itembtn" href="{$www_root}/index.php?mod=usercenter.php" >
+        <a class="itembtn" href="{$www_root}/index.php?mod=admin&sub=usercenter" >
         <img src="{$www_core_tpl_root}/images/adminmenu/user.gif" border="0" alt="user-image" />
         {$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}</a>
         
