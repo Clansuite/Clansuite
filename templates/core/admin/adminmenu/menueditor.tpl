@@ -44,13 +44,15 @@
                     #var_dump($menu);
                     foreach($menu as $entry)
                     {
-                    	if ($entry['href'] == '' )
+
+                    	
+                        if ($entry['href'] == '' )
                         {
                             $entry['href'] = 'javascript:void(0)';
                         }
                         else
                         {
-                            $c = parse_url($$entry['href']);
+                            $c = parse_url($entry['href']);
                             if( !array_key_exists('host', $c) )
                             {
                                 $entry['href'] = WWW_ROOT . $entry['href'];
@@ -59,32 +61,46 @@
                                         
                         if (htmlentities($entry['type']) == 'button')
                         {
-                            $result .= '<div "folder">';
+                            $result .= "<div class=\"folder\">$entry[name]\n";
                         }
                                               
                         if (htmlentities($entry['type']) == 'item')
                         {
-                            $result .= '<div class="doc">';
+                            $result .= "\t<div class=\"doc\">";
                         }
                         
-                        $result .= '<a class="'.htmlentities($entry['type']).'" href="'.$entry['href'];
-                        $result .= '">'.htmlentities($entry['name']) . '</a>';
+
                         
+                        /*
                         if (isset($entry['content']))
                         {
                         	$result .= '<div class="doc">';
-                        	$result .= get_adminmenu_div($entry['content']);
+                        	$result .= $entry['content'];
                         	$result .= '</div>';
                         }
-                    	
+                        */
+                        
+                    	if ( is_array($entry['content']) )
+                    	{
+                    	   $result .= get_adminmenu_div($entry['content']);
+                    	}
+                    	else
+                    	{
+                            if ( htmlentities($entry['type']) != 'button' )
+                            {
+                                $result .= '<a href="'.$entry['href'];
+                                $result .= '">'.htmlentities($entry['name']) . '</a>';
+                            }
+                    	}
+                                            	
                     	if (htmlentities($entry['type']) == 'item')
                         {
-                            $result .= '</div>';
+                            $result .= "</div>\n";
                         }
                     	
                         if (htmlentities($entry['type']) == 'button')
                         {
-                            $result .= '</div>';
+                            $result .= "</div>\n";
                         }
                     }
                     
@@ -98,10 +114,10 @@
 
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
-{* bei src= die anführungsstriche setzen *}
-{literal}                        
-<script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/DynamicTreeBuilder.js"></script>
-<script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/plugins.js"></script>
+{* bei src= die anführungsstriche setzen *}                    
+<script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/DynamicTreeBuilder.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/plugins.js"></script>
+{literal}
 <style type="text/css">
     body { background: #F1EFE2; }
     body, table { font-family: georgia, sans-serif; font-size: 11px; }
@@ -233,11 +249,9 @@
     </tr>
     </table>
     
-    {literal}
     <script type="text/javascript">
     var tree = new DynamicTreeBuilder("tree");
     tree.init();
     DynamicTreePlugins.call(tree);
     </script>
-    <script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/actions.js"></script>
-    {/literal}
+    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/actions.js"></script>

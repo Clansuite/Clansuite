@@ -131,13 +131,13 @@ $adminmenu = build_menu($adminmenudb); unset($adminmenudb);
 
 <!-- start: Menu - Kopfzeile 2//-->
     
-    {literal}<script type="text/javscript">
+    <script type="text/javscript">
     /* preload images */
     var arrow1 = new Image(4, 7);
     arrow1.src =  "{$www_core_tpl_root}/images/arrow1.gif";
     var arrow2 = new Image(4, 7);
     arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
-    </script>{/literal}
+    </script>
 
 <div id="menugradient">
 
@@ -154,12 +154,12 @@ echo get_html_div($adminmenu);
   </tr>
 </table>
 
-    {literal}<script type="text/javascript">
+    <script type="text/javascript">
     var menu1 = new XulMenu("menu1");
     menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
     menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
     menu1.init();
-    </script>{/literal}
+    </script>
     
     </div>
 		
