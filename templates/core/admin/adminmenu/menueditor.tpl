@@ -69,17 +69,6 @@
                             $result .= "\t<div class=\"doc\">";
                         }
                         
-
-                        
-                        /*
-                        if (isset($entry['content']))
-                        {
-                        	$result .= '<div class="doc">';
-                        	$result .= $entry['content'];
-                        	$result .= '</div>';
-                        }
-                        */
-                        
                     	if ( is_array($entry['content']) )
                     	{
                     	   $result .= get_adminmenu_div($entry['content']);
