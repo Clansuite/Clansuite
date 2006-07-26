@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.0.3
+-- version 2.8.1
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 26. Juli 2006 um 18:22
--- Server Version: 5.0.20
--- PHP-Version: 5.1.2
+-- Erstellungszeit: 26. Juli 2006 um 18:25
+-- Server Version: 5.0.21
+-- PHP-Version: 5.1.4
 -- 
 -- Datenbank: `clansuite`
 -- 
