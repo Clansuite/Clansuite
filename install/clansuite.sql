@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 26. Juli 2006 um 18:25
+-- Erstellungszeit: 26. Juli 2006 um 19:58
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -32,8 +32,6 @@ CREATE TABLE `cs_adminmenu` (
 -- 
 
 INSERT INTO `cs_adminmenu` VALUES (1, 0, 'button', 'Home', 'index.php', 'Home', '_self');
-INSERT INTO `cs_adminmenu` VALUES (2, 0, 'button', 'Module', '', 'Module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'News', '/index.php?mod=admin&sub=news', 'News', '_self');
 INSERT INTO `cs_adminmenu` VALUES (4, 3, 'item', 'Add News', '/index.php?mod=admin&sub=add_news', 'Add News', '_self');
 INSERT INTO `cs_adminmenu` VALUES (5, 0, 'button', 'System', '', 'System', '_self');
 INSERT INTO `cs_adminmenu` VALUES (6, 5, 'item', 'Menüeditor', '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
@@ -232,7 +230,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '841edfd0c16affef78accfa541fb42f0', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.4) Gecko/20060508 Firefox/1.5.0.4";client_host|s:9:"localhost";suiteSID|s:32:"841edfd0c16affef78accfa541fb42f0";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153830277, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '238de430846cc5f2461fddf0bad37939', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"238de430846cc5f2461fddf0bad37939";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153937245, 1, 'admin');
 
 -- --------------------------------------------------------
 
