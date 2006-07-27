@@ -51,16 +51,21 @@ class module_admin_menueditor
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Admin Control Panel :: Menueditor' );
+        $this->mod_page_title = $lang->t('Admin Control Panel :: Menu Editor' );
         
         switch ($_REQUEST['action'])
         {
-        case 'show':
-            $this->show();
-            break;
+            case 'show':
+                $this->show();
+                break;
+
+            case 'update':
+                $this->update();
+                break;
+                                
             default:
-            $this->show();
-            break;
+                $this->show();
+                break;
         }
         
         return array( 'OUTPUT'          => $this->output,
@@ -79,6 +84,38 @@ class module_admin_menueditor
         
         
         $this->output .= $tpl->fetch('admin/adminmenu/menueditor.tpl');
+    }
+    
+    //----------------------------------------------------------------
+    // Update the menu in DB and create a backup
+    //----------------------------------------------------------------
+    function update()
+    {
+        global $db, $tpl, $error, $lang, $functions;
+        
+        $menu = $_POST['container'];
+        
+        
+        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
+        $stmt->execute();
+        
+        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt->execute();
+        
+        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
+        $stmt->execute();
+                
+        foreach ( $menu as $key => $value )
+        {
+            $id = str_replace( 'tree-', '', $key );
+            $id = (int) $id;
+            $parent = str_replace( 'tree-', '', $value['parent'] );
+            $parent = (int) $parent;
+
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
+            $stmt->execute( array( $id, $parent, $value['type'], $value['text'], $value['href'], $value['title'], $value['target'] ) );
+        }
+        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
     
     //----------------------------------------------------------------
@@ -115,19 +152,19 @@ class module_admin_menueditor
                 
                  if (htmlentities($entry['parent']) == '0') 
                  { 
-                 $result .= "<td>";
-                 $result .= "\n\t";          
-                 $result .= '<a class="button" href="'.$entry['href'];
-                 $result .= '">'.htmlentities($entry['name']);
-                 $result .= "</a>";
+                     $result .= "<td>";
+                     $result .= "\n\t";          
+                     $result .= '<a class="button" href="'.$entry['href'];
+                     $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']);
+                     $result .= "</a>";
                  }
                  else
                  {
-                 $result .= '<a class="item" href="'.$entry['href'];
-                 $result .= '">'.htmlentities($entry['name']);
-                 $result .= '<img class="arrow" src="';
-                 $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
-                 $result .= '</a>';
+                     $result .= '<a class="item" href="'.$entry['href'];
+                     $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']);
+                     $result .= '<img class="arrow" src="';
+                     $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+                     $result .= '</a>';
                  }
              }
              
@@ -135,7 +172,7 @@ class module_admin_menueditor
                 {
                     $result .= "\n\t";
                     $result .= '<a class="item" href="'.$entry['href'];
-                    $result .= '">'.htmlentities($entry['name']) . '</a>';
+                    $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']) . '</a>';
                 }
                   
                                                   
@@ -168,20 +205,6 @@ class module_admin_menueditor
 
         foreach($menu as $entry)
         {
-
-        	
-            if ($entry['href'] == '' )
-            {
-                $entry['href'] = 'javascript:void(0)';
-            }
-            else
-            {
-                $c = parse_url($entry['href']);
-                if( !array_key_exists('host', $c) )
-                {
-                    $entry['href'] = WWW_ROOT . $entry['href'];
-                }
-            }
                             
             if (htmlentities($entry['type']) == 'folder')
             {
@@ -202,7 +225,7 @@ class module_admin_menueditor
                 if ( htmlentities($entry['type']) != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
-                    $result .= '">'.htmlentities($entry['name']) . '</a>';
+                    $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']) . '</a>';
                 }
         	}
                                 	
@@ -243,13 +266,15 @@ class module_admin_menueditor
             if($result[$i]['parent'] == $parent)
             {
                 $output[$result[$i]['id']] = array(
-                    'name' => $result[$i]['title'],
-                    'level' => $level,
-                    'type' => $result[$i]['type'],
-                    'parent' => $result[$i]['parent'],
-                    'id' => $result[$i]['id'],
-                    'href' => $result[$i]['href']
-                    );
+                                                    'name' => $result[$i]['title'],
+                                                    'level' => $level,
+                                                    'type' => $result[$i]['type'],
+                                                    'parent' => $result[$i]['parent'],
+                                                    'id' => $result[$i]['id'],
+                                                    'href' => $result[$i]['href'],
+                                                    'title' => $result[$i]['title'],
+                                                    'target' => $result[$i]['target']
+                                                    );
                 $output[$result[$i]['id']]['content'] = $this->build_editormenu($result, $result[$i]['id'], $level + 1);
                 if (count($output[$result[$i]['id']]['content']) == 0)
                     unset($output[$result[$i]['id']]['content']);
