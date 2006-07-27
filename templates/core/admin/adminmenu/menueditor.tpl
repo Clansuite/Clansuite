@@ -59,7 +59,7 @@
                             }
                         }
                                         
-                        if (htmlentities($entry['type']) == 'button')
+                        if (htmlentities($entry['type']) == 'folder')
                         {
                             $result .= "<div class=\"folder\">$entry[name]\n";
                         }
@@ -75,7 +75,7 @@
                     	}
                     	else
                     	{
-                            if ( htmlentities($entry['type']) != 'button' )
+                            if ( htmlentities($entry['type']) != 'folder' )
                             {
                                 $result .= '<a href="'.$entry['href'];
                                 $result .= '">'.htmlentities($entry['name']) . '</a>';
@@ -87,7 +87,7 @@
                             $result .= "</div>\n";
                         }
                     	
-                        if (htmlentities($entry['type']) == 'button')
+                        if (htmlentities($entry['type']) == 'folder')
                         {
                             $result .= "</div>\n";
                         }

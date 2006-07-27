@@ -83,38 +83,53 @@ function get_html_div($menu)
                 $entry['href'] = WWW_ROOT . $entry['href'];
             }
         }
-                        
-        if (htmlentities($entry['type']) == 'button')
+        
+        ################# Start ####################
+                       
+         if (htmlentities($entry['type']) == 'folder')
         {
-            $result .= '<td>';
-        }
+        
+             $result .= "\n\t";
+            
+             if (htmlentities($entry['parent']) == '0') 
+             { 
+             $result .= "<td>";
+             $result .= "\n\t";          
+             $result .= '<a class="button" href="'.$entry['href'];
+             $result .= '">'.htmlentities($entry['name']);
+             $result .= "</a>";
+             }
+             else
+             {
+             $result .= '<a class="item" href="'.$entry['href'];
+             $result .= '">'.htmlentities($entry['name']);
+             $result .= '<img class="arrow" src="';
+             $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+             $result .= '</a>';
+             }
+         }
+         
+         if ( htmlentities($entry['type']) != 'folder' )
+            {
+                $result .= "\n\t";
+                $result .= '<a class="item" href="'.$entry['href'];
+                $result .= '">'.htmlentities($entry['name']) . '</a>';
+            }
               
-        $result .= '<a class="'.htmlentities($entry['type']).'" href="'.$entry['href'];
-        $result .= '">'.htmlentities($entry['name']);
-        		
-        if ( isset($entry['content']) AND ( htmlentities($entry['type']) == 'item') )
-        {
-            $result .= '<img class="arrow" src="';
-            $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+                                              
+     	if ( is_array($entry['content']) )
+    	{    	  
+    	$result .= "\n\t<div class=\"section\">";  
+      	$result .= get_html_div($entry['content']);
+      	$result .= "\t</div>\n";
+       	}
+      
+                        
+        if (htmlentities($entry['parent']) == '0') 
+        { 
+        $result .= "\n\t</td>"; 
         }
-        $result .= '</a>';
-        
-        if (htmlentities($entry['type']) == 'section')
-        {
-            $result .= '<div class="section">';
-        }
-        
-        if (isset($entry['content']))
-        {
-        	$result .= '<div class="section">';
-        	$result .= get_html_div($entry['content']);
-        	$result .= '</div>';
-        }
-    	
-        if (htmlentities($entry['type']) == 'button')
-        {
-            $result .= '</td>';
-        }
+                
     }
     #$result .= '</tr>';
     return $result;
@@ -145,8 +160,6 @@ $adminmenu = build_menu($adminmenudb); unset($adminmenudb);
 <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu">
   <tr>
         <td><img src="{$www_core_tpl_root}/images/adminmenu/nubs.gif" alt="" /></td>
-
-
 {php}
 echo get_html_div($adminmenu);
 {/php}
