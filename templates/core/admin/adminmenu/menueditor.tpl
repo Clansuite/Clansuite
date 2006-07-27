@@ -129,7 +129,7 @@
 
             <div class="DynamicTree">
                 <div class="wrap1">
-                    <div class="top">Tree Builder</div>
+                    <div class="top">Adminmenu Builder</div>
                     <div class="wrap2" id="tree">
                          {php}
                          echo get_adminmenu_div($adminmenu);
