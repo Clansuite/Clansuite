@@ -1,104 +1,3 @@
-{php}
-                //----------------------------------------------------------------
-                // Read menu from DB
-                //----------------------------------------------------------------
-                global $db;
-
-                $stmt = $db->prepare('SELECT *
-                                      FROM ' . DB_PREFIX .'adminmenu
-                                      ORDER BY id ASC, parent ASC');
-                $stmt->execute();
-                $adminmenudb = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-                function build_editormenu(&$result, $parent = 0, $level = 0)
-                {
-                    $output = array();
-                    $rows = count($result);
-                    for($i = 0; $i < $rows; $i++)
-                    {
-                        if($result[$i]['parent'] == $parent)
-                        {
-                            $output[$result[$i]['id']] = array(
-                                'name' => $result[$i]['title'],
-                                'level' => $level,
-                                'type' => $result[$i]['type'],
-                                'parent' => $result[$i]['parent'],
-                                'id' => $result[$i]['id'],
-                                'href' => $result[$i]['href']
-                                );
-                            $output[$result[$i]['id']]['content'] = build_editormenu($result, $result[$i]['id'], $level + 1);
-                            if (count($output[$result[$i]['id']]['content']) == 0)
-                                unset($output[$result[$i]['id']]['content']);
-                            else
-                                $output[$result[$i]['id']]['expanded'] = true;
-                        }
-                    }    
-                    return array_values($output);
-                }
-
-                //----------------------------------------------------------------
-                // This function generates html-div based menu lists
-                //----------------------------------------------------------------
-                function get_adminmenu_div($menu)
-                {
-                    #var_dump($menu);
-                    foreach($menu as $entry)
-                    {
-
-                    	
-                        if ($entry['href'] == '' )
-                        {
-                            $entry['href'] = 'javascript:void(0)';
-                        }
-                        else
-                        {
-                            $c = parse_url($entry['href']);
-                            if( !array_key_exists('host', $c) )
-                            {
-                                $entry['href'] = WWW_ROOT . $entry['href'];
-                            }
-                        }
-                                        
-                        if (htmlentities($entry['type']) == 'folder')
-                        {
-                            $result .= "<div class=\"folder\">$entry[name]\n";
-                        }
-                                              
-                        if (htmlentities($entry['type']) == 'item')
-                        {
-                            $result .= "\t<div class=\"doc\">";
-                        }
-                        
-                    	if ( is_array($entry['content']) )
-                    	{
-                    	   $result .= get_adminmenu_div($entry['content']);
-                    	}
-                    	else
-                    	{
-                            if ( htmlentities($entry['type']) != 'folder' )
-                            {
-                                $result .= '<a href="'.$entry['href'];
-                                $result .= '">'.htmlentities($entry['name']) . '</a>';
-                            }
-                    	}
-                                            	
-                    	if (htmlentities($entry['type']) == 'item')
-                        {
-                            $result .= "</div>\n";
-                        }
-                    	
-                        if (htmlentities($entry['type']) == 'folder')
-                        {
-                            $result .= "</div>\n";
-                        }
-                    }
-                    
-                    return $result;
-                }
-
-                $adminmenu = build_editormenu($adminmenudb); unset($adminmenudb);
-{/php}
-
 <h2> Menueditor </h2>
 
 {doc_raw}
@@ -131,9 +30,7 @@
                 <div class="wrap1">
                     <div class="top">Adminmenu Builder</div>
                     <div class="wrap2" id="tree">
-                         {php}
-                         echo get_adminmenu_div($adminmenu);
-                         {/php}
+                        {mod name="admin" sub="menueditor" func="get_adminmenu_div"}
                     </div>
                 </div>
                 <div class="actions">
