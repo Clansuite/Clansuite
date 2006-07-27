@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.1
+-- version 2.8.0.3
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 26. Juli 2006 um 19:58
--- Server Version: 5.0.21
--- PHP-Version: 5.1.4
+-- Erstellungszeit: 27. Juli 2006 um 13:37
+-- Server Version: 5.0.20
+-- PHP-Version: 5.1.2
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -31,25 +31,25 @@ CREATE TABLE `cs_adminmenu` (
 -- Daten für Tabelle `cs_adminmenu`
 -- 
 
-INSERT INTO `cs_adminmenu` VALUES (1, 0, 'button', 'Home', 'index.php', 'Home', '_self');
+INSERT INTO `cs_adminmenu` VALUES (1, 0, 'folder', 'Home', 'index.php', 'Home', '_self');
 INSERT INTO `cs_adminmenu` VALUES (4, 3, 'item', 'Add News', '/index.php?mod=admin&sub=add_news', 'Add News', '_self');
-INSERT INTO `cs_adminmenu` VALUES (5, 0, 'button', 'System', '', 'System', '_self');
+INSERT INTO `cs_adminmenu` VALUES (5, 0, 'folder', 'System', '', 'System', '_self');
 INSERT INTO `cs_adminmenu` VALUES (6, 5, 'item', 'Menüeditor', '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
 INSERT INTO `cs_adminmenu` VALUES (7, 5, 'item', 'Templateeditor', '/index.php?mod=admin&sub=templateditor', 'Templateeditor', '_self');
 INSERT INTO `cs_adminmenu` VALUES (8, 5, 'item', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
 INSERT INTO `cs_adminmenu` VALUES (10, 5, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self');
-INSERT INTO `cs_adminmenu` VALUES (11, 0, 'button', 'Users', '', 'Users', '_self');
+INSERT INTO `cs_adminmenu` VALUES (11, 0, 'folder', 'Users', '', 'Users', '_self');
 INSERT INTO `cs_adminmenu` VALUES (9, 11, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self');
 INSERT INTO `cs_adminmenu` VALUES (12, 11, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self');
 INSERT INTO `cs_adminmenu` VALUES (13, 11, 'item', 'Groups', '', 'Groups', '_self');
 INSERT INTO `cs_adminmenu` VALUES (25, 11, 'item', 'Permissions', '', 'Permissions', '_self');
-INSERT INTO `cs_adminmenu` VALUES (14, 5, 'button', 'Modulemanager', '', 'Modulemanager', '_self');
+INSERT INTO `cs_adminmenu` VALUES (14, 5, 'folder', 'Modulemanager', '', 'Modulemanager', '_self');
 INSERT INTO `cs_adminmenu` VALUES (15, 14, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
 INSERT INTO `cs_adminmenu` VALUES (16, 14, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install new modules', '_self');
 INSERT INTO `cs_adminmenu` VALUES (17, 14, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self');
 INSERT INTO `cs_adminmenu` VALUES (18, 14, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self');
 INSERT INTO `cs_adminmenu` VALUES (19, 14, 'item', 'Create a new module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self');
-INSERT INTO `cs_adminmenu` VALUES (20, 0, 'button', 'Hilfe', '', 'Hilfe', '_self');
+INSERT INTO `cs_adminmenu` VALUES (20, 0, 'folder', 'Hilfe', '', 'Hilfe', '_self');
 INSERT INTO `cs_adminmenu` VALUES (21, 20, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
 INSERT INTO `cs_adminmenu` VALUES (22, 20, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
 INSERT INTO `cs_adminmenu` VALUES (23, 20, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
@@ -230,7 +230,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '238de430846cc5f2461fddf0bad37939', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"238de430846cc5f2461fddf0bad37939";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1153937245, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, 'c53760a8f603340609a349f97c578191', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.4) Gecko/20060508 Firefox/1.5.0.4";client_host|s:9:"localhost";suiteSID|s:32:"c53760a8f603340609a349f97c578191";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154000776, 1, 'admin');
 
 -- --------------------------------------------------------
 
