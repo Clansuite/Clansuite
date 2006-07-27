@@ -217,8 +217,10 @@ function treePluginExportPhp() {
     w.document.write('<pre>'+tree.exportToPhp().replace(/</g, "&lt;").replace(/>/g, "&gt;")+'</pre>');
 }
 function treePluginExportSql() {
-    var w = window.open("", "exportToSql", "width=600,height=600,scrollbars=yes,resizable=yes");
-    w.document.write('<pre>'+tree.exportToSql().replace(/</g, "&lt;").replace(/>/g, "&gt;")+'</pre>');
+    this.blur();
+    var content = tree.exportToSql();
+    document.getElementById("tree-plugin-content").innerHTML = content;
+    document.getElementById("tree-plugin").style.display = "block";
 }
 function treePluginHide() {
     document.getElementById("tree-plugin").style.display = "none";

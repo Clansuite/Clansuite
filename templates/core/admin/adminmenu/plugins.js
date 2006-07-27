@@ -94,15 +94,15 @@ function DynamicTreePlugins() {
         for (var p in this.allNodes) {
             if (!this.allNodes[p]) { continue; }
             var node = this.allNodes[p];
-            ret += 'INSERT INTO menu (id, parent, type, text, href, title, target) VALUES ("?", "?", "?", "?", "?", "?", "?");\n'.format(
-                node.id,
-                node.parentNode.id,
-                node.isDoc ? "doc" : "folder",
-                node.text,
-                node.href,
-                node.title,
-                node.target
-            );
+            var doc = node.isDoc ? "item" : "folder"
+            var target = node.target == '' ? "_self" : node.target;
+            var title = node.title == '' ? node.text : node.title;
+            ret += '<input type="hidden" name="container['+node.id+'][parent]" value="'+node.parentNode.id+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][title]" value="'+title+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][type]" value="'+doc+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][text]" value="'+node.text+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][href]" value="'+node.href+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][target]" value="'+target+'">\n';
         }
         return ret;
     };

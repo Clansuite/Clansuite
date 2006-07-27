@@ -114,21 +114,20 @@
 
             <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a> <br />
             <br />
-
-            <a id="tree-plugin-import-html" href="javascript:void(0)">Import from Html</a> <br />
-            <a id="tree-plugin-export-html" href="javascript:void(0)">Export to Html</a> <br />
-            <a id="tree-plugin-export-php" href="javascript:void(0)">Export to Php</a> <br />
-            <a id="tree-plugin-export-sql" href="javascript:void(0)">Export to Sql</a> <br />
+            <a href="javascript:treePluginExportSql();">{translate}Generate Menu{/translate}</a>
 
         </td>
         <td valign="top">
 
             <div id="tree-plugin">
-        
-                <b id="tree-plugin-header">Import from html</b> <br />
-                <textarea id="tree-plugin-textarea" cols="50" rows="10"></textarea><br />
-                <input id="tree-plugin-button-import-html" type="button" value="Import" />
-
+                <form action="{$www_root}/index.php?mod=admin&sub=menueditor&action=update" method="POST">
+                <div id="tree-plugin-content"></div>
+                <b>{translate}The menu was generate.{/translate}</b> <br />
+                {translate}Click the button below, to save the menu into the Database.{/translate} <br />
+                <p>
+                <input class="input_submit" type="submit" name="submit" value="{translate}Update the menu{/translate}">
+                </p>
+                </form>
             </div>
 
         </td>
