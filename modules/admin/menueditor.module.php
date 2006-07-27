@@ -84,6 +84,81 @@ class module_admin_menueditor
     //----------------------------------------------------------------
     // This function generates html-div based menu lists
     //----------------------------------------------------------------
+    function get_html_div($menu = '')
+    {
+        if ( empty( $menu ) )
+        {
+            $menu = $this->build_editormenu();
+        }
+                
+        foreach($menu as $entry)
+        {
+        	if ($entry['href'] == '' )
+            {
+                $entry['href'] = 'javascript:void(0)';
+            }
+            else
+            {
+                $c = parse_url($$entry['href']);
+                if( !array_key_exists('host', $c) )
+                {
+                    $entry['href'] = WWW_ROOT . $entry['href'];
+                }
+            }
+            
+            ################# Start ####################
+                           
+             if (htmlentities($entry['type']) == 'folder')
+            {
+            
+                 $result .= "\n\t";
+                
+                 if (htmlentities($entry['parent']) == '0') 
+                 { 
+                 $result .= "<td>";
+                 $result .= "\n\t";          
+                 $result .= '<a class="button" href="'.$entry['href'];
+                 $result .= '">'.htmlentities($entry['name']);
+                 $result .= "</a>";
+                 }
+                 else
+                 {
+                 $result .= '<a class="item" href="'.$entry['href'];
+                 $result .= '">'.htmlentities($entry['name']);
+                 $result .= '<img class="arrow" src="';
+                 $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+                 $result .= '</a>';
+                 }
+             }
+             
+             if ( htmlentities($entry['type']) != 'folder' )
+                {
+                    $result .= "\n\t";
+                    $result .= '<a class="item" href="'.$entry['href'];
+                    $result .= '">'.htmlentities($entry['name']) . '</a>';
+                }
+                  
+                                                  
+         	if ( is_array($entry['content']) )
+        	{    	  
+        	$result .= "\n\t<div class=\"section\">";  
+          	$result .= $this->get_html_div($entry['content']);
+          	$result .= "\t</div>\n";
+           	}
+          
+                            
+            if (htmlentities($entry['parent']) == '0') 
+            { 
+            $result .= "\n\t</td>"; 
+            }
+                    
+        }
+        return $result;
+    }
+
+    //----------------------------------------------------------------
+    // This function generates html-div based menu lists - for menu editor
+    //----------------------------------------------------------------
     function get_adminmenu_div( $menu = '' )
     {
         if ( empty( $menu ) )
