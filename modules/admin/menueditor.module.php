@@ -113,7 +113,7 @@ class module_admin_menueditor
             $parent = (int) $parent;
 
             $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
-            $stmt->execute( array( $id, $parent, $value['type'], $value['text'], $value['href'], $value['title'], $value['target'] ) );
+            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'] ) );
         }
         $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
@@ -145,34 +145,34 @@ class module_admin_menueditor
             
             ################# Start ####################
                            
-             if (htmlentities($entry['type']) == 'folder')
+             if ( $entry['type'] == 'folder')
             {
             
                  $result .= "\n\t";
                 
-                 if (htmlentities($entry['parent']) == '0') 
+                 if ( $entry['parent'] == 0) 
                  { 
                      $result .= "<td>";
                      $result .= "\n\t";          
                      $result .= '<a class="button" href="'.$entry['href'];
-                     $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']);
+                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($entry['name']);
                      $result .= "</a>";
                  }
                  else
                  {
                      $result .= '<a class="item" href="'.$entry['href'];
-                     $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']);
+                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($entry['name']);
                      $result .= '<img class="arrow" src="';
                      $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
                      $result .= '</a>';
                  }
              }
              
-             if ( htmlentities($entry['type']) != 'folder' )
+             if ( $entry['type'] != 'folder' )
                 {
                     $result .= "\n\t";
                     $result .= '<a class="item" href="'.$entry['href'];
-                    $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']) . '</a>';
+                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($entry['name']) . '</a>';
                 }
                   
                                                   
@@ -184,7 +184,7 @@ class module_admin_menueditor
            	}
           
                             
-            if (htmlentities($entry['parent']) == '0') 
+            if ( $entry['parent'] == 0) 
             { 
             $result .= "\n\t</td>"; 
             }
@@ -206,12 +206,12 @@ class module_admin_menueditor
         foreach($menu as $entry)
         {
                             
-            if (htmlentities($entry['type']) == 'folder')
+            if ( $entry['type'] == 'folder')
             {
                 $result .= "<div class=\"folder\">$entry[name]\n";
             }
                                   
-            if (htmlentities($entry['type']) == 'item')
+            if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
             }
@@ -222,19 +222,19 @@ class module_admin_menueditor
         	}
         	else
         	{
-                if ( htmlentities($entry['type']) != 'folder' )
+                if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
-                    $result .= '" title="'.htmlentities($entry['title']) . '" target="'.htmlentities($entry['target']) . '">'.htmlentities($entry['name']) . '</a>';
+                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($entry['name']) . '</a>';
                 }
         	}
                                 	
-        	if (htmlentities($entry['type']) == 'item')
+        	if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
         	
-            if (htmlentities($entry['type']) == 'folder')
+            if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
             }

@@ -119,6 +119,9 @@ class db
             // UNQUOTE ON PHP 5.2 !!!
             //----------------------------------------------------------------
             //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+            
+            // Unicode (mysql)
+            $this->exec('SET CHARACTER SET utf8');
         }
         catch (PDOException $e)
         {

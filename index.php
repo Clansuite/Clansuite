@@ -209,6 +209,7 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 //----------------------------------------------------------------
 // Admin module ? NO? -> normal module
 //----------------------------------------------------------------
+header("Content-type: text/html; charset=UTF-8");
 $_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->display($cfg->tpl_wrapper_file);
 
 //----------------------------------------------------------------
