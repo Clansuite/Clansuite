@@ -10,7 +10,6 @@
     body { background: #F1EFE2; }
     body, table { font-family: georgia, sans-serif; font-size: 11px; }
     form { margin: 0; }
-    input,select { font-size: 11px; font-family: georgia, tahoma, verdana; }
     input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
     a { color: #0000ee; text-decoration: none; }
     a:hover { color: #0000ee; text-decoration: underline; }
@@ -28,7 +27,7 @@
 
             <div class="DynamicTree">
                 <div class="wrap1">
-                    <div class="top">Adminmenu Builder</div>
+                    <div class="top">{translate}Adminmenu{/translate}</div>
                     <div class="wrap2" id="tree">
                         {mod name="admin" sub="menueditor" func="get_adminmenu_div"}
                     </div>
@@ -92,7 +91,7 @@
                         </tr>
                         <tr>
                             <td class="label">Title</td>
-                            <td><input class="input" size="20" id="tree-info-title" name="tree-info-href" type="text" value="" /></td>
+                            <td><input class="input" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Target</td>
@@ -112,10 +111,15 @@
         </td>
         <td valign="top">
 
-            <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a> <br />
-            <br />
-            <a href="javascript:treePluginExportSql();">{translate}Generate Menu{/translate}</a>
-
+            <p>
+                <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a>
+            </p>
+            <p>
+                <a href="javascript:treePluginExportSql();">{translate}Generate Menu{/translate}</a>
+            </p>
+            <p>
+                <a href="{$www_root}/index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
+            </p>
         </td>
         <td valign="top">
 

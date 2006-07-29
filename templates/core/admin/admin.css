@@ -45,6 +45,12 @@ a:hover
     font-weight: bold;
 }
 
+input,select
+{
+    font-size: 11px;
+    font-family: georgia, tahoma, verdana;
+}
+
 .input_text
 {
     border: thin solid black;

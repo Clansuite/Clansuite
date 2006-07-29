@@ -1,5 +1,23 @@
 {$chmod_tpl}
-
+{doc_raw}
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />                   
+    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/plugins.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/actions.js"></script>
+    {literal}
+        <style type="text/css">
+        body { background: #F1EFE2; }
+        body, table { font-family: georgia, sans-serif; font-size: 11px; }
+        form { margin: 0; }
+        input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
+        a { color: #0000ee; text-decoration: none; }
+        a:hover { color: #0000ee; text-decoration: underline; }
+        p { margin-top: 0; margin-bottom: 1em; }
+        #tree-plugin, #tree-plugin-button-import-html { display: none; }
+        #tree-plugin-textarea { white-space: nowrap; }
+        </style>
+    {/literal}
+{/doc_raw}
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -7,11 +25,11 @@
     {translate}Title{/translate}
     </td>
     
-    <td id="td_header" width="80%">
+    <td id="td_header" width="65%">
     {translate}Information{/translate}
     </td>
     
-    <td id="td_header" width="5%" align="center">
+    <td id="td_header" width="15%" align="center">
     {translate}Option{/translate}
     </td>
 
@@ -36,9 +54,30 @@
     </td>
     
     <td id="cell1" align="center">
+        <div id="menucontainer_{$wert.name}" style="display: none;">
+            <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
+            <tr>
+                <td valign="top">
+                    <div class="DynamicTree">
+                        <div class="wrap1">
+                            <div class="top">{translate}Adminmenu{/translate}</div>
+                            <div class="wrap2" id="tree">
+                                {mod name="admin" sub="menueditor" func="get_export_div"}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </table>
+        </div>
         <input type="hidden" name="name" value="{$wert.name}">
-        <input class="input_submit" type="submit" value="{translate}Export{/translate}" name="submit">
-    </td>
+        <p>
+            <input class="input_submit" type="submit" value="{translate}Export{/translate}" name="submit">
+        </p>
+        <p>
+            <a href="javascript:setMenu('menucontainer_{$wert.name}');">{translate}Add menu...{/translate}</a>
+        </p>
+        </td>
 
 </tr>
 </form>
