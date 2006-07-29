@@ -1,8 +1,8 @@
 function treeTooltipOn() { document.getElementById("tree-tooltip").innerHTML = treeTooltips[treeElements.indexOf(this.id)]; }
 function treeTooltipOff() { document.getElementById("tree-tooltip").innerHTML = ""; }
 
-var treeElements = ["tree-moveUp", "tree-moveDown", "tree-moveLeft", "tree-moveRight", "tree-insert", "tree-info", "tree-remove", "tree-mark"];
-var treeTooltips = ["Move Up", "Move Down", "Move Left", "Move Right", "Insert", "Info", "Delete", "Mark"];
+var treeElements = ["tree-moveUp", "tree-moveDown", "tree-moveLeft", "tree-moveRight", "tree-insert", "tree-info", "tree-remove"];
+var treeTooltips = ["Move Up", "Move Down", "Move Left", "Move Right", "Insert", "Info", "Delete"];
 
 for (var i = 0; i < treeElements.length; i++) {
     if ( document.getElementById(treeElements[i]) )
@@ -166,16 +166,6 @@ function setMenu(name)
 {
     document.getElementById(name).style.display = "block";
 }
-function treeMark() {
-    if (tree.active) {
-        var node = tree.getActiveNode();
-        node.text = "marked";
-        node.href = "marked";
-        node.title = "marked";
-        node.target = "marked";
-        tree.updateHtml();
-    }
-}
 
 document.getElementById("tree-moveUp").onclick    = treeMoveUp;
 document.getElementById("tree-moveDown").onclick  = treeMoveDown;
@@ -196,7 +186,6 @@ document.getElementById("tree-remove").onclick = treeRemove;
 document.getElementById("tree-insert-button").onclick = treeInsertExecute;
 document.getElementById("tree-insert-cancel").onclick = treeHideInsert;
 
-document.getElementById("tree-mark").onclick = treeMark;
 document.getElementById("tree-info-button").onclick = treeInfoUpdate;
 document.getElementById("tree-info-cancel").onclick = treeHideInfo;
 
