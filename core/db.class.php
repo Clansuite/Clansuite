@@ -104,7 +104,7 @@ class db
     //----------------------------------------------------------------
     public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
     {   
-        global $lang, $tpl, $error;
+        global $lang, $tpl, $error, $cfg;
         
         try
         {
@@ -119,9 +119,14 @@ class db
             // UNQUOTE ON PHP 5.2 !!!
             //----------------------------------------------------------------
             //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+            if ( $cfg->db_type == 'mysql' )
+            {
+                // Buffering
+                $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             
-            // Unicode (mysql)
-            $this->exec('SET CHARACTER SET utf8');
+                // Unicode (mysql)
+                $this->exec('SET CHARACTER SET utf8');
+            }
         }
         catch (PDOException $e)
         {

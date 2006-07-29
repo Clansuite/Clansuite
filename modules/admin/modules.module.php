@@ -355,6 +355,7 @@ class module_admin_modules
         
         $tpl->assign('err', $err);
         $tpl->assign('content', $container);
+        $tpl->assign('menu_tree', $tpl->fetch('admin/modules/menu_tree.tpl') );
         $tpl->assign('chmod_redirect_url', '/index.php?mod=admin&sub=modules&action=export' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/export.tpl');
