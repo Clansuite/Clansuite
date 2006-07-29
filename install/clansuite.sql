@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 28. Juli 2006 um 02:53
+-- Erstellungszeit: 29. Juli 2006 um 23:40
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -31,11 +31,11 @@ CREATE TABLE `cs_adminmenu` (
 -- Daten für Tabelle `cs_adminmenu`
 -- 
 
-INSERT INTO `cs_adminmenu` VALUES (1, 0, 'folder', 'Home', '', 'Home', '_self');
+INSERT INTO `cs_adminmenu` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self');
 INSERT INTO `cs_adminmenu` VALUES (2, 0, 'folder', 'System', '', 'System', '_self');
-INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'Menüeditor', '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
-INSERT INTO `cs_adminmenu` VALUES (4, 2, 'item', 'Templateeditor', '/index.php?mod=admin&sub=templateditor', 'Templateeditor', '_self');
-INSERT INTO `cs_adminmenu` VALUES (5, 2, 'item', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
+INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self');
+INSERT INTO `cs_adminmenu` VALUES (4, 2, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self');
+INSERT INTO `cs_adminmenu` VALUES (5, 2, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self');
 INSERT INTO `cs_adminmenu` VALUES (6, 2, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self');
 INSERT INTO `cs_adminmenu` VALUES (7, 2, 'folder', 'Modulemanager', '', 'Modulemanager', '_self');
 INSERT INTO `cs_adminmenu` VALUES (8, 7, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
@@ -48,11 +48,12 @@ INSERT INTO `cs_adminmenu` VALUES (14, 13, 'item', 'Show All', '/index.php?mod=a
 INSERT INTO `cs_adminmenu` VALUES (15, 13, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self');
 INSERT INTO `cs_adminmenu` VALUES (16, 13, 'item', 'Groups', '', 'Groups', '_self');
 INSERT INTO `cs_adminmenu` VALUES (17, 13, 'item', 'Permissions', '', 'Permissions', '_self');
-INSERT INTO `cs_adminmenu` VALUES (18, 0, 'folder', 'Hilfe', '', 'Hilfe', '_self');
-INSERT INTO `cs_adminmenu` VALUES (19, 18, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
-INSERT INTO `cs_adminmenu` VALUES (20, 18, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
-INSERT INTO `cs_adminmenu` VALUES (21, 18, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
-INSERT INTO `cs_adminmenu` VALUES (22, 18, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
+INSERT INTO `cs_adminmenu` VALUES (18, 0, 'folder', 'Help', '', 'Help', '_self');
+INSERT INTO `cs_adminmenu` VALUES (19, 18, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self');
+INSERT INTO `cs_adminmenu` VALUES (20, 18, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self');
+INSERT INTO `cs_adminmenu` VALUES (21, 18, 'item', 'Report Bug & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bug & Give Feedback', '_self');
+INSERT INTO `cs_adminmenu` VALUES (22, 18, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self');
+INSERT INTO `cs_adminmenu` VALUES (23, 0, 'folder', 'Show website', '/index.php', 'Show website', '_blank');
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,7 @@ CREATE TABLE `cs_adminmenu_old` (
 -- Daten für Tabelle `cs_adminmenu_old`
 -- 
 
-INSERT INTO `cs_adminmenu_old` VALUES (1, 0, 'folder', 'Home', '', 'Home', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (2, 0, 'folder', 'System', '', 'System', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (3, 2, 'item', 'Menüeditor', '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (4, 2, 'item', 'Templateeditor', '/index.php?mod=admin&sub=templateditor', 'Templateeditor', '_self');
@@ -96,7 +97,8 @@ INSERT INTO `cs_adminmenu_old` VALUES (18, 0, 'folder', 'Hilfe', '', 'Hilfe', '_
 INSERT INTO `cs_adminmenu_old` VALUES (19, 18, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (20, 18, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (21, 18, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (22, 18, 'item', 'Ã?ï¿½Ã¯Â¿Â½ber Clansuite', 'about.php', 'Ã?ï¿½Ã¯Â¿Â½ber Clansuite', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (22, 18, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (23, 0, 'folder', 'Show website', '/', 'Show website', '_blank');
 
 -- --------------------------------------------------------
 
@@ -273,7 +275,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '33adba09d3cc7cad17b19634c7f8ae44', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"33adba09d3cc7cad17b19634c7f8ae44";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154048561, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '00489198932f39d921134b7ce98202c4', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"00489198932f39d921134b7ce98202c4";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154191740, 1, 'admin');
 
 -- --------------------------------------------------------
 
