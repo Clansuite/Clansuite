@@ -6,8 +6,8 @@
 // | Free for any use as long as all copyright messages are intact |
 // +---------------------------------------------------------------+
 
-function DynamicTreeBuilder(id) {
-    this.path = "/templates/core/admin/adminmenu/images/";
+function DynamicTreeBuilder(id, path_para) {
+    this.path = path_para;
     this.img = {
         "branch": "tree-branch.gif",
         "doc": "tree-doc.gif",

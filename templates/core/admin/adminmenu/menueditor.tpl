@@ -139,7 +139,7 @@
     </table>
     
     <script type="text/javascript">
-    var tree = new DynamicTreeBuilder("tree");
+    var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/");
     tree.init();
     DynamicTreePlugins.call(tree);
     </script>
