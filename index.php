@@ -129,6 +129,7 @@ $functions  = new functions;
 $lang       = new language;
 $security   = new security;
 $users      = new users;
+$stats      = new statistics;
 
 //----------------------------------------------------------------
 // Smarty Settings
@@ -187,6 +188,11 @@ $users->create_user();
 $users->check_login_cookie();
 
 //----------------------------------------------------------------
+// Create a user - Guest/Member
+//----------------------------------------------------------------
+$stats->create_stats_vars();
+
+//----------------------------------------------------------------
 // Output all
 //----------------------------------------------------------------
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
@@ -196,6 +202,7 @@ $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_f
 //----------------------------------------------------------------
 // Assign the results
 //----------------------------------------------------------------
+$tpl->assign('meta'             , $cfg->meta );
 $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
@@ -210,7 +217,7 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 // Admin module ? NO? -> normal module
 //----------------------------------------------------------------
 header("Content-type: text/html; charset=UTF-8");
-$_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->display($cfg->tpl_wrapper_file);
+$_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->displayDoc($cfg->tpl_wrapper_file);
 
 //----------------------------------------------------------------
 // Show Debug Console

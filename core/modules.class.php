@@ -81,11 +81,15 @@ class modules
         //----------------------------------------------------------------
         // Init Vars
         //----------------------------------------------------------------
+        $params['params'] = !isset( $params['params'] ) ? '' : $params['params'];
+        $params['sub'] = !isset( $params['sub'] ) ? '' : $params['sub'];
+        $params['name'] = !isset( $params['name'] ) ? '' : $params['name'];
         $sub = $params['sub'];
         $mod = $params['name'];
         $file_name   = '';
         $folder_name = '';
         $class_name  = '';
+
         
         if (array_key_exists($mod, $cfg->modules ) )
         {

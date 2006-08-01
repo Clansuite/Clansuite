@@ -293,7 +293,7 @@ class session
         //----------------------------------------------------------------
         if (in_array("check_ip", $this->session_security))
         {
-            if ($_SESSION['client_ip'] === null)
+            if ( !isset($_SESSION['client_ip']) )
             {
                 $_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
             }
@@ -308,13 +308,13 @@ class session
         //----------------------------------------------------------------
         // Check for Browser
         //----------------------------------------------------------------
-        if(in_array("check_browser", $this->session_security))
+        if ( in_array("check_browser", $this->session_security) )
         {
-            if($_SESSION['client_browser'] === null)
+            if ( !isset($_SESSION['client_browser']) )
             {
                 $_SESSION['client_browser'] = $_SERVER["HTTP_USER_AGENT"];
             }
-            else if($_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'])
+            else if ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
             {
                 session::_session_destroy(session_id());
                 return false;
@@ -326,11 +326,11 @@ class session
         //----------------------------------------------------------------
         if(in_array("check_host", $this->session_security))
         {
-            if($_SESSION['client_host'] === null)
+            if( !isset( $_SESSION['client_host'] ) )
             {
                 $_SESSION['client_host'] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
             }
-            else if(gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'])
+            else if ( gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'] )
             {
                 session::_session_destroy(session_id());
                 return false;

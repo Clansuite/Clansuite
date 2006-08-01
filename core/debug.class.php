@@ -52,32 +52,35 @@ class debug
        // Fehleranzeige unterdrücken 
        // Wenn das Attribut dem Db-Driver unbekannt ist, wird ein Fehler aufgeworfen.
        // Grund: SQLSTATE[IM001]: Driver does not support this function: driver does not support that attribute
-       $cfg->suppress_errors = '1';
+       $old_suppress = $cfg->suppress_errors;
+       $cfg->suppress_errors = 1;
        
        // PDO Errormode für Datenermittlung auf Silent setzen
        $old_pdo_errormode = $db->getAttribute(PDO::ATTR_ERRMODE);
        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
              
               
-       $attributes_names = array( "AUTOCOMMIT", "ERRMODE", "CASE", 
-                                  "CLIENT_VERSION", "CONNECTION_STATUS",
-                                  "ORACLE_NULLS", "PERSISTENT", "PREFETCH", 
-                                  "SERVER_INFO", "SERVER_VERSION",
-                                  "TIMEOUT"
-        );
+       $attributes_names = array(   "AUTOCOMMIT",
+                                    "ERRMODE",
+                                    "CASE", 
+                                    "CLIENT_VERSION",
+                                    "CONNECTION_STATUS",
+                                    "PERSISTENT",
+                                    "SERVER_INFO",
+                                    "SERVER_VERSION");
         
-        // buffered queries closen
-        $db->closecursor;
-        foreach ($attributes_names as $val) {
-      
+        foreach ($attributes_names as $val)
+        {
           $attributes['PDO::ATTR_'.$val] = $db->getAttribute(constant('PDO::ATTR_'.$val));
-          
         }
         
         // PDO Errormode zurücksetzen auf alten Wert
         $db->setAttribute(PDO::ATTR_ERRMODE, $old_pdo_errormode);
         
-    return $attributes;
+        // reset suppressor
+        $cfg->suppress_errors = $old_suppress;
+        
+        return $attributes;
     }
     
     //----------------------------------------------------------------
@@ -87,19 +90,24 @@ class debug
     {
         global $db, $tpl, $cfg, $error, $lang, $modules;
         
-        $tpl->assign('request'      , $_REQUEST );
-        $tpl->assign('session'      , $_SESSION );
-        $tpl->assign('cookies'      , $_COOKIE );
-        $tpl->assign('queries'      , $db->queries );
-        $tpl->assign('prepares'     , $db->prepares );
-        $tpl->assign('execs'        , $db->execs );
-        $tpl->assign('attributes'   , $this->return_pdo_attributes_array() );
-        $tpl->assign('config'       , $cfg );
-        $tpl->assign('error_log'    , $error->error_log );
-        $tpl->assign('lang_loaded'  , $lang->loaded );
-        $tpl->assign('debug_popup'  , $cfg->debug_popup );
-        $tpl->assign('mods_loaded'  , $modules->loaded );
-        $tpl->display('debug.tpl' );
+        $debug = array();
+        $debug['request']       = $_REQUEST;
+        $debug['session']       = $_SESSION;
+        $debug['cookies']       = $_COOKIE;
+        $debug['post']          = $_POST;
+        $debug['get']           = $_GET;
+        $debug['queries']       = $db->queries;
+        $debug['prepares']      = $db->prepares;
+        $debug['execs']         = $db->execs;
+        $debug['attributes']    = $this->return_pdo_attributes_array();
+        $debug['configs']       = $cfg;
+        $debug['error_log']     = $error->error_log;
+        $debug['lang_loaded']   = $lang->loaded;
+        $debug['debug_popup']   = $cfg->debug_popup;
+        $debug['mods_loaded']   = $modules->loaded;
+
+        $tpl->assign( 'debug'  , $debug );
+        $tpl->display( 'debug.tpl' );
     }
 }
 ?>

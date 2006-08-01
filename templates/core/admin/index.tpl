@@ -4,12 +4,12 @@
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="content-language" content="{$language}">
-<meta name="author" content="{$author}">
-<meta http-equiv="reply-to" content="{$email}">
-<meta name="description" content="{$description}">
-<meta name="keywords" content="{$keywords}">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="{$meta.language}">
+<meta name="author" content="{$meta.author}">
+<meta http-equiv="reply-to" content="{$meta.email}">
+<meta name="description" content="{$meta.description}">
+<meta name="keywords" content="{$meta.keywords}">
 
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
 

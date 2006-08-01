@@ -403,13 +403,16 @@ class Render_SmartyDoc extends Smarty
      */
     public function smarty_block_doc_raw($params, $content, &$smarty)
     {
+        $params['key'] = !isset($params['key']) ? '' : $params['key'];
+        $params['target'] = !isset($params['target']) ? '' : $params['target'];
+        
         $key = (isset($params['key']) && is_string($params['key']) && strlen($params['key'])>0)
             ? $params['key']
             : null;
         if (isset($params['target']) && strtolower($params['target']) === 'body') {
-            $smarty->addRawContent($content, $key, $target);
+            $smarty->addRawContent($content, $key, $params['target']);
         } else {
-            $smarty->addRawHeader($content, $key, $target);
+            $smarty->addRawHeader($content, $key, $params['target']);
         }
     }
 

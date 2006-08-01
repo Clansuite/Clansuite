@@ -6,9 +6,9 @@
 	<div id="header">ClanSuite Debug Console</div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ECE9D8" style="border: thin solid black; border-color: #ffffff #ACA899 #ACA899 #ffffff;">
 	
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('8')">$error->error_log: Advanced Error Logging</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('8')">Error Logs ($error->error_log)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_8"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$error_log}
+		{foreach key=schluessel item=wert from=$debug.error_log}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 			<font color=red>{$schluessel}</font></td><td><font color=blue>
 			{$wert|@debug_print_var}</font>
@@ -25,7 +25,7 @@
 	{/section}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('2')">$tpl->assign(): Assigned template variables:</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('2')">Assigned template variables ($tpl->assign)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_2"><table border=0 width=100%> 
 	{section name=vars loop=$_debug_keys}
 		<tr bgcolor={if %vars.index% is even}#E4E0C7{else}#fafafa{/if}><td valign=top><font color=blue>{ldelim}${$_debug_keys[vars]}{rdelim}</font></td><td nowrap><font color=green>{$_debug_vals[vars]|@debug_print_var}</font></td></tr>
@@ -43,80 +43,83 @@
 	{/section}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">$db: All Queries, Prepares, Execs, PDO Attributes</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">Database Stuff (Queries, Prepares, Execs, PDO Attributes)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_11"><table border=0 width=100%>
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 			<font color=blue>Queries:</font></td><td><font color=green>
-			{foreach key=schluessel item=wert from=$queries}
-			{$wert|@debug_print_var}
-			<br>
-			{/foreach}
+			{foreach key=schluessel item=wert from=$debug.queries}
+            <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
 			</font>
 			</td></tr>
 		
-			<tr bgcolor=#E4E0C7><td width=100 valign=top>
+			<tr bgcolor=#fafafa><td width=100 valign=top>
 			<font color=blue>Prepares:</font></td><td><font color=green>
-			{foreach key=schluessel item=wert from=$prepares}
-			{$wert|@debug_print_var}
-			<br>
-			{/foreach}
+			{foreach key=schluessel item=wert from=$debug.prepares}
+            <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
 			</font>
 			</td></tr>
 			
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 			<font color=blue>Execs:</font></td><td><font color=green>
-			{foreach key=schluessel item=wert from=$execs}
-			{$wert|@debug_print_var}
-			<br>
-			{/foreach}
+			{foreach key=schluessel item=wert from=$debug.execs}
+            <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
 			</font>
 			</td></tr>
 			
-			<tr bgcolor=#E4E0C7><td width=100 valign=top>
+			<tr bgcolor=#fafafa><td width=100 valign=top>
 			<font color=blue>PDO Attributes:</font></td><td><font color=green>
-			{foreach key=key item=item from=$attributes}
-            {$key}: <font color=brown> {$item} </font> <br>
+			{foreach key=schluessel item=wert from=$debug.attributes}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
             {/foreach}
-			<br>
 			</font>
 			</td></tr>
 			
 					
 	 </table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('4')">$_REQUEST: Incoming Variables</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('4')">Incoming Vars (Cookies, Get, Post, Session)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_4"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$request}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
-			<font color=blue>{$schluessel}</font></td><td><font color=green>
-			{$wert|@debug_print_var}</font>
+			<font color=blue>GET:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$debug.get}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
+			</font>
 			</td></tr>
-		{/foreach}
+		
+			<tr bgcolor=#fafafa><td width=100 valign=top>
+			<font color=blue>POST:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$debug.post}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
+			</font>
+			</td></tr>
+			
+			<tr bgcolor=#E4E0C7><td width=100 valign=top>
+			<font color=blue>COOKIES:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$debug.cookies}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
+			</font>
+			</td></tr>
+			
+			<tr bgcolor=#fafafa><td width=100 valign=top>
+			<font color=blue>REQUEST:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$debug.request}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
+			</font>
+			</td></tr>
+			
+					
 	 </table></span></td></tr>
 	 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('5')">$_SESSION: Session Variables</a></b></td></tr>
-	<tr><td width=100% colspan=2><span style="display:none" id="span_5"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$session}
-			<tr bgcolor=#E4E0C7><td width=100 valign=top>
-			<font color=blue>{$schluessel}</font></td><td><font color=green>
-			{$wert|@debug_print_var}</font>
-			</td></tr>
-		{/foreach}
-	 </table></span></td></tr>
-	 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('6')">$_COOKIES: Session Variables</a></b></td></tr>
-	<tr><td width=100% colspan=2><span style="display:none" id="span_6"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$cookies}
-			<tr bgcolor=#E4E0C7><td width=100 valign=top>
-			<font color=blue>{$schluessel}</font></td><td><font color=green>
-			{$wert|@debug_print_var}</font>
-			</td></tr>
-		{/foreach}
-	 </table></span></td></tr>
-	 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('7')">$cfg: Configuration (Password hidden)</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('7')">Configurations ($cfg - Password hidden)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_7"><table border=0 width=100%> 
-		{foreach key=schluessel item=wert from=$config}
+		{foreach key=schluessel item=wert from=$debug.configs}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 				{if $schluessel == 'db_password'}
 					<font color=blue>{$schluessel|@debug_print_var}</font></td><td><font color=green>
@@ -129,19 +132,19 @@
 		{/foreach}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('9')">$lang->loaded: Loaded Language Files</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('9')">Loaded Language Files ($lang->loaded)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_9"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$lang_loaded}
+		{foreach key=schluessel item=wert from=$debug.lang_loaded}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top colspan=2>
-			<font color=blue>{$wert|@debug_print_var}</font></td></tr>
+			<font color=brown>&nbsp;{$wert|@debug_print_var}</font></td></tr>
 		{/foreach}
 	</table></span></td></tr>			
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('10')">$modules->loaded: Loaded Modules</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('10')">Loaded Modules ($modules->loaded)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_10"><table border=0 width=100%>
-		{foreach key=schluessel item=wert from=$mods_loaded}
+		{foreach key=schluessel item=wert from=$debug.mods_loaded}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top colspan=2>
-			<font color=blue>{$wert|@debug_print_var}</font></td></tr>
+			<font color=brown>&nbsp;{$wert|@debug_print_var}</font></td></tr>
 		{/foreach}
 	</table></span></td></tr>
 	
