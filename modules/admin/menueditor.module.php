@@ -182,6 +182,8 @@ class module_admin_menueditor
     {
         global $lang;
         
+        $result = !isset( $result ) ? '' : $result;
+        
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
@@ -189,7 +191,8 @@ class module_admin_menueditor
                 
         foreach($menu as $entry)
         {
-        	if ($entry['href'] == '' )
+        	$entry['content'] = !isset( $entry['content'] ) ? '' : $entry['content'];
+            if ($entry['href'] == '' )
             {
                 $entry['href'] = 'javascript:void(0)';
             }

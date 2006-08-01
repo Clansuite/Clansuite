@@ -98,10 +98,23 @@ p
 
 #td_header
 {
-    background: lightgrey;
+    background: #254161;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+#td_header_small
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
     cursor: default;
     font-size: 12px;
     font-weight: bold;

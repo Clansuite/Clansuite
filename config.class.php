@@ -67,6 +67,15 @@ class config
         $this->upload_folder = 'uploads';
 
         //----------------------------------------------------------------
+        // Meta Tag Informations
+        //----------------------------------------------------------------
+        $this->meta['description']  = 'Clansuite is a Content Management System for handling the needs of clans';
+        $this->meta['language']     = 'de';
+        $this->meta['author']       = 'Florian Wolf, Jens-André Koch';
+        $this->meta['email']        = 'system@clansuite.com';
+        $this->meta['keywords']     = 'clan, cms, content management system, portal';
+
+        //----------------------------------------------------------------
         // Mail configuration
         //----------------------------------------------------------------
         // methods: smtp, sendmail, exim, 
@@ -78,7 +87,6 @@ class config
         $this->smtp_password    = 'toop';
         // encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
         $this->mailencryption   = 'SWIFT_OPEN';
-                
         $this->from             = 'system@clansuite.com';
         $this->from_name        = 'Clansuite Mailer';
 

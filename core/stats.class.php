@@ -40,30 +40,31 @@ if (!defined('IN_CS'))
 //----------------------------------------------------------------
 // Start stats class
 //----------------------------------------------------------------
-class stats
+class statistics
 {
     //----------------------------------------------------------------
     // Create the needed variables and assign them to the tpl
     //----------------------------------------------------------------
     function create_stats_vars()
     {
-        global $tracker, $tpl;
+        global $tpl, $db;
         
-        $all_impressions = $tracker->get( array('api_call'  => 'page_impressions',
-                                                'range'     => 'total' ) );
+        $stats['all_impressions'] = 0;
         
-        $page_impressions = $tracker->get(array('api_call'  => 'page_impressions',
-                                                'range'     => 'total',
-                                                'constraints' => array('document' => $_SESSION['_phpOpenTracker_Container']['document_url'] ) ) );
+        $stats['page_impressions'] = 0;
         
-        $online = $tracker->get( array( 'api_call'  => 'visits',
-                                        'start'     => time()-300,
-                                        'end'       => time(),
-                                        'interval'  => 3600 ) );
+        //----------------------------------------------------------------
+        // Online users
+        //----------------------------------------------------------------        
+        $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX .'session' );
+        $stmt->execute();
+        $all_on = $stmt->fetchAll();
+        $stats['online'] = count($all_on);
         
-        $tpl->assign('stats_online'             , $online );
-        $tpl->assign('stats_all_impressions'    , $all_impressions );
-        $tpl->assign('stats_page_impressions'   , $page_impressions );
+        //----------------------------------------------------------------
+        // Assign
+        //----------------------------------------------------------------        
+        $tpl->assign('stats'             , $stats );
     }
 }
 ?>

@@ -127,7 +127,14 @@ class module_admin_modules
                     
                     if ( is_array( $res ) )
                     {
-                        $container['whitelisted'][$res['title']] = $res;
+                        if ( $res['core'] == 0 )
+                        {
+                            $container['whitelisted']['normal'][$res['title']] = $res;
+                        }
+                        else
+                        {
+                            $container['whitelisted']['core'][$res['title']] = $res;
+                        }
                     }
                     else
                     {
@@ -465,6 +472,8 @@ class module_admin_modules
         global $db, $functions, $input, $lang;
         
         $submit = $_POST['submit'];
+        $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
+        $ids = isset($_POST['confirm']) ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete = isset($_POST['delete']) ? $_POST['delete'] : array();
         $delete = isset($_POST['confirm']) ? unserialize(urldecode($_GET['delete'])) : $delete;
         $enabled = isset($_POST['enabled']) ? $_POST['enabled'] : array();
@@ -481,26 +490,32 @@ class module_admin_modules
 
         foreach( $all_modules as $key => $value )
         {
-            $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET enabled = ? WHERE module_id = ?' );
-            $stmt->execute( array($e, $value['module_id']) );
+            if ( in_array( $value['module_id'], $ids ) )
+            {
+                $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET enabled = ? WHERE module_id = ?' );
+                $stmt->execute( array($e, $value['module_id']) );
+            }
         }
 
         foreach( $all_modules as $key => $value )
         {
             if ( count ( $delete ) > 0 )
             {
-                $d = in_array( $value['module_id'], $delete  ) ? 1 : 0;
-                if ( !isset ( $_POST['confirm'] ) )
+                if ( in_array( $value['module_id'], $ids ) )
                 {
-                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=update&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ), 'admin' );
-                }
-                else
-                {
-                    if ( $d == 1 )
+                    $d = in_array( $value['module_id'], $delete  ) ? 1 : 0;
+                    if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
-                        $stmt->execute( array($value['module_id']) );
+                        $functions->redirect( '/index.php?mod=admin&sub=modules&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ), 'admin' );
+                    }
+                    else
+                    {
+                        if ( $d == 1 )
+                        {
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
+                            $stmt->execute( array($value['module_id']) );
+                        }
                     }
                 }
             }
