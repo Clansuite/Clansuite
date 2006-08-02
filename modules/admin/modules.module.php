@@ -575,11 +575,11 @@ class module_admin_modules
             {
                 if ( !$functions->chmod( MOD_ROOT, '755', $redirect_url, 1 ) )
                 {
-                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                 }
                 else
                 {
-                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
                 }
             }
             
@@ -587,11 +587,11 @@ class module_admin_modules
             {
                 if ( !$functions->chmod( UPLOAD_ROOT, '755', $redirect_url, 1 ) )
                 {
-                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                 }
                 else
                 {
-                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
                 }
             }
         }
