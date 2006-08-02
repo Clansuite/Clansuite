@@ -229,17 +229,23 @@ class functions
     //----------------------------------------------------------------
     // Try a chmod
     //----------------------------------------------------------------
-    function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php', $recursive = 0 )
+    function chmod( $path = '', $chmod = '755', $redirect_url = '/index.php', $recursive = 0 )
     {
         global $lang;
 
-        $chmod = '0'.$chmod;
-        $chmod = octdec($chmod);
-        
         if (!is_dir($path))
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . intval($chmod) ) );
-           return;
+            $chmod = '0'.$chmod;
+            $chmod = octdec($chmod); 
+            if( chmod($path, $chmod ) )
+            {
+               $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
+               return;
+            }
+            else
+            {
+                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+            }
         }
         
         if ( $recursive == 1 )
@@ -252,7 +258,9 @@ class functions
                     $fullpath = $path.'/'.$file;
                     if(!is_dir($fullpath))
                     {
-                        if (!chmod($fullpath, intval($chmod)))
+                        $chmod = '0'.$chmod;
+                        $chmod = octdec($chmod);
+                        if (!chmod($fullpath, $chmod))
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                             return;
@@ -266,10 +274,13 @@ class functions
             }
             closedir($dh);
         }
-        
-        if( chmod($path, intval($chmod) ) )
+
+        $chmod = '0'.$chmod;
+        $chmod = octdec($chmod);        
+
+        if( chmod($path, $chmod ) )
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . intval($chmod) ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
            return;
         }
         else
