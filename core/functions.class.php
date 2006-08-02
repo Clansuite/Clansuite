@@ -235,7 +235,7 @@ class functions
         
         if (!is_dir($path))
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . decoct($chmod) ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . intval($chmod) ) );
            return;
         }
         
@@ -249,7 +249,7 @@ class functions
                     $fullpath = $path.'/'.$file;
                     if(!is_dir($fullpath))
                     {
-                        if (!chmod($fullpath, decoct($chmod)))
+                        if (!chmod($fullpath, intval($chmod)))
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                             return;
@@ -264,9 +264,9 @@ class functions
             closedir($dh);
         }
         
-        if( chmod($path, decoct($chmod) ) )
+        if( chmod($path, intval($chmod) ) )
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . decoct($chmod) ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . intval($chmod) ) );
            return;
         }
         else
