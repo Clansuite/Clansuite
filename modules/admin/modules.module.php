@@ -196,6 +196,7 @@ class module_admin_modules
         $author         = $_POST['author'];
         $homepage       = $_POST['homepage'];
         $enabled        = (int) $_POST['enabled'];
+        $core           = (int) $_POST['core'];
         
         if ( !is_writeable( MOD_ROOT ) )
         {
@@ -263,7 +264,7 @@ class module_admin_modules
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                    $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`)';
+                    $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`)';
                     $qry .= " VALUES (?,?,?,?,?,?,?,?)";
                     
                     $stmt = $db->prepare( $qry );
@@ -276,7 +277,8 @@ class module_admin_modules
                                             $enabled,
                                             'module_' . $name . '.jpg',
                                             (float) 0.1,
-                                            $cfg->version ) );
+                                            $cfg->version,
+                                            $core ) );
                                             
                     $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
@@ -433,7 +435,7 @@ class module_admin_modules
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
                         $stmt->execute( array ( $info['name'] ) );
                         
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
                         $stmt->execute( array(  $info['name'],
                                                 $info['title'],
                                                 $info['description'],
@@ -443,7 +445,8 @@ class module_admin_modules
                                                 0,
                                                 $info['image_name'],
                                                 $info['version'],
-                                                $info['cs_version'] ) );
+                                                $info['cs_version'],
+                                                $info['core'] ) );
                         
                         $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ), 'admin' );
                     }
@@ -538,7 +541,7 @@ class module_admin_modules
         {
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
                 $stmt->execute( array(  $info['name'],
                                         $info['title'],
                                         $info['description'],
@@ -548,7 +551,8 @@ class module_admin_modules
                                         $info['enabled'],
                                         $info['image_name'],
                                         $info['version'],
-                                        $cfg->version ) );
+                                        $cfg->version,
+                                        $info['core'] ) );
             }
         }
         
@@ -569,12 +573,12 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                $functions->chmod( MOD_ROOT, 0755, $redirect_url );
+                $functions->chmod( MOD_ROOT, 0755, $redirect_url, 1 );
             }
             
             if ( $type == 'uploads' )
             {
-                $functions->chmod( UPLOAD_ROOT, 0755, $redirect_url );
+                $functions->chmod( UPLOAD_ROOT, 0755, $redirect_url, 1 );
             }
         }
         else
