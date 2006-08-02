@@ -229,7 +229,7 @@ class functions
     //----------------------------------------------------------------
     // Try a chmod
     //----------------------------------------------------------------
-    function chmod( $path = '', $chmod = '755', $redirect_url = '/index.php', $recursive = 0 )
+    function chmod( $path = '', $chmod = '755', $recursive = 0 )
     {
         global $lang;
 
@@ -270,7 +270,7 @@ class functions
                         }
                         else
                         {
-                            $this->chmod($fullpath, $chmod, $redirect_url, 1);
+                            $this->chmod($fullpath, $chmod, 1);
                         }
                     }
                 }
