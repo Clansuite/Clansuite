@@ -232,10 +232,10 @@ class functions
     function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php', $recursive = 0 )
     {
         global $lang;
-        var_dump($chmod);
+        
         if (!is_dir($path))
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . $chmod ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . octdec($chmod) ) );
            return;
         }
         
@@ -249,7 +249,7 @@ class functions
                     $fullpath = $path.'/'.$file;
                     if(!is_dir($fullpath))
                     {
-                        if (!chmod($fullpath, $chmod))
+                        if (!chmod($fullpath, octdec($chmod)))
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                             return;
@@ -264,9 +264,9 @@ class functions
             closedir($dh);
         }
         
-        if( chmod($path, $chmod) )
+        if( chmod($path, octdec($chmod) ) )
         {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . octdec($chmod) ) );
            return;
         }
         else
