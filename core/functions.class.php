@@ -235,57 +235,49 @@ class functions
 
         if (!is_dir($path))
         {
-            $chmod = '0'.$chmod;
-            $chmod = octdec($chmod); 
-            if( chmod($path, $chmod ) )
-            {
-               $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
-               return;
-            }
-            else
+            $file_mode = '0'.$chmod;
+            $file_mode = octdec($file_mode); 
+            if( !chmod($path, $file_mode ) )
             {
                 $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
             }
         }
-        
-        if ( $recursive == 1 )
-        {
-            $dh = opendir($path);
-            while ($file = readdir($dh))
-            {
-                if($file != '.' && $file != '..' && $file != '.svn')
-                {
-                    $fullpath = $path.'/'.$file;
-                    if(!is_dir($fullpath))
-                    {
-                        $mode = '0'.$chmod;
-                        $mode = octdec($mode);
-                        if (!chmod($fullpath, $mode))
-                        {
-                            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        $this->chmod($fullpath, $chmod, $redirect_url, 1);
-                    }
-                }
-            }
-            closedir($dh);
-        }
-
-        $chmod = '0'.$chmod;
-        $chmod = octdec($chmod);        
-
-        if( chmod($path, $chmod ) )
-        {
-           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
-           return;
-        }
         else
         {
-            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+            $dir_mode_r = '0'.$chmod;
+            $dir_mode_r = octdec($dir_mode_r);
+            if (!chmod($fullpath, $mode))
+            {
+                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                return;
+            }
+    
+            if ( $recursive == 1 )
+            {
+                $dh = opendir($path);
+                while ($file = readdir($dh))
+                {
+                    if($file != '.' && $file != '..' && $file != '.svn')
+                    {
+                        $fullpath = $path.'/'.$file;
+                        if(!is_dir($fullpath))
+                        {
+                            $mode = '0'.$chmod;
+                            $mode = octdec($mode);
+                            if (!chmod($fullpath, $mode))
+                            {
+                                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            $this->chmod($fullpath, $chmod, $redirect_url, 1);
+                        }
+                    }
+                }
+                closedir($dh);
+            }
         }
     }
     
