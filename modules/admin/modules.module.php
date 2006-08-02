@@ -573,7 +573,7 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                if ( !$functions->chmod( MOD_ROOT, '755', $redirect_url, 1 ) )
+                if ( !$functions->chmod( MOD_ROOT, '755', 1 ) )
                 {
                     $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                 }
@@ -585,7 +585,7 @@ class module_admin_modules
             
             if ( $type == 'uploads' )
             {
-                if ( !$functions->chmod( UPLOAD_ROOT, '755', $redirect_url, 1 ) )
+                if ( !$functions->chmod( UPLOAD_ROOT, '755', 1 ) )
                 {
                     $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                 }
