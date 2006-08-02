@@ -233,6 +233,8 @@ class functions
     {
         global $lang;
         
+        $chmod = decoct(intval($chmod));
+        
         if (!is_dir($path))
         {
            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . intval($chmod) ) );
