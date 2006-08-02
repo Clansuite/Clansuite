@@ -239,7 +239,7 @@ class functions
             $file_mode = octdec($file_mode); 
             if( !chmod($path, $file_mode ) )
             {
-                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                return false;
             }
         }
         else
@@ -248,8 +248,7 @@ class functions
             $dir_mode_r = octdec($dir_mode_r);
             if (!chmod($path, $dir_mode_r))
             {
-                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
-                return;
+                return false;
             }
     
             if ( $recursive == 1 )
@@ -266,8 +265,7 @@ class functions
                             $mode = octdec($mode);
                             if (!chmod($fullpath, $mode))
                             {
-                                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
-                                return;
+                                return false;
                             }
                         }
                         else
@@ -279,8 +277,7 @@ class functions
                 closedir($dh);
             }
         }
-        
-        $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . $chmod ) );
+        return true;
     }
     
     //----------------------------------------------------------------
