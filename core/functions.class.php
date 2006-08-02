@@ -244,7 +244,7 @@ class functions
             $dh = opendir($path);
             while ($file = readdir($dh))
             {
-                if($file != '.' && $file != '..')
+                if($file != '.' && $file != '..' && $file != '.svn')
                 {
                     $fullpath = $path.'/'.$file;
                     if(!is_dir($fullpath))
