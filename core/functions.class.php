@@ -232,7 +232,7 @@ class functions
     function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php', $recursive = 0 )
     {
         global $lang;
-        
+        var_dump($chmod);
         if (!is_dir($path))
         {
            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . $chmod ) );
