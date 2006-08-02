@@ -53,6 +53,7 @@
             <tr><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"htmlall"}"></td></tr>
             <tr><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"htmlall"}"></td></tr>
             <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value="1"></td></tr>
+            <tr><td><b>{translate}Core module:{/translate}</b></td><td><input type="checkbox" name="core" value="1"></td></tr>
         </table>
     </td>   
 

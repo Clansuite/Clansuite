@@ -246,24 +246,30 @@ class db_statements
     function execute( $args = array() )
     {
         global $db;
-
-        $db->query_counter++;
-        if ( is_object( $db->query_active_reference ) )
+        try
         {
-            $db->query_active_reference->closeCursor();
-            $db->query_active_reference = NULL;
-        }
-
-        $db->queries[] = $this->db_statement->queryString;
-
-        $res = $this->db_statement->execute($args);
-
-        if ( $res )
-        {
-            $db->query_active_reference = $this;
+            $db->query_counter++;
+            if ( is_object( $db->query_active_reference ) )
+            {
+                $db->query_active_reference->closeCursor();
+                $db->query_active_reference = NULL;
+            }
+    
+            $db->queries[] = $this->db_statement->queryString;
+    
+            $res = $this->db_statement->execute($args);
+    
+            if ( $res )
+            {
+                $db->query_active_reference = $this;
+                return $res;
+            }
             return $res;
         }
-        return $res;
+        catch(PDOException $e)
+        {
+            echo $e->getCode() . $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage();
+        }
     }
 }
 ?>

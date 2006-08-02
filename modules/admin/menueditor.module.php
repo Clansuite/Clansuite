@@ -313,10 +313,10 @@ class module_admin_menueditor
     //----------------------------------------------------------------
     // This function generates html-div based menu lists - for menu editor
     //----------------------------------------------------------------
-    function get_export_div( $menu = '' )
+    function get_export_div( $menu = '', $level = '' )
     {
         global $lang, $cfg;
-        
+               
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
@@ -341,14 +341,14 @@ class module_admin_menueditor
             
         	if ( is_array($entry['content']) )
         	{
-        	   $result .= $this->get_export_div($entry['content']);
+        	   $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $x);
         	}
         	else
         	{
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<span class="text">'.$entry['name'];
-                    $result .= '<input type="checkbox" name="id" value="'.$entry['id'].'"></span>';
+                    $result .= '<input type="checkbox" name="id" value="' . $level . $entry['id'] . '"></span>';
                 }
         	}
                                 	

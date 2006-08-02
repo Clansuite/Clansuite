@@ -66,11 +66,11 @@ class functions
                     session_write_close(); 
                     if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
                     {
-                        header('Location: ' . $url.'&'.SID );
+                        header('Location: ' . $url.'&'.$session->session_name.'='.session_id() );
                     }
                     else
                     {        
-                        header('Location: ' . $url.'?'.SID );
+                        header('Location: ' . $url.'?'.$session->session_name.'='.session_id() );
                     }
                 }       
                 break;
@@ -87,6 +87,19 @@ class functions
                     {
                         $url = '/'. $url;
                     }
+                    
+                    if ( !isset($_COOKIE[$session->session_name]) )
+                    {
+                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
+                        {
+                            $url = $url.'&'.$session->session_name.'='.session_id();
+                        }
+                        else
+                        {        
+                            $url = $url.'?'.$session->session_name.'='.session_id();
+                        }
+                    }
+                    
                     $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . WWW_ROOT . $url . '">';
                 }
                 break;
@@ -100,6 +113,18 @@ class functions
                         $url = '/'. $url;
                     }
                     $url = WWW_ROOT . $url;
+                    
+                    if ( !isset($_COOKIE[$session->session_name]) )
+                    {
+                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
+                        {
+                            $url = $url.'&'.$session->session_name.'='.session_id();
+                        }
+                        else
+                        {        
+                            $url = $url.'?'.$session->session_name.'='.session_id();
+                        }
+                    }
                 }
                 $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
                 $tpl->assign( 'redirect', $redirect );
@@ -126,6 +151,18 @@ class functions
                         $url = '/'. $url;
                     }
                     $url = WWW_ROOT . $url;
+
+                    if ( !isset($_COOKIE[$session->session_name]) )
+                    {
+                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
+                        {
+                            $url = $url.'&'.$session->session_name.'='.session_id();
+                        }
+                        else
+                        {        
+                            $url = $url.'?'.$session->session_name.'='.session_id();
+                        }
+                    }
                 }
                 $tpl->assign( 'link', $url );
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
@@ -157,11 +194,11 @@ class functions
                     session_write_close(); 
                     if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
                     {
-                        header('Location: ' . $url.'&'.SID );
+                        header('Location: ' . $url.'&'.$session->session_name.'='.session_id() );
                     }
                     else
                     {        
-                        header('Location: ' . $url.'?'.SID );
+                        header('Location: ' . $url.'?'.$session->session_name.'='.session_id() );
                     }
                 }       
                 break;
@@ -192,17 +229,49 @@ class functions
     //----------------------------------------------------------------
     // Try a chmod
     //----------------------------------------------------------------
-    function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php' )
+    function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php', $recursive = 0 )
     {
         global $lang;
         
-        if ( chmod( $path, $chmod ) )
+        if (!is_dir($path))
         {
-            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions (chmod)' ) );
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The file has now the right permissions: ' . $chmod ) );
+           return;
+        }
+        
+        if ( $recursive == 1 )
+        {
+            $dh = opendir($path);
+            while ($file = readdir($dh))
+            {
+                if($file != '.' && $file != '..')
+                {
+                    $fullpath = $path.'/'.$file;
+                    if(!is_dir($fullpath))
+                    {
+                        if (!chmod($fullpath, $chmod))
+                        {
+                            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        $this->chmod($fullpath, $chmod, $redirect_url, 1);
+                    }
+                }
+            }
+            closedir($dh);
+        }
+        
+        if( chmod($path, $chmod) )
+        {
+           $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The folder has now the right permissions: ' . $chmod ) );
+           return;
         }
         else
         {
-            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions for the folder could not be set.' ) );
+            $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
         }
     }
     
