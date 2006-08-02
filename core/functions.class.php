@@ -232,8 +232,9 @@ class functions
     function chmod( $path = '', $chmod = 0755, $redirect_url = '/index.php', $recursive = 0 )
     {
         global $lang;
-        
-        $chmod = decoct(intval($chmod));
+
+        $chmod = '0'.$chmod;
+        $chmod = octdec($chmod);
         
         if (!is_dir($path))
         {
