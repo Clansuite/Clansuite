@@ -573,12 +573,26 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                $functions->chmod( MOD_ROOT, '755', $redirect_url, 1 );
+                if ( !$functions->chmod( MOD_ROOT, '755', $redirect_url, 1 ) )
+                {
+                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                }
+                else
+                {
+                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                }
             }
             
             if ( $type == 'uploads' )
             {
-                $functions->chmod( UPLOAD_ROOT, '755', $redirect_url, 1 );
+                if ( !$functions->chmod( UPLOAD_ROOT, '755', $redirect_url, 1 ) )
+                {
+                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                }
+                else
+                {
+                    $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                }
             }
         }
         else
