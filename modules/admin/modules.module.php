@@ -573,12 +573,12 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                $functions->chmod( MOD_ROOT, '0755', $redirect_url, 1 );
+                $functions->chmod( MOD_ROOT, '755', $redirect_url, 1 );
             }
             
             if ( $type == 'uploads' )
             {
-                $functions->chmod( UPLOAD_ROOT, '0755', $redirect_url, 1 );
+                $functions->chmod( UPLOAD_ROOT, '755', $redirect_url, 1 );
             }
         }
         else
