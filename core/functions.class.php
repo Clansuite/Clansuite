@@ -258,9 +258,9 @@ class functions
                     $fullpath = $path.'/'.$file;
                     if(!is_dir($fullpath))
                     {
-                        $chmod = '0'.$chmod;
-                        $chmod = octdec($chmod);
-                        if (!chmod($fullpath, $chmod))
+                        $mode = '0'.$chmod;
+                        $mode = octdec($mode);
+                        if (!chmod($fullpath, $mode))
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                             return;
