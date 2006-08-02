@@ -231,8 +231,6 @@ class functions
     //----------------------------------------------------------------
     function chmod( $path = '', $chmod = '755', $recursive = 0 )
     {
-        global $lang;
-
         if (!is_dir($path))
         {
             $file_mode = '0'.$chmod;
@@ -270,7 +268,10 @@ class functions
                         }
                         else
                         {
-                            $this->chmod($fullpath, $chmod, 1);
+                            if ( !$this->chmod($fullpath, $chmod, 1) )
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
