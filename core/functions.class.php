@@ -246,7 +246,7 @@ class functions
         {
             $dir_mode_r = '0'.$chmod;
             $dir_mode_r = octdec($dir_mode_r);
-            if (!chmod($fullpath, $mode))
+            if (!chmod($path, $dir_mode_r))
             {
                 $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
                 return;
