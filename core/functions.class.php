@@ -279,6 +279,8 @@ class functions
                 closedir($dh);
             }
         }
+        
+        $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . $chmod ) );
     }
     
     //----------------------------------------------------------------
