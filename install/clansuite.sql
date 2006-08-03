@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 29. Juli 2006 um 23:40
+-- Erstellungszeit: 03. August 2006 um 06:06
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -77,10 +77,10 @@ CREATE TABLE `cs_adminmenu_old` (
 -- 
 
 INSERT INTO `cs_adminmenu_old` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (2, 0, 'folder', 'System', '', 'System', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (3, 2, 'item', 'Menüeditor', '/index.php?mod=admin&sub=menueditor', 'Menüeditor', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (4, 2, 'item', 'Templateeditor', '/index.php?mod=admin&sub=templateditor', 'Templateeditor', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (5, 2, 'item', 'Categories', 'admin/categories/index.php', 'Categories', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (2, 0, 'folder', 'Sys', '', 'System', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (3, 2, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (4, 2, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (5, 2, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (6, 2, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (7, 2, 'folder', 'Modulemanager', '', 'Modulemanager', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (8, 7, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
@@ -88,17 +88,24 @@ INSERT INTO `cs_adminmenu_old` VALUES (9, 7, 'item', 'Install new modules', '/in
 INSERT INTO `cs_adminmenu_old` VALUES (10, 7, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (11, 7, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self');
 INSERT INTO `cs_adminmenu_old` VALUES (12, 7, 'item', 'Create a new module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (13, 0, 'folder', 'Users', '', 'Users', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (14, 13, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (15, 13, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (16, 13, 'item', 'Groups', '', 'Groups', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (17, 13, 'item', 'Permissions', '', 'Permissions', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (18, 0, 'folder', 'Hilfe', '', 'Hilfe', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (19, 18, 'item', 'Hilfe', 'help.php', 'Hilfe', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (20, 18, 'item', 'Handbuch', 'manual.php', 'Handbuch', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (21, 18, 'item', 'Report Bug & Give Feedback', 'bugreport.php', 'Report Bug & Give Feedback', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (22, 18, 'item', 'Über Clansuite', 'about.php', 'Über Clansuite', '_self');
-INSERT INTO `cs_adminmenu_old` VALUES (23, 0, 'folder', 'Show website', '/', 'Show website', '_blank');
+INSERT INTO `cs_adminmenu_old` VALUES (14, 0, 'folder', 'Users', '', 'Users', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (15, 14, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (16, 14, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (17, 14, 'item', 'Groups', '', 'Groups', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (18, 14, 'item', 'Permissions', '', 'Permissions', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (19, 0, 'folder', 'Help', '', 'Help', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (20, 19, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (21, 19, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (22, 19, 'item', 'Report Bug & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bug & Give Feedback', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (23, 19, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (24, 0, 'folder', 'Show website', '/index.php', 'Show website', '_blank');
+INSERT INTO `cs_adminmenu_old` VALUES (25, 0, 'folder', 'System', '', 'System', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (26, 25, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (27, 25, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (28, 25, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (29, 25, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (30, 25, 'folder', 'Modulemanager', '', 'Modulemanager', '_self');
+INSERT INTO `cs_adminmenu_old` VALUES (31, 30, 'item', 'Show all modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Show all modules', '_self');
 
 -- --------------------------------------------------------
 
@@ -168,19 +175,20 @@ CREATE TABLE `cs_modules` (
   `image_name` varchar(255) NOT NULL,
   `version` float NOT NULL,
   `cs_version` float NOT NULL,
+  `core` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
 -- 
 
-INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (1, 'index', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (2, 'admin', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (3, 'account', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0.1);
-INSERT INTO `cs_modules` VALUES (11, 'news', 'News', 'News module - your description', 'module_news', 'news.module.php', 'news', 0, 'module_news.jpg', 0.1, 0.1);
+INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0.1, 1);
+INSERT INTO `cs_modules` VALUES (1, 'index', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0.1, 1);
+INSERT INTO `cs_modules` VALUES (2, 'admin', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0.1, 1);
+INSERT INTO `cs_modules` VALUES (68, 'account', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0.1, 1);
+INSERT INTO `cs_modules` VALUES (11, 'news', 'News', 'News module - your description', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0.1, 0);
 
 -- --------------------------------------------------------
 
@@ -275,7 +283,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '00489198932f39d921134b7ce98202c4', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"00489198932f39d921134b7ce98202c4";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154191740, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, 'f73a8dfbe692ba138a3399f6c3f7736a', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"f73a8dfbe692ba138a3399f6c3f7736a";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154578293, 1, 'admin');
 
 -- --------------------------------------------------------
 
