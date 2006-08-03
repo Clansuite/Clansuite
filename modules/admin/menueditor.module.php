@@ -313,7 +313,7 @@ class module_admin_menueditor
     //----------------------------------------------------------------
     // This function generates html-div based menu lists - for menu editor
     //----------------------------------------------------------------
-    function get_export_div( $menu = '', $level = '' )
+    function get_export_div( $menu = '', $level = '', $module = '' )
     {
         global $lang, $cfg;
                
@@ -327,10 +327,15 @@ class module_admin_menueditor
                             
             if ( $entry['type'] == 'folder')
             {
+                $values = split( ',', $level );
+                foreach( $values as $key )
+                {
+                    $jscript .= "dir_$key,";
+                }
                 $result .= "<div class=\"folder\">";
                 $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-folder.gif' width='18' height='18' border='0'>";
                 $result .= '<span class="text">'.$entry['name'];
-                $result .= '<input type="checkbox" name="menu_ids[]" value="'.$entry['id'].'"></span>';
+                $result .= '<input id="dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
             }
                                   
             if ( $entry['type'] == 'item')
@@ -341,14 +346,20 @@ class module_admin_menueditor
             
         	if ( is_array($entry['content']) )
         	{
-        	   $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $x);
+        	   $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
         	}
         	else
         	{
                 if ( $entry['type'] != 'folder' )
                 {
+                    $values = split( ',', $level );
+                    foreach( $values as $key )
+                    {
+                        $jscript .= "dir_$key,";
+                    }
+
                     $result .= '<span class="text">'.$entry['name'];
-                    $result .= '<input type="checkbox" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
+                    $result .= '<input id="dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
                 }
         	}
                                 	
