@@ -16,6 +16,19 @@
         #tree-plugin, #tree-plugin-button-import-html { display: none; }
         #tree-plugin-textarea { white-space: nowrap; }
         </style>
+
+    <script type="text/javascript">
+    function checker(checkboxen, module)
+    {
+        checkbox = checkboxen.split(",");
+
+        for( x=0; x<checkbox.length; x++ )
+        {
+            document.getElementById(checkbox[x]).checked=1;
+        }
+        
+    }
+    </script>
     {/literal}
 {/doc_raw}
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -34,8 +47,9 @@
     </td>
 
 </tr>
+
 {foreach key=schluessel item=wert from=$content.whitelisted}
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=export" method="POST">
+<form action="{$www_root}/index.php?mod=admin&sub=modules&action=export" method="POST" name="{$wert.name}">
 <tr>
 
     <td id="cell1" align="center">
@@ -62,7 +76,8 @@
                         <div class="wrap1">
                             <div class="top">{translate}Adminmenu{/translate}</div>
                             <div class="wrap2" id="tree">
-                                {mod name="admin" sub="menueditor" func="get_export_div"}
+                                {assign var=name value=$wert.name}
+                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
                             </div>
                         </div>
                     </div>
