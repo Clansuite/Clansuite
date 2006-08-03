@@ -1,4 +1,4 @@
-<h2> Modulmanagement </h2>
+<h2>{translate}Modulemanagement{/translate}</h2>
 
 {if isset($content.not_in_whitelist)}
 <form action="{$www_root}/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
@@ -100,10 +100,14 @@
     
     <td id="cell2">
     <table cellpadding="2" cellspacing="2" border="0">
-        <tr><td width="90"><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
-        <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
-        <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
-        <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
+        <tr><td width="90"><b>{translate}Description:{/translate}</b></td>
+        <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_description_text">{$wert.description}</span><input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_description" style="display: none" value="{$wert.description}" size="40"></td><td><a id="{$wert.module_id}_{$wert.name}_description_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_description');">edit</a></td></tr>
+        <tr><td><b>{translate}Foldername:{/translate}</b></td>
+        <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_folder_name_text">{$wert.folder_name}</span><input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_folder_name" style="display: none" value="{$wert.folder_name}" size="40"></td><td><a id="{$wert.module_id}_{$wert.name}_folder_name_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_folder_name');">edit</a></td></tr>
+        <tr><td><b>{translate}Classname:{/translate}</b></td>
+        <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_class_name_text">{$wert.class_name}</span><input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_class_name" style="display: none" value="{$wert.class_name}" size="40"></td><td><a id="{$wert.module_id}_{$wert.name}_class_name_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_class_name');">edit</a></td></tr>
+        <tr><td><b>{translate}Filename:{/translate}</b></td>
+        <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_file_name_text">{$wert.file_name}</span><input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_file_name" style="display: none" value="{$wert.file_name}" size="40"></td><td><a id="{$wert.module_id}_{$wert.name}_file_name_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_file_name');">edit</a></td></tr>
         <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="/index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
     </table>
     </td>
@@ -126,9 +130,37 @@
 <br /><br />
 <center><a href="javascript:clip_core_mods('1')">{translate}Show core modules{/translate}</a></center>
 <br /><br />
+{literal}
 <script>
-function clip_core_mods(id){ldelim}if(document.getElementById("core_span_" + id).style.display == 'none'){ldelim}document.getElementById("core_span_" + id).style.display = "block";{rdelim}else{ldelim}document.getElementById("core_span_" + id).style.display = "none";{rdelim}{rdelim}
+function clip_core_mods(id)
+{
+    if(document.getElementById("core_span_" + id).style.display == 'none')
+    {
+        document.getElementById("core_span_" + id).style.display = "block";
+    }
+    else
+    {
+        document.getElementById("core_span_" + id).style.display = "none";
+    }
+}
+function clip_edit(edit)
+{
+    if(document.getElementById(edit).style.display == 'none')
+    {
+        document.getElementById(edit).style.display = "block";
+        document.getElementById(edit + "_text").style.display = "none";
+        document.getElementById(edit + "_href").innerHTML = "update";
+    }
+    else
+    {
+        document.getElementById(edit).style.display = "none";
+        document.getElementById(edit + "_text").innerHTML = document.getElementById(edit).value;
+        document.getElementById(edit + "_text").style.display = "block";
+        document.getElementById(edit + "_href").innerHTML = "edit";
+    }
+}
 </script>
+{/literal}
 <span id="core_span_1" style="display: none;">
 <form action="{$www_root}/index.php?mod=admin&sub=modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -166,7 +198,7 @@ function clip_core_mods(id){ldelim}if(document.getElementById("core_span_" + id)
     
     <td id="cell2">
     <table cellpadding="2" cellspacing="2" border="0">
-        <tr><td colspan="2"><font color="red"><b>{translate}This is a core module! Removing, modifying or deleteing it can cause critical system instability!{/translate}</b></font></td></tr>
+        <tr><td colspan="2"><font color="red"><b>{translate}This is a core module! Removing, modifying or deleting it can cause critical system instability!{/translate}</b></font></td></tr>
         <tr><td width="90"><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
         <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
         <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
