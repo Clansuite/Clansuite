@@ -330,12 +330,17 @@ class module_admin_menueditor
                 $values = split( ',', $level );
                 foreach( $values as $key )
                 {
-                    $jscript .= $module.'_dir_'.$key.',';
+                    if ( $key != '' )
+                    {
+                        $jscript .= $module.'_dir_'.$key.',';
+                    }
                 }
+                $jscript = preg_replace("/,$/", '', $jscript);
                 $result .= "<div class=\"folder\">";
                 $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-folder.gif' width='18' height='18' border='0'>";
                 $result .= '<span class="text">'.$entry['name'];
-                $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
+                $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
+                $jscript = '';
             }
                                   
             if ( $entry['type'] == 'item')
@@ -355,11 +360,16 @@ class module_admin_menueditor
                     $values = split( ',', $level );
                     foreach( $values as $key )
                     {
-                        $jscript .= $module.'_dir_'.$key.',';
+                        if ( $key != '' )
+                        {
+                            $jscript .= $module.'_dir_'.$key.',';
+                        }
                     }
+                    $jscript = preg_replace("/,$/", '', $jscript);
 
                     $result .= '<span class="text">'.$entry['name'];
-                    $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
+                    $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
+                    $jscript = '';
                 }
         	}
                                 	
