@@ -44,6 +44,7 @@ class module_admin_modules
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
+    private $used = array();
     
     //----------------------------------------------------------------
     // First function to run - switches between $_REQUEST['action'] Vars to the functions
@@ -302,10 +303,14 @@ class module_admin_modules
     {
         global $functions, $cfg, $db, $tpl;
         
-        $submit = $_POST['submit'];
-        $name   = $_POST['name'];
-
-        $err = array();
+        $submit     = $_POST['submit'];
+        $name       = $_POST['name'];
+        $menu_ids   = $_POST['menu_ids'];
+        
+        $exported_menu  = array();
+        $needed_ids     = array();
+        $err            = array();
+        $tared_files    = array();
         
         if ( !is_writeable( UPLOAD_ROOT ) )
         {
@@ -320,6 +325,23 @@ class module_admin_modules
             
             if ( is_array ( $res ) )
             {
+                foreach ( $menu_ids as $key => $value )
+                {
+                    $needed_ids = split( ',', $value );
+                    
+                    foreach ( $needed_ids as $key => $value )
+                    {
+                        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                        $stmt->execute( array( $value ) );
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if ( !array_key_exists( $value, $exported_menu ) )
+                        {
+                            $exported_menu[$value] = $result;
+                        }
+                    }
+                }
+                $res['admin_menu'] = $exported_menu;
+
                 $info = serialize($res);
                 
                 file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', $info );
@@ -383,7 +405,9 @@ class module_admin_modules
         
         $submit = $_POST['submit'];
         
-        $err = array();
+        $err    = array();
+        $dirs   = array();
+        $used   = array();
         
         if ( !is_writeable( UPLOAD_ROOT ) )
         {
@@ -435,7 +459,7 @@ class module_admin_modules
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
                         $stmt->execute( array ( $info['name'] ) );
                         
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?)' );
                         $stmt->execute( array(  $info['name'],
                                                 $info['title'],
                                                 $info['description'],
@@ -447,6 +471,20 @@ class module_admin_modules
                                                 $info['version'],
                                                 $info['cs_version'],
                                                 $info['core'] ) );
+                                                
+                        $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
+                        
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
+                        foreach( $info['admin_menu'] as $item )
+                        {
+                            $stmt->execute( array ( $item['id'],
+                                                    $item['parent'],
+                                                    $item['type'],
+                                                    $item['text'],
+                                                    $item['href'],
+                                                    $item['title'],
+                                                    $item['target'] ) );
+                        }
                         
                         $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ), 'admin' );
                     }
@@ -466,7 +504,151 @@ class module_admin_modules
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
+    
+    //----------------------------------------------------------------
+    // Build a new folder
+    //---------------------------------------------------------------- 
+    function build_folder( $old_id = 0, $new_id = 0, $parent = 0 )
+    {
+        global $db;
+        
+        $number_in = true;
+        while ( $number_in )
+        {
+            $new_id = rand(10,250);
+            $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+            $stmt->execute( array( $new_id ) );
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ( is_array ( $result ) OR in_array( $new_id, $this->used ) )
+            {
+                $number_in = true;
+            }
+            else
+            {
+                $number_in = false;
+                $this->used[] = $new_id;
+            }
+        }
+        $this->return_array[$new_id] = $this->folder_array[$old_id];
+        $this->return_array[$new_id]['id'] = $new_id;
+        $this->return_array[$new_id]['parent'] = $parent;
 
+        foreach ( $this->folder_array as $key => $value )
+        {            
+            if ( $value['parent'] == $old_id )
+            {
+                if ( $value['type'] == 'folder' )
+                {
+                    $this->build_folder( $key, 0, $new_id );
+                }
+                else
+                {
+                    $new_item_id = $new_id;
+                    $number_in = true;
+                    while ( $number_in )
+                    {
+                        $new_item_id++;
+                        $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                        $stmt->execute( array( $new_item_id ) );
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if ( is_array ( $result ) OR in_array( $new_item_id, $this->used ) )
+                        {
+                            $number_in = true;
+                        }
+                        else
+                        {
+                            $number_in = false;
+                            $this->used[] = $new_item_id;
+                        }
+                    }                                      
+                            
+                    $this->return_array[$new_item_id] = $this->folder_array[$key];
+                    $this->return_array[$new_item_id]['id'] = $new_item_id;
+                    unset ( $this->folder_array[$key] );
+                    $this->return_array[$new_item_id]['parent'] = $new_id;
+                }                                    
+            }
+        }
+        
+        unset( $this->folder_array[$old_id] );
+ 
+        return array_merge( $this->return_array, $this->folder_array);
+    }
+    
+    //----------------------------------------------------------------
+    // Build a menu array (recursively)
+    //----------------------------------------------------------------
+    function build_menu( $menu_array )
+    {
+        global $db;
+        
+        foreach ( $menu_array as $key => $value )
+        {
+            if ( $value['type'] == 'folder' )
+            {
+                $stmt = $db->prepare( 'SELECT id, text, href, title FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                $stmt->execute( array( $key ) );
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ( is_array ( $result ) )
+                {
+                    if ( $result['text'] != $value['text'] OR $result['href'] != $value['href'] OR $result['title'] != $value['title'])
+                    {                        
+                        $this->folder_array = $menu_array;
+                        $menu_array = $this->build_folder( $key, 0, $value['parent'] );
+                    }
+                    else
+                    {
+                        unset( $menu_array[$key] );
+                    }
+                }
+            }
+        }
+        
+        foreach ( $menu_array as $key => $value )
+        {
+            if ( $value['type'] == 'item' )
+            {
+                $stmt = $db->prepare( 'SELECT id, text, href, title FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                $stmt->execute( array( $key ) );
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ( is_array ( $result ) )
+                {
+                    if ( $result['text'] != $value['text'] OR $result['href'] != $value['href'] OR $result['title'] != $value['title'])
+                    {                        
+                        $number_in = true;
+                        while ( $number_in )
+                        {
+                            $new_id = rand(10,250);
+                            $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                            $stmt->execute( array( $new_id ) );
+                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                            if ( is_array ( $result ) OR in_array( $new_id, $this->used ) )
+                            {
+                                $number_in = true;
+                            }
+                            else
+                            {
+                                $number_in = false;
+                                $this->used[] = $new_id;
+                            }
+                        }
+                        $menu_array[$new_id] = $menu_array[$key];
+                        $menu_array[$new_id]['id'] = $new_id;
+                        $menu_array[$new_id]['parent'] = $value['parent'];
+                        unset( $menu_array[$key] );
+                    }
+                    else
+                    {
+                        unset( $menu_array[$key] );
+                    }
+                }
+            }
+        }
+        return $menu_array;
+    }
+    
     //----------------------------------------------------------------
     // Update the module list
     //----------------------------------------------------------------
@@ -575,11 +757,11 @@ class module_admin_modules
             {
                 if ( !$functions->chmod( MOD_ROOT, '755', 1 ) )
                 {
-                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'The permissions could not be set.' ) );
                 }
                 else
                 {
-                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Permissions set to: ' . '755') );
                 }
             }
             
@@ -587,11 +769,11 @@ class module_admin_modules
             {
                 if ( !$functions->chmod( UPLOAD_ROOT, '755', 1 ) )
                 {
-                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'The permissions could not be set.' ) );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'The permissions could not be set.' ) );
                 }
                 else
                 {
-                    $functions->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Permissions set to: ' . '755') );
+                    $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Permissions set to: ' . '755') );
                 }
             }
         }

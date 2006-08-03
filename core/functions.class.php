@@ -309,7 +309,7 @@ class functions
                         {
                             if(!@copy($path, $dest . $file))
                             {
-                                $this->redirect( $redirect_url, 'metatag|newsite', 5, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
+                                $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
                             }
                         }
                         elseif (is_dir($path))
@@ -363,11 +363,11 @@ class functions
     		{
     			if(!rmdir($directory))
     			{
-    				return FALSE;
+    				return false;
     			}
     		}
     	}
-    	return TRUE;
+    	return true;
     }
 }
 ?>
