@@ -18,14 +18,40 @@
         </style>
 
     <script type="text/javascript">
-    function checker(checkboxen, module)
+    function checker(checkboxen, caller)
     {
+        if ( !this.loaded )
+        {
+            this.loaded = new Array;
+        }
+        
         checkbox = checkboxen.split(",");
 
         for( x=0; x<checkbox.length; x++ )
         {
-            document.getElementById(checkbox[x]).checked=1;
+            if( document.getElementById(caller).checked )
+            {
+                document.getElementById(checkbox[x]).checked=1;
+                
+                if ( this.loaded[checkbox[x]] >= 1 )
+                {
+                    this.loaded[checkbox[x]]++;
+                }
+                else
+                {
+                    this.loaded[checkbox[x]] = 1;
+                }
+            }
+            else
+            {
+                //document.write(this.loaded[checkbox[x]]);
+                this.loaded[checkbox[x]]--;
+                if( this.loaded[checkbox[x]] == 0 )
+                    document.getElementById(checkbox[x]).checked=0;
+            }
         }
+        
+        
         
     }
     </script>
