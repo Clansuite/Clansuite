@@ -150,7 +150,7 @@ DEBUG ? $tpl->clear_compiled_tpl() : '';
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
-$db = new db($dsn, $user, $password, array('PDO_ATTR_PERSISTENT' => true));
+$db = new db($dsn, $user, $password, array() );
 
 //----------------------------------------------------------------
 // Assign Paths to Template (tpl)
