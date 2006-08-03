@@ -330,7 +330,7 @@ class module_admin_menueditor
                 $result .= "<div class=\"folder\">";
                 $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-folder.gif' width='18' height='18' border='0'>";
                 $result .= '<span class="text">'.$entry['name'];
-                $result .= '<input type="checkbox" name="id" value="'.$entry['id'].'"></span>';
+                $result .= '<input type="checkbox" name="menu_ids[]" value="'.$entry['id'].'"></span>';
             }
                                   
             if ( $entry['type'] == 'item')
@@ -348,7 +348,7 @@ class module_admin_menueditor
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<span class="text">'.$entry['name'];
-                    $result .= '<input type="checkbox" name="id" value="' . $level . $entry['id'] . '"></span>';
+                    $result .= '<input type="checkbox" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
                 }
         	}
                                 	
