@@ -53,17 +53,17 @@ input,select
 
 .input_text
 {
-    border: thin solid black;
+    border: 1px solid black;
 }
 
 .input_submit
 {
-    border: thin solid black;
+    border: 1px solid black;
 }
 
 .input_checkbox
 {
-    border: thin solid black;
+    border: 1px solid black;
 }
 
 table td

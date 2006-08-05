@@ -52,7 +52,7 @@ if (!defined('IN_CS'))
 // http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
 //
 // Or inside a template:
-// {mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"}
+// {literal}{{/literal}mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"{literal}}{/literal}
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
@@ -75,6 +75,8 @@ $sub_files = array();
 
 $info['author']         = '{$author}';
 $info['homepage']       = '{$homepage}';
+$info['license']        = '{$license}';
+$info['copyright']      = '{$copyright}';
 $info['timestamp']      = {$timestamp};
 $info['name']           = '{$name}';
 $info['title']          = '{$title}';
@@ -86,5 +88,10 @@ $info['image_name']     = '{$image_name}';
 $info['version']        = (float) {$version};
 $info['cs_version']     = (float) {$cs_version};
 $info['core']           = {$core};
+
+//----------------------------------------------------------------
+// Admin Menus
+//---------------------------------------------------------------- 
+$info['admin_menu'] = '';
 
 ?>
