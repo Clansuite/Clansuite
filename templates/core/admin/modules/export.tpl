@@ -50,9 +50,18 @@
                     document.getElementById(checkbox[x]).checked=0;
             }
         }
+    }
         
-        
-        
+    function clip_menu(name)
+    {
+        if(document.getElementById(name).style.display == 'none')
+        {
+            document.getElementById(name).style.display = "block";
+        }
+        else
+        {
+            document.getElementById(name).style.display = "none";
+        }
     }
     </script>
     {/literal}
@@ -116,7 +125,7 @@
             <input class="input_submit" type="submit" value="{translate}Export{/translate}" name="submit">
         </p>
         <p>
-            <a href="javascript:setMenu('menucontainer_{$wert.name}');">{translate}Add menu...{/translate}</a>
+            <a href="javascript:clip_menu('menucontainer_{$wert.name}');">{translate}Add menu...{/translate}</a>
         </p>
         </td>
 
