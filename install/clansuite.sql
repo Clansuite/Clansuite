@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 05. August 2006 um 03:39
+-- Erstellungszeit: 05. August 2006 um 05:54
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -34,7 +34,7 @@ CREATE TABLE `cs_adminmenu` (
 
 INSERT INTO `cs_adminmenu` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self', 0);
 INSERT INTO `cs_adminmenu` VALUES (2, 0, 'folder', 'Modulemanager', '', 'Modulemanager', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'Manage modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Manage modules', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'Show & Edit modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Manage modules', '_self', 0);
 INSERT INTO `cs_adminmenu` VALUES (4, 2, 'item', 'Install modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install modules', '_self', 1);
 INSERT INTO `cs_adminmenu` VALUES (5, 2, 'folder', 'Development', '', 'Development', '_self', 2);
 INSERT INTO `cs_adminmenu` VALUES (6, 5, 'item', 'Create a module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self', 0);
@@ -179,18 +179,17 @@ CREATE TABLE `cs_modules` (
   `core` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=71 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
 -- 
 
-INSERT INTO `cs_modules` VALUES (4, 'captcha', '', '', '', '', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0.1, 1);
-INSERT INTO `cs_modules` VALUES (1, 'index', '', '', '', '', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0.1, 1);
-INSERT INTO `cs_modules` VALUES (2, 'admin', '', '', '', '', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0.1, 1);
-INSERT INTO `cs_modules` VALUES (68, 'account', '', '', '', '', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0.1, 1);
-INSERT INTO `cs_modules` VALUES (11, 'news', '', '', '', '', 'News', 'News module - your description', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0.1, 0);
-INSERT INTO `cs_modules` VALUES (69, 'name', 'author', '', '', '', 'title', 'description', 'module_name', 'name.class.php', 'name', 1, 'module_name.jpg', 0.1, 0.1, 1);
+INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0, 1);
+INSERT INTO `cs_modules` VALUES (1, 'index', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0, 1);
+INSERT INTO `cs_modules` VALUES (2, 'admin', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0, 1);
+INSERT INTO `cs_modules` VALUES (68, 'account', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0, 1);
+INSERT INTO `cs_modules` VALUES (11, 'news', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'News', 'News module', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -285,7 +284,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '8f49b3cb0f89c0b4147cd13a5f32fe9f', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"8f49b3cb0f89c0b4147cd13a5f32fe9f";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154742400, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '3eba41085a3a2bb1c8be9e25655606eb', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"3eba41085a3a2bb1c8be9e25655606eb";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154750628, 1, 'admin');
 
 -- --------------------------------------------------------
 

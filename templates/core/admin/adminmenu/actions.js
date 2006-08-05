@@ -162,10 +162,7 @@ function treeRemove() {
         }
     }
 }
-function setMenu(name)
-{
-    document.getElementById(name).style.display = "block";
-}
+
 
 document.getElementById("tree-moveUp").onclick    = treeMoveUp;
 document.getElementById("tree-moveDown").onclick  = treeMoveDown;
