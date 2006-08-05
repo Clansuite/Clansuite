@@ -295,11 +295,11 @@ class module_admin_modules
                                             $cfg->version,
                                             $core ) );
                                             
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ), 'admin' );
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
                 else
                 {
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=create_new', 'metatag|newsite', 5, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
                 }
             }
         }
