@@ -399,7 +399,6 @@ class module_admin_menueditor
                                   FROM ' . DB_PREFIX .'adminmenu
                                   ORDER BY `order` ASC, parent ASC');
             $stmt->execute();
-
             $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
         }
         $output = array();

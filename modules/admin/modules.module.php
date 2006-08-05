@@ -142,6 +142,9 @@ class module_admin_modules
                         $x++;
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
+                        require_once( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' );
+                        $container['not_in_whitelist'][$x] = array_merge( $container['not_in_whitelist'][$x], $info );
+
                         if ( !file_exists( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
@@ -273,7 +276,7 @@ class module_admin_modules
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
                     $qry .= '(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`)';
-                    $qry .= " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    $qry .= " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     
                     $stmt = $db->prepare( $qry );
                     $stmt->execute( array ( $author,
@@ -470,8 +473,12 @@ class module_admin_modules
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
                         $stmt->execute( array ( $info['name'] ) );
                         
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?)' );
-                        $stmt->execute( array(  $info['name'],
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt->execute( array(  $info['author'],
+                                                $info['homepage'],
+                                                $info['license'],
+                                                $info['copyright'],
+                                                $info['name'],
                                                 $info['title'],
                                                 $info['description'],
                                                 $info['class_name'],
@@ -483,18 +490,22 @@ class module_admin_modules
                                                 $info['cs_version'],
                                                 $info['core'] ) );
                                                 
-                        $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
-                        
-                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
-                        foreach( $info['admin_menu'] as $item )
+                        if ( !empty( $info['admin_menu'] ) )
                         {
-                            $stmt->execute( array ( $item['id'],
-                                                    $item['parent'],
-                                                    $item['type'],
-                                                    $item['text'],
-                                                    $item['href'],
-                                                    $item['title'],
-                                                    $item['target'] ) );
+                            $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
+                            
+                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`) VALUES (?,?,?,?,?,?,?,?)' );
+                            foreach( $info['admin_menu'] as $item )
+                            {
+                                $stmt->execute( array ( $item['id'],
+                                                        $item['parent'],
+                                                        $item['type'],
+                                                        $item['text'],
+                                                        $item['href'],
+                                                        $item['title'],
+                                                        $item['target'],
+                                                        $item['order'] ) );
+                            }
                         }
                         
                         $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ), 'admin' );
@@ -667,30 +678,54 @@ class module_admin_modules
     {
         global $db, $functions, $input, $lang;
         
-        $submit = $_POST['submit'];
-        $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
-        $ids = isset($_POST['confirm']) ? unserialize(urldecode($_GET['ids'])) : $ids;
-        $delete = isset($_POST['delete']) ? $_POST['delete'] : array();
-        $delete = isset($_POST['confirm']) ? unserialize(urldecode($_GET['delete'])) : $delete;
-        $enabled = isset($_POST['enabled']) ? $_POST['enabled'] : array();
-        $enabled = isset($_POST['confirm']) ? unserialize(urldecode($_GET['enabled'])) : $enabled;
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+        $confirm    = $_POST['confirm'];
+        $ids        = isset($_POST['ids']) ? $_POST['ids'] : array();
+        $ids        = isset($_POST['confirm']) ? unserialize(urldecode($_GET['ids'])) : $ids;
+        $delete     = isset($_POST['delete']) ? $_POST['delete'] : array();
+        $delete     = isset($_POST['confirm']) ? unserialize(urldecode($_GET['delete'])) : $delete;
+        $enabled    = isset($_POST['enabled']) ? $_POST['enabled'] : array();
+        $enabled    = isset($_POST['confirm']) ? unserialize(urldecode($_GET['enabled'])) : $enabled;
+        
+        $sets = '';
         
         if ( isset( $_POST['abort'] ) )
         {
             $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all' );
         }
-        
+
         $stmt = $db->prepare( 'SELECT module_id FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
         $all_modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach( $all_modules as $key => $value )
-        {
-            if ( in_array( $value['module_id'], $ids ) )
+        
+        if ( empty($confirm) )
+        {    
+            foreach( $all_modules as $key => $value )
             {
-                $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET enabled = ? WHERE module_id = ?' );
-                $stmt->execute( array($e, $value['module_id']) );
+                if ( in_array( $value['module_id'], $ids ) )
+                {
+                    
+                    $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
+                    $sets = 'author = ?, homepage = ?, license = ?, copyright = ?, folder_name = ?,';
+                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
+                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $sets . ' WHERE module_id = ?' );
+                    $stmt->execute( array(  $info[$value['module_id']]['author'],
+                                            $info[$value['module_id']]['homepage'],
+                                            $info[$value['module_id']]['license'],
+                                            $info[$value['module_id']]['copyright'],
+                                            $info[$value['module_id']]['folder_name'],
+                                            $info[$value['module_id']]['class_name'],
+                                            $info[$value['module_id']]['file_name'],
+                                            $info[$value['module_id']]['description'],
+                                            $info[$value['module_id']]['name'],
+                                            $info[$value['module_id']]['title'],
+                                            $info[$value['module_id']]['image_name'],
+                                            $info[$value['module_id']]['version'],
+                                            $cfg->version,
+                                            $e,
+                                            $value['module_id']) );
+                }
             }
         }
 
@@ -729,13 +764,18 @@ class module_admin_modules
         global $db, $cfg, $functions, $lang;
         
         $info_array = $_POST['info'];
+        $x = 0;
         
         foreach ( $info_array as $info )
         {
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?)' );
-                $stmt->execute( array(  $info['name'],
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                $stmt->execute( array(  $info['author'],
+                                        $info['homepage'],
+                                        $info['license'],
+                                        $info['copyright'],
+                                        $info['name'],
                                         $info['title'],
                                         $info['description'],
                                         $info['class_name'],
@@ -746,10 +786,17 @@ class module_admin_modules
                                         $info['version'],
                                         $cfg->version,
                                         $info['core'] ) );
+                $x++;
             }
         }
-        
-        $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module(s) have been stored into the whitelist.' ), 'admin' );
+        if ( $x > 0 )
+        {
+            $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module(s) have been stored into the whitelist.' ), 'admin' );
+        }
+        else
+        {
+            $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'No module(s) have been stored into the whitelist! Please use the "Add" checkbox...' ), 'admin' );
+        }
     }
     
     //----------------------------------------------------------------
