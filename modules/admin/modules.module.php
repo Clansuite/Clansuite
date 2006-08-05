@@ -198,6 +198,7 @@ class module_admin_modules
         $homepage       = $_POST['homepage'];
         $enabled        = (int) $_POST['enabled'];
         $core           = (int) $_POST['core'];
+        $image_name     = 'module_' . $name . '.jpg';
         
         if ( !is_writeable( MOD_ROOT ) )
         {
@@ -209,8 +210,7 @@ class module_admin_modules
                 empty( $license ) OR
                 empty( $copyright ) OR
                 empty( $title ) OR
-                empty( $author ) OR
-                empty( $homepage ) ) AND !empty ( $submit ) )
+                empty( $author ) OR ) AND !empty ( $submit ) )
         {
             $err['fill_form'] = 1;
         }
@@ -241,6 +241,13 @@ class module_admin_modules
             $tpl->assign( 'author'      , $author );
             $tpl->assign( 'homepage'    , $homepage );
             $tpl->assign( 'class_name'  , 'module_' . $name );
+            $tpl->assign( 'timestamp'   , time() );
+            $tpl->assign( 'file_name'   , $name . '.class.php' );
+            $tpl->assign( 'folder_name' , $name );
+            $tpl->assign( 'image_name'  , $image_name );
+            $tpl->assign( 'version'     , (float) 0.1 );
+            $tpl->assign( 'cs_version'  , $cfg->version );
+            $tpl->assign( 'core'        , $core );
             
             $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
             
@@ -259,24 +266,28 @@ class module_admin_modules
             }
             else
             {
-                if ( mkdir ( MOD_ROOT . '/' . $name, 755 ) )
+                if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
                 {
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.class.php', $mod_class );
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                    $qry .= '(`name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`)';
-                    $qry .= " VALUES (?,?,?,?,?,?,?,?)";
+                    $qry .= '(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`)';
+                    $qry .= " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     
                     $stmt = $db->prepare( $qry );
-                    $stmt->execute( array ( $name,
+                    $stmt->execute( array ( $author,
+                                            $homepage,
+                                            $license,
+                                            $copyright,
+                                            $name,
                                             $title,
                                             $description,
                                             'module_' . $name,
                                             $name . '.class.php',
                                             $name,
                                             $enabled,
-                                            'module_' . $name . '.jpg',
+                                            $image_name,
                                             (float) 0.1,
                                             $cfg->version,
                                             $core ) );

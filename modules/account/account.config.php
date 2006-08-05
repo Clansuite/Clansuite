@@ -42,3 +42,20 @@ if (!defined('IN_CS'))
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
 $sub_files = array();
+
+//----------------------------------------------------------------
+// Infos
+//---------------------------------------------------------------- 
+
+$info['author']         = 'Florian Wolf, Jens-André Koch';
+$info['timestamp']      = 1234567;
+$info['name']           = 'account';
+$info['title']          = 'Account Administration';
+$info['description']    = 'This module handles all necessary account stuff - like login/logout etc.';
+$info['class_name']     = 'module_account';
+$info['file_name']      = 'account';
+$info['folder_name']    = 'account.module.php';
+$info['image_name']     = 'module_account.jpg';
+$info['version']        = (float) 0.1;
+$info['cs_version']     = (float) 0.1;
+$info['core']           = 1;
