@@ -210,7 +210,7 @@ class module_admin_modules
                 empty( $license ) OR
                 empty( $copyright ) OR
                 empty( $title ) OR
-                empty( $author ) OR ) AND !empty ( $submit ) )
+                empty( $author ) ) AND !empty ( $submit ) )
         {
             $err['fill_form'] = 1;
         }
