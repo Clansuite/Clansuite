@@ -215,17 +215,9 @@ function treePluginImportHtmlExecute() {
     var html = document.getElementById("tree-plugin-textarea");
     tree.importFromHtml(html.value);
 }
-function treePluginExportHtml() {
-    var w = window.open("", "exportToHtml", "width=600,height=600,scrollbars=yes,resizable=yes");
-    w.document.write('<html><body><pre>'+tree.exportToHtml().replace(/</g, "&lt;").replace(/>/g, "&gt;")+'</pre></body></html>');
-}
-function treePluginExportPhp() {
-    var w = window.open("", "exportToPhp", "width=600,height=600,scrollbars=yes,resizable=yes");
-    w.document.write('<pre>'+tree.exportToPhp().replace(/</g, "&lt;").replace(/>/g, "&gt;")+'</pre>');
-}
-function treePluginExportSql() {
+function treePluginGenerateMenu() {
     this.blur();
-    var content = tree.exportToSql();
+    var content = tree.generateMenu();
     document.getElementById("tree-plugin-content").innerHTML = content;
     document.getElementById("tree-plugin").style.display = "block";
 }
@@ -238,6 +230,4 @@ function treePluginHide() {
 
 document.getElementById("tree-plugin-import-html").onclick = function() { this.blur(); treePluginHide(); treePluginImportHtml(); };
 document.getElementById("tree-plugin-button-import-html").onclick = treePluginImportHtmlExecute;
-document.getElementById("tree-plugin-export-html").onclick = function() { this.blur(); treePluginHide(); treePluginExportHtml(); };
-document.getElementById("tree-plugin-export-php").onclick = function() { this.blur(); treePluginHide(); treePluginExportPhp(); };
-document.getElementById("tree-plugin-export-sql").onclick = function() { this.blur(); treePluginHide(); treePluginExportSql(); }
+document.getElementById("tree-plugin-export-sql").onclick = function() { this.blur(); treePluginHide(); treePluginGenerateMenu(); }

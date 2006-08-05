@@ -42,6 +42,49 @@ if (!defined('IN_CS'))
 
 //----------------------------------------------------------------
 // Subfiles of the module
+// -----------------------
+// Subfiles of the module are used to extend the modules use.
+// For example:
+// You have a module, that becomes beyond 5000 lines and you want
+// to split that. Then you create a sub-module, that can be called
+// by the following type of URL:
+//
+// http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
+//
+// Or inside a template:
+// {mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"}
+// 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
 $sub_files = array();
+
+
+
+
+
+//----------------------------------------------------------------
+// Infos
+// -----
+// These infos are BACKUP Infos! They do not alter the shown
+// infos in any way. Just in case somebody installed a module by
+// copy and paste into the module folder, they are used as a
+// reference.
+// If you want to change the real values, so lookup the
+// "Manage modules" Section in the Admininterfaces Modulemanager
+//---------------------------------------------------------------- 
+
+$info['author']         = '{$author}';
+$info['homepage']       = '{$homepage}';
+$info['timestamp']      = {$timestamp};
+$info['name']           = '{$name}';
+$info['title']          = '{$title}';
+$info['description']    = '{$description}';
+$info['class_name']     = '{$class_name}';
+$info['file_name']      = '{$file_name}';
+$info['folder_name']    = '{$folder_name}';
+$info['image_name']     = '{$image_name}';
+$info['version']        = (float) {$version};
+$info['cs_version']     = (float) {$cs_version};
+$info['core']           = {$core};
+
+?>

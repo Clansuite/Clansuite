@@ -115,7 +115,7 @@
                 <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a>
             </p>
             <p>
-                <a href="javascript:treePluginExportSql();">{translate}Generate Menu{/translate}</a>
+                <a href="javascript:treePluginGenerateMenu();">{translate}Generate Menu{/translate}</a>
             </p>
             <p>
                 <a href="{$www_root}/index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>

@@ -99,11 +99,10 @@ class module_admin_menueditor
         
         $menu = $_POST['container'];
         
-        
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
         $stmt->execute();
         
-        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target, `order` FROM '. DB_PREFIX . 'adminmenu' );
         $stmt->execute();
         
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
@@ -116,8 +115,8 @@ class module_admin_menueditor
             $parent = str_replace( 'tree-', '', $value['parent'] );
             $parent = (int) $parent;
 
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
-            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'] ) );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'] ) );
         }
         $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
@@ -152,7 +151,7 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target FROM '. DB_PREFIX . 'adminmenu_old' );
+            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order` FROM '. DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
 
             //----------------------------------------------------------------
@@ -161,7 +160,7 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_old (id, parent, type, text, href, title, target) VALUES (?, ?, ?, ?, ?, ?, ?)' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_old (id, parent, type, text, href, title, target, `order`) VALUES (?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt->execute( $data );
@@ -398,7 +397,7 @@ class module_admin_menueditor
         {        
             $stmt = $db->prepare('SELECT *
                                   FROM ' . DB_PREFIX .'adminmenu
-                                  ORDER BY id ASC, parent ASC');
+                                  ORDER BY `order` ASC, parent ASC');
             $stmt->execute();
 
             $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -418,7 +417,8 @@ class module_admin_menueditor
                                                     'id'     => $result[$i]['id'],
                                                     'href'   => $result[$i]['href'],
                                                     'title'  => $result[$i]['title'],
-                                                    'target' => $result[$i]['target']
+                                                    'target' => $result[$i]['target'],
+                                                    'order'  => $result[$i]['order'],
                                                     );
                 $output[$result[$i]['id']]['content'] = $this->build_editormenu($result, $result[$i]['id'], $level + 1);
                 
