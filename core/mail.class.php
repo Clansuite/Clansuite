@@ -29,9 +29,9 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
@@ -43,14 +43,16 @@ class mailer
     {
         global $cfg;
         
-        //----------------------------------------------------------------
-        // Get swift mailer class
-        //----------------------------------------------------------------
+        /**
+        * @desc Get swift mailer class
+        */
+
         require( CORE_ROOT . '/swiftmailer/swift.php');
                 
-        //----------------------------------------------------------------
-        // Include Connection Class & Set $connection
-        //----------------------------------------------------------------
+        /**
+        * @desc Include Connection Class & Set $connection
+        */
+
         if ($cfg->mailmethod != 'smtp')
         {
             require( CORE_ROOT . '/swiftmailer/Swift/Swift_Sendmail_Connection.php'); 
@@ -84,9 +86,10 @@ class mailer
                 $connection = new Swift_Sendmail_Connection;
         }
             
-        //----------------------------------------------------------------
-        // $mailer init
-        //----------------------------------------------------------------
+        /**
+        * @desc $mailer init
+        */
+
         global $swiftmailer;
         
         $swiftmailer = new Swift($connection, $cfg->mailerhost);

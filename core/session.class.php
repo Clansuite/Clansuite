@@ -29,11 +29,11 @@
 */
 
 
-/*
-//----------------------------------------------------------------
-// Table structure for cs_session
-//----------------------------------------------------------------
 
+/**
+* @desc Table structure for cs_session
+*/
+/*
 CREATE TABLE `cs_session` (
 `user_id` int(11) NOT NULL default '0',
 `session_id` varchar(255) NOT NULL default '',
@@ -50,22 +50,23 @@ KEY `user_id` (`user_id`)
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Class session start
-//----------------------------------------------------------------
+/**
+* @desc Class session start
+*/
 class session
 {
-    //----------------------------------------------------------------
-    // Init class session | set common session vars
-    //----------------------------------------------------------------
+    /**
+    * @desc Init class session | set common session vars
+    */
+
     public $session_name            = 'suiteSID';
     public $session_expire_time     = 10; // minutes
     public $session_probability     = 30; // precenatge
@@ -74,22 +75,25 @@ class session
     public $session_security        = array('check_ip', 'check_browser', 'check_host');
     public $db;
     
-    //----------------------------------------------------------------
-    // Overwrite php.ini settings
-    // Start the session
-    //----------------------------------------------------------------
+    /**
+    * @desc Overwrite php.ini settings
+    * @desc Start the session
+    */
+
     function create_session($db)
     {
         global $cfg, $lang, $error, $functions, $input;
         
-        //----------------------------------------------------------------
-        // Reference PDO
-        //----------------------------------------------------------------
+        /**
+        * @desc Reference PDO
+        */
+
         $this->db = $db;
         
-        //----------------------------------------------------------------
-        // Set the ini Vars and look for configs
-        //----------------------------------------------------------------
+        /**
+        * @desc Set the ini Vars and look for configs
+        */
+
         $this->session_name                 = $cfg->session_name;
         $this->session_cookies              = $cfg->use_cookies;
         $this->session_cookies_only         = $cfg->use_cookies_only;
@@ -102,9 +106,10 @@ class session
         ini_set('session.use_cookies'       , $cfg->use_cookies );
         ini_set('session.use_only_cookies'  , $cfg->use_cookies_only );
         
-        //----------------------------------------------------------------
-        // Set the handlers
-        //----------------------------------------------------------------
+        /**
+        * @desc Set the handlers
+        */
+
         session_set_save_handler(   array($this, "_session_open"   ),
                                     array($this, "_session_close"  ),
                                     array($this, "_session_read"   ),
@@ -113,61 +118,69 @@ class session
                                     array($this, "_session_gc"     ));
         
         
-        //----------------------------------------------------------------
-        // Start Session with Error on failure
-        //----------------------------------------------------------------
+        /**
+        * @desc Start Session with Error on failure
+        */
+
         if (!session_start())
         {
             $error->show($lang->t('Session Error' ), $lang->t('The session start failed!' ), 3 );
         }
         
-        //----------------------------------------------------------------
-        // Create new ID if session is not in DB or corrupted
-        //----------------------------------------------------------------
+        /**
+        * @desc Create new ID if session is not in DB or corrupted
+        */
+
         if ($this->_session_read(session_id() ) === false OR strlen(session_id() ) != 32)
         {
             session_regenerate_id();
         }
         
-        //----------------------------------------------------------------
-        // Security Check
-        //----------------------------------------------------------------
+        /**
+        * @desc Security Check
+        */
+
         if (!$this->_session_check_security() )
         {
             die($functions->redirect('index.php?mod=login') );
         }
         
-        //----------------------------------------------------------------
-        // Control the session
-        //----------------------------------------------------------------
+        /**
+        * @desc Control the session
+        */
+
         $this->session_control();
 
-        //----------------------------------------------------------------
-        // Rergister shutdown
-        //----------------------------------------------------------------
+        /**
+        * @desc Rergister shutdown
+        */
+
         register_shutdown_function('session_write_close');
     }
     
-    //----------------------------------------------------------------
-    // Open a session
-    //----------------------------------------------------------------
+    /**
+    * @desc Open a session
+    */
+
     function _session_open()
     {
         return true;
     }
     
-    //----------------------------------------------------------------
-    // Close a session
-    //----------------------------------------------------------------
+    /**
+    * @desc Close a session
+    */
+
     function _session_close()
     {
         session::_session_gc(0);
         return true;
     }
     
-    //----------------------------------------------------------------
-    // Read a session
-    //----------------------------------------------------------------
+    /**
+    * @desc Read a session
+    */
+
     function _session_read( $id )
     {      
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
@@ -184,20 +197,23 @@ class session
         }
     }
     
-    //----------------------------------------------------------------
-    // Write a session
-    //----------------------------------------------------------------
+    /**
+    * @desc Write a session
+    */
+
     function _session_write( $id, $data )
     {       
-        //----------------------------------------------------------------
-        // Time Settings
-        //----------------------------------------------------------------
+        /**
+        * @desc Time Settings
+        */
+
         $seconds = $this->session_expire_time * 60;
         $expires = time() + $seconds;
         
-        //----------------------------------------------------------------
-        // Check if session is in DB
-        //----------------------------------------------------------------
+        /**
+        * @desc Check if session is in DB
+        */
+
         $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute( array( $id ) );
         $res = $stmt->fetch();
@@ -205,18 +221,20 @@ class session
         $stmt = NULL;
         if ( is_array($res) )
         {
-            //----------------------------------------------------------------
-            // Update Session in DB
-            //----------------------------------------------------------------
+            /**
+            * @desc Update Session in DB
+            */
+
             $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
             $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
             $stmt->closeCursor();
         }
         else
         {
-            //----------------------------------------------------------------
-            // Create Session @ DB & Cookies OR $_GET
-            //----------------------------------------------------------------
+            /**
+            * @desc Create Session @ DB & Cookies OR $_GET
+            */
+
             $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
             $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
             $stmt->closeCursor();
@@ -224,33 +242,38 @@ class session
         return true;
     }
     
-    //----------------------------------------------------------------
-    // Destroy a session
-    //----------------------------------------------------------------
+    /**
+    * @desc Destroy a session
+    */
+
     function _session_destroy( $id )
     {
-        //----------------------------------------------------------------
-        // Unset Session
-        //----------------------------------------------------------------
+        /**
+        * @desc Unset Session
+        */
+
         unset($_SESSION);
                 
-        //----------------------------------------------------------------
-        // Unset Cookie Vars
-        //----------------------------------------------------------------
+        /**
+        * @desc Unset Cookie Vars
+        */
+
         if (isset($_COOKIE[$this->session_name]))
         {
             setcookie($this->session_name, false );
         }
 
-        //----------------------------------------------------------------
-        // Delete session from DB
-        //----------------------------------------------------------------
+        /**
+        * @desc Delete session from DB
+        */
+
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
 
-        //----------------------------------------------------------------
-        // Optimize DB
-        //----------------------------------------------------------------
+        /**
+        * @desc Optimize DB
+        */
+
         if ($stmt->rowCount() > 0)
         {
             $this->_session_optimize();
@@ -258,14 +281,16 @@ class session
         
     }
 
-    //----------------------------------------------------------------
-    // Session garbage collector
-    //----------------------------------------------------------------
+    /**
+    * @desc Session garbage collector
+    */
+
     function _session_gc($max_lifetime )
     {
-        //----------------------------------------------------------------
-        // Prune
-        //----------------------------------------------------------------
+        /**
+        * @desc Prune
+        */
+
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array($this->session_name, time() ) );
         
@@ -275,22 +300,25 @@ class session
         }
     }
     
-    //----------------------------------------------------------------
-    // Optimize the session table
-    //----------------------------------------------------------------
+    /**
+    * @desc Optimize the session table
+    */
+
     function _session_optimize()
     {
         $this->db->exec('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
     }
     
-    //----------------------------------------------------------------
-    // Check for a secure session
-    //----------------------------------------------------------------
+    /**
+    * @desc Check for a secure session
+    */
+
     function _session_check_security()
     {
-        //----------------------------------------------------------------
-        // Check for IP
-        //----------------------------------------------------------------
+        /**
+        * @desc Check for IP
+        */
+
         if (in_array("check_ip", $this->session_security))
         {
             if ( !isset($_SESSION['client_ip']) )
@@ -305,9 +333,10 @@ class session
             }
         }
         
-        //----------------------------------------------------------------
-        // Check for Browser
-        //----------------------------------------------------------------
+        /**
+        * @desc Check for Browser
+        */
+
         if ( in_array("check_browser", $this->session_security) )
         {
             if ( !isset($_SESSION['client_browser']) )
@@ -321,9 +350,10 @@ class session
             }
         }
         
-        //----------------------------------------------------------------
-        // Check for Host Address
-        //----------------------------------------------------------------
+        /**
+        * @desc Check for Host Address
+        */
+
         if(in_array("check_host", $this->session_security))
         {
             if( !isset( $_SESSION['client_host'] ) )
@@ -337,35 +367,40 @@ class session
             }
         }
 
-        //----------------------------------------------------------------
-        // Return true if everything is ok
-        //----------------------------------------------------------------
+        /**
+        * @desc Return true if everything is ok
+        */
+
         return true;
     }
 
-    //----------------------------------------------------------------
-    // Session control
-    // - prune timeouts 
-    //----------------------------------------------------------------
+    /**
+    * @desc Session control
+    * @desc - prune timeouts 
+    */
+
     function session_control()
     {
         global $functions, $lang;
 
-        //----------------------------------------------------------------
-        // Prune not activated users
-        //----------------------------------------------------------------
+        /**
+        * @desc Prune not activated users
+        */
+
         $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
         $stmt->execute();
         
-        //----------------------------------------------------------------
-        // Prune Sessions
-        //----------------------------------------------------------------
+        /**
+        * @desc Prune Sessions
+        */
+
         $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
         $stmt->execute();
         
-        //----------------------------------------------------------------
-        // Check if session expired
-        //----------------------------------------------------------------
+        /**
+        * @desc Check if session expired
+        */
+
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) AND $_SESSION['user']['user_id'] != 0 )
         {
             $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );

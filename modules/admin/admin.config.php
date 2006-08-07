@@ -28,19 +28,20 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
 
-//----------------------------------------------------------------
-// Subfiles of the module
-// $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
-//----------------------------------------------------------------
+/**
+* @desc Subfiles of the module
+* @desc $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
+*/
+
 $sub_files = array( 'configs'    => array('configs.module.php'    , 'module_admin_configs' ),
                     'modules'    => array('modules.module.php'    , 'module_admin_modules' ),
                     'users'      => array('users.module.php'      , 'module_admin_users'   ),

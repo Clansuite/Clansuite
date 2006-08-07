@@ -29,22 +29,23 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start stats class
-//----------------------------------------------------------------
+/**
+* @desc Start stats class
+*/
 class statistics
 {
-    //----------------------------------------------------------------
-    // Create the needed variables and assign them to the tpl
-    //----------------------------------------------------------------
+    /**
+    * @desc Create the needed variables and assign them to the tpl
+    */
+
     function create_stats_vars()
     {
         global $tpl, $db;
@@ -53,17 +54,19 @@ class statistics
         
         $stats['page_impressions'] = 0;
         
-        //----------------------------------------------------------------
-        // Online users
-        //----------------------------------------------------------------        
+        /**
+        * @desc Online users
+        */
+        
         $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX .'session' );
         $stmt->execute();
         $all_on = $stmt->fetchAll();
         $stats['online'] = count($all_on);
         
-        //----------------------------------------------------------------
-        // Assign
-        //----------------------------------------------------------------        
+        /**
+        * @desc Assign
+        */
+        
         $tpl->assign('stats'             , $stats );
     }
 }

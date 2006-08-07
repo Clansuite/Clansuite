@@ -28,11 +28,11 @@
 * @since      File available since Release 0.1
 */
 
-/*
-//----------------------------------------------------------------
-// Table structure for `cs_users`
-//----------------------------------------------------------------
 
+/**
+* @desc Table structure for `cs_users`
+*/
+/*
 DROP TABLE IF EXISTS `cs_users`;
 CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
@@ -55,23 +55,24 @@ CREATE TABLE `cs_users` (
 
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
 
-//----------------------------------------------------------------
-// Start of users class
-//----------------------------------------------------------------
+/**
+* @desc Start of users class
+*/
 class users
 {
-    //----------------------------------------------------------------
-    // Get a user from any kind of given type
-    //----------------------------------------------------------------
+    /**
+    * @desc Get a user from any kind of given type
+    */
+
     function get($value='', $type='' )
     {
         switch ($type )
@@ -106,18 +107,20 @@ class users
         }
     }
     
-    //----------------------------------------------------------------
-    // Create user-object and $_SESSION data
-    //----------------------------------------------------------------
+    /**
+    * @desc Create user-object and $_SESSION data
+    */
+
     function create_user($user_id = '', $email = '', $nick = '')
     {
         global $db, $session, $lang, $functions;
              
         $user = '';
         
-        //----------------------------------------------------------------
-        // DB User Queries
-        //----------------------------------------------------------------
+        /**
+        * @desc DB User Queries
+        */
+
         if ( !empty($user_id) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
@@ -147,9 +150,10 @@ class users
         
         $_SESSION[$session->session_name] = session_id();
         
-        //----------------------------------------------------------------
-        // If session does mismatch to DB
-        //----------------------------------------------------------------
+        /**
+        * @desc If session does mismatch to DB
+        */
+
         if ( $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
@@ -164,9 +168,10 @@ class users
             $session->_session_destroy(session_id());
             $functions->redirect( WWW_ROOT . '/index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
-        //----------------------------------------------------------------
-        // Create $_SESSION user
-        //----------------------------------------------------------------
+        /**
+        * @desc Create $_SESSION user
+        */
+
         if ( is_array($user) )
         {
             
@@ -212,10 +217,11 @@ class users
         }
     }
     
-    //----------------------------------------------------------------
-    // Check the user
-    // output return $user_id
-    //----------------------------------------------------------------
+    /**
+    * @desc Check the user
+    * @desc output return $user_id
+    */
+
     function check_user($login_method = 'nick', $value, $password)
     {
         global $db, $security;
@@ -250,10 +256,11 @@ class users
         }
     }
     
-    //----------------------------------------------------------------
-    // Login the user
-    // input $user_id, $rememberme
-    //----------------------------------------------------------------
+    /**
+    * @desc Login the user
+    * @desc input $user_id, $rememberme
+    */
+
     function login($user_id, $remember_me, $password)
     {
         global $db, $security, $cfg;
@@ -282,52 +289,59 @@ class users
         //
     }
     
-    //----------------------------------------------------------------
-    // Es wird überprüft, ob ein Login Cookie gesetzt ist. 
-    //----------------------------------------------------------------
+    /**
+    * @desc Es wird überprüft, ob ein Login Cookie gesetzt ist. 
+    */
+
     function check_login_cookie() 
     { 
         global $db, $security, $cfg;
 
-        //----------------------------------------------------------------
-        // Check for login cookie
-        //----------------------------------------------------------------
+        /**
+        * @desc Check for login cookie
+        */
+
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
             $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE user_id = ? LIMIT 1' );
             $stmt->execute( array( (int) $_COOKIE['user_id'] ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            //----------------------------------------------------------------
-            // Proceed if match
-            //----------------------------------------------------------------
+            /**
+            * @desc Proceed if match
+            */
+
 	        if (    is_array($user) && 
                     $security->build_salted_hash( $_COOKIE['password'] ) == $user['password'] &&
                     $_COOKIE['user_id'] == $user['user_id'] ) 
 		    
 		    {
-                //----------------------------------------------------------------
-                // Update the cookie
-                //----------------------------------------------------------------
+                /**
+                * @desc Update the cookie
+                */
+
                 setcookie('user_id', $_COOKIE['user_id'], time() + $cfg->remember_me_time);
                 setcookie('password',$_COOKIE['password'], time() + $cfg->remember_me_time);
                 
-                //----------------------------------------------------------------
-                // Create $_SESSION['user']
-                //----------------------------------------------------------------
+                /**
+                * @desc Create $_SESSION['user']
+                */
+
                 $this->create_user($user['user_id']);
 	            
-	       	    //----------------------------------------------------------------
-                // Update Session in DB
-                //----------------------------------------------------------------
+	       	    /**
+                * @desc Update Session in DB
+                */
+
 			    $this->session_set_user_id();
 	        
 	        }
             else
             {
-                //----------------------------------------------------------------
-                // Delete cookies, if no match
-                //----------------------------------------------------------------
+                /**
+                * @desc Delete cookies, if no match
+                */
+
         	    setcookie('user_id', false );
         		setcookie('password', false );    
 	        }
@@ -335,9 +349,10 @@ class users
     }
 
 
-    //----------------------------------------------------------------
-    // Bind user_id to session
-    //----------------------------------------------------------------
+    /**
+    * @desc Bind user_id to session
+    */
+
     function session_set_user_id() 
     {
 	    global $db, $session;

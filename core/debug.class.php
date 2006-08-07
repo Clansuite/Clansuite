@@ -29,17 +29,17 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start debug class
-//----------------------------------------------------------------
+/**
+* @desc Start debug class
+*/
 class debug
 {
     /**
@@ -83,9 +83,10 @@ class debug
         return $attributes;
     }
     
-    //----------------------------------------------------------------
-    // Print debug console
-    //----------------------------------------------------------------
+    /**
+    * @desc Print debug console
+    */
+
     function show_console()
     {
         global $db, $tpl, $cfg, $error, $lang, $modules;

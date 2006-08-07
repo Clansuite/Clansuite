@@ -48,17 +48,19 @@ class captcha
     // font settings
     public  $font = '/fonts/Vera.ttf';
     
-    //----------------------------------------------------------------
-    // Contructor
-    //----------------------------------------------------------------
+    /**
+    * @desc Contructor
+    */
+
     function __construct()
     {
         $this->generate_Image();
     }
     
-    //----------------------------------------------------------------
-    // Get GD Version
-    //----------------------------------------------------------------
+    /**
+    * @desc Get GD Version
+    */
+
     function gd_version()
     {
         static $gd_version_number = null;
@@ -82,15 +84,17 @@ class captcha
         return $gd_version_number;
     }
     
-    //----------------------------------------------------------------
-    // Get a random captcha string by size (@link $strlength)
-    //----------------------------------------------------------------
+    /**
+    * @desc Get a random captcha string by size (@link $strlength)
+    */
+
     function randomString($str_length)
     {
-        //----------------------------------------------------------------
-        // Exclusion of characters
-        // Excluded-Chars: 0, 1, 7, I, O
-        //----------------------------------------------------------------
+        /**
+        * @desc Exclusion of characters
+        * @desc Excluded-Chars: 0, 1, 7, I, O
+        */
+
         $excludeChars = array(48, 49, 55, 73, 79);
         
         $captcha_str = '';
@@ -110,9 +114,10 @@ class captcha
     }
     
     
-    //----------------------------------------------------------------
-    // Generate the image
-    //----------------------------------------------------------------
+    /**
+    * @desc Generate the image
+    */
+
     function generate_image()
     {
         // random captcha string
@@ -232,16 +237,18 @@ class captcha
             break;
         }
 
-        //----------------------------------------------------------------
-        // Final: Render Image! & Free Memory.
-        //----------------------------------------------------------------
+        /**
+        * @desc Final: Render Image! & Free Memory.
+        */
+
         ImagePNG($captcha);
         imageDestroy($captcha);
     }
 
-    //----------------------------------------------------------------
-    // Interlaces a Image ( every 2th line is blacked )
-    //----------------------------------------------------------------
+    /**
+    * @desc Interlaces a Image ( every 2th line is blacked )
+    */
+
     function interlace(&$image)
     {
         $imagex = imagesx($image);

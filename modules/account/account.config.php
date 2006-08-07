@@ -28,24 +28,26 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
 
-//----------------------------------------------------------------
-// Subfiles of the module
-// $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
-//----------------------------------------------------------------
+/**
+* @desc Subfiles of the module
+* @desc $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
+*/
+
 $sub_files = array();
 
-//----------------------------------------------------------------
-// Infos
-//---------------------------------------------------------------- 
+/**
+* @desc Infos
+*/
+ 
 
 $info['author']         = 'Florian Wolf, Jens-André Koch';
 $info['timestamp']      = 1234567;

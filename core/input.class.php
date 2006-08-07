@@ -29,23 +29,24 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start input class
-//----------------------------------------------------------------
+/**
+* @desc Start input class
+*/
 class input
 {
-    //----------------------------------------------------------------
-    // Essential clean-up of $_REQUEST
-    // Handle intruders/hackers
-    //----------------------------------------------------------------
+    /**
+    * @desc Essential clean-up of $_REQUEST
+    * @desc Handle intruders/hackers
+    */
+
     function essential_cleanup()
     {
         global $cfg, $security;
@@ -89,9 +90,10 @@ class input
         }
     }
     
-    //----------------------------------------------------------------
-    // Modify a given String
-    //----------------------------------------------------------------
+    /**
+    * @desc Modify a given String
+    */
+
     function modify($string='', $modificators='' )
     {
         $mods = array();
@@ -139,9 +141,10 @@ class input
         return $string;
     }
     
-    //----------------------------------------------------------------
-    // Check a string
-    //----------------------------------------------------------------
+    /**
+    * @desc Check a string
+    */
+
     //
     // -----------------------------------------------------------------------------
     // | Possible single checks:

@@ -49,52 +49,59 @@
 *
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// PDO Wrapper Class
-//----------------------------------------------------------------
+/**
+* @desc PDO Wrapper Class
+*/
 class db
 {
-    //----------------------------------------------------------------
-    // DB Object
-    //----------------------------------------------------------------
+    /**
+    * @desc DB Object
+    */
+
     protected $db;
     
-    //----------------------------------------------------------------
-    // Number of performed statements
-    //----------------------------------------------------------------
+    /**
+    * @desc Number of performed statements
+    */
+
     public $query_counter = 0;
     
-    //----------------------------------------------------------------
-    // Queries Array
-    //----------------------------------------------------------------
+    /**
+    * @desc Queries Array
+    */
+
     public $queries = array();
     
-    //----------------------------------------------------------------
-    // Exec's Array
-    //----------------------------------------------------------------
+    /**
+    * @desc Exec's Array
+    */
+
     public $execs = array();
     
-    //----------------------------------------------------------------
-    // Prepare Statements Array
-    //----------------------------------------------------------------
+    /**
+    * @desc Prepare Statements Array
+    */
+
     public $prepares = array();
     
-    //----------------------------------------------------------------
-    // Active Queries to prevent buffering failures
-    //----------------------------------------------------------------
+    /**
+    * @desc Active Queries to prevent buffering failures
+    */
+
     public $query_active = 0;
     
-    //----------------------------------------------------------------
-    // The active PDOStatement as reference
-    //----------------------------------------------------------------
+    /**
+    * @desc The active PDOStatement as reference
+    */
+
     public $query_active_reference;
     
     //----------------------------------------------------------------
@@ -115,9 +122,10 @@ class db
             // Table-names in lower-case
             $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
             // Fetch Mode
-            //----------------------------------------------------------------
-            // UNQUOTE ON PHP 5.2 !!!
-            //----------------------------------------------------------------
+            /**
+            * @desc UNQUOTE ON PHP 5.2 !!!
+            */
+
             //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
             if ( $cfg->db_type == 'mysql' )
             {
@@ -135,17 +143,19 @@ class db
         }
     }
  
-    //----------------------------------------------------------------
-    // Call forward to DB
-    //----------------------------------------------------------------
+    /**
+    * @desc Call forward to DB
+    */
+
     public function __call( $func, $args )
     {
         return call_user_func_array(array($this->db, $func), $args);
     }
     
-    //----------------------------------------------------------------
-    // Prepare a statement
-    //----------------------------------------------------------------
+    /**
+    * @desc Prepare a statement
+    */
+
     public function prepare( $sql='' )
     {
 		global $error, $lang;
@@ -172,9 +182,10 @@ class db
         
     }
     
-    //----------------------------------------------------------------
-    // Simple Query with closeCursor() !
-    //----------------------------------------------------------------
+    /**
+    * @desc Simple Query with closeCursor() !
+    */
+
     public function simple_query($sql='', $args = array() )
     {
         
@@ -186,10 +197,11 @@ class db
         return $res;
     }
     
-    //----------------------------------------------------------------
-    // Deliver query to DB
-    // Increase counter
-    //----------------------------------------------------------------
+    /**
+    * @desc Deliver query to DB
+    * @desc Increase counter
+    */
+
     public function query( $sql='' )
     {
         
@@ -200,10 +212,11 @@ class db
         return $res;
     }
     
-    //----------------------------------------------------------------
-    // Exec
-    // Increase counter
-    //----------------------------------------------------------------
+    /**
+    * @desc Exec
+    * @desc Increase counter
+    */
+
     public function exec($sql='' )
     {
         
@@ -217,32 +230,35 @@ class db
     
 }
 
-//----------------------------------------------------------------
-// Db Statements Wrapper
-//----------------------------------------------------------------
+/**
+* @desc Db Statements Wrapper
+*/
 class db_statements
 {
     public $db_statement;
     
-    //----------------------------------------------------------------
-    // Constructor
-    //----------------------------------------------------------------
+    /**
+    * @desc Constructor
+    */
+
     function __construct($db_pre_s)
     {
         $this->db_statement = $db_pre_s; 
     }
     
-    //----------------------------------------------------------------
-    // Non-existing methods
-    //----------------------------------------------------------------
+    /**
+    * @desc Non-existing methods
+    */
+
     function __call($func, $args)
     {
         return call_user_func_array(array($this->db_statement, $func), $args);        
     }
     
-    //----------------------------------------------------------------
-    // $stmt->execute
-    //----------------------------------------------------------------
+    /**
+    * @desc $stmt->execute
+    */
+
     function execute( $args = array() )
     {
         global $db;

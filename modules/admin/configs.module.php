@@ -28,27 +28,28 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Admin Module - Config Class
-//----------------------------------------------------------------
+/**
+* @desc Admin Module - Config Class
+*/
 class module_admin_configs
 {
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
     
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loading necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loading necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -71,9 +72,10 @@ class module_admin_configs
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
     
-    //----------------------------------------------------------------
-    // Show the entrance to this section
-    //----------------------------------------------------------------
+    /**
+    * @desc Show the entrance to this section
+    */
+
     function show()
     {
         global $cfg, $tpl, $error, $lang;
