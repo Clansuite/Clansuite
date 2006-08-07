@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 07. August 2006 um 07:03
+-- Erstellungszeit: 07. August 2006 um 07:41
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -23,7 +23,7 @@ CREATE TABLE `cs_admin_shortcuts` (
   `file_name` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL default '30',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 -- 
 -- Daten für Tabelle `cs_admin_shortcuts`
@@ -47,6 +47,8 @@ INSERT INTO `cs_admin_shortcuts` VALUES (15, 'Settings', '/index.php?mod=admin&s
 INSERT INTO `cs_admin_shortcuts` VALUES (16, 'Users', '/index.php?mod=admin&sub=users', 'users.png', 1);
 INSERT INTO `cs_admin_shortcuts` VALUES (17, 'Backup', '/index.php?mod=admin&sub=backup', 'backup.png', 44);
 INSERT INTO `cs_admin_shortcuts` VALUES (18, 'Templates', '/index.php?mod=admin&sub=templates', 'templates.png', 4);
+INSERT INTO `cs_admin_shortcuts` VALUES (19, 'Groups', '/index.php?mod=admin&sub=groups', 'groups.png', 2);
+INSERT INTO `cs_admin_shortcuts` VALUES (20, 'Search', '/index.php?mod=admin&sub=search', 'search.png', 30);
 
 -- --------------------------------------------------------
 
@@ -329,7 +331,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'ba9d3bbea82db23691b63f83d3a6cb4a', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"ba9d3bbea82db23691b63f83d3a6cb4a";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154927467, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, 'ba9d3bbea82db23691b63f83d3a6cb4a', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"ba9d3bbea82db23691b63f83d3a6cb4a";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154929814, 1, 'admin');
 
 -- --------------------------------------------------------
 
