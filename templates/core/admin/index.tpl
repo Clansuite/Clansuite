@@ -30,11 +30,7 @@
 	
 	<!-- end: Logo - Kopfzeile //-->
 	
-    {include file="admin/adminmenu/adminmenu_php.tpl"}
-    
-    {* abgeschaltet
-    {include file="admin/adminmenu/navi.tpl"}
-    *}
+    {include file="admin/adminmenu/adminmenu.tpl"}
 
     <br />
     <br />

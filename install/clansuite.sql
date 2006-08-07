@@ -3,12 +3,50 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 05. August 2006 um 05:54
+-- Erstellungszeit: 07. August 2006 um 07:03
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
 -- Datenbank: `clansuite`
 -- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `cs_admin_shortcuts`
+-- 
+
+CREATE TABLE `cs_admin_shortcuts` (
+  `id` tinyint(4) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `href` varchar(255) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `order` tinyint(4) NOT NULL default '30',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+-- 
+-- Daten für Tabelle `cs_admin_shortcuts`
+-- 
+
+INSERT INTO `cs_admin_shortcuts` VALUES (1, 'Console', '/index.php?mod=admin&sub=console', 'console.png', 45);
+INSERT INTO `cs_admin_shortcuts` VALUES (2, 'Downloads', '/index.php?mod=admin&sub=downloads', 'downloads.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (3, 'Articles', '/index.php?mod=admin&sub=articles', 'articles.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (4, 'Links', '/index.php?mod=admin&sub=links', 'links.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (5, 'Calendar', '/index.php?mod=admin&sub=calendar', 'calendar.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (6, 'Time', '/index.php?mod=admin&sub=time', 'time.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (7, 'Email', '/index.php?mod=admin&sub=email', 'email.png', 3);
+INSERT INTO `cs_admin_shortcuts` VALUES (8, 'Shoutbox', '/index.php?mod=admin&sub=shoutbox', 'shoutbox.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (9, 'Help', '/index.php?mod=admin&sub=help', 'help.png', 40);
+INSERT INTO `cs_admin_shortcuts` VALUES (10, 'Security', '/index.php?mod=admin&sub=security', 'security.png', 41);
+INSERT INTO `cs_admin_shortcuts` VALUES (11, 'Gallery', '/index.php?mod=admin&sub=gallery', 'gallery.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (12, 'System', '/index.php?mod=admin&sub=system', 'system.png', 42);
+INSERT INTO `cs_admin_shortcuts` VALUES (13, 'Replays', '/index.php?mod=admin&sub=replays', 'replays.png', 30);
+INSERT INTO `cs_admin_shortcuts` VALUES (14, 'News', '/index.php?mod=admin&sub=news', 'news.png', 2);
+INSERT INTO `cs_admin_shortcuts` VALUES (15, 'Settings', '/index.php?mod=admin&sub=settings', 'settings.png', 43);
+INSERT INTO `cs_admin_shortcuts` VALUES (16, 'Users', '/index.php?mod=admin&sub=users', 'users.png', 1);
+INSERT INTO `cs_admin_shortcuts` VALUES (17, 'Backup', '/index.php?mod=admin&sub=backup', 'backup.png', 44);
+INSERT INTO `cs_admin_shortcuts` VALUES (18, 'Templates', '/index.php?mod=admin&sub=templates', 'templates.png', 4);
 
 -- --------------------------------------------------------
 
@@ -32,30 +70,35 @@ CREATE TABLE `cs_adminmenu` (
 -- Daten für Tabelle `cs_adminmenu`
 -- 
 
+INSERT INTO `cs_adminmenu` VALUES (20, 19, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (19, 18, 'folder', 'Users', '', 'Users', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (18, 0, 'folder', 'Administration', '', 'Administration', '_self', 3);
+INSERT INTO `cs_adminmenu` VALUES (17, 15, 'item', 'Adminmenu Editor', '/index.php?mod=admin&sub=menueditor', 'Adminmenu Editor', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (16, 15, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (15, 13, 'folder', 'Development', '', 'Development', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (14, 13, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (13, 0, 'folder', 'System', '', 'System', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (12, 9, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (11, 9, 'item', 'Create a module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (10, 9, 'item', 'Edit modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Edit modules', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (9, 2, 'folder', 'Development', '', 'Development', '_self', 3);
+INSERT INTO `cs_adminmenu` VALUES (8, 2, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (7, 2, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install new modules', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (6, 3, 'item', 'Shoutbox', '/index.php?mod=admin&sub=shoutbox&action=config', 'Shoutbox', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (5, 3, 'item', 'Forum', '/index.php?mod=admin&sub=forum&action=config', 'Forum', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (4, 3, 'item', 'News', '/index.php?mod=admin&sub=news&action=config', 'News', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (2, 0, 'folder', 'Modules', '', 'Modules', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (3, 2, 'folder', 'All modules', '', 'All modules', '_self', 0);
 INSERT INTO `cs_adminmenu` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (2, 0, 'folder', 'Modulemanager', '', 'Modulemanager', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (3, 2, 'item', 'Show & Edit modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Manage modules', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (4, 2, 'item', 'Install modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install modules', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (5, 2, 'folder', 'Development', '', 'Development', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (6, 5, 'item', 'Create a module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (7, 5, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (8, 5, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (9, 0, 'folder', 'System', '', 'System', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (10, 9, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (11, 9, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (12, 9, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (13, 9, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self', 3);
-INSERT INTO `cs_adminmenu` VALUES (14, 0, 'folder', 'Users', '', 'Users', '_self', 3);
-INSERT INTO `cs_adminmenu` VALUES (15, 14, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (16, 14, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (17, 14, 'item', 'Groups', '', 'Groups', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (18, 14, 'item', 'Permissions', '', 'Permissions', '_self', 3);
-INSERT INTO `cs_adminmenu` VALUES (19, 0, 'folder', 'Help', '', 'Help', '_self', 4);
-INSERT INTO `cs_adminmenu` VALUES (20, 19, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0);
-INSERT INTO `cs_adminmenu` VALUES (21, 19, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1);
-INSERT INTO `cs_adminmenu` VALUES (22, 19, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2);
-INSERT INTO `cs_adminmenu` VALUES (23, 19, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3);
-INSERT INTO `cs_adminmenu` VALUES (24, 0, 'folder', 'Show website', '/index.php', 'Show website', '_blank', 5);
+INSERT INTO `cs_adminmenu` VALUES (21, 19, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (22, 18, 'folder', 'Groups', '', 'Groups', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (23, 18, 'folder', 'Permissions', '', 'Permissions', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (24, 18, 'folder', 'Templates', '', 'Templates', '_self', 3);
+INSERT INTO `cs_adminmenu` VALUES (25, 0, 'folder', 'Help', '', 'Help', '_self', 4);
+INSERT INTO `cs_adminmenu` VALUES (26, 25, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0);
+INSERT INTO `cs_adminmenu` VALUES (27, 25, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1);
+INSERT INTO `cs_adminmenu` VALUES (28, 25, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2);
+INSERT INTO `cs_adminmenu` VALUES (29, 25, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3);
 
 -- --------------------------------------------------------
 
@@ -81,28 +124,30 @@ CREATE TABLE `cs_adminmenu_old` (
 
 INSERT INTO `cs_adminmenu_old` VALUES (1, 0, 'folder', 'Home', '/index.php?mod=admin', 'Home', '_self', 0);
 INSERT INTO `cs_adminmenu_old` VALUES (2, 0, 'folder', 'Modulemanager', '', 'Modulemanager', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (3, 2, 'item', 'Manage modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Manage modules', '_self', 0);
-INSERT INTO `cs_adminmenu_old` VALUES (4, 2, 'item', 'Install modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install modules', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (5, 2, 'folder', 'Development', '', 'Development', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (6, 5, 'item', 'Create a module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self', 0);
-INSERT INTO `cs_adminmenu_old` VALUES (7, 5, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (8, 5, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (9, 0, 'folder', 'System', '', 'System', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (10, 9, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self', 0);
-INSERT INTO `cs_adminmenu_old` VALUES (11, 9, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (12, 9, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (13, 9, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self', 3);
-INSERT INTO `cs_adminmenu_old` VALUES (14, 0, 'folder', 'Users', '', 'Users', '_self', 3);
-INSERT INTO `cs_adminmenu_old` VALUES (15, 14, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self', 0);
-INSERT INTO `cs_adminmenu_old` VALUES (16, 14, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (17, 14, 'item', 'Groups', '', 'Groups', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (18, 14, 'item', 'Permissions', '', 'Permissions', '_self', 3);
-INSERT INTO `cs_adminmenu_old` VALUES (19, 0, 'folder', 'Help', '', 'Help', '_self', 4);
-INSERT INTO `cs_adminmenu_old` VALUES (20, 19, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0);
-INSERT INTO `cs_adminmenu_old` VALUES (21, 19, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1);
-INSERT INTO `cs_adminmenu_old` VALUES (22, 19, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2);
-INSERT INTO `cs_adminmenu_old` VALUES (23, 19, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3);
-INSERT INTO `cs_adminmenu_old` VALUES (24, 0, 'folder', 'Show website', '/index.php', 'Show website', '_blank', 5);
+INSERT INTO `cs_adminmenu_old` VALUES (3, 2, 'folder', 'All modules', '', 'All modules', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (4, 3, 'item', 'News', '/index.php?mod=admin&sub=news', 'News', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (5, 2, 'item', 'Install new modules', '/index.php?mod=admin&sub=modules&action=install_new', 'Install modules', '_self', 1);
+INSERT INTO `cs_adminmenu_old` VALUES (6, 2, 'item', 'Import a module', '/index.php?mod=admin&sub=modules&action=import', 'Import a module', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (7, 2, 'folder', 'Development', '', 'Development', '_self', 3);
+INSERT INTO `cs_adminmenu_old` VALUES (8, 7, 'item', 'Edit modules', '/index.php?mod=admin&sub=modules&action=show_all', 'Edit modules', '_self', 1);
+INSERT INTO `cs_adminmenu_old` VALUES (9, 7, 'item', 'Create a module', '/index.php?mod=admin&sub=modules&action=create_new', 'Create a new module', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (10, 7, 'item', 'Export a module', '/index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (11, 0, 'folder', 'System', '', 'System', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (12, 11, 'item', 'Menu Editor', '/index.php?mod=admin&sub=menueditor', 'Menu Editor', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (13, 11, 'item', 'Template Editor', '/index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 1);
+INSERT INTO `cs_adminmenu_old` VALUES (14, 11, 'item', 'Categories', '/index.php?mod=admin&sub=categories', 'Categories', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (15, 11, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self', 3);
+INSERT INTO `cs_adminmenu_old` VALUES (16, 0, 'folder', 'Users', '', 'Users', '_self', 3);
+INSERT INTO `cs_adminmenu_old` VALUES (17, 16, 'item', 'Show All', '/index.php?mod=admin&sub=users', 'Show All', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (18, 16, 'item', 'Search', '/index.php?mod=admin&sub=search', 'Search', '_self', 1);
+INSERT INTO `cs_adminmenu_old` VALUES (19, 16, 'item', 'Groups', '', 'Groups', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (20, 16, 'item', 'Permissions', '', 'Permissions', '_self', 3);
+INSERT INTO `cs_adminmenu_old` VALUES (21, 0, 'folder', 'Help', '', 'Help', '_self', 4);
+INSERT INTO `cs_adminmenu_old` VALUES (22, 21, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0);
+INSERT INTO `cs_adminmenu_old` VALUES (23, 21, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1);
+INSERT INTO `cs_adminmenu_old` VALUES (24, 21, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2);
+INSERT INTO `cs_adminmenu_old` VALUES (25, 21, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3);
+INSERT INTO `cs_adminmenu_old` VALUES (26, 0, 'folder', 'Show website', '/index.php', 'Show website', '_blank', 5);
 
 -- --------------------------------------------------------
 
@@ -284,7 +329,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '3eba41085a3a2bb1c8be9e25655606eb', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"3eba41085a3a2bb1c8be9e25655606eb";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154750628, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, 'ba9d3bbea82db23691b63f83d3a6cb4a', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"ba9d3bbea82db23691b63f83d3a6cb4a";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1154927467, 1, 'admin');
 
 -- --------------------------------------------------------
 
