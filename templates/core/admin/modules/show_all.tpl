@@ -185,7 +185,7 @@ function clip_more(more)
         <input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_homepage" style="display: none" name="info[{$wert.module_id}][homepage]" value="{$wert.homepage}" size="40"></td>
         <td><a id="{$wert.module_id}_{$wert.name}_homepage_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_homepage');">edit</a></td></tr>
         
-        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">{$www_root}/index.php?mod={$wert.name}</a></td></tr>
+        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">/index.php?mod={$wert.name}</a></td></tr>
 
         <tr><td colspan="3" style="padding-top: 10px; padding-left: 10px;"><a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a></td></tr>
         
@@ -319,7 +319,7 @@ function clip_more(more)
         <input class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_homepage" style="display: none" name="info[{$wert.module_id}][homepage]" value="{$wert.homepage}" size="40"></td>
         <td><a id="{$wert.module_id}_{$wert.name}_homepage_href" href="javascript:clip_edit('{$wert.module_id}_{$wert.name}_homepage');">edit</a></td></tr>
         
-        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">{$www_root}/index.php?mod={$wert.name}</a></td></tr>
+        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">/index.php?mod={$wert.name}</a></td></tr>
 
         <tr><td colspan="3" style="padding-top: 10px; padding-left: 10px;"><a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a></td></tr>
         
