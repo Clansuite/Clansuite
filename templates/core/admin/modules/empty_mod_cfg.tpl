@@ -31,9 +31,9 @@
 * @link       {$homepage}
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {literal}{{/literal}
     die('You are not allowed to view this page statically.' );
@@ -89,9 +89,10 @@ $info['version']        = (float) {$version};
 $info['cs_version']     = (float) {$cs_version};
 $info['core']           = {$core};
 
-//----------------------------------------------------------------
-// Admin Menus
-//---------------------------------------------------------------- 
+/**
+* @desc Admin Menus
+*/
+ 
 $info['admin_menu'] = '';
 
 ?>

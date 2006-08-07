@@ -47,27 +47,28 @@ CREATE TABLE `cs_news` (
 ) ENGINE=MyISAM;
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start module index class
-//----------------------------------------------------------------
+/**
+* @desc Start module index class
+*/
 class module_news
 {
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
 
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loads necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loads necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -91,9 +92,10 @@ class module_news
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
 
-    //----------------------------------------------------------------
-    // Show the entrance - welcome message etc.
-    //----------------------------------------------------------------
+    /**
+    * @desc Show the entrance - welcome message etc.
+    */
+
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;

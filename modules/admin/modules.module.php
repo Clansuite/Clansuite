@@ -28,17 +28,17 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Admin Module - Config Class
-//----------------------------------------------------------------
+/**
+* @desc Admin Module - Config Class
+*/
 class module_admin_modules
 {
     public $output          = '';
@@ -46,10 +46,11 @@ class module_admin_modules
     public $additional_head = '';
     private $used = array();
     
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loading necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loading necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -107,9 +108,10 @@ class module_admin_modules
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
     
-    //----------------------------------------------------------------
-    // Show all modules
-    //----------------------------------------------------------------
+    /**
+    * @desc Show all modules
+    */
+
     function show_all()
     {
         global $cfg, $db, $tpl, $error, $lang;
@@ -160,9 +162,10 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
 
-    //----------------------------------------------------------------
-    // Install new modules
-    //----------------------------------------------------------------
+    /**
+    * @desc Install new modules
+    */
+
     function install_new()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions;
@@ -182,9 +185,10 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/install_new.tpl');   
     }
 
-    //----------------------------------------------------------------
-    // Create a new module
-    //----------------------------------------------------------------
+    /**
+    * @desc Create a new module
+    */
+
     function create_new()
     {
         global $cfg, $db, $tpl, $input, $error, $lang, $functions;
@@ -310,9 +314,10 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/create_new.tpl');   
     }
     
-    //----------------------------------------------------------------
-    // Export Module
-    //----------------------------------------------------------------
+    /**
+    * @desc Export Module
+    */
+
     function export()
     {
         global $functions, $cfg, $db, $tpl;
@@ -406,9 +411,10 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/export.tpl');
     }
 
-    //----------------------------------------------------------------
-    // Import Module
-    //----------------------------------------------------------------
+    /**
+    * @desc Import Module
+    */
+
     function import()
     {
         global $tpl, $db, $input, $functions, $lang;
@@ -527,9 +533,10 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Build a new folder
-    //---------------------------------------------------------------- 
+    /**
+    * @desc Build a new folder
+    */
+ 
     function build_folder( $old_id = 0, $new_id = 0, $parent = 0 )
     {
         global $db;
@@ -597,9 +604,10 @@ class module_admin_modules
         return array_merge( $this->return_array, $this->folder_array);
     }
     
-    //----------------------------------------------------------------
-    // Build a menu array (recursively)
-    //----------------------------------------------------------------
+    /**
+    * @desc Build a menu array (recursively)
+    */
+
     function build_menu( $menu_array )
     {
         global $db;
@@ -671,9 +679,10 @@ class module_admin_modules
         return $menu_array;
     }
     
-    //----------------------------------------------------------------
-    // Update the module list
-    //----------------------------------------------------------------
+    /**
+    * @desc Update the module list
+    */
+
     function update()
     {
         global $db, $functions, $input, $lang;
@@ -756,9 +765,10 @@ class module_admin_modules
         
     }
 
-    //----------------------------------------------------------------
-    // Add a module to the DBs whitelist
-    //----------------------------------------------------------------
+    /**
+    * @desc Add a module to the DBs whitelist
+    */
+
     function add_to_whitelist()
     {
         global $db, $cfg, $functions, $lang;
@@ -799,9 +809,10 @@ class module_admin_modules
         }
     }
     
-    //----------------------------------------------------------------
-    // Try a chmod
-    //----------------------------------------------------------------
+    /**
+    * @desc Try a chmod
+    */
+
     function chmod()
     {
         global $functions, $input, $lang;

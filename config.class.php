@@ -28,25 +28,26 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start config class
-//----------------------------------------------------------------
+/**
+* @desc Start config class
+*/
 class config
 {
     function __construct()
     {
 
-        //----------------------------------------------------------------
-        // Database related configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc Database related configurations
+        */
+
         $this->db_type      = 'mysql';
         $this->db_username  = 'clansuite';
         $this->db_password  = 'toop';
@@ -55,9 +56,10 @@ class config
         $this->db_prefix    = 'cs_';
         $this->db_abs_layer = 'pdo';
 
-        //----------------------------------------------------------------
-        // Standard Path configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc Standard Path configurations
+        */
+
         $this->www_root      = BASE_URL_SEED2;
         $this->root          = BASEDIR;
         $this->core_folder   = 'core';
@@ -66,18 +68,20 @@ class config
         $this->mod_folder    = 'modules';
         $this->upload_folder = 'uploads';
 
-        //----------------------------------------------------------------
-        // Meta Tag Informations
-        //----------------------------------------------------------------
+        /**
+        * @desc Meta Tag Informations
+        */
+
         $this->meta['description']  = 'Clansuite is a Content Management System for handling the needs of clans';
         $this->meta['language']     = 'de';
         $this->meta['author']       = 'Florian Wolf, Jens-André Koch';
         $this->meta['email']        = 'system@clansuite.com';
         $this->meta['keywords']     = 'clan, cms, content management system, portal';
 
-        //----------------------------------------------------------------
-        // Mail configuration
-        //----------------------------------------------------------------
+        /**
+        * @desc Mail configuration
+        */
+
         // methods: smtp, sendmail, exim, 
         $this->mailmethod       = 'mail';
         $this->mailerhost       = $_SERVER['SERVER_NAME'];
@@ -90,9 +94,10 @@ class config
         $this->from             = 'system@clansuite.com';
         $this->from_name        = 'Clansuite Mailer';
 
-        //----------------------------------------------------------------
-        // Standard configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc Standard configurations
+        */
+
         $this->tpl_name             = 'standard';
         $this->tpl_wrapper_file     = 'index.tpl';
         $this->language             = 'de';
@@ -105,31 +110,35 @@ class config
         $this->std_css              = 'standard.css';
         $this->std_javascript       = 'standard.js';
         
-        //----------------------------------------------------------------
-        // User configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc User configurations
+        */
+
         $this->login_method         = 'nick';
         $this->remember_me_time     = 7776000; // 90 Days
         $this->max_login_attempts   = 5;
         $this->login_ban_minutes    = 30;
         
-        //----------------------------------------------------------------
-        // Session configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc Session configurations
+        */
+
         $this->use_cookies      = 1;
         $this->use_cookies_only = 0;
         $this->session_name     = 'suiteSID';
 
-        //----------------------------------------------------------------
-        // Error Handling
-        //----------------------------------------------------------------
+        /**
+        * @desc Error Handling
+        */
+
         $this->suppress_errors  = 0;
         $this->debug            = 1;
         $this->debug_popup      = 0;
 
-        //----------------------------------------------------------------
-        // Developers configurations
-        //----------------------------------------------------------------
+        /**
+        * @desc Developers configurations
+        */
+
         $this->version      = (float) 0.1;
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
         

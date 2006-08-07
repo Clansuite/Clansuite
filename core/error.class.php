@@ -29,22 +29,23 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start of error class
-//----------------------------------------------------------------
+/**
+* @desc Start of error class
+*/
 class error
 {
-    //----------------------------------------------------------------
-    // Set normal error handlers and load error.xml
-    //----------------------------------------------------------------
+    /**
+    * @desc Set normal error handlers and load error.xml
+    */
+
     function set_callbacks()
     {
         global $lang, $cfg;
@@ -54,9 +55,10 @@ class error
         set_exception_handler(array($this, 'exception_handler' ) );
     }
     
-    //----------------------------------------------------------------
-    // Advanced error_handler callback function
-    //----------------------------------------------------------------
+    /**
+    * @desc Advanced error_handler callback function
+    */
+
     function advanced_error_handler( $errno, $errstr, $errfile, $errline )
     {
         global $debug, $tpl, $cfg;
@@ -105,9 +107,10 @@ class error
         }
     }
     
-    //----------------------------------------------------------------
-    // Script Error Handler
-    //----------------------------------------------------------------
+    /**
+    * @desc Script Error Handler
+    */
+
     function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
         global $tpl;
@@ -139,9 +142,10 @@ class error
         }
     }
     
-    //----------------------------------------------------------------
-    // Exception Handler
-    //----------------------------------------------------------------
+    /**
+    * @desc Exception Handler
+    */
+
     function exception_handler( $e )
     {
         global $cfg, $lang;

@@ -29,24 +29,25 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start modules class
-//----------------------------------------------------------------
+/**
+* @desc Start modules class
+*/
 class modules
 {
     public $loaded = array();
     
-    //----------------------------------------------------------------
-    // Register {mod} in SMARTY Template Engine
-    //----------------------------------------------------------------
+    /**
+    * @desc Register {mod} in SMARTY Template Engine
+    */
+
     function __construct()
     {
         global $tpl;
@@ -54,9 +55,10 @@ class modules
         $tpl->register_function('mod', array('modules','get_instant_content'), false);
     }
     
-    //----------------------------------------------------------------
-    // Load whitelist
-    //----------------------------------------------------------------
+    /**
+    * @desc Load whitelist
+    */
+
     function load_whitelist()
     {
         global $db, $cfg;
@@ -71,16 +73,18 @@ class modules
         }
     }
     
-    //----------------------------------------------------------------
-    // {mod} handler function
-    //----------------------------------------------------------------
+    /**
+    * @desc {mod} handler function
+    */
+
     static function get_instant_content($params)
     {
         global $modules, $cfg, $lang, $error;
         
-        //----------------------------------------------------------------
-        // Init Vars
-        //----------------------------------------------------------------
+        /**
+        * @desc Init Vars
+        */
+
         $params['params'] = !isset( $params['params'] ) ? '' : $params['params'];
         $params['sub'] = !isset( $params['sub'] ) ? '' : $params['sub'];
         $params['name'] = !isset( $params['name'] ) ? '' : $params['name'];
@@ -122,10 +126,11 @@ class modules
                 $error->show($lang->t('Module Failure'), $lang->t('The modulename.config.php is missing in the dir of the module you requested!'), 1);
             }
             
-            //----------------------------------------------------------------
-            // Load file and class
-            // Give Return Value of requested function
-            //----------------------------------------------------------------
+            /**
+            * @desc Load file and class
+            * @desc Give Return Value of requested function
+            */
+
             if ($folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
@@ -153,16 +158,18 @@ class modules
     }
     
     
-    //----------------------------------------------------------------
-    // Get normal content of a module from auto_run()
-    //----------------------------------------------------------------
+    /**
+    * @desc Get normal content of a module from auto_run()
+    */
+
     function get_content($mod='' , $sub='' )
     {
         global $cfg, $error, $lang, $functions;
         
-        //----------------------------------------------------------------
-        // Init Vars
-        //----------------------------------------------------------------
+        /**
+        * @desc Init Vars
+        */
+
         $mod = $mod=='' ? $cfg->std_module : $mod ;
         $file_name   = '';
         $folder_name = '';
@@ -200,10 +207,11 @@ class modules
                 $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The modulename.config.php is missing in the dir of the module you requested! You are being redirected in 5 seconds...'), 2);
             }
             
-            //----------------------------------------------------------------
-            // Load file and class
-            // Give Return Value of $content
-            //----------------------------------------------------------------
+            /**
+            * @desc Load file and class
+            * @desc Give Return Value of $content
+            */
+
             if ($folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;

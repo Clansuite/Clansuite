@@ -29,24 +29,25 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start functions class
-//----------------------------------------------------------------
+/**
+* @desc Start functions class
+*/
 class functions
 {
     public $redirect = '';
     
-    //----------------------------------------------------------------
-    // Redirection modes
-    //----------------------------------------------------------------
+    /**
+    * @desc Redirection modes
+    */
+
     function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user' )
     {
         global $session, $tpl, $cfg;
@@ -205,9 +206,10 @@ class functions
         }
     }
     
-    //----------------------------------------------------------------
-    // Get a random string by length and excluded chars
-    //----------------------------------------------------------------
+    /**
+    * @desc Get a random string by length and excluded chars
+    */
+
     function random_string($str_length, $excluded_chars = array())
     {        
         $string = '';
@@ -226,9 +228,10 @@ class functions
         return $string;
     }
     
-    //----------------------------------------------------------------
-    // Try a chmod
-    //----------------------------------------------------------------
+    /**
+    * @desc Try a chmod
+    */
+
     function chmod( $path = '', $chmod = '755', $recursive = 0 )
     {
         if (!is_dir($path))
@@ -281,17 +284,19 @@ class functions
         return true;
     }
     
-    //----------------------------------------------------------------
-    // Remove comments prefilter
-    //----------------------------------------------------------------
+    /**
+    * @desc Remove comments prefilter
+    */
+
     function remove_tpl_comments( $tpl_source, &$tpl )
     {
         return preg_replace("/<!--.*-->/U",'',$tpl_source);
     }
     
-    //----------------------------------------------------------------
-    // Copy a directory recursively
-    //----------------------------------------------------------------
+    /**
+    * @desc Copy a directory recursively
+    */
+
     function dir_copy( $source, $dest, $overwrite = true, $redirect_url )
     {
         global $lang;
@@ -327,9 +332,10 @@ class functions
         }
     }
 
-    //----------------------------------------------------------------
-    // Delete a directory or it's content recursively
-    //----------------------------------------------------------------    
+    /**
+    * @desc Delete a directory or it's content recursively
+    */
+    
     function delete_dir_content($directory, $sub=false)
     {
     	if(substr($directory,-1) == '/')

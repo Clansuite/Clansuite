@@ -28,27 +28,28 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Admin Module - Config Class
-//----------------------------------------------------------------
+/**
+* @desc Admin Module - Config Class
+*/
 class module_admin_usercenter
 {
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
     
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loading necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loading necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -74,9 +75,10 @@ class module_admin_usercenter
     }
     
     
-    //----------------------------------------------------------------
-    // Show all users
-    //----------------------------------------------------------------
+    /**
+    * @desc Show all users
+    */
+
     function show_usercenter()
     {
         global $db, $tpl, $error, $lang;

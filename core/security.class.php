@@ -29,22 +29,23 @@
 */
 
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start of security class
-//----------------------------------------------------------------
+/**
+* @desc Start of security class
+*/
 class security
 {
-    //----------------------------------------------------------------
-    // Salt creation e.g. "4-5-6-7-8-9"
-    //----------------------------------------------------------------
+    /**
+    * @desc Salt creation e.g. "4-5-6-7-8-9"
+    */
+
     function generate_salt()
     {
         $salt = rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
@@ -52,25 +53,28 @@ class security
         return $salt;
     }
     
-    //----------------------------------------------------------------
-    // MD5 Hash creation
-    //----------------------------------------------------------------
+    /**
+    * @desc MD5 Hash creation
+    */
+
     function generate_md5( $string = '' )
     {
         return md5(md5($string ) );
     }
     
-    //----------------------------------------------------------------
-    // SHA1 Hash creation
-    //----------------------------------------------------------------
+    /**
+    * @desc SHA1 Hash creation
+    */
+
     function generate_sha1( $string = '' )
     {
         return sha1(sha1($string ) );
     }
     
-    //----------------------------------------------------------------
-    // Build salted Hash string (Cookie Hash)
-    //----------------------------------------------------------------
+    /**
+    * @desc Build salted Hash string (Cookie Hash)
+    */
+
     function build_salted_hash( $string = '' )
     {
         global $cfg;
@@ -97,17 +101,19 @@ class security
         return $hash;
     }
     
-    //----------------------------------------------------------------
-    // Build the DB salted Hash
-    //----------------------------------------------------------------
+    /**
+    * @desc Build the DB salted Hash
+    */
+
     function db_salted_hash( $string = '' )
     {
         return $this->build_salted_hash( $this->build_salted_hash( $string ) );
     }
     
-    //----------------------------------------------------------------
-    // Check for {$copyright} tag in $cfg->tpl_wrapper_file
-    //----------------------------------------------------------------
+    /**
+    * @desc Check for {$copyright} tag in $cfg->tpl_wrapper_file
+    */
+
     function check_copyright( $file )
     {
         global $lang, $error;
@@ -124,9 +130,10 @@ class security
         }
     }
     
-    //----------------------------------------------------------------
-    // Handle Intruders
-    //----------------------------------------------------------------
+    /**
+    * @desc Handle Intruders
+    */
+
     function intruder_alert()
     {
         global $tpl, $lang;

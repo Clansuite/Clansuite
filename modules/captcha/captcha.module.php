@@ -28,18 +28,18 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
 
-//----------------------------------------------------------------
-// Start Module Account Class
-//----------------------------------------------------------------
+/**
+* @desc Start Module Account Class
+*/
 class module_captcha
 {    
     public  $str_length = 4;
@@ -50,18 +50,20 @@ class module_captcha
     // font settings
     public $font = '';
     
-    //----------------------------------------------------------------
-    // Contructor
-    //----------------------------------------------------------------
+    /**
+    * @desc Contructor
+    */
+
     function __construct()
     {
         $this->font = TPL_ROOT . '/core/fonts/Vera.ttf';
         $this->generate_image($this->random_string($this->str_length));
     }
     
-    //----------------------------------------------------------------
-    // Get GD Version
-    //----------------------------------------------------------------
+    /**
+    * @desc Get GD Version
+    */
+
     function gd_version()
     {
         static $gd_version_number = null;
@@ -85,9 +87,10 @@ class module_captcha
         return $gd_version_number;
     }
 
-    //----------------------------------------------------------------
-    // Generate the image
-    //----------------------------------------------------------------
+    /**
+    * @desc Generate the image
+    */
+
     function generate_image($captcha_str)
     {
         // random captcha string
@@ -127,9 +130,10 @@ class module_captcha
                 // create backgroundcolor from random RGB colors
                 $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
             
-                //----------------------------------------------------------------
-                // Background Fill Effects
-                //----------------------------------------------------------------
+                /**
+                * @desc Background Fill Effects
+                */
+
                 switch ($background_randomizer = rand(1,2))
                 {
                     case 1:
@@ -206,17 +210,19 @@ class module_captcha
             break;
         }
 
-        //----------------------------------------------------------------
-        // Final: Render Image! & Free Memory.
-        //----------------------------------------------------------------
+        /**
+        * @desc Final: Render Image! & Free Memory.
+        */
+
         ImagePNG($captcha);
         imageDestroy($captcha);
         exit;
     }
 
-    //----------------------------------------------------------------
-    // Interlaces a Image ( every 2th line is blacked )
-    //----------------------------------------------------------------
+    /**
+    * @desc Interlaces a Image ( every 2th line is blacked )
+    */
+
     function interlace(&$image)
     {
         $imagex = imagesx($image);
@@ -228,14 +234,16 @@ class module_captcha
         }
     } 
 
-    //----------------------------------------------------------------
-    // Get a random string by size
-    //----------------------------------------------------------------
+    /**
+    * @desc Get a random string by size
+    */
+
     function random_string($str_length)
     {
-        //----------------------------------------------------------------
-        // Exclusion of characters
-        //----------------------------------------------------------------
+        /**
+        * @desc Exclusion of characters
+        */
+
         $excluded_chars = array(48, 49, 55, 73, 79);
         
         $string = '';

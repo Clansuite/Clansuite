@@ -28,9 +28,9 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
@@ -43,10 +43,11 @@ class module_admin_menueditor
     public $mod_page_title     = '';
     public $additional_head = '';
     
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loading necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loading necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -77,9 +78,10 @@ class module_admin_menueditor
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
     
-    //----------------------------------------------------------------
-    // Show the entrance - welcome message etc.
-    //----------------------------------------------------------------
+    /**
+    * @desc Show the entrance - welcome message etc.
+    */
+
     function show()
     {
         global $tpl, $error, $lang;
@@ -90,9 +92,10 @@ class module_admin_menueditor
         $this->output .= $tpl->fetch('admin/adminmenu/menueditor.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Update the menu in DB and create a backup
-    //----------------------------------------------------------------
+    /**
+    * @desc Update the menu in DB and create a backup
+    */
+
     function update()
     {
         global $db, $tpl, $error, $lang, $functions;
@@ -121,9 +124,10 @@ class module_admin_menueditor
         $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
     
-    //----------------------------------------------------------------
-    // Restore the old menu
-    //----------------------------------------------------------------
+    /**
+    * @desc Restore the old menu
+    */
+
     function restore()
     {
         global $db, $tpl, $error, $lang, $functions;
@@ -138,25 +142,28 @@ class module_admin_menueditor
         
         if ( !empty($confirm) )
         {
-            //----------------------------------------------------------------
-            // Get content of current menu
-            //----------------------------------------------------------------
+            /**
+            * @desc Get content of current menu
+            */
+
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_NUM);
             
-            //----------------------------------------------------------------
-            // Switch old menu to new table
-            //----------------------------------------------------------------
+            /**
+            * @desc Switch old menu to new table
+            */
+
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt->execute();
             
             $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order` FROM '. DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
 
-            //----------------------------------------------------------------
-            // Switch old menu to bck table
-            //----------------------------------------------------------------
+            /**
+            * @desc Switch old menu to bck table
+            */
+
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
             
@@ -174,9 +181,10 @@ class module_admin_menueditor
         }
     }
     
-    //----------------------------------------------------------------
-    // This function generates html-div based menu lists
-    //----------------------------------------------------------------
+    /**
+    * @desc This function generates html-div based menu lists
+    */
+
     function get_html_div($menu = '')
     {
         global $lang;
@@ -254,9 +262,10 @@ class module_admin_menueditor
         return $result;
     }
 
-    //----------------------------------------------------------------
-    // This function generates html-div based menu lists - for menu editor
-    //----------------------------------------------------------------
+    /**
+    * @desc This function generates html-div based menu lists - for menu editor
+    */
+
     function get_adminmenu_div( $menu = '' )
     {
         global $lang;
@@ -309,9 +318,10 @@ class module_admin_menueditor
     }
     
     
-    //----------------------------------------------------------------
-    // This function generates html-div based menu lists - for menu editor
-    //----------------------------------------------------------------
+    /**
+    * @desc This function generates html-div based menu lists - for menu editor
+    */
+
     function get_export_div( $menu = '', $level = '', $module = '' )
     {
         global $lang, $cfg;
@@ -386,9 +396,10 @@ class module_admin_menueditor
         return $result;
     }
         
-    //----------------------------------------------------------------
-    // Read menu from DB
-    //----------------------------------------------------------------
+    /**
+    * @desc Read menu from DB
+    */
+
     function build_editormenu( &$result = '', $parent = 0, $level = 0)
     {
         global $db;

@@ -28,29 +28,31 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-//----------------------------------------------------------------
-// Start lanugage class
-//----------------------------------------------------------------
+/**
+* @desc Start lanugage class
+*/
 class language
 {
-    //----------------------------------------------------------------
-    // Public $xml array for languagefile data after parsing xml-file
-    // $loaded array for storing all loaded XML language files
-    //----------------------------------------------------------------
+    /**
+    * @desc Public $xml array for languagefile data after parsing xml-file
+    * @desc $loaded array for storing all loaded XML language files
+    */
+
     public $xml     = array();
     public $loaded     = array();
     
-    //----------------------------------------------------------------
-    // Conrtuctor to register {translate} in SMARTY Template Engine
-    //----------------------------------------------------------------
+    /**
+    * @desc Conrtuctor to register {translate} in SMARTY Template Engine
+    */
+
     
     function __construct()
     {
@@ -59,9 +61,10 @@ class language
         $tpl->register_block("translate", array('language',"smarty_translate"), false);
     }
     
-    //----------------------------------------------------------------
-    // Function for SMARTY to handle {translate}
-    //----------------------------------------------------------------
+    /**
+    * @desc Function for SMARTY to handle {translate}
+    */
+
     static function smarty_translate($params, $string, &$smarty)
     {
         global $lang;
@@ -74,9 +77,10 @@ class language
         echo($lang->t($string, $params));
     }
     
-    //----------------------------------------------------------------
-    // Translate a string into the given language
-    //----------------------------------------------------------------
+    /**
+    * @desc Translate a string into the given language
+    */
+
     function t($string, $args = array() )
     {
         global $lang;
@@ -101,9 +105,10 @@ class language
         return strtr($string, $args);
     }
     
-    //----------------------------------------------------------------
-    // Just add another XML File to $lang->xml tree
-    //----------------------------------------------------------------
+    /**
+    * @desc Just add another XML File to $lang->xml tree
+    */
+
     function load_lang($xml_file_name='' )
     {
         global $cfg;
@@ -120,9 +125,10 @@ class language
         }
     }
     
-    //----------------------------------------------------------------
-    // Handle all children attributes from XML file
-    //----------------------------------------------------------------
+    /**
+    * @desc Handle all children attributes from XML file
+    */
+
     function get_children($vals, &$i)
     {
         global $lang;
@@ -163,10 +169,11 @@ class language
         return $children;
     }
     
-    //----------------------------------------------------------------
-    // XML file parsing
-    // Return Treestructure
-    //----------------------------------------------------------------
+    /**
+    * @desc XML file parsing
+    * @desc Return Treestructure
+    */
+
     function get_xml_tree($file)
     {
         global $lang;

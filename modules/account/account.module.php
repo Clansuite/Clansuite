@@ -28,28 +28,29 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
 
-//----------------------------------------------------------------
-// Start Module Account Class
-//----------------------------------------------------------------
+/**
+* @desc Start Module Account Class
+*/
 class module_account
 {
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
     
-    //----------------------------------------------------------------
-    // First function to run - switches between $_REQUEST['action'] Vars to the functions
-    // Loads necessary language files
-    //----------------------------------------------------------------
+    /**
+    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc Loads necessary language files
+    */
+
     function auto_run()
     {
         global $lang;
@@ -57,9 +58,10 @@ class module_account
         
         switch ($_REQUEST['action'])
         {
-            //----------------------------------------------------------------
-            // Login/Logout
-            //----------------------------------------------------------------
+            /**
+            * @desc Login/Logout
+            */
+
             case 'login':
                 $this->login();
                 $title = ' Login ';
@@ -70,17 +72,19 @@ class module_account
                 $title = ' Logout ';
                 break;
                 
-            //----------------------------------------------------------------
-            // Registration
-            //----------------------------------------------------------------              
+            /**
+            * @desc Registration
+            */
+              
             case 'register':
                 $title = ' Registration ';
                 $this->register();
                 break;
                 
-            //----------------------------------------------------------------
-            // Activate Account
-            //----------------------------------------------------------------
+            /**
+            * @desc Activate Account
+            */
+
             case 'activate_account':
                 $title = ' Activate account ';
                 $this->activate_account();
@@ -91,9 +95,10 @@ class module_account
                 $this->activation_email();
                 break;
                 
-            //----------------------------------------------------------------
-            // Forgot Password
-            //----------------------------------------------------------------
+            /**
+            * @desc Forgot Password
+            */
+
                 
             case 'forgot_password':
                 $this->forgot_password();
@@ -105,9 +110,10 @@ class module_account
                 $title = ' Activate Password ';
                 break;
                 
-            //----------------------------------------------------------------
-            // Default
-            //----------------------------------------------------------------
+            /**
+            * @desc Default
+            */
+
                 
             default:
                 if ( $_SESSION['user']['authed'] == 1 )
@@ -131,9 +137,10 @@ class module_account
                       'ADDITIONAL_HEAD' => $this->additional_head );
     }
     
-    //----------------------------------------------------------------
-    // Login
-    //----------------------------------------------------------------
+    /**
+    * @desc Login
+    */
+
     function login()
     {
         global $tpl, $users, $functions, $cfg, $lang;
@@ -146,17 +153,19 @@ class module_account
         
         $err = array();
         
-        //----------------------------------------------------------------
-        // Login method
-        //----------------------------------------------------------------
+        /**
+        * @desc Login method
+        */
+
         if( $cfg->login_method == 'nick' )
         { $value = $nick; }
         if( $cfg->login_method == 'email' )
         { $value = $email; }
 
-        //----------------------------------------------------------------
-        // Form filled?
-        //----------------------------------------------------------------
+        /**
+        * @desc Form filled?
+        */
+
         if ( isset($value) && !empty($password) && !empty($value) )
         {
             
@@ -169,10 +178,11 @@ class module_account
             }
             else
             {              
-                //----------------------------------------------------------------
-                // Log login attempts
-                // At a specific number, ban ip
-                //----------------------------------------------------------------
+                /**
+                * @desc Log login attempts
+                * @desc At a specific number, ban ip
+                */
+
                 if (!isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = 1;
@@ -182,17 +192,19 @@ class module_account
                     $_SESSION['login_attempts']++;
                 }
                 
-                //----------------------------------------------------------------
-                // Ban ip
-                //----------------------------------------------------------------
+                /**
+                * @desc Ban ip
+                */
+
                 if ( $_SESSION['login_attempts'] > $cfg->max_login_attempts )
                 {
                     die( $functions->redirect('http://www.clansuite.com', 'metatag|newsite', 5 , $lang->t('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$cfg->login_ban_minutes.'</b>' ) );
                 }
                 
-                //----------------------------------------------------------------
-                // Error: Mismatch & Login Attempts
-                //----------------------------------------------------------------
+                /**
+                * @desc Error: Mismatch & Login Attempts
+                */
+
                 $err['mismatch'] = 1;
                 $err['login_attempts'] = $_SESSION['login_attempts'];                
             }
@@ -211,9 +223,10 @@ class module_account
         $this->output .= $tpl->fetch('account/login.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Logout
-    //----------------------------------------------------------------
+    /**
+    * @desc Logout
+    */
+
     function logout()
     {
         global $session, $functions, $tpl, $lang;
@@ -222,20 +235,23 @@ class module_account
         
         if( $confirm == '1' )
         {
-            //----------------------------------------------------------------
-            // Destrox the session
-            //----------------------------------------------------------------
+            /**
+            * @desc Destrox the session
+            */
+
             $session->_session_destroy(session_id());
 
-            //----------------------------------------------------------------
-            // Delete cookies
-            //----------------------------------------------------------------
+            /**
+            * @desc Delete cookies
+            */
+
             setcookie('user_id', false );
         	setcookie('password', false );
             
-            //----------------------------------------------------------------
-            // Redirect
-            //----------------------------------------------------------------             
+            /**
+            * @desc Redirect
+            */
+             
             $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t( 'You have successfully logged out...') );
         }
         else
@@ -244,9 +260,10 @@ class module_account
         }
     }
     
-    //----------------------------------------------------------------
-    // Register
-    //----------------------------------------------------------------
+    /**
+    * @desc Register
+    */
+
     function register()
     {
         global $db, $tpl, $cfg, $input, $functions, $error, $security, $lang;
@@ -271,9 +288,10 @@ class module_account
         }
         else
         {
-            //----------------------------------------------------------------
-            // Form is filled
-            //----------------------------------------------------------------
+            /**
+            * @desc Form is filled
+            */
+
 
             // Check both mails
             if ($email != $email2 )
@@ -327,21 +345,24 @@ class module_account
                 $err['nick_exists'] = 1;
             }
             
-            //----------------------------------------------------------------
-            // No errors - then proceed
-            // Register the user!
-            //----------------------------------------------------------------
+            /**
+            * @desc No errors - then proceed
+            * @desc Register the user!
+            */
+
             if ( count($err) == 0  )
             {               
-                //----------------------------------------------------------------
-                // Generate activation code & salted hash
-                //----------------------------------------------------------------
+                /**
+                * @desc Generate activation code & salted hash
+                */
+
                 $code = md5 ( microtime() );
                 $hash = $security->db_salted_hash($pass);
                 
-                //----------------------------------------------------------------
-                // Insert user into DB
-                //----------------------------------------------------------------
+                /**
+                * @desc Insert user into DB
+                */
+
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined, code) VALUES (:email, :nick, :password, :joined, :code)');
                 $stmt->execute( array(  ':code'         => $code,
                                         ':email'        => $email,
@@ -349,16 +370,18 @@ class module_account
                                         ':password'     => $hash,
                                         ':joined'       => time() ) );
                 
-                //----------------------------------------------------------------
-                // Get user id (emulation)
-                //----------------------------------------------------------------
+                /**
+                * @desc Get user id (emulation)
+                */
+
                 $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX .'users WHERE email = ? AND nick = ?' );
                 $stmt->execute( array( $email, $nick ) );
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                //----------------------------------------------------------------
-                // Load mailer & send mail
-                //----------------------------------------------------------------
+                /**
+                * @desc Load mailer & send mail
+                */
+
                 require ( CORE_ROOT . '/mail.class.php' );
                 $mailer = new mailer;
                 
@@ -396,9 +419,10 @@ class module_account
         $this->output .= $tpl->fetch('account/register.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Re-Send Activation Email
-    //----------------------------------------------------------------
+    /**
+    * @desc Re-Send Activation Email
+    */
+
     function activation_email()
     {
         global $db, $functions, $lang, $security, $tpl, $input;
@@ -483,9 +507,10 @@ class module_account
         $this->output .= $tpl->fetch('account/activation_email.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Activate Account    
-    //----------------------------------------------------------------
+    /**
+    * @desc Activate Account    
+    */
+
     function activate_account()
     {
         global $input, $db, $error, $lang, $functions;
@@ -523,9 +548,10 @@ class module_account
         }
     }    
     
-    //----------------------------------------------------------------
-    // Forgot Password
-    //----------------------------------------------------------------
+    /**
+    * @desc Forgot Password
+    */
+
     function forgot_password()
     {
         global $db, $functions, $lang, $security, $tpl, $input;
@@ -604,9 +630,10 @@ class module_account
         $this->output .= $tpl->fetch('account/forgot_password.tpl');
     }
 
-    //----------------------------------------------------------------
-    // Activate Password
-    //----------------------------------------------------------------
+    /**
+    * @desc Activate Password
+    */
+
     function activate_password()
     {
         global $input, $db, $error, $lang, $functions;

@@ -28,14 +28,14 @@
 * @since      File available since Release 0.1
 */
 
-//----------------------------------------------------------------
-// Security Handler
-//----------------------------------------------------------------
+/**
+* @desc Security Handler
+*/
 define('IN_CS', true);
 
-//----------------------------------------------------------------
-// Alter php.ini settings
-//----------------------------------------------------------------
+/**
+* @desc Alter php.ini settings
+*/
 ini_set('display_errors'                , true);
 ini_set('zend.ze1_compatibility_mode'   , false);
 ini_set('zlib.output_compression'       , true);
@@ -43,9 +43,9 @@ ini_set('zlib.output_compression_level' , '6');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 
-//----------------------------------------------------------------
-// Reverse the effect of register_globals
-//----------------------------------------------------------------
+/**
+* @desc Reverse the effect of register_globals
+*/
 if (ini_get('register_globals'))
 {
     foreach ($GLOBALS as $s_variable_name => $m_variable_value)
@@ -59,9 +59,9 @@ if (ini_get('register_globals'))
     unset($GLOBLAS['m_variable_value']);
 }
 
-//----------------------------------------------------------------
-// Path Assignments
-//----------------------------------------------------------------
+/**
+* @desc Path Assignments
+*/
 define('BASEDIR'    , str_replace('\\', '/', dirname(__FILE__) ) . '/');
 define('BASE_URL_SEED'    , 'http://'.$_SERVER['SERVER_NAME']);
 if (dirname($_SERVER['PHP_SELF']) == "\\" )
@@ -73,16 +73,17 @@ else
     define('BASE_URL_SEED2', BASE_URL_SEED.dirname($_SERVER['PHP_SELF']) );
 }
 
-//----------------------------------------------------------------
-// Load config
-// Create Object $cfg
-//----------------------------------------------------------------
+/**
+* @desc Load config
+* @desc Create Object $cfg
+*/
+
 require('config.class.php');
 $cfg = new config;
 
-//----------------------------------------------------------------
-// Define *_ROOT, *_NAME, DEBUG, DB_PREFIX
-//----------------------------------------------------------------
+/**
+* @desc Define *_ROOT, *_NAME, DEBUG, DB_PREFIX
+*/
 define('ROOT'       , $cfg->root);
 define('MOD_ROOT'   , ROOT . $cfg->mod_folder);
 define('TPL_ROOT'   , ROOT . $cfg->tpl_folder);
@@ -94,14 +95,14 @@ define('WWW_ROOT'   , $cfg->www_root);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
 
-//----------------------------------------------------------------
-// Error Reporting Depth
-//----------------------------------------------------------------
+/**
+* @desc Error Reporting Depth
+*/
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
-//----------------------------------------------------------------
-// Require Core Classes
-//----------------------------------------------------------------
+/**
+* @desc Require Core Classes
+*/
 require(CORE_ROOT . '/smarty/Smarty.class.php');
 require(CORE_ROOT . '/smarty/Render_SmartyDoc.class.php');
 require(CORE_ROOT . '/session.class.php');
@@ -116,9 +117,9 @@ require(CORE_ROOT . '/users.class.php');
 require(CORE_ROOT . '/db.class.php');
 require(CORE_ROOT . '/stats.class.php');
 
-//----------------------------------------------------------------
-// Create objects out of classes
-//----------------------------------------------------------------
+/**
+* @desc Create objects out of classes
+*/
 $tpl        = new Render_SmartyDoc;
 $session    = new session;
 $input      = new input;
@@ -131,9 +132,9 @@ $security   = new security;
 $users      = new users;
 $stats      = new statistics;
 
-//----------------------------------------------------------------
-// Smarty Settings
-//----------------------------------------------------------------
+/**
+* @desc Smarty Settings
+*/
 $tpl->template_dir      = array(TPL_ROOT . '/' . TPL_NAME . '/', TPL_ROOT . '/core/' ) ;
 $tpl->compile_dir       = CORE_ROOT .'/smarty/templates_c/';
 $tpl->config_dir        = CORE_ROOT .'/smarty/configs/';
@@ -144,64 +145,65 @@ $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                      );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
 
-//----------------------------------------------------------------
-// Load up DSN & Connect DB
-//----------------------------------------------------------------
+/**
+* @desc Load up DSN & Connect DB
+*/
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
 $db = new db($dsn, $user, $password, array() );
 
-//----------------------------------------------------------------
-// Assign Paths to Template (tpl)
-//----------------------------------------------------------------
+/**
+* @desc Assign Paths to Template (tpl)
+*/
 $tpl->assign('www_root'         , WWW_ROOT );
 $tpl->assign('www_tpl_root'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
 $tpl->assign('www_core_tpl_root', WWW_ROOT . '/' . $cfg->tpl_folder . '/core' );
 
-//----------------------------------------------------------------
-// Revert magic_quotes() if still enabled
-// Clean $_REQUEST input from violent code
-//----------------------------------------------------------------
+/**
+* @desc Revert magic_quotes() if still enabled
+* @desc Clean $_REQUEST input from violent code
+*/
+
 $input->fix_magic_quotes();
 $input->essential_cleanup();
 
-//----------------------------------------------------------------
-// Set the callback function for errors
-//----------------------------------------------------------------
+/**
+* @desc Set the callback function for errors
+*/
 $error->set_callbacks();
 
-//----------------------------------------------------------------
-// Load whitelist
-//----------------------------------------------------------------
+/**
+* @desc Load whitelist
+*/
 $modules->load_whitelist();
 
-//----------------------------------------------------------------
-// Create a user session
-//----------------------------------------------------------------
+/**
+* @desc Create a user session
+*/
 $session->create_session($db);
 
-//----------------------------------------------------------------
-// Create a user - Guest/Member
-//----------------------------------------------------------------
+/**
+* @desc Create a user - Guest/Member
+*/
 $users->create_user();
 $users->check_login_cookie();
 
-//----------------------------------------------------------------
-// Create a user - Guest/Member
-//----------------------------------------------------------------
+/**
+* @desc Create a user - Guest/Member
+*/
 $stats->create_stats_vars();
 
-//----------------------------------------------------------------
-// Output all
-//----------------------------------------------------------------
+/**
+* @desc Output all
+*/
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
 $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 
-//----------------------------------------------------------------
-// Assign the results
-//----------------------------------------------------------------
+/**
+* @desc Assign the results
+*/
 $tpl->assign('meta'             , $cfg->meta );
 $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
@@ -213,20 +215,20 @@ $tpl->assign('mod_page_title'   , $content['MOD_PAGE_TITLE'] );
 $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
-//----------------------------------------------------------------
-// Admin module ? NO? -> normal module
-//----------------------------------------------------------------
+/**
+* @desc Admin module ? NO? -> normal module
+*/
 header("Content-type: text/html; charset=UTF-8");
 $_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->displayDoc($cfg->tpl_wrapper_file);
 
-//----------------------------------------------------------------
-// Show Debug Console
-//----------------------------------------------------------------
+/**
+* @desc Show Debug Console
+*/
 DEBUG ? $debug->show_console() : '';
 
-//----------------------------------------------------------------
-// DB Cleanup
-//----------------------------------------------------------------
+/**
+* @desc DB Cleanup
+*/
 if( is_object($db->query_active_reference) )
 {
     $db->query_active_reference->closeCursor();
