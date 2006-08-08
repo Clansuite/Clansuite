@@ -120,7 +120,7 @@ class module_admin_modules
         
         while( false !== ($content = readdir($dir_handler)) )
         {
-            if ( !preg_match('/^\.(.*)$/', $content) )
+            if ( $content != '.' && $content != '..' && $content != '.svn' )
             {
                 if ( is_dir( MOD_ROOT . '/' . $content ) )
                 {

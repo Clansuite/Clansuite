@@ -6,8 +6,9 @@
 // | Free for any use as long as all copyright messages are intact |
 // +---------------------------------------------------------------+
 
-function DynamicTreeBuilder(id, path_para) {
+function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
     this.path = path_para;
+    this.custom_icon_path = custom_icon_path_para;
     this.img = {
         "branch": "tree-branch.gif",
         "doc": "tree-doc.gif",
@@ -71,6 +72,10 @@ function DynamicTreeBuilder(id, path_para) {
                         if (a.target) {
                             node.target = a.target;
                         }
+                        if (a.id)
+                        {
+                            node.custom_icon = a.id;
+                        }
                     } else {
                         node.text = nodes[i].firstChild.nodeValue.trim();
                     }
@@ -81,10 +86,12 @@ function DynamicTreeBuilder(id, path_para) {
                 node.isFolder   = (nodes[i].className == "folder");
                 tree.childNodes.push(node);
                 this.allNodes[node.id] = node;
+                
             }
             if (nodes[i].nodeType == 1 && nodes[i].childNodes) {
                 this.parse(nodes[i].childNodes, tree.childNodes.getLast());
             }
+            
         }
     };
     this.nodeClick = function(id) {
@@ -315,6 +322,7 @@ function DynamicTreeBuilder(id, path_para) {
         this.href = "";
         this.title = "";
         this.target = "";
+        this.custom_icon = "";
         this.isFirst = function() {
             if (this.parentNode) {
                 return this.parentNode.childNodes[0].id == this.id;
@@ -397,8 +405,16 @@ function DynamicTreeBuilder(id, path_para) {
                 if (this.childNodes.length) { s += '<a href="javascript:void(0)" onclick="?.nodeClick(\'?\')">'.format(self.id, this.id); }
                 s += '<img id="?-node" src="?" width="18" height="18" alt="" />'.format(this.id, nodeIcon);
                 if (this.childNodes.length) { s += '</a>'; }
+                if ( this.custom_icon )
+                {
+                    icon = tree.custom_icon_path+this.custom_icon;
+                }
+                else
+                {
+                    icon = icon;
+                }
                 s += '<img id="?-icon" src="?" width="18" height="18" alt="" />'.format(this.id, icon);
-                s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
+                s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')" style="padding-left: 5px">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
                 if (this.childNodes.length) {
                     s += '<div class="section?" id="?-section"'.format((this.isLast() ? " last" : ""), this.id);
                     if (self.opened.contains(this.id)) {
@@ -411,8 +427,16 @@ function DynamicTreeBuilder(id, path_para) {
                 }
             }
             if (this.isDoc) {
-                s += '<img src="?" width="18" height="18" alt="" /><img src="?" />'.format((this.isLast() ? self.img.leafEnd : self.img.leaf), self.img.doc);
-                s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
+                if ( this.custom_icon )
+                {
+                    new_icon = tree.custom_icon_path+this.custom_icon;
+                }
+                else
+                {
+                    new_icon = self.img.doc;
+                }
+                s += '<img src="?" width="18" height="18" alt="" /><img src="?" />'.format((this.isLast() ? self.img.leafEnd : self.img.leaf), new_icon);
+                s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')" style="padding-left: 5px">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
             }
             s += '</div>';
             return s;

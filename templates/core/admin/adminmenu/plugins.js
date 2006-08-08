@@ -20,6 +20,7 @@ function DynamicTreePlugins() {
             ret += '<input type="hidden" name="container['+node.id+'][href]" value="'+node.href+'">\n';
             ret += '<input type="hidden" name="container['+node.id+'][target]" value="'+target+'">\n';
             ret += '<input type="hidden" name="container['+node.id+'][order]" value="'+node.getIndex()+'">\n';
+            ret += '<input type="hidden" name="container['+node.id+'][icon]" value="'+node.custom_icon+'">\n';
         }
         return ret;
     };
