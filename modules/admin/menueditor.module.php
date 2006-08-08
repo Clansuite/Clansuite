@@ -88,7 +88,21 @@ class module_admin_menueditor
         
         $this->additional_head = '';
         
+        $icons = array();
         
+        $dir_handler = opendir( TPL_ROOT . '/core/images/icons/' );
+        
+        while( false !== ($file = readdir($dir_handler)) )
+        {
+            if ( $file != '.' && $file != '..' && $file != '.svn' )
+            {
+                $icons[] = $file;
+            }
+        }
+        closedir($dir_handler);
+        
+        $tpl->assign( 'icons', $icons );
+
         $this->output .= $tpl->fetch('admin/adminmenu/menueditor.tpl');
     }
     
@@ -105,7 +119,7 @@ class module_admin_menueditor
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
         $stmt->execute();
         
-        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target, `order` FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu' );
         $stmt->execute();
         
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
@@ -118,8 +132,8 @@ class module_admin_menueditor
             $parent = str_replace( 'tree-', '', $value['parent'] );
             $parent = (int) $parent;
 
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)' );
-            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'] ) );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'] ) );
         }
         $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
@@ -157,7 +171,7 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order` FROM '. DB_PREFIX . 'adminmenu_old' );
+            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
 
             /**
@@ -167,7 +181,7 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_old (id, parent, type, text, href, title, target, `order`) VALUES (?, ?, ?, ?, ?, ?, ?)' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_old (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt->execute( $data );
@@ -187,7 +201,7 @@ class module_admin_menueditor
 
     function get_html_div($menu = '')
     {
-        global $lang;
+        global $lang, $cfg;
         
         $result = !isset( $result ) ? '' : $result;
         
@@ -221,18 +235,22 @@ class module_admin_menueditor
                 
                  if ( $entry['parent'] == 0) 
                  { 
-                     $result .= "<td>";
-                     $result .= "\n\t";          
+                     $result .= '<td>';
+                     $result .= "\n\t";
                      $result .= '<a class="button" href="'.$entry['href'];
-                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($lang->t($entry['name']));
-                     $result .= "</a>";
+                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     $result .= htmlspecialchars($lang->t($entry['name']));
+                     $result .= '</a>';
                  }
                  else
                  {
                      $result .= '<a class="item" href="'.$entry['href'];
-                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($lang->t($entry['name']));
+                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     $result .= htmlspecialchars($lang->t($entry['name']));
                      $result .= '<img class="arrow" src="';
-                     $result .= WWW_ROOT . '/templates/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+                     $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
                      $result .= '</a>';
                  }
              }
@@ -241,7 +259,10 @@ class module_admin_menueditor
             {
                 $result .= "\n\t";
                 $result .= '<a class="item" href="'.$entry['href'];
-                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($lang->t($entry['name'])) . '</a>';
+                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                $result .= '<img  class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                $result .= htmlspecialchars($lang->t($entry['name']));
+                $result .= '</a>';
             }
                   
                                                   
@@ -268,7 +289,7 @@ class module_admin_menueditor
 
     function get_adminmenu_div( $menu = '' )
     {
-        global $lang;
+        global $lang, $cfg;
         
         if ( empty( $menu ) )
         {
@@ -282,7 +303,8 @@ class module_admin_menueditor
             {
                 $result .= "<div class=\"folder\">";
                 $result .= '<a href="'.$entry['href'];
-                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($lang->t($entry['name'])) . '</a>';
+                $result .= '" title="'.htmlspecialchars($entry['title']) . '" id="' . $entry['icon'] . '" target="'.htmlspecialchars($entry['target']) . '">';
+                $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
             }
                                   
             if ( $entry['type'] == 'item')
@@ -299,7 +321,8 @@ class module_admin_menueditor
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
-                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">'.htmlspecialchars($lang->t($entry['name'])) . '</a>';
+                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" id="' . $entry['icon'] . '" target="'.htmlspecialchars($entry['target']) . '">';
+                    $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
                 }
         	}
                                 	
@@ -429,6 +452,7 @@ class module_admin_menueditor
                                                     'title'  => $result[$i]['title'],
                                                     'target' => $result[$i]['target'],
                                                     'order'  => $result[$i]['order'],
+                                                    'icon'   => $result[$i]['icon'],
                                                     );
                 $output[$result[$i]['id']]['content'] = $this->build_editormenu($result, $result[$i]['id'], $level + 1);
                 

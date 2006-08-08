@@ -67,6 +67,7 @@ function treeInfo() {
     var href = document.getElementById("tree-info-href");
     var title = document.getElementById("tree-info-title");
     var target = document.getElementById("tree-info-target");
+    var update_icon = document.getElementById('update_icon');
     name.value = "";
     href.value = "";
     title.value = "";
@@ -74,10 +75,12 @@ function treeInfo() {
     document.getElementById("tree-info-form").style.display = "block";
     if (tree.active) {
         var node = tree.getActiveNode();
+        document.getElementById('tree-info-custom_icon').options[node.custom_icon].selected = 'true';
         name.value = node.text;
         href.value = node.href;
         title.value = node.title;
         target.value = node.target;
+        update_icon.src = tree.custom_icon_path + node.custom_icon;
     }
 }
 function treeInfoUpdate() {
@@ -85,6 +88,7 @@ function treeInfoUpdate() {
     var href = document.getElementById("tree-info-href");
     var title = document.getElementById("tree-info-title");
     var target = document.getElementById("tree-info-target");
+    var custom_icon = document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex];
     name.value = name.value.trim();
     href.value = href.value.trim();
     if (!name.value) {
@@ -96,6 +100,7 @@ function treeInfoUpdate() {
         node.href = href.value;
         node.title = title.value;
         node.target = target.value;
+        node.custom_icon = custom_icon.text;
         tree.updateHtml();
     }
 }
@@ -119,12 +124,13 @@ function treeInsertExecute() {
     var href = document.getElementById("tree-insert-href");
     var title = document.getElementById("tree-insert-title");
     var target = document.getElementById("tree-insert-target");
+    var custom_icon = document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex];
     name.value = name.value.trim();
     href.value = href.value.trim();
     if (!name.value) {
         return false;
     }
-    var o = {"href": href.value, "title": title.value, "target": target.value};
+    var o = {"href": href.value, "title": title.value, "target": target.value, "custom_icon": custom_icon.text};
     if (tree.active) {
         switch (where.value) {
             case "before":

@@ -50,7 +50,7 @@
     border:1px solid #FDFDF9;
     background: #FDFDF9;
     line-height: normal;
-    padding: 3px 30px 3px 20px;
+    padding: 4px 30px 4px 25px;
     color: black;
     text-decoration: none;
     cursor: default;
@@ -108,6 +108,13 @@
     position: absolute;
     top: 7px;
     right: 8px;
+    border: 0;
+}
+
+.XulMenu .pic {
+    position: absolute;
+    top: 2px;
+    left: 3px;
     border: 0;
 }
 

@@ -70,6 +70,18 @@
                             <td><input class="input" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="" /></td>
                         </tr>
                         <tr>
+                            <td class="label">{translate}Icon{/translate}</td>
+                            <td>
+                                <select onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
+                                    <option name=""></option>
+                                    {foreach key=key item=item from=$icons}
+                                        <option name="{$item}">{$item}</option>
+                                    {/foreach}
+                                </select>
+                                <img src="" id="insert_icon" width="16" height="16" border="1">
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="2" align="center">
                                 <input id="tree-insert-button" class="button" type="button" value="Insert" />
                                 <input id="tree-insert-cancel" type="button" value="Cancel" />
@@ -82,20 +94,32 @@
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
                         <tr>
-                            <td class="label">Name</td>
+                            <td class="label">{translate}Name{/translate}</td>
                             <td><input class="input" size="20" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">Href</td>
+                            <td class="label">{translate}Href{/translate}</td>
                             <td><input class="input" size="20" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">Title</td>
+                            <td class="label">{translate}Title{/translate}</td>
                             <td><input class="input" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">Target</td>
+                            <td class="label">{translate}Target{/translate}</td>
                             <td><input class="input" size="20" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td class="label">{translate}Icon{/translate}</td>
+                            <td>
+                                <select onChange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input" id="tree-info-custom_icon">
+                                    <option name=""></option>
+                                    {foreach key=key item=item from=$icons}
+                                        <option name="{$item}">{$item}</option>
+                                    {/foreach}
+                                </select>
+                                <img src="" name="update_icon" id="update_icon" width="16" height="16" border="1">
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
@@ -139,7 +163,7 @@
     </table>
     
     <script type="text/javascript">
-    var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/");
+    var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/", "{$www_core_tpl_root}/images/icons/");
     tree.init();
     DynamicTreePlugins.call(tree);
     </script>
