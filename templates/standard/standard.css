@@ -4,6 +4,8 @@ body
     font-family: georgia, tahoma, verdana; font-size: 11px; margin: 2em;
 }
 
+.oops  { display: none;   /*--Support for upgrading to a modern browser--*/ }
+
 .redirect
 {
     padding: 10px;

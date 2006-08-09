@@ -18,7 +18,22 @@
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
 </head>
-<body><div id="wrap">
+<body>
+
+<!-- BrowserCheck //-->
+ <h2 class="oops">
+	You shouldn't be able to read this, because this site uses complex stylesheets to 
+	display the information - your browser doesn't support these new standards. However, all 
+	is not lost, you can upgrade your browser absolutely free, so please 
+	
+	UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"  
+	title="Download a browser that complies with Web standards.">
+	standards-compliant browser</a>. If you decide against doing so, then 
+	this and other similar sites will be lost to you. Remember...upgrading is free, and it 
+	enhances your view of the Web.
+</h2>
+
+<div id="wrap">
 
 <div id="header">
 <h1>andreas01</h1>
