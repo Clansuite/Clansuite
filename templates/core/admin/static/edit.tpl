@@ -48,6 +48,7 @@
         </td>
         <td id="cell2">
             <input name="id" type="hidden" value="{$info.id}">
+            <input name="orig_title" type="hidden" value="{$info.title}">
             <input name="title" type="text" value="{$info.title|escape:html}" class="input_text">
         </td>
     </tr>
@@ -69,6 +70,10 @@
             {translate}If you enter an URL the content below will not be recognized.{/translate}<br />
             {translate}Instead the content of the URL will be taken as static page.{/translate}<br />
             {translate}This is no redirection! The content will be taken "as is".{/translate}
+            </span><br />
+            <input type="radio" name="iframe" value="1" {if $info.iframe == '1'}checked{/if}>{translate}Use the URL in an iFrame{/translate}<br />
+            {translate}Height of the iframe:{/translate} <input class="input_text" type="text" name="iframe_height" value="{$info.iframe_height}" size="5"><br />
+            <input type="radio" name="iframe" value="0" {if $info.iframe == '0'}checked{/if}>{translate}Use the URL by file_get_contents();{/translate}
         </td>
     </tr>
     <tr>

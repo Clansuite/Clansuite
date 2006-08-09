@@ -99,18 +99,20 @@ class module_admin_static
         $title          = $_POST['title'];
         $url            = $_POST['url'];
         $submit         = $_POST['submit'];
+        $iframe         = $_POST['iframe'];
+        $iframe_height  = $_POST['iframe_height'];
         
         if ( !empty( $submit ) )
         {
             if ( empty( $description ) OR
-                    empty( $title ) OR
-                    empty( $html ) )
+                 empty( $title ) )
             {
                 $err['fill_form'] = 1;
             }
             
-            if (  ( !$input->check( $description, 'is_abc|is_int|is_custom', '_\s' ) OR
-                    !$input->check( $title      , 'is_abc|is_int|is_custom', '_\s' ) )
+            if (  ( !$input->check( $description        , 'is_abc|is_int|is_custom', '_\s' ) OR
+                    !$input->check( $title              , 'is_abc|is_int|is_custom', '_\s' ) OR
+                    !$input->check( $iframe_height      , 'is_int' ) )
                     AND !$err['fill_form'] )
             {
                 $err['no_special_chars'] = 1;
@@ -132,8 +134,8 @@ class module_admin_static
             
             if ( count( $err ) == 0 )
             {
-                $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html ) VALUES ( ?, ?, ?, ? )' );
-                $stmt->execute( array( $title, $description, $url, $html ) );
+                $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
+                $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
                 
                 $functions->redirect( '/index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
             }
@@ -157,21 +159,24 @@ class module_admin_static
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
         $info['title']          = $_POST['title'];
+        $info['orig_title']     = $_POST['orig_title'];
         $info['url']            = $_POST['url'];
+        $info['iframe']         = $_POST['iframe'];
+        $info['iframe_height']  = $_POST['iframe_height'];
         $info['submit']         = $_POST['submit'];
         $info['id']             = $_POST['id'];      
             
         if ( !empty( $info['submit'] ) )
         {
             if ( empty( $info['description'] ) OR
-                    empty( $info['title'] ) OR
-                    empty( $info['html'] ) )
+                 empty( $info['title'] ) )
             {
                 $err['fill_form'] = 1;
             }
             
-            if (  ( !$input->check( $info['description'], 'is_abc|is_int|is_custom', '_\s' ) OR
-                    !$input->check( $info['title']      , 'is_abc|is_int|is_custom', '_\s' ) )
+            if (  ( !$input->check( $info['description']    , 'is_abc|is_int|is_custom', '_\s' ) OR
+                    !$input->check( $info['title']          , 'is_abc|is_int|is_custom', '_\s' ) OR
+                    !$input->check( $info['iframe_height']  , 'is_int' ) )
                     AND !$err['fill_form'] )
             {
                 $err['no_special_chars'] = 1;
@@ -186,15 +191,15 @@ class module_admin_static
             $stmt->execute( array( $info['title'] ) );
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            if ( is_array( $result ) )
+            if ( is_array( $result ) AND $info['orig_title'] != $info['title'] )
             {
                 $err['static_already_exist'] = 1;
             }
             
             if ( count( $err ) == 0 )
             {
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ? WHERE id = ?' );
-                $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['id'] ) );
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
+                $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
                 
                 $functions->redirect( '/index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
             }
@@ -209,7 +214,8 @@ class module_admin_static
             }
         }
 
-        $tpl->assign( 'info', $info);
+        $tpl->assign( 'err'  , $err);
+        $tpl->assign( 'info' , $info);
         $this->output .= $tpl->fetch('admin/static/edit.tpl');
     }
     
@@ -224,6 +230,8 @@ class module_admin_static
         $info['description']    = '';
         $info['title']          = '';
         $info['url']            = '';
+        $info['iframe']         = '';
+        $info['iframe_height']  = '';
         $info['id']             = '';        
             
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages ORDER BY title ASC' );
