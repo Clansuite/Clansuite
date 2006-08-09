@@ -212,7 +212,20 @@ class module_admin_menueditor
                 
         foreach($menu as $entry)
         {
-        	$entry['content'] = !isset( $entry['content'] ) ? '' : $entry['content'];
+            /**
+            * @desc Init Vars
+            */
+            $entry['type']      = isset($entry['type'])     ? $entry['type']    : '';
+            $entry['content']   = isset($entry['content'])  ? $entry['content'] : '';
+            $entry['href']      = isset($entry['href'])     ? $entry['href']    : '';
+            $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
+            $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
+            $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
+            
+            /**
+            * @desc Build Menu
+            */
             if ($entry['href'] == '' )
             {
                 $entry['href'] = 'javascript:void(0)';
@@ -291,6 +304,8 @@ class module_admin_menueditor
     {
         global $lang, $cfg;
         
+        $result = '';
+        
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
@@ -298,7 +313,20 @@ class module_admin_menueditor
 
         foreach($menu as $entry)
         {
-                            
+            /**
+            * @desc Init Vars
+            */
+            $entry['type']      = isset($entry['type'])     ? $entry['type']    : '';
+            $entry['content']   = isset($entry['content'])  ? $entry['content'] : '';
+            $entry['href']      = isset($entry['href'])     ? $entry['href']    : '';
+            $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
+            $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
+            $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
+            
+            /**
+            * @desc Build Menu
+            */
             if ( $entry['type'] == 'folder')
             {
                 $result .= "<div class=\"folder\">";
@@ -349,6 +377,8 @@ class module_admin_menueditor
     {
         global $lang, $cfg;
                
+        $result = '';
+        
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
@@ -356,7 +386,20 @@ class module_admin_menueditor
         
         foreach($menu as $entry)
         {
-                            
+            /**
+            * @desc Init Vars
+            */
+            $entry['type']      = isset($entry['type'])     ? $entry['type']    : '';
+            $entry['content']   = isset($entry['content'])  ? $entry['content'] : '';
+            $entry['href']      = isset($entry['href'])     ? $entry['href']    : '';
+            $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
+            $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
+            $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
+            
+            /**
+            * @desc Build Menu
+            */                            
             if ( $entry['type'] == 'folder')
             {
                 $values = split( ',', $level );
