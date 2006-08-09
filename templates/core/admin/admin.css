@@ -66,6 +66,10 @@ input,select
     border: 1px solid black;
 }
 
+img { 
+    border: 0px;
+}
+
 table td
 {
     vertical-align: top;
@@ -147,26 +151,28 @@ p
     background: #ECE9D8;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    padding: 3px;
+    padding: 5px;
     cursor: default;
     font-weight: bold;
 }
 
 #header span
-{
+{   /* move Date inside Header to right-side */
     position: absolute;
     right: 38px;
 }
 
 #menugradient {
+    
     height: 24px; 
-    width:100%;
+    
     background: #ECE9D8;
-    border-bottom: 1px solid #ACA899;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
     /* overflow: auto; Aufgrund des Floatens der Innencontainer */
     padding-top:    1px;
     padding-bottom: 1px;
-    padding-left: 5px;
+    
 }
 
 #bar
@@ -194,11 +200,11 @@ p
 
 #content
 {
-    padding: 10px;
+    padding: 8px;
     background: #ECE9D8;
     border: 1px solid;
-    border-color: #ACA899 #ACA899 #ACA899 #ffffff;
-    cursor: default;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    
 }
 
 /**
