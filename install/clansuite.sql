@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 09. August 2006 um 06:28
+-- Erstellungszeit: 09. August 2006 um 09:40
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -351,7 +351,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '18f5eabed3a89fb27e3759fb325ab2c3', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"18f5eabed3a89fb27e3759fb325ab2c3";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155098128, 1, 'static');
+INSERT INTO `cs_session` VALUES (0, 'f264d97da796345a3921fe66df4b92f6', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"f264d97da796345a3921fe66df4b92f6";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155109799, 1, 'static');
 
 -- --------------------------------------------------------
 
@@ -365,14 +365,17 @@ CREATE TABLE `cs_static_pages` (
   `description` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `html` text NOT NULL,
+  `iframe` tinyint(1) NOT NULL default '0',
+  `iframe_height` int(11) NOT NULL default '300',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- 
 -- Daten für Tabelle `cs_static_pages`
 -- 
 
-INSERT INTO `cs_static_pages` VALUES (1, 'credits', 'Those are the people who helped', '', '<u><strong>WYSIWYG Editor:</strong></u><br />\r\n<a href="http://www.fckeditor.net/">FCKEditor</a><br />\r\n<br />\r\n<u><strong>Icons:</strong></u><br />\r\n<a href="http://www.famfamfam.com/lab/icons/">famfamfam</a><br />\r\n<br />\r\n<br />\r\nand more...');
+INSERT INTO `cs_static_pages` VALUES (1, 'credits', 'Those are the people who helped', '', '<u><strong>WYSIWYG Editor:</strong></u><br />\r\n<a href="http://www.fckeditor.net/">FCKEditor</a><br />\r\n<br />\r\n<u><strong>Icons:</strong></u><br />\r\n<a href="http://www.famfamfam.com/lab/icons/">famfamfam</a><br />\r\n<br />\r\n<br />\r\nand more...', 1, 300);
+INSERT INTO `cs_static_pages` VALUES (2, 'google', 'Google', 'http://www.google.de', '', 1, 500);
 
 -- --------------------------------------------------------
 
