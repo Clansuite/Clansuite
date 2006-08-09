@@ -227,10 +227,9 @@ class module_admin_static
         $info['id']             = '';        
             
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages ORDER BY title ASC' );
-        if ( $stmt->execute( array( $title ) ) )
-        {
-            $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        $stmt->execute();
+        
+        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $tpl->assign( 'info', $info);
         $this->output .= $tpl->fetch('admin/static/list_all.tpl');
