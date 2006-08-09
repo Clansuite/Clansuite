@@ -83,9 +83,12 @@ class {$class_name}
 
     function show()
     {literal}{{/literal}
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
-        $this->output .= 'You have created a new module, that currently handles this message';
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t('You have created a new module, that currently handles this message');
     {literal}}{/literal}
 {literal}}{/literal}
 ?>

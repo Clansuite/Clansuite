@@ -1,27 +1,27 @@
 {$chmod_tpl}
 
 {if $err.no_special_chars == 1}
-<div id="cell1" align="center">
-    <b>{translate}No special chars except '_' are allowed, because of php and file relating sourcecode. Whitespaces are allowed, except for the name.{/translate}</b>
-</div>
+    {error title="No special chars"}
+        No special chars except '_' are allowed, because of php and file relating sourcecode. Whitespaces are allowed, except for the name.
+    {/error}
 {/if}
 
 {if $err.give_correct_url == 1}
-<div id="cell1" align="center">
-    <b>{translate}Please enter a valid URL or leave the field blank.{/translate}</b>
-</div>
+    {error title="Valid URL"}
+        Please enter a valid URL or leave the field blank.
+    {/error}
 {/if}
 
 {if $err.fill_form == 1}
-<div id="cell1" align="center">
-    <b>{translate}Please fill all fields.{/translate}</b>
-</div>
+    {error title="Fill form"}
+        Please fill all fields.
+    {/error}
 {/if}
 
 {if $err.mod_already_exist == 1}
-<div id="cell1" align="center">
-    <b>{translate}We are sorry but a module with this name already exists as folder or database setting.{/translate}</b>
-</div>
+    {error title="Already exists"}
+        We are sorry but a module with this name already exists as folder or database setting.
+    {/error}
 {/if}
 
 <form action="{$www_root}/index.php?mod=admin&sub=modules&action=create_new" method="POST">

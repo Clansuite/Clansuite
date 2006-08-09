@@ -45,5 +45,6 @@ if (!defined('IN_CS'))
 $sub_files = array( 'configs'    => array('configs.module.php'    , 'module_admin_configs' ),
                     'modules'    => array('modules.module.php'    , 'module_admin_modules' ),
                     'users'      => array('users.module.php'      , 'module_admin_users'   ),
-                    'usercenter' => array('usercenter.module.php' , 'module_admin_usercenter'   ),
-                    'menueditor' => array('menueditor.module.php' , 'module_admin_menueditor') );
+                    'usercenter' => array('usercenter.module.php' , 'module_admin_usercenter' ),
+                    'menueditor' => array('menueditor.module.php' , 'module_admin_menueditor' ),
+                    'static' => array('static.module.php' , 'module_admin_static' ), );

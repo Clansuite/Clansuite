@@ -70,7 +70,7 @@ $sub_files = array();
 // copy and paste into the module folder, they are used as a
 // reference.
 // If you want to change the real values, so lookup the
-// "Manage modules" Section in the Admininterfaces Modulemanager
+// module in the admin interface.
 //---------------------------------------------------------------- 
 
 $info['author']         = '{$author}';

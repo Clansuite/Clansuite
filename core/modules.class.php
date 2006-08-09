@@ -47,7 +47,6 @@ class modules
     /**
     * @desc Register {mod} in SMARTY Template Engine
     */
-
     function __construct()
     {
         global $tpl;
@@ -58,7 +57,6 @@ class modules
     /**
     * @desc Load whitelist
     */
-
     function load_whitelist()
     {
         global $db, $cfg;
@@ -76,7 +74,6 @@ class modules
     /**
     * @desc {mod} handler function
     */
-
     static function get_instant_content($params)
     {
         global $modules, $cfg, $lang, $error;
@@ -84,10 +81,9 @@ class modules
         /**
         * @desc Init Vars
         */
-
-        $params['params'] = !isset( $params['params'] ) ? '' : $params['params'];
-        $params['sub'] = !isset( $params['sub'] ) ? '' : $params['sub'];
-        $params['name'] = !isset( $params['name'] ) ? '' : $params['name'];
+        $params['params']   = !isset( $params['params'] ) ? '' : $params['params'];
+        $params['sub']      = !isset( $params['sub'] ) ? '' : $params['sub'];
+        $params['name']     = !isset( $params['name'] ) ? '' : $params['name'];
         $sub = $params['sub'];
         $mod = $params['name'];
         $file_name   = '';

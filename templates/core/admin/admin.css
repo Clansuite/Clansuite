@@ -96,6 +96,15 @@ p
     cursor: default;
 }
 
+#cell3
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 0px;
+    cursor: default;
+}
+
 #td_header
 {
     background: #254161;

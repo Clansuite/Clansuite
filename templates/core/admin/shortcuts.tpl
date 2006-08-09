@@ -19,4 +19,4 @@
     </tr>
 {/foreach}
 </table>
-</center>
+</div>

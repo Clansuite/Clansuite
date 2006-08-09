@@ -20,4 +20,4 @@
         </td>
     </tr>
 </table>
-</center>
+</div>

@@ -24,10 +24,9 @@
 			
 	<!-- start: Logo - Kopfzeile //-->
 	<div id="header"> 
-	<strong>Clansuite - Control Center</strong>
-	<span>{$smarty.now|date_format:"%A - %e %B %Y | %H:%M"}</span>
+    	<strong>Clansuite - Control Center</strong>
+    	<span>{$smarty.now|date_format:"%A - %e %B %Y | %H:%M"}</span>
 	</div> 
-	
 	<!-- end: Logo - Kopfzeile //-->
 	
     {include file="admin/adminmenu/adminmenu.tpl"}

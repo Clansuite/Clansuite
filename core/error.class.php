@@ -45,20 +45,38 @@ class error
     /**
     * @desc Set normal error handlers and load error.xml
     */
-
     function set_callbacks()
     {
-        global $lang, $cfg;
+        global $lang, $cfg, $tpl;
         
         $lang->load_lang('error');
         set_error_handler(array($this, 'advanced_error_handler') );
         set_exception_handler(array($this, 'exception_handler' ) );
+        
+        $tpl->register_block("error", array('error',"smarty_error"), false);
+    }
+    
+    /**
+    * @desc Registered Smarty {error level="1" title="Error"}
+    */
+    static function smarty_error($params, $string, &$smarty)
+    {
+        global $error, $lang;
+        /**
+        * @desc Init Vars
+        */
+        $params['level']   = !isset( $params['level'] ) ? 3 : $params['level'];
+        $params['title']   = !isset( $params['level'] ) ? 'Unkown Error' : $params['title'];
+        
+        if ( !empty($string) )
+        {
+            $error->show( $lang->t($params['title']), $lang->t($string), $params['level'] );
+        }
     }
     
     /**
     * @desc Advanced error_handler callback function
     */
-
     function advanced_error_handler( $errno, $errstr, $errfile, $errline )
     {
         global $debug, $tpl, $cfg;
