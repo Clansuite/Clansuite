@@ -58,7 +58,7 @@ class module_static
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t( 'static' );
+        $this->mod_page_title = $lang->t( 'static - ' );
         
         switch ($_REQUEST['action'])
         {
@@ -80,7 +80,6 @@ class module_static
     /**
     * @desc Show the entrance - welcome message etc.
     */
-
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
@@ -92,26 +91,35 @@ class module_static
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
             $stmt->execute( array( $page ) );
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
-            if ( empty($result['url']) )
+            
+            if ( !is_array( $result ) )
             {
-                $this->output .= $result['html'];
+                $this->output .= $lang->t('This static page does not exist.');
             }
             else
             {
-                if ( $result['iframe'] == 1 )
+                if ( empty($result['url']) )
                 {
-                    $this->output .= '<iframe width="100%" height="'. $result['iframe_height'] .'" frameborder="0" scrolling="auto" src="' . $result['url'] . '"></iframe>';
+                    $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
+                    $this->output .= $result['html'];
                 }
                 else
                 {
-                    $this->output .= file_get_contents( $result['url'] );
+                    $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
+                    if ( $result['iframe'] == 1 )
+                    {
+                        $this->output .= '<iframe width="100%" height="'. $result['iframe_height'] .'" frameborder="0" scrolling="auto" src="' . $result['url'] . '"></iframe>';
+                    }
+                    else
+                    {
+                        $this->output .= file_get_contents( $result['url'] );
+                    }
                 }
             }
         }
         else
         {
-            $this->output .= $lang->t('This static page does not exist.');        
+            $this->output .= $lang->t('This static page does not exist.');
         }
     }
 }

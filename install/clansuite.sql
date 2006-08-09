@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 09. August 2006 um 09:40
+-- Erstellungszeit: 09. August 2006 um 11:00
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -105,10 +105,10 @@ INSERT INTO `cs_adminmenu` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_s
 INSERT INTO `cs_adminmenu` VALUES (30, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
 INSERT INTO `cs_adminmenu` VALUES (31, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
 INSERT INTO `cs_adminmenu` VALUES (32, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
-INSERT INTO `cs_adminmenu` VALUES (33, 32, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0, 'help.png');
-INSERT INTO `cs_adminmenu` VALUES (34, 32, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
+INSERT INTO `cs_adminmenu` VALUES (33, 32, 'item', 'Help', '/index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
+INSERT INTO `cs_adminmenu` VALUES (34, 32, 'item', 'Manual', '/index.php?mod=admin&sub=static&action=show&page=manual', 'Manual', '_self', 1, 'book_open.png');
 INSERT INTO `cs_adminmenu` VALUES (35, 32, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
-INSERT INTO `cs_adminmenu` VALUES (36, 32, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu` VALUES (36, 32, 'item', 'About Clansuite', '/index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
 
 -- --------------------------------------------------------
 
@@ -145,7 +145,7 @@ INSERT INTO `cs_adminmenu_old` VALUES (9, 2, 'folder', 'Replays', '', 'Replays',
 INSERT INTO `cs_adminmenu_old` VALUES (10, 2, 'folder', 'Shoutbox', '', 'Shoutbox', '_self', 7, 'comment.png');
 INSERT INTO `cs_adminmenu_old` VALUES (11, 2, 'folder', 'Static Pages', '', 'Static Pages', '_self', 8, 'html.png');
 INSERT INTO `cs_adminmenu_old` VALUES (12, 11, 'item', 'Create', '/index.php?mod=admin&sub=static&action=create', 'Create', '_self', 0, 'add.png');
-INSERT INTO `cs_adminmenu_old` VALUES (13, 11, 'item', 'Edit', '/index.php?mod=admin&sub=static&action=list', 'Edit', '_self', 1, 'pencil.png');
+INSERT INTO `cs_adminmenu_old` VALUES (13, 11, 'item', 'Edit', '/index.php?mod=admin&sub=static&action=list_all', 'Edit', '_self', 1, 'pencil.png');
 INSERT INTO `cs_adminmenu_old` VALUES (14, 0, 'folder', 'System', '', 'System', '_self', 2, '');
 INSERT INTO `cs_adminmenu_old` VALUES (15, 14, 'item', 'Settings', '/index.php?mod=admin&sub=config', 'Settings', '_self', 0, 'settings.png');
 INSERT INTO `cs_adminmenu_old` VALUES (16, 14, 'folder', 'Modules', '', 'Modules', '_self', 1, 'bricks.png');
@@ -165,7 +165,7 @@ INSERT INTO `cs_adminmenu_old` VALUES (29, 25, 'folder', 'Groups', '', 'Groups',
 INSERT INTO `cs_adminmenu_old` VALUES (30, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
 INSERT INTO `cs_adminmenu_old` VALUES (31, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
 INSERT INTO `cs_adminmenu_old` VALUES (32, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
-INSERT INTO `cs_adminmenu_old` VALUES (33, 32, 'item', 'Help', '/index.php?mod=admin&sub=help', 'Help', '_self', 0, 'help.png');
+INSERT INTO `cs_adminmenu_old` VALUES (33, 32, 'item', 'Help', '/index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
 INSERT INTO `cs_adminmenu_old` VALUES (34, 32, 'item', 'Manual', '/index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
 INSERT INTO `cs_adminmenu_old` VALUES (35, 32, 'item', 'Report Bugs & Give Feedback', '/index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
 INSERT INTO `cs_adminmenu_old` VALUES (36, 32, 'item', 'About Clansuite', '/index.php?mod=admin&sub=about', 'About Clansuite', '_self', 3, 'information.png');
@@ -351,7 +351,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'f264d97da796345a3921fe66df4b92f6', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"f264d97da796345a3921fe66df4b92f6";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155109799, 1, 'static');
+INSERT INTO `cs_session` VALUES (0, 'f264d97da796345a3921fe66df4b92f6', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"f264d97da796345a3921fe66df4b92f6";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155114490, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -368,7 +368,7 @@ CREATE TABLE `cs_static_pages` (
   `iframe` tinyint(1) NOT NULL default '0',
   `iframe_height` int(11) NOT NULL default '300',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- 
 -- Daten für Tabelle `cs_static_pages`
@@ -376,6 +376,9 @@ CREATE TABLE `cs_static_pages` (
 
 INSERT INTO `cs_static_pages` VALUES (1, 'credits', 'Those are the people who helped', '', '<u><strong>WYSIWYG Editor:</strong></u><br />\r\n<a href="http://www.fckeditor.net/">FCKEditor</a><br />\r\n<br />\r\n<u><strong>Icons:</strong></u><br />\r\n<a href="http://www.famfamfam.com/lab/icons/">famfamfam</a><br />\r\n<br />\r\n<br />\r\nand more...', 1, 300);
 INSERT INTO `cs_static_pages` VALUES (2, 'google', 'Google', 'http://www.google.de', '', 1, 500);
+INSERT INTO `cs_static_pages` VALUES (3, 'help', 'The help for ClanSuite', '', '<strong><font size="4">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>', 1, 300);
+INSERT INTO `cs_static_pages` VALUES (4, 'manual', 'The Manual', '', '<font size="4">Manual</font><br />\r\n<br />\r\n- some content', 1, 300);
+INSERT INTO `cs_static_pages` VALUES (5, 'about', 'About ClanSuite', '', '<font size="4">About</font><br />\r\n<br />\r\n- some content', 1, 300);
 
 -- --------------------------------------------------------
 

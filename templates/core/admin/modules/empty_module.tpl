@@ -58,7 +58,7 @@ class {$class_name}
     {literal}{{/literal}
         global $lang;
         
-        $this->mod_page_title = $lang->t( '{$name}' );
+        $this->mod_page_title = $lang->t( '{$title} -' );
         
         switch ($_REQUEST['action'])
         {literal}{{/literal}
