@@ -249,7 +249,7 @@ class module_admin_modules
             $tpl->assign( 'homepage'    , $homepage );
             $tpl->assign( 'class_name'  , 'module_' . $name );
             $tpl->assign( 'timestamp'   , time() );
-            $tpl->assign( 'file_name'   , $name . '.class.php' );
+            $tpl->assign( 'file_name'   , $name . '.module.php' );
             $tpl->assign( 'folder_name' , $name );
             $tpl->assign( 'image_name'  , $image_name );
             $tpl->assign( 'version'     , (float) 0.1 );
@@ -275,7 +275,7 @@ class module_admin_modules
             {
                 if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
                 {
-                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.class.php', $mod_class );
+                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.module.php', $mod_class );
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
@@ -291,7 +291,7 @@ class module_admin_modules
                                             $title,
                                             $description,
                                             'module_' . $name,
-                                            $name . '.class.php',
+                                            $name . '.module.php',
                                             $name,
                                             $enabled,
                                             $image_name,
@@ -299,11 +299,11 @@ class module_admin_modules
                                             $cfg->version,
                                             $core ) );
                                             
-                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 5, $lang->t( 'The module was successfully created...' ), 'admin' );
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
                 else
                 {
-                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=create_new', 'metatag|newsite', 5, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
+                    $functions->redirect( '/index.php?mod=admin&sub=modules&action=create_new', 'metatag|newsite', 3, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
                 }
             }
         }
