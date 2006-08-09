@@ -226,7 +226,7 @@ class module_admin_static
         $info['url']            = '';
         $info['id']             = '';        
             
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages ORDER by title ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages ORDER BY title ASC' );
         $stmt->execute( array( $title ) );
         $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
