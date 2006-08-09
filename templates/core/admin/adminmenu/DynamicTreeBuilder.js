@@ -102,13 +102,28 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
             el.style.display = "none";
             if (this.allNodes[id].isLast()) { node.src = this.img.nodeEnd; }
             else { node.src = this.img.node; }
-            icon.src = this.img.folder;
+            if ( this.allNodes[id].custom_icon )
+            {
+                icon.src = tree.custom_icon_path+this.allNodes[id].custom_icon;
+            }
+            else
+            {
+                icon.src = this.img.folder;
+            }
             this.opened.removeByValue(id);
         } else {
             el.style.display = "block";
             if (this.allNodes[id].isLast()) { node.src = this.img.nodeOpenEnd; }
             else { node.src = this.img.nodeOpen; }
-            icon.src = this.img.folderOpen;
+            
+            if ( this.allNodes[id].custom_icon )
+            {
+                icon.src = tree.custom_icon_path+this.allNodes[id].custom_icon;
+            }
+            else
+            {
+                icon.src = this.img.folderOpen;
+            }
             this.opened.push(id);
         }
         /* fix ie bug - images not showing */
@@ -407,13 +422,17 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
                 if (this.childNodes.length) { s += '</a>'; }
                 if ( this.custom_icon )
                 {
+                    width = "16"
+                    height = "16"
                     icon = tree.custom_icon_path+this.custom_icon;
                 }
                 else
                 {
+                    width = "18"
+                    height = "18"
                     icon = icon;
                 }
-                s += '<img id="?-icon" src="?" width="18" height="18" alt="" />'.format(this.id, icon);
+                s += '<img id="?-icon" src="?" width="?" height="?" alt="" />'.format(this.id, icon, width, height);
                 s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')" style="padding-left: 5px">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
                 if (this.childNodes.length) {
                     s += '<div class="section?" id="?-section"'.format((this.isLast() ? " last" : ""), this.id);
@@ -429,13 +448,17 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
             if (this.isDoc) {
                 if ( this.custom_icon )
                 {
+                    width = "16"
+                    height = "16"
                     new_icon = tree.custom_icon_path+this.custom_icon;
                 }
                 else
                 {
+                    width = "18"
+                    height = "18"
                     new_icon = self.img.doc;
                 }
-                s += '<img src="?" width="18" height="18" alt="" /><img src="?" />'.format((this.isLast() ? self.img.leafEnd : self.img.leaf), new_icon);
+                s += '<img src="?" width="18" height="18" alt="" /><img width="?" height="?" src="?"/>'.format((this.isLast() ? self.img.leafEnd : self.img.leaf), width, height, new_icon);
                 s += '<span id="?-text" class="text?" onclick="?.textClick(\'?\')" style="padding-left: 5px">?</span>'.format(this.id, (self.active == this.id ? '-active' : ''), self.id, this.id, this.text);
             }
             s += '</div>';
