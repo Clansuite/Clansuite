@@ -258,7 +258,6 @@ class db_statements
     /**
     * @desc $stmt->execute
     */
-
     function execute( $args = array() )
     {
         global $db;
