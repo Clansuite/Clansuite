@@ -69,9 +69,9 @@
             {translate}Instead the content of the URL will be taken as static page.{/translate}<br />
             {translate}This is no redirection! The content will be taken "as is".{/translate}
             </span><br />
-            <input type="radio" name="iframe" value="1" {if $info.iframe == 1}checked{/if}>{translate}Use the URL in an iFrame{/translate}<br />
+            <input type="radio" name="iframe" value="1" checked>{translate}Use the URL in an iFrame{/translate}<br />
             {translate}Height of the iframe:{/translate} <input type="text" name="iframe_height" value="300" size="5"><br />
-            <input type="radio" name="iframe" value="0" {if $info.iframe == 0}checked{/if}>{translate}Use the URL by file_get_contents();{/translate}
+            <input type="radio" name="iframe" value="0">{translate}Use the URL by file_get_contents();{/translate}
         </td>
     </tr>
     <tr>
