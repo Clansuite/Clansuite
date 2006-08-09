@@ -1,5 +1,5 @@
 <center>
-<table border="1" cellspacing="20" cellpadding="10">
+<table cellspacing="20" cellpadding="10">
 {foreach key=row item=image from=$shortcuts}
     <tr>
     {foreach key=col item=data from=$image}
