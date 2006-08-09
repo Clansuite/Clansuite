@@ -203,26 +203,6 @@ INSERT INTO `cs_category` VALUES (10, '/design', NULL, 'good night', NULL, '0');
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `cs_groups`
--- 
-
-CREATE TABLE `cs_groups` (
-  `group_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `rights` text NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `cs_groups`
--- 
-
-
--- --------------------------------------------------------
-
--- 
 -- Tabellenstruktur für Tabelle `cs_modules`
 -- 
 
