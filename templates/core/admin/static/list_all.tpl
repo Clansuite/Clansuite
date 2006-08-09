@@ -36,5 +36,3 @@
 </form>
 {/foreach}
 </table>
-
-</form>
