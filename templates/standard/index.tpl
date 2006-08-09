@@ -82,9 +82,7 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
     </td>
     
     <td id="bar">
-        <div id="content">
-            {* This calls the method "index_time" from the registered module "index" with the sub "index" and delivers 2 parameters: "english" and "-" seperated by "|" *}
-            {* {mod name="index" func="time" params="english|-"}<br> *}
+        <div id="content" style="padding: 0">
             {$content}
         </div>
     </td>

@@ -93,7 +93,21 @@ class module_static
             $stmt->execute( array( $page ) );
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
-            $this->output .= $result['html'];
+            if ( empty($result['url']) )
+            {
+                $this->output .= $result['html'];
+            }
+            else
+            {
+                if ( $result['iframe'] == 1 )
+                {
+                    $this->output .= '<iframe width="100%" height="'. $result['iframe_height'] .'" frameborder="0" scrolling="auto" src="' . $result['url'] . '"></iframe>';
+                }
+                else
+                {
+                    $this->output .= file_get_contents( $result['url'] );
+                }
+            }
         }
         else
         {
