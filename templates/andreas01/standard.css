@@ -199,10 +199,7 @@ font-weight:bold;
 display:none;
 }
 
-
-
-
-
+.oops  { display: none;   /*--Support for upgrading to a modern browser--*/ }
 
 .redirect
 {
