@@ -230,7 +230,3 @@ function treePluginHide() {
     document.getElementById("tree-plugin-textarea").value = "";
     document.getElementById("tree-plugin-button-import-html").style.display = "none";
 }
-
-document.getElementById("tree-plugin-import-html").onclick = function() { this.blur(); treePluginHide(); treePluginImportHtml(); };
-document.getElementById("tree-plugin-button-import-html").onclick = treePluginImportHtmlExecute;
-document.getElementById("tree-plugin-export-sql").onclick = function() { this.blur(); treePluginHide(); treePluginGenerateMenu(); }
