@@ -500,7 +500,7 @@ class module_admin_modules
                         {
                             $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
                             
-                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`) VALUES (?,?,?,?,?,?,?,?)' );
+                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`,icon) VALUES (?,?,?,?,?,?,?,?,?)' );
                             foreach( $info['admin_menu'] as $item )
                             {
                                 $stmt->execute( array ( $item['id'],
@@ -510,7 +510,8 @@ class module_admin_modules
                                                         $item['href'],
                                                         $item['title'],
                                                         $item['target'],
-                                                        $item['order'] ) );
+                                                        $item['order'],
+                                                        $item['icon'] ) );
                             }
                         }
                         
