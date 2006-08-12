@@ -204,7 +204,12 @@ class db
 
     public function query( $sql='' )
     {
-        
+        if( is_object($this->query_active_reference) )
+        {
+            $this->query_active_reference->closeCursor();
+            $this->query_active_reference = NULL;
+        }
+                
         $this->query_counter++;
         $this->queries[] = $sql;
         $res = $this->db->query($sql);

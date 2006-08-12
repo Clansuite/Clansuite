@@ -306,7 +306,8 @@ class session
 
     function _session_optimize()
     {
-        $this->db->exec('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+        $stmt = $this->db->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+        $stmt->closeCursor();
     }
     
     /**
