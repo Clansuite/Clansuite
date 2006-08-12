@@ -216,9 +216,13 @@ $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
-* @desc Admin module ? NO? -> normal module
+* @desc UTF-8 encoding
 */
 header("Content-type: text/html; charset=UTF-8");
+
+/**
+* @desc Admin module <-> Normal module
+*/
 $_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->displayDoc($cfg->tpl_wrapper_file);
 
 /**
@@ -227,12 +231,14 @@ $_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->displayD
 DEBUG ? $debug->show_console() : '';
 
 /**
-* @desc DB Cleanup
+* @desc DB Cleanup (hmm...?!)
 */
+/*
 if( is_object($db->query_active_reference) )
 {
     $db->query_active_reference->closeCursor();
     $db->query_active_reference = NULL;
 }
+*/
 
 ?>
