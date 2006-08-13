@@ -41,7 +41,7 @@ if (!defined('IN_CS'))
 {literal}}{/literal}
 
 /**
-* @desc Start module index class
+* @desc Start module class
 */
 class {$class_name}
 {literal}{{/literal}

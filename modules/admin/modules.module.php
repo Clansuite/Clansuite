@@ -133,10 +133,12 @@ class module_admin_modules
                         if ( $res['core'] == 0 )
                         {
                             $container['whitelisted']['normal'][$res['title']] = $res;
+                            $container['whitelisted']['normal'][$res['title']]['subs'] = unserialize($res['subs']);
                         }
                         else
                         {
                             $container['whitelisted']['core'][$res['title']] = $res;
+                            $container['whitelisted']['core'][$res['title']]['subs'] = unserialize($res['subs']);
                         }
                     }
                     else
@@ -363,6 +365,7 @@ class module_admin_modules
 
                 $info = serialize($res);
                 
+                // include( )
                 file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', $info );
                 
                 $tared_files['info'] = UPLOAD_ROOT . '/modules/temp/mod_info.php';
@@ -686,7 +689,7 @@ class module_admin_modules
 
     function update()
     {
-        global $db, $functions, $input, $lang;
+        global $db, $functions, $input, $lang, $error, $tpl;
         
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
@@ -715,10 +718,58 @@ class module_admin_modules
             {
                 if ( in_array( $value['module_id'], $ids ) )
                 {
+                    /**
+                    * @desc Some unusual workaround *sigh
+                    */
+                    if ( isset( $info[$value['module_id']]['subs'] ) )
+                    {
+                        foreach( $info[$value['module_id']]['subs'] as $arr )
+                        {
+                            $subs[$arr['name']] = array( $arr['file'], $arr['class'] );
+                            
+                            /**
+                            * @desc Write the subfile if requested
+                            */
+                            if ( $arr['create_sub'] == 1 )
+                            {
+                                $tpl->assign( 'name'        , $arr['name'] );
+                                $tpl->assign( 'description' , $info[$value['module_id']]['description'] );
+                                $tpl->assign( 'license'     , $info[$value['module_id']]['license'] );
+                                $tpl->assign( 'copyright'   , $info[$value['module_id']]['copyright'] );
+                                $tpl->assign( 'title'       , $info[$value['module_id']]['title'] );
+                                $tpl->assign( 'author'      , $info[$value['module_id']]['author'] );
+                                $tpl->assign( 'homepage'    , $info[$value['module_id']]['homepage'] );
+                                $tpl->assign( 'class_name'  , $arr['class'] );
+                                $tpl->assign( 'timestamp'   , time() );
+                                $tpl->assign( 'file_name'   , $arr['file'] );
+                                $tpl->assign( 'folder_name' , $info[$value['module_id']]['folder_name'] );
+                                $tpl->assign( 'image_name'  , $info[$value['module_id']]['image_name'] );
+                                $tpl->assign( 'version'     , $info[$value['module_id']]['version'] );
+                                $tpl->assign( 'cs_version'  , $cfg->version );
+                                
+                                $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
+                                
+                                $mod_class = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
+                                
+                                $tpl->unregister_outputfilter( 'remove_tpl_comments' );
+
+                                file_put_contents ( MOD_ROOT . '/' . $info[$value['module_id']]['folder_name'] . '/' . $arr['file'], $mod_class );
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $subs = '';
+                    }
                     
+                    /**
+                    * @desc Database Insert
+                    */
+
                     $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
                     $sets = 'author = ?, homepage = ?, license = ?, copyright = ?, folder_name = ?,';
-                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
+                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?, subs = ?';
                     $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $sets . ' WHERE module_id = ?' );
                     $stmt->execute( array(  $info[$value['module_id']]['author'],
                                             $info[$value['module_id']]['homepage'],
@@ -734,6 +785,7 @@ class module_admin_modules
                                             $info[$value['module_id']]['version'],
                                             $cfg->version,
                                             $e,
+                                            serialize($subs),
                                             $value['module_id']) );
                 }
             }
