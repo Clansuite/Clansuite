@@ -6,51 +6,56 @@
 
 <!-- start: Menu - Kopfzeile 2//-->
     
-    <script type="text/javscript">
-    /* preload images */
-    var arrow1 = new Image(4, 7);
-    arrow1.src =  "{$www_core_tpl_root}/images/arrow1.gif";
-    var arrow2 = new Image(4, 7);
-    arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
-    </script>
+<script type="text/javscript">
+/* preload images */
+var arrow1 = new Image(4, 7);
+arrow1.src =  "{$www_core_tpl_root}/images/arrow1.gif";
+var arrow2 = new Image(4, 7);
+arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
+</script>
 
 <div id="menugradient">
 
-<div id="bar" class="bar">
-<table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu">
-  <tr>
-        <td><img src="{$www_core_tpl_root}/images/adminmenu/nubs.gif" alt="" /></td>
+    <div id="bar" class="bar">
+    
+        <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu" width="100%">
+            <tr>
+                <td width="1"><img src="{$www_core_tpl_root}/images/adminmenu/nubs.gif" alt="" /></td>
+                
+                {mod name="admin" sub="menueditor" func="get_html_div"}
+                
+                <td align="right" width="100%">
+                    <span height="1%">
 
-        {mod name="admin" sub="menueditor" func="get_html_div"}
+                        <a class="itembtn" href="{$www_root}/index.php?mod=admin&sub=usercenter">
+                            <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
+                            &nbsp;{$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}
+                        </a>
+                        &nbsp;
 
-  </tr>
-</table>
-
-    <script type="text/javascript">
-    var menu1 = new XulMenu("menu1");
-    menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
-    menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
-    menu1.init();
-    </script>
+                        <a class="itembtn" href="{$www_root}/index.php?mod=account&action=logout">
+                            <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
+                            &nbsp;Logout
+                        </a>
+                    </span>
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+        
+        <script type="text/javascript">
+        var menu1 = new XulMenu("menu1");
+        menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
+        menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
+        menu1.init();
+        </script>
     
     </div>
-		
-    <div id="search" class="XulMenu">
-            
-        <!--
-        <input type="text" name="searchField" value="" />
-        <select name="searchWhat"><option value="">Articles</option><option value="">Links</option><option value="">PHP Manual</option></select>
-        <input type="button" value="Search" />
-        //-->
-           
-        <a class="itembtn" href="{$www_root}/index.php?mod=admin&sub=usercenter" >
-        <img src="{$www_core_tpl_root}/images/adminmenu/user.gif" border="0" alt="user-image" />
-        {$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}</a>
-        
-        <a class="itembtn" href="{$www_root}/index.php?mod=account&action=logout.php">
-        <img src="{$www_core_tpl_root}/images/adminmenu/logout.gif" border="0" alt="logout-image" />Logout</a>           
-    
-    </div>	 
+            <!--
+            <input type="text" name="searchField" value="" />
+            <select name="searchWhat"><option value="">Articles</option><option value="">Links</option><option value="">PHP Manual</option></select>
+            <input type="button" value="Search" />
+            //--> 
     
 </div>
 <!-- end: Menu- Kopfzeile 2 //-->
