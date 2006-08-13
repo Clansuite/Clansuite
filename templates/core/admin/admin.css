@@ -231,3 +231,11 @@ p
 	font-family: 'Courier New' , Monospace;
 	background-color: #ff9933;
 }
+
+/**
+* @desc Admin Menu
+*/
+#admin_icon_head
+{
+    padding: 5px;
+}

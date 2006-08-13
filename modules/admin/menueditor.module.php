@@ -221,7 +221,12 @@ class module_admin_menueditor
             $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
             $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
             $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
-            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';
+            
+            if ( $entry['icon'] == '' )
+            {
+                $entry['icon'] = 'empty.png';
+            }                            
             
             /**
             * @desc Build Menu
