@@ -1,7 +1,8 @@
 body
 {   margin:0 px; 
     padding:0 px;
-    background: #E4E0C7;
+    background: #E4E0C7; 
+    /* background: url(../images/bgr.png); */
     font-family: tahoma, verdana, arial, sans-serif;
     font-size: 11px; 
     margin: 2em;
@@ -13,6 +14,25 @@ a:visited
     text-decoration: none;
     color: blue;
     font-weight: bold;
+}
+
+.crudbutton
+{   
+    margin-top: 5px;
+    padding: 3px;
+    width: 8%;
+    height: 14px;
+    display: block;
+    position:relative;
+    border: 1px solid #F1EFE2;
+    z-index: 5;
+    cursor: default;
+}
+
+.crudbutton:hover
+{
+    background-color: #ffffff;
+    border: 1px solid #ACA899;
 }
 
 a:hover
