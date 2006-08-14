@@ -1,3 +1,6 @@
+
+{doc_raw}
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 {literal}
 <script>
 
@@ -128,7 +131,57 @@ function clip_more(more)
         document.getElementById(more+"_more").style.display = "none";
     }
 }
+
+        
+function clip_menu(name)
+{
+    if(document.getElementById(name).style.display == 'none')
+    {
+        document.getElementById(name).style.display = "block";
+    }
+    else
+    {
+        document.getElementById(name).style.display = "none";
+    }
+}
+
+function checker(checkboxen, caller)
+{
+    if ( !this.loaded )
+    {
+        this.loaded = new Array;
+    }
+    
+    checkbox = checkboxen.split(",");
+
+    for( x=0; x<checkbox.length; x++ )
+    {
+        if( document.getElementById(caller).checked )
+        {
+            document.getElementById(checkbox[x]).checked=1;
+            
+            if ( this.loaded[checkbox[x]] >= 1 )
+            {
+                this.loaded[checkbox[x]]++;
+            }
+            else
+            {
+                this.loaded[checkbox[x]] = 1;
+            }
+        }
+        else
+        {
+            //document.write(this.loaded[checkbox[x]]);
+            this.loaded[checkbox[x]]--;
+            if( this.loaded[checkbox[x]] == 0 )
+                document.getElementById(checkbox[x]).checked=0;
+        }
+    }
+}
+{/literal}
 </script>
+{/doc_raw}
+{literal}
 <div id="hidden_input_container" style="display: none;">
 <input type="hidden" name="info[{$wert.module_id}][subs][{$key}][create_sub]" value="1">
 </div>
@@ -465,10 +518,34 @@ function clip_more(more)
         
         <tr><td><b>{translate}URL:{/translate}</b></td><td colspan="2"><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">/index.php?mod={$wert.name}</a></td></tr>
 
-        <tr><td colspan="3" style="padding-top: 10px; padding-left: 10px;"><a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a></td></tr>
+        <tr>
+        <td style="padding-top: 10px; padding-left: 10px;">
+            <a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a>
+        </td>
+        <td colspan="2" style="padding-top: 10px; padding-left: 10px;">
+            <a href="javascript:clip_menu('menucontainer_{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}adminmenu...{/translate}</a>
+        </td>
+        </tr>
         
         <tr>
         <td colspan="3">
+        <div id="menucontainer_{$wert.name}" style="display: none;">
+            <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
+            <tr>
+                <td valign="top">
+                    <div class="DynamicTree">
+                        <div class="wrap1">
+                            <div class="top">{translate}Adminmenu{/translate}</div>
+                            <div class="wrap2" id="tree">
+                                {assign var=name value=$wert.name}
+                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </table>
+        </div>
         <span id="{$wert.name}_more" style="display: none">
         <table cellpadding="2" cellspacing="2" border="0" width="100%">
 
