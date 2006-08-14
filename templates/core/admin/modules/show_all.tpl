@@ -384,7 +384,7 @@ function checker(checkboxen, caller)
         
         <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="{$www_root}/index.php?mod={$wert.name}" target="_blank">/index.php?mod={$wert.name}</a></td></tr>
 
-        <tr><td colspan="3" style="padding-top: 10px; padding-left: 10px;"><a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a></td></tr>
+        <tr><td colspan="3" style="padding-top: 10px; padding-left: 10px;"><a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}Moduldetails{/translate}</a></td></tr>
         
         <tr>
         <td colspan="3">
@@ -520,7 +520,7 @@ function checker(checkboxen, caller)
 
         <tr>
         <td style="padding-top: 10px; padding-left: 10px;">
-            <a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}more...{/translate}</a>
+            <a href="javascript:clip_more('{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}Moduldetails{/translate}</a>
         </td>
         <td colspan="2" style="padding-top: 10px; padding-left: 10px;">
             <a href="javascript:clip_menu('menucontainer_{$wert.name}');"><img src="{$www_core_tpl_root}/images/expand.gif" border="0" width="9" height="9">&nbsp;{translate}adminmenu...{/translate}</a>
