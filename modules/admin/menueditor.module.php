@@ -384,7 +384,7 @@ class module_admin_menueditor
                
         $result = '';
         
-        if ( empty( $menu ) )
+        if ( !is_array($menu) )
         {
             $menu = $this->build_editormenu();
         }
@@ -417,8 +417,15 @@ class module_admin_menueditor
                 }
                 $jscript = preg_replace("/,$/", '', $jscript);
                 $result .= "<div class=\"folder\">";
-                $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-folder.gif' width='18' height='18' border='0'>";
-                $result .= '<span class="text">'.$entry['name'];
+                if ( $entry['icon'] == '' )
+                {
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
+                }
+                else
+                {
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                }
+                $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
                 $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
                 $jscript = '';
             }
@@ -426,12 +433,21 @@ class module_admin_menueditor
             if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
-                $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-leaf.gif' width='18' height='18' border='0'>";
+                if ( $entry['icon'] == '' )
+                {
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/empty.png" border="0" width="16" height="16">';
+                }
+                else
+                {
+                    $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-leaf.gif' width='18' height='18' border='0'>";
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                }
             }
             
         	if ( is_array($entry['content']) )
         	{
-        	   $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
+               $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
         	}
         	else
         	{
@@ -447,7 +463,7 @@ class module_admin_menueditor
                     }
                     $jscript = preg_replace("/,$/", '', $jscript);
 
-                    $result .= '<span class="text">'.$entry['name'];
+                    $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
                     $jscript = '';
                 }
