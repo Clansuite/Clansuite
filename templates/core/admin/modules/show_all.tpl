@@ -285,10 +285,9 @@ function checker(checkboxen, caller)
 </p>
 </form>
 {/if}
+
+
 <form action="{$www_root}/index.php?mod=admin&sub=modules&action=update" method="POST">
-
-
-
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 
@@ -468,7 +467,7 @@ function checker(checkboxen, caller)
 </tr>
 {/foreach}
 </table>
-</div>
+
 <p align="center">
     <input class="input_submit" type="submit" value="{translate}Update modules{/translate}" name="submit">
 </p>
