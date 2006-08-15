@@ -160,6 +160,18 @@ class module_admin_modules
         ksort($container);
         closedir($dir_handler);
                 
+        $container['generals'] = array( 'Title'         => 'title',
+                                        'Description'   => 'description',
+                                        'Author'        => 'author',
+                                        'Homepage'      => 'homepage' );
+        $container['more'] = array( 'Name'          => 'name',
+                                    'Version'       => 'version',
+                                    'License'       => 'license',
+                                    'Copyright'     => 'copyright',
+                                    'Foldername'    => 'folder_name',
+                                    'Imagename'     => 'image_name',
+                                    'Classname'     => 'class_name',
+                                    'Filename'      => 'file_name' );
         $tpl->assign('content', $container);
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
