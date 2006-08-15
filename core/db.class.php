@@ -104,6 +104,12 @@ class db
 
     public $query_active_reference;
     
+    /**
+    * @desc Last SQL
+    */
+    
+    public $last_sql;
+    
     //----------------------------------------------------------------
     // Constructor
     // Create DB Object
@@ -166,6 +172,7 @@ class db
             $this->query_active_reference = NULL;
         }
 
+        $this->last_sql = $sql;
         $this->prepares[] = $sql;
 
 		$res = $this->db->prepare( $sql );
@@ -189,6 +196,7 @@ class db
     public function simple_query($sql='', $args = array() )
     {
         
+        $this->last_sql = $sql;
         $res = $this->prepare( $sql );
         $res->execute( $args );
         $res->closeCursor();
@@ -204,6 +212,7 @@ class db
 
     public function query( $sql='' )
     {
+        $this->last_sql = $sql;
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
@@ -222,9 +231,10 @@ class db
     * @desc Increase counter
     */
 
-    public function exec($sql='' )
+    public function exec( $sql='' )
     {
         
+        $this->last_sql = $sql;
         $this->exec_counter++;
         $res = $this->db->exec($sql );
         

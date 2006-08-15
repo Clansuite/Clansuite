@@ -101,7 +101,7 @@ class error
         case E_WARNING:
             if ($cfg->suppress_errors == 0 )
             {
-                echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br>";
+                echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
             }
             if (DEBUG)
             {
@@ -166,11 +166,11 @@ class error
 
     function exception_handler( $e )
     {
-        global $cfg, $lang;
+        global $cfg, $lang, $db;
         
         if ($cfg->suppress_errors == 0 )
         {
-            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage(), 1 );
+            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />>' . $e->getMessage() .'<br /> Last SQL:' . $db->last_sql, 1 );
         }
     }
 }
