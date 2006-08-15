@@ -1,8 +1,8 @@
 
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
+
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/modules/luna.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/modules/webfxlayout.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/modules/tabpane.js"></script>
 {literal}
 <script>
@@ -144,6 +144,7 @@ function checker(checkboxen, caller)
 {/literal}
 </script>
 {/doc_raw}
+
 {literal}
 <div id="hidden_input_container" style="display: none;">
 <input type="hidden" name="info[{$wert.module_id}][subs][{$key}][create_sub]" value="1">
@@ -346,7 +347,7 @@ function checker(checkboxen, caller)
         </div>
     
     	<div class="tab-page" id="{$wert.name}_more">
-    	   <h2 class="tab">More</h2>
+    	   <h2 class="tab">Moduldetails</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
     
             <table cellpadding="2" cellspacing="2" border="0">
@@ -534,7 +535,7 @@ function checker(checkboxen, caller)
         </div>
     
     	<div class="tab-page" id="{$wert.name}_more">
-    	   <h2 class="tab">More</h2>
+    	   <h2 class="tab">Moduldetails</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
     
             <table cellpadding="2" cellspacing="2" border="0">
