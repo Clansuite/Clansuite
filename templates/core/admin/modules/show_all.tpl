@@ -153,7 +153,7 @@ function checker(checkboxen, caller)
     <center>
     <input type="text" value="" id="subs_name" size="40"><br />
     <input type="checkbox" value="1" name="create_sub_file" id="create_sub_file">Create the submodule file?<br />
-    <a href="javascript:sub_add('{$table}', '{$mod_id}', 'check_text_field')">Confirm...</a><br />
+    <a href="javascript:sub_add('{$table}', '{$mod_id}', 'check_text_field')">Confirm</a>&nbsp;|&nbsp;<a href="javascript:void(document.getElementById('enter_sub_name').style.display = 'none');">Abort</a><br />
     </center>
 </div>
 
