@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/modules/luna.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/modules/tabpane.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
 {literal}
 <script>
 
