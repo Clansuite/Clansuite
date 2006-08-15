@@ -306,8 +306,10 @@ class session
 
     function _session_optimize()
     {
-        $stmt = $this->db->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
+        /* NON WROKING WITH PDO
+        $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
         $stmt->closeCursor();
+        */
     }
     
     /**

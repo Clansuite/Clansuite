@@ -179,7 +179,7 @@ class db
 
 		if( $res )
 		{
-;			return new db_statements( $res );
+			return new db_statements( $res );
 		}
 		else
 		{
@@ -213,6 +213,7 @@ class db
     public function query( $sql='' )
     {
         $this->last_sql = $sql;
+        
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
@@ -222,7 +223,12 @@ class db
         $this->query_counter++;
         $this->queries[] = $sql;
         $res = $this->db->query($sql);
-        
+
+        if ( $res )
+        {
+            $db->query_active_reference = $res;
+            return $res;
+        }          
         return $res;
     }
     
@@ -235,6 +241,13 @@ class db
     {
         
         $this->last_sql = $sql;
+        
+        if( is_object($this->query_active_reference) )
+        {
+            $this->query_active_reference->closeCursor();
+            $this->query_active_reference = NULL;
+        }
+        
         $this->exec_counter++;
         $res = $this->db->exec($sql );
         
@@ -276,30 +289,24 @@ class db_statements
     function execute( $args = array() )
     {
         global $db;
-        try
+
+        $db->query_counter++;
+        if ( is_object( $db->query_active_reference ) )
         {
-            $db->query_counter++;
-            if ( is_object( $db->query_active_reference ) )
-            {
-                $db->query_active_reference->closeCursor();
-                $db->query_active_reference = NULL;
-            }
-    
-            $db->queries[] = $this->db_statement->queryString;
-    
-            $res = $this->db_statement->execute($args);
-    
-            if ( $res )
-            {
-                $db->query_active_reference = $this;
-                return $res;
-            }
+            $db->query_active_reference->closeCursor();
+            $db->query_active_reference = NULL;
+        }
+
+        $db->queries[] = $this->db_statement->queryString;
+
+        $res = $this->db_statement->execute($args);
+
+        if ( $res )
+        {
+            $db->query_active_reference = $this;
             return $res;
         }
-        catch(PDOException $e)
-        {
-            echo $e->getCode() . $e->getFile() . ' | Line: ' . $e->getLine() . '<br>' . $e->getMessage();
-        }
+        return $res;
     }
 }
 ?>
