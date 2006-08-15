@@ -170,7 +170,7 @@ class error
         
         if ($cfg->suppress_errors == 0 )
         {
-            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />>' . $e->getMessage() .'<br /> Last SQL:' . $db->last_sql, 1 );
+            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last SQL:&nbsp;</b>' . $db->last_sql, 1 );
         }
     }
 }
