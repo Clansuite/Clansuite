@@ -416,17 +416,21 @@ class module_admin_menueditor
                     }
                 }
                 $jscript = preg_replace("/,$/", '', $jscript);
-                $result .= "<div class=\"folder\">";
+                $result .= "\t<div class=\"folder\">";
                 if ( $entry['icon'] == '' )
                 {
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
                     $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
                 }
                 else
                 {
+                    $result .= '';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
                 }
                 $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
                 $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
+                $result .= '<div class="section" style="display: block">';
                 $jscript = '';
             }
                                   
@@ -465,6 +469,7 @@ class module_admin_menueditor
 
                     $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
+                    $result .= '<div class="section" style="display: block">';
                     $jscript = '';
                 }
         	}
@@ -478,6 +483,7 @@ class module_admin_menueditor
             {
                 $result .= "</div>\n";
             }
+            $result .= "</div>\n";
         }
         
         return $result;
