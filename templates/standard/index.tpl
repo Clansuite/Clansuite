@@ -11,6 +11,10 @@
 <meta http-equiv="reply-to" content="{$meta.email}">
 <meta name="description" content="{$meta.description}">
 <meta name="keywords" content="{$meta.keywords}">
+
+<link rel="shortcut icon" href="{$www_tpl_root}/images/favicon.ico" >
+<link rel="icon" href="{$www_tpl_root}/images/animated_favicon.gif" type="image/gif" >
+
 <link rel="stylesheet" type="text/css" href="{$css}">
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
