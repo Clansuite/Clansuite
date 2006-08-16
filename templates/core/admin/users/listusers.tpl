@@ -1,24 +1,41 @@
-<h2>Show All Users</h2>
+<h2>Show All User-Accounts</h2>
 
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
 {/doc_raw}
 
-Debugausgabe des Arrays:
-{html_alt_table loop=$users}
+{* todo : Debugausgabe nur wenn DEBUG = 1 *}
+{if debug == "1"} 
+Debugausgabe des Arrays:  {html_alt_table loop=$users}   
+{/if}
 
 <br />
+
 <center>
-Formatierte Tabelle mit Javascript: <a href="/index.php?mod=admin&sub=users&action=search">Advanced User-Search</>
- {datatable data=$users  sortable=1 cycle=1 mouseover=1 selectable=2 searchable=1 width="80%" row_onClick="row_clicked( '\$user_id', '\$nick', '\$email')"}
-  {column id="user_id" name="User ID" align="left" sorttype="Numerical"}
-  {column id="email" name="Email" align="left"}
-  {column id="first_name" name="Firstname" align="left"}
-  {column id="nick" name="Nick" align="left"}
-  {column id="last_name" name="Lastname" align="left"}
-  {column id="joined" name="Joined" align="left"}
+
+ {datatable data=$users 
+            sortable=1 
+            cycle=1 
+            mouseover=1 
+            searchable=1 
+            width="80%" 
+            row_onClick="row_clicked( '\$user_id', '\$nick', '\$email')"}
+      
+      {column id="user_id" name="User ID" align="left" sorttype="Numerical"}
+      {column id="email" name="Email" align="left"}
+      {column id="first_name" name="Firstname" align="left"}
+      {column id="nick" name="Nick" align="left"}
+      {column id="last_name" name="Lastname" align="left"}
+      {column id="joined" name="Joined" align="left"}
+ 
  {/datatable}
+
+
+<a href="/index.php?mod=admin&sub=users&action=add_new_user">- Create User-Account -</>
+<br />
+<a href="/index.php?mod=admin&sub=users&action=search">- Search -</>
+
 </center>
 
 {literal}
