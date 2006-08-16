@@ -178,14 +178,14 @@ class module_shoutbox
 			
 		// Fehler aufgetreten?	
 		if(count($errors) > 0) {
-			// Smarty Flags setzten:
+			// Smarty Flags setzen:
 			$tpl->assign('isError', true);
 			$tpl->assign('_errorList', $errors);
 		}
 		// Speichere Eintrag
 		else {
 			$tpl->assign('isSaved', true);
-			$tpl->assign('save_msg', $lang->t('Thanks, Your Entry hast been saved'));
+			$tpl->assign('save_msg', $lang->t('Thank you - Your entry was saved.'));
 			
 			$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . '_shoutbox (name, mail, msg, time, ip) VALUES (:1, :2, :3, :4, :5)');
 	        $stmt->execute(array($_POST['name'], $_POST['mail'], $_POST['msg'], time(), $_SERVER['REMOTE_ADDR']));
