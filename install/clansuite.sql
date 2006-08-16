@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 14. August 2006 um 14:41
+-- Erstellungszeit: 16. August 2006 um 10:06
 -- Server Version: 5.0.21
 -- PHP-Version: 5.1.4
 -- 
@@ -244,21 +244,20 @@ CREATE TABLE `cs_modules` (
   `cs_version` float NOT NULL,
   `core` tinyint(4) NOT NULL default '0',
   `subs` text NOT NULL,
-  `adminmenu` text NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=72 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
 -- 
 
-INSERT INTO `cs_modules` VALUES (4, 'captcha', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0, 1, 's:0:"";', '');
-INSERT INTO `cs_modules` VALUES (1, 'index', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0, 1, 's:0:"";', '');
-INSERT INTO `cs_modules` VALUES (2, 'admin', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0, 1, 'a:8:{s:7:"configs";a:2:{i:0;s:18:"configs.module.php";i:1;s:20:"module_admin_configs";}s:7:"modules";a:2:{i:0;s:18:"modules.module.php";i:1;s:20:"module_admin_modules";}s:5:"users";a:2:{i:0;s:16:"users.module.php";i:1;s:18:"module_admin_users";}s:10:"usercenter";a:2:{i:0;s:21:"usercenter.module.php";i:1;s:23:"module_admin_usercenter";}s:6:"groups";a:2:{i:0;s:17:"groups.module.php";i:1;s:19:"module_admin_groups";}s:11:"permissions";a:2:{i:0;s:16:"perms.module.php";i:1;s:24:"module_admin_permissions";}s:10:"menueditor";a:2:{i:0;s:21:"menueditor.module.php";i:1;s:23:"module_admin_menueditor";}s:6:"static";a:2:{i:0;s:17:"static.module.php";i:1;s:19:"module_admin_static";}}', '');
-INSERT INTO `cs_modules` VALUES (68, 'account', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0, 1, 'a:1:{s:3:"daf";a:2:{i:0;s:4:"asdf";i:1;s:4:"asdf";}}', '');
-INSERT INTO `cs_modules` VALUES (11, 'news', 'Jens-Andé Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'News', 'News module', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0, 0, '', '');
-INSERT INTO `cs_modules` VALUES (71, 'static', 'Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Static Pages', 'Static Pages store HTML content', 'module_static', 'static.module.php', 'static', 1, 'module_static.jpg', 0.1, 0, 0, '', '');
+INSERT INTO `cs_modules` VALUES (77, 'account', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 0, 'module_account.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (85, 'news', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'News', 'News module', 'module_news', 'news.module.php', 'news', 0, 'module_news.jpg', 0.1, 0, 0, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (79, 'captcha', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 0, 'module_captcha.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (80, 'index', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 0, 'module_index.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (78, 'admin', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 0, 'module_admin.jpg', 0.1, 0, 1, 'a:8:{s:7:"configs";a:2:{i:0;s:18:"configs.module.php";i:1;s:20:"module_admin_configs";}s:7:"modules";a:2:{i:0;s:18:"modules.module.php";i:1;s:20:"module_admin_modules";}s:5:"users";a:2:{i:0;s:16:"users.module.php";i:1;s:18:"module_admin_users";}s:10:"usercenter";a:2:{i:0;s:21:"usercenter.module.php";i:1;s:23:"module_admin_usercenter";}s:6:"groups";a:2:{i:0;s:17:"groups.module.php";i:1;s:19:"module_admin_groups";}s:11:"permissions";a:2:{i:0;s:16:"perms.module.php";i:1;s:24:"module_admin_permissions";}s:10:"menueditor";a:2:{i:0;s:21:"menueditor.module.php";i:1;s:23:"module_admin_menueditor";}s:6:"static";a:2:{i:0;s:17:"static.module.php";i:1;s:19:"module_admin_static";}}');
+INSERT INTO `cs_modules` VALUES (83, 'static', 'Jens-André Koch,Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Static Pages', 'Static Pages store HTML content', 'module_static', 'static.module.php', 'static', 0, 'module_static.jpg', 0.1, 0, 0, 's:0:"";');
 
 -- --------------------------------------------------------
 
@@ -353,7 +352,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'e6238650116e5a361b857bd4f64d573a', 'client_ip|s:9:"127.0.0.1";client_browser|s:85:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1b1) Gecko/20060710 Firefox/2.0b1";client_host|s:9:"localhost";suiteSID|s:32:"e6238650116e5a361b857bd4f64d573a";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155559836, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '021b9bd455a70353a537f85fa226723f', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"021b9bd455a70353a537f85fa226723f";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155716103, 1, 'admin');
 
 -- --------------------------------------------------------
 
