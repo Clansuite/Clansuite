@@ -17,7 +17,9 @@
 {$additional_head}
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
-
+<!--
+page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
+-->
 </head>
 <body>
 
