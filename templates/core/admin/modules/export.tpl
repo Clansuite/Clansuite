@@ -1,9 +1,6 @@
 {$chmod_tpl}
 {doc_raw}
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
-    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/plugins.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/actions.js"></script>
     {literal}
         <style type="text/css">
         body { background: #F1EFE2; }

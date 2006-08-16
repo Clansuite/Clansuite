@@ -93,40 +93,32 @@ class modules
         
         if (array_key_exists($mod, $cfg->modules ) )
         {
-            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/' . $mod . '.config.php';
-            if ( file_exists( $config_file ) )
+            $sub_files = unserialize( $cfg->modules[$mod]['subs'] );
+            
+            if ( $sub != '' )
             {
-                require( $config_file );
-                if ($sub!='' )
+                if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
                 {
-                    if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
-                    {
-                        $folder_name = $cfg->modules[$mod]['folder_name'];
-                        $file_name   = $sub_files[$sub][0];
-                        $class_name  = $sub_files[$sub][1];
-                    }
-                    else
-                    {
-                        $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in modulename.config.php!'), 3);
-                    }
+                    $folder_name = $cfg->modules[$mod]['folder_name'];
+                    $file_name   = $sub_files[$sub][0];
+                    $class_name  = $sub_files[$sub][1];
                 }
                 else
                 {
-                    $folder_name = $cfg->modules[$mod]['folder_name'];
-                    $file_name   = $cfg->modules[$mod]['file_name'];
-                    $class_name  = $cfg->modules[$mod]['class_name'];
+                    $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in the DB!'), 3);
                 }
             }
             else
             {
-                $error->show($lang->t('Module Failure'), $lang->t('The modulename.config.php is missing in the dir of the module you requested!'), 1);
+                $folder_name = $cfg->modules[$mod]['folder_name'];
+                $file_name   = $cfg->modules[$mod]['file_name'];
+                $class_name  = $cfg->modules[$mod]['class_name'];
             }
             
             /**
             * @desc Load file and class
             * @desc Give Return Value of requested function
             */
-
             if ($folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
@@ -160,7 +152,7 @@ class modules
 
     function get_content($mod='' , $sub='' )
     {
-        global $cfg, $error, $lang, $functions;
+        global $cfg, $error, $lang, $functions, $db;
         
         /**
         * @desc Init Vars
@@ -174,34 +166,28 @@ class modules
         
         if (array_key_exists($mod, $cfg->modules ) )
         {
-            $config_file = MOD_ROOT . '/' . $cfg->modules[$mod]['folder_name'] . '/' . $mod . '.config.php';
-            if (file_exists($config_file ) )
+            $sub_files = unserialize( $cfg->modules[$mod]['subs'] );
+
+            if ( $sub != '' )
             {
-                if ($sub!='' )
+                if ( isset($sub_files) AND array_key_exists($sub, $sub_files ) )
                 {
-                    require( $config_file );
-                    if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
-                    {
-                        $folder_name = $cfg->modules[$mod]['folder_name'];
-                        $file_name   = $sub_files[$sub][0];
-                        $class_name  = $sub_files[$sub][1];
-                    }
-                    else
-                    {
-                        $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in modulename.config.php! You are being redirected in 5 seconds...'), 2);
-                    }
+                    $folder_name = $cfg->modules[$mod]['folder_name'];
+                    $file_name   = $sub_files[$sub][0];
+                    $class_name  = $sub_files[$sub][1];
                 }
                 else
                 {
-                    $folder_name = $cfg->modules[$mod]['folder_name'];
-                    $file_name   = $cfg->modules[$mod]['file_name'];
-                    $class_name  = $cfg->modules[$mod]['class_name'];
+                    $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in the DB! You are being redirected in 3 seconds...'), 2);
                 }
             }
             else
             {
-                $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The modulename.config.php is missing in the dir of the module you requested! You are being redirected in 5 seconds...'), 2);
+                $folder_name = $cfg->modules[$mod]['folder_name'];
+                $file_name   = $cfg->modules[$mod]['file_name'];
+                $class_name  = $cfg->modules[$mod]['class_name'];
             }
+
             
             /**
             * @desc Load file and class
@@ -230,11 +216,11 @@ class modules
             {
                 if( $_REQUEST['mod'] == 'admin' )
                 {
-                    $functions->redirect('/index.php?mod=admin', 'metatag', '5' );
+                    $functions->redirect('/index.php?mod=admin', 'metatag', '3' );
                 }
                 else
                 {
-                    $functions->redirect('/index.php', 'metatag', '5' );
+                    $functions->redirect('/index.php', 'metatag', '3' );
                 }
                 return $content;
             }
@@ -245,8 +231,8 @@ class modules
             
             $mod = $cfg->std_module;
             
-            $content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 5 seconds...');
-            $functions->redirect('/index.php', 'metatag', '5' );
+            $content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 3 seconds...');
+            $functions->redirect('/index.php', 'metatag', '3' );
             return $content;
         }
     }
