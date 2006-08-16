@@ -6,6 +6,7 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="{$meta.language}">
+<meta name="robots" content="index, follow" />
 <meta name="author" content="{$meta.author}">
 <meta http-equiv="reply-to" content="{$meta.email}">
 <meta name="description" content="{$meta.description}">
@@ -17,6 +18,9 @@
 {$additional_head}
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
+<!--
+page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
+-->
 </head>
 <body>
 
