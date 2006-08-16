@@ -71,7 +71,7 @@ class language
         
         foreach ($params as $key => $value)
         {
-            $params["%$key"] = $value;
+            $params["%" . $key] = $value;
             unset($params[$key]);
         }
         echo($lang->t($string, $params));
@@ -186,7 +186,13 @@ class language
         
         $tree = array();
         $i = 0;
-        array_push($tree, array('tag' => $vals[$i]['tag'], 'attributes' => $vals[$i]['attributes'], 'children' => $lang->get_children($vals, $i)));
+        array_push($tree, array(
+								'tag' => $vals[$i]['tag'], 
+								'attributes' => $vals[$i]['attributes'], 
+								'children' => $lang->get_children($vals, $i)
+								)
+				
+					);
         
         return $tree;
     }
