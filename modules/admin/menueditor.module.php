@@ -429,7 +429,7 @@ class module_admin_menueditor
                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
                 }
                 $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
-                $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
+                $result .= '<input style="height: 11px" id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="'.$entry['id'].'"></span>';
                 $result .= '<div class="section" style="display: block">';
                 $jscript = '';
             }
@@ -468,7 +468,7 @@ class module_admin_menueditor
                     $jscript = preg_replace("/,$/", '', $jscript);
 
                     $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'];
-                    $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
+                    $result .= '<input style="height: 11px" id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids[]" value="' . $level . $entry['id'] . '"></span>';
                     $result .= '<div class="section" style="display: block">';
                     $jscript = '';
                 }

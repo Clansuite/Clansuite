@@ -461,7 +461,7 @@ function checker(checkboxen, caller)
     </td>
     
     <td id="cell2" align="center">
-        <input type="checkbox" name="delete[]" value="{$wert.module_id}">
+        <input name="delete[]" type="checkbox" value="{$wert.module_id}">
     </td>
 
 </tr>
