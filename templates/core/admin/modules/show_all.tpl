@@ -166,24 +166,24 @@ function checker(checkboxen, caller)
             <b>{/literal}{translate}Name:{/translate}{literal}</b>
         </td>
         <td width="165">
-            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text" style="display: none"></span>
-            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: block" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
+            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text" style="display: none"></span>
+            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: block" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
     </tr>
     <tr id="{$wert.module_id}_sub_{$key}_tr2">
         <td height="20">
             <b>{/literal}{translate}File:{/translate}{literal}</b>
         </td>
         <td>
-            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text" style="display: none"></span>
-            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: block" name="info[{$wert.module_id}][subs][{$key}][file]" value="" size="30"></td>
+            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text" style="display: none"></span>
+            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: block" name="info[{$wert.module_id}][subs][{$key}][file]" value="" size="30"></td>
     </tr>
     <tr id="{$wert.module_id}_sub_{$key}_tr3">
         <td height="20">
             <b>Class:</b>
         </td>
         <td>
-            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text" style="display: none"></span>
-            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: block" name="info[{$wert.module_id}][subs][{$key}][class]" value="" size="30"></td>
+            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text" style="display: none"></span>
+            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: block" name="info[{$wert.module_id}][subs][{$key}][class]" value="" size="30"></td>
     </tr>
     <tr id="{$wert.module_id}_sub_{$key}_tr4">
         <td colspan="2" height="20">
@@ -324,6 +324,7 @@ function checker(checkboxen, caller)
     </td>
     
     <td id="cell2">
+        <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
         <div class="tab-pane" id="{$wert.name}">
     
         <script type="text/javascript">
@@ -337,8 +338,8 @@ function checker(checkboxen, caller)
             {foreach key=key item=item from=$content.generals}
                 <tr>
                 <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_{$item}_text" onDblClick="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');">{$wert.$item}</span>
-                <input onBlur="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
+                <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
                       
@@ -354,8 +355,8 @@ function checker(checkboxen, caller)
             {foreach key=key item=item from=$content.more}
                 <tr>
                 <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_{$item}_text" onDblClick="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');">{$wert.$item}</span>
-                <input onBlur="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
+                <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
                     
@@ -378,24 +379,24 @@ function checker(checkboxen, caller)
                             <b>Name:</b>
                         </td>
                         <td width="165">
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text">{$key}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: none" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text">{$key}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: none" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr2">
                         <td height="20">
                             <b>File:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr3">
                         <td height="20">
                             <b>Class:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr4">
                         <td colspan="2" height="20">
@@ -432,27 +433,6 @@ function checker(checkboxen, caller)
             </tr>
             </table>
         </div>
-        
-    	<div class="tab-page" id="{$wert.name}_adminmenu">
-    	   <h2 class="tab">Adminmenu</h2>
-    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_adminmenu" ) );</script>
-            
-            <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
-            <tr>
-                <td valign="top">
-                    <div class="DynamicTree">
-                        <div class="wrap1">
-                            <div class="top">{translate}Adminmenu{/translate}</div>
-                            <div class="wrap2" id="tree">
-                                {assign var=name value=$wert.name}
-                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            </table>	   
-    	</div>
 
     </td>
     
@@ -512,6 +492,7 @@ function checker(checkboxen, caller)
     </td>
     
     <td id="cell2">
+        <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
         <div class="tab-pane" id="{$wert.name}">
     
         <script type="text/javascript">
@@ -525,8 +506,8 @@ function checker(checkboxen, caller)
             {foreach key=key item=item from=$content.generals}
                 <tr>
                 <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_{$item}_text" onDblClick="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');">{$wert.$item}</span>
-                <input onBlur="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
+                <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
                       
@@ -542,8 +523,8 @@ function checker(checkboxen, caller)
             {foreach key=key item=item from=$content.more}
                 <tr>
                 <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                <td width="250" height="25"><span id="{$wert.module_id}_{$wert.name}_{$item}_text" onDblClick="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');">{$wert.$item}</span>
-                <input onBlur="javascript:clip_edit('{$wert.module_id}_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
+                <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
                     
@@ -566,24 +547,24 @@ function checker(checkboxen, caller)
                             <b>Name:</b>
                         </td>
                         <td width="165">
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text">{$key}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: none" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text">{$key}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_name" style="display: none" name="info[{$wert.module_id}][subs][{$key}][name]" value="{$key}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr2">
                         <td height="20">
                             <b>File:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr3">
                         <td height="20">
                             <b>Class:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr4">
                         <td colspan="2" height="20">
@@ -620,27 +601,6 @@ function checker(checkboxen, caller)
             </tr>
             </table>
         </div>
-        
-    	<div class="tab-page" id="{$wert.name}_adminmenu">
-    	   <h2 class="tab">Adminmenu</h2>
-    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_adminmenu" ) );</script>
-            
-            <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
-            <tr>
-                <td valign="top">
-                    <div class="DynamicTree">
-                        <div class="wrap1">
-                            <div class="top">{translate}Adminmenu{/translate}</div>
-                            <div class="wrap2" id="tree">
-                                {assign var=name value=$wert.name}
-                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            </table>	   
-    	</div>
 
     </td>
     
@@ -664,20 +624,21 @@ function checker(checkboxen, caller)
 <script type="text/javascript">
 setupAllTabs();
 {literal}
-function clip_edit(edit)
+function clip_edit(id,edit)
 {
     self.focus();
-    if(document.getElementById(edit).style.display == 'none')
+    if(document.getElementById(id + edit).style.display == 'none')
     {
-        document.getElementById(edit).style.display = "block";
-        document.getElementById(edit + "_text").style.display = "none";
-        document.getElementById(edit).focus();
+        document.getElementById(id + edit).style.display = "block";
+        document.getElementById(id + edit + "_text").style.display = "none";
+        document.getElementById(id + edit).focus();
     }
     else
     {
-        document.getElementById(edit).style.display = "none";
-        document.getElementById(edit + "_text").innerHTML = document.getElementById(edit).value;
-        document.getElementById(edit + "_text").style.display = "block";
+        document.getElementById(id + edit).style.display = "none";
+        document.getElementById(id + edit + "_text").innerHTML = document.getElementById(id + edit).value;
+        document.getElementById(id + edit + "_text").style.display = "block";
+        document.getElementById(id + "_remember_to_update").style.display = "block";
     }
 }
 {/literal}

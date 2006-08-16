@@ -111,7 +111,6 @@ class module_admin_modules
     /**
     * @desc Show all modules
     */
-
     function show_all()
     {
         global $cfg, $db, $tpl, $error, $lang;
@@ -358,29 +357,64 @@ class module_admin_modules
             
             if ( is_array ( $res ) )
             {
-                foreach ( $menu_ids as $key => $value )
+                if ( is_array( $menu_ids[$name] ) )
                 {
-                    $needed_ids = split( ',', $value );
-                    
-                    foreach ( $needed_ids as $key => $value )
+                    foreach ( $menu_ids[$name] as $key => $value )
                     {
-                        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
-                        $stmt->execute( array( $value ) );
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                        if ( !array_key_exists( $value, $exported_menu ) )
+                        $needed_ids = split( ',', $value );
+                        
+                        foreach ( $needed_ids as $key => $value )
                         {
-                            $exported_menu[$value] = $result;
+                            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu WHERE id = ?' );
+                            $stmt->execute( array( $value ) );
+                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                            if ( !array_key_exists( $value, $exported_menu ) )
+                            {
+                                $exported_menu[$value] = $result;
+                                if ( $result['icon'] != '' )
+                                {
+                                    $icons[] = TPL_ROOT . '/core/images/icons/' . $result['icon'];
+                                }
+                            }
                         }
                     }
                 }
-                $res['admin_menu'] = $exported_menu;
 
-                $info = serialize($res);
+                $tpl->assign( 'subs'        , unserialize($res['subs']) );
+                $tpl->assign( 'name'        , $res['name'] );
+                $tpl->assign( 'description' , $res['description'] );
+                $tpl->assign( 'license'     , $res['license'] );
+                $tpl->assign( 'copyright'   , $res['copyright'] );
+                $tpl->assign( 'title'       , $res['title'] );
+                $tpl->assign( 'author'      , $res['author'] );
+                $tpl->assign( 'homepage'    , $res['homepage'] );
+                $tpl->assign( 'class_name'  , $res['class_name'] );
+                $tpl->assign( 'timestamp'   , time() );
+                $tpl->assign( 'file_name'   , $res['file_name'] );
+                $tpl->assign( 'folder_name' , $res['folder_name'] );
+                $tpl->assign( 'image_name'  , $res['image_name'] );
+                $tpl->assign( 'version'     , $res['version'] );
+                $tpl->assign( 'cs_version'  , $cfg->version );
+                $tpl->assign( 'core'        , $res['core'] );
+                $tpl->assign( 'admin_menu'  , serialize($exported_menu) );
                 
-                // include( )
-                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', $info );
+                $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
                 
-                $tared_files['info'] = UPLOAD_ROOT . '/modules/temp/mod_info.php';
+                $cfg_class = trim ( $tpl->fetch( 'admin/modules/empty_mod_cfg.tpl' ) );
+                
+                $tpl->unregister_outputfilter( 'remove_tpl_comments' );
+                
+                /**
+                * @desc Write config
+                */           
+                file_put_contents( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
+                
+                /**
+                * @desc Write Mod Info Container
+                */
+                $container = array( 'name' => $res['name'], 'folder_name' => $res['folder_name'] );
+                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', serialize($container) );
+                
                 $tared_files['mod'] = MOD_ROOT . '/' . $name . '/';
                 
                 require( CORE_ROOT . '/tar.class.php' );
@@ -388,10 +422,9 @@ class module_admin_modules
                 
                 if ( $tar->createModify( $tared_files['mod'], '', MOD_ROOT ) )
                 {
-                    if ( $tar->addModify( $tared_files['info'], '', UPLOAD_ROOT . '/modules/temp/' ) )
-                    {
-                        $functions->redirect( '/' . $cfg->upload_folder . '/modules/export/' . $name . '.tar' );
-                    }
+                    $tar->addModify(  $icons, 'icons', TPL_ROOT . '/core/images/icons/' );
+                    $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_info.php', '', UPLOAD_ROOT . '/modules/temp/' );
+                    $functions->redirect( '/' . $cfg->upload_folder . '/modules/export/' . $name . '.tar' );
                 }
             }
         }
@@ -487,14 +520,31 @@ class module_admin_modules
                     
                     foreach( $dirs as $value )
                     {
-                        $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/' . $value . '/', MOD_ROOT . '/' . $value . '/', true, '/index.php?mod=admin&sub=admin_modules&action=import' );
+                        $container = unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php' ) );
                         
-                        $info = unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php' ) );
+                        if ( $value == 'icons' )
+                        {
+                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/icons/', TPL_ROOT . '/core/images/icons/', true, '/index.php?mod=admin&sub=admin_modules&action=import' );
+                        }
+                        
+                        if ( $value == $container['folder_name'] )
+                        {
+                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/', MOD_ROOT . '/' . $container['folder_name'] . '/', true, '/index.php?mod=admin&sub=admin_modules&action=import' );
+                        }
+                        
+                        if ( file_exists ( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' ) )
+                        {
+                            require( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' );
+                        }
+                        else
+                        {
+                            $functions->redirect( '/index.php?mod=admin&sub=modules&action=import', 'metatag|newsite', 3, $lang->t( 'There is no modulename.config.php in the package!' ), 'admin' );
+                        }
                         
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
                         $stmt->execute( array ( $info['name'] ) );
                         
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                         $stmt->execute( array(  $info['author'],
                                                 $info['homepage'],
                                                 $info['license'],
@@ -509,8 +559,10 @@ class module_admin_modules
                                                 $info['image_name'],
                                                 $info['version'],
                                                 $info['cs_version'],
-                                                $info['core'] ) );
+                                                $info['core'],
+                                                serialize($info['subs']) ) );
                                                 
+                        $info['admin_menu'] = unserialize( $info['admin_menu'] );
                         if ( !empty( $info['admin_menu'] ) )
                         {
                             $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
@@ -530,13 +582,13 @@ class module_admin_modules
                             }
                         }
                         
-                        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'Module installed successfully.' ), 'admin' );
+                        $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 3, $lang->t( 'Module installed successfully.' ), 'admin' );
                     }
 
                 }
                 else
                 {
-                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 5, $lang->t( 'The file could not be moved to the upload directory.' ), 'admin' );
+                    $functions->redirect( '/index.php?mod=admin', 'metatag|newsite', 3, $lang->t( 'The file could not be moved to the upload directory.' ), 'admin' );
                 }
             }
         }
@@ -698,7 +750,6 @@ class module_admin_modules
     /**
     * @desc Update the module list
     */
-
     function update()
     {
         global $db, $functions, $input, $lang, $error, $tpl;
@@ -706,6 +757,7 @@ class module_admin_modules
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
         $confirm    = $_POST['confirm'];
+        $menu_ids   = isset($_POST['menu_ids']) ? $_POST['menu_ids'] : array();
         $ids        = isset($_POST['ids']) ? $_POST['ids'] : array();
         $ids        = isset($_POST['confirm']) ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete']) ? $_POST['delete'] : array();
@@ -778,7 +830,6 @@ class module_admin_modules
                     /**
                     * @desc Database Insert
                     */
-
                     $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
                     $sets = 'author = ?, homepage = ?, license = ?, copyright = ?, folder_name = ?,';
                     $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?, subs = ?';
