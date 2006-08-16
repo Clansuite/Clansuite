@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.1
+-- version 2.8.0.3
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 16. August 2006 um 10:06
--- Server Version: 5.0.21
--- PHP-Version: 5.1.4
+-- Erstellungszeit: 17. August 2006 um 00:29
+-- Server Version: 5.0.20
+-- PHP-Version: 5.1.2
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -203,26 +203,6 @@ INSERT INTO `cs_category` VALUES (10, '/design', NULL, 'good night', NULL, '0');
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `cs_groups`
--- 
-
-CREATE TABLE `cs_groups` (
-  `group_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `rights` text NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `cs_groups`
--- 
-
-
--- --------------------------------------------------------
-
--- 
 -- Tabellenstruktur für Tabelle `cs_modules`
 -- 
 
@@ -246,7 +226,7 @@ CREATE TABLE `cs_modules` (
   `subs` text NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
@@ -258,6 +238,7 @@ INSERT INTO `cs_modules` VALUES (79, 'captcha', 'Jens-André Koch, Florian Wolf'
 INSERT INTO `cs_modules` VALUES (80, 'index', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 0, 'module_index.jpg', 0.1, 0, 1, 's:0:"";');
 INSERT INTO `cs_modules` VALUES (78, 'admin', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 0, 'module_admin.jpg', 0.1, 0, 1, 'a:8:{s:7:"configs";a:2:{i:0;s:18:"configs.module.php";i:1;s:20:"module_admin_configs";}s:7:"modules";a:2:{i:0;s:18:"modules.module.php";i:1;s:20:"module_admin_modules";}s:5:"users";a:2:{i:0;s:16:"users.module.php";i:1;s:18:"module_admin_users";}s:10:"usercenter";a:2:{i:0;s:21:"usercenter.module.php";i:1;s:23:"module_admin_usercenter";}s:6:"groups";a:2:{i:0;s:17:"groups.module.php";i:1;s:19:"module_admin_groups";}s:11:"permissions";a:2:{i:0;s:16:"perms.module.php";i:1;s:24:"module_admin_permissions";}s:10:"menueditor";a:2:{i:0;s:21:"menueditor.module.php";i:1;s:23:"module_admin_menueditor";}s:6:"static";a:2:{i:0;s:17:"static.module.php";i:1;s:19:"module_admin_static";}}');
 INSERT INTO `cs_modules` VALUES (83, 'static', 'Jens-André Koch,Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Static Pages', 'Static Pages store HTML content', 'module_static', 'static.module.php', 'static', 0, 'module_static.jpg', 0.1, 0, 0, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (86, 'shoutbox', 'Björn Spiegel', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Shoutbox Modul', 'This module displays a shoutbox. You can do entries and administrate it ...', 'module_shoutbox', 'shoutbox.module.php', 'shoutbox', 0, 'module_shoutbox.jpg', 0.1, 0, 1, 's:0:"";');
 
 -- --------------------------------------------------------
 
@@ -357,6 +338,27 @@ INSERT INTO `cs_session` VALUES (0, '021b9bd455a70353a537f85fa226723f', 'client_
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `cs_shoutbox`
+-- 
+
+CREATE TABLE `cs_shoutbox` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(100) collate latin1_general_ci NOT NULL,
+  `mail` varchar(100) collate latin1_general_ci NOT NULL,
+  `msg` tinytext collate latin1_general_ci NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  `ip` varchar(15) collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `cs_shoutbox`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `cs_static_pages`
 -- 
 
@@ -450,18 +452,23 @@ INSERT INTO `cs_usergroup_rights` VALUES (00002, 00002, 1);
 
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
-  `group_pos` tinyint(4) unsigned NOT NULL default '1',
-  `group_name` varchar(75) default NULL,
+  `pos` tinyint(4) unsigned NOT NULL default '1',
+  `name` varchar(75) default NULL,
+  `icon` varchar(255) default NULL,
+  `colour` varchar(10) NOT NULL,
+  `posts` tinyint(5) default NULL,
   PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- 
 -- Daten für Tabelle `cs_usergroups`
 -- 
 
-INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator');
-INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsgruppe');
-INSERT INTO `cs_usergroups` VALUES (3, 3, 'GÃ¤stebuchgruppe');
+INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', NULL, '0000FF', NULL);
+INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsgruppe', NULL, '00FF00', NULL);
+INSERT INTO `cs_usergroups` VALUES (3, 3, 'Gästebuchgruppe', NULL, '', NULL);
+INSERT INTO `cs_usergroups` VALUES (4, 0, 'Newbie', NULL, '', 50);
+INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', NULL, '', 100);
 
 -- --------------------------------------------------------
 
