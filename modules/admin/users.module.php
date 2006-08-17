@@ -159,10 +159,6 @@ class module_admin_users
         }
        
         $this->output .= $tpl->fetch('admin/users/search.tpl');
-    }
-    
-    
-    
-    
+    }   
 }
 ?>
