@@ -94,7 +94,7 @@ class language
         return strtr($string, $args);
     }
     
-    /**
+    /** 
     * @desc Just add another XML File to $lang->xml tree
     */
 
