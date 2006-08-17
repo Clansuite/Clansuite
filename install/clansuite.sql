@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.1
+-- version 2.8.0.3
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 17. August 2006 um 14:29
--- Server Version: 5.0.21
--- PHP-Version: 5.1.4
+-- Erstellungszeit: 17. August 2006 um 00:29
+-- Server Version: 5.0.20
+-- PHP-Version: 5.1.2
 -- 
--- Datenbank: `clansuite`
+-- Datenbank: `clansuite` 
 -- 
 
 -- --------------------------------------------------------
@@ -203,26 +203,6 @@ INSERT INTO `cs_category` VALUES (10, '/design', NULL, 'good night', NULL, '0');
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `cs_groups`
--- 
-
-CREATE TABLE `cs_groups` (
-  `group_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `rights` text NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `cs_groups`
--- 
-
-
--- --------------------------------------------------------
-
--- 
 -- Tabellenstruktur für Tabelle `cs_modules`
 -- 
 
@@ -353,7 +333,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '61db4a7e6732bccd1ec2c40a73ebee1c', 'client_ip|s:9:"127.0.0.1";client_browser|s:104:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.4) Gecko/20060602 Firefox/1.5.0.4 (tete009 G6 SSE)";client_host|s:9:"localhost";suiteSID|s:32:"61db4a7e6732bccd1ec2c40a73ebee1c";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155802767, 1, 'index');
+INSERT INTO `cs_session` VALUES (0, '021b9bd455a70353a537f85fa226723f', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"021b9bd455a70353a537f85fa226723f";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1155716103, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -472,18 +452,23 @@ INSERT INTO `cs_usergroup_rights` VALUES (00002, 00002, 1);
 
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
-  `group_pos` tinyint(4) unsigned NOT NULL default '1',
-  `group_name` varchar(75) default NULL,
+  `pos` tinyint(4) unsigned NOT NULL default '1',
+  `name` varchar(75) default NULL,
+  `icon` varchar(255) default NULL,
+  `colour` varchar(10) NOT NULL,
+  `posts` tinyint(5) default NULL,
   PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- 
 -- Daten für Tabelle `cs_usergroups`
 -- 
 
-INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator');
-INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsgruppe');
-INSERT INTO `cs_usergroups` VALUES (3, 3, 'GÃ¤stebuchgruppe');
+INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', NULL, '0000FF', NULL);
+INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsgruppe', NULL, '00FF00', NULL);
+INSERT INTO `cs_usergroups` VALUES (3, 3, 'Gästebuchgruppe', NULL, '', NULL);
+INSERT INTO `cs_usergroups` VALUES (4, 0, 'Newbie', NULL, '', 50);
+INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', NULL, '', 100);
 
 -- --------------------------------------------------------
 
