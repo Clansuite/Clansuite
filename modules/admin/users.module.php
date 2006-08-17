@@ -53,32 +53,33 @@ class module_admin_users
     function auto_run()
     {
         global $lang;
-        
-        $this->mod_page_title = $lang->t('Control Center - Usermanagement' );
-        
+             
+        // Titelzeile zusammensetzen
+        $this->mod_page_title = $lang->t('Control Center - Usermanagement') . ' &raquo; ';     
+             
         switch ($_REQUEST['action'])
         {
             case 'usercenter':
-                $this->mod_page_title = $lang->t( 'Show usercenter' );
+                $this->mod_page_title .= $lang->t( 'User-Center' );
                 $this->show_usercenter();
                 break;
 
 	        case 'show_all_users':
-                $this->mod_page_title = $lang->t( 'Show all users' );
+                $this->mod_page_title .= $lang->t( 'Show all users' );
                 $this->show_all_users();
                 break;
      
             case 'search':
-                $this->mod_page_title = $lang->t( 'Advanced User-Search' );
+                $this->mod_page_title .= $lang->t( 'Search' );
                 $this->search();
                 break;
      
             default:
-                $this->mod_page_title = $lang->t( 'Show all users' );
+                $this->mod_page_title .= $lang->t( 'Show all users' );
                 $this->show_all_users();
             break;
         }
-        
+       
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head );
@@ -144,18 +145,17 @@ class module_admin_users
         global $db, $tpl, $error, $lang;
 
                                                                                  // ?
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = 1' );
-        //$stmt->execute( array ( $SESSION[user][user_id] ) );
-        $stmt->execute();
-        $usercenterdata = $stmt->fetchAll(PDO::FETCH_NAMED);
+       $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users' );
+        $stmt->execute( );
+        $users = $stmt->fetchAll(PDO::FETCH_NAMED);
                     
-        if ( is_array( $usercenterdata ) )
+        if ( is_array( $users ) )
         {
-            $tpl->assign('usercenterdata', $usercenterdata);
+            $tpl->assign('users', $users);
         }
         else
         {
-        $this->output .= 'There was an error while acquiring the user-search-data.';
+        $this->output .= 'No Users could be found.';
         }
        
         $this->output .= $tpl->fetch('admin/users/search.tpl');
