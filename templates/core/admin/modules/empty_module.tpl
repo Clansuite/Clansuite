@@ -36,15 +36,15 @@
 * @desc Security Handler
 */
 if (!defined('IN_CS'))
-{literal}{{/literal}
+{ldelim}
     die('You are not allowed to view this page statically.' );
-{literal}}{/literal}
+{rdelim}
 
 /**
 * @desc Start module class
 */
 class {$class_name}
-{literal}{{/literal}
+{ldelim}
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
@@ -55,13 +55,14 @@ class {$class_name}
     */
 
     function auto_run()
-    {literal}{{/literal}
+    {ldelim}
         global $lang;
         
-        $this->mod_page_title = $lang->t( '{$title} -' );
+        // Construct Page Title        
+        $this->mod_page_title = $lang->t( '{$title}' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
-        {literal}{{/literal}
+        {ldelim}
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
@@ -70,25 +71,25 @@ class {$class_name}
             default:
                 $this->show();
                 break;
-        {literal}}{/literal}
+        {rdelim}
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head );
-    {literal}}{/literal}
+    {rdelim}
 
     /**
     * @desc Show the entrance - welcome message etc.
     */
 
     function show()
-    {literal}{{/literal}
+    {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
-    {literal}}{/literal}
-{literal}}{/literal}
+    {rdelim}
+{rdelim}
 ?>
