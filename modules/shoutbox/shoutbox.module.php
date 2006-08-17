@@ -80,10 +80,10 @@ class module_shoutbox
         $this->mod_page_title = $lang->t( 'shoutbox' ) . ' &raquo; ';
         
 		// Smarty Flags:
-		$tpl->assign('showForm', false);
-		$tpl->assign('isSaved', false);
-		$tpl->assign('isError', false);
-		$tpl->assign('errorList', array());
+		$tpl->assign('showForm'   , false);
+		$tpl->assign('isSaved'    , false);
+		$tpl->assign('isError'    , false);
+		$tpl->assign('errorList'  , array());
 		
         switch ($_REQUEST['action'])
         {
@@ -124,7 +124,7 @@ class module_shoutbox
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
         $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
-							  FROM          ' . DB_PREFIX . '_shoutbox');
+							  FROM          ' . DB_PREFIX . 'shoutbox');
         $stmt->execute();
         if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
         {
@@ -145,14 +145,14 @@ class module_shoutbox
 	{
 		global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 		
-		$tpl->assign('showForm', true);
-		$tpl->assign('request', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '&action=save');
-		
+		$tpl->assign('showForm'   , true);
+		$tpl->assign('request'    , WWW_ROOT . '/index.php?mod=shoutbox&&action=save');
+
 		// Values der Felder:
-		$tpl->assign('save_entry', $lang->t('Save Entry'));
-		$tpl->assign('field_value_name', $lang->t('Your Name'));
-		$tpl->assign('field_value_mail', $lang->t('Your Mail'));
-		$tpl->assign('field_value_msg', $lang->t('Your Msg'));
+		$tpl->assign('save_entry'         , $lang->t('Save Entry'));
+		$tpl->assign('field_value_name'   , $lang->t('Your Name'));
+		$tpl->assign('field_value_mail'   , $lang->t('Your Mail'));
+		$tpl->assign('field_value_msg'    , $lang->t('Your Msg'));
 	}
 	
 	/**
@@ -187,7 +187,7 @@ class module_shoutbox
 			$tpl->assign('isSaved', true);
 			$tpl->assign('save_msg', $lang->t('Thank you - Your entry was saved.'));
 			
-			$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . '_shoutbox (name, mail, msg, time, ip) VALUES (:1, :2, :3, :4, :5)');
+			$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) VALUES (:1, :2, :3, :4, :5)');
 	        $stmt->execute(array($_POST['name'], $_POST['mail'], $_POST['msg'], time(), $_SERVER['REMOTE_ADDR']));
 	        
 		}
