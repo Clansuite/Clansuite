@@ -35,9 +35,9 @@
 * @desc Security Handler
 */
 if (!defined('IN_CS'))
-{literal}{{/literal}
+{ldelim}
     die('You are not allowed to view this page statically.' );
-{literal}}{/literal}
+{rdelim}
 
 
 //----------------------------------------------------------------
@@ -52,7 +52,7 @@ if (!defined('IN_CS'))
 // http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
 //
 // Or inside a template:
-// {literal}{{/literal}mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"{literal}}{/literal}
+// {ldelim}mod name="{$name}" func="show" sub="mysubmodule" params="myparams"{rdelim}
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
