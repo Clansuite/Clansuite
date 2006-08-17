@@ -104,10 +104,10 @@ arrow2.src = "{$www_tpl_root}/images/adminmenu/arrow1.gif";
     
     <td id="bar" width="200px">
     
+        {mod name="account" func="login"}
+       
         {* todo: 
-        {mod="account" func="login"}
-        
-        {mod="shoutbox" func="show"}
+        {mod name="shoutbox" func="show"}
         *}
     
         <div id="right_menu">
