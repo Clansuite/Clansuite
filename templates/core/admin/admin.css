@@ -16,13 +16,42 @@ a:visited
     font-weight: bold;
 }
 
+input.Button {
+    float: right;
+	background-color: #FFFFFF;
+	border: 3px double #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	background: url(../images/background_form_element.gif) repeat-x;
+	color: #333333;
+	font-size: 0.8333em;
+	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
+	font-weight: bold;
+	padding: 0.25em;
+	margin-top: 8px;
+	margin-left: 8px;
+}
+
+input.Button:active {
+	border: 3px double #CCCCCC;
+	border-top-color: #999999;
+	border-left-color: #999999;
+}
+
+
 .crudbutton
 {   
+    text-align: center;
+   
     margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    
     padding: 3px;
-    width: 8%;
+    /* width: 30%; */
     height: 14px;
-    display: block;
+    
+    
     position:relative;
     border: 1px solid #F1EFE2;
     z-index: 5;
@@ -81,8 +110,7 @@ input,select
     border: 1px solid black;
 }
 
-.input_checkbox
-{
+input.checkbox{
     border: 1px solid black;
 }
 

@@ -1,0 +1,177 @@
+/* HTML TAGS */
+
+h3
+{
+	margin-bottom: 0.5em;
+	font-size: 100%;
+}
+
+
+
+
+/* IDs */
+
+#h3sForm fieldset
+{
+	display: block;
+	width: 17em;
+	margin: 0 0 3em 0;
+	padding: 1em 1em 1em 1em;
+	background-color: #EEEEEE;
+}
+
+#h3sForm fieldset.submit
+{
+	border: none;
+	background-color: transparent;
+	text-align: center;
+}
+
+#h3sForm fieldset.radio
+{
+	width: 15em;
+	margin: 1em 0 2em 0;
+	background-color: #DDDDDD;
+}
+
+#h3sForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#h3sForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#h3sForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#h3sForm label
+{
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#h3sForm select
+{
+	display: block;
+}
+
+#noBordersForm fieldset
+{
+	display: block;
+	width: 17em;
+	margin: 0 0 3em 0;
+	border: 0 solid #000000;
+	padding: 1em 1em 1em 1em;
+	background-color: #EEEEEE;
+}
+
+#noBordersForm fieldset.submit
+{
+	border: none;
+	background-color: transparent;
+	text-align: center;
+}
+
+#noBordersForm fieldset.radio
+{
+	width: 15em;
+	margin: 1em 0 2em 0;
+	background-color: #DDDDDD;
+}
+
+#noBordersForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#noBordersForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#noBordersForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#noBordersForm label
+{
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#noBordersForm legend
+{
+	font-style: italic;
+}
+
+#noBordersForm select
+{
+	display: block;
+}
+
+#simplyForm fieldset
+{
+	display: block;
+	width: 17em;
+	margin: 0 0 3em 0;
+	padding: 0 1em 1em 1em;
+	background-color: #EEEEEE;
+}
+
+#simplyForm fieldset.submit
+{
+	border: none;
+	background-color: transparent;
+	text-align: center;
+}
+
+#simplyForm fieldset.radio
+{
+	width: 15em;
+	margin: 1em 0 2em 0;
+	background-color: #DDDDDD;
+}
+
+#simplyForm fieldset.radio label
+{
+	font-weight: normal;
+}
+
+#simplyForm fieldset.radio input
+{
+	clear: both;
+	float: left;
+	width: auto;
+}
+
+#simplyForm input
+{
+	display: block;
+	width: 15em;
+}
+
+#simplyForm label
+{
+	display: block;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+#simplyForm select
+{
+	display: block;
+}
