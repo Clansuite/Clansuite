@@ -33,27 +33,6 @@
 * @desc Table structure for `cs_users`
 */
 /*
-DROP TABLE IF EXISTS `cs_users`;
-CREATE TABLE `cs_users` (
-  `user_id` int(10) unsigned NOT NULL auto_increment,
-  `email` varchar(150) collate latin1_general_ci NOT NULL default '',
-  `nick` varchar(25) collate latin1_general_ci NOT NULL default '',
-  `password` varchar(40) collate latin1_general_ci NOT NULL,
-  `new_password` varchar(40) collate latin1_general_ci NOT NULL default '',
-  `code` varchar(255) collate latin1_general_ci NOT NULL,
-  `joined` int(11) NOT NULL default '0',
-  `timestamp` int(11) NOT NULL default '0',
-  `first_name` varchar(25) collate latin1_general_ci NOT NULL default '',
-  `last_name` varchar(25) collate latin1_general_ci NOT NULL default '',
-  `infotext` text collate latin1_general_ci NOT NULL,
-  `disabled` tinyint(1) NOT NULL default '0',
-  `activated` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`user_id`),
-  KEY `email` (`email`),
-  KEY `nick` (`nick`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
-
-*/
 
 /**
 * @desc Security Handler
@@ -123,21 +102,21 @@ class users
 
         if ( !empty($user_id) )
         {
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
             
         }
         else if ( !empty($email) )
         {
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE email = ?');
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE email = ?');
             $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
             
         }
         else if ( !empty($nick) )
         {
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
             $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
