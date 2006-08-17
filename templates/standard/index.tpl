@@ -47,9 +47,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <script type="text/javscript">
 var arrow1 = new Image(4, 7);
-arrow1.src = "{$www_tpl_root}/images/arrow1.gif";
+arrow1.src = "{$www_tpl_root}/images/adminmenu/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
+arrow2.src = "{$www_tpl_root}/images/adminmenu/arrow1.gif";
 </script>
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
@@ -71,33 +71,28 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
             <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu">
             <tr>
                 <td>
-                    <a class="button" href="javascript:void(0)">Test 1</a>
+                    <a class="button" href="javascript:void(0)">Public</a>
     
                     <div class="section">
-                        <a class="item" href="javascript:void(0)"><span style="width: 100px;">Section Test1<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
+                        <a class="item" href="javascript:void(0)"><span style="width: 100px;">Module<img class="arrow" src="{$www_tpl_root}/images/adminmenu/arrow1.gif" width="4" height="7" alt="" /></span></a>
                           <div class="section">
-                              <a class="item" href="example1.hmtl">Sub Section</a>
+                              <a class="item" href="index.php">Main</a>
+                              <a class="item" href="index.php?mod=news">News</a>
+                              <a class="item" href="index.php?mod=shoutbox">Shoutbox</a>
                           </div>
-                        <a class="item" href="example2.html"><span style="width: 100px;">Section t2<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
+                          
+                        <a class="item" href="index.php?mod=users"><span style="width: 100px;">Users<img class="arrow" src="{$www_tpl_root}/images/adminmenu/arrow1.gif" width="4" height="7" alt="" /></span></a>
                           <div class="section">
-                              <a class="item" href="example1.hmtl">Sub Section</a>
+                              <a class="item" href="index.php?mod=account">Login</a>
                           </div>
                     </div>
                     
-                    <a class="button" href="javascript:void(0)">Test 2</a>
-    
-                    <div class="section">
-                        <a class="item" href="javascript:void(0)"><span style="width: 100px;">Section Test1<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></span></a>
-                          <div class="section">
-                              <a class="item" href="example1.hmtl">Sub Section</a>
-                          </div>
-                        <a class="item" href="example2.html"><span style="width: 100px;">Section Test2</span></a>
-                    </div>
-    
+                    <a class="button" href="index.php?mod=admin">Admin</a>
      
                 </td>
             </tr>
             </table>
+            
         </div>
     </td>
     
@@ -108,6 +103,13 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
     </td>
     
     <td id="bar" width="200px">
+    
+        {* todo: 
+        {mod="account" func="login"}
+        
+        {mod="shoutbox" func="show"}
+        *}
+    
         <div id="right_menu">
             Online: {$stats.online}<br />
             Siteimpressions: {$stats.page_impressions}<br />
@@ -124,8 +126,8 @@ arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
 var menu1 = new XulMenu("menu1");
 menu1.type = "vertical";
 menu1.position.level1.left = 2;
-menu1.arrow1 = "{$www_tpl_root}/images/arrow1.gif";
-menu1.arrow2 = "{$www_tpl_root}/images/arrow2.gif";
+menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
+menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
 menu1.init();
 </script>
 <br /><br />
