@@ -19,4 +19,8 @@
       <id>How are you, %u ?</id>
       <string>Wie gehts es Ihnen, %u ?</string>
    </message>
+   <message>
+      <id>Blabla this is a test id</id>
+      <string>Blabla das ist ein teststring</string>
+   </message>
 </locale>
