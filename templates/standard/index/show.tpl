@@ -6,9 +6,9 @@
 {* direktes Ansprechen der Sprachzuweisung *}
 {* class language :: function t t(); *} 
 <br />
-In der LanguageDatei existiert eine Übersetzung für "Hello":
+In der LanguageDatei existiert eine &Uuml;bersetzung f&uuml;r "Hello":
 {php} print(language::t("Hello")); {/php} 
 
 <br />
-In der LanguageDatei existiert eine Übersetzung für "You are redirected":
+In der LanguageDatei existiert eine &Uuml;bersetzung f&uuml;r "You are redirected":
 {php} print(language::t("You are redirected")); {/php}
