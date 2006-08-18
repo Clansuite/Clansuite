@@ -4,9 +4,9 @@
  * This is the PLAIN Authentication for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 0.0.4
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	20th May 2006
+ * @date	4th August 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -40,7 +40,7 @@
  * Runs the commands needed in order to use PLAIN SMTP authentication
  * @package Swift
  */
-class Swift_PLAIN_Authenticator implements Swift_IAuthenticator
+class Swift_Authenticator_PLAIN implements Swift_IAuthenticator
 {
 	/**
 	 * The string the SMTP server returns to identify
@@ -52,7 +52,7 @@ class Swift_PLAIN_Authenticator implements Swift_IAuthenticator
 	 * SwiftInstance parent object
 	 * @var object SwiftInstance (reference)
 	 */
-	private $baseObject;
+	protected $baseObject;
 
 	public function __construct()
 	{
@@ -87,21 +87,18 @@ class Swift_PLAIN_Authenticator implements Swift_IAuthenticator
 	 * @return	bool	successful
 	 * @private
 	 */
-	private function authPLAIN($username, $password)
+	protected function authPLAIN($username, $password)
 	{
 		//The authorization string uses ascii null as a separator (See RFC 2554)
 		$auth_string = base64_encode("$username\0$username\0$password");
-		$this->baseObject->command("AUTH PLAIN\r\n");
-		if ($this->baseObject->responseCode == 334)
+		$this->baseObject->command("AUTH PLAIN $auth_string\r\n");
+		//This should be the server saying OK
+		if ($this->baseObject->responseCode == 235)
 		{
-			$this->baseObject->command("$auth_string\r\n");
-			//This should be the server saying OK
-			if ($this->baseObject->responseCode == 235)
-			{
-				return true;
-			}
+			return true;
 		}
-		$this->baseObject->logError('Authentication failed using PLAIN', $this->responseCode);
+
+		$this->baseObject->logError('Authentication failed using PLAIN', $this->baseObject->responseCode);
 		$this->baseObject->fail();
 		return false;
 	}

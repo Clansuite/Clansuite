@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This is the CRAM-MD5 Authentication for Swift Mailer, a PHP Mailer class.
+ * This is the LOGIN Authentication for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 0.0.4
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	20th May 2006
+ * @date	4th August 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -36,23 +36,23 @@
  */
 
 /**
- * SMTP CRAM-MD5 Authenticator Class.
+ * SMTP LOGIN Authenticator Class.
  * Runs the commands needed in order to use LOGIN SMTP authentication
  * @package Swift
  */
-class Swift_CRAM_MD5_Authenticator implements Swift_IAuthenticator
+class Swift_Authenticator_LOGIN implements Swift_IAuthenticator
 {
 	/**
 	 * The string the SMTP server returns to identify
 	 * that it supports this authentication mechanism
 	 * @var string serverString
 	 */
-	public $serverString = 'CRAM-MD5';
+	public $serverString = 'LOGIN';
 	/**
 	 * SwiftInstance parent object
 	 * @var object SwiftInstance (reference)
 	 */
-	private $baseObject;
+	protected $baseObject;
 
 	public function __construct()
 	{
@@ -77,7 +77,7 @@ class Swift_CRAM_MD5_Authenticator implements Swift_IAuthenticator
 	 */
 	public function run($username, $password)
 	{
-		return $this->authCRAM_MD5($username, $password);
+		return $this->authLOGIN($username, $password);
 	}
 	/**
 	 * Executes the logic in the authentication mechanism
@@ -86,55 +86,35 @@ class Swift_CRAM_MD5_Authenticator implements Swift_IAuthenticator
 	 * @param	string	password
 	 * @return	bool	successful
 	 */
-	private function authCRAM_MD5($username, $password)
+	protected function authLOGIN($username, $password)
 	{
-		$response = $this->baseObject->command("AUTH CRAM-MD5\r\n");
+		$response = $this->baseObject->command("AUTH LOGIN\r\n");
+		//This should be the server OK go ahead and give me a username
 		preg_match('/^334\ (.*)$/', $response, $matches);
 		if (!empty($matches[1]))
 		{
-			//This response is a base64 encoded challenge "<123456.123456789@domain.tld>"
 			$decoded_response = base64_decode($matches[1]);
-			
-			//We need to generate a digest using this challenge
-			$digest = $username.' '.$this->_authGenerateCRAM_MD5_Response($password, $decoded_response);
-			//We then send the username and digest as a base64 encoded string
-			$auth_string = base64_encode($digest);
-			$this->baseObject->command("$auth_string\r\n");
-			
-			if ($this->baseObject->responseCode == 235) //235 means OK
+			if (strtolower($decoded_response) == 'username:')
 			{
-				return true;
+				$response = $this->baseObject->command(base64_encode($username));
+				//This should be the server saying now give me a password
+				preg_match('/^334\b\ (.*)$/', $response, $matches);
+				if (!empty($matches[1]))
+				{
+					$decoded_response = base64_decode($matches[1]);
+					if (strtolower($decoded_response) == 'password:')
+					{
+						//235 is a good authentication response!
+						$this->baseObject->command(base64_encode($password));
+						if ($this->baseObject->responseCode == 235) return true;
+					}
+				}
 			}
 		}
-		$this->baseObject->logError('Authentication failed using CRAM-MD5', $this->responseCode);
+		//If the logic got down here then the authentication failed
+		$this->baseObject->logError('Authentication failed using LOGIN', $this->baseObject->responseCode);
 		$this->baseObject->fail();
 		return false;
-	}
-	/**
-	 * This has been lifted from a PEAR implementation at
-	 * http://pear.php.net/package/Auth_SASL/
-	 *
-	 * @param	string	password
-	 * @param	string	challenge
-	 * @return	string	digest
-	 */
-	//This has been lifted from a PEAR implementation at
-	// http://pear.php.net/package/Auth_SASL/
-	private function _authGenerateCRAM_MD5_Response($password, $challenge)
-	{
-		if (strlen($password) > 64)
-			$password = pack('H32', md5($password));
-
-		if (strlen($password) < 64)
-			$password = str_pad($password, 64, chr(0));
-
-		$k_ipad = substr($password, 0, 64) ^ str_repeat(chr(0x36), 64);
-		$k_opad = substr($password, 0, 64) ^ str_repeat(chr(0x5C), 64);
-
-		$inner  = pack('H32', md5($k_ipad.$challenge));
-		$digest = md5($k_opad.$inner);
-
-		return $digest;
 	}
 }
 

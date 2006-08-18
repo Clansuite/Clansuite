@@ -7,37 +7,41 @@
  *  
  *  * Send uses one single connection to the SMTP server
  *  * Doesn't rely on mail()
- *  * Unlimited redundant connections (via plugin)
  *  * Custom Headers
+ *  * Unlimited redundant connections (can be mixed type)
+ *  * Connection cycling & load balancing
  *  * Sends Multipart messages, handles encoding
  *  * Sends Plain-text single-part emails
  *  * Fast Cc and Bcc handling
+ *  * Immune to rejected recipients (sends to subsequent recipients w/out error)
  *  * Set Priority Level
  *  * Request Read Receipts
+ *  * Unicode UTF-8 support with auto-detection
+ *  * Auto-detection of SMTP/Sendmail details based on PHP & server configuration
  *  * Batch emailing with multiple To's or without
  *  * Support for multiple attachments
  *  * Sendmail (or other binary) support
  *  * Pluggable SMTP Authentication (LOGIN, PLAIN, MD5-CRAM, POP Before SMTP)
  *  * Secure Socket Layer connections (SSL)
  *  * Transport Layer security (TLS) - Gmail account holders!
- *  * Send mail with inline embedded images easily!
+ *  * Send mail with inline embedded images easily (or embed other file types)!
  *  * Loadable plugin support with event handling features
- * 
+ *
  * @package	Swift
- * @version	1.3.1
+ * @version	2.1.12
  * @author	Chris Corbyn
- * @date	28th June 2006
+ * @date	18th August 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
  * @filesource
- * 
+ *
  * -----------------------------------------------------------------------
  *
  *   This library is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU Lesser General Public
  *   License as published by the Free Software Foundation; either
- *   version 2.1 of the License, or (at your option) any later version.
+ *   version 2.1 of the License, or any later version.
  *
  *   This library is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -57,9 +61,7 @@
  *
  */
 
-if (!defined('SWIFT_VERSION')) define('SWIFT_VERSION', '1.3.1');
-
-if (substr(PHP_VERSION, 0, 1) != 5) exit("<br /><strong style=\"background: #ee6666;\">SWIFT ERROR:</strong> This version of Swift is for PHP5 only, make sure you have the correct version.<br />");
+if (!defined('SWIFT_VERSION')) define('SWIFT_VERSION', '2.1.12');
 
 /**
  * Swift Plugin Interface. Describes the methods which plugins should implement
@@ -174,7 +176,8 @@ class Swift
 	 */
 	private $plugins = array();
 	private $esmtp = false;
-	private $autoCompliance = true;
+	private $_8bitmime = false;
+	private $autoCompliance = false;
 	/**
 	 * Whether or not Swift should send unique emails to all "To"
 	 * recipients or just bulk them together in the To header.
@@ -211,7 +214,6 @@ class Swift
 	private $expectedCodes = array(
 		'ehlo' => 250,
 		'helo' => 250,
-		'auth' => 334,
 		'mail' => 250,
 		'rcpt' => 250,
 		'data' => 354
@@ -236,6 +238,11 @@ class Swift
 	 * @var string address
 	 */
 	private $to = array();
+	/**
+	 * The sender of the email
+	 * @var string sender
+	 */
+	private $from;
 	/**
 	 * Priority value 1 (high) to 5 (low)
 	 * @var int priority (1-5)
@@ -281,6 +288,7 @@ class Swift
 	public $password;
 	
 	public $charset = "ISO-8859-1";
+	private $userCharset = false;
 	/**
 	 * Boolean value representing if Swift has failed or not
 	 * @var  bool  failed
@@ -330,6 +338,34 @@ class Swift
 	 * @var  string  response
 	 */
 	public $lastResponse;
+	/**
+	 * The total number of failed recipients
+	 * @var int failed
+	 */
+	private $failCount = 0;
+	/**
+	 * Number of failed recipients for this email
+	 * @var int failed
+	 */
+	private $subFailCount = 0;
+	/**
+	 * Number of addresses expected to pass this email
+	 * @var int recipients
+	 */
+	private $numAddresses;
+	/**
+	 * Container for any recipients rejected
+	 * @var array failed addresses
+	 */
+	private $failedAddresses = array();
+	/**
+	 * Number of commands which will be skipped
+	 */
+	public $ignoreCommands = 0;
+	/**
+	 * Number of commands skipped thus far
+	 */
+	private $skippedCommands = 0;
 	
 	/**
 	 * Swift Constructor
@@ -391,12 +427,21 @@ class Swift
 		{
 			//Just being polite
 			$list = $this->command("EHLO {$this->domain}\r\n");
+			$this->check8BitMime($this->lastResponse);
 			
 			$this->getAuthenticationMethods($list);
 			
 			$this->esmtp = true;
 		}
 		else $this->command("HELO {$this->domain}\r\n");
+	}
+	/**
+	 * Check if the server allows 8bit emails to be sent without quoted-printable encoding
+	 * @param string EHLO response
+	 */
+	private function check8BitMime($string)
+	{
+		if (strpos($string, '8BITMIME')) $this->_8bitmime = true;
 	}
 	/**
 	 * Checks for Extended SMTP support
@@ -460,9 +505,10 @@ class Swift
 	 * Set the character encoding were using
 	 * @param string charset
 	 */
-	public function setCharset($string="UTF-8")
+	public function setCharset($string)
 	{
 		$this->charset = $string;
+		$this->userCharset = $string;
 	}
 	/**
 	 * Whether or not Swift should send unique emails to all To recipients
@@ -471,6 +517,65 @@ class Swift
 	public function useExactCopy($use=true)
 	{
 		$this->useExactCopy = (bool) $use;
+	}
+	/**
+	 * Get the return path recipient
+	 */
+	public function getReturnPath()
+	{
+		return $this->returnPath;
+	}
+	/**
+	 * Get the sender
+	 */
+	public function getFromAddress()
+	{
+		return $this->from;
+	}
+	/**
+	 * Get Cc recipients
+	 */
+	public function getCcAddresses()
+	{
+		return $this->Cc;
+	}
+	/**
+	 * Get Bcc addresses
+	 */
+	public function getBccAddresses()
+	{
+		return $this->Bcc;
+	}
+	/**
+	 * Get To addresses
+	 */
+	public function getToAddresses()
+	{
+		return $this->to;
+	}
+	/**
+	 * Get the list of failed recipients
+	 * @return array recipients
+	 */
+	public function getFailedRecipients()
+	{
+		return $this->failedAddresses;
+	}
+	/**
+	 * Return the array of errors (if any)
+	 * @return array errors
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+	/**
+	 * Return the conversation up to maxLogSize between the SMTP server and swift
+	 * @return array transactions
+	 */
+	public function getTransactions()
+	{
+		return $this->transactions;
 	}
 	/**
 	 * Sets the Reply-To address used for sending mail
@@ -575,6 +680,14 @@ class Swift
 		return true;
 	}
 	/**
+	 * Return the number of plugins loaded
+	 * @return int plugins
+	 */
+	public function numPlugins()
+	{
+		return count($this->plugins);
+	}
+	/**
 	 * Trigger event handlers
 	 * @param  string  event handler
 	 * @return  void
@@ -598,16 +711,16 @@ class Swift
 	 */
 	private function loadDefaultAuthenticators()
 	{
-		$dir = dirname(__FILE__).'/Swift';
+		$dir = dirname(__FILE__).'/Swift/Authenticator';
 		if (file_exists($dir) && is_dir($dir))
 		{
 			$handle = opendir($dir);
 			while ($file = readdir($handle))
 			{
-				if (preg_match('@^(Swift_\w*?_Authenticator)\.php$@', $file, $matches))
+				if (preg_match('@^([a-zA-Z\d]*)\.php$@', $file, $matches))
 				{
 					require_once($dir.'/'.$file);
-					$class = $matches[1];
+					$class = 'Swift_Authenticator_'.$matches[1];
 					$this->loadAuthenticator(new $class);
 				}
 			}
@@ -678,10 +791,10 @@ class Swift
 		if ($this->mimeBoundary && !$force) return $this->mimeBoundary;
 		else
 		{ //Make sure we don't (as if it would ever happen!) -
-		  // produce a hash that's actually in the email already
+		  // produce a boundary that's actually in the email already
 			do
 			{
-				$this->mimeBoundary = 'swift-'.strtoupper(md5($string.microtime()));
+				$this->mimeBoundary = '_=_swift-'.uniqid(rand(), true);
 			} while(strpos($string, $this->mimeBoundary));
 		}
 		return $this->mimeBoundary;
@@ -693,7 +806,7 @@ class Swift
 	 */
 	public function addHeaders($string)
 	{
-		$this->headers .= $string;
+		$this->headers .= preg_replace("/(?:\r|\n|^)[^:]*?:\ *(.*?)(?:\r|\n|$)/me", 'str_replace("$1", $this->safeEncodeHeader("$1"), "$0")', $string);
 		if (substr($this->headers, -2) != "\r\n")
 			$this->headers .= "\r\n";
 	}
@@ -777,7 +890,7 @@ class Swift
 	 */
 	public function flushAttachments()
 	{
-		$this->attchments = array();
+		$this->attachments = array();
 	}
 	/**
 	 * Reset headers
@@ -869,12 +982,32 @@ class Swift
 		else return $this->commandKeyword = strtolower(trim($comm));
 	}
 	/**
+	 * Send a reset command in the event of a problem
+	 */
+	public function reset()
+	{
+		$this->command("RSET\r\n");
+	}
+	/**
 	 * Issue a command to the socket
 	 * @param  string  command
 	 * @return  string  response
 	 */
 	public function command($comm)
 	{
+		//We'll usually ignore a certain sequence of commands if something screwed up
+		if ($this->ignoreCommands)
+		{
+			$this->skippedCommands++;
+			if ($this->skippedCommands >= $this->ignoreCommands)
+			{
+				$this->responseCode = -2; //Done (internal to swift)
+				$this->ignoreCommands = 0;
+				$this->skippedCommands = 0;
+			}
+			return true;
+		}
+		
 		$this->currentCommand = ltrim($comm);
 		
 		$this->triggerEventHandler('onBeforeCommand');
@@ -887,6 +1020,9 @@ class Swift
 
 		$command_keyword = $this->getCommandKeyword($this->currentCommand);
 		
+		//We successfully got as far as asking to send the email so we can forget any failed addresses for now
+		if ($command_keyword != 'rcpt' && $command_keyword != 'rset') $this->subFailCount = 0;
+		
 		//SMTP commands must end with CRLF
 		if (substr($this->currentCommand, -2) != "\r\n") $this->currentCommand .= "\r\n";
 		
@@ -897,9 +1033,30 @@ class Swift
 			{
 				if ($this->expectedCodes[$command_keyword] != $this->responseCode)
 				{
-					$this->fail();
-					$this->logError('MTA Error: '.$this->lastResponse, $this->responseCode);
-					return $this->hasFailed();
+					//If a recipient was rejected
+					if ($command_keyword == 'rcpt')
+					{
+						$this->failCount++;
+						$this->failedAddresses[] = $this->getAddress($comm);
+						//Some addresses may still work...
+						if (++$this->subFailCount >= $this->numAddresses)
+						{
+							//Sending failed, just RSET and don't send data to this recipient
+							$this->reset();
+							//So we can still cache the mail body in send()
+							$this->responseCode = -1; //Pending (internal to swift)
+							//Skip the next two commands (DATA and <mail>)
+							$this->ignoreCommands = 2;
+							$this->logError('Send Error: Sending to '.$this->subFailCount.' recipients rejected (bad response code).', $this->responseCode);
+							//But don't fail here.... these are usually not fatal
+						}
+					}
+					else
+					{
+						$this->fail();
+						$this->logError('MTA Error (Swift was expecting response code '.$this->expectedCodes[$command_keyword].' but got '.$this->responseCode.'): '.$this->lastResponse, $this->responseCode);
+						return $this->hasFailed();
+					}
 				}
 			}
 			$this->triggerEventHandler('onCommand');
@@ -923,16 +1080,29 @@ class Swift
 	 * @param  string  content-transfer-encoding, optional
 	 * @return  void
 	 */
-	public function addPart($string, $type='text/plain', $encoding='8bit')
+	public function addPart($string, $type='text/plain', $encoding=false)
 	{
+		if (!$this->userCharset && (strtoupper($this->charset) != 'UTF-8') && $this->detectUTF8($string)) $this->charset = 'UTF-8';
+		
+		if (!$encoding && $this->_8bitmime) $encoding = '8bit';
+		elseif (!$encoding) $encoding = 'quoted-printable';
+		
 		$body_string = $this->encode($string, $encoding);
 		if ($this->autoCompliance && $encoding != 'binary') $body_string = $this->chunkSplitLines($body_string);
-		$ret = "Content-Type: $type; charset=\"{$this->charset}\"\r\n".
+		$ret = "Content-Type: $type; charset=\"{$this->charset}\"; format=flowed\r\n".
 				"Content-Transfer-Encoding: $encoding\r\n\r\n".
 				$body_string;
 		
 		if (strtolower($type) == 'text/html') $this->parts[] = $this->makeSafe($ret);
 		else $this->parts = array_merge((array) $this->makeSafe($ret), $this->parts);
+	}
+	/**
+	 * Get the current number of parts in the email
+	 * @return int num parts
+	 */
+	public function numParts()
+	{
+		return count($this->parts);
 	}
 	/**
 	 * Add an attachment to a multipart message.
@@ -951,6 +1121,14 @@ class Swift
 				"Content-Disposition: attachment; ".
 				"filename=\"$filename\"\r\n\r\n".
 				chunk_split($this->encode($data, 'base64'));
+	}
+	/**
+	 * Get the current number of attachments in the mail
+	 * @return int num attachments
+	 */
+	public function numAttachments()
+	{
+		return count($this->attachments);
 	}
 	/**
 	 * Insert an inline image and return it's name
@@ -989,6 +1167,29 @@ class Swift
 		return 'cid:'.$cid;
 	}
 	/**
+	 * Insert an inline file and return it's name
+	 * These work like attachments but have a content-id
+	 * and are inline/related.
+	 * The data is the file contents itself (binary safe)
+	 * @param string file contents
+	 * @param string content-type
+	 * @return string name
+	 */
+	public function embedFile($data, $type='application/octet-stream', $filename=false)
+	{
+		$cid = 'SWM'.md5(uniqid(rand(), true));
+		if (!$filename) $filename = $cid;
+		
+		$this->images[] = "Content-Type: $type\r\n".
+				"Content-Transfer-Encoding: base64\r\n".
+				"Content-Disposition: inline; ".
+				"filename=\"$filename\"\r\n".
+				"Content-ID: <$cid>\r\n\r\n".
+				chunk_split($this->encode($data, 'base64'));
+		
+		return 'cid:'.$cid;
+	}
+	/**
 	 * Close the connection in the connecion object
 	 * @return  void
 	 */
@@ -1019,6 +1220,52 @@ class Swift
 		$this->triggerEventHandler('onFail');
 	}
 	/**
+	 * Detect if a string contains multi-byte non-ascii chars that fall in the UTF-8 tanges
+	 * @param mixed input
+	 * @return bool
+	 */
+	public function detectUTF8($string_in)
+	{
+		foreach ((array)$string_in as $string)
+		{
+			if (preg_match('%(?:
+			[\xC2-\xDF][\x80-\xBF]				# non-overlong 2-byte
+			|\xE0[\xA0-\xBF][\x80-\xBF]			# excluding overlongs
+			|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}	# straight 3-byte
+			|\xED[\x80-\x9F][\x80-\xBF]			# excluding surrogates
+			|\xF0[\x90-\xBF][\x80-\xBF]{2}		# planes 1-3
+			|[\xF1-\xF3][\x80-\xBF]{3}			# planes 4-15
+			|\xF4[\x80-\x8F][\x80-\xBF]{2}		# plane 16
+			)+%xs', $string)) return true;
+		}
+		return false;
+	}
+	/**
+	 * This function checks for 7bit *printable* characters
+	 * which excludes \r \n \t etc and so, is safe for use in mail headers
+	 * Actual permitted chars [\ !"#\$%&'\(\)\*\+,-\.\/0123456789:;<=>\?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]\^_`abcdefghijklmnopqrstuvwxyz{\|}~]
+	 * Ranges \x00-\x1F are printer control sequences
+	 * \x7F is the ascii delete character
+	 * @param string input
+	 * @return bool
+	 */
+	public function is7bitPrintable($string)
+	{
+		if (preg_match('/^[\x20-\x7E]*$/D', $string)) return true;
+		else return false;
+	}
+	/**
+	 * This is harsh! It makes things safe for sending as command sequences in SMTP
+	 * Specifically the enveloping.  We could be extremely strict and implement what I planned on doing
+	 * here: http://www.swiftmailer.org/contrib/proposed-address-test.txt
+	 * @param string input
+	 * @return safe output
+	 */
+	public function make7bitPrintable($string)
+	{
+		return preg_replace('/[^\x20-\x7E]/', '', $string);
+	}
+	/**
 	 * Encode a string (mail) in a given format
 	 * Currently supports:
 	 *  - BASE64
@@ -1031,7 +1278,7 @@ class Swift
 	 * @param  string  encoding
 	 * @return  string  encoded output
 	 */
-	public function encode($string, $type)
+	public function encode($string, $type, $maxlen=false)
 	{
 		$type = strtolower($type);
 		
@@ -1042,11 +1289,10 @@ class Swift
 			break;
 			//
 			case 'quoted-printable':
-			return $this->quotedPrintableEncode($string);
+			return $this->quotedPrintableEncode($string, $maxlen);
 			//
 			case '7bit':
 			case '8bit':
-			if (strtoupper($this->charset) != 'UTF-8') return utf8_decode($string);
 			break;
 			case 'binary':
 			default:
@@ -1056,17 +1302,61 @@ class Swift
 		return $string;
 	}
 	/**
+	 * Headers cannot have non-ascii or high ascii chars in them
+	 * @param mixed input
+	 * @return string encoded output (with encoding type)
+	 */
+	public function safeEncodeHeader($string)
+	{
+		if (!is_array($string))
+		{
+			if ($this->is7bitPrintable($string)) return $string;
+			else
+			{
+				//Check if the string contains address notation
+				$address_start = strrpos($string, '<');
+				$address_end = strrpos($string, '>');
+				$address = '';
+				//If the < and > are in the correct places
+				if (($address_start !== false) && $address_start < $address_end)
+				{
+					//Then store the email address
+					$address = substr($string, $address_start, ($address_end-$address_start+1));
+					if (!$this->is7bitPrintable($address)) $address = $this->make7bitPrintable($address);
+					//... and remove it from the string
+					$string = substr($string, 0, $address_start);
+				}
+				$encoded = chunk_split($this->encode($string, 'base64'));
+				$lines = explode("\r\n", $encoded);
+				if ($lines[(count($lines)-1)] == "") $lines = array_slice($lines, 0, count($lines)-1);
+				return  '=?'.$this->charset.'?B?'.implode("?=\r\n =?{$this->charset}?B?", $lines).'?= '.$address;
+			}
+		}
+		else
+		{
+			$ret = array();
+			foreach ($string as $line)
+			{
+				$ret[] = $this->safeEncodeHeader($line); //Recurse
+			}
+			return $ret;
+		}
+	}
+	/**
 	 * Handles quoted-printable encoding
 	 * From php.net by user bendi at interia dot pl
 	 * @param  string  input
+	 * @param int maxlength
 	 * @return  string  encoded output
 	 * @private
 	 */
-	private function quotedPrintableEncode($string)
+	private function quotedPrintableEncode($string, $maxlen=false)
 	{
+		if (!$maxlen) $maxlen = 73;
 		$string = preg_replace('/[^\x21-\x3C\x3E-\x7E\x09\x20]/e', 'sprintf( "=%02x", ord ( "$0" ) ) ;', $string);
-		preg_match_all('/.{1,73}([^=]{0,3})?/', $string, $matches);
-		return implode("=\r\n", $matches[0]);
+		preg_match_all('/.{1,'.$maxlen.'}([^=]{0,3})?/', $string, $matches);
+		$sep = "=\r\n";
+		return implode($sep, $matches[0]);
 	}
 	/**
 	 * Converts lone LF characters to CRLF
@@ -1094,12 +1384,12 @@ class Swift
 	 */
 	public function getAddress($string)
 	{
-		if (preg_match('/^.*?<([^>]+)>\s*$/', $string, $matches))
+		if (preg_match('/^.*?<([^>]+)>\s*$/s', $string, $matches))
 		{
-			return '<'.$matches[1].'>';
+			return '<'.$this->make7bitPrintable($matches[1]).'>';
 		}
-		elseif (!preg_match('/<|>/', $string)) return '<'.$string.'>';
-		else return $string;
+		elseif (!preg_match('/<|>/', $string)) return '<'.$this->make7bitPrintable($string).'>';
+		else return $this->make7bitPrintable($string);
 	}
 	/**
 	 * Builds the headers needed to reflect who the mail is sent to
@@ -1110,11 +1400,11 @@ class Swift
 	 */
 	private function makeRecipientHeaders($address=false)
 	{
-		if ($address) return "To: $address\r\n";
+		if ($address) return "To: ".$this->safeEncodeHeader($address)."\r\n";
 		else
 		{
-			$ret = "To: ".implode(",\r\n\t", $this->to)."\r\n";
-			if (!empty($this->Cc)) $ret .= "Cc: ".implode(",\r\n\t", $this->Cc)."\r\n";
+			$ret = "To: ".implode(",\r\n\t", $this->safeEncodeHeader($this->to))."\r\n";
+			if (!empty($this->Cc)) $ret .= "Cc: ".implode(",\r\n\t", $this->safeEncodeHeader($this->Cc))."\r\n";
 			return $ret;
 		}
 	}
@@ -1144,8 +1434,16 @@ class Swift
 	 * @param  string  content-transfer-encoding,optional
 	 * @return  bool  successful
 	 */
-	public function send($to, $from, $subject, $body=false, $type='text/plain', $encoding='8bit')
+	public function send($to, $from, $subject, $body=false, $type='text/plain', $encoding=false)
 	{
+		if ((strtoupper($this->charset) != 'UTF-8') && $body && $this->detectUTF8($body) && !$this->userCharset) $this->charset = 'UTF-8';
+		if ((strtoupper($this->charset) != 'UTF-8') && $this->detectUTF8($subject) && !$this->userCharset) $this->charset = 'UTF-8';
+		if ((strtoupper($this->charset) != 'UTF-8') && $this->detectUTF8($to) && !$this->userCharset) $this->charset = 'UTF-8';
+		if ((strtoupper($this->charset) != 'UTF-8') && $this->detectUTF8($from) && !$this->userCharset) $this->charset = 'UTF-8';
+		
+		if (!$encoding && $this->_8bitmime) $encoding = '8bit';
+		elseif (!$encoding) $encoding = 'quoted-printable';
+		
 		$to = (array) $to;
 		$this->to = $this->parseAddressList($to);
 		//In these cases we just send the one email
@@ -1155,8 +1453,12 @@ class Swift
 			$this->triggerEventHandler('onBeforeSend');
 			foreach ($this->currentMail as $command)
 			{
+				//Number of successful addresses expected
+				$this->numAddresses = 1;
+				
 				if (is_array($command))
 				{ //Commands can be returned as 1-dimensional arrays
+					$this->numAddresses = count($command);
 					foreach ($command as $c)
 					{
 						if (!$this->command($c))
@@ -1187,7 +1489,7 @@ class Swift
 				foreach ($this->currentMail as $command)
 				{
 					//This means we're about to send the DATA part
-					if ($get_body && $this->responseCode == 354)
+					if ($get_body && ($this->responseCode == 354 || $this->responseCode == -1))
 					{
 						$cached_body = $command;
 						$command = $this->makeRecipientHeaders($address).$command;
@@ -1242,11 +1544,12 @@ class Swift
 		//If the user specifies a different reply-to
 		$reply_to = !empty($this->replyTo) ? $this->getAddress($this->replyTo) : $this->getAddress($from);
 		//Standard headers
-		$data = "From: $from\r\n".
-			"Reply-To: $reply_to\r\n".
-			"Subject: $subject\r\n".
+		$this->from = $from;
+		$data = "From: ".$this->safeEncodeHeader($from)."\r\n".
+			"Reply-To: ".$this->safeEncodeHeader($reply_to)."\r\n".
+			"Subject: ".$this->safeEncodeHeader($subject)."\r\n".
 			"Date: $date\r\n";
-		if ($this->readReceipt) $data .= "Disposition-Notification-To: $from\r\n";
+		if ($this->readReceipt) $data .= "Disposition-Notification-To: ".$this->safeEncodeHeader($from)."\r\n";
 		
 		if (!$to) //Only need one mail if no address was given
 		{ //We'll collate the addresses from the class properties
@@ -1265,7 +1568,7 @@ class Swift
 				$ret[] = "MAIL FROM: ".$this->getAddress($from)."\r\n";
 				$ret[] = "RCPT TO: ".$this->getAddress($address)."\r\n";
 				$ret[] = "DATA\r\n";
-				$ret[] = $headers."Bcc: $address\r\n".$this->headers.$data;
+				$ret[] = $headers."Bcc: ".$this->safeEncodeHeader($address)."\r\n".$this->headers.$data;
 			}
 		}
 		else //Just make this individual email
@@ -1292,17 +1595,19 @@ class Swift
 		{
 			$body = $this->encode($string, $encoding);
 			if ($this->autoCompliance) $body = $this->chunkSplitLines($body);
-			$data = "Content-Type: $type; charset=\"{$this->charset}\"\r\n".
+			$data = "Content-Type: $type; charset=\"{$this->charset}\"; format=flowed\r\n".
 				"Content-Transfer-Encoding: $encoding\r\n\r\n".
 				$this->makeSafe($body);
 		}
 		else
 		{ //Build a full email from the parts we have
 			$boundary = $this->getMimeBoundary();
+			$mixalt = 'alternative';
 			$alternative_boundary = $this->getMimeBoundary(implode($this->parts));
 
 			if (!empty($this->images))
 			{
+				$mixalt = 'mixed';
 				$related_boundary = $this->getMimeBoundary(implode($this->parts).implode($this->images));
 				
 				$message_body = "Content-Type: multipart/related; ".
@@ -1324,22 +1629,27 @@ class Swift
 					"\r\n--$related_boundary--\r\n";
 				
 			}
-			else $message_body = "Content-Type: multipart/alternative; ".
+			else
+			{
+				$message_body = "Content-Type: multipart/alternative; ".
 					"boundary=\"{$alternative_boundary}\"\r\n\r\n".
 					"--{$alternative_boundary}\r\n".
 					implode("\r\n\r\n--$alternative_boundary\r\n", $this->parts).
 					"\r\n--$alternative_boundary--\r\n";
+			}
 	
 			if (!empty($this->attachments)) //Make a sub-message that contains attachment data
 			{
+				$mixalt = 'mixed';
 				$message_body .= "\r\n\r\n--$boundary\r\n".
 					implode("\r\n--$boundary\r\n", $this->attachments);
 			}
 			
 			$data = "MIME-Version: 1.0\r\n".
-				"Content-Type: multipart/mixed;\r\n".
+				"Content-Type: multipart/{$mixalt};\r\n".
 				"	boundary=\"{$boundary}\"\r\n".
-				"Content-Transfer-Encoding: 7bit\r\n\r\n".
+				"Content-Transfer-Encoding: {$encoding}\r\n\r\n".
+				"{$this->mimeWarning}\r\n".
 				"--$boundary\r\n".
 				"$message_body\r\n".
 				"--$boundary--";
