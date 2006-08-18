@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Anti-Flood plugin for Swift Mailer, a PHP Mailer class.
+ * Error handling plugin for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 1.1.2
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	17th June 2006
+ * @date	30th July 2006
  * @license	http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -35,45 +35,32 @@
  *
  */
 
-class Swift_Anti_Flood_Plugin implements Swift_IPlugin
+class Swift_Plugin_Errors implements Swift_IPlugin
 {
 	/**
 	 * Name of the plugin (identifier)
 	 * @var string plugin id
 	 */
-	public $pluginName = 'Anti_Flood';
-	/**
-	 * The maximum number of messages to send
-	 * over a single connection
-	 * @var int max messages
-	 */
-	public $maxMessages;
-	/**
-	 * The time to wait for before reconnecting
-	 * @var int sleep seconds
-	 */
-	public $sleep;
-	/**
-	 * Current messages sent since last reconnect
-	 * or plugin loading.
-	 * @var int current messages
-	 */
-	private $currMessages = 0;
+	public $pluginName = 'Errors';
 	/**
 	 * Contains a reference to the main swift object.
 	 * @var object swiftInstance
 	 */
-	private $swiftInstance;
+	protected $swiftInstance;
+	/**
+	 * The norm is the echo and continue.
+	 * Settting this to TRUE makes it echo the die()
+	 * @var bool halt
+	 */
+	protected $halt;
 	
 	/**
 	 * Constructor.
-	 * @param int max messages, optional
-	 * @return void
+	 * @param bool halt (if the script should die() on error)
 	 */
-	public function __construct($max=10, $sleep=0)
+	public function __construct($halt=false)
 	{
-		$this->maxMessages = (int) $max;
-		$this->sleep = (int) $sleep;
+		$this->halt = (bool) $halt;
 	}
 	/**
 	 * Load in Swift
@@ -84,36 +71,38 @@ class Swift_Anti_Flood_Plugin implements Swift_IPlugin
 		$this->swiftInstance =& $object;
 	}
 	/**
-	 * Event handler for onSend.
+	 * Event handler for onError
 	 */
-	public function onSend()
+	public function onError()
 	{
-		$this->currMessages++;
-		if ($this->currMessages >= $this->maxMessages)
-		{
-			$this->reconnect();
-			$this->currMessages = 0;
-		}
+		$this_error = $this->swiftInstance->lastError;
+		
+		$error_info = $this->getErrorStartPoint();
+		
+		if (!empty($error_info['class'])) $class = $error_info['class'].'::';
+		else $class = '';
+		
+		$file_info = ' near '.$class.$error_info['function'].
+			' in <strong>'.$error_info['file'].'</strong> on line <strong>'.
+			$error_info['line'].'</strong><br />';
+		
+		$output = '<br />'.$this_error.$file_info;
+		echo $output;
+		if ($this->halt) exit();
 	}
 	/**
-	 * Reconnect to the server
+	 * Get the command that caused the error
 	 */
-	private function reconnect()
+	protected function getErrorStartPoint()
 	{
-		$this->swiftInstance->close();
-		
-		//Wait for N seconds if needed to give the server a rest
-		if ($this->sleep) sleep($this->sleep);
-		
-		$this->swiftInstance->connect();
-		//Re-authenticate if needs be
-		if (!empty($this->swiftInstance->username))
-		{
-			$this->swiftInstance->authenticate(
-				$this->swiftInstance->username,
-				$this->swiftInstance->password
-			);
-		}
+		$trace = debug_backtrace();
+		$start = array_pop($trace);
+		return array(
+			'file' => $start['file'],
+			'line' => $start['line'],
+			'class' => $start['class'],
+			'function' => $start['function']
+		);
 	}
 }
 

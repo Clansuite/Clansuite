@@ -4,9 +4,9 @@
  * This is the Sendmail handler for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 1.1.2
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	4th June 2006
+ * @date	30th July 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -35,12 +35,14 @@
  *
  */
 
+if (!defined('SWIFT_AUTO_DETECT')) define('SWIFT_AUTO_DETECT', -2);
+
 /**
  * Sendmail Connection Class.
  * Connects to a local binary MTA and stores the connections internally
  * @package Swift
  */
-class Swift_Sendmail_Connection implements Swift_IConnection
+class Swift_Connection_Sendmail implements Swift_IConnection
 {
 	/**
 	 * Sendmail Command (full path and arguments)
@@ -81,6 +83,7 @@ class Swift_Sendmail_Connection implements Swift_IConnection
 	 */
 	public function __construct($command=false)
 	{
+		if ($command == SWIFT_AUTO_DETECT) $command = @trim(`which sendmail`).' -bs';
 		if ($command) $this->command = $command;
 	}
 	/**
@@ -128,7 +131,7 @@ class Swift_Sendmail_Connection implements Swift_IConnection
 	 *
 	 * @return	void
 	 */
-	private function closeProcess()
+	protected function closeProcess()
 	{
 		foreach ($this->pipes as $pipe) fclose($pipe);
 		if ($this->handle && $this->connected)

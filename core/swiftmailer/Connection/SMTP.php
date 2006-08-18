@@ -4,9 +4,9 @@
  * This is the SMTP handler for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 1.1.2
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	4th June 2006
+ * @date	30th July 2006
  * @license	http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -40,13 +40,14 @@ if (!defined('SWIFT_SSL')) define('SWIFT_SSL', 1);
 if (!defined('SWIFT_TLS')) define('SWIFT_TLS', 2);
 if (!defined('SWIFT_DEFAULT_PORT')) define('SWIFT_DEFAULT_PORT', 25);
 if (!defined('SWIFT_SECURE_PORT')) define('SWIFT_SECURE_PORT', 465);
+if (!defined('SWIFT_AUTO_DETECT')) define('SWIFT_AUTO_DETECT', -2);
 
 /**
  * SMTP Connection Class.
  * Connects to a remote MTA and stores the connections internally
  * @package Swift
  */
-class Swift_SMTP_Connection implements Swift_IConnection
+class Swift_Connection_SMTP implements Swift_IConnection
 {
 	/**
 	 * Any errors we see
@@ -102,6 +103,9 @@ class Swift_SMTP_Connection implements Swift_IConnection
 	 */
 	public function __construct($server, $port=false, $transport=SWIFT_OPEN)
 	{
+		if ($server == SWIFT_AUTO_DETECT) $server = @ini_get('SMTP');
+		if ($port == SWIFT_AUTO_DETECT) $port = @ini_get('smtp_port');
+		
 		$this->server = $server;
 		if ($port) $this->port = $port;
 		$this->ssl = $transport;
@@ -126,7 +130,7 @@ class Swift_SMTP_Connection implements Swift_IConnection
 	 * @return	bool	connected
 	 * @private
 	 */
-	private function connect()
+	protected function connect()
 	{
 		$server = $this->server;
 		
@@ -168,7 +172,7 @@ class Swift_SMTP_Connection implements Swift_IConnection
 	 * Closes the connection with the MTA
 	 * @return	void
 	 */
-	private function disconnect()
+	protected function disconnect()
 	{
 		if ($this->connected && $this->socket)
 		{

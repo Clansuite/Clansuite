@@ -4,9 +4,9 @@
  * This is the POP3 Before SMTP Authentication for Swift Mailer, a PHP Mailer class.
  *
  * @package	Swift
- * @version	>= 1.1.2
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	8th June 2006
+ * @date	30th July 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -40,7 +40,7 @@
  * Runs the commands needed in order to use LOGIN SMTP authentication
  * @package Swift
  */
-class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
+class Swift_Authenticator_POP3SMTP implements Swift_IAuthenticator
 {
 	/**
 	 * The string the SMTP server returns to identify
@@ -52,22 +52,22 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	 * SwiftInstance parent object
 	 * @var object SwiftInstance (reference)
 	 */
-	private $baseObject;
+	protected $baseObject;
 	/**
 	 * The port we need to connect to
 	 * @var int $port
 	 */
-	private $port;
+	protected $port;
 	/**
 	 * The server we need to connect to
 	 * @var string server
 	 */
-	private $server;
+	protected $server;
 	/**
 	 * The connection to POP3
 	 * @var resource connect handle
 	 */
-	private $socket;
+	protected $socket;
 	
 	public function __construct($server, $port=110)
 	{
@@ -99,7 +99,7 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	 * Connect to the POP3 server and return true on success
 	 * @return bool success
 	 */
-	private function connect()
+	protected function connect()
 	{
 		$this->socket = @fsockopen($this->server, $this->port, $errno, $errstr, 15);
 		
@@ -112,7 +112,7 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	 * Check for an +OK string
 	 * @return bool +OK
 	 */
-	private function isOK($string)
+	protected function isOK($string)
 	{
 		if (substr($string, 0, 3) == '+OK') return true;
 		else return false;
@@ -120,7 +120,7 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	/**
 	 * Send a command to the server
 	 */
-	private function command($comm)
+	protected function command($comm)
 	{
 		@fwrite($this->socket, $comm);
 	}
@@ -128,7 +128,7 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	 * Read the server response
 	 * @return string response
 	 */
-	private function response()
+	protected function response()
 	{
 		return fgets($this->socket);
 	}
@@ -139,7 +139,7 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 	 * @param	string	password
 	 * @return	bool	successful
 	 */
-	private function popB4SMTP($username, $password)
+	protected function popB4SMTP($username, $password)
 	{
 		//Kill any open session so we can authenticate to POP3 first
 		$this->baseObject->close();
@@ -151,7 +151,12 @@ class Swift_POP3_SMTP_Authenticator implements Swift_IAuthenticator
 		
 		$this->command("PASS $password\r\n");
 		if (!$this->isOK($this->response())) return false;
-		
+
+//START patch from Jakob Truelsen - antialize (SF.net)	
+		$this->command("QUIT\r\n");
+		if (!$this->isOK($this->response())) return false;
+//END patch
+
 		//Reconnect to the SMTP server
 		if ($this->baseObject->connect()) return true;
 		else return false;

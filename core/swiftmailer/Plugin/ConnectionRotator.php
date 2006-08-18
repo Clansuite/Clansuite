@@ -1,12 +1,14 @@
 <?php
 
 /**
- * Error handling plugin for Swift Mailer, a PHP Mailer class.
+ * Connection rotator plugin for Swift Mailer, a PHP Mailer class.
+ * This is the second component to making Swift_Connection_Rotator handle its
+ * rotation.  Without this, only one connection is used.
  *
  * @package	Swift
- * @version	>= 0.0.4
+ * @version	>= 2.0.0
  * @author	Chris Corbyn
- * @date	8th June 2006
+ * @date	30th July 2006
  * @license	http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -35,32 +37,30 @@
  *
  */
 
-class Swift_Errors_Plugin implements Swift_IPlugin
+class Swift_Plugin_ConnectionRotator implements Swift_IPlugin
 {
 	/**
 	 * Name of the plugin (identifier)
 	 * @var string plugin id
 	 */
-	public $pluginName = 'Errors';
+	public $pluginName = 'ConnectionRotator';
 	/**
 	 * Contains a reference to the main swift object.
 	 * @var object swiftInstance
 	 */
-	private $swiftInstance;
+	protected $swiftInstance;
 	/**
-	 * The norm is the echo and continue.
-	 * Settting this to TRUE makes it echo the die()
-	 * @var bool halt
+	 * If we're waiting to do a rotate
+	 * @var bool pend rotation
 	 */
-	private $halt;
+	private $pendRotation = false;
 	
 	/**
 	 * Constructor.
-	 * @param bool halt (if the script should die() on error)
 	 */
-	public function __construct($halt=false)
+	public function __construct()
 	{
-		$this->halt = (bool) $halt;
+		//
 	}
 	/**
 	 * Load in Swift
@@ -71,38 +71,27 @@ class Swift_Errors_Plugin implements Swift_IPlugin
 		$this->swiftInstance =& $object;
 	}
 	/**
-	 * Event handler for onError
+	 * onLoad event
 	 */
-	public function onError()
+	public function onLoad()
 	{
-		$this_error = $this->swiftInstance->lastError;
-		
-		$error_info = $this->getErrorStartPoint();
-		
-		if (!empty($error_info['class'])) $class = $error_info['class'].'::';
-		else $class = '';
-		
-		$file_info = ' near '.$class.$error_info['function'].
-			' in <strong>'.$error_info['file'].'</strong> on line <strong>'.
-			$error_info['line'].'</strong><br />';
-		
-		$output = '<br />'.$this_error.$file_info;
-		echo $output;
-		if ($this->halt) exit();
+		//This is recursion gone crazy!
+		$this->swiftInstance->connection->loadSwiftInstance($this->swiftInstance);
 	}
 	/**
-	 * Get the command that caused the error
+	 * Event handler for onCommand.
 	 */
-	private function getErrorStartPoint()
+	public function onCommand()
 	{
-		$trace = debug_backtrace();
-		$start = array_pop($trace);
-		return array(
-			'file' => $start['file'],
-			'line' => $start['line'],
-			'class' => $start['class'],
-			'function' => $start['function']
-		);
+		if ($this->swiftInstance->commandKeyword == 'data')
+		{
+			$this->pendRotation = true;
+		}
+		elseif ($this->pendRotation)
+		{
+			$this->swiftInstance->connection->rotate();
+			$this->pendRotation = false;
+		}
 	}
 }
 

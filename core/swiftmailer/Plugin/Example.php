@@ -7,12 +7,12 @@
   your own plugins
  */
 
-class Swift_Example_Plugin implements Swift_IPlugin
+class Swift_Plugin_Example implements Swift_IPlugin
 {
 	// ** Required ** - Identifies this plugin
 	public $pluginName = "Example";
 	
-	private $SwiftInstance;
+	protected $SwiftInstance;
 	
 	//Optional - run when the user instantiates the plguin
 	public function __construct()

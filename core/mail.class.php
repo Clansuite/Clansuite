@@ -47,7 +47,7 @@ class mailer
         * @desc Get swift mailer class
         */
 
-        require( CORE_ROOT . '/swiftmailer/swift.php');
+        require( CORE_ROOT . '/swiftmailer/Swift.php');
                 
         /**
         * @desc Include Connection Class & Set $connection
@@ -55,35 +55,35 @@ class mailer
 
         if ($cfg->mailmethod != 'smtp')
         {
-            require( CORE_ROOT . '/swiftmailer/Swift/Swift_Sendmail_Connection.php'); 
+            require( CORE_ROOT . '/swiftmailer/Connection/Sendmail.php'); 
         }
 
 
         switch ($cfg->mailmethod)
         {
             case 'smtp':
-                require('Swift/Swift/Swift_SMTP_Connection.php');
-                $connection = new Swift_SMTP_Connection( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
+                require( CORE_ROOT . '/swiftmailer/Connection/SMTP.php');
+                $connection = new Swift_Connection_SMTP( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
                 break;
             
             case 'sendmail':
-                $connection = new Swift_Sendmail_Connection;
+                $connection = new Swift_Connection_Sendmail;
                 break;
             
             case 'exim':
-                $connection = new Swift_Sendmail_Connection('/usr/sbin/exim -bs');
+                $connection = new Swift_Connection_Sendmail('/usr/sbin/exim -bs');
                 break;
             
             case 'qmail':
-                $connection = new Swift_Sendmail_Connection('/usr/sbin/qmail -bs');
+                $connection = new Swift_Connection_Sendmail('/usr/sbin/qmail -bs');
                 break;
             
             case 'postfix':
-                $connection = new Swift_Sendmail_Connection('/usr/sbin/postfix -bs');
+                $connection = new Swift_Connection_Sendmail('/usr/sbin/postfix -bs');
                 break;
             
             default:
-                $connection = new Swift_Sendmail_Connection;
+                $connection = new Swift_Connection_Sendmail;
         }
             
         /**
