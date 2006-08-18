@@ -103,19 +103,16 @@ arrow2.src = "{$www_tpl_root}/images/adminmenu/arrow1.gif";
     </td>
     
     <td id="bar" width="200px">
-    
+		{mod name="shoutbox" func="show"}
+		
         {mod name="account" func="login"}
-       
-        {* todo: 
-        {mod name="shoutbox" func="show"}
-        *}
-    
+     
         <div id="right_menu">
             Online: {$stats.online}<br />
             Siteimpressions: {$stats.page_impressions}<br />
             All Impressions: {$stats.all_impressions}<br />
             <img src="{$www_tpl_root}/images/clansuite-80x15.png">
-        </div>
+	    </div>
     </td>
 </tr>
 </table>

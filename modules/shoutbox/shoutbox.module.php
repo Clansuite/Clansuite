@@ -87,21 +87,7 @@ class module_shoutbox
 		
         switch ($_REQUEST['action'])
         {
-            case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
-                $this->show();
-                break;
-
-			case 'form':
-				$this->mod_page_title .= $lang->t('Show Form');
-				$this->show_form();
-				break;
-				
-			case 'save':
-				$this->mod_page_title .= $lang->t('Save Shoutbox entry');
-				$this->save_entry();
-				break;
-				
+		
             default:
                 $this->show();
                 break;
@@ -123,37 +109,45 @@ class module_shoutbox
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
-        $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
-							  FROM          ' . DB_PREFIX . 'shoutbox');
-        $stmt->execute();
-        if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
-        {
-            $shoutlist = $result;
-           
-            #return $newslist;
-        }
-        else
-        {
-			#return false;
-        }
-    }
-	
-	/**
-	 * @desc   Show Form 
-	 */
-	function show_form()
-	{
-		global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+		// Smarty Flags:
+		$tpl->assign('shoutbox_isEmpty', 	true);
+		$tpl->assign('showForm', 			true);
 		
-		$tpl->assign('showForm'   , true);
-		$tpl->assign('request'    , WWW_ROOT . '/index.php?mod=shoutbox&&action=save');
+		// Speichern
+		if(isset($_POST['sent'])) {
+			// Überprüfe 
+			$this->save_entry();			
+		}
+		// Formular und Einträge anzeigen
+		else {
+			// Values der Felder:
+			$tpl->assign('save_entry'         	, $lang->t('Save Entry'));
+			$tpl->assign('field_value_name'   	, $lang->t('Your Name'));
+			$tpl->assign('field_value_mail'  	, $lang->t('Your Mail'));
+			$tpl->assign('field_value_msg'    	, $lang->t('Your Msg'));
+			$tpl->assign('request'				, WWW_ROOT . '/index.php?mod=shoutbox&action=save');
+			
+			// Einträge auslesen:
+	        $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
+								  FROM          ' . DB_PREFIX . 'shoutbox');
+	        $stmt->execute();
+	        if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
+	        {
+	           $tpl->assign('shoutbox_isEmpty', false);
 
-		// Values der Felder:
-		$tpl->assign('save_entry'         , $lang->t('Save Entry'));
-		$tpl->assign('field_value_name'   , $lang->t('Your Name'));
-		$tpl->assign('field_value_mail'   , $lang->t('Your Mail'));
-		$tpl->assign('field_value_msg'    , $lang->t('Your Msg'));
-	}
+			   $shoutlist = $result;
+				
+	            $output = $tpl->fetch('shoutbox/entries_box.tpl');
+				
+				return $output;
+	        }
+	        else
+	        {
+				$tpl->assign('no_entries_msg', $lang->t('There are no Entries in the Database!'));
+				return $tpl->fetch('shoutbox/shoutbox_entries_box.tpl');
+			}
+		}
+    }
 	
 	/**
 	 * @desc   Save Entry
@@ -163,17 +157,22 @@ class module_shoutbox
 		global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 		
 		// Formularvalidierung
+		$name = trim($_POST['name']);
+		$mail = trim($_POST['mail']);
+		$msg  = trim($_POST['msg']);
+		
+		
 		$errors = array();
-		if(!isset($_POST['name']) || strlen(trim($_POST['name'])) < 3 || trim($_POST['name']) == $lang->t('Your Name'))
+		if(!isset($name) || strlen(trim($name)) < 3 || trim($name) == $lang->t('Your Name'))
 			$errors[] = $lang->t('Your name hast to be longer than 3 chars');
 			
-		if(!isset($_POST['mail']) || strlen(trim($_POST['mail'])) < 3 || trim($_POST['mail']) == $lang->t('Your Mail'))
+		if(!isset($mail) || strlen(trim($mail)) < 3 || trim($mail) == $lang->t('Your Mail'))
 			$errors[] = $lang->t('Your mail-adress hast to longer than 3 chars');
 			
-		if(!isset($_POST['msg']) || strlen(trim($_POST['msg'])) < 5 || trim($_POST['msg']) == $lang->t('Your Msg'))
+		if(!isset($msg) || strlen(trim($msg)) < 5 || trim($msg) == $lang->t('Your Msg'))
 			$errors[] = $lang->t('Your message hast to be longer than 5 chars');
 			
-		if(isset($_POST['mail']) && strlen(trim($_POST['mail'])) > 3 && !$input->check($_POST['mail'], 'is_email'))
+		if(isset($mail) && strlen(trim($mail)) > 3 && !$input->check($mail, 'is_email'))
 			$errors[] = $lang->t('Enter a valid mail-adress');
 			
 		// Fehler aufgetreten?	
@@ -187,8 +186,9 @@ class module_shoutbox
 			$tpl->assign('isSaved', true);
 			$tpl->assign('save_msg', $lang->t('Thank you - Your entry was saved.'));
 			
-			$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) VALUES (:1, :2, :3, :4, :5)');
-	        $stmt->execute(array($_POST['name'], $_POST['mail'], $_POST['msg'], time(), $_SERVER['REMOTE_ADDR']));
+			$stmt = $db->prepare('	INSERT INTO 		' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) 
+									VALUES 										   (:1,   :2,   :3,  :4,  :5)');
+	        $stmt->execute(array($name, $mail, $msg, time(), $_SERVER['REMOTE_ADDR']));
 	        
 		}
 	}

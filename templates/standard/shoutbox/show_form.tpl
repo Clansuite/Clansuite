@@ -1,5 +1,3 @@
-<h2>Shoutbox</h2>
-
 {* Soll das Formular angezeigt werden *}
 {if $showForm === true}
 	<form action="{$request}" method="post">

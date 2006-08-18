@@ -69,7 +69,7 @@ class language
     static function smarty_translate($params, $string, &$smarty)
     {
         global $lang;
-        
+        		
         foreach ($params as $key => $value)
         {
             $params["%" . $key] = $value;

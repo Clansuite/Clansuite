@@ -56,8 +56,8 @@
 	  <string>Dankeschön, Dein Eintrag wurde erfolgreich gespeichert</string>
 	</message>
 	<message>
-	  <id></id>
-	  <string></string>
+	  <id>There are no Entries in the Database!</id>
+	  <string>Es gibt noch keine Einträge in der Datenbank</string>
 	</message>
 	<message>
 	  <id></id>
