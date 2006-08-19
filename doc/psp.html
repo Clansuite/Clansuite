@@ -1,46 +1,78 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Expires" content="Fri, Jan 01 1900 00:00:00 GMT">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="content-language" content="de">
-<meta name="author" content="Florian 'xsign.dll' Wolf">
-<meta http-equiv="Reply-to" content="xsign.dll@team-n1.com">
-<meta name="generator" content="PhpED 4.5">
-<meta name="description" content="Projekt Struktur Plan">
-<meta name="keywords" content="">
-<meta name="creation-date" content="02/20/2006">
-<meta name="revisit-after" content="15 days">
-<title>Projekt Struktur Plan</title>
-<link rel="stylesheet" type="text/css" href="my.css">
-<style type="text/css">
-<!--
-body,td,th {
-	font-family: Courier New, Courier, mono;
-	font-size: 12px;
-}
-body {
-	background-color: #FFFFFF;
-}
-h1,h2,h3,h4,h5,h6 {
-	font-weight: bold;
-}
-h1 {
-	font-size: 16px;
-	color: #CC0000;
-}
-h2 {
-	font-size: 14px;
-	color: #FF6600;
-}
--->
-</style></head>
+    <meta name="description" content="Projekt Struktur Plan">
+    <title>Projekt Struktur Plan</title>
+    
+  
+    <style type="text/css">
+    <!--
+    body,td,th {
+    	font-family: Courier New, Courier, mono;
+    	font-size: 12px;
+    }
+    body {
+    	background-color: #FFFFFF;
+    }
+    h1,h2,h3,h4,h5,h6 {
+    	font-weight: bold;
+    }
+    h1 {
+    	font-size: 16px;
+    	color: #CC0000;
+    }
+    h2 {
+    	font-size: 14px;
+    	color: #FF6600;
+    }
+
+    #sitemap {
+    	font-family: Verdana, Arial, Helvetica, sans-serif;
+    	font-size: 9pt;
+    	color: #000000;
+    }
+    
+    #sitemap li {
+    	list-style-type: none;
+    }
+    
+    ul#sitemap > li {
+    	margin-bottom: 10px;
+    }
+    
+    #sitemap ul li {
+    	list-style-image:   url("l2_normal.gif");
+    }
+    
+    #sitemap ul ul li {
+    	list-style-image:   url("l3_normal.gif");
+    }
+    
+    #sitemap ul li.firstfollow {
+    	list-style-image:   url("l2_first_follow.gif");
+    }
+    
+    #sitemap ul li.last {
+    	list-style-image:   url("l2_last_item.gif");
+    }
+    
+    #sitemap ul ul li.firstfollow {
+    	list-style-image:   url("l3_first_follow.gif");
+    }
+    
+    #sitemap ul ul li.last {
+    	list-style-image:   url("l3_last_item.gif");
+    }
+    -->
+    </style>
+
+</head>
+
 <body>
+    
 <h1>Projekt Struktur Plan</h1>
 <h2>Inhaltsverzeichnis</h2>
-<p> 1. <a href="#verzeichnisse">Verzeichnisse</a><br>
+<p> 1. <a href="#dirs">Verzeichnisse</a><br>
   2. <a href="#externescripte">Externe Scripte</a><br>
   3. <a href="#module">Module</a><br>
 4. <a href="#usergruppen">User-/Gruppen</a><br>
@@ -49,54 +81,63 @@ h2 {
 7. <a href="#voraussetzungen">Voraussetzungen</a><br>
 8. <a href="#lizenz">Lizenz</a> 
 </p>
-<h2>1. Verzeichnisse<a name="verzeichnisse"></a></h2>
-<p>|- <strong>core</strong><br>
-&nbsp;&nbsp;|-<em> smarty</em><br>
-&nbsp;&nbsp;|- <em>pear</em><br>
-<br>
-|- <strong>images</strong><br>
-&nbsp;&nbsp;|- template_package_1<br>
-&nbsp;&nbsp;|- template_package_2<br> 
-<br>
-|- <strong>languages</strong><br>
-&nbsp;&nbsp;|- <em>de<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- admin<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- index <br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- news<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- ...
-</em><br>
-&nbsp;&nbsp;|- <em>en</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<em>|- admin<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- index<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- news<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- ...</em><br>
-&nbsp;&nbsp;|- <em>...</em><br>
-<br>
-|- <strong>modules</strong><br>
-&nbsp;&nbsp;|- <em>admin</em><br>
-&nbsp;&nbsp;|- <em>index</em><br>
-&nbsp;&nbsp;|- <em>news</em><br>
-&nbsp;&nbsp;|- <em>...</em><br>
-<br>
-|- <strong>templates</strong><br>
-&nbsp;&nbsp;|- template_package_1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>admin</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>index</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>news</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>...<br>
-&nbsp;&nbsp;|- template_package_2<br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>admin</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- index <br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>news</em><br>
-&nbsp;&nbsp;&nbsp;&nbsp;|- <em>...</em></em></p>
+<h2>1. Verzeichnisse<a name="dirs"></a></h2>
+
+<ul id="sitemap">
+    <li>beautifier</li>
+	<li>core</li>
+        <ul>
+    	<li class="firstfollow">smarty</li>
+    	<li class="last">switfmailer</li>
+        </ul>
+	<li>doc</li>
+	<li>install</li>
+	<li>languages</li>
+        <ul>
+    	<li class="firstfollow">de</li>
+    	<li class="last">...</li>
+        </ul>
+	<li>modules</li>
+	    <ul>
+    	<li class="firstfollow">account</li>
+    	<li class="firstfollow">admin</li>
+    	<li class="firstfollow">captcha</li>
+    	<li class="firstfollow">...</li>
+    	<li class="last">static</li>
+        </ul>
+	<li>templates</li>
+    	<ul>
+    	<li class="firstfollow">core</li>
+        	<ul>
+    	    <li class="firstfollow">admin</li>
+    	    <li class="firstfollow">fonts</li>
+    	    <li class="firstfollow">images</li>
+    	    <li class="last">javascript</li>
+            </ul>
+    	<li>andreas01</li>
+    	<li class="last">standard</li>
+    	    <ul>
+	        <li class="firstfollow">images</li>
+	        <li class="firstfollow">module</li>
+	        <li class="last">...</li>
+            </ul>
+        </ul>
+	<li>uploads</li>
+	<ul>
+    <li class="firstfollow">modules</li>
+        <ul>
+        <li class="firstfollow">export</li>
+        <li class="firstfollow">import</li>
+        <li class="last">temp</li>
+        </ul>
+    </ul>
+</ul>	
+	
 <h2>2. Externe Scripte<a name="externescripte"></a> </h2>
 <p>- Smarty ==&gt; /core/smarty/Smarty.class.php<br>
   - PEAR::DB ==&gt; /core/pear/db.class.php + /core/pear/DB/*.php <br>
-  - PEAR::Cache<br>
-  - PEAR::Log (?) <br>
-  - PEAR::Mail (?) <br>
-  - PEAR::Auth (?) <br>
-  - Input Validierung (?) </p>
+  - Swift Mailer  ==&gt; /core/switftmailer/</p>
+  
 <h2>3. Module<a name="module"></a></h2>
 <p>- Ordner: /modules <br>
   - GET Variablen &Uuml;bergabe an index.php ==&gt; z.B. index.php?mod=admin&amp;do=enter<br>
@@ -159,5 +200,6 @@ h2 {
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p align="center">(c) <a href="http://gna.org/projects/clansuite">clansuite team </a></p>
+
 </body>
 </html>                                                             
