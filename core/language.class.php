@@ -88,7 +88,7 @@ class language
 		
         if(isset($lang->lang[ $string ])) 
 		{
-			return strtr($this->lang[ $string ], $args);
+			return strtr($lang->lang[ $string ], $args);
 		}
         return strtr($string, $args);
     }
