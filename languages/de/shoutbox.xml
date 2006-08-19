@@ -25,7 +25,7 @@
    </message>
    <message>
       <id>Show</id>
-      <string>Zeige Shoutbox Einträge</string>
+      <string>Zeige Shoutbox EintrÃ¤ge</string>
    </message>
    <message>
       <id>Show Form</id>
@@ -37,15 +37,15 @@
    </message>
    <message>
 	  <id>Your name hast to be longer than 3 chars</id>
-	  <string>Dein Name muss länger als 3 Zeichen lang sein</string>
+	  <string>Dein Name muss lÃ¤nger als 3 Zeichen lang sein</string>
 	</message>
 	<message>
 	  <id>Your mail-adress hast to longer than 3 chars</id>
-	  <string>Deine E-Mail Adresse muss länger als 3 Zeichen lang sein</string>
+	  <string>Deine E-Mail Adresse muss l?nger als 3 Zeichen lang sein</string>
 	</message>
 	<message>
 	  <id>Your message hast to be longer than 5 chars</id>
-	  <string>Deine Nachricht muss länger als 5 Zeichen lang sein</string>
+	  <string>Deine Nachricht muss lÃ¤nger als 5 Zeichen lang sein</string>
 	</message>
 	<message>
 	  <id>Enter a valid mail-adress</id>
@@ -53,50 +53,10 @@
 	</message>
 	<message>
 	  <id>Thanks, Your Entry hast been saved</id>
-	  <string>Dankeschön, Dein Eintrag wurde erfolgreich gespeichert</string>
+	  <string>DankeschÃ¶n, Dein Eintrag wurde erfolgreich gespeichert</string>
 	</message>
 	<message>
 	  <id>There are no Entries in the Database!</id>
-	  <string>Es gibt noch keine Einträge in der Datenbank</string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
-	<message>
-	  <id></id>
-	  <string></string>
-	</message>
+	  <string>Es gibt noch keine EintrÃ¤ge in der Datenbank</string>
+    </message>
 </locale>
