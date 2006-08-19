@@ -93,9 +93,7 @@ class module_shoutbox
                 break;
         }
         
-		$this->output = $tpl->fetch('shoutbox/viewnews.tpl');
-        $this->output .= 'This Module is not completed yet!';
-		
+			
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head );
@@ -131,20 +129,21 @@ class module_shoutbox
 	        $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
 								  FROM          ' . DB_PREFIX . 'shoutbox');
 	        $stmt->execute();
+	       
 	        if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
 	        {
 	           $tpl->assign('shoutbox_isEmpty', false);
 
-			   $shoutlist = $result;
+			   $tpl->assign('shoutbox_entries', $result);
 				
-	            $output = $tpl->fetch('shoutbox/entries_box.tpl');
+	           $output = $tpl->fetch('shoutbox/entries_box.tpl');
 				
-				return $output;
+			   return $output;
 	        }
 	        else
 	        {
 				$tpl->assign('no_entries_msg', $lang->t('There are no Entries in the Database!'));
-				return $tpl->fetch('shoutbox/shoutbox_entries_box.tpl');
+				return $tpl->fetch('shoutbox/entries_box.tpl');
 			}
 		}
     }
