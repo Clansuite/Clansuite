@@ -61,7 +61,7 @@
                 
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$wert.group_id}">Edit</a>     </td>
-                <td> <input type="checkbox" name="zutat" value="salami"> </td>
+                <td> <input type="checkbox" name="" value=""> </td>
                  
             </tr>
         
@@ -95,7 +95,7 @@
         <span id="span_rightbased" style="display: none;">
          
             <form id="h3sForm"
-                  action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_post_group" method="POST">
+                  action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_right_group" method="POST">
                         
                         <fieldset > 
                            
@@ -123,7 +123,7 @@
             					<input id="icon" name="icon" type="text" value="iconname?" />
             				</label>
             				
-            				<input class="submit" type="submit" name="submit" value="{translate}Add Post based Group{/translate}" />
+            				<input class="submit" type="submit" name="submit" value="{translate}Add right based Group{/translate}" />
             			
             			</fieldset>
             </form>
