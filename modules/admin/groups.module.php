@@ -74,7 +74,7 @@ class module_admin_groups
           
             case 'edit':
                 $this->mod_page_title = $lang->t( 'Edit Group' );
-                $this->edit_group($group_id);
+                $this->edit($group_id);
                 break;
                 
             case 'update':
@@ -181,15 +181,17 @@ class module_admin_groups
     //----------------------------------------------------------------
     // Edit usergroup
     //----------------------------------------------------------------
-    function edit_group($group_id)
+    function edit($group_id)
     {
-        global $db, $tpl, $error, $lang;
+        global $db, $tpl, $error, $lang, $functions, $input;
+        
+        //gruppendaten anhand id laden
 
         
     }
    
     //----------------------------------------------------------------
-    // Update the module list
+    // Update the groups list
     //----------------------------------------------------------------
     function update()
     {

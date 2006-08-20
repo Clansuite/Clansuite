@@ -32,7 +32,7 @@
         <h3>Rechtebasierte Benutzergruppen</h3>
         
        
-        <table cellspacing="0" cellpadding="0" border="1" width="75%">
+        <table cellspacing="0" cellpadding="0" border="0" width="75%">
         <thead align="center">
         <tr>
             <td id="td_header" width="10%"> {translate}Group ID{/translate}        </td>
@@ -74,7 +74,7 @@
         <tr height="20">
            <td colspan="8">
                 <div class="Button">
-                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('1')" />
+                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('rightbased')" />
                 <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
                 <input class="Button" type="reset" tabindex="3" />
                </div>
@@ -82,6 +82,54 @@
         </tr>
         
         </table>
+        
+         {* ###############   Edit - Right based Groups   ############## *}
+                 
+        {doc_raw}
+        <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/groups/fieldset.css" />
+        {/doc_raw}
+        
+        <br />
+        
+        { * clip.js span * }
+        <span id="span_rightbased" style="display: none;">
+         
+            <form id="h3sForm"
+                  action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_post_group" method="POST">
+                        
+                        <fieldset > 
+                           
+                           <h3>
+        				   Add Post based Usergroup
+        				   </h3>
+        				    
+                           <label for="post_group_name">
+            					Groupname
+            					<input id="post_group_name" name="post_group_name" type="text" value="Forum-God" />
+            				</label>
+            				        				
+            				<label for="posts">
+                                Posts
+            					<input id="posts" name="posts" type="text" value="5000?" />
+            				</label>
+            				
+            					<label for="posts">
+                                Description
+            					<input id="desc" name="desc" type="text" value="Description" />
+            				</label>
+            				
+            				<label for="icon">
+                                Icon
+            					<input id="icon" name="icon" type="text" value="iconname?" />
+            				</label>
+            				
+            				<input class="submit" type="submit" name="submit" value="{translate}Add Post based Group{/translate}" />
+            			
+            			</fieldset>
+            </form>
+        </span>
+ 
+    </fieldset> { * close tab - mainframe fieldset * }
         
     
     </div> {* close pane-page *}
@@ -142,7 +190,7 @@
         <tr height="20">
            <td colspan="7">
                 <div class="Button">
-                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('1')" />
+                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
                 <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
                 <input class="Button" type="reset" tabindex="3" />
                </div>
@@ -151,7 +199,7 @@
         
         </table>
           
-        {* ###############   Edit   ############## *}
+        {* ###############   Edit - Post based Groups ############## *}
                  
         {doc_raw}
         <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/groups/fieldset.css" />
@@ -160,7 +208,7 @@
         <br />
         
         { * clip.js span * }
-        <span id="span_1" style="display: none;">
+        <span id="span_postbased" style="display: none;">
          
             <form id="h3sForm"
                   action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_post_group" method="POST">
@@ -179,6 +227,11 @@
             				<label for="posts">
                                 Posts
             					<input id="posts" name="posts" type="text" value="5000?" />
+            				</label>
+            				        				
+            				<label for="icon">
+                                Icon
+            					<input id="icon" name="icon" type="text" value="iconname?" />
             				</label>
             				
             				<input class="submit" type="submit" name="submit" value="{translate}Add Post based Group{/translate}" />
