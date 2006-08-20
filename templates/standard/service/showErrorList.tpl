@@ -9,14 +9,10 @@
 
 <ul class="errorList">
 {** Errorliste durchlaufen **}
-{foreach from=$_errorList item=actError name=_errorList}				
+{foreach from=$_errorList item=actError key=key name=_errorList}				
 	
 	{*** Aktuellen Fehler ausgeben ***}
-	{strip}
-		{assign var="i" value=$smarty.foreach._errorList.iteration}
-		<li id="{$i}">
-			{$actError}
-		</li>
-	{/strip}
+	<li id="{kry}"> {$actError} </li>
+	
 {/foreach}
 </ul>
