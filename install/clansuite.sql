@@ -354,7 +354,8 @@ CREATE TABLE `cs_shoutbox` (
 -- 
 -- Daten für Tabelle `cs_shoutbox`
 -- 
-
+INSERT INTO `cs_shoutbox` VALUES (1, '12345', '123test@test.com', 'texttext', 1155898254, '127.0.0.1');
+INSERT INTO `cs_shoutbox` VALUES (2, '109876', '123@123.123', 'shoutboxtesttest', 1155898254, '127.0.0.1');
 
 -- --------------------------------------------------------
 
