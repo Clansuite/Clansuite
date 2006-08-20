@@ -119,7 +119,6 @@ class language
                 {
 					$id = $msg->id;
 					$string = $msg->string;
-
 					
                     $this->lang = array_merge($this->lang, array((string)$id => (string)$string));
 				}                
