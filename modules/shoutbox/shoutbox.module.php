@@ -203,12 +203,9 @@ class module_shoutbox
 		$mail = trim($_POST['mail']);
 		$msg  = trim($_POST['msg']);
 		
-		// Speichere Eintrag		
-		$sql = 'INSERT INTO 		' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) 
-					VALUES 								      (:1,   :2,   :3,  :4,  :5)';
-		#echo $sql; // debug
-		
-		$stmt = $db->prepare($sql);
+		// Db Insert
+		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) 
+		                      VALUES (?, ?, ?, ?, ?)');
 		$stmt->execute(array($name, $mail, $msg, time(), $_SERVER['REMOTE_ADDR']));		
 		
 		// Falls der Request nicht per ajax kommt:
