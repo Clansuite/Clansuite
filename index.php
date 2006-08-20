@@ -195,6 +195,11 @@ $users->check_login_cookie();
 $stats->create_stats_vars();
 
 /**
+* @desc UTF-8 encoding
+*/
+header("Content-type: text/html; charset=UTF-8");
+
+/**
 * @desc Output all
 */
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
@@ -214,11 +219,6 @@ $tpl->assign('std_page_title'   , $cfg->std_page_title );
 $tpl->assign('mod_page_title'   , $content['MOD_PAGE_TITLE'] );
 $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
-
-/**
-* @desc UTF-8 encoding
-*/
-header("Content-type: text/html; charset=UTF-8");
 
 /**
 * @desc Admin module <-> Normal module
