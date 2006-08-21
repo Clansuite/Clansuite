@@ -1,6 +1,6 @@
-{literal}
+Ôªø{literal}
 	<style type="text/css">
-	/* only testing, die styles m¸ssen sp‰ter noch ins stylesheet */
+	/* only testing, die styles m√ºssen sp√§ter noch ins stylesheet */
 	#show_shoutbox {
 		width: auto;
 		height: 300px;
@@ -14,28 +14,35 @@
 		background-color: #CCCCCF; 
 	}
 
-	#show_shoutox ul {
+	#show_shoutbox ul {
 	   list-style-type: none;
 	}
 
-	#show_shoutox ul li {
+	#show_shoutbox ul li {
 		display: inline;
+	}
+	#show_shoutbox ul li.name {
+
+	}
+	#show_shoutbox ul li.msg {
+		
 	}
 	</style>
 {/literal}
 
 <div id="show_shoutbox">
 	
-	{* Falls Eintr‰ge vorhanden sind *}
+	{* Falls Eintr√§ge vorhanden sind *}
 	{if $shoutbox_isEmpty == false}
 		
-		{* Eintr‰ge ausgeben *}
+		{* Eintr√§ge ausgeben *}
 		{foreach from=$shoutbox_entries item=row key=key name=shoutbox}
 		    
 		    <div id="entry{$key}" class="{cycle values="entry_even,entry_uneven"}">
-				{$key} - {$row.time}
+			
+				{math equation="$key+1"} - {$row.time|date_format:"%d.%m.%Y - %H:%M"}
 				<ul>
-				    <li class="name">{$row.name}</li>
+				    <li class="name">{$row.name} wrote:<br /></li>	{* noch √ºbersetzten *}
                     <li class="msg">{$row.msg}</li>
 				</ul>
 			</div>
@@ -43,7 +50,7 @@
 		{/foreach}
 	{else}
 	
-	{* Es sind keine Eintr‰ge vorhanden *}
+	    {* Es sind keine Eintr√§ge vorhanden *}
 		{$no_entries_msg}
 	{/if}	
 	

@@ -25,7 +25,7 @@
 {/if}
 
 {* Ist ein Fehler aufgetreten *}
-{if $is_error === true}
+{if $is_error === true && $show_error === true}
 	{include file='service/showErrorList.tpl'}
 {/if}
 
@@ -129,14 +129,14 @@
 					// Error ...
 					var errors = response.split('%%%');
 					
-					response_text = '<span class="shoutbox_error">Several Errors occured while saving:</span>';	// muss noch übersetzt werden.
+					response_text = '<span class="shoutbox_error">Several Errors occured while saving:</span>';	{* muss noch übersetzt werden *}
 					for(i = 0; i < errors.length; i++)
 					{
 						response_text += '<br />- ' + errors[ i ];
 					}
 				}
 				else {
-					response_text = '<span class="shoutbox_success">Your entry was saved successfuly!</span>';	// muss noch übersetzt werden.
+					response_text = '<span class="shoutbox_success">Your entry was saved successfuly!</span>';	{* muss noch übersetzt werden *}
 				}
 				
 				document.getElementById(id).innerHTML = response_text;

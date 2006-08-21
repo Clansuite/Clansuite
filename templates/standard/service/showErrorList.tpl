@@ -1,10 +1,10 @@
-{*** 
+ï»¿{*** 
 	Dieses Template wird aufgerufen, sobald
 	bei einer Formularvalidierung Fehler aufgetreten sind
 	und als Liste angezeigt werden müssen
 ***}
 
-{*** Ist die übergebene ErrorListe nicht leer? ***}
+{*** Ist die Ã¼bergebene ErrorListe nicht leer? ***}
 <p class="failed">Es sind folgende Fehler aufgetreten:</p>
 
 <ul class="errorList">
@@ -12,7 +12,7 @@
 {foreach from=$_errorList item=actError key=key name=_errorList}				
 	
 	{*** Aktuellen Fehler ausgeben ***}
-	<li id="{kry}"> {$actError} </li>
+	<li id="{$key}"> {$actError} </li>
 	
 {/foreach}
 </ul>

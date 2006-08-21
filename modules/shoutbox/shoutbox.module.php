@@ -83,8 +83,9 @@ class module_shoutbox
 		$tpl->assign('show_form'   , false);
 		$tpl->assign('is_saved'    , false);
 		$tpl->assign('is_error'    , false);
-		$tpl->assign('errorList'  , array());
-				
+		$tpl->assign('errorList'   , array());
+		$tpl->assign('show_error', true);
+		
 		// Wurde Ajax Reqest gesendet, dann prüfen und ggf. speichern
 		if(isset($_GET['check'])) {
 			$this->check();
@@ -188,7 +189,8 @@ class module_shoutbox
 		}
 		
 		#print_r(debug_backtrace());
-		die();
+		if(isset($_GET['check']))	// nur falls der request per ajax gesendet wurde
+			die();
 	}
 	
 	/**
