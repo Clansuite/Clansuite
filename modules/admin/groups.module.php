@@ -28,6 +28,25 @@
 * @since      File available since Release 0.1
 */
 
+/* 
+-- Tabellenstruktur für Tabelle `cs_usergroups`
+
+CREATE TABLE `cs_usergroups` (
+  `group_id` int(5) unsigned NOT NULL auto_increment,
+  `pos` tinyint(4) unsigned NOT NULL default '1',
+  `name` varchar(75) default NULL,
+  `desc` varchar(255) default NULL,
+  `icon` varchar(255) default NULL,
+  `colour` varchar(10) NOT NULL,
+  `posts` tinyint(5) default NULL,
+  PRIMARY KEY  (`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Daten für Tabelle `cs_usergroups`
+
+INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', NULL, '0000FF', NULL);
+*/
+
 //----------------------------------------------------------------
 // Security Handler
 //----------------------------------------------------------------
@@ -159,9 +178,25 @@ class module_admin_groups
     //----------------------------------------------------------------
     function add_right_group()
     {
-        global $db, $tpl, $error, $lang;
+        global $db, $tpl, $error, $lang, $functions, $input;
         
-        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
+        // Inputs to Vars
+        $right_group_name = $_POST['right_group_name'];
+        $posts = $_POST['posts'];
+        $desc = $_POST['desc'];
+        $icon = $_POST['icon'];
+        
+        // 
+        
+        
+        // Db Insert
+		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'usergroups (name, desc, icon, posts ) 
+		                      VALUES (?,?,?,?)');
+		
+		$stmt->execute(array($right_group_name, $desc, $icon, $posts));	
+  
+         
+        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
        
     }
     
@@ -172,9 +207,17 @@ class module_admin_groups
     {
         global $db, $tpl, $error, $lang, $functions, $input;
        
-      
+        $post_group_name = $_POST['post_group_name'];
+        $posts = $_POST['posts'];
+        $icon = $_POST['icon'];
+          
+        // Db Insert
+		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroups ( name, icon, posts ) 
+		                      VALUES (?, ?, ?)');
+		
+		$stmt->execute(array($post_group_name, $icon, $posts));		
             
-        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
+        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
         
     }
     
