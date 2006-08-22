@@ -76,7 +76,7 @@ class module_shoutbox
     function auto_run()
     {
         global $lang, $tpl;
-        
+
         $this->mod_page_title = $lang->t( 'shoutbox' ) . ' &raquo; ';
         
 		// Smarty Flags:
@@ -96,8 +96,20 @@ class module_shoutbox
 				$this->mod_page_title .= $lang->t( 'Prove your Entry' );
 				$this->check();		// prüfen
 			}
-		}        
-			
+		}
+
+        switch ($_REQUEST['action'])
+        {
+            case 'show':
+                $this->mod_page_title .= $lang->t( 'Show Shoutbox' );
+                $this->show();
+                break;
+
+            default:
+                $this->show();
+                break;
+        }        
+
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head );
@@ -134,15 +146,13 @@ class module_shoutbox
 		   $tpl->assign('shoutbox_isEmpty', false);
 
 		   $tpl->assign('shoutbox_entries', $result);
-			
-		   $output = $tpl->fetch('shoutbox/entries_box.tpl');
-			
-		   return $output;
+
+		   $this->output .= $tpl->fetch('shoutbox/entries_box.tpl');
 		}
 		else
 		{
 			$tpl->assign('no_entries_msg', $lang->t('There are no Entries in the Database!'));
-			return $tpl->fetch('shoutbox/entries_box.tpl');
+			$this->output .= $tpl->fetch('shoutbox/entries_box.tpl');
 		}
     }
 	
