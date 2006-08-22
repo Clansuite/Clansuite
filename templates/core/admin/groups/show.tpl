@@ -87,6 +87,40 @@
                  
         {doc_raw}
         <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/groups/fieldset.css" />
+        {literal}
+        <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/assets/dialog.js"></script>
+        <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/IMEStandalone.js"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        
+        //Create a new Imanager Manager, needs the directory where the manager is
+        //and which language translation to use.
+        var manager = new ImageManager('{/literal}{$www_root}{literal}/core/imagemanager','en');
+	   
+	   
+		//Image Manager wrapper. Simply calls the ImageManager
+		ImageSelector = 
+		{
+			//This is called when the user has selected a file
+			//and clicked OK, see popManager in IMEStandalone to 
+			//see the parameters returned.
+			update : function(params)
+			{
+				if(this.field && this.field.value != null)
+				{  this.field.value = params.f_file; //params.f_url
+				   filename = this.field.value;
+				}
+			},
+			//open the Image Manager, updates the textfield
+			//value when user has selected a file.
+			select: function(textfieldID)
+			{
+				this.field = document.getElementById(textfieldID);
+				manager.popManager(this);	
+			}
+		}
+		
+        </script>{/literal}
         {/doc_raw}
         
         <br />
@@ -95,33 +129,30 @@
         <span id="span_rightbased" style="display: none;">
          
             <form id="h3sForm"
-                  action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_right_group" method="POST">
+                  action="{$www_root}/index.php?mod=admin&sub=groups&action=add_right_group" method="POST">
                         
                         <fieldset > 
                            
                            <h3>
-        				   Add Post based Usergroup
+        				   Add right based Usergroup
         				   </h3>
         				    
-                           <label for="post_group_name">
+                           <label for="right_group_name">
             					Groupname
-            					<input id="post_group_name" name="post_group_name" type="text" value="Forum-God" />
+            					<input id="post_group_name" name="right_group_name" type="text" value="Forum-God" />
             				</label>
-            				        				
-            				<label for="posts">
-                                Posts
-            					<input id="posts" name="posts" type="text" value="5000?" />
-            				</label>
-            				
-            					<label for="posts">
+            				            				
+            					<label for="desc">
                                 Description
             					<input id="desc" name="desc" type="text" value="Description" />
             				</label>
             				
             				<label for="icon">
                                 Icon
-            					<input id="icon" name="icon" type="text" value="iconname?" />
-            				</label>
+            					{* <input id="icon" name="icon" type="text" value="iconname?" /> *}
+            						<input type="text" id="icon" class="selectFile" name="icon" />
+    				                <input type="button" name="select" onclick="ImageSelector.select('icon');"/
+                			</label>
             				
             				<input class="submit" type="submit" name="submit" value="{translate}Add right based Group{/translate}" />
             			
@@ -211,7 +242,7 @@
         <span id="span_postbased" style="display: none;">
          
             <form id="h3sForm"
-                  action="{$www_root}/index.php?mod=admin&sub=groups&action=insert_post_group" method="POST">
+                  action="{$www_root}/index.php?mod=admin&sub=groups&action=add_post_group" method="POST">
                         
                         <fieldset > 
                            
