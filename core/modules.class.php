@@ -119,27 +119,27 @@ class modules
             * @desc Load file and class
             * @desc Give Return Value of requested function
             */
-            if ($folder_name!='' && $file_name!='' && $class_name!='' )
+            if ( $folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
                 
-                if (file_exists($file ) )
+                if ( file_exists($file ) )
                 {
                     if (!in_array($mod, $modules->loaded ) )
                     {
                         $modules->loaded[] = $mod;
                     }
-                    
-                    require_once($file );
+
+                    require_once( $file );
                     $module_{$mod} = new $class_name;
                     $func_params = split('\|', $params['params']);
-                    
-                    if(method_exists($module_{$mod}, $params['func'] ) )
-                        echo call_user_func_array(array($module_{$mod}, $params['func']), $func_params);
-                    else
-                    {
-                        $error->show($lang->t('Module Failure'), $lang->t('The method/function you tried to access within the modules class does not exist!'), 3);
-                    }
+                    $old_action = $_REQUEST['action'];
+                    $_REQUEST['action'] = $params['func'];
+
+                    $output = call_user_func_array( array( $module_{$mod}, 'auto_run' ), $func_params );
+                    echo $output['OUTPUT'];
+                    $_REQUEST['action'] = $old_action;
+
                 }
             }
         }
