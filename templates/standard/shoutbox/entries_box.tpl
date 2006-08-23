@@ -1,4 +1,6 @@
+<h2>{translate}Shoutbox{/translate}</h2>
 <div id="show_shoutbox">
+
 	
 	{* Falls Einträge vorhanden sind *}
 	{if $shoutbox_is_empty == false}
