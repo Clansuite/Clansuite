@@ -151,7 +151,7 @@
                                 Icon
             					{* <input id="icon" name="icon" type="text" value="iconname?" /> *}
             						<input type="text" id="icon" class="selectFile" name="icon" />
-    				                <input type="button" name="select" onclick="ImageSelector.select('icon');"/
+    				                <input type="button" name="select" onclick="ImageSelector.select('icon');" />
                 			</label>
             				
             				<input class="submit" type="submit" name="submit" value="{translate}Add right based Group{/translate}" />
