@@ -145,7 +145,7 @@ class users
             setcookie('user_id', false);
             setcookie('password', false);
             $session->_session_destroy(session_id());
-            $functions->redirect( WWW_ROOT . '/index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
+            $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
         /**
         * @desc Create $_SESSION user

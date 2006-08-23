@@ -4,7 +4,7 @@
     <tr>
     {foreach key=col item=data from=$image}
         <td align="center">
-            <a href="{$www_root}{$data.href}">
+            <a href="{$data.href}">
                 <img src="{$www_core_tpl_root}/images/symbols/{$data.file_name}">
                 <br />
                 <div style="padding-top: 10px;">{translate}{$data.title}{/translate}</div>

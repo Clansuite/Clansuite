@@ -1,6 +1,6 @@
 <h2>{translate}Logout{/translate}</h2>
 
-    <form action="{$www_root}/index.php?mod=account&action=logout" method="post">
+    <form action="index.php?mod=account&action=logout" method="post">
     <table style="width: 100%">
         <tr>
             <td colspan="2" align="center">

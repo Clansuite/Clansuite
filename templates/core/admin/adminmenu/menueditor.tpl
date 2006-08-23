@@ -142,13 +142,13 @@
                 <a href="javascript:treePluginGenerateMenu();">{translate}Generate Menu{/translate}</a>
             </p>
             <p>
-                <a href="{$www_root}/index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
+                <a href="index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
             </p>
         </td>
         <td valign="top">
 
             <div id="tree-plugin">
-                <form action="{$www_root}/index.php?mod=admin&sub=menueditor&action=update" method="POST">
+                <form action="index.php?mod=admin&sub=menueditor&action=update" method="POST">
                 <div id="tree-plugin-content"></div>
                 <b>{translate}The menu was generate.{/translate}</b> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />

@@ -9,7 +9,7 @@
     {if $err.passes_do_not_fit == 1}<p class="error">{translate}The passwords aren't the same!{/translate}</p>{/if}
     {if $err.wrong_captcha == 1}<p class="error">{translate}The code you entered is wrong!{/translate}</p>{/if}
     
-    <form action="{$www_root}/index.php?mod=account&action=register" method="post">
+    <form action="index.php?mod=account&action=register" method="post">
     <table>
         <tr>
             <td>{translate}Nick:{/translate}</td>

@@ -56,7 +56,9 @@ class {$class_name}
 
     function auto_run()
     {ldelim}
+        
         global $lang;
+        $params = func_get_args();
         
         // Construct Page Title        
         $this->mod_page_title = $lang->t( '{$title}' ) . ' &raquo; ';
@@ -68,6 +70,10 @@ class {$class_name}
                 $this->show();
                 break;
 
+            case 'instant_show':
+                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+                break;
+                
             default:
                 $this->show();
                 break;
@@ -81,7 +87,6 @@ class {$class_name}
     /**
     * @desc Show the entrance - welcome message etc.
     */
-
     function show()
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
@@ -90,6 +95,20 @@ class {$class_name}
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
+    {rdelim}
+    
+    /**
+    * @desc This content can be instantly displayed by adding {ldelim}mod name="{$name}" func="instant_show" params="mytext"{rdelim} into a template
+    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    */
+    function instant_show($my_text)
+    {ldelim}
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t($my_text);
     {rdelim}
 {rdelim}
 ?>

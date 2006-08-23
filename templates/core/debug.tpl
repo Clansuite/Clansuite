@@ -80,7 +80,7 @@
 					
 	 </table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('4')">Incoming Vars (Cookies, Get, Post, Session)</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 id="header"><b><a style="text-decoration: none;" href="javascript:clip('4')">Incoming Vars (COOKIES, GET, POST, REQUEST, SESSION)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_4"><table border=0 width=100%>
 			<tr bgcolor=#E4E0C7><td width=100 valign=top>
 			<font color=blue>GET:</font></td><td><font color=green>
@@ -114,6 +114,13 @@
 			</font>
 			</td></tr>
 			
+			<tr bgcolor=#fafafa><td width=100 valign=top>
+			<font color=blue>SESSION:</font></td><td><font color=green>
+			{foreach key=schluessel item=wert from=$debug.session}
+            {$schluessel}: <font color=brown> {$wert|@debug_print_var} </font> <br />
+            {/foreach}
+			</font>
+			</td></tr>
 					
 	 </table></span></td></tr>
 	 

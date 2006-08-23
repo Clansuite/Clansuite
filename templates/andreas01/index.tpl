@@ -102,8 +102,6 @@ All Impressions: {$stats_all_impressions}<br />
 <h2>Welcome to andreas01!</h2>
 
 <p>
-{* This calls the method "index_time" from the registered module "index" with the sub "index" and delivers 2 parameters: "english" and "-" seperated by "|" *}
-{mod name="index" func="time" params="english|-"}<br>
 {$content}
 </p>
 </div>

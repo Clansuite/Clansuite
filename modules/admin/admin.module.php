@@ -105,7 +105,7 @@ class module_admin
         $stmt = $db->prepare( "INSERT INTO cs_admin_shortcuts ( href, title, file_name ) VALUES ( ?, ?, ? )" );
         foreach( $files as $key )
         {
-            $stmt->execute( array( '/index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );
+            $stmt->execute( array( 'index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );
         }
         */
         

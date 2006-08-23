@@ -216,11 +216,11 @@ class modules
             {
                 if( $_REQUEST['mod'] == 'admin' )
                 {
-                    $functions->redirect('/index.php?mod=admin', 'metatag', '3' );
+                    $functions->redirect( 'index.php?mod=admin', 'metatag', '3' );
                 }
                 else
                 {
-                    $functions->redirect('/index.php', 'metatag', '3' );
+                    $functions->redirect( 'index.php', 'metatag', '3' );
                 }
                 return $content;
             }
@@ -232,7 +232,7 @@ class modules
             $mod = $cfg->std_module;
             
             $content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 3 seconds...');
-            $functions->redirect('/index.php', 'metatag', '3' );
+            $functions->redirect( 'index.php', 'metatag', '3' );
             return $content;
         }
     }

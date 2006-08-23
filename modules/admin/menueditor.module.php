@@ -52,6 +52,7 @@ class module_admin_menueditor
     {
         global $lang;
         
+        $params = func_get_args();
         $this->mod_page_title = $lang->t('Admin Control Panel :: Menu Editor' );
         
         switch ($_REQUEST['action'])
@@ -67,7 +68,19 @@ class module_admin_menueditor
             case 'restore':
                 $this->restore();
                 break;                
-                                
+
+            case 'get_adminmenu_div':
+                $this->output .= call_user_func_array( array( $this, 'get_adminmenu_div' ), $params );
+                break;
+
+            case 'get_html_div':
+                $this->output .= call_user_func_array( array( $this, 'get_html_div' ), $params );
+                break;
+                
+            case 'get_export_div':
+                $this->output .= call_user_func_array( array( $this, 'get_export_div' ), $params );
+                break;
+            
             default:
                 $this->show();
                 break;
@@ -135,7 +148,7 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'] ) );
         }
-        $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
     
     /**
@@ -151,7 +164,7 @@ class module_admin_menueditor
         
         if ( !empty($abort) )
         {
-            $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Aborted. Nothing has been changed.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Aborted. Nothing has been changed.' ), 'admin' );
         }
         
         if ( !empty($confirm) )
@@ -187,11 +200,11 @@ class module_admin_menueditor
                 $stmt->execute( $data );
             }
         
-            $functions->redirect( '/index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Last menu restored...' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Last menu restored...' ), 'admin' );
         }
         else
         {
-            $functions->redirect( '/index.php?mod=admin&sub=menueditor&action=restore', 'confirm', 3, $lang->t( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=menueditor&action=restore', 'confirm', 3, $lang->t( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
         }
     }
     
@@ -233,14 +246,6 @@ class module_admin_menueditor
             if ($entry['href'] == '' )
             {
                 $entry['href'] = 'javascript:void(0)';
-            }
-            else
-            {
-                $c = parse_url($entry['href']);
-                if( !array_key_exists('host', $c) )
-                {
-                    $entry['href'] = WWW_ROOT . $entry['href'];
-                }
             }
             
             ################# Start ####################
@@ -379,7 +384,8 @@ class module_admin_menueditor
     {
         global $lang, $cfg;
                
-        $result = '';
+        $result  = '';
+        $jscript = '';
         
         if ( !is_array($menu) )
         {
