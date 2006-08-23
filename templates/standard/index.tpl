@@ -113,11 +113,11 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         </div>
     </td>
     
-    <td id="bar" width="200px">
-		{mod name="shoutbox" func="show"}
-		
+    <td id="bar" width="200px" style="padding: 3px;">
         {mod name="account" func="login"}
-     
+		
+		{mod name="shoutbox" func="show"}
+		     
         <div id="right_menu">
             Online: {$stats.online}<br />
             Siteimpressions: {$stats.page_impressions}<br />
