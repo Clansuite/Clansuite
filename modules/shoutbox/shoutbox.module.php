@@ -87,7 +87,8 @@ class module_shoutbox
 		$tpl->assign('show_error', true);
 		
 		// Wurde Ajax Reqest gesendet, dann prüfen und ggf. speichern
-		if(isset($_GET['check'])) {
+		/*
+        if(isset($_GET['check'])) {
 			$this->check();
 		}
 		else {
@@ -97,9 +98,14 @@ class module_shoutbox
 				$this->check();		// prüfen
 			}
 		}
-
+        */
+        
         switch ($_REQUEST['action'])
         {
+            case 'check':
+                $this->check();
+                break;
+                
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show Shoutbox' );
                 $this->show();
@@ -134,26 +140,24 @@ class module_shoutbox
 		$tpl->assign('field_value_name'   	, $lang->t('Your Name'));
 		$tpl->assign('field_value_mail'  	, $lang->t('Your Mail'));
 		$tpl->assign('field_value_msg'    	, $lang->t('Your Msg'));
-		$tpl->assign('request'				, WWW_ROOT . '/index.php?mod=shoutbox&action=save');
 		
 		// Einträge auslesen:
 		$stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
-							  FROM          ' . DB_PREFIX . 'shoutbox');
+							  FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
 		$stmt->execute();
-	   
-		if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
+	    $result = $stmt->fetchAll(PDO::FETCH_NAMED);
+		if ( is_array( $result ) )
 		{
-		   $tpl->assign('shoutbox_isEmpty', false);
-
+		   $tpl->assign('shoutbox_is_empty', false);
 		   $tpl->assign('shoutbox_entries', $result);
-
-		   $this->output .= $tpl->fetch('shoutbox/entries_box.tpl');
+		   $tpl->assign('entries_box', $tpl->fetch('shoutbox/entries_box.tpl') );
 		}
 		else
 		{
-			$tpl->assign('no_entries_msg', $lang->t('There are no Entries in the Database!'));
-			$this->output .= $tpl->fetch('shoutbox/entries_box.tpl');
+            $tpl->assign('no_entries_msg', $lang->t('There are no Entries in the Database!'));
+			$tpl->assign('entries_box', $tpl->fetch('shoutbox/entries_box.tpl') );
 		}
+        $this->output .= $tpl->fetch('shoutbox/show_form.tpl');
     }
 	
 	/**
@@ -163,17 +167,18 @@ class module_shoutbox
 	{
 		global $lang, $input, $tpl;
 		
-		$name = trim($_POST['name']);
-		$mail = trim($_POST['mail']);
-		$msg  = trim($_POST['msg']);
-		
+		$name   = trim($_POST['name']);
+		$mail   = trim($_POST['mail']);
+		$msg    = trim($_POST['msg']);
+		$check  = $_GET['check'];
+        
 		$errors = array();
 		
 		if(!isset($name) || strlen(trim($name)) < 3 || trim($name) == $lang->t('Your Name'))
 			$errors[] = $lang->t('Your name hast to be longer than 3 chars');
 			
 		if(!isset($mail) || strlen(trim($mail)) < 3 || trim($mail) == $lang->t('Your Mail'))
-			$errors[] = $lang->t('Your mail-adress hast to longer than 3 chars');
+			$errors[] = $lang->t('Your mail-address hast to longer than 3 chars');
 			
 		if(!isset($msg) || strlen(trim($msg)) < 5 || trim($msg) == $lang->t('Your Msg'))
 			$errors[] = $lang->t('Your message hast to be longer than 5 chars');
@@ -185,13 +190,12 @@ class module_shoutbox
 		
 		// Fehler ... 
 		if(count($errors) > 0) {
-			if(isset($_GET['check']))	// ajax request
+			if( $check == 'true' )	// ajax request
 				echo implode('%%%', $errors);		// Zurückgeben (... ajax ...)
 			else {	// normaler page request 
 				$tpl->assign('is_error', true);
 				$tpl->assign('_errorList', $errors);
-				$fetch = $tpl->fetch('shoutbox/show_form.tpl');				
-				$this->output .= $fetch;
+				$this->output .= $tpl->fetch('shoutbox/show_form.tpl');				
 			}
 		}
 		else {
@@ -199,7 +203,7 @@ class module_shoutbox
 		}
 		
 		#print_r(debug_backtrace());
-		if(isset($_GET['check']))	// nur falls der request per ajax gesendet wurde
+		if( $check == 'true' )	// nur falls der request per ajax gesendet wurde
 			die();
 	}
 	
@@ -211,21 +215,44 @@ class module_shoutbox
 		global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 		
 		// Formularvalidierung
-		$name = trim($_POST['name']);
-		$mail = trim($_POST['mail']);
-		$msg  = trim($_POST['msg']);
-		
+		$name   = trim($_POST['name']);
+		$mail   = trim($_POST['mail']);
+		$msg    = trim($_POST['msg']);
+		$check  = $_GET['check'];
+        
 		// Db Insert
 		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'shoutbox (name, mail, msg, time, ip) 
 		                      VALUES (?, ?, ?, ?, ?)');
 		$stmt->execute(array($name, $mail, $msg, time(), $_SERVER['REMOTE_ADDR']));		
 		
 		// Falls der Request nicht per ajax kommt:
-		if(!isset($_GET['check'])) {
+		if( $check != 'true' )
+        {
 			$tpl->assign('is_saved', true);
 			$tpl->assign('save_msg', $lang->t('Your shoutbox entry was saved successfully!'));
 			$this->output .= $tpl->fetch('shoutbox/show_form.tpl');
 		}
+        else
+        {
+		    // Smarty Flags:
+		    $tpl->assign('shoutbox_is_empty', 	true);
+		    $tpl->assign('show_form', 			true);
+		    
+		    // Einträge auslesen:
+		    $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
+							      FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
+		    $stmt->execute();
+	        $result = $stmt->fetchAll(PDO::FETCH_NAMED);
+		    if ( is_array( $result ) )
+		    {
+		       $tpl->assign('shoutbox_is_empty', false);
+
+		       $tpl->assign('shoutbox_entries', $result);
+
+		       echo $tpl->fetch('shoutbox/entries_box.tpl');
+               die();
+		    }            
+        }
 	}
 }
 ?>

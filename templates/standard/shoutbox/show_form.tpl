@@ -1,26 +1,61 @@
-ï»¿{* Soll das Formular angezeigt werden *}
+{literal}
+    <style type="text/css">
+    /* only testing, die styles mÃ¼ssen spÃ¤ter noch ins stylesheet */
+    #show_shoutbox {
+	    width: auto;
+	    height: 300px;
+	    overflow: auto;
+	    padding: 8px;
+    }
+    #show_shoutbox .entry_even {
+	    background-color: #CCCCCE;
+    }
+    #show_shoutbox .entry_uneven 
+	    background-color: #CCCCCF; 
+    }
+
+    #show_shoutbox ul {
+       list-style-type: none;
+    }
+
+    #show_shoutbox ul li {
+	    display: inline;
+    }
+    #show_shoutbox ul li.name {
+
+    }
+    #show_shoutbox ul li.msg {
+	    
+    }
+    </style>
+{/literal}
+<div id="entries_box">
+{$entries_box}
+</div>
+{$entries}
+{* Soll das Formular angezeigt werden *}
 {if $show_form === true}
 	<div id="request_return">
 	
 	</div>
 	<br />
 	
-	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', '{$request}&check=true', 'request_return');">
-		<input 	id="name" type="text" name="name" 
+	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', '{$www_root}/index.php?mod=shoutbox&action=check&check=true', 'request_return');">
+		<input class="input_text" id="name" type="text" name="name" 
 				value="{$field_value_name}" 
 				onclick="if(this.value == '{$field_value_name}') this.value = ''" 
 				onblur="if(this.value == '') this.value = '{$field_value_name}'" /><br />
-		<input 	id="mail" type="text" name="mail" 
+		<input class="input_text" id="mail" type="text" name="mail" 
 				value="{$field_value_mail}" 
 				onclick="if(this.value == '{$field_value_mail}') this.value = ''" 
 				onblur="if(this.value == '') this.value = '{$field_value_mail}'" /><br />
-		<input 	id="msg" type="text" name="msg" 
+		<input class="input_text" id="msg" type="text" name="msg" 
 				value="{$field_value_msg}" 
 				onclick="if(this.value == '{$field_value_msg}') this.value = ''" 
 				onblur="if(this.value == '') this.value = '{$field_value_msg}'" /><br />	
 			
 		{* Falls Js aktiviert ist, wird der Submit Button automaisch ausgeblendet! *}
-		<input id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
+		<input class="input_submit" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
 	</form>
 {/if}
 
@@ -31,7 +66,7 @@
 
 {* Wurde der Eintrag gespeichert *}
 {if $is_saved === true}
-	{$save_msg}
+	{$save_entry}
 {else}
 	{literal}
 		<script language="javascript">
@@ -89,15 +124,15 @@
 		
 		// @param	form_field_ids					Per Komma getrennte ID's von Feldern, die an die Date geschickt werden sollen
 		// @param	file							An welche Datei der Request gesendet werden soll
-		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zurí¤« (Fehler von %%% getrennt).
-		//											Ansonsten gibt die Datei einen leeren Output zurí¤«
+		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zurÃ¼ck (Fehler von %%% getrennt).
+		//											Ansonsten gibt die Datei einen leeren Output zurÃ¼ck
 		function sendAjaxRequest(form_field_ids, file, display_returning_output_id)
 		{
 			con = getXMLRequester();
 		    con.open('POST', file, true);
 			id = display_returning_output_id;
 			ids = form_field_ids.split(',');
-			param = '';	// Parameter, die an die Ajax Datei í£¥rmittelt werden
+			param = '';	// Parameter, die an die Ajax Datei Ã¼rmittelt werden
 			
 			// build param
 			for(i = 0; i < ids.length; i++) 
@@ -126,17 +161,26 @@
 				//alert('RESPONSE: ' + response);
 				
 				if(response != '') {
-					// Error ...
-					var errors = response.split('%%%');
-					
-					response_text = '<span class="shoutbox_error">Several Errors occured while saving:</span>';	{* muss noch Ã¼bersetzt werden *}
-					for(i = 0; i < errors.length; i++)
-					{
-						response_text += '<br />- ' + errors[ i ];
-					}
+
+
+					if(response.search('%%%') > 0)
+                    {
+					    // Error ...
+					    var errors = response.split('\%\%\%');
+                        response_text = '<span class="shoutbox_error">{/literal}{translate}Several Errors occured while saving:{/translate}{literal}</span>';
+				        for(i = 0; i < errors.length; i++)
+				        {
+					        response_text += '<br />- ' + errors[ i ];
+				        }
+                    }
+                    else
+                    {
+                        response_text = '<span class="shoutbox_success">{/literal}{translate}Your entry was saved successfuly!{/translate}{literal}</span>';
+                        document.getElementById('entries_box').innerHTML = response;
+                    }
 				}
 				else {
-					response_text = '<span class="shoutbox_success">Your entry was saved successfuly!</span>';	{* muss noch Ã¼bersetzt werden *}
+					response_text = '<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}</span>';
 				}
 				
 				document.getElementById(id).innerHTML = response_text;
