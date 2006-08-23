@@ -186,7 +186,7 @@ class module_admin_static
                 $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
                 $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
                 
-                $functions->redirect( '/index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
             }
         }
         
@@ -250,7 +250,7 @@ class module_admin_static
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
                 $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
                 
-                $functions->redirect( '/index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=admin&sub=static&action=list_all', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
             }
         }
         else

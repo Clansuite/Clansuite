@@ -40,7 +40,7 @@
 	</div>
 	<br />
 	
-	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', '{$www_root}/index.php?mod=shoutbox&action=check&check=true', 'request_return');">
+	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', 'index.php?mod=shoutbox&action=check&check=true', 'request_return');">
 		<input class="input_text" id="name" type="text" name="name" 
 				value="{$field_value_name}" 
 				onclick="if(this.value == '{$field_value_name}') this.value = ''" 

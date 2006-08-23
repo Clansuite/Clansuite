@@ -6,7 +6,7 @@
     {if $accountNotActivated == 1}<p class="error">{translate}Account with this email has not been yet activated.{/translate}</p>{/if}
     {if $errorWhileSending == 1}<p class="error">{translate}There was an error while sending an email. Please, try again later.{/translate}</p>{/if}
     
-    <form action="{$www_root}/index.php?mod=account&action=forgot_password" method="post">
+    <form action="index.php?mod=account&action=forgot_password" method="post">
     <table>
     <tr>
         <td>{translate}Email:{/translate}</td>

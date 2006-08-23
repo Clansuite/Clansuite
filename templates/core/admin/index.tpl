@@ -1,16 +1,18 @@
-{doc_info DOCTYPE=XHTML LEVEL=Strict}
+{doc_info DOCTYPE=XHTML1.1 LEVEL=Normal}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
-<meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" />
+
+<meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="content-language" content="{$meta.language}">
-<meta name="author" content="{$meta.author}">
-<meta http-equiv="reply-to" content="{$meta.email}">
-<meta name="description" content="{$meta.description}">
-<meta name="keywords" content="{$meta.keywords}">
-<link rel="shortcut icon" href="{$www_core_tpl_root}/images/icons/favicon.ico" >
+<meta http-equiv="content-language" content="{$meta.language}" />
+<meta name="author" content="{$meta.author}" />
+<meta http-equiv="reply-to" content="{$meta.email}" />
+<meta name="description" content="{$meta.description}" />
+<meta name="keywords" content="{$meta.keywords}" />
+<link rel="shortcut icon" href="{$www_core_tpl_root}/images/icons/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
 
 {$additional_head}
@@ -38,7 +40,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <br />
     <br />
     <div id="content">
-    {$content}
+        {$content}
     </div>
     <br />
     <br />

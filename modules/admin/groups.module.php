@@ -196,7 +196,7 @@ class module_admin_groups
 		$stmt->execute(array($right_group_name, $desc, $icon, $posts));	
   
          
-        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
        
     }
     
@@ -217,7 +217,7 @@ class module_admin_groups
 		
 		$stmt->execute(array($post_group_name, $icon, $posts));		
             
-        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
         
     }
     
@@ -241,7 +241,7 @@ class module_admin_groups
         global $db, $functions, $input, $lang;
         
         
-        $functions->redirect( '/index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groupshave been updated.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groupshave been updated.' ), 'admin' );
         
     }
    

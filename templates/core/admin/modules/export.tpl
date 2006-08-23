@@ -81,7 +81,7 @@
 </tr>
 
 {foreach key=schluessel item=wert from=$content.whitelisted}
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=export" method="POST" name="{$wert.name}">
+<form action="index.php?mod=admin&sub=modules&action=export" method="POST" name="{$wert.name}">
 <tr>
 
     <td id="cell1" align="center">
@@ -95,7 +95,7 @@
         <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
         <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
         <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
-        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="/index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
+        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
     </table>
     </td>
     

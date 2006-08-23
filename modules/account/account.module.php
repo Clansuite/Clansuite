@@ -174,7 +174,7 @@ class module_account
             if ($user_id != false)
             {
                 $users->login( $user_id, $remember_me, $password );
-                $functions->redirect('/index.php?mod=admin', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
+                $functions->redirect( 'index.php?mod=admin', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
             {              
@@ -252,7 +252,7 @@ class module_account
             * @desc Redirect
             */
              
-            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t( 'You have successfully logged out...') );
+            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'You have successfully logged out...') );
         }
         else
         {
@@ -400,7 +400,7 @@ class module_account
                 // Send mail
                 if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
-                    $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
+                    $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
                 }
                 else
                 {
@@ -488,7 +488,7 @@ class module_account
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
-                            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the activation mail! Please check your mailbox...') );
+                            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the activation mail! Please check your mailbox...') );
                         }
                         else
                         {
@@ -538,7 +538,7 @@ class module_account
             {
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activated = ? WHERE user_id = ?' );
                 $stmt->execute( array ( 1, $user_id ) );
-                $functions->redirect( '/index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your account has been activated successfully - please login.') );
+                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your account has been activated successfully - please login.') );
             }
         }
         else
@@ -611,7 +611,7 @@ class module_account
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
-                            $functions->redirect('/index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the password activation mail! Please check your mailbox...') );
+                            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the password activation mail! Please check your mailbox...') );
                         }
                         else
                         {
@@ -665,7 +665,7 @@ class module_account
                 setcookie('user_id', false);
                 setcookie('password', false);
                 
-                $functions->redirect( '/index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your new password has been successfully activated. Please login...') );
+                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your new password has been successfully activated. Please login...') );
             }
         }
         else

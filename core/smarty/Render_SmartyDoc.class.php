@@ -40,6 +40,11 @@ class Render_SmartyDoc extends Smarty
             'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'
           )
         )
+    , 'XHTML1.1' => array(
+          'Normal' => array(
+            'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+          )
+        )
     );
     protected $doc_info_types = array(
       'title' => array(

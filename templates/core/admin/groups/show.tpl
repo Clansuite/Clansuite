@@ -129,7 +129,7 @@
         <span id="span_rightbased" style="display: none;">
          
             <form id="h3sForm"
-                  action="{$www_root}/index.php?mod=admin&sub=groups&action=add_right_group" method="POST">
+                  action="index.php?mod=admin&sub=groups&action=add_right_group" method="POST">
                         
                         <fieldset > 
                            
@@ -242,7 +242,7 @@
         <span id="span_postbased" style="display: none;">
          
             <form id="h3sForm"
-                  action="{$www_root}/index.php?mod=admin&sub=groups&action=add_post_group" method="POST">
+                  action="index.php?mod=admin&sub=groups&action=add_post_group" method="POST">
                         
                         <fieldset > 
                            

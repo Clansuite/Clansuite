@@ -24,7 +24,7 @@
     {/error}
 {/if}
 
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=create_new" method="POST">
+<form action="index.php?mod=admin&sub=modules&action=create_new" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     

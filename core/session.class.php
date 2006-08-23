@@ -411,7 +411,7 @@ class session
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                $functions->redirect( '/index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );   
+                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );   
             }
         }
     }

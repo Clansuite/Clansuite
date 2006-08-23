@@ -9,9 +9,9 @@
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$www_core_tpl_root}/images/arrow1.gif";
+arrow1.src =  "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
+arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
 </script>
 
 <div id="menugradient">
@@ -27,13 +27,13 @@ arrow2.src =  "{$www_core_tpl_root}/images/arrow2.gif";
                 <td align="right" width="100%">
                     <span height="1%">
 
-                        <a class="itembtn" href="{$www_root}/index.php?mod=admin&sub=usercenter">
+                        <a class="itembtn" href="index.php?mod=admin&sub=usercenter">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
                             &nbsp;{$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}
                         </a>
                         &nbsp;
 
-                        <a class="itembtn" href="{$www_root}/index.php?mod=account&action=logout">
+                        <a href="index.php?mod=account&action=logout" class="itembtn">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
                             &nbsp;Logout
                         </a>

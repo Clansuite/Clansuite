@@ -202,7 +202,7 @@ function checker(checkboxen, caller)
 <h2>{translate}Modulemanagement{/translate}</h2>
 
 {if isset($content.not_in_whitelist)}
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
+<form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -287,7 +287,7 @@ function checker(checkboxen, caller)
 {/if}
 
 
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=update" method="POST">
+<form action="index.php?mod=admin&sub=modules&action=update" method="POST">
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 
@@ -457,7 +457,7 @@ function checker(checkboxen, caller)
 <br /><br />
 
 <span id="core_span_1" style="display: none;">
-<form action="{$www_root}/index.php?mod=admin&sub=modules&action=update" method="POST">
+<form action="index.php?mod=admin&sub=modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     <td id="td_header" width="100%" colspan="4">
