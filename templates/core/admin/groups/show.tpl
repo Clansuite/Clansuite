@@ -61,7 +61,10 @@
                 
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$wert.group_id}">Edit</a>     </td>
-                <td> <input type="checkbox" name="" value=""> </td>
+                <td> 
+                    <form action="index.php?mod=admin&sub=groups&action=update" method="POST">
+                    <input type="hidden" name="ids[]" value="{$wert.module_id}">
+                    <input name="delete[]" type="checkbox" value="{$wert.group_id}"> </td>
                  
             </tr>
         
@@ -77,6 +80,7 @@
                 <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('rightbased')" />
                 <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
                 <input class="Button" type="reset" tabindex="3" />
+                </form>
                </div>
             </td>
         </tr>
@@ -90,6 +94,7 @@
         {literal}
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/assets/dialog.js"></script>
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/IMEStandalone.js"></script>
+        <script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/javascript/center_popup.js"></script>
         <script type="text/javascript">
         //<![CDATA[
         
@@ -120,7 +125,9 @@
 			}
 		}
 		
-        </script>{/literal}
+        // ]]>
+        </script>
+        {/literal}
         {/doc_raw}
         
         <br />
@@ -173,7 +180,8 @@
     
         <h2 class="tab">Beitragsbasierte Benutzergruppen</h2>
         <script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script>
-                
+        
+            
         <fieldset id="h3sForm"> { * open tab - mainframe fieldset * }
         
         {* todo : Debugausgabe nur wenn DEBUG = 1 *}
@@ -210,7 +218,10 @@
                 <td align="center"> {$wert.posts} </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$wert.group_id}">Edit</a>     </td>
-                <td> <input type="checkbox" name="zutat" value="salami"> </td>
+                <td> 
+                    <form action="index.php?mod=admin&sub=groups&action=update" method="POST">
+                    <input type="hidden" name="ids[]" value="{$wert.module_id}">
+                    <input name="delete[]" type="checkbox" value="{$wert.group_id}"> </td>
                  
             </tr>
         
@@ -220,10 +231,11 @@
         
         <tr height="20">
            <td colspan="7">
-                <div class="Button">
-                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
-                <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
-                <input class="Button" type="reset" tabindex="3" />
+                <div class="button">
+                <input class="button" type="submit" name="xsubmit" id="submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
+                <input class="button" type="submit" name="xdelete" id="delete" value="Delete Selected Groups" tabindex="2" />
+                <input class="button" type="reset" tabindex="3" />
+                </form>
                </div>
             </td>
         </tr>

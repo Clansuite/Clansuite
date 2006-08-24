@@ -233,15 +233,65 @@ class module_admin_groups
         
     }
    
-    //----------------------------------------------------------------
-    // Update the groups list
-    //----------------------------------------------------------------
+    /**
+    * @desc Update the groups list
+    */
     function update()
     {
         global $db, $functions, $input, $lang;
         
+        // $_POST EINGANG        
+        $submit     = $_POST['xsubmit'];
+        $del        = $_POST['xdelete'];
+        $confirm    = $_POST['confirm'];
+        $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
+        $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
+        $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
+        $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
         
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groupshave been updated.' ), 'admin' );
+        /* Nichts selected ?
+        if ( empty($ids) )
+        { 
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'No Group selected to delete! Returning... ' ), 'admin' );
+        }        
+        */
+        
+        // Abbruchmöglichkeit innerhalb der Confirm-Abfrage
+        if ( isset( $_POST['abort'] ) )
+        {
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all' );
+        }
+        
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT group_id, name FROM ' . DB_PREFIX . 'usergroups' );
+        $stmt->execute();
+        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+               
+        // Gruppen anhand der IDs löschen
+        foreach( $all_groups as $key => $value )
+        {
+            if ( count ( $delete ) > 0 )
+            {
+                if ( in_array( $value['group_id'], $ids ) )
+                {
+                    $d = in_array( $value['group_id'], $delete  ) ? 1 : 0;
+                    if ( !isset ( $_POST['confirm'] ) )
+                    {
+                        $functions->redirect( 'index.php?mod=admin&sub=groups&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following group(s) to delete: ' . $value['name'] . '?'), 'admin' );
+                    }
+                    else
+                    {
+                        if ( $d == 1 )
+                        {
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'usergroups WHERE group_id = ?' );
+                            $stmt->execute( array($value['group_id']) );
+                        }
+                    }
+                }
+            } // close if
+        } // close foreach
+        
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groups have been updated.' ), 'admin' );
         
     }
    
