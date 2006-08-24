@@ -24,7 +24,7 @@
 <script type="text/javascript" src="assets/dialog.js"></script>
 <script type="text/javascript">
 /*<![CDATA[*/
-	window.resizeTo(600, 460);
+	window.resizeTo(620, 480);
 
 	if(window.opener)
 		I18N = window.opener.ImageManager.I18N;
