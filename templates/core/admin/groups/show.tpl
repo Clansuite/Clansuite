@@ -77,10 +77,10 @@
         <tr height="20">
            <td colspan="8">
                 <div class="Button">
-                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('rightbased')" />
                 <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
                 <input class="Button" type="reset" tabindex="3" />
                 </form>
+                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('rightbased')" />
                </div>
             </td>
         </tr>
@@ -232,10 +232,11 @@
         <tr height="20">
            <td colspan="7">
                 <div class="Button">
-                <input class="Button" type="submit" name="xsubmit" id="submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
                 <input class="Button" type="submit" name="xdelete" id="delete" value="Delete Selected Groups" tabindex="2" />
-                <input class="Button" type="reset" tabindex="3" />
                 </form>
+                <input class="Button" type="reset" tabindex="3" />
+                <input class="Button" type="submit" name="xsubmit" id="submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
+               
                </div>
             </td>
         </tr>
