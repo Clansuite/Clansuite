@@ -72,6 +72,11 @@ v1.0 released on OSWD.org.</p>
 </div>
 
 <div id="extras">
+
+{mod name="account" func="login"}
+		
+{mod name="shoutbox" func="show"}
+
 <h3>More info:</h3>
 <p>This is the third column, which can be used in many different ways. For example, it can be used for comments, site news, external links, ads or for more navigation links. It is all up to you!</p>
 
