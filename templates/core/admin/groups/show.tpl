@@ -231,10 +231,10 @@
         
         <tr height="20">
            <td colspan="7">
-                <div class="button">
-                <input class="button" type="submit" name="xsubmit" id="submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
-                <input class="button" type="submit" name="xdelete" id="delete" value="Delete Selected Groups" tabindex="2" />
-                <input class="button" type="reset" tabindex="3" />
+                <div class="Button">
+                <input class="Button" type="submit" name="xsubmit" id="submit" value="Create New Group" tabindex="1" onclick="javascript:clip_span('postbased')" />
+                <input class="Button" type="submit" name="xdelete" id="delete" value="Delete Selected Groups" tabindex="2" />
+                <input class="Button" type="reset" tabindex="3" />
                 </form>
                </div>
             </td>
