@@ -59,14 +59,24 @@ class module_admin_users
              
         switch ($_REQUEST['action'])
         {
+            case 'show_all_users':
+                $this->mod_page_title .= $lang->t( 'Show all users' );
+                $this->show_all_users();
+                break;
+            
             case 'usercenter':
                 $this->mod_page_title .= $lang->t( 'User-Center' );
                 $this->show_usercenter();
                 break;
 
-	        case 'show_all_users':
-                $this->mod_page_title .= $lang->t( 'Show all users' );
-                $this->show_all_users();
+	        case 'create_new_user':
+                $this->mod_page_title .= $lang->t( 'Create New Useraccount' );
+                $this->create_new_user();
+                break;
+     
+            case 'edit':
+                $this->mod_page_title .= $lang->t( 'Edit User' );
+                $this->edit();
                 break;
      
             case 'search':
@@ -108,6 +118,29 @@ class module_admin_users
         }
        
         $this->output .= $tpl->fetch('admin/users/listusers.tpl');
+    }
+    
+    /**
+    * @desc Create new User
+    */
+
+    function create_new_user()
+    {
+        global $db, $tpl, $error, $lang;
+     
+    }
+    
+    /**
+    * @desc Edit User
+    */
+
+    function edit()
+    {
+    
+        global $db, $tpl, $error, $lang;
+
+        $this->output .= $tpl->fetch('admin/users/edit.tpl');  
+       
     }
               
     /**
