@@ -94,7 +94,6 @@
         {literal}
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/assets/dialog.js"></script>
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/IMEStandalone.js"></script>
-        <script type="text/javascript" src="{/literal}{$www_core_tpl_root}{literal}/admin/javascript/center_popup.js"></script>
         <script type="text/javascript">
         //<![CDATA[
         
@@ -146,7 +145,7 @@
         				    
                            <label for="right_group_name">
             					Groupname
-            					<input id="post_group_name" name="right_group_name" type="text" value="Forum-God" />
+            					<input id="right_group_name" name="right_group_name" type="text" value="Forum-God" />
             				</label>
             				            				
             					<label for="desc">
