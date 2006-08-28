@@ -140,12 +140,33 @@ class module_admin_groups
         
         $tpl->assign( 'icons', $icons );
         
-        // Ausgabe der Benutzergruppen basierend auf Rechten
-        
+       // Abfrage der Benutzergruppen  ( basierend auf Rechten )
+       
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE (posts IS NULL) ORDER BY pos ASC' );
         $stmt->execute();
         $right_based_groups = $stmt->fetchAll(PDO::FETCH_NAMED);
-                        
+        
+        // Anzahl der Gruppen durchlaufen + User ermitteln
+        $runtimes = count($right_based_groups);
+        for ($i=0; $i<=$runtimes-1; $i++) 
+        {
+         //echo $i .' / ' . $runtimes . ' : ' . $right_based_groups[$i]['name'] . ' - ' . $right_based_groups[$i]['group_id']  . '<br />';        
+       
+        // Abfrage der User aus der jeweiligen Gruppe
+                 
+            $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id 
+                                   FROM ' . DB_PREFIX . 'user_usergroups cu,
+                                        ' . DB_PREFIX . 'users cs
+                                   WHERE cs.user_id = cu.user_id
+                                   AND cu.group_id = ?');
+                                   
+            $stmt2->execute( array ( $right_based_groups[$i]['group_id'] ));
+            $test = $stmt2->fetchAll(PDO::FETCH_NAMED);
+            //var_dump($test);
+            $right_based_groups[$i]['users'] = $test;
+        }
+        
+                                 
         if ( is_array( $right_based_groups ) )
         {
             $tpl->assign('right_based_groups', $right_based_groups);
@@ -155,7 +176,7 @@ class module_admin_groups
         $this->output .= 'There was an error while acquiring the right_based_groups-data.';
         }
         
-        // Ausgabe der Benutzergruppen basierend auf der Anzahl der Posts
+        // Abfrage der Benutzergruppen ( basierend auf der Anzahl der Posts )
         
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE posts > 0 ORDER BY pos, posts ASC' );
         $stmt->execute();
