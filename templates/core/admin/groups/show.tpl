@@ -25,8 +25,8 @@
             
         <fieldset id="h3sForm"> 
         
-        {* todo : Debugausgabe nur wenn DEBUG = 1 *}
-        {if debug == "1"} Debugausgabe des Arrays:  {html_alt_table loop=$right_based_groups}  {/if}
+        {* Debuganzeige, wenn DEBUG = 1 | {$right_based_groups|@var_dump} *}
+        {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$right_based_groups} {/if}
         
         
         <h3>Rechtebasierte Benutzergruppen</h3>
@@ -59,7 +59,14 @@
                 
                 <td align="center"> {$wert.description} desc</td>
                 
-                <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
+                <td align="center">  
+               
+                                    {foreach name=usersarray key=schluessel item=userswert from=$wert.users}
+                                    <a href="index.php?mod=admin&sub=users&action=edit&user_id={$userswert.user_id}">
+                                    {$userswert.nick}</a>
+                                    {if !$smarty.foreach.usersarray.last},{/if} 
+                                    {/foreach}  
+                </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$wert.group_id}">Edit</a>     </td>
                 <td> 
                     <form action="index.php?mod=admin&sub=groups&action=update" method="POST">
@@ -182,9 +189,9 @@
         
             
         <fieldset id="h3sForm"> { * open tab - mainframe fieldset * }
-        
+       
         {* todo : Debugausgabe nur wenn DEBUG = 1 *}
-        {if debug == "1"} Debugausgabe des Arrays: {html_alt_table loop=$post_based_groups}  {/if}
+        {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays: {html_alt_table loop=$post_based_groups}  {/if}
         
         <h3>Beitragsbasierte Benutzergruppen</h3>
         
