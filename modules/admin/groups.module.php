@@ -137,8 +137,12 @@ class module_admin_groups
             }
         }
         closedir($dir_handler);
-        
+               
         $tpl->assign( 'icons', $icons );
+        
+        //
+        // ----------------------------------------------------------------------------------
+        //
         
        // Abfrage der Benutzergruppen  ( basierend auf Rechten )
        
@@ -161,9 +165,9 @@ class module_admin_groups
                                    AND cu.group_id = ?');
                                    
             $stmt2->execute( array ( $right_based_groups[$i]['group_id'] ));
-            $test = $stmt2->fetchAll(PDO::FETCH_NAMED);
+            $rightgroupusers = $stmt2->fetchAll(PDO::FETCH_NAMED);
             //var_dump($test);
-            $right_based_groups[$i]['users'] = $test;
+            $right_based_groups[$i]['users'] = $rightgroupusers;
         }
         
                                  
@@ -176,11 +180,40 @@ class module_admin_groups
         $this->output .= 'There was an error while acquiring the right_based_groups-data.';
         }
         
+        //
+        // ----------------------------------------------------------------------------------
+        //
+        
+       
+       
+       
         // Abfrage der Benutzergruppen ( basierend auf der Anzahl der Posts )
         
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE posts > 0 ORDER BY pos, posts ASC' );
         $stmt->execute();
         $post_based_groups = $stmt->fetchAll(PDO::FETCH_NAMED);
+        
+        
+        // Anzahl der Gruppen durchlaufen + User ermitteln
+        $runtimes = count( $post_based_groups);
+        for ($i=0; $i<=$runtimes-1; $i++) 
+        {
+         //echo $i .' / ' . $runtimes . ' : ' .  $post_based_groups[$i]['name'] . ' - ' .  $post_based_groups[$i]['group_id']  . '<br />';        
+       
+        // Abfrage der User aus der jeweiligen Gruppe
+                 
+            $stmt3 = $db->prepare('SELECT cs.nick, cs.user_id 
+                                   FROM ' . DB_PREFIX . 'user_usergroups cu,
+                                        ' . DB_PREFIX . 'users cs
+                                   WHERE cs.user_id = cu.user_id
+                                   AND cu.group_id = ?');
+                                   
+            $stmt3->execute( array (  $post_based_groups[$i]['group_id'] ));
+            $postgroupusers = $stmt3->fetchAll(PDO::FETCH_NAMED);
+            //var_dump($test);
+            $post_based_groups[$i]['users'] = $postgroupusers;
+        }
+        
        
         if ( is_array( $post_based_groups ) )
         {
