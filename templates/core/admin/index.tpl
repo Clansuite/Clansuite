@@ -31,7 +31,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	<!-- start: Logo - Kopfzeile //-->
 	<div id="header"> 
     	<strong>Clansuite - Control Center</strong>
-    	<span>{$smarty.now|date_format:"%A - %e %B %Y | %H:%M"}</span>
+    	<span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 	</div> 
 	<!-- end: Logo - Kopfzeile //-->
 	
