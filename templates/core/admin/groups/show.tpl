@@ -222,7 +222,14 @@
                 </td>
                 
                 <td align="center"> {$wert.posts} </td>
-                <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
+                <td align="center">  
+               
+                                    {foreach name=usersarray key=schluessel item=userswert from=$wert.users}
+                                    <a href="index.php?mod=admin&sub=users&action=edit&user_id={$userswert.user_id}">
+                                    {$userswert.nick}</a>
+                                    {if !$smarty.foreach.usersarray.last},{/if} 
+                                    {/foreach}  
+                </td>
                 <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$wert.group_id}">Edit</a>     </td>
                 <td> 
                     <form action="index.php?mod=admin&sub=groups&action=update" method="POST">
