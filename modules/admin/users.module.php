@@ -136,8 +136,45 @@ class module_admin_users
 
     function edit()
     {
-    
-        global $db, $tpl, $error, $lang;
+        global $db, $tpl, $error, $lang, $input;
+        
+        $user_id = (int) $_GET['user_id'];
+              
+        // TAB 1 - Edit Userprofil -> $userprofil
+                
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+        $stmt->execute( array ( $user_id ) );
+        $userprofil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                      
+        if ( is_array( $userprofil ) ) 
+        { 
+            $tpl->assign('userprofil', $userprofil); 
+            }
+        else 
+        { 
+            $this->output .= 'The Userprofil of User #' . $user_id . ' could not be fetched.';  
+            }
+        
+        // TAB 2 - Edit Group Memberships -> $groupsofuser
+        
+        $stmt = $db->prepare( 'SELECT ug.* 
+                               FROM ' . DB_PREFIX . 'user_usergroups cu,
+                                    ' . DB_PREFIX . 'usergroups ug
+                               WHERE ug.group_id = cu.group_id
+                               AND cu.user_id = ?' );
+                            
+        $stmt->execute( array ( $user_id ) );
+        $groupsofuser = $stmt->fetchAll(PDO::FETCH_NAMED);
+        
+        if ( is_array( $groupsofuser ) ) 
+        { 
+            $tpl->assign('groupsofuser', $groupsofuser); 
+            }
+        else 
+        { 
+            $this->output .= 'The Userprofil of User #' . $user_id . ' could not be fetched.';  
+            }
+
 
         $this->output .= $tpl->fetch('admin/users/edit.tpl');  
        
