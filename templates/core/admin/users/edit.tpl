@@ -15,10 +15,39 @@
     </script>
 
 
-{* ###############   Edit user_id  ############## *}
+{* ###############   Tab 1: Edit User Profil   ############## *}
+ 
+ <div class="tab-page" id="tabPage1">
+        
+        <h2 class="tab">Edit User Profil</h2>
+        <script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+             
+        {* todo : Debugausgabe nur wenn DEBUG = 1 *}
+        {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays: {html_alt_table loop=$userprofil}  {/if}
+        
+        <h3>Edit Profil - {$userprofil.0.nick} #{$userprofil.0.user_id}</h3>
+        
+        {$userprofil|@var_dump}
+ 
+ </div> {* close tab-page2 *}
 
-Edit User
 
-tab 1 = profil
-
-tab 2 = gruppen
+{* ###############   Tab 2: Group Memberships  ############## *}
+ 
+ <div class="tab-page" id="tabPage2">
+        
+        <h2 class="tab">Group Memberships</h2>
+        <script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script>
+        
+        {* todo : Debugausgabe nur wenn DEBUG = 1 *}
+        {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays: {html_alt_table loop=$groupsofuser}  {/if}
+        
+        <h3>Group Memberships - {$userprofil.0.nick} #{$userprofil.0.user_id}</h3>
+        
+        {$groupsofuser|@var_dump}
+        
+ </div> {* close tab-page2 *}
+ 
+  </div> {* close pane-page *}
+ 
+ 

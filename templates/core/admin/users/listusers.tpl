@@ -5,7 +5,7 @@
 {/doc_raw}
 
 {* todo : Debugausgabe nur wenn DEBUG = 1 *}
-{if debug == "1"} Debugausgabe des Arrays:  {html_alt_table loop=$users}   {/if}
+{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$users}   {/if}
 
     <h3>All Users</h3>    <a href="index.php?mod=admin&sub=users&action=search">- Search -</a>
     
@@ -51,66 +51,28 @@
                 
             </tr>
         
-        {/foreach} 
+    {/foreach} 
         
-        {* Actions - Buttons *}
-        
-        <tr height="20">
-           <td colspan="8">
-                <div class="Button">
-                <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
-                <input class="Button" type="reset" tabindex="3" />
-                </form>
-                <input class="Button" type="submit" name="Submit" id="Submit" value="Create New User" tabindex="1" onclick="javascript:clip_span('create_user')" />
-               </div>
-            </td>
-        </tr>
-        
-        </table>
-        
-        <br />
-        
-         { * clip.js span * }
-        <span id="span_create_user" style="display: none; width: 75%;">
-        
-            <form id="h3sForm"
-             action="index.php?mod=admin&sub=users&action=add" method="POST" target="_self">
-        
-            <fieldset> 
-                          
-               <h3> Create new User </h3>
-        	    
-        	    <label for="firstname">
-        			First Name
-        			<input id="firstname" name="firstname" type="text" value="first name" />
-        		</label>
-        	    
-               <label for="usernick">
-        			Nickname
-        			<input id="usernick" name="usernick" type="text" value="nickname" />
-        		</label>
-        		
-        		<label for="lastname">
-        			Nickname
-        			<input id="lastname" name="lastname" type="text" value="last name" />
-        		</label>	
-        		
-        		<label for="email">
-        			Email
-        			<input id="email" name="email" type="text" value="email" />
-        		</label>
-        		
-        		<label for="user_picture">
-                    Icon
-        			{* <input id="icon" name="icon" type="text" value="iconname?" /> *}
-        				<input type="text" id="icon" class="selectFile" name="icon" />
-                        <input type="button" name="select" onclick="ImageSelector.select('icon');" />
-        		</label>
-        		
-        		<input class="Button" type="submit" name="submit" value="{translate}Create User{/translate}" />
-        			
-        	 </fieldset>
-        
-        </form>
-        
-        </span>
+    {* Actions - Buttons *}
+    
+    <tr height="20">
+       <td colspan="8">
+            <div class="Button">
+            <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
+            <input class="Button" type="reset" tabindex="3" />
+            </form>
+            <input class="Button" type="submit" name="Submit" id="Submit" value="Create New User" tabindex="1" onclick="javascript:clip_span('create_user')" />
+           </div>
+        </td>
+    </tr>
+    
+    </table>
+    
+    <br />
+
+    { * clip.js span * }
+    <span id="span_create_user" style="display: none; width: 75%;">
+    
+        {include file="{$www_core_tpl_root}/admin/users/create_new_user.tpl"}
+    
+    </span>
