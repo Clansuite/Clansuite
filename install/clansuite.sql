@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.1
+-- version 2.8.0.3
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 23. August 2006 um 14:36
--- Server Version: 5.0.21
--- PHP-Version: 5.1.4
+-- Erstellungszeit: 29. August 2006 um 05:15
+-- Server Version: 5.0.20
+-- PHP-Version: 5.1.2
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -16,6 +16,7 @@
 -- Tabellenstruktur für Tabelle `cs_admin_shortcuts`
 -- 
 
+DROP TABLE IF EXISTS `cs_admin_shortcuts`;
 CREATE TABLE `cs_admin_shortcuts` (
   `id` tinyint(4) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -56,6 +57,7 @@ INSERT INTO `cs_admin_shortcuts` VALUES (20, 'Search', 'index.php?mod=admin&sub=
 -- Tabellenstruktur für Tabelle `cs_adminmenu`
 -- 
 
+DROP TABLE IF EXISTS `cs_adminmenu`;
 CREATE TABLE `cs_adminmenu` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -109,6 +111,7 @@ INSERT INTO `cs_adminmenu` VALUES (33, 32, 'item', 'Help', 'index.php?mod=admin&
 INSERT INTO `cs_adminmenu` VALUES (34, 32, 'item', 'Manual', 'index.php?mod=admin&sub=static&action=show&page=manual', 'Manual', '_self', 1, 'book_open.png');
 INSERT INTO `cs_adminmenu` VALUES (35, 32, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
 INSERT INTO `cs_adminmenu` VALUES (36, 32, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu` VALUES (37, 29, 'item', 'Show all', 'index.php?mod=admin&sub=groups', 'Show all', '_self', 0, 'table.png');
 
 -- --------------------------------------------------------
 
@@ -116,6 +119,7 @@ INSERT INTO `cs_adminmenu` VALUES (36, 32, 'item', 'About Clansuite', 'index.php
 -- Tabellenstruktur für Tabelle `cs_adminmenu_old`
 -- 
 
+DROP TABLE IF EXISTS `cs_adminmenu_old`;
 CREATE TABLE `cs_adminmenu_old` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -176,6 +180,7 @@ INSERT INTO `cs_adminmenu_old` VALUES (36, 32, 'item', 'About Clansuite', 'index
 -- Tabellenstruktur für Tabelle `cs_category`
 -- 
 
+DROP TABLE IF EXISTS `cs_category`;
 CREATE TABLE `cs_category` (
   `cat_id` tinyint(4) NOT NULL auto_increment,
   `cat_modulname` text,
@@ -206,6 +211,7 @@ INSERT INTO `cs_category` VALUES (10, '/design', NULL, 'good night', NULL, '0');
 -- Tabellenstruktur für Tabelle `cs_modules`
 -- 
 
+DROP TABLE IF EXISTS `cs_modules`;
 CREATE TABLE `cs_modules` (
   `module_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -246,6 +252,7 @@ INSERT INTO `cs_modules` VALUES (86, 'shoutbox', 'Björn Spiegel', 'http://www.c
 -- Tabellenstruktur für Tabelle `cs_news`
 -- 
 
+DROP TABLE IF EXISTS `cs_news`;
 CREATE TABLE `cs_news` (
   `news_id` int(11) NOT NULL auto_increment,
   `news_title` varchar(255) NOT NULL,
@@ -269,6 +276,7 @@ INSERT INTO `cs_news` VALUES (1, 'testeintrag1', 'testbody1\r\n1\r\n2\r\n3\r\n4\
 -- Tabellenstruktur für Tabelle `cs_news_comments`
 -- 
 
+DROP TABLE IF EXISTS `cs_news_comments`;
 CREATE TABLE `cs_news_comments` (
   `news_id` int(11) NOT NULL default '0',
   `comment_id` int(10) unsigned NOT NULL default '0',
@@ -296,6 +304,7 @@ INSERT INTO `cs_news_comments` VALUES (3, 0, 1, '[center]test[/center]', '2006-0
 -- Tabellenstruktur für Tabelle `cs_rights`
 -- 
 
+DROP TABLE IF EXISTS `cs_rights`;
 CREATE TABLE `cs_rights` (
   `right_id` int(11) unsigned NOT NULL default '0',
   `right_name` varchar(150) NOT NULL,
@@ -316,6 +325,7 @@ INSERT INTO `cs_rights` VALUES (3, 'User-Add');
 -- Tabellenstruktur für Tabelle `cs_session`
 -- 
 
+DROP TABLE IF EXISTS `cs_session`;
 CREATE TABLE `cs_session` (
   `user_id` int(11) NOT NULL default '0',
   `session_id` varchar(32) NOT NULL,
@@ -333,9 +343,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '8986d19bee7e3cda8d019ce602a1eb64', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"127.0.0.1";suiteSID|s:32:"8986d19bee7e3cda8d019ce602a1eb64";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1156336079, 1, 'admin');
-INSERT INTO `cs_session` VALUES (0, '3dbce3a3f3afa7e62c7ad1ed53ff4e3b', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"127.0.0.1";suiteSID|s:32:"3dbce3a3f3afa7e62c7ad1ed53ff4e3b";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1156336087, 1, 'admin');
-INSERT INTO `cs_session` VALUES (0, '38c7b27d63da05b9500dbf99e43863cd', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"127.0.0.1";suiteSID|s:32:"38c7b27d63da05b9500dbf99e43863cd";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1156336553, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '77f481db5ecbf1e836b699ecbad08400', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6";client_host|s:9:"localhost";suiteSID|s:32:"77f481db5ecbf1e836b699ecbad08400";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1156821885, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -343,6 +351,7 @@ INSERT INTO `cs_session` VALUES (0, '38c7b27d63da05b9500dbf99e43863cd', 'client_
 -- Tabellenstruktur für Tabelle `cs_shoutbox`
 -- 
 
+DROP TABLE IF EXISTS `cs_shoutbox`;
 CREATE TABLE `cs_shoutbox` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(100) collate latin1_general_ci NOT NULL,
@@ -379,6 +388,7 @@ INSERT INTO `cs_shoutbox` VALUES (15, 'sdfgsdfgsdfg', 'rrrrr@rrrrrr.de', 'rrrrrr
 -- Tabellenstruktur für Tabelle `cs_static_pages`
 -- 
 
+DROP TABLE IF EXISTS `cs_static_pages`;
 CREATE TABLE `cs_static_pages` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -394,7 +404,7 @@ CREATE TABLE `cs_static_pages` (
 -- Daten für Tabelle `cs_static_pages`
 -- 
 
-INSERT INTO `cs_static_pages` VALUES (1, 'credits', 'Those are the people who helped', '', '<u><strong>WYSIWYG Editor:</strong></u><br />\r\n<a href="http://www.fckeditor.net/">FCKEditor</a><br />\r\n<br />\r\n<u><strong>Icons:</strong></u><br />\r\n<a href="http://www.famfamfam.com/lab/icons/">famfamfam</a><br />\r\n<br />\r\n<br />\r\nand more...', 1, 300);
+INSERT INTO `cs_static_pages` VALUES (1, 'credits', 'Those are the people who helped', '', 'Clansuite <br />\r\nCredits<br />\r\n<u><strong><br />\r\n</strong></u><br />\r\n<br />\r\n<br />\r\n<table width="691" height="393" cellspacing="1" cellpadding="1" border="1" align="" summary="">\r\n    <tbody>\r\n        <tr>\r\n            <td align="center">Class</td>\r\n            <td align="center">Author<br />\r\n            </td>\r\n            <td align="center">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Smarty: the PHP compiling template engine</td>\r\n            <td valign="top">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign="top">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign="top">Copyright 2005-2006 modernmethod</td>\r\n            <td valign="top">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Imagemanger</td>\r\n            <td valign="top">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign="top">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">DHTML Calendar Javascript</td>\r\n            <td valign="top">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign="top">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Tab Pane Javascript</td>\r\n            <td valign="top">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign="top">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top"><a href="http://www.fckeditor.net/">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign="top">&nbsp;</td>\r\n            <td valign="top">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Icons by <a href="http://www.famfamfam.com/lab/icons/">famfamfam</a></td>\r\n            <td valign="top">&nbsp;</td>\r\n            <td valign="top">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">mygosumenu''s</td>\r\n            <td valign="top">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign="top">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">Bitstream Vera Fonts </td>\r\n            <td valign="top">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign="top">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign="top">&nbsp;</td>\r\n            <td valign="top">&nbsp;</td>\r\n            <td valign="top">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />', 1, 300);
 INSERT INTO `cs_static_pages` VALUES (2, 'google', 'Google', 'http://www.google.de', '', 1, 500);
 INSERT INTO `cs_static_pages` VALUES (3, 'help', 'The help for ClanSuite', '', '<strong><font size="4">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>', 1, 300);
 INSERT INTO `cs_static_pages` VALUES (4, 'manual', 'The Manual', '', '<font size="4">Manual</font><br />\r\n<br />\r\n- some content', 1, 300);
@@ -406,6 +416,7 @@ INSERT INTO `cs_static_pages` VALUES (5, 'about', 'About ClanSuite', '', '<font 
 -- Tabellenstruktur für Tabelle `cs_user_rights`
 -- 
 
+DROP TABLE IF EXISTS `cs_user_rights`;
 CREATE TABLE `cs_user_rights` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `right_id` int(5) unsigned NOT NULL default '0',
@@ -427,6 +438,7 @@ INSERT INTO `cs_user_rights` VALUES (2, 3);
 -- Tabellenstruktur für Tabelle `cs_user_usergroups`
 -- 
 
+DROP TABLE IF EXISTS `cs_user_usergroups`;
 CREATE TABLE `cs_user_usergroups` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `group_id` int(5) unsigned NOT NULL default '0',
@@ -439,6 +451,7 @@ CREATE TABLE `cs_user_usergroups` (
 
 INSERT INTO `cs_user_usergroups` VALUES (1, 1);
 INSERT INTO `cs_user_usergroups` VALUES (1, 2);
+INSERT INTO `cs_user_usergroups` VALUES (1, 3);
 INSERT INTO `cs_user_usergroups` VALUES (2, 3);
 
 -- --------------------------------------------------------
@@ -447,6 +460,7 @@ INSERT INTO `cs_user_usergroups` VALUES (2, 3);
 -- Tabellenstruktur für Tabelle `cs_usergroup_rights`
 -- 
 
+DROP TABLE IF EXISTS `cs_usergroup_rights`;
 CREATE TABLE `cs_usergroup_rights` (
   `group_id` int(5) unsigned zerofill NOT NULL default '00000',
   `right_id` int(5) unsigned zerofill NOT NULL default '00000',
@@ -467,13 +481,14 @@ INSERT INTO `cs_usergroup_rights` VALUES (00002, 00002, 1);
 -- Tabellenstruktur für Tabelle `cs_usergroups`
 -- 
 
+DROP TABLE IF EXISTS `cs_usergroups`;
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
   `pos` tinyint(4) unsigned NOT NULL default '1',
   `name` varchar(75) default NULL,
   `icon` varchar(255) default NULL,
   `colour` varchar(10) NOT NULL,
-  `posts` tinyint(5) default NULL,
+  `posts` tinyint(5) default '0',
   PRIMARY KEY  (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
@@ -493,6 +508,7 @@ INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', NULL, '', 100);
 -- Tabellenstruktur für Tabelle `cs_users`
 -- 
 
+DROP TABLE IF EXISTS `cs_users`;
 CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `email` varchar(150) NOT NULL,
@@ -516,5 +532,5 @@ CREATE TABLE `cs_users` (
 -- Daten für Tabelle `cs_users`
 -- 
 
-INSERT INTO `cs_users` VALUES (19, 'admin@localhost.de', 'admin', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '9dd90802013c886ccdd04d524adf3446', 1152190495, 0, '', '', '', 0, 1);
-INSERT INTO `cs_users` VALUES (21, 'asdf2@bla.de', 'bla', '27b276d6221741f11b727e0c24979470f2a7b90a', '', '66a147b49d97ad7df250b0dd91f6d930', 1152208688, 0, '', '', '', 0, 1);
+INSERT INTO `cs_users` VALUES (1, 'admin@localhost.de', 'admin', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '9dd90802013c886ccdd04d524adf3446', 1152190495, 0, '', '', '', 0, 1);
+INSERT INTO `cs_users` VALUES (2, 'asdf2@bla.de', 'bla', '27b276d6221741f11b727e0c24979470f2a7b90a', '', '66a147b49d97ad7df250b0dd91f6d930', 1152208688, 0, '', '', '', 0, 1);
