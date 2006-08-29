@@ -6,7 +6,7 @@
 {/doc_raw}
 
 {* todo : Debugausgabe nur wenn DEBUG = 1 *}
-{if debug == "1"} 
+{if $smarty.const.DEBUG eq "1"} 
 Debugausgabe des Arrays:  {html_alt_table loop=$users}   
 {/if}
 
