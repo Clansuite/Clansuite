@@ -13,8 +13,7 @@
 {/if}
  
  
- <form id="h3sForm"
-       action="index.php?mod=admin&sub=groups&action=edit" method="POST" target="_self">
+ <form id="h3sForm" action="index.php?mod=admin&sub=groups&action=edit" method="POST" target="_self">
 
     <fieldset > 
 

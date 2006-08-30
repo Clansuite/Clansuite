@@ -154,11 +154,18 @@
             					Groupname
             					<input id="right_group_name" name="right_group_name" type="text" value="Forum-God" />
             				</label>
+            				      
+            				<label for="colour">
+                                Colour : todo Colourpicker
+            					<input id="colour" name="colour" type="text" value="Colour" />
+            				</label>      
             				            				
-            					<label for="desc">
+            				<label for="desc">
                                 Description
             					<input id="desc" name="desc" type="text" value="Description" />
             				</label>
+            				
+            				
             				
             				<label for="icon">
                                 Icon
