@@ -251,7 +251,7 @@ class module_admin_modules
                 !$input->check( $license    , 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $copyright  , 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $title      , 'is_abc|is_int|is_custom', '_\s' ) OR
-                !$input->check( $author     , 'is_abc|is_int|is_custom', '_\s' ) ) AND
+                !$input->check( $author     , 'is_abc|is_int|is_custom', '-_\s' ) ) AND
                 !empty ( $submit ) AND !$err['fill_form'] )
         {
             $err['no_special_chars'] = 1;
