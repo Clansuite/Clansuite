@@ -236,20 +236,14 @@ class module_admin_groups
         
         // Inputs to Vars
         $right_group_name = $_POST['right_group_name'];
-        $posts = $_POST['posts'];
-        $desc = $_POST['desc'];
+        $colour = $_POST['colour'];
         $icon = $_POST['icon'];
-        
-        // 
-        
-        
+        $desc = $_POST['desc'];
+              
         // Db Insert
-		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'usergroups (name, desc, icon, posts ) 
-		                      VALUES (?,?,?,?)');
-		
-		$stmt->execute(array($right_group_name, $desc, $icon, $posts));	
-  
-         
+		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'usergroups (name, icon, colour, description, posts  ) VALUES (?, ?,?,?, NULL)');
+		$stmt->execute( array( $right_group_name, $icon, $colour, $desc ) );	
+      
         $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
        
     }
@@ -266,10 +260,8 @@ class module_admin_groups
         $icon = $_POST['icon'];
           
         // Db Insert
-		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroups ( name, icon, posts ) 
-		                      VALUES (?, ?, ?)');
-		
-		$stmt->execute(array($post_group_name, $icon, $posts));		
+		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroups ( pos, name, icon, posts ) VALUES ( ?,  ?,  ?, ?)');
+		$stmt->execute(array( '0', $post_group_name, $icon, $posts));		
             
         $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 2, $lang->t( 'Group was created.' ), 'admin' );
         
