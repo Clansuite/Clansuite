@@ -1,13 +1,13 @@
 {$chmod_tpl}
 
 {if $err.wrong_filetype == 1}
-<div id="cell1" align="center">
+<div class="cell1" align="center">
     <b>{translate}That file has the wrong filetype.{/translate}</b>
 </div>
 {/if}
 
 {if $err.no_correct_upload == 1}
-<div id="cell1" align="center">
+<div class="cell1" align="center">
     <b>{translate}The upload failed. Please try again.{/translate}</b>
 </div>
 {/if}
@@ -16,21 +16,21 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
-    <td id="td_header" width="20%">
+    <td class="td_header" width="20%">
     {translate}Information{/translate}
     </td>
     
-    <td id="td_header" width="80%">
+    <td class="td_header" width="80%">
     {translate}File{/translate}
     </td>
 </tr>
 <tr>
 
-    <td id="cell1">
+    <td class="cell1">
         {translate}Only tar files are allowed which were exported by this CMS{/translate}
     </td>
     
-    <td id="cell2">
+    <td class="cell2">
          <input type="file" name="file">
     </td>
 

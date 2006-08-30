@@ -7,7 +7,6 @@
 <body>
 {/if}
 
-<p>
 <fieldset style="border-color: red; background: 
 {if $error_type==1}red
 {elseif $error_type==2}orange
@@ -24,7 +23,6 @@
 		{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br>{/if}
 	</label>
 </fieldset>
-</p>
 
 {if $error_type==1}
 </body>

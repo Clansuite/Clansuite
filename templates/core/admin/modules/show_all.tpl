@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/modules/luna.css" />
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
 {literal}
-<script>
+<script type="text/javascript">
 
 function str_replace (search, replace, subject)
 {
@@ -206,19 +206,19 @@ function checker(checkboxen, caller)
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
-    <td id="td_header" width="30%">
+    <td class="td_header" width="30%">
     {translate}Module folder problem{/translate}
     </td>
     
-    <td id="td_header" width="10%">
+    <td class="td_header" width="10%">
     {translate}Foldername{/translate}
     </td>
     
-    <td id="td_header" width="55%">
+    <td class="td_header" width="55%">
     {translate}Additional information{/translate}
     </td>
     
-    <td id="td_header" width="5%" align="center">
+    <td class="td_header" width="5%" align="center">
     {translate}Add?{/translate}
     </td>
 
@@ -226,15 +226,15 @@ function checker(checkboxen, caller)
 {foreach key=schluessel item=wert from=$content.not_in_whitelist}
 <tr>
 
-    <td id="cell1">
+    <td class="cell1">
         {translate}There is a module folder that is not stored in the databases whitelist.{/translate}
     </td>
     
-    <td id="cell2">
+    <td class="cell2">
         {$wert.folder}
     </td>
     
-    <td id="cell1">
+    <td class="cell1">
         {if $wert.no_module_config == 1}
             <font color="red">{translate}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/translate}</font>
             <font color="red">{translate}Those values are EXAMPLES! They do not represent the current file settings in any way!{/translate}</font>
@@ -253,7 +253,7 @@ function checker(checkboxen, caller)
             <tr><td><b>{translate}Classname:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][class_name]" value="module_{$wert.folder_name}"></td></tr>
             <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
             <tr><td><b>{translate}Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
-            <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"></td></tr>
+            <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"><input type="hidden" name="info[{$wert.name}][subs]" value=""></td></tr>
         {else}
             <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][title]" value="{$wert.title}"></td></tr>
             <tr><td><b>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][name]" value="{$wert.name}"></td></tr>
@@ -267,13 +267,14 @@ function checker(checkboxen, caller)
             <tr><td><b>{translate}Classname:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][class_name]" value="{$wert.class_name}"></td></tr>
             <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][image_name]" value="{$wert.image_name}"></td></tr>
             <tr><td><b>{translate}Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][version]" value="{$wert.version}"></td></tr>
+            <tr><td><b>{translate}Subs:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][subs]" value="{$wert.subs}"></td></tr>
             <tr><td><b>{translate}CS Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][cs_version]" value="{$wert.cs_version}"></td></tr>
             <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="info[{$wert.name}][enabled]" value="1"></td></tr>        
         {/if}
         </table>
     </td>
     
-    <td id="cell2" align="center">
+    <td class="cell2" align="center">
         <input type="checkbox" name="info[{$wert.folder_name}][add]" value="1">
     </td>    
 
@@ -292,25 +293,25 @@ function checker(checkboxen, caller)
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 
 <tr>
-    <td id="td_header" width="100%" colspan="4">
+    <td class="td_header" width="100%" colspan="4">
     {translate}Normal modules{/translate}
     </td>
 </tr>
 <tr>
     
-    <td id="td_header_small" width="120px">
+    <td class="td_header_small" width="120px">
     {translate}Title{/translate}
     </td>
     
-    <td id="td_header_small" width="80%">
+    <td class="td_header_small" width="80%">
     {translate}Information{/translate}
     </td>
     
-    <td id="td_header_small" width="5%" align="center">
+    <td class="td_header_small" width="5%" align="center">
     {translate}Enabled{/translate}
     </td>
     
-    <td id="td_header_small" width="5%" align="center">
+    <td class="td_header_small" width="5%" align="center">
     {translate}Delete{/translate}
     </td>    
 
@@ -318,12 +319,12 @@ function checker(checkboxen, caller)
 {foreach key=schluessel item=wert from=$content.whitelisted.normal}
 <tr>
     <input type="hidden" name="ids[]" value="{$wert.module_id}">
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
         <b>{$wert.title}</b><br />
         <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
     </td>
     
-    <td id="cell2">
+    <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
         <div class="tab-pane" id="{$wert.name}">
     
@@ -436,11 +437,11 @@ function checker(checkboxen, caller)
 
     </td>
     
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
         <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
     
-    <td id="cell2" align="center">
+    <td class="cell2" align="center">
         <input name="delete[]" type="checkbox" value="{$wert.module_id}">
     </td>
 
@@ -460,25 +461,25 @@ function checker(checkboxen, caller)
 <form action="index.php?mod=admin&sub=modules&action=update" method="POST">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-    <td id="td_header" width="100%" colspan="4">
+    <td class="td_header" width="100%" colspan="4">
     {translate}Core modules{/translate}
     </td>
 </tr>
 <tr>
     
-    <td id="td_header_small" width="120px">
+    <td class="td_header_small" width="120px">
     {translate}Title{/translate}
     </td>
     
-    <td id="td_header_small" width="80%">
+    <td class="td_header_small" width="80%">
     {translate}Information{/translate}
     </td>
     
-    <td id="td_header_small" width="5%" align="center">
+    <td class="td_header_small" width="5%" align="center">
     {translate}Enabled{/translate}
     </td>
     
-    <td id="td_header_small" width="5%" align="center">
+    <td class="td_header_small" width="5%" align="center">
     {translate}Delete{/translate}
     </td>    
 
@@ -486,12 +487,12 @@ function checker(checkboxen, caller)
 {foreach key=schluessel item=wert from=$content.whitelisted.core}
 <tr>
     <input type="hidden" name="ids[]" value="{$wert.module_id}">
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
         <b>{$wert.title}</b><br />
         <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
     </td>
     
-    <td id="cell2">
+    <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
         <div class="tab-pane" id="{$wert.name}">
     
@@ -604,11 +605,11 @@ function checker(checkboxen, caller)
 
     </td>
     
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
         <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
     
-    <td id="cell2" align="center">
+    <td class="cell2" align="center">
         <input type="checkbox" name="delete[]" value="{$wert.module_id}">
     </td>
 
