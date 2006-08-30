@@ -105,12 +105,28 @@ input,select
     border: 1px solid black;
 }
 
-.input_submit
-{
-    border: 1px solid black;
+.input_submit {
+	background-color: #FFFFFF;
+	border: 3px double #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	background: url(../images/background_form_element.gif) repeat-x;
+	color: #333333;
+	font-size: 0.8em;
+	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
+	font-weight: bold;
+	padding: 0.25em;
+	margin-top: 8px;
+	margin-left: 8px;
 }
 
-input.checkbox{
+.input_submit:active {
+	border: 3px double #CCCCCC;
+	border-top-color: #999999;
+	border-left-color: #999999;
+}
+
+.checkbox{
     border: 1px solid black;
 }
 
@@ -130,7 +146,7 @@ p
     margin: 2em;
 }
 
-#cell1
+.cell1
 {
     background: #ECE9D8;
     border: 1px solid;
@@ -139,7 +155,7 @@ p
     cursor: default;
 }
 
-#cell2
+.cell2
 {
     background: #E4E0C7;
     border: 1px solid;
@@ -148,7 +164,7 @@ p
     cursor: default;
 }
 
-#cell3
+.cell3
 {
     background: #E4E0C7;
     border: 1px solid;
@@ -157,7 +173,7 @@ p
     cursor: default;
 }
 
-#td_header
+.td_header
 {
     background: #254161;
     border: 1px solid;
@@ -169,7 +185,7 @@ p
     color: white;
 }
 
-#td_header_small
+.td_header_small
 {
     background: #D5CCBB;
     border: 1px solid;

@@ -216,15 +216,23 @@ class module_admin_modules
         $title          = $_POST['title'];
         $author         = $_POST['author'];
         $homepage       = $_POST['homepage'];
+        $db_table       = $_POST['db_table'];
+        $db_cols        = $_POST['db_cols'];
         $enabled        = (int) $_POST['enabled'];
         $core           = (int) $_POST['core'];
         $image_name     = 'module_' . $name . '.jpg';
-        
+
+        /**
+        * @desc Folder's writeable?
+        */
         if ( !is_writeable( MOD_ROOT ) )
         {
             $err['mod_folder_not_writeable'] = 1;
         }
         
+        /**
+        * @desc Form filled?
+        */
         if ( (  empty( $name ) OR
                 empty( $description ) OR
                 empty( $license ) OR
@@ -235,22 +243,81 @@ class module_admin_modules
             $err['fill_form'] = 1;
         }
         
+        /**
+        * @desc Permitted chars
+        */
         if (  ( !$input->check( $name       , 'is_abc|is_int|is_custom', '_' ) OR
                 !$input->check( $description, 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $license    , 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $copyright  , 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $title      , 'is_abc|is_int|is_custom', '_\s' ) OR
-                !$input->check( $author     , 'is_abc|is_int|is_custom', '-_\s' ) ) AND
+                !$input->check( $author     , 'is_abc|is_int|is_custom', '_\s' ) ) AND
                 !empty ( $submit ) AND !$err['fill_form'] )
         {
             $err['no_special_chars'] = 1;
         }
-             
+        
+        /**
+        * @desc URL Check     
+        */
         if ( !$input->check( $homepage, 'is_url' ) AND !empty( $homepage ) )
         {
             $err['give_correct_url'] = 1;
         }
         
+        /**
+        * @desc Check "CREATE" SQL
+        */
+
+        $create_qry = 'CREATE TABLE `' . $db_table . '` (';
+        foreach( $db_cols as $values )
+        {
+            /**
+            * @desc No Special Chars in the names...
+            */
+            if (  ( !$input->check( $values['name']     , 'is_abc|is_int|is_custom', '_' ) OR
+                    !$input->check( $db_table           , 'is_abc|is_int|is_custom', '_' ) ) AND
+                    !empty ( $submit ) )
+            {
+                $err['sql_no_special_chars'] = 1;
+            }
+            
+            /**
+            * @desc Length as INT
+            */
+            if (  ( !$input->check( $values['length']   , 'is_int' ) ) AND
+                    !empty ( $submit ) )
+            {
+                $err['sql_int_length'] = 1;
+            }
+                        
+            $length = !empty($values['length']) ? '(' . $values['length'] . ')' : '';
+            $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . $length . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
+        }    
+        $create_qry = preg_replace("/,$/", '', $create_qry);
+        $create_qry .= ') ENGINE = MYISAM ;';
+        
+        /**
+        * @desc Try the SQL CREATE Statement and give error on false...
+        */
+        if( count( $err ) == 0 )
+        {
+            $stmt = $db->prepare($create_qry);
+            try
+            {
+                $stmt->execute();
+            }
+            catch( PDOException $e )
+            {
+                $err['sql_failure'] = 1;
+                $err['sql_message'] = $e->getMessage();
+            }
+        }
+        
+        $err['hold'] = 1;
+        /**
+        * @desc Everything's fine - begin creating
+        */
         if ( count ( $err ) == 0 AND !empty( $submit ) )
         {
             $tpl->assign( 'name'        , $name );
@@ -311,7 +378,15 @@ class module_admin_modules
                                             (float) 0.1,
                                             $cfg->version,
                                             $core ) );
+
                                             
+                    $create_qry = 'CREATE TABLE `' . $db_table . '` (';
+                    foreach( $db_cols as $values )
+                    {
+                        $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
+                    }    
+                    $create_qry = ') ENGINE = MYISAM ;';
+
                     $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
                 else
@@ -321,6 +396,10 @@ class module_admin_modules
             }
         }
         
+        /**
+        * @desc Output TPL
+        */
+        $tpl->assign('db_prefix', DB_PREFIX);
         $tpl->assign('err', $err);
         $tpl->assign('chmod_redirect_url', 'index.php?mod=admin&sub=modules&action=create_new' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
@@ -895,7 +974,7 @@ class module_admin_modules
         {
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                 $stmt->execute( array(  $info['author'],
                                         $info['homepage'],
                                         $info['license'],
@@ -910,7 +989,8 @@ class module_admin_modules
                                         $info['image_name'],
                                         $info['version'],
                                         $cfg->version,
-                                        $info['core'] ) );
+                                        $info['core'],
+                                        $info['subs'] ) );
                 $x++;
             }
         }

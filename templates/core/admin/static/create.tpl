@@ -29,40 +29,40 @@
 <form action="index.php?mod=admin&sub=static&action=create" method="POST" target="_self">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
-        <td id="td_header" width="100%" colspan="2">
+        <td class="td_header" width="100%" colspan="2">
         Edits    </td>
     
     </tr>
     <tr>
         
-        <td id="td_header_small" width="40">
+        <td class="td_header_small" width="40">
         Title    </td>
         
-        <td id="td_header_small" width="99%">
+        <td class="td_header_small" width="99%">
         Information    </td>   
     
     </tr>
     <tr>
-        <td id="cell1">
+        <td class="cell1">
             <b>Title:</b>
         </td>
-        <td id="cell2">
+        <td class="cell2">
             <input name="title" type="text" value="{$title|escape:html}" class="input_text">
         </td>
     </tr>
     <tr>
-        <td id="cell1">
+        <td class="cell1">
             <b>Description:</b>
         </td>
-        <td id="cell2">
+        <td class="cell2">
             <input name="description" type="text" value="{$description|escape:html}" class="input_text">
         </td>
     </tr>
     <tr>
-        <td id="cell1">
+        <td class="cell1">
             <b>URL:</b>
         </td>
-        <td id="cell2">
+        <td class="cell2">
             <input name="url" type="text" value="{$url|escape:html}" class="input_text"><br />
             <span id="font_mini">
             {translate}If you enter an URL the content below will not be recognized.{/translate}<br />
@@ -75,7 +75,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" id="cell3">
+        <td colspan="2" class="cell3">
         	<script type="text/javascript">
 
             var sBasePath = "{$www_core_tpl_root}/admin/fckeditor/";
@@ -89,7 +89,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" id="cell2" align="center">
+        <td colspan="2" class="cell2" align="center">
             <input class="input_submit" type="submit" name="submit" value="{translate}Create static page{/translate}" />
         </td>
     </tr>

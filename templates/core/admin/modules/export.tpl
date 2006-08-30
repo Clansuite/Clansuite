@@ -66,15 +66,15 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
-    <td id="td_header" width="120px">
+    <td class="td_header" width="120px">
     {translate}Title{/translate}
     </td>
     
-    <td id="td_header" width="65%">
+    <td class="td_header" width="65%">
     {translate}Information{/translate}
     </td>
     
-    <td id="td_header" width="15%" align="center">
+    <td class="td_header" width="15%" align="center">
     {translate}Option{/translate}
     </td>
 
@@ -84,12 +84,12 @@
 <form action="index.php?mod=admin&sub=modules&action=export" method="POST" name="{$wert.name}">
 <tr>
 
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
     <b>{$wert.title}</b><br />
     <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
     </td>
     
-    <td id="cell2">
+    <td class="cell2">
     <table cellpadding="2" cellspacing="2" border="0">
         <tr><td><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
         <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
@@ -99,7 +99,7 @@
     </table>
     </td>
     
-    <td id="cell1" align="center">
+    <td class="cell1" align="center">
         <div id="menucontainer_{$wert.name}" style="display: none;">
             <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
             <tr>
