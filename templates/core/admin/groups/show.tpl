@@ -33,6 +33,7 @@
         
        
         <table cellspacing="0" cellpadding="0" border="0" width="75%">
+        
         <thead align="center">
         <tr>
             <td id="td_header" width="10%"> {translate}Group ID{/translate}        </td>
@@ -45,9 +46,11 @@
             <td id="td_header">             {translate}Delete{/translate}          </td>
         </tr>
         </thead>
+        
+       <tbody {* style="overflow: scroll; height: 250px;" *}>
        
          {foreach key=schluessel item=wert from=$right_based_groups}
-       
+        
             <tr bgcolor="{cycle values="#eeeeee,#d0d0d0"}">
             
                 <input type="hidden" name="ids[]" value="{$wert.group_id}">
@@ -73,14 +76,13 @@
                     <input type="hidden" name="ids[]" value="{$wert.module_id}">
                     <input name="delete[]" type="checkbox" value="{$wert.group_id}"> </td>
                  
-            </tr>
+            </tr>   
+                 
+         {/foreach}
+         
+        </tbody>
         
-        {/foreach}
-        
-        </fieldset>
-        
-        {* Actions - Buttons *}
-        
+        <tfoot>    {* Actions - Buttons *}
         <tr height="20">
            <td colspan="8">
                 <div class="Button">
@@ -91,13 +93,20 @@
                </div>
             </td>
         </tr>
+        </tfoot>
+        
+        </fieldset>
+        
+        
         
         </table>
         
          {* ###############   Edit - Right based Groups   ############## *}
                  
         {doc_raw}
-        <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/groups/fieldset.css" />
+        <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />
+        
+        {* Imagemanger Javascript *}
         {literal}
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/assets/dialog.js"></script>
         <script type="text/javascript" src="{/literal}{$www_root}{literal}/core/imagemanager/IMEStandalone.js"></script>
@@ -247,7 +256,7 @@
         
         {/foreach}
                 
-        {* Actions - Buttons *}
+        <tfoot> {* Actions - Buttons *}
         
         <tr height="20">
            <td colspan="7">
@@ -260,6 +269,7 @@
                </div>
             </td>
         </tr>
+        </tfoot>
         
         </table>
           

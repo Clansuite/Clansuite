@@ -72,7 +72,8 @@
 
     { * clip.js span * }
     <span id="span_create_user" style="display: none; width: 75%;">
-    
-        {include file="{$www_core_tpl_root}/admin/users/create_new_user.tpl"}
+        
+        {* dieser ausschnitt ist ausgelagert in die folgende datei: *}
+        {include file="create_new_user.tpl"}
     
     </span>
