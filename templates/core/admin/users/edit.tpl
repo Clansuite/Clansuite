@@ -6,6 +6,7 @@
             {* Include des Tabs-Scripts *}
             <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
             <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/tab.winclassic.css" />
+            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />
 {/doc_raw}
 
 <div class="tab-pane" id="tabPane1">
@@ -29,18 +30,17 @@
         <p>This is your profile. You can choose which information to fill out, other than the required section. This information will be displayed in various places throughout {$website_name}. </p>
         
         <form id="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
-            
-          <fieldset > 
-                     
+        <!-- Fieldset Gruppe --> 
+        <fieldset> 
+        <!-- Auszeichnungs- und Steuerelemente -->
+                  
                   Choose New Password:
                   
                   Verify New Password:                   
                   
                   <label for=name accesskey=n>name:</label>
-                                
-                    <input type=text name=name id=name>
-              
-                    
+                  <input type=text name=name id=name>
+                   
                   <label for="select">Gender:</label>
             	  <select name="gernder" id="select">
             		<option value="-----">------</option>
@@ -49,20 +49,21 @@
             	  </select>            
               
                   <label for=email accesskey=e>e-mail address:</label>
-                
                   <input type=text name=email id=email>
               
-                  Birthdate:
-                    
+                  <label for="birthdate">Birthdate:</label>
+                  <input type="text" name="birthdate" id="birthdate">:
+                  <small>Change this to 3 dropwdowns? day-month-year. </small>
+                   
                   <label for="location">Location:</label>
                   <input type="text" name="location" id="location">
                     
                   <label for="nachricht">Description:</label>
-	              <textarea name="desc" rows="5" cols="50" id="desc"></textarea>
-	  
-                    
+                  <textarea name="desc" rows="5" cols="50" id="desc"></textarea>
+	             
               
           </fieldset>
+          
         </form>
         
         {* todo : Debugausgabe nur wenn DEBUG = 1 *}
@@ -100,6 +101,7 @@
         <h3>Contact Information of {$userprofil.0.nick} #{$userprofil.0.user_id}</h3>
         
         <form id="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
+        <!-- Auszeichnungs- und Steuerelemente -->
         <fieldset > 
         <input name="group_id" type="hidden" value="{$contactinfo.user_id}">
                            
@@ -112,16 +114,53 @@
     	   </label>
     	   
     	   <label for="ICQ"> 
-                This is your ICQ number 
+                 ICQ
     			<input id="icq" name="icq" type="text" value="{$contactinfo.icq}" />
+    			<small>This is your ICQ number</small>
     	   </label>
     	   
-    	   <label for="Email "> 
-                Email 
-    			<input id="email" name="email" type="text" value="{$contactinfo.email}" />
+    	   <label for="AIM"> 
+                 AIM
+    			<input id="AIM" name="AIM" type="text" value="{$contactinfo.AIM}" />
+    			<small>This is your AOL Instant Messenger nickname.</small>
     	   </label>
-    		            				
-    		
+    	   
+    	   <label for="YIM"> 
+                 YIM
+    			<input id="YIM" name="YIM" type="text" value="{$contactinfo.YIM}" />
+    			<small>This is your Yahoo! Instant Messenger nickname.</small>
+    	   </label>
+    	   
+    	   <label for="MSN"> 
+                 MSN
+    			<input id="MSN" name="MSN" type="text" value="{$contactinfo.MSN}" />
+    			<small>This is your MSN Instant Messenger address.</small>
+    	   </label>
+    	   
+    	   <label for="Google Talk"> 
+                 Google Talk
+    			<input id="Google Talk" name="Google Talk" type="text" value="{$contactinfo.googletalk}" />
+    			<small>This is your Google Talk address.</small>
+    	   </label>
+    	   
+    	   <label for="Google Talk"> 
+                 Google Talk
+    			<input id="Google Talk" name="Google Talk" type="text" value="{$contactinfo.googletalk}" />
+    			<small>This is your Google Talk address.</small>
+    	   </label>
+    	   
+    	   <label for="Website title"> 
+                 Website title
+    			<input id="Website title" name="Website title" type="text" value="{$contactinfo.website}" />
+    			<small>This must be included if you specify a URL below.</small>
+    	   </label>
+    	   
+    	   <label for="Website URL:"> 
+                 Website title
+    			<input id="Website title" name="Website title" type="text" value="{$contactinfo.website}" />
+    			<small>This must be a complete URL.</small>
+    	   </label>
+    	  
     		<label for="icon">
                 Icon
     			{* <input id="icon" name="icon" type="text" value="iconname?" /> *}
@@ -133,30 +172,6 @@
     			
     	</fieldset>
         </form>
-        
-        
-        Hide
-        
-        :
-        . 	
-
-        AIM:
-        This is your AOL Instant Messenger nickname. 	
-
-        YIM:
-        This is your Yahoo! Instant Messenger nickname. 	
-
-        MSN:
-        This is your MSN Instant Messenger address. 	
-
-        Google Talk:
-        This is your Google Talk address. 	
-
-        Website title:
-        This must be included if you specify a URL below. 	
-
-        Website URL:
-        This must be a complete URL.
         
         {* todo : Debugausgabe nur wenn DEBUG = 1 *}
         {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays: {$contactinfo|@var_dump}  {/if}
