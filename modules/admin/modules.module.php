@@ -268,49 +268,51 @@ class module_admin_modules
         /**
         * @desc Check "CREATE" SQL
         */
-
-        $create_qry = 'CREATE TABLE `' . $db_table . '` (';
-        foreach( $db_cols as $values )
+        if( !empty($submit) AND $db_table != '' )
         {
-            /**
-            * @desc No Special Chars in the names...
-            */
-            if (  ( !$input->check( $values['name']     , 'is_abc|is_int|is_custom', '_' ) OR
-                    !$input->check( $db_table           , 'is_abc|is_int|is_custom', '_' ) ) AND
-                    !empty ( $submit ) )
+            $create_qry = 'CREATE TABLE `' . $db_table . '` (';
+            foreach( $db_cols as $values )
             {
-                $err['sql_no_special_chars'] = 1;
-            }
+                /**
+                * @desc No Special Chars in the names...
+                */
+                if (  ( !$input->check( $values['name']     , 'is_abc|is_int|is_custom', '_' ) OR
+                        !$input->check( $db_table           , 'is_abc|is_int|is_custom', '_' ) ) AND
+                        !empty ( $submit ) )
+                {
+                    $err['sql_no_special_chars'] = 1;
+                }
+                
+                /**
+                * @desc Length as INT
+                */
+                if (  ( !$input->check( $values['length']   , 'is_int' ) ) AND
+                        !empty ( $submit ) )
+                {
+                    $err['sql_int_length'] = 1;
+                }
+                            
+                $length = !empty($values['length']) ? '(' . $values['length'] . ')' : '';
+                $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . $length . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
+            }    
+            $create_qry = preg_replace("/,$/", '', $create_qry);
+            $create_qry .= ') ENGINE = MYISAM ;';
             
             /**
-            * @desc Length as INT
+            * @desc Try the SQL CREATE Statement and give error on false...
             */
-            if (  ( !$input->check( $values['length']   , 'is_int' ) ) AND
-                    !empty ( $submit ) )
+            if( count( $err ) == 0 )
             {
-                $err['sql_int_length'] = 1;
-            }
-                        
-            $length = !empty($values['length']) ? '(' . $values['length'] . ')' : '';
-            $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . $length . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
-        }    
-        $create_qry = preg_replace("/,$/", '', $create_qry);
-        $create_qry .= ') ENGINE = MYISAM ;';
-        
-        /**
-        * @desc Try the SQL CREATE Statement and give error on false...
-        */
-        if( count( $err ) == 0 )
-        {
-            $stmt = $db->prepare($create_qry);
-            try
-            {
-                $stmt->execute();
-            }
-            catch( PDOException $e )
-            {
-                $err['sql_failure'] = 1;
-                $err['sql_message'] = $e->getMessage();
+                $stmt = $db->prepare($create_qry);
+                try
+                {
+                    $stmt->execute();
+                }
+                catch( PDOException $e )
+                {
+                    $err['sql_failure'] = 1;
+                    $err['sql_message'] = $e->getMessage();
+                }
             }
         }
         
