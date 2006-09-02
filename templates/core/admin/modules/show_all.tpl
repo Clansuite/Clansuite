@@ -152,7 +152,7 @@ function checker(checkboxen, caller)
 
 <div id="enter_sub_name" style="position:absolute; border: 1px solid orange; background-color: white; width: 300px; padding: 8px; display:none">
     <center>
-    <input type="text" value="" id="subs_name" size="40"><br />
+    <b>{/literal}{translate}{literal}Name:{/literal}{/translate}{literal}</b>&nbsp;<input class="input_text" type="text" value="" id="subs_name" size="40"><br />
     <input type="checkbox" value="1" name="create_sub_file" id="create_sub_file">Create the submodule file?<br />
     <a href="javascript:sub_add('{$table}', '{$mod_id}', 'check_text_field')">Confirm</a>&nbsp;|&nbsp;<a href="javascript:void(document.getElementById('enter_sub_name').style.display = 'none');">Abort</a><br />
     </center>
