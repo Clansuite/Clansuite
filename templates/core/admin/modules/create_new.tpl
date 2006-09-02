@@ -47,7 +47,6 @@ function str_replace (search, replace, subject)
 function add_col()
 {
     var row_container = document.getElementById('add_col_container').innerHTML;
-    var row_table = document.getElementById('all_cols').innerHTML;
     if( this.key != 0 && !this.key )
     {
         this.key = 2;
@@ -57,8 +56,11 @@ function add_col()
         this.key++;
     }
     row_replaced = str_replace('{$key}', this.key, row_container);
-    row_merged = row_table + row_replaced;
-    document.getElementById('all_cols').innerHTML = row_merged;
+    document.getElementById('add_new').innerHTML = row_replaced;
+    document.getElementById('add_new').id = 'col' + this.key;
+    var newTR = document.createElement("tr");
+    newTR.id = 'add_new';
+    document.getElementById("all_cols").appendChild(newTR);
 }
 
 function rem_col(id)
@@ -70,8 +72,8 @@ function rem_col(id)
 </script>
 {/doc_raw}
 
-<table id="add_col_container" style="display: none">
-    <tr id="col{literal}{$key}{/literal}">
+<table style="display: none">
+    <tr id="add_col_container">
         <td class="cell1" width="50" align="center">
             <b>{translate}Col{/translate} #{literal}{$key}{/literal}:</b>
         </td>
@@ -80,7 +82,7 @@ function rem_col(id)
         </td>
         <td class="cell1" align="center" width="50">
             <select name="db_cols[{literal}{$key}{/literal}][type]">
-                <option value="VARCHAR" selected>VARCHAR</option>
+                <option value="VARCHAR">VARCHAR</option>
                 <option value="TINYINT">TINYINT</option>
 
                 <option value="TEXT">TEXT</option>
@@ -130,9 +132,9 @@ function rem_col(id)
         <td class="cell2" width="50" align="center">
             <select name="db_cols[{literal}{$key}{/literal}][keys]">
                 <option value="" selected></option>
-                <option value="primary">{translate}primary{/translate}</option>
-                <option value="index">{translate}index{/translate}</option>
-                <option value="unique">{translate}unique{/translate}</option>
+                <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
+                <option value="INDEX">{translate}INDEX{/translate}</option>
+                <option value="UNIQUE">{translate}UNIQUE{/translate}</option>
             </select>
         </td>
         <td class="cell1" align="center">
@@ -270,16 +272,16 @@ function rem_col(id)
                         <td class="cell1" width="50" align="center">
                             <select name="db_cols[{$key}][extras]">
                                 <option value="" selected></option>
-                                <option value="auto_increment">{translate}auto_increment{/translate}</option>
+                                <option value="AUTO_INCREMENT">{translate}AUTO_INCREMENT{/translate}</option>
                             </select>
                         </td>
                         
                         <td class="cell2" width="50" align="center">
                             <select name="db_cols[{$key}][keys]">
                                 <option value="" selected></option>
-                                <option value="primary">{translate}primary{/translate}</option>
-                                <option value="index">{translate}index{/translate}</option>
-                                <option value="unique">{translate}unique{/translate}</option>
+                                <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
+                                <option value="INDEX">{translate}INDEX{/translate}</option>
+                                <option value="UNIQUE">{translate}UNIQUE{/translate}</option>
                             </select>
                         </td>
                         <td class="cell1" align="center">
@@ -347,9 +349,9 @@ function rem_col(id)
                         <td class="cell2" width="50" align="center">
                             <select name="db_cols[1][keys]">
                                 <option value="" selected></option>
-                                <option value="primary">{translate}primary{/translate}</option>
-                                <option value="index">{translate}index{/translate}</option>
-                                <option value="unique">{translate}unique{/translate}</option>
+                                <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
+                                <option value="INDEX">{translate}INDEX{/translate}</option>
+                                <option value="UNIQUE">{translate}UNIQUE{/translate}</option>
                             </select>
                         </td>
                         <td class="cell1" align="center">
@@ -357,6 +359,9 @@ function rem_col(id)
                         </td>
                     </tr>
                 {/if}
+                    <tr id="add_new">
+                    
+                    </tr>                
                 </table>
             </td>
             </tr>

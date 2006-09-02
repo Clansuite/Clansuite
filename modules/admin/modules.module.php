@@ -1,6 +1,6 @@
 <?php
 /**
-* Admin Configs Module Handler Class
+* Module Handler Class
 *
 * PHP versions 5.1.4
 *
@@ -37,7 +37,7 @@ if (!defined('IN_CS'))
 }
 
 /**
-* @desc Admin Module - Config Class
+* @desc Module Class
 */
 class module_admin_modules
 {
@@ -293,8 +293,10 @@ class module_admin_modules
                 }
                             
                 $length = !empty($values['length']) ? '(' . $values['length'] . ')' : '';
-                $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . $length . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
-            }    
+                
+                $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . $length . ' NOT NULL ' . $values['extra'] . ' ,' . $values['keys'] . '(`' . $values['name'] . '`) ,';
+            }
+            
             $create_qry = preg_replace("/,$/", '', $create_qry);
             $create_qry .= ') ENGINE = MYISAM ;';
             
