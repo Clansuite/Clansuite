@@ -44,6 +44,7 @@ class module_admin_static
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
+    public $suppress_wrapper= '';
     private $used = array();
     
     /**
@@ -87,7 +88,8 @@ class module_admin_static
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
-                      'ADDITIONAL_HEAD' => $this->additional_head );
+                      'ADDITIONAL_HEAD' => $this->additional_head,
+                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
 
     /**

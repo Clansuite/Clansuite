@@ -1,8 +1,9 @@
 <?php
 /**
-* Usercenter Modul
+* settings
+* This is the Admin Control Panel
 *
-* PHP versions 5.1.4
+* PHP >= version 5.1.4
 *
 * LICENSE:
 *
@@ -22,10 +23,13 @@
 * @author     Florian Wolf <xsign.dll@clansuite.com>
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
-* @license    ???
-* @version    SVN: $Id$
 * @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
+*
+* @author     Jens-André Koch, Florian Wolf
+* @copyright  Clansuite Group
+* @license    GPL v2
+* @version    SVN: $Id$
+* @link       http://www.clansuite.com
 */
 
 /**
@@ -37,37 +41,43 @@ if (!defined('IN_CS'))
 }
 
 /**
-* @desc Admin Module - Config Class
+* @desc Start module class
 */
-class module_admin_usercenter
+class module_admin_settings
 {
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
-    
+
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loading necessary language files
+    * @desc Loads necessary language files
     */
 
     function auto_run()
     {
-        global $lang;
         
-        $this->mod_page_title = $lang->t('Control Center - Usercenter' );
+        global $lang;
+        $params = func_get_args();
+        
+        // Construct Page Title        
+        $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         {
-            case 'usercenter':
-                $this->mod_page_title = $lang->t( 'Show usercenter' );
-                $this->show_usercenter();
+            case 'show':
+                $this->mod_page_title .= $lang->t( 'Show' );
+                $this->show();
                 break;
-         
+
+            case 'instant_show':
+                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+                break;
+                
             default:
-                $this->mod_page_title = $lang->t( 'Show usercenter' );
-                $this->show_usercenter();
-            break;
+                $this->show();
+                break;
         }
         
         return array( 'OUTPUT'          => $this->output,
@@ -75,34 +85,32 @@ class module_admin_usercenter
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
-    
+
+    /**
+    * @desc Show the entrance - welcome message etc.
+    */
+    function show()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+    }
     
     /**
-    * @desc Show all users
+    * @desc This content can be instantly displayed by adding {mod name="settings" func="instant_show" params="mytext"} into a template
+    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
     */
-
-    function show_usercenter()
+    function instant_show($my_text)
     {
-        global $db, $tpl, $error, $lang;
-
-                                                                                 // ?
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = 1' );
-        //$stmt->execute( array ( $SESSION[user][user_id] ) );
-        $stmt->execute();
-        $usercenterdata = $stmt->fetchAll(PDO::FETCH_NAMED);
-                    
-        if ( is_array( $usercenterdata ) )
-        {
-            $tpl->assign('usercenterdata', $usercenterdata);
-        }
-        else
-        {
-        $this->output .= 'There was an error while acquiring the usercenter-data.';
-        }
-       
-        $this->output .= $tpl->fetch('admin/usercenter/usercenter.tpl');
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t($my_text);
     }
-   
-    
 }
 ?>

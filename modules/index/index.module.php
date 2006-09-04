@@ -44,6 +44,7 @@ class module_index
     public $output     = '';
     public $mod_page_title     = '';
     public $additional_head = '';
+    public $suppress_wrapper= '';
 
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
