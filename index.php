@@ -222,23 +222,30 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
 * @desc Admin module <-> Normal module
+* @desc Suppress Wrapper ?
 */
-$_REQUEST['mod']=='admin' ? $tpl->displayDoc('admin/index.tpl') : $tpl->displayDoc($cfg->tpl_wrapper_file);
-
-/**
-* @desc Show Debug Console
-*/
-DEBUG ? $debug->show_console() : '';
-
-/**
-* @desc DB Cleanup (hmm...?!)
-*/
-/*
-if( is_object($db->query_active_reference) )
+if ( $content['SUPPRESS_WRAPPER'] == true )
 {
-    $db->query_active_reference->closeCursor();
-    $db->query_active_reference = NULL;
+    echo $content['OUTPUT'];
 }
-*/
+else
+{    
+    /**
+    * @desc Admin module <-> Normal module
+    */
+    if ( $_REQUEST['mod'] == 'admin' )
+    {
+        $tpl->displayDoc('admin/index.tpl');
+    }
+    else
+    {
+        $tpl->displayDoc($cfg->tpl_wrapper_file);
+    }
+
+    /**
+    * @desc Show Debug Console
+    */
+    DEBUG ? $debug->show_console() : '';
+}
 
 ?>

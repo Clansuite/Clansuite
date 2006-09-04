@@ -99,7 +99,7 @@ FCKEditingArea.prototype.Start = function( html, secondCall )
 		var eTextarea = this.Textarea = oTargetDocument.createElement( 'textarea' ) ; 
 		eTextarea.className = 'SourceField' ;
 		eTextarea.dir = 'ltr' ;
-		eTextarea.style.width = eTextarea.style.height = '100%' ;
+		eTextarea.style.width = eTextarea.style.height = 100% ;
 		eTextarea.style.border = 'none' ;
 		eTargetElement.appendChild( eTextarea ) ;
 

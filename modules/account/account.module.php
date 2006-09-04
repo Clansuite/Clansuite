@@ -45,6 +45,7 @@ class module_account
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
+    public $suppress_wrapper= '';
     
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
@@ -117,7 +118,8 @@ class module_account
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
-                      'ADDITIONAL_HEAD' => $this->additional_head );
+                      'ADDITIONAL_HEAD' => $this->additional_head,
+                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
     
     /**

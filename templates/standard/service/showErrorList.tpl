@@ -1,7 +1,7 @@
-﻿{*** 
+{*** 
 	Dieses Template wird aufgerufen, sobald
 	bei einer Formularvalidierung Fehler aufgetreten sind
-	und als Liste angezeigt werden m�ssen
+	und als Liste angezeigt werden m�ssen
 ***}
 
 {*** Ist die übergebene ErrorListe nicht leer? ***}

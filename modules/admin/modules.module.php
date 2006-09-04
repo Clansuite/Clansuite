@@ -44,6 +44,7 @@ class module_admin_modules
     public $output          = '';
     public $mod_page_title  = '';
     public $additional_head = '';
+    public $suppress_wrapper= '';
     private $used = array();
     
     /**
@@ -105,7 +106,8 @@ class module_admin_modules
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
-                      'ADDITIONAL_HEAD' => $this->additional_head );
+                      'ADDITIONAL_HEAD' => $this->additional_head,
+                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
     
     /**
@@ -976,6 +978,8 @@ class module_admin_modules
         
         foreach ( $info_array as $info )
         {
+            $info['enabled'] = !empty($info['enabled']) ? $info['enabled'] : 0;
+            $info['core'] = !empty($info['core']) ? $info['core'] : 0;
             if ( $info['add'] == 1 )
             {
                 $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
