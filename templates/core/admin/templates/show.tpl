@@ -178,7 +178,7 @@ Loading...
     <td valign="top" width="250">
         <div class="DynamicTree">
             <div class="wrap1">
-                <div class="top">{translate}Adminmenu{/translate}</div>
+                <div class="top">{translate}Template Folder{/translate}</div>
                 <div class="wrap2" id="tree">
                     {$folder_tree}
                 </div>
