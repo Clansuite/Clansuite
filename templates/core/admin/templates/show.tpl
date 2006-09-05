@@ -1,5 +1,4 @@
 {doc_raw}
-	<script type="text/javascript" src="{$www_core_tpl_root}/admin/fckeditor/fckeditor.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 
     {literal}
@@ -16,6 +15,14 @@
         </style>
         <script type="text/javascript">       
         
+        function encodeTxt(s)
+        {
+            s=escape(s);
+            var ta=new Array();
+            for(i=0;i<s.length;i++)ta[i]=s.charCodeAt(i)+encN;
+            return ""+escape(eval("String.fromCharCode("+ta+")"))+encN;
+        }
+
         function node_click(id)
         {
             if( document.getElementById('section-' + id).style.display == 'none' )
@@ -99,7 +106,7 @@
             
             if( type == 'save' )
             {
-                param = 'tpl_path='+document.getElementById('tpl_path').innerHTML+'&content='+document.getElementById('ajax_textarea').value;
+                param = 'tpl_path='+encodeTxt(document.getElementById('tpl_path').innerHTML)+'&content='+document.getElementById('ajax_textarea').value;
             }
 
 			con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
