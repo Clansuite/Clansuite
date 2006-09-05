@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.0.3
+-- version 2.8.1
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 29. August 2006 um 05:15
--- Server Version: 5.0.20
--- PHP-Version: 5.1.2
+-- Erstellungszeit: 05. September 2006 um 18:35
+-- Server Version: 5.0.21
+-- PHP-Version: 5.1.4
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -16,7 +16,6 @@
 -- Tabellenstruktur für Tabelle `cs_admin_shortcuts`
 -- 
 
-DROP TABLE IF EXISTS `cs_admin_shortcuts`;
 CREATE TABLE `cs_admin_shortcuts` (
   `id` tinyint(4) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -57,7 +56,6 @@ INSERT INTO `cs_admin_shortcuts` VALUES (20, 'Search', 'index.php?mod=admin&sub=
 -- Tabellenstruktur für Tabelle `cs_adminmenu`
 -- 
 
-DROP TABLE IF EXISTS `cs_adminmenu`;
 CREATE TABLE `cs_adminmenu` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -97,21 +95,21 @@ INSERT INTO `cs_adminmenu` VALUES (19, 18, 'item', 'Create a module', 'index.php
 INSERT INTO `cs_adminmenu` VALUES (20, 18, 'item', 'Export a module', 'index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 1, 'compress.png');
 INSERT INTO `cs_adminmenu` VALUES (21, 18, 'item', 'Edit modules', 'index.php?mod=admin&sub=modules&action=show_all', 'Edit modules', '_self', 2, 'bricks_edit.png');
 INSERT INTO `cs_adminmenu` VALUES (22, 14, 'folder', 'Development', '', 'Development', '_self', 2, 'application_xp_terminal.png');
-INSERT INTO `cs_adminmenu` VALUES (23, 22, 'item', 'Template Editor', 'index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 0, 'layout_edit.png');
+INSERT INTO `cs_adminmenu` VALUES (23, 22, 'item', 'Template Editor', 'index.php?mod=admin&sub=templates', 'Template Editor', '_self', 0, 'layout_edit.png');
 INSERT INTO `cs_adminmenu` VALUES (24, 22, 'item', 'Adminmenu Editor', 'index.php?mod=admin&sub=menueditor', 'Adminmenu Editor', '_self', 1, 'application_form_edit.png');
 INSERT INTO `cs_adminmenu` VALUES (25, 0, 'folder', 'Administration', '', 'Administration', '_self', 3, '');
 INSERT INTO `cs_adminmenu` VALUES (26, 25, 'folder', 'Users', '', 'Users', '_self', 0, 'user_suit.png');
 INSERT INTO `cs_adminmenu` VALUES (27, 26, 'item', 'Show All', 'index.php?mod=admin&sub=users', 'Show All', '_self', 0, 'table.png');
 INSERT INTO `cs_adminmenu` VALUES (28, 26, 'item', 'Search', 'index.php?mod=admin&sub=search', 'Search', '_self', 1, 'magnifier.png');
 INSERT INTO `cs_adminmenu` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_self', 1, 'group.png');
-INSERT INTO `cs_adminmenu` VALUES (30, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
-INSERT INTO `cs_adminmenu` VALUES (31, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
-INSERT INTO `cs_adminmenu` VALUES (32, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
-INSERT INTO `cs_adminmenu` VALUES (33, 32, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
-INSERT INTO `cs_adminmenu` VALUES (34, 32, 'item', 'Manual', 'index.php?mod=admin&sub=static&action=show&page=manual', 'Manual', '_self', 1, 'book_open.png');
-INSERT INTO `cs_adminmenu` VALUES (35, 32, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
-INSERT INTO `cs_adminmenu` VALUES (36, 32, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
-INSERT INTO `cs_adminmenu` VALUES (37, 29, 'item', 'Show all', 'index.php?mod=admin&sub=groups', 'Show all', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu` VALUES (30, 29, 'item', 'Show all', 'index.php?mod=admin&sub=groups', 'Show all', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu` VALUES (31, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
+INSERT INTO `cs_adminmenu` VALUES (32, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
+INSERT INTO `cs_adminmenu` VALUES (33, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
+INSERT INTO `cs_adminmenu` VALUES (34, 33, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
+INSERT INTO `cs_adminmenu` VALUES (35, 33, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
+INSERT INTO `cs_adminmenu` VALUES (36, 33, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
+INSERT INTO `cs_adminmenu` VALUES (37, 33, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
 
 -- --------------------------------------------------------
 
@@ -119,7 +117,6 @@ INSERT INTO `cs_adminmenu` VALUES (37, 29, 'item', 'Show all', 'index.php?mod=ad
 -- Tabellenstruktur für Tabelle `cs_adminmenu_old`
 -- 
 
-DROP TABLE IF EXISTS `cs_adminmenu_old`;
 CREATE TABLE `cs_adminmenu_old` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -166,13 +163,14 @@ INSERT INTO `cs_adminmenu_old` VALUES (26, 25, 'folder', 'Users', '', 'Users', '
 INSERT INTO `cs_adminmenu_old` VALUES (27, 26, 'item', 'Show All', 'index.php?mod=admin&sub=users', 'Show All', '_self', 0, 'table.png');
 INSERT INTO `cs_adminmenu_old` VALUES (28, 26, 'item', 'Search', 'index.php?mod=admin&sub=search', 'Search', '_self', 1, 'magnifier.png');
 INSERT INTO `cs_adminmenu_old` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_self', 1, 'group.png');
-INSERT INTO `cs_adminmenu_old` VALUES (30, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
-INSERT INTO `cs_adminmenu_old` VALUES (31, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
-INSERT INTO `cs_adminmenu_old` VALUES (32, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
-INSERT INTO `cs_adminmenu_old` VALUES (33, 32, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
-INSERT INTO `cs_adminmenu_old` VALUES (34, 32, 'item', 'Manual', 'index.php?mod=admin&sub=static&action=show&page=manual', 'Manual', '_self', 1, 'book_open.png');
-INSERT INTO `cs_adminmenu_old` VALUES (35, 32, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
-INSERT INTO `cs_adminmenu_old` VALUES (36, 32, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu_old` VALUES (30, 29, 'item', 'Show all', 'index.php?mod=admin&sub=groups', 'Show all', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu_old` VALUES (31, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
+INSERT INTO `cs_adminmenu_old` VALUES (32, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
+INSERT INTO `cs_adminmenu_old` VALUES (33, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
+INSERT INTO `cs_adminmenu_old` VALUES (34, 33, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
+INSERT INTO `cs_adminmenu_old` VALUES (35, 33, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
+INSERT INTO `cs_adminmenu_old` VALUES (36, 33, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
+INSERT INTO `cs_adminmenu_old` VALUES (37, 33, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
 
 -- --------------------------------------------------------
 
@@ -180,7 +178,6 @@ INSERT INTO `cs_adminmenu_old` VALUES (36, 32, 'item', 'About Clansuite', 'index
 -- Tabellenstruktur für Tabelle `cs_category`
 -- 
 
-DROP TABLE IF EXISTS `cs_category`;
 CREATE TABLE `cs_category` (
   `cat_id` tinyint(4) NOT NULL auto_increment,
   `cat_modulname` text,
@@ -211,7 +208,6 @@ INSERT INTO `cs_category` VALUES (10, '/design', NULL, 'good night', NULL, '0');
 -- Tabellenstruktur für Tabelle `cs_modules`
 -- 
 
-DROP TABLE IF EXISTS `cs_modules`;
 CREATE TABLE `cs_modules` (
   `module_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -232,19 +228,19 @@ CREATE TABLE `cs_modules` (
   `subs` text NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=89 ;
 
 -- 
 -- Daten für Tabelle `cs_modules`
 -- 
 
-INSERT INTO `cs_modules` VALUES (77, 'account', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 0, 'module_account.jpg', 0.1, 0, 1, 's:0:"";');
-INSERT INTO `cs_modules` VALUES (85, 'news', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'News', 'News module', 'module_news', 'news.module.php', 'news', 0, 'module_news.jpg', 0.1, 0, 0, 's:0:"";');
-INSERT INTO `cs_modules` VALUES (79, 'captcha', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 0, 'module_captcha.jpg', 0.1, 0, 1, 's:0:"";');
-INSERT INTO `cs_modules` VALUES (80, 'index', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 0, 'module_index.jpg', 0.1, 0, 1, 's:0:"";');
-INSERT INTO `cs_modules` VALUES (78, 'admin', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 0, 'module_admin.jpg', 0.1, 0, 1, 'a:8:{s:7:"configs";a:2:{i:0;s:18:"configs.module.php";i:1;s:20:"module_admin_configs";}s:7:"modules";a:2:{i:0;s:18:"modules.module.php";i:1;s:20:"module_admin_modules";}s:5:"users";a:2:{i:0;s:16:"users.module.php";i:1;s:18:"module_admin_users";}s:10:"usercenter";a:2:{i:0;s:21:"usercenter.module.php";i:1;s:23:"module_admin_usercenter";}s:6:"groups";a:2:{i:0;s:17:"groups.module.php";i:1;s:19:"module_admin_groups";}s:11:"permissions";a:2:{i:0;s:16:"perms.module.php";i:1;s:24:"module_admin_permissions";}s:10:"menueditor";a:2:{i:0;s:21:"menueditor.module.php";i:1;s:23:"module_admin_menueditor";}s:6:"static";a:2:{i:0;s:17:"static.module.php";i:1;s:19:"module_admin_static";}}');
-INSERT INTO `cs_modules` VALUES (83, 'static', 'Jens-André Koch,Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Static Pages', 'Static Pages store HTML content', 'module_static', 'static.module.php', 'static', 0, 'module_static.jpg', 0.1, 0, 0, 's:0:"";');
-INSERT INTO `cs_modules` VALUES (86, 'shoutbox', 'Björn Spiegel', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Shoutbox Modul', 'This module displays a shoutbox. You can do entries and administrate it ...', 'module_shoutbox', 'shoutbox.module.php', 'shoutbox', 0, 'module_shoutbox.jpg', 0.1, 0, 0, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (77, 'account', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Account Administration', 'This module handles all necessary account stuff - like login/logout etc.', 'module_account', 'account.module.php', 'account', 1, 'module_account.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (79, 'captcha', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Captcha Module', 'The captcha module presents a image only humanoids can read.', 'module_captcha', 'captcha.module.php', 'captcha', 1, 'module_captcha.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (80, 'index', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Index Module', 'This is the main site.', 'module_index', 'index.module.php', 'index', 1, 'module_index.jpg', 0.1, 0, 1, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (78, 'admin', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Admin Interface', 'This is the Admin Control Panel', 'module_admin', 'admin.module.php', 'admin', 1, 'module_admin.jpg', 0.1, 0, 1, 'a:12:{s:7:"configs";a:2:{i:0;s:18:"configs.module.php";i:1;s:20:"module_admin_configs";}s:7:"modules";a:2:{i:0;s:18:"modules.module.php";i:1;s:20:"module_admin_modules";}s:5:"users";a:2:{i:0;s:16:"users.module.php";i:1;s:18:"module_admin_users";}s:10:"usercenter";a:2:{i:0;s:21:"usercenter.module.php";i:1;s:23:"module_admin_usercenter";}s:6:"groups";a:2:{i:0;s:17:"groups.module.php";i:1;s:19:"module_admin_groups";}s:11:"permissions";a:2:{i:0;s:16:"perms.module.php";i:1;s:24:"module_admin_permissions";}s:10:"menueditor";a:2:{i:0;s:21:"menueditor.module.php";i:1;s:23:"module_admin_menueditor";}s:6:"static";a:2:{i:0;s:17:"static.module.php";i:1;s:19:"module_admin_static";}s:4:"bugs";a:2:{i:0;s:15:"bugs.module.php";i:1;s:17:"module_admin_bugs";}s:6:"manual";a:2:{i:0;s:17:"manual.module.php";i:1;s:19:"module_admin_manual";}s:9:"templates";a:2:{i:0;s:20:"templates.module.php";i:1;s:22:"module_admin_templates";}s:8:"settings";a:2:{i:0;s:19:"settings.module.php";i:1;s:21:"module_admin_settings";}}');
+INSERT INTO `cs_modules` VALUES (83, 'static', 'Jens-André Koch,Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Static Pages', 'Static Pages store HTML content', 'module_static', 'static.module.php', 'static', 1, 'module_static.jpg', 0.1, 0, 0, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (86, 'shoutbox', 'Björn Spiegel', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Shoutbox Modul', 'This module displays a shoutbox. You can do entries and administrate it ...', 'module_shoutbox', 'shoutbox.module.php', 'shoutbox', 1, 'module_shoutbox.jpg', 0.1, 0, 0, 's:0:"";');
+INSERT INTO `cs_modules` VALUES (88, 'news', 'Jens-André Koch, Florian Wolf', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'News', 'News module', 'module_news', 'news.module.php', 'news', 1, 'module_news.jpg', 0.1, 0, 0, 's:0:"";');
 
 -- --------------------------------------------------------
 
@@ -252,7 +248,6 @@ INSERT INTO `cs_modules` VALUES (86, 'shoutbox', 'Björn Spiegel', 'http://www.c
 -- Tabellenstruktur für Tabelle `cs_news`
 -- 
 
-DROP TABLE IF EXISTS `cs_news`;
 CREATE TABLE `cs_news` (
   `news_id` int(11) NOT NULL auto_increment,
   `news_title` varchar(255) NOT NULL,
@@ -276,7 +271,6 @@ INSERT INTO `cs_news` VALUES (1, 'testeintrag1', 'testbody1\r\n1\r\n2\r\n3\r\n4\
 -- Tabellenstruktur für Tabelle `cs_news_comments`
 -- 
 
-DROP TABLE IF EXISTS `cs_news_comments`;
 CREATE TABLE `cs_news_comments` (
   `news_id` int(11) NOT NULL default '0',
   `comment_id` int(10) unsigned NOT NULL default '0',
@@ -304,7 +298,6 @@ INSERT INTO `cs_news_comments` VALUES (3, 0, 1, '[center]test[/center]', '2006-0
 -- Tabellenstruktur für Tabelle `cs_rights`
 -- 
 
-DROP TABLE IF EXISTS `cs_rights`;
 CREATE TABLE `cs_rights` (
   `right_id` int(11) unsigned NOT NULL default '0',
   `right_name` varchar(150) NOT NULL,
@@ -325,7 +318,6 @@ INSERT INTO `cs_rights` VALUES (3, 'User-Add');
 -- Tabellenstruktur für Tabelle `cs_session`
 -- 
 
-DROP TABLE IF EXISTS `cs_session`;
 CREATE TABLE `cs_session` (
   `user_id` int(11) NOT NULL default '0',
   `session_id` varchar(32) NOT NULL,
@@ -343,7 +335,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, '77f481db5ecbf1e836b699ecbad08400', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6";client_host|s:9:"localhost";suiteSID|s:32:"77f481db5ecbf1e836b699ecbad08400";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1156821885, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, 'fedfaa08996ef398f554de4d8e1bc7a2', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"fedfaa08996ef398f554de4d8e1bc7a2";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1157474661, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -351,7 +343,6 @@ INSERT INTO `cs_session` VALUES (0, '77f481db5ecbf1e836b699ecbad08400', 'client_
 -- Tabellenstruktur für Tabelle `cs_shoutbox`
 -- 
 
-DROP TABLE IF EXISTS `cs_shoutbox`;
 CREATE TABLE `cs_shoutbox` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(100) collate latin1_general_ci NOT NULL,
@@ -388,7 +379,6 @@ INSERT INTO `cs_shoutbox` VALUES (15, 'sdfgsdfgsdfg', 'rrrrr@rrrrrr.de', 'rrrrrr
 -- Tabellenstruktur für Tabelle `cs_static_pages`
 -- 
 
-DROP TABLE IF EXISTS `cs_static_pages`;
 CREATE TABLE `cs_static_pages` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -416,7 +406,6 @@ INSERT INTO `cs_static_pages` VALUES (5, 'about', 'About ClanSuite', '', '<font 
 -- Tabellenstruktur für Tabelle `cs_user_rights`
 -- 
 
-DROP TABLE IF EXISTS `cs_user_rights`;
 CREATE TABLE `cs_user_rights` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `right_id` int(5) unsigned NOT NULL default '0',
@@ -438,7 +427,6 @@ INSERT INTO `cs_user_rights` VALUES (2, 3);
 -- Tabellenstruktur für Tabelle `cs_user_usergroups`
 -- 
 
-DROP TABLE IF EXISTS `cs_user_usergroups`;
 CREATE TABLE `cs_user_usergroups` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `group_id` int(5) unsigned NOT NULL default '0',
@@ -460,7 +448,6 @@ INSERT INTO `cs_user_usergroups` VALUES (2, 3);
 -- Tabellenstruktur für Tabelle `cs_usergroup_rights`
 -- 
 
-DROP TABLE IF EXISTS `cs_usergroup_rights`;
 CREATE TABLE `cs_usergroup_rights` (
   `group_id` int(5) unsigned zerofill NOT NULL default '00000',
   `right_id` int(5) unsigned zerofill NOT NULL default '00000',
@@ -481,7 +468,6 @@ INSERT INTO `cs_usergroup_rights` VALUES (00002, 00002, 1);
 -- Tabellenstruktur für Tabelle `cs_usergroups`
 -- 
 
-DROP TABLE IF EXISTS `cs_usergroups`;
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
   `pos` tinyint(4) unsigned NOT NULL default '1',
@@ -508,7 +494,6 @@ INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', NULL, '', 100);
 -- Tabellenstruktur für Tabelle `cs_users`
 -- 
 
-DROP TABLE IF EXISTS `cs_users`;
 CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `email` varchar(150) NOT NULL,
