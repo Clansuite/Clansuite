@@ -470,23 +470,26 @@ INSERT INTO `cs_usergroup_rights` VALUES (00002, 00002, 1);
 
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
-  `pos` tinyint(4) unsigned NOT NULL default '1',
+  `pos` int(4) unsigned NOT NULL default '1',
   `name` varchar(75) default NULL,
+  `description` varchar(255) NOT NULL,
   `icon` varchar(255) default NULL,
-  `colour` varchar(10) NOT NULL,
-  `posts` tinyint(5) default '0',
+  `colour` varchar(7) NOT NULL,
+  `posts` int(4) default '0',
   PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- 
 -- Daten für Tabelle `cs_usergroups`
 -- 
 
-INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', NULL, '0000FF', NULL);
-INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsgruppe', NULL, '00FF00', NULL);
-INSERT INTO `cs_usergroups` VALUES (3, 3, 'Gästebuchgruppe', NULL, '', NULL);
-INSERT INTO `cs_usergroups` VALUES (4, 0, 'Newbie', NULL, '', 50);
-INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', NULL, '', 100);
+INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', '', NULL, '#CC0000', NULL);
+INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsadministration', 'Administration of Modul: News', NULL, '#009966', NULL);
+INSERT INTO `cs_usergroups` VALUES (3, 3, 'Guestsbook Administration', 'Administration of Modul: Guestbook', NULL, '#990033', NULL);
+INSERT INTO `cs_usergroups` VALUES (4, 0, 'Newbie', '', '1star.gif', '', 50);
+INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', '', '2star.gif', '', 100);
+INSERT INTO `cs_usergroups` VALUES (6, 1, 'Groupsadministration', 'Administration of Usergroups', '', '#0066FF', NULL);
+
 
 -- --------------------------------------------------------
 
