@@ -14,9 +14,9 @@ var arrow2 = new Image(4, 7);
 arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
 </script>
 
-<div id="menugradient">
+<div class="menugradient">
 
-    <div id="bar" class="bar">
+    <div class="bar">
     
         <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu" width="100%">
             <tr>
@@ -44,18 +44,13 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
         </table>
         
         <script type="text/javascript">
-        var menu1 = new XulMenu("menu1");
-        menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
-        menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
-        menu1.init();
+            var menu1 = new XulMenu("menu1");
+            menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
+            menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
+            menu1.init();
         </script>
     
     </div>
-            <!--
-            <input type="text" name="searchField" value="" />
-            <select name="searchWhat"><option value="">Articles</option><option value="">Links</option><option value="">PHP Manual</option></select>
-            <input type="button" value="Search" />
-            //--> 
     
 </div>
 <!-- end: Menu- Kopfzeile 2 //-->

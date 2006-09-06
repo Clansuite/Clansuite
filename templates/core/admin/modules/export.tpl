@@ -86,7 +86,7 @@
 
     <td class="cell1" align="center">
     <b>{$wert.title}</b><br />
-    <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
+    <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
     </td>
     
     <td class="cell2">

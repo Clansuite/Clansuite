@@ -39,7 +39,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <div id="wrap">
 
-<div id="header">
+<div class="header">
 <h1>andreas01</h1>
 <p><strong>"I can see you fly. You are an angel with wings, high above the ground!"</strong><br />(traditional haiku poem)</p>
 </div>
@@ -103,7 +103,7 @@ All Impressions: {$stats_all_impressions}<br />
 
 </div>
 
-<div id="content">
+<div class="content">
 <h2>Welcome to andreas01!</h2>
 
 <p>

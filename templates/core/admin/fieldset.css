@@ -17,7 +17,7 @@ h3
 
 /* IDs */
 
-#h3sForm fieldset
+.h3sForm fieldset
 {
 	display: block;
 	width: 17em;
@@ -26,51 +26,51 @@ h3
 	background-color: #EEEEEE;
 }
 
-#h3sForm fieldset.submit
+.h3sForm fieldset.submit
 {
 	border: none;
 	background-color: transparent;
 	text-align: center;
 }
 
-#h3sForm fieldset.radio
+.h3sForm fieldset.radio
 {
 	width: 15em;
 	margin: 1em 0 2em 0;
 	background-color: #DDDDDD;
 }
 
-#h3sForm fieldset.radio input
+.h3sForm fieldset.radio input
 {
 	clear: both;
 	float: left;
 	width: auto;
 }
 
-#h3sForm fieldset.radio label
+.h3sForm fieldset.radio label
 {
 	font-weight: normal;
 }
 
-#h3sForm input
+.h3sForm input
 {
 	display: block;
 	width: 15em;
 }
 
-#h3sForm label
+.h3sForm label
 {
 	display: block;
 	margin-bottom: 1em;
 	font-weight: bold;
 }
 
-#h3sForm select
+.h3sForm select
 {
 	display: block;
 }
 
-#noBordersForm fieldset
+.noBordersForm fieldset
 {
 	display: block;
 	width: 17em;
@@ -80,56 +80,56 @@ h3
 	background-color: #EEEEEE;
 }
 
-#noBordersForm fieldset.submit
+.noBordersForm fieldset.submit
 {
 	border: none;
 	background-color: transparent;
 	text-align: center;
 }
 
-#noBordersForm fieldset.radio
+.noBordersForm fieldset.radio
 {
 	width: 15em;
 	margin: 1em 0 2em 0;
 	background-color: #DDDDDD;
 }
 
-#noBordersForm fieldset.radio input
+.noBordersForm fieldset.radio input
 {
 	clear: both;
 	float: left;
 	width: auto;
 }
 
-#noBordersForm fieldset.radio label
+.noBordersForm fieldset.radio label
 {
 	font-weight: normal;
 }
 
-#noBordersForm input
+.noBordersForm input
 {
 	display: block;
 	width: 15em;
 }
 
-#noBordersForm label
+.noBordersForm label
 {
 	display: block;
 	margin-bottom: 1em;
 	font-weight: bold;
 }
 
-#noBordersForm legend
+.noBordersForm legend
 {
 	font-style: italic;
 }
 
-#noBordersForm select
+.noBordersForm select
 {
 	display: block;
 }
 
-#simplyForm fieldset
+.simplyForm fieldset
 {
 	display: block;
 	width: 17em;
@@ -138,46 +138,46 @@ h3
 	background-color: #EEEEEE;
 }
 
-#simplyForm fieldset.submit
+.simplyForm fieldset.submit
 {
 	border: none;
 	background-color: transparent;
 	text-align: center;
 }
 
-#simplyForm fieldset.radio
+.simplyForm fieldset.radio
 {
 	width: 15em;
 	margin: 1em 0 2em 0;
 	background-color: #DDDDDD;
 }
 
-#simplyForm fieldset.radio label
+.simplyForm fieldset.radio label
 {
 	font-weight: normal;
 }
 
-#simplyForm fieldset.radio input
+.simplyForm fieldset.radio input
 {
 	clear: both;
 	float: left;
 	width: auto;
 }
 
-#simplyForm input
+.simplyForm input
 {
 	display: block;
 	width: 15em;
 }
 
-#simplyForm label
+.simplyForm label
 {
 	display: block;
 	margin-bottom: 1em;
 	font-weight: bold;
 }
 
-#simplyForm select
+.simplyForm select
 {
 	display: block;
 }

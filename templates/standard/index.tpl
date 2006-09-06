@@ -44,7 +44,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <tr>
     <td height="180">
 
-        <div id="bar">
+        <div class="bar">
             <center>
                 <img src="{$www_tpl_root}/images/clansuite-header.png">
             </center>
@@ -62,21 +62,21 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
-    <td id="header" width="10px">
+    <td class="header" width="10px">
         Menu
     </td>
     
-    <td id="header">
+    <td class="header">
         Content
     </td>
     
-    <td id="header" width="200px">
+    <td class="header" width="200px">
         Infos
     </td>
 </tr>
 <tr>
-    <td id="bar" width="10px" height="300">
-        <div id="left_menu">
+    <td class="bar" width="10px" height="300">
+        <div class="left_menu">
             <table id="menu1" height="300" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
                 <td>
@@ -108,18 +108,18 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         </div>
     </td>
     
-    <td id="bar">
-        <div id="content" style="padding: 0">
+    <td class="bar">
+        <div class="content" style="padding: 0">
             {$content}
         </div>
     </td>
     
-    <td id="bar" width="200px" style="padding: 3px;">
+    <td class="bar" width="200px" style="padding: 3px;">
         {mod name="account" func="login"}
 		
 		{mod name="shoutbox" func="show"}
 		     
-        <div id="right_menu">
+        <div class="right_menu">
             Online: {$stats.online}<br />
             Siteimpressions: {$stats.page_impressions}<br />
             All Impressions: {$stats.all_impressions}<br />
@@ -128,7 +128,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     </td>
 </tr>
 </table>
-<div id="bar" style="padding: 5px" align="center">
+<div class="bar" style="padding: 5px" align="center">
     <span class="copyright">
         {$copyright}
     </span>

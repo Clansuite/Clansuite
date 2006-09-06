@@ -2,7 +2,7 @@
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/modules/luna.css" />
+<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
 {literal}
 <script type="text/javascript">
@@ -316,7 +316,7 @@ function checker(checkboxen, caller)
     <input type="hidden" name="ids[]" value="{$wert.module_id}">
     <td class="cell1" align="center">
         <b>{$wert.title}</b><br />
-        <img width="100px" height="100px" src="{$www_core_tpl_root}/images/{$wert.image_name}">
+        <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
     </td>
     
     <td class="cell2">
