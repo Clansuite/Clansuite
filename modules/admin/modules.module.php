@@ -507,6 +507,7 @@ class module_admin_modules
                 
                 if ( $tar->createModify( $tared_files['mod'], '', MOD_ROOT ) )
                 {
+                    $tar->addModify(  TPL_ROOT . '/core/images/modules/' . $res['image_name'], 'image', TPL_ROOT . '/core/images/modules/' );
                     $tar->addModify(  $icons, 'icons', TPL_ROOT . '/core/images/icons/' );
                     $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_info.php', '', UPLOAD_ROOT . '/modules/temp/' );
                     $functions->redirect( '/' . $cfg->upload_folder . '/modules/export/' . $name . '.tar' );
@@ -609,6 +610,11 @@ class module_admin_modules
                         if ( $value == 'icons' )
                         {
                             $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/icons/', TPL_ROOT . '/core/images/icons/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
+                        }
+                        
+                        if ( $value == 'images' )
+                        {
+                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/images/', TPL_ROOT . '/core/images/modules/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
                         }
                         
                         if ( $value == $container['folder_name'] )

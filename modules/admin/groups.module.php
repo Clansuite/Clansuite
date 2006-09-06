@@ -179,7 +179,7 @@ class module_admin_groups
         }
         else
         {
-        $this->output .= 'There was an error while acquiring the right_based_groups-data.';
+            $this->output .= 'There was an error while acquiring the right_based_groups-data.';
         }
         
         //

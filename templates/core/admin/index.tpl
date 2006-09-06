@@ -29,7 +29,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	<!-- Main-Container //-->
 			
 	<!-- start: Logo - Kopfzeile //-->
-	<div id="header"> 
+	<div class="header"> 
     	<strong>Clansuite - Control Center</strong>
     	<span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 	</div> 
@@ -39,7 +39,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
     <br />
     <br />
-    <div id="content">
+    <div class="content">
         {$content}
     </div>
     <br />
