@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.0.3
--- http://www.phpmyadmin.net  
+-- version 2.8.1
+-- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 08. September 2006 um 09:23
--- Server Version: 5.0.20
--- PHP-Version: 5.1.2
+-- Erstellungszeit: 08. September 2006 um 18:46
+-- Server Version: 5.0.21
+-- PHP-Version: 5.1.4
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -100,17 +100,20 @@ INSERT INTO `cs_adminmenu` VALUES (24, 22, 'item', 'Adminmenu Editor', 'index.ph
 INSERT INTO `cs_adminmenu` VALUES (25, 0, 'folder', 'Administration', '', 'Administration', '_self', 3, '');
 INSERT INTO `cs_adminmenu` VALUES (26, 25, 'folder', 'Users', '', 'Users', '_self', 0, 'user_suit.png');
 INSERT INTO `cs_adminmenu` VALUES (27, 26, 'item', 'Show all Users', 'index.php?mod=admin&sub=users', 'Show all Users', '_self', 0, 'table.png');
-INSERT INTO `cs_adminmenu` VALUES (28, 26, 'item', 'Search a User', 'index.php?mod=admin&sub=users&action=search', 'Search a User', '_self', 1, 'magnifier.png');
+INSERT INTO `cs_adminmenu` VALUES (28, 26, 'item', 'Search a User', 'index.php?mod=admin&sub=users&action=search', 'Search a User', '_self', 2, 'magnifier.png');
 INSERT INTO `cs_adminmenu` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_self', 1, 'group.png');
 INSERT INTO `cs_adminmenu` VALUES (30, 29, 'item', 'Show all Groups', 'index.php?mod=admin&sub=groups', 'Show all Groups', '_self', 0, 'table.png');
-INSERT INTO `cs_adminmenu` VALUES (31, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
-INSERT INTO `cs_adminmenu` VALUES (32, 31, 'item', 'Show all Permissions', 'index.php?mod=admin&sub=permissions', 'Show all Permissions', '_self', 0, 'key.png');
-INSERT INTO `cs_adminmenu` VALUES (33, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
-INSERT INTO `cs_adminmenu` VALUES (34, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
-INSERT INTO `cs_adminmenu` VALUES (35, 34, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
-INSERT INTO `cs_adminmenu` VALUES (36, 34, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
-INSERT INTO `cs_adminmenu` VALUES (37, 34, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
-INSERT INTO `cs_adminmenu` VALUES (38, 34, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu` VALUES (31, 29, 'item', 'Create a group', 'index.php?mod=admin&sub=groups&action=create', 'Create a group', '_self', 1, 'add.png');
+INSERT INTO `cs_adminmenu` VALUES (32, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
+INSERT INTO `cs_adminmenu` VALUES (33, 32, 'item', 'Show all Permissions', 'index.php?mod=admin&sub=permissions', 'Show all Permissions', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu` VALUES (34, 32, 'item', 'Create a Permission', 'index.php?mod=admin&sub=permissions&action=create', 'Create a Permission', '_self', 1, 'add.png');
+INSERT INTO `cs_adminmenu` VALUES (35, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
+INSERT INTO `cs_adminmenu` VALUES (36, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
+INSERT INTO `cs_adminmenu` VALUES (37, 36, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
+INSERT INTO `cs_adminmenu` VALUES (38, 36, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
+INSERT INTO `cs_adminmenu` VALUES (39, 36, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
+INSERT INTO `cs_adminmenu` VALUES (40, 36, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu` VALUES (41, 26, 'item', 'Create a user', 'index.php?mod=admin&sub=users&action=create', 'Create a user', '_self', 1, 'add.png');
 
 -- --------------------------------------------------------
 
@@ -166,13 +169,15 @@ INSERT INTO `cs_adminmenu_old` VALUES (28, 26, 'item', 'Search a User', 'index.p
 INSERT INTO `cs_adminmenu_old` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_self', 1, 'group.png');
 INSERT INTO `cs_adminmenu_old` VALUES (30, 29, 'item', 'Show all Groups', 'index.php?mod=admin&sub=groups', 'Show all Groups', '_self', 0, 'table.png');
 INSERT INTO `cs_adminmenu_old` VALUES (31, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
-INSERT INTO `cs_adminmenu_old` VALUES (32, 31, 'item', 'Show all Permissions', 'index.php?mod=admin&sub=permissions', 'Show all Permissions', '_self', 0, 'key.png');
+INSERT INTO `cs_adminmenu_old` VALUES (32, 31, 'item', 'Show all Permissions', 'index.php?mod=admin&sub=permissions', 'Show all Permissions', '_self', 0, 'table.png');
 INSERT INTO `cs_adminmenu_old` VALUES (33, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
 INSERT INTO `cs_adminmenu_old` VALUES (34, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
 INSERT INTO `cs_adminmenu_old` VALUES (35, 34, 'item', 'Help', 'index.php?mod=admin&sub=static&action=show&page=help', 'Help', '_self', 0, 'help.png');
 INSERT INTO `cs_adminmenu_old` VALUES (36, 34, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
 INSERT INTO `cs_adminmenu_old` VALUES (37, 34, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
 INSERT INTO `cs_adminmenu_old` VALUES (38, 34, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu_old` VALUES (39, 29, 'item', 'Create a group', 'index.php?mod=admin&sub=groups&action=create', 'Create a group', '_self', 1, 'add.png');
+INSERT INTO `cs_adminmenu_old` VALUES (40, 31, 'item', 'Create a Permission', 'index.php?mod=admin&sub=permissions&action=create', 'Create a Permission', '_self', 1, 'add.png');
 
 -- --------------------------------------------------------
 
@@ -239,16 +244,15 @@ CREATE TABLE `cs_groups` (
   `image` varchar(255) NOT NULL,
   `color` varchar(7) NOT NULL,
   PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- 
 -- Daten für Tabelle `cs_groups`
 -- 
 
-INSERT INTO `cs_groups` VALUES (1, 1, 'Administrator', '', NULL, '', '#CC0000');
-INSERT INTO `cs_groups` VALUES (2, 2, 'Newsadministration', 'Administration of Modul: News', NULL, '', '#009966');
-INSERT INTO `cs_groups` VALUES (3, 3, 'Guestsbook Administration', 'Administration of Modul: Guestbook', NULL, '', '#990033');
-INSERT INTO `cs_groups` VALUES (6, 1, 'Groupsadministration', 'Administration of Usergroups', '', '', '#0066FF');
+INSERT INTO `cs_groups` VALUES (1, 1, 'Administrator', 'asdfasfd', '1star.gif', '4star.gif', '#CCFF99');
+INSERT INTO `cs_groups` VALUES (2, 2, 'Newsadministration', 'Administration of Modul: News', '2star.gif', '5star.gif', '#99FFFF');
+INSERT INTO `cs_groups` VALUES (3, 3, 'Guestsbook Administration', 'Administration of Modul: Guestbook', '3star.gif', '5star.gif', 'Hex-Cod');
 
 -- --------------------------------------------------------
 
@@ -384,7 +388,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'cd7a35abfd4980f683a196cea1ba3df4', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6";client_host|s:9:"localhost";suiteSID|s:32:"cd7a35abfd4980f683a196cea1ba3df4";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1157700764, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '6b36db0435e900f5450f42728cd910c1', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"6b36db0435e900f5450f42728cd910c1";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1157731919, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -514,11 +518,11 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 -- 
 -- Daten für Tabelle `cs_users`
 -- 
 
-INSERT INTO `cs_users` VALUES (1, 'admin@localhost.de', 'admin', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '9dd90802013c886ccdd04d524adf3446', 1152190495, 0, '', '', '', 0, 1);
-INSERT INTO `cs_users` VALUES (2, 'asdf2@bla.de', 'bla', '27b276d6221741f11b727e0c24979470f2a7b90a', '', '66a147b49d97ad7df250b0dd91f6d930', 1152208688, 0, '', '', '', 0, 1);
+INSERT INTO `cs_users` VALUES (1, 'fasdfasdf', 'asdfsadfasdfasd', '64e019ccea1e2662d706b1229b71c2d92fe71ebe', '26a1102e42022f67a17add9ab0e74c9440efa7d2', '9dd90802013c886ccdd04d524adf3446', 1152190495, 0, 'aaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaafffffffffff', 'asdfasdfasfd', 1, 1);
+INSERT INTO `cs_users` VALUES (2, 'fasdfasdf', 'asdfsadfasdfasd', '64e019ccea1e2662d706b1229b71c2d92fe71ebe', '', '66a147b49d97ad7df250b0dd91f6d930', 1152208688, 0, 'aaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaafffffffffff', 'asdfasdfasfd', 1, 1);
