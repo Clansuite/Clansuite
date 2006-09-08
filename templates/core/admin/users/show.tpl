@@ -1,5 +1,9 @@
 <h2>Administration :: Users </h2>
 
+{* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump} *}
+{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if}
+
+
 {doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 {/doc_raw}
