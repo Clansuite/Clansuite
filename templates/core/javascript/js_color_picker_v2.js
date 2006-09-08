@@ -521,6 +521,7 @@
 	function chooseColor()
 	{
 		color_picker_form_field.value = this.getAttribute('rgbColor');
+        preview.style.backgroundColor = this.getAttribute('rgbColor');
 		color_picker_div.style.display='none';
 	}
 	
@@ -541,7 +542,7 @@
 	}
 	
 	
-	function showColorPicker(inputObj,formField)
+	function showColorPicker(inputObj,formField,extendedID)
 	{
 		if(!color_picker_div){
 			color_picker_div = document.createElement('DIV');
@@ -561,7 +562,8 @@
 		color_picker_div.style.left = colorPickerGetLeftPos(inputObj) + 'px';
 		color_picker_div.style.top = colorPickerGetTopPos(inputObj) + inputObj.offsetHeight + 2 + 'px';
 		color_picker_form_field = formField;
-		color_picker_active_input = inputObj;		
+		color_picker_active_input = inputObj;
+        preview = extendedID;
 	}
 
 	function setColorByRGB()
