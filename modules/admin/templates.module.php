@@ -120,22 +120,21 @@ class module_admin_templates
         
         $result  = '';
         
-        $dir_handler = opendir( $path );
         $file_count = 0;
         
-        while( $file = readdir( $dir_handler ) )
+        foreach( glob( $path . '/*', GLOB_BRACE) as $file )
         {   
             if($file != '.' && $file != '..' && $file != '.svn')
             {
-                if ( is_dir( $path . '/' . $file ) )
+                if ( is_dir( $file ) )
                 {
                     $result .= "\t<div class='folder' id='folder-$x'>\n";
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-'. $path . '/' . $file . $x .'" onclick="javascript: node_click(\''. $path . '/' . $file . $x .'\')">';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-'. $file . $x .'" onclick="javascript: node_click(\''. $file . $x .'\')">';
                     $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
-                    $result .= $file;
-                    $result .= '<div class="section" id="section-'. $path . '/' . $file . $x .'" style="display: none">';
+                    $result .= preg_replace( '#^(.*)/#', '', $file);
+                    $result .= '<div class="section" id="section-'. $file . $x .'" style="display: none">';
                     $x++;
-                    $result .= $this->build_folder_tree( $path . '/' . $file, $x );
+                    $result .= $this->build_folder_tree( $file, $x );
                     $result .= '</div>';
 
                 }
@@ -147,7 +146,9 @@ class module_admin_templates
                         $file_count++;
                         $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
                         $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16">';
-                        $result .= '<span class="text" onclick="return sendAjaxRequest(\'get\', \'' . $path . '/' . $file . '\', \'index.php?mod=admin&sub=templates&action=ajax_get\');">'.$file.'</span>';
+                        $result .= '<span class="text" onclick="return sendAjaxRequest(\'get\', \'' . $file . '\', \'index.php?mod=admin&sub=templates&action=ajax_get\');">';
+                        $result .= preg_replace( '#^(.*)/#', '', $file);
+                        $result .= '</span>';
                         $result .= '</div>';
                     }
                 }
@@ -158,7 +159,6 @@ class module_admin_templates
             $result .= "</div>\n";
         }
         $result .= "</div>\n";
-        closedir($dir_handler);
         return $result;
     }
     
