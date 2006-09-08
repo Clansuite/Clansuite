@@ -119,7 +119,7 @@ class module_admin_users
         $this->output .= 'No Users could be found.';
         }
        
-        $this->output .= $tpl->fetch('admin/users/listusers.tpl');
+        $this->output .= $tpl->fetch('admin/users/show.tpl');
     }
     
     /**
@@ -183,7 +183,7 @@ class module_admin_users
     }
               
     /**
-    * @desc Show all users
+    * @desc Usercenter - Shows own Profil, Messages, Next Events, Votes etc.
     */
 
     function show_usercenter()
