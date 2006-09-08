@@ -26,7 +26,7 @@
             <a href="index.php?mod=admin&sub=permissions&action=lookup&right_id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Look up User</a>
         </td>
         <td align="center"> 
-            <form action="index.php?mod=admin&sub=permissions&action=update" method="POST"> 
+            <form action="index.php?mod=admin&sub=permissions&action=delete" method="POST"> 
             <input type="hidden" name="ids[]" value="{$wert.right_id}">
             <input name="delete[]" type="checkbox" value="{$wert.right_id}">
         </td>
@@ -37,7 +37,7 @@
 <tr>
    <td colspan="9" height="40" style="padding: 8px">
         <div>
-            <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Permission" tabindex="2" />
+            <input class="Button" type="submit" name="submit" id="Delete" value="Delete the selected Permissions" tabindex="2" />
             </form>
             <input class="Button" type="reset" tabindex="3" />
             <input class="Button" type="submit" name="xsubmit" id="Submit" value="Scan for new Permissions" tabindex="1" />                
