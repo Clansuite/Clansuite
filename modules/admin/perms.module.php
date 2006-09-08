@@ -62,6 +62,11 @@ class module_admin_permissions
                 $this->mod_page_title = $lang->t( 'Show Permissions' );
                 $this->show_permissions();
                 break;
+                
+            case 'delete':
+                $this->mod_page_title = $lang->t( 'Delete Permissions' );
+                $this->delete_permissions();
+                break;
       
             default:
                 $this->mod_page_title = $lang->t( 'Show Permissions' );
@@ -100,7 +105,72 @@ class module_admin_permissions
         $this->output .= $tpl->fetch('admin/permissions/show.tpl');
     }
     
-  
+  /**
+    * @desc Delete permissions
+    */
+    function delete_permissions()
+    {
+        global $db, $functions, $input, $lang;
+        
+        // $_POST EINGANG        
+        $submit     = $_POST['submit'];
+        $del        = $_POST['delete'];
+        $confirm    = $_POST['confirm'];
+        $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
+        $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
+        $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
+        $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
+        
+        if ( count($delete) < 1 )
+        { 
+            $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'No permissions selected to delete! Aborted... ' ), 'admin' );
+        }
+        
+        // Abbruchmöglichkeit innerhalb der Confirm-Abfrage
+        if ( isset( $_POST['abort'] ) )
+        {
+            $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show' );
+        }
+        
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT right_id, name FROM ' . DB_PREFIX . 'rights' );
+        $stmt->execute();
+        $all_permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach( $all_permissions as $key => $value )
+        {
+            if( in_array( $value['right_id'], $delete  ) )
+            {
+                $names .= '<br /><b>' .  $value['name'] . '</b>';
+            }
+        }       
+        // Permissions anhand der IDs loeschen
+        foreach( $all_permissions as $key => $value )
+        {
+            if ( count ( $delete ) > 0 )
+            {
+                if ( in_array( $value['right_id'], $ids ) )
+                {
+                    $d = in_array( $value['right_id'], $delete  ) ? 1 : 0;
+                    if ( !isset ( $_POST['confirm'] ) )
+                    {
+                        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following permission(s) to be deleted: ' . $names ), 'admin' );
+                    }
+                    else
+                    {
+                        if ( $d == 1 )
+                        {
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
+                            $stmt->execute( array($value['right_id']) );
+                        }
+                    }
+                }
+            } // close if
+        } // close foreach
+        
+        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'The permissions have been deleted.' ), 'admin' );
+        
+    }
     
 }
 ?>
