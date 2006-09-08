@@ -78,18 +78,18 @@ class module_admin_groups
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $this->mod_page_title = $lang->t( 'Show Groups' );
+                $this->mod_page_title = $lang->t( 'Show groups' );
                 $this->show_groups();
                 break;
             
-            case 'add_group':
-                $this->mod_page_title = $lang->t( 'Add new Group' );
-                $this->add_group();
+            case 'create':
+                $this->mod_page_title = $lang->t( 'Create a new group' );
+                $this->create();
                 break;
           
             case 'edit':
-                $this->mod_page_title = $lang->t( 'Edit Group' );
-                $this->edit_group();
+                $this->mod_page_title = $lang->t( 'Edit a group' );
+                $this->edit();
                 break;
                 
             case 'delete':
@@ -113,9 +113,9 @@ class module_admin_groups
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
     
-    //----------------------------------------------------------------
-    // Show all groups
-    //----------------------------------------------------------------
+    /**
+    * @desc Show all groups
+    */
     function show_groups()
     {
         global $db, $tpl, $error, $lang;
@@ -147,48 +147,32 @@ class module_admin_groups
         $this->output .= $tpl->fetch('admin/groups/show.tpl');
     }
     
-    //----------------------------------------------------------------
-    // Add a new usergroups based on rights
-    //----------------------------------------------------------------
-    function add_group()
+    /**
+    * @desc Create a new group
+    */
+    function create()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
+       
+        // $_POST EINGANG 
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];      
         
-        // Inputs to Vars
-        $right_group_name = $_POST['right_group_name'];
-        $colour = $_POST['colour'];
-        $icon = $_POST['icon'];
-        $description = $_POST['desc'];
-              
-        // Db Insert
-		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'groups (name, icon, colour, description, posts) VALUES (?,?,?,?,NULL)');
-		$stmt->execute( array( $right_group_name, $icon, $colour, $description  ) );	
-      
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 1, $lang->t( 'Group was created.' ), 'admin' );
-       
-    }
-    
-     //----------------------------------------------------------------
-    // Edit group
-    //----------------------------------------------------------------
-    function edit_group()
-    {
-        global $db, $tpl, $error, $lang, $functions, $input;
-       
         // init, get, assign ICONS!
         $icons  = array();    
-        $icons = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
+        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        {
+            $icons[] = preg_replace( '#^(.*)/#', '', $file);   
+        }
         $tpl->assign( 'icons'   , $icons );
         
         // init, get, assign IMAGES!
         $images  = array();    
-        $images = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
+        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        {
+            $images[] = preg_replace( '#^(.*)/#', '', $file);   
+        }
         $tpl->assign( 'images'   , $images );
-        
-        // $_POST EINGANG 
-        $submit     = $_POST['submit'];
-        $info       = $_POST['info'];
-        $id         = $_GET['id'];
                 
         $sets = '';
                
@@ -202,9 +186,9 @@ class module_admin_groups
         if ( ! isset ( $_POST['submit'] ) )
         {
         
-        $tpl->assign('editgroup', $edit_group);
+            $tpl->assign('editgroup', $edit_group);
 
-        $this->output .= $tpl->fetch('admin/groups/edit.tpl');
+            $this->output .= $tpl->fetch('admin/groups/create.tpl');
        
         }
         
@@ -212,23 +196,94 @@ class module_admin_groups
         
         else
         {     
-         //debug input array
-        print_r($info);
+             //debug input array
+            print_r($info);
+            
+            
+            // Db Update
+            $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'groups SET ' . $sets );
+            $stmt->execute( array ( $info['pos'],
+                                    $info['name'],
+                                    $info['description'], 
+                                    $info['icon'],
+                                    $info['image'],
+                                    $info['color'] ) );
+            
+            // Redirect to Show
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was created.' ), 'admin' );
+    
+        }
+       
+    }
+    
+    /**
+    * @desc Edit a group
+    */
+    function edit()
+    {
+        global $db, $tpl, $error, $lang, $functions, $input;
+       
+        // $_POST EINGANG 
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+        $id         = $_GET['id'];
         
+        // init, get, assign ICONS!
+        $icons  = array();    
+        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        {
+            $icons[] = preg_replace( '#^(.*)/#', '', $file);   
+        }
+        $tpl->assign( 'icons'   , $icons );
         
-        // Db Update
-        $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
-        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
-        $stmt->execute( array ( $info['pos'],
-                                $info['name'],
-                                $info['description'], 
-                                $info['icon'],
-                                $info['image'],
-                                $info['color'],
-                                $info['group_id'] ) );
+        // init, get, assign IMAGES!
+        $images  = array();    
+        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        {
+            $images[] = preg_replace( '#^(.*)/#', '', $file);   
+        }
+        $tpl->assign( 'images'   , $images );
+                
+        $sets = '';
+               
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
+        $stmt->execute( array( $id ) );
+        $edit_group = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Redirect to Show
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was edited.' ), 'admin' );
+        // SHOW EDIT 
+        
+        if ( ! isset ( $_POST['submit'] ) )
+        {
+        
+            $tpl->assign('editgroup', $edit_group);
+
+            $this->output .= $tpl->fetch('admin/groups/edit.tpl');
+       
+        }
+        
+        // SUBMIT INPUT
+        
+        else
+        {     
+             //debug input array
+            print_r($info);
+            
+            
+            // Db Update
+            $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
+            $stmt->execute( array ( $info['pos'],
+                                    $info['name'],
+                                    $info['description'], 
+                                    $info['icon'],
+                                    $info['image'],
+                                    $info['color'],
+                                    $info['group_id'] ) );
+            
+            // Redirect to Show
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was edited.' ), 'admin' );
     
         }
     
@@ -283,7 +338,7 @@ class module_admin_groups
                     $d = in_array( $value['group_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=admin&sub=groups&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following group(s) to delete: ' . $names ), 'admin' );
+                        $functions->redirect( 'index.php?mod=admin&sub=groups&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following group(s) to delete: ' . $names ), 'admin' );
                     }
                     else
                     {
@@ -301,10 +356,9 @@ class module_admin_groups
         
     }
    
-   
-    //----------------------------------------------------------------
-    // Show usergroup with its members
-    //----------------------------------------------------------------
+    /**
+    * @desc Show all members inherent in a group
+    */
     function show_group_members($group_id)
     {
         global $db, $tpl, $error, $lang;

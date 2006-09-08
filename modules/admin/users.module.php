@@ -70,9 +70,9 @@ class module_admin_users
                 $this->show_usercenter();
                 break;
 
-	        case 'create_new_user':
+	        case 'create':
                 $this->mod_page_title .= $lang->t( 'Create New Useraccount' );
-                $this->create_new_user();
+                $this->create();
                 break;
      
             case 'edit':
@@ -126,10 +126,11 @@ class module_admin_users
     * @desc Create new User
     */
 
-    function create_new_user()
+    function create()
     {
         global $db, $tpl, $error, $lang;
      
+        $this->output .= $tpl->fetch( 'admin/users/create.tpl' );
     }
     
     /**
@@ -146,16 +147,16 @@ class module_admin_users
                 
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
         $stmt->execute( array ( $user_id ) );
-        $userprofil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
                       
-        if ( is_array( $userprofil ) ) 
+        if ( is_array( $user ) ) 
         { 
-            $tpl->assign('userprofil', $userprofil); 
-            }
+            $tpl->assign('user', $user); 
+        }
         else 
         { 
-            $this->output .= 'The Userprofil of User #' . $user_id . ' could not be fetched.';  
-            }
+            $this->output .= $lang->t( 'The user could not be found.');  
+        }
         
         // TAB 2 - Edit Group Memberships -> $groupsofuser
         
@@ -166,16 +167,16 @@ class module_admin_users
                                AND cu.user_id = ?' );
                             
         $stmt->execute( array ( $user_id ) );
-        $groupsofuser = $stmt->fetchAll(PDO::FETCH_NAMED);
+        $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
         
-        if ( is_array( $groupsofuser ) ) 
+        if ( is_array( $groups ) ) 
         { 
-            $tpl->assign('groupsofuser', $groupsofuser); 
-            }
+            $tpl->assign('groups', $groups); 
+        }
         else 
         { 
             $this->output .= 'The Userprofil of User #' . $user_id . ' could not be fetched.';  
-            }
+        }
 
 
         $this->output .= $tpl->fetch('admin/users/edit.tpl');  

@@ -61,19 +61,8 @@
             <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
             <input class="Button" type="reset" tabindex="3" />
             </form>
-            <input class="Button" type="submit" name="Submit" id="Submit" value="Create New User" tabindex="1" onclick="javascript:clip_span('create_user')" />
            </div>
         </td>
     </tr>
     
     </table>
-    
-    <br />
-
-    { * clip.js span * }
-    <span id="span_create_user" style="display: none; width: 75%;">
-        
-        {* dieser ausschnitt ist ausgelagert in die folgende datei: *}
-        {include file="create_new_user.tpl"}
-    
-    </span>
