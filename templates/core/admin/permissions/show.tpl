@@ -22,8 +22,8 @@
         <td align="center">{$wert.name}</td>
         
         <td align="center">
-            <a href="index.php?mod=admin&sub=permissions&action=edit&right_id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Edit</a>
-            <a href="index.php?mod=admin&sub=permissions&action=lookup&right_id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Look up User</a>
+            <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Edit</a>
+            <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Look up User</a>
         </td>
         <td align="center"> 
             <form action="index.php?mod=admin&sub=permissions&action=delete" method="POST"> 
