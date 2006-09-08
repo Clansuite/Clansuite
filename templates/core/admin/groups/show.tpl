@@ -33,7 +33,7 @@
 <td align="center">{$group.description}</td>
 <td align="center">{$group.icon}</td>
 <td align="center">{$group.image}</td>
-<td align="center"><a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.id}">Edit</a> | <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.id}">Delete</a></td>
+<td align="center"><a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.group_id}">Edit</a> | <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.id}">Delete</a></td>
 
 </tr>
 {/foreach}
