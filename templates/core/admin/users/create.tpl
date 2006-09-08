@@ -22,7 +22,7 @@
     {/error}
 {/if}
  
-<form action="index.php?mod=admin&sub=groups&action=create" method="POST" target="_self">
+<form action="index.php?mod=admin&sub=users&action=create" method="POST" target="_self">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -48,7 +48,7 @@
 </tr>
 <tr>
     <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="password" value="" class="input_text"/></td>
+    <td><input name="info[password]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Infotext:</b></td>

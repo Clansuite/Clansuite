@@ -1,68 +1,52 @@
 <h2>Administration :: Users </h2>
 
 {doc_raw}
-            <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 {/doc_raw}
+<table cellspacing="0" cellpadding="2" border="0" width="100%">  
 
-{* todo : Debugausgabe nur wenn DEBUG = 1 *}
-{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$users}   {/if}
+<tr>
+    <td class="td_header_small" width="10%" align="center"> {translate}User ID{/translate}         </td>
+    <td class="td_header_small" align="center">             {translate}eMail{/translate}           </td>
+    <td class="td_header_small" align="center">             {translate}Nick{/translate}            </td>  
+    <td class="td_header_small" align="center">             {translate}Joined{/translate}          </td>
+    <td class="td_header_small" align="center">             {translate}First name{/translate}      </td>
+    <td class="td_header_small" align="center">             {translate}Last name{/translate}       </td>
+    <td class="td_header_small" align="center">             {translate}Infotext{/translate}       </td>
+    <td class="td_header_small" align="center">             {translate}Action{/translate}          </td>
+    <td class="td_header_small" align="center">             {translate}Delete{/translate}          </td>
+</tr>
 
-    <h3>All Users</h3>    <a href="index.php?mod=admin&sub=users&action=search">- Search -</a>
-    
-    
-     <table cellspacing="0" cellpadding="0" border="0" class="border3d" width="80%">  
-    <thead align="center">
-    <tr class="td_header">
-        <td width="10%"> {translate}user id{/translate}         </td>
-        <td>             {translate}email{/translate}           </td>
-        <td>             {translate}nick{/translate}            </td>  
-        <td>             {translate}joined{/translate}          </td>
-        <td>             {translate}first name{/translate}      </td>
-        <td>             {translate}last name{/translate}       </td>
-        <td>             {translate}Action{/translate}          </td>
-        <td>             {translate}Delete{/translate}          </td>
+<form action="index.php?mod=admin&sub=users&action=update" method="POST">    
+{foreach key=schluessel item=wert from=$users}
+    <tr class="{cycle values="cell1,cell2"}">
+
+    <input type="hidden" name="ids[]" value="{$wert.group_id}">
+
+    <td class="cell2" height="40" align="center"> {$wert.user_id}     </td>
+    <td class="cell1" align="center"> {$wert.email}       </td>
+    <td class="cell2" align="center"> {$wert.nick}        </td>
+    <td class="cell1" align="center"> {$wert.joined}      </td>
+    <td class="cell2" align="center"> {$wert.first_name}  </td>
+    <td class="cell1" align="center"> {$wert.last_name}   </td>
+    <td class="cell2" align="center"> {$wert.infotext}   </td>
+    <td class="cell1" align="center">
+        <a class="input_submit" style="position: relative; top: 7px;" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
+    </td>
+    <td class="cell2" align="center"> 
+        <input type="hidden" name="ids[]" value="{$wert.users_id}">
+        <input name="delete[]" type="checkbox" value="{$wert.users_id}">
+    </td>
     </tr>
-    </thead>
+{/foreach} 
     
-    {foreach key=schluessel item=wert from=$users}
-       
-             <tr class="{cycle values="cell1,cell2"}">
-            
-                <input type="hidden" name="ids[]" value="{$wert.group_id}">
-               
-                <td align="center"> {$wert.user_id}     </td>
-                <td align="center"> {$wert.email}       </td>
-                <td align="center"> {$wert.nick}        </td>
-                <td align="center"> {$wert.joined}      </td>
-                <td align="center"> {$wert.first_name}  </td>
-                <td align="center"> {$wert.last_name}   </td>
-                <td align="center"> <a href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>     </td>
-                <td> 
-                    <form action="index.php?mod=admin&sub=users&action=update" method="POST">
-                    <input type="hidden" name="ids[]" value="{$wert.users_id}">
-                    <input name="delete[]" type="checkbox" value="{$wert.users_id}"> </td>
-                    
-                    
-                {*
-                <td> ico {$wert.icon} <img width="100px" height="100px" src="{$www_core_tpl_root}/groups/{$wert.icon}"> </td>
-                <td align="center"> <font color="#{$wert.colour}"> {$wert.name} </font></td>
-                <td align="center"> <a href="index.php?mod=admin&sub=groups&action=edit_members&group_id={$wert.group_id}">Membernicksarray</a> </td>
-                *}
-                
-            </tr>
-        
-    {/foreach} 
-        
-    {* Actions - Buttons *}
-    
-    <tr height="20">
-       <td colspan="8">
-            <div class="Button">
-            <input class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Groups" tabindex="2" />
-            <input class="Button" type="reset" tabindex="3" />
-            </form>
-           </div>
-        </td>
-    </tr>
-    
-    </table>
+{* Actions - Buttons *}
+
+<tr>
+   <td height="20" colspan="9" align="right">
+        <input class="input_submit" type="reset" tabindex="3" />
+        <input class="input_submit" type="submit" name="Delete" id="Delete" value="Delete Selected Users" tabindex="2" />
+    </td>
+</tr>
+</form>
+</table>
