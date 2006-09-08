@@ -32,7 +32,7 @@
 
         <input name="info[group_id]" type="hidden" value="{$editgroup.0.group_id}">
                        
-       <h3> Edit Usergroup : # {$editgroup.0.group_id} - {$editgroup.0.name} </h3>
+       <h3> Edit group <b>{$editgroup.0.group_id} - {$editgroup.0.name}</b> </h3>
 	    
        <label for="group_name">
 			Groupname
@@ -51,7 +51,7 @@
 		
 		<label for="color">
             {translate}Color{/translate} ( <a id="color-href" href="javascript: showColorPicker(document.getElementById('color-href'),document.getElementById('color'));">hex-codes</a> )
-			<input name="info[color]" id="color" type="text" value="Color" />
+			<input name="info[color]" id="color" type="text" value="{$editgroup.0.color}" />
         </label> 
 		
 		<label for="icon">
@@ -59,10 +59,10 @@
                 <select name="info[icon]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $editgroup.0.icon==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
-                <img src="" id="insert_icon" border="1">
+                <img src="{$www_core_tpl_root}/images/groups/{$editgroup.0.icon}" id="insert_icon" border="1">
         </label>
         
         <label for="image">
@@ -70,13 +70,13 @@
                 <select name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $editgroup.0.image==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
-                <img src="" id="insert_image" border="1">
+                <img src="{$www_core_tpl_root}/images/groups/{$editgroup.0.image}" id="insert_image" border="1">
         </label>
         
-		<input class="input_submit" type="submit" name="submit" value="{translate}Edit User{/translate}" />
+		<input class="input_submit" type="submit" name="submit" value="{translate}Edit the group{/translate}" />
 			
 	 </fieldset>
 </form>
