@@ -38,3 +38,11 @@
 			
 	 </fieldset>
 </form>
+
+                            <select name="icon" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
+                                <option name=""></option>
+                                {foreach key=key item=item from=$icons}
+                                    <option style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
+                                {/foreach}
+                            </select>
+                            <img src="" id="insert_icon" border="1">
