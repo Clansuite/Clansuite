@@ -1,6 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 2.8.0.3
--- http://www.phpmyadmin.net
+-- http://www.phpmyadmin.net  
 -- 
 -- Host: localhost
 -- Erstellungszeit: 08. September 2006 um 09:23
