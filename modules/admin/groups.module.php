@@ -82,14 +82,9 @@ class module_admin_groups
                 $this->show_groups();
                 break;
             
-            case 'add_right_group':
-                $this->mod_page_title = $lang->t( 'Add new Group based on Rights' );
-                $this->add_right_group();
-                break;
-                
-            case 'add_post_group':
-                $this->mod_page_title = $lang->t( 'Add new Group based on Posts' );
-                $this->add_post_group();
+            case 'add_group':
+                $this->mod_page_title = $lang->t( 'Add new Group' );
+                $this->add_group();
                 break;
           
             case 'edit':
@@ -97,8 +92,8 @@ class module_admin_groups
                 $this->edit();
                 break;
                 
-            case 'update':
-                $this->update();
+            case 'delete':
+                $this->delete();
                 break;
                 
             case 'members':
@@ -130,6 +125,7 @@ class module_admin_groups
         */
         $icons  = array();        
         $groups = array();
+        
         /**
         * @desc Extrapolate icons from dir
         */
@@ -154,7 +150,7 @@ class module_admin_groups
     //----------------------------------------------------------------
     // Add a new usergroups based on rights
     //----------------------------------------------------------------
-    function add_right_group()
+    function add_group()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
         
@@ -165,30 +161,11 @@ class module_admin_groups
         $description = $_POST['desc'];
               
         // Db Insert
-		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'usergroups (name, icon, colour, description, posts) VALUES (?,?,?,?,NULL)');
+		$stmt = $db->prepare('INSERT INTO '.DB_PREFIX.'groups (name, icon, colour, description, posts) VALUES (?,?,?,?,NULL)');
 		$stmt->execute( array( $right_group_name, $icon, $colour, $description  ) );	
       
         $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 1, $lang->t( 'Group was created.' ), 'admin' );
        
-    }
-    
-    //----------------------------------------------------------------
-    // Add a new usergroups based on posts
-    //----------------------------------------------------------------
-    function add_post_group()
-    {
-        global $db, $tpl, $error, $lang, $functions, $input;
-       
-        $post_group_name = $_POST['post_group_name'];
-        $posts = $_POST['posts'];
-        $icon = $_POST['icon'];
-          
-        // Db Insert
-		$stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'usergroups ( pos, name, icon, posts ) VALUES ( ?,  ?,  ?, ?)');
-		$stmt->execute(array( '0', $post_group_name, $icon, $posts));		
-            
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 1, $lang->t( 'Group was created.' ), 'admin' );
-        
     }
     
     //----------------------------------------------------------------
@@ -204,27 +181,25 @@ class module_admin_groups
     }
    
     /**
-    * @desc Update the groups list
+    * @desc Delete the groups list
     */
-    function update()
+    function delete()
     {
         global $db, $functions, $input, $lang;
         
         // $_POST EINGANG        
-        $submit     = $_POST['xsubmit'];
-        $del        = $_POST['xdelete'];
+        $submit     = $_POST['submit'];
+        $del        = $_POST['delete'];
         $confirm    = $_POST['confirm'];
         $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
         
-        /* Nichts selected ?
-        if ( empty($ids) )
+        if ( count($delete) < 1 )
         { 
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'No Group selected to delete! Returning... ' ), 'admin' );
-        }        
-        */
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'No groups selected to delete! Aborted... ' ), 'admin' );
+        }
         
         // Abbruchmöglichkeit innerhalb der Confirm-Abfrage
         if ( isset( $_POST['abort'] ) )
@@ -233,10 +208,17 @@ class module_admin_groups
         }
         
         // DB - SELECT       
-        $stmt = $db->prepare( 'SELECT group_id, name FROM ' . DB_PREFIX . 'usergroups' );
+        $stmt = $db->prepare( 'SELECT group_id, name FROM ' . DB_PREFIX . 'groups' );
         $stmt->execute();
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-               
+        
+        foreach( $all_groups as $key => $value )
+        {
+            if( in_array( $value['group_id'], $delete  ) )
+            {
+                $names .= '<br /><b>' .  $value['name'] . '</b>';
+            }
+        }       
         // Gruppen anhand der IDs löschen
         foreach( $all_groups as $key => $value )
         {
@@ -247,13 +229,13 @@ class module_admin_groups
                     $d = in_array( $value['group_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=admin&sub=groups&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following group(s) to delete: ' . $value['name'] . '?'), 'admin' );
+                        $functions->redirect( 'index.php?mod=admin&sub=groups&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following group(s) to delete: ' . $names ), 'admin' );
                     }
                     else
                     {
                         if ( $d == 1 )
                         {
-                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'usergroups WHERE group_id = ?' );
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
                             $stmt->execute( array($value['group_id']) );
                         }
                     }
@@ -261,7 +243,7 @@ class module_admin_groups
             } // close if
         } // close foreach
         
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groups have been updated.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groups have been delete.' ), 'admin' );
         
     }
    
@@ -285,10 +267,10 @@ class module_admin_groups
         }
         else
         {
-        $this->output .= 'There was an error while acquiring the groups-data.';
+            $this->output .= 'There was an error while acquiring the groups-data.';
         }
        
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE ?');
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE ?');
         $stmt->execute( array( $group_id ) );
         $stmt->closeCursor();
       

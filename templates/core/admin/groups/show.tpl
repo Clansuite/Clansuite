@@ -13,7 +13,7 @@
 
 <h2>Administration of Groups</h2>
 
-<form action="index.php?mod=admin&sub=groups&action=edit" method="POST">
+<form action="index.php?mod=admin&sub=groups&action=delete" method="POST">
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
     <td class="td_header" width="50" align="center">{translate}ID{/translate}</td>
@@ -22,20 +22,27 @@
     <td class="td_header" width="300" align="center">{translate}Description{/translate}</td>
     <td class="td_header" width="100" align="center">{translate}Icon{/translate}</td>
     <td class="td_header" width="200" align="center">{translate}Image{/translate}</td>
-    <td class="td_header" align="center">{translate}Options{/translate}</td>
+    <td class="td_header" align="center">{translate}Edit{/translate}</td>
+    <td class="td_header" align="center">{translate}Delete{/translate}</td>
 </tr>
 {foreach key=key item=group from=$groups}
 <tr class="{cycle values="cell1,cell2"}">
-
-<td align="center">{$group.group_id}</td>
+<input type="hidden" name="ids[]" value="{$group.group_id}" />
+<td align="center" height="30">{$group.group_id}</td>
 <td align="center">{$group.pos}</td>
 <td align="center" style="color: {$group.color}; font-weight: bold;">{$group.name}</td>
 <td align="center">{$group.description}</td>
 <td align="center">{$group.icon}</td>
 <td align="center">{$group.image}</td>
-<td align="center"><a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.group_id}">Edit</a> | <a href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.id}">Delete</a></td>
+<td align="center"><a class="input_submit" style="position: relative; top: 7px;" href="index.php?mod=admin&sub=groups&action=edit&group_id={$group.group_id}">Edit</a></td>
+<td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
 
 </tr>
 {/foreach}
+<tr>
+<td colspan="8" align="right">
+    <input type="submit" name="submit" class="input_submit" value="Delete the selected groups" />
+</td>
+</tr>
 </table>
 </form>
