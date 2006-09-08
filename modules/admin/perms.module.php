@@ -63,11 +63,17 @@ class module_admin_permissions
                 $this->show_permissions();
                 break;
                 
+            case 'edit':
+                $this->mod_page_title = $lang->t( 'Edit Permissions' );
+                $this->edit_permissions();
+                break;
+                
+                
             case 'delete':
                 $this->mod_page_title = $lang->t( 'Delete Permissions' );
                 $this->delete_permissions();
                 break;
-      
+            
             default:
                 $this->mod_page_title = $lang->t( 'Show Permissions' );
                 $this->show_permissions();
@@ -104,6 +110,58 @@ class module_admin_permissions
        
         $this->output .= $tpl->fetch('admin/permissions/show.tpl');
     }
+    
+     //----------------------------------------------------------------
+    // Edit permissions
+    //----------------------------------------------------------------
+    function edit_permissions()
+    {
+        global $db, $tpl, $error, $lang, $functions, $input;
+       
+        // $_POST EINGANG 
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+        $id         = $_GET['id'];
+                
+        $sets = '';
+               
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
+        $stmt->execute( array( $id ) );
+        $edit_permission = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // SHOW EDIT 
+        
+        if ( ! isset ( $_POST['submit'] ) )
+        {
+        
+        $tpl->assign('permissions', $edit_permission);
+
+        $this->output .= $tpl->fetch('admin/permissions/edit.tpl');
+       
+        }
+        
+        // SUBMIT INPUT
+        
+        else
+        {     
+         //debug input array
+        print_r($info);
+        
+        
+        // Db Update
+        $sets =  'name = ?, description = ?';
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'rights SET ' . $sets . ' WHERE right_id = ?' );
+        $stmt->execute( array ( $info['name'], $info['description'], $info['id'] ) );
+        
+        // Redirect to Show
+        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'The permission was edited.' ), 'admin' );
+    
+        }
+    
+    }
+    
+    
     
   /**
     * @desc Delete permissions
