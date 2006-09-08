@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.1
+-- version 2.8.0.3
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 05. September 2006 um 18:35
--- Server Version: 5.0.21
--- PHP-Version: 5.1.4
+-- Erstellungszeit: 08. September 2006 um 08:18
+-- Server Version: 5.0.20
+-- PHP-Version: 5.1.2
 -- 
 -- Datenbank: `clansuite`
 -- 
@@ -99,10 +99,10 @@ INSERT INTO `cs_adminmenu` VALUES (23, 22, 'item', 'Template Editor', 'index.php
 INSERT INTO `cs_adminmenu` VALUES (24, 22, 'item', 'Adminmenu Editor', 'index.php?mod=admin&sub=menueditor', 'Adminmenu Editor', '_self', 1, 'application_form_edit.png');
 INSERT INTO `cs_adminmenu` VALUES (25, 0, 'folder', 'Administration', '', 'Administration', '_self', 3, '');
 INSERT INTO `cs_adminmenu` VALUES (26, 25, 'folder', 'Users', '', 'Users', '_self', 0, 'user_suit.png');
-INSERT INTO `cs_adminmenu` VALUES (27, 26, 'item', 'Show All', 'index.php?mod=admin&sub=users', 'Show All', '_self', 0, 'table.png');
-INSERT INTO `cs_adminmenu` VALUES (28, 26, 'item', 'Search', 'index.php?mod=admin&sub=search', 'Search', '_self', 1, 'magnifier.png');
+INSERT INTO `cs_adminmenu` VALUES (27, 26, 'item', 'Show All Users', 'index.php?mod=admin&sub=users', 'Show All Users', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu` VALUES (28, 26, 'item', 'Search a User', 'index.php?mod=admin&sub=users&action=search', 'Search a User', '_self', 1, 'magnifier.png');
 INSERT INTO `cs_adminmenu` VALUES (29, 25, 'folder', 'Groups', '', 'Groups', '_self', 1, 'group.png');
-INSERT INTO `cs_adminmenu` VALUES (30, 29, 'item', 'Show all', 'index.php?mod=admin&sub=groups', 'Show all', '_self', 0, 'table.png');
+INSERT INTO `cs_adminmenu` VALUES (30, 29, 'item', 'Show all Groups', 'index.php?mod=admin&sub=groups', 'Show all Groups', '_self', 0, 'table.png');
 INSERT INTO `cs_adminmenu` VALUES (31, 25, 'folder', 'Permissions', '', 'Permissions', '_self', 2, 'key.png');
 INSERT INTO `cs_adminmenu` VALUES (32, 25, 'folder', 'Templates', '', 'Templates', '_self', 3, 'layout_header.png');
 INSERT INTO `cs_adminmenu` VALUES (33, 0, 'folder', 'Help', '', 'Help', '_self', 4, '');
@@ -110,6 +110,7 @@ INSERT INTO `cs_adminmenu` VALUES (34, 33, 'item', 'Help', 'index.php?mod=admin&
 INSERT INTO `cs_adminmenu` VALUES (35, 33, 'item', 'Manual', 'index.php?mod=admin&sub=manual', 'Manual', '_self', 1, 'book_open.png');
 INSERT INTO `cs_adminmenu` VALUES (36, 33, 'item', 'Report Bugs & Give Feedback', 'index.php?mod=admin&sub=bugs', 'Report Bugs & Give Feedback', '_self', 2, 'error.png');
 INSERT INTO `cs_adminmenu` VALUES (37, 33, 'item', 'About Clansuite', 'index.php?mod=admin&sub=static&action=show&page=about', 'About Clansuite', '_self', 3, 'information.png');
+INSERT INTO `cs_adminmenu` VALUES (40, 31, 'item', 'Show All Permissions', 'index.php?mod=admin&sub=permissions', 'Show All Permissions', '_self', 0, 'key.png');
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,7 @@ INSERT INTO `cs_adminmenu_old` VALUES (19, 18, 'item', 'Create a module', 'index
 INSERT INTO `cs_adminmenu_old` VALUES (20, 18, 'item', 'Export a module', 'index.php?mod=admin&sub=modules&action=export', 'Export a module', '_self', 1, 'compress.png');
 INSERT INTO `cs_adminmenu_old` VALUES (21, 18, 'item', 'Edit modules', 'index.php?mod=admin&sub=modules&action=show_all', 'Edit modules', '_self', 2, 'bricks_edit.png');
 INSERT INTO `cs_adminmenu_old` VALUES (22, 14, 'folder', 'Development', '', 'Development', '_self', 2, 'application_xp_terminal.png');
-INSERT INTO `cs_adminmenu_old` VALUES (23, 22, 'item', 'Template Editor', 'index.php?mod=admin&sub=templateditor', 'Template Editor', '_self', 0, 'layout_edit.png');
+INSERT INTO `cs_adminmenu_old` VALUES (23, 22, 'item', 'Template Editor', 'index.php?mod=admin&sub=templates', 'Template Editor', '_self', 0, 'layout_edit.png');
 INSERT INTO `cs_adminmenu_old` VALUES (24, 22, 'item', 'Adminmenu Editor', 'index.php?mod=admin&sub=menueditor', 'Adminmenu Editor', '_self', 1, 'application_form_edit.png');
 INSERT INTO `cs_adminmenu_old` VALUES (25, 0, 'folder', 'Administration', '', 'Administration', '_self', 3, '');
 INSERT INTO `cs_adminmenu_old` VALUES (26, 25, 'folder', 'Users', '', 'Users', '_self', 0, 'user_suit.png');
@@ -335,7 +336,7 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 -- 
 
-INSERT INTO `cs_session` VALUES (0, 'fedfaa08996ef398f554de4d8e1bc7a2', 'client_ip|s:9:"127.0.0.1";client_browser|s:79:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5";client_host|s:9:"localhost";suiteSID|s:32:"fedfaa08996ef398f554de4d8e1bc7a2";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1157474661, 1, 'admin');
+INSERT INTO `cs_session` VALUES (0, '09c01f526bcccb00a734011fd9fad1fe', 'client_ip|s:9:"127.0.0.1";client_browser|s:87:"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6";client_host|s:9:"localhost";suiteSID|s:32:"09c01f526bcccb00a734011fd9fad1fe";user|a:9:{s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:4:"Gast";s:8:"password";s:0:"";s:5:"email";s:0:"";s:10:"first_name";s:7:"Vorname";s:9:"last_name";s:8:"Nachname";s:8:"disabled";s:0:"";s:9:"activated";s:0:"";}', 'suiteSID', 1157696366, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -477,7 +478,7 @@ CREATE TABLE `cs_usergroups` (
   `colour` varchar(7) NOT NULL,
   `posts` int(4) default '0',
   PRIMARY KEY  (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- 
 -- Daten für Tabelle `cs_usergroups`
@@ -488,8 +489,7 @@ INSERT INTO `cs_usergroups` VALUES (2, 2, 'Newsadministration', 'Administration 
 INSERT INTO `cs_usergroups` VALUES (3, 3, 'Guestsbook Administration', 'Administration of Modul: Guestbook', NULL, '#990033', NULL);
 INSERT INTO `cs_usergroups` VALUES (4, 0, 'Newbie', '', '1star.gif', '', 50);
 INSERT INTO `cs_usergroups` VALUES (5, 0, 'Advanced Newbie', '', '2star.gif', '', 100);
-INSERT INTO `cs_usergroups` VALUES (6, 1, 'Groupsadministration', 'Administration of Usergroups', '', '#0066FF', NULL);
-
+INSERT INTO `cs_usergroups` VALUES (19, 1, 'Groupsadministration', 'Administration of Usergroups', '', '#0066FF', NULL);
 
 -- --------------------------------------------------------
 
