@@ -116,7 +116,7 @@ class module_admin_users
         }
         else
         {
-        $this->output .= 'No Users could be found.';
+            $this->output .= 'No Users could be found.';
         }
        
         $this->output .= $tpl->fetch('admin/users/show.tpl');
@@ -139,9 +139,53 @@ class module_admin_users
 
     function edit()
     {
-        global $db, $tpl, $error, $lang, $input;
+        global $db, $tpl, $error, $lang, $input, $security, $functions;
         
-        $user_id = (int) $_GET['user_id'];
+        /**
+        * @desc Init
+        */
+        $user_id    = (int) $_GET['user_id'];
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+        
+        /**
+        * @desc Update DB
+        */
+        if( !empty($submit) )
+        {
+            $sets =  'nick = ?, first_name = ?, last_name = ?, email = ?, infotext = ?, activated = ?, disabled = ?';
+            if( $info['password'] != '' )
+            {
+                $hash = $security->db_salted_hash($info['password']);
+                $sets .=  ',password = ?';
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET ' . $sets . ' WHERE user_id = ?' );
+                $stmt->execute( array ( $info['nick'],
+                                        $info['first_name'],
+                                        $info['last_name'], 
+                                        $info['email'],
+                                        $info['infotext'],
+                                        $info['activated'],
+                                        $info['disabled'],
+                                        $info['password'],
+                                        $info['user_id'] ) );
+                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited and a new password has been set.' ), 'admin' );
+            }
+            else
+            {
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET ' . $sets . ' WHERE user_id = ?' );
+                $stmt->execute( array ( $info['nick'],
+                                        $info['first_name'],
+                                        $info['last_name'], 
+                                        $info['email'],
+                                        $info['infotext'],
+                                        $info['activated'],
+                                        $info['disabled'],
+                                        $info['user_id'] ) );                
+                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ), 'admin' );
+            }            
+            
+
+        }
               
         // TAB 1 - Edit Userprofil -> $userprofil
                 

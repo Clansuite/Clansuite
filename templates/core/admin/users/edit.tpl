@@ -22,13 +22,13 @@
     {/error}
 {/if}
  
-<form action="index.php?mod=admin&sub=groups&action=edit" method="POST" target="_self">
+<form action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
     <td colspan="2" class="td_header_small">
         Editing user with ID <b>{$user.user_id}</b>
-        <input type="hidden" name="user_id" value="{$user.user_id}">
+        <input type="hidden" name="info[user_id]" value="{$user.user_id}">
     </td>
 </tr>
 <tr>
@@ -49,7 +49,7 @@
 </tr>
 <tr>
     <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="password" value="{$user.password}" class="input_text"/></td>
+    <td><input name="info[password]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Infotext:</b></td>
@@ -62,6 +62,10 @@
 <tr>
     <td class="cell1"><b>Activated:</b></td>
     <td align="left"><input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} /></td>
+</tr>
+<tr>
+    <td class="cell1"><b>Disabled:</b></td>
+    <td align="left"><input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} /></td>
 </tr>
 <tr>
     <td colspan="2" align="center">
