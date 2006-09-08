@@ -21,6 +21,18 @@
         Please fill all fields.
     {/error}
 {/if}
+
+{if $err.nick_already == 1}
+    {error title="Nick already stored"}
+        The nick you have entred is already in the database.
+    {/error}
+{/if}
+
+{if $err.email_already == 1}
+    {error title="eMail already stored"}
+        The eMail you have entered is already in the database.
+    {/error}
+{/if}
  
 <form action="index.php?mod=admin&sub=users&action=create" method="POST" target="_self">
 
@@ -32,31 +44,35 @@
 </tr>
 <tr>
     <td class="cell1"><b>First Name:</b></td>
-    <td><input name="info[first_name]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[first_name]" type="text" value="{$smarty.post.info.first_name|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Last Name:</b></td>
-    <td><input name="info[last_name]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[last_name]" type="text" value="{$smarty.post.info.last_name|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Nick:</b></td>
-    <td><input name="info[nick]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[nick]" type="text" value="{$smarty.post.info.nick|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>eMail:</b></td>
-    <td><input name="info[email]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[email]" type="text" value="{$smarty.post.info.email|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[password]" type="text" value="{$smarty.post.info.password|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Infotext:</b></td>
-    <td><input name="info[infotext]" type="text" value="" class="input_text"/></td>
+    <td><input name="info[infotext]" type="text" value="{$smarty.post.info.infotext|escape:"htmlall"}" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Activated:</b></td>
-    <td align="left"><input name="info[activated]" type="checkbox" value="1" /></td>
+    <td align="left"><input name="info[activated]" type="checkbox" value="1" {if $smarty.post.info.activated==1}checked{/if}/></td>
+</tr>
+<tr>
+    <td class="cell1"><b>Disabled:</b></td>
+    <td align="left"><input name="info[disabled]" type="checkbox" value="1" {if $smarty.post.info.disabled==1}checked{/if}/></td>
 </tr>
 <tr>
     <td colspan="2" align="center">

@@ -27,21 +27,21 @@
     <td class="td_header" align="center">{translate}Delete{/translate}</td>
 </tr>
 
+{assign var="td_class" value="cell1"}
 {foreach key=key item=group from=$groups}
-    
-<tr class="{cycle values="cell1,cell2"}">
+<tr>
     <input type="hidden" name="ids[]" value="{$group.group_id}" />
-    <td align="center" height="30">{$group.group_id}</td>
-    <td align="center">{$group.pos}</td>
-    <td align="center" style="color: {$group.color}; font-weight: bold;">{$group.name}</td>
-    <td align="center">{$group.description}</td>
-    <td align="center">{$group.icon}</td>
-    <td align="center">{$group.image}</td>
-    <td align="center"><a class="input_submit" style="position: relative; top: 7px;" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
-    <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
+    <td class="{$td_class}" align="center" height="40">{$group.group_id}</td>
+    <td class="{$td_class}" align="center">{$group.pos}</td>
+    <td class="{$td_class}" align="center" style="color: {$group.color}; font-weight: bold;">{$group.name}</td>
+    <td class="{$td_class}" align="center">{$group.description}</td>
+    <td class="{$td_class}" align="center"><img src="{$www_core_tpl_root}/images/groups/{$group.icon}"></td>
+    <td class="{$td_class}" align="center"><img src="{$www_core_tpl_root}/images/groups/{$group.image}"></td>
+    <td class="{$td_class}" align="center"><a class="input_submit" style="position: relative; top: 7px;" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
+    <td class="{$td_class}" align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
     
 </tr>
-    
+{if $td_class=='cell1'}{assign var="td_class" value="cell2"}{else}{assign var="td_class" value="cell1"}{/if}    
 {/foreach}
 
 <tr>

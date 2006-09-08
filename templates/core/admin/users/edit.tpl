@@ -21,10 +21,22 @@
         Please fill all fields.
     {/error}
 {/if}
+
+{if $err.nick_already == 1}
+    {error title="Nick already stored"}
+        The nick you have entred is already in the database.
+    {/error}
+{/if}
+
+{if $err.email_already == 1}
+    {error title="eMail already stored"}
+        The eMail you have entered is already in the database.
+    {/error}
+{/if}
  
 <form action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
 
-<table cellpadding="4" cellspacing="0" border="0">
+<table cellpadding="4" cellspacing="0" border="0" width="250">
 <tr>
     <td colspan="2" class="td_header_small">
         Editing user with ID <b>{$user.user_id}</b>
@@ -49,7 +61,10 @@
 </tr>
 <tr>
     <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="text" value="" class="input_text"/></td>
+    <td>
+        <input name="info[password]" type="text" value="" class="input_text"/>
+        <br />{translate}Leave it blank if you do not want to change the password!{/translate}
+    </td>
 </tr>
 <tr>
     <td class="cell1"><b>Infotext:</b></td>
