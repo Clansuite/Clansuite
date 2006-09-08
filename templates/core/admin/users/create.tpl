@@ -22,50 +22,45 @@
     {/error}
 {/if}
  
-<form action="index.php?mod=admin&sub=groups&action=edit" method="POST" target="_self">
+<form action="index.php?mod=admin&sub=groups&action=create" method="POST" target="_self">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
     <td colspan="2" class="td_header_small">
-        Editing user with ID <b>{$user.user_id}</b>
-        <input type="hidden" name="user_id" value="{$user.user_id}">
+        Create a new user
     </td>
 </tr>
 <tr>
     <td class="cell1"><b>First Name:</b></td>
-    <td><input name="info[first_name]" type="text" value="{$user.first_name}" class="input_text"/></td>
+    <td><input name="info[first_name]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Last Name:</b></td>
-    <td><input name="info[last_name]" type="text" value="{$user.last_name}" class="input_text"/></td>
+    <td><input name="info[last_name]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Nick:</b></td>
-    <td><input name="info[nick]" type="text" value="{$user.nick}" class="input_text"/></td>
+    <td><input name="info[nick]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>eMail:</b></td>
-    <td><input name="info[email]" type="text" value="{$user.email}" class="input_text"/></td>
+    <td><input name="info[email]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="password" value="{$user.password}" class="input_text"/></td>
+    <td><input name="info[password]" type="password" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Infotext:</b></td>
-    <td><input name="info[infotext]" type="text" value="{$user.infotext}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Groups:</b></td>
-    <td>{foreach item=item key=key from=$groups}<a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a><br />{/foreach}</td>
+    <td><input name="info[infotext]" type="text" value="" class="input_text"/></td>
 </tr>
 <tr>
     <td class="cell1"><b>Activated:</b></td>
-    <td align="left"><input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} /></td>
+    <td align="left"><input name="info[activated]" type="checkbox" value="1" /></td>
 </tr>
 <tr>
     <td colspan="2" align="center">
-        <input class="input_submit" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
+        <input class="input_submit" type="submit" name="submit" value="{translate}Create the user{/translate}" />
     </td>
 </tr>
 </table>
