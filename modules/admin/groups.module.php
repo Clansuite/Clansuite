@@ -125,107 +125,29 @@ class module_admin_groups
     {
         global $db, $tpl, $error, $lang;
 
-        // Benutzergruppen - Icons laden
+        /**
+        * @desc Init
+        */
+        $icons  = array();        
+        $groups = array();
+        /**
+        * @desc Extrapolate icons from dir
+        */
+        $icons = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
         
-        $icons = array();
-        
-        $dir_handler = opendir( TPL_ROOT . '/core/images/groups/' );
-        
-        while( false !== ($file = readdir($dir_handler)) )
-        {
-            if ( $file != '.' && $file != '..' && $file != '.svn' )
-            {
-                $icons[] = $file;
-            }
-        }
-        closedir($dir_handler);
-               
-        $tpl->assign( 'icons', $icons );
-        
-        //
-        // ----------------------------------------------------------------------------------
-        //
-        
-       // Abfrage der Benutzergruppen  ( basierend auf Rechten )
-       
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE (posts IS NULL) ORDER BY pos ASC' );
+        /**
+        * @desc Get the DB result sets
+        */
+        $stmt = $db->prepare( 'SELECT group_id,name,description,pos,icon,image,color FROM ' . DB_PREFIX . 'groups' );
         $stmt->execute();
-        $right_based_groups = $stmt->fetchAll(PDO::FETCH_NAMED);
+        $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Anzahl der Gruppen durchlaufen + User ermitteln
-        $runtimes = count($right_based_groups);
-        for ($i=0; $i<=$runtimes-1; $i++) 
-        {
-         //echo $i .' / ' . $runtimes . ' : ' . $right_based_groups[$i]['name'] . ' - ' . $right_based_groups[$i]['group_id']  . '<br />';        
-       
-        // Abfrage der User aus der jeweiligen Gruppe
-                 
-            $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id 
-                                   FROM ' . DB_PREFIX . 'user_usergroups cu,
-                                        ' . DB_PREFIX . 'users cs
-                                   WHERE cs.user_id = cu.user_id
-                                   AND cu.group_id = ?');
-                                   
-            $stmt2->execute( array ( $right_based_groups[$i]['group_id'] ));
-            $rightgroupusers = $stmt2->fetchAll(PDO::FETCH_NAMED);
-            //var_dump($test);
-            $right_based_groups[$i]['users'] = $rightgroupusers;
-        }
+        /**
+        * @desc Assing to template & output
+        */
+        $tpl->assign( 'icons'   , $icons );
+        $tpl->assign( 'groups'  , $groups );
         
-                                 
-        if ( is_array( $right_based_groups ) )
-        {
-            $tpl->assign('right_based_groups', $right_based_groups);
-        }
-        else
-        {
-            $this->output .= 'There was an error while acquiring the right_based_groups-data.';
-        }
-        
-        //
-        // ----------------------------------------------------------------------------------
-        //
-        
-       
-       
-       
-        // Abfrage der Benutzergruppen ( basierend auf der Anzahl der Posts )
-        
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'usergroups WHERE posts > 0 ORDER BY pos, posts ASC' );
-        $stmt->execute();
-        $post_based_groups = $stmt->fetchAll(PDO::FETCH_NAMED);
-        
-        
-        // Anzahl der Gruppen durchlaufen + User ermitteln
-        $runtimes = count( $post_based_groups);
-        for ($i=0; $i<=$runtimes-1; $i++) 
-        {
-         //echo $i .' / ' . $runtimes . ' : ' .  $post_based_groups[$i]['name'] . ' - ' .  $post_based_groups[$i]['group_id']  . '<br />';        
-       
-        // Abfrage der User aus der jeweiligen Gruppe
-                 
-            $stmt3 = $db->prepare('SELECT cs.nick, cs.user_id 
-                                   FROM ' . DB_PREFIX . 'user_usergroups cu,
-                                        ' . DB_PREFIX . 'users cs
-                                   WHERE cs.user_id = cu.user_id
-                                   AND cu.group_id = ?');
-                                   
-            $stmt3->execute( array (  $post_based_groups[$i]['group_id'] ));
-            $postgroupusers = $stmt3->fetchAll(PDO::FETCH_NAMED);
-            //var_dump($test);
-            $post_based_groups[$i]['users'] = $postgroupusers;
-        }
-        
-       
-        if ( is_array( $post_based_groups ) )
-        {
-            $tpl->assign('post_based_groups', $post_based_groups);
-        }
-        else
-        {
-        $this->output .= 'There was an error while acquiring the post_based_groups.';
-        }
-       
         $this->output .= $tpl->fetch('admin/groups/show.tpl');
     }
     
