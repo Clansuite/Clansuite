@@ -19,7 +19,7 @@
 
     <tr class="{cycle values="cell1,cell2"}">
         <td align="center" height="50"><input type="hidden" name="ids[]" value="{$wert.right_id}">{$wert.right_id}</td>
-        <td align="center">{$wert.right_name}</td>
+        <td align="center">{$wert.name}</td>
         
         <td align="center">
             <a href="index.php?mod=admin&sub=permissions&action=edit&right_id={$wert.right_id}" class="input_submit" style="position: relative; top: 15px">Edit</a>

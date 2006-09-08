@@ -83,7 +83,7 @@ class module_admin_permissions
         global $db, $tpl, $error, $lang;
 
         // Ausgabe der Benutzergruppen basierend auf Rechten
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights ORDER BY right_name ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights ORDER BY name ASC' );
         $stmt->execute();
         $permissions_data = $stmt->fetchAll(PDO::FETCH_NAMED);
         
