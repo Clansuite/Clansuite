@@ -160,7 +160,7 @@ class module_admin_users
         // TAB 2 - Edit Group Memberships -> $groupsofuser
         
         $stmt = $db->prepare( 'SELECT ug.* 
-                               FROM ' . DB_PREFIX . 'user_groups cu,
+                               FROM ' . DB_PREFIX . 'user_group cu,
                                     ' . DB_PREFIX . 'groups ug
                                WHERE ug.group_id = cu.group_id
                                AND cu.user_id = ?' );
