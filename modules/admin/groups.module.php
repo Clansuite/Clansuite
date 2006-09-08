@@ -133,11 +133,32 @@ class module_admin_groups
         
         /**
         * @desc Get the DB result sets
+        * Abfrage der Benutzergruppen
         */
-        $stmt = $db->prepare( 'SELECT group_id,name,description,pos,icon,image,color FROM ' . DB_PREFIX . 'groups' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups ORDER BY pos ASC' );
         $stmt->execute();
-        $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
         
+        // Anzahl der Gruppen durchlaufen + User ermitteln
+        $runtimes = count($groups);
+        for ($i=0; $i<=$runtimes-1; $i++) 
+        {
+         //echo $i .' / ' . $runtimes . ' : ' . $right_based_groups[$i]['name'] . ' - ' . $right_based_groups[$i]['group_id']  . '<br />';        
+       
+        // Abfrage der User aus der jeweiligen Gruppe
+                 
+            $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id 
+                                   FROM ' . DB_PREFIX . 'user_group cu,
+                                        ' . DB_PREFIX . 'users cs
+                                   WHERE cs.user_id = cu.user_id
+                                   AND cu.group_id = ?');
+                                   
+            $stmt2->execute( array ( $groups[$i]['group_id'] ));
+            $user_in_group = $stmt2->fetchAll(PDO::FETCH_NAMED);
+            //var_dump($test);
+            $groups[$i]['users'] = $user_in_group;
+        }
+          
         /**
         * @desc Assing to template & output
         */
@@ -250,7 +271,7 @@ class module_admin_groups
         // DB - SELECT       
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
         $stmt->execute( array( $id ) );
-        $edit_group = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);
         
         // SHOW EDIT 
         
