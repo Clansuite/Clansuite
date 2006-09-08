@@ -110,7 +110,7 @@ class module_admin_users
         global $db, $tpl, $error, $lang;
 
        
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users ORDER BY user_id ASC' );
         $stmt->execute( );
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
                     
