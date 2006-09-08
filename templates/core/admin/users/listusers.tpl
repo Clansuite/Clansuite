@@ -10,23 +10,23 @@
     <h3>All Users</h3>    <a href="index.php?mod=admin&sub=users&action=search">- Search -</a>
     
     
-    <table cellspacing="0" cellpadding="0" border="0" width="75%">
+     <table cellspacing="0" cellpadding="0" border="0" class="border3d" width="80%">  
     <thead align="center">
-    <tr>
-        <td id="td_header" width="10%"> {translate}user id{/translate}        </td>
-        <td id="td_header">             {translate}email{/translate}       </td>
-        <td id="td_header">             {translate}nick{/translate}            </td>  
-        <td id="td_header">             {translate}joined{/translate}       </td>
-        <td id="td_header">             {translate}first name{/translate}     </td>
-        <td id="td_header">             {translate}last name{/translate}         </td>
-        <td id="td_header">             {translate}Action{/translate}          </td>
-        <td id="td_header">             {translate}Delete{/translate}          </td>
+    <tr class="td_header">
+        <td width="10%"> {translate}user id{/translate}         </td>
+        <td>             {translate}email{/translate}           </td>
+        <td>             {translate}nick{/translate}            </td>  
+        <td>             {translate}joined{/translate}          </td>
+        <td>             {translate}first name{/translate}      </td>
+        <td>             {translate}last name{/translate}       </td>
+        <td>             {translate}Action{/translate}          </td>
+        <td>             {translate}Delete{/translate}          </td>
     </tr>
     </thead>
     
     {foreach key=schluessel item=wert from=$users}
        
-            <tr bgcolor="{cycle values="#eeeeee,#d0d0d0"}">
+             <tr class="{cycle values="cell1,cell2"}">
             
                 <input type="hidden" name="ids[]" value="{$wert.group_id}">
                
