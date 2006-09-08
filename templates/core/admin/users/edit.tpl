@@ -29,7 +29,7 @@
         
         <p>This is your profile. You can choose which information to fill out, other than the required section. This information will be displayed in various places throughout {$website_name}. </p>
         
-        <form id="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
+        <form class="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
         <!-- Fieldset Gruppe --> 
         <fieldset> 
         <!-- Auszeichnungs- und Steuerelemente -->
@@ -87,6 +87,49 @@
         
         The user {$userprofil.0.nick} #{$userprofil.0.user_id} is member of the following groups:
         
+        <form action="index.php?mod=admin&sub=user&action=edit" method="POST">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        
+        <tr>
+            <td class="td_header" width="50" align="center">{translate}ID{/translate}</td>
+            <td class="td_header" width="50" align="center">{translate}Position{/translate}</td>
+            <td class="td_header" width="200" align="center">{translate}Name{/translate}</td>
+            <td class="td_header" width="300" align="center">{translate}Description{/translate}</td>
+            <td class="td_header" width="100" align="center">{translate}Icon{/translate}</td>
+            <td class="td_header" width="200" align="center">{translate}Image{/translate}</td>
+            <td class="td_header" align="center">{translate}Edit{/translate}</td>
+            <td class="td_header" align="center">{translate}Delete{/translate}</td>
+        </tr>
+        
+        {foreach key=key item=group from=$groupsofuser}
+            
+        <tr class="{cycle values="cell1,cell2"}">
+            <input type="hidden" name="ids[]" value="{$group.group_id}" />
+            <td align="center" height="30">{$group.group_id}</td>
+            <td align="center">{$group.pos}</td>
+            <td align="center" style="color: {$group.color}; font-weight: bold;">{$group.name}</td>
+            <td align="center">{$group.description}</td>
+            <td align="center">{$group.icon}</td>
+            <td align="center">{$group.image}</td>
+            <td align="center"><a class="input_submit" style="position: relative; top: 7px;" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
+            <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
+            
+        </tr>
+            
+        {/foreach}
+        
+        <tr>
+        <td colspan="8" align="right">
+            <input class="Button" type="reset" tabindex="3" />
+            <input type="submit" name="submit" class="input_submit" value="Delete the selected groups" />
+        </td>
+        </tr>
+        </table>
+        </form>
+        
+        
+        
+        
         {$groupsofuser|@var_dump}
         
  </div> {* close tab-page2 *}
@@ -100,7 +143,7 @@
         
         <h3>Contact Information of {$userprofil.0.nick} #{$userprofil.0.user_id}</h3>
         
-        <form id="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
+        <form class="h3sForm" action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
         <!-- Auszeichnungs- und Steuerelemente -->
         <fieldset > 
         <input name="group_id" type="hidden" value="{$contactinfo.user_id}">
@@ -112,6 +155,9 @@
     			<input id="email" name="email" type="text" value="{$contactinfo.email}" />
     			<small>Must match the email address you just entered above.</small>
     	   </label>
+    	   </fieldset> 
+    	   
+    	   <fieldset> 
     	   
     	   <label for="ICQ"> 
                  ICQ
@@ -148,7 +194,9 @@
     			<input id="Google Talk" name="Google Talk" type="text" value="{$contactinfo.googletalk}" />
     			<small>This is your Google Talk address.</small>
     	   </label>
+    	   </fieldset> 
     	   
+    	   <fieldset > 
     	   <label for="Website title"> 
                  Website title
     			<input id="Website title" name="Website title" type="text" value="{$contactinfo.website}" />
@@ -160,6 +208,7 @@
     			<input id="Website title" name="Website title" type="text" value="{$contactinfo.website}" />
     			<small>This must be a complete URL.</small>
     	   </label>
+    	   </fieldset > 
     	  
     		<label for="icon">
                 Icon
