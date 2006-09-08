@@ -89,7 +89,7 @@ class module_admin_groups
           
             case 'edit':
                 $this->mod_page_title = $lang->t( 'Edit Group' );
-                $this->edit();
+                $this->edit_group();
                 break;
                 
             case 'delete':
@@ -168,18 +168,72 @@ class module_admin_groups
        
     }
     
+     //----------------------------------------------------------------
+    // Edit group
     //----------------------------------------------------------------
-    // Edit usergroup
-    //----------------------------------------------------------------
-    function edit()
+    function edit_group()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
+       
+        // init, get, assign ICONS!
+        $icons  = array();    
+        $icons = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
+        $tpl->assign( 'icons'   , $icons );
         
-      
+        // init, get, assign IMAGES!
+        $images  = array();    
+        $images = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
+        $tpl->assign( 'images'   , $images );
+        
+        // $_POST EINGANG 
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+        $id         = $_GET['id'];
+                
+        $sets = '';
+               
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
+        $stmt->execute( array( $id ) );
+        $edit_group = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // SHOW EDIT 
+        
+        if ( ! isset ( $_POST['submit'] ) )
+        {
+        
+        $tpl->assign('editgroup', $edit_group);
 
         $this->output .= $tpl->fetch('admin/groups/edit.tpl');
+       
+        }
+        
+        // SUBMIT INPUT
+        
+        else
+        {     
+         //debug input array
+        print_r($info);
+        
+        
+        // Db Update
+        $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
+        $stmt->execute( array ( $info['pos'],
+                                $info['name'],
+                                $info['description'], 
+                                $info['icon'],
+                                $info['image'],
+                                $info['color'],
+                                $info['group_id'] ) );
+        
+        // Redirect to Show
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was edited.' ), 'admin' );
+    
+        }
+    
     }
-   
+      
     /**
     * @desc Delete the groups list
     */
