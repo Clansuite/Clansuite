@@ -41,7 +41,7 @@
             <td><img src="{$captcha_url}" style="border:thin solid black;"><br /><input class='input_text' type="text" name="captcha" value=""></td>
         </tr>
         <tr>
-            <td cospan='2'><input class='input_submit' type="submit" name="submit" value="{translate}Register{/translate}"></td>
+            <td cospan='2'><input class='ButtonGrey' type="submit" name="submit" value="{translate}Register{/translate}"></td>
         </tr>
     </table>
     </form>

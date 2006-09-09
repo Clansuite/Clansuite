@@ -153,7 +153,7 @@
                 <b>{translate}The menu was generate.{/translate}</b> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />
                 <p>
-                <input class="input_submit" type="submit" name="submit" value="{translate}Update the menu{/translate}">
+                <input class="ButtonGrey" type="submit" name="submit" value="{translate}Update the menu{/translate}">
                 </p>
                 </form>
             </div>

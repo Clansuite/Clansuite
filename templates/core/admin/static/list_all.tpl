@@ -30,7 +30,7 @@
             {$item.description}
         </td>
         <td class="cell1" align="center">
-            <input type="submit" value="{translate}Edit{/translate}" class="input_submit">
+            <input type="submit" value="{translate}Edit{/translate}" class="ButtonGrey">
         </td>
     </tr>
 </form>

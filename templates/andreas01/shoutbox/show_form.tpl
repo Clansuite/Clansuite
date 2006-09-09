@@ -55,7 +55,7 @@
 				onblur="if(this.value == '') this.value = '{$field_value_msg}'" /><br />	
 			
 		{* Falls Js aktiviert ist, wird der Submit Button automaisch ausgeblendet! *}
-		<input class="input_submit" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
+		<input class="ButtonGrey" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
 	</form>
 {/if}
 

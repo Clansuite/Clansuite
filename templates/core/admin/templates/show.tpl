@@ -192,7 +192,7 @@ Loading...
 </tr>
 <tr>
 <td align="center" colspan="2">
-    <input class="input_submit" onclick="return sendAjaxRequest('save', '', 'index.php?mod=admin&sub=templates&action=ajax_save')"type="submit" value="{translate}Update{/translate}" /><br />
+    <input class="ButtonGrey" onclick="return sendAjaxRequest('save', '', 'index.php?mod=admin&sub=templates&action=ajax_save')"type="submit" value="{translate}Update{/translate}" /><br />
     <div id="ajax_confirm" align="center"></div>
 </td>
 </tr>

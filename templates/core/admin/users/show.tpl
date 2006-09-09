@@ -40,7 +40,7 @@
                     <td>                            {$wert.last_name}   </td>
                     <td>                            {$wert.infotext}    </td>
                     <td>
-                        <a class="input_submit" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
+                        <a class="ButtonGreen" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
                     </td>
                     <td style="text-align:center;"> 
                         <input type="hidden" name="ids[]" value="{$wert.user_id}">
@@ -54,11 +54,10 @@
         <tfoot>
             <tr>
                <td height="20" colspan="9" align="right">
-               
-                    <input class="ButtonRed" type="submit" name="Delete" id="Delete" value="Delete Selected Users" tabindex="2" />
+
+                    <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" onClick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="Create new User" tabindex="2" />               
                     <input class="Button" type="reset" />
-                    
-                    <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" onClick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="Create new User" tabindex="2" />
+                    <input class="ButtonRed" type="submit" name="Delete" id="Delete" value="Delete Selected Users" tabindex="2" />
                    
                 </td>
             </tr>

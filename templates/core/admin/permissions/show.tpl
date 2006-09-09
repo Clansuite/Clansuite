@@ -27,8 +27,8 @@
                     <td>{$wert.description}</td>
                     
                     <td>
-                        <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="input_submit">Edit</a>
-                        <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="input_submit">Look up User</a>
+                        <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="ButtonGrey">Edit</a>
+                        <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="ButtonGrey">Look up User</a>
                     </td>
                     <td style="text-align:center;">
                         <input type="hidden" name="ids[]" value="{$wert.right_id}">

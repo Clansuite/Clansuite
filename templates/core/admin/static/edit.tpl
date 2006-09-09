@@ -92,7 +92,7 @@
     </tr>
     <tr>
         <td colspan="2" class="cell2" align="center">
-            <input class="input_submit" type="submit" name="submit" value="{translate}Edit the static page{/translate}" />
+            <input class="ButtonGrey" type="submit" name="submit" value="{translate}Edit the static page{/translate}" />
         </td>
     </tr>
 </table>
