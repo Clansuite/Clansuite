@@ -20,7 +20,8 @@ a:visited
 .ButtonYellow,
 .ButtonRed,
 .ButtonGreen,
-.ButtonGrey
+.ButtonGrey,
+.ButtonOrange,
 {
 	background-color: #FFFFFF;
 	border: 1px solid #999999;
@@ -40,9 +41,15 @@ a:visited
 {
 	background: url(../images/background_form_element_grey.gif) repeat-x;
 }
+
 .ButtonYellow
 {
 	background: url(../images/background_form_element_yellow.gif) repeat-x;
+}
+
+.ButtonOrange
+{
+	background: url(../images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
@@ -59,7 +66,8 @@ a:visited
 .ButtonYellow:active,
 .ButtonRed:active,
 .ButtonGreen:active,
-.ButtonGrey:active
+.ButtonGrey:active,
+.ButtonOrange:active
 {
 	border: 1px solid #CCCCCC;
 	border-top-color: #999999;
