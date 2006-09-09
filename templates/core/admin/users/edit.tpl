@@ -33,6 +33,12 @@
         The eMail you have entered is already in the database.
     {/error}
 {/if}
+
+{if $err.email_wrong == 1}
+   {error title="Mail wrong!"}
+        The email you entered is not valid.
+    {/error}
+{/if}
  
 <form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=edit" class="h3sForm">
 

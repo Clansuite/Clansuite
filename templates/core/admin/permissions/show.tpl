@@ -27,8 +27,8 @@
                     <td>{$wert.description}</td>
                     
                     <td>
-                        <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="ButtonGrey">Edit</a>
-                        <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="ButtonGrey">Look up User</a>
+                        <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="ButtonOrange">Edit</a>
+                        <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="Button">Look up User</a>
                     </td>
                     <td style="text-align:center;">
                         <input type="hidden" name="ids[]" value="{$wert.right_id}">
@@ -42,16 +42,17 @@
         <tfoot>
             <tr>
                <td colspan="9" height="40">
+                   <div align="right">
                    
-                   <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="submit" id="Delete" value="Delete the selected Permissions" tabindex="4" />
-                   <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" tabindex="3" />
+                   <input class="ButtonYellow" type="button" name="xsubmit" id="Scan" 
+                   onClick="self.location.href='index.php?mod=admin&sub=permissions&action=scan'" value="Scan for new Permissions" tabindex="1" />                
                    
-                   <input style="border-top-color:lightgreen; border-style:groove;" class="Button" type="button" name="xsubmit" id="Submit" 
+                   <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" 
                    onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create'"  value="Create new Permission" tabindex="2" />
                    
-                   <input style="border-top-color:yellow; border-style:groove;" class="Button" type="button" name="xsubmit" id="Scan" 
-                   onClick="self.location.href='index.php?mod=admin&sub=permissions&action=scan'" value="Scan for new Permissions" tabindex="1" />                
-                
+                   <input class="ButtonGrey" type="reset" tabindex="3" />
+                   <input class="ButtonRed" type="submit" name="submit" id="Delete" value="Delete the selected Permissions" tabindex="4" />
+                   </div>
                 </td>
             </tr>
         </tfoot>

@@ -3,10 +3,16 @@
 {* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump} 
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if} *}
 
-
 {doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 {/doc_raw}
+
+
+{if $err.no_users == 1}
+   {error title="No users found."}
+        Users with ID not found!
+    {/error}
+{/if}
 
 <form action="index.php?mod=admin&sub=users&action=delete" method="POST">
 
@@ -40,7 +46,7 @@
                     <td>                            {$wert.last_name}   </td>
                     <td>                            {$wert.infotext}    </td>
                     <td>
-                        <a class="ButtonGreen" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
+                        <a class="ButtonOrange" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
                     </td>
                     <td style="text-align:center;"> 
                         <input type="hidden" name="ids[]" value="{$wert.user_id}">
