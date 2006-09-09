@@ -99,6 +99,29 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_adminmenu_old` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_areas`
+--
+
+DROP TABLE IF EXISTS `cs_areas`;
+CREATE TABLE `cs_areas` (
+  `area_id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY  (`area_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_areas`
+--
+
+
+/*!40000 ALTER TABLE `cs_areas` DISABLE KEYS */;
+LOCK TABLES `cs_areas` WRITE;
+INSERT INTO `cs_areas` VALUES (1,'Groups','The groups area'),(2,'Users','The user area');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `cs_areas` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_category`
 --
 
@@ -130,9 +153,8 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cs_group_rights`;
 CREATE TABLE `cs_group_rights` (
-  `group_id` int(5) unsigned zerofill NOT NULL default '00000',
-  `right_id` int(5) unsigned zerofill NOT NULL default '00000',
-  `right_pos` tinyint(4) NOT NULL default '1',
+  `group_id` int(11) NOT NULL default '0',
+  `right_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -143,7 +165,7 @@ CREATE TABLE `cs_group_rights` (
 
 /*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
 LOCK TABLES `cs_group_rights` WRITE;
-INSERT INTO `cs_group_rights` VALUES (00001,00001,1),(00002,00002,1);
+INSERT INTO `cs_group_rights` VALUES (1,1),(1,2),(1,3);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
 
@@ -170,7 +192,7 @@ CREATE TABLE `cs_groups` (
 
 /*!40000 ALTER TABLE `cs_groups` DISABLE KEYS */;
 LOCK TABLES `cs_groups` WRITE;
-INSERT INTO `cs_groups` VALUES (1,1,'Administrator','asdfasfd','1star.gif','4star.gif','#CCFF99'),(2,2,'Newsadministration','Administration of Modul: News','2star.gif','5star.gif','#99FFFF'),(3,3,'Guestsbook Administration','Administration of Modul: Guestbook','3star.gif','5star.gif','Hex-Cod');
+INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group',NULL,'','#FF0000');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_groups` ENABLE KEYS */;
 
@@ -272,10 +294,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cs_rights`;
 CREATE TABLE `cs_rights` (
-  `right_id` int(11) unsigned NOT NULL default '0',
+  `right_id` int(11) unsigned NOT NULL auto_increment,
+  `area_id` int(11) NOT NULL default '0',
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY  (`right_id`)
+  PRIMARY KEY  (`right_id`,`area_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -285,7 +308,7 @@ CREATE TABLE `cs_rights` (
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
 LOCK TABLES `cs_rights` WRITE;
-INSERT INTO `cs_rights` VALUES (1,'Settings-Edit',''),(2,'News-Edit',''),(3,'User-Add','');
+INSERT INTO `cs_rights` VALUES (1,1,'Groupedit','Edit a group'),(2,1,'Groupdelete','Delete a group'),(3,1,'Groupshow','Show the groups'),(4,2,'Useredit','Edit a user'),(5,2,'Userdelete','Delete a user'),(6,2,'Usershow','Show the users');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
@@ -314,7 +337,7 @@ CREATE TABLE `cs_session` (
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
 LOCK TABLES `cs_session` WRITE;
-INSERT INTO `cs_session` VALUES (0,'b1dd28ae98a7eb0317ab71244a191142','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"b1dd28ae98a7eb0317ab71244a191142\";user|a:9:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:4:\"Gast\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:10:\"first_name\";s:7:\"Vorname\";s:9:\"last_name\";s:8:\"Nachname\";s:8:\"disabled\";s:0:\"\";s:9:\"activated\";s:0:\"\";}','suiteSID',1157813136,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'e0906d2552a3c23555d251c5f55c77e6','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"e0906d2552a3c23555d251c5f55c77e6\";user|a:9:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:4:\"Gast\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:10:\"first_name\";s:7:\"Vorname\";s:9:\"last_name\";s:8:\"Nachname\";s:8:\"disabled\";s:0:\"\";s:9:\"activated\";s:0:\"\";}','suiteSID',1157840666,1,'admin');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
@@ -389,7 +412,7 @@ CREATE TABLE `cs_user_group` (
 
 /*!40000 ALTER TABLE `cs_user_group` DISABLE KEYS */;
 LOCK TABLES `cs_user_group` WRITE;
-INSERT INTO `cs_user_group` VALUES (1,1),(1,2),(1,3),(2,3);
+INSERT INTO `cs_user_group` VALUES (1,1),(1,2),(1,3);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_user_group` ENABLE KEYS */;
 
@@ -411,7 +434,6 @@ CREATE TABLE `cs_user_right` (
 
 /*!40000 ALTER TABLE `cs_user_right` DISABLE KEYS */;
 LOCK TABLES `cs_user_right` WRITE;
-INSERT INTO `cs_user_right` VALUES (1,1),(1,3),(2,2),(2,3);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_user_right` ENABLE KEYS */;
 
@@ -446,7 +468,7 @@ CREATE TABLE `cs_users` (
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
 LOCK TABLES `cs_users` WRITE;
-INSERT INTO `cs_users` VALUES (1,'fasdfasdf','asdfsadfasdfasd','64e019ccea1e2662d706b1229b71c2d92fe71ebe','26a1102e42022f67a17add9ab0e74c9440efa7d2','9dd90802013c886ccdd04d524adf3446',1152190495,0,'aaaaaaaaaaaaaaaaaaa','aaaaaaaaaaaaaafffffffffff','asdfasdfasfd',1,1),(2,'fasdfasdf','asdfsadfasdfasd','64e019ccea1e2662d706b1229b71c2d92fe71ebe','','66a147b49d97ad7df250b0dd91f6d930',1152208688,0,'aaaaaaaaaaaaaaaaaaa','aaaaaaaaaaaaaafffffffffff','asdfasdfasfd',1,1);
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,'Administrator','Administrator','I\'m the admin',0,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -1,11 +1,26 @@
 {doc_raw}
-            {* StyleSheets *}
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
-            
-            {* JavaScripts *}
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
+    {* StyleSheets *}
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
+    
+    {* JavaScripts *}
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
+    {literal}
+    <script type="text/javascript">
+        function clip_area(id)
+        {
+            if( document.getElementById(id).style.display == 'none' )
+            {
+                document.getElementById(id).style.display = 'block';
+            }
+            else
+            {
+                document.getElementById(id).style.display = 'none';
+            }
+        }
+    </script>
+    {/literal}
 {/doc_raw}
 
 <h2>{translate}Edit Group{/translate}</h2>
@@ -71,10 +86,9 @@
 	    {foreach item=item key=key from=$editgroup.permissions}
 	    
 	        <label for="member_of_group_{$item.group_id}" class="radio">
-	        <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
+	            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
 	        </label>
-            <input type="checkbox" name="info['groups'][]" value="1"
-                   {if $smarty.post.info.member_of_group==1}checked{/if} />
+            <input type="checkbox" name="info['rights'][]" value="{$item.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
         
 	    {/foreach}
 	        
@@ -82,8 +96,18 @@
 	    </fieldset>
 	    
 	    <fieldset class="radio">
-	    <legend><b>Avaiable Permissions</b></legend>
-	    
+	        <legend><b>Avaiable Permissions (Areas)</b></legend>
+	        {foreach key=area_name item=area_array from=$editgroup.areas}
+            <label for="areas" class="radio">
+                    <a href="javascript: void();" onClick="clip_area('area_{$area_name}')" class="ButtonYellow">{$area_name}</a>
+            </label>
+                <div style="display: none;" id="area_{$area_name}">
+                {foreach key=right_name item=right_array from=$area_array}
+                    <label>{$right_name}</label><input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+                {/foreach}
+                </div>
+            {/foreach}
+        
 	    </fieldset>
 	
 	</fieldset>
