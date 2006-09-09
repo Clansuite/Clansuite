@@ -52,7 +52,7 @@
         </select>
         <img src="" id="insert_icon" border="1"> 
        
-       <label for="image"><b>Icon:</b></label>
+       <label for="image"><b>Image:</b></label>
        <select class="input_text" name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
             <option name=""></option>
             {foreach key=key item=item from=$images}
@@ -67,10 +67,10 @@
    
     <fieldset>
     <legend>Save Inputs</legend>
-        
+        <div>
         <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Create the group{/translate}" />
         <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="Reset Input Values" tabindex="3" />  
-
+        </div>
     </fieldset>     
     
 </form>
