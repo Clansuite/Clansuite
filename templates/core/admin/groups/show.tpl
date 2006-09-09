@@ -17,7 +17,8 @@
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$groups} {/if} *}
  
 <form action="index.php?mod=admin&sub=groups&action=delete" method="POST">
-
+    
+    <center>
     <table class="admintable" cellpadding="0" cellspacing="0" border="0" rules="all" width="80%">
     
         <caption>Show Groups</caption>
@@ -74,4 +75,5 @@
             </tr>
         </tfoot>
     </table>
+    </center>
 </form>

@@ -15,7 +15,7 @@
 {/if}
 
 <form action="index.php?mod=admin&sub=users&action=delete" method="POST">
-
+    <center>
     <table class="admintable" cellpadding="0" cellspacing="0" border="0" rules="all" width="80%">
     
         <caption>Show Users</caption>
@@ -69,4 +69,5 @@
             </tr>
         </tfoot>
     </table>
+    </center>
 </form>

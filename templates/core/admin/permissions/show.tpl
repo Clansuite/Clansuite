@@ -5,6 +5,7 @@
             
 <form action="index.php?mod=admin&sub=permissions&action=delete" method="POST">
 
+    <center>
     <table class="admintable" cellpadding="0" cellspacing="0" border="0" rules="all" width="80%">           
     <caption>Show Permissions</caption>
     
@@ -57,4 +58,5 @@
             </tr>
         </tfoot>
     </table>
+    </center>
 </form>
