@@ -128,14 +128,14 @@ class module_admin_permissions
         // DB - SELECT       
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
         $stmt->execute( array( $id ) );
-        $edit_permission = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $edit_permission = $stmt->fetch(PDO::FETCH_ASSOC);
         
         // SHOW EDIT 
         
         if ( ! isset ( $_POST['submit'] ) )
         {
         
-        $tpl->assign('permissions', $edit_permission);
+        $tpl->assign('permission', $edit_permission);
 
         $this->output .= $tpl->fetch('admin/permissions/edit.tpl');
        

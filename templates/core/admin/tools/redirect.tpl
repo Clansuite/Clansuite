@@ -8,7 +8,10 @@
 <body>
 
 <center>
+
 <div class='redirect'>
+<img src="{$www_core_tpl_root}/images/symbols/redirect.png">
+<br />
 {$message}
 </div>
 <center>

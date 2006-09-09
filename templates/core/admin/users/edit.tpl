@@ -8,7 +8,7 @@
 	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
 {/doc_raw}
 
-<h2>{translate}Create a user{/translate}</h2>
+<h2>{translate}Edit a user{/translate}</h2>
 
 {if $err.no_special_chars == 1}
     {error title="Special Chars"}
@@ -34,58 +34,64 @@
     {/error}
 {/if}
  
-<form action="index.php?mod=admin&sub=users&action=edit" method="POST" target="_self">
+<form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=edit" class="h3sForm">
 
-<table cellpadding="4" cellspacing="0" border="0" width="250">
-<tr>
-    <td colspan="2" class="td_header_small">
-        Editing user with ID <b>{$user.user_id}</b>
+    <fieldset> 
+    <legend>Editing user with ID <b>{$user.user_id} | {$user.first_name} '{$user.nick}' {$user.last_name} </b></legend>
+
         <input type="hidden" name="info[user_id]" value="{$user.user_id}">
-    </td>
-</tr>
-<tr>
-    <td class="cell1"><b>First Name:</b></td>
-    <td><input name="info[first_name]" type="text" value="{$user.first_name}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Last Name:</b></td>
-    <td><input name="info[last_name]" type="text" value="{$user.last_name}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Nick:</b></td>
-    <td><input name="info[nick]" type="text" value="{$user.nick}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>eMail:</b></td>
-    <td><input name="info[email]" type="text" value="{$user.email}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Password:</b></td>
-    <td>
-        <input name="info[password]" type="text" value="" class="input_text"/>
-        <br />{translate}Leave it blank if you do not want to change the password!{/translate}
-    </td>
-</tr>
-<tr>
-    <td class="cell1"><b>Infotext:</b></td>
-    <td><input name="info[infotext]" type="text" value="{$user.infotext}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Groups:</b></td>
-    <td>{foreach item=item key=key from=$groups}<a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a><br />{/foreach}</td>
-</tr>
-<tr>
-    <td class="cell1"><b>Activated:</b></td>
-    <td align="left"><input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} /></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Disabled:</b></td>
-    <td align="left"><input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} /></td>
-</tr>
-<tr>
-    <td colspan="2" align="center">
-        <input class="input_submit" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
-    </td>
-</tr>
-</table>
+
+        <br />
+
+       <label for="first_name"><b>First Name:</b></label>
+	   <input name="info[first_name]" type="text" value="{$user.first_name}" class="input_text"/>
+	   
+	   <label for="last_name"><b>Last Name:</b></label>
+        <input name="info[last_name]" type="text" value="{$user.last_name}" class="input_text"/>
+	   
+	   <label for="nick"><b>Nick:</b></label>
+	   <input name="info[nick]" type="text" value="{$user.nick}" class="input_text"/>
+	   
+	   <label for="email"><b>eMail:</b></label>
+	   <input name="info[email]" type="text" value="{$user.email}" class="input_text"/>
+	   
+	   <label for="password"><b>Password:</b></label>
+	   <input name="info[password]" type="text" value="" class="input_text"/>
+	   
+	   <label for="pwexplain"><small>{translate}Leave it blank if you do not want to change the password!{/translate}</small></label>
+       
+       <label for="infotext"><b>Infotext:</b></label>
+	   <input name="info[infotext]" type="text" value="{$user.infotext}" class="input_text"/>
+	   	
+	   <fieldset class="radio">
+       <legend><b>Userstatus: Activated & Banned </b></legend> 
+        
+            <label for="activated" class="radio"><b>Activated:</b>
+            <input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} />
+            </label>
+            
+            <label for="disabled" class="radio"><b>Disabled:</b>
+            <input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} />
+            </label>
+            
+        </fieldset> 
+       
+        <fieldset class="radio">
+	    <legend><b>Group Memberships</b></legend>
+	   
+	    {foreach item=item key=key from=$groups}<a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a><br />{/foreach}
+	   
+	    </fieldset>    
+	              
+    </fieldset>
+
+    <fieldset>
+    <legend>{translate}Save Inputs{/translate}</legend>
+       
+        <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
+        <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+
+    </fieldset>
+
+
 </form>
