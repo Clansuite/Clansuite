@@ -27,7 +27,7 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
                 <td align="right" width="100%">
                     <span height="1%">
 
-                        <a class="itembtn" href="index.php?mod=admin&sub=usercenter">
+                        <a class="itembtn" href="index.php?mod=admin&sub=users&usercenter">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
                             &nbsp;{$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}
                         </a>
