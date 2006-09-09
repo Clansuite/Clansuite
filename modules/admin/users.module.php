@@ -139,11 +139,12 @@ class module_admin_users
         */
         $submit             = $_POST['submit'];
         $info               = $_POST['info'];
-        $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
-        $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disbaled']    : 0;
+        $info['activated']  = isset($_POST['info']['activated'])   ? $_POST['info']['activated']   : 0;
+        $info['disabled']   = isset($_POST['info']['disabled'])    ? $_POST['info']['disabled']    : 0;
         $sets               = '';      
         $err                = array();
         $groups             = array();
+        $all_groups         = array();
                
         /**
         * @desc Nick or eMail already in ?
@@ -172,11 +173,6 @@ class module_admin_users
                             
         $stmt->execute( array () );
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ( is_array( $all_groups ) ) 
-        { 
-            $tpl->assign('all_groups', $all_groups); 
-        }
         
         /**
         * @desc Checks
@@ -239,8 +235,9 @@ class module_admin_users
         /**
         * @desc Give template and assign error
         */
-        $tpl->assign( 'groups'  , $groups );
-        $tpl->assign( 'err'     , $err );
+        $tpl->assign( 'all_groups'  , $all_groups); 
+        $tpl->assign( 'groups'      , $groups );
+        $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch( 'admin/users/create.tpl' );
     }
     
@@ -259,10 +256,11 @@ class module_admin_users
         $submit             = $_POST['submit'];
         $info               = $_POST['info'];
         $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
-        $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disbaled']    : 0;        
+        $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disabled']    : 0;        
         $err                = array();
+        $all_groups         = array();
+        $groups             = array();
                
-
         /**
         * @desc Groups of the user
         */
@@ -277,11 +275,6 @@ class module_admin_users
         {
             $groups[] = $result['group_id'];
         }
-        
-        if ( is_array( $groups ) ) 
-        { 
-            $tpl->assign('groups', $groups); 
-        }
 
         /**
         * @desc Get all Groups
@@ -290,11 +283,6 @@ class module_admin_users
                             
         $stmt->execute( array () );
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ( is_array( $all_groups ) ) 
-        { 
-            $tpl->assign('all_groups', $all_groups); 
-        }
                 
         /**
         * @desc Nick or eMail already in ?
@@ -335,7 +323,7 @@ class module_admin_users
                 $err['fill_form'] = 1;   
             }
             
-            $tpl->assign('groups'   , $info['groups']);
+            $groups = $info['groups'];
             $tpl->assign('user'     , $info);
         }
         else
@@ -397,15 +385,15 @@ class module_admin_users
             /**
             * @desc Update groups table            
             */
-            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
-            $stmt->execute( array ( $info['user_id'] ) );                
+            $stmt2 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt2->execute( array ( $info['user_id'] ) );                
             
             if ( count( $info['groups'] ) > 0 )
             {
-                $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
+                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
                 foreach( $info['groups'] as $id )
                 {
-                    $stmt->execute( array ( $info['user_id'],
+                    $stmt3->execute( array ( $info['user_id'],
                                             $id ) );
                 }
             }
@@ -416,7 +404,9 @@ class module_admin_users
         /**
         * @desc Template output & assignments
         */
-        $tpl->assign( 'err', $err );
+        $tpl->assign( 'all_groups'  , $all_groups); 
+        $tpl->assign( 'groups'      , $groups);
+        $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch( 'admin/users/edit.tpl' );  
        
     }
