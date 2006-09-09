@@ -255,10 +255,12 @@ class module_admin_users
         /**
         * @desc Init
         */
-        $id         = isset($_GET['id']) ? (int) $_GET['id'] : $_POST['info']['user_id'];
-        $submit     = $_POST['submit'];
-        $info       = $_POST['info'];
-        $err        = array();
+        $id                 = isset($_GET['id']) ? (int) $_GET['id'] : $_POST['info']['user_id'];
+        $submit             = $_POST['submit'];
+        $info               = $_POST['info'];
+        $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
+        $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disbaled']    : 0;        
+        $err                = array();
                
 
         /**
