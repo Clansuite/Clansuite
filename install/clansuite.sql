@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.20-community
+-- Server version	5.0.21-community-nt
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -170,7 +170,7 @@ CREATE TABLE `cs_groups` (
 
 /*!40000 ALTER TABLE `cs_groups` DISABLE KEYS */;
 LOCK TABLES `cs_groups` WRITE;
-INSERT INTO `cs_groups` VALUES (1,1,'Administrator','asdfasfd','1star.gif','4star.gif','#CC0000'),(2,2,'Newsadministration','Administration of Modul: News','2star.gif','5star.gif','#3333CC'),(3,3,'Guestsbook Administration','Administration of Modul: Guestbook','3star.gif','5star.gif','#3333CC');
+INSERT INTO `cs_groups` VALUES (1,1,'Administrator','asdfasfd','1star.gif','4star.gif','#CCFF99'),(2,2,'Newsadministration','Administration of Modul: News','2star.gif','5star.gif','#99FFFF'),(3,3,'Guestsbook Administration','Administration of Modul: Guestbook','3star.gif','5star.gif','Hex-Cod');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_groups` ENABLE KEYS */;
 
@@ -272,7 +272,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cs_rights`;
 CREATE TABLE `cs_rights` (
-  `right_id` int(11) unsigned NOT NULL auto_increment,
+  `right_id` int(11) unsigned NOT NULL default '0',
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`right_id`)
@@ -285,7 +285,7 @@ CREATE TABLE `cs_rights` (
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
 LOCK TABLES `cs_rights` WRITE;
-INSERT INTO `cs_rights` VALUES (1,'Settings-Edit',''),(2,'News-Edit123','Description of News'),(3,'User-Add',''),(4,'test1','test2');
+INSERT INTO `cs_rights` VALUES (1,'Settings-Edit',''),(2,'News-Edit',''),(3,'User-Add','');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
@@ -314,7 +314,7 @@ CREATE TABLE `cs_session` (
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
 LOCK TABLES `cs_session` WRITE;
-INSERT INTO `cs_session` VALUES (0,'4ec11651f4d2b898a45bf6a1f5b89ea4','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"4ec11651f4d2b898a45bf6a1f5b89ea4\";user|a:9:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:4:\"Gast\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:10:\"first_name\";s:7:\"Vorname\";s:9:\"last_name\";s:8:\"Nachname\";s:8:\"disabled\";s:0:\"\";s:9:\"activated\";s:0:\"\";}','suiteSID',1157808169,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'b1dd28ae98a7eb0317ab71244a191142','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"b1dd28ae98a7eb0317ab71244a191142\";user|a:9:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:4:\"Gast\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:10:\"first_name\";s:7:\"Vorname\";s:9:\"last_name\";s:8:\"Nachname\";s:8:\"disabled\";s:0:\"\";s:9:\"activated\";s:0:\"\";}','suiteSID',1157813136,1,'admin');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
@@ -446,7 +446,7 @@ CREATE TABLE `cs_users` (
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
 LOCK TABLES `cs_users` WRITE;
-INSERT INTO `cs_users` VALUES (2,'asdf2@bla.de','bla','27b276d6221741f11b727e0c24979470f2a7b90a','','66a147b49d97ad7df250b0dd91f6d930',1152208688,0,'','','',0,1),(1,'admin@localhost.de','admin','26a1102e42022f67a17add9ab0e74c9440efa7d2','26a1102e42022f67a17add9ab0e74c9440efa7d2','9dd90802013c886ccdd04d524adf3446',1152190495,0,'','','',0,1);
+INSERT INTO `cs_users` VALUES (1,'fasdfasdf','asdfsadfasdfasd','64e019ccea1e2662d706b1229b71c2d92fe71ebe','26a1102e42022f67a17add9ab0e74c9440efa7d2','9dd90802013c886ccdd04d524adf3446',1152190495,0,'aaaaaaaaaaaaaaaaaaa','aaaaaaaaaaaaaafffffffffff','asdfasdfasfd',1,1),(2,'fasdfasdf','asdfsadfasdfasd','64e019ccea1e2662d706b1229b71c2d92fe71ebe','','66a147b49d97ad7df250b0dd91f6d930',1152208688,0,'aaaaaaaaaaaaaaaaaaa','aaaaaaaaaaaaaafffffffffff','asdfasdfasfd',1,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
