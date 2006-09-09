@@ -29,13 +29,13 @@
 
     <br />   
        	    
-       <label for="permission_name"><b>Name:</b></label>
+       <label for="permission_name"><b>Name</b></label>
        <input name="info[name]" type="text" value="" class="input_text"/>
        
-       <label for="permission_name"><b>Position:</b></label>
+       <label for="permission_name"><b>Position</b></label>
        <input name="info[pos]" type="text" value="" class="input_text"/>
        
-       <label for="permission_name"><b><b>Description:</b></label>
+       <label for="permission_name"><b><b>Description</b></label>
        <input name="info[description]" type="text" value="" class="input_text"/>
        
        <label for="color">
@@ -43,7 +43,7 @@
        </label>
        <input name="info[color]" id="color" type="text" value="Hex-Code" class="input_text" />
 
-       <label for="icon"><b>Icon:</b></label>
+       <label for="icon"><b>Icon</b></label>
        <select class="input_text" name="info[icon]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
             <option name=""></option>
             {foreach key=key item=item from=$icons}
@@ -52,7 +52,7 @@
         </select>
         <img src="" id="insert_icon" border="1"> 
        
-       <label for="image"><b>Image:</b></label>
+       <label for="image"><b>Image</b></label>
        <select class="input_text" name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
             <option name=""></option>
             {foreach key=key item=item from=$images}
@@ -67,9 +67,9 @@
    
     <fieldset>
     <legend>Save Inputs</legend>
-        <div>
-        <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Create the group{/translate}" />
-        <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="Reset Input Values" tabindex="3" />  
+        <div align="right">
+        <input class="ButtonGreen" type="submit" name="submit" value="{translate}Create the group{/translate}" />
+        <input class="ButtonGrey" type="reset" value="Reset Input Values" tabindex="3" />
         </div>
     </fieldset>     
     

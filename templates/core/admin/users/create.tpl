@@ -24,7 +24,7 @@
 
 {if $err.nick_already == 1}
     {error title="Nick already stored"}
-        The nick you have entred is already in the database.
+        The nick you have entered is already in the database.
     {/error}
 {/if}
 
@@ -33,35 +33,41 @@
         The eMail you have entered is already in the database.
     {/error}
 {/if}
- 
+
+{if $err.email_wrong == 1}
+   {error title="Mail wrong!"}
+        The email you entered is not valid.
+    {/error}
+{/if} 
+
 <form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=create" class="h3sForm">
 
     <fieldset> 
-    <legend><b> Create user </b></legend>
+    <legend>Create user</legend>
 
         <input type="hidden" name="info[user_id]" value="{$user.user_id}">
 
         <br />
 
-       <label for="first_name"><b>First Name:</b></label>
+       <label for="first_name"><b>First Name</b></label>
 	   <input name="info[first_name]" type="text" value="{$smarty.post.info.first_name|escape:"htmlall"}" class="input_text"/>
 	   
-	   <label for="last_name"><b>Last Name:</b></label>
+	   <label for="last_name"><b>Last Name</b></label>
        <input name="info[last_name]" type="text" value="{$smarty.post.info.last_name|escape:"htmlall"}" class="input_text"/>
 	   
-	   <label for="nick"><b>Nick:</b></label>
+	   <label for="nick"><b>Nick</b></label>
 	   <input name="info[nick]" type="text" value="{$smarty.post.info.nick|escape:"htmlall"}" class="input_text"/>
  
-	   <label for="email"><b>eMail:</b></label>
+	   <label for="email"><b>eMail</b></label>
 	   <input name="info[email]" type="text" value="{$smarty.post.info.email|escape:"htmlall"}" class="input_text"/>
 
-	   <label for="password"><b>Password:</b></label>
+	   <label for="password"><b>Password</b></label>
 	   <input name="info[password]" type="text" value="{$smarty.post.info.password|escape:"htmlall"}" class="input_text"/>
 
 	   
 	   <label for="pwexplain"><small>{translate}Leave it blank if you do not want to change the password!{/translate}</small></label>
        
-       <label for="infotext"><b>Infotext:</b></label>
+       <label for="infotext"><b>Infotext</b></label>
 	   <input name="info[infotext]" type="text" value="{$smarty.post.info.infotext|escape:"htmlall"}" class="input_text"/>
 
 	   	
@@ -89,9 +95,9 @@
 
     <fieldset>
     <legend>{translate}Save Inputs{/translate}</legend>
-        <div>
+        <div align="right">
         <input class="ButtonGreen" type="submit" name="submit" value="{translate}Create the user{/translate}" />
-        <input class="ButtonRed" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+        <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
         </div>
     </fieldset>
 
