@@ -91,10 +91,10 @@
 
     <fieldset>
     <legend>{translate}Save Inputs{/translate}</legend>
-       
-        <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
-        <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
-
+        <div align="right">
+        <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
+        <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+        </div>
     </fieldset>
 
 

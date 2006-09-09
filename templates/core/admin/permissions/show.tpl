@@ -26,11 +26,11 @@
                     <td>{$wert.name}</td>
                     <td>{$wert.description}</td>
                     
-                    <td>
+                    <td align="center">
                         <a href="index.php?mod=admin&sub=permissions&action=edit&id={$wert.right_id}" class="ButtonOrange">Edit</a>
                         <a href="index.php?mod=admin&sub=permissions&action=lookup&id={$wert.right_id}" class="Button">Look up User</a>
                     </td>
-                    <td style="text-align:center;">
+                    <td align="center">
                         <input type="hidden" name="ids[]" value="{$wert.right_id}">
                         <input name="delete[]" type="checkbox" value="{$wert.right_id}">
                     </td>
