@@ -51,33 +51,33 @@
 
         <br />
 
-       <label for="first_name"><b>First Name:</b></label>
+       <label for="first_name"><b>First Name</b></label>
 	   <input name="info[first_name]" type="text" value="{$user.first_name}" class="input_text"/>
 	   
-	   <label for="last_name"><b>Last Name:</b></label>
+	   <label for="last_name"><b>Last Name</b></label>
         <input name="info[last_name]" type="text" value="{$user.last_name}" class="input_text"/>
 	   
-	   <label for="nick"><b>Nick:</b></label>
+	   <label for="nick"><b>Nick</b></label>
 	   <input name="info[nick]" type="text" value="{$user.nick}" class="input_text"/>
 	   
-	   <label for="email"><b>eMail:</b></label>
+	   <label for="email"><b>eMail</b></label>
 	   <input name="info[email]" type="text" value="{$user.email}" class="input_text"/>
 	   
-	   <label for="password"><b>Password:</b></label>
+	   <label for="password"><b>Password</b></label>
 	   <input name="info[password]" type="text" value="" class="input_text"/>
 	   
 	   <label for="pwexplain"><small>{translate}Leave it blank if you do not want to change the password!{/translate}</small></label>
        
-       <label for="infotext"><b>Infotext:</b></label>
+       <label for="infotext"><b>Infotext</b></label>
 	   <input name="info[infotext]" type="text" value="{$user.infotext}" class="input_text"/>
 	   	
 	   <fieldset class="radio">
        <legend><b>Userstatus: Activated & Banned </b></legend> 
         
-            <label for="activated" class="radio"><b>Activated:</b></label>
+            <label for="activated" class="radio"><b>Activated</b></label>
             <input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} />
             
-            <label for="disabled" class="radio"><b>Disabled:</b></label>
+            <label for="disabled" class="radio"><b>Disabled</b></label>
             <input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} />
            
         </fieldset> 
