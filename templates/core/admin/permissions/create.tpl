@@ -25,7 +25,7 @@
  <form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=create" class="h3sForm">
 
     <fieldset> 
-    <legend>Editing group [<b> {$permission.name} - #{$permission.right_id}</b>]</legend> 
+    <legend>Create Permission</legend> 
 
        <input name="info[id]" type="hidden" value="{$permission.right_id}">
        	    
