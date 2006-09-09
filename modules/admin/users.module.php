@@ -483,7 +483,7 @@ class module_admin_users
         /**
         * @desc Redirect on finish
         */
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The user(s) have been delete.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=users&action=show_all', 'metatag|newsite', 3, $lang->t( 'The user(s) have been delete.' ), 'admin' );
         
     }
    
