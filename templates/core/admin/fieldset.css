@@ -43,9 +43,16 @@ h3
 
 .h3sForm fieldset.radio input
 {
-	
+    position: relative;
+    top: -2px;
 	float: right;
-	width: 8em;
+	width: 1em;
+}
+
+.h3sForm fieldset.radio input[type=checkbox]
+{
+	float: left;
+	width: 1em;
 }
 
 .h3sForm fieldset.radio label
@@ -55,6 +62,8 @@ h3
 
 .h3sForm input[type=text]
 {
+    position: relative;
+    top: -2px;
 	float:left;
 	margin-bottom:1em;
 	width: 20em;

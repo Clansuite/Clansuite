@@ -86,9 +86,9 @@
 	    {foreach item=item key=key from=$editgroup.permissions}
 	    
 	        <label for="member_of_group_{$item.group_id}" class="radio">
-	            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
-	        </label>
-            <input type="checkbox" name="info['rights'][]" value="{$item.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+	            <input type="checkbox" name="info['rights'][]" value="{$item.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+                <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
+            </label>
         
 	    {/foreach}
 	        
@@ -103,7 +103,7 @@
             </label>
                 <div style="display: none;" id="area_{$area_name}">
                 {foreach key=right_name item=right_array from=$area_array}
-                    <label>{$right_name}</label><input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+                    <label><input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />{$right_name}</label>
                 {/foreach}
                 </div>
             {/foreach}
