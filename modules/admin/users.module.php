@@ -218,10 +218,10 @@ class module_admin_users
         /**
         * @desc Nick or eMail already in ?
         */
-        $stmt = $db->prepare( 'SELECT nick,email FROM ' . DB_PREFIX . 'users WHERE ( nick = ? OR email = ? ) AND user_id != ?' );
+        $stmt = $db->prepare( 'SELECT nick,email,user_id FROM ' . DB_PREFIX . 'users WHERE ( user_id != ? ) AND ( nick = ? OR email = ? )' );
         $stmt->execute( array( $info['nick'], $info['email'], $info['user_id'] ) );
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if( is_array($user) )
         {
             if( $info['email'] == $user['email'] )
@@ -239,7 +239,6 @@ class module_admin_users
         * @desc Form filled?
         */
         if( ( empty($info['nick']) OR 
-            empty($info['password']) OR 
             empty($info['email']) ) AND !empty($submit) )
         {
             $err['fill_form'] = 1;   
@@ -288,7 +287,7 @@ class module_admin_users
         * @desc The user himself
         */
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
-        $stmt->execute( array ( $user_id ) );
+        $stmt->execute( array ( $info['user_id'] ) );
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
                       
         if ( is_array( $user ) ) 
