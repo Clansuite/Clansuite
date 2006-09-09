@@ -70,7 +70,7 @@
     <legend>{translate}Options{/translate}</legend>
         <div align="right">
         <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit Group{/translate}" />
-        <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+        <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" onClick="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/{$editgroup.image}';document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/{$editgroup.icon}';" tabindex="3" />  
         </div>
 	</fieldset>		
 	 
