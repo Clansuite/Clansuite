@@ -238,9 +238,9 @@ class module_admin_users
         /**
         * @desc Form filled?
         */
-        if( empty($info['nick']) OR 
+        if( ( empty($info['nick']) OR 
             empty($info['password']) OR 
-            empty($info['email']) )
+            empty($info['email']) ) AND !empty($submit) )
         {
             $err['fill_form'] = 1;   
         }
