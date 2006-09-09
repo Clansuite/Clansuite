@@ -55,11 +55,10 @@
             <tr>
                <td height="20" colspan="9" align="right">
                
-                    <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="Delete" id="Delete" value="Delete Selected Users" tabindex="2" />
-                    <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" />
+                    <input class="ButtonRed" type="submit" name="Delete" id="Delete" value="Delete Selected Users" tabindex="2" />
+                    <input class="Button" type="reset" />
                     
-                    <input style="border-top-color:lightgreen; border-style:groove;" class="Button" type="button" name="xsubmit" id="Submit" 
-                    onClick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="Create new User" tabindex="2" />
+                    <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" onClick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="Create new User" tabindex="2" />
                    
                 </td>
             </tr>
