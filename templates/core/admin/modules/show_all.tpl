@@ -277,7 +277,7 @@ function checker(checkboxen, caller)
 {/foreach}
 </table>
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Add the module(s) into the whitelist.{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{translate}Add the module(s) into the whitelist.{/translate}" name="submit">
 </p>
 </form>
 {/if}
@@ -445,7 +445,7 @@ function checker(checkboxen, caller)
 </table>
 
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Update modules{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{translate}Update modules{/translate}" name="submit">
 </p>
 </form>
 <br /><br />
@@ -612,7 +612,7 @@ function checker(checkboxen, caller)
 {/foreach}
 </table>
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Update core modules{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{translate}Update core modules{/translate}" name="submit">
 </p>
 </form>
 </span>

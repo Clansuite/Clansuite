@@ -119,7 +119,7 @@
         </div>
         <input type="hidden" name="name" value="{$wert.name}">
         <p>
-            <input class="input_submit" type="submit" value="{translate}Export{/translate}" name="submit">
+            <input class="ButtonGrey" type="submit" value="{translate}Export{/translate}" name="submit">
         </p>
         <p>
             <a href="javascript:clip_menu('menucontainer_{$wert.name}');">{translate}Add menu...{/translate}</a>

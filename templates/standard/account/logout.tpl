@@ -7,7 +7,7 @@
                 {translate}Do you really want to logout?{/translate}
                 <p>
                 <input type="hidden" name="confirm" value="1">
-                <input class="input_submit" type="submit" name="submit" value="{translate}Confirm{/translate}">
+                <input class="ButtonGrey" type="submit" name="submit" value="{translate}Confirm{/translate}">
                 </p>
             </td>
         </tr>

@@ -138,7 +138,7 @@ function rem_col(id)
             </select>
         </td>
         <td class="cell1" align="center">
-            <a class="input_submit" href="javascript:rem_col('{literal}{$key}{/literal}');">{translate}Remove{/translate}</a>
+            <a class="ButtonGrey" href="javascript:rem_col('{literal}{$key}{/literal}');">{translate}Remove{/translate}</a>
         </td>
     </tr>
 </table>
@@ -285,7 +285,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <a class="input_submit" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
+                            <a class="ButtonGrey" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
                         </td>
                     </tr>
                 {/foreach}
@@ -355,7 +355,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <a class="input_submit" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
+                            <a class="ButtonGrey" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
                         </td>
                     </tr>
                 {/if}
@@ -366,7 +366,7 @@ function rem_col(id)
             </td>
             </tr>
             <tr>
-                <td colspan="2" align="right"><a class="input_submit" href="javascript:add_col();">
+                <td colspan="2" align="right"><a class="ButtonGrey" href="javascript:add_col();">
                     {translate}Add a column{/translate}</a>
                 </td>
             </tr>
@@ -375,6 +375,6 @@ function rem_col(id)
 </tr>
 </table>
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Create the new module{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{translate}Create the new module{/translate}" name="submit">
 </p>
 </form>

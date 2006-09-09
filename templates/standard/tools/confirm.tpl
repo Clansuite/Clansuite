@@ -9,7 +9,7 @@
     <center>
     <div class='redirect'>
     {$message}<br />
-    <input type="submit" class="input_submit" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="input_submit" name="abort" value="{translate}Abort{/translate}">
+    <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}">
     </div>
     <center>
 </form>

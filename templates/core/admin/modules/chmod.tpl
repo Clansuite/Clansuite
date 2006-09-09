@@ -5,7 +5,7 @@
 </div>
 <input type="hidden" name="type" value="modules">
 <input type="hidden" name="chmod_redirect_url" value="{$chmod_redirect_url|urlencode}">
-<p align="center"><input type="submit" class="input_submit" name="chmod" value="{translate}Set CHMOD for modules folder{/translate}"></p>
+<p align="center"><input type="submit" class="ButtonGrey" name="chmod" value="{translate}Set CHMOD for modules folder{/translate}"></p>
 </form>
 {/if}
 {if $err.upload_folder_not_writeable == 1}
@@ -15,6 +15,6 @@
 </div>
 <input type="hidden" name="type" value="uploads">
 <input type="hidden" name="chmod_redirect_url" value="{$chmod_redirect_url|urlencode}">
-<p align="center"><input type="submit" class="input_submit" name="chmod" value="{translate}Set CHMOD for upload folder{/translate}"></p>
+<p align="center"><input type="submit" class="ButtonGrey" name="chmod" value="{translate}Set CHMOD for upload folder{/translate}"></p>
 </form>
 {/if}

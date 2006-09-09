@@ -37,6 +37,6 @@
 </tr>
 </table>
 <p align="center">
-    <input class="input_submit" type="submit" value="{translate}Import module{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{translate}Import module{/translate}" name="submit">
 </p>
 </form>

@@ -54,7 +54,7 @@
                     {if !$smarty.foreach.usersarray.last},{/if} 
                     {/foreach}
                 </td>      
-                <td><a class="input_submit" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
+                <td><a class="ButtonGrey" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
                 <td style="text-align:center;"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
             
             </tr>
@@ -64,13 +64,11 @@
     
         <tfoot>
             <tr>
-                <td colspan="9">
+                <td colspan="9" align="right">
                     
-                    <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" />
-                    <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="submit" value="Delete the selected groups" />
-                    
-                    <input style="border-top-color:lightgreen; border-style:groove;" class="Button" type="button" name="xsubmit" id="Submit" 
-                    onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'"  value="Create new Group" tabindex="2" />
+                    <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'"  value="Create new Group" tabindex="2" />
+                    <input class="ButtonGrey" type="reset" />
+                    <input class="ButtonRed" type="submit" name="submit" value="Delete the selected groups" />
                    
                 </td>
             </tr>

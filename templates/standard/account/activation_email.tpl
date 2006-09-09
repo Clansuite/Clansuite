@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input class="input_submit" type="submit" name="submit" value="{translate}Send activation email{/translate}">
+            <input class="ButtonGrey" type="submit" name="submit" value="{translate}Send activation email{/translate}">
         </td>
     </tr>
     </table>
