@@ -8,16 +8,16 @@
 @ECHO OFF
 
 @REM Verzeichnisse 
-SET basedir=C:\xampplite\htdocs\work\clansuite\trunk\install
-SET mysqldir=C:\xampplite\mysql\bin
-SET mysqlpassword=
-SET mysqluser=root
+SET basedir=D:\Homepage\clansuite.com\workplace\trunk\install
+SET mysqldir=D:\xampp\mysql\bin
+SET mysqlpassword=toop
+SET mysqluser=clansuite
 SET dbname=clansuite
 
 @REM Clansuite DB insert
 
 @ECHO Beginning insert of %dbname%...
-%mysqldir%/mysql --user=root %dbname% < %basedir%\%dbname%.sql
+%mysqldir%/mysql -u %mysqluser% -p%mysqlpassword% %dbname% < %basedir%\%dbname%.sql
 
 @ECHO Finished insert!  - Press any Key -
 pause
