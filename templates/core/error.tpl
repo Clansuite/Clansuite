@@ -10,11 +10,12 @@
 <fieldset style="border-color: red; background: 
 {if $error_type==1}red
 {elseif $error_type==2}orange
-{elseif $error_type==3}turquoise
+{elseif $error_type==3}lightsalmon
 {/if}
 ;">
 	<legend>
-		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75; filter:alpha(opacity=75);'>&nbsp;{$error_head}&nbsp;</strong>
+		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75; 
+		               filter:alpha(opacity=75);'>&nbsp;{$error_head}&nbsp;</strong>
 	</legend>
 	<label>
 		{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br>{/if}
