@@ -115,7 +115,7 @@
                                 <select onChange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input" id="tree-info-custom_icon">
                                     <option name=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option name="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img src="" name="update_icon" id="update_icon" width="16" height="16" border="1">
@@ -123,8 +123,8 @@
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
-                                <input id="tree-info-button" class="button" type="button" value="Update" />
-                                <input id="tree-info-cancel" type="button" value="Cancel" />
+                                <input class="ButtonGreen" id="tree-info-button" type="button" value="Update" />
+                                <input class="ButtonGrey" id="tree-info-cancel" type="button" value="Cancel" />
                             </td>
                         </tr>
                         </table>
@@ -136,13 +136,13 @@
         <td valign="top">
 
             <p>
-                <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a>
+                <a class="Button" href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a>
             </p>
             <p>
-                <a href="javascript:treePluginGenerateMenu();">{translate}Generate Menu{/translate}</a>
+                <a class="ButtonGreen" href="javascript:treePluginGenerateMenu();">{translate}Generate Menu{/translate}</a>
             </p>
             <p>
-                <a href="index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
+                <a class="ButtonRed" href="index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
             </p>
         </td>
         <td valign="top">
