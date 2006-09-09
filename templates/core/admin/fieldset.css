@@ -43,9 +43,9 @@ h3
 
 .h3sForm fieldset.radio input
 {
-	clear: both;
-	float: left;
-	width: 16em;
+	
+	float: right;
+	width: 8em;
 }
 
 .h3sForm fieldset.radio label
@@ -53,12 +53,22 @@ h3
 	font-weight: normal;
 }
 
-.h3sForm input
+.h3sForm input[type=text]
 {
 	float:left;
 	margin-bottom:1em;
 	width: 20em;
 }
+	
+.h3sForm select
+{   
+    float:left;
+    text-align: right;
+    margin: 0 1em 10px 0;
+	width: auto;
+}
+
+
 
 .h3sForm img
 {
@@ -73,15 +83,6 @@ h3
     width:15em;	
 	margin-bottom: 1em;
 	font-weight: bold;
-}
-
-.h3sForm select
-{   
-    
-    float:left;
-    text-align: right;
-    margin: 0 1em 10px 0;
-	width: auto;
 }
 
 
