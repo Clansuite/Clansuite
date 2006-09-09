@@ -147,12 +147,15 @@ class module_admin_modules
                         $x++;
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
-                        require_once( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' );
-                        $container['not_in_whitelist'][$x] = array_merge( $container['not_in_whitelist'][$x], $info );
 
                         if ( !file_exists( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
+                        }
+                        else
+                        {
+                            require_once( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' );
+                            $container['not_in_whitelist'][$x] = array_merge( $container['not_in_whitelist'][$x], $info );
                         }
                     }
                 }
