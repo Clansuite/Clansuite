@@ -137,10 +137,13 @@ class module_admin_users
         /**
         * @desc Init
         */
-        $submit     = $_POST['submit'];
-        $info       = $_POST['info'];
-        $sets       = '';      
-        $err        = array();
+        $submit             = $_POST['submit'];
+        $info               = $_POST['info'];
+        $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
+        $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disbaled']    : 0;
+        $sets               = '';      
+        $err                = array();
+        $groups             = array();
                
         /**
         * @desc Nick or eMail already in ?
@@ -163,21 +166,39 @@ class module_admin_users
         }
         
         /**
-        * @desc Check email
+        * @desc Get all Groups
         */
-        if ( $input->check($info['email'], 'is_email' ) == false AND !empty($submit) )
-        {
-            $err['email_wrong'] = 1;
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
+                            
+        $stmt->execute( array () );
+        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ( is_array( $all_groups ) ) 
+        { 
+            $tpl->assign('all_groups', $all_groups); 
         }
         
         /**
-        * @desc Form filled?
+        * @desc Checks
         */
-        if( ( empty($info['nick']) OR 
-            empty($info['password']) OR 
-            empty($info['email']) ) AND !empty($submit) )
+        if ( !empty( $submit ) )
         {
-            $err['fill_form'] = 1;   
+            if ( $input->check($info['email'], 'is_email' ) == false )
+            {
+                $err['email_wrong'] = 1;
+            }
+            
+            /**
+            * @desc Form filled?
+            */
+            if( ( empty($info['nick']) OR 
+                empty($info['password']) OR 
+                empty($info['email']) ) )
+            {
+                $err['fill_form'] = 1;   
+            }
+            
+            $groups = $info['groups'];
         }
         
         
@@ -197,13 +218,29 @@ class module_admin_users
                                     $info['activated'],
                                     $info['disabled'],
                                     $hash ) );
+            
+            $stmt2 = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt2->execute( array( $info['nick'] ) );
+            $result = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $info['user_id'] = $result['user_id'];
+                                    
+            if ( count( $info['groups'] ) > 0 )
+            {
+                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
+                foreach( $info['groups'] as $id )
+                {
+                    $stmt3->execute( array ( $info['user_id'],
+                                            $id ) );
+                }
+            }
             $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been created.' ), 'admin' );
         }     
         
         /**
         * @desc Give template and assign error
         */
-        $tpl->assign( 'err', $err );
+        $tpl->assign( 'groups'  , $groups );
+        $tpl->assign( 'err'     , $err );
         $this->output .= $tpl->fetch( 'admin/users/create.tpl' );
     }
     
@@ -227,20 +264,36 @@ class module_admin_users
         /**
         * @desc Groups of the user
         */
-        $stmt = $db->prepare( 'SELECT ug.* 
+        $stmt = $db->prepare( 'SELECT ug.group_id 
                                FROM ' . DB_PREFIX . 'user_group cu,
                                     ' . DB_PREFIX . 'groups ug
                                WHERE ug.group_id = cu.group_id
                                AND cu.user_id = ?' );
                             
         $stmt->execute( array ( $id ) );
-        $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
+        while( $result = $stmt->fetch(PDO::FETCH_ASSOC) )
+        {
+            $groups[] = $result['group_id'];
+        }
         
         if ( is_array( $groups ) ) 
         { 
             $tpl->assign('groups', $groups); 
         }
+
+        /**
+        * @desc Get all Groups
+        */
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
+                            
+        $stmt->execute( array () );
+        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        if ( is_array( $all_groups ) ) 
+        { 
+            $tpl->assign('all_groups', $all_groups); 
+        }
+                
         /**
         * @desc Nick or eMail already in ?
         */
@@ -280,7 +333,8 @@ class module_admin_users
                 $err['fill_form'] = 1;   
             }
             
-            $tpl->assign('user', $info);
+            $tpl->assign('groups'   , $info['groups']);
+            $tpl->assign('user'     , $info);
         }
         else
         {
@@ -306,6 +360,9 @@ class module_admin_users
         */
         if( !empty($submit) AND count($err) == 0 )
         {
+            /**
+            * @desc Update users table
+            */
             $sets =  'nick = ?, first_name = ?, last_name = ?, email = ?, infotext = ?, activated = ?, disabled = ?';
             if( $info['password'] != '' )
             {
@@ -321,7 +378,6 @@ class module_admin_users
                                         $info['disabled'],
                                         $hash,
                                         $info['user_id'] ) );
-                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited and a new password has been set.' ), 'admin' );
             }
             else
             {
@@ -334,10 +390,24 @@ class module_admin_users
                                         $info['activated'],
                                         $info['disabled'],
                                         $info['user_id'] ) );                
-                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ), 'admin' );
-            }            
+            }
             
-
+            /**
+            * @desc Update groups table            
+            */
+            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt->execute( array ( $info['user_id'] ) );                
+            
+            if ( count( $info['groups'] ) > 0 )
+            {
+                $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
+                foreach( $info['groups'] as $id )
+                {
+                    $stmt->execute( array ( $info['user_id'],
+                                            $id ) );
+                }
+            }
+            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ), 'admin' );
         }
 
 
