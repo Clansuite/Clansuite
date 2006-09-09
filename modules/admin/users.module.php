@@ -109,9 +109,8 @@ class module_admin_users
     {
         global $db, $tpl, $error, $lang;
 
-       
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users ORDER BY user_id ASC' );
-        $stmt->execute( );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users ORDER BY user_id ASC LIMIT 0,20' );
+        $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
                     
         if ( is_array( $users ) )
@@ -120,9 +119,10 @@ class module_admin_users
         }
         else
         {
-            $this->output .= 'No Users could be found.';
+            $err['no_users'] = 1;
         }
-       
+        
+        $tpl->assign( 'err', $err );
         $this->output .= $tpl->fetch('admin/users/show.tpl');
     }
     
@@ -160,6 +160,14 @@ class module_admin_users
             {
                 $err['nick_already'] = 1;
             }
+        }
+        
+        /**
+        * @desc Check email
+        */
+        if ( $input->check($email, 'is_email' ) == false )
+        {
+            $err['email_wrong'] = 1;
         }
         
         /**
@@ -233,6 +241,14 @@ class module_admin_users
             {
                 $err['nick_already'] = 1;
             }
+        }
+        
+        /**
+        * @desc Check email
+        */
+        if ( $input->check($email, 'is_email' ) == false )
+        {
+            $err['email_wrong'] = 1;
         }
         
         /**
