@@ -307,7 +307,7 @@ class module_admin_groups
             */
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
             $stmt->execute( array( $id ) );
-            $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);            
+            $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);
         
             /**
             * @desc Select the permissions of group
@@ -322,7 +322,24 @@ class module_admin_groups
             $permissions_of_group = $stmt2->fetchAll(PDO::FETCH_NAMED);
             $edit_group['permissions'] = $permissions_of_group;
             
-                
+            /**
+            * @desc Select the areas
+            */
+            $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
+            $stmt3->execute();
+            $areas_result = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+            foreach( $areas_result as $areas )
+            {
+                $stmt4 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE area_id = ?' );
+                $stmt4->execute( array( $areas['area_id'] ) );
+                $rights_result = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                foreach( $rights_result as $rights )
+                {
+                    $edit_group['areas'][$areas['name']][$rights['name']]['right_id']       = $rights['right_id'];
+                    $edit_group['areas'][$areas['name']][$rights['name']]['name']           = $rights['name'];
+                    $edit_group['areas'][$areas['name']][$rights['name']]['description']    = $rights['description'];
+                }
+            }
         }
         
         /**
