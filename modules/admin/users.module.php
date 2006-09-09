@@ -355,18 +355,13 @@ class module_admin_users
 
     function show_usercenter()
     {
-        global $db, $tpl, $error, $lang;
-
-        /**
-        * @desc Init
-        */
-        $id = (int) $_GET['id'];
+        global $db, $tpl, $error, $lang, $functions;
         
         /**
         * @desc Get the user data
         */
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
-        $stmt->execute( array( $id ) );
+        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
                     
         if ( is_array( $data ) )
