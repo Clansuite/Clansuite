@@ -175,11 +175,15 @@ class module_admin_groups
     {
         global $db, $tpl, $error, $lang, $functions, $input;
        
-        // $_POST EINGANG 
+        /**
+        * @desc Init
+        */
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];      
-        
-        // init, get, assign ICONS!
+        $sets       = '';        
+        /**
+        * @desc Icons & Images
+        */
         $icons  = array();    
         foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
@@ -187,41 +191,42 @@ class module_admin_groups
         }
         $tpl->assign( 'icons'   , $icons );
         
-        // init, get, assign IMAGES!
+
         $images  = array();    
         foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }
         $tpl->assign( 'images'   , $images );
-                
-        $sets = '';
-               
-        // DB - SELECT       
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
-        $stmt->execute( array( $id ) );
-        $edit_group = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // SHOW EDIT 
-        
-        if ( ! isset ( $_POST['submit'] ) )
+        /**
+        * @desc Group already stored?
+        */
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
+        $stmt->execute( array( $info['name'] ) );
+        $group = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ( is_array( $group ) )
         {
-        
-            $tpl->assign('editgroup', $edit_group);
-
-            $this->output .= $tpl->fetch('admin/groups/create.tpl');
-       
+            $err['name_already'] = 1;        
         }
         
-        // SUBMIT INPUT
+        /**
+        * @desc Form filled?
+        */
+        if( ( empty($info['name']) OR 
+            empty($info['description']) ) AND !empty($submit) )
+        {
+            $err['fill_form'] = 1;   
+        }
         
-        else
-        {     
-             //debug input array
-            print_r($info);
-            
-            
-            // Db Update
+        /**
+        * @desc No errors - procceed to edit
+        */
+        if ( !empty($submit) AND count($err) == 0 )
+        {
+            /**
+            * @desc Update the DB
+            */
             $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'groups SET ' . $sets );
             $stmt->execute( array ( $info['pos'],
@@ -231,10 +236,18 @@ class module_admin_groups
                                     $info['image'],
                                     $info['color'] ) );
             
-            // Redirect to Show
+            /**
+            * @desc Redirect...
+            */
             $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was created.' ), 'admin' );
     
         }
+        
+        /**
+        * @desc Assign & Show template
+        */
+        $tpl->assign( 'err'         , $err );
+        $this->output .= $tpl->fetch('admin/groups/create.tpl');
        
     }
     
@@ -245,12 +258,17 @@ class module_admin_groups
     {
         global $db, $tpl, $error, $lang, $functions, $input;
        
-        // $_POST EINGANG 
+        /**
+        * @desc Init
+        */
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
-        $id         = $_GET['id'];
+        $id         = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['id'];
+        $sets       = '';
         
-        // init, get, assign ICONS!
+        /**
+        * @desc Get the images
+        */
         $icons  = array();    
         foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
@@ -258,41 +276,54 @@ class module_admin_groups
         }
         $tpl->assign( 'icons'   , $icons );
         
-        // init, get, assign IMAGES!
         $images  = array();    
         foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }
         $tpl->assign( 'images'   , $images );
-                
-        $sets = '';
                
-        // DB - SELECT       
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
-        $stmt->execute( array( $id ) );
-        $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        // SHOW EDIT 
-        
-        if ( ! isset ( $_POST['submit'] ) )
+        /**
+        * @desc Group already stored?
+        */
+        if( !empty( $submit ) )
         {
-        
-            $tpl->assign('editgroup', $edit_group);
-
-            $this->output .= $tpl->fetch('admin/groups/edit.tpl');
-       
+            if ( !empty( $info['name'] ) )
+            {
+                $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id != ? AND name = ?' );
+                $stmt->execute( array( $info['group_id'], $info['name'] ) );
+                $group_already = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ( is_array( $group_already ) )
+                {
+                    $err['name_already'] = 1;        
+                }
+            }
+            $edit_group = $info;
+        }
+        else
+        {
+            /**
+            * @desc Select the group
+            */
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
+            $stmt->execute( array( $id ) );
+            $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);            
         }
         
-        // SUBMIT INPUT
+        /**
+        * @desc Form filled?
+        */
+        if( ( empty($info['name']) OR 
+            empty($info['description']) ) AND !empty($submit) )
+        {
+            $err['fill_form'] = 1;   
+        }        
         
-        else
-        {     
-             //debug input array
-            print_r($info);
-            
-            
-            // Db Update
+        if ( !empty($submit) AND count($err) == 0 )
+        {
+            /**
+            * @desc Update the DB
+            */
             $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
             $stmt->execute( array ( $info['pos'],
@@ -303,11 +334,19 @@ class module_admin_groups
                                     $info['color'],
                                     $info['group_id'] ) );
             
-            // Redirect to Show
+            /**
+            * @desc Redirect...
+            */
             $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was edited.' ), 'admin' );
     
         }
-    
+        
+        /**
+        * @desc Assign & show template
+        */
+        $tpl->assign('err'          , $err );
+        $tpl->assign('editgroup'    , $edit_group);
+        $this->output .= $tpl->fetch('admin/groups/edit.tpl');
     }
       
     /**

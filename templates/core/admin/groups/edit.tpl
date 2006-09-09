@@ -10,8 +10,9 @@
 
 <h2>{translate}Edit Group{/translate}</h2>
 
-{if $err.no_special_chars == 1} {error title="Special Chars"}   No special chars except '_' are allowed.{/error} {/if}
-{if $err.fill_form == 1}        {error title="Fill form"}       Please fill all fields.{/error}                  {/if}
+{if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
+{if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
+{if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
 
 {* DEBUG
 {if $smarty.const.DEBUG eq "1"} Debugausgabe der Var:  {$editgroup|@var_dump}   {/if}
