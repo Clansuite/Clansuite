@@ -308,13 +308,28 @@ class module_admin_groups
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
             $stmt->execute( array( $id ) );
             $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);            
+        
+            /**
+            * @desc Select the permissions of group
+            */
+            $stmt2 = $db->prepare('SELECT tr.name, ug.right_id 
+                                   FROM ' . DB_PREFIX . 'group_rights ug,
+                                        ' . DB_PREFIX . 'rights tr
+                                   WHERE tr.right_id = ug.right_id
+                                   AND ug.group_id = ?');
+                                       
+            $stmt2->execute(  array( $id ) );
+            $permissions_of_group = $stmt2->fetchAll(PDO::FETCH_NAMED);
+            $edit_group['permissions'] = $permissions_of_group;
+            
+                
         }
         
         /**
         * @desc Form filled?
         */
-        if( ( empty($info['name']) OR 
-            empty($info['description']) ) AND !empty($submit) )
+        if( ( empty($info['name'] ) OR 
+              empty($info['description']) ) AND !empty($submit) )
         {
             $err['fill_form'] = 1;   
         }        
