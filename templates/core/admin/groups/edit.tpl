@@ -99,7 +99,7 @@
 	        <legend><b>Avaiable Permissions (Areas)</b></legend>
 	        {foreach key=area_name item=area_array from=$editgroup.areas}
             <label for="areas" class="radio">
-                    <a href="javascript: void();" onClick="clip_area('area_{$area_name}')" class="ButtonYellow">{$area_name}</a>
+                    <a href="javascript:void(0);" onClick="clip_area('area_{$area_name}')" class="ButtonYellow">{$area_name}</a>
             </label>
                 <div style="display: none;" id="area_{$area_name}">
                 {foreach key=right_name item=right_array from=$area_array}
