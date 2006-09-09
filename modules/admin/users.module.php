@@ -165,7 +165,7 @@ class module_admin_users
         /**
         * @desc Check email
         */
-        if ( $input->check($email, 'is_email' ) == false )
+        if ( $input->check($info['email'], 'is_email' ) == false )
         {
             $err['email_wrong'] = 1;
         }
@@ -218,46 +218,87 @@ class module_admin_users
         /**
         * @desc Init
         */
-        $user_id    = (int) $_GET['user_id'];
+        $id         = isset($_GET['id']) ? (int) $_GET['id'] : $_POST['info']['user_id'];
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
         $err        = array();
                
+
+        /**
+        * @desc Groups of the user
+        */
+        $stmt = $db->prepare( 'SELECT ug.* 
+                               FROM ' . DB_PREFIX . 'user_group cu,
+                                    ' . DB_PREFIX . 'groups ug
+                               WHERE ug.group_id = cu.group_id
+                               AND cu.user_id = ?' );
+                            
+        $stmt->execute( array ( $id ) );
+        $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
+        
+        if ( is_array( $groups ) ) 
+        { 
+            $tpl->assign('groups', $groups); 
+        }
+        
         /**
         * @desc Nick or eMail already in ?
         */
-        $stmt = $db->prepare( 'SELECT nick,email,user_id FROM ' . DB_PREFIX . 'users WHERE ( user_id != ? ) AND ( nick = ? OR email = ? )' );
-        $stmt->execute( array( $info['nick'], $info['email'], $info['user_id'] ) );
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if( is_array($user) )
+        if ( !empty( $submit ) )
         {
-            if( $info['email'] == $user['email'] )
+            $stmt = $db->prepare( 'SELECT nick,email,user_id FROM ' . DB_PREFIX . 'users WHERE ( user_id != ? ) AND ( nick = ? OR email = ? )' );
+            $stmt->execute( array( $info['nick'], $info['email'], $info['user_id'] ) );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if( is_array($user) )
             {
-                $err['email_already'] = 1;
+                if( $info['email'] == $user['email'] )
+                {
+                    $err['email_already'] = 1;
+                }
+                
+                if( $info['nick'] == $user['nick'] )
+                {
+                    $err['nick_already'] = 1;
+                }
             }
             
-            if( $info['nick'] == $user['nick'] )
+            /**
+            * @desc Check email
+            */
+            if ( $input->check($info['email'], 'is_email' ) == false )
             {
-                $err['nick_already'] = 1;
+                $err['email_wrong'] = 1;
             }
+
+            /**
+            * @desc Form filled?
+            */
+            if( empty($info['nick']) OR 
+                empty($info['email']) )
+            {
+                $err['fill_form'] = 1;   
+            }
+            
+            $tpl->assign('user', $info);
         }
-        
-        /**
-        * @desc Check email
-        */
-        if ( $input->check($email, 'is_email' ) == false )
+        else
         {
-            $err['email_wrong'] = 1;
-        }
-        
-        /**
-        * @desc Form filled?
-        */
-        if( ( empty($info['nick']) OR 
-            empty($info['email']) ) AND !empty($submit) )
-        {
-            $err['fill_form'] = 1;   
+            /**
+            * @desc The user himself
+            */
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt->execute( array ( $id ) );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                          
+            if ( is_array( $user ) ) 
+            { 
+                $tpl->assign('user', $user);
+            }
+            else 
+            { 
+                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
+            }
         }
         
         /**
@@ -298,47 +339,10 @@ class module_admin_users
             
 
         }
-              
-        /**
-        * @desc The user himself
-        */
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
-        $stmt->execute( array ( $info['user_id'] ) );
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                      
-        if ( is_array( $user ) ) 
-        { 
-            $tpl->assign('user', $user); 
-        }
-        else 
-        { 
-            $this->output .= $lang->t( 'The user could not be found.');  
-        }
-        
-        
-        /**
-        * @desc Groups of the user
-        */
-        $stmt = $db->prepare( 'SELECT ug.* 
-                               FROM ' . DB_PREFIX . 'user_group cu,
-                                    ' . DB_PREFIX . 'groups ug
-                               WHERE ug.group_id = cu.group_id
-                               AND cu.user_id = ?' );
-                            
-        $stmt->execute( array ( $user_id ) );
-        $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
-        
-        if ( is_array( $groups ) ) 
-        { 
-            $tpl->assign('groups', $groups); 
-        }
-        else 
-        { 
-            $this->output .= 'The Userprofil of User #' . $user_id . ' could not be fetched.';  
-        }
+
 
         /**
-        * @desc Tempalte output & assignments
+        * @desc Template output & assignments
         */
         $tpl->assign( 'err', $err );
         $this->output .= $tpl->fetch( 'admin/users/edit.tpl' );  
@@ -353,19 +357,25 @@ class module_admin_users
     {
         global $db, $tpl, $error, $lang;
 
-                                                                                 // ?
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = 1' );
-        //$stmt->execute( array ( $SESSION[user][user_id] ) );
-        $stmt->execute();
-        $usercenterdata = $stmt->fetchAll(PDO::FETCH_NAMED);
+        /**
+        * @desc Init
+        */
+        $id = (int) $_GET['id'];
+        
+        /**
+        * @desc Get the user data
+        */
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+        $stmt->execute( array( $id ) );
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
                     
-        if ( is_array( $usercenterdata ) )
+        if ( is_array( $data ) )
         {
-            $tpl->assign('usercenterdata', $usercenterdata);
+            $tpl->assign( 'usercenterdata', $data );
         }
         else
         {
-        $this->output .= 'There was an error while acquiring the usercenter-data.';
+            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
         }
        
         $this->output .= $tpl->fetch('admin/users/usercenter.tpl');
@@ -378,8 +388,11 @@ class module_admin_users
     {
         global $db, $tpl, $error, $lang;
 
-                                                                                 // ?
-       $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users' );
+        /**
+        * @desc Get the users
+        */
+        
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users' );
         $stmt->execute( );
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
                     
@@ -389,9 +402,9 @@ class module_admin_users
         }
         else
         {
-        $this->output .= 'No Users could be found.';
+            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'No users could be found.' ), 'admin' );
         }
-       
+
         $this->output .= $tpl->fetch('admin/users/search.tpl');
     }
     
