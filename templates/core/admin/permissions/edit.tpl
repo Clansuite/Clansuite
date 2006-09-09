@@ -1,3 +1,8 @@
+{doc_raw}
+           {* StyleSheets *}
+           <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
+{/doc_raw}
+
 <h2>{translate}Edit Permission{/translate}</h2>
 
 {if $err.no_special_chars == 1}
@@ -12,30 +17,36 @@
     {/error}
 {/if}
 
-{* todo : Debugausgabe nur wenn DEBUG = 1 {$permissions|@var_dump} *}
-{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$permissions}   {/if}
+{* DEBUG
+{if $smarty.const.DEBUG eq "1"} Debugausgabe der Var:  {$permission|@var_dump}   {/if}
+*}
 
  
- <form id="h3sForm" action="index.php?mod=admin&sub=permissions&action=edit" method="POST" target="_self">
+ <form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=edit" class="h3sForm">
 
-    <fieldset > 
+    <fieldset> 
+    <legend>Editing group [<b> {$permission.name} - #{$permission.right_id}</b>]</legend> 
 
-       <input name="info[id]" type="hidden" value="{$permissions.0.right_id}">
-                       
-       <h3> Edit Permission : {$permissions.0.right_id} - {$permissions.0.name} </h3>
+       <input name="info[id]" type="hidden" value="{$permission.right_id}">
+       	    
+        <br />   
+       	    
+       <label for="permission_name">Permissions Name</label>
+	   <input id="name" name="info[name]" type="text" value="{$permission.name}" />
+		
+		
+	   <label for="permission_description">Permission Description</label>
+	   <input id="name" name="info[description]" type="text" value="{$permission.description}" />
+		
+		 
+	 </fieldset>
+	 
+	 <fieldset>
+	 <legend>{translate}Save Inputs{/translate}</legend>
 	    
-       <label for="permission_name">
-			Permissions Name
-			<input id="name" name="info[name]" type="text" value="{$permissions.0.name}" />
-		</label>
-		
-		 <label for="permission_description">
-			Permission Description
-			<input id="name" name="info[description]" type="text" value="{$permissions.0.description}" />
-		</label>
-		
-		<input class="input_submit" type="submit" name="submit" value="{translate}Edit Permission{/translate}" />
-			
+        <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Edit Permission{/translate}" />
+        <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+   
 	 </fieldset>
 	 
  </form>

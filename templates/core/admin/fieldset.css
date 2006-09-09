@@ -1,7 +1,9 @@
 /* Fieldset CSS */
 /* 1. h3sform */
-/* 2. simpleform */
-/* 3. nobordersform */
+/* 2. nobordersform */
+/* 3. simplyform */
+
+#floatingCleared input {}
 
 
 /* HTML TAGS */
@@ -12,15 +14,12 @@ h3
 	font-size: 100%;
 }
 
-
-
-
-/* IDs */
+/* 1. h3sform */
 
 .h3sForm fieldset
 {
-	display: block;
-	width: 15em;
+	clear: both;
+	width: 45em;
 	margin: 0 0 3em 0;
 	padding: 1em 1em 1em 1em;
 	background-color: #EEEEEE;
@@ -35,7 +34,9 @@ h3
 
 .h3sForm fieldset.radio
 {
-	width: 15em;
+	float: left;
+	clear: both;
+	width: auto;
 	margin: 1em 0 2em 0;
 	background-color: #DDDDDD;
 }
@@ -44,7 +45,7 @@ h3
 {
 	clear: both;
 	float: left;
-	width: auto;
+	width: 16em;
 }
 
 .h3sForm fieldset.radio label
@@ -54,21 +55,38 @@ h3
 
 .h3sForm input
 {
-	display: block;
-	width: 15em;
+	float:left;
+	margin-bottom:1em;
+	width: 20em;
+}
+
+.h3sForm img
+{
+  clear:right;
+  float:left;
 }
 
 .h3sForm label
 {
-	/*display: block;*/
+    clear:both;
+    float:left;
+    width:15em;	
 	margin-bottom: 1em;
 	font-weight: bold;
 }
 
 .h3sForm select
-{
-	display: block;
+{   
+    
+    float:left;
+    text-align: right;
+    margin: 0 1em 10px 0;
+	width: auto;
 }
+
+
+
+/* 2. nobordersform */
 
 .noBordersForm fieldset
 {
@@ -128,6 +146,9 @@ h3
 {
 	display: block;
 }
+
+
+/* 3. simplyform */
 
 .simplyForm fieldset
 {

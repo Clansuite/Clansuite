@@ -116,8 +116,7 @@ input,select
 	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
 	font-weight: bold;
 	padding: 0.25em;
-	margin-top: 8px;
-	margin-left: 8px;
+	margin-right: 10px;
 }
 
 .input_submit:active {
@@ -146,6 +145,50 @@ p
     margin: 2em;
 }
 
+table.admintable thead th
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+table.admintable tbody
+{   
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default; 
+}
+
+table.admintable td{
+
+    padding: 5px;
+    vertical-align: middle;
+    border-color: white;
+    border: 1px solid white;
+}
+
+table.admintable tr#cell2
+{   
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+}
+
+table.admintable tr#cell3
+{   
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+}
+
 .cell1
 {
     background: #ECE9D8;
@@ -170,7 +213,7 @@ p
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     padding: 0px;
-    cursor: default;
+    cursor: default;    
 }
 
 .td_header
