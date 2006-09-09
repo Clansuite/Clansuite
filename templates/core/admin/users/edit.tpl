@@ -1,3 +1,5 @@
+
+
 {doc_raw}
             {* StyleSheets *}
             <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
@@ -82,10 +84,18 @@
        
         <fieldset class="radio">
 	    <legend><b>Group Memberships</b></legend>
-	   
-	    {foreach item=item key=key from=$groups}<a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a><br />{/foreach}
-	   
-	    </fieldset>    
+	    
+        {foreach item=item key=key from=$groups}
+	    
+	        <label for="member_of_group_{$item.group_id}" class="radio">
+	        <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
+	        </label>
+            <input type="checkbox" name="info['groups'][]" value="1"
+                   {if $smarty.post.info.member_of_group==1}checked{/if} />
+        
+	    {/foreach}
+        
+        </fieldset>    
 	              
     </fieldset>
 
