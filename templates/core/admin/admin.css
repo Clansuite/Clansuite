@@ -94,8 +94,9 @@ a:hover
     font-weight: bold;
 }
 
-input,select
+input[type=text], select
 {
+    float: left;
     font-size: 11px;
     font-family: georgia, tahoma, verdana;
 }

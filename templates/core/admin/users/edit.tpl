@@ -66,14 +66,12 @@
 	   <fieldset class="radio">
        <legend><b>Userstatus: Activated & Banned </b></legend> 
         
-            <label for="activated" class="radio"><b>Activated:</b>
+            <label for="activated" class="radio"><b>Activated:</b></label>
             <input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} />
-            </label>
             
-            <label for="disabled" class="radio"><b>Disabled:</b>
+            <label for="disabled" class="radio"><b>Disabled:</b></label>
             <input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} />
-            </label>
-            
+           
         </fieldset> 
        
         <fieldset class="radio">
