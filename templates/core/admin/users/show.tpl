@@ -46,7 +46,7 @@
                     <td>                            {$wert.last_name}   </td>
                     <td>                            {$wert.infotext}    </td>
                     <td align="center">
-                        <a class="ButtonOrange" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
+                        <a class="ButtonOrange" href="index.php?mod=admin&sub=users&action=edit&id={$wert.user_id}">Edit</a>
                     </td>
                     <td align="center"> 
                         <input type="hidden" name="ids[]" value="{$wert.user_id}">
