@@ -45,10 +45,10 @@
                     <td>                            {$wert.first_name}  </td>
                     <td>                            {$wert.last_name}   </td>
                     <td>                            {$wert.infotext}    </td>
-                    <td>
+                    <td align="center">
                         <a class="ButtonOrange" href="index.php?mod=admin&sub=users&action=edit&user_id={$wert.user_id}">Edit</a>
                     </td>
-                    <td style="text-align:center;"> 
+                    <td align="center"> 
                         <input type="hidden" name="ids[]" value="{$wert.user_id}">
                         <input name="delete[]" type="checkbox" value="{$wert.user_id}">
                     </td>

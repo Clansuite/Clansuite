@@ -68,10 +68,10 @@
     
     <fieldset>
     <legend>{translate}Options{/translate}</legend>
-        
+        <div align="right">
         <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit Group{/translate}" />
         <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
-       
+        </div>
 	</fieldset>		
 	 
 	 

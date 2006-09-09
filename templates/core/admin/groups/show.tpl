@@ -54,8 +54,8 @@
                     {if !$smarty.foreach.usersarray.last},{/if} 
                     {/foreach}
                 </td>      
-                <td><a class="ButtonOrange" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
-                <td style="text-align:center;"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
+                <td align="center"><a class="ButtonOrange" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
+                <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
             
             </tr>
            
