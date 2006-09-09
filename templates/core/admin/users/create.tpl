@@ -34,50 +34,66 @@
     {/error}
 {/if}
  
-<form action="index.php?mod=admin&sub=users&action=create" method="POST" target="_self">
+<form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=create" class="h3sForm">
 
-<table cellpadding="4" cellspacing="0" border="0">
-<tr>
-    <td colspan="2" class="td_header_small">
-        Create a new user
-    </td>
-</tr>
-<tr>
-    <td class="cell1"><b>First Name:</b></td>
-    <td><input name="info[first_name]" type="text" value="{$smarty.post.info.first_name|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Last Name:</b></td>
-    <td><input name="info[last_name]" type="text" value="{$smarty.post.info.last_name|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Nick:</b></td>
-    <td><input name="info[nick]" type="text" value="{$smarty.post.info.nick|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>eMail:</b></td>
-    <td><input name="info[email]" type="text" value="{$smarty.post.info.email|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Password:</b></td>
-    <td><input name="info[password]" type="text" value="{$smarty.post.info.password|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Infotext:</b></td>
-    <td><input name="info[infotext]" type="text" value="{$smarty.post.info.infotext|escape:"htmlall"}" class="input_text"/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Activated:</b></td>
-    <td align="left"><input name="info[activated]" type="checkbox" value="1" {if $smarty.post.info.activated==1}checked{/if}/></td>
-</tr>
-<tr>
-    <td class="cell1"><b>Disabled:</b></td>
-    <td align="left"><input name="info[disabled]" type="checkbox" value="1" {if $smarty.post.info.disabled==1}checked{/if}/></td>
-</tr>
-<tr>
-    <td colspan="2" align="center">
-        <input class="input_submit" type="submit" name="submit" value="{translate}Create the user{/translate}" />
-    </td>
-</tr>
-</table>
+    <fieldset> 
+    <legend><b> Create user </b></legend>
+
+        <input type="hidden" name="info[user_id]" value="{$user.user_id}">
+
+        <br />
+
+       <label for="first_name"><b>First Name:</b></label>
+	   <input name="info[first_name]" type="text" value="{$smarty.post.info.first_name|escape:"htmlall"}" class="input_text"/>
+	   
+	   <label for="last_name"><b>Last Name:</b></label>
+       <input name="info[last_name]" type="text" value="{$smarty.post.info.last_name|escape:"htmlall"}" class="input_text"/>
+	   
+	   <label for="nick"><b>Nick:</b></label>
+	   <input name="info[nick]" type="text" value="{$smarty.post.info.nick|escape:"htmlall"}" class="input_text"/>
+ 
+	   <label for="email"><b>eMail:</b></label>
+	   <input name="info[email]" type="text" value="{$smarty.post.info.email|escape:"htmlall"}" class="input_text"/>
+
+	   <label for="password"><b>Password:</b></label>
+	   <input name="info[password]" type="text" value="{$smarty.post.info.password|escape:"htmlall"}" class="input_text"/>
+
+	   
+	   <label for="pwexplain"><small>{translate}Leave it blank if you do not want to change the password!{/translate}</small></label>
+       
+       <label for="infotext"><b>Infotext:</b></label>
+	   <input name="info[infotext]" type="text" value="{$smarty.post.info.infotext|escape:"htmlall"}" class="input_text"/>
+
+	   	
+	   <fieldset class="radio">
+       <legend><b>Userstatus: Activated & Banned </b></legend> 
+        
+            <label for="activated" class="radio"><b>Activated:</b>
+            <input name="info[activated]" type="checkbox" value="1" {if $smarty.post.info.activated==1}checked{/if}/>
+            </label>
+            
+            <label for="disabled" class="radio"><b>Disabled:</b>
+            <input name="info[disabled]" type="checkbox" value="1" {if $smarty.post.info.disabled==1}checked{/if}/>
+           </label>
+            
+        </fieldset> 
+       
+        <fieldset class="radio">
+	    <legend><b>Group Memberships</b></legend>
+	   
+	    {foreach item=item key=key from=$groups}<a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a><br />{/foreach}
+	   
+	    </fieldset>    
+	              
+    </fieldset>
+
+    <fieldset>
+    <legend>{translate}Save Inputs{/translate}</legend>
+       
+        <input style="border-color:lightgreen; border-style:groove;" class="Button" type="submit" name="submit" value="{translate}Create the user{/translate}" />
+        <input style="border-color:indianred; border-style:groove;" class="Button" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
+
+    </fieldset>
+
+
 </form>
