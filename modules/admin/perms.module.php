@@ -68,6 +68,10 @@ class module_admin_permissions
                 $this->edit_permissions();
                 break;
                 
+            case 'create':
+                $this->mod_page_title = $lang->t( 'Create Permissions' );
+                $this->create_permissions();
+                break;
                 
             case 'delete':
                 $this->mod_page_title = $lang->t( 'Delete Permissions' );
@@ -94,7 +98,7 @@ class module_admin_permissions
         global $db, $tpl, $error, $lang;
 
         // Ausgabe der Benutzergruppen basierend auf Rechten
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights ORDER BY name ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights ORDER BY right_id ASC' );
         $stmt->execute();
         $permissions_data = $stmt->fetchAll(PDO::FETCH_NAMED);
         
@@ -111,7 +115,7 @@ class module_admin_permissions
         $this->output .= $tpl->fetch('admin/permissions/show.tpl');
     }
     
-     //----------------------------------------------------------------
+    //----------------------------------------------------------------
     // Edit permissions
     //----------------------------------------------------------------
     function edit_permissions()
@@ -155,12 +159,65 @@ class module_admin_permissions
         $stmt->execute( array ( $info['name'], $info['description'], $info['id'] ) );
         
         // Redirect to Show
-        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'The permission was edited.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 
+        'metatag|newsite', 3, $lang->t( 'The permission was edited.' ), 'admin' );
     
         }
     
     }
+  
+    //----------------------------------------------------------------
+    // Create permissions
+    //----------------------------------------------------------------
+    function create_permissions()
+    {
+        global $db, $tpl, $error, $lang, $functions, $input;
+       
+        // $_POST EINGANG 
+        $submit     = $_POST['submit'];
+        $info       = $_POST['info'];
+                        
+        $sets = '';
+               
+        // DB - SELECT       
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
+        $stmt->execute( array( $id ) );
+        $edit_permission = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // SHOW EDIT 
+        
+        if ( ! isset ( $_POST['submit'] ) )
+        {
+        
+        $tpl->assign('permission', $edit_permission);
+
+        $this->output .= $tpl->fetch('admin/permissions/create.tpl');
+       
+        }
+        
+        // SUBMIT INPUT
+        
+        else
+        {     
+         //debug input array
+        print_r($info);
+        
+        // Db INSERT
+       
+        $qry  = 'INSERT `' . DB_PREFIX . 'rights`';
+        $qry .= '(`name`, `description`)';
+        $qry .= ' VALUES (?,?)';
+        
+        $stmt = $db->prepare( $qry );
+        $stmt->execute( array ( $info['name'], $info['description'] ) );
+        
+        // Redirect to Show
+        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 
+        'metatag|newsite', 3, $lang->t( 'The permission was created.' ), 'admin' );
     
+        }
+    
+    }
     
     
   /**
@@ -181,7 +238,8 @@ class module_admin_permissions
         
         if ( count($delete) < 1 )
         { 
-            $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'No permissions selected to delete! Aborted... ' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 
+            'metatag|newsite', 3, $lang->t( 'No permissions selected to delete! Aborted... ' ), 'admin' );
         }
         
         // Abbruchmöglichkeit innerhalb der Confirm-Abfrage
@@ -226,7 +284,8 @@ class module_admin_permissions
             } // close if
         } // close foreach
         
-        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 'metatag|newsite', 3, $lang->t( 'The permissions have been deleted.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show', 
+        'metatag|newsite', 3, $lang->t( 'The permissions have been deleted.' ), 'admin' );
         
     }
     

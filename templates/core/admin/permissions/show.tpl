@@ -42,12 +42,16 @@
         <tfoot>
             <tr>
                <td colspan="9" height="40">
-                    <div>
-                        <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="submit" id="Delete" value="Delete the selected Permissions" tabindex="2" />
-                        </form>
-                        <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" tabindex="3" />
-                        <input style="border-top-color:yellow; border-style:groove;" class="Button" type="submit" name="xsubmit" id="Submit" value="Scan for new Permissions" tabindex="1" />                
-                    </div>
+                   
+                   <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="submit" id="Delete" value="Delete the selected Permissions" tabindex="4" />
+                   <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" tabindex="3" />
+                   
+                   <input style="border-top-color:lightgreen; border-style:groove;" class="Button" type="button" name="xsubmit" id="Submit" 
+                   onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create'"  value="Create new Permission" tabindex="2" />
+                   
+                   <input style="border-top-color:yellow; border-style:groove;" class="Button" type="button" name="xsubmit" id="Scan" 
+                   onClick="self.location.href='index.php?mod=admin&sub=permissions&action=scan'" value="Scan for new Permissions" tabindex="1" />                
+                
                 </td>
             </tr>
         </tfoot>

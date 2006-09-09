@@ -65,8 +65,13 @@
         <tfoot>
             <tr>
                 <td colspan="9">
+                    
                     <input style="border-top-color:indianred; border-style:groove;" class="Button" type="reset" />
                     <input style="border-top-color:darkslategray; border-style:groove;" class="Button" type="submit" name="submit" value="Delete the selected groups" />
+                    
+                    <input style="border-top-color:lightgreen; border-style:groove;" class="Button" type="button" name="xsubmit" id="Submit" 
+                    onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'"  value="Create new Group" tabindex="2" />
+                   
                 </td>
             </tr>
         </tfoot>
