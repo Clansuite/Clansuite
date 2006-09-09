@@ -165,7 +165,7 @@ class module_admin_users
         /**
         * @desc Check email
         */
-        if ( $input->check($info['email'], 'is_email' ) == false )
+        if ( $input->check($info['email'], 'is_email' ) == false AND !empty($submit) )
         {
             $err['email_wrong'] = 1;
         }
