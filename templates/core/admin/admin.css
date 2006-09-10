@@ -16,6 +16,13 @@ a:visited
     font-weight: bold;
 }
 
+a:hover
+{
+    text-decoration: underline;
+    color: black;
+    font-weight: bold;
+}
+
 .Button,
 .ButtonYellow,
 .ButtonRed,
@@ -99,13 +106,6 @@ a:visited
     background-color: #ffffff;
     border: 1px solid #ACA899;
 }
-
-a:hover
-{
-    text-decoration: underline;
-    color: black;
-    font-weight: bold;
-}
     
 .redirect
 {
@@ -130,39 +130,13 @@ a:hover
     font-weight: bold;
 }
 
-input[type=text], select
-{
-    float: left;
-    font-size: 11px;
-    font-family: georgia, tahoma, verdana;
-}
-
 .input_text
 {
     border: 1px solid black;
 }
 
-.input_submit {
-	background-color: #FFFFFF;
-	border: 3px double #999999;
-	border-top-color: #CCCCCC;
-	border-left-color: #CCCCCC;
-	background: url(../images/background_form_element.gif) repeat-x;
-	color: #333333;
-	font-size: 0.8em;
-	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
-	font-weight: bold;
-	padding: 0.25em;
-	margin-right: 10px;
-}
-
-.input_submit:active {
-	border: 3px double #CCCCCC;
-	border-top-color: #999999;
-	border-left-color: #999999;
-}
-
-.checkbox{
+.checkbox
+{
     border: 1px solid black;
 }
 

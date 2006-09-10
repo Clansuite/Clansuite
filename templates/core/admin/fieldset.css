@@ -3,26 +3,41 @@
 /* 2. nobordersform */
 /* 3. simplyform */
 
-#floatingCleared input {}
-
 
 /* HTML TAGS */
 
-h3
+.h3sForm h3
 {
-	margin-bottom: 0.5em;
-	font-size: 100%;
+    text-align: center;
+    width: 100%;
+    height: 15px;
+    border-bottom: 1px solid #999999;
+	font-size: 11px;
 }
 
 /* 1. h3sform */
 
 .h3sForm fieldset
 {
-	clear: both;
-	width: 45em;
-	margin: 0 0 3em 0;
-	padding: 1em 1em 1em 1em;
-	background-color: #EEEEEE;
+	width: 500px;
+	padding: 0 0 0 0;
+    border: 1px solid #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+    background: url(../images/background_form_element_lightblue.gif) repeat-x;
+	background-color: #E0F4FB;    
+}
+
+.h3sForm fieldset label span
+{
+    width: 200px;	
+	font-weight: bold;
+}
+
+.h3sForm fieldset input
+{
+    position: relative;
+    top: -4px;
 }
 
 .h3sForm fieldset.submit
@@ -34,181 +49,46 @@ h3
 
 .h3sForm fieldset.radio
 {
-	float: left;
+    width: 200px;
 	clear: both;
-	width: auto;
-	margin: 1em 0 2em 0;
-	background-color: #DDDDDD;
+    border: 1px solid #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+    margin: 0em 1em 1em 1em;
+    background: url(../images/background_form_element_blue.gif) repeat-x;
+	background-color: #C5EBF7;
 }
 
 .h3sForm fieldset.radio input
 {
     position: relative;
-    top: -2px;
-	float: right;
-	width: 1em;
+    top: 4px;
 }
 
-.h3sForm fieldset.radio input[type=checkbox]
+.h3sForm fieldset td
 {
-	float: left;
-	width: 1em;
+    padding: 0px 5px 15px 5px;
 }
 
-.h3sForm fieldset.radio label
+.h3sForm fieldset.radio h3
 {
-	font-weight: normal;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 15px;
+    border-bottom: 1px solid #999999;
+	font-size: 11px;
 }
 
 .h3sForm input[type=text]
 {
     position: relative;
-    top: -2px;
-	float:left;
-	margin-bottom:1em;
 	width: 20em;
 }
-	
-.h3sForm select
-{   
-    float:left;
-    text-align: right;
-    margin: 0 1em 10px 0;
-	width: auto;
-}
-
 
 
 .h3sForm img
 {
   clear:right;
   float:left;
-}
-
-.h3sForm label
-{
-    clear:both;
-    float:left;
-    width:15em;	
-	margin-bottom: 1em;
-	font-weight: bold;
-}
-
-
-
-/* 2. nobordersform */
-
-.noBordersForm fieldset
-{
-	display: block;
-	width: 17em;
-	margin: 0 0 3em 0;
-	border: 0 solid #000000;
-	padding: 1em 1em 1em 1em;
-	background-color: #EEEEEE;
-}
-
-.noBordersForm fieldset.submit
-{
-	border: none;
-	background-color: transparent;
-	text-align: center;
-}
-
-.noBordersForm fieldset.radio
-{
-	width: 15em;
-	margin: 1em 0 2em 0;
-	background-color: #DDDDDD;
-}
-
-.noBordersForm fieldset.radio input
-{
-	clear: both;
-	float: left;
-	width: auto;
-}
-
-.noBordersForm fieldset.radio label
-{
-	font-weight: normal;
-}
-
-.noBordersForm input
-{
-	display: block;
-	width: 15em;
-}
-
-.noBordersForm label
-{
-	display: block;
-	margin-bottom: 1em;
-	font-weight: bold;
-}
-
-.noBordersForm legend
-{
-	font-style: italic;
-}
-
-.noBordersForm select
-{
-	display: block;
-}
-
-
-/* 3. simplyform */
-
-.simplyForm fieldset
-{
-	display: block;
-	width: 17em;
-	margin: 0 0 3em 0;
-	padding: 0 1em 1em 1em;
-	background-color: #EEEEEE;
-}
-
-.simplyForm fieldset.submit
-{
-	border: none;
-	background-color: transparent;
-	text-align: center;
-}
-
-.simplyForm fieldset.radio
-{
-	width: 15em;
-	margin: 1em 0 2em 0;
-	background-color: #DDDDDD;
-}
-
-.simplyForm fieldset.radio label
-{
-	font-weight: normal;
-}
-
-.simplyForm fieldset.radio input
-{
-	clear: both;
-	float: left;
-	width: auto;
-}
-
-.simplyForm input
-{
-	display: block;
-	width: 15em;
-}
-
-.simplyForm label
-{
-	display: block;
-	margin-bottom: 1em;
-	font-weight: bold;
-}
-
-.simplyForm select
-{
-	display: block;
 }
