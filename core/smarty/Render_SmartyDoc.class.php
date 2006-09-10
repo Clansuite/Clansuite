@@ -471,7 +471,8 @@ class Render_SmartyDoc extends Smarty
             }
 
             // generate the doctype signature
-            $doc_source = $smarty->getDoctypeSignature() . "\n<html>\n<head>\n";
+            //$doc_source = $smarty->getDoctypeSignature() . "\n<html>\n<head>\n";
+            $doc_source = $smarty->getDoctypeSignature() . "\n<head>\n";
 
             // insert module header-pre content
             $doc_source .= $module_content['head_pre'];
