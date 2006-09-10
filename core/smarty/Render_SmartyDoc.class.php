@@ -621,7 +621,7 @@ class Render_SmartyDoc extends Smarty
             $doc_source .= $module_content['body_post'];
 
             // y'all come back now, y'hear?
-            $doc_source .= "</body>\n</html>";
+            //$doc_source .= "</body>\n</html>";
             return $doc_source;
         }
         return $source;
