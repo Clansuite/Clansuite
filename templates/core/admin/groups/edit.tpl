@@ -59,24 +59,26 @@
 	    <fieldset class="radio">
 	    <legend><b>Icon & Image</b></legend>
 	    
-        		<label for="icon"><b>Icon:</b></label> 
-        		<select class="input_text" name="info[icon]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
-                    <option name=""></option>
-                    {foreach key=key item=item from=$icons}
-                        <option {if $editgroup.icon==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
-                    {/foreach}
-                    </select> 
-                <img src="{$www_core_tpl_root}/images/groups/{$editgroup.icon}" id="insert_icon" border="1">
+        		<label for="icon"><b>Icon:</b>
+        		    <select class="input_text" name="info[icon]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
+                        <option name=""></option>
+                        {foreach key=key item=item from=$icons}
+                            <option {if $editgroup.icon==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
+                        {/foreach}
+                        </select> 
+                    <img src="{$www_core_tpl_root}/images/groups/{$editgroup.icon}" id="insert_icon" border="1">
+                </label> 
                           
         				
-        		<label for="image"><b>Image:</b></label>
-        		<select class="input_text" name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
-                    <option name=""></option>
-                    {foreach key=key item=item from=$images}
-                        <option {if $editgroup.image==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
-                    {/foreach}
-                </select>
-        		<img src="{$www_core_tpl_root}/images/groups/{$editgroup.image}" id="insert_image" border="1">
+        		<label for="image"><b>Image:</b>
+        		    <select class="input_text" name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
+                        <option name=""></option>
+                        {foreach key=key item=item from=$images}
+                            <option {if $editgroup.image==$item}selected{/if} style="background-image:url({$www_core_tpl_root}/images/groups/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" id="{$item}" name="{$item}">{$item}</option> );
+                        {/foreach}
+                    </select>
+        		    <img src="{$www_core_tpl_root}/images/groups/{$editgroup.image}" id="insert_image" border="1">
+                </label>
             	
 	    </fieldset>
 	    
@@ -100,18 +102,19 @@
 	        {foreach key=area_name item=area_array from=$editgroup.areas}
             <label for="areas" class="radio">
                     <a href="javascript:void(0);" onClick="clip_area('area_{$area_name}')" class="ButtonYellow">{$area_name}</a>
-            </label>
+            
                 <div style="display: none;" id="area_{$area_name}">
                 {foreach key=right_name item=right_array from=$area_array}
-                    <label><input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />{$right_name}</label>
+                    <label class="radio"><input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} /><b>{$right_name}</b></label>
                 {/foreach}
                 </div>
+            </label>
             {/foreach}
         
 	    </fieldset>
 	
 	</fieldset>
-    
+    <br />
     <fieldset>
     <legend>{translate}Options{/translate}</legend>
         <div align="right">
@@ -119,6 +122,5 @@
         <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" onClick="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/{$editgroup.image}';document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/{$editgroup.icon}';" tabindex="3" />  
         </div>
 	</fieldset>		
-	 
 	 
 </form>
