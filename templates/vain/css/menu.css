@@ -1,0 +1,143 @@
+/*
+** -------------------------------------------------
+** 
+**   Menu.css, XulMenu
+**
+**   Modified by: Michael F. S. Christensen
+**
+**   Valid CSS2 stylesheet (www.w3c.org)
+**
+** -------------------------------------------------
+*/
+
+.XulMenu {
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+.XulMenu .button,
+.XulMenu .button:hover,
+.XulMenu .button-active,
+.XulMenu .button-active:hover {
+    line-height: normal;
+    padding: 5px 6px 4px 6px;
+    margin: 1px; 
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+}
+.XulMenu .button:hover {
+    margin: 0px;
+    border: 1px solid #ababab;
+    background:#888888;
+}
+.XulMenu .button-active,
+.XulMenu .button-active:hover {    
+    margin: 0px;
+    border: 1px solid #ababab;    
+    border-bottom:none;
+    background:#a3a3a3;
+}
+
+
+
+.XulMenu .item,
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+    border:1px solid #a3a3a3;
+    background: #a3a3a3;
+    line-height: normal;
+    padding: 4px 30px 4px 25px;
+    color: black;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+}
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+    border:1px solid #707070;
+    background: #b8b8b8;
+    color: black;
+}
+
+/*
+.XulMenu .item {
+    margin:1px;
+    background: #ffffff;
+    padding: 3px 30px 3px 20px;
+}
+.XulMenu .item,
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+    line-height: normal;
+    
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    position: relative;
+    display: block;        
+}
+.XulMenu .item:hover, 
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+    margin:0px;
+    border:1px solid #316BC6;   
+    background: #C9D5E5;     
+    padding: 2px 30px 2px 20px;
+}
+*/
+.XulMenu .section {
+    background: #b8b8b8;
+    border: 1px solid #ffffff;
+    border-color: #ababab #707070 #707070 #ababab;
+    padding: 2px 1px 1px 2px; /* top right bottom left */
+    position: absolute;
+    visibility: hidden;
+    z-index: 5;
+}
+.XulMenu .arrow {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    border: 0;
+}
+
+.XulMenu .pic {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    border: 0;
+}
+
+
+.XulMenu .itembtn,
+.XulMenu .itembtn:hover,
+.XulMenu .itembtn-active,
+.XulMenu .itembtn-active:hover {
+    line-height: normal;
+    padding: 1px 3px 3px 3px;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    position: relative;
+}
+.XulMenu .itembtn:hover,
+.XulMenu .itembtn-active,
+.XulMenu .itembtn-active:hover {
+    background: #b8b8b8; 
+    border:1px solid;
+    border-color: #316BC6;
+    color: black; 
+    padding: 1px 2px 3px 2px;
+}
+
+* html .XulMenu td { position: relative; } /* ie 5.0 fix */

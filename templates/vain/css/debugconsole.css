@@ -1,0 +1,39 @@
+/*
+** debugconsole.css
+*/
+
+/* Debug Rahmen Div */
+#debugconsole 
+{ 
+position:relative; 
+font-size: 11px;
+background: white; 
+}
+
+/* Haupttabelle */
+#debugtable
+{
+width: 100%;
+background: #ccc; 
+border: 2px solid black; 
+border-color: #ffffff #ACA899 #ACA899 #ffffff;
+}
+
+/* Zeilen */
+
+row1    { background: #333; border: 2px solid black; }
+row2    { background: #777; }
+
+/* Schriftfarben */
+
+fontcolor1  { text-color: brown; }
+fontcolor2  { text-color: black; }
+fontcolor3  { text-color: green; }
+
+/* Sub-Kategorien - öberschriften Farbe */
+
+subheader { text-color: lightgreen;}
+
+/* Variablenfarben ( SchlÅssel -  Wert ) */
+keycolor    { text-color: blue; }
+valuecolor  { text-color: indian; }
