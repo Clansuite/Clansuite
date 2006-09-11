@@ -10,7 +10,7 @@
     #show_shoutbox .entry_even {
 	    background-color: #CCCCCE;
     }
-    #show_shoutbox .entry_uneven 
+    #show_shoutbox .entry_uneven {
 	    background-color: #CCCCCF; 
     }
 
