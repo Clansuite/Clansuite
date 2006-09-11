@@ -92,3 +92,52 @@
   clear:right;
   float:left;
 }
+
+.box
+{
+	width: 500px;
+    border: 1px solid #999999;
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+    background: url(../images/background_form_element_lightblue.gif) repeat-x;
+	background-color: #E0F4FB;  
+}
+
+.box h1
+{
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #999999;
+}
+
+.box .rows
+{
+    width: 300px;
+    margin: auto;
+}
+
+.box .rows h1
+{
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #999999;
+}
+
+.box .rows .desc
+{
+    font-weight: bold;
+    position: relative;
+    top: 7px;
+}
+
+.box .rows .input
+{
+    position: relative;
+    top: -6px;
+    display: block;
+}
+
+.box .rows .input input
+{
+    border: 1px solid black;
+}
