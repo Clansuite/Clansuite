@@ -23,7 +23,7 @@
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 -->
 {/doc_raw}
-
+<body>
 
 	
 	<!-- Main-Container //-->
@@ -45,5 +45,3 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <br />
     <br />
     
-</body>
-</html>
