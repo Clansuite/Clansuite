@@ -75,7 +75,7 @@
                                 <select onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
                                     <option name=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option name="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img src="" id="insert_icon" width="16" height="16" border="1">
