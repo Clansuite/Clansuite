@@ -136,13 +136,13 @@
         <td valign="top">
 
             <p>
-                <a class="Button" href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))">HELP</a>
+                <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))"><input type="button" class="ButtonYellow" value="{translate}Help{/translate}" /></a>
             </p>
             <p>
-                <a class="ButtonGreen" href="javascript:treePluginGenerateMenu();">{translate}Generate Menu{/translate}</a>
+                <a href="javascript:treePluginGenerateMenu();"><input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" /></a>
             </p>
             <p>
-                <a class="ButtonRed" href="index.php?mod=admin&sub=menueditor&action=restore">{translate}Restore last menu{/translate}</a>
+                <a href="index.php?mod=admin&sub=menueditor&action=restore"><input type="button" class="ButtonRed" value="{translate}Restore last menu{/translate}" /></a>
             </p>
         </td>
         <td valign="top">
