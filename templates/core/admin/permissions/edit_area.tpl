@@ -1,4 +1,4 @@
-<h2>{translate}Edit Permission{/translate}</h2>
+<h2>{translate}Edit right{/translate}</h2>
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
@@ -9,9 +9,9 @@
 *}
 
  
-<form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=edit_perm">
+<form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=edit_area">
 
-    <input type="hidden" name="info[right_id]" class="input_text" value="{$info.right_id}" />
+    <input type="hidden" name="info[area_id]" class="input_text" value="{$info.area_id}" />
     
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="400">
     <tr class="tr_header">
@@ -42,21 +42,9 @@
     </tr> 
 
     <tr class="tr_row1">
-        <td>
-            {translate}Area{/translate}
-        </td>
-        <td>
-            <select name="info[area_id]" class="input_text">
-                <option value="0">{translate}- not assigned -{/translate}</option>
-                {foreach key=key item=area_array from=$areas}
-                    <option value="{$area_array.area_id}" {if $info.area_id==$area_array.area_id}selected{/if}>{$area_array.name|escape:"htmlall"}</option>
-                {/foreach}
-            </select>
-        </td>
-    </tr>
-    <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input type="submit" name="submit" value="{translate}Edit the right{/translate}" class="ButtonGreen" />
+            <input type="submit" name="submit" value="{translate}Edit the area{/translate}" class="ButtonGreen" />
+            <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>
     </tr>
     </table>

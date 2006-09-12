@@ -54,10 +54,10 @@
         </td>
         <td align="center" width="700" height="200" style="padding: 0px; border: 0px;">
             <div class="cell1" style="height: 100%;" id="select_text">
-            {translate}Select on the area left side{/translate}
+            {translate}Select the area on the left side{/translate}
             </div>
             {foreach key=area_id item=area_array from=$areas}
-                <form action="index.php?mod=admin&sub=permissions&action=delete_perm" method="POST">
+                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="POST">
                     <table style="display: none;" id="area_{$area_array.name}" cellpadding="0" cellspacing="0" border="0">
                         <tr class="tr_header_small">
                             <td width="100">{translate}Right ID{/translate}        </td>
@@ -73,7 +73,7 @@
                                 <td>{$right_array.description}</td>
                                 
                                 <td align="center">
-                                    <a href="index.php?mod=admin&sub=permissions&action=edit_perm&right_id={$right_array.right_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" /></a>
+                                    <a href="index.php?mod=admin&sub=permissions&action=edit_right&right_id={$right_array.right_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" /></a>
                                     <a href="index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}"><input type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" /></a>
                                 </td>
                                 <td align="center">
@@ -84,7 +84,8 @@
                         {/foreach}
                         <tr class="tr_row1">
                             <td align="right" colspan="5">
-                                <a href="index.php?mod=admin&sub=permissions&action=edit_area&id={$area_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit the area{/translate}" /></a>
+                                <a href="index.php?mod=admin&sub=permissions&action=edit_area&area_id={$area_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit the area{/translate}" /></a>
+                                <a href="index.php?mod=admin&sub=permissions&action=delete_area&area_id={$area_id}"><input type="Button" class="ButtonRed" value="{translate}Delete the area{/translate}" /></a>
                                 <input type="submit" name="submit" class="ButtonRed" value="{translate}Delete selected Permissions{/translate}" />
                                 <input type="reset" name="submit" class="ButtonGrey" value="{translate}Reset{/translate}" />
                         </tr>
@@ -128,7 +129,7 @@
     <tr class="tr_row1">
         <td colspan="2" align="right">
             <a href="index.php?mod=admin&sub=permissions&action=create_area"><input type="Button" class="ButtonGreen" value="{translate}Create new area{/translate}" /></a>
-            <a href="index.php?mod=admin&sub=permissions&action=create_perm"><input type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" /></a>
+            <a href="index.php?mod=admin&sub=permissions&action=create_right"><input type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" /></a>
         </td>
     </tr>
 </table>
