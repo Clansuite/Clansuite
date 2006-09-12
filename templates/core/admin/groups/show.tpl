@@ -1,16 +1,3 @@
-{doc_raw}
-            {* StyleSheets *}
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna-long.css" />
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />            
-            
-            {* JavaScripts *}
-            <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>
-            <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
-{/doc_raw}
-
 <h2>Administration of Groups</h2>
 
 {* Debuganzeige, wenn DEBUG = 1 |  {$groups|@var_dump} 
@@ -18,62 +5,59 @@
  
 <form action="index.php?mod=admin&sub=groups&action=delete" method="POST">
     
-    <center>
-    <table class="admintable" cellpadding="0" cellspacing="0" border="0" rules="all" width="80%">
-    
-        <caption>Show Groups</caption>
-        
+    <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
         <thead>
-        	<tr>
-        		<th scope="col">{translate}ID{/translate}</th>
-        
-        		<th scope="col">{translate}Position{/translate}</th>
-        		<th scope="col">{translate}Icon{/translate}</th>
-        		<th scope="col">{translate}Image{/translate}</th>
-        		<th scope="col">{translate}Name{/translate}</th>
-        		<th scope="col">{translate}Description{/translate}</th>
-        		<th scope="col">{translate}Members{/translate}</th>		
-        		<th scope="col">{translate}Edit{/translate}</th>
-        		<th scope="col">{translate}Delete{/translate}</th>
+        	<tr class="tr_header">
+        		<td align="center">{translate}ID{/translate}</td>
+        		<td align="center">{translate}Name{/translate}</td>                
+        		<td align="center">{translate}Pos{/translate}</td>
+        		<td align="center">{translate}Icon{/translate}</td>
+        		<td align="center">{translate}Image{/translate}</td>
+        		<td align="center">{translate}Description{/translate}</td>
+        		<td align="center">{translate}Members{/translate}</td>		
+        		<td align="center">{translate}Edit{/translate}</td>
+        		<td align="center">{translate}Delete{/translate}</td>
         	</tr>
-        </thead>
-        
-        <tbody>
+            
             {foreach key=key item=group from=$groups}
-            
-            <tr id={cycle values="nix,cell2"}>
-               <input type="hidden" name="ids[]" value="{$group.group_id}" />
-                <td height="40">{$group.group_id}</td>
-                <td>{$group.pos}</td>
-                <td><img src="{$www_core_tpl_root}/images/groups/{$group.icon}"></td>
-                <td><img src="{$www_core_tpl_root}/images/groups/{$group.image}"></td>
-                <td style="color: {$group.color}; font-weight: bold;">{$group.name}</td>
-                <td>{$group.description}</td>
-                <td>
-                    {foreach name=usersarray key=schluessel item=userswert from=$group.users}
-                    <a href="index.php?mod=admin&sub=users&action=edit&user_id={$userswert.user_id}">{$userswert.nick}</a>
-                    {if !$smarty.foreach.usersarray.last},{/if} 
-                    {/foreach}
-                </td>      
-                <td align="center"><a class="ButtonOrange" href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}">Edit</a></td>
-                <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
-            
-            </tr>
-           
+                <tr class="{cycle values="tr_row1,tr_row2"}">
+                   <input type="hidden" name="ids[]" value="{$group.group_id}" />
+                    <td align="center">{$group.group_id}</td>
+                    <td style="color: {$group.color}; font-weight: bold;" align="center">{$group.name}</td>
+                    <td align="center">{$group.pos}</td>
+                    <td align="center">
+                        {if $group.icon==''}
+                            <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" style="border: 1px solid black">
+                        {else}
+                            <img src="{$www_core_tpl_root}/images/groups/{$group.icon}" style="border: 1px solid black">
+                        {/if}
+                    </td>
+                    <td align="center">
+                        {if $group.image==''}
+                            <img src="{$www_core_tpl_root}/images/empty.png" width="48" height="48" style="border: 1px solid black" alt="48x48" title="50x50">
+                        {else}
+                            <img src="{$www_core_tpl_root}/images/groups/{$group.image}" style="border: 1px solid black" alt="48x48">
+                        {/if}
+                    </td>
+                    <td>{$group.description}</td>
+                    <td>
+                        {foreach name=usersarray key=schluessel item=userswert from=$group.users}
+                        <a href="index.php?mod=admin&sub=users&action=edit&user_id={$userswert.user_id}">{$userswert.nick}</a>
+                        {if !$smarty.foreach.usersarray.last},{/if} 
+                        {/foreach}
+                    </td>      
+                    <td align="center"><a href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}"><input type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></a></td>
+                    <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
+                
+                </tr>
             {/foreach}
-        </tbody>
-    
-        <tfoot>
             <tr>
-                <td colspan="9" align="right">
-                    <div align="right">
-                    <input class="ButtonGreen" type="button" name="xsubmit" id="Submit" onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'"  value="Create new Group" tabindex="2" />
-                    <input class="ButtonGrey" type="reset" />
-                    <input class="ButtonRed" type="submit" name="submit" value="Delete the selected groups" />
-                    </div>
+                <td colspan="9" align="right" class="cell1">
+                    <a href="index.php?mod=admin&sub=groups&action=create"><input class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
+                    <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
+                    <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected groups{/translate}" />
                 </td>
             </tr>
-        </tfoot>
     </table>
-    </center>
+    
 </form>

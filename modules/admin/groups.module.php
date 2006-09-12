@@ -185,7 +185,7 @@ class module_admin_groups
         * @desc Icons & Images
         */
         $icons  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);   
         }
@@ -193,7 +193,7 @@ class module_admin_groups
         
 
         $images  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( TPL_ROOT . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }
