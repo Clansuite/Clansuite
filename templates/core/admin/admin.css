@@ -1,6 +1,6 @@
 body
-{   margin:0 px; 
-    padding:0 px;
+{   margin: 0px; 
+    padding: 0px;
     background: #E4E0C7; 
     /* background: url(../images/bgr.png); */
     font-family: tahoma, verdana, arial, sans-serif;
@@ -39,7 +39,7 @@ a:hover
 	font-size: 0.8333em;
 	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
 	font-weight: bold;
-	padding: 0.25em;
+	padding: .25em;
     margin: 3px;
     white-space: nowrap;
 }
