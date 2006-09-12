@@ -200,23 +200,45 @@ class module_admin_groups
         $tpl->assign( 'images'   , $images );
         
         /**
-        * @desc Group already stored?
+        * @desc Select the areas and assing the rights
         */
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
-        $stmt->execute( array( $info['name'] ) );
-        $group = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ( is_array( $group ) )
+        $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
+        $stmt3->execute();
+        $areas_result = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+        foreach( $areas_result as $area )
         {
-            $err['name_already'] = 1;        
+            $stmt4 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE area_id = ?' );
+            $stmt4->execute( array( $area['area_id'] ) );
+            $rights_result = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+            foreach( $rights_result as $rights )
+            {
+                $areas[$area['name']][$rights['name']]['right_id']       = $rights['right_id'];
+                $areas[$area['name']][$rights['name']]['name']           = $rights['name'];
+                $areas[$area['name']][$rights['name']]['description']    = $rights['description'];
+            }
         }
-        
-        /**
-        * @desc Form filled?
-        */
-        if( ( empty($info['name']) OR 
-            empty($info['description']) ) AND !empty($submit) )
+            
+        if ( !empty( $submit ) )
         {
-            $err['fill_form'] = 1;   
+            /**
+            * @desc Group already stored?
+            */
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
+            $stmt->execute( array( $info['name'] ) );
+            $group = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ( is_array( $group ) )
+            {
+                $err['name_already'] = 1;        
+            }
+            
+            /**
+            * @desc Form filled?
+            */
+            if( empty($info['name']) OR 
+                empty($info['description']))
+            {
+                $err['fill_form'] = 1;   
+            }
         }
         
         /**
@@ -246,6 +268,7 @@ class module_admin_groups
         /**
         * @desc Assign & Show template
         */
+        $tpl->assign( 'areas'       , $areas );
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch('admin/groups/create.tpl');
        
