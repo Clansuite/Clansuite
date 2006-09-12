@@ -22,26 +22,44 @@
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 -->
+
 {/doc_raw}
 <body>
 
-	
-	<!-- Main-Container //-->
-			
-	<!-- start: Logo - Kopfzeile //-->
 	<div class="header"> 
-    	<strong>Clansuite - Control Center</strong>
+    	Clansuite - Control Center
     	<span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 	</div> 
-	<!-- end: Logo - Kopfzeile //-->
 	
     {include file="admin/adminmenu/adminmenu.tpl"}
 
-    <br />
-    <br />
-    <div class="content">
-        {$content}
-    </div>
-    <br />
-    <br />
+    <p>&nbsp;</p>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td class="admin_header">
+                &raquo; {$mod_page_title}
+            </td>
+            <td class="admin_header_help">
+                &raquo; {translate}Help{/translate}
+            </td>
+        </tr>
+        
+        <tr>
+            <td width="80%" class="admin_content">
+                {$content}
+            </td>
+            <td width="20%" class="admin_help">
+                &raquo; A help based on the current mod/submod and their actions...<br />
+                &raquo; A help based on the current mod/submod and their actions...<br />
+                &raquo; A help based on the current mod/submod and their actions...<br />
+                &raquo; A help based on the current mod/submod and their actions...<br />
+                
+                {$help}
+            </td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+        
+</body>
+</html>
     

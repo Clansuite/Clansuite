@@ -23,15 +23,13 @@
     {/literal}
 {/doc_raw}
 
-<h2>{translate}Create a group{/translate}</h2>
-
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
  
 <form target="_self" method="POST" action="index.php?mod=admin&sub=groups&action=create">
 
-    <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
     
         <tr class="tr_header">
             <td>
@@ -47,16 +45,7 @@
                 {translate}Name{/translate}
             </td>
             <td colspan="2">
-                <input name="info[name]" type="text" value="{$smarty.post.info.name|escape:"htmlall"}" class="input_text"/>
-            </td>
-        </tr>
-        
-        <tr class="tr_row2">
-            <td>
-                {translate}Position{/translate}
-            </td>
-            <td colspan="2">
-                <input name="info[pos]" type="text" value="{$smarty.post.info.pos|escape:"htmlall"}" class="input_text"/>
+                <input name="info[name]" type="text" value="{$smarty.post.info.name|escape:"htmlall"}" size="30" class="input_text"/>
             </td>
         </tr>
         
@@ -65,16 +54,32 @@
                 {translate}Description{/translate}
             </td>
             <td colspan="2">
-                <input name="info[description]" type="text" value="{$smarty.post.info.description|escape:"htmlall"}" class="input_text"/>
+                <input name="info[description]" type="text" value="{$smarty.post.info.description|escape:"htmlall"}" size="30" class="input_text"/>
+            </td>
+        </tr>
+                
+        <tr class="tr_row2">
+            <td>
+                {translate}Position{/translate}
+            </td>
+            <td colspan="2">
+                <input name="info[pos]" type="text" value="{$smarty.post.info.pos|escape:"htmlall"}" size="3" class="input_text"/>
             </td>
         </tr>
         
         <tr class="tr_row2">
             <td>
-                {translate}Hex-Code{/translate} ( <a id="color-href" href="javascript: showColorPicker(document.getElementById('color-href'),document.getElementById('color'));">{translate}pick{/translate}</a> )
+                {translate}Hex-Code{/translate} ( <a id="color_href" href="javascript: showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{translate}pick{/translate}</a> )
             </td>
-            <td colspan="2">
-                <input name="info[name]" type="text" value="{$smarty.post.info.name|escape:"htmlall"}" class="input_text"/>
+            <td align="center">
+                {if $smarty.post.info.color==''}
+                    <input name="info[color]" type="text" value="#000000" size="7" id="color" class="input_text"/>
+                {else}
+                    <input name="info[color]" type="text" value="{$smarty.post.info.color|escape:"htmlall"}" size="7" id="color" class="input_text"/>
+                {/if}
+            </td>
+            <td align="center">
+                <div id="color_preview" style="background-color: #000000; height: 20px; width: 30px;" class="border3d"></div>
             </td>
         </tr>
         
@@ -113,7 +118,7 @@
                 </select>
             </td>
             <td align="center">
-                {if $smarty.post.info.icon==''}
+                {if $smarty.post.info.image==''}
                     <img src="{$www_core_tpl_root}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d"> 
                 {else}
                     <img src="{$www_core_tpl_root}/images/groups/images/{$smarty.post.info.image|escape:"htmlall"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
@@ -138,7 +143,7 @@
                         {foreach key=right_name item=right_array from=$area_array}
                             <tr class="tr_row1">
                                 <td align="center" width="20%">
-                                    <input type="checkbox" name="info['rights'][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+                                    <input type="checkbox" name="info[rights][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
                                 </td>
                                 <td align="left" width="90%">
                                     {$right_name}

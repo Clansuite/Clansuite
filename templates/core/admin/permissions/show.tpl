@@ -26,9 +26,6 @@
     </script>
     {/literal}
 {/doc_raw}
-
-<h2>Administration of Permissions</h2>
-
 {* Debuganzeige, wenn DEBUG = 1 | {$permissions_data|@var_dump} 
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$permissions_data} {/if}*}
 

@@ -1,5 +1,3 @@
-<h2>Administration of Groups</h2>
-
 {* Debuganzeige, wenn DEBUG = 1 |  {$groups|@var_dump} 
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$groups} {/if} *}
  
@@ -27,16 +25,16 @@
                     <td align="center">{$group.pos}</td>
                     <td align="center">
                         {if $group.icon==''}
-                            <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" style="border: 1px solid black">
+                            <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" class="border3d">
                         {else}
-                            <img src="{$www_core_tpl_root}/images/groups/{$group.icon}" style="border: 1px solid black">
+                            <img src="{$www_core_tpl_root}/images/groups/icons/{$group.icon}" class="border3d">
                         {/if}
                     </td>
                     <td align="center">
                         {if $group.image==''}
-                            <img src="{$www_core_tpl_root}/images/empty.png" width="48" height="48" style="border: 1px solid black" alt="48x48" title="50x50">
+                            <img src="{$www_core_tpl_root}/images/empty.png" width="48" height="48" class="border3d" alt="48x48" title="50x50">
                         {else}
-                            <img src="{$www_core_tpl_root}/images/groups/{$group.image}" style="border: 1px solid black" alt="48x48">
+                            <img src="{$www_core_tpl_root}/images/groups/images/{$group.image}" class="border3d" alt="48x48">
                         {/if}
                     </td>
                     <td>{$group.description}</td>

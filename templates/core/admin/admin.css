@@ -255,7 +255,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    color: white;
+	background: url(../images/td_header.gif) repeat-x;
 }
 
 .tr_header td
@@ -267,7 +267,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    color: white;
+	background: url(../images/td_header.gif) repeat-x;    
 }
 
 .tr_header_small td
@@ -405,4 +405,52 @@ table.admintable tr#cell3
 .admin_icon_head
 {
     padding: 5px;
+}
+
+/**
+* @desc Admin Header,Content,Helptext
+*/
+.admin_header
+{
+    font-family: georgia, tahoma, verdana;
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 8px;
+    cursor: default;
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+	background: url(../images/admin_header.gif) repeat-x;
+}
+
+.admin_header_help
+{
+    font-family: georgia, tahoma, verdana;
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 8px;
+    cursor: default;
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+	background: url(../images/admin_header_help.gif) repeat-x;
+}
+
+.admin_help
+{
+    background: #DDF3F7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.admin_content
+{
+    padding: 8px;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
 }

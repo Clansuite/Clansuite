@@ -257,11 +257,30 @@ class module_admin_groups
                                     $info['icon'],
                                     $info['image'],
                                     $info['color'] ) );
+
             
+            /**
+            * @desc Get the id
+            */
+            $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
+            $stmt->execute( array( $info['name'] ) );
+            $id_array = $stmt->fetch(PDO::FETCH_ASSOC);
+                        
+            /**
+            * @desc Insert the rights
+            */            
+            $sets =  'right_id = ?, group_id = ?';
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_right SET ' . $sets );
+            $info['rights'] = array_unique( $info['rights'] );
+            foreach( $info['rights'] as $right_id )
+            {
+                $stmt->execute( array ( $right_id, $id_array['group_id'] ) );
+            }
+                        
             /**
             * @desc Redirect...
             */
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was created.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group has been created.' ), 'admin' );
     
         }
         
@@ -288,19 +307,20 @@ class module_admin_groups
         $info       = $_POST['info'];
         $id         = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['id'];
         $sets       = '';
+        $images     = array();            
+        $icons      = array();
         
         /**
         * @desc Get the images
         */
-        $icons  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);   
         }
         $tpl->assign( 'icons'   , $icons );
         
-        $images  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+
+        foreach( glob( TPL_ROOT . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }
@@ -321,7 +341,6 @@ class module_admin_groups
                     $err['name_already'] = 1;        
                 }
             }
-            $edit_group = $info;
         }
         else
         {
@@ -330,37 +349,42 @@ class module_admin_groups
             */
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
             $stmt->execute( array( $id ) );
-            $edit_group = $stmt->fetch(PDO::FETCH_ASSOC);
+            $info = $stmt->fetch(PDO::FETCH_ASSOC);
         
             /**
             * @desc Select the permissions of group
             */
+            $info['rights'] = array();
             $stmt2 = $db->prepare('SELECT tr.name, ug.right_id 
-                                   FROM ' . DB_PREFIX . 'group_rights ug,
+                                   FROM ' . DB_PREFIX . 'group_right ug,
                                         ' . DB_PREFIX . 'rights tr
                                    WHERE tr.right_id = ug.right_id
                                    AND ug.group_id = ?');
                                        
             $stmt2->execute(  array( $id ) );
-            $permissions_of_group = $stmt2->fetchAll(PDO::FETCH_NAMED);
-            $edit_group['permissions'] = $permissions_of_group;
+            $rights_of_group = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+            foreach( $rights_of_group as $r_temp )
+            {
+                $info['rights'][$r_temp['right_id']] = $r_temp;
+            }
             
             /**
-            * @desc Select the areas
+            * @desc Select the areas and assing the rights
             */
+            $info['areas'] = array();
             $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
             $stmt3->execute();
             $areas_result = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-            foreach( $areas_result as $areas )
+            foreach( $areas_result as $area )
             {
                 $stmt4 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE area_id = ?' );
-                $stmt4->execute( array( $areas['area_id'] ) );
+                $stmt4->execute( array( $area['area_id'] ) );
                 $rights_result = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                 foreach( $rights_result as $rights )
                 {
-                    $edit_group['areas'][$areas['name']][$rights['name']]['right_id']       = $rights['right_id'];
-                    $edit_group['areas'][$areas['name']][$rights['name']]['name']           = $rights['name'];
-                    $edit_group['areas'][$areas['name']][$rights['name']]['description']    = $rights['description'];
+                    $info['areas'][$area['name']][$rights['name']]['right_id']       = $rights['right_id'];
+                    $info['areas'][$area['name']][$rights['name']]['name']           = $rights['name'];
+                    $info['areas'][$area['name']][$rights['name']]['description']    = $rights['description'];
                 }
             }
         }
@@ -388,19 +412,33 @@ class module_admin_groups
                                     $info['image'],
                                     $info['color'],
                                     $info['group_id'] ) );
+                                    
+            /**
+            * @desc Drop & Insert the rights
+            */
+            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_right WHERE group_id = ?' );
+            $stmt->execute( array ( $info['group_id'] ) );
+            
+            $sets =  'right_id = ?, group_id = ?';
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_right SET ' . $sets );
+            $info['rights'] = array_unique( $info['rights'] );
+            foreach( $info['rights'] as $right_id )
+            {
+                $stmt->execute( array ( $right_id, $info['group_id'] ) );
+            }
             
             /**
             * @desc Redirect...
             */
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group was edited.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group has been edited.' ), 'admin' );
     
         }
         
         /**
         * @desc Assign & show template
         */
-        $tpl->assign('err'          , $err );
-        $tpl->assign('editgroup'    , $edit_group);
+        $tpl->assign( 'err'         , $err );
+        $tpl->assign( 'info'        , $info );
         $this->output .= $tpl->fetch('admin/groups/edit.tpl');
     }
       
@@ -411,9 +449,10 @@ class module_admin_groups
     {
         global $db, $functions, $input, $lang;
         
-        // $_POST EINGANG        
+        /**
+        * @desc Init
+        */
         $submit     = $_POST['submit'];
-        $del        = $_POST['delete'];
         $confirm    = $_POST['confirm'];
         $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
@@ -425,13 +464,17 @@ class module_admin_groups
             $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'No groups selected to delete! Aborted... ' ), 'admin' );
         }
         
-        // Abbruchmöglichkeit innerhalb der Confirm-Abfrage
+        /**
+        * @desc Abort...
+        */
         if ( isset( $_POST['abort'] ) )
         {
             $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all' );
         }
         
-        // DB - SELECT       
+        /**
+        * @desc Select from DB
+        */
         $stmt = $db->prepare( 'SELECT group_id, name FROM ' . DB_PREFIX . 'groups' );
         $stmt->execute();
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -443,7 +486,11 @@ class module_admin_groups
                 $names .= '<br /><b>' .  $value['name'] . '</b>';
             }
         }       
-        // Gruppen anhand der IDs löschen
+        
+        
+        /**
+        * @desc Delete Groups
+        */
         foreach( $all_groups as $key => $value )
         {
             if ( count ( $delete ) > 0 )
@@ -464,8 +511,8 @@ class module_admin_groups
                         }
                     }
                 }
-            } // close if
-        } // close foreach
+            }
+        }
         
         $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groups have been delete.' ), 'admin' );
         
