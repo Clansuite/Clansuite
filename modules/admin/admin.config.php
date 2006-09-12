@@ -56,14 +56,14 @@ if (!defined('IN_CS'))
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$info['subs'] = array('configs' => array( 'configs.module.php', 'module_admin_configs' ),
-'modules' => array( 'modules.module.php', 'module_admin_modules' ),
-'users' => array( 'users.module.php', 'module_admin_users' ),
-'usercenter' => array( 'usercenter.module.php', 'module_admin_usercenter' ),
-'groups' => array( 'groups.module.php', 'module_admin_groups' ),
-'permissions' => array( 'perms.module.php', 'module_admin_permissions' ),
-'menueditor' => array( 'menueditor.module.php', 'module_admin_menueditor' ),
-'static' => array( 'static.module.php', 'module_admin_static' ),
+$info['subs'] = array(  'configs' => array( 'configs.module.php', 'module_admin_configs' ),
+                        'modules' => array( 'modules.module.php', 'module_admin_modules' ),
+                        'users' => array( 'users.module.php', 'module_admin_users' ),
+                        'categories' => array( 'categories.module.php', 'module_admin_categories' ),
+                        'groups' => array( 'groups.module.php', 'module_admin_groups' ),
+                        'permissions' => array( 'perms.module.php', 'module_admin_permissions' ),
+                        'menueditor' => array( 'menueditor.module.php', 'module_admin_menueditor' ),
+                        'static' => array( 'static.module.php', 'module_admin_static' ),
  );
 
 
