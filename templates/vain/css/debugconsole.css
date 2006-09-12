@@ -6,7 +6,8 @@
 #debugconsole 
 { 
 position:relative; 
-font-size: 11px;
+padding-left: 4px;
+font-size: 12px;
 background: white; 
 }
 
@@ -15,25 +16,27 @@ background: white;
 {
 width: 100%;
 background: #ccc; 
-border: 2px solid black; 
-border-color: #ffffff #ACA899 #ACA899 #ffffff;
+border: 1px solid black; 
+border-color: #888888 #ACA899 #ACA899 #888888;
 }
 
 /* Zeilen */
 
-row1    { background: #333; border: 2px solid black; }
-row2    { background: #777; }
+#debugconsole .row1    { background: #333; border: 1px solid black; }
+#debugconsole .row2    { background: #444; border: 1px solid grey;}
 
 /* Schriftfarben */
 
-fontcolor1  { text-color: brown; }
-fontcolor2  { text-color: black; }
-fontcolor3  { text-color: green; }
+#debugconsole .fontcolor1  { color: crimson; }
+#debugconsole .fontcolor2  { color: black; }
+
+#debugconsole .arraycolor  { color: mediumvioletred; }
 
 /* Sub-Kategorien - öberschriften Farbe */
 
-subheader { text-color: lightgreen;}
+#debugconsole .header         { color: darkkhaki; }
+#debugconsole .subkeycolor    { color: green; }
 
 /* Variablenfarben ( SchlÅssel -  Wert ) */
-keycolor    { text-color: blue; }
-valuecolor  { text-color: indian; }
+#debugconsole .keycolor    { color: tomato; }
+#debugconsole .valuecolor  { color: darkorange; }
