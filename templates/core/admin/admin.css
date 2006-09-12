@@ -8,6 +8,7 @@ body
     margin: 2em;
 }
 
+a,
 a:link,
 a:visited
 {
@@ -18,7 +19,7 @@ a:visited
 
 a:hover
 {
-    text-decoration: underline;
+    text-decoration: none;
     color: black;
     font-weight: bold;
 }
@@ -39,8 +40,8 @@ a:hover
 	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
 	font-weight: bold;
 	padding: 0.25em;
-	margin-top: 8px;
-	margin-left: 8px;
+    margin: 3px;
+    white-space: nowrap;
 }
 
 .Button,
@@ -200,6 +201,24 @@ table.admintable tr#cell3
     cursor: default;
 }
 
+.tr_row1 td
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;    
+}
+
+.tr_row2 td
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
 .cell1
 {
     background: #ECE9D8;
@@ -237,6 +256,30 @@ table.admintable tr#cell3
     font-size: 12px;
     font-weight: bold;
     color: white;
+}
+
+.tr_header td
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.tr_header_small td
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .td_header_small
