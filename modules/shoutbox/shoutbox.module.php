@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
 * shoutbox Configuration
 *
@@ -19,7 +19,7 @@
 *    along with this program; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-* @author     Björn Spiegel <firstlor@yahoo.de>
+* @author     Bj�rn Spiegel <firstlor@yahoo.de>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
@@ -30,27 +30,6 @@
 * @link       http://www.clansuite.com
 */
 
-/*
-Tabellenstruktur für Tabelle `cs_shoutbox`
-
-CREATE TABLE `cs_shoutbox` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `name` VARCHAR( 100 ) NOT NULL ,
-  `mail` VARCHAR( 100 ) NOT NULL ,
-  `msg` TINYTEXT NOT NULL ,
-  `time` INT( 10 ) UNSIGNED NOT NULL ,
-  `ip` VARCHAR( 15 ) NOT NULL
-) ENGINE = MYISAM ;
-*/
-
-/**
- + Enable Modul:
- INSERT INTO `cs_modules` ( `module_id` , `name` , `author` , `homepage` , `license` , `copyright` , `title` , `description` , `class_name` , `file_name` , `folder_name` , `enabled` , `image_name` , `version` , `cs_version` , `core` , `subs` )
-	VALUES (
-	NULL , 'shoutbox', 'Björn Spiegel', 'http://www.clansuite.com', 'GPL v2', 'Clansuite Group', 'Shoutbox Modul', 'This module displays a shoutbox. You can do entries and administrate it ...', 'module_shoutbox', 'shoutbox.module.php', 'shoutbox', '0', 'module_shoutbox.jpg', '0.1', '0', '1', 's:0:"";'
-	);
- 
- */
 /**
 * @desc Security Handler
 */
@@ -87,19 +66,6 @@ class module_shoutbox
 		$tpl->assign('errorList'   , array());
 		$tpl->assign('show_error', true);
 		
-		// Wurde Ajax Reqest gesendet, dann prüfen und ggf. speichern
-		/*
-        if(isset($_GET['check'])) {
-			$this->check();
-		}
-		else {
-			// Falls das Formular ohne JS abgesendet wurde
-			if(isset($_POST['sent'])) {
-				$this->mod_page_title .= $lang->t( 'Prove your Entry' );
-				$this->check();		// prüfen
-			}
-		}
-        */
         
         switch ($_REQUEST['action'])
         {
@@ -135,7 +101,7 @@ class module_shoutbox
 		$tpl->assign('shoutbox_is_empty', 	true);
 		$tpl->assign('show_form', 			true);
 		
-		// Formular und Einträge anzeigen //
+		// Formular und Eintr�ge anzeigen //
 
 		// Values der Felder:
 		$tpl->assign('save_entry'         	, $lang->t('Save Entry'));
@@ -143,7 +109,7 @@ class module_shoutbox
 		$tpl->assign('field_value_mail'  	, $lang->t('Your Mail'));
 		$tpl->assign('field_value_msg'    	, $lang->t('Your Msg'));
 		
-		// Einträge auslesen:
+		// Eintr�ge auslesen:
 		$stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
 							  FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
 		$stmt->execute();
@@ -169,9 +135,9 @@ class module_shoutbox
 	{
 		global $lang, $input, $tpl;
 		
-		$name   = trim($_POST['name']);
-		$mail   = trim($_POST['mail']);
-		$msg    = trim($_POST['msg']);
+		$name   = urldecode($_POST['name']);
+		$mail   = urldecode($_POST['mail']);
+		$msg    = urldecode($_POST['msg']);
 		$check  = $_GET['check'];
         
 		$errors = array();
@@ -182,44 +148,46 @@ class module_shoutbox
 		if(!isset($mail) || strlen(trim($mail)) < 3 || trim($mail) == $lang->t('Your Mail'))
 			$errors[] = $lang->t('Your mail-address hast to longer than 3 chars');
 			
-		if(!isset($msg) || strlen(trim($msg)) < 5 || trim($msg) == $lang->t('Your Msg'))
-			$errors[] = $lang->t('Your message hast to be longer than 5 chars');
+		if(!isset($msg) || strlen(trim($msg)) < 1 || trim($msg) == $lang->t('Your Msg'))
+			$errors[] = $lang->t('Your message has to contain some content!');
 			
 		if(isset($mail) && strlen(trim($mail)) > 3 && !$input->check($mail, 'is_email'))
 			$errors[] = $lang->t('Enter a valid mail-adress');
 		
-		//print_r($errors); // debug
-		
 		// Fehler ... 
-		if(count($errors) > 0) {
-			if( $check == 'true' )	// ajax request
-				echo implode('%%%', $errors);		// Zurückgeben (... ajax ...)
-			else {	// normaler page request 
+		if( count($errors) > 0)
+        {
+			if( $check == 'true' )
+            {
+            	// ajax request
+				$this->suppress_wrapper = true;
+                $error = count($errors)==1 ? '---error---'.$errors[0] : implode('---error---', $errors);
+                $this->output .= $error;
+            }
+			else
+            {	// normaler page request 
 				$tpl->assign('is_error', true);
 				$tpl->assign('_errorList', $errors);
 				$this->output .= $tpl->fetch('shoutbox/show_form.tpl');				
 			}
 		}
-		else {
+		else
+        {
 			$this->save_entry();	// Speichern
 		}
-		
-		#print_r(debug_backtrace());
-		if( $check == 'true' )	// nur falls der request per ajax gesendet wurde
-			die();
 	}
 	
 	/**
-	 * @desc   Save Entry
+	 * @desc Save Entry
 	 */
 	function save_entry()
 	{
 		global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 		
 		// Formularvalidierung
-		$name   = trim($_POST['name']);
-		$mail   = trim($_POST['mail']);
-		$msg    = trim($_POST['msg']);
+		$name   = urldecode($_POST['name']);
+		$mail   = urldecode($_POST['mail']);
+		$msg    = urldecode($_POST['msg']);
 		$check  = $_GET['check'];
         
 		// Db Insert
@@ -240,7 +208,7 @@ class module_shoutbox
 		    $tpl->assign('shoutbox_is_empty', 	true);
 		    $tpl->assign('show_form', 			true);
 		    
-		    // Einträge auslesen:
+		    // Eintr�ge auslesen:
 		    $stmt = $db->prepare('SELECT 		id, name, mail, msg, time 
 							      FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
 		    $stmt->execute();
@@ -251,9 +219,9 @@ class module_shoutbox
 
 		       $tpl->assign('shoutbox_entries', $result);
 
-		       echo $tpl->fetch('shoutbox/entries_box.tpl');
-               die();
-		    }            
+		       $this->output = $tpl->fetch('shoutbox/entries_box.tpl');
+               $this->suppress_wrapper = true;
+		    }
         }
 	}
 }
