@@ -64,7 +64,7 @@
                 {translate}Position{/translate}
             </td>
             <td colspan="2">
-                <input name="info[pos]" type="text" value="{$info.pos|escape:"htmlall"}" size="3" class="input_text"/>
+                <input name="info[sortorder]" type="text" value="{$info.sortorder|escape:"htmlall"}" size="3" class="input_text"/>
             </td>
         </tr>
         
