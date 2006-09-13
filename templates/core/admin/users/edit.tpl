@@ -1,17 +1,3 @@
-
-
-{doc_raw}
-            {* StyleSheets *}
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
-            <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
-            
-            {* JavaScripts *}
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	        <script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
-{/doc_raw}
-
-<h2>{translate}Edit a user{/translate}</h2>
-
 {if $err.no_special_chars == 1}
     {error title="Special Chars"}
         No special chars except '_' are allowed.
@@ -42,69 +28,70 @@
     {/error}
 {/if}
  
-<form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=edit" class="h3sForm">
+<form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=edit">
 
-    <fieldset> 
-    <legend>Editing user with ID <b>{$user.user_id} | {$user.first_name} '{$user.nick}' {$user.last_name} </b></legend>
-
-        <input type="hidden" name="info[user_id]" value="{$user.user_id}">
-
-        <br />
-
-       <label for="first_name"><b>First Name</b></label>
-	   <input name="info[first_name]" type="text" value="{$user.first_name}" class="input_text"/>
-	   
-	   <label for="last_name"><b>Last Name</b></label>
-        <input name="info[last_name]" type="text" value="{$user.last_name}" class="input_text"/>
-	   
-	   <label for="nick"><b>Nick</b></label>
-	   <input name="info[nick]" type="text" value="{$user.nick}" class="input_text"/>
-	   
-	   <label for="email"><b>eMail</b></label>
-	   <input name="info[email]" type="text" value="{$user.email}" class="input_text"/>
-	   
-	   <label for="password"><b>Password</b></label>
-	   <input name="info[password]" type="text" value="" class="input_text"/>
-	   
-	   <label for="pwexplain"><small>{translate}Leave it blank if you do not want to change the password!{/translate}</small></label>
-       
-       <label for="infotext"><b>Infotext</b></label>
-	   <input name="info[infotext]" type="text" value="{$user.infotext}" class="input_text"/>
-	   	
-	   <fieldset class="radio">
-       <legend><b>Userstatus: Activated & Banned </b></legend> 
-        
-            <label for="activated" class="radio"><b>Activated</b></label>
-            <input name="info[activated]" type="checkbox" value="1" {if $user.activated==1}checked{/if} />
-            
-            <label for="disabled" class="radio"><b>Disabled</b></label>
-            <input name="info[disabled]" type="checkbox" value="1" {if $user.disabled==1}checked{/if} />
-           
-        </fieldset> 
-       
-        <fieldset class="radio">
-	    <legend><b>Group Memberships</b></legend>
-	    
-        {foreach item=item key=key from=$all_groups}
-	    
-	        <label for="member_of_group_{$item.group_id}" class="radio">
-	        <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name}</a>
-	        </label>
-            <input type="checkbox" name="info[groups][]" value="{$item.group_id}" {if in_array($item.group_id, $groups)}checked{/if} />
-        
-	    {/foreach}
-        
-        </fieldset>    
-	              
-    </fieldset>
-
-    <fieldset>
-    <legend>{translate}Save Inputs{/translate}</legend>
-        <div align="right">
-        <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
-        <input class="ButtonGrey" type="reset" value="{translate}Reset Input Values{/translate}" tabindex="3" />  
-        </div>
-    </fieldset>
-
-
+    <input type="hidden" name="info[user_id]" value="{$user.user_id}" />
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
+        <tr class="tr_header">
+            <td align="center" width="20%">{translate}Description{/translate}</td>
+            <td align="center" width="80%">{translate}Input{/translate}</td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Nick{/translate}</td>
+            <td><input type="text" value="{$user.nick|escape:"htmlall"}" class="input_text" name="info[nick]" /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}eMail{/translate}</td>
+            <td><input type="text" value="{$user.email|escape:"htmlall"}" class="input_text" name="info[email]" /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Password{/translate}</td>
+            <td>
+                <input type="text" value="" class="input_text" name="info[password]" /><br />
+                {translate}Leave it blank if you do not want to change the password!{/translate}
+            </td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}First Name{/translate}</td>
+            <td><input type="text" value="{$user.first_name|escape:"htmlall"}" class="input_text" name="info[first_name]" /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Last Name{/translate}</td>
+            <td><input type="text" value="{$user.last_name|escape:"htmlall"}" class="input_text" name="info[last_name]" /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Infotext{/translate}</td>
+            <td><input type="text" value="{$user.infotext|escape:"htmlall"}" class="input_text" name="info[infotext]" /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Activated{/translate}</td>
+            <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $user.activated==1}checked{/if} /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Disabled/Banned{/translate}</td>
+            <td><input type="checkbox" value="1" class="input_text" name="info[disabled]" {if $user.disabled==1}checked{/if} /></td>
+        </tr>
+        <tr class="tr_row1">
+            <td>{translate}Groups{/translate}</td>
+            <td>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                {foreach item=item key=key from=$all_groups}
+                    <tr class="tr_row1">
+                        <td width="1%">
+                            <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $groups)}checked{/if}/>
+                        </td>
+                        <td>
+                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"htmlall"}</a>
+                        </td>
+                    </tr>
+                {/foreach}
+                </table>
+            </td>
+        </tr>
+        <tr class="tr_row1">
+            <td colspan="2" align="right">
+                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
+                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+            </td>
+    </table>
 </form>

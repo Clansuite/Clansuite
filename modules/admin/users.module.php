@@ -137,14 +137,15 @@ class module_admin_users
         /**
         * @desc Init
         */
-        $submit             = $_POST['submit'];
-        $info               = $_POST['info'];
-        $info['activated']  = isset($_POST['info']['activated'])   ? $_POST['info']['activated']   : 0;
-        $info['disabled']   = isset($_POST['info']['disabled'])    ? $_POST['info']['disabled']    : 0;
-        $sets               = '';      
-        $err                = array();
-        $groups             = array();
-        $all_groups         = array();
+        $submit                     = $_POST['submit'];
+        $info                       = $_POST['info'];
+        $_POST['info']['groups']    = !isset($_POST['info']['groups']) ? array() : $_POST['info']['groups'];
+        $info['activated']          = isset($_POST['info']['activated'])   ? $_POST['info']['activated']   : 0;
+        $info['disabled']           = isset($_POST['info']['disabled'])    ? $_POST['info']['disabled']    : 0;
+        $sets                       = '';      
+        $err                        = array();
+        $groups                     = array();
+        $all_groups                 = array();
                
         /**
         * @desc Nick or eMail already in ?
@@ -204,7 +205,7 @@ class module_admin_users
         if ( !empty($submit) AND count($err) == 0 )
         {
             $hash = $security->db_salted_hash($info['password']);
-            $sets =  'nick = ?, first_name = ?, last_name = ?, email = ?, infotext = ?, activated = ?, disabled = ?,password = ?';
+            $sets =  'nick = ?, first_name = ?, last_name = ?, email = ?, infotext = ?, activated = ?, disabled = ?, joined = ?, password = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'users SET ' . $sets );
             $stmt->execute( array ( $info['nick'],
                                     $info['first_name'],
@@ -213,6 +214,7 @@ class module_admin_users
                                     $info['infotext'],
                                     $info['activated'],
                                     $info['disabled'],
+                                    time(),
                                     $hash ) );
             
             $stmt2 = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
@@ -220,6 +222,9 @@ class module_admin_users
             $result = $stmt2->fetch(PDO::FETCH_ASSOC);
             $info['user_id'] = $result['user_id'];
                                     
+            $stmt4 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt4->execute( array( $info['user_id'] ) );
+
             if ( count( $info['groups'] ) > 0 )
             {
                 $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );

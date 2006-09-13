@@ -70,8 +70,8 @@
                                 <td>{$right_array.description}</td>
                                 
                                 <td align="center">
-                                    <a href="index.php?mod=admin&sub=permissions&action=edit_right&right_id={$right_array.right_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" /></a>
-                                    <a href="index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}"><input type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" /></a>
+                                    <input type="Button" class="ButtonGreen" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_right&right_id={$right_array.right_id}'" value="{translate}Edit{/translate}" />
+                                    <input type="Button" class="ButtonYellow" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" value="{translate}Lookup users{/translate}" />
                                 </td>
                                 <td align="center">
                                     <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -81,8 +81,8 @@
                         {/foreach}
                         <tr class="tr_row1">
                             <td align="right" colspan="5">
-                                <a href="index.php?mod=admin&sub=permissions&action=edit_area&area_id={$area_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit the area{/translate}" /></a>
-                                <a href="index.php?mod=admin&sub=permissions&action=delete_area&area_id={$area_id}"><input type="Button" class="ButtonRed" value="{translate}Delete the area{/translate}" /></a>
+                                <input type="Button" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_area&area_id={$area_id}'" class="ButtonGreen" value="{translate}Edit the area{/translate}" />
+                                <input type="Button" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=delete_area&area_id={$area_id}'" class="ButtonRed" value="{translate}Delete the area{/translate}" />
                                 <input type="submit" name="submit" class="ButtonRed" value="{translate}Delete selected Permissions{/translate}" />
                                 <input type="reset" name="submit" class="ButtonGrey" value="{translate}Reset{/translate}" />
                         </tr>
@@ -105,8 +105,8 @@
                                 <td>{$right_array.description}</td>
                                 
                                 <td align="center">
-                                    <a href="index.php?mod=admin&sub=permissions&action=edit_perm&right_id={$right_array.right_id}"><input type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" /></a>
-                                    <a href="index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}"><input type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" /></a>
+                                    <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_perm&right_id={$right_array.right_id}'" type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
+                                    <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" />
                                 </td>
                                 <td align="center">
                                     <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -125,8 +125,8 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <a href="index.php?mod=admin&sub=permissions&action=create_area"><input type="Button" class="ButtonGreen" value="{translate}Create new area{/translate}" /></a>
-            <a href="index.php?mod=admin&sub=permissions&action=create_right"><input type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" /></a>
+            <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create_area'" type="Button" class="ButtonGreen" value="{translate}Create new area{/translate}" />
+            <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create_right'" type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" />
         </td>
     </tr>
 </table>
