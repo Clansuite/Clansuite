@@ -186,12 +186,25 @@ class module_account
             { $err['not_filled'] = 1; }
         } 
         
-        // Assign Vars
-        $tpl->assign('cfg', $cfg);
-        $tpl->assign('err', $err);
-        
-        // Output Template
-        $this->output .= $tpl->fetch('account/login.tpl');
+        /**
+        * @desc Login Form / User Center
+        */
+        if ( $_SESSION['user']['user_id'] == 0 )
+        {
+            /**
+            * @desc Assing vars & output template
+            */
+            $tpl->assign('cfg', $cfg);
+            $tpl->assign('err', $err);
+            $this->output .= $tpl->fetch('account/login.tpl');
+        }
+        else
+        {
+            /**
+            * @desc Show usercenter
+            */
+            $this->output .= $tpl->fetch('account/usercenter.tpl');
+        }
     }
     
     /**
