@@ -19,8 +19,8 @@
         {
             s=escape(s);
             var ta=new Array();
-            for(i=0;i<s.length;i++)ta[i]=s.charCodeAt(i)+encN;
-            return ""+escape(eval("String.fromCharCode("+ta+")"))+encN;
+            for(i=0;i<s.length;i++)ta[i]=s.charCodeAt(i);
+            return ""+escape(eval("String.fromCharCode("+ta+")"));
         }
 
         function node_click(id)
