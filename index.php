@@ -203,7 +203,22 @@ header("Content-type: text/html; charset=UTF-8");
 * @desc Output all
 */
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
-$content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
+if ( $_REQUEST['mod'] == 'admin' )
+{
+    if ( $_SESSION['user']['rights']['access_acp'] == 1 )
+    {
+        $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
+    }
+    else
+    {
+        $content = $modules->get_content('index', '');
+    }
+}
+else
+{
+    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);   
+}
+
 $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 
 /**
