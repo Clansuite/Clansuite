@@ -1,61 +1,57 @@
-{literal}
-    <style type="text/css">
-    /* only testing, die styles müssen später noch ins stylesheet */
-    #show_shoutbox {
-	    width: auto;
-	    height: 300px;
-	    overflow: auto;
-	    padding: 8px;
-    }
-    #show_shoutbox .entry_even {
-	    background-color: #CCCCCE;
-    }
-    #show_shoutbox .entry_uneven {
-	    background-color: #CCCCCF; 
-    }
-
-    #show_shoutbox ul {
-       list-style-type: none;
-    }
-
-    #show_shoutbox ul li {
-	    display: inline;
-    }
-    #show_shoutbox ul li.name {
-
-    }
-    #show_shoutbox ul li.msg {
-	    
-    }
-    </style>
-{/literal}
-<div id="entries_box">
-{$entries_box}
+<div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
+Loading...
 </div>
-{$entries}
-{* Soll das Formular angezeigt werden *}
 {if $show_form === true}
-	<div id="request_return">
-	
-	</div>
-	<br />
-	
 	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', 'index.php?mod=shoutbox&action=check&check=true', 'request_return');">
-		<input class="input_text" id="name" type="text" name="name" 
-				value="{$field_value_name}" 
-				onclick="if(this.value == '{$field_value_name}') this.value = ''" 
-				onblur="if(this.value == '') this.value = '{$field_value_name}'" /><br />
-		<input class="input_text" id="mail" type="text" name="mail" 
-				value="{$field_value_mail}" 
-				onclick="if(this.value == '{$field_value_mail}') this.value = ''" 
-				onblur="if(this.value == '') this.value = '{$field_value_mail}'" /><br />
-		<input class="input_text" id="msg" type="text" name="msg" 
-				value="{$field_value_msg}" 
-				onclick="if(this.value == '{$field_value_msg}') this.value = ''" 
-				onblur="if(this.value == '') this.value = '{$field_value_msg}'" /><br />	
-			
-		{* Falls Js aktiviert ist, wird der Submit Button automaisch ausgeblendet! *}
-		<input class="ButtonGrey" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+            <tr>
+                <td class="td_header" colspan="2">{translate}Shoutbox{/translate}</td>
+            </tr>
+            <tr class="tr_row1">
+                <td align="center">{translate}Name{/translate}</td>
+                <td align="center" width="1%">
+		            <input class="input_text" id="name" type="text" name="name" 
+				            value="{$smarty.session.user.nick|escape:"htmlall"}" 
+				            onclick="if(this.value == '{$field_value_name}') this.value = ''" 
+				            onblur="if(this.value == '') this.value = '{$field_value_name}'" style="text-align: center;" />
+                </td>
+            </tr>
+            <tr class="tr_row1">
+                <td align="center">{translate}Mail{/translate}</td>
+                <td align="center">        
+		            <input class="input_text" id="mail" type="text" name="mail" 
+				            value="{$smarty.session.user.email|escape:"htmlall"}" 
+				            onclick="if(this.value == '{$field_value_mail}') this.value = ''" 
+				            onblur="if(this.value == '') this.value = '{$field_value_mail}'" style="text-align: center;" />
+                </td>
+            </tr>
+            <tr class="tr_row1">
+                <td align="center">{translate}Message{/translate}</td>
+                <td align="center">
+		            <textarea class="input_textarea" id="msg" name="msg" 
+				            value="" 
+				            onclick="if(this.value == '{$field_value_msg}') this.value = ''" 
+				            onblur="if(this.value == '') this.value = '{$field_value_msg}'" cols="17" rows="3"/></textarea>
+                </td>
+            </tr>			
+		    <tr>
+                <td colspan="2" align="center" class="cell1">
+                    <input class="ButtonGreen" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="cell1">
+                    <div id="request_return" align="center">
+
+                    </div>
+                    <br />
+                    <div id="entries_box">
+                    {$entries_box}
+                    </div>
+                    {$entries}                
+                </td>
+            </tr>
+        </table>
 	</form>
 {/if}
 
@@ -138,7 +134,7 @@
 			for(i = 0; i < ids.length; i++) 
 			{
 				param += (param == '') ? '' : '&';
-				param += document.getElementById(ids[ i ]).name + '=' + document.getElementById(ids[ i ]).value;
+				param += document.getElementById(ids[ i ]).name + '=' + escape(encodeURIComponent(document.getElementById(ids[ i ]).value));
 			}
 			
 			//debug
@@ -154,39 +150,50 @@
 		}
 
 		// Response des Ajax zugriffs erhalten
-		function handleResponse() {
+		function handleResponse()
+        {
 			// Checke, ob der Zugriff erfolgreich war
 			if (con.readyState == 4) {
 				var response = con.responseText;
 				//alert('RESPONSE: ' + response);
 				
-				if(response != '') {
-
-
-					if(response.search('%%%') > 0)
+				if(response != '')
+                {
+					if(response.search(/---error---/) != -1)
                     {
 					    // Error ...
-					    var errors = response.split('\%\%\%');
-                        response_text = '<span class="shoutbox_error">{/literal}{translate}Several Errors occured while saving:{/translate}{literal}</span>';
+					    var errors = response.split('---error---');
+                        response_text = '<b>{/literal}{translate}Error:{/translate}{literal}</b>';
 				        for(i = 0; i < errors.length; i++)
 				        {
-					        response_text += '<br />- ' + errors[ i ];
+					        if ( errors[ i ] != '' )
+                            {
+                                response_text += '<br />- ' + errors[ i ];
+                            }
 				        }
+                        document.getElementById('request_return').innerHTML = response_text;
                     }
                     else
                     {
-                        response_text = '<span class="shoutbox_success">{/literal}{translate}Your entry was saved successfuly!{/translate}{literal}</span>';
+                        response_text = '<span class="shoutbox_success">{/literal}{translate}...saved...{/translate}{literal}</span>';
                         document.getElementById('entries_box').innerHTML = response;
+                        document.getElementById('msg').value='';
+                        document.getElementById(id).innerHTML = response_text;
                     }
 				}
-				else {
+				else
+                {
 					response_text = '<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}</span>';
+                    document.getElementById(id).innerHTML = response_text;
 				}
 				
-				document.getElementById(id).innerHTML = response_text;
-											
+			    document.getElementById('loading').style.display = 'none';	
 				return true;
 			}
+            else
+            {
+                document.getElementById('loading').style.display = 'block';
+            }
 										   
 			return false;
 		}

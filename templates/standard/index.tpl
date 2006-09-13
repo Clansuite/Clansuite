@@ -107,23 +107,52 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         {$content}
     </td>
     
-    <td class="cell1" style="padding: 3px;">
-        {mod name="account" func="login"}
-		
-		{mod name="shoutbox" func="show"}
-		     
-        Online: {$stats.online}<br />
-        Siteimpressions: {$stats.page_impressions}<br />
-        All Impressions: {$stats.all_impressions}<br />
-        <img src="{$www_tpl_root}/images/clansuite-80x15.png">
+    <td class="cell1" style="padding: 0px">
+        <p>
+            {mod name="account" func="login"}
+        </p>
+		<p>
+		    {mod name="shoutbox" func="show"}
+		</p>
+        <p>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td class="td_header" colspan="2">{translate}Statistics{/translate}</td>
+                </tr>
+                <tr>
+                    <td class="cell1">
+                        Online:
+                    </td>
+                    <td class="cell1">
+                        {$stats.online}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell1">
+                        Siteimpressions:
+                    </td>
+                    <td class="cell1">
+                        {$stats.page_impressions}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell1">
+                        All Impressions:
+                    </td>
+                    <td class="cell1">
+                        {$stats.all_impressions}
+                    </td>
+                </tr>
+            </table>
+        </p>
     </td>
 </tr>
 </table>
 <div class="cell1" style="padding: 5px" align="center">
     <span class="copyright">
         {$copyright}
-    </span>
-    &nbsp;Queries: {$query_counter}
+        &nbsp;Queries: {$query_counter}</span><br />
+        <img src="{$www_tpl_root}/images/clansuite-80x15.png">
 </div>
 <script type="text/javascript">
     var menu1 = new XulMenu("menu1");
