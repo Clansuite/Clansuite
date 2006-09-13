@@ -155,7 +155,7 @@ class module_account
             if ($user_id != false)
             {
                 $users->login( $user_id, $remember_me, $password );
-                $functions->redirect( 'index.php?mod=admin', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
+                $functions->redirect( 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
             {              
