@@ -44,14 +44,14 @@
                         {if !$smarty.foreach.usersarray.last},{/if} 
                         {/foreach}
                     </td>      
-                    <td align="center"><a href="index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}"><input type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></a></td>
+                    <td align="center"><input onClick="self.location.href='index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></td>
                     <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
                 
                 </tr>
             {/foreach}
             <tr>
                 <td colspan="9" align="right" class="cell1">
-                    <a href="index.php?mod=admin&sub=groups&action=create"><input class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
+                    <input onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'" class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
                     <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
                     <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected groups{/translate}" />
                 </td>
