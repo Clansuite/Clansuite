@@ -17,7 +17,7 @@ SET dbname=clansuite
 @REM Clansuite DB dumpen
 
 @ECHO Beginning backup of %dbname%...
-%mysqldir%/mysqldump -u %mysqluser% -p%mysqlpassword% --skip-opt --add-drop-table %dbname% > %basedir%\%dbname%.sql
+%mysqldir%/mysqldump -u %mysqluser% -p%mysqlpassword% --skip-add-locks --add-drop-table %dbname% > %basedir%\%dbname%.sql
 
 @ECHO Finished backup!  - Press any Key -
 pause
