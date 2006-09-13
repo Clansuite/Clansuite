@@ -8,7 +8,7 @@
         	<tr class="tr_header">
         		<td align="center">{translate}ID{/translate}</td>
         		<td align="center">{translate}Name{/translate}</td>                
-        		<td align="center">{translate}Pos{/translate}</td>
+        		<td align="center">{translate}Sortorder{/translate}</td>
         		<td align="center">{translate}Icon{/translate}</td>
         		<td align="center">{translate}Image{/translate}</td>
         		<td align="center">{translate}Description{/translate}</td>
@@ -22,7 +22,7 @@
                    <input type="hidden" name="ids[]" value="{$group.group_id}" />
                     <td align="center">{$group.group_id}</td>
                     <td style="color: {$group.color}; font-weight: bold;" align="center">{$group.name}</td>
-                    <td align="center">{$group.pos}</td>
+                    <td align="center">{$group.sortorder}</td>
                     <td align="center">
                         {if $group.icon==''}
                             <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" class="border3d">
