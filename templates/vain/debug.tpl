@@ -1,5 +1,10 @@
 {assign_debug_info}
 
+
+
+
+
+
 <doc_raw>
 <link href="{$www_tpl_root}/css/debugconsole.css" rel="stylesheet" type="text/css" />
 </doc_raw>
@@ -9,7 +14,7 @@
 <span id="container_1" style="{if $debug_popup==0}display: block{else}display: none{/if};">
 	
 	<script>
-	function clip(id){ldelim}if(document.getElementById("span_" + id).style.display == 'none'){ldelim}document.getElementById("span_" + id).style.display = "block";{rdelim}else{ldelim}document.getElementById("span_" + id).style.display = "none";{rdelim}{rdelim}
+	function clip(id){ldelim}if(document.getElementById("span_"   id).style.display == 'none'){ldelim}document.getElementById("span_"   id).style.display = "block";{rdelim}else{ldelim}document.getElementById("span_"   id).style.display = "none";{rdelim}{rdelim}
 	</script>
 	
 	<h2>ClanSuite Debug Console</h2>
@@ -194,7 +199,7 @@
 	{rdelim}
 	else
 	{ldelim}
-		var title = 'Console_' + self.name;
+		var title = 'Console_'   self.name;
 	{rdelim}
 		var html = document.getElementById("container_1").innerHTML;
 	_csphere_console = window.open("",title.value,"width=800,height=600,resizable,scrollbars=yes");

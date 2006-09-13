@@ -68,7 +68,7 @@ class session
     */
 
     public $session_name            = 'suiteSID';
-    public $session_expire_time     = 10; // minutes
+    public $session_expire_time     = 30; // minutes
     public $session_probability     = 30; // precenatge
     public $session_cookies         = 1;
     public $session_cookies_only    = 0;
