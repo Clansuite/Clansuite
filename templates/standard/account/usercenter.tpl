@@ -5,7 +5,17 @@
         </td>
     </tr>
     <tr>
-        <td align="left">
+        <td align="center">
+            <a href="index.php?mod=account&sub=options">{translate}Options{/translate}</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a href="index.php?mod=account&sub=profile">{translate}Profile{/translate}</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
             <a href="index.php?mod=account&action=logout">{translate}Logout{/translate}</a>
         </td>
     </tr>
