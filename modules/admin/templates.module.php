@@ -198,6 +198,7 @@ class module_admin_templates
         $tpl_path   = $_POST['tpl_path'];
         $content    = $_POST['content'];
         file_put_contents( $tpl_path, urldecode($content) );
+        $this->suppress_wrapper = true;
     }
 }
 ?>
