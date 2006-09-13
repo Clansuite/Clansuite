@@ -117,7 +117,7 @@ CREATE TABLE `cs_areas` (
 
 /*!40000 ALTER TABLE `cs_areas` DISABLE KEYS */;
 LOCK TABLES `cs_areas` WRITE;
-INSERT INTO `cs_areas` VALUES (1,'Groups','The groups area'),(2,'Users','The user area');
+INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'ACP','Admin Control Panel');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_areas` ENABLE KEYS */;
 
@@ -165,7 +165,7 @@ CREATE TABLE `cs_group_right` (
 
 /*!40000 ALTER TABLE `cs_group_right` DISABLE KEYS */;
 LOCK TABLES `cs_group_right` WRITE;
-INSERT INTO `cs_group_right` VALUES (1,1),(1,2),(1,6),(3,1),(3,3),(3,4),(3,5);
+INSERT INTO `cs_group_right` VALUES (1,10),(1,11),(3,1),(3,3),(3,4),(3,5);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_group_right` ENABLE KEYS */;
 
@@ -192,7 +192,7 @@ CREATE TABLE `cs_groups` (
 
 /*!40000 ALTER TABLE `cs_groups` DISABLE KEYS */;
 LOCK TABLES `cs_groups` WRITE;
-INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','List manager.png','List manager.png','#666600'),(2,3,'test','blubb','List manager.png','All software is current.png','#CC00CC'),(3,23,'aa','ssssssssss','Ym.png','3d.png','#0000CC');
+INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','List manager.png','List manager.png','#666600');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_groups` ENABLE KEYS */;
 
@@ -308,7 +308,7 @@ CREATE TABLE `cs_rights` (
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
 LOCK TABLES `cs_rights` WRITE;
-INSERT INTO `cs_rights` VALUES (1,1,'Groupedit','Edit a group'),(2,1,'Groupdelete','Delete a group'),(3,1,'Groupshow','Show the groups'),(4,2,'Useredit','Edit a user'),(5,2,'Userdelete','Delete a user'),(6,2,'Usershow','Show the users'),(7,0,'lbaaa','basdddddddddddd'),(8,0,'asdfasdfa','asssssssssssssssdf'),(9,0,'ssssssssssssss','asdfasdfsa');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_acp','The right to access the ACP');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
@@ -337,7 +337,7 @@ CREATE TABLE `cs_session` (
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
 LOCK TABLES `cs_session` WRITE;
-INSERT INTO `cs_session` VALUES (0,'b908b0a951a671eaad9f4808385969c6','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"b908b0a951a671eaad9f4808385969c6\";user|a:9:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:4:\"Gast\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:10:\"first_name\";s:7:\"Vorname\";s:9:\"last_name\";s:8:\"Nachname\";s:8:\"disabled\";s:0:\"\";s:9:\"activated\";s:0:\"\";}','suiteSID',1158057990,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'f456552529c95ebacc06765b0ba0e7b6','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"f456552529c95ebacc06765b0ba0e7b6\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158145642,1,'index'),(0,'b231d03f8e9c4f56830a4bb94d58b57f','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"b231d03f8e9c4f56830a4bb94d58b57f\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158145470,1,'account'),(0,'6a61cb62a8b5e900729f21610e8618c3','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"6a61cb62a8b5e900729f21610e8618c3\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158145541,1,'account');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
@@ -412,7 +412,7 @@ CREATE TABLE `cs_user_group` (
 
 /*!40000 ALTER TABLE `cs_user_group` DISABLE KEYS */;
 LOCK TABLES `cs_user_group` WRITE;
-INSERT INTO `cs_user_group` VALUES (1,1);
+INSERT INTO `cs_user_group` VALUES (1,1),(2,1),(2,2);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_user_group` ENABLE KEYS */;
 
@@ -468,7 +468,7 @@ CREATE TABLE `cs_users` (
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
 LOCK TABLES `cs_users` WRITE;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,'Administrator','Administrator','I\'m the admin',0,1);
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,'Administrator','Administrator','I\'m the admin',0,1),(3,'test@test.de','test','974c2e9429ade22627f12ecb4b400f224474dfd0','','',1158144934,0,'test','test','test',0,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
