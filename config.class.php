@@ -142,6 +142,6 @@ class config
         $this->version      = (float) 0.1;
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
         
-        }
+    }
 }
 ?>

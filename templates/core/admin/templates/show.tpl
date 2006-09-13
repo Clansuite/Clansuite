@@ -83,8 +83,8 @@
 		
 		// @param	form_field_ids					Per Komma getrennte ID's von Feldern, die an die Date geschickt werden sollen
 		// @param	file							An welche Datei der Request gesendet werden soll
-		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zurück (Fehler von %%% getrennt).
-		//											Ansonsten gibt die Datei einen leeren Output zurück
+		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zurï¿½ck (Fehler von %%% getrennt).
+		//											Ansonsten gibt die Datei einen leeren Output zurï¿½ck
 		function sendAjaxRequest(type, param, file)
 		{
 			con = getXMLRequester();
@@ -98,7 +98,7 @@
             
             if( type == 'save' )
             {
-                param = 'tpl_path='+encodeTxt(document.getElementById('tpl_path').innerHTML)+'&content='+escape(document.getElementById('ajax_textarea').value);
+                param = 'tpl_path='+escape(encodeURIComponent(document.getElementById('tpl_path').innerHTML))+'&content='+escape(encodeURIComponent(document.getElementById('ajax_textarea').value));
             }
 
 			con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -164,7 +164,7 @@
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...
 </div>
-<h1>Template Editor</h1>
+
 <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
 <tr>
     <td valign="top" width="250">
