@@ -154,7 +154,10 @@ class users
         if ( is_array($user) )
         {
             
-            $_SESSION['user']['authed']     = '1';
+            /**
+            * @desc User infos
+            */
+            $_SESSION['user']['authed']     = 1;
             $_SESSION['user']['user_id']    = $user['user_id'];
             
             $_SESSION['user']['password']   = $user['password'];
@@ -167,32 +170,60 @@ class users
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
             
+            /**
+            * @desc Groups & Rights
+            */
             
+            $_SESSION['user']['groups'] = array();
+            $_SESSION['user']['rights'] = array();
             
-            //$_SESSION['user']['::Gruppen::'] = user::get_groups_by_userid($_SESSION['user']['user_id']);
-            //$_SESSION['user']['::Rights::']  = user::get_rights_by_userid($_SESSION['user']['user_id']);
-            //$_SESSION['user']['rights']   = user::get_allrights_by_userid($user_id);
-            
-            //SpeedUp der Rechte Tabelle
-            //user::generate_liveusers_table();
-            
+            $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt->execute( array( $user['user_id'] ) );
+            $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ( is_array( $groups ) )
+            {
+                foreach( $groups as $key => $group_id )
+                {
+                    $_SESSION['user']['groups'][] = $group_id['group_id'];
+
+                    $stmt = $db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_right AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
+                    $stmt->execute( array( $group_id['group_id'] ) );
+                    $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    if( is_array( $rights ) )
+                    {
+                        foreach( $rights as $key => $values )
+                        {
+                            $_SESSION['user']['rights'][$values['name']] = 1;
+                        }
+                    }
+                }
+            }
+
+            $_SESSION['user']['rights'] = array_unique($_SESSION['user']['rights']);
         }
         else
         {
             $_SESSION['user']['authed']     = 0;
             $_SESSION['user']['user_id']    = 0;
-            $_SESSION['user']['nick']       = $lang->t('Gast');
+            $_SESSION['user']['nick']       = $lang->t('Guest');
             
             $_SESSION['user']['password']   = '';
             $_SESSION['user']['email']      = '';
 
             
-            $_SESSION['user']['first_name'] = 'Vorname';
-            $_SESSION['user']['last_name']  = 'Nachname';
+            $_SESSION['user']['first_name'] = '';
+            $_SESSION['user']['last_name']  = '';
             
-            $_SESSION['user']['disabled']   = '';
-            $_SESSION['user']['activated']  = '';
-            #_SESSION['::Gruppen::']        = 'Guests';
+            $_SESSION['user']['disabled']   = 0;
+            $_SESSION['user']['activated']  = 0;
+
+            /**
+            * @desc Groups & Rights
+            */
+            
+            $_SESSION['user']['groups'] = array();
+            $_SESSION['user']['rights'] = array();            
         }
     }
     
