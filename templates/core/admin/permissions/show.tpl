@@ -89,7 +89,7 @@
                     </table>
                 </form>
             {/foreach}
-                <form action="index.php?mod=admin&sub=permissions&action=delete_perm" method="POST">
+                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="POST">
                     <table style="display: none;" id="area_unassigned" cellpadding="0" cellspacing="0" border="0">
                         <tr class="tr_header_small">
                             <td width="100">{translate}Right ID{/translate}        </td>

@@ -372,12 +372,12 @@ class module_admin_groups
             * @desc Select the areas and assing the rights
             */
             $info['areas'] = array();
-            $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
+            $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas ORDER BY name ASC' );
             $stmt3->execute();
             $areas_result = $stmt3->fetchAll(PDO::FETCH_ASSOC);
             foreach( $areas_result as $area )
             {
-                $stmt4 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE area_id = ?' );
+                $stmt4 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE area_id = ? ORDER BY name ASC' );
                 $stmt4->execute( array( $area['area_id'] ) );
                 $rights_result = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                 foreach( $rights_result as $rights )

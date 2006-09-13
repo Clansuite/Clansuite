@@ -235,7 +235,21 @@ else
     */
     if ( $_REQUEST['mod'] == 'admin' )
     {
-        $tpl->displayDoc('admin/index.tpl');
+        if ( $_SESSION['user']['rights']['access_acp'] == 1 )
+        {
+            $tpl->displayDoc('admin/index.tpl');
+        }
+        else
+        {
+             if ( $_SESSION['user']['user_id'] == 0 )
+             {
+                $functions->redirect('index.php?mod=account&action=login');
+             }
+             else
+             {
+                $functions->redirect( 'index.php', 'metatag|newsite', 5, $lang->t('You do not have sufficient rights to access the ACP') );
+             }
+        }
     }
     else
     {
