@@ -13,15 +13,7 @@
         #tree-plugin, #tree-plugin-button-import-html { display: none; }
         #tree-plugin-textarea { white-space: nowrap; }
         </style>
-        <script type="text/javascript">       
-        
-        function encodeTxt(s)
-        {
-            s=escape(s);
-            var ta=new Array();
-            for(i=0;i<s.length;i++)ta[i]=s.charCodeAt(i);
-            return ""+escape(eval("String.fromCharCode("+ta+")"));
-        }
+        <script type="text/javascript">
 
         function node_click(id)
         {
@@ -106,7 +98,7 @@
             
             if( type == 'save' )
             {
-                param = 'tpl_path='+encodeTxt(document.getElementById('tpl_path').innerHTML)+'&content='+document.getElementById('ajax_textarea').value;
+                param = 'tpl_path='+encodeTxt(document.getElementById('tpl_path').innerHTML)+'&content='+escape(document.getElementById('ajax_textarea').value);
             }
 
 			con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
