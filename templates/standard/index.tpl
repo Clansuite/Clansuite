@@ -42,14 +42,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
-    <td height="180">
-
-        <div class="bar">
-            <center>
+    <td height="180" align="center">
                 <img src="{$www_tpl_root}/images/clansuite-header.png">
-            </center>
-        </div>
-
     </td>
 </tr>
 </table>
@@ -61,22 +55,23 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 </script>
 
 <table cellspacing="0" cellpadding="0" width="100%">
-<tr>
-    <td class="header" width="10px">
+<tr class="tr_header">
+    <td width="10">
         Menu
     </td>
     
-    <td class="header">
-        Content
+    <td>
+        &raquo; {$mod_page_title}
     </td>
     
-    <td class="header" width="200px">
+    <td width="200">
         Infos
     </td>
 </tr>
 <tr>
-    <td class="bar" width="10px" height="300">
+    <td class="cell1" width="10px" height="300">
         <div class="left_menu">
+
             <table id="menu1" height="300" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
                 <td>
@@ -108,27 +103,23 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         </div>
     </td>
     
-    <td class="bar">
-        <div class="content" style="padding: 0">
-            {$content}
-        </div>
+    <td class="cell1">
+        {$content}
     </td>
     
-    <td class="bar" width="200px" style="padding: 3px;">
+    <td class="cell1" style="padding: 3px;">
         {mod name="account" func="login"}
 		
 		{mod name="shoutbox" func="show"}
 		     
-        <div class="right_menu">
-            Online: {$stats.online}<br />
-            Siteimpressions: {$stats.page_impressions}<br />
-            All Impressions: {$stats.all_impressions}<br />
-            <img src="{$www_tpl_root}/images/clansuite-80x15.png">
-	    </div>
+        Online: {$stats.online}<br />
+        Siteimpressions: {$stats.page_impressions}<br />
+        All Impressions: {$stats.all_impressions}<br />
+        <img src="{$www_tpl_root}/images/clansuite-80x15.png">
     </td>
 </tr>
 </table>
-<div class="bar" style="padding: 5px" align="center">
+<div class="cell1" style="padding: 5px" align="center">
     <span class="copyright">
         {$copyright}
     </span>
