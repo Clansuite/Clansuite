@@ -1,6 +1,10 @@
 {doc_raw}
-    {* StyleSheets *}
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
+   {* StyleSheets *}
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
+    
+    {* JavaScripts *}
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script> 
 {/doc_raw}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
@@ -50,13 +54,13 @@
         
         <tr class="tr_row1">
             <td>
-                {translate}Area{/translate}
+                {translate}Cat von Modul{/translate}
             </td>
             <td colspan="2"> {* BUG CHECK THIS: name, id and vars*}           
-             <select class="input_text" name="info[area_id]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
+             <select class="input_text" name="info[module_id]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
-                    {foreach name=outer item=area from=$areas}
-                      <option {if $info.area_id|escape:"htmlall"==$area.area_id}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$area.area_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$area.area_id}" name="{$area.area_id}">{$area.area_id} - {$area.name}</option>
+                    {foreach name=outer item=modul from=$modules}                    
+                      <option {if $info.module_id|escape:"htmlall"==$modul.module_id}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$modules.module_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$modul.module_id}" value="{$modul.module_id}" name="{$modul.module_id}">{$modul.module_id} - {$modul.name}</option>
                     {/foreach}
                </select>
 
