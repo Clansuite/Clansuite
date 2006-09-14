@@ -33,11 +33,11 @@
 
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
-  `pos` tinyint(4) unsigned NOT NULL default '1',
+  `sortorder` tinyint(4) unsigned NOT NULL default '1',
   `name` varchar(75) default NULL,
   `desc` varchar(255) default NULL,
   `icon` varchar(255) default NULL,
-  `colour` varchar(10) NOT NULL,
+  `color` varchar(10) NOT NULL,
   `posts` tinyint(5) default NULL,
   PRIMARY KEY  (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -135,7 +135,7 @@ class module_admin_groups
         * @desc Get the DB result sets
         * Abfrage der Benutzergruppen
         */
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups ORDER BY pos ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups ORDER BY sortorder ASC' );
         $stmt->execute();
         $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
         
@@ -249,9 +249,9 @@ class module_admin_groups
             /**
             * @desc Update the DB
             */
-            $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
+            $sets =  'sortorder = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'groups SET ' . $sets );
-            $stmt->execute( array ( $info['pos'],
+            $stmt->execute( array ( $info['sortorder'],
                                     $info['name'],
                                     $info['description'], 
                                     $info['icon'],
@@ -369,7 +369,7 @@ class module_admin_groups
             }
             
             /**
-            * @desc Select the areas and assing the rights
+            * @desc Select the areas and asigning the rights
             */
             $info['areas'] = array();
             $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas ORDER BY name ASC' );
@@ -403,9 +403,9 @@ class module_admin_groups
             /**
             * @desc Update the DB
             */
-            $sets =  'pos = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
+            $sets =  'sortorder = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
-            $stmt->execute( array ( $info['pos'],
+            $stmt->execute( array ( $info['sortorder'],
                                     $info['name'],
                                     $info['description'], 
                                     $info['icon'],
