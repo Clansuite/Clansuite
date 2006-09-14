@@ -1,6 +1,6 @@
 <?php
 /**
-* Admin Configs Module Handler Class
+* Static Pages Admin Module Class
 *
 * PHP versions 5.1.4
 *
@@ -62,9 +62,10 @@ class module_admin_static
         {
                 
             case 'show':
+                $this->mod_page_title = $lang->t( 'Show static pages' );
                 $this->show();
                 break;
-                
+            
             case 'create':
                 $this->mod_page_title = $lang->t( 'Create a static page' );
                 $this->create();
@@ -74,14 +75,9 @@ class module_admin_static
                 $this->mod_page_title = $lang->t( 'Edit a static page' );
                 $this->edit();
                 break;
-                
-            case 'show':
-                $this->mod_page_title = $lang->t( 'List all static pages' );
-                $this->show();
-                break;                
-
+           
             default:
-                $this->mod_page_title = $lang->t( 'Create a static page' );
+                $this->mod_page_title = $lang->t( 'Show static pages' );
                 $this->show();
             break;
         }
@@ -92,52 +88,7 @@ class module_admin_static
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
 
-    /**
-    * @desc Show the entrance - welcome message etc.
-    */
-    function show()
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
-        $page = $_GET['page'];
-        
-        if ( !empty($page) AND $input->check( $page, 'is_abc|is_int|is_custom', '_\s' ) )
-        {
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
-            $stmt->execute( array( $page ) );
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ( !is_array( $result ) )
-            {
-                $this->output .= $lang->t('This static page does not exist.');
-            }
-            else
-            {
-                if ( empty($result['url']) )
-                {
-                    $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
-                    $this->output .= $result['html'];
-                }
-                else
-                {
-                    $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
-                    if ( $result['iframe'] == 1 )
-                    {
-                        $this->output .= '<iframe width="100%" height="'. $result['iframe_height'] .'" frameborder="0" scrolling="auto" src="' . $result['url'] . '"></iframe>';
-                    }
-                    else
-                    {
-                        $this->output .= file_get_contents( $result['url'] );
-                    }
-                }
-            }
-        }
-        else
-        {
-            $this->output .= $lang->t('This static page does not exist.');
-        }
-    }
-        
+           
     /**
     * @desc Create a static page
     */
