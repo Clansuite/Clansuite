@@ -1,7 +1,6 @@
 {doc_raw}
 	<script type="text/javascript" src="{$www_core_tpl_root}/admin/fckeditor/fckeditor.js"></script>
 {/doc_raw}
-<h2>{translate}Create Static Pages{/translate}</h2>
 
 {if $err.no_special_chars == 1}
     {error title="Special Chars"}
