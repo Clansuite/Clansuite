@@ -1,5 +1,3 @@
-<h2> Menueditor </h2>
-
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 {* bei src= die anführungsstriche setzen *}                    
