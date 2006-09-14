@@ -9,7 +9,7 @@
         		<td align="center">{translate}ID{/translate}</td>
         		<td align="center">{translate}Name{/translate}</td>                
         		<td align="center">{translate}Pos{/translate}</td>
-        		<td align="center">{translate}Area{/translate}</td>
+        		<td align="center">{translate}Modul{/translate}</td>
         		<td align="center">{translate}Icon{/translate}</td>
         		<td align="center">{translate}Image{/translate}</td>
         		<td align="center">{translate}Description{/translate}</td>
@@ -23,7 +23,7 @@
                     <td align="center">{$categories.cat_id}</td>
                     <td style="font-weight: bold;" align="center">{$categories.name}</td>
                     <td align="center">{$categories.sortorder}</td>
-                    <td style="color: {$categories.color}; font-weight: bold;" align="center">{$categories.area_name}</td>
+                    <td style="color: {$categories.color}; font-weight: bold;" align="center">{$categories.module_name}</td>
                     <td align="center">
                         {if $categories.icon==''}
                             <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" class="border3d">
