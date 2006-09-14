@@ -138,7 +138,7 @@ CREATE TABLE `cs_categories` (
 
 
 /*!40000 ALTER TABLE `cs_categories` DISABLE KEYS */;
-INSERT INTO `cs_categories` VALUES (1,5,1,'-keine-','Diese News sind keiner Kategorie zugeordnet','','','#000000'),(2,NULL,2,'Allgemein','Thema Allgemein','',NULL,NULL),(3,NULL,3,'Member','Thema Members','',NULL,NULL),(4,NULL,4,'Page','Thema Page','',NULL,NULL),(5,NULL,5,'IRC','Thema IRC','',NULL,NULL),(6,NULL,6,'Clan-Wars','Thema Matches','',NULL,NULL),(7,NULL,7,'Sonstiges','Thema Hardware','',NULL,NULL),(8,NULL,8,'LAN','Thema Lanparty','',NULL,NULL);
+INSERT INTO `cs_categories` VALUES (1,5,1,'-keine-','Diese News sind keiner Kategorie zugeordnet','','','#000000'),(2,0,2,'Allgemein','Thema Allgemein','','','#000000'),(3,NULL,3,'Member','Thema Members','',NULL,NULL),(4,NULL,4,'Page','Thema Page','',NULL,NULL),(5,NULL,5,'IRC','Thema IRC','',NULL,NULL),(6,NULL,6,'Clan-Wars','Thema Matches','',NULL,NULL),(7,NULL,7,'Sonstiges','Thema Hardware','',NULL,NULL);
 /*!40000 ALTER TABLE `cs_categories` ENABLE KEYS */;
 
 --
@@ -338,6 +338,28 @@ INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_serverlist`
+--
+
+DROP TABLE IF EXISTS `cs_serverlist`;
+CREATE TABLE `cs_serverlist` (
+  `server_id` int(5) default NULL,
+  `ip` varchar(15) character set latin1 collate latin1_general_ci default NULL,
+  `port` varchar(5) character set latin1 collate latin1_general_ci default NULL,
+  `name` varchar(250) character set latin1 collate latin1_general_ci default NULL,
+  UNIQUE KEY `server_id` (`server_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_serverlist`
+--
+
+
+/*!40000 ALTER TABLE `cs_serverlist` DISABLE KEYS */;
+INSERT INTO `cs_serverlist` VALUES (1,'clansuite.com','27339','knd-squad DEATHMATCH powered by CLANSUITE DOT COM ');
+/*!40000 ALTER TABLE `cs_serverlist` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_session`
 --
 
@@ -361,7 +383,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'1ccd05986d5640418f5f9de1a7fe5bb8','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"1ccd05986d5640418f5f9de1a7fe5bb8\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158182763,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'af4abd2b8e9c8791ede05de3889b279d','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"af4abd2b8e9c8791ede05de3889b279d\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158201584,1,'index');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
