@@ -106,19 +106,20 @@ class module_admin_categories
        
         $i = 0;
         foreach( $categories as $category )
-        {
-            if ( $category['area_id'] != NULL ) {            
-            // Abfrage der Areas der jeweiligen Gruppe
-            $stmt2 = $db->prepare('SELECT name FROM ' . DB_PREFIX . 'areas WHERE area_id = ?');
-            $stmt2->execute( array ( $category['area_id'] ));
-            $category_area = $stmt2->fetch(PDO::FETCH_ASSOC);
-            $categories[$i]['area_name'] = $category_area['name'];
+        {   
+            // if category belongs to a module
+            if ( $category['module_id'] != NULL ) {            
+            // get modulname by module_id of every category
+            $stmt2 = $db->prepare('SELECT name FROM ' . DB_PREFIX . 'modules WHERE module_id = ?');
+            $stmt2->execute(  array ( $category['module_id'] ) );
+            $categories[$i]['module_name'] = $stmt2->fetch(PDO::FETCH_COLUMN);
             }
             else 
+            // if category belongs not to any module
             { 
-            $categories[$i]['area_name'] = 'none';
+            $categories[$i]['module_name'] = 'none';
             }
-            $i++;            
+        $i++;            
         }
                 
         if ( is_array( $categories ) )
@@ -165,17 +166,17 @@ class module_admin_categories
         $tpl->assign( 'images'   , $images );
         
         /**
-        * @desc Select the areas
+        * @desc Select all modules
         */
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
+        $stmt = $db->prepare( 'SELECT module_id, name FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
-        $areas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $modules= $stmt->fetchAll(PDO::FETCH_ASSOC);
         
             
         if ( !empty( $submit ) )
         {
             /**
-            * @desc Group already stored?
+            * @desc Category already stored?
             */
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE name = ?' );
             $stmt->execute( array( $info['name'] ) );
@@ -203,9 +204,9 @@ class module_admin_categories
             /**
             * @desc Update the DB
             */
-            $sets =  'area_id = ?, sortorder = ?, name = ?, description = ?, image = ?,icon = ?,  color = ?';
+            $sets =  'module_id = ?, sortorder = ?, name = ?, description = ?, image = ?,icon = ?,  color = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'categories SET ' . $sets );
-            $stmt->execute( array ( $info['area_id'],
+            $stmt->execute( array ( $info['module_id'],
                                     $info['sortorder'],
                                     $info['name'],
                                     $info['description'], 
@@ -216,14 +217,14 @@ class module_admin_categories
             /**
             * @desc Redirect...
             */
-            $functions->redirect( 'index.php?mod=admin&sub=categories&action=show', 'metatag|newsite', 3, $lang->t( 'The group has been created.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=categories&action=show', 'metatag|newsite', 3, $lang->t( 'The Category has been created.' ), 'admin' );
     
         }
         
         /**
         * @desc Assign & Show template
         */
-        $tpl->assign( 'areas'       , $areas );
+        $tpl->assign( 'modules'     , $modules );
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch('admin/categories/create.tpl');
        
@@ -285,18 +286,18 @@ class module_admin_categories
         else
         {
             /**
-            * @desc Select the group
+            * @desc Select the categories
             */
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE cat_id = ?' );
             $stmt->execute( array( $id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
             
             /**
-            * @desc Select all other areas
+            * @desc Select all avaiable modules
             */
-            $stmt2 = $db->prepare('SELECT area_id, name FROM ' . DB_PREFIX . 'areas ');
+            $stmt2 = $db->prepare('SELECT module_id, name FROM ' . DB_PREFIX . 'modules ');
             $stmt2->execute();
-            $areas = $stmt2->fetchALL(PDO::FETCH_ASSOC);
+            $modules = $stmt2->fetchALL(PDO::FETCH_ASSOC);
             
         }
         
@@ -314,9 +315,9 @@ class module_admin_categories
             /**
             * @desc Update the DB
             */
-            $sets =  'area_id = ?, sortorder = ?, name = ?, description = ?, image = ?,icon = ?,  color = ?';
+            $sets =  'module_id = ?, sortorder = ?, name = ?, description = ?, image = ?,icon = ?,  color = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'categories SET ' . $sets . ' WHERE cat_id = ?' );
-            $stmt->execute( array ( $info['area_id'],
+            $stmt->execute( array ( $info['module_id'],
                                     $info['sortorder'],
                                     $info['name'],
                                     $info['description'], 
@@ -338,7 +339,7 @@ class module_admin_categories
         */
         $tpl->assign( 'err'         , $err );
         $tpl->assign( 'info'        , $info );
-        $tpl->assign( 'areas'        , $areas );
+        $tpl->assign( 'modules'     , $modules );
         $this->output .= $tpl->fetch('admin/categories/edit.tpl');
      }
      
