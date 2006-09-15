@@ -124,14 +124,20 @@ class module_admin_help
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( is_array( $info ) )
         {
-            $info['related_links'] = implode( '-!!-', $info['related_links'] );
-            $tpl->assign( 'info' , $info );
-            $info['related_links']  = $tpl->fetch( 'admin/help/related_links.tpl' );
-            $info['helptext']       = $tpl->fetch( 'admin/help/helptext.tpl' );
-        
-            $tpl->assign( 'related_links'   , $related_links );
-            $tpl->assign( 'helptext'        , $helptext );
+            $info['orig_related_links'] = $info['related_links'];
+            if( strpos( $info['related_links'], "\n" ) )
+            {
+                $info['related_links'] = explode( "\n", $info['related_links'] );
+            }
+            else
+            {
+                $info['related_links'] = array();   
+            }
+            $tpl->assign( 'info' , $info );        
         }
+        $info['related_links']  = $tpl->fetch( 'admin/help/related_links.tpl' );
+        $info['helptext']       = $tpl->fetch( 'admin/help/helptext.tpl' );
+        $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
     }
     
@@ -140,22 +146,24 @@ class module_admin_help
     */
     function save_helptext()
     {
-        $mod            = $_POST['save_mod'];
-        $sub            = $_POST['save_sub'];
-        $action         = $_POST['save_action'];
-        $helptext       = $_POST['helptext'];
+        global $db, $tpl;
+
+        $mod            = urldecode($_POST['save_mod']);
+        $sub            = urldecode($_POST['save_sub']);
+        $action         = urldecode($_POST['save_action']);
+        $helptext       = urldecode($_POST['helptext']);
 
         $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( is_array( $check ) )
         {
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ? WHERE `help_id` = ?' );
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ? WHERE `help_id` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $helptext, $check['help_id'] ) );
         }
         else
         {
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ?' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $helptext ) );
         }
 
@@ -170,28 +178,37 @@ class module_admin_help
     */
     function save_related_links()
     {
-        $mod            = $_POST['save_mod'];
-        $sub            = $_POST['save_sub'];
-        $action         = $_POST['save_action'];
-        $related_links  = $_POST['related_links'];
+        global $db, $tpl;
         
-        $related_links = str_replace( "\n", '-!!-' );
+        $mod            = urldecode($_POST['save_mod']);
+        $sub            = urldecode($_POST['save_sub']);
+        $action         = urldecode($_POST['save_action']);
+        $related_links  = urldecode($_POST['related_links']);
+        
+        $info['orig_related_links'] = $related_links;
 
         $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( is_array( $check ) )
         {
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ? WHERE `help_id` = ?' );
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help SET `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ? WHERE `help_id` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $related_links, $check['help_id'] ) );
         }
         else
         {
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ?' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help SET `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $related_links ) );
         }
 
-        $info['related_links'] = implode( '-!!-', $related_links );
+        if ( strpos($related_links, "\n") > 0 )
+        {
+            $info['related_links'] = explode( "\n", $related_links);
+        }
+        else
+        {
+            $info['related_links'] = array();
+        }
         $tpl->assign( 'info' , $info );
         $this->output = $tpl->fetch( 'admin/help/related_links.tpl' );
         $this->suppress_wrapper = 1;

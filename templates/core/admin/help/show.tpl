@@ -177,16 +177,7 @@ Loading...
             <div id="related_links_container">
                 {$info.related_links}
             </div>
-            {if $info.related_links!=''}
 
-            {else}
-                {translate}There are no links assigned.{/translate}<br />
-                <a href="javascript:void(0)" onClick="clip_id('links_add');">{translate}Add links (each line is a link){/translate}</a>
-            {/if}
-            <div style="display: none;padding: 10px; text-align: center;" id="links_add">
-                <textarea style="width: 100%; height: 200px;" name="info[related_links]" class="input_textarea" id="related_links"></textarea><br />
-                <input type="button" class="ButtonGreen" value="{translate}Add links{/translate}" onClick="return sendAjaxRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_related_links')" />
-            </div>
         </td>
     </tr>
 </table>
