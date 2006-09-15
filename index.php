@@ -203,7 +203,7 @@ header("Content-type: text/html; charset=UTF-8");
 * @desc Output all
 */
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
-if ( $_REQUEST['mod'] == 'admin' )
+if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 {
     if ( $_SESSION['user']['rights']['access_acp'] == 1 )
     {
@@ -248,7 +248,7 @@ else
     /**
     * @desc Admin module <-> Normal module
     */
-    if ( $_REQUEST['mod'] == 'admin' )
+    if ( $_REQUEST['mod'] == 'admin'  OR $_REQUEST['sub'] == 'admin' )
     {
         if ( $_SESSION['user']['rights']['access_acp'] == 1 )
         {

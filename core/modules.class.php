@@ -170,7 +170,7 @@ class modules
 
             if ( $sub != '' )
             {
-                if ( isset($sub_files) AND array_key_exists($sub, $sub_files ) )
+                if ( isset($sub_files) AND is_array($sub_files) AND array_key_exists($sub, $sub_files ) )
                 {
                     $folder_name = $cfg->modules[$mod]['folder_name'];
                     $file_name   = $sub_files[$sub][0];

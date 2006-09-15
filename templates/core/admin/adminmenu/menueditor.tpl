@@ -134,13 +134,13 @@
         <td valign="top">
 
             <p>
-                <a href="javascript:void(window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes'))"><input type="button" class="ButtonYellow" value="{translate}Help{/translate}" /></a>
+                <input type="button" class="ButtonYellow" onClick="window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{translate}Help{/translate}" />
             </p>
             <p>
-                <a href="javascript:treePluginGenerateMenu();"><input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" /></a>
+                <input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" onClick="treePluginGenerateMenu();" />
             </p>
             <p>
-                <a href="index.php?mod=admin&sub=menueditor&action=restore"><input type="button" class="ButtonRed" value="{translate}Restore last menu{/translate}" /></a>
+                <input type="button" onClick="self.location.href='index.php?mod=admin&sub=menueditor&action=restore'"class="ButtonRed" value="{translate}Restore last menu{/translate}" />
             </p>
         </td>
         <td valign="top">
@@ -148,10 +148,10 @@
             <div id="tree-plugin">
                 <form action="index.php?mod=admin&sub=menueditor&action=update" method="POST">
                 <div id="tree-plugin-content"></div>
-                <b>{translate}The menu was generate.{/translate}</b> <br />
+                <b>{translate}The menu has been generated.{/translate}</b> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />
                 <p>
-                <input class="ButtonGrey" type="submit" name="submit" value="{translate}Update the menu{/translate}">
+                    <input class="ButtonGreen" type="submit" name="submit" value="{translate}Update the menu{/translate}">
                 </p>
                 </form>
             </div>

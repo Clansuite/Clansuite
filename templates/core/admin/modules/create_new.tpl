@@ -81,7 +81,7 @@ function rem_col(id)
             <input class="input_text" type="text" name="db_cols[{literal}{$key}{/literal}][name]" value="">
         </td>
         <td class="cell1" align="center" width="50">
-            <select name="db_cols[{literal}{$key}{/literal}][type]">
+            <select name="db_cols[{literal}{$key}{/literal}][type]" class="input_text">
                 <option value="VARCHAR">VARCHAR</option>
                 <option value="TINYINT">TINYINT</option>
 
@@ -123,14 +123,14 @@ function rem_col(id)
         </td>
         
         <td class="cell1" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][extras]">
+            <select name="db_cols[{literal}{$key}{/literal}][extras]" class="input_text">
                 <option value="" selected></option>
                 <option value="auto_increment">{translate}auto_increment{/translate}</option>
             </select>
         </td>
         
         <td class="cell2" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][keys]">
+            <select name="db_cols[{literal}{$key}{/literal}][keys]" class="input_text">
                 <option value="" selected></option>
                 <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
                 <option value="INDEX">{translate}INDEX{/translate}</option>
@@ -138,13 +138,13 @@ function rem_col(id)
             </select>
         </td>
         <td class="cell1" align="center">
-            <a class="ButtonGrey" href="javascript:rem_col('{literal}{$key}{/literal}');">{translate}Remove{/translate}</a>
+            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('{literal}{$key}{/literal}');" />
         </td>
     </tr>
 </table>
 
 <form action="index.php?mod=admin&sub=modules&action=create_new" method="POST">
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="0" border="0" align="center" width="700">
 <tr>
     
     <td class="td_header" width="100">
@@ -163,16 +163,30 @@ function rem_col(id)
     </td>
     
     <td class="cell2">
-        <table border="0" cellpadding="2" cellspacing="2">
-            <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Name:{/translate}<br /><div class="font_mini">?mod=name</div></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"htmlall"}"></td></tr>
-            <tr><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value="1"></td></tr>
-            <tr><td><b>{translate}Core module:{/translate}</b></td><td><input type="checkbox" name="core" value="1"></td></tr>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr class="tr_row1"><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><div class="font_mini">?mod=name</div></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value="1" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Core module:{/translate}</b></td><td><input type="checkbox" name="core" value="1" /></td></tr>
+            <tr class="tr_row1">
+                <td>
+                    <b>{translate}Submodule:{/translate}</b>
+                </td>
+                <td>
+                    <input type="checkbox" name="submodule" value="1" />
+                    <select name="main_module" class="input_text">
+                        <option value="0"></option>
+                        {foreach key=key item=item from=$modules}
+                            <option value="{$item.module_id}">{$item.name}</option>
+                        {/foreach}
+                    </select>    
+                </td>
+                </tr>
         </table>
     </td>
 </tr>
@@ -203,7 +217,7 @@ function rem_col(id)
                 <table border="0" cellpadding="2" cellspacing="0" id="all_cols" width="800">
                 <tr>
                     <td width="50" align="center" class="cell1">
-                        <b>{translate}Name:{/translate}</b>
+                        <b>{translate}Tablename:{/translate}</b>
                     </td>
                     <td class="cell2" colspan="6">
                         <b>{$db_prefix}</b><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"htmlall"}">
@@ -228,7 +242,7 @@ function rem_col(id)
                             <input class="input_text" type="text" name="db_cols[{$key}][name]" value="{$item.name}">
                         </td>
                         <td class="cell1" align="center" width="50">
-                            <select name="db_cols[{$key}][type]">
+                            <select name="db_cols[{$key}][type]" class="input_text">
                                 <option value="VARCHAR" selected>VARCHAR</option>
                                 <option value="TINYINT">TINYINT</option>
 
@@ -270,14 +284,14 @@ function rem_col(id)
                         </td>
                         
                         <td class="cell1" width="50" align="center">
-                            <select name="db_cols[{$key}][extras]">
+                            <select name="db_cols[{$key}][extras]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="AUTO_INCREMENT">{translate}AUTO_INCREMENT{/translate}</option>
                             </select>
                         </td>
                         
                         <td class="cell2" width="50" align="center">
-                            <select name="db_cols[{$key}][keys]">
+                            <select name="db_cols[{$key}][keys]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
                                 <option value="INDEX">{translate}INDEX{/translate}</option>
@@ -285,7 +299,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <a class="ButtonGrey" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
+                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('{$key}');" />
                         </td>
                     </tr>
                 {/foreach}
@@ -298,7 +312,7 @@ function rem_col(id)
                             <input class="input_text" type="text" name="db_cols[1][name]" value="">
                         </td>
                         <td class="cell1" align="center" width="50">
-                            <select name="db_cols[1][type]">
+                            <select name="db_cols[1][type]" class="input_text">
                                 <option value="VARCHAR" selected>VARCHAR</option>
                                 <option value="TINYINT">TINYINT</option>
 
@@ -340,14 +354,14 @@ function rem_col(id)
                         </td>
                         
                         <td class="cell1" width="50" align="center">
-                            <select name="db_cols[1][extras]">
+                            <select name="db_cols[1][extras]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="auto_increment">{translate}auto_increment{/translate}</option>
                             </select>
                         </td>
                         
                         <td class="cell2" width="50" align="center">
-                            <select name="db_cols[1][keys]">
+                            <select name="db_cols[1][keys]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
                                 <option value="INDEX">{translate}INDEX{/translate}</option>
@@ -355,7 +369,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <a class="ButtonGrey" href="javascript:rem_col('{$key}');">{translate}Remove{/translate}</a>
+                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('1');" />
                         </td>
                     </tr>
                 {/if}
@@ -366,15 +380,17 @@ function rem_col(id)
             </td>
             </tr>
             <tr>
-                <td colspan="2" align="right"><a class="ButtonGrey" href="javascript:add_col();">
-                    {translate}Add a column{/translate}</a>
+                <td colspan="2" align="right">
+                    <input type="button" class="ButtonGreen" value="{translate}Add a column{/translate}" onClick="javascript:add_col();" />
                 </td>
             </tr>
         </table>
     </td>
 </tr>
+<tr>
+    <td align="center" colspan="2" style="padding: 10px" class="cell1">
+        <input class="ButtonGreen" type="submit" value="{translate}Create the new module{/translate}" name="submit">
+    </td>
+</tr>
 </table>
-<p align="center">
-    <input class="ButtonGrey" type="submit" value="{translate}Create the new module{/translate}" name="submit">
-</p>
 </form>
