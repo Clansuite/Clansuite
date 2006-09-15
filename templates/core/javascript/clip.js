@@ -27,3 +27,15 @@ function clip_span(id)
         document.getElementById("span_" + id).style.display = "none";
     }
 }
+
+function clip_id(id)
+{
+    if(document.getElementById(id).style.display == 'none')
+    {
+        document.getElementById(id).style.display = "block";
+    }
+    else
+    {
+        document.getElementById(id).style.display = "none";
+    }
+}

@@ -48,13 +48,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             <td width="80%" class="admin_content">
                 {$content}
             </td>
-            <td width="20%" class="admin_help">
-                &raquo; A help based on the current mod/submod and their actions...<br />
-                &raquo; A help based on the current mod/submod and their actions...<br />
-                &raquo; A help based on the current mod/submod and their actions...<br />
-                &raquo; A help based on the current mod/submod and their actions...<br />
-                
-                {$help}
+            <td width="20%" class="admin_help" style="padding: 0px">
+                {mod name="admin" sub="help" func="instant_show"}
             </td>
         </tr>
     </table>
