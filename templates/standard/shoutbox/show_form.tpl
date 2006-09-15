@@ -46,7 +46,7 @@ Loading...
                     </div>
                     <br />
                     <div id="entries_box">
-                    {$entries_box}
+                        {$entries_box}
                     </div>
                     {$entries}                
                 </td>
