@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.21-community-nt
+-- Server version	5.0.20-community
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -99,7 +99,7 @@ INSERT INTO `cs_adminmenu_old` VALUES (1,0,'folder','Home','index.php?mod=admin'
 DROP TABLE IF EXISTS `cs_areas`;
 CREATE TABLE `cs_areas` (
   `area_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL default 'New Area',
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`area_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -121,9 +121,9 @@ DROP TABLE IF EXISTS `cs_categories`;
 CREATE TABLE `cs_categories` (
   `cat_id` tinyint(4) NOT NULL auto_increment,
   `module_id` tinyint(4) default NULL,
-  `sortorder` tinyint(4) default NULL,
-  `name` text,
-  `description` varchar(90) default '0',
+  `sortorder` tinyint(4) default '0',
+  `name` varchar(200) default 'New Category',
+  `description` text,
   `image` varchar(60) default NULL,
   `icon` varchar(60) default NULL,
   `color` varchar(7) default NULL,
@@ -212,8 +212,8 @@ INSERT INTO `cs_group_rights` VALUES (1,1),(1,2),(1,3);
 DROP TABLE IF EXISTS `cs_groups`;
 CREATE TABLE `cs_groups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
-  `sortorder` int(4) unsigned NOT NULL default '1',
-  `name` varchar(75) default NULL,
+  `sortorder` int(4) unsigned NOT NULL default '0',
+  `name` varchar(80) default 'New Group',
   `description` varchar(255) NOT NULL,
   `icon` varchar(255) default NULL,
   `image` varchar(255) NOT NULL,
@@ -253,6 +253,7 @@ CREATE TABLE `cs_help` (
 
 
 /*!40000 ALTER TABLE `cs_help` DISABLE KEYS */;
+INSERT INTO `cs_help` VALUES (1,'admin','','show','test','');
 /*!40000 ALTER TABLE `cs_help` ENABLE KEYS */;
 
 --
@@ -409,7 +410,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'4ae43d6dc19d96c245517a8641c6e1d6','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"4ae43d6dc19d96c245517a8641c6e1d6\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158286066,1,'admin'),(1,'0fb67f98a2072efbdb7ad3cbfeaef6f3','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"0fb67f98a2072efbdb7ad3cbfeaef6f3\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158286337,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'4ae43d6dc19d96c245517a8641c6e1d6','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"4ae43d6dc19d96c245517a8641c6e1d6\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158287673,1,'news'),(1,'0fb67f98a2072efbdb7ad3cbfeaef6f3','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"0fb67f98a2072efbdb7ad3cbfeaef6f3\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158286337,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
