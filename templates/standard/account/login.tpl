@@ -2,7 +2,7 @@
     {if $err.mismatch == 1}<p class="error">{translate}This combination is not stored in our database!{/translate}</p>{/if}
     {if $err.login_attempts > 0}<p class="error">{translate}Failed Attempts:{/translate}{$err.login_attempts}</p>{/if}
     <form action="index.php?mod=account&action=login" method="post">
-    <table cellpadding="0" cellspacing="0" border="0">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr class="tr_header">
             <td colspan="2">{translate}Login{/translate}</td>
         </tr>

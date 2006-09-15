@@ -69,7 +69,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     </td>
 </tr>
 <tr>
-    <td class="cell1" width="10px" height="300">
+    <td class="cell1" width="100" height="300">
         <div class="left_menu">
 
             <table id="menu1" height="300" cellspacing="0" cellpadding="0" class="XulMenu">
@@ -107,15 +107,15 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         {$content}
     </td>
     
-    <td class="cell1" style="padding: 0px">
-        <p>
+    <td class="cell1" style="padding: 0px;">
+        <div style="margin-top: 10px">
             {mod name="account" func="login"}
-        </p>
-		<p>
+        </div>
+        <div style="margin-top: 10px">
 		    {mod name="shoutbox" func="show"}
-		</p>
-        <p>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+		</div>
+        <div style="margin-top: 10px">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
                 <tr>
                     <td class="td_header" colspan="2">{translate}Statistics{/translate}</td>
                 </tr>
@@ -144,7 +144,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                     </td>
                 </tr>
             </table>
-        </p>
+        </div>
     </td>
 </tr>
 </table>
