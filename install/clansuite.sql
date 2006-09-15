@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.20-community
+-- Server version	5.0.21-community-nt
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,15 +46,15 @@ DROP TABLE IF EXISTS `cs_adminmenu`;
 CREATE TABLE `cs_adminmenu` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
-  `type` varchar(255) character set utf8 NOT NULL,
-  `text` varchar(255) character set utf8 NOT NULL,
-  `href` varchar(255) character set utf8 NOT NULL,
-  `title` varchar(255) character set utf8 NOT NULL,
-  `target` varchar(255) character set utf8 NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `text` varchar(255) NOT NULL,
+  `href` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `target` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL,
-  `icon` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_adminmenu`
@@ -140,6 +140,30 @@ CREATE TABLE `cs_categories` (
 /*!40000 ALTER TABLE `cs_categories` DISABLE KEYS */;
 INSERT INTO `cs_categories` VALUES (1,88,1,'-keine-','Diese News sind keiner Kategorie zugeordnet','','','#000000'),(2,88,2,'Allgemein','Thema Allgemein','','','#000000'),(3,88,3,'Member','Thema Members','','','#000000'),(4,88,4,'Page','Thema Page','','','#000000'),(5,88,5,'IRC','Thema IRC','','','#000000'),(6,88,6,'Clan-Wars','Thema Matches','','','#000000'),(7,88,7,'Sonstiges','Thema Hardware','','','#000000');
 /*!40000 ALTER TABLE `cs_categories` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_category`
+--
+
+DROP TABLE IF EXISTS `cs_category`;
+CREATE TABLE `cs_category` (
+  `cat_id` tinyint(4) NOT NULL auto_increment,
+  `cat_modulname` text,
+  `cat_sortorder` tinyint(4) default NULL,
+  `cat_name` text,
+  `cat_image_url` varchar(60) default NULL,
+  `cat_description` varchar(90) default '0',
+  PRIMARY KEY  (`cat_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_category`
+--
+
+
+/*!40000 ALTER TABLE `cs_category` DISABLE KEYS */;
+INSERT INTO `cs_category` VALUES (1,'newso',NULL,'keine','','Diese News sind keiner Kategorie zugeordnet'),(2,'news',NULL,'Allgemein','/images/allgemein.gif','Allgemein'),(3,'news',NULL,'Member','/images/news/member.gif','Thema Member'),(4,'news',NULL,'Page','/images/news/page.gif',' Thema Page'),(5,'news',NULL,'IRC','/images/news/irc.gif',' Thema IRC gehört'),(6,'news',NULL,'Clan-Wars','/images/news/clanwars.gif','Thema Matches'),(7,'news',NULL,'Sonstiges','/images/news/sonstiges.gif','alles'),(8,'news',NULL,'LAN','','lan'),(10,'/design',NULL,'good night',NULL,'0');
+/*!40000 ALTER TABLE `cs_category` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_group_right`
@@ -346,11 +370,11 @@ INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the
 DROP TABLE IF EXISTS `cs_serverlist`;
 CREATE TABLE `cs_serverlist` (
   `server_id` int(5) default NULL,
-  `ip` varchar(15) character set latin1 collate latin1_general_ci default NULL,
-  `port` varchar(5) character set latin1 collate latin1_general_ci default NULL,
-  `name` varchar(250) character set latin1 collate latin1_general_ci default NULL,
+  `ip` varchar(15) default NULL,
+  `port` varchar(5) default NULL,
+  `name` varchar(250) default NULL,
   UNIQUE KEY `server_id` (`server_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_serverlist`
@@ -395,14 +419,14 @@ INSERT INTO `cs_session` VALUES (0,'4ae43d6dc19d96c245517a8641c6e1d6','client_ip
 DROP TABLE IF EXISTS `cs_shoutbox`;
 CREATE TABLE `cs_shoutbox` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(100) character set latin1 collate latin1_general_ci NOT NULL,
-  `mail` varchar(100) character set latin1 collate latin1_general_ci NOT NULL,
-  `msg` tinytext character set latin1 collate latin1_general_ci NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `mail` varchar(100) NOT NULL,
+  `msg` tinytext NOT NULL,
   `time` int(10) unsigned NOT NULL,
-  `ip` varchar(15) character set latin1 collate latin1_general_ci NOT NULL,
+  `ip` varchar(15) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_shoutbox`
