@@ -133,12 +133,12 @@ class modules
                     require_once( $file );
                     $module_{$mod} = new $class_name;
                     $func_params = split('\|', $params['params']);
-                    $old_action = $_REQUEST['action'];
+                    $_REQUEST['main_action'] = $_REQUEST['action'];
                     $_REQUEST['action'] = $params['func'];
 
                     $output = call_user_func_array( array( $module_{$mod}, 'auto_run' ), $func_params );
                     echo $output['OUTPUT'];
-                    $_REQUEST['action'] = $old_action;
+                    $_REQUEST['action'] = $_REQUEST['main_action'];
 
                 }
             }
