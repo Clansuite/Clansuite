@@ -11,27 +11,21 @@ Loading...
                 <td align="center">{translate}Name{/translate}</td>
                 <td align="center" width="1%">
 		            <input class="input_text" id="name" type="text" name="name" 
-				            value="{$smarty.session.user.nick|escape:"htmlall"}" 
-				            onclick="if(this.value == '{$field_value_name}') this.value = ''" 
-				            onblur="if(this.value == '') this.value = '{$field_value_name}'" style="text-align: center;" />
+				            value="{$smarty.session.user.nick|escape:"htmlall"}" style="text-align: center;" />
                 </td>
             </tr>
             <tr class="tr_row1">
                 <td align="center">{translate}Mail{/translate}</td>
                 <td align="center">        
 		            <input class="input_text" id="mail" type="text" name="mail" 
-				            value="{$smarty.session.user.email|escape:"htmlall"}" 
-				            onclick="if(this.value == '{$field_value_mail}') this.value = ''" 
-				            onblur="if(this.value == '') this.value = '{$field_value_mail}'" style="text-align: center;" />
+				            value="{$smarty.session.user.email|escape:"htmlall"}" style="text-align: center;" />
                 </td>
             </tr>
             <tr class="tr_row1">
                 <td align="center">{translate}Message{/translate}</td>
                 <td align="center">
 		            <textarea class="input_textarea" id="msg" name="msg" 
-				            value="" 
-				            onclick="if(this.value == '{$field_value_msg}') this.value = ''" 
-				            onblur="if(this.value == '') this.value = '{$field_value_msg}'" cols="17" rows="3"/></textarea>
+				            value="" cols="17" rows="3"/></textarea>
                 </td>
             </tr>			
 		    <tr>

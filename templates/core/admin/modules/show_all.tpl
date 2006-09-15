@@ -1,148 +1,147 @@
-
 {doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
 
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
-{literal}
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
+    {literal}
+    <script type="text/javascript">
 
-function str_replace (search, replace, subject)
-{
-  var result = "";
-  var  oldi = 0;
-  for (i = subject.indexOf (search)
-     ; i > -1
-     ; i = subject.indexOf (search, i))
-  {
-    result += subject.substring (oldi, i);
-    result += replace;
-    i += search.length;
-    oldi = i;
-  }
-  return result + subject.substring (oldi, subject.length);
-}
-
-function clip_core_mods(id)
-{
-    if(document.getElementById("core_span_" + id).style.display == 'none')
+    function str_replace (search, replace, subject)
     {
-        document.getElementById("core_span_" + id).style.display = "block";
+      var result = "";
+      var  oldi = 0;
+      for (i = subject.indexOf (search)
+         ; i > -1
+         ; i = subject.indexOf (search, i))
+      {
+        result += subject.substring (oldi, i);
+        result += replace;
+        i += search.length;
+        oldi = i;
+      }
+      return result + subject.substring (oldi, subject.length);
     }
-    else
+
+    function clip_core_mods(id)
     {
-        document.getElementById("core_span_" + id).style.display = "none";
-    }
-}
-
-
-
-function sub_delete(tr)
-{
-    document.getElementById(tr + "_tr1").innerHTML = "";
-    document.getElementById(tr + "_tr2").innerHTML = "";
-    document.getElementById(tr + "_tr3").innerHTML = "";
-    document.getElementById(tr + "_tr4").innerHTML = "";
-    document.getElementById(tr + "_tr5").innerHTML = "";
-}
-
-/***********************************************
-* Drop Down/ Overlapping Content- © Dynamic Drive (www.dynamicdrive.com)
-* This notice must stay intact for legal use.
-* Visit http://www.dynamicdrive.com/ for full source code
-*
-* Enhanced by x!sign.dll
-***********************************************/
-function getposOffset(overlay, offsettype)
-{
-    var totaloffset=(offsettype=="left")? overlay.offsetLeft : overlay.offsetTop;
-    var parentEl=overlay.offsetParent;
-    while (parentEl!=null)
-    {
-        totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
-        parentEl=parentEl.offsetParent;
-    }
-    return totaloffset;
-}
-
-function sub_add(table,mod_id,name,object)
-{
-    if ( name == '' )
-    {
-        var new_obj=document.getElementById('enter_sub_name')
-        new_obj.style.display=(new_obj.style.display!="block")? "block" : "none"
-        var xpos=getposOffset(object, "left")+((typeof opt_position!="undefined" && opt_position.indexOf("right")!=-1)? -(new_obj.offsetWidth-object.offsetWidth) : 0) 
-        var ypos=getposOffset(object, "top")+((typeof opt_position!="undefined" && opt_position.indexOf("bottom")!=-1)? object.offsetHeight : 0) - 30
-        new_obj.style.left=xpos+"px"
-        new_obj.style.top=ypos+"px"
-        c1 = str_replace('{$mod_id}', mod_id, new_obj.innerHTML);
-        c2 = str_replace("{$table}", table, c1);
-        new_obj.innerHTML = c2;
-    }
-    else
-    {
-
-        document.getElementById('enter_sub_name').style.display = 'none';
-        content = document.getElementById('subs_container').innerHTML;
-        if ( document.getElementById('create_sub_file').checked == true )
+        if(document.getElementById("core_span_" + id).style.display == 'none')
         {
-            new_content = content + document.getElementById('hidden_input_container').innerHTML;
+            document.getElementById("core_span_" + id).style.display = "block";
         }
         else
         {
-            new_content = content;
+            document.getElementById("core_span_" + id).style.display = "none";
         }
-        c1 = str_replace('{$wert.module_id}', mod_id, new_content);
-        c2 = str_replace("{$key}", document.getElementById('subs_name').value, c1);
-        new_table = document.getElementById(table).innerHTML+c2;
+    }
 
-        document.getElementById(table).innerHTML = new_table;
-        window.location.hash=mod_id+'_'+document.getElementById('subs_name').value;
-        if( document.getElementById(mod_id+'_no_subs') )
+
+
+    function sub_delete(tr)
+    {
+        document.getElementById(tr + "_tr1").innerHTML = "";
+        document.getElementById(tr + "_tr2").innerHTML = "";
+        document.getElementById(tr + "_tr3").innerHTML = "";
+        document.getElementById(tr + "_tr4").innerHTML = "";
+        document.getElementById(tr + "_tr5").innerHTML = "";
+    }
+
+    /***********************************************
+    * Drop Down/ Overlapping Content- © Dynamic Drive (www.dynamicdrive.com)
+    * This notice must stay intact for legal use.
+    * Visit http://www.dynamicdrive.com/ for full source code
+    *
+    * Enhanced by x!sign.dll
+    ***********************************************/
+    function getposOffset(overlay, offsettype)
+    {
+        var totaloffset=(offsettype=="left")? overlay.offsetLeft : overlay.offsetTop;
+        var parentEl=overlay.offsetParent;
+        while (parentEl!=null)
         {
-            document.getElementById(mod_id+'_no_subs').innerHTML = '';
-            document.getElementById(mod_id+'_no_subs').outerHTML = '';
+            totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
+            parentEl=parentEl.offsetParent;
         }
-        
-
+        return totaloffset;
     }
-}
 
-function checker(checkboxen, caller)
-{
-    if ( !this.loaded )
+    function sub_add(table,mod_id,name,object)
     {
-        this.loaded = new Array;
-    }
-    
-    checkbox = checkboxen.split(",");
-
-    for( x=0; x<checkbox.length; x++ )
-    {
-        if( document.getElementById(caller).checked )
+        if ( name == '' )
         {
-            document.getElementById(checkbox[x]).checked=1;
-            
-            if ( this.loaded[checkbox[x]] >= 1 )
+            var new_obj=document.getElementById('enter_sub_name')
+            new_obj.style.display=(new_obj.style.display!="block")? "block" : "none"
+            var xpos=getposOffset(object, "left")+((typeof opt_position!="undefined" && opt_position.indexOf("right")!=-1)? -(new_obj.offsetWidth-object.offsetWidth) : 0) 
+            var ypos=getposOffset(object, "top")+((typeof opt_position!="undefined" && opt_position.indexOf("bottom")!=-1)? object.offsetHeight : 0) - 30
+            new_obj.style.left=xpos+"px"
+            new_obj.style.top=ypos+"px"
+            c1 = str_replace('{$mod_id}', mod_id, new_obj.innerHTML);
+            c2 = str_replace("{$table}", table, c1);
+            new_obj.innerHTML = c2;
+        }
+        else
+        {
+
+            document.getElementById('enter_sub_name').style.display = 'none';
+            content = document.getElementById('subs_container').innerHTML;
+            if ( document.getElementById('create_sub_file').checked == true )
             {
-                this.loaded[checkbox[x]]++;
+                new_content = content + document.getElementById('hidden_input_container').innerHTML;
             }
             else
             {
-                this.loaded[checkbox[x]] = 1;
+                new_content = content;
             }
-        }
-        else
-        {
-            //document.write(this.loaded[checkbox[x]]);
-            this.loaded[checkbox[x]]--;
-            if( this.loaded[checkbox[x]] == 0 )
-                document.getElementById(checkbox[x]).checked=0;
+            c1 = str_replace('{$wert.module_id}', mod_id, new_content);
+            c2 = str_replace("{$key}", document.getElementById('subs_name').value, c1);
+            new_table = document.getElementById(table).innerHTML+c2;
+
+            document.getElementById(table).innerHTML = new_table;
+            window.location.hash=mod_id+'_'+document.getElementById('subs_name').value;
+            if( document.getElementById(mod_id+'_no_subs') )
+            {
+                document.getElementById(mod_id+'_no_subs').innerHTML = '';
+                document.getElementById(mod_id+'_no_subs').outerHTML = '';
+            }
+            
+
         }
     }
-}
-{/literal}
-</script>
+
+    function checker(checkboxen, caller)
+    {
+        if ( !this.loaded )
+        {
+            this.loaded = new Array;
+        }
+        
+        checkbox = checkboxen.split(",");
+
+        for( x=0; x<checkbox.length; x++ )
+        {
+            if( document.getElementById(caller).checked )
+            {
+                document.getElementById(checkbox[x]).checked=1;
+                
+                if ( this.loaded[checkbox[x]] >= 1 )
+                {
+                    this.loaded[checkbox[x]]++;
+                }
+                else
+                {
+                    this.loaded[checkbox[x]] = 1;
+                }
+            }
+            else
+            {
+                //document.write(this.loaded[checkbox[x]]);
+                this.loaded[checkbox[x]]--;
+                if( this.loaded[checkbox[x]] == 0 )
+                    document.getElementById(checkbox[x]).checked=0;
+            }
+        }
+    }
+    {/literal}
+    </script>
 {/doc_raw}
 
 {literal}
@@ -198,8 +197,6 @@ function checker(checkboxen, caller)
     
 </table>
 {/literal}
-
-<h2>{translate}Modulemanagement{/translate}</h2>
 
 {if isset($content.not_in_whitelist)}
 <form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
@@ -445,7 +442,7 @@ function checker(checkboxen, caller)
 </table>
 
 <p align="center">
-    <input class="ButtonGrey" type="submit" value="{translate}Update modules{/translate}" name="submit">
+    <input class="ButtonGreen" type="submit" value="{translate}Update modules{/translate}" name="submit" />
 </p>
 </form>
 <br /><br />
@@ -612,7 +609,7 @@ function checker(checkboxen, caller)
 {/foreach}
 </table>
 <p align="center">
-    <input class="ButtonGrey" type="submit" value="{translate}Update core modules{/translate}" name="submit">
+    <input class="ButtonGreen" type="submit" value="{translate}Update core modules{/translate}" name="submit" />
 </p>
 </form>
 </span>
@@ -632,7 +629,14 @@ function clip_edit(id,edit)
     else
     {
         document.getElementById(id + edit).style.display = "none";
-        document.getElementById(id + edit + "_text").innerHTML = document.getElementById(id + edit).value;
+        if( document.getElementById(id + edit).value != '' )
+        {
+            document.getElementById(id + edit + "_text").innerHTML = document.getElementById(id + edit).value;
+        }
+        else
+        {
+            document.getElementById(id + edit + "_text").innerHTML = '- empty -';
+        }
         document.getElementById(id + edit + "_text").style.display = "block";
         document.getElementById(id + "_remember_to_update").style.display = "block";
     }

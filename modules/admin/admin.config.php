@@ -63,7 +63,6 @@ $info['subs'] = array(  'configs' => array( 'configs.module.php', 'module_admin_
                         'groups' => array( 'groups.module.php', 'module_admin_groups' ),
                         'permissions' => array( 'perms.module.php', 'module_admin_permissions' ),
                         'menueditor' => array( 'menueditor.module.php', 'module_admin_menueditor' ),
-                        'static' => array( 'static.module.php', 'module_admin_static' ),
  );
 
 

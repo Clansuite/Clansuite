@@ -36,9 +36,9 @@ a:hover
 	border-top-color: #CCCCCC;
 	border-left-color: #CCCCCC;
 	color: #333333;
-	font-size: 0.8333em;
-	font-family: "Lucida Sans", "Lucida Grande", Geneva, Arial, sans-serif;
-	font-weight: bold;
+	font-size: 9px;
+    font-family: tahoma, sans-serif;
+    font-weight: bold;
 	padding: .25em;
     margin: 3px;
     white-space: nowrap;
@@ -134,6 +134,14 @@ a:hover
 .input_text
 {
     border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;     
+}
+
+select.input_text
+{
+    height: 15px;
 }
 
 .input_textarea

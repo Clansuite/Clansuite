@@ -61,7 +61,7 @@ class module_admin_modules
         switch ($_REQUEST['action'])
         {
             case 'show_all':
-                $this->mod_page_title = $lang->t( 'Show all modules' );
+                $this->mod_page_title = $lang->t( 'Show and edit all modules' );
                 $this->show_all();
                 break;
                 
@@ -263,6 +263,13 @@ class module_admin_modules
         }
         
         /**
+        * @desc Get all module names for submodule relations
+        */
+        $stmt = $db->prepare( 'SELECT module_id,name FROM ' . DB_PREFIX . 'modules' );
+        $stmt->execute();
+        $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        /**
         * @desc URL Check     
         */
         if ( !$input->check( $homepage, 'is_url' ) AND !empty( $homepage ) )
@@ -323,32 +330,34 @@ class module_admin_modules
             }
         }
         
-        $err['hold'] = 1;
         /**
         * @desc Everything's fine - begin creating
         */
         if ( count ( $err ) == 0 AND !empty( $submit ) )
         {
-            $tpl->assign( 'name'        , $name );
-            $tpl->assign( 'description' , $description );
-            $tpl->assign( 'license'     , $license );
-            $tpl->assign( 'copyright'   , $copyright );
-            $tpl->assign( 'title'       , $title );
-            $tpl->assign( 'author'      , $author );
-            $tpl->assign( 'homepage'    , $homepage );
-            $tpl->assign( 'class_name'  , 'module_' . $name );
-            $tpl->assign( 'timestamp'   , time() );
-            $tpl->assign( 'file_name'   , $name . '.module.php' );
-            $tpl->assign( 'folder_name' , $name );
-            $tpl->assign( 'image_name'  , $image_name );
-            $tpl->assign( 'version'     , (float) 0.1 );
-            $tpl->assign( 'cs_version'  , $cfg->version );
-            $tpl->assign( 'core'        , $core );
+            $tpl->assign( 'name'                , $name );
+            $tpl->assign( 'description'         , $description );
+            $tpl->assign( 'license'             , $license );
+            $tpl->assign( 'copyright'           , $copyright );
+            $tpl->assign( 'title'               , $title );
+            $tpl->assign( 'author'              , $author );
+            $tpl->assign( 'homepage'            , $homepage );
+            $tpl->assign( 'class_name'          , 'module_' . $name );
+            $tpl->assign( 'timestamp'           , time() );
+            $tpl->assign( 'file_name'           , $name . '.module.php' );
+            $tpl->assign( 'folder_name'         , $name );
+            $tpl->assign( 'image_name'          , $image_name );
+            $tpl->assign( 'version'             , (float) 0.1 );
+            $tpl->assign( 'cs_version'          , $cfg->version );
+            $tpl->assign( 'core'                , $core );
+            $tpl->assign( 'subs'                , serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) );
+            $tpl->assign( 'admin_class_name'    , 'module_' . $name . '_admin' );
             
             $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
             
-            $mod_class = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
-            $cfg_class = trim ( $tpl->fetch( 'admin/modules/empty_mod_cfg.tpl' ) );
+            $mod_class      = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
+            $admin_class    = trim ( $tpl->fetch( 'admin/modules/empty_admin_class.tpl' ) );
+            $cfg_class      = trim ( $tpl->fetch( 'admin/modules/empty_mod_cfg.tpl' ) );
             
             $tpl->unregister_outputfilter( 'remove_tpl_comments' );
             
@@ -364,12 +373,12 @@ class module_admin_modules
             {
                 if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
                 {
+                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.admin.php', $admin_class );
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.module.php', $mod_class );
                     file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                     
                     $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                    $qry .= '(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`)';
-                    $qry .= " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?, `subs`=?';
                     
                     $stmt = $db->prepare( $qry );
                     $stmt->execute( array ( $author,
@@ -386,15 +395,18 @@ class module_admin_modules
                                             $image_name,
                                             (float) 0.1,
                                             $cfg->version,
-                                            $core ) );
+                                            $core,
+                                            serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) ) );
 
-                                            
-                    $create_qry = 'CREATE TABLE `' . $db_table . '` (';
-                    foreach( $db_cols as $values )
+                    if ( $db_table != '' )
                     {
-                        $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
-                    }    
-                    $create_qry = ') ENGINE = MYISAM ;';
+                        $create_qry = 'CREATE TABLE `' . $db_table . '` (';
+                        foreach( $db_cols as $values )
+                        {
+                            $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
+                        }    
+                        $create_qry = ') ENGINE = MYISAM ;';
+                    }
 
                     $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module was successfully created...' ), 'admin' );
                 }
@@ -408,10 +420,11 @@ class module_admin_modules
         /**
         * @desc Output TPL
         */
-        $tpl->assign('db_prefix', DB_PREFIX);
-        $tpl->assign('err', $err);
-        $tpl->assign('chmod_redirect_url', 'index.php?mod=admin&sub=modules&action=create_new' );
-        $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
+        $tpl->assign('modules'              , $modules);
+        $tpl->assign('db_prefix'            , DB_PREFIX);
+        $tpl->assign('err'                  , $err);
+        $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=create_new' );
+        $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/create_new.tpl');   
     }
     

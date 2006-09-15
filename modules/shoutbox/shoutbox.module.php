@@ -143,18 +143,15 @@ class module_shoutbox
 		$errors = array();
 		
 		if(!isset($name) || strlen(trim($name)) < 3 || trim($name) == $lang->t('Your Name'))
-			$errors[] = $lang->t('Your name hast to be longer than 3 chars');
+			$errors[] = $lang->t('Name to short.');
 			
-		if(!isset($mail) || strlen(trim($mail)) < 3 || trim($mail) == $lang->t('Your Mail'))
-			$errors[] = $lang->t('Your mail-address hast to longer than 3 chars');
+		if(!isset($mail) || strlen(trim($mail)) < 3 || !$input->check($mail, 'is_email') || trim($mail) == $lang->t('Your Mail'))
+			$errors[] = $lang->t('Incorrect mail.');
 			
 		if(!isset($msg) || strlen(trim($msg)) < 1 || trim($msg) == $lang->t('Your Msg'))
-			$errors[] = $lang->t('Your message has to contain some content!');
-			
-		if(isset($mail) && strlen(trim($mail)) > 3 && !$input->check($mail, 'is_email'))
-			$errors[] = $lang->t('Enter a valid mail-adress');
+			$errors[] = $lang->t('Empty message.');
 		
-		// Fehler ... 
+		// Error ... 
 		if( count($errors) > 0)
         {
 			if( $check == 'true' )
