@@ -211,14 +211,16 @@ INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','L
 -- Table structure for table `cs_help`
 --
 
+DROP TABLE IF EXISTS `cs_help`;
 CREATE TABLE `cs_help` (
   `help_id` int(11) NOT NULL auto_increment,
-  `mod` var_char(255) NOT NULL,
-  `sub` var_char(255) NOT NULL,  
+  `mod` varchar(255) NOT NULL,
+  `sub` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
   `helptext` text NOT NULL,
   `related_links` text NOT NULL,
-  PRIMARY KEY  (`help_id`)
+  PRIMARY KEY  (`help_id`),
+  UNIQUE KEY `help_id` (`help_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -383,7 +385,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'7a3630f74fdd9d3d41e22429649353b5','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"7a3630f74fdd9d3d41e22429649353b5\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158279421,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'4ae43d6dc19d96c245517a8641c6e1d6','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.6) Gecko/20060728 Firefox/1.5.0.6\";client_host|s:9:\"localhost\";suiteSID|s:32:\"4ae43d6dc19d96c245517a8641c6e1d6\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158286066,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
