@@ -24,7 +24,7 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Jens-Andé Koch, Florian Wolf
+* @author     Jens-Andre Koch, Florian Wolf
 * @copyright  Clansuite Group
 * @license    GPL v2
 * @version    SVN: $Id$
