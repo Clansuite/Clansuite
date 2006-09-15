@@ -125,26 +125,29 @@ class module_news
             #return false;
         }
         
-        // add to $newslist array, the numbers of news_comments for each news_id
+        
         foreach ($newslist as $k => $v) 
         { 
-        
+            
+        // add to $newslist array, the numbers of news_comments for each news_id
         $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
         $stmt->execute( array( $v['news_id'] ) );
         $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN); 
             
-        
+        // add to $neslist array, the nickname of the author of the last comment for each news_id 
+        if ($newslist[$k]['nr_news_comments'] > 0 ) 
+        {               
+         $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo) 
+                               FROM '. DB_PREFIX .'news_comments c 
+        		               LEFT JOIN '. DB_PREFIX .'users u USING(user_id) 
+        			           WHERE c.news_id = ? 
+        			           ORDER BY c.comment_id DESC'); 
+         $stmt->execute( array( $v['news_id'] ) );
+         $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN); 
         }
         
-        /** in pdo umwandeln
-        // falls es comments gibt, den usernick des letzten comments holen
-        foreach ($newslist as $k => $v) 
-        		{ if ($newslist[$k]['nr_news_comments'] > 0 ) {
-        		$newslist[$k]['lastcomment_by'] = $Db->getOne("SELECT IFNULL(u.nick, c.pseudo) FROM ".DB_PREFIX."news_comments c 
-        										  			   LEFT JOIN ".DB_PREFIX."users u USING(user_id) 
-        													   WHERE c.news_id = ? ORDER BY c.comment_id DESC", $v['news_id']); } }
-        */
-        
+        }
+          
         // $newslist an Smarty übergeben und Template ausgeben
         $tpl->assign('news', $newslist);
         
