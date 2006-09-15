@@ -83,7 +83,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                           <div class="section">
                               <a class="item" href="index.php">Main</a>
                               <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">News</a>
-                              <a class="item" href="index.php?mod=shoutbox"><img class="pic" src="{$www_tpl_root}/images/icons/shoutbox.png" border="0" width="16" height="16">Shoutbox</a>
+                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16">Serverlist</a>
                               <a class="item" href="index.php?mod=static&page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Credits</a>
                           </div>
                           
