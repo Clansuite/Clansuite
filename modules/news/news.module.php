@@ -79,7 +79,7 @@ class module_news
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $this->mod_page_title .= $lang->t( ' Show News' );
                 $this->show();
                 break;
 
@@ -102,21 +102,22 @@ class module_news
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
         
-        // $newslist = newseinträge mit usernick und categorie
-        $stmt = $db->prepare('SELECT n.*, u.nick, c.cat_name, c.cat_image_url 
+        // $newslist = newsentries mit nick und category
+        $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                LEFT JOIN '. DB_PREFIX .'category c 
-                                ON ( n.news_category = c.cat_id AND 
-                                     c.cat_modulname = ?)
+                                LEFT JOIN '. DB_PREFIX .'categories c 
+                                ON ( n.cat_id = c.cat_id AND 
+                                     c.module_id = ? )
                                 WHERE n.news_hidden = ? 
                                 ORDER BY news_id DESC' );
         
-        $stmt->execute( array ('news', '0') );
+        /* TODO */
+        $hidden = '0';
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
         {
             $newslist = $result;
-            
             #return $newslist;
         }
         else
@@ -124,13 +125,14 @@ class module_news
             #return false;
         }
         
-        // $newslist arrayergänzung, um die anzahl der newskommentare
+        // add to $newslist array, the numbers of news_comments for each news_id
         foreach ($newslist as $k => $v) 
         { 
         
         $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
         $stmt->execute( array( $v['news_id'] ) );
-        if ($result = $stmt->fetch(PDO::FETCH_BOUND) ) { $newslist[$k]['nr_news_comments'] = $result; }
+        $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN); 
+            
         
         }
         
@@ -143,13 +145,10 @@ class module_news
         													   WHERE c.news_id = ? ORDER BY c.comment_id DESC", $v['news_id']); } }
         */
         
-        print_r($newslist);
-        
         // $newslist an Smarty übergeben und Template ausgeben
         $tpl->assign('news', $newslist);
         
-        $this->output = $tpl->fetch('news/viewnews.tpl');
-        $this->output .= 'This Module is not completed yet!';
+        $this->output = $tpl->fetch('news/show.tpl');
     }
 }
 ?>

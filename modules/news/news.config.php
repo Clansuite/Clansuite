@@ -24,7 +24,7 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Jens-Andé Koch, Florian Wolf
+* @author     Jens-André Koch, Florian Wolf
 * @copyright  Clansuite Group
 * @license    GPL v2
 * @version    SVN: $Id$
@@ -52,7 +52,7 @@ if (!defined('IN_CS'))
 // http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
 //
 // Or inside a template:
-// {mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"}
+// {mod name="news" func="show" sub="mysubmodule" params="myparams"}
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
@@ -76,7 +76,7 @@ $info['author']         = 'Jens-André Koch, Florian Wolf';
 $info['homepage']       = 'http://www.clansuite.com';
 $info['license']        = 'GPL v2';
 $info['copyright']      = 'Clansuite Group';
-$info['timestamp']      = 1155715348;
+$info['timestamp']      = 1158273681;
 $info['name']           = 'news';
 $info['title']          = 'News';
 $info['description']    = 'News module';
@@ -92,6 +92,6 @@ $info['core']           = 0;
 * @desc Admin Menus
 */
  
-$info['admin_menu'] = 'a:2:{i:2;a:9:{s:2:"id";s:1:"2";s:6:"parent";s:1:"0";s:4:"type";s:6:"folder";s:4:"text";s:7:"Modules";s:4:"href";s:0:"";s:5:"title";s:7:"Modules";s:6:"target";s:5:"_self";s:5:"order";s:1:"1";s:4:"icon";s:0:"";}i:8;a:9:{s:2:"id";s:1:"8";s:6:"parent";s:1:"2";s:4:"type";s:6:"folder";s:4:"text";s:4:"News";s:4:"href";s:0:"";s:5:"title";s:4:"News";s:6:"target";s:5:"_self";s:5:"order";s:1:"5";s:4:"icon";s:13:"page_edit.png";}}';
+$info['admin_menu'] = 'a:0:{}';
 
 ?>
