@@ -1,5 +1,7 @@
 {$chmod_tpl}
 {doc_raw}
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
     {literal}
         <style type="text/css">
@@ -15,6 +17,37 @@
         </style>
 
     <script type="text/javascript">
+    
+    function str_replace (search, replace, subject)
+    {
+      var result = "";
+      var  oldi = 0;
+      for (i = subject.indexOf (search)
+         ; i > -1
+         ; i = subject.indexOf (search, i))
+      {
+        result += subject.substring (oldi, i);
+        result += replace;
+        i += search.length;
+        oldi = i;
+      }
+      return result + subject.substring (oldi, subject.length);
+    }
+    
+    function node_click(id)
+    {
+        if( document.getElementById('section-' + id).style.display == 'none' )
+        {
+            document.getElementById('section-' + id).style.display = 'block';
+            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
+        }
+        else
+        {
+            document.getElementById('section-' + id).style.display = 'none';
+            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
+        }
+    }
+            
     function checker(checkboxen, caller)
     {
         if ( !this.loaded )
@@ -41,7 +74,7 @@
             }
             else
             {
-                //document.write(this.loaded[checkbox[x]]);
+
                 this.loaded[checkbox[x]]--;
                 if( this.loaded[checkbox[x]] == 0 )
                     document.getElementById(checkbox[x]).checked=0;
@@ -60,9 +93,20 @@
             document.getElementById(name).style.display = "none";
         }
     }
+    
+    function show_tree(name)
+    {
+        document.getElementById(name + '_tree').innerHTML = str_replace('{name}', name, document.getElementById('tree_container').innerHTML);
+    }
     </script>
     {/literal}
 {/doc_raw}
+<div id="tree_container" style="display: none">
+    {$folder_tree}
+</div>
+<div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
+Loading...
+</div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     
@@ -90,43 +134,77 @@
     </td>
     
     <td class="cell2">
-    <table cellpadding="2" cellspacing="2" border="0">
-        <tr><td><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
-        <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
-        <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
-        <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
-        <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
-    </table>
+        <div class="tab-pane" id="{$wert.name}">
+    
+            <script type="text/javascript">
+                tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}" ) );
+            </script>
+    	    <div class="tab-page" id="{$wert.name}_generals">
+    	       <h2 class="tab">{translate}General{/translate}</h2>
+    	       <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
+                <table cellpadding="2" cellspacing="2" border="0">
+                    <tr><td><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
+                    <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
+                    <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
+                    <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
+                    <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
+                </table>
+            </div>
+
+            <div class="tab-page" id="{$wert.name}_adminmenu">
+                <h2 class="tab">{translate}Adminmenu{/translate}</h2>
+                <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_adminmenu" ) );</script>
+                <div id="menucontainer_{$wert.name}">
+                    <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
+                    <tr>
+                        <td valign="top">
+                            <div class="DynamicTree">
+                                <div class="wrap1">
+                                    <div class="top">{translate}Adminmenu{/translate}</div>
+                                    <div class="wrap2" id="tree">
+                                        {assign var=name value=$wert.name}
+                                        {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-page" id="{$wert.name}_files">
+                <h2 class="tab"><span onClick="show_tree('{$wert.name}')">{translate}Files{/translate}</span></h2>
+                <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_files" ) );</script>
+                <div class="DynamicTree">
+                    <div class="wrap1">
+                        <div class="top">{translate}Root Folder{/translate}</div>
+                        <div class="wrap2" id="{$wert.name}_tree">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-page" id="{$wert.name}_language">
+                <h2 class="tab">{translate}SQL{/translate}</h2>
+                <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_language" ) );</script>
+                SQL Container
+            </div>
+        </div>
+
     </td>
     
     <td class="cell1" align="center">
-        <div id="menucontainer_{$wert.name}" style="display: none;">
-            <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
-            <tr>
-                <td valign="top">
-                    <div class="DynamicTree">
-                        <div class="wrap1">
-                            <div class="top">{translate}Adminmenu{/translate}</div>
-                            <div class="wrap2" id="tree">
-                                {assign var=name value=$wert.name}
-                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            </table>
-        </div>
         <input type="hidden" name="name" value="{$wert.name}">
         <p>
-            <input class="ButtonGrey" type="submit" value="{translate}Export{/translate}" name="submit">
+            <input class="ButtonGreen" type="submit" value="{translate}Export{/translate}" name="submit">
         </p>
-        <p>
-            <a href="javascript:clip_menu('menucontainer_{$wert.name}');">{translate}Add menu...{/translate}</a>
-        </p>
-        </td>
+    </td>
 
 </tr>
 </form>
 {/foreach}
 </table>
+
+<script type="text/javascript">
+    setupAllTabs();
+</script>

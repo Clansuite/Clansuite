@@ -24,6 +24,18 @@
     {/error}
 {/if}
 
+{if $err.mod_not_existing == 1}
+    {error title="Mod not existing"}
+        The main mod you have selected does not exist.
+    {/error}
+{/if}
+
+{if $err.sub_already_exists == 1}
+    {error title="Already exists"}
+        We are sorry but a submodule with this name already exists as file.
+    {/error}
+{/if}
+
 {doc_raw}
 {literal}
 <script type="text/javascript">

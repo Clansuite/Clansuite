@@ -60,7 +60,7 @@
 		// @param	file							An welche Datei der Request gesendet werden soll
 		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zur�ck (Fehler von %%% getrennt).
 		//											Ansonsten gibt die Datei einen leeren Output zur�ck
-		function sendAjaxRequest(type, param, file)
+		function sendAjaxHelpRequest(type, param, file)
 		{
 			con = getXMLRequester();
 		    con.open('POST', file, true);
