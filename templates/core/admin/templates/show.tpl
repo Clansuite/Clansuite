@@ -179,7 +179,7 @@ Loading...
     </td>
     <td valign="top" width="100%">
         <b>{translate}Current Template:{/translate}</b>&nbsp;<div id="tpl_path">&nbsp;</div>
-        <textarea class="input_text" wrap="off" rows="30" style="width: 100%;" id="ajax_textarea"></textarea>
+        <textarea class="input_textarea" wrap="off" rows="30" style="width: 100%;" id="ajax_textarea"></textarea>
     </td>
 </tr>
 <tr>

@@ -10,7 +10,7 @@
 
     <div style="display: none;padding: 10px; text-align: center;" id="links_add">
         <textarea style="width: 100%; height: 200px;" name="info[related_links]" class="input_textarea" id="related_links">{$info.orig_related_links}</textarea><br />
-        <input type="button" class="ButtonGreen" value="{translate}Update{/translate}" onClick="return sendAjaxRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_related_links')" />
+        <input type="button" class="ButtonGreen" value="{translate}Update{/translate}" onClick="return sendAjaxHelpRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_related_links')" />
     </div>
 {else}
     <p align="center">
@@ -20,6 +20,6 @@
 
     <div style="display: none;padding: 10px; text-align: center;" id="links_add">
         <textarea style="width: 100%; height: 200px;" name="info[related_links]" class="input_textarea" id="related_links"></textarea><br />
-        <input type="button" class="ButtonGreen" value="{translate}Save{/translate}" onClick="return sendAjaxRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_related_links')" />
+        <input type="button" class="ButtonGreen" value="{translate}Save{/translate}" onClick="return sendAjaxHelpRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_related_links')" />
     </div>
 {/if}

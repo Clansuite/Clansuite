@@ -89,6 +89,11 @@ class module_admin_modules
                 $this->update();
                 break;
                 
+            case 'get_folder_tree':
+                $this->output = $this->build_folder_tree( ROOT );
+                $this->suppress_wrapper = 1;
+                break;
+                
             case 'add_to_whitelist':
                 $this->add_to_whitelist();
                 break;
@@ -204,6 +209,54 @@ class module_admin_modules
     }
 
     /**
+    * @desc Build folder tree
+    */
+    function build_folder_tree( $path, $x = 0 )
+    {
+        global $cfg;
+        
+        $result  = '';
+        
+        $file_count = 0;
+        
+        foreach( glob( $path . '/*', GLOB_BRACE) as $file )
+        {   
+            if($file != '.' && $file != '..' && $file != '.svn')
+            {
+                if ( is_dir( $file ) )
+                {
+                    $result .= "\t<div class='folder' id='folder-{name}-$x'>\n";
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-{name}-'. $file . $x .'" onclick="javascript: node_click(\'{name}-'. $file . $x .'\')">';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
+                    $result .= preg_replace( '#^(.*)/#', '', $file);
+                    $result .= '<div class="section" id="section-{name}-'. $file . $x .'" style="display: none">';
+                    $x++;
+                    $result .= $this->build_folder_tree( $file, $x );
+                    $result .= '</div>';
+
+                }
+                else
+                {
+                    $result .= "\t<div class=\"doc\">\n";
+                    $file_count++;
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16">';
+                    $result .= '<span class="text"><input type="checkbox" value="" style="position: relative; top: 2px"/>';
+                    $result .= preg_replace( '#^(.*)/#', '', $file);
+                    $result .= '</span>';
+                    $result .= '</div>';
+                }
+            }
+        }
+        if( $file_count < 0 )
+        {
+            $result .= "</div>\n";
+        }
+        $result .= "</div>\n";
+        return $result;
+    }
+        
+    /**
     * @desc Create a new module
     */
 
@@ -223,6 +276,8 @@ class module_admin_modules
         $homepage       = $_POST['homepage'];
         $db_table       = $_POST['db_table'];
         $db_cols        = $_POST['db_cols'];
+        $submodule      = $_POST['submodule'];
+        $main_module    = $_POST['main_module'];
         $enabled        = (int) $_POST['enabled'];
         $core           = (int) $_POST['core'];
         $image_name     = 'module_' . $name . '.jpg';
@@ -342,7 +397,6 @@ class module_admin_modules
             $tpl->assign( 'title'               , $title );
             $tpl->assign( 'author'              , $author );
             $tpl->assign( 'homepage'            , $homepage );
-            $tpl->assign( 'class_name'          , 'module_' . $name );
             $tpl->assign( 'timestamp'           , time() );
             $tpl->assign( 'file_name'           , $name . '.module.php' );
             $tpl->assign( 'folder_name'         , $name );
@@ -352,67 +406,108 @@ class module_admin_modules
             $tpl->assign( 'core'                , $core );
             $tpl->assign( 'subs'                , serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) );
             $tpl->assign( 'admin_class_name'    , 'module_' . $name . '_admin' );
-            
-            $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
-            
-            $mod_class      = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
-            $admin_class    = trim ( $tpl->fetch( 'admin/modules/empty_admin_class.tpl' ) );
-            $cfg_class      = trim ( $tpl->fetch( 'admin/modules/empty_mod_cfg.tpl' ) );
-            
-            $tpl->unregister_outputfilter( 'remove_tpl_comments' );
-            
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
-            $stmt->execute( array( $name ) );
-            $res = $stmt->fetch();
-            
-            if ( file_exists( MOD_ROOT . '/' . $name ) OR is_array($res) )
+
+            if ( $submodule == 1 )
             {
-                $err['mod_already_exist'] = 1;
-            }
-            else
-            {
-                if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
+                /**
+                * @desc Create as submodule
+                */
+                
+                if ( file_exists( MOD_ROOT . '/' . $name . '.module.php' ) )
                 {
-                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.admin.php', $admin_class );
-                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.module.php', $mod_class );
-                    file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
-                    
-                    $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                    $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?, `subs`=?';
-                    
-                    $stmt = $db->prepare( $qry );
-                    $stmt->execute( array ( $author,
-                                            $homepage,
-                                            $license,
-                                            $copyright,
-                                            $name,
-                                            $title,
-                                            $description,
-                                            'module_' . $name,
-                                            $name . '.module.php',
-                                            $name,
-                                            $enabled,
-                                            $image_name,
-                                            (float) 0.1,
-                                            $cfg->version,
-                                            $core,
-                                            serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) ) );
-
-                    if ( $db_table != '' )
-                    {
-                        $create_qry = 'CREATE TABLE `' . $db_table . '` (';
-                        foreach( $db_cols as $values )
-                        {
-                            $create_qry .= '`' . $values['name'] . '` ' . $values['type'] . ' NOT NULL ' . $values['extra'] . ' ' . $values['keys'] . ' ,';
-                        }    
-                        $create_qry = ') ENGINE = MYISAM ;';
-                    }
-
-                    $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module was successfully created...' ), 'admin' );
+                    $err['sub_already_exists'] = 1;
                 }
                 else
                 {
-                    $functions->redirect( 'index.php?mod=admin&sub=modules&action=create_new', 'metatag|newsite', 3, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
+                    $stmt = $db->prepare( 'SELECT name,folder_name,module_id,subs FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
+                    $stmt->execute( array( $main_module ) );
+                    $res = $stmt->fetch();
+                    
+                    if ( !is_array($res) )
+                    {
+                        $err['mod_not_existing'] = 1;
+                    }
+                    else
+                    {
+                        $subs = unserialize($res['subs']);
+                        $subs[$name] = array( $name . '.module.php', 'module_' . $res['name'] . '_' . $name );
+
+                        $tpl->assign( 'class_name'          , 'module_' . $res['name'] . '_' . $name );
+
+                        $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
+                        
+                        $mod_class      = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
+                        
+                        $tpl->unregister_outputfilter( 'remove_tpl_comments' );
+                                        
+                        file_put_contents ( MOD_ROOT . '/' . $res['folder_name'] . '/' . $name . '.module.php', $mod_class );
+
+                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX .'modules SET subs = ? WHERE module_id = ?' );
+                        $stmt->execute( array( serialize($subs), $main_module ) );
+
+                        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The submodule has been successfully created...' ), 'admin' );
+                    }
+                    
+                }
+            }
+            else
+            {            
+                /**
+                * @desc Create as normal module
+                */
+                $tpl->assign( 'class_name'          , 'module_' . $name );
+
+                $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
+                
+                $mod_class      = trim ( $tpl->fetch( 'admin/modules/empty_module.tpl' ) );
+                $admin_class    = trim ( $tpl->fetch( 'admin/modules/empty_admin_class.tpl' ) );
+                $cfg_class      = trim ( $tpl->fetch( 'admin/modules/empty_mod_cfg.tpl' ) );
+                
+                $tpl->unregister_outputfilter( 'remove_tpl_comments' );
+                
+                $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
+                $stmt->execute( array( $name ) );
+                $res = $stmt->fetch();
+                
+                if ( file_exists( MOD_ROOT . '/' . $name ) OR is_array($res) )
+                {
+                    $err['mod_already_exist'] = 1;
+                }
+                else
+                {
+                    if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
+                    {
+                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.admin.php', $admin_class );
+                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.module.php', $mod_class );
+                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
+                        
+                        $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
+                        $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?, `subs`=?';
+                        
+                        $stmt = $db->prepare( $qry );
+                        $stmt->execute( array ( $author,
+                                                $homepage,
+                                                $license,
+                                                $copyright,
+                                                $name,
+                                                $title,
+                                                $description,
+                                                'module_' . $name,
+                                                $name . '.module.php',
+                                                $name,
+                                                $enabled,
+                                                $image_name,
+                                                (float) 0.1,
+                                                $cfg->version,
+                                                $core,
+                                                serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) ) );
+
+                        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module has been successfully created...' ), 'admin' );
+                    }
+                    else
+                    {
+                        $functions->redirect( 'index.php?mod=admin&sub=modules&action=create_new', 'metatag|newsite', 3, $lang->t( 'Could not create the necessary folders!' ), 'admin' );
+                    }
                 }
             }
         }
@@ -555,6 +650,7 @@ class module_admin_modules
         
         $tpl->assign('err', $err);
         $tpl->assign('content', $container);
+        $tpl->assign('folder_tree', $this->build_folder_tree( ROOT ) );
         $tpl->assign('chmod_redirect_url', 'index.php?mod=admin&sub=modules&action=export' );
         $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/export.tpl');

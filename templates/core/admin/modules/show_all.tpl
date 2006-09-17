@@ -324,7 +324,7 @@
         tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}" ) );
         </script>
     	<div class="tab-page" id="{$wert.name}_generals">
-    	   <h2 class="tab">General</h2>
+    	   <h2 class="tab">{translate}General{/translate}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
             <table cellpadding="2" cellspacing="2" border="0">
             
@@ -340,7 +340,7 @@
         </div>
     
     	<div class="tab-page" id="{$wert.name}_more">
-    	   <h2 class="tab">Moduldetails</h2>
+    	   <h2 class="tab"{translate}>Moduledetails{/translate}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
     
             <table cellpadding="2" cellspacing="2" border="0">
@@ -357,7 +357,7 @@
         </div>
     
     	<div class="tab-page" id="{$wert.name}_subs">
-    	   <h2 class="tab">Submodules</h2>
+    	   <h2 class="tab">{translate}Submodules{/translate}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_subs" ) );</script>
            
            <table cellpadding="2" cellspacing="2" border="0">    
@@ -388,8 +388,8 @@
                             <b>Class:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr4">
                         <td colspan="2" height="20">
