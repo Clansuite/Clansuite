@@ -6,28 +6,29 @@
             * @desc Send a POST request
             **/
         
-            function sendFilebrowserAjaxRequest(path)
+            function sendFilebrowserAjaxRequest(path, name)
 	        {
-                if( document.getElementById('section-' + path).style.display == 'block' )
+                if( document.getElementById('section-' + name + '-' + path).style.display == 'block' )
                 {
-                    document.getElementById('node-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
-                    document.getElementById('section-' + path).style.display = 'none';
+                    document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
+                    document.getElementById('section-' + name + '-' + path).style.display = 'none';
                     return true;
                 }
                 else
                 {
-		            if( document.getElementById('section-' + path).innerHTML != '' )
+		            if( document.getElementById('section-' + name + '-' + path).innerHTML != '' )
                     {
-                        document.getElementById('section-' + path).style.display = 'block';
-                        document.getElementById('node-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                        document.getElementById('section-' + name + '-' + path).style.display = 'block';
+                        document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
                     }
                     else
                     {
                         con = getXMLRequester();
 		                con.open('POST', 'index.php?mod=filebrowser&action=get_folder', true);
                         con.path = path;
+                        con.name = name;
                         
-                        param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'));
+                        param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&name='+escape(encodeURIComponent(name));
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		                con.setRequestHeader("Content-length", param.length);
@@ -51,9 +52,9 @@
 
                     document.getElementById('loading').style.display = 'none';
 
-                    document.getElementById('section-' + con.path).innerHTML = response;
-                    document.getElementById('section-' + con.path).style.display = 'block';
-                    document.getElementById('node-' + con.path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                    document.getElementById('section-' + con.name + '-' + con.path).innerHTML = response;
+                    document.getElementById('section-' + con.name + '-' + con.path).style.display = 'block';
+                    document.getElementById('node-' + con.name + '-' + con.path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
 
                     return true;
 		        }

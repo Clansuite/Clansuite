@@ -91,7 +91,7 @@ class {$admin_class_name}
     */
     function show()
     {ldelim}
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
         /**
         * @desc Handle the output - $lang-t() translates the text.
@@ -105,7 +105,7 @@ class {$admin_class_name}
     */
     function instant_show($my_text)
     {ldelim}
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
         /**
         * @desc Handle the output - $lang-t() translates the text.

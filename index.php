@@ -116,6 +116,7 @@ require(CORE_ROOT . '/security.class.php');
 require(CORE_ROOT . '/users.class.php');
 require(CORE_ROOT . '/db.class.php');
 require(CORE_ROOT . '/stats.class.php');
+require(CORE_ROOT . '/permissions.class.php');
 
 /**
 * @desc Create objects out of classes
@@ -131,6 +132,7 @@ $lang       = new language;
 $security   = new security;
 $users      = new users;
 $stats      = new statistics;
+$perms      = new permissions;
 
 /**
 * @desc Smarty Settings
@@ -205,7 +207,7 @@ header("Content-type: text/html; charset=UTF-8");
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 {
-    if ( $_SESSION['user']['rights']['access_acp'] == 1 )
+    if ( $perms->check('access_acp', 'no_redirect') )
     {
         $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
     }
@@ -250,7 +252,7 @@ else
     */
     if ( $_REQUEST['mod'] == 'admin'  OR $_REQUEST['sub'] == 'admin' )
     {
-        if ( $_SESSION['user']['rights']['access_acp'] == 1 )
+        if ( $perms->check('access_acp', 'no_redirect') )
         {
             $tpl->displayDoc('admin/index.tpl');
         }
