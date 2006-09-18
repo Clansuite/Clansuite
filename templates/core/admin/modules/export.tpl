@@ -93,17 +93,9 @@
             document.getElementById(name).style.display = "none";
         }
     }
-    
-    function show_tree(name)
-    {
-        document.getElementById(name + '_tree').innerHTML = str_replace('{name}', name, document.getElementById('tree_container').innerHTML);
-    }
     </script>
     {/literal}
 {/doc_raw}
-<div id="tree_container" style="display: none">
-    {$folder_tree}
-</div>
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...
 </div>
@@ -173,16 +165,9 @@ Loading...
                 </div>
             </div>
             <div class="tab-page" id="{$wert.name}_files">
-                <h2 class="tab"><span onClick="show_tree('{$wert.name}')">{translate}Files{/translate}</span></h2>
+                <h2 class="tab">{translate}Files{/translate}</h2>
                 <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_files" ) );</script>
-                <div class="DynamicTree">
-                    <div class="wrap1">
-                        <div class="top">{translate}Root Folder{/translate}</div>
-                        <div class="wrap2" id="{$wert.name}_tree">
-                            
-                        </div>
-                    </div>
-                </div>
+                {mod name="filebrowser" func="instant_show" params="/|admin/modules/filebrowser.tpl|admin/modules/filebrowser_sections.tpl"}
             </div>
             <div class="tab-page" id="{$wert.name}_language">
                 <h2 class="tab">{translate}SQL{/translate}</h2>

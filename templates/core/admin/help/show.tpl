@@ -1,65 +1,9 @@
 {doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
-    
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax.js"></script>    
     {literal}
         <script type="text/javascript">
 
-		// Baut eine Connection auf
-		function getXMLRequester ()
-		{
-			var xmlHttp = false;
-				   
-			// try to create a new instance of the xmlhttprequest object       
-			try
-			{
-				// Internet Explorer
-				if( window.ActiveXObject )
-				{
-					for( var i = 5; i; i-- )
-					{
-						try
-						{
-							// loading of a newer version of msxml dll (msxml3 - msxml5) failed
-							// use fallback solution
-							// old style msxml version independent, deprecated
-							if( i == 2 )
-							{
-								xmlHttp = new ActiveXObject( "Microsoft.XMLHTTP" );   
-							}
-							// try to use the latest msxml dll
-							else
-							{
-							   
-								xmlHttp = new ActiveXObject( "Msxml2.XMLHTTP." + i + ".0" );
-							}
-							break;
-						}
-						catch( excNotLoadable )
-						{                       
-							xmlHttp = false;
-						}
-					}
-				}
-				// Mozilla, Opera und Safari
-				else if( window.XMLHttpRequest )
-				{
-					xmlHttp = new XMLHttpRequest();
-				}
-			}
-			// loading of xmlhttp object failed
-			catch( excNotLoadable )
-			{
-				xmlHttp = false;
-			}
-			return xmlHttp ;
-		}
-
-		var id;	// In dem Div mit dieser ID wird die Ausgabe des Ajax Requests gespeichert
-		
-		// @param	form_field_ids					Per Komma getrennte ID's von Feldern, die an die Date geschickt werden sollen
-		// @param	file							An welche Datei der Request gesendet werden soll
-		// @param	display_returning_output_id		Bei einem Fehler gibt die Datei eine Fehlerliste zur�ck (Fehler von %%% getrennt).
-		//											Ansonsten gibt die Datei einen leeren Output zur�ck
 		function sendAjaxHelpRequest(type, param, file)
 		{
 			con = getXMLRequester();
