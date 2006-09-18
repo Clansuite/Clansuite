@@ -245,17 +245,17 @@
             <tr><td><b>{translate}Classname:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][class_name]" value="module_{$wert.folder_name}"></td></tr>
             <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
             <tr><td><b>{translate}Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
-            <input type="hidden" name="info[{$wert.name}][subs]" value=""></td></tr>
+            <input type="hidden" name="info[{$wert.folder_name}][subs]" value=""></td></tr>
             <tr><td><b>{translate}Enabled?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][enabled]" value="1"></td></tr>
             <tr><td><b>{translate}Core?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][core]" value="1"></td></tr>
             <tr><td><b>{translate}Add?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][add]" value="1" checked></td></tr>
         {else}
             <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][title]" value="{$wert.title|escape:"html"}"></td></tr>
             <tr><td><b>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][name]" value="{$wert.name|escape:"html"}"></td></tr>
-            <tr><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][author]" value="{$wert.author|escape:"html"}"></td></tr>
-            <tr><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][homepage]" value="{$wert.homepage|escape:"html"}"></td></tr>
-            <tr><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][license]" value="{$wert.license|escape:"html"}"></td></tr>
-            <tr><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][copyright]" value="{$wert.copyright|escape:"html"}"></td></tr>
+            <tr><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][author]" value="{$wert.author|escape:"html"}"></td></tr>
+            <tr><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][homepage]" value="{$wert.homepage|escape:"html"}"></td></tr>
+            <tr><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][license]" value="{$wert.license|escape:"html"}"></td></tr>
+            <tr><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][copyright]" value="{$wert.copyright|escape:"html"}"></td></tr>
             <tr><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][description]" value="{$wert.description|escape:"html"}"></td></tr>
             <tr><td><b>{translate}Filename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][file_name]" value="{$wert.file_name|escape:"html"}"></td></tr>
             <tr><td><b>{translate}Foldername:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][folder_name]" value="{$wert.folder_name|escape:"html"}"></td></tr>
