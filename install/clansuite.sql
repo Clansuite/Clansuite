@@ -110,7 +110,7 @@ CREATE TABLE `cs_areas` (
 
 
 /*!40000 ALTER TABLE `cs_areas` DISABLE KEYS */;
-INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'ACP','Admin Control Panel'),(6,'news','News');
+INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'ACP','Admin Control Panel'),(6,'News','The area for the news module'),(7,'Filebrowser','The filebrowser module area');
 /*!40000 ALTER TABLE `cs_areas` ENABLE KEYS */;
 
 --
@@ -182,7 +182,7 @@ CREATE TABLE `cs_group_right` (
 
 
 /*!40000 ALTER TABLE `cs_group_right` DISABLE KEYS */;
-INSERT INTO `cs_group_right` VALUES (1,10),(1,11),(3,1),(3,3),(3,4),(3,5);
+INSERT INTO `cs_group_right` VALUES (1,10),(1,11),(1,12),(1,13),(3,1),(3,3),(3,4),(3,5);
 /*!40000 ALTER TABLE `cs_group_right` ENABLE KEYS */;
 
 --
@@ -228,7 +228,7 @@ CREATE TABLE `cs_groups` (
 
 
 /*!40000 ALTER TABLE `cs_groups` DISABLE KEYS */;
-INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','List manager.png','List manager.png','#666600');
+INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','','','#666600');
 /*!40000 ALTER TABLE `cs_groups` ENABLE KEYS */;
 
 --
@@ -361,7 +361,7 @@ CREATE TABLE `cs_rights` (
 
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
-INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_acp','The right to access the ACP'),(12,6,'Create News','Add a News');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_acp','The right to access the ACP'),(12,6,'create_news','Add a News'),(13,7,'access_filebrowser','Access the filebrowser');
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
@@ -410,7 +410,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'cfb92de97aa7092e1d7360d2486a9b49','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"cfb92de97aa7092e1d7360d2486a9b49\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158606047,1,'filebrowser');
+INSERT INTO `cs_session` VALUES (0,'5f41400f6259263b91737e3e5362c186','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"5f41400f6259263b91737e3e5362c186\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:1:{s:10:\"access_acp\";i:1;}}','suiteSID',1158621529,1,'account'),(1,'330139d40e5952d09e61d1070155e1a6','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"330139d40e5952d09e61d1070155e1a6\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"Create News\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1158622321,1,'filebrowser'),(1,'ab1ddcbaeb0a307fa7ed4365b0276c57','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"ab1ddcbaeb0a307fa7ed4365b0276c57\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1158622555,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --

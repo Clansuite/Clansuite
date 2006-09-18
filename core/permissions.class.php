@@ -43,7 +43,7 @@ class permissions
     */
     function check( $right = '', $type = 'redirect', $redirect = 'index.php', $text = '' )
     {
-        global $lang, $redirect;
+        global $lang, $functions;
         
         if ( $_SESSION['user']['rights'][$right] == 1 )
         {
