@@ -24,7 +24,7 @@
             {translate}Name{/translate}
         </td>
         <td>
-            <input type="text" name="info[name]" class="input_text" value="{$smarty.post.info.name|escape:"htmlall"}" />
+            <input type="text" name="info[name]" class="input_text" value="{$smarty.post.info.name|escape:"html"}" />
         </td>
     </tr>
 
@@ -33,7 +33,7 @@
             {translate}Description{/translate}
         </td>
         <td>
-            <input type="text" name="info[description]" class="input_text" value="{$smarty.post.info.description|escape:"htmlall"}" />
+            <input type="text" name="info[description]" class="input_text" value="{$smarty.post.info.description|escape:"html"}" />
         </td>
     </tr>
     

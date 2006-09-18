@@ -13,15 +13,15 @@
     <table>
         <tr>
             <td>{translate}Nick:{/translate}</td>
-            <td><input class='input_text' type="text" name="nick" value="{$smarty.post.nick|escape:"htmlall"}"></td>
+            <td><input class='input_text' type="text" name="nick" value="{$smarty.post.nick|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{translate}Email:{/translate}</td>
-            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"htmlall"}"></td>
+            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{translate}Confirm email:{/translate}</td>
-            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"htmlall"}"></td>
+            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"html"}"></td>
         </tr>
 
         <tr>

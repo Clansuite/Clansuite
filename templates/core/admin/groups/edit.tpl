@@ -46,7 +46,7 @@
             </td>
             <td colspan="2">
                 <input name="info[group_id]" type="hidden" value="{$info.group_id}" />
-                <input name="info[name]" type="text" value="{$info.name|escape:"htmlall"}" size="30" class="input_text" />
+                <input name="info[name]" type="text" value="{$info.name|escape:"html"}" size="30" class="input_text" />
             </td>
         </tr>
         
@@ -55,7 +55,7 @@
                 {translate}Description{/translate}
             </td>
             <td colspan="2">
-                <input name="info[description]" type="text" value="{$info.description|escape:"htmlall"}" size="30" class="input_text"/>
+                <input name="info[description]" type="text" value="{$info.description|escape:"html"}" size="30" class="input_text"/>
             </td>
         </tr>
                 
@@ -64,7 +64,7 @@
                 {translate}Position{/translate}
             </td>
             <td colspan="2">
-                <input name="info[sortorder]" type="text" value="{$info.sortorder|escape:"htmlall"}" size="3" class="input_text"/>
+                <input name="info[sortorder]" type="text" value="{$info.sortorder|escape:"html"}" size="3" class="input_text"/>
             </td>
         </tr>
         
@@ -76,7 +76,7 @@
                 {if $info.color==''}
                     <input name="info[color]" type="text" value="#000000" size="7" id="color" class="input_text"/>
                 {else}
-                    <input name="info[color]" type="text" value="{$info.color|escape:"htmlall"}" size="7" id="color" class="input_text"/>
+                    <input name="info[color]" type="text" value="{$info.color|escape:"html"}" size="7" id="color" class="input_text"/>
                 {/if}
             </td>
             <td align="center">
@@ -96,7 +96,7 @@
                <select class="input_text" name="info[icon]" onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $info.icon|escape:"htmlall"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.icon|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
@@ -105,7 +105,7 @@
                 {if $info.icon==''}
                     <img src="{$www_core_tpl_root}/images/empty.png" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/icons/{$info.icon|escape:"htmlall"}" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
+                    <img src="{$www_core_tpl_root}/images/groups/icons/{$info.icon|escape:"html"}" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
                 {/if}            
             </td>
         </tr>
@@ -118,7 +118,7 @@
                <select class="input_text" name="info[image]" onChange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $info.image|escape:"htmlall"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.image|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
@@ -126,7 +126,7 @@
                 {if $info.image==''}
                     <img src="{$www_core_tpl_root}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d"> 
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/images/{$info.image|escape:"htmlall"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
+                    <img src="{$www_core_tpl_root}/images/groups/images/{$info.image|escape:"html"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
                 {/if}
             </td>
         </tr>

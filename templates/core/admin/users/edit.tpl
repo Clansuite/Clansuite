@@ -38,11 +38,11 @@
         </tr>
         <tr class="tr_row1">
             <td>{translate}Nick{/translate}</td>
-            <td><input type="text" value="{$user.nick|escape:"htmlall"}" class="input_text" name="info[nick]" /></td>
+            <td><input type="text" value="{$user.nick|escape:"html"}" class="input_text" name="info[nick]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}eMail{/translate}</td>
-            <td><input type="text" value="{$user.email|escape:"htmlall"}" class="input_text" name="info[email]" /></td>
+            <td><input type="text" value="{$user.email|escape:"html"}" class="input_text" name="info[email]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Password{/translate}</td>
@@ -53,15 +53,15 @@
         </tr>
         <tr class="tr_row1">
             <td>{translate}First Name{/translate}</td>
-            <td><input type="text" value="{$user.first_name|escape:"htmlall"}" class="input_text" name="info[first_name]" /></td>
+            <td><input type="text" value="{$user.first_name|escape:"html"}" class="input_text" name="info[first_name]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Last Name{/translate}</td>
-            <td><input type="text" value="{$user.last_name|escape:"htmlall"}" class="input_text" name="info[last_name]" /></td>
+            <td><input type="text" value="{$user.last_name|escape:"html"}" class="input_text" name="info[last_name]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Infotext{/translate}</td>
-            <td><input type="text" value="{$user.infotext|escape:"htmlall"}" class="input_text" name="info[infotext]" /></td>
+            <td><input type="text" value="{$user.infotext|escape:"html"}" class="input_text" name="info[infotext]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Activated{/translate}</td>
@@ -81,7 +81,7 @@
                             <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $groups)}checked{/if}/>
                         </td>
                         <td>
-                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"htmlall"}</a>
+                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
                         </td>
                     </tr>
                 {/foreach}

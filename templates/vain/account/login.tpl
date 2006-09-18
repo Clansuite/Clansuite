@@ -8,13 +8,13 @@
         {if $cfg->login_method == 'email'}
         <tr>
             <td>{translate}Email:{/translate}</td>
-            <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"htmlall"}"></td>
+            <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}"></td>
         </tr>
         {/if}
         {if $cfg->login_method == 'nick'}
         <tr>
             <td>{translate}Nickname:{/translate}</td>
-            <td><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|escape:"htmlall"}"></td>
+            <td><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|escape:"html"}"></td>
         </tr>
         {/if}
         <tr>
