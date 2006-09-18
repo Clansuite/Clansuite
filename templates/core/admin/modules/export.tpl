@@ -33,20 +33,6 @@
       }
       return result + subject.substring (oldi, subject.length);
     }
-    
-    function node_click(id)
-    {
-        if( document.getElementById('section-' + id).style.display == 'none' )
-        {
-            document.getElementById('section-' + id).style.display = 'block';
-            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
-        }
-        else
-        {
-            document.getElementById('section-' + id).style.display = 'none';
-            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
-        }
-    }
             
     function checker(checkboxen, caller)
     {
@@ -167,7 +153,8 @@ Loading...
             <div class="tab-page" id="{$wert.name}_files">
                 <h2 class="tab">{translate}Files{/translate}</h2>
                 <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_files" ) );</script>
-                {mod name="filebrowser" func="instant_show" params="/|admin/modules/filebrowser.tpl|admin/modules/filebrowser_sections.tpl"}
+                {assign var=filebrowsername value=$wert.name}
+                {mod name="filebrowser" func="instant_show" params="|admin/modules/filebrowser.tpl|admin/modules/filebrowser_sections.tpl|$filebrowsername"}
             </div>
             <div class="tab-page" id="{$wert.name}_language">
                 <h2 class="tab">{translate}SQL{/translate}</h2>

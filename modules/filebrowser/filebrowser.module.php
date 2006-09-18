@@ -95,19 +95,18 @@ class module_filebrowser
     */
     function show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+        $perms->check('access_acp');
+
+        $this->instant_show( ROOT, 'filebrowser/wrapper.tpl', 'filebrowser/sections.tpl' );
     }
     
     /**
     * @desc This content can be instantly displayed by adding {mod name="filebrowser" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
     */
-    function instant_show( $path, $template, $section_template )
+    function instant_show( $path = ROOT, $template, $section_template, $name )
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
@@ -127,8 +126,13 @@ class module_filebrowser
         /**
         * @desc Output files uppon the template
         */
+        $tpl->assign( 'name' , $name );
         $tpl->assign( 'section_template' , $section_template );
-        $this->output .= $tpl->fetch( 'filebrowser/ajax.tpl' );
+        if( !defined('FILEBROWSER_AJAX_LOADED') )
+        {
+            $this->output .= $tpl->fetch( 'filebrowser/ajax.tpl' );
+            define('FILEBROWSER_AJAX_LOADED', 1);
+        }
 
         
         $tpl->assign( 'folders'     , $folders );
@@ -146,6 +150,7 @@ class module_filebrowser
         
         $template   = urldecode($_POST['section_template']);
         $path       = urldecode($_POST['path']);
+        $name       = urldecode($_POST['name']);
         
         foreach( glob( $path.'/*', GLOB_ONLYDIR ) as $item )
         {
@@ -163,6 +168,7 @@ class module_filebrowser
         /**
         * @desc Raw output, no wrapper        
         */
+        $tpl->assign( 'name' , $name );
         $tpl->assign( 'folders' , $folders );
         $tpl->assign( 'files'   , $files );      
         $this->output = $tpl->fetch( $template );
