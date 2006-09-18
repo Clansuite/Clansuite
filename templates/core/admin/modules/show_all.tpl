@@ -246,9 +246,9 @@
             <tr><td><b>{translate}Imagename:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
             <tr><td><b>{translate}Version:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
             <input type="hidden" name="info[{$wert.folder_name}][subs]" value=""></td></tr>
-            <tr><td><b>{translate}Enabled?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][enabled]" value="1"></td></tr>
-            <tr><td><b>{translate}Core?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][core]" value="1"></td></tr>
-            <tr><td><b>{translate}Add?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.foldername}][add]" value="1" checked></td></tr>
+            <tr><td><b>{translate}Enabled?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"></td></tr>
+            <tr><td><b>{translate}Core?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][core]" value="1"></td></tr>
+            <tr><td><b>{translate}Add?{/translate}</b></td><td><input type="checkbox" name="info[{$wert.folder_name}][add]" value="1" checked></td></tr>
         {else}
             <tr><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][title]" value="{$wert.title|escape:"html"}"></td></tr>
             <tr><td><b>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</b></td><td><input class="input_text" type="text" name="info[{$wert.name}][name]" value="{$wert.name|escape:"html"}"></td></tr>
