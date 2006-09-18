@@ -26,7 +26,7 @@
             {translate}Name{/translate}
         </td>
         <td>
-            <input type="text" name="info[name]" class="input_text" value="{$info.name|escape:"htmlall"}" />
+            <input type="text" name="info[name]" class="input_text" value="{$info.name|escape:"html"}" />
         </td>
     </tr>
 
@@ -35,7 +35,7 @@
             {translate}Description{/translate}
         </td>
         <td>
-            <input type="text" name="info[description]" class="input_text" value="{$info.description|escape:"htmlall"}" />
+            <input type="text" name="info[description]" class="input_text" value="{$info.description|escape:"html"}" />
         </td>
     </tr> 
 

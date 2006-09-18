@@ -13,7 +13,7 @@
     <table>
     <tr>
         <td>{translate}Email:{/translate}</td>
-        <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"htmlall"}"></td>
+        <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}"></td>
     </tr>
     <tr>
         <td colspan="2">

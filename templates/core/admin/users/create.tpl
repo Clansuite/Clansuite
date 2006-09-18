@@ -37,29 +37,29 @@
         </tr>
         <tr class="tr_row1">
             <td>{translate}Nick{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.nick|escape:"htmlall"}" class="input_text" name="info[nick]" /></td>
+            <td><input type="text" value="{$smarty.post.info.nick|escape:"html"}" class="input_text" name="info[nick]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}eMail{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.email|escape:"htmlall"}" class="input_text" name="info[email]" /></td>
+            <td><input type="text" value="{$smarty.post.info.email|escape:"html"}" class="input_text" name="info[email]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Password{/translate}</td>
             <td>
-                <input type="text" value="{$smarty.post.info.password|escape:"htmlall"}" class="input_text" name="info[password]" />
+                <input type="text" value="{$smarty.post.info.password|escape:"html"}" class="input_text" name="info[password]" />
             </td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}First Name{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.first_name|escape:"htmlall"}" class="input_text" name="info[first_name]" /></td>
+            <td><input type="text" value="{$smarty.post.info.first_name|escape:"html"}" class="input_text" name="info[first_name]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Last Name{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.last_name|escape:"htmlall"}" class="input_text" name="info[last_name]" /></td>
+            <td><input type="text" value="{$smarty.post.info.last_name|escape:"html"}" class="input_text" name="info[last_name]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Infotext{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.infotext|escape:"htmlall"}" class="input_text" name="info[infotext]" /></td>
+            <td><input type="text" value="{$smarty.post.info.infotext|escape:"html"}" class="input_text" name="info[infotext]" /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Activated{/translate}</td>
@@ -79,7 +79,7 @@
                             <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $smarty.post.info.groups)}checked{/if}/>
                         </td>
                         <td>
-                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"htmlall"}</a>
+                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
                         </td>
                     </tr>
                 {/foreach}

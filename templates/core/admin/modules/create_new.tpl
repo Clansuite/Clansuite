@@ -176,13 +176,13 @@ function rem_col(id)
     
     <td class="cell2">
         <table border="0" cellpadding="0" cellspacing="0">
-            <tr class="tr_row1"><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><div class="font_mini">?mod=name</div></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"htmlall"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"htmlall"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><div class="font_mini">?mod=name</div></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"html"}" /></td></tr>
             <tr class="tr_row1"><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value="1" /></td></tr>
             <tr class="tr_row1"><td><b>{translate}Core module:{/translate}</b></td><td><input type="checkbox" name="core" value="1" /></td></tr>
             <tr class="tr_row1">
@@ -232,7 +232,7 @@ function rem_col(id)
                         <b>{translate}Tablename:{/translate}</b>
                     </td>
                     <td class="cell2" colspan="6">
-                        <b>{$db_prefix}</b><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"htmlall"}">
+                        <b>{$db_prefix}</b><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"html"}">
                     </td>
                 </tr>                
                 <tr>
