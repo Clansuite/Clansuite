@@ -32,6 +32,7 @@
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		                con.setRequestHeader("Content-length", param.length);
+                        //con.setRequestHeader("Cookie", document.cookie);
                         con.onreadystatechange = handleFilebrowserGetResponse;
 		                con.send(param);
 		                con.close;

@@ -189,7 +189,7 @@ class users
                     $stmt = $db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_right AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
                     $stmt->execute( array( $group_id['group_id'] ) );
                     $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
+
                     if( is_array( $rights ) )
                     {
                         foreach( $rights as $key => $values )
@@ -199,8 +199,6 @@ class users
                     }
                 }
             }
-
-            $_SESSION['user']['rights'] = array_unique($_SESSION['user']['rights']);
         }
         else
         {

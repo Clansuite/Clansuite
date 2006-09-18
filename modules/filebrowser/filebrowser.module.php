@@ -97,9 +97,9 @@ class module_filebrowser
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
-        $perms->check('access_acp');
+        $perms->check('access_filebrowser');
 
-        $this->instant_show( ROOT, 'filebrowser/wrapper.tpl', 'filebrowser/sections.tpl' );
+        $this->instant_show( '', 'filebrowser/wrapper.tpl', 'filebrowser/sections.tpl', 'index_browser' );
     }
     
     /**
@@ -146,7 +146,9 @@ class module_filebrowser
     */
     function get_folder()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        
+        $perms->check('access_filebrowser');
         
         $template   = urldecode($_POST['section_template']);
         $path       = urldecode($_POST['path']);
