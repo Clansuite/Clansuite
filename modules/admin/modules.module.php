@@ -549,10 +549,7 @@ class module_admin_modules
                 
         if ( count($err) == 0 AND !empty($submit) )
         {
-            var_dump($tables);
-            var_dump($files);
-            var_dump($menu_ids);
-            var_dump($_POST);
+            echo "<pre>".print_r( $_POST, true )."</pre>";
             die();
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
             $stmt->execute( array( $name ) );
