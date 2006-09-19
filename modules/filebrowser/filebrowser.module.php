@@ -112,14 +112,14 @@ class module_filebrowser
         
         foreach( glob( ROOT . $path.'*', GLOB_ONLYDIR ) as $item )
         {
-            $folders[$item] = preg_replace( '#^(.*)/#', '', $item);
+            $folders[str_replace( ROOT, '', $item)] = preg_replace( '#^(.*)/#', '', $item);
         }
         
         foreach( glob( ROOT . $path.'*' ) as $item )
         {
             if ( !is_dir( $item ) )
             {
-                $files[$item] = preg_replace( '#^(.*)/#', '', $item);
+                $files[str_replace( ROOT, '', $item)] = preg_replace( '#^(.*)/#', '', $item);
             }
         }
         
@@ -156,21 +156,21 @@ class module_filebrowser
         
         foreach( glob( $path.'/*', GLOB_ONLYDIR ) as $item )
         {
-            $folders[$item] = preg_replace( '#^(.*)/#', '', $item);
+            $folders[urlencode($item)] = preg_replace( '#^(.*)/#', '', $item);
         }
         
         foreach( glob( $path.'/*' ) as $item )
         {
             if ( !is_dir( $item ) )
             {
-                $files[$item] = preg_replace( '#^(.*)/#', '', $item);
+                $files[urlencode($item)] = preg_replace( '#^(.*)/#', '', $item);
             }
         }
         
         /**
         * @desc Raw output, no wrapper        
         */
-        $tpl->assign( 'name' , $name );
+        $tpl->assign( 'name'    , $name );
         $tpl->assign( 'folders' , $folders );
         $tpl->assign( 'files'   , $files );      
         $this->output = $tpl->fetch( $template );
