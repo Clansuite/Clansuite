@@ -318,10 +318,10 @@
     
     <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
-        <div class="tab-pane" id="{$wert.name}">
+        <div class="tab-pane" id="{$wert.name}_tabs">
     
         <script type="text/javascript">
-        tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}" ) );
+        tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
         </script>
     	<div class="tab-page" id="{$wert.name}_generals">
     	   <h2 class="tab">{translate}General{/translate}</h2>
@@ -486,10 +486,10 @@
     
     <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><b><font color="red">{translate}Remember to press the update button below!{/translate}</font></b></div>
-        <div class="tab-pane" id="{$wert.name}">
+        <div class="tab-pane" id="{$wert.name}_tabs">
     
         <script type="text/javascript">
-        tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}" ) );
+        tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
         </script>
     	<div class="tab-page" id="{$wert.name}_generals">
     	   <h2 class="tab">General</h2>
