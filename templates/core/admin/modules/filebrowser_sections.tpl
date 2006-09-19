@@ -4,7 +4,7 @@
         <input type="checkbox" name="files[{$name}][]" value="{$key}" />
         <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0" />
         {$item}
-        <div class="section" id="section-{$name}-{$key}" style="display: none"> </div>
+        <div class="section" id="section-{$name}-{$key}" style="display: none"></div>
     </div>
 {/foreach}
 

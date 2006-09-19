@@ -18,7 +18,7 @@
                 }
                 else
                 {
-		            if( document.getElementById('section-' + name + '-' + path).innerHTML != ' ' )
+		            if( document.getElementById('section-' + name + '-' + path).innerHTML != '' )
                     {
                         document.getElementById('section-' + name + '-' + path).style.display = 'block';
                         document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
