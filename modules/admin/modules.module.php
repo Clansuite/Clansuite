@@ -534,6 +534,8 @@ class module_admin_modules
         $submit     = $_POST['submit'];
         $name       = $_POST['name'];
         $menu_ids   = $_POST['menu_ids'];
+        $tables     = $_POST['tables'];
+        $files      = $_POST['files'];
         
         $exported_menu  = array();
         $needed_ids     = array();
@@ -547,6 +549,11 @@ class module_admin_modules
                 
         if ( count($err) == 0 AND !empty($submit) )
         {
+            var_dump($tables);
+            var_dump($files);
+            var_dump($menu_ids);
+            var_dump($_POST);
+            die();
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
             $stmt->execute( array( $name ) );
             $res = $stmt->fetch();
@@ -626,6 +633,9 @@ class module_admin_modules
             }
         }
 
+        /**
+        * @desc Get the exportable modules that are whitelisted
+        */
         $dir_handler = opendir( MOD_ROOT );
         
         while( false !== ($content = readdir($dir_handler)) )
@@ -647,12 +657,28 @@ class module_admin_modules
         }
         closedir( $dir_handler );
         ksort($container);
+
         
-        $tpl->assign('err', $err);
-        $tpl->assign('content', $container);
-        $tpl->assign('folder_tree', $this->build_folder_tree( ROOT ) );
-        $tpl->assign('chmod_redirect_url', 'index.php?mod=admin&sub=modules&action=export' );
-        $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
+        /**
+        * @desc Get the SQL
+        */
+        $stmt = $db->prepare( 'SHOW TABLES FROM ' . $cfg->db_name );
+        $stmt->execute();
+        $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach( $tables as $key => $items )
+        {
+            $sql_tables[] = $items['tables_in_' . $cfg->db_name];   
+        }
+        
+        /**
+        * @desc Assign vars & output
+        */
+        $tpl->assign('sql_tables'           , $sql_tables );         
+        $tpl->assign('err'                  , $err);
+        $tpl->assign('content'              , $container);
+        $tpl->assign('folder_tree'          , $this->build_folder_tree( ROOT ) );
+        $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=export' );
+        $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/export.tpl');
     }
 
@@ -795,11 +821,14 @@ class module_admin_modules
             }
         }
         
+        /**
+        * @desc Clear temp
+        */
         $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
-                        
-        $tpl->assign('err', $err );
-        $tpl->assign('chmod_redirect_url', 'index.php?mod=admin&sub=modules&action=import' );
-        $tpl->assign('chmod_tpl', $tpl->fetch('admin/modules/chmod.tpl') );
+               
+        $tpl->assign('err'                  , $err );
+        $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=import' );
+        $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
     

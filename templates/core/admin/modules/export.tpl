@@ -18,6 +18,20 @@
 
     <script type="text/javascript">
     
+    function node_click(id)
+    {
+        if( document.getElementById('section-' + id).style.display == 'none' )
+        {
+            document.getElementById('section-' + id).style.display = 'block';
+            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
+        }
+        else
+        {
+            document.getElementById('section-' + id).style.display = 'none';
+            document.getElementById('node-' + id).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
+        }
+    }
+        
     function str_replace (search, replace, subject)
     {
       var result = "";
@@ -103,10 +117,10 @@ Loading...
 </tr>
 
 {foreach key=schluessel item=wert from=$content.whitelisted}
-<form action="index.php?mod=admin&sub=modules&action=export" method="POST" name="{$wert.name}">
 <tr>
 
     <td class="cell1" align="center">
+    <form action="index.php?mod=admin&sub=modules&action=export" method="POST"/>
     <b>{$wert.title}</b><br />
     <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
     </td>
@@ -159,7 +173,21 @@ Loading...
             <div class="tab-page" id="{$wert.name}_language">
                 <h2 class="tab">{translate}SQL{/translate}</h2>
                 <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_language" ) );</script>
-                SQL Container
+                <div class="DynamicTree">
+                    <div class="wrap1">
+                        <div class="top">{translate}SQL Tables{/translate}</div>
+                        <div class="wrap2" id="tree">                
+                            {foreach key=key item=item from=$sql_tables}
+                                <div class='doc'>
+                                    <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">
+                                    <input type="checkbox" name="tables[{$wert.name}][]" value="{$item}" />
+                                    <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-doc.gif" width="18" height="18" border="0">
+                                    {$item}
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -170,10 +198,11 @@ Loading...
         <p>
             <input class="ButtonGreen" type="submit" value="{translate}Export{/translate}" name="submit">
         </p>
+        </form>
     </td>
 
 </tr>
-</form>
+
 {/foreach}
 </table>
 
