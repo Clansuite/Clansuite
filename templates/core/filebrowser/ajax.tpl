@@ -2,12 +2,14 @@
     {literal}
         <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax.js"></script>
         <script type="text/javascript">
+            var global_path="a";
+            var global_name="a";
 	        /**
             * @desc Send a POST request
             **/
-        
             function sendFilebrowserAjaxRequest(path, name)
 	        {
+                
                 if( document.getElementById('section-' + name + '-' + path).style.display == 'block' )
                 {
                     document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
@@ -25,14 +27,13 @@
                     {
                         con = getXMLRequester();
 		                con.open('POST', 'index.php?mod=filebrowser&action=get_folder', true);
-                        con.path = path;
-                        con.name = name;
+                        global_path = path;
+                        global_name = name;
                         
                         param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&name='+escape(encodeURIComponent(name));
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		                con.setRequestHeader("Content-length", param.length);
-                        //con.setRequestHeader("Cookie", document.cookie);
                         con.onreadystatechange = handleFilebrowserGetResponse;
 		                con.send(param);
 		                con.close;
@@ -53,9 +54,9 @@
 
                     document.getElementById('loading').style.display = 'none';
 
-                    document.getElementById('section-' + con.name + '-' + con.path).innerHTML = response;
-                    document.getElementById('section-' + con.name + '-' + con.path).style.display = 'block';
-                    document.getElementById('node-' + con.name + '-' + con.path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                    document.getElementById('section-' + global_name + '-' + global_path).innerHTML = response;
+                    document.getElementById('section-' + global_name + '-' + global_path).style.display = 'block';
+                    document.getElementById('node-' + global_name + '-' + global_path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node-open.gif';
 
                     return true;
 		        }

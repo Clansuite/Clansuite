@@ -112,10 +112,10 @@ Loading...
     </td>
     
     <td class="cell2">
-        <div class="tab-pane" id="{$wert.name}">
+        <div class="tab-pane" id="{$wert.name}_tabs">
     
             <script type="text/javascript">
-                tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}" ) );
+                tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
             </script>
     	    <div class="tab-page" id="{$wert.name}_generals">
     	       <h2 class="tab">{translate}General{/translate}</h2>
