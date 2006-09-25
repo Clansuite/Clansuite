@@ -522,7 +522,33 @@ class module_admin_modules
         $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
         $this->output .= $tpl->fetch('admin/modules/create_new.tpl');   
     }
-    
+
+    /**
+    * @desc The CREATE export
+    */
+    function sql_create_export($table_name, $metas)
+    {
+        $h = "CREATE TABLE `" . $table_name . "` (";
+        
+        foreach($metas as $key => $value)
+        {
+            $name = mysql_field_name($fields, $i);
+            $flags = mysql_field_flags($fields, $i);
+            $len = mysql_field_len($fields, $i);
+            $type = mysql_field_type($fields, $i);
+
+            $h .= "`$value[name]` $value[type]($len) $flags,";
+
+            if(strpos($flags, "primary_key")) {
+                $pkey = " PRIMARY KEY (`$name`)";
+            }
+        }
+        
+        $h = substr($h, 0, strlen($d) - 1);
+        $h .= "$pkey) TYPE=MyISAM;\n\n";
+        return($h);
+    }
+        
     /**
     * @desc Export Module
     */
@@ -533,9 +559,9 @@ class module_admin_modules
         
         $submit     = $_POST['submit'];
         $name       = $_POST['name'];
-        $menu_ids   = $_POST['menu_ids'];
-        $tables     = $_POST['tables'];
-        $files      = $_POST['files'];
+        $menu_ids   = isset($_POST['menu_ids']) ? $_POST['menu_ids'] : array();
+        $tables     = isset($_POST['tables']) ? $_POST['tables'] : array();
+        $files      = isset($_POST['files']) ? $_POST['files'] : array();
         
         $exported_menu  = array();
         $needed_ids     = array();
@@ -546,11 +572,12 @@ class module_admin_modules
         {
             $err['upload_folder_not_writeable'] = 1;
         }
-                
+
+        /**
+        * @desc Everything OK - Export...        
+        */
         if ( count($err) == 0 AND !empty($submit) )
         {
-            echo "<pre>".print_r( $_POST, true )."</pre>";
-            die();
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
             $stmt->execute( array( $name ) );
             $res = $stmt->fetch();
@@ -610,6 +637,23 @@ class module_admin_modules
                 file_put_contents( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                 
                 /**
+                * @desc Shape CREATE TABLE Statements and write it
+                */
+                $create_stmts = '';
+                if( !empty($tables[$name]) )
+                {
+                    foreach( $tables[$name] as $key => $value )
+                    {
+                        $stmt = $db->prepare('SHOW CREATE TABLE '. $value);
+                        $stmt->execute();
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $create_stmts .= str_replace('CREATE TABLE `'.DB_PREFIX, 'CREATE TABLE `<DB_PREFIX>', $result['create table']);                
+                        $create_stmts .= "\n\n";
+                    }
+                }
+                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_sql.php', serialize($create_stmts) );                
+                
+                /**
                 * @desc Write Mod Info Container
                 */
                 $container = array( 'name' => $res['name'], 'folder_name' => $res['folder_name'] );
@@ -624,7 +668,15 @@ class module_admin_modules
                 {
                     $tar->addModify(  TPL_ROOT . '/core/images/modules/' . $res['image_name'], 'image', TPL_ROOT . '/core/images/modules/' );
                     $tar->addModify(  $icons, 'icons', TPL_ROOT . '/core/images/icons/' );
+                    $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_sql.php', '', UPLOAD_ROOT . '/modules/temp/' );
                     $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_info.php', '', UPLOAD_ROOT . '/modules/temp/' );
+                    if( !empty($files[$name]) )
+                    {
+                        foreach( $files[$name] as $key => $value )
+                        {
+                            $tar->addModify( ROOT .'/'. $value, 'files', ROOT );
+                        }
+                    }
                     $functions->redirect( '/' . $cfg->upload_folder . '/modules/export/' . $name . '.tar' );
                 }
             }

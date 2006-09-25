@@ -56,7 +56,7 @@ if (!defined('IN_CS'))
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$info['subs'] = 's:0:"";';
+$info['subs'] = array();
 
 
 

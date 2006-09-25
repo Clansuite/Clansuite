@@ -174,7 +174,7 @@ class module_filebrowser
         $tpl->assign( 'folders' , $folders );
         $tpl->assign( 'files'   , $files );      
         $this->output = $tpl->fetch( $template );
-        $this->suppress_wrapper = true;        
+        $this->suppress_wrapper = true;
     }
 }
 ?>
