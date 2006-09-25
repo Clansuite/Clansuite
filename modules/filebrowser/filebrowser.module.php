@@ -163,7 +163,7 @@ class module_filebrowser
         {
             if ( !is_dir( $item ) )
             {
-                $files[urlencode($item)] = preg_replace( '#^(.*)/#', '', $item);
+                $files[utf8_encode($item)] = preg_replace( '#^(.*)/#', '', $item);
             }
         }
         

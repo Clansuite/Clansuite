@@ -99,33 +99,19 @@
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...
 </div>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-    
-    <td class="td_header" width="120px">
-    {translate}Title{/translate}
-    </td>
-    
-    <td class="td_header" width="65%">
-    {translate}Information{/translate}
-    </td>
-    
-    <td class="td_header" width="15%" align="center">
-    {translate}Option{/translate}
-    </td>
-
-</tr>
 
 {foreach key=schluessel item=wert from=$content.whitelisted}
+<form action="index.php?mod=admin&sub=modules&action=export" method="POST">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+
 <tr>
 
-    <td class="cell1" align="center">
-    <form action="index.php?mod=admin&sub=modules&action=export" method="POST"/>
+    <td class="cell1" align="center"  width="120px">
     <b>{$wert.title}</b><br />
     <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
     </td>
     
-    <td class="cell2">
+    <td class="cell2" width="65%">
         <div class="tab-pane" id="{$wert.name}_tabs">
     
             <script type="text/javascript">
@@ -147,21 +133,15 @@ Loading...
                 <h2 class="tab">{translate}Adminmenu{/translate}</h2>
                 <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_adminmenu" ) );</script>
                 <div id="menucontainer_{$wert.name}">
-                    <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
-                    <tr>
-                        <td valign="top">
-                            <div class="DynamicTree">
-                                <div class="wrap1">
-                                    <div class="top">{translate}Adminmenu{/translate}</div>
-                                    <div class="wrap2" id="tree">
-                                        {assign var=name value=$wert.name}
-                                        {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
-                                    </div>
-                                </div>
+                    <div class="DynamicTree">
+                        <div class="wrap1">
+                            <div class="top">{translate}Adminmenu{/translate}</div>
+                            <div class="wrap2" id="tree">
+                                {assign var=name value=$wert.name}
+                                {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
                             </div>
-                        </td>
-                    </tr>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-page" id="{$wert.name}_files">
@@ -193,18 +173,16 @@ Loading...
 
     </td>
     
-    <td class="cell1" align="center">
+    <td class="cell1" align="center" width="15%">
         <input type="hidden" name="name" value="{$wert.name}">
         <p>
             <input class="ButtonGreen" type="submit" value="{translate}Export{/translate}" name="submit">
         </p>
-        </form>
     </td>
-
 </tr>
-
-{/foreach}
 </table>
+</form>
+{/foreach}
 
 <script type="text/javascript">
     setupAllTabs();
