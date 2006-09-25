@@ -60,7 +60,7 @@ if (!defined('IN_CS'))
 $info['subs'] = array({foreach key=key item=item from=$subs}'{$key}' => array( '{$item[0]}', '{$item[1]}' ),
 {/foreach} );
 {else}
-$info['subs'] = 's:0:"";';
+$info['subs'] = array();
 {/if}
 
 
