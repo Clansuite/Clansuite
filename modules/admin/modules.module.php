@@ -644,9 +644,7 @@ class module_admin_modules
                 {
                     foreach( $tables[$name] as $key => $value )
                     {
-                        $stmt = $db->prepare('SHOW CREATE TABLE '. $value);
-                        $stmt->execute();
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $result = $db->query('SHOW CREATE TABLE '. $value)->fetch(PDO::FETCH_ASSOC);
                         $create_stmts .= str_replace('CREATE TABLE `'.DB_PREFIX, 'CREATE TABLE `<DB_PREFIX>', $result['create table']);                
                         $create_stmts .= "\n\n";
                     }
