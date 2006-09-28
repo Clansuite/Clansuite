@@ -142,6 +142,10 @@ $tpl->compile_dir       = CORE_ROOT .'/smarty/templates_c/';
 $tpl->config_dir        = CORE_ROOT .'/smarty/configs/';
 $tpl->cache_dir         = CORE_ROOT .'/smarty/cache/';
 $tpl->debugging         = DEBUG ? true : false;
+$tpl->force_compile     = true;
+$tpl->caching           = false;
+$tpl->compile_check     = true;
+$tpl->cache_lifetime    = -1;
 $tpl->debug_tpl         = TPL_ROOT . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')                                    
                                      );
