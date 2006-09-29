@@ -40,6 +40,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	enhances your view of the Web.{/translate}
 </h2>
 
+<div id="ajax-process"></div>
+
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
