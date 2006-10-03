@@ -1,8 +1,7 @@
 {doc_info DOCTYPE=XHTML1.1 LEVEL=Normal}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" />
-<head>
+
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
