@@ -65,7 +65,9 @@ class {$class_name}
         $this->mod_page_title = $lang->t( '{$title}' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
-        {ldelim}
+        {ldelim} 
+            
+            default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
@@ -74,10 +76,7 @@ class {$class_name}
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
-            default:
-                $this->show();
-                break;
+             
         {rdelim}
         
         return array( 'OUTPUT'          => $this->output,
