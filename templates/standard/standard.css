@@ -8,6 +8,8 @@ body
     margin: 2em;
 }
 
+html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
+
 .oops
 {
     display: none;
@@ -570,18 +572,20 @@ table.admintable tr#cell3
 * html .XulMenu td { position: relative; } /* ie 5.0 fix */
 
 /* AJAX Progress Indicator */
-#ajax-process
-{
-	background: #32CD32;
-	color: red;
+
+#notification {
+    display: block;
+	position: fixed;
+	width: 100%;
+	margin: 0px;
+	left: 0px;
+	bottom: 0px; 
+	/* top: 0px; */
+	height: 20px;
+	background-color: #FFFF99;
 	text-align: center;
 	font-weight: bold;
-	font-size: 14pt;
-	padding: 3px;
-	width: 100%;
-	position: fixed;
-    top: 0px;
-	left: 0px;
-	display: none;
-	z-index: 99;
+	font-size: 1.3em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	padding-top: 5px;
 }
