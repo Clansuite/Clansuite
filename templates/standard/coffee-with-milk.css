@@ -1,0 +1,101 @@
+/*
+Coffee with milk
+Table design by Roger Johansson, 456 Berea Street
+www.456bereastreet.com
+================================================*/
+
+#tabledesign-coffee table {
+	font:normal 76%/150% "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	border-collapse:separate;
+	border-spacing:0;
+	margin:0 0 1em;
+	color:#000;
+	}
+#tabledesign-coffee table a {
+	color:#523A0B;
+	text-decoration:none;
+	border-bottom:1px dotted;
+	}
+#tabledesign-coffee table a:visited {
+	color:#444;
+	font-weight:normal;
+	}
+#tabledesign-coffee table a:visited:after {
+	content:"\00A0\221A";
+	}
+#tabledesign-coffee table a:hover {
+	border-bottom-style:solid;
+	}
+#tabledesign-coffee t head th,
+#tabledesign-coffee head td,
+#tabledesign-coffee foot th,
+#tabledesign-coffee td {
+	border:1px solid #523A0B;
+	border-width:1px 0;
+	background: #EBE5D9;
+	}
+#tabledesign-coffee th {
+	font-weight:bold;
+	line-height:normal;
+	padding:0.25em 0.5em;
+	text-align:left;
+	}
+#tabledesign-coffee tbody th,
+#tabledesign-coffee td {
+	padding:0.25em 0.5em;
+	text-align:left;
+	vertical-align:top;
+	}
+#tabledesign-coffee tbody th {
+	font-weight:normal;
+	white-space:nowrap;
+	}
+#tabledesign-coffee tbody th a:link,
+#tabledesign-coffee tbody th a:visited {
+	font-weight:bold;
+	}
+#tabledesign-coffee tbody td,
+#tabledesign-coffee tbody th {
+	border:1px solid #fff;
+	border-width:1px 0;
+	}
+#tabledesign-coffee tbody tr.odd th,
+#tabledesign-coffee tbody tr.odd td {
+	border-color:#EBE5D9;
+	background:#F7F4EE;
+	}
+#tabledesign-coffee tbody tr:hover td,
+#tabledesign-coffee tbody tr:hover th {
+	background:#ffffee;
+	border-color:#523A0B;
+	}
+#tabledesign-coffee caption {
+	font-family:Georgia,Times,serif;
+	font-weight:normal;
+	font-size:1.4em;
+	text-align:left;
+	margin:0;
+	padding:0.5em 0.25em;
+	}
+	
+	
+dl
+ {
+ display: block;
+ }
+
+dt
+ {
+ clear:   left;
+ display:  block;
+ font-weight: bold;
+ float:   left;
+ width:   125px;
+ }
+
+dd
+ {
+ clear:   right;
+ display:  block;
+ white-space: nowrap;
+ }
