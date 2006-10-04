@@ -257,6 +257,25 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','test',''),(2,'admin','modules
 /*!40000 ALTER TABLE `cs_help` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_mod_rel_sub`
+--
+
+DROP TABLE IF EXISTS `cs_mod_rel_sub`;
+CREATE TABLE `cs_mod_rel_sub` (
+  `module_id` int(11) NOT NULL,
+  `submodule_id` int(11) NOT NULL,
+  PRIMARY KEY  (`module_id`,`submodule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_mod_rel_sub`
+--
+
+
+/*!40000 ALTER TABLE `cs_mod_rel_sub` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_mod_rel_sub` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_modules`
 --
 
@@ -412,6 +431,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
+INSERT INTO `cs_session` VALUES (1,'f19052d0c74f342b8cceb408bf3c177b','client_ip|s:9:\"127.0.0.1\";client_browser|s:79:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8) Gecko/20051111 Firefox/1.5\";client_host|s:9:\"localhost\";suiteSID|s:32:\"f19052d0c74f342b8cceb408bf3c177b\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1159349639,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -463,6 +483,27 @@ CREATE TABLE `cs_static_pages` (
 /*!40000 ALTER TABLE `cs_static_pages` DISABLE KEYS */;
 INSERT INTO `cs_static_pages` VALUES (1,'credits','Those are the people who helped','','Clansuite <br />\r\nCredits<br />\r\n<u><strong><br />\r\n</strong></u><br />\r\n<br />\r\n<br />\r\n<table width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n    <tbody>\r\n        <tr>\r\n            <td align=\"center\">Class</td>\r\n            <td align=\"center\">Author<br />\r\n            </td>\r\n            <td align=\"center\">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Smarty: the PHP compiling template engine</td>\r\n            <td valign=\"top\">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Imagemanger</td>\r\n            <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">DHTML Calendar Javascript</td>\r\n            <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Tab Pane Javascript</td>\r\n            <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign=\"top\">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Icons by <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">mygosumenu\'s</td>\r\n            <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Bitstream Vera Fonts </td>\r\n            <td valign=\"top\">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign=\"top\">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'google','Google','http://www.google.de','',1,500),(3,'help','The help for ClanSuite','','<strong><font size=\"4\">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- some content',1,300),(5,'about','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- some content',1,300);
 /*!40000 ALTER TABLE `cs_static_pages` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_submodules`
+--
+
+DROP TABLE IF EXISTS `cs_submodules`;
+CREATE TABLE `cs_submodules` (
+  `submodule_id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `class_name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`submodule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_submodules`
+--
+
+
+/*!40000 ALTER TABLE `cs_submodules` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_user_group`

@@ -21,7 +21,9 @@ var SmartyAjax = {
       {
         method: method,
         parameters: params,
-        onComplete: callback
+        onComplete: function () {
+            eval(callback)
+        }
       });
   },
 
@@ -50,21 +52,17 @@ var SmartyAjax = {
   }
 }
 
-/* SmartyAjax.GlobalHandlers = {
+
+SmartyAjax.GlobalHandlers = {
 	onCreate: function() {
 		SmartyAjax.Process.show();
 	},
 
-	onComplete: function() {
-		if(Ajax.activeRequestCount == 0){
-  		SmartyAjax.Process.hide();
-		}
-	}
 };
 
 
 Ajax.Responders.register(SmartyAjax.GlobalHandlers);
-*/
+
 
 Ajax.Responders.register({
 	onCreate: function() {

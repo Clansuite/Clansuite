@@ -36,7 +36,7 @@ function smarty_block_ajax_form($params, $content, &$smarty, &$repeat)
     return '<form method="' . $method . '" action="' . $url .
       '" onsubmit="' . $onsubmit . ';SmartyAjax.submit(this, \'' . $parameters . '\'' .
       (isset($params['callback']) ? ', ' . $params['callback'] : '') .
-      '); return false;"' .
+      '); return false;\'"' .
       (isset($params['id']) ? ' id="' . $params['id'] . '"' : '') .
       '>' . $content . '</form>';
   }
