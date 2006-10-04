@@ -10,7 +10,7 @@
  *
  *  gsQuery - Querys game servers
  *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
- *  http://www.csQuery.org
+ *  http://www.gsQuery.org
  *
  *  This file is part of the e-sport CMS Clansuite.
  *  This file is part of the csQuery gameserver query library.
