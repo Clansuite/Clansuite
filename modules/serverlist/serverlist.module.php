@@ -89,7 +89,7 @@ class module_serverlist
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
     
-        // Einbettung in den Hauptframe unterdrcken
+        // Einbettung in den Hauptframe unterdr?cken
         $this->suppress_wrapper = true;
         
         // Get Server from DB

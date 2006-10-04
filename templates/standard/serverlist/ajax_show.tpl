@@ -33,10 +33,11 @@
                         callback='new Effect.SlideDown($('serverdata_`$server.server_id`')'
                 *}
                 
-               <tr onclick="new Effect.toggle($('serverdata_{$server.server_id}'),'blind')">
+               <tr >
                    <td><img onclick="{ajax_update url='index.php?mod=serverlist&action=get_serverdetails'
                                                    update_id="server_details_`$server.server_id`" 
                                                    params="server_id=`$server.server_id`"
+                                                   callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
                                      }"
                         src="{$www_core_tpl_root}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
                         alt="Refresh Server {$server.server_id}">

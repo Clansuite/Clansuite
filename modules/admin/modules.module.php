@@ -1110,7 +1110,7 @@ class module_admin_modules
                     */
                     $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
                     $sets = 'author = ?, homepage = ?, license = ?, copyright = ?, folder_name = ?,';
-                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?, subs = ?';
+                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
                     $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $sets . ' WHERE module_id = ?' );
                     $stmt->execute( array(  $info[$value['module_id']]['author'],
                                             $info[$value['module_id']]['homepage'],
@@ -1126,8 +1126,35 @@ class module_admin_modules
                                             $info[$value['module_id']]['version'],
                                             $cfg->version,
                                             $e,
-                                            serialize($subs),
                                             $value['module_id']) );
+                    
+                    if ( !empty( $subs ) )
+                    {
+                        /**
+                        * @desc Subs delete
+                        */
+                        $stmt = $db->prepare( 'DELETE rel,subs FROM ' . DB_PREFIX .'mod_rel_sub AS rel, ' . DB_PREFIX . 'submodules AS subs WHERE rel.module_id = ? AND subs.submodule_id = rel.submodule_id' );
+                        $stmt->execute( array( $value['module_id'] ) );
+                        
+                        /**
+                        * @desc Subs insert
+                        */
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'submodules SET name = ?, class_name = ?, file_name = ?' );
+                        foreach( $subs as $key2 => $value2 )
+                        {
+                            $stmt->execute( array( $key2, $value2[1], $value2[0]) );
+                            $last_ids[] = $db->lastInsertId();
+                        }
+                        
+                        /**
+                        * @desc Subs relationtable insert
+                        */
+                        foreach( $last_ids as $key3 => $value3 )
+                        {
+                            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'mod_rel_sub SET module_id = ?, submodule_id = ?');
+                            $stmt->execute( array( $value['module_id'], $value3 ) );
+                        }
+                    }
                 }
             }
         }
