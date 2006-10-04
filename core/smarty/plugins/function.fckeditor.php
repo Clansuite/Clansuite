@@ -53,7 +53,7 @@ function smarty_function_fckeditor($params, &$smarty)
    }
    else if(empty($base_arguments['BasePath']))
    {
-      $base_arguments['BasePath'] = '/FCKeditor/';
+      $base_arguments['BasePath'] = '/core/fckeditor/';
    }
 
    $base_arguments['InstanceName'] = $params['InstanceName'];
