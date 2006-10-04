@@ -59,19 +59,17 @@ class module_static
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t( 'static - ' );
+        $this->mod_page_title = $lang->t( ' Static Page &raquo; ' );
         
         switch ($_REQUEST['action'])
-        {
+        {   
+            default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
                 break;
-
-            default:
-                $this->show();
-                break;
-        }
+       
+       }
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
