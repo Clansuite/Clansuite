@@ -72,16 +72,15 @@ class module_shoutbox
             case 'check':
                 $this->check();
                 break;
-                
+            
+            
+            default:    
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show Shoutbox' );
                 $this->show();
                 break;
 
-            default:
-                $this->show();
-                break;
-        }        
+      }        
 
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,

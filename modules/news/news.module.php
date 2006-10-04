@@ -74,18 +74,17 @@ class module_news
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t( 'news' );
+        $this->mod_page_title = $lang->t( ' News ' );
         
         switch ($_REQUEST['action'])
-        {
-            case 'show':
-                $this->mod_page_title .= $lang->t( ' Show News' );
-                $this->show();
-                break;
-
+        {   
+            
             default:
+            case 'show':
+                $this->mod_page_title .= $lang->t( ' Show News ' );
                 $this->show();
                 break;
+     
         }
         
         return array( 'OUTPUT'          => $this->output,
