@@ -83,28 +83,27 @@ class module_serverlist
     }
 
     /**
-    * @desc Sajax Function to update the Serverlist
+    * @desc Ajax Function to update the Serverdetails
     */
     function get_serverdetails() 
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
     
-        // Einbettung in den Hauptframe unterdr?cken
+        // suppress mainframe
         $this->suppress_wrapper = true;
         
-        // Get Server from DB
+        // get serverdata from db
         $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'serverlist WHERE server_id = ?');
         $stmt->execute( array ( $_GET['server_id'] ) );
         $serverdata = $stmt->fetch(PDO::FETCH_ASSOC); 
         $serverdata['server_id'] = $_GET['server_id'];
         
-        // Severdetails einholen
+        // get severdetails from server
         $this->getServerdetails($serverdata);
         
-        $tpl->display('serverlist/serverstats/'. $serverdata['gametype'] . '.tpl');
-        
-    #$this->output .=  ' HALLO TEST '. $serverdata .' Server : ' . $_GET['server_id'];
-    } 
+        // output
+        $tpl->display('serverlist/serverstats/'. $serverdata['csquery_engine'] . '.tpl');
+   } 
     
     
    /**
@@ -152,7 +151,7 @@ class module_serverlist
         
         /* supported gameserver types:
          *
-         * halflife, quake3arena
+         * steam, q3a
          *
          * not yet supported:
          *
@@ -163,7 +162,7 @@ class module_serverlist
      
      
        // build server_object filled with rquested serverdata
-       $server_object = $this->queryServer( $servers['ip'], $servers['port'], $servers['gametype'] );
+       $server_object = $this->queryServer( $servers['ip'], $servers['port'], $servers['csquery_engine'] );
     
        #var_dump($server_object);
        
@@ -174,17 +173,18 @@ class module_serverlist
         *  prepare specific outputs
         */
        
+       // 1. reassign serverid
+       $server_data['server_id'] = $servers['server_id'];
        
-       // 1.  time of request
-       
+       // 2.  time of request
        $timestamp = time();
-       $servers['time_of_request']= date("l F d H:i:s Y", $timestamp);
+       $server_data['time_of_request']= date("l F d H:i:s Y", $timestamp);
         
-       // 2. mapfile
+       // 3. mapfile
        
        // construct mapfile, get mapname, look for image
        // example: "halflife/de_dust.jpg"
-       $server_data['mapfile'] = $servers['gametype'] . '/' . $server_data['mapname'] . '.jpg';
+       $server_data['mapfile'] = $server_data['gametype'] . '/' . $server_data['mapname'] . '.jpg';
 	   
 	   if (!(file_exists($$server_data['mapfile'])))
        { // set default map if no picture found
