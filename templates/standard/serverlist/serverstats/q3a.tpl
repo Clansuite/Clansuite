@@ -1,8 +1,12 @@
-{* DEBUG  *}{$serverdata|@var_dump}
+{* DEBUG   {$serverdata|@var_dump} *}
+
+<div style="float: right"><img src="{$www_core_tpl_root}/images/serverlist/up.gif" 
+onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>
 
 <span>
 <h4>Serverdetails for {$serverdata.gamename} Engine based Server</h3>
 {$serverdata.time}
+
 </span>
 
 <dl>
