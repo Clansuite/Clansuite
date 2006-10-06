@@ -147,7 +147,7 @@ class module_news
         
         }
           
-        // $newslist an Smarty übergeben und Template ausgeben
+        // $newslist an Smarty bergeben und Template ausgeben
         $tpl->assign('news', $newslist);
         
         $this->output = $tpl->fetch('news/show.tpl');
