@@ -28,12 +28,7 @@
           <tbody>  
             {foreach key=key item=server from=$servers}
                
-
-                {* todo: Ajax Updater -> onComplete Callback -> Effect.SlideDown 
-                        callback='new Effect.SlideDown($('serverdata_`$server.server_id`')'
-                *}
-                
-               <tr >
+                <tr>
                    <td><img onclick="{ajax_update url='index.php?mod=serverlist&action=get_serverdetails'
                                                    update_id="server_details_`$server.server_id`" 
                                                    params="server_id=`$server.server_id`"
@@ -55,7 +50,7 @@
                     <td>{$server.ip}:{$server.port}</td>
                     <td>
                     <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_core_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
-                    {if $server.gametype == 'steam'}
+                    {if $server.csquery_engine == 'steam'}
                     <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_core_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
                     {/if}
                     </td>
@@ -68,7 +63,7 @@
                        
                         {* Show ServerStats based an Gametype or noresponse.tpl *}
                         <div id="server_details_{$server.server_id}">
-                            Before Ajax Serverdata {$server|@var_dump} 
+                            {* Before Ajax Serverdata {$server|@var_dump} *}
                         </div>
                         
                         </div>
