@@ -219,7 +219,6 @@ function treePluginImportHtmlExecute() {
     tree.importFromHtml(html.value);
 }
 function treePluginGenerateMenu() {
-    this.blur();
     var content = tree.generateMenu();
     document.getElementById("tree-plugin-content").innerHTML = content;
     document.getElementById("tree-plugin").style.display = "block";
