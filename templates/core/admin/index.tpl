@@ -26,7 +26,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <body>
 
 	<div class="header"> 
-    	Clansuite - Admin Control Center
+    	Clansuite - Control Center
     	<span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 	</div> 
 	
