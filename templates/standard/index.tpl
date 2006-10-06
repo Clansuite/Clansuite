@@ -18,6 +18,12 @@
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
+
+<!--[if IE]>
+<link rel="stylesheet" href="{$www_core_tpl_root}/css/IEhack.css" type="text/css" />
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
+<![endif]-->
+
 {$additional_head}
 {$redirect}
 <title>{$std_page_title} - {$mod_page_title}</title>
