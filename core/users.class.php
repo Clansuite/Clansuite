@@ -177,7 +177,7 @@ class users
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
             
-            $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_groups WHERE user_id = ?' );
             $stmt->execute( array( $user['user_id'] ) );
             $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( is_array( $groups ) )
@@ -186,7 +186,7 @@ class users
                 {
                     $_SESSION['user']['groups'][] = $group_id['group_id'];
 
-                    $stmt = $db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_right AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
+                    $stmt = $db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
                     $stmt->execute( array( $group_id['group_id'] ) );
                     $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
