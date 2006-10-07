@@ -131,10 +131,10 @@ class module_admin_menueditor
         
         $menu = $_POST['container'];
         
-        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
+        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
         $stmt->execute();
         
-        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_old SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu' );
         $stmt->execute();
         
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
@@ -186,17 +186,17 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu_old' );
+            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu_backup' );
             $stmt->execute();
 
             /**
             * @desc Switch old menu to bck table
             */
 
-            $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_old' );
+            $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
             $stmt->execute();
             
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_old (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt->execute( $data );
