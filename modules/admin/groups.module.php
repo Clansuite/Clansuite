@@ -148,7 +148,7 @@ class module_admin_groups
         // Abfrage der User aus der jeweiligen Gruppe
                  
             $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id 
-                                   FROM ' . DB_PREFIX . 'user_group cu,
+                                   FROM ' . DB_PREFIX . 'user_groups cu,
                                         ' . DB_PREFIX . 'users cs
                                    WHERE cs.user_id = cu.user_id
                                    AND cu.group_id = ?');
@@ -270,7 +270,7 @@ class module_admin_groups
             * @desc Insert the rights
             */            
             $sets =  'right_id = ?, group_id = ?';
-            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_right SET ' . $sets );
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
             $info['rights'] = array_unique( $info['rights'] );
             foreach( $info['rights'] as $right_id )
             {
@@ -356,7 +356,7 @@ class module_admin_groups
             */
             $info['rights'] = array();
             $stmt2 = $db->prepare('SELECT tr.name, ug.right_id 
-                                   FROM ' . DB_PREFIX . 'group_right ug,
+                                   FROM ' . DB_PREFIX . 'group_rights ug,
                                         ' . DB_PREFIX . 'rights tr
                                    WHERE tr.right_id = ug.right_id
                                    AND ug.group_id = ?');
@@ -416,11 +416,11 @@ class module_admin_groups
             /**
             * @desc Drop & Insert the rights
             */
-            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_right WHERE group_id = ?' );
+            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_rights WHERE group_id = ?' );
             $stmt->execute( array ( $info['group_id'] ) );
             
             $sets =  'right_id = ?, group_id = ?';
-            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_right SET ' . $sets );
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
             $info['rights'] = array_unique( $info['rights'] );
             foreach( $info['rights'] as $right_id )
             {

@@ -83,7 +83,7 @@ class module_admin
         $col    = 0;
         $images = array();
 
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'admin_shortcuts ORDER BY `order` ASC, title ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu_shortcuts ORDER BY `order` ASC, title ASC' );
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -104,7 +104,7 @@ class module_admin
         
         /*
         $files = array( 'console', 'downloads', 'articles', 'links', 'calendar', 'time', 'email', 'shoutbox', 'help', 'security', 'gallery', 'system', 'replays', 'news', 'settings', 'users', 'backup', 'templates' );
-        $stmt = $db->prepare( "INSERT INTO cs_admin_shortcuts ( href, title, file_name ) VALUES ( ?, ?, ? )" );
+        $stmt = $db->prepare( "INSERT INTO cs_adminmenu_shortcuts ( href, title, file_name ) VALUES ( ?, ?, ? )" );
         foreach( $files as $key )
         {
             $stmt->execute( array( 'index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );

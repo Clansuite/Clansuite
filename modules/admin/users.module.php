@@ -222,12 +222,12 @@ class module_admin_users
             $result = $stmt2->fetch(PDO::FETCH_ASSOC);
             $info['user_id'] = $result['user_id'];
                                     
-            $stmt4 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt4 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_groups WHERE user_id = ?' );
             $stmt4->execute( array( $info['user_id'] ) );
 
             if ( count( $info['groups'] ) > 0 )
             {
-                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
+                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_groups SET user_id = ?, group_id = ?' );
                 foreach( $info['groups'] as $id )
                 {
                     $stmt3->execute( array ( $info['user_id'],
@@ -270,7 +270,7 @@ class module_admin_users
         * @desc Groups of the user
         */
         $stmt = $db->prepare( 'SELECT ug.group_id 
-                               FROM ' . DB_PREFIX . 'user_group cu,
+                               FROM ' . DB_PREFIX . 'user_groups cu,
                                     ' . DB_PREFIX . 'groups ug
                                WHERE ug.group_id = cu.group_id
                                AND cu.user_id = ?' );
@@ -390,12 +390,12 @@ class module_admin_users
             /**
             * @desc Update groups table            
             */
-            $stmt2 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_group WHERE user_id = ?' );
+            $stmt2 = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_groups WHERE user_id = ?' );
             $stmt2->execute( array ( $info['user_id'] ) );                
             
             if ( count( $info['groups'] ) > 0 )
             {
-                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_group SET user_id = ?, group_id = ?' );
+                $stmt3 = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_groups SET user_id = ?, group_id = ?' );
                 foreach( $info['groups'] as $id )
                 {
                     $stmt3->execute( array ( $info['user_id'],
