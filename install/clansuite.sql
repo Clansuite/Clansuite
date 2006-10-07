@@ -16,29 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cs_admin_shortcuts`
---
-
-DROP TABLE IF EXISTS `cs_admin_shortcuts`;
-CREATE TABLE `cs_admin_shortcuts` (
-  `id` tinyint(4) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL,
-  `href` varchar(255) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL default '30',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cs_admin_shortcuts`
---
-
-
-/*!40000 ALTER TABLE `cs_admin_shortcuts` DISABLE KEYS */;
-INSERT INTO `cs_admin_shortcuts` VALUES (1,'Console','index.php?mod=admin&sub=console','console.png',45),(2,'Downloads','index.php?mod=admin&sub=downloads','downloads.png',30),(3,'Articles','index.php?mod=admin&sub=articles','articles.png',30),(4,'Links','index.php?mod=admin&sub=links','links.png',30),(5,'Calendar','index.php?mod=admin&sub=calendar','calendar.png',30),(6,'Time','index.php?mod=admin&sub=time','time.png',30),(7,'Email','index.php?mod=admin&sub=email','email.png',3),(8,'Shoutbox','index.php?mod=admin&sub=shoutbox','shoutbox.png',30),(9,'Help','index.php?mod=admin&sub=help','help.png',40),(10,'Security','index.php?mod=admin&sub=security','security.png',41),(11,'Gallery','index.php?mod=admin&sub=gallery','gallery.png',30),(12,'System','index.php?mod=admin&sub=system','system.png',42),(13,'Replays','index.php?mod=admin&sub=replays','replays.png',30),(14,'News','index.php?mod=admin&sub=news','news.png',2),(15,'Settings','index.php?mod=admin&sub=settings','settings.png',43),(16,'Users','index.php?mod=admin&sub=users','users.png',1),(17,'Backup','index.php?mod=admin&sub=backup','backup.png',44),(18,'Templates','index.php?mod=admin&sub=templates','templates.png',4),(19,'Groups','index.php?mod=admin&sub=groups','groups.png',2),(20,'Search','index.php?mod=admin&sub=search','search.png',30);
-/*!40000 ALTER TABLE `cs_admin_shortcuts` ENABLE KEYS */;
-
---
 -- Table structure for table `cs_adminmenu`
 --
 
@@ -66,11 +43,11 @@ INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Home','index.php?mod=admin','Ho
 /*!40000 ALTER TABLE `cs_adminmenu` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_adminmenu_old`
+-- Table structure for table `cs_adminmenu_backup`
 --
 
-DROP TABLE IF EXISTS `cs_adminmenu_old`;
-CREATE TABLE `cs_adminmenu_old` (
+DROP TABLE IF EXISTS `cs_adminmenu_backup`;
+CREATE TABLE `cs_adminmenu_backup` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
   `type` varchar(255) NOT NULL,
@@ -84,13 +61,36 @@ CREATE TABLE `cs_adminmenu_old` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cs_adminmenu_old`
+-- Dumping data for table `cs_adminmenu_backup`
 --
 
 
-/*!40000 ALTER TABLE `cs_adminmenu_old` DISABLE KEYS */;
-INSERT INTO `cs_adminmenu_old` VALUES (1,0,'folder','Home','index.php?mod=admin','Home','_self',0,''),(2,0,'folder','Modules','','Modules','_self',1,''),(3,2,'folder','News','','News','_self',0,'page_edit.png'),(4,2,'folder','Articles','','Articles','_self',1,'report.png'),(5,2,'folder','Static Pages','','Static Pages','_self',2,'html.png'),(6,5,'item','Create new Static Page','index.php?mod=admin&sub=static&action=create','Create new Static Page','_self',0,'add.png'),(7,5,'item','Show Static Pages','index.php?mod=admin&sub=static&action=show','Show Static Pages','_self',1,'pencil.png'),(8,2,'folder','Forum','','Forum','_self',3,'application_view_list.png'),(9,2,'folder','Guestbook','index.php?mod=guestbook&action=show','Guestbook','_self',4,'book_open.png'),(10,2,'folder','Matches','index.php?mod=matches&action=show','Matches','_self',5,'database_go.png'),(11,2,'folder','Serverlist','','Serverlist','_self',6,'table.png'),(12,11,'item','Show Servers','index.php?mod=serverlist&sub=admin&action=show','Show Servers','_self',0,'application_view_list.png'),(13,11,'item','Add Server','index.php?mod=serverlist&action=show','Add Server','_self',1,'application_form_edit.png'),(14,2,'folder','Shoutbox','','Shoutbox','_self',7,'comment.png'),(15,2,'folder','Downloads','','Downloads','_self',8,'disk.png'),(16,2,'folder','Gallery','','Gallery','_self',9,'map_go.png'),(17,2,'folder','Replays','','Replays','_self',10,'film.png'),(18,2,'folder','eMail','','eMail','_self',11,'email_open_image.png'),(19,0,'folder','System','','System','_self',2,''),(20,19,'item','Settings','index.php?mod=admin&sub=config','Settings','_self',0,'settings.png'),(21,19,'folder','Database','','Database','_self',1,'database_gear.png'),(22,21,'item','Optimize','index.php?mod=database&action=optimize','Optimize','_self',0,'database_go.png'),(23,21,'item','Backup','index.php?mod=database&action=backup','Backup','_self',1,'database_key.png'),(24,19,'folder','Modules','','Modules','_self',2,'bricks.png'),(25,24,'item','Install new modules','index.php?mod=admin&sub=modules&action=install_new','Install new modules','_self',0,'package.png'),(26,24,'item','Create a module/submodule','index.php?mod=admin&sub=modules&action=create_new','Create a new module/submodule','_self',1,'add.png'),(27,24,'item','Show and edit modules','index.php?mod=admin&sub=modules&action=show_all','Show and edit modules','_self',2,'bricks_edit.png'),(28,24,'item','Export a module','index.php?mod=admin&sub=modules&action=export','Export a module','_self',3,'compress.png'),(29,19,'folder','Language','','Language','_self',3,'spellcheck.png'),(30,29,'item','Language Editor','index.php?mod=language&sub=editor','Language Editor','_self',0,'spellcheck.png'),(31,0,'folder','Administration','','Administration','_self',3,''),(32,31,'folder','Users','','Users','_self',0,'user_suit.png'),(33,32,'item','Show all Users','index.php?mod=admin&sub=users','Show all Users','_self',0,'table.png'),(34,32,'item','Create a user','index.php?mod=admin&sub=users&action=create','Create a user','_self',1,'add.png'),(35,32,'item','Search a User','index.php?mod=admin&sub=users&action=search','Search a User','_self',2,'magnifier.png'),(36,31,'folder','Groups','','Groups','_self',1,'group.png'),(37,36,'item','Show all Groups','index.php?mod=admin&sub=groups','Show all Groups','_self',0,'table.png'),(38,36,'item','Create a group','index.php?mod=admin&sub=groups&action=create','Create a group','_self',1,'add.png'),(39,31,'folder','Permissions','','Permissions','_self',2,'key.png'),(40,39,'item','Show all Permissions','index.php?mod=admin&sub=permissions','Show all Permissions','_self',0,'table.png'),(41,31,'item','Categories','index.php?mod=admin&sub=categories','Categories','_self',3,'spellcheck.png'),(42,31,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png'),(43,42,'item','Adminmenu Editor','index.php?mod=admin&sub=menueditor','Adminmenu Editor','_self',0,'application_form_edit.png'),(44,42,'item','Template Editor','index.php?mod=admin&sub=templates','Template Editor','_self',1,'layout_edit.png'),(45,0,'folder','Help','','Help','_self',4,''),(46,45,'item','Help','index.php?mod=admin&sub=static&action=show&page=help','Help','_self',0,'help.png'),(47,45,'item','Manual','index.php?mod=admin&sub=manual','Manual','_self',1,'book_open.png'),(48,45,'item','Report Bugs & Give Feedback','index.php?mod=admin&sub=bugs','Report Bugs & Give Feedback','_self',2,'error.png'),(49,45,'item','About Clansuite','index.php?mod=admin&sub=static&action=show&page=about','About Clansuite','_self',3,'information.png');
-/*!40000 ALTER TABLE `cs_adminmenu_old` ENABLE KEYS */;
+/*!40000 ALTER TABLE `cs_adminmenu_backup` DISABLE KEYS */;
+INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Home','index.php?mod=admin','Home','_self',0,''),(2,0,'folder','Modules','','Modules','_self',1,''),(3,2,'folder','News','','News','_self',0,'page_edit.png'),(4,2,'folder','Articles','','Articles','_self',1,'report.png'),(5,2,'folder','Static Pages','','Static Pages','_self',2,'html.png'),(6,5,'item','Create new Static Page','index.php?mod=admin&sub=static&action=create','Create new Static Page','_self',0,'add.png'),(7,5,'item','Show Static Pages','index.php?mod=admin&sub=static&action=show','Show Static Pages','_self',1,'pencil.png'),(8,2,'folder','Forum','','Forum','_self',3,'application_view_list.png'),(9,2,'folder','Guestbook','index.php?mod=guestbook&action=show','Guestbook','_self',4,'book_open.png'),(10,2,'folder','Matches','index.php?mod=matches&action=show','Matches','_self',5,'database_go.png'),(11,2,'folder','Serverlist','','Serverlist','_self',6,'table.png'),(12,11,'item','Show Servers','index.php?mod=serverlist&sub=admin&action=show','Show Servers','_self',0,'application_view_list.png'),(13,11,'item','Add Server','index.php?mod=serverlist&action=show','Add Server','_self',1,'application_form_edit.png'),(14,2,'folder','Shoutbox','','Shoutbox','_self',7,'comment.png'),(15,2,'folder','Downloads','','Downloads','_self',8,'disk.png'),(16,2,'folder','Gallery','','Gallery','_self',9,'map_go.png'),(17,2,'folder','Replays','','Replays','_self',10,'film.png'),(18,2,'folder','eMail','','eMail','_self',11,'email_open_image.png'),(19,0,'folder','System','','System','_self',2,''),(20,19,'item','Settings','index.php?mod=admin&sub=config','Settings','_self',0,'settings.png'),(21,19,'folder','Database','','Database','_self',1,'database_gear.png'),(22,21,'item','Optimize','index.php?mod=database&action=optimize','Optimize','_self',0,'database_go.png'),(23,21,'item','Backup','index.php?mod=database&action=backup','Backup','_self',1,'database_key.png'),(24,19,'folder','Modules','','Modules','_self',2,'bricks.png'),(25,24,'item','Install new modules','index.php?mod=admin&sub=modules&action=install_new','Install new modules','_self',0,'package.png'),(26,24,'item','Create a module/submodule','index.php?mod=admin&sub=modules&action=create_new','Create a new module/submodule','_self',1,'add.png'),(27,24,'item','Show and edit modules','index.php?mod=admin&sub=modules&action=show_all','Show and edit modules','_self',2,'bricks_edit.png'),(28,24,'item','Export a module','index.php?mod=admin&sub=modules&action=export','Export a module','_self',3,'compress.png'),(29,19,'folder','Language','','Language','_self',3,'spellcheck.png'),(30,29,'item','Language Editor','index.php?mod=language&sub=editor','Language Editor','_self',0,'spellcheck.png'),(31,0,'folder','Administration','','Administration','_self',3,''),(32,31,'folder','Users','','Users','_self',0,'user_suit.png'),(33,32,'item','Show all Users','index.php?mod=admin&sub=users','Show all Users','_self',0,'table.png'),(34,32,'item','Create a user','index.php?mod=admin&sub=users&action=create','Create a user','_self',1,'add.png'),(35,32,'item','Search a User','index.php?mod=admin&sub=users&action=search','Search a User','_self',2,'magnifier.png'),(36,31,'folder','Groups','','Groups','_self',1,'group.png'),(37,36,'item','Show all Groups','index.php?mod=admin&sub=groups','Show all Groups','_self',0,'table.png'),(38,36,'item','Create a group','index.php?mod=admin&sub=groups&action=create','Create a group','_self',1,'add.png'),(39,31,'folder','Permissions','','Permissions','_self',2,'key.png'),(40,39,'item','Show all Permissions','index.php?mod=admin&sub=permissions','Show all Permissions','_self',0,'table.png'),(41,31,'item','Categories','index.php?mod=admin&sub=categories','Categories','_self',3,'spellcheck.png'),(42,31,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png'),(43,42,'item','Adminmenu Editor','index.php?mod=admin&sub=menueditor','Adminmenu Editor','_self',0,'application_form_edit.png'),(44,42,'item','Template Editor','index.php?mod=admin&sub=templates','Template Editor','_self',1,'layout_edit.png'),(45,0,'folder','Help','','Help','_self',4,''),(46,45,'item','Help','index.php?mod=admin&sub=static&action=show&page=help','Help','_self',0,'help.png'),(47,45,'item','Manual','index.php?mod=admin&sub=manual','Manual','_self',1,'book_open.png'),(48,45,'item','Report Bugs & Give Feedback','index.php?mod=admin&sub=bugs','Report Bugs & Give Feedback','_self',2,'error.png'),(49,45,'item','About Clansuite','index.php?mod=admin&sub=static&action=show&page=about','About Clansuite','_self',3,'information.png');
+/*!40000 ALTER TABLE `cs_adminmenu_backup` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_adminmenu_shortcuts`
+--
+
+DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
+CREATE TABLE `cs_adminmenu_shortcuts` (
+  `id` tinyint(4) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `href` varchar(255) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `order` tinyint(4) NOT NULL default '30',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_adminmenu_shortcuts`
+--
+
+
+/*!40000 ALTER TABLE `cs_adminmenu_shortcuts` DISABLE KEYS */;
+INSERT INTO `cs_adminmenu_shortcuts` VALUES (1,'Console','index.php?mod=admin&sub=console','console.png',45),(2,'Downloads','index.php?mod=admin&sub=downloads','downloads.png',30),(3,'Articles','index.php?mod=admin&sub=articles','articles.png',30),(4,'Links','index.php?mod=admin&sub=links','links.png',30),(5,'Calendar','index.php?mod=admin&sub=calendar','calendar.png',30),(6,'Time','index.php?mod=admin&sub=time','time.png',30),(7,'Email','index.php?mod=admin&sub=email','email.png',3),(8,'Shoutbox','index.php?mod=admin&sub=shoutbox','shoutbox.png',30),(9,'Help','index.php?mod=admin&sub=help','help.png',40),(10,'Security','index.php?mod=admin&sub=security','security.png',41),(11,'Gallery','index.php?mod=admin&sub=gallery','gallery.png',30),(12,'System','index.php?mod=admin&sub=system','system.png',42),(13,'Replays','index.php?mod=admin&sub=replays','replays.png',30),(14,'News','index.php?mod=admin&sub=news','news.png',2),(15,'Settings','index.php?mod=admin&sub=settings','settings.png',43),(16,'Users','index.php?mod=admin&sub=users','users.png',1),(17,'Backup','index.php?mod=admin&sub=backup','backup.png',44),(18,'Templates','index.php?mod=admin&sub=templates','templates.png',4),(19,'Groups','index.php?mod=admin&sub=groups','groups.png',2),(20,'Search','index.php?mod=admin&sub=search','search.png',30);
+/*!40000 ALTER TABLE `cs_adminmenu_shortcuts` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_areas`
@@ -142,50 +142,6 @@ INSERT INTO `cs_categories` VALUES (1,88,1,'-keine-','Diese News sind keiner Kat
 /*!40000 ALTER TABLE `cs_categories` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_category`
---
-
-DROP TABLE IF EXISTS `cs_category`;
-CREATE TABLE `cs_category` (
-  `cat_id` tinyint(4) NOT NULL auto_increment,
-  `cat_modulname` text,
-  `cat_sortorder` tinyint(4) default NULL,
-  `cat_name` text,
-  `cat_image_url` varchar(60) default NULL,
-  `cat_description` varchar(90) default '0',
-  PRIMARY KEY  (`cat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cs_category`
---
-
-
-/*!40000 ALTER TABLE `cs_category` DISABLE KEYS */;
-INSERT INTO `cs_category` VALUES (1,'newso',NULL,'keine','','Diese News sind keiner Kategorie zugeordnet'),(2,'news',NULL,'Allgemein','/images/allgemein.gif','Allgemein'),(3,'news',NULL,'Member','/images/news/member.gif','Thema Member'),(4,'news',NULL,'Page','/images/news/page.gif',' Thema Page'),(5,'news',NULL,'IRC','/images/news/irc.gif',' Thema IRC gehört'),(6,'news',NULL,'Clan-Wars','/images/news/clanwars.gif','Thema Matches'),(7,'news',NULL,'Sonstiges','/images/news/sonstiges.gif','alles'),(8,'news',NULL,'LAN','','lan'),(10,'/design',NULL,'good night',NULL,'0');
-/*!40000 ALTER TABLE `cs_category` ENABLE KEYS */;
-
---
--- Table structure for table `cs_group_right`
---
-
-DROP TABLE IF EXISTS `cs_group_right`;
-CREATE TABLE `cs_group_right` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cs_group_right`
---
-
-
-/*!40000 ALTER TABLE `cs_group_right` DISABLE KEYS */;
-INSERT INTO `cs_group_right` VALUES (1,10),(1,11),(1,12),(1,13),(3,1),(3,3),(3,4),(3,5);
-/*!40000 ALTER TABLE `cs_group_right` ENABLE KEYS */;
-
---
 -- Table structure for table `cs_group_rights`
 --
 
@@ -202,7 +158,7 @@ CREATE TABLE `cs_group_rights` (
 
 
 /*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
-INSERT INTO `cs_group_rights` VALUES (1,1),(1,2),(1,3);
+INSERT INTO `cs_group_rights` VALUES (1,10),(1,11),(1,12),(1,13),(3,1),(3,3),(3,4),(3,5);
 /*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
 
 --
@@ -433,7 +389,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'51ae350ba0eeb5cf7859189b84073a18','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"51ae350ba0eeb5cf7859189b84073a18\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1160153797,1,'index');
+INSERT INTO `cs_session` VALUES (1,'44947ea84399edd6e507998e2723dad3','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"44947ea84399edd6e507998e2723dad3\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1160190018,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -509,43 +465,43 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 /*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_user_group`
+-- Table structure for table `cs_user_groups`
 --
 
-DROP TABLE IF EXISTS `cs_user_group`;
-CREATE TABLE `cs_user_group` (
+DROP TABLE IF EXISTS `cs_user_groups`;
+CREATE TABLE `cs_user_groups` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `group_id` int(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cs_user_group`
+-- Dumping data for table `cs_user_groups`
 --
 
 
-/*!40000 ALTER TABLE `cs_user_group` DISABLE KEYS */;
-INSERT INTO `cs_user_group` VALUES (1,1),(2,1),(2,2);
-/*!40000 ALTER TABLE `cs_user_group` ENABLE KEYS */;
+/*!40000 ALTER TABLE `cs_user_groups` DISABLE KEYS */;
+INSERT INTO `cs_user_groups` VALUES (1,1),(2,1),(2,2);
+/*!40000 ALTER TABLE `cs_user_groups` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_user_right`
+-- Table structure for table `cs_user_rights`
 --
 
-DROP TABLE IF EXISTS `cs_user_right`;
-CREATE TABLE `cs_user_right` (
+DROP TABLE IF EXISTS `cs_user_rights`;
+CREATE TABLE `cs_user_rights` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `right_id` int(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`user_id`,`right_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 --
--- Dumping data for table `cs_user_right`
+-- Dumping data for table `cs_user_rights`
 --
 
 
-/*!40000 ALTER TABLE `cs_user_right` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cs_user_right` ENABLE KEYS */;
+/*!40000 ALTER TABLE `cs_user_rights` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_user_rights` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_users`
