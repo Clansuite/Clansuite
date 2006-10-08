@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.20-community
+-- Server version	5.0.24a-community
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -81,7 +81,7 @@ CREATE TABLE `cs_adminmenu_shortcuts` (
   `file_name` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL default '30',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_adminmenu_shortcuts`
@@ -102,7 +102,7 @@ CREATE TABLE `cs_areas` (
   `name` varchar(255) NOT NULL default 'New Area',
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`area_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_areas`
@@ -130,7 +130,7 @@ CREATE TABLE `cs_categories` (
   PRIMARY KEY  (`cat_id`),
   UNIQUE KEY `cat_id` (`cat_id`),
   KEY `modul_id` (`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_categories`
@@ -176,7 +176,7 @@ CREATE TABLE `cs_groups` (
   `color` varchar(7) NOT NULL,
   PRIMARY KEY  (`group_id`),
   UNIQUE KEY `group_id` (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_groups`
@@ -201,7 +201,7 @@ CREATE TABLE `cs_help` (
   `related_links` text NOT NULL,
   PRIMARY KEY  (`help_id`),
   UNIQUE KEY `help_id` (`help_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_help`
@@ -254,10 +254,10 @@ CREATE TABLE `cs_modules` (
   `version` float NOT NULL,
   `cs_version` float NOT NULL,
   `core` tinyint(4) NOT NULL default '0',
-  `subs` text NOT NULL,
+  `subs0` text NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_modules`
@@ -282,7 +282,7 @@ CREATE TABLE `cs_news` (
   `news_added` int(11) default NULL,
   `news_hidden` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`news_id`,`cat_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_news`
@@ -329,7 +329,7 @@ CREATE TABLE `cs_rights` (
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`right_id`,`area_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_rights`
@@ -389,7 +389,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'44947ea84399edd6e507998e2723dad3','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"44947ea84399edd6e507998e2723dad3\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1160190018,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'70524494360e207f4b6190d730b92220','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"70524494360e207f4b6190d730b92220\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1160281893,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -406,7 +406,7 @@ CREATE TABLE `cs_shoutbox` (
   `ip` varchar(15) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_shoutbox`
@@ -431,7 +431,7 @@ CREATE TABLE `cs_static_pages` (
   `iframe` tinyint(1) NOT NULL default '0',
   `iframe_height` int(11) NOT NULL default '300',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_static_pages`
@@ -453,7 +453,7 @@ CREATE TABLE `cs_submodules` (
   `file_name` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`submodule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_submodules`
@@ -525,7 +525,7 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_users`

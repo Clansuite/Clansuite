@@ -366,6 +366,9 @@
                 <td>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%" id="{$wert.module_id}_subs">
                     {if is_array($wert.subs)}
+                   
+                   {* Debug Subs {$wert.subs|@var_dump} *} 
+                    
                     {foreach key=key item=item from=$wert.subs}
                     <tr id="{$wert.module_id}_sub_{$key}_tr1">
                         <td width="40" height="20">
@@ -380,16 +383,16 @@
                             <b>File:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item.file_name}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item.file_name}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr3">
                         <td height="20">
                             <b>Class:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item.class_name}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item.class_name}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr4">
                         <td colspan="2" height="20">
@@ -548,16 +551,16 @@
                             <b>File:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item[0]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item[0]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text">{$item.file_name}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_file" style="display: none" name="info[{$wert.module_id}][subs][{$key}][file]" value="{$item.file_name}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr3">
                         <td height="20">
                             <b>Class:</b>
                         </td>
                         <td>
-                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item[1]}</span>
-                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item[1]}" size="30"></td>
+                            <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" id="{$wert.module_id}_subs_{$key}_class_text">{$item.class_name}</span>
+                            <input onBlur="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_class');" class="input_text" type="textarea" id="{$wert.module_id}_subs_{$key}_class" style="display: none" name="info[{$wert.module_id}][subs][{$key}][class]" value="{$item.class_name}" size="30"></td>
                     </tr>
                     <tr id="{$wert.module_id}_sub_{$key}_tr4">
                         <td colspan="2" height="20">
