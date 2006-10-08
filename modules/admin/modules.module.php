@@ -121,30 +121,43 @@ class module_admin_modules
     function show_all()
     {
         global $cfg, $db, $tpl, $error, $lang;
-
+        
+        // for all Moduldirectories
         $dir_handler = opendir( MOD_ROOT );
         
         while( false !== ($content = readdir($dir_handler)) )
         {
             if ( $content != '.' && $content != '..' && $content != '.svn' )
-            {
+            {   
                 if ( is_dir( MOD_ROOT . '/' . $content ) )
                 {
                     $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE folder_name = ?' );
                     $stmt->execute( array( $content ) );
-                    $res = $stmt->fetch();
+                    $res = $stmt->fetch( PDO::FETCH_NAMED );
+                   
+                    // get submodule infos and assign to $res['module_id']['subs'] = array[submodule_id]
+                    $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id  
+                                           FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                                ' . DB_PREFIX . 'submodules s
+                                           WHERE r.submodule_id =  s.submodule_id  
+                                           AND   r.module_id = ?'); 
+                    $stmt->execute( array( $res['module_id'] ) );
+                    $submodules = $stmt->fetchALL(PDO::FETCH_NAMED|PDO::FETCH_GROUP);
                     
+                    foreach($submodules as $submodul => $v) 
+                    {
+                        $res['subs'][$submodul] = $v[0];
+                    }
+                                                    
                     if ( is_array( $res ) )
                     {
                         if ( $res['core'] == 0 )
                         {
                             $container['whitelisted']['normal'][$res['title']] = $res;
-                            $container['whitelisted']['normal'][$res['title']]['subs'] = unserialize($res['subs']);
                         }
                         else
                         {
                             $container['whitelisted']['core'][$res['title']] = $res;
-                            $container['whitelisted']['core'][$res['title']]['subs'] = unserialize($res['subs']);
                         }
                     }
                     else
@@ -167,6 +180,9 @@ class module_admin_modules
             }
         }
         ksort($container);
+        
+        #var_dump($container);
+        
         closedir($dir_handler);
                 
         $container['generals'] = array( 'Title'         => 'title',
@@ -1063,9 +1079,9 @@ class module_admin_modules
                     /**
                     * @desc Some unusual workaround *sigh
                     */
-                    if ( isset( $info[$value['module_id']]['subs'] ) )
+                    if ( isset( $info[$value['module_id']]['submodules'] ) )
                     {
-                        foreach( $info[$value['module_id']]['subs'] as $arr )
+                        foreach( $info[$value['module_id']]['submodules'] as $arr )
                         {
                             $subs[$arr['name']] = array( $arr['file'], $arr['class'] );
                             

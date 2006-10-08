@@ -63,12 +63,34 @@ class modules
         
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        foreach( $res as $key => $value )
-        {
-            $cfg->modules[$value['name']] = $value;
+        foreach ($modules as $modul => $value) 
+        {   
+           
+            $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id  
+                               FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                    ' . DB_PREFIX . 'submodules s
+                               WHERE r.submodule_id =  s.submodule_id  
+                               AND   r.module_id = ?'); 
+            $stmt->execute( array( $value['module_id'] ) );
+            $submodules = $stmt->fetchALL(PDO::FETCH_NAMED|PDO::FETCH_GROUP);
+            
+            // [0] array entfernen
+            foreach($submodules as $submodul => $value) 
+            {
+                $modules[$modul]['submodules'][$submodul] = $value[0];
+            }
+        
         }
+        
+        foreach ($modules as $modul => $value) 
+        { 
+         $cfg->modules[$value['name']] = $value;
+        
+        }
+        
+       #var_dump($cfg->modules);
     }
     
     /**
@@ -92,16 +114,19 @@ class modules
 
         
         if (array_key_exists($mod, $cfg->modules ) )
-        {
-            $sub_files = unserialize( $cfg->modules[$mod]['subs'] );
-            
+        {  
+            // submodules of which modul
+            $sub_files = $cfg->modules[$mod]['submodules'];
+           
             if ( $sub != '' )
-            {
+            {   
+                 // does submodules exits in array
                 if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
-                {
+                {  
                     $folder_name = $cfg->modules[$mod]['folder_name'];
-                    $file_name   = $sub_files[$sub][0];
-                    $class_name  = $sub_files[$sub][1];
+                    $file_name   = $sub_files[$sub]['file_name'];
+                    $class_name  = $sub_files[$sub]['class_name'];
+                    
                 }
                 else
                 {
@@ -122,7 +147,7 @@ class modules
             if ( $folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
-                
+               
                 if ( file_exists($file ) )
                 {
                     if (!in_array($mod, $modules->loaded ) )
@@ -166,15 +191,15 @@ class modules
         
         if (array_key_exists($mod, $cfg->modules ) )
         {
-            $sub_files = unserialize( $cfg->modules[$mod]['subs'] );
+            $sub_files = $cfg->modules[$mod]['submodules'];
 
             if ( $sub != '' )
             {
                 if ( isset($sub_files) AND is_array($sub_files) AND array_key_exists($sub, $sub_files ) )
                 {
                     $folder_name = $cfg->modules[$mod]['folder_name'];
-                    $file_name   = $sub_files[$sub][0];
-                    $class_name  = $sub_files[$sub][1];
+                    $file_name   = $sub_files[$sub]['file_name'];
+                    $class_name  = $sub_files[$sub]['class_name'];
                 }
                 else
                 {
