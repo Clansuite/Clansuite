@@ -292,8 +292,8 @@ class module_admin_modules
         $homepage       = $_POST['homepage'];
         $db_table       = $_POST['db_table'];
         $db_cols        = $_POST['db_cols'];
-        $submodule      = $_POST['submodule'];
-        $main_module    = $_POST['main_module'];
+        $submodule      = $_POST['submodule'];  // Checkbox 1 / 0
+        $module_id      = $_POST['module_id'];
         $enabled        = (int) $_POST['enabled'];
         $core           = (int) $_POST['core'];
         $image_name     = 'module_' . $name . '.jpg';
@@ -333,14 +333,7 @@ class module_admin_modules
             $err['no_special_chars'] = 1;
         }
         
-        /**
-        * @desc Get all module names for submodule relations
-        */
-        $stmt = $db->prepare( 'SELECT module_id,name FROM ' . DB_PREFIX . 'modules' );
-        $stmt->execute();
-        $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        /**
+               /**
         * @desc URL Check     
         */
         if ( !$input->check( $homepage, 'is_url' ) AND !empty( $homepage ) )
@@ -401,6 +394,14 @@ class module_admin_modules
             }
         }
         
+         /**
+        * @desc Get all module names for submodule relations
+        * todo: fetch just for assign tpl ?? -> 
+        */
+        $stmt = $db->prepare( 'SELECT module_id,name FROM ' . DB_PREFIX . 'modules' );
+        $stmt->execute();
+        $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
         /**
         * @desc Everything's fine - begin creating
         */
@@ -420,7 +421,9 @@ class module_admin_modules
             $tpl->assign( 'version'             , (float) 0.1 );
             $tpl->assign( 'cs_version'          , $cfg->version );
             $tpl->assign( 'core'                , $core );
-            $tpl->assign( 'subs'                , serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) );
+            $tpl->assign( 'subs'                , serialize( array(  'admin' => array( $name . '.admin.php', 
+                                                                                       'module_' . $name . '_admin' ) 
+                                                                                     ) ) );
             $tpl->assign( 'admin_class_name'    , 'module_' . $name . '_admin' );
 
             if ( $submodule == 1 )
@@ -431,24 +434,27 @@ class module_admin_modules
                 
                 if ( file_exists( MOD_ROOT . '/' . $name . '.module.php' ) )
                 {
-                    $err['sub_already_exists'] = 1;
+                    // - todo -
+                    // sicherstellen das hauptmodul fr submodul als file besteht.
+                    // eigentlich msste das main_module_exists sein oder?
+                    
+                    // take care, that modul exists as file
+                    $err['sub_already_exists'] = 1; 
                 }
                 else
                 {
-                    $stmt = $db->prepare( 'SELECT name,folder_name,module_id,subs FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
-                    $stmt->execute( array( $main_module ) );
-                    $res = $stmt->fetch();
+                    $stmt = $db->prepare( 'SELECT name,folder_name,module_id FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
+                    $stmt->execute( array( $module_id ) );
+                    $modul = $stmt->fetch();
                     
-                    if ( !is_array($res) )
+                    if ( !is_array($modul) )
                     {
+                        // take care, that modul_id exists in db
                         $err['mod_not_existing'] = 1;
                     }
                     else
-                    {
-                        $subs = unserialize($res['subs']);
-                        $subs[$name] = array( $name . '.module.php', 'module_' . $res['name'] . '_' . $name );
-
-                        $tpl->assign( 'class_name'          , 'module_' . $res['name'] . '_' . $name );
+                    { 
+                        $tpl->assign( 'class_name'          , 'module_' . $modul['name'] . '_' . $name );
 
                         $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
                         
@@ -456,10 +462,21 @@ class module_admin_modules
                         
                         $tpl->unregister_outputfilter( 'remove_tpl_comments' );
                                         
-                        file_put_contents ( MOD_ROOT . '/' . $res['folder_name'] . '/' . $name . '.module.php', $mod_class );
+                        file_put_contents ( MOD_ROOT . '/' . $modul['folder_name'] . '/' . $name . '.module.php', $mod_class );
+                                                
+                        // insert submodul
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
+                        $stmt->execute( array( $modul['name'], $name . '.module.php', 'module_' . $modul['name'] . '_' . $name ) );
 
-                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX .'modules SET subs = ? WHERE module_id = ?' );
-                        $stmt->execute( array( serialize($subs), $main_module ) );
+                        // insert relation of submodul to modul
+                        
+                        // ?-> 1. INSERT IGNORE, because module_id primary keys are doubled up
+                        
+                        // ?-> 2. how not to use pdo::last_insert_id, as it's not supported by all pdo drivers 
+                        //        and using "INSERT IGNORE INTO with SELECT" instead 
+                        
+                        $stmt = $db->prepare( 'INSERT IGNORE INTO ' . DB_PREFIX .'mod_rel_sub SET module_id = ?, submodule_id = ? ');
+                        $stmt->execute( array( $modul['module_id'], $db->lastInsertId() ) );
 
                         $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The submodule has been successfully created...' ), 'admin' );
                     }
@@ -498,7 +515,7 @@ class module_admin_modules
                         file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
                         
                         $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                        $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?, `subs`=?';
+                        $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?';
                         
                         $stmt = $db->prepare( $qry );
                         $stmt->execute( array ( $author,
@@ -515,9 +532,9 @@ class module_admin_modules
                                                 $image_name,
                                                 (float) 0.1,
                                                 $cfg->version,
-                                                $core,
-                                                serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) ) );
+                                                $core) );
 
+                                                #serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) ) 
                         $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module has been successfully created...' ), 'admin' );
                     }
                     else
@@ -596,7 +613,22 @@ class module_admin_modules
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
             $stmt->execute( array( $name ) );
-            $res = $stmt->fetch();
+            $res = $stmt->fetch(PDO::FETCH_NAMED);
+
+            // get submodule infos and assign to $res['module_id']['subs'] = array[submodule_id]
+            $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id  
+                                   FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                        ' . DB_PREFIX . 'submodules s
+                                   WHERE r.submodule_id =  s.submodule_id  
+                                   AND   r.module_id = ?'); 
+            $stmt->execute( array( $res['module_id'] ) );
+            $submodules = $stmt->fetchALL(PDO::FETCH_NAMED|PDO::FETCH_GROUP);
+                    
+            foreach($submodules as $submodul => $v) 
+            {
+             $res['subs'][$submodul] = $v[0];
+            }  
+            #var_dump($res);
             
             if ( is_array ( $res ) )
             {
@@ -623,7 +655,7 @@ class module_admin_modules
                     }
                 }
 
-                $tpl->assign( 'subs'        , unserialize($res['subs']) );
+                $tpl->assign( 'subs'        , $res['subs'] );
                 $tpl->assign( 'name'        , $res['name'] );
                 $tpl->assign( 'description' , $res['description'] );
                 $tpl->assign( 'license'     , $res['license'] );
@@ -835,7 +867,7 @@ class module_admin_modules
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
                         $stmt->execute( array ( $info['name'] ) );
                         
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                         $stmt->execute( array(  $info['author'],
                                                 $info['homepage'],
                                                 $info['license'],
@@ -850,8 +882,15 @@ class module_admin_modules
                                                 $info['image_name'],
                                                 $info['version'],
                                                 $info['cs_version'],
-                                                $info['core'],
-                                                serialize($info['subs']) ) );
+                                                $info['core']) );
+                        
+                        foreach($info['subs'] as $submodul => $v) 
+                        {                           
+                         $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'submodules` SET
+                                               name = ?, file_name = ?, class_name = ?' );
+                         $stmt->execute( array( $submodul, $v[0], $v[1] ) );
+                        }  
+                        
                                                 
                         $info['admin_menu'] = unserialize( $info['admin_menu'] );
                         if ( !empty( $info['admin_menu'] ) )
@@ -1219,7 +1258,8 @@ class module_admin_modules
             $info['core'] = !empty($info['core']) ? $info['core'] : 0;
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) 
+                                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                 $stmt->execute( array(  $info['author'],
                                         $info['homepage'],
                                         $info['license'],

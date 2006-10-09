@@ -1,5 +1,4 @@
 <?php
-echo "included";
 /**
 * serverlist Configuration
 *
@@ -25,7 +24,7 @@ echo "included";
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Jens Andre Koch
+* @author     Jens-André Koch
 * @copyright  Clansuite Group
 * @license    BSD
 * @version    SVN: $Id$
@@ -53,11 +52,11 @@ if (!defined('IN_CS'))
 // http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
 //
 // Or inside a template:
-// {mod="mymodule" sub="mysubmodule" func="myfunc" params="myparams"}
+// {mod name="serverlist" func="show" sub="mysubmodule" params="myparams"}
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$info['subs'] = 's:0:"";';
+$info['subs'] = array();
 
 
 
@@ -73,11 +72,11 @@ $info['subs'] = 's:0:"";';
 // module in the admin interface.
 //---------------------------------------------------------------- 
 
-$info['author']         = 'Jens Andre Koch';
+$info['author']         = 'Jens-André Koch';
 $info['homepage']       = '';
 $info['license']        = 'BSD';
 $info['copyright']      = 'Clansuite Group';
-$info['timestamp']      = 1155737385;
+$info['timestamp']      = 1160370147;
 $info['name']           = 'serverlist';
 $info['title']          = 'Serverlist';
 $info['description']    = 'List Gameservers';
@@ -93,6 +92,6 @@ $info['core']           = 0;
 * @desc Admin Menus
 */
  
-$info['admin_menu'] = '';
+$info['admin_menu'] = 'a:0:{}';
 
 ?>

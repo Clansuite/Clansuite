@@ -191,7 +191,7 @@ function rem_col(id)
                 </td>
                 <td>
                     <input type="checkbox" name="submodule" value="1" />
-                    <select name="main_module" class="input_text">
+                    <select name="module_id" class="input_text">
                         <option value="0"></option>
                         {foreach key=key item=item from=$modules}
                             <option value="{$item.module_id}">{$item.name}</option>
