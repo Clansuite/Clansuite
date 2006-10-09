@@ -24,7 +24,7 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Florian Wolf
+* @author     Florian Wolf, Jens-Andrè Koch
 * @copyright  clansuite group
 * @license    GPL v2
 * @version    SVN: $Id$
@@ -56,7 +56,9 @@ if (!defined('IN_CS'))
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-$info['subs'] = array();
+
+$info['subs'] = array('admin' => array( 'filebrowser.admin.php', 'module_filebrowser_admin' ),
+ );
 
 
 
@@ -72,13 +74,13 @@ $info['subs'] = array();
 // module in the admin interface.
 //---------------------------------------------------------------- 
 
-$info['author']         = 'Florian Wolf';
+$info['author']         = 'Florian Wolf, Jens-Andrè Koch';
 $info['homepage']       = 'http://www.clansuite.com';
 $info['license']        = 'GPL v2';
 $info['copyright']      = 'clansuite group';
-$info['timestamp']      = 1158595784;
+$info['timestamp']      = 1160370282;
 $info['name']           = 'filebrowser';
-$info['title']          = 'filebrowser';
+$info['title']          = 'Filebrowser';
 $info['description']    = 'The filebrwoser of clansuite';
 $info['class_name']     = 'module_filebrowser';
 $info['file_name']      = 'filebrowser.module.php';
@@ -92,6 +94,6 @@ $info['core']           = 0;
 * @desc Admin Menus
 */
  
-$info['admin_menu'] = '';
+$info['admin_menu'] = 'a:0:{}';
 
 ?>

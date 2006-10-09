@@ -57,7 +57,9 @@ if (!defined('IN_CS'))
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
 {if is_array($subs)}
-$info['subs'] = array({foreach key=key item=item from=$subs}'{$key}' => array( '{$item[0]}', '{$item[1]}' ),
+{* DEBUG will be printed in file :) {$subs|@var_dump} *}
+
+$info['subs'] = array({foreach key=key item=item from=$subs}'{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
 {/foreach} );
 {else}
 $info['subs'] = array();
