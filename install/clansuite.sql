@@ -229,7 +229,7 @@ CREATE TABLE `cs_mod_rel_sub` (
 
 
 /*!40000 ALTER TABLE `cs_mod_rel_sub` DISABLE KEYS */;
-INSERT INTO `cs_mod_rel_sub` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15);
+INSERT INTO `cs_mod_rel_sub` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(8,34);
 /*!40000 ALTER TABLE `cs_mod_rel_sub` ENABLE KEYS */;
 
 --
@@ -257,7 +257,7 @@ CREATE TABLE `cs_modules` (
   `subs0` text NOT NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_modules`
@@ -265,7 +265,7 @@ CREATE TABLE `cs_modules` (
 
 
 /*!40000 ALTER TABLE `cs_modules` DISABLE KEYS */;
-INSERT INTO `cs_modules` VALUES (1,'account','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Account Administration','This module handles all necessary account stuff - like login/logout etc.','module_account','account.module.php','account',1,'module_account.jpg',0.1,0,1,'s:0:\"\";'),(3,'captcha','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Captcha Module','The captcha module presents a image only humanoids can read.','module_captcha','captcha.module.php','captcha',1,'module_captcha.jpg',0.1,0,1,'s:0:\"\";'),(4,'index','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Index Module','This is the main site.','module_index','index.module.php','index',1,'module_index.jpg',0.1,0,1,'s:0:\"\";'),(2,'admin','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Admin Interface','This is the Admin Control Panel','module_admin','admin.module.php','admin',1,'module_admin.jpg',0.1,0,1,'a:14:{s:7:\"configs\";a:2:{i:0;s:18:\"configs.module.php\";i:1;s:20:\"module_admin_configs\";}s:7:\"modules\";a:2:{i:0;s:18:\"modules.module.php\";i:1;s:20:\"module_admin_modules\";}s:5:\"users\";a:2:{i:0;s:16:\"users.module.php\";i:1;s:18:\"module_admin_users\";}s:10:\"usercenter\";a:2:{i:0;s:21:\"usercenter.module.php\";i:1;s:23:\"module_admin_usercenter\";}s:6:\"groups\";a:2:{i:0;s:17:\"groups.module.php\";i:1;s:19:\"module_admin_groups\";}s:11:\"permissions\";a:2:{i:0;s:16:\"perms.module.php\";i:1;s:24:\"module_admin_permissions\";}s:10:\"menueditor\";a:2:{i:0;s:21:\"menueditor.module.php\";i:1;s:23:\"module_admin_menueditor\";}s:6:\"static\";a:2:{i:0;s:17:\"static.module.php\";i:1;s:19:\"module_admin_static\";}s:4:\"bugs\";a:2:{i:0;s:15:\"bugs.module.php\";i:1;s:17:\"module_admin_bugs\";}s:6:\"manual\";a:2:{i:0;s:17:\"manual.module.php\";i:1;s:19:\"module_admin_manual\";}s:9:\"templates\";a:2:{i:0;s:20:\"templates.module.php\";i:1;s:22:\"module_admin_templates\";}s:8:\"settings\";a:2:{i:0;s:19:\"settings.module.php\";i:1;s:21:\"module_admin_settings\";}s:10:\"categories\";a:2:{i:0;s:21:\"categories.module.php\";i:1;s:23:\"module_admin_categories\";}s:4:\"help\";a:2:{i:0;s:15:\"help.module.php\";i:1;s:17:\"module_admin_help\";}}'),(5,'static','Jens-André Koch,Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Static Pages','Static Pages store HTML content','module_static','static.module.php','static',1,'module_static.jpg',0.1,0,0,'s:0:\"\";'),(6,'shoutbox','Björn Spiegel, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Shoutbox Modul','This module displays a shoutbox. You can do entries and administrate it ...','module_shoutbox','shoutbox.module.php','shoutbox',1,'module_shoutbox.jpg',0.1,0,0,'s:0:\"\";'),(7,'news','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','News','News module','module_news','news.module.php','news',1,'module_news.jpg',0.1,0,0,'s:0:\"\";'),(8,'filebrowser','Florian Wolf, Jens-Andrè Koch','http://www.clansuite.com','GPL v2','clansuite group','Filebrowser','The filebrwoser of clansuite','module_filebrowser','filebrowser.module.php','filebrowser',1,'module_filebrowser.jpg',0.1,0,0,'a:1:{s:5:\"admin\";a:2:{i:0;s:21:\"filebrowser.admin.php\";i:1;s:24:\"module_filebrowser_admin\";}}'),(9,'serverlist','Jens-André Koch','','BSD','Clansuite Group','Serverlist','List Gameservers','module_serverlist','serverlist.module.php','serverlist',1,'module_serverlist.jpg',0.1,0,0,'a:1:{s:5:\"admin\";a:2:{i:0;s:20:\"serverlist.admin.php\";i:1;s:23:\"module_serverlist_admin\";}}');
+INSERT INTO `cs_modules` VALUES (1,'account','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Account Administration','This module handles all necessary account stuff - like login/logout etc.','module_account','account.module.php','account',1,'module_account.jpg',0.1,0,1,'s:0:\"\";'),(3,'captcha','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Captcha Module','The captcha module presents a image only humanoids can read.','module_captcha','captcha.module.php','captcha',1,'module_captcha.jpg',0.1,0,1,'s:0:\"\";'),(4,'index','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Index Module','This is the main site.','module_index','index.module.php','index',1,'module_index.jpg',0.1,0,1,'s:0:\"\";'),(2,'admin','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Admin Interface','This is the Admin Control Panel','module_admin','admin.module.php','admin',0,'module_admin.jpg',0.1,0.1,1,''),(5,'static','Jens-André Koch,Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Static Pages','Static Pages store HTML content','module_static','static.module.php','static',0,'module_static.jpg',0.1,0,0,''),(6,'shoutbox','Björn Spiegel, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Shoutbox Modul','This module displays a shoutbox. You can do entries and administrate it ...','module_shoutbox','shoutbox.module.php','shoutbox',1,'module_shoutbox.jpg',0.1,0,0,'s:0:\"\";'),(7,'news','Jens-André Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','News','News module','module_news','news.module.php','news',1,'module_news.jpg',0.1,0,0,'s:0:\"\";'),(8,'filebrowser','Florian Wolf, Jens-André Koch','http://www.clansuite.com','GPL v2','clansuite group','Filebrowser','The filebrwoser of clansuite','module_filebrowser','filebrowser.module.php','filebrowser',1,'module_filebrowser.jpg',0.1,0,0,'a:1:{s:5:\"admin\";a:2:{i:0;s:21:\"filebrowser.admin.php\";i:1;s:24:\"module_filebrowser_admin\";}}'),(9,'serverlist','Jens-André Koch','','BSD','Clansuite Group','Serverlist','List Gameservers','module_serverlist','serverlist.module.php','serverlist',1,'module_serverlist.jpg',0.1,0,0,'a:1:{s:5:\"admin\";a:2:{i:0;s:20:\"serverlist.admin.php\";i:1;s:23:\"module_serverlist_admin\";}}');
 /*!40000 ALTER TABLE `cs_modules` ENABLE KEYS */;
 
 --
@@ -389,7 +389,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'15497e309bfa173561c0172d767a2312','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"15497e309bfa173561c0172d767a2312\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1160535194,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'b60d6a585a5b37118482254ba5a5f663','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.0.7) Gecko/20060909 Firefox/1.5.0.7\";client_host|s:9:\"localhost\";suiteSID|s:32:\"b60d6a585a5b37118482254ba5a5f663\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1161538671,1,'index');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -453,7 +453,7 @@ CREATE TABLE `cs_submodules` (
   `file_name` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`submodule_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_submodules`
@@ -525,7 +525,7 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_users`
@@ -533,7 +533,7 @@ CREATE TABLE `cs_users` (
 
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,'Administrator','Administrator','I\'m the admin',0,1),(3,'test@test.de','test','974c2e9429ade22627f12ecb4b400f224474dfd0','','',1158144934,0,'test','test','test',0,1);
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,'Administrator','Administrator','I\'m the admin',0,1),(2,'test@test.de','test','974c2e9429ade22627f12ecb4b400f224474dfd0','','',1158144934,0,'test','test','test',0,1);
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
