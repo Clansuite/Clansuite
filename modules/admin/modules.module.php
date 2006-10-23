@@ -45,6 +45,8 @@ class module_admin_modules
     public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
+    
+    // import
     private $used = array();
     
     /**
@@ -1100,29 +1102,46 @@ class module_admin_modules
         
         $sets = '';
         
+        echo '$info <br>';
+        var_dump($info);
+        echo '$ids <br>';
+        var_dump($ids);
+        
         if ( isset( $_POST['abort'] ) )
         {
             $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all' );
         }
-
+        
+        // get all modules for foreach loop
         $stmt = $db->prepare( 'SELECT module_id FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
         $all_modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         if ( empty($confirm) )
-        {    
+        {   
+            // loop through all modules 
+            // (not only the ones to be updated, because of delete function)
             foreach( $all_modules as $key => $value )
-            {
+            {   
+                // ?? why to check that - what else? 
                 if ( in_array( $value['module_id'], $ids ) )
                 {
-                    /**
-                    * @desc Some unusual workaround *sigh
-                    */
-                    if ( isset( $info[$value['module_id']]['submodules'] ) )
-                    {
-                        foreach( $info[$value['module_id']]['submodules'] as $arr )
-                        {
+                    echo 'module id : '. $value['module_id'] . '<br>';
+                    
+                    // check if module contains submodules
+                    if ( isset( $info[$value['module_id']]['subs'] ) )
+                    {   
+                        echo 'submodules : <br>';
+                        var_dump($info[$value['module_id']]['subs']);
+                        
+                        // loop through all submodules
+                        foreach( $info[$value['module_id']]['subs'] as $arr )
+                        {  
+                            // create new array with submodules
                             $subs[$arr['name']] = array( $arr['file'], $arr['class'] );
+                            
+                            echo "subsrrname : <br>";
+                            var_dump($subs[$arr['name']]);
                             
                             /**
                             * @desc Write the subfile if requested
@@ -1156,17 +1175,30 @@ class module_admin_modules
                         }
                     }
                     else
-                    {
-                        $subs = '';
+                    {   
+                        // A. there are no submodules in that module
+                        $subs = null;
+                        
+                        /**
+                        * @desc Submodule delete -> from relation and submodule-table
+                        */
+                        $stmt = $db->prepare( 'DELETE rel,subs FROM ' . DB_PREFIX .'mod_rel_sub AS rel, 
+                                                                    ' . DB_PREFIX . 'submodules AS subs 
+                                               WHERE rel.module_id = ? 
+                                               AND rel.submodule_id = subs.submodule_id' );
+                        $stmt->execute( array( $value['module_id'] ) );
                     }
                     
                     /**
-                    * @desc Database Insert
+                    * @desc A. Database Insert of MODULE
                     */
                     $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
-                    $sets = 'author = ?, homepage = ?, license = ?, copyright = ?, folder_name = ?,';
-                    $sets .= 'class_name = ?, file_name = ?, description = ?, name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
-                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $sets . ' WHERE module_id = ?' );
+                    $sets = 'author = ?, homepage = ?, license = ?, copyright = ?,';
+                    $sets .= 'folder_name = ?, class_name = ?, file_name = ?, description = ?,';
+                    $sets .= 'name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
+                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules 
+                                           SET ' . $sets . ' 
+                                           WHERE module_id = ?' );
                     $stmt->execute( array(  $info[$value['module_id']]['author'],
                                             $info[$value['module_id']]['homepage'],
                                             $info[$value['module_id']]['license'],
@@ -1183,37 +1215,54 @@ class module_admin_modules
                                             $e,
                                             $value['module_id']) );
                     
-                    if ( !empty( $subs ) )
+                    /**
+                    * @desc B. Database Insert of SUBMODULE(S)
+                    */
+                    
+                    // if submodules exists
+                    if ( !empty($subs) )
                     {
-                        /**
-                        * @desc Subs delete
-                        */
-                        $stmt = $db->prepare( 'DELETE rel,subs FROM ' . DB_PREFIX .'mod_rel_sub AS rel, ' . DB_PREFIX . 'submodules AS subs WHERE rel.module_id = ? AND subs.submodule_id = rel.submodule_id' );
-                        $stmt->execute( array( $value['module_id'] ) );
+                        echo 'subs to insert:';  var_dump($subs);
                         
+                        
+                        //if submodule exists in all_modules [module_id] array
+                        //update
+                        //else insert
+                        //
+                         
                         /**
-                        * @desc Subs insert
+                        * @desc Submodule insert -> into submodule table
                         */
-                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'submodules SET name = ?, class_name = ?, file_name = ?' );
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'submodules 
+                                               SET name = ?, file_name = ?, class_name = ?' );
                         foreach( $subs as $key2 => $value2 )
                         {
-                            $stmt->execute( array( $key2, $value2[1], $value2[0]) );
+                            $stmt->execute( array( $key2, $value2[0], $value2[1]) );
                             $last_ids[] = $db->lastInsertId();
                         }
                         
                         /**
-                        * @desc Subs relationtable insert
+                        * @desc Submodule insrt -> into relation table
                         */
                         foreach( $last_ids as $key3 => $value3 )
                         {
-                            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'mod_rel_sub SET module_id = ?, submodule_id = ?');
+                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'mod_rel_sub 
+                                                  SET module_id = ?, submodule_id = ?' );
                             $stmt->execute( array( $value['module_id'], $value3 ) );
                         }
+                    }
+                    else
+                    {
+                     echo 'subs not empty';
+                     var_dump($subs);   
                     }
                 }
             }
         }
 
+        /**
+        * @desc C. Delete MODULES
+        */
         foreach( $all_modules as $key => $value )
         {
             if ( count ( $delete ) > 0 )
@@ -1223,7 +1272,7 @@ class module_admin_modules
                     $d = in_array( $value['module_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=admin&sub=modules&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s)?' ), 'admin' );
+                        $functions->redirect( 'index.php?mod=admin&sub=modules&action=update&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)) . '&enabled=' . urlencode(serialize($enabled)), 'confirm', 3, $lang->t( 'Do you really want to delete the module(s) : #' . $value['module_id'] . ' - ' . $value['name'] . '?' ), 'admin' );
                     }
                     else
                     {
