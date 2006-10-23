@@ -60,7 +60,6 @@ class functions
                 {
                     session_write_close();
                     header('Location: ' . $url );
-                    exit();
                 }
                 else
                 {
@@ -73,7 +72,8 @@ class functions
                     {        
                         header('Location: ' . $url.'?'.$session->session_name.'='.session_id() );
                     }
-                }       
+                }
+                exit();       
                 break;
                 
             case 'metatag':
