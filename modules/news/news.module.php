@@ -1,7 +1,7 @@
 <?php
 /**
-* news
-* The website news
+* Module: news
+* Description: The website news
 *
 * PHP >= version 5.1.4
 *
@@ -32,28 +32,8 @@
 * @link       http://www.clansuite.com
 */
 
-/*
-Tabellenstruktur für Tabelle `suite_news`
-
-CREATE TABLE `cs_news` (
-  `news_id` int(11) NOT NULL auto_increment,
-  `news_title` varchar(255) NOT NULL default '',
-  `news_body` text NOT NULL,
-  `news_category` tinyint(4) NOT NULL default '0',
-  `user_id` int(11) unsigned NOT NULL default '0',
-  `news_added` int(11) unsigned NOT NULL default '0',
-  `news_hidden` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`news_id`,`news_category`)
-) ENGINE=MyISAM;
-*/
-
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+// Security Handler
+if (!defined('IN_CS')) { die('You are not allowed to view this page statically.' ); }
 
 /**
 * @desc Start module index class
@@ -94,7 +74,12 @@ class module_news
     }
 
     /**
-    * @desc Show the entrance - welcome message etc.
+    * @desc Show news
+    *
+    * 1. get news with nick of author and category
+    * 2. add general data of comments for each news
+    *
+    * @output: $newslist ( array for smarty template output )
     */
 
     function show()
@@ -111,7 +96,7 @@ class module_news
                                 WHERE n.news_hidden = ? 
                                 ORDER BY news_id DESC' );
         
-        /* TODO */
+        /* TODO: news with status: draft, published, private, private+protected*/
         $hidden = '0';
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
@@ -124,30 +109,30 @@ class module_news
             #return false;
         }
         
-        
+        // add the general news_comments data to the array of fetched news
         foreach ($newslist as $k => $v) 
         { 
             
-        // add to $newslist array, the numbers of news_comments for each news_id
-        $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
-        $stmt->execute( array( $v['news_id'] ) );
-        $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN); 
-            
-        // add to $neslist array, the nickname of the author of the last comment for each news_id 
-        if ($newslist[$k]['nr_news_comments'] > 0 ) 
-        {               
-         $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo) 
-                               FROM '. DB_PREFIX .'news_comments c 
-        		               LEFT JOIN '. DB_PREFIX .'users u USING(user_id) 
-        			           WHERE c.news_id = ? 
-        			           ORDER BY c.comment_id DESC'); 
-         $stmt->execute( array( $v['news_id'] ) );
-         $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN); 
-        }
+            // add to $newslist array, the numbers of news_comments for each news_id
+            $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
+            $stmt->execute( array( $v['news_id'] ) );
+            $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN); 
+                
+            // add to $neslist array, the nickname of the author of the last comment for each news_id 
+            if ($newslist[$k]['nr_news_comments'] > 0 ) 
+            {               
+                 $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo) 
+                                       FROM '. DB_PREFIX .'news_comments c 
+                		               LEFT JOIN '. DB_PREFIX .'users u USING(user_id) 
+                			           WHERE c.news_id = ? 
+                			           ORDER BY c.comment_id DESC'); 
+                 $stmt->execute( array( $v['news_id'] ) );
+                 $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN); 
+            }
         
         }
           
-        // $newslist an Smarty bergeben und Template ausgeben
+        // give $newslist array to Smarty for template output
         $tpl->assign('news', $newslist);
         
         $this->output = $tpl->fetch('news/show.tpl');
