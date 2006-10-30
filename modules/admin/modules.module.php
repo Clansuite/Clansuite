@@ -62,6 +62,7 @@ class module_admin_modules
         
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show_all':
                 $this->mod_page_title = $lang->t( 'Show and edit all modules' );
                 $this->show_all();
@@ -103,12 +104,7 @@ class module_admin_modules
             case 'chmod':
                 $this->chmod();
                 break;
-                
-
-            default:
-                $this->mod_page_title = $lang->t( 'Show all modules' );
-                $this->show_all();
-            break;
+           
         }
         
         return array( 'OUTPUT'          => $this->output,
@@ -119,6 +115,10 @@ class module_admin_modules
     
     /**
     * @desc Show all modules
+    * a. durchl„uft alle moduleverzeichnisse
+    * b. fr alle in der datenbank eingetragenen module inklusive ihrer submodule
+    * c. wird ein array erstellt
+    * d. anderenfalls:
     */
     function show_all()
     {
@@ -191,6 +191,7 @@ class module_admin_modules
                                         'Description'   => 'description',
                                         'Author'        => 'author',
                                         'Homepage'      => 'homepage' );
+                                        
         $container['more'] = array( 'Name'          => 'name',
                                     'Version'       => 'version',
                                     'License'       => 'license',
@@ -199,6 +200,7 @@ class module_admin_modules
                                     'Imagename'     => 'image_name',
                                     'Classname'     => 'class_name',
                                     'Filename'      => 'file_name' );
+                                    
         $tpl->assign('content', $container);
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
@@ -335,7 +337,7 @@ class module_admin_modules
             $err['no_special_chars'] = 1;
         }
         
-               /**
+        /**
         * @desc URL Check     
         */
         if ( !$input->check( $homepage, 'is_url' ) AND !empty( $homepage ) )
@@ -1083,7 +1085,29 @@ class module_admin_modules
     }
     
     /**
-    * @desc Update the module list
+    * @desc Update a module
+    */
+    function update_module()
+    {
+        global $db, $functions, $input, $lang, $error, $tpl;
+        
+        // 1. checken ob modul existiert
+    }
+    
+    /**
+    * @desc Update a submodule
+    */
+    function update_submodule()
+    {
+        global $db, $functions, $input, $lang, $error, $tpl;
+        
+        // 2. checken ob submodul existiert
+        
+    }
+    
+    
+    /**
+    * @desc Deprecated -> Update the module list
     */
     function update()
     {
