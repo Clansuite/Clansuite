@@ -1,7 +1,7 @@
 <?php
 /**
-* {$name}
-* {$description}
+* Modulename:   {$name}
+* Description:  {$description}
 *
 * PHP >= version 5.1.4
 *
@@ -32,17 +32,10 @@
 * @link       {$homepage}
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{ldelim}
-    die('You are not allowed to view this page statically.' );
-{rdelim}
+// Security Handler
+if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.' ); {rdelim}
 
-/**
-* @desc Start module class
-*/
+// Begin of class {$class_name}
 class {$class_name}
 {ldelim}
     public $output          = '';
@@ -51,8 +44,15 @@ class {$class_name}
     public $suppress_wrapper= '';
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
+    * @desc General Function Hook of {$name}-Modul 
+    * 
+    * 1. page title of modul is set
+    * 2. $_REQUEST['action'] determines the switch 
+    * 3. function title is added to page title, to complete the title
+    * 4. switch-functions are called
+    *
+    * @return: array ( OUTPUT, MOD_PAGE_TITLE, ADDITIONAL_HEAD, SUPPRESS_WRAPPER )
+    * 
     */
 
     function auto_run()
@@ -61,9 +61,10 @@ class {$class_name}
         global $lang;
         $params = func_get_args();
         
-        // Construct Page Title        
+        // Set Page Title        
         $this->mod_page_title = $lang->t( '{$title}' ) . ' &raquo; ';
         
+        // 
         switch ($_REQUEST['action'])
         {ldelim} 
             
@@ -85,9 +86,10 @@ class {$class_name}
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     {rdelim}
 
-    /**
-    * @desc Show the entrance - welcome message etc.
-    */
+
+     /**
+    * @desc Function: Show
+    */    
     function show()
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
@@ -98,10 +100,16 @@ class {$class_name}
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
     {rdelim}
     
+    
     /**
-    * @desc This content can be instantly displayed by adding {ldelim}mod name="{$name}" func="instant_show" params="mytext"{rdelim} into a template
-    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */
+    * @desc Function: instant_show
+    *
+    * This content can be instantly displayed by adding this into a template:
+    * {ldelim}mod name="{$name}" func="instant_show" params="mytext"{rdelim} 
+    * 
+    * You have to add the lines as shown above into the case block: 
+    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    */    
     function instant_show($my_text)
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
