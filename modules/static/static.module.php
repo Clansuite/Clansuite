@@ -68,6 +68,11 @@ class module_static
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
                 break;
+                
+            case 'overview':
+                $this->mod_page_title .= $lang->t( 'Overview' );
+                $this->overview();
+                break;
        
        }
         
@@ -78,7 +83,7 @@ class module_static
     }
 
     /**
-    * @desc Show the entrance - welcome message etc.
+    * @desc Show a specific static page
     */
     function show()
     {
@@ -122,5 +127,32 @@ class module_static
             $this->output .= $lang->t('This static page does not exist.');
         }
     }
+    
+    
+     /**
+    * @desc Show an overview of all static pages (Static Page Index)
+    */
+    function overview()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        
+        // get all static pages without page content
+        $stmt = $db->prepare( 'SELECT id, title, description FROM ' . DB_PREFIX . 'static_pages' );
+        $stmt->execute();
+        $result = $stmt->fetchALL(PDO::FETCH_NAMED);
+        
+        if ( !is_array( $result ) )
+            {
+                $this->output .= $lang->t('No static pages found.');
+            }
+         else
+            {
+               $tpl->assign('overview', $result);
+               $this->output .= $tpl->fetch('staticpages/overview.tpl');
+            }
+        
+    }
+    
+    
 }
 ?>
