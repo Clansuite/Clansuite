@@ -5,65 +5,48 @@
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
     
-    
     <script language="JavaScript1.5" type="text/javascript" src="{$www_core_tpl_root}/javascript/log4javascript.js"></script>
     
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/moo.fx.js"></script>
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/EditInPlace.js"></script>
-	
-    {* Edit in Place *} {literal}    
-    <style type="text/css">
-		/* Define the basic CSS used by EditInPlace */
-        .eip_mouseover      { background-color: #ff9; padding: 3px; }
-        .eip_empty          { color: #afafaf; }
-        .eip_savebutton     { background-color: #0063dc; color: #fff; 
-                              text-transform: uppercase; font-weight: bold;}
-        .eip_cancelbutton   { background-color: #ddd; color: #666; 
-                              font-weight: bold;}
-        .eip_saving img     { vertical-align:text-top; }
-        .eip_saving         { color: #aaa;}
-    </style>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
     
-   	<script type="text/javascript">
-		Event.observe(window, 'load', init, false);
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/moo.fx.js"></script>
 		
-		function init() {
-		
-	        // animated GIF and saving message
-        	EditInPlace.defaults["saving_text"] = "<img src='{$www_core_tpl_root}/core/images/ajax/1.gif' /> <span class='eip_" + EditInPlace.defaults["saving_class"] + "'>Saving changes, please wait.</span>";
-        	
-        	// Change String at Element with id "edittest"
-			// and cancel editing form when clicked away from.
-			EditInPlace.makeEditable({ 
-			                id: 'edittest',
-			                type: 'text',			                
-			                save_url: 'optionedit.php',
-			                on_blur: 'cancel'
-			                });
-          
-	
-	        // ######### Table Edit in Place ##############
-	         
-	        // Prototype Array Ansatz -> 
-	        // fÅr jedes td element innerhalb von table 
-	        // editfunktion einbinden 
-	        
-	        // $$("table.editable td").each( EditInPlace.makeEditable({
-            //       	                    id: cell,
-            //       	                    type: 'text',
-            //       	                    save_url: 'index.php',
-            //      	                    on_blur: 'cancel'
-            //      	                    });
-	        //  )
-           
-           
-           }
-	</script>
+    {* Edit in Place *} 
+    {literal}    
+    
+        <style type="text/css">
+    		/* Define the basic CSS used by EditInPlace */
+    		.tableedit {
+            	font-family: Verdana, Arial, Helvetica, sans-serif;
+            	font-size: 10px;
+            	width: 700px;
+            }
+            .tableedit td {
+            	display: block;
+            	overflow: hidden;
+            	float: left;
+            	margin: 0px;
+            	border-bottom:1px solid #eeeeee;
+            	border-right:1px solid #eeeeee;
+            	background-color: #fff;
+            	padding: 2px;
+            	width: 65px;
+            	height: 20px;
+            }
+            
+            .tableedit input {
+            	border: 1px solid #f0b604;
+            	width: 64px;
+            	padding-top: 1px;
+            	height: 17px;
+            }
+            
+        </style>
+   
 	{/literal}
 	
 {/doc_raw}
-
 
 {* TAB PANE 1 - MODULES - NOT IN WHITELIST *}
 
@@ -75,31 +58,39 @@
       <span id="edittest">You can edit this line with a single click.</span>
       
       <br/>
-      <strong> Test for editable table:  </strong>
       
-      <table class="editable">
-      
-          <thead>
+      <div><strong> Test for editable table:  </strong>
+           <img style="display: none;" id="indicator" src="spinner.gif" width="16" height="16" alt="saving" />	</div>
+	<div style="border-left: 1px solid #cccccc; border-top:1px solid #aca899; width: 700px; padding: 0px;">
+	<table class="tableedit" id="table1" border="0" cellpadding="0" cellspacing="0">
+		 <thead>
             <tr><td>Col-1</td><td>Col-2</td><td>Col-3</td></tr>
          </thead>
-            
+       
+       
+       <tbody>
           <tr>
-            <td id="edit_r1c1">R1-C1</td>
-            <td id="edit_r1c2">R1-C2</td>
-            <td id="edit_r1c3">R1-C3</td>
+            <td>R1-C1</td>
+            <td>R1-C2</td>
+            <td>R1-C3</td>
           </tr>
           <tr>
-            <td id="edit_r2c1">R2-C1</td>
-            <td id="edit_r2c2">R2-C2</td>
-            <td id="edit_r2c3">R2-C3</td>
+            <td>R2-C1</td>
+            <td>R2-C2</td>
+            <td>R2-C3</td>
           </tr>
           <tr>
-            <td id="edit_r3c1">R3-C1</td>
-            <td id="edit_r3c2">R3-C2</td>
-            <td id="edit_r3c3">R3-C3</td>
+            <td>R3-C1</td>
+            <td>R3-C2</td>
+            <td id="name#4">R3-C3</td>
           </tr>
-      
+      </tbody>
       </table>
+
+	</div>
+	<div style="height: 15px; border-left: 1px solid #cccccc; border-bottom: 1px solid #cccccc; background-color: #eeeeee; width: 700px; padding: 0px;">
+	&nbsp;&nbsp;<a id="addrow" href="#"><img border="0" src="newrow.gif" /></a></div>
+	<script type="text/javascript">new TableGrid('table1', '3', 'index.php');</script>
 
    </div>
    
@@ -147,35 +138,37 @@
             	<div class="tab-page" id="{$wert.name}_generals">
             	   <h2 class="tab">{translate}General{/translate}</h2>
             	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
-                    <table cellpadding="2" cellspacing="2" border="0">
+                    
+                    <table class="tableedit" id="table_{$wert.module_id}" cellpadding="2" cellspacing="2" border="0">
                     
                     {* Content of $content.generals = Title, Author, Description, Homepage *}
                     {foreach key=key item=item from=$content.generals}
                         <tr>
                         <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                        <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
-                        <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                        <td width="250" height="25">{$wert.$item}</td>
                         </tr>
                     {/foreach}
                               
                     </table>
+                    <script type="text/javascript">new TableGrid('table_{$wert.module_id}', '3', 'index.php');</script>
                 </div>
             
             	<div class="tab-page" id="{$wert.name}_more">
             	   <h2 class="tab"{translate}>Moduledetails{/translate}</h2>
             	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
             
-                    <table cellpadding="2" cellspacing="2" border="0">
+                    <table class="tableedit" id="table_{$wert.module_id}" cellpadding="2" cellspacing="2" border="0">
             
                     {foreach key=key item=item from=$content.more}
                         <tr>
-                        <td width="90"><b>{translate}{$key}:{/translate}</b></td>
-                        <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
-                        <input onBlur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
+                            <td width="90"><b>{translate}{$key}:{/translate}</b></td>
+                            <td id="{$wert.module_id}_{$wert.name}_{$item}" width="250" height="25">{$wert.$item}</td>
+                            
                         </tr>
                     {/foreach}
                             
                     </table>
+                    <script type="text/javascript">new TableGrid('table_{$wert.module_id}', '3', 'index.php');</script>
                 </div>
             
             	<div class="tab-page" id="{$wert.name}_subs">
