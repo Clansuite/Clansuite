@@ -2,10 +2,8 @@ TableGrid = Class.create();
 TableGrid.prototype = {
 	initialize: function(table, cols, url ) {
     	this.table = table;
+    	this.url = url;
     	
-   		this.url = url;
-   		
-   		
    		this.tbody = $(table).getElementsByTagName('tbody')[0];
    		this.indicator = $('indicator');
    		this.editing = false;
@@ -18,19 +16,20 @@ TableGrid.prototype = {
     	this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
     	this.onclickListener = this.enterEditMode.bindAsEventListener(this);
 	
-		if(this.tbody.getElementsByTagName('tr').length > 0) this.addCellEvent();
-	},	
+		if(this.tbody.getElementsByTagName('tr').length > 0) { this.addCellEvent(); }
+	  },	
 	
-	addCellEvent: function() {	
-    	$$('table#' + this.table + ' td').each(function(item) {
+	addCellEvent: function() {
+	    //  table#id td.class
+	    $$('table#' + this.table + ' td.editcell').each(function(item) {
 			Event.observe(item, 'mouseover', this.mouseoverListener);
 			Event.observe(item, 'mouseout', this.mouseoutListener);
 			Event.observe(item, 'click', this.onclickListener);
 		}.bind(this));
 	},	
 	
-	enterHover: function(event) {
-    	Event.element(event).style.backgroundColor = '#fcd661';
+	enterHover: function(event) {                   //#fcd661
+    	Event.element(event).style.backgroundColor = '#ffc';
     },
     
     leaveHover: function(event) {
@@ -66,7 +65,7 @@ TableGrid.prototype = {
 	    textField.id = 'value';
 	    textField.maxLength = '20';
 	    textField.size = '10';
-	    textField.value = text.replace(/^ /, '');
+	    textField.value = text.replace(/^ /, ''); 
 	    textField.style.backgroundColor = '#fbecc0';
 		//textField.onblur = this.onBlur.bind(this);
 	    textField.onclick = this.enterInput.bind(this);
