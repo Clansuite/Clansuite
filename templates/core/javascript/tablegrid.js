@@ -11,7 +11,7 @@ TableGrid.prototype = {
 		this.movenext = false;
 		this.numcol = cols;
 				
-		Event.observe($('addrow'), "click", this.addRow.bindAsEventListener(this));
+		//Event.observe($('addrow'), "click", this.addRow.bindAsEventListener(this));
 		this.mouseoverListener = this.enterHover.bindAsEventListener(this);
     	this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
     	this.onclickListener = this.enterEditMode.bindAsEventListener(this);
@@ -63,7 +63,7 @@ TableGrid.prototype = {
 	    textField.name = 'value';
 	    textField.setAttribute('autocomplete', 'off');
 	    textField.id = 'value';
-	    textField.maxLength = '20';
+	    textField.maxLength = '40';
 	    textField.size = '10';
 	    textField.value = text.replace(/^ /, ''); 
 	    textField.style.backgroundColor = '#fbecc0';
