@@ -1,6 +1,6 @@
 {doc_raw}
-<script src="{$www_core_tpl_root}/javascript/prototype.js" type="text/javascript"></script>
-<script src="{$www_core_tpl_root}/javascript/scriptaculous.js" type="text/javascript"></script>
+<script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
+<script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
 <script src="{$www_core_tpl_root}/javascript/smarty_ajax.js" type="text/javascript"></script>
 <script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="{$www_tpl_root}/coffee-with-milk.css" />
