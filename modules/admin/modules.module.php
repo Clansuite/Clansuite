@@ -67,6 +67,11 @@ class module_admin_modules
                 $this->mod_page_title = $lang->t( 'Show and edit all modules' );
                 $this->show_all();
                 break;
+            
+            // AJAX
+            case 'ajaxupdate_modulesgenerals':
+                $this->ajaxupdate_modules();
+                break;
                 
             case 'install_new':
                 $this->mod_page_title = $lang->t( 'Install new modules' );
@@ -115,9 +120,9 @@ class module_admin_modules
     
     /**
     * @desc Show all modules
-    * a. durchl„uft alle moduleverzeichnisse
-    * b. fr alle in der datenbank eingetragenen module inklusive ihrer submodule
-    * c. wird ein array erstellt
+    * a. durchl„uft alle modules verzeichnisse
+    * b. erstellt fr alle in der datenbank eingetragenen module inklusive ihrer submodule
+    * c. ein array
     * d. anderenfalls:
     */
     function show_all()
@@ -200,10 +205,30 @@ class module_admin_modules
                                     'Imagename'     => 'image_name',
                                     'Classname'     => 'class_name',
                                     'Filename'      => 'file_name' );
-                                    
+        
+        
+        //$tpl->assign('tplpath', TPL_ROOT . '/admin/modules');          
+        //$tpl->assign('tplpath', WWW_ROOT . '/templates/core/admin/modules/tabpane.php');                           
+        $tpl->assign('tplpath', $tpl->template_dir );
         $tpl->assign('content', $container);
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
+
+    /**
+    * @desc Ajax Update Function called from show_all.tpl 
+    *                            value ~~~               cell modulid modulname title
+    * &table=table_for_modules_8&value=Filebrowserasdfg&cell=8_filebrowser_title&_=
+    */
+    function ajaxupdate_modules(){
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+      
+        
+        $this->output .= $_POST['value'];
+     
+        $this->suppress_wrapper = true; 
+    }
+    
+
 
     /**
     * @desc Install new modules
