@@ -28,9 +28,9 @@
  *  * Loadable plugin support with event handling features
  *
  * @package	Swift
- * @version	2.1.12
+ * @version	2.1.17
  * @author	Chris Corbyn
- * @date	18th August 2006
+ * @date	18th October 2006
  * @license http://www.gnu.org/licenses/lgpl.txt Lesser GNU Public License
  *
  * @copyright Copyright &copy; 2006 Chris Corbyn - All Rights Reserved.
@@ -61,7 +61,7 @@
  *
  */
 
-if (!defined('SWIFT_VERSION')) define('SWIFT_VERSION', '2.1.12');
+if (!defined('SWIFT_VERSION')) define('SWIFT_VERSION', '2.1.17');
 
 /**
  * Swift Plugin Interface. Describes the methods which plugins should implement
@@ -366,6 +366,11 @@ class Swift
 	 * Number of commands skipped thus far
 	 */
 	private $skippedCommands = 0;
+	/**
+	 * The encoding mode to use in headers (default base64)
+	 * @var char mode
+	 */
+	private $headerEncoding = 'B';
 	
 	/**
 	 * Swift Constructor
@@ -483,6 +488,23 @@ class Swift
 			break;
 			case 3: default:
 			$this->addHeaders("X-Priority: $level\r\nX-MSMail-Priority: Normal");
+		}
+	}
+	/**
+	 * Set the encoding to use in headers
+	 * @param string mode
+	 */
+	public function setHeaderEncoding($mode='B')
+	{
+		switch (strtoupper($mode))
+		{
+			case 'Q':
+			case 'QP':
+			case 'QUOTED-PRINTABLE':
+			$this->headerEncoding = 'Q';
+			break;
+			default:
+			$this->headerEncoding = 'B';
 		}
 	}
 	/**
@@ -1173,11 +1195,14 @@ class Swift
 	 * The data is the file contents itself (binary safe)
 	 * @param string file contents
 	 * @param string content-type
+	 * @param string filename
+	 * @param string content-id
 	 * @return string name
 	 */
-	public function embedFile($data, $type='application/octet-stream', $filename=false)
+	public function embedFile($data, $type='application/octet-stream', $filename=false, $cid=false)
 	{
-		$cid = 'SWM'.md5(uniqid(rand(), true));
+		if (!$cid) $cid = 'SWM'.md5(uniqid(rand(), true));
+		
 		if (!$filename) $filename = $cid;
 		
 		$this->images[] = "Content-Type: $type\r\n".
@@ -1228,7 +1253,11 @@ class Swift
 	{
 		foreach ((array)$string_in as $string)
 		{
-			if (preg_match('%(?:
+			if (is_array($string))
+			{
+				if ($this->detectUTF8($string)) return true;
+			}
+			elseif (preg_match('%(?:
 			[\xC2-\xDF][\x80-\xBF]				# non-overlong 2-byte
 			|\xE0[\xA0-\xBF][\x80-\xBF]			# excluding overlongs
 			|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}	# straight 3-byte
@@ -1326,10 +1355,15 @@ class Swift
 					//... and remove it from the string
 					$string = substr($string, 0, $address_start);
 				}
-				$encoded = chunk_split($this->encode($string, 'base64'));
+				
+				if ($this->headerEncoding == 'B') $encoded = trim(chunk_split($this->encode($string, 'base64')));
+				else
+				{
+					$this->headerEncoding = 'Q';
+					$encoded = trim($this->encode($string, 'quoted-printable'));
+				}
 				$lines = explode("\r\n", $encoded);
-				if ($lines[(count($lines)-1)] == "") $lines = array_slice($lines, 0, count($lines)-1);
-				return  '=?'.$this->charset.'?B?'.implode("?=\r\n =?{$this->charset}?B?", $lines).'?= '.$address;
+				return  '=?'.$this->charset.'?'.$this->headerEncoding.'?'.implode("?=\r\n =?{$this->charset}?{$this->headerEncoding}?", $lines).'?= '.$address;
 			}
 		}
 		else
@@ -1384,6 +1418,8 @@ class Swift
 	 */
 	public function getAddress($string)
 	{
+		if (!$string) return null;
+		
 		if (preg_match('/^.*?<([^>]+)>\s*$/s', $string, $matches))
 		{
 			return '<'.$this->make7bitPrintable($matches[1]).'>';
@@ -1602,6 +1638,7 @@ class Swift
 		else
 		{ //Build a full email from the parts we have
 			$boundary = $this->getMimeBoundary();
+			$encoding = '8bit';
 			$mixalt = 'alternative';
 			$alternative_boundary = $this->getMimeBoundary(implode($this->parts));
 
@@ -1631,11 +1668,15 @@ class Swift
 			}
 			else
 			{
-				$message_body = "Content-Type: multipart/alternative; ".
+				if (!empty($this->attachments))
+				{
+					$message_body = "Content-Type: multipart/alternative; ".
 					"boundary=\"{$alternative_boundary}\"\r\n\r\n".
 					"--{$alternative_boundary}\r\n".
 					implode("\r\n\r\n--$alternative_boundary\r\n", $this->parts).
 					"\r\n--$alternative_boundary--\r\n";
+				}
+				else $message_body = implode("\r\n\r\n--$boundary\r\n", $this->parts);
 			}
 	
 			if (!empty($this->attachments)) //Make a sub-message that contains attachment data
