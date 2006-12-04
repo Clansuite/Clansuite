@@ -1,4 +1,4 @@
-{if isset($content.not_in_whitelist)}
+
 
     <form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="POST">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -70,4 +70,3 @@
     <input class="ButtonGrey" type="submit" value="{translate}Add the module(s) into the whitelist.{/translate}" name="submit">
 </p>
 </form>
-{/if}       {* END if isset ($content.not_in_whitelist) *}
