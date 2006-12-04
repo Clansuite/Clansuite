@@ -58,38 +58,43 @@ class module_admin_modules
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Admin Control Panel - Modules' );
+        $this->mod_page_title = $lang->t('Admin Control Panel - Modules &raquo; ' );
         
         switch ($_REQUEST['action'])
         {
             default:
             case 'show_all':
-                $this->mod_page_title = $lang->t( 'Show and edit all modules' );
+                $this->mod_page_title .= $lang->t( 'Show and edit all modules' );
                 $this->show_all();
                 break;
             
             // AJAX
-            case 'ajaxupdate_modulesgenerals':
+            case 'ajaxupdate_modules':
                 $this->ajaxupdate_modules();
                 break;
                 
+            // AJAX
+            case 'ajaxupdate_submodules':
+                $this->ajaxupdate_submodules();
+                break;
+                
             case 'install_new':
-                $this->mod_page_title = $lang->t( 'Install new modules' );
+                $this->mod_page_title .= $lang->t( 'Install new modules' );
                 $this->install_new();
                 break;
                 
             case 'create_new':
-                $this->mod_page_title = $lang->t( 'Create a new module' );
+                $this->mod_page_title .= $lang->t( 'Create a new module' );
                 $this->create_new();
                 break;
                 
             case 'export':
-                $this->mod_page_title = $lang->t( 'Export a module' );
+                $this->mod_page_title .= $lang->t( 'Export a module' );
                 $this->export();
                 break;
                 
             case 'import':
-                $this->mod_page_title = $lang->t( 'Import a module' );
+                $this->mod_page_title .= $lang->t( 'Import a module' );
                 $this->import();
                 break;
 
@@ -205,29 +210,56 @@ class module_admin_modules
                                     'Imagename'     => 'image_name',
                                     'Classname'     => 'class_name',
                                     'Filename'      => 'file_name' );
-        
-        
-        //$tpl->assign('tplpath', TPL_ROOT . '/admin/modules');          
-        //$tpl->assign('tplpath', WWW_ROOT . '/templates/core/admin/modules/tabpane.php');                           
-        $tpl->assign('tplpath', $tpl->template_dir );
+         
         $tpl->assign('content', $container);
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
 
     /**
     * @desc Ajax Update Function called from show_all.tpl 
-    *                            value ~~~               cell modulid modulname title
-    * &table=table_for_modules_8&value=Filebrowserasdfg&cell=8_filebrowser_title&_=
+    * $_POST
+    * &table=table_for_modules_8&value=Filebrowser123&cell=8_filebrowser_title&_=
     */
     function ajaxupdate_modules(){
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        
+        // value ber POST holen
+        $value = urldecode($_POST['value']);
+        
+        // cell ber POST holen und String per RegExp auswerten
+        // zB 8_filebrowser_title
+        $cell_string = urldecode($_POST['cell']);
+        $pattern = '!(.*)_(.*)_(.*)!is';
+        $result = preg_match($pattern, $cell_string, $subpattern); 
+       
+        $modules_id      = $subpattern[1];
+        $modules_name    = $subpattern[2];
+        $modules_dbfield = $subpattern[3];
+        
+        // update field in db
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ? 
+                                                               WHERE module_id = ? AND name = ?' );
+        $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+        
+        // return value         
+        $this->output .= $value;
+     
+        // suppress mainframe
+        $this->suppress_wrapper = true;
+    }
+    
+    /**
+    * @desc Ajax Update Function for submodules 
+    */
+    function ajaxupdate_submodules(){
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
       
         
         $this->output .= $_POST['value'];
-     
+        
+        // suppress mainframe
         $this->suppress_wrapper = true; 
     }
-    
 
 
     /**
@@ -1274,7 +1306,7 @@ class module_admin_modules
                         echo 'subs to insert:';  var_dump($subs);
                         
                         
-                        //if submodule exists in all_modules [module_id] array
+                        //TODO: if submodule exists in all_modules [module_id] array
                         //update
                         //else insert
                         //
@@ -1291,7 +1323,7 @@ class module_admin_modules
                         }
                         
                         /**
-                        * @desc Submodule insrt -> into relation table
+                        * @desc Submodule insert -> into relation table
                         */
                         foreach( $last_ids as $key3 => $value3 )
                         {
@@ -1356,8 +1388,8 @@ class module_admin_modules
             $info['core'] = !empty($info['core']) ? $info['core'] : 0;
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`, `subs`) 
-                                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core` ) 
+                                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                 $stmt->execute( array(  $info['author'],
                                         $info['homepage'],
                                         $info['license'],
@@ -1372,8 +1404,7 @@ class module_admin_modules
                                         $info['image_name'],
                                         $info['version'],
                                         $cfg->version,
-                                        $info['core'],
-                                        $info['subs'] ) );
+                                        $info['core'] ) );
                 $x++;
             }
         }
