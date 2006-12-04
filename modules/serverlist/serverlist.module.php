@@ -89,9 +89,6 @@ class module_serverlist
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
     
-        // suppress mainframe
-        $this->suppress_wrapper = true;
-        
         // get serverdata from db
         $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'serverlist WHERE server_id = ?');
         $stmt->execute( array ( $_GET['server_id'] ) );
@@ -103,6 +100,9 @@ class module_serverlist
         
         // output
         $tpl->display('serverlist/serverstats/'. $serverdata['csquery_engine'] . '.tpl');
+        
+        // suppress mainframe
+        $this->suppress_wrapper = true;
    } 
     
     
