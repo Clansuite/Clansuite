@@ -171,11 +171,12 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <br />
 <br />
-    
+
+{* Ajax Notification *}
 <div id="notification" style="display: none;">
     <img src="/templates/core/images/ajax/2.gif" align="absmiddle" />
     &nbsp; Wait - while processing your request...
-    </div>
+</div>
 
 </body>
 </html>
