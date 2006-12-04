@@ -5,7 +5,8 @@
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
     {* Prototype + Tablegrid Extension *}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"></script>
+    <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
   
     {literal}    
@@ -49,15 +50,19 @@
 
 {* #### TAB PANE 1 - MODULES - NOT IN WHITELIST #### *}
 
-<div class="tab-pane" id="tab-pane-1">
-    <div class="tab-page">
-          <h2 class="tab">New Modules!</h2>
-            
-            {include file="admin/modules/showall_notinwhitelist.tpl"}
-    </div>
-</div>  <!-- tab-pane-1 closed -->
+{if isset($content.not_in_whitelist)}
+    
+    <div class="tab-pane" id="tab-pane-1">
+        <div class="tab-page">
+              <h2 class="tab">New Modules!</h2>
+                
+                {include file="admin/modules/showall_notinwhitelist.tpl"}
+        </div>
+    </div>  <!-- tab-pane-1 closed -->
+    
+    <br />
 
-<br />
+{/if}       {* END if isset ($content.not_in_whitelist) *}
 
 
 {* #### TAB PANE 2 - MODULES - IN WHITELIST | NORMAL and CORE #### *}
