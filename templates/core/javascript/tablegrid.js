@@ -1,3 +1,14 @@
+Ajax.Responders.register({
+	onCreate: function() {
+		if($('notification') && Ajax.activeRequestCount > 0)
+			Effect.Appear('notification',{duration: 0.65, queue: 'end'});
+	},
+	onComplete: function() {
+		if($('notification') && Ajax.activeRequestCount == 0)
+			Effect.Fade('notification',{duration: 0.65, queue: 'end'});
+	}
+});
+
 TableGrid = Class.create();
 TableGrid.prototype = {
 	initialize: function(table, cols, url ) {
@@ -5,7 +16,7 @@ TableGrid.prototype = {
     	this.url = url;
     	
    		this.tbody = $(table).getElementsByTagName('tbody')[0];
-   		this.indicator = $('indicator');
+   		
    		this.editing = false;
 		this.saving = false;
 		this.movenext = false;
@@ -144,20 +155,12 @@ TableGrid.prototype = {
 		Event.observe(this.cell, 'click', this.onclickListener);
   	},
   	
-	startIndicator: function() {
-    	Element.show(this.indicator);
-	},
-
-  	stopIndicator: function() {
-    	Element.hide(this.indicator);
-  	},
-  	
-  	saveData: function() {
+	saveData: function() {
     	this.saving = true;
    	
     	var pars = '&table=' + this.table + '&value=' + this.editField.value + '&cell=' + this.cell.id;
     	
-    	this.startIndicator();
+    	
     	this.removeInput();
     	
 		new Ajax.Updater(
@@ -191,7 +194,7 @@ TableGrid.prototype = {
 		
     onComplete: function (transport) {
 		this.saving = false;
-		this.stopIndicator();
+		
 		if (this.movenext) {
 			this.movenext = false;
     		this.cell = $(this.nextCell(this.cell));
@@ -202,7 +205,7 @@ TableGrid.prototype = {
 	
 	onFailure: function (transport) {
 		this.cancelEdit();
-		this.stopIndicator();
+		
 		alert('Sorry. There was an error, updating database!');
 	}
 }
