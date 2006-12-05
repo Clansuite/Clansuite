@@ -4,8 +4,8 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ie5.js"></script>
 {/doc_raw}
 
-<!-- start: Menu - Kopfzeile 2//-->
-    
+<!-- start: AdminMenu - Kopfzeile 2//-->
+
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
@@ -17,13 +17,13 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
 <div class="menugradient">
 
     <div class="bar">
-    
+
         <table cellspacing="0" cellpadding="0" id="menu1" class="XulMenu" width="100%">
             <tr>
                 <td width="1"><img src="{$www_core_tpl_root}/images/adminmenu/nubs.gif" alt="" /></td>
-                
+
                 {mod name="admin" sub="menueditor" func="get_html_div"}
-                
+
                 <td align="right" width="100%">
                     <span height="1%">
 
@@ -42,15 +42,15 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
                 </td>
             </tr>
         </table>
-        
+
         <script type="text/javascript">
             var menu1 = new XulMenu("menu1");
             menu1.arrow1 = "{$www_core_tpl_root}/images/adminmenu/arrow1.gif";
             menu1.arrow2 = "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
             menu1.init();
         </script>
-    
+
     </div>
-    
+
 </div>
-<!-- end: Menu- Kopfzeile 2 //-->
+<!-- end: AdminMenu - Kopfzeile 2//-->

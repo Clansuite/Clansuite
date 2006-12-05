@@ -25,11 +25,11 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 {/doc_raw}
 <body>
 
-	<div class="header"> 
-    	Clansuite - Control Center
-    	<span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
-	</div> 
-	
+    <div class="header">
+        <img style="margin-bottom: -3px;" src="/templates/standard/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"> - Control Center
+        <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
+    </div>
+
     {include file="admin/adminmenu/adminmenu.tpl"}
 
     <p>&nbsp;</p>
@@ -42,7 +42,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                 &raquo; {translate}Help{/translate}
             </td>
         </tr>
-        
+
         <tr>
             <td width="80%" class="admin_content">
                 {$content}
@@ -59,6 +59,6 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <img src="/templates/core/images/ajax/2.gif" align="absmiddle" />
     &nbsp; Wait - while processing your request...
 </div>
-        
+
 </body>
 </html>
