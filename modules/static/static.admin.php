@@ -39,7 +39,7 @@ if (!defined('IN_CS'))
 /**
 * @desc Admin Module - Static Pages Class
 */
-class module_admin_static
+class module_static_admin
 {
     public $output          = '';
     public $mod_page_title  = '';
