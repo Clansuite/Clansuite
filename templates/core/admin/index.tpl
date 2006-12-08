@@ -32,6 +32,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
     {include file="admin/adminmenu/adminmenu.tpl"}
 
+
     <p>&nbsp;</p>
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
@@ -45,6 +46,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
         <tr>
             <td width="80%" class="admin_content">
+
                 {$content}
             </td>
             <td width="20%" class="admin_help" style="padding: 0px">
