@@ -206,7 +206,7 @@ $stats->create_stats_vars();
 header("Content-type: text/html; charset=UTF-8");
 
 /**
-* @desc Output all
+* @desc $_REQUEST Switch - Fetches content for mod and sub
 */
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
