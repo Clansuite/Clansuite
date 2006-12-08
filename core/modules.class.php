@@ -61,36 +61,40 @@ class modules
     {
         global $db, $cfg;
         
+        // get all modules from db
+        // into $modules array
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
         $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        // get submodules for each module via relation table
+        // into $submodules array
         foreach ($modules as $modul => $value) 
         {   
-           
             $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id  
-                               FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                   FROM ' . DB_PREFIX . 'mod_rel_sub r,
                                     ' . DB_PREFIX . 'submodules s
-                               WHERE r.submodule_id =  s.submodule_id  
-                               AND   r.module_id = ?'); 
+                                   WHERE r.submodule_id =  s.submodule_id  
+                                   AND   r.module_id = ?'); 
             $stmt->execute( array( $value['module_id'] ) );
             $submodules = $stmt->fetchALL(PDO::FETCH_NAMED|PDO::FETCH_GROUP);
             
-            // [0] array entfernen
+            // array correction via subtract [0] array 
             foreach($submodules as $submodul => $value) 
             {
                 $modules[$modul]['submodules'][$submodul] = $value[0];
             }
-        
         }
         
+        // add submodule values to each module
         foreach ($modules as $modul => $value) 
         { 
          $cfg->modules[$value['name']] = $value;
         
         }
         
-       #var_dump($cfg->modules);
+        // DEBUG
+        // var_dump($cfg->modules);
     }
     
     /**
@@ -184,6 +188,7 @@ class modules
         */
 
         $mod = $mod=='' ? $cfg->std_module : $mod ;
+       
         $file_name   = '';
         $folder_name = '';
         $class_name  = '';
