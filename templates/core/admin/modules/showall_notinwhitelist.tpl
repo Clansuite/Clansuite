@@ -14,11 +14,11 @@
     <td class="cell1">
         <b>{translate}There is a module folder that is not stored in the databases whitelist.{/translate}</b>
     </td>
-    
+
     <td class="cell2">
         {$wert.folder}
     </td>
-    
+
     <td class="cell1">
         {if $wert.no_module_config == 1}
             <font color="red">{translate}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/translate}</font>
