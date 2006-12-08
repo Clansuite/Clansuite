@@ -1,91 +1,91 @@
 {doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax.js"></script>    
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax.js"></script>
     {literal}
         <script type="text/javascript">
 
-		function sendAjaxHelpRequest(type, param, file)
-		{
-			con = getXMLRequester();
-		    con.open('POST', file, true);
-            
+        function sendAjaxHelpRequest(type, param, file)
+        {
+            con = getXMLRequester();
+            con.open('POST', file, true);
+
             param = 'save_mod='+escape(encodeURIComponent(document.getElementById('save_mod').value));
             param += '&save_sub='+escape(encodeURIComponent(document.getElementById('save_sub').value));
             param += '&save_action='+escape(encodeURIComponent(document.getElementById('save_action').value));
-            
+
             if ( type == 'helptext' )
             {
                 param += '&helptext='+escape(encodeURIComponent(document.getElementById('helptext').value));
             }
-            
+
             if ( type == 'related_links' )
             {
                 param += '&related_links='+escape(encodeURIComponent(document.getElementById('related_links').value));
             }
 
-			con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		    con.setRequestHeader("Content-length", param.length);
-            
+            con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            con.setRequestHeader("Content-length", param.length);
+
             if ( type == 'helptext' )
             {
                 con.onreadystatechange = handleHelptextResponse;
             }
-            
+
             if ( type == 'related_links' )
             {
                 con.onreadystatechange = handleLinksResponse;
-            }            
+            }
 
-			con.send(param);
-			con.close;
-			
-		    return false;
-		}
-            
+            con.send(param);
+            con.close;
+
+            return false;
+        }
+
         function handleLinksResponse()
         {
             // Checke, ob der Zugriff erfolgreich war
-			if (con.readyState == 4)
+            if (con.readyState == 4)
             {
-				var response = con.responseText;
-        
+                var response = con.responseText;
+
                 document.getElementById('related_links_container').innerHTML = response;
                 document.getElementById('loading').style.display = 'none';
-                
+
                 return true;
-			}
+            }
             else
             {
                 document.getElementById('loading').style.display = 'block';
-            }									   
-			return false;
-		}
-        
+            }
+            return false;
+        }
+
         function handleHelptextResponse()
         {
             // Checke, ob der Zugriff erfolgreich war
-			if (con.readyState == 4)
+            if (con.readyState == 4)
             {
-				var response = con.responseText;
-        
+                var response = con.responseText;
+
                 document.getElementById('helptext_container').innerHTML = response;
                 document.getElementById('loading').style.display = 'none';
-                
+
                 return true;
-			}
+            }
             else
             {
                 document.getElementById('loading').style.display = 'block';
-            }									   
-			return false;
-		}
+            }
+            return false;
+        }
     </script>
     {/literal}
 {/doc_raw}
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...
 </div>
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table class="klappable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
         <td style="border-bottom: 1px solid #ACA899; padding: 5px">
             <b>&raquo; {$smarty.request.mod} {if $smarty.request.sub!=''}&raquo; {$smarty.request.sub} {/if}&raquo; {$smarty.request.main_action}</b>
@@ -121,7 +121,5 @@ Loading...
             <div id="related_links_container">
                 {$info.related_links}
             </div>
-
-        </td>
     </tr>
 </table>
