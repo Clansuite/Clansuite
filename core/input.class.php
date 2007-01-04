@@ -47,7 +47,7 @@ class input
     * @desc Handle intruders/hackers
     */
 
-    function essential_cleanup()
+    function cleanup_request()
     {
         global $cfg, $security;
 
