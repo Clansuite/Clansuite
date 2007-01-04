@@ -43,10 +43,10 @@ if (!defined('IN_CS'))
 class statistics
 {
     /**
-    * @desc Create the needed variables and assign them to the tpl
+    * @desc assign the needed variables and assign them to the tpl
     */
 
-    function create_stats_vars()
+    function assign_statistic_vars()
     {
         global $tpl, $db;
         
@@ -67,7 +67,7 @@ class statistics
         * @desc Assign
         */
         
-        $tpl->assign('stats'             , $stats );
+        $tpl->assign('stats' , $stats );
     }
 }
 ?>
