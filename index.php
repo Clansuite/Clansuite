@@ -1,32 +1,49 @@
 <?php
-/**
-* Initialize objects, create DB link, load templates, clean input
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005,2006
+    * http://www.clansuite.com/
+    *
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    */
+    
+   /** =====================================================================
+    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.                           
+    *           READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
+    *  =====================================================================
+    */
+    
+   /**
+    *
+    * index.php
+    * Initialize objects, create DB link, load templates, clean input
+    *
+    *
+    * @author     Florian Wolf <xsign.dll@clansuite.com>
+    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @copyright  2006 Clansuite Group
+    * @license    see COPYING.txt
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+    */
 
 /**
 * @desc Security Handler
@@ -101,6 +118,12 @@ define('DB_PREFIX'  , $cfg->db_prefix);
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 /**
+ *  ===========================================
+ *  Required Classes are loaded and initalized.  
+ *  ===========================================
+ */
+
+/**
 * @desc Require Core Classes
 */
 require(CORE_ROOT . '/smarty/Smarty.class.php');
@@ -135,6 +158,12 @@ $stats      = new statistics;
 $perms      = new permissions;
 
 /**
+ *  =====================================
+ *  The settings for the objects are set.  
+ *  =====================================
+ */
+
+/**
 * @desc Smarty Settings
 */
 $tpl->template_dir      = array(TPL_ROOT . '/' . TPL_NAME . '/', TPL_ROOT . '/core/' ) ;
@@ -152,7 +181,7 @@ $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
 DEBUG ? $tpl->clear_compiled_tpl() : '';
 
 /**
-* @desc Load up DSN & Connect DB
+* @desc Create DB Object by setting DSN and connecting to DB
 */
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
@@ -170,9 +199,8 @@ $tpl->assign('www_core_tpl_root', WWW_ROOT . '/' . $cfg->tpl_folder . '/core' );
 * @desc Revert magic_quotes() if still enabled
 * @desc Clean $_REQUEST input from violent code
 */
-
 $input->fix_magic_quotes();
-$input->essential_cleanup();
+$input->cleanup_request();
 
 /**
 * @desc Set the callback function for errors
@@ -180,30 +208,36 @@ $input->essential_cleanup();
 $error->set_callbacks();
 
 /**
-* @desc Load whitelist
+* @desc Load whitelist of modules
 */
 $modules->load_whitelist();
 
 /**
-* @desc Create a user session
+* @desc Create a session
 */
 $session->create_session($db);
 
 /**
-* @desc Create a user - Guest/Member
+* @desc Create a user and check for login cookie - Guest/Member
 */
 $users->create_user();
 $users->check_login_cookie();
 
 /**
-* @desc Create a user - Guest/Member
+* @desc Assign Statistic Variables 
 */
-$stats->create_stats_vars();
+$stats->assign_statistic_vars();
 
 /**
-* @desc UTF-8 encoding
+ *  ==================================
+ *  Prepare Output !
+ *  ==================================
+ */
+
+/**
+* @desc Set our Content-Type to UTF-8 encoding
 */
-header("Content-type: text/html; charset=UTF-8");
+header('Content-Type: text/html; charset=UTF-8');
 
 /**
 * @desc $_REQUEST Switch - Fetches content for mod and sub
@@ -216,7 +250,7 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
         $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
     }
     else
-    {
+    {   // todo: redirect the guy back where he came from, means referer use or something
         $content = $modules->get_content('index', '');
     }
 }
@@ -225,6 +259,12 @@ else
     $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);   
 }
 
+
+/**
+* Check for our Copyright-Sign. 
+* Keep in mind ! that we spend a lot of time and ideas on this project.
+* If you rip, rip real good, knowing that you are forced to give something back to the community.
+*/
 $security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 
 /**
@@ -242,8 +282,15 @@ $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
-* @desc Admin module <-> Normal module
-* @desc Suppress Wrapper ?
+* @desc Step 1:     Check if : Suppress Wrapper is set 
+*                   - only the content of the suppressing module is echoed
+*
+* @desc Step 2:     Check if : Admin module <-> Normal module
+*                   - if admin modules requested:
+*                     - check permissions, if right for access_acp then display
+*                     - else redirect to index or login
+*                   - if normal modules reqiested:
+*                     - display tpl_wrapper_file (content of module and stuff around that)                      
 */
 if ( $content['SUPPRESS_WRAPPER'] == true )
 {
