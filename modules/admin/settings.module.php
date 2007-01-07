@@ -54,30 +54,26 @@ class module_admin_settings
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-
     function auto_run()
     {
-        
         global $lang;
         $params = func_get_args();
         
-        // Construct Page Title        
+        // Set Pagetitle        
         $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
-        {
+        {   
+            default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
                 break;
-
+                
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;
-                
-            default:
-                $this->show();
-                break;
+                break;               
+            
         }
         
         return array( 'OUTPUT'          => $this->output,
