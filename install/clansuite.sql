@@ -337,7 +337,7 @@ CREATE TABLE `cs_rights` (
 
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
-INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_acp','The right to access the ACP'),(12,6,'create_news','Add a News'),(13,7,'access_filebrowser','Access the filebrowser');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the ACP'),(12,6,'create_news','Add a News'),(13,7,'access_filebrowser','Access the filebrowser');
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
@@ -389,7 +389,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'6039b5554adaf7f7c5339cc946196e63','client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1) Gecko/20061010 Firefox/2.0\";client_host|s:9:\"localhost\";suiteSID|s:32:\"6039b5554adaf7f7c5339cc946196e63\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_acp\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1165546286,1,'static');
+INSERT INTO `cs_session` VALUES (1,'6039b5554adaf7f7c5339cc946196e63','client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1) Gecko/20061010 Firefox/2.0\";client_host|s:9:\"localhost\";suiteSID|s:32:\"6039b5554adaf7f7c5339cc946196e63\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:10:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1165546286,1,'static');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
