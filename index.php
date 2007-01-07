@@ -245,7 +245,7 @@ header('Content-Type: text/html; charset=UTF-8');
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 {
-    if ( $perms->check('access_acp', 'no_redirect') )
+    if ( $perms->check('access_controlcenter', 'no_redirect') )
     {
         $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
     }
@@ -287,7 +287,7 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 *
 * @desc Step 2:     Check if : Admin module <-> Normal module
 *                   - if admin modules requested:
-*                     - check permissions, if right for access_acp then display
+*                     - check permissions, if right for access_controlcenter then display
 *                     - else redirect to index or login
 *                   - if normal modules reqiested:
 *                     - display tpl_wrapper_file (content of module and stuff around that)                      
@@ -303,7 +303,7 @@ else
     */
     if ( $_REQUEST['mod'] == 'admin'  OR $_REQUEST['sub'] == 'admin' )
     {
-        if ( $perms->check('access_acp', 'no_redirect') )
+        if ( $perms->check('access_controlcenter', 'no_redirect') )
         {
             $tpl->displayDoc('admin/index.tpl');
         }
