@@ -54,29 +54,28 @@ class module_serverlist
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-
     function auto_run()
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t( 'Serverlist - ' );
+        // Set Pagetitle 
+        $this->mod_page_title = $lang->t( 'Serverlist -' );
         
         switch ($_REQUEST['action'])
-        {   
+        {                   
             default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show Gameservers & Details' );
                 $this->show_servers();
-                break;
-                
+                break;            
+            
             case 'get_serverdetails':
                 $this->mod_page_title .= $lang->t( 'Gets Serverdetails' );
                 $this->get_serverdetails();
                 break;
-      
         }
         
-         return array('OUTPUT'          => $this->output,
+        return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
@@ -118,7 +117,7 @@ class module_serverlist
    {
              
       // set path - csQuery_DIR
-      define('csQuery_DIR'    , str_replace('\\', '/', dirname(__FILE__) ) . '/csQuery/');
+      define('csQuery_DIR'    , str_replace('\\', '/', dirname(__FILE__) ) . '/csquery/');
       include_once( csQuery_DIR . 'csQuery.php'); 
     
       if(!$address && !$port && !$protocol) {
