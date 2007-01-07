@@ -43,7 +43,7 @@ if (!defined('IN_CS'))
 /**
 * @desc Start module class
 */
-class module_news_admin
+class module_news_comments_admin
 {
     public $output          = '';
     public $mod_page_title  = '';
@@ -62,10 +62,11 @@ class module_news_admin
         $params = func_get_args();
         
         // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'News Administration' ) . ' &raquo; ';
+        $this->mod_page_title = $lang->t( 'News' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         { 
+            
             default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
@@ -91,11 +92,10 @@ class module_news_admin
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
-         
-        
-        
-        
-       $this->output = $tpl->fetch('news/admin_show.tpl');
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t('You have created a new module, that currently handles this message');
     }
     
     /**
