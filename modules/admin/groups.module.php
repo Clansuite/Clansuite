@@ -73,22 +73,23 @@ class module_admin_groups
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Control Center - Administration of Groups' );
+        $this->mod_page_title = $lang->t( 'Administration of Groups' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
-                $this->mod_page_title = $lang->t( 'Show groups' );
+                $this->mod_page_title .= $lang->t( 'Show groups' );
                 $this->show_groups();
                 break;
             
             case 'create':
-                $this->mod_page_title = $lang->t( 'Create a new group' );
+                $this->mod_page_title .= $lang->t( 'Create a new group' );
                 $this->create();
                 break;
           
             case 'edit':
-                $this->mod_page_title = $lang->t( 'Edit a group' );
+                $this->mod_page_title .= $lang->t( 'Edit a group' );
                 $this->edit();
                 break;
                 
@@ -97,15 +98,11 @@ class module_admin_groups
                 break;
                 
             case 'members':
-                $this->mod_page_title = $lang->t( 'Show Group and its Members' );
+                $this->mod_page_title .= $lang->t( 'Show Group and its Members' );
                 $this->show_group_members($group_id);
                 break;
          
-            default:
-                $this->mod_page_title = $lang->t( 'Show Groups' );
-                $this->show_groups();
-            break;
-        }
+         }
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
