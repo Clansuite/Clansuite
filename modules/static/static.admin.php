@@ -60,7 +60,7 @@ class module_static_admin
         
         switch ($_REQUEST['action'])
         {
-                
+            default:    
             case 'show':
                 $this->mod_page_title = $lang->t( 'Show static pages' );
                 $this->show();
@@ -75,11 +75,6 @@ class module_static_admin
                 $this->mod_page_title = $lang->t( 'Edit a static page' );
                 $this->edit();
                 break;
-           
-            default:
-                $this->mod_page_title = $lang->t( 'Show static pages' );
-                $this->show();
-            break;
         }
         
         return array( 'OUTPUT'          => $this->output,
