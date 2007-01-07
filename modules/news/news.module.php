@@ -25,7 +25,7 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Florian Wolf
+* @author     Jens-Andre Koch, Florian Wolf
 * @copyright  clansuite group
 * @license    LGPL
 * @version    SVN: $Id$
@@ -49,28 +49,50 @@ class module_news
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-
     function auto_run()
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t( ' News ' );
+        // Set Pagetitle 
+        $this->mod_page_title = $lang->t( 'News -' );
         
         switch ($_REQUEST['action'])
         {   
+            case '':
             
+                break;
+                
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( ' Show News ' );
+                $this->mod_page_title .= $lang->t( 'Show News' );
                 $this->show();
                 break;
-     
+                
         }
         
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
+    }
+
+    /**
+    * @desc Function: instant_show
+    *
+    * This content can be instantly displayed by adding this into a template:
+    * {mod name="newscomments" func="instant_show" params="mytext"} 
+    * 
+    * You have to add the lines as shown above into the case block: 
+    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    */    
+    function instant_show_news($my_text)
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        
+        /**
+        * @desc Handle the output - $lang-t() translates the text.
+        */
+        $this->output .= $lang->t($my_text);
     }
 
     /**

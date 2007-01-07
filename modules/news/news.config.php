@@ -56,9 +56,12 @@ if (!defined('IN_CS'))
 // 
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
+
+// submodules::
+// admin for news
+// admin for newscomments
+// newscomments
 $info['subs'] = 's:0:"";';
-
-
 
 
 //----------------------------------------------------------------
