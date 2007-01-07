@@ -42,10 +42,10 @@ if (!defined('IN_CS'))
 */
 class module_account
 {
-    public $output          = '';
-    public $mod_page_title  = '';
-    public $additional_head = '';
-    public $suppress_wrapper= '';
+    public $output           = '';
+    public $mod_page_title   = '';
+    public $additional_head  = '';
+    public $suppress_wrapper = '';
     
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
@@ -59,15 +59,16 @@ class module_account
         
         switch ($_REQUEST['action'])
         {
-            // Login/Logout
+            // Login
             case 'login':
-                $this->login();
                 $title = ' Login ';
+                $this->login();
                 break;
-                
+            
+            // Logout
             case 'logout':
-                $this->logout();
                 $title = ' Logout ';
+                $this->logout();
                 break;
                 
             // Registration
@@ -81,7 +82,8 @@ class module_account
                 $title = ' Activate account ';
                 $this->activate_account();
                 break;
-                
+            
+            // Send Activation Email
             case 'activation_email':
                 $title = ' Resend activation email ';
                 $this->activation_email();
@@ -92,13 +94,14 @@ class module_account
                 $this->forgot_password();
                 $title = ' Forgot Password ';
                 break;
-
+            
+            // Activate Password
             case 'activate_password':
                 $this->activate_password();
                 $title = ' Activate Password ';
                 break;
                 
-            // Default
+            // Default Action: if authed present logout, else login
             default:
                 if ( $_SESSION['user']['authed'] == 1 )
                 {
@@ -113,7 +116,7 @@ class module_account
                 break;
         }
         
-        // Titelzeile zusammensetzen
+        // Set Pagetitle 
         $this->mod_page_title = $lang->t('User :: ' . $title );
         
         return array( 'OUTPUT'          => $this->output,
@@ -125,7 +128,6 @@ class module_account
     /**
     * @desc Login
     */
-
     function login()
     {
         global $tpl, $users, $functions, $cfg, $lang;
@@ -141,25 +143,32 @@ class module_account
         $err = array();
        
         // Login method
-        if( $cfg->login_method == 'nick' )
-        { $value = $nick; }
-        if( $cfg->login_method == 'email' )
-        { $value = $email; }
+        if( $cfg->login_method == 'nick' )  
+        { 
+            $value = $nick; 
+        }
+        
+        if( $cfg->login_method == 'email' ) 
+        { 
+            $value = $email; 
+        }
 
         // // Perform checks on Inputvariables & Form filled?
         if ( isset($value) && !empty($password) && !empty($value) )
         {
-            
+            // check, if user_id exists
             $user_id = $users->check_user($cfg->login_method, $value, $password);
 
+            // proceed if true
             if ($user_id != false)
-            {
+            {   
+                // perform login for user_id and redirect
                 $users->login( $user_id, $remember_me, $password );
                 $functions->redirect( 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
             {              
-                // Log the login attempts to ban the ip at a specific number
+                // log the login attempts to ban the ip at a specific number
                 if (!isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = 1;
@@ -169,13 +178,13 @@ class module_account
                     $_SESSION['login_attempts']++;
                 }
                               
-                // Ban ip
+                // ban ip
                 if ( $_SESSION['login_attempts'] > $cfg->max_login_attempts )
                 {
                     die( $functions->redirect('http://www.clansuite.com', 'metatag|newsite', 5 , $lang->t('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$cfg->login_ban_minutes.'</b>' ) );
                 }
                 
-                // Error: Mismatch & Login Attempts
+                // Error Variables
                 $err['mismatch'] = 1;
                 $err['login_attempts'] = $_SESSION['login_attempts'];                
             }
