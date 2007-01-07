@@ -55,34 +55,31 @@ class module_admin_categories
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Control Center - Categories' );
+        $this->mod_page_title = $lang->t( 'Administration of Categories' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
-                $this->mod_page_title = $lang->t( 'Show Categories' );
+                $this->mod_page_title .= $lang->t( 'Show Categories' );
                 $this->show_categories();
                 break;
                 
             case 'create':
-                $this->mod_page_title = $lang->t( 'Create a new Category' );
+                $this->mod_page_title .= $lang->t( 'Create Category' );
                 $this->create_categories();
                 break;
     
             case 'edit':
-                $this->mod_page_title = $lang->t( 'Edit Categories' );
+                $this->mod_page_title .= $lang->t( 'Edit Categories' );
                 $this->edit_categories();
                 break;
                 
             case 'delete':
-                $this->mod_page_title = $lang->t( 'Delete Categories' );
+                $this->mod_page_title .= $lang->t( 'Delete Categories' );
                 $this->delete_categories();
                 break;
      
-            default:
-                $this->mod_page_title = $lang->t( 'Show Categories' );
-                $this->show_categories();
-            break;
         }
         
         return array( 'OUTPUT'          => $this->output,
