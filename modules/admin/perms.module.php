@@ -54,49 +54,46 @@ class module_admin_permissions
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Control Center - Administration of Groups' );
+        $this->mod_page_title = $lang->t( 'Administration of Permissions' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show_all':
-                $this->mod_page_title = $lang->t( 'Show Permissions' );
+                $this->mod_page_title .= $lang->t( 'Show Permissions' );
                 $this->show_all();
                 break;
                                 
             case 'edit_right':
-                $this->mod_page_title = $lang->t( 'Edit Permissions' );
+                $this->mod_page_title .= $lang->t( 'Edit Permissions' );
                 $this->edit_right();
                 break;
 
             case 'edit_area':
-                $this->mod_page_title = $lang->t( 'Edit Area' );
+                $this->mod_page_title .= $lang->t( 'Edit Area' );
                 $this->edit_area();
                 break;
                                 
             case 'create_right':
-                $this->mod_page_title = $lang->t( 'Create Permission' );
+                $this->mod_page_title .= $lang->t( 'Create Permission' );
                 $this->create_right();
                 break;
 
             case 'create_area':
-                $this->mod_page_title = $lang->t( 'Create Area' );
+                $this->mod_page_title .= $lang->t( 'Create Area' );
                 $this->create_area();
                 break;
                                 
             case 'delete_right':
-                $this->mod_page_title = $lang->t( 'Delete Permission' );
+                $this->mod_page_title .= $lang->t( 'Delete Permission' );
                 $this->delete_right();
                 break;
 
             case 'delete_area':
-                $this->mod_page_title = $lang->t( 'Delete Area' );
+                $this->mod_page_title .= $lang->t( 'Delete Area' );
                 $this->delete_area();
                 break;
-                            
-            default:
-                $this->mod_page_title = $lang->t( 'Show Permissions' );
-                $this->show_all();
-            break;
+                         
         }
         
         return array( 'OUTPUT'          => $this->output,
