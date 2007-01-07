@@ -56,12 +56,13 @@ class module_admin_users
         global $lang;
              
         // Titelzeile zusammensetzen
-        $this->mod_page_title = $lang->t('Control Center - Usermanagement') . ' &raquo; ';     
+        $this->mod_page_title = $lang->t( 'Administration of Users' ) . ' &raquo; ';     
              
         switch ($_REQUEST['action'])
-        {
+        {   
+            default:
             case 'show_all_users':
-                $this->mod_page_title .= $lang->t( 'Show all users' );
+                $this->mod_page_title .= $lang->t( 'Show Users' );
                 $this->show_all_users();
                 break;
             
@@ -89,10 +90,6 @@ class module_admin_users
                 $this->delete();
                 break;
                      
-            default:
-                $this->mod_page_title .= $lang->t( 'Show all users' );
-                $this->show_all_users();
-            break;
         }
        
         return array( 'OUTPUT'          => $this->output,
