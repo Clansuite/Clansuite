@@ -55,13 +55,26 @@ class statistics
         $stats['page_impressions'] = 0;
         
         /**
-        * @desc Online users
+        * @desc Number of online users (equals sessions number)
         */
-        
-        $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX .'session' );
+                        
+        $stmt = $db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session' );
         $stmt->execute();
-        $all_on = $stmt->fetchAll();
-        $stats['online'] = count($all_on);
+        $stats['online'] = $stmt->fetch(PDO::FETCH_COLUMN);
+        
+        
+         /**
+        * @desc Number of authenticated users (user_id not 0)
+        */
+                        
+        $stmt = $db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session WHERE user_id != 0' );
+        $stmt->execute();        
+        $stats['authed_users'] = $stmt->fetch(PDO::FETCH_COLUMN);
+        
+        /**
+        * @desc Calculate number of guests, based on total users subtracted by authed users
+        */
+        $stats['guest_users'] = $stats['online'] - $stats['authed_users'];
         
         /**
         * @desc Assign
