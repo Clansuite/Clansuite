@@ -125,31 +125,18 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                 <tr>
                     <td class="td_header" colspan="2">{translate}Statistics{/translate}</td>
                 </tr>
-                <tr>
-                    <td class="cell1">
-                        Online:
-                    </td>
-                    <td class="cell1">
-                        {$stats.online}
-                    </td>
+                <tr> {* {$stats|@var_dump} *}
+                    <td class="cell1">Online: {$stats.online} <br/>
+                                      - Users : {$stats.authed_users}
+                                      - Guests : {$stats.guest_users} <br/> 
+                                      Today: {$stats.today_impressions} <br/>
+                                      Yesterday: {$stats.yesterday_impressions} <br/>
+                                      Month: {$stats.month_impressions} <br/>
+                                      <hr>
+                                      This Page: {$stats.page_impressions} <br/>
+                                      Total Impressions: {$stats.all_impressions} <br/>
                 </tr>
-                <tr>
-                    <td class="cell1">
-                        Siteimpressions:
-                    </td>
-                    <td class="cell1">
-                        {$stats.page_impressions}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="cell1">
-                        All Impressions:
-                    </td>
-                    <td class="cell1">
-                        {$stats.all_impressions}
-                    </td>
-                </tr>
-            </table>
+          </table>
         </div>
     </td>
 </tr>
