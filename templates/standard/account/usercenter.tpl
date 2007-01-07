@@ -4,12 +4,12 @@
             {translate}You're logged in as {/translate}<b>{$smarty.session.user.nick}</b>
         </td>
     </tr>
-    {if $smarty.session.user.rights.access_acp==1}
-        <tr>
-            <td align="center">
-                <a href="index.php?mod=admin">{translate}Admin Control Panel{/translate}</a>
-            </td>
-        </tr>
+    {if $smarty.session.user.rights.access_controlcenter==1}
+    <tr>
+        <td align="center">
+            <a href="index.php?mod=admin">{translate}Control Center{/translate}</a>
+        </td>
+    </tr>
     {/if}
     <tr>
         <td align="center">
