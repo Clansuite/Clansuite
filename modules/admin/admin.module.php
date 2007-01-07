@@ -53,7 +53,7 @@ class module_admin
     {
         global $lang;
         
-        $this->mod_page_title = $lang->t('Admin Control Panel' );
+        $this->mod_page_title = $lang->t('Control Center' );
         
         switch ($_REQUEST['action'])
         {
