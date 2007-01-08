@@ -49,7 +49,7 @@ if (!defined('IN_CS'))
 class users
 {
     /**
-    * @desc Get a user from any kind of given type
+    * @desc Get a user by any kind of given type
     */
 
     function get($value='', $type='' )
@@ -87,7 +87,7 @@ class users
     }
     
     /**
-    * @desc Create user-object and $_SESSION data
+    * @desc Create user-object and $_SESSION['user'] array
     */
 
     function create_user($user_id = '', $email = '', $nick = '')
@@ -129,17 +129,15 @@ class users
         
         $_SESSION[$session->session_name] = session_id();
         
-        /**
-        * @desc If session does mismatch to DB
-        */
-
+        // check if session-table[user_id] is a valid user-table[user_id]
         if ( $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $session_res['user_id'] ) );
             $user = $stmt->fetch();  
         }
-
+        
+        // check if this user is activated, else reset cookie, session and redirect
         if ( is_array($user) AND $user['activated'] == 0 )
         {
             setcookie('user_id', false);
@@ -147,16 +145,17 @@ class users
             $session->_session_destroy(session_id());
             $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
+        
         /**
-        * @desc Create $_SESSION user
+        * @desc Create $_SESSION['user'] array, containing user data
         */
 
         if ( is_array($user) )
         {
-            
             /**
             * @desc User infos
             */
+            
             $_SESSION['user']['authed']     = 1;
             $_SESSION['user']['user_id']    = $user['user_id'];
             
@@ -171,7 +170,7 @@ class users
             $_SESSION['user']['activated']  = $user['activated'];
             
             /**
-            * @desc Groups & Rights
+            * @desc Get Groups & Rights of user_id
             */
             
             $_SESSION['user']['groups'] = array();
@@ -200,8 +199,12 @@ class users
                 }
             }
         }
-        else
-        {
+        else // reset $_SESSION['user'] array
+        {   
+            /**
+            * @desc User infos
+            */
+            
             $_SESSION['user']['authed']     = 0;
             $_SESSION['user']['user_id']    = 0;
             $_SESSION['user']['nick']       = $lang->t('Guest');
