@@ -131,7 +131,7 @@ require(CORE_ROOT . '/smarty/Render_SmartyDoc.class.php');
 require(CORE_ROOT . '/session.class.php');
 require(CORE_ROOT . '/input.class.php');
 require(CORE_ROOT . '/debug.class.php');
-require(CORE_ROOT . '/error.class.php');
+require(CORE_ROOT . '/errorhandling.class.php');
 require(CORE_ROOT . '/modules.class.php');
 require(CORE_ROOT . '/functions.class.php');
 require(CORE_ROOT . '/language.class.php');
