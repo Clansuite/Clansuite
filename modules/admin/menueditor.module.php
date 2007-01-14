@@ -54,15 +54,18 @@ class module_admin_menueditor
         global $lang;
         
         $params = func_get_args();
-        $this->mod_page_title = $lang->t('Admin Control Panel :: Menu Editor' );
-        
+        $this->mod_page_title = $lang->t( 'Menueditor' ) . ' &raquo; ';
+              
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
+                $this->mod_page_title .= $lang->t( 'Show Menu' );
                 $this->show();
                 break;
 
             case 'update':
+                $this->mod_page_title .= $lang->t( 'Update a Menu' );
                 $this->update();
                 break;
                 
@@ -81,10 +84,7 @@ class module_admin_menueditor
             case 'get_export_div':
                 $this->output .= call_user_func_array( array( $this, 'get_export_div' ), $params );
                 break;
-            
-            default:
-                $this->show();
-                break;
+           
         }
         
         return array( 'OUTPUT'          => $this->output,

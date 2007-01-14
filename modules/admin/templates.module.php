@@ -62,7 +62,7 @@ class module_admin_templates
         $params = func_get_args();
         
         // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
+        $this->mod_page_title = $lang->t( 'Administration of Templates' ) . ' &raquo; ';
         
         switch ($_REQUEST['action'])
         {
