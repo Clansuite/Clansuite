@@ -89,7 +89,7 @@ class module_admin_categories
     }
     
     /**
-    * @desc Show all users
+    * @desc Show categories
     */
 
     function show_categories()
