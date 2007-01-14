@@ -78,13 +78,14 @@
       <table cellspacing="0" cellpadding="0" border="0" width="100%">
         <thead>
         <tr>
-            <td class="td_header" colspan="4">    {translate}Normal modules{/translate}    </td>
+            <td class="td_header" colspan="5">    {translate}Normal modules{/translate}    </td>
         </tr>
         <tr>
+            <td class="td_header_small" width="15px">                                                   </td>
             <td class="td_header_small" width="120px">              {translate}Title{/translate}        </td>
             <td class="td_header_small" width="80%">                {translate}Information{/translate}  </td>
             <td class="td_header_small" width="5%" align="center">  {translate}Enabled{/translate}      </td>
-            <td class="td_header_small" width="5%" align="center">  {translate}Delete{/translate}       </td>
+            <td class="td_header_small" width="5%" align="center">  {translate}Uninstall{/translate}       </td>
         </tr>
         </thead>
 
@@ -93,11 +94,15 @@
         <tr>
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
+                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
+            </td>            
+            
+            <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
             </td>
 
-            <td class="cell2">
+            <td class="cell1">
 
                 <div class="tab-pane" id="{$wert.name}_tabs">
                 <script type="text/javascript">tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );</script>
@@ -129,9 +134,9 @@
                 {* #### MODULES - DETAILS #### *}
 
 
-             <div class="tab-page" id="{$wert.name}_more">
+             <div class="tab-page" id="{$wert.name}_details">
                 <h2 class="tab"{translate}>Moduledetails{/translate}</h2>
-                   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>
+                   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_details" ) );</script>
 
                     <table class="tableedit" id="details_table_{$wert.module_id}" cellpadding="2" cellspacing="2" border="0">
 
@@ -197,17 +202,37 @@
 
                         </td>
                     </tr>
+                  
+                    </table>
+                </div>
+                
+                {* #### MODULES - CONFIG #### *}
+                 
+
+             <div class="tab-page" id="{$wert.name}_config">
+                <h2 class="tab"{translate}>Config{/translate}</h2>
+                   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_config" ) );</script>
+
+                    <table class="tableedit" id="details_table_{$wert.module_id}" cellpadding="2" cellspacing="2" border="0">
+
+                    {foreach key=key item=item from=$content.more}
+                        <tr>
+                            <td width="40"><b>{translate}{$key}:{/translate}</b> todo config settings per module</td>
+                            <td class="editcell" id="{$wert.module_id}_{$wert.name}_{$item}">{$wert.$item}</td>
+                        </tr>
+                    {/foreach}
 
                     </table>
+                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
 
             </td>
 
-            <td class="cell1" align="center">
+            <td class="cell2" align="center">
                 <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
             </td>
 
-            <td class="cell2" align="center">
+            <td class="cell1" align="center">
                 <input name="delete[]" type="checkbox" value="{$wert.module_id}">
             </td>
 
@@ -223,13 +248,14 @@
 
       <table cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
-            <td class="td_header" colspan="4">   {translate}Core modules{/translate}  </td>
+            <td class="td_header" colspan="5">   {translate}Core modules{/translate}  </td>
         </tr>
         <tr>
+            <td class="td_header_small" width="15px">                                                   </td>
             <td class="td_header_small" width="120px">              {translate}Title{/translate}        </td>
             <td class="td_header_small" width="80%">                {translate}Information{/translate}  </td>
             <td class="td_header_small" width="5%" align="center">  {translate}Enabled{/translate}      </td>
-            <td class="td_header_small" width="5%" align="center">  {translate}Delete{/translate}       </td>
+            <td class="td_header_small" width="5%" align="center">  {translate}Uninstall{/translate}       </td>
         </tr>
 
         {foreach key=schluessel item=wert from=$content.whitelisted.core}
@@ -237,11 +263,16 @@
         <tr>
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
+                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
+            </td> 
+            
+            
+            <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
             </td>
 
-            <td class="cell2">
+            <td class="cell1">
 
                 <div class="tab-pane" id="{$wert.name}_tabs">
                 <script type="text/javascript">tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );</script>
@@ -268,9 +299,9 @@
 
                 {* #### MODULES - DETAILS #### *}
 
-                <div class="tab-page" id="{$wert.name}_more">
+                <div class="tab-page" id="{$wert.name}_details">
                    <h2 class="tab"{translate}>Moduledetails{/translate}</h2>
-                   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>
+                   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_details" ) );</script>
 
                     <table class="tableedit" id="details_table_{$wert.module_id}" cellpadding="2" cellspacing="2" border="0">
 
@@ -345,11 +376,11 @@
 
             </td>
 
-            <td class="cell1" align="center">
+            <td class="cell2" align="center">
                 <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
             </td>
 
-            <td class="cell2" align="center">
+            <td class="cell1" align="center">
                 <input name="delete[]" type="checkbox" value="{$wert.module_id}">
             </td>
 
