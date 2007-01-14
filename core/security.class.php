@@ -118,15 +118,28 @@ class security
     {
         global $lang, $error;
         
+        // check for existance of the main tpl_wrapper_file 
+        // (index.tpl related to the choosen template directory)
         if (file_exists($file) )
-        {
+        {   
+            // Check for a removal or out-commenting of Copyright Tag
             $string = file_get_contents($file);
             preg_match('/\{\$copyright\}/' , $string ) ? '' : die($error->show( $lang->t('Copyright Violation'), $lang->t('You removed the copyright tag - that is not allowed and a violation of our rules!'), 1) );
             preg_match('/\<\!\-\-[^>](.*)\{\$copyright\}(.*)\-\-\>/', $string ) ? die($error->show( $lang->t('Copyright Violation'), $lang->t('Do not try to fool the system by hiding the copyright tag!'), 1 ) ) : '';
         }
         else
-        {
-            die($lang->t('The template File with the copyright Tag {$copyright} does not exist!') );
+        {   
+            // Error: Template File not found 
+            die( $error->show( $lang->t('Template File not found'),
+                               $lang->t('The main template file of the choosen template was not found! Please check your template dir for that file.'),
+                               1 ) );
+                               
+           /* todo:
+              in case there's no correct template wrapper file found, 
+              switch (a) to the default or (b) the next possible template dir 
+              if there is still nothing found, report error.
+              
+           */
         }
     }
     
@@ -137,7 +150,7 @@ class security
     function intruder_alert()
     {
         global $tpl, $lang;
-        $tpl->assign('hacking_attempt'  , $lang->t('There seems to be an hacking attempt in progress - Every step is logged and the webmaster is informed about the problem.'));
+        $tpl->assign('hacking_attempt'  , $lang->t('Possible Intrusion detected - The logging is active. A report will be generated.'));
         $tpl->assign('user_ip'          , $_SERVER['REMOTE_ADDR']);
         $tpl->assign('hostname'         , isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '*** not supported by your apache ***' );
         $tpl->assign('user_agent'       , $_SERVER['HTTP_USER_AGENT']);
