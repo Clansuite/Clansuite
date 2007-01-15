@@ -55,14 +55,14 @@ class mailer
 
         if ($cfg->mailmethod != 'smtp')
         {
-            require( CORE_ROOT . '/swiftmailer/Connection/Sendmail.php'); 
+            require( CORE_ROOT . '/swiftmailer/Swift/Connection/Sendmail.php'); 
         }
 
 
         switch ($cfg->mailmethod)
         {
             case 'smtp':
-                require( CORE_ROOT . '/swiftmailer/Connection/SMTP.php');
+                require( CORE_ROOT . '/swiftmailer/Swift/Connection/SMTP.php');
                 $connection = new Swift_Connection_SMTP( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
                 break;
             
