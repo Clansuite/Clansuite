@@ -22,7 +22,7 @@ function smarty_core_display_debug_console($params, &$smarty)
     if(empty($smarty->debug_tpl)) {
         // set path to debug template from SMARTY_DIR
         $smarty->debug_tpl = SMARTY_DIR . 'debug.tpl';
-		if($smarty->security && is_file($smarty->debug_tpl)) {
+        if($smarty->security && is_file($smarty->debug_tpl)) {
             $smarty->secure_dir[] = realpath($smarty->debug_tpl);
         }
         $smarty->debug_tpl = 'file:' . SMARTY_DIR . 'debug.tpl';
@@ -53,7 +53,7 @@ function smarty_core_display_debug_console($params, &$smarty)
     $smarty->left_delimiter = $_ldelim_orig;
     $smarty->right_delimiter = $_rdelim_orig;
 
-	//return $_results;
+    return $_results;
 }
 
 /* vim: set expandtab: */
