@@ -1,8 +1,8 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005,2006
-    * http://www.clansuite.com/
+    *   Clansuite - just an E-Sport CMS
+    *   Jens-Andre Koch, Florian Wolf © 2005,2006
+    *   http://www.clansuite.com/
     *
     *
     * LICENSE:

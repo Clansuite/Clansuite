@@ -1,8 +1,8 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005,2006
-    * http://www.clansuite.com/
+    *   Clansuite - just an E-Sport CMS
+    *   Jens-Andre Koch, Florian Wolf © 2005,2006
+    *   http://www.clansuite.com/
     *
     *
     * LICENSE:
@@ -30,7 +30,7 @@
 
   /**
     * config.class.php
-    * Begin Variable Configuration
+    * Variable Configuration
     *
     * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @author     Jens-Andre Koch <vain@clansuite.com>
@@ -65,9 +65,7 @@ class config
     function __construct()
     {
 
-        /**
-        * @desc Database related configurations
-        */
+        // Database related configurations
 
         $this->db_type      = 'mysql';
         $this->db_username  = 'clansuite';
@@ -76,10 +74,16 @@ class config
         $this->db_host      = 'localhost';
         $this->db_prefix    = 'cs_';
         $this->db_abs_layer = 'pdo';
-
-        /**
-        * @desc Standard Path configurations
-        */
+        
+        // Meta Tag Information
+        
+        $this->meta['description']  = 'Clansuite is a Content Management System for handling the needs of clans';
+        $this->meta['language']     = 'de';
+        $this->meta['author']       = 'Florian Wolf, Jens-André Koch';
+        $this->meta['email']        = 'system@clansuite.com';
+        $this->meta['keywords']     = 'clan, cms, content management system, portal';
+              
+        // Standard Path Configuration
 
         $this->www_root      = BASE_URL_SEED2;
         $this->root          = BASEDIR;
@@ -89,20 +93,8 @@ class config
         $this->mod_folder    = 'modules';
         $this->upload_folder = 'uploads';
 
-        /**
-        * @desc Meta Tag Informations
-        */
-
-        $this->meta['description']  = 'Clansuite is a Content Management System for handling the needs of clans';
-        $this->meta['language']     = 'de';
-        $this->meta['author']       = 'Florian Wolf, Jens-André Koch';
-        $this->meta['email']        = 'system@clansuite.com';
-        $this->meta['keywords']     = 'clan, cms, content management system, portal';
-
-        /**
-        * @desc Mail configuration
-        */
-
+        // SwiftMail configuration
+       
         // methods: smtp, sendmail, exim, 
         $this->mailmethod       = 'mail';
         $this->mailerhost       = $_SERVER['SERVER_NAME'];
@@ -114,11 +106,9 @@ class config
         $this->mailencryption   = 'SWIFT_OPEN';
         $this->from             = 'system@clansuite.com';
         $this->from_name        = 'Clansuite Mailer';
-
-        /**
-        * @desc Standard configurations
-        */
-
+       
+        //Standard configurations
+        
         $this->tpl_name             = 'standard';
         $this->tpl_wrapper_file     = 'index.tpl';
         $this->language             = 'de';
@@ -130,36 +120,28 @@ class config
         $this->std_page_title       = 'clansuite.com';
         $this->std_css              = 'standard.css';
         $this->std_javascript       = 'standard.js';
-        
-        /**
-        * @desc User configurations
-        */
-
+     
+        // Login Configuration
+       
         $this->login_method         = 'nick';
         $this->remember_me_time     = 7776000; // 90 Days
         $this->max_login_attempts   = 5;
         $this->login_ban_minutes    = 30;
-        
-        /**
-        * @desc Session configurations
-        */
-
+           
+        // Session configuration
+  
         $this->use_cookies      = 1;
         $this->use_cookies_only = 0;
         $this->session_name     = 'suiteSID';
 
-        /**
-        * @desc Error Handling
-        */
-
+        // Error Handling
+        
         $this->suppress_errors  = 0;
         $this->debug            = 1;
         $this->debug_popup      = 0;
 
-        /**
-        * @desc Developers configurations
-        */
-
+        // Developers configuration
+   
         $this->version      = (float) 0.1;
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
         
