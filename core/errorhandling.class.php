@@ -48,14 +48,14 @@ class error
     function set_callbacks()
     {
         global $lang, $cfg, $tpl;
-        
+
         $lang->load_lang('error');
         set_error_handler(array($this, 'advanced_error_handler') );
         set_exception_handler(array($this, 'exception_handler' ) );
-        
+
         $tpl->register_block("error", array('error',"smarty_error"), false);
     }
-    
+
     /**
     * @desc Registered Smarty {error level="1" title="Error"}
     */
@@ -67,20 +67,20 @@ class error
         */
         $params['level']   = !isset( $params['level'] ) ? 3 : $params['level'];
         $params['title']   = !isset( $params['level'] ) ? 'Unkown Error' : $params['title'];
-        
+
         if ( !empty($string) )
         {
             $error->show( $lang->t($params['title']), $lang->t($string), $params['level'] );
         }
     }
-    
+
     /**
     * @desc Advanced error_handler callback function
     */
     function advanced_error_handler( $errno, $errstr, $errfile, $errline )
     {
         global $debug, $tpl, $cfg;
-        
+
         switch ($errno)
         {
         case E_COMPILE_ERROR:
@@ -115,16 +115,16 @@ class error
                 $this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
             }
             break;
-            
+
             default:
-            if (DEBUG)
-            {
-                $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-            }
+	            if (DEBUG)
+	            {
+	                $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
+	            }
             break;
         }
     }
-    
+
     /**
     * @desc Script Error Handler
     */
@@ -132,7 +132,7 @@ class error
     function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
         global $tpl;
-        
+
         switch ( $level )
         {
             case '1':
@@ -143,14 +143,14 @@ class error
                 $content = $tpl->fetch( 'error.tpl' );
                 die( $content );
                 break;
-                
+
             case '2':
                 $tpl->assign('error_type'    , 2 );
                 $tpl->assign('error_head'    , $error_head );
                 $tpl->assign('debug_info'    , $string );
                 return( $tpl->fetch( 'error.tpl' ) );
                 break;
-                
+
             case '3':
                 $tpl->assign('error_type'    , 3 );
                 $tpl->assign('error_head'    , $error_head );
@@ -159,7 +159,7 @@ class error
                 break;
         }
     }
-    
+
     /**
     * @desc Exception Handler
     */
@@ -167,7 +167,7 @@ class error
     function exception_handler( $e )
     {
         global $cfg, $lang, $db;
-        
+
         if ($cfg->suppress_errors == 0 )
         {
             $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last SQL:&nbsp;</b>' . $db->last_sql, 1 );
