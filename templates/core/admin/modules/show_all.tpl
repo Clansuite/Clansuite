@@ -100,7 +100,10 @@
             <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
+                <small>Version: xy</small>
             </td>
+            
+           
 
             <td class="cell1">
 
