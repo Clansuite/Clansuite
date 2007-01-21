@@ -2,6 +2,18 @@
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
+{* DC Tags Example todo *}
+<meta name="DC.Title" content="Clansuite - just an eSport CMS" />
+<meta name="DC.Creator" content="Florian Wolf, Jens-Andre Koch" />
+<meta name="DC.Date" content="20070101" />
+<meta name="DC.Identifier" content="http://www.clansuite.com/" />
+<meta name="DC.Subject" content="Subject" />
+<meta name="DC.Subject.Keyword " content="Subject.Keyword" />
+<meta name="DC.Subject.Keyword" content="Subject.Keyword" />
+<meta name="DC.Description" content="Description" />
+<meta name="DC.Publisher" content="Publisher" />
+<meta name="DC.Coverage" content="Coverage" />
+
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
@@ -88,6 +100,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                           <div class="section">
                               <a class="item" href="index.php">Main</a>
                               <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">News</a>
+                              <a class="item" href="index.php?mod=news&action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Newsarchiv</a>
                               <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16">Serverlist</a>
                               <a class="item" href="index.php?mod=static&page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Credits</a>
                               <a class="item" href="index.php?mod=static&action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Static Pages Overview</a>
