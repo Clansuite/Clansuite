@@ -53,7 +53,7 @@ if (!defined('IN_CS'))
 //
 // Or inside a template:
 // {mod name="news" func="show" sub="mysubmodule" params="myparams"}
-// 
+//
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
 
@@ -61,7 +61,7 @@ if (!defined('IN_CS'))
 // admin for news
 // admin for newscomments
 // newscomments
-$info['subs'] = 's:0:"";';
+$info['subs'] = array();
 
 
 //----------------------------------------------------------------
@@ -73,7 +73,7 @@ $info['subs'] = 's:0:"";';
 // reference.
 // If you want to change the real values, so lookup the
 // module in the admin interface.
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 $info['author']         = 'Jens-André Koch, Florian Wolf';
 $info['homepage']       = 'http://www.clansuite.com';
@@ -94,7 +94,7 @@ $info['core']           = 0;
 /**
 * @desc Admin Menus
 */
- 
+
 $info['admin_menu'] = 'a:0:{}';
 
 ?>
