@@ -48,41 +48,41 @@ class debug
     function return_pdo_attributes_array()
     {
        global $db,$cfg;
-       
-       // Fehleranzeige unterdrücken 
+
+       // Fehleranzeige unterdrücken
        // Wenn das Attribut dem Db-Driver unbekannt ist, wird ein Fehler aufgeworfen.
        // Grund: SQLSTATE[IM001]: Driver does not support this function: driver does not support that attribute
        $old_suppress = $cfg->suppress_errors;
        $cfg->suppress_errors = 1;
-       
+
        // PDO Errormode für Datenermittlung auf Silent setzen
        $old_pdo_errormode = $db->getAttribute(PDO::ATTR_ERRMODE);
        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-             
-              
+
+
        $attributes_names = array(   "AUTOCOMMIT",
                                     "ERRMODE",
-                                    "CASE", 
+                                    "CASE",
                                     "CLIENT_VERSION",
                                     "CONNECTION_STATUS",
                                     "PERSISTENT",
                                     "SERVER_INFO",
                                     "SERVER_VERSION");
-        
+
         foreach ($attributes_names as $val)
         {
           $attributes['PDO::ATTR_'.$val] = $db->getAttribute(constant('PDO::ATTR_'.$val));
         }
-        
+
         // PDO Errormode zurücksetzen auf alten Wert
         $db->setAttribute(PDO::ATTR_ERRMODE, $old_pdo_errormode);
-        
+
         // reset suppressor
         $cfg->suppress_errors = $old_suppress;
-        
+
         return $attributes;
     }
-    
+
     /**
     * @desc Print debug console
     */
@@ -90,17 +90,23 @@ class debug
     function show_console()
     {
         global $db, $tpl, $cfg, $error, $lang, $modules;
-        
+
         $debug = array();
+
+        // $_Vars
         $debug['request']       = $_REQUEST;
         $debug['session']       = $_SESSION;
         $debug['cookies']       = $_COOKIE;
         $debug['post']          = $_POST;
         $debug['get']           = $_GET;
+
+        // Database
         $debug['queries']       = $db->queries;
         $debug['prepares']      = $db->prepares;
         $debug['execs']         = $db->execs;
         $debug['attributes']    = $this->return_pdo_attributes_array();
+
+        // Config
         $debug['configs']       = $cfg;
         $debug['error_log']     = $error->error_log;
         $debug['lang_loaded']   = $lang->loaded;
