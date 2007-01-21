@@ -58,24 +58,24 @@ class module_admin_settings
     {
         global $lang;
         $params = func_get_args();
-        
-        // Set Pagetitle        
+
+        // Set Pagetitle
         $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
-        
+
         switch ($_REQUEST['action'])
-        {   
+        {
             default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show' );
                 $this->show();
                 break;
-                
+
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;               
-            
+                break;
+
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
@@ -88,13 +88,15 @@ class module_admin_settings
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+
+        global $cfg, $tpl, $error, $lang;
+
+        $tpl->assign('cfg', $cfg);
+        $this->output .= $lang->t('Hier gibts noch viel zu tun :D');
+        $this->output .= $tpl->fetch('admin/settings/settings.tpl');
+
     }
-    
+
     /**
     * @desc This content can be instantly displayed by adding {mod name="settings" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -102,7 +104,7 @@ class module_admin_settings
     function instant_show($my_text)
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
