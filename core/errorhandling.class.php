@@ -103,24 +103,25 @@ class error
             {
                 echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
             }
-            if (DEBUG)
+            if ( defined('DEBUG') && TRUE===DEBUG )
             {
                 $this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
             }
             break;
         case E_USER_NOTICE:
+
         case E_NOTICE:
-            if (DEBUG)
+            if ( defined('DEBUG') && TRUE===DEBUG )
             {
                 $this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
             }
             break;
 
-            default:
-	            if (DEBUG)
-	            {
-	                $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-	            }
+        default:
+                if ( defined('DEBUG') && TRUE===DEBUG )
+                {
+                    $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
+                }
             break;
         }
     }
