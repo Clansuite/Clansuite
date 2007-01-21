@@ -531,7 +531,7 @@ class module_admin_modules
 
                         // insert submodul
                         $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
-                        $stmt->execute( array( $modul['name'], $name . '.module.php', 'module_' . $modul['name'] . '_' . $name ) );
+                        $stmt->execute( array( $name, $name . '.module.php', 'module_' . $modul['name'] . '_' . $name ) );
 
                         // insert relation of submodul to modul
 
