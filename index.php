@@ -22,13 +22,13 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     */
-    
+
    /** =====================================================================
-    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.                           
+    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.
     *           READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
     *  =====================================================================
     */
-    
+
    /**
     *
     * index.php
@@ -119,7 +119,7 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 /**
  *  ===========================================
- *  Required Classes are loaded and initalized.  
+ *  Required Classes are loaded and initalized.
  *  ===========================================
  */
 
@@ -159,7 +159,7 @@ $perms      = new permissions;
 
 /**
  *  =====================================
- *  The settings for the objects are set.  
+ *  The settings for the objects are set.
  *  =====================================
  */
 
@@ -176,7 +176,7 @@ $tpl->caching           = false;
 $tpl->compile_check     = true;
 $tpl->cache_lifetime    = -1;
 $tpl->debug_tpl         = TPL_ROOT . '/core/debug.tpl';
-$tpl->autoload_filters  = array(    'pre' => array('inserttplnames')                                    
+$tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                      );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
 
@@ -224,7 +224,7 @@ $users->create_user();
 $users->check_login_cookie();
 
 /**
-* @desc Assign Statistic Variables 
+* @desc Assign Statistic Variables
 */
 $stats->assign_statistic_vars();
 
@@ -256,12 +256,12 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 }
 else
 {
-    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);   
+    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
 }
 
 
 /**
-* Check for our Copyright-Sign. 
+* Check for our Copyright-Sign.
 * Keep in mind ! that we spend a lot of time and ideas on this project.
 * If you rip, rip real good, knowing that you are forced to give something back to the community.
 */
@@ -282,7 +282,7 @@ $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
-* @desc Step 1:     Check if : Suppress Wrapper is set 
+* @desc Step 1:     Check if : Suppress Wrapper is set
 *                   - only the content of the suppressing module is echoed
 *
 * @desc Step 2:     Check if : Admin module <-> Normal module
@@ -290,14 +290,14 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 *                     - check permissions, if right for access_controlcenter then display
 *                     - else redirect to index or login
 *                   - if normal modules reqiested:
-*                     - display tpl_wrapper_file (content of module and stuff around that)                      
+*                     - display tpl_wrapper_file (content of module and stuff around that)
 */
 if ( $content['SUPPRESS_WRAPPER'] == true )
 {
     echo $content['OUTPUT'];
 }
 else
-{    
+{
     /**
     * @desc Admin module <-> Normal module
     */
@@ -311,7 +311,7 @@ else
         {
              if ( $_SESSION['user']['user_id'] == 0 )
              {
-                $functions->redirect('index.php?mod=account&action=login');
+                $functions->redirect('index.php?mod=account&action=login&referer='.urlencode($_SERVER['REQUEST_URI']));
              }
              else
              {
