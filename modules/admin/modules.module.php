@@ -1430,17 +1430,21 @@ class module_admin_modules
 		$folder_name = $_GET['folder_name'];
 		$module_name = $_POST['module_name'];
 		$confirm 	 = $_POST['confirm'];
+ 		$abort 		 = $_POST['abort'];
 
-        if ( empty( $confirm ) )
+        if ( empty( $confirm ) && empty( $abort ) )
         {
             $functions->redirect( 'index.php?mod=admin&sub=modules&action=uninstall&module_id=' . $module_id . '&folder_name=' . $folder_name, 'confirm', 3, $lang->t( 'Do you really want to delete the module: #' . $module_id . ' - ' . $module_name . '?' ), 'admin' );
         }
-        else
+        elseif ( !empty( $confirm ) )
         {
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
             $stmt->execute( array($module_id) );
             $functions->delete_dir_content( MOD_ROOT . '/' . $folder_name, true );
 	        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules has been uninstalled.' ), 'admin' );
+        }
+        else
+        {        	$functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'Aborted. No changes have been made.' ), 'admin' );
         }
   	}
 
