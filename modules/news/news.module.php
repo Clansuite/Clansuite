@@ -54,20 +54,20 @@ class module_news
         global $lang;
         
         // Set Pagetitle 
-        $this->mod_page_title = $lang->t( 'News -' );
+        $this->mod_page_title = $lang->t( 'News - ' );
         
         switch ($_REQUEST['action'])
         {   
-            case '':
-            
-                break;
-                
             default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show News' );
                 $this->show();
                 break;
                 
+            case 'archiv':
+                $this->mod_page_title .= $lang->t( 'Newsarchiv' );
+                $this->archiv();
+                break;
         }
         
         return array( 'OUTPUT'          => $this->output,
@@ -121,16 +121,8 @@ class module_news
         /* TODO: news with status: draft, published, private, private+protected*/
         $hidden = '0';
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
-        if ($result = $stmt->fetchAll(PDO::FETCH_NAMED) )
-        {
-            $newslist = $result;
-            #return $newslist;
-        }
-        else
-        {
-            #return false;
-        }
-        
+        $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
+         
         // add the general news_comments data to the array of fetched news
         foreach ($newslist as $k => $v) 
         { 
@@ -159,5 +151,40 @@ class module_news
         
         $this->output = $tpl->fetch('news/show.tpl');
     }
+    
+    function archiv()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security;
+        
+        // $newsarchiv = newsentries mit nick und category
+        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, 
+                                     n.user_id, u.nick, 
+                                     n.cat_id, c.name as cat_name, c.image as cat_image
+                                FROM ' . DB_PREFIX .'news n
+                                LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
+                                LEFT JOIN '. DB_PREFIX .'categories c 
+                                ON ( n.cat_id = c.cat_id AND 
+                                     c.module_id = ? )
+                                WHERE n.news_hidden = ? 
+                                ORDER BY news_id DESC' );
+        
+        // TODO: news with status: draft, published, private, private+protected
+        $hidden = '0';
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
+        $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
+        
+        // $categories for module_news
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED); 
+       
+        // give $newslist array to Smarty for template output
+        $tpl->assign('newsarchiv', $newsarchiv);
+        $tpl->assign('newscategories', $newscategories);
+        
+        $this->output = $tpl->fetch('news/news_archiv.tpl');
+    
+    }
+    
 }
 ?>
