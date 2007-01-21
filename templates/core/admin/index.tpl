@@ -26,7 +26,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <body>
 
     <div class="header">
-        <img style="margin-bottom: -3px;" src="/templates/standard/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"> - Control Center
+        <img style="margin-bottom: -3px;" src="{$www_tpl_root}/templates/standard/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
 
@@ -58,7 +58,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="/templates/core/images/ajax/2.gif" align="absmiddle" />
+    <img src="'{$www_tpl_root}/templates/core/images/ajax/2.gif" align="absmiddle" />
     &nbsp; Wait - while processing your request...
 </div>
 
