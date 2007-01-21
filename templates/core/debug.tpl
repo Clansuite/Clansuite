@@ -28,7 +28,13 @@
 	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('2')">Assigned template variables ($tpl->assign)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_2"><table border=0 width=100%> 
 	{section name=vars loop=$_debug_keys}
-		<tr bgcolor={if %vars.index% is even}#E4E0C7{else}#fafafa{/if}><td valign=top><font color=blue>{ldelim}${$_debug_keys[vars]}{rdelim}</font></td><td nowrap><font color=green>{$_debug_vals[vars]|@debug_print_var}</font></td></tr>
+	  {* exclude printf of the whole debugarray *}
+    	{if $_debug_keys[vars] == "debug"} {* do nothing *}
+    	{else}
+    	    <tr bgcolor={if %vars.index% is even}#E4E0C7{else}#fafafa{/if}>
+    		<td valign=top><font color=blue>{ldelim}${$_debug_keys[vars]}{rdelim}</font></td>
+    		<td nowrap><font color=green>{$_debug_vals[vars]|@debug_print_var}</font></td></tr>
+    	{/if}	
 	{sectionelse}
 		<tr bgcolor=#E4E0C7><td colspan=2><i>no template variables assigned</i></td></tr>	
 	{/section}
