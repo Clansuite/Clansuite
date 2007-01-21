@@ -94,7 +94,7 @@
         <tr>
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
-                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
+                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}">
             </td>            
             
             <td class="cell2" align="center">
