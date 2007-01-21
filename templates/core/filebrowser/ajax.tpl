@@ -9,7 +9,7 @@
             **/
             function sendFilebrowserAjaxRequest(path, name)
 	        {
-                
+
                 if( document.getElementById('section-' + name + '-' + path).style.display == 'block' )
                 {
                     document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_core_tpl_root}{literal}/admin/adminmenu/images/tree-node.gif';
@@ -29,7 +29,7 @@
 		                con.open('POST', 'index.php?mod=filebrowser&action=get_folder', true);
                         global_path = path;
                         global_name = name;
-                        
+
                         param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&name='+escape(encodeURIComponent(name));
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
