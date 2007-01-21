@@ -85,7 +85,7 @@ class module_news_admin
     }
 
     /**
-    * @desc Show the entrance - welcome message etc.
+    * @desc Show Overview of News (ordered: Date, Cats)
     */
     function show()
     {
@@ -95,7 +95,7 @@ class module_news_admin
         
         
         
-       $this->output = $tpl->fetch('news/admin_show.tpl');
+       $this->output = $tpl->fetch('news/show_admin.tpl');
     }
     
     /**
