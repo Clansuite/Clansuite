@@ -95,15 +95,15 @@
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
                 <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}">
-            </td>            
-            
+            </td>
+
             <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
                 <small>Version: xy</small>
             </td>
-            
-           
+
+
 
             <td class="cell1">
 
@@ -205,12 +205,12 @@
 
                         </td>
                     </tr>
-                  
+
                     </table>
                 </div>
-                
+
                 {* #### MODULES - CONFIG #### *}
-                 
+
 
              <div class="tab-page" id="{$wert.name}_config">
                 <h2 class="tab"{translate}>Config{/translate}</h2>
@@ -232,11 +232,24 @@
             </td>
 
             <td class="cell2" align="center">
-                <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
+            	{if $wert.enabled==1}
+				<p align="center">
+				    <input class="ButtonGreen" type="submit" value="{translate}Disable it.{/translate}" name="submit" />
+				</p>
+				{else}
+				<p align="center">
+				    <input class="ButtonOrange" type="submit" value="{translate}Enable it.{/translate}" name="submit" />
+				</p>
+				{/if}
             </td>
 
             <td class="cell1" align="center">
-                <input name="delete[]" type="checkbox" value="{$wert.module_id}">
+          		<p align="center">
+				    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}&folder_name={$wert.folder_name}" method="POST">
+				    	<input type="hidden" name="module_name" value="{$wert.title}" />
+					    <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
+					</form>
+				</p>
             </td>
 
         </tr>
@@ -267,9 +280,9 @@
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
                 <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
-            </td> 
-            
-            
+            </td>
+
+
             <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
@@ -380,17 +393,29 @@
             </td>
 
             <td class="cell2" align="center">
-                <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
+            	{if $wert.enabled==1}
+				<p align="center">
+				    <input class="ButtonGreen" type="submit" value="{translate}Disable it.{/translate}" name="submit" />
+				</p>
+				{else}
+				<p align="center">
+				    <input class="ButtonOrange" type="submit" value="{translate}Enable it.{/translate}" name="submit" />
+				</p>
+				{/if}
             </td>
 
             <td class="cell1" align="center">
-                <input name="delete[]" type="checkbox" value="{$wert.module_id}">
+          		<p align="center">
+				    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}" method="POST">
+				    	<input type="hidden" name="module_name" value="{$wert.title}" />
+					    <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
+					</form>
+				</p>
             </td>
 
         </tr>
         {/foreach}
         </table>
-
    </div>
 
 </div> <!-- tab pane 2 closed -->

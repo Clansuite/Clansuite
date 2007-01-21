@@ -350,7 +350,6 @@ class functions
     /**
     * @desc Delete a directory or it's content recursively
     */
-
     function delete_dir_content($directory, $sub=false)
     {
     	if(substr($directory,-1) == '/')
@@ -366,7 +365,7 @@ class functions
     		$handle = opendir($directory);
     		while (false !== ($item = readdir($handle)))
     		{
-    			if($item != '.' && $item != '..' && $item != '.svn')
+    			if($item != '.' && $item != '..')
     			{
     				$path = $directory.'/'.$item;
     				if(is_dir($path))
