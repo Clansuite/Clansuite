@@ -83,7 +83,7 @@ class module_admin_configs
         global $cfg, $tpl, $error, $lang;
 
         $tpl->assign('cfg', $cfg);
-        $this->output .= $tpl->fetch('admin/configs.tpl');
+        $this->output .= $tpl->fetch('admin/settings/settings.tpl');
     }
 }
 ?>
