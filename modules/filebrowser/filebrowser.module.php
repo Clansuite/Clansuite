@@ -57,13 +57,13 @@ class module_filebrowser
 
     function auto_run()
     {
-        
+
         global $lang;
         $params = func_get_args();
-        
-        // Construct Page Title        
+
+        // Construct Page Title
         $this->mod_page_title = $lang->t( 'filebrowser' ) . ' &raquo; ';
-        
+
         switch ($_REQUEST['action'])
         {
             case 'show':
@@ -74,16 +74,16 @@ class module_filebrowser
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
+
             case 'get_folder':
                 $this->get_folder();
                 break;
-                
+
             default:
                 $this->show();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
@@ -96,12 +96,12 @@ class module_filebrowser
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         $perms->check('access_filebrowser');
 
         $this->instant_show( '', 'filebrowser/wrapper.tpl', 'filebrowser/sections.tpl', 'index_browser' );
     }
-    
+
     /**
     * @desc This content can be instantly displayed by adding {mod name="filebrowser" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -109,12 +109,12 @@ class module_filebrowser
     function instant_show( $path = ROOT, $template, $section_template, $name )
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         foreach( glob( ROOT . $path.'*', GLOB_ONLYDIR ) as $item )
         {
             $folders[str_replace( ROOT, '', $item)] = preg_replace( '#^(.*)/#', '', $item);
         }
-        
+
         foreach( glob( ROOT . $path.'*' ) as $item )
         {
             if ( !is_dir( $item ) )
@@ -122,7 +122,7 @@ class module_filebrowser
                 $files[str_replace( ROOT, '', $item)] = preg_replace( '#^(.*)/#', '', $item);
             }
         }
-        
+
         /**
         * @desc Output files uppon the template
         */
@@ -134,31 +134,31 @@ class module_filebrowser
             define('FILEBROWSER_AJAX_LOADED', 1);
         }
 
-        
+
         $tpl->assign( 'folders'     , $folders );
         $tpl->assign( 'files'       , $files );
         $tpl->assign( 'section'     , $tpl->fetch( $section_template ) );
         $this->output .= $tpl->fetch( $template );
     }
-    
+
     /**
     * @desc Get a folder for AJAX
     */
     function get_folder()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         $perms->check('access_filebrowser');
-        
-        $template   = urldecode($_POST['section_template']);
-        $path       = urldecode($_POST['path']);
-        $name       = urldecode($_POST['name']);
-        
+
+        $template   = urldecode(urldecode($_POST['section_template']));
+        $path       = urldecode(urldecode($_POST['path']));
+        $name       = urldecode(urldecode($_POST['name']));
+
         foreach( glob( $path.'/*', GLOB_ONLYDIR ) as $item )
         {
             $folders[urlencode($item)] = preg_replace( '#^(.*)/#', '', $item);
         }
-        
+
         foreach( glob( $path.'/*' ) as $item )
         {
             if ( !is_dir( $item ) )
@@ -166,13 +166,13 @@ class module_filebrowser
                 $files[utf8_encode($item)] = preg_replace( '#^(.*)/#', '', $item);
             }
         }
-        
+
         /**
-        * @desc Raw output, no wrapper        
+        * @desc Raw output, no wrapper
         */
         $tpl->assign( 'name'    , $name );
         $tpl->assign( 'folders' , $folders );
-        $tpl->assign( 'files'   , $files );      
+        $tpl->assign( 'files'   , $files );
         $this->output = $tpl->fetch( $template );
         $this->suppress_wrapper = true;
     }
