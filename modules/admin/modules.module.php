@@ -102,6 +102,10 @@ class module_admin_modules
                 $this->update();
                 break;
 
+            case 'uninstall':
+                $this->uninstall();
+                break;
+
             case 'get_folder_tree':
                 $this->output = $this->build_folder_tree( ROOT );
                 $this->suppress_wrapper = 1;
@@ -1415,6 +1419,30 @@ class module_admin_modules
         $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules have been updated.' ), 'admin' );
 
     }
+
+	/**
+	* @desc Uninstall a module
+	*/
+	function uninstall()
+	{		global $db, $functions, $lang;
+
+		$module_id 	 = $_GET['module_id'];
+		$folder_name = $_GET['folder_name'];
+		$module_name = $_POST['module_name'];
+		$confirm 	 = $_POST['confirm'];
+
+        if ( empty( $confirm ) )
+        {
+            $functions->redirect( 'index.php?mod=admin&sub=modules&action=uninstall&module_id=' . $module_id . '&folder_name=' . $folder_name, 'confirm', 3, $lang->t( 'Do you really want to delete the module: #' . $module_id . ' - ' . $module_name . '?' ), 'admin' );
+        }
+        else
+        {
+            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
+            $stmt->execute( array($module_id) );
+            $functions->delete_dir_content( MOD_ROOT . '/' . $folder_name, true );
+	        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules has been uninstalled.' ), 'admin' );
+        }
+  	}
 
     /**
     * @desc Add a module to the DBs whitelist
