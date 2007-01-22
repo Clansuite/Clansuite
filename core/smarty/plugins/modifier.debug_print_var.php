@@ -20,7 +20,7 @@
  * @param integer
  * @return string
  */
-function smarty_modifier_debug_print_var($var, $depth = 0, $length = 40)
+function smarty_modifier_debug_print_var($var, $depth = 0, $length = 300)
 {
     $_replace = array(
         "\n" => '<i>\n</i>',
