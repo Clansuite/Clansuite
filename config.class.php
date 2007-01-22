@@ -95,7 +95,7 @@ class config
 
         // SwiftMail configuration
 
-        // methods: smtp, sendmail, exim,
+        // methods: smtp, sendmail, exim, mail
         $this->mailmethod       = 'mail';
         $this->mailerhost       = $_SERVER['SERVER_NAME'];
         // if no port is given: ports 25 & 465 are used
