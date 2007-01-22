@@ -105,11 +105,38 @@ class module_admin_settings
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 
+        $data = $_POST['config'];
         /**
         * @desc Handle the update
         */
-        var_dump($_POST['config']);
-        $this->output .= '';
+        $cfg_file = file_get_contents(ROOT . '/config.class.php');
+        foreach($data as $key => $value)
+        {
+            if( is_array($value) )
+            {                foreach( $value as $meta_key => $meta_value )
+                {                	if( preg_match('#^[0-9]+$#', $meta_value) )
+                	{
+                	    $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = ' . $meta_value . ';', $cfg_file );
+                	}
+                	else
+                	{                		$cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = \'' . $meta_value . '\';', $cfg_file );
+                	}
+                }
+            }
+            else
+            {
+                if( preg_match('#^[0-9]+$#', $value) )
+                {
+                    $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = ' . $value . ';', $cfg_file );
+                }
+                else
+                {                	$cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = \'' . $value . '\';', $cfg_file );
+                }
+            }
+        }
+
+        file_put_contents( ROOT . '/config.class.php', $cfg_file );
+        $functions->redirect( 'index.php?mod=admin&sub=settings', 'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
     }
 }
 ?>

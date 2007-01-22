@@ -93,7 +93,7 @@ class error
             $tpl->assign('debug_info'    , $errstr );
             $tpl->assign('file'    , $errfile );
             $tpl->assign('line'    , $errline );
-            die($cfg->suppress_errors == 0 ? $tpl->display('error.tpl' ) : '' );
+            die( $cfg->suppress_errors == 0 ? $tpl->display('error.tpl' ) : '' );
         case E_PARSE:
         case E_COMPILE_WARNING:
         case E_CORE_WARNING:
@@ -103,25 +103,28 @@ class error
             {
                 echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
             }
-            if ( defined('DEBUG') && TRUE===DEBUG )
+            if ( defined('DEBUG') )
             {
                 $this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
             }
             break;
         case E_USER_NOTICE:
-
+            if ( defined('DEBUG') )
+            {
+                $this->error_log['user_notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
+            }
         case E_NOTICE:
-            if ( defined('DEBUG') && TRUE===DEBUG )
+            if ( defined('DEBUG') )
             {
                 $this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
             }
             break;
 
         default:
-                if ( defined('DEBUG') && TRUE===DEBUG )
-                {
-                    $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-                }
+            if ( defined('DEBUG') )
+            {
+                $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
+            }
             break;
         }
     }

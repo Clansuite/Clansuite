@@ -77,11 +77,11 @@ class config
 
         // Meta Tag Information
 
-        $this->meta['description']  = 'Clansuite is a Content Management System for handling the needs of clans';
-        $this->meta['language']     = 'de';
-        $this->meta['author']       = 'Florian Wolf, Jens-Andre Koch';
-        $this->meta['email']        = 'system@clansuite.com';
-        $this->meta['keywords']     = 'clan, cms, content management system, portal';
+        $this->meta['description'] = 'Clansuite is a Content Management System for handling the needs of clans';
+        $this->meta['language'] = 'de';
+        $this->meta['author'] = 'Florian Wolf, Jens-Andre Koch';
+        $this->meta['email'] = 'system@clansuite.com';
+        $this->meta['keywords'] = 'clan, cms, content management system, portal';
 
         // Standard Path Configuration
 
@@ -96,49 +96,49 @@ class config
         // SwiftMail configuration
 
         // methods: smtp, sendmail, exim, mail
-        $this->mailmethod       = 'mail';
-        $this->mailerhost       = $_SERVER['SERVER_NAME'];
+        $this->mailmethod = 'mail';
+        $this->mailerhost = 'localhost';
         // if no port is given: ports 25 & 465 are used
-        $this->mailerport       = '';
-        $this->smtp_username    = 'clansuite';
-        $this->smtp_password    = 'toop';
+        $this->mailerport = 21;
+        $this->smtp_username = 'clansuite';
+        $this->smtp_password = 'toop';
         // encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
-        $this->mailencryption   = 'SWIFT_OPEN';
-        $this->from             = 'system@clansuite.com';
-        $this->from_name        = 'Clansuite Mailer';
+        $this->mailencryption = 'SWIFT_OPEN';
+        $this->from = 'system@clansuite.com';
+        $this->from_name = 'Clansuite Group';
 
         //Standard configurations
 
-        $this->tpl_name             = 'standard';
-        $this->tpl_wrapper_file     = 'index.tpl';
-        $this->language             = 'de';
-        $this->std_module           = 'index';
-        $this->std_module_action    = 'show';
-        $this->min_pass_length      = '6';
-        $this->encryption           = 'sha1';
-        $this->salt                 = '1-3-5-8-4-1-7-2-4-1-4-1';
-        $this->std_page_title       = 'clansuite.com';
-        $this->std_css              = 'standard.css';
-        $this->std_javascript       = 'standard.js';
+        $this->tpl_name = 'standard';
+        $this->tpl_wrapper_file = 'index.tpl';
+        $this->language = 'de';
+        $this->std_module = 'index';
+        $this->std_module_action = 'show';
+        $this->min_pass_length = 6;
+        $this->encryption = 'sha1';
+        $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
+        $this->std_page_title = 'clansuite.com';
+        $this->std_css = 'standard.css';
+        $this->std_javascript = 'standard.js';
 
         // Login Configuration
 
-        $this->login_method         = 'nick';
-        $this->remember_me_time     = 7776000; // 90 Days
-        $this->max_login_attempts   = 5;
-        $this->login_ban_minutes    = 30;
+        $this->login_method = 'nick';
+        $this->remember_me_time = 7776000; // 90 Days
+        $this->max_login_attempts = 5;
+        $this->login_ban_minutes = 30;
 
         // Session configuration
 
-        $this->use_cookies      = 1;
-        $this->use_cookies_only = 0;
-        $this->session_name     = 'suiteSID';
+        $this->use_cookies = 1;
+        $this->use_cookies = 1;
+        $this->session_name = 'suiteSID';
 
         // Error Handling
 
-        $this->suppress_errors  = 0;
-        $this->debug            = 1;
-        $this->debug_popup      = 0;
+        $this->suppress_errors = 0;
+        $this->debug = 1;
+        $this->debug_popup = '';
 
         // Developers configuration
 
