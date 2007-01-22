@@ -33,9 +33,14 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
                         </a>
                         &nbsp;
 
+                        <a href="index.php" class="itembtn">
+                            <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
+                            &nbsp;{translate}Show Frontpage{/translate}
+                        </a>
+
                         <a href="index.php?mod=account&action=logout" class="itembtn">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
-                            &nbsp;Logout
+                            &nbsp;{translate}Logout{/translate}
                         </a>
                     </span>
                     &nbsp;
