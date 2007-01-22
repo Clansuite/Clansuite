@@ -70,8 +70,9 @@ class module_admin_settings
                 $this->show();
                 break;
 
-            case 'instant_show':
-                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+            case 'update':
+                $this->mod_page_title .= $lang->t( 'Update' );
+                $this->update();
                 break;
 
         }
@@ -92,7 +93,6 @@ class module_admin_settings
         global $cfg, $tpl, $error, $lang;
 
         $tpl->assign('cfg', $cfg);
-        $this->output .= $lang->t('Hier gibts noch viel zu tun :D');
         $this->output .= $tpl->fetch('admin/settings/settings.tpl');
 
     }
@@ -101,14 +101,15 @@ class module_admin_settings
     * @desc This content can be instantly displayed by adding {mod name="settings" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
     */
-    function instant_show($my_text)
+    function update()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 
         /**
-        * @desc Handle the output - $lang-t() translates the text.
+        * @desc Handle the update
         */
-        $this->output .= $lang->t($my_text);
+        var_dump($_POST['config']);
+        $this->output .= '';
     }
 }
 ?>
