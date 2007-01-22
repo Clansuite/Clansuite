@@ -87,12 +87,12 @@ class error
         case E_CORE_ERROR:
         case E_USER_ERROR:
         case E_ERROR:
-            $tpl->assign('error_type'    , 1 );
-            $tpl->assign('error_head'    , 'FATAL ERROR' );
-            $tpl->assign('code'    , $errno );
-            $tpl->assign('debug_info'    , $errstr );
-            $tpl->assign('file'    , $errfile );
-            $tpl->assign('line'    , $errline );
+            $tpl->assign('error_type'       , 1 );
+            $tpl->assign('error_head'       , 'FATAL ERROR' );
+            $tpl->assign('code'             , $errno );
+            $tpl->assign('debug_info'       , $errstr );
+            $tpl->assign('file'             , $errfile );
+            $tpl->assign('line'             , $errline );
             die( $cfg->suppress_errors == 0 ? $tpl->display('error.tpl' ) : '' );
         case E_PARSE:
         case E_COMPILE_WARNING:
