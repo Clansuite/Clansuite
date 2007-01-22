@@ -52,24 +52,24 @@ class module_news
     function auto_run()
     {
         global $lang;
-        
-        // Set Pagetitle 
+
+        // Set Pagetitle
         $this->mod_page_title = $lang->t( 'News - ' );
-        
+
         switch ($_REQUEST['action'])
-        {   
+        {
             default:
             case 'show':
                 $this->mod_page_title .= $lang->t( 'Show News' );
                 $this->show();
                 break;
-                
+
             case 'archiv':
                 $this->mod_page_title .= $lang->t( 'Newsarchiv' );
                 $this->archiv();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
@@ -80,15 +80,15 @@ class module_news
     * @desc Function: instant_show
     *
     * This content can be instantly displayed by adding this into a template:
-    * {mod name="newscomments" func="instant_show" params="mytext"} 
-    * 
-    * You have to add the lines as shown above into the case block: 
+    * {mod name="newscomments" func="instant_show" params="mytext"}
+    *
+    * You have to add the lines as shown above into the case block:
     * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */    
+    */
     function instant_show_news($my_text)
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
@@ -107,84 +107,106 @@ class module_news
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
-        
+
+        require(ROOT . 'core/smarty/SmartyPaginate.class.php');
+        // required connect
+        SmartyPaginate::connect();
+        // set items per page
+        SmartyPaginate::setLimit(6);
+        // set URL 
+        SmartyPaginate::setUrl('index.php?mod=news');
+        SmartyPaginate::setUrlVar('page');
+             
         // $newslist = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                LEFT JOIN '. DB_PREFIX .'categories c 
-                                ON ( n.cat_id = c.cat_id AND 
+                                LEFT JOIN '. DB_PREFIX .'categories c
+                                ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ? 
+                                WHERE n.news_hidden = ?
                                 ORDER BY news_id DESC' );
-        
+
         /* TODO: news with status: draft, published, private, private+protected*/
         $hidden = '0';
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
-         
+
         // add the general news_comments data to the array of fetched news
-        foreach ($newslist as $k => $v) 
-        { 
-            
+        foreach ($newslist as $k => $v)
+        {
+
             // add to $newslist array, the numbers of news_comments for each news_id
             $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
             $stmt->execute( array( $v['news_id'] ) );
-            $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN); 
-                
-            // add to $neslist array, the nickname of the author of the last comment for each news_id 
-            if ($newslist[$k]['nr_news_comments'] > 0 ) 
-            {               
-                 $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo) 
-                                       FROM '. DB_PREFIX .'news_comments c 
-                		               LEFT JOIN '. DB_PREFIX .'users u USING(user_id) 
-                			           WHERE c.news_id = ? 
-                			           ORDER BY c.comment_id DESC'); 
+            $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN);
+
+            // add to $neslist array, the nickname of the author of the last comment for each news_id
+            if ($newslist[$k]['nr_news_comments'] > 0 )
+            {
+                 $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo)
+                                       FROM '. DB_PREFIX .'news_comments c
+                                       LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
+                                       WHERE c.news_id = ?
+                                       ORDER BY c.comment_id DESC');
                  $stmt->execute( array( $v['news_id'] ) );
-                 $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN); 
+                 $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN);
             }
-        
+
         }
-          
-        // give $newslist array to Smarty for template output
-        $tpl->assign('news', $newslist);
         
+        // get total news items
+        SmartyPaginate::setTotal(count($newslist));
+        // build paginated array 
+        $news_paginated = array_slice($newslist, SmartyPaginate::getCurrentIndex(), SmartyPaginate::getLimit());
+        
+        // DEBUG
+        //var_dump($newslist);
+        //var_dump($news_paginated);
+       
+        // assign {$paginate} to smarty var
+        SmartyPaginate::assign($tpl);
+        
+        // give not $newslist array to Smarty for template output
+        // give paginated $news_paginated
+        $tpl->assign('news', $news_paginated);
+
         $this->output = $tpl->fetch('news/show.tpl');
     }
-    
+
     function archiv()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
-        
+
         // $newsarchiv = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, 
-                                     n.user_id, u.nick, 
+        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
+                                     n.user_id, u.nick,
                                      n.cat_id, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                LEFT JOIN '. DB_PREFIX .'categories c 
-                                ON ( n.cat_id = c.cat_id AND 
+                                LEFT JOIN '. DB_PREFIX .'categories c
+                                ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ? 
+                                WHERE n.news_hidden = ?
                                 ORDER BY news_id DESC' );
-        
+
         // TODO: news with status: draft, published, private, private+protected
         $hidden = '0';
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
-        
+
         // $categories for module_news
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
         $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED); 
-       
+        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
+
         // give $newslist array to Smarty for template output
         $tpl->assign('newsarchiv', $newsarchiv);
         $tpl->assign('newscategories', $newscategories);
-        
+
         $this->output = $tpl->fetch('news/news_archiv.tpl');
-    
+
     }
-    
+
 }
 ?>

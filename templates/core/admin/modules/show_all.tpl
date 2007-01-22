@@ -232,24 +232,24 @@
             </td>
 
             <td class="cell2" align="center">
-            	{if $wert.enabled==1}
-				<p align="center">
-				    <input class="ButtonGreen" type="submit" value="{translate}Disable it.{/translate}" name="submit" />
-				</p>
-				{else}
-				<p align="center">
-				    <input class="ButtonOrange" type="submit" value="{translate}Enable it.{/translate}" name="submit" />
-				</p>
-				{/if}
+                {if $wert.enabled==1}
+                <p align="center">
+                    <input class="ButtonOrange" type="submit" value="{translate}Disable{/translate}" name="submit" />
+                </p>
+                {else}
+                <p align="center">
+                    <input class="ButtonGreen" type="submit" value="{translate}Enable{/translate}" name="submit" />
+                </p>
+                {/if}
             </td>
 
             <td class="cell1" align="center">
-          		<p align="center">
-				    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}&folder_name={$wert.folder_name}" method="POST">
-				    	<input type="hidden" name="module_name" value="{$wert.title}" />
-					    <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
-					</form>
-				</p>
+                <p align="center">
+                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}&folder_name={$wert.folder_name}" method="POST">
+                        <input type="hidden" name="module_name" value="{$wert.title}" />
+                        <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
+                    </form>
+                </p>
             </td>
 
         </tr>
@@ -393,24 +393,24 @@
             </td>
 
             <td class="cell2" align="center">
-            	{if $wert.enabled==1}
-				<p align="center">
-				    <input class="ButtonGreen" type="submit" value="{translate}Disable it.{/translate}" name="submit" />
-				</p>
-				{else}
-				<p align="center">
-				    <input class="ButtonOrange" type="submit" value="{translate}Enable it.{/translate}" name="submit" />
-				</p>
-				{/if}
+                {if $wert.enabled==1}
+                <p align="center">
+                    <input class="ButtonOrange" type="submit" value="{translate}Disable{/translate}" name="submit" />
+                </p>
+                {else}
+                <p align="center">
+                    <input class="ButtonGreen" type="submit" value="{translate}Enable{/translate}" name="submit" />
+                </p>
+                {/if}
             </td>
 
             <td class="cell1" align="center">
-          		<p align="center">
-				    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}" method="POST">
-				    	<input type="hidden" name="module_name" value="{$wert.title}" />
-					    <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
-					</form>
-				</p>
+                <p align="center">
+                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}" method="POST">
+                        <input type="hidden" name="module_name" value="{$wert.title}" />
+                        <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
+                    </form>
+                </p>
             </td>
 
         </tr>

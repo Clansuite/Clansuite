@@ -39,7 +39,7 @@ function smarty_core_write_file($params, &$smarty)
 
     if( file_exists($params['filename']) )
     {
-    	@unlink($params['filename']);
+        @unlink($params['filename']);
     }
 
     if (!@rename($_tmp_file, $params['filename'])) {

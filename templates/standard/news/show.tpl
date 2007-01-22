@@ -1,4 +1,18 @@
-{* Debugausgabe des Arrays: {$news|@var_dump} *}
+{* Debugausgabe des Arrays: {$news|@var_dump}*}
+{$paginate|@var_dump}  
+
+{* display pagination header *}
+    Items {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
+
+    {* display results *}    
+    {section name=res loop=$results}
+        {$results[res]}
+    {/section}
+
+    {* display pagination info *}
+    {paginate_prev} {paginate_middle} {paginate_next}
+
+
 
 
 {foreach item=news from=$news}
