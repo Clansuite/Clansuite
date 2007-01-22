@@ -14,15 +14,15 @@
     <table id="tabledesign-coffee" cellpadding="0" cellspacing="0" border="0" width="100%">      
         
         <thead>
-        	<tr>
-        	    <td>{translate}Status{/translate}</td>
-        		<td>{translate}ID{/translate}</td>
-        		<td>{translate}Gametype{/translate}</td>
-        		<td>{translate}Country{/translate}</td>
-        		<td>{translate}Name{/translate}</td>
-        		<td>{translate}IP : Port{/translate}</td>
-        		<td>{translate}Connect{/translate}</td>
-        	</tr>
+            <tr>
+                <td>{translate}Status{/translate}</td>
+            <td>{translate}ID{/translate}</td>
+            <td>{translate}Gametype{/translate}</td>
+            <td>{translate}Country{/translate}</td>
+            <td>{translate}Name{/translate}</td>
+            <td>{translate}IP : Port{/translate}</td>
+            <td>{translate}Connect{/translate}</td>
+            </tr>
           </thead>
           
           <tbody>  
