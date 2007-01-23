@@ -276,7 +276,7 @@ class module_admin_menueditor
                      else
                      {                     	 $result .= htmlspecialchars($lang->t($entry['name']));
                      }
-                     $result .= '</a>';
+                     $result .= '<img style="margin-left: -5px; top: -1px" class="pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" alt=""/></a>';
                  }
                  else
                  {

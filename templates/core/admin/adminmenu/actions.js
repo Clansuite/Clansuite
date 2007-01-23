@@ -75,7 +75,12 @@ function treeInfo() {
     document.getElementById("tree-info-form").style.display = "block";
     if (tree.active) {
         var node = tree.getActiveNode();
-        document.getElementById('tree-info-custom_icon').options[node.custom_icon].selected = 'true';
+        for (i = 0; i < document.getElementById('tree-info-custom_icon').length; i++)
+        {
+            if( document.getElementById('tree-info-custom_icon').options[i].text == node.custom_icon )
+            {                document.getElementById('tree-info-custom_icon').options[i].selected = 'true';
+            }
+        }
         name.value = node.text;
         href.value = node.href;
         title.value = node.title;

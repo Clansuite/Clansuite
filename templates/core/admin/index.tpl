@@ -26,7 +26,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <body>
 
     <div class="header">
-        <img style="margin-bottom: -3px;" src="{$www_tpl_root}/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"> - Control Center
+        <a href="index.php?mod=admin"><img style="margin-bottom: -3px;" src="{$www_tpl_root}/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
 
