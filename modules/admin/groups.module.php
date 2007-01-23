@@ -61,7 +61,7 @@ if (!defined('IN_CS'))
 class module_admin_groups
 {
     public $output          = '';
-    public $mod_page_title  = '';
+    
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -71,25 +71,27 @@ class module_admin_groups
     //----------------------------------------------------------------
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        $this->mod_page_title = $lang->t( 'Administration of Groups' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Groups'), '/index.php?mod=admin&sub=groups'); 
         
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show groups' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=groups&action=show');
                 $this->show_groups();
                 break;
             
             case 'create':
-                $this->mod_page_title .= $lang->t( 'Create a new group' );
+                $trail->addStep($lang->t('Create a new group'), '/index.php?mod=admin&sub=groups&action=create');
                 $this->create();
                 break;
           
             case 'edit':
-                $this->mod_page_title .= $lang->t( 'Edit a group' );
+                $trail->addStep($lang->t('Edit a group'), '/index.php?mod=admin&sub=groups&action=edit');
                 $this->edit();
                 break;
                 
@@ -98,14 +100,14 @@ class module_admin_groups
                 break;
                 
             case 'members':
-                $this->mod_page_title .= $lang->t( 'Show Group and its Members' );
+                $trail->addStep($lang->t('Show Group and its Members'), '/index.php?mod=admin&sub=groups&action=members');
                 $this->show_group_members($group_id);
                 break;
          
          }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_serverlist_admin
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,44 +56,44 @@ class module_serverlist_admin
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
         
-         // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'Serverlist' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Serverlist'), '/index.php?mod=serverlist&sub=admin'); 
         
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show Servers' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=serverlist&sub=admin&action=show'); 
                 $this->show_servers();
                 break;
                 
             case 'lookup_server':
-                $this->mod_page_title .= $lang->t( 'Show Servers' );
+                $trail->addStep($lang->t('Lookup Server'), '/index.php?mod=serverlist&sub=admin&action=lookup_server'); 
                 $this->lookup_server();
                 break;
 
             case 'create':
-                $this->mod_page_title = $lang->t( 'Add a new Server' );
+                $trail->addStep($lang->t('Add a new Server'), '/index.php?mod=serverlist&sub=admin&action=create'); 
                 $this->create_server();
                 break;
     
             case 'edit':
-                $this->mod_page_title = $lang->t( 'Edit Server' );
+                $trail->addStep($lang->t('Edit Server'), '/index.php?mod=serverlist&sub=admin&action=edit'); 
                 $this->edit_server();
                 break;
                 
             case 'delete':
-                $this->mod_page_title = $lang->t( 'Delete Server' );
+                $trail->addStep($lang->t('Delete Server'), '/index.php?mod=serverlist&sub=admin&action=delete'); 
                 $this->delete_server();
                 break;
             
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

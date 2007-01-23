@@ -41,7 +41,6 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page statically.'
 class module_news
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -51,27 +50,26 @@ class module_news
     */
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
 
-        // Set Pagetitle
-        $this->mod_page_title = $lang->t( 'News - ' );
-
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('News'), '/index.php?mod=news'); 
+       
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show News' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=news&action=show');
                 $this->show();
                 break;
 
             case 'archiv':
-                $this->mod_page_title .= $lang->t( 'Newsarchiv' );
+                $trail->addStep($lang->t('Newsarchiv'), '/index.php?mod=news&action=archiv');
                 $this->archiv();
                 break;
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -131,30 +129,40 @@ class module_news
         $hidden = '0';
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
-
+        
+        // ---------  Prepared Statements: One time defined, often used!
+        
+        // Prepare Statement 1: Count all newst 
+        $stmt1 = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
+        
+        // Prepare Statement 2: get the nickname of the last comment for certain news_id
+        $stmt2 = $db->prepare('SELECT IFNULL(u.nick, c.pseudo)
+                                   FROM '. DB_PREFIX .'news_comments c
+                                   LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
+                                   WHERE c.news_id = ?
+                                   ORDER BY c.comment_id DESC');
+        
+        // --------- Database Loops over prepared Statements
+                                   
         // add the general news_comments data to the array of fetched news
         foreach ($newslist as $k => $v)
         {
-
+            // Execute prepared Statement 1
             // add to $newslist array, the numbers of news_comments for each news_id
-            $stmt = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
-            $stmt->execute( array( $v['news_id'] ) );
+            $stmt1->execute( array( $v['news_id'] ) );
             $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN);
 
-            // add to $neslist array, the nickname of the author of the last comment for each news_id
+            // if news_comments exist for that news
             if ($newslist[$k]['nr_news_comments'] > 0 )
-            {
-                 $stmt = $db->prepare('SELECT IFNULL(u.nick, c.pseudo)
-                                       FROM '. DB_PREFIX .'news_comments c
-                                       LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                       WHERE c.news_id = ?
-                                       ORDER BY c.comment_id DESC');
-                 $stmt->execute( array( $v['news_id'] ) );
+            {                 
+                 // Execute prepared Statement 2
+                 // add to $newslist array, the nickname of the author of the last comment for each news_id
+                 $stmt2->execute( array( $v['news_id'] ) );
                  $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN);
             }
 
         }
-        
+       
         // get total news items
         SmartyPaginate::setTotal(count($newslist));
         // build paginated array 

@@ -42,7 +42,6 @@ if (!defined('IN_CS'))
 class module_static_admin
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
     private $used = array();
@@ -54,31 +53,32 @@ class module_static_admin
 
     function auto_run()
     {
-        global $lang;
-        
-        $this->mod_page_title = $lang->t('Admin Control Panel - Static Page' );
-        
+        global $lang, $trail;
+                
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=static&sub=admin');
+       
         switch ($_REQUEST['action'])
         {
             default:    
             case 'show':
-                $this->mod_page_title = $lang->t( 'Show static pages' );
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=static&sub=admin&action=show');
                 $this->show();
                 break;
             
             case 'create':
-                $this->mod_page_title = $lang->t( 'Create a static page' );
+                $trail->addStep($lang->t('Create'), '/index.php?mod=static&sub=admin&action=create');
                 $this->create();
                 break;
                 
             case 'edit':
-                $this->mod_page_title = $lang->t( 'Edit a static page' );
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=static&sub=admin&action=edit');
                 $this->edit();
                 break;
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

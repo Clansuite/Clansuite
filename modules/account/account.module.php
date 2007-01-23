@@ -42,8 +42,7 @@ if (!defined('IN_CS'))
 */
 class module_account
 {
-    public $output           = '';
-    public $mod_page_title   = '';
+    public $output           = '';    
     public $additional_head  = '';
     public $suppress_wrapper = '';
 
@@ -54,8 +53,7 @@ class module_account
 
     function auto_run()
     {
-        global $lang;
-
+        global $lang, $trail;
 
         switch ($_REQUEST['action'])
         {
@@ -120,7 +118,7 @@ class module_account
         $this->mod_page_title = $lang->t('User :: ' . $title );
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

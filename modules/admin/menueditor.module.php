@@ -40,7 +40,7 @@ if (!defined('IN_CS'))
 class module_admin_menueditor
 {
     public $output     = '';
-    public $mod_page_title     = '';
+    
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -51,21 +51,27 @@ class module_admin_menueditor
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
         $params = func_get_args();
-        $this->mod_page_title = $lang->t( 'Menueditor' ) . ' &raquo; ';
-              
+                      
         switch ($_REQUEST['action'])
         {
+            
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show Menu' );
+                // Set Pagetitle and Breadcrumbs
+                $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
+                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&sub=menueditor&action=show'); 
                 $this->show();
                 break;
 
             case 'update':
-                $this->mod_page_title .= $lang->t( 'Update a Menu' );
+                // Set Pagetitle and Breadcrumbs
+                $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
+                $trail->addStep($lang->t('Update a Menu'), '/index.php?mod=admin&sub=menueditor&action=update'); 
                 $this->update();
                 break;
                 
@@ -88,7 +94,6 @@ class module_admin_menueditor
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

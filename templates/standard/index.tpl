@@ -38,7 +38,7 @@
 
 {$additional_head}
 {$redirect}
-<title>{$std_page_title} - {$mod_page_title}</title>
+<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 -->
@@ -74,17 +74,18 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr class="tr_header">
     <td width="10">
-        Menu
+                        Menu
     </td>
     
     <td>
-        &raquo; {$mod_page_title}
+                        {include file='breadcrumbs.tpl'}
     </td>
     
     <td width="200">
-        Infos
+                        Infos
     </td>
 </tr>
+
 <tr>
     <td class="cell1" width="100" height="300">
         <div class="left_menu">
@@ -123,7 +124,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     </td>
     
     <td class="cell1">
-        {$content}
+                        {$content}
     </td>
     
     <td class="cell1" style="padding: 0px;">

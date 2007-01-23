@@ -42,7 +42,6 @@ if (!defined('IN_CS'))
 class module_admin_categories
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -53,37 +52,37 @@ class module_admin_categories
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        $this->mod_page_title = $lang->t( 'Administration of Categories' ) . ' &raquo; ';
-        
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Categories'), '/index.php?mod=admin&sub=categories');
+               
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show Categories' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=categories&action=show');
                 $this->show_categories();
                 break;
                 
             case 'create':
-                $this->mod_page_title .= $lang->t( 'Create Category' );
+                $trail->addStep($lang->t('Create Category'), '/index.php?mod=admin&sub=categories&action=create');
                 $this->create_categories();
                 break;
     
             case 'edit':
-                $this->mod_page_title .= $lang->t( 'Edit Categories' );
+                $trail->addStep($lang->t('Edit Categories'), '/index.php?mod=admin&sub=categories&action=edit');
                 $this->edit_categories();
                 break;
                 
             case 'delete':
-                $this->mod_page_title .= $lang->t( 'Delete Categories' );
+                $trail->addStep($lang->t('Delete Categories'), '/index.php?mod=admin&sub=categories&action=delete');
                 $this->delete_categories();
                 break;
-     
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -96,18 +95,21 @@ class module_admin_categories
     {
         global $db, $tpl, $error, $lang;
 
-       
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories' );
         $stmt->execute( );
         $categories = $stmt->fetchAll(PDO::FETCH_NAMED);
+       
+        // Prepared Statement 2: 
+        // get modulname by module_id of every category
+        $stmt2 = $db->prepare('SELECT name FROM ' . DB_PREFIX . 'modules WHERE module_id = ?');
        
         $i = 0;
         foreach( $categories as $category )
         {   
             // if category belongs to a module
             if ( $category['module_id'] != NULL ) {            
-            // get modulname by module_id of every category
-            $stmt2 = $db->prepare('SELECT name FROM ' . DB_PREFIX . 'modules WHERE module_id = ?');
+            
+            // Execute Statement 2:
             $stmt2->execute(  array ( $category['module_id'] ) );
             $categories[$i]['module_name'] = $stmt2->fetch(PDO::FETCH_COLUMN);
             }

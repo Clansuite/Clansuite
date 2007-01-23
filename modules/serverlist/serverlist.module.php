@@ -46,37 +46,36 @@ if (!defined('IN_CS'))
 class module_serverlist
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
+    * @desc First 
+    function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        // Set Pagetitle 
-        $this->mod_page_title = $lang->t( 'Serverlist -' );
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Serverlist'), '/index.php?mod=serverlist'); 
         
         switch ($_REQUEST['action'])
         {                   
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show Gameservers & Details' );
+                $trail->addStep($lang->t('Show Gameservers & Details'), '/index.php?mod=serverlist&action=show'); 
                 $this->show_servers();
                 break;            
             
             case 'get_serverdetails':
-                $this->mod_page_title .= $lang->t( 'Gets Serverdetails' );
+                $trail->addStep($lang->t('Gets Serverdetails'), '/index.php?mod=serverlist&action=get_serverdetails'); 
                 $this->get_serverdetails();
                 break;
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

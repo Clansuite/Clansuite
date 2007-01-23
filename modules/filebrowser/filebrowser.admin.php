@@ -46,7 +46,7 @@ if (!defined('IN_CS'))
 class module_filebrowser_admin
 {
     public $output          = '';
-    public $mod_page_title  = '';
+    
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -61,13 +61,14 @@ class module_filebrowser_admin
         global $lang;
         $params = func_get_args();
         
-        // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'filebrowser' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser&sub=admin');
         
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=filebrowser&sub=admin&action=show');
                 $this->show();
                 break;
 
@@ -81,7 +82,7 @@ class module_filebrowser_admin
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
