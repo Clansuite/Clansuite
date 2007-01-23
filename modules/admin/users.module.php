@@ -42,7 +42,6 @@ if (!defined('IN_CS'))
 class module_admin_users
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -53,47 +52,47 @@ class module_admin_users
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
              
-        // Titelzeile zusammensetzen
-        $this->mod_page_title = $lang->t( 'Administration of Users' ) . ' &raquo; ';     
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Users'), '/index.php?mod=admin&sub=users');     
              
         switch ($_REQUEST['action'])
         {   
             default:
-            case 'show_all_users':
-                $this->mod_page_title .= $lang->t( 'Show Users' );
-                $this->show_all_users();
+            case 'show':
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=users&action=show'); 
+                $this->show();
                 break;
             
             case 'usercenter':
-                $this->mod_page_title .= $lang->t( 'User-Center' );
+                $trail->addStep($lang->t('Usercenter'), '/index.php?mod=admin&sub=users&action=usercenter'); 
                 $this->show_usercenter();
                 break;
 
 	        case 'create':
-                $this->mod_page_title .= $lang->t( 'Create New Useraccount' );
+                $trail->addStep($lang->t('Create New Useraccount'), '/index.php?mod=admin&sub=users&action=create'); 
                 $this->create();
                 break;
      
             case 'edit':
-                $this->mod_page_title .= $lang->t( 'Edit User' );
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&sub=users'); 
                 $this->edit();
                 break;
      
             case 'search':
-                $this->mod_page_title .= $lang->t( 'Search' );
+                $trail->addStep($lang->t('Search'), '/index.php?mod=admin&sub=users'); 
                 $this->search();
                 break;
 
             case 'delete':
-                $this->delete();
+               $this->delete();
                 break;
                      
         }
        
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -102,7 +101,7 @@ class module_admin_users
     * @desc Show all users
     */
 
-    function show_all_users()
+    function show()
     {
         global $db, $tpl, $error, $lang;
 

@@ -140,6 +140,7 @@ require(CORE_ROOT . '/users.class.php');
 require(CORE_ROOT . '/db.class.php');
 require(CORE_ROOT . '/stats.class.php');
 require(CORE_ROOT . '/permissions.class.php');
+require(CORE_ROOT . '/trail.class.php');
 
 /**
 * @desc Create objects out of classes
@@ -156,6 +157,7 @@ $security   = new security;
 $users      = new users;
 $stats      = new statistics;
 $perms      = new permissions;
+$trail      = new trail;
 
 /**
  *  =====================================
@@ -179,6 +181,15 @@ $tpl->debug_tpl         = TPL_ROOT . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                      );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
+
+// PHP 5.1 strftime fix by setting the timezone
+// more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
+date_default_timezone_set('Europe/Berlin');
+
+/**
+* @desc Breadcrumb-Trail Home
+*/
+$tpl->assign_by_ref('trail', $trail->path);
 
 /**
 * @desc Create DB Object by setting DSN and connecting to DB
@@ -277,7 +288,6 @@ $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
-$tpl->assign('mod_page_title'   , $content['MOD_PAGE_TITLE'] );
 $tpl->assign('copyright'        , $cfg->copyright );
 $tpl->assign('content'          , $content['OUTPUT'] );
 
@@ -305,7 +315,7 @@ else
     {
         if ( $perms->check('access_controlcenter', 'no_redirect') )
         {
-            $tpl->displayDoc('admin/index.tpl');
+           $tpl->displayDoc('admin/index.tpl');
         }
         else
         {

@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_admin_manual
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -58,16 +57,17 @@ class module_admin_manual
     function auto_run()
     {
         
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
         
-        // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Manual'), '/index.php?mod=admin&sub=manual');   
         
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=manual&action=show');
                 $this->show();
                 break;
 
@@ -81,7 +81,7 @@ class module_admin_manual
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

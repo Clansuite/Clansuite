@@ -42,7 +42,7 @@ if (!defined('IN_CS'))
 class module_admin_permissions
 {
     public $output          = '';
-    public $mod_page_title  = '';
+    
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -52,52 +52,53 @@ class module_admin_permissions
     //----------------------------------------------------------------
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        $this->mod_page_title = $lang->t( 'Administration of Permissions' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Permissions'), '/index.php?mod=admin&sub=permissions');  
         
         switch ($_REQUEST['action'])
         {
             default:
             case 'show_all':
-                $this->mod_page_title .= $lang->t( 'Show Permissions' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=modules&action=show_all'); 
                 $this->show_all();
                 break;
                                 
             case 'edit_right':
-                $this->mod_page_title .= $lang->t( 'Edit Permissions' );
+                $trail->addStep($lang->t('Edit Permissions'), '/index.php?mod=admin&sub=modules&action=edit_right'); 
                 $this->edit_right();
                 break;
 
             case 'edit_area':
-                $this->mod_page_title .= $lang->t( 'Edit Area' );
+                $trail->addStep($lang->t('Edit Area'), '/index.php?mod=admin&sub=modules&action=edit_area'); 
                 $this->edit_area();
                 break;
                                 
             case 'create_right':
-                $this->mod_page_title .= $lang->t( 'Create Permission' );
+                $trail->addStep($lang->t('Create Permission'), '/index.php?mod=admin&sub=modules&action=create_right'); 
                 $this->create_right();
                 break;
 
             case 'create_area':
-                $this->mod_page_title .= $lang->t( 'Create Area' );
+                $trail->addStep($lang->t('Create Area'), '/index.php?mod=admin&sub=modules&action=create_area'); 
                 $this->create_area();
                 break;
                                 
             case 'delete_right':
-                $this->mod_page_title .= $lang->t( 'Delete Permission' );
+                $trail->addStep($lang->t('Delete Permission'), '/index.php?mod=admin&sub=modules&action=delete_right'); 
                 $this->delete_right();
                 break;
 
             case 'delete_area':
-                $this->mod_page_title .= $lang->t( 'Delete Area' );
+                $trail->addStep($lang->t('Delete Area'), '/index.php?mod=admin&sub=modules&action=delete_area'); 
                 $this->delete_area();
                 break;
                          
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

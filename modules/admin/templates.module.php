@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_admin_templates
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -58,21 +57,23 @@ class module_admin_templates
     function auto_run()
     {
         
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
         
-        // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'Administration of Templates' ) . ' &raquo; ';
-        
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Templates'), '/index.php?mod=admin&sub=templates'); 
+              
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show all templates' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=templates&action=show');
                 $this->show();
                 break;
                 
             case 'edit':
-                $this->mod_page_title .= $lang->t( 'Edit a template' );
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&sub=templates&action=edit');
                 $this->edit();
                 break;
                 
@@ -83,15 +84,9 @@ class module_admin_templates
             case 'ajax_save':
                 $this->ajax_save();
                 break;
-                                
-            default:
-                $this->mod_page_title .= $lang->t( 'Show all templates' );
-                $this->show();
-                break;
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

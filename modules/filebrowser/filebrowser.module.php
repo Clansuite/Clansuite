@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_filebrowser
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,17 +56,17 @@ class module_filebrowser
 
     function auto_run()
     {
-
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
 
-        // Construct Page Title
-        $this->mod_page_title = $lang->t( 'filebrowser' ) . ' &raquo; ';
-
+         // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser'); 
+      
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=news&action=filebrowser');
                 $this->show();
                 break;
 
@@ -77,15 +76,10 @@ class module_filebrowser
 
             case 'get_folder':
                 $this->get_folder();
-                break;
-
-            default:
-                $this->show();
-                break;
+                break;   
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

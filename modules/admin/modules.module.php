@@ -42,7 +42,6 @@ if (!defined('IN_CS'))
 class module_admin_modules
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -56,7 +55,11 @@ class module_admin_modules
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
+
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&sub=modules');    
 
         $this->mod_page_title = $lang->t('Admin Control Panel - Modules &raquo; ' );
 
@@ -64,7 +67,7 @@ class module_admin_modules
         {
             default:
             case 'show_all':
-                $this->mod_page_title .= $lang->t( 'Show and edit all modules' );
+                $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&sub=modules&action=show_all'); 
                 $this->show_all();
                 break;
 
@@ -79,22 +82,22 @@ class module_admin_modules
                 break;
 
             case 'install_new':
-                $this->mod_page_title .= $lang->t( 'Install new modules' );
+                $trail->addStep($lang->t('Install new modules'), '/index.php?mod=admin&sub=modules&action=install_new'); 
                 $this->install_new();
                 break;
 
             case 'create_new':
-                $this->mod_page_title .= $lang->t( 'Create a new module' );
+                $trail->addStep($lang->t('Create a new module'), '/index.php?mod=admin&sub=modules&action=create_new'); 
                 $this->create_new();
                 break;
 
             case 'export':
-                $this->mod_page_title .= $lang->t( 'Export a module' );
+                $trail->addStep($lang->t('Export a module'), '/index.php?mod=admin&sub=modules&action=export'); 
                 $this->export();
                 break;
 
             case 'import':
-                $this->mod_page_title .= $lang->t( 'Import a module' );
+                $trail->addStep($lang->t('Import a module'), '/index.php?mod=admin&sub=modules&action=import'); 
                 $this->import();
                 break;
 
@@ -122,7 +125,7 @@ class module_admin_modules
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

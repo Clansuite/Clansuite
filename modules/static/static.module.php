@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_static
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,27 +56,27 @@ class module_static
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        $this->mod_page_title = $lang->t( ' Static Page &raquo; ' );
-        
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=static');
+               
         switch ($_REQUEST['action'])
         {   
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show Page'), '/index.php?mod=static&action=show');
                 $this->show();
                 break;
                 
             case 'overview':
-                $this->mod_page_title .= $lang->t( 'Overview' );
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=static&action=show');
                 $this->overview();
                 break;
        
        }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -87,9 +86,10 @@ class module_static
     */
     function show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $trail;
         
         $page = $_GET['page'];
+        $trail->addStep($lang->t($page), '/index.php?mod=static&action=show&page='. $page);
         
         if ( !empty($page) AND $input->check( $page, 'is_abc|is_int|is_custom', '_\s' ) )
         {
@@ -124,7 +124,7 @@ class module_static
         }
         else
         {
-            $this->output .= $lang->t('This static page does not exist.');
+            $functions->redirect('index.php?mod=static&action=overview');
         }
     }
     

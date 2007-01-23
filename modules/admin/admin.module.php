@@ -40,7 +40,6 @@ if (!defined('IN_CS'))
 class module_admin
 {
     public $output     = '';
-    public $mod_page_title     = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
     
@@ -51,22 +50,21 @@ class module_admin
 
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         
-        $this->mod_page_title = $lang->t('Control Center' );
-        
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin'); 
+                     
         switch ($_REQUEST['action'])
         {
-        case 'show':
-            $this->show();
-            break;
             default:
-            $this->show();
+            case 'show':
+                $trail->addStep($lang->t('Control Center'), '/index.php?mod=admin');
+                $this->show();
             break;
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

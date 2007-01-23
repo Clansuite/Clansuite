@@ -39,7 +39,6 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
 class module_news_comments
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,11 +56,12 @@ class module_news_comments
     function auto_run()
     {
         
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
         
-        // Set Page Title        
-        $this->mod_page_title = $lang->t( 'Newscomments' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('News'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Comments'), '/index.php?mod=news&sub=newscomments');
         
         // 
         switch ($_REQUEST['action'])
@@ -79,7 +79,7 @@ class module_news_comments
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

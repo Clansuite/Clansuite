@@ -44,7 +44,6 @@ if (!defined('IN_CS'))
 class module_shoutbox
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -55,10 +54,11 @@ class module_shoutbox
 
     function auto_run()
     {
-        global $lang, $tpl;
+        global $lang, $tpl, $trail;
 
-        $this->mod_page_title = $lang->t( 'shoutbox' ) . ' &raquo; ';
-
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Shoutbox'), '/index.php?mod=shoutbox'); 
+       
         // Smarty Flags:
         $tpl->assign('show_form'   , false);
         $tpl->assign('is_saved'    , false);
@@ -75,14 +75,14 @@ class module_shoutbox
 
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show Shoutbox' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=shoutbox&action=show');
                 $this->show();
                 break;
 
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_admin_bugs
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -54,20 +53,20 @@ class module_admin_bugs
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-
     function auto_run()
     {
         
         global $lang;
         $params = func_get_args();
         
-        // Construct Page Title        
-        $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Bugs'), '/index.php?mod=admin&sub=bugs');
         
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=bugs&action=show');
                 $this->show();
                 break;
 
@@ -81,7 +80,6 @@ class module_admin_bugs
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

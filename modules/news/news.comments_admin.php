@@ -46,7 +46,7 @@ if (!defined('IN_CS'))
 class module_news_comments_admin
 {
     public $output          = '';
-    public $mod_page_title  = '';
+    
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -80,7 +80,7 @@ class module_news_comments_admin
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
+                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

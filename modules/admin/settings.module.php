@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class module_admin_settings
 {
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -56,29 +55,29 @@ class module_admin_settings
     */
     function auto_run()
     {
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
 
-        // Set Pagetitle
-        $this->mod_page_title = $lang->t( 'Admin Interface' ) . ' &raquo; ';
-
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&sub=settings');  
+       
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=settings&action=show'); 
                 $this->show();
                 break;
 
             case 'update':
-                $this->mod_page_title .= $lang->t( 'Update' );
+                $trail->addStep($lang->t('Update'), '/index.php?mod=admin&sub=settings&action=update');
                 $this->update();
                 break;
 
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }

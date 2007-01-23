@@ -16,7 +16,7 @@
 
 {$additional_head}
 {$redirect}
-<title>{$std_page_title} - {$mod_page_title}</title>
+<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
@@ -37,7 +37,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td class="admin_header">
-                &raquo; {$mod_page_title}
+                {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
             </td>
             <td class="admin_header_help">
                 &raquo; {translate}Help{/translate}
