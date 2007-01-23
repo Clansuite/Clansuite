@@ -138,7 +138,7 @@ class config
 
         $this->suppress_errors = 0;
         $this->debug = 1;
-        $this->debug_popup = '';
+        $this->debug_popup = 1;
 
         // Developers configuration
 

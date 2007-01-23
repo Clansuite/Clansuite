@@ -176,8 +176,13 @@
 		var title = 'Console_' + self.name;
 	{rdelim}
 		var html = document.getElementById("container_1").innerHTML;
-	_csuite_console = window.open("",title.value,"width=800,height=600,resizable,scrollbars=yes");
+	_csuite_console = window.open("",'',"width=800,height=600,resizable,scrollbars=yes");
+	_csuite_console.document.write('<html><head><title>ClanSuite Debug Window</title>');
+	_csuite_console.document.write('<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />');
+    _csuite_console.document.write('<style type="text/css">td{ldelim}font-size: 11px;{rdelim} a,a:link,a:visited,a:hover{ldelim}font-size: 11px{rdelim}</style>');
+	_csuite_console.document.write('</head><body><span>');
 	_csuite_console.document.write(html);
+	_csuite_console.document.write('</span></body></html>');
 	_csuite_console.document.close();
 	document.getElementById("container_1").innerHTML = '';
 	</script>
