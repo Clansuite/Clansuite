@@ -112,6 +112,9 @@ define('WWW_ROOT'   , $cfg->www_root);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
 
+// Some 'other' shortcuts :)
+define('WWW_CORE_TPL_ROOT', $cfg->www_root . '/' . $cfg->tpl_folder .  '/core');
+
 /**
 * @desc Error Reporting Depth
 */
