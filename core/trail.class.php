@@ -40,20 +40,20 @@ if (!defined('IN_CS'))
 * - You are here : Entrance >> News (with links)
 */
 class trail
-    {           
-        var $path = array();
-        
+    {
+        public $path = array();
+
         // auto-executed at initialization of class trail
         function trail($homeArea = true, $homeLabel = 'Home', $homeLink = '/')
         {
             global $lang;
-             
+
             if ($homeArea == true )
             {
                 $this->addStep($homeLabel, $homeLink);
             }
         }
-        
+
         // adds a step to the trail-path / pagetitle
         function addstep($title, $link = '')
         {
