@@ -1,26 +1,26 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
         <td class="td_header" width="100%" colspan="3">
-        All static Pages
+        Overview of Static Pages
         </td>
-    
+
     </tr>
     <tr>
-        
+
         <td class="td_header_small" width="20%">
         Title
         </td>
-        
+
         <td class="td_header_small" width="60%">
         Information
-        </td>   
+        </td>
 
         <td class="td_header_small" width="20%" align="center">
         Edit
-        </td>       
+        </td>
     </tr>
 {foreach key=key item=item from=$info}
-<form action="index.php?mod=admin&sub=static&action=edit" method="POST">    
+<form action="index.php?mod=admin&sub=static&action=edit" method="POST">
     <tr>
         <td class="cell1" align="center">
             <input type="hidden" name="id" value="{$item.id}">
@@ -31,7 +31,7 @@
         </td>
         <td class="cell1" align="center">
             <input class="ButtonOrange" type="submit" name="submit" value="{translate}Edit{/translate}" />
-          
+
         </td>
     </tr>
 </form>
