@@ -40,10 +40,10 @@ if (!defined('IN_CS'))
 class module_admin_menueditor
 {
     public $output     = '';
-    
+
     public $additional_head = '';
     public $suppress_wrapper= '';
-    
+
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loading necessary language files
@@ -52,18 +52,18 @@ class module_admin_menueditor
     function auto_run()
     {
         global $lang, $trail;
-        
+
         $params = func_get_args();
-                      
+
         switch ($_REQUEST['action'])
         {
-            
+
             default:
             case 'show':
                 // Set Pagetitle and Breadcrumbs
                 $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
                 $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
-                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&sub=menueditor&action=show'); 
+                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&sub=menueditor&action=show');
                 $this->show();
                 break;
 
@@ -71,13 +71,13 @@ class module_admin_menueditor
                 // Set Pagetitle and Breadcrumbs
                 $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
                 $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
-                $trail->addStep($lang->t('Update a Menu'), '/index.php?mod=admin&sub=menueditor&action=update'); 
+                $trail->addStep($lang->t('Update a Menu'), '/index.php?mod=admin&sub=menueditor&action=update');
                 $this->update();
                 break;
-                
+
             case 'restore':
                 $this->restore();
-                break;                
+                break;
 
             case 'get_adminmenu_div':
                 $this->output .= call_user_func_array( array( $this, 'get_adminmenu_div' ), $params );
@@ -86,18 +86,18 @@ class module_admin_menueditor
             case 'get_html_div':
                 $this->output .= call_user_func_array( array( $this, 'get_html_div' ), $params );
                 break;
-                
+
             case 'get_export_div':
                 $this->output .= call_user_func_array( array( $this, 'get_export_div' ), $params );
                 break;
-           
+
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
-    
+
     /**
     * @desc Show the entrance - welcome message etc.
     */
@@ -105,13 +105,13 @@ class module_admin_menueditor
     function show()
     {
         global $tpl, $error, $lang;
-        
+
         $this->additional_head = '';
-        
+
         $icons = array();
-        
+
         $dir_handler = opendir( TPL_ROOT . '/core/images/icons/' );
-        
+
         while( false !== ($file = readdir($dir_handler)) )
         {
             if ( $file != '.' && $file != '..' && $file != '.svn' )
@@ -120,12 +120,12 @@ class module_admin_menueditor
             }
         }
         closedir($dir_handler);
-        
+
         $tpl->assign( 'icons', $icons );
 
         $this->output .= $tpl->fetch('admin/adminmenu/menueditor.tpl');
     }
-    
+
     /**
     * @desc Update the menu in DB and create a backup
     */
@@ -133,18 +133,18 @@ class module_admin_menueditor
     function update()
     {
         global $db, $tpl, $error, $lang, $functions;
-        
+
         $menu = $_POST['container'];
-        
+
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
         $stmt->execute();
-        
+
         $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu' );
         $stmt->execute();
-        
+
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
         $stmt->execute();
-                
+
         foreach ( $menu as $key => $value )
         {
             $id = str_replace( 'tree-', '', $key );
@@ -157,7 +157,7 @@ class module_admin_menueditor
         }
         $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
-    
+
     /**
     * @desc Restore the old menu
     */
@@ -165,15 +165,15 @@ class module_admin_menueditor
     function restore()
     {
         global $db, $tpl, $error, $lang, $functions;
-        
+
         $confirm = $_POST['confirm'];
         $abort   = $_POST['abort'];
-        
+
         if ( !empty($abort) )
         {
             $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Aborted. Nothing has been changed.' ), 'admin' );
         }
-        
+
         if ( !empty($confirm) )
         {
             /**
@@ -183,14 +183,14 @@ class module_admin_menueditor
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_NUM);
-            
+
             /**
             * @desc Switch old menu to new table
             */
 
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt->execute();
-            
+
             $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT id, parent, type, text, href, title, target, `order`, icon FROM '. DB_PREFIX . 'adminmenu_backup' );
             $stmt->execute();
 
@@ -200,13 +200,13 @@ class module_admin_menueditor
 
             $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
             $stmt->execute();
-            
+
             $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (id, parent, type, text, href, title, target, `order`, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt->execute( $data );
             }
-        
+
             $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Last menu restored...' ), 'admin' );
         }
         else
@@ -214,21 +214,21 @@ class module_admin_menueditor
             $functions->redirect( 'index.php?mod=admin&sub=menueditor&action=restore', 'confirm', 3, $lang->t( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
         }
     }
-    
+
     /**
     * @desc This function generates html-div based menu lists
     */
     function get_html_div($menu = '')
     {
         global $lang, $cfg;
-        
+
         $result = !isset( $result ) ? '' : $result;
-        
+
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
         }
-                
+
         foreach($menu as $entry)
         {
             /**
@@ -241,12 +241,12 @@ class module_admin_menueditor
             $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
             $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
             $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';
-            
+
             if ( $entry['icon'] == '' )
             {
                 $entry['icon'] = 'empty.png';
-            }                            
-            
+            }
+
             /**
             * @desc Build Menu
             */
@@ -254,22 +254,28 @@ class module_admin_menueditor
             {
                 $entry['href'] = 'javascript:void(0)';
             }
-            
+
             ################# Start ####################
-                           
+
              if ( $entry['type'] == 'folder')
             {
-            
+
                  $result .= "\n\t";
-                
-                 if ( $entry['parent'] == 0) 
-                 { 
+
+                 if ( $entry['parent'] == 0)
+                 {
                      $result .= '<td>';
                      $result .= "\n\t";
                      $result .= '<a class="button" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
-                     $result .= htmlspecialchars($lang->t($entry['name']));
+                     $result .= '<img style="top: 3px" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     if( $entry['icon'] != 'empty.png' )
+                     {
+                         $result .= '<div style="margin-left: 17px">' . htmlspecialchars($lang->t($entry['name'])) . '</div>';
+                     }
+                     else
+                     {                     	 $result .= htmlspecialchars($lang->t($entry['name']));
+                     }
                      $result .= '</a>';
                  }
                  else
@@ -283,7 +289,7 @@ class module_admin_menueditor
                      $result .= '</a>';
                  }
              }
-             
+
              if ( $entry['type'] != 'folder' )
             {
                 $result .= "\n\t";
@@ -293,21 +299,21 @@ class module_admin_menueditor
                 $result .= htmlspecialchars($lang->t($entry['name']));
                 $result .= '</a>';
             }
-                  
-                                                  
+
+
          	if ( is_array($entry['content']) )
-        	{    	  
-            	$result .= "\n\t<div class=\"section\">";  
+        	{
+            	$result .= "\n\t<div class=\"section\">";
               	$result .= $this->get_html_div($entry['content']);
               	$result .= "\t</div>\n";
            	}
-          
-                            
-            if ( $entry['parent'] == 0) 
-            { 
-                $result .= "\n\t</td>"; 
+
+
+            if ( $entry['parent'] == 0)
+            {
+                $result .= "\n\t</td>";
             }
-                    
+
         }
         return $result;
     }
@@ -318,9 +324,9 @@ class module_admin_menueditor
     function get_adminmenu_div( $menu = '' )
     {
         global $lang, $cfg;
-        
+
         $result = '';
-        
+
         if ( empty( $menu ) )
         {
             $menu = $this->build_editormenu();
@@ -337,8 +343,8 @@ class module_admin_menueditor
             $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
             $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
             $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
-            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
-            
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';
+
             /**
             * @desc Build Menu
             */
@@ -349,12 +355,12 @@ class module_admin_menueditor
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" id="' . $entry['icon'] . '" target="'.htmlspecialchars($entry['target']) . '">';
                 $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
             }
-                                  
+
             if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
             }
-            
+
         	if ( is_array($entry['content']) )
         	{
         	   $result .= $this->get_adminmenu_div($entry['content']);
@@ -368,37 +374,37 @@ class module_admin_menueditor
                     $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
                 }
         	}
-                                	
+
         	if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
-        	
+
             if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
             }
         }
-        
+
         return $result;
     }
-    
-    
+
+
     /**
     * @desc This function generates html-div based menu lists - for menu editor
     */
     function get_export_div( $menu = '', $level = '', $module = '' )
     {
         global $lang, $cfg;
-               
+
         $result  = '';
         $jscript = '';
-        
+
         if ( !is_array($menu) )
         {
             $menu = $this->build_editormenu();
         }
-        
+
         foreach($menu as $entry)
         {
             /**
@@ -410,11 +416,11 @@ class module_admin_menueditor
             $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
             $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
             $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
-            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';                            
-            
+            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';
+
             /**
             * @desc Build Menu
-            */                            
+            */
             if ( $entry['type'] == 'folder')
             {
                 $values = split( ',', $level );
@@ -442,11 +448,11 @@ class module_admin_menueditor
                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
                 }
                 $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'].'</span>';
-                
+
                 $result .= '<div id="section-'.$module.'_dir_'.$entry['id'].'" class="section" style="display: none">';
                 $jscript = '';
             }
-                                  
+
             if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
@@ -463,7 +469,7 @@ class module_admin_menueditor
                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
                 }
             }
-            
+
         	if ( is_array($entry['content']) )
         	{
                $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
@@ -487,22 +493,22 @@ class module_admin_menueditor
                     $jscript = '';
                 }
         	}
-                                	
+
         	if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
-        	
+
             if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
             }
             $result .= "</div>\n";
         }
-        
+
         return $result;
     }
-        
+
     /**
     * @desc Read menu from DB
     */
@@ -510,9 +516,9 @@ class module_admin_menueditor
     function build_editormenu( &$result = '', $parent = 0, $level = 0)
     {
         global $db;
-    
+
         if ( empty($result) )
-        {        
+        {
             $stmt = $db->prepare('SELECT *
                                   FROM ' . DB_PREFIX .'adminmenu
                                   ORDER BY `order` ASC, parent ASC');
@@ -521,7 +527,7 @@ class module_admin_menueditor
         }
         $output = array();
         $rows = count($result);
-        
+
         for($i = 0; $i < $rows; $i++)
         {
             if($result[$i]['parent'] == $parent)
@@ -539,7 +545,7 @@ class module_admin_menueditor
                                                     'icon'   => $result[$i]['icon'],
                                                     );
                 $output[$result[$i]['id']]['content'] = $this->build_editormenu($result, $result[$i]['id'], $level + 1);
-                
+
                 if (count($output[$result[$i]['id']]['content']) == 0)
                     unset($output[$result[$i]['id']]['content']);
                 else
