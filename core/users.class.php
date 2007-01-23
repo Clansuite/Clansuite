@@ -28,12 +28,6 @@
 * @since      File available since Release 0.1
 */
 
-
-/**
-* @desc Table structure for `cs_users`
-*/
-/*
-
 /**
 * @desc Security Handler
 */
