@@ -46,7 +46,6 @@ if (!defined('IN_CS'))
 class {$admin_class_name}
 {ldelim}
     public $output          = '';
-    public $mod_page_title  = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,31 +56,30 @@ class {$admin_class_name}
 
     function auto_run()
     {ldelim}
-        
+
         global $lang;
         $params = func_get_args();
-        
-        // Construct Page Title        
-        $this->mod_page_title = $lang->t( '{$title}' ) . ' &raquo; ';
-        
+
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('{$title}'), '/index.php?mod={$title}&sub=admin');
+
         switch ($_REQUEST['action'])
         {ldelim}
+
+            default:
             case 'show':
-                $this->mod_page_title .= $lang->t( 'Show' );
+                $trail->addStep($lang->t('Show'), '/index.php?mod={$title}&action=show');
                 $this->show();
                 break;
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
-            default:
-                $this->show();
-                break;
+
         {rdelim}
-        
+
         return array( 'OUTPUT'          => $this->output,
-                      'MOD_PAGE_TITLE'  => $this->mod_page_title,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     {rdelim}
@@ -92,13 +90,13 @@ class {$admin_class_name}
     function show()
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= $lang->t('This is the admin submodule. Here you can place all administrative stuff you need for your module.');
     {rdelim}
-    
+
     /**
     * @desc This content can be instantly displayed by adding {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -106,7 +104,7 @@ class {$admin_class_name}
     function instant_show($my_text)
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
