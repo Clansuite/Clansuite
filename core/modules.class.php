@@ -43,67 +43,67 @@ if (!defined('IN_CS'))
 class modules
 {
     public $loaded = array();
-    
+
     /**
     * @desc Register {mod} in SMARTY Template Engine
     */
     function __construct()
     {
         global $tpl;
-        
+
         $tpl->register_function('mod', array('modules','get_instant_content'), false);
     }
-    
+
     /**
     * @desc Load whitelist
     */
     function load_whitelist()
     {
         global $db, $cfg;
-        
+
         // get all modules from db
         // into $modules array
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules' );
+        $stmt = $db->prepare( 'SELECT name,file_name,folder_name,class_name,module_id,core,enabled FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
         $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // get submodules for each module via relation table
         // into $submodules array
-        foreach ($modules as $modul => $value) 
-        {   
-            $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id  
-                                   FROM ' . DB_PREFIX . 'mod_rel_sub r,
-                                    ' . DB_PREFIX . 'submodules s
-                                   WHERE r.submodule_id =  s.submodule_id  
-                                   AND   r.module_id = ?'); 
+        $stmt = $db->prepare( 'SELECT s.name, s.file_name, s.class_name, s.submodule_id
+                               FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                ' . DB_PREFIX . 'submodules s
+                               WHERE r.submodule_id =  s.submodule_id
+                               AND   r.module_id = ?');
+        foreach ($modules as $modul => $value)
+        {
             $stmt->execute( array( $value['module_id'] ) );
             $submodules = $stmt->fetchALL(PDO::FETCH_NAMED|PDO::FETCH_GROUP);
-            
-            // array correction via subtract [0] array 
-            foreach($submodules as $submodul => $value) 
+
+            // array correction via subtract [0] array
+            foreach($submodules as $submodul => $value)
             {
                 $modules[$modul]['submodules'][$submodul] = $value[0];
             }
         }
-        
+
         // add submodule values to each module
-        foreach ($modules as $modul => $value) 
-        { 
+        foreach ($modules as $modul => $value)
+        {
          $cfg->modules[$value['name']] = $value;
-        
+
         }
-        
+
         // DEBUG
         // var_dump($cfg->modules);
     }
-    
+
     /**
     * @desc {mod} handler function
     */
     static function get_instant_content($params)
     {
         global $modules, $cfg, $lang, $error;
-        
+
         /**
         * @desc Init Vars
         */
@@ -116,21 +116,21 @@ class modules
         $folder_name = '';
         $class_name  = '';
 
-        
+
         if (array_key_exists($mod, $cfg->modules ) )
-        {  
+        {
             // submodules of which modul
             $sub_files = $cfg->modules[$mod]['submodules'];
-           
+
             if ( $sub != '' )
-            {   
+            {
                  // does submodules exits in array
                 if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
-                {  
+                {
                     $folder_name = $cfg->modules[$mod]['folder_name'];
                     $file_name   = $sub_files[$sub]['file_name'];
                     $class_name  = $sub_files[$sub]['class_name'];
-                    
+
                 }
                 else
                 {
@@ -143,7 +143,7 @@ class modules
                 $file_name   = $cfg->modules[$mod]['file_name'];
                 $class_name  = $cfg->modules[$mod]['class_name'];
             }
-            
+
             /**
             * @desc Load file and class
             * @desc Give Return Value of requested function
@@ -151,7 +151,7 @@ class modules
             if ( $folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
-               
+
                 if ( file_exists($file ) )
                 {
                     if (!in_array($mod, $modules->loaded ) )
@@ -173,8 +173,8 @@ class modules
             }
         }
     }
-    
-    
+
+
     /**
     * @desc Get normal content of a module from auto_run()
     */
@@ -182,18 +182,18 @@ class modules
     function get_content($mod='' , $sub='' )
     {
         global $cfg, $error, $lang, $functions, $db;
-        
+
         /**
         * @desc Init Vars
         */
 
         $mod = $mod=='' ? $cfg->std_module : $mod ;
-       
+
         $file_name   = '';
         $folder_name = '';
         $class_name  = '';
-        
-        
+
+
         if (array_key_exists($mod, $cfg->modules ) )
         {
             $sub_files = $cfg->modules[$mod]['submodules'];
@@ -218,7 +218,7 @@ class modules
                 $class_name  = $cfg->modules[$mod]['class_name'];
             }
 
-            
+
             /**
             * @desc Load file and class
             * @desc Give Return Value of $content
@@ -227,18 +227,18 @@ class modules
             if ($folder_name!='' && $file_name!='' && $class_name!='' )
             {
                 $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
-                
+
                 if (file_exists( $file ) )
                 {
                     require_once( $file );
                     ${$mod} = new $class_name;
                     $content = ${$mod}->auto_run();
-                    
+
                     if (!in_array($mod, $this->loaded ) )
                     {
                         $this->loaded[] = $mod;
                     }
-                    
+
                     return $content;
                 }
             }
@@ -258,9 +258,9 @@ class modules
         else
         {
             $error->error_log['no_module']['not_in_array'] = $lang->t('The module you tried to enter is not registered in the whitelist.');
-            
+
             $mod = $cfg->std_module;
-            
+
             $content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 3 seconds...');
             $functions->redirect( 'index.php', 'metatag', '3' );
             return $content;
