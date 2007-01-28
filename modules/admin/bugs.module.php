@@ -65,6 +65,7 @@ class module_admin_bugs
 
         switch ($_REQUEST['action'])
         {
+            default:
             case 'show':
                 $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=bugs&action=show');
                 $this->show();
@@ -72,10 +73,6 @@ class module_admin_bugs
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;
-
-            default:
-                $this->show();
                 break;
         }
 
