@@ -144,7 +144,6 @@ require(CORE_ROOT . '/db.class.php');
 require(CORE_ROOT . '/stats.class.php');
 require(CORE_ROOT . '/permissions.class.php');
 require(CORE_ROOT . '/trail.class.php');
-require(CORE_ROOT . '/bbcode/stringparser_bbcode.class.php');
 
 
 /**
