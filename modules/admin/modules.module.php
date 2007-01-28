@@ -61,8 +61,6 @@ class module_admin_modules
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
         $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&sub=modules');    
 
-        $this->mod_page_title = $lang->t('Admin Control Panel - Modules &raquo; ' );
-
         switch ($_REQUEST['action'])
         {
             default:
@@ -70,8 +68,13 @@ class module_admin_modules
                 $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&sub=modules&action=show_all'); 
                 $this->show_all();
                 break;
+            
+            // AJAX 
+            case 'ajaxupdate_onoffswitch':
+                $this->ajaxupdate_onoffswitch();
+                break;
 
-            // AJAX
+            // AJAX 
             case 'ajaxupdate_modules':
                 $this->ajaxupdate_modules();
                 break;
