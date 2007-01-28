@@ -17,7 +17,7 @@
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
 {$additional_head}
 {$redirect}
-<title>{$std_page_title} - {$mod_page_title}</title>
+<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 -->
