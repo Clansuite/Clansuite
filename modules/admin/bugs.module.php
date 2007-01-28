@@ -55,14 +55,14 @@ class module_admin_bugs
     */
     function auto_run()
     {
-        
-        global $lang;
+
+        global $lang, $trail;
         $params = func_get_args();
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
         $trail->addStep($lang->t('Bugs'), '/index.php?mod=admin&sub=bugs');
-        
+
         switch ($_REQUEST['action'])
         {
             case 'show':
@@ -73,12 +73,12 @@ class module_admin_bugs
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
+
             default:
                 $this->show();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
@@ -90,7 +90,7 @@ class module_admin_bugs
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
