@@ -59,22 +59,22 @@ class module_admin_modules
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&sub=modules');    
+        $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&sub=modules');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show_all':
-                $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&sub=modules&action=show_all'); 
+                $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&sub=modules&action=show_all');
                 $this->show_all();
                 break;
-            
-            // AJAX 
+
+            // AJAX
             case 'ajaxupdate_onoffswitch':
                 $this->ajaxupdate_onoffswitch();
                 break;
 
-            // AJAX 
+            // AJAX
             case 'ajaxupdate_modules':
                 $this->ajaxupdate_modules();
                 break;
@@ -85,22 +85,22 @@ class module_admin_modules
                 break;
 
             case 'install_new':
-                $trail->addStep($lang->t('Install new modules'), '/index.php?mod=admin&sub=modules&action=install_new'); 
+                $trail->addStep($lang->t('Install new modules'), '/index.php?mod=admin&sub=modules&action=install_new');
                 $this->install_new();
                 break;
 
             case 'create_new':
-                $trail->addStep($lang->t('Create a new module'), '/index.php?mod=admin&sub=modules&action=create_new'); 
+                $trail->addStep($lang->t('Create a new module'), '/index.php?mod=admin&sub=modules&action=create_new');
                 $this->create_new();
                 break;
 
             case 'export':
-                $trail->addStep($lang->t('Export a module'), '/index.php?mod=admin&sub=modules&action=export'); 
+                $trail->addStep($lang->t('Export a module'), '/index.php?mod=admin&sub=modules&action=export');
                 $this->export();
                 break;
 
             case 'import':
-                $trail->addStep($lang->t('Import a module'), '/index.php?mod=admin&sub=modules&action=import'); 
+                $trail->addStep($lang->t('Import a module'), '/index.php?mod=admin&sub=modules&action=import');
                 $this->import();
                 break;
 
@@ -128,7 +128,7 @@ class module_admin_modules
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      
+
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -230,26 +230,31 @@ class module_admin_modules
     * $_POST
     * &table=table_for_modules_8&value=Filebrowser123&cell=8_filebrowser_title&_=
     */
-    function ajaxupdate_modules(){
+    function ajaxupdate_modules()
+    {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 
-        // value ber POST holen
+        /**
+        * @desc Incoming vars
+        */
         $value = urldecode($_POST['value']);
-
-        // cell ber POST holen und String per RegExp auswerten
-        // zB 8_filebrowser_title
         $cell_string = urldecode($_POST['cell']);
-        $pattern = '!(.*)_(.*)_(.*)!is';
-        $result = preg_match($pattern, $cell_string, $subpattern);
 
-        $modules_id      = $subpattern[1];
-        $modules_name    = $subpattern[2];
-        $modules_dbfield = $subpattern[3];
 
-        // update field in db
-        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
-                                                               WHERE module_id = ? AND name = ?' );
-        $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+        $pattern = '!([0-9]+)_(.+)_(.+)!is';
+        if(preg_match($pattern, $cell_string, $subpattern))
+        {
+            $result = preg_match($pattern, $cell_string, $subpattern);
+
+            $modules_id      = $subpattern[1];
+            $modules_name    = $subpattern[2];
+            $modules_dbfield = $subpattern[3];
+
+            // update field in db
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
+                                                                   WHERE module_id = ? AND name = ?' );
+            $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+        }
 
         // return value
         $this->output .= $value;
@@ -771,7 +776,8 @@ class module_admin_modules
                     }
                 }
                 elseif ( !empty( $use_sql_textarea ) && !empty($sql_textarea) )
-                {                	$create_stmts = $sql_textarea;
+                {
+                	$create_stmts = $sql_textarea;
                 }
                 file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_sql.php', serialize($create_stmts) );
 
@@ -810,7 +816,8 @@ class module_admin_modules
         $dir_handler = opendir( MOD_ROOT );
 
 		if( !empty($details_name) )
-		{	        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
+		{
+	        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
 	        $stmt->execute( array( $details_name ) );
 	        $res = $stmt->fetch();
 
@@ -1015,8 +1022,10 @@ class module_admin_modules
 						$sql_commands = trim(unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_sql.php' ) ) );
                         $cmds = preg_split('#;#',$sql_commands);
 						foreach( $cmds as $key => $value)
-						{							if( !empty($value) )
-							{								$stmt = $db->prepare( $value );
+						{
+							if( !empty($value) )
+							{
+								$stmt = $db->prepare( $value );
 								$stmt->execute();
 							}
 						}
@@ -1430,7 +1439,8 @@ class module_admin_modules
 	* @desc Uninstall a module
 	*/
 	function uninstall()
-	{		global $db, $functions, $lang;
+	{
+		global $db, $functions, $lang;
 
 		$module_id 	 = $_GET['module_id'];
 		$folder_name = $_GET['folder_name'];
@@ -1450,7 +1460,8 @@ class module_admin_modules
 	        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules has been uninstalled.' ), 'admin' );
         }
         else
-        {        	$functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'Aborted. No changes have been made.' ), 'admin' );
+        {
+        	$functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'Aborted. No changes have been made.' ), 'admin' );
         }
   	}
 
