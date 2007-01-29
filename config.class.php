@@ -107,26 +107,27 @@ class config
         $this->from = 'system@clansuite.com';
         $this->from_name = 'Clansuite Group';
 
-        //Standard configurations
-
+        // Template Configurations
+        
         $this->tpl_name = 'standard';
         $this->tpl_wrapper_file = 'index.tpl';
         $this->language = 'de';
         $this->std_module = 'index';
         $this->std_module_action = 'show';
-        $this->min_pass_length = 6;
-        $this->encryption = 'sha1';
-        $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
         $this->std_page_title = 'clansuite.com';
         $this->std_css = 'standard.css';
         $this->std_javascript = 'standard.js';
-
-        // Login Configuration
+   
+        // Login Configuration & Password Encryption
 
         $this->login_method = 'nick';
         $this->remember_me_time = 7776000; // 90 Days
         $this->max_login_attempts = 5;
         $this->login_ban_minutes = 30;
+        
+        $this->min_pass_length = 6;
+        $this->encryption = 'sha1';
+        $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
 
         // Session configuration
 
@@ -140,7 +141,7 @@ class config
         $this->debug = 1;
         $this->debug_popup = '';
 
-        // Developers configuration
+        // Developers configuration (Version and Copyright)
 
         $this->version      = (float) 0.1;
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
