@@ -9,7 +9,7 @@
     </p>
 
     <div style="display: none;padding: 10px; text-align: center;" id="helptext_add">
-        <textarea style="width: 100%; height: 200px;" name="info[helptext]" class="input_textarea" id="helptext">{$info.helptext}</textarea><br />
+        <textarea style="width: 100%; height: 200px;" name="info[helptext]" class="input_textarea" id="helptext">{$info.raw_helptext}</textarea><br />
         <input type="button" class="ButtonGreen" value="{translate}Update{/translate}" onClick="return sendAjaxHelpRequest('helptext', '', 'index.php?mod=admin&sub=help&action=save_helptext')" />
     </div>
 {else}

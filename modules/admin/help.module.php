@@ -56,25 +56,33 @@ class module_admin_help
 
     function auto_run()
     {
-        
+
         global $lang, $trail;
         $params = func_get_args();
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
         $trail->addStep($lang->t('Help'), '/index.php?mod=admin&sub=help');
-        
+
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=help&action=show'); 
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=help&action=show');
                 $this->show();
                 break;
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
+
+            case 'get_helptext':
+                $this->get_helptext();
+                break;
+
+            case 'get_related_links':
+                $this->get_related_links();
+                break;
+
             case 'save_helptext':
                 $this->save_helptext();
                 break;
@@ -82,14 +90,14 @@ class module_admin_help
             case 'save_related_links':
                 $this->save_related_links();
                 break;
-                                
+
             default:
                 $this->show();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
-                      
+
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -100,13 +108,13 @@ class module_admin_help
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
     }
-    
+
     /**
     * @desc This content can be instantly displayed by adding {mod name="help" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -114,16 +122,18 @@ class module_admin_help
     function instant_show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         $mod    = $_REQUEST['mod'];
         $sub    = $_REQUEST['sub'];
         $action = $_REQUEST['main_action'];
-        
+
         $stmt = $db->prepare( 'SELECT helptext,related_links FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( is_array( $info ) )
         {
+            require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+            $bbcode = new bbcode();
             $info['orig_related_links'] = $info['related_links'];
             if( strpos( $info['related_links'], "\n" ) )
             {
@@ -131,16 +141,54 @@ class module_admin_help
             }
             else
             {
-                $info['related_links'] = array();   
+                $info['related_links'] = array();
             }
-            $tpl->assign( 'info' , $info );        
+            $info['raw_helptext'] = $info['helptext'];
+            $info['helptext'] = $bbcode->parse($info['helptext']);
+            $tpl->assign( 'info' , $info );
         }
         $info['related_links']  = $tpl->fetch( 'admin/help/related_links.tpl' );
         $info['helptext']       = $tpl->fetch( 'admin/help/helptext.tpl' );
         $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
     }
-    
+
+    /**
+    * @desc AJAX request to get the helptext
+    */
+    function get_helptext()
+    {
+        global $db;
+        $mod    = $_REQUEST['mod'];
+        $sub    = $_REQUEST['sub'];
+        $action = $_REQUEST['main_action'];
+
+        $stmt = $db->prepare( 'SELECT helptext FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
+        $stmt->execute( array( $mod, $sub, $action ) );
+        $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+        $this->output = $result['helptext'];
+        $this->suppress_wrapper = true;
+    }
+
+    /**
+    * @desc AJAX request to get the helptext
+    */
+    function get_related_links()
+    {
+        global $db;
+        $mod    = $_REQUEST['mod'];
+        $sub    = $_REQUEST['sub'];
+        $action = $_REQUEST['main_action'];
+
+        $stmt = $db->prepare( 'SELECT related_links FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
+        $stmt->execute( array( $mod, $sub, $action ) );
+        $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+        $this->output = $result['related_links'];
+        $this->suppress_wrapper = true;
+    }
+
     /**
     * @desc AJAX request to save the helptext
     */
@@ -156,6 +204,9 @@ class module_admin_help
         $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+        $bbcode = new bbcode();
         if ( is_array( $check ) )
         {
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ? WHERE `help_id` = ?' );
@@ -167,24 +218,24 @@ class module_admin_help
             $stmt->execute( array( $mod, $sub, $action, $helptext ) );
         }
 
-        $info['helptext'] = $helptext;
+        $info['helptext'] = $bbcode->parse($helptext);
         $tpl->assign( 'info' , $info );
         $this->output = $tpl->fetch( 'admin/help/helptext.tpl' );
-        $this->suppress_wrapper = 1;       
+        $this->suppress_wrapper = 1;
     }
-    
+
     /**
     * @desc AJAX request to save the related links
     */
     function save_related_links()
     {
         global $db, $tpl;
-        
+
         $mod            = urldecode($_POST['save_mod']);
         $sub            = urldecode($_POST['save_sub']);
         $action         = urldecode($_POST['save_action']);
         $related_links  = urldecode($_POST['related_links']);
-        
+
         $info['orig_related_links'] = $related_links;
 
         $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );

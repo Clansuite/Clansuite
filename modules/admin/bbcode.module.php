@@ -78,6 +78,14 @@ class module_admin_bbcode
                 $this->show();
                 break;
 
+            case 'create':
+                $this->create();
+                break;
+
+            case 'ajaxupdate_bbcode':
+                $this->ajaxupdate_bbcode();
+                break;
+
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
@@ -96,29 +104,53 @@ class module_admin_bbcode
     */
     function show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        global $db, $tpl;
 
         /**
         * @desc Load the BB Code Vars
         */
         $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'bb_code');
         $stmt->execute();
-        $bb_codes = $stmt->fetchAll();
+        $bb_codes = $stmt->fetchAll(PDO::FETCH_NAMED);
 
-
-        /*
-        foreach($bb_codes as $key => $value)
-        {
-
-        }
+        /**
+        * @desc Preview
         */
-        $tpl->assign('bb_codes', $bb_codes);
-
+        require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+        $bbcode = new bbcode();
+        foreach( $bb_codes as $key => $code )
+        {
+            $bb_codes[$key]['preview'] = $bbcode->parse('['.$code['name'].']Preview[/'.$code['name'].']');
+        }
 
         /**
         * @desc Handle the output
         */
+        $tpl->assign('bb_codes', $bb_codes);
         $this->output .= $tpl->fetch('admin/bbcode/show.tpl');
+    }
+
+    /**
+    * @desc Create a BB Code
+    */
+    function create()
+    {
+        global $db, $functions, $lang;
+        $infos = $_POST['info'];
+
+        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'bb_code
+                              SET name = :name,
+                                  start_tag = :start_tag,
+                                  end_tag = :end_tag,
+                                  content_type = :content_type,
+                                  allowed_in = :allowed_in,
+                                  not_allowed_in = :not_allowed_in');
+        $stmt->execute( $infos );
+
+        /**
+        * @desc Redirect...
+        */
+        $functions->redirect( 'index.php?mod=admin&sub=bbcode', 'metatag|newsite', 3, $lang->t( 'The BB Code has been created.' ), 'admin' );
     }
 
     /**
@@ -136,23 +168,28 @@ class module_admin_bbcode
         $value         = urldecode($_POST['value']);
         $cell_string   = urldecode($_POST['cell']);
 
-
-        $pattern = '!([0-9]+)_(.+)_(.+)!is';
-        if( preg_match($pattern, $cell_string, $subpattern) )
+        $pattern = '!([0-9]+)_(.+)!is';
+        if( preg_match($pattern, $cell_string) )
         {
             $result = preg_match($pattern, $cell_string, $subpattern);
 
             $bbcode_id      = $subpattern[1];
-            $bbcode_name    = $subpattern[2];
-            $bbcode_dbfield = $subpattern[3];
+            $bbcode_dbfield = $subpattern[2];
 
             // update field in db
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'bb_code SET ' . $bbcode_dbfield . ' = ?
                                                                    WHERE bb_code_id = ?' );
-            $stmt->execute( array(  $value, $bbcode_id, $bbcode_name ) );
+            $stmt->execute( array(  $value, $bbcode_id ) );
+
+            $stmt = $db->prepare( 'SELECT ' . $bbcode_dbfield . ' FROM ' . DB_PREFIX . 'bb_code WHERE bb_code_id = ?' );
+            $stmt->execute( array( $bbcode_id ) );
+            $result = $stmt->fetch();
+            $this->output = htmlspecialchars($result[$bbcode_dbfield]);
         }
-        // return value
-        $this->output .= $value;
+        else
+        {
+            $this->output = '###AJAXERROR###';
+        }
 
         // suppress mainframe
         $this->suppress_wrapper = true;

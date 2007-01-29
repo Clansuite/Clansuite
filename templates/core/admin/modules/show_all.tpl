@@ -21,20 +21,22 @@
                 /display: block;
                 overflow: hidden;*/
                 float: left;
-                margin: 0px;
+                margin-left: 2px;
                 border-bottom:1px solid #eeeeee;
                 border-right:1px solid #eeeeee;
                 background-color: #fff;
-                padding: 0px;
+                padding: 3px;
                 /*width: 85px;*/
-                height: 25px;
+                height: 20px;
             }
 
             .tableedit input {
                 border: 1px solid #f0b604;
-                /*width: 64px;
+                width: 160px;
                 padding-top: 1px;
-                height: 17px;*/
+                height: 14px;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-size: 10px;
             }
 
         </style>
