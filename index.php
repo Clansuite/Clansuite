@@ -53,7 +53,7 @@ define('IN_CS', true);
 /**
 * @desc Alter php.ini settings
 */
-ini_set('display_errors'                , true);
+ini_set('display_errors'                , true); // todo: give no information to possible attackers, set false if DEBUG false
 ini_set('zend.ze1_compatibility_mode'   , false);
 ini_set('zlib.output_compression'       , true);
 ini_set('zlib.output_compression_level' , '6');
@@ -99,7 +99,7 @@ require('config.class.php');
 $cfg = new config;
 
 /**
-* @desc Define *_ROOT, *_NAME, DEBUG, DB_PREFIX
+* @desc Defines: *_ROOT, *_NAME, DEBUG, DB_PREFIX
 */
 define('ROOT'       , $cfg->root);
 define('MOD_ROOT'   , ROOT . $cfg->mod_folder);
