@@ -132,7 +132,7 @@ class module_admin_help
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( is_array( $info ) )
         {
-            require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+            require_once( CORE_ROOT . '/bbcode.class.php' );
             $bbcode = new bbcode();
             $info['orig_related_links'] = $info['related_links'];
             if( strpos( $info['related_links'], "\n" ) )
@@ -205,7 +205,7 @@ class module_admin_help
         $stmt->execute( array( $mod, $sub, $action ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+        require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
         if ( is_array( $check ) )
         {
