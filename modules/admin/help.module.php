@@ -131,7 +131,7 @@ class module_admin_help
         if ( is_array( $info ) )
         {   
             // BBCode load class and init
-            require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+            require_once( CORE_ROOT . '/bbcode.class.php' );
             $bbcode = new bbcode();
             
             $info['orig_related_links'] = $info['related_links'];
@@ -237,7 +237,7 @@ class module_admin_help
         }
 
         // Transform RAW text to BB-formatted Text
-        require_once( CORE_ROOT . '/bbcode/bbcode.class.php' );
+        require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $info['helptext'] = $bbcode->parse($helptext);
         
