@@ -141,7 +141,7 @@ class module_serverlist
    
    
    /**
-    * @desc Sajax Function to get Serverdetails
+    * @desc Ajax Function to get Serverdetails
     */
     function getServerdetails($servers) 
     {
@@ -222,12 +222,12 @@ class module_serverlist
       global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
       
       // load smarty_ajax
-      require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
+      //require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
       
       // register function avaiable for ajax
       // put function in to ajax calls array      
-      ajax_register('get_serverdetails');
-      ajax_process_call();
+      //ajax_register('get_serverdetails');
+      //ajax_process_call();
       
       // get Server from DB
       $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'serverlist');
