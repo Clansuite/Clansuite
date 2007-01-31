@@ -1,54 +1,36 @@
 {doc_raw}
+    {* Dynamic Tree *}
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
-
     {* Tabs *}
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
-    {* Prototype + Tablegrid Extension *}
+    {* Prototype + Scriptaculous + Smarty_Ajax *}
     <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script src="{$www_core_tpl_root}/javascript/smarty_ajax.js" type="text/javascript"></script>
+    {* Tablegrid Extension *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/css/tablegrid.css" />
 
     {literal}
-      <style type="text/css">
-            /* Define the basic CSS used by TableGrid - Editable Ajax Table */
-            .tableedit {
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                font-size: 10px;
-                /*width: 500px;*/
-            }
-            .tableedit td {
-                /display: block;
-                overflow: hidden;*/
-                float: left;
-                margin-left: 2px;
-                border-bottom:1px solid #eeeeee;
-                border-right:1px solid #eeeeee;
-                background-color: #fff;
-                padding: 3px;
-                /*width: 85px;*/
-                height: 20px;
-            }
-
-            .tableedit input {
-                border: 1px solid #f0b604;
-                width: 160px;
-                padding-top: 1px;
-                height: 14px;
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                font-size: 10px;
-            }
-
-        </style>
-   {/literal}
-
+        <script type="text/javascript">
+        function toggle(x,id) {
+            
+            if ($(x).className == "ButtonOrange") { $(x).Classnames.set = "ButtonGreen"; }
+                                                     
+            var bold = false; // to use in the bold-allowing script
+        
+        
+        x.src = (x.src== 'bold_uit.gif')?'bold_aan.gif':'bold_uit.gif'
+        bold = (x.src == 'bold_aan.gif')
+        }                                        }
+            
+       </script>
+    {/literal}
+    
 {/doc_raw}
 
-
-{*
-<a id="addrow" href="#"><img border="0" src="newrow.gif" /></a>
-*}
-
+{* <a id="addrow" href="#"><img border="0" src="newrow.gif" /></a> *}
 
 {* #### TAB PANE 1 - MODULES - NOT IN WHITELIST #### *}
 
@@ -64,7 +46,7 @@
 
     <br />
 
-{/if}       {* END if isset ($content.not_in_whitelist) *}
+{/if}
 
 
 {* #### TAB PANE 2 - MODULES - IN WHITELIST | NORMAL and CORE #### *}
@@ -96,16 +78,14 @@
         <tr>
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
-                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}">
+                <img id="modul_onoff_image_{$wert.module_id}" width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}">
             </td>
 
             <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
-                <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
+                <img id="modul_onoff_image_{$wert.module_id}" width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
                 <small>Version: xy</small>
             </td>
-
-
 
             <td class="cell1">
 
@@ -281,13 +261,14 @@
         <tr>
             <input type="hidden" name="ids[]" value="{$wert.module_id}">
             <td class="cell1" align="center">
-                <img width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
+                <img id="modul_onoff_image_{$wert.module_id}" width="13px" height="13px" src="{$www_core_tpl_root}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}"
             </td>
 
 
             <td class="cell2" align="center">
                 <b>{$wert.title} </b> (#{$wert.module_id})<br />
                 <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
+                <small>Version: xy</small>
             </td>
 
             <td class="cell1">
@@ -397,11 +378,25 @@
             <td class="cell2" align="center">
                 {if $wert.enabled==1}
                 <p align="center">
-                    <input class="ButtonOrange" type="submit" value="{translate}Disable{/translate}" name="submit" />
+                    <input id="modul_button_`$wert.module_id`" class="ButtonOrange" type="submit"
+                     onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajax_onoffswitch'
+                               update_id="modul_id_`$wert.module_id`" 
+                               params="server_id=`$server.server_id`"
+                               
+                               callback="new Effect.Puff(\'modul_onoff_image_`$wert.module_id`\')"
+                              }" value="{translate}Disable{/translate}" name="submit" />
+                
+                {* new `$(this).Classnames.set = 'ButtonGreen'` *}
+                
                 </p>
                 {else}
                 <p align="center">
-                    <input class="ButtonGreen" type="submit" value="{translate}Enable{/translate}" name="submit" />
+                    <input id=" "class="ButtonGreen" type="submit"
+                    onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajax_onoffswitch'
+                              update_id="server_details_`$server.server_id`" 
+                              params="server_id=`$server.server_id`"
+                              callback="new Effect.Appear(\'modul_onoff_image_`$wert.module_id`\')"
+                             }" value="{translate}Enable{/translate}" name="submit" />
                 </p>
                 {/if}
             </td>

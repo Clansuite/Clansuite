@@ -34,18 +34,18 @@
                                                   params="server_id=`$server.server_id`"
                                                   callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
                                      }"
-                            src="{$www_core_tpl_root}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
+                            src="{$www_tpl_root}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
                             alt="Refresh Server {$server.server_id}" />
                        
                         <img onclick="new Effect.toggle('serverdata_{$server.server_id}', 'slide'); return false;"
                              id="ClipDownImage_{$server.server_id}"
                              style="display: none;"
-                             src="{$www_core_tpl_root}/images/serverlist/dn.gif" 
+                             src="{$www_tpl_root}/images/serverlist/dn.gif" 
                              alt="Refresh Server {$server.server_id}" />
                         
                    </td>
                    <td>{$server.server_id}</td>
-                   <td><img src="{$www_core_tpl_root}/images/serverlist/gametype/{$server.gametype}.ico"></td>
+                   <td><img src="{$www_tpl_root}/images/serverlist/gametype/{$server.gametype}.ico"></td>
                    <td>
                         {if $server.image_country==''}
                             <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16">
@@ -56,9 +56,9 @@
                     <td>{$server.name}</td>
                     <td>{$server.ip}:{$server.port}</td>
                     <td>
-                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_core_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
+                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
                         {if $server.csquery_engine == 'steam'}
-                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_core_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
+                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
                         {/if}
                     </td>
                 </tr>
