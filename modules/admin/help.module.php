@@ -75,7 +75,7 @@ class module_admin_help
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-
+            
             case 'get_helptext':
                 $this->get_helptext();
                 break;
@@ -91,6 +91,7 @@ class module_admin_help
             case 'save_related_links':
                 $this->save_related_links();
                 break;
+            
         }
 
         return array( 'OUTPUT'          => $this->output,
@@ -127,38 +128,13 @@ class module_admin_help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ( is_array( $info ) )
-        {   
-            // BBCode load class and init
-            require_once( CORE_ROOT . '/bbcode.class.php' );
-            $bbcode = new bbcode();
-            
-            $info['orig_related_links'] = $info['related_links'];
-            
-            if( strpos( $info['related_links'], "\n" ) )
-            {
-                $info['related_links'] = explode( "\n", $info['related_links'] );
-            }
-            else
-            {
-                $info['related_links'] = array();
-            }
-           
-            
-            $info['helptext'] = $bbcode->parse($info['helptext']);
-            
-            $tpl->assign( 'info' , $info );
-        }
-              
+       
+        // BBCode load class and init
+        require_once( CORE_ROOT . '/bbcode.class.php' );
+        $bbcode = new bbcode();
+        $info['helptext'] = $bbcode->parse($info['helptext']);
+      
         $tpl->assign( 'info' , $info );
-        
-        // load smarty_ajax
-        //require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
-        //ajax_register('save_helptext');
-        //ajax_register('save_related_links');
-        //ajax_process_call();
-        
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
     }
 
@@ -168,6 +144,12 @@ class module_admin_help
     function get_helptext()
     {
         global $db;
+        
+          // load smarty_ajax
+        require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
+        ajax_register('save_helptext');
+        ajax_register('save_related_links');
+        ajax_process_call();
         
         $mod    = $_GET['m'];
         $sub    = $_GET['s'];
@@ -212,6 +194,13 @@ class module_admin_help
     {
         global $db, $tpl;
 
+          // load smarty_ajax
+        require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
+        ajax_register('save_helptext');
+        ajax_register('save_related_links');
+        ajax_process_call();
+
+
         $mod            = urldecode($_GET['m']);
         $sub            = urldecode($_GET['s']);
         $action         = urldecode($_GET['a']);
@@ -239,9 +228,9 @@ class module_admin_help
         // Transform RAW text to BB-formatted Text
         require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
-        $info['helptext'] = $bbcode->parse($helptext);
+        $parsed_helptext = $bbcode->parse($helptext);
         
-        $this->output .= $info['helptext'];        
+        $this->output .= $parsed_helptext;        
         $this->suppress_wrapper = 1;
     }
 

@@ -1,3 +1,4 @@
+{* DEBUG {$info|@var_dump} *}
 {doc_raw}
     {* Prototype + Scriptaculous + Smarty_Ajax *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js" ></script>
@@ -56,13 +57,15 @@
          {translate}Click on Links to add or edit!{/translate}
          <div id="related_links_container">
          
+         
+                        {foreach key=key item=item from=$info.related_links}
+                                {if $item!=''}
+                                    {$item|nl2br}
+                                {/if}
+                         {/foreach}
             {if count($info.related_links)!=0}
             
-                {foreach key=key item=item from=$info.related_links}
-                    {if $item!=''}
-                        <a href="{$item|nl2br}">{$item|nl2br}</a><br />
-                    {/if}
-                {/foreach}
+                
                 
             {else}
                 {translate}There are no links assigned.{/translate}
