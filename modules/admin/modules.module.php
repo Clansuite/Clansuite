@@ -242,7 +242,7 @@ class module_admin_modules
 
 
         $pattern = '!([0-9]+)_(.+)_(.+)!is';
-        if(preg_match($pattern, $cell_string, $subpattern))
+        if(preg_match($pattern, $cell_string))
         {
             $result = preg_match($pattern, $cell_string, $subpattern);
 
@@ -275,10 +275,9 @@ class module_admin_modules
             }
             else
             {
-                $value = $lang->t('Don\'t try to hack me. Logging in progress...');
+                $security->intruder_alert();
             }
         }
-
         // return value
         $this->output .= $value;
 
