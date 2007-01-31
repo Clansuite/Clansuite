@@ -1,90 +1,12 @@
 {doc_raw}
+    {* Prototype + Scriptaculous + Smarty_Ajax *}
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js" ></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/smarty_ajax.js"></script>
+    {* Clip Clap Toggle *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax.js"></script>
-    {literal}
-        <script type="text/javascript">
-
-        function sendAjaxHelpRequest(type, param, file)
-        {
-            con = getXMLRequester();
-            con.open('POST', file, true);
-
-            param = 'save_mod='+escape(encodeURIComponent(document.getElementById('save_mod').value));
-            param += '&save_sub='+escape(encodeURIComponent(document.getElementById('save_sub').value));
-            param += '&save_action='+escape(encodeURIComponent(document.getElementById('save_action').value));
-
-            if ( type == 'helptext' )
-            {
-                param += '&helptext='+escape(encodeURIComponent(document.getElementById('helptext').value));
-            }
-
-            if ( type == 'related_links' )
-            {
-                param += '&related_links='+escape(encodeURIComponent(document.getElementById('related_links').value));
-            }
-
-            con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            con.setRequestHeader("Content-length", param.length);
-
-            if ( type == 'helptext' )
-            {
-                con.onreadystatechange = handleHelptextResponse;
-            }
-
-            if ( type == 'related_links' )
-            {
-                con.onreadystatechange = handleLinksResponse;
-            }
-
-            con.send(param);
-            con.close;
-
-            return false;
-        }
-
-        function handleLinksResponse()
-        {
-            // Checke, ob der Zugriff erfolgreich war
-            if (con.readyState == 4)
-            {
-                var response = con.responseText;
-
-                document.getElementById('related_links_container').innerHTML = response;
-                document.getElementById('loading').style.display = 'none';
-
-                return true;
-            }
-            else
-            {
-                document.getElementById('loading').style.display = 'block';
-            }
-            return false;
-        }
-
-        function handleHelptextResponse()
-        {
-            // Checke, ob der Zugriff erfolgreich war
-            if (con.readyState == 4)
-            {
-                var response = con.responseText;
-
-                document.getElementById('helptext_container').innerHTML = response;
-                document.getElementById('loading').style.display = 'none';
-
-                return true;
-            }
-            else
-            {
-                document.getElementById('loading').style.display = 'block';
-            }
-            return false;
-        }
-    </script>
-    {/literal}
 {/doc_raw}
-<div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
-Loading...
-</div>
+
 <table class="klappable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
         <td style="border-bottom: 1px solid #ACA899; padding: 5px">
@@ -94,21 +16,34 @@ Loading...
             <input type="hidden" id="save_action" name="save_action" value="{$smarty.request.main_action}" />
         </td>
     </tr>
+    
     <tr>
         <td style="border-bottom: 1px solid #ACA899; border-top: 1px solid #FFFFFF; padding: 15px">
-            <div id="helptext_container">
-                {$info.helptext}
+            {translate}Click on Helptext to add or edit!{/translate}
+            <div id="helptext">    
+                        
+                        {if $info.helptext!=''}
+                         
+                         {foreach key=key item=item from=$info.helptext}
+                                {if $item!=''}
+                                    {$item|nl2br}
+                                {/if}
+                         {/foreach}
+                        
+                        {else}
+                            {translate}There is no helptext assigned.{/translate}<br />
+                            {translate}Click to add a helptext{/translate}</a>
+                        {/if}        
             </div>
-            {if $info.helptext!=''}
-
-            {else}
-                {translate}There is no helptext assigned.{/translate}<br />
-                <a href="javascript:void(0)" onClick="clip_id('help_add');">{translate}Add a helptext{/translate}</a>
-            {/if}
-            <div style="display: none;padding: 10px; text-align: center;" id="help_add">
-                <textarea style=" width: 100%; height: 200px;" class="input_textarea" name="info[helptext]" id="helptext"></textarea><br />
-                <input type="button" class="ButtonGreen" value="{translate}Add help{/translate}" onClick="return sendAjaxRequest('related_links', '', 'index.php?mod=admin&sub=help&action=save_helptext')" />
-            </div>
+            
+            {literal}
+             <script type="text/javascript">
+                new Ajax.InPlaceEditor('helptext', 
+                                      'index.php?mod=admin&sub=help&action=save_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}', 
+                                      {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+             </script>
+            {/literal}
+            
         </td>
     </tr>
     <tr>
@@ -118,8 +53,32 @@ Loading...
     </tr>
     <tr>
         <td style="border-top: 1px solid #FFFFFF; padding: 15px">
-            <div id="related_links_container">
-                {$info.related_links}
-            </div>
+         {translate}Click on Links to add or edit!{/translate}
+         <div id="related_links_container">
+         
+            {if count($info.related_links)!=0}
+            
+                {foreach key=key item=item from=$info.related_links}
+                    {if $item!=''}
+                        <a href="{$item|nl2br}">{$item|nl2br}</a><br />
+                    {/if}
+                {/foreach}
+                
+            {else}
+                {translate}There are no links assigned.{/translate}
+                <br />
+                {translate}Add links (each line a link){/translate}
+            {/if}        
+         </div>
+       
+            
+        {literal}
+         <script type="text/javascript">
+            new Ajax.InPlaceEditor('related_links_container', 
+                                   'index.php?mod=admin&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}', 
+                                   {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+         </script>
+       {/literal}
+        
     </tr>
 </table>
