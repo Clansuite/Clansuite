@@ -1,7 +1,9 @@
 {* DEBUG {$serverdata|@var_dump} *}
 
 <div style="float: right"><img src="{$www_core_tpl_root}/images/serverlist/up.gif" 
-onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>
+onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}'); Effect.Appear(ClipDownImage_{$serverdata.server_id})" />
+</div>
+
 
 <span>
 <h4>Serverdetails for {$serverdata.gamename} Engine based Server</h3>
@@ -37,22 +39,61 @@ onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>
 
 <hr style="clear:both; width: 80%;">
 
+{* ####################### Playerlist ###################### *}
+
 <a href="javascript:clip_span('player_{$serverdata.server_id}')">:: Player Information</a>
 
-<span id="span_player_{$serverdata.server_id}" style="display: none;">
+<span id="span_player_{$serverdata.server_id}" style="display: none; font-size: small;">
 
 <dl>
-    <dt>Player Information</dt><dd>{$serverdata.players}</dd>
+    <dd>
+    {* DEBUG {$serverdata.players|@var_dump} *}
+    <table>
+       <tr>
+           <td>#</td>
+           <td>Playername</td>
+           <td>Frags</td>
+           <td>Onlinetime</td>
+       </tr>
+        
+       {foreach key=key item=item from=$serverdata.players}
+       <tr>
+            <td>    {$key}          </td>
+            <td>    {$item.name}    </td>
+            <td>    {$item.score}   </td>
+            <td>    {$item.time}    </td>
+       </tr>
+       {/foreach}
+       
+    </table>    
+    </dd>
 </dl>	
 
 </span>
 
-<a href="javascript:clip_span('rules_{$serverdata.server_id}')">:: Rules</a>
+{* ####################### Server Rules & Settings ###################### *}
 
-<span id="span_rules_{$serverdata.server_id}" style="display: none;">
+<a href="javascript:clip_span('rules_{$serverdata.server_id}')">:: Rules & Settings</a>
+
+<span id="span_rules_{$serverdata.server_id}" style="display: none; font-size: small;">
 
 <dl>
-    <dt>Rules & Settings</dt><dd>{$serverdata.players}</dd>
+    <dd>
+    {* DEBUG {$serverdata.rules|@var_dump} *}
+    <table>
+        <tr>
+            <td>Setting</td>
+            <td>Value</td>
+        </tr>
+        
+       {foreach key=key item=item from=$serverdata.rules}
+       <tr>
+            <td>    {$key}          </td>
+            <td>    {$item}    </td>
+       </tr>       
+       {/foreach}
+              
+    </table>    
 </dl>
 
 </span>
