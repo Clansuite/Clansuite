@@ -250,10 +250,33 @@ class module_admin_modules
             $modules_name    = $subpattern[2];
             $modules_dbfield = $subpattern[3];
 
-            // update field in db
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
-                                                                   WHERE module_id = ? AND name = ?' );
-            $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+            $whitelist = array( 'name',
+                                'author',
+                                'homepage',
+                                'license',
+                                'copyright',
+                                'title',
+                                'description',
+                                'class_name',
+                                'file_name',
+                                'folder_name',
+                                'enabled',
+                                'image_name',
+                                'version',
+                                'cs_version',
+                                'core');
+
+            if( in_array($modules_dbfield, $whitelist) )
+            {
+                // update field in db
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
+                                                                       WHERE module_id = ? AND name = ?' );
+                $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+            }
+            else
+            {
+                $value = $lang->t('Don\'t try to hack me. Logging in progress...');
+            }
         }
 
         // return value
