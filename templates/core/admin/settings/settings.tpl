@@ -5,15 +5,22 @@
 {/doc_raw}
 
 <form action="index.php?mod=admin&sub=settings&action=update" method="POST">
-<div class="tab-pane" id="tab-pane-2">
+<div class="tab-pane" id="tab-pane-1">
 
-   {* #### TAB PAGE - STANDARD SETTINGS | IN WHITELIST #### *}
+   {* #### TAB PAGE - STANDARD SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}Standard{/translate}</h2>
+       
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}General Settings{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Page Title{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -21,7 +28,10 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="td_header_small" width="15px" colspan="2">  {translate}Standard Template with Files{/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
                     {translate}Standard Template{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -29,66 +39,15 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Standard Template Wrapper File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="text" value="{$cfg->tpl_wrapper_file}" name="config[tpl_wrapper_file]" class="input_text" />
                 </td>
             </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Standard Language{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->language}" name="config[language]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Standard module{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_module}" name="config[std_module]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Standard module action{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Minimum password length{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->min_pass_length}" name="config[min_pass_length]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Encryption method{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <select name="config[encryption]" class="input_text">
-                        <option value="md5" {if $cfg->encryption == md5}selected{/if}>{translate}MD5 (faster){/translate}</option>
-                        <option value="sha1" {if $cfg->encryption == sha1}selected{/if}>{translate}SHA1 (more secure){/translate}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
-                    {translate}Salt{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->salt}" name="config[salt]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="10%">
+              <tr>
+                <td class="cell2" width="15%">
                     {translate}Standard CSS File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -96,23 +55,59 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Standard JS File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="text" value="{$cfg->std_javascript}" name="config[std_javascript]" class="input_text" />
                 </td>
             </tr>
+            <tr>
+                <td class="td_header_small" width="15px" colspan="2">  {translate}Default Language{/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Standard Language{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="text" value="{$cfg->language}" name="config[language]" class="input_text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="td_header_small" width="15px" colspan="2">  {translate}Default Module / Action{/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Standard module{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="text" value="{$cfg->std_module}" name="config[std_module]" class="input_text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Standard module action{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" class="input_text" />
+                </td>
+            </tr>          
         </table>
    </div>
 
-    {* #### TAB PAGE - META TAGSINFOS SETTINGS | IN WHITELIST #### *}
+    {* #### TAB PAGE - META TAGSINFOS SETTINGS #### *}
 
     <div class="tab-page">
         <h2 class="tab">{translate}Meta Tags{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Define Meta Tags{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Description{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -120,7 +115,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Language{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -128,7 +123,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Author{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -136,7 +131,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}eMail{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -144,23 +139,32 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Keywords{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="text" value="{$cfg->meta.keywords}" name="config[meta][keywords]" class="input_text" />
                 </td>
             </tr>
+            <tr>
+                <td class="td_header_small" width="15px" colspan="2">  {translate}Define Dublin Core Metadata Elements{/translate}  </td>
+            </tr>
         </table>
     </div>
 
-   {* #### TAB PAGE - EMAIL SETTINGS | IN WHITELIST #### *}
+   {* #### TAB PAGE - EMAIL SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}eMail{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Mailer Configuration{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Mail method{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -175,7 +179,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Mailerhost{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -183,7 +187,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Mailerport{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -191,7 +195,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}SMTP username{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -199,7 +203,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}SMTP password{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -207,7 +211,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Mail encryption{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -215,7 +219,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}From{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -223,7 +227,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}From name{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -234,13 +238,19 @@
    </div>
 
 
-   {* #### TAB PAGE - LOGIN SETTINGS | IN WHITELIST #### *}
+   {* #### TAB PAGE - LOGIN SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}Login{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Login{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Login method{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -251,7 +261,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Remember me time{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -259,7 +269,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Maximum login attempts{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -267,23 +277,57 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Login ban minutes{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="text" value="{$cfg->login_ban_minutes}" name="config[login_ban_minutes]" class="input_text" />
                 </td>
             </tr>
+            <tr><td class="td_header_small" width="15px" colspan=2>  {translate}Password Settings{/translate}  </td></tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Minimum password length{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="text" value="{$cfg->min_pass_length}" name="config[min_pass_length]" class="input_text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Encryption method{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <select name="config[encryption]" class="input_text">
+                        <option value="md5" {if $cfg->encryption == md5}selected{/if}>{translate}MD5 (faster){/translate}</option>
+                        <option value="sha1" {if $cfg->encryption == sha1}selected{/if}>{translate}SHA1 (more secure){/translate}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Salt{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="text" value="{$cfg->salt}" name="config[salt]" class="input_text" />
+                </td>
+            </tr>
         </table>
    </div>
 
-   {* #### TAB PAGE - SESSION SETTINGS | IN WHITELIST #### *}
+   {* #### TAB PAGE - SESSION SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}Session{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Session{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Use cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -292,7 +336,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Use only cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -301,7 +345,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Session name{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -311,13 +355,19 @@
         </table>
    </div>
 
-   {* #### TAB PAGE - ERRORS SETTINGS | IN WHITELIST #### *}
+   {* #### TAB PAGE - ERRORS SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}Errors{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Error Reporting{/translate}  </td>
+        </tr>
+        </thead>
+            
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Suppress Errors{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -326,7 +376,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Debugging{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -335,7 +385,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2" width="10%">
+                <td class="cell2" width="15%">
                     {translate}Debugging in a popup{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
