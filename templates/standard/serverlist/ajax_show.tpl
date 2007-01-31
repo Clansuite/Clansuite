@@ -1,8 +1,8 @@
 {doc_raw}
-<script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
-<script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-<script src="{$www_core_tpl_root}/javascript/smarty_ajax.js" type="text/javascript"></script>
-<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/smarty_ajax.js"></script>
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 <link rel="stylesheet" type="text/css" href="{$www_tpl_root}/coffee-with-milk.css" />
 {/doc_raw}
 
@@ -15,13 +15,13 @@
         
         <thead>
             <tr>
-                <td>{translate}Status{/translate}</td>
-            <td>{translate}ID{/translate}</td>
-            <td>{translate}Gametype{/translate}</td>
-            <td>{translate}Country{/translate}</td>
-            <td>{translate}Name{/translate}</td>
-            <td>{translate}IP : Port{/translate}</td>
-            <td>{translate}Connect{/translate}</td>
+                <td width=50>{translate}Status{/translate}</td>
+                <td>{translate}ID{/translate}</td>
+                <td>{translate}Gametype{/translate}</td>
+                <td>{translate}Country{/translate}</td>
+                <td>{translate}Name{/translate}</td>
+                <td>{translate}IP : Port{/translate}</td>
+                <td>{translate}Connect{/translate}</td>
             </tr>
           </thead>
           
@@ -29,13 +29,20 @@
             {foreach key=key item=server from=$servers}
                
                 <tr>
-                   <td><img onclick="{ajax_update url='index.php?mod=serverlist&action=get_serverdetails'
-                                                   update_id="server_details_`$server.server_id`" 
-                                                   params="server_id=`$server.server_id`"
-                                                   callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
+                   <td width=50><img onclick="{ajax_update url='index.php?mod=serverlist&action=get_serverdetails'
+                                                  update_id="server_details_`$server.server_id`" 
+                                                  params="server_id=`$server.server_id`"
+                                                  callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
                                      }"
-                        src="{$www_core_tpl_root}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
-                        alt="Refresh Server {$server.server_id}">
+                            src="{$www_core_tpl_root}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
+                            alt="Refresh Server {$server.server_id}" />
+                       
+                        <img onclick="new Effect.toggle('serverdata_{$server.server_id}', 'slide'); return false;"
+                             id="ClipDownImage_{$server.server_id}"
+                             style="display: none;"
+                             src="{$www_core_tpl_root}/images/serverlist/dn.gif" 
+                             alt="Refresh Server {$server.server_id}" />
+                        
                    </td>
                    <td>{$server.server_id}</td>
                    <td><img src="{$www_core_tpl_root}/images/serverlist/gametype/{$server.gametype}.ico"></td>
@@ -49,10 +56,10 @@
                     <td>{$server.name}</td>
                     <td>{$server.ip}:{$server.port}</td>
                     <td>
-                    <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_core_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
-                    {if $server.csquery_engine == 'steam'}
-                    <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_core_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
-                    {/if}
+                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_core_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
+                        {if $server.csquery_engine == 'steam'}
+                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_core_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
+                        {/if}
                     </td>
                 </tr>
                 
