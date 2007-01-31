@@ -136,7 +136,7 @@ class module_news
         $stmt1 = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
         
         // Prepare Statement 2: get the nickname of the last comment for certain news_id
-        $stmt2 = $db->prepare('SELECT IFNULL(u.nick, c.pseudo)
+        $stmt2 = $db->prepare('SELECT u.nick, c.pseudo
                                    FROM '. DB_PREFIX .'news_comments c
                                    LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
                                    WHERE c.news_id = ?
