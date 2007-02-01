@@ -43,7 +43,7 @@ a:hover
 #breadcrumbs a {
     color : #f00;
 }
-#breadcrumbs a:hover { 
+#breadcrumbs a:hover {
     color : #fff;
     background-color : #f00;
 }
@@ -144,13 +144,16 @@ a:hover
 
 .redirect
 {
-    padding: 10px;
-    position: relative;
-    top: 300px;
-    background: #CCCCCC;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 200px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -100px;
+    padding: 10px;
+    background: #CCCCCC;
     border: 1px solid #000000;
-    vertical-align: middle;
     text-align: center;
 }
 

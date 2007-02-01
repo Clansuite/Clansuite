@@ -7,13 +7,15 @@
 </head>
 <body>
 
-<center>
+<table class="redirect" cellpadding="0" border="0" cellspacing="0">
+<tr>
+    <td>
+        <img src="{$www_core_tpl_root}/images/symbols/redirect.png">
+        <br />
+        {$message}
+    </td>
+</tr>
+</table>
 
-<div class="redirect">
-<img src="{$www_core_tpl_root}/images/symbols/redirect.png">
-<br />
-{$message}
-</div>
-<center>
 </body>
 </html>
