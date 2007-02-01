@@ -37,21 +37,52 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td class="admin_header">
+            
+            <div style="float: left">
                 {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
+            </div>
+            
+            {literal}
+            <script type="text/javascript">
+            function help_toggler()
+            {
+             if ( document.getElementById('help_toggle').style.display == 'none' )
+             { // Show Stuff
+              new Effect.Appear('help_toggle');
+              new Effect.Appear('help_toggle_2');
+             }
+             else
+             { // Hide Stuff
+              new Effect.Fade('help_toggle');
+              new Effect.Fade('help_toggle_2');
+             }
+            }
+            </script>
+            {/literal}
+            
+            <div style="float: right; font-size: xx-small;">
+            <img onclick="help_toggler(); return false;" style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help" border="0">
+
+                Help
+            </div>
+            
             </td>
-            <td class="admin_header_help">
-                &raquo; {translate}Help{/translate}
+            <td id="help_toggle" class="admin_header_help">
+               &raquo; {translate}Help{/translate}
+                
             </td>
         </tr>
 
         <tr>
             <td width="80%" class="admin_content">
-
+               
                 {$content}
             </td>
-            <td width="20%" class="admin_help" style="padding: 0px">
+            
+            <td id="help_toggle_2" width="20%" class="admin_help" style="padding: 0px">
                 {mod name="admin" sub="help" func="instant_show"}
             </td>
+           
         </tr>
     </table>
     <p>&nbsp;</p>
