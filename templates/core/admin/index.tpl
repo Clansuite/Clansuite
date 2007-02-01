@@ -44,6 +44,11 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             
             {literal}
             <script type="text/javascript">
+            window.onload = function () {
+            document.getElementById("help_toggle").style.display = "none";
+            document.getElementById("help_toggle_2").style.display = "none";
+            }
+                       
             function help_toggler()
             {
              if ( document.getElementById('help_toggle').style.display == 'none' )
