@@ -1,6 +1,3 @@
-{* Debuganzeige, wenn DEBUG = 1 |  {$groups|@var_dump}
-{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$groups} {/if} *}
-
 <form action="index.php?mod=admin&sub=groups&action=delete" method="POST">
 
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">

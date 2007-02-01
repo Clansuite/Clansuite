@@ -14,20 +14,22 @@
 
     {literal}
         <script type="text/javascript">
-        function toggle(x,id) {
-            
-            if ($(x).className == "ButtonOrange") { $(x).Classnames.set = "ButtonGreen"; }
-                                                     
+        function toggle(x,id)
+        {
+
+            if ($(x).className == "ButtonOrange")
+            {
+                $(x).Classnames.set = "ButtonGreen";
+            }
+
             var bold = false; // to use in the bold-allowing script
-        
-        
-        x.src = (x.src== 'bold_uit.gif')?'bold_aan.gif':'bold_uit.gif'
-        bold = (x.src == 'bold_aan.gif')
-        }                                        }
-            
-       </script>
+
+            x.src = (x.src== 'bold_uit.gif')?'bold_aan.gif':'bold_uit.gif'
+            bold = (x.src == 'bold_aan.gif')
+        }
+        </script>
     {/literal}
-    
+
 {/doc_raw}
 
 {* <a id="addrow" href="#"><img border="0" src="newrow.gif" /></a> *}
@@ -156,7 +158,7 @@
 
                             {foreach key=key item=item from=$wert.subs}
 
-                            <table class="tableedit" id="submodules_table_{$wert.module_id}_" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <table class="tableedit" id="submodules_table_{$wert.module_id}_{$item.submodule_id}" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td width="40"><b>Name</b> (#{$item.submodule_id}) :</td><td class="editcell">{$key}</td>
                             </tr>
@@ -380,20 +382,20 @@
                 <p align="center">
                     <input id="modul_button_`$wert.module_id`" class="ButtonOrange" type="submit"
                      onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajax_onoffswitch'
-                               update_id="modul_id_`$wert.module_id`" 
+                               update_id="modul_id_`$wert.module_id`"
                                params="server_id=`$server.server_id`"
-                               
+
                                callback="new Effect.Puff(\'modul_onoff_image_`$wert.module_id`\')"
                               }" value="{translate}Disable{/translate}" name="submit" />
-                
+
                 {* new `$(this).Classnames.set = 'ButtonGreen'` *}
-                
+
                 </p>
                 {else}
                 <p align="center">
                     <input id=" "class="ButtonGreen" type="submit"
                     onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajax_onoffswitch'
-                              update_id="server_details_`$server.server_id`" 
+                              update_id="server_details_`$server.server_id`"
                               params="server_id=`$server.server_id`"
                               callback="new Effect.Appear(\'modul_onoff_image_`$wert.module_id`\')"
                              }" value="{translate}Enable{/translate}" name="submit" />
