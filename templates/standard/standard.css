@@ -33,6 +33,13 @@ a:hover
     font-weight: bold;
 }
 
+/* External Links */
+
+a[href^="http:"]:not([href^="http://www.clansuite.com"])::after {
+   padding-left: 0.2em;
+   content:      url(images/remote.png);
+}
+
 /* Breadcrumb / Trail ( You are here >> )*/
 
 #breadcrumbs {
