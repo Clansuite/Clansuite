@@ -23,7 +23,7 @@
             {translate}Click on Helptext to add or edit!{/translate}
             <div id="helptext">    
                         
-                        {if $info.helptext!=''}
+                         {if $info.helptext!=''}
                          
                          {foreach key=key item=item from=$info.helptext}
                                 {if $item!=''}
@@ -56,17 +56,14 @@
         <td style="border-top: 1px solid #FFFFFF; padding: 15px">
          {translate}Click on Links to add or edit!{/translate}
          <div id="related_links_container">
-         
-         
+                  
+            {if count($info.related_links)!=0}
+            
                         {foreach key=key item=item from=$info.related_links}
                                 {if $item!=''}
                                     {$item|nl2br}
                                 {/if}
                          {/foreach}
-            {if count($info.related_links)!=0}
-            
-                
-                
             {else}
                 {translate}There are no links assigned.{/translate}
                 <br />
