@@ -6,12 +6,15 @@
 </head>
 <body>
 <form action="{$link}" method="POST">
-    <center>
-    <div class='redirect'>
+
+<table class="redirect" cellpadding="0" border="0" cellspacing="0">
+<tr>
+    <td>
     {$message}<br />
-    <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}">
-    </div>
-    <center>
+    <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}" />
+    </td>
+</tr>
+</table>
 </form>
 </body>
 </html>
