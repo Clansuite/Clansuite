@@ -233,6 +233,60 @@ class db
     }
     
     /**
+    * @desc Performs a Select returning the total number of rows found by a SELECT query
+    *
+    * At first it tries to get the total number of rows by 
+    * a mysql specific command "SQL_CALC_FOUND_ROWS".
+    * If that fails an additional "found_rows" query is executed. 
+    *
+    * Usage: $db->select
+    *
+    * Example Call:
+    * (notice the chopped SQL, so don't use a "SELECT" in your sql-query)
+    *
+    *   $count = -1; #reset counter
+    *   $stmt = $db->select( '* FROM foo WHERE bar < 40 LIMIT 4 OFFSET 2', $c, 4);
+    *   var_dump($stmt->fetchAll()); # Normal dump of found data
+    *   var_dump($count); # The number of rows found, at most 4.
+    *
+    * Function is fetched from the PHP Database Mailing List 
+    * Original Author: Rob C [ Mi, 09 November 2005 19:18 ] 
+    */ 
+    
+    public function select( $sql='', &$count = NULL, $limit = NULL)
+    {
+        global $error, $lang;
+                        
+        $sql = 'SELECT '.(!is_null($count)?'SQL_CALC_FOUND_ROWS ':'').$sql;
+      
+        $this->last_sql = $sql;
+         
+        try {
+            $res = $this->db->prepare($sql);
+            $res->execute(); // Problem ! -> How to assign Vars for the ? in the sql..
+        
+            if (!is_null($count)) {
+                $rows = $this->db->prepare('SELECT found_rows() AS rows');
+                $rows->execute();
+                $rows_array = $rows->fetch(PDO::FETCH_NUM);
+                $rows->closeCursor();
+                $count = $rows_array[0];
+                
+                if (!is_null($limit) && $count > $limit) {
+                $count = $limit;
+                }
+            }
+        } catch (PDOException $e) {
+        
+            $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1); 
+            die();
+        }
+        
+        return $res;
+        }
+    
+    
+    /**
     * @desc Exec
     * @desc Increase counter
     */
