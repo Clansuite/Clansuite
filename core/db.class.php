@@ -353,12 +353,14 @@ class db_statements
 
         $db->queries[] = $this->db_statement->queryString;
 
+      
         if( count($args) > 0 )
         {
             $res = $this->db_statement->execute($args);
         }
         else
         {
+             // in case $args is empty execute!!
             $res = $this->db_statement->execute();
         }
 
