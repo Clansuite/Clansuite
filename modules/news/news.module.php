@@ -114,8 +114,7 @@ class module_news
         SmartyPaginate::setLimit(5);
 
         // $newslist = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT SQL_CALC_FOUND_ROWS
-                                n.*, u.nick, c.name as cat_name, c.image as cat_image
+        $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
                                 LEFT JOIN '. DB_PREFIX .'categories c
@@ -134,11 +133,9 @@ class module_news
         $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // Get Number of Rows
-        $rows = $db->prepare('SELECT found_rows() AS rows');
+        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
         $rows->execute();
-        $rows_array = $rows->fetch(PDO::FETCH_NUM);
-        $rows->closeCursor();
-        $count = $rows_array[0];
+        $count = count($rows->fetchALL(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
 
@@ -146,7 +143,6 @@ class module_news
         SmartyPaginate::setTotal($count);
         // assign the {$paginate} to $tpl (smarty var)
         SmartyPaginate::assign($tpl);
-
 
         // ---------  Prepared Statements: One time defined, often used!
 
@@ -202,8 +198,7 @@ class module_news
         SmartyPaginate::setLimit(20);
 
         // $newsarchiv = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT SQL_CALC_FOUND_ROWS
-                                     n.news_id,  n.news_title, n.news_added,
+        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
                                      n.user_id, u.nick,
                                      n.cat_id, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
@@ -221,14 +216,12 @@ class module_news
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // Get Number of Rows
-        $rows = $db->prepare('SELECT found_rows() AS rows');
+        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
         $rows->execute();
-        $rows_array = $rows->fetch(PDO::FETCH_NUM);
-        $rows->closeCursor();
-        $count = $rows_array[0];
+        $count = count($rows->fetchALL(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
-        echo 'Found Rows: ' . $count;
-
+        // echo 'Found Rows: ' . $count;
+        
         // Finally: assign total number of rows to SmartyPaginate
         SmartyPaginate::setTotal($count);
         // assign the {$paginate} to $tpl (smarty var)
