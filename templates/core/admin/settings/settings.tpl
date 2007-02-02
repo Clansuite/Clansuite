@@ -11,14 +11,14 @@
 
    <div class="tab-page">
        <h2 class="tab">{translate}Standard{/translate}</h2>
-       
+
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
             <td class="td_header_small" width="15px" colspan="2">  {translate}General Settings{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Page Title{/translate}
@@ -91,7 +91,7 @@
                 <td class="cell1" style="padding: 3px">
                     <input type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" class="input_text" />
                 </td>
-            </tr>          
+            </tr>
         </table>
    </div>
 
@@ -105,7 +105,7 @@
             <td class="td_header_small" width="15px" colspan="2">  {translate}Define Meta Tags{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Description{/translate}
@@ -162,7 +162,7 @@
             <td class="td_header_small" width="15px" colspan="2">  {translate}Mailer Configuration{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Mail method{/translate}
@@ -248,7 +248,7 @@
             <td class="td_header_small" width="15px" colspan="2">  {translate}Login{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Login method{/translate}
@@ -325,7 +325,7 @@
             <td class="td_header_small" width="15px" colspan="2">  {translate}Session{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Use cookies{/translate}
@@ -365,7 +365,7 @@
             <td class="td_header_small" width="15px" colspan="2">  {translate}Error Reporting{/translate}  </td>
         </tr>
         </thead>
-            
+
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Suppress Errors{/translate}
@@ -390,12 +390,34 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="radio" value="1" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="0" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
         </table>
    </div>
 
+   {* #### TAB PAGE - ERRORS SETTINGS #### *}
+
+   <div class="tab-page">
+       <h2 class="tab">{translate}Developers{/translate}</h2>
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small" width="15px" colspan="2">  {translate}Developer Settings{/translate}  </td>
+        </tr>
+        </thead>
+
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Help Edit Mode{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
+                </td>
+            </tr>
+        </table>
+   </div>
 </div>
 
 <br />

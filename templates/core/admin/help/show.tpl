@@ -1,5 +1,6 @@
 {* DEBUG {$info|@var_dump} *}
 {doc_raw}
+
     {* Prototype + Scriptaculous + Smarty_Ajax *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js" ></script>
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
@@ -17,34 +18,36 @@
             <input type="hidden" id="save_action" name="save_action" value="{$smarty.request.main_action}" />
         </td>
     </tr>
-    
+
     <tr>
         <td style="border-bottom: 1px solid #ACA899; border-top: 1px solid #FFFFFF; padding: 15px">
-            {translate}Click on Helptext to add or edit!{/translate}
-            <div id="helptext">    
-                        
+            {if $cfg->help_edit_mode==1}{translate}Click on Helptext to add or edit!{/translate}{/if}
+            <div id="helptext">
+
                          {if $info.helptext!=''}
-                         
+
                          {foreach key=key item=item from=$info.helptext}
                                 {if $item!=''}
                                     {$item|nl2br}
                                 {/if}
                          {/foreach}
-                        
+
                         {else}
                             {translate}There is no helptext assigned.{/translate}<br />
-                            {translate}Click to add a helptext{/translate}</a>
-                        {/if}        
+                            {if $cfg->help_edit_mode==1}{translate}Click to add a helptext{/translate}</a>{/if}
+                        {/if}
             </div>
-            
-            {literal}
-             <script type="text/javascript">
-                new Ajax.InPlaceEditor('helptext', 
-                                      'index.php?mod=admin&sub=help&action=save_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}', 
-                                      {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
-             </script>
-            {/literal}
-            
+
+            {if $cfg->help_edit_mode==1}
+                {literal}
+                 <script type="text/javascript">
+                    new Ajax.InPlaceEditor('helptext',
+                                          'index.php?mod=admin&sub=help&action=save_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
+                                          {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+                 </script>
+                {/literal}
+            {/if}
+
         </td>
     </tr>
     <tr>
@@ -54,11 +57,11 @@
     </tr>
     <tr>
         <td style="border-top: 1px solid #FFFFFF; padding: 15px">
-         {translate}Click on Links to add or edit!{/translate}
+         {if $cfg->help_edit_mode==1}{translate}Click on Links to add or edit!{/translate}{/if}
          <div id="related_links_container">
-                  
+
             {if count($info.related_links)!=0}
-            
+
                         {foreach key=key item=item from=$info.related_links}
                                 {if $item!=''}
                                     {$item|nl2br}
@@ -67,18 +70,19 @@
             {else}
                 {translate}There are no links assigned.{/translate}
                 <br />
-                {translate}Add links (each line a link){/translate}
-            {/if}        
+                {if $cfg->help_edit_mode==1}{translate}Add links (each line a link){/translate}{/if}
+            {/if}
          </div>
-       
-            
-        {literal}
-         <script type="text/javascript">
-            new Ajax.InPlaceEditor('related_links_container', 
-                                   'index.php?mod=admin&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}', 
-                                   {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
-         </script>
-       {/literal}
-        
+
+        {if $cfg->help_edit_mode==1}
+            {literal}
+             <script type="text/javascript">
+                new Ajax.InPlaceEditor('related_links_container',
+                                       'index.php?mod=admin&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
+                                       {rows:15,cols:26, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+             </script>
+           {/literal}
+        {/if}
+
     </tr>
 </table>

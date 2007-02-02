@@ -329,7 +329,7 @@ class module_admin_groups
                                    FROM ' . DB_PREFIX . 'user_groups cu,
                                         ' . DB_PREFIX . 'users cs
                                    WHERE NOT cs.user_id = cu.user_id
-                                   AND cu.group_id = ?');
+                                   AND cu.group_id = ? GROUP BY cs.user_id');
 
             $stmt2->execute( array ( $group_id ));
             $info['users_not_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
