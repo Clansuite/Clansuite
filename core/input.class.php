@@ -356,8 +356,8 @@ class input
                 
                 $_SERVER['argv'] = $argv;
                 
-                // turn off magic quotes, this is so scripts which
-                // are sensitive to the setting will work correctly
+                // turn off magic quotes
+                // so scripts which require this setting will work correctly
                 ini_set('magic_quotes_gpc', 0);
             }
             
@@ -389,7 +389,7 @@ class input
             return $sybase ? str_replace('\'\'', '\'', $var) : stripslashes($var);
         }
         
-        // otherwise ignore
+        // otherwise ignore and just return
         return $var;
     }
 }
