@@ -1,19 +1,23 @@
-{* Debugausgabe des Arrays: {$news|@var_dump}*}
-{$paginate|@var_dump}  
+{* DEBUG OUTPUT of assigned Arrays: 
+    {$news|@var_dump}
+    {$paginate|@var_dump}  
+*}
 
 {* display pagination header *}
-    Items {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
-
-    {* display results *}    
+    {if $paginate.size gt 1}
+      Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
+    {else}
+      Item {$paginate.first} of {$paginate.total} displayed.    
+    {/if}
+    
+{* display results *}    
     {section name=res loop=$results}
         {$results[res]}
     {/section}
 
-    {* display pagination info *}
-    {paginate_prev} {paginate_middle} {paginate_next}
-
-
-
+{* display pagination info *}
+    {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+    
 
 {foreach item=news from=$news}
 
