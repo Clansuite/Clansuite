@@ -135,6 +135,14 @@ class PreInstaller {
         $command = trim($_POST['command']); 
     }
 	
+	/** Actions: 
+	*   -extract
+	*   -download
+	*   -chmod
+	*   -rename
+	*   Default: check capabilities of php / server
+	*/
+	
 	switch ($command) {
 	    
 	    case 'extract':
@@ -330,14 +338,14 @@ class PreInstaller {
 	} else if (strlen($passPhrase) < 6) {
 	    render('passwordTooShort');
 	    exit;
-	} else if (!empty($_COOKIE['G2PREINSTALLER']) &&
-			trim($_COOKIE['G2PREINSTALLER']) == md5($passPhrase)) {
+	} else if (!empty($_COOKIE['CLANSUITE_WEBINSTALLER']) &&
+			trim($_COOKIE['CLANSUITE_WEBINSTALLER']) == md5($passPhrase)) {
 	    /* Already logged in, got a cookie */
 	    return true;
-	} else if (!empty($_POST['g2_password'])) {
+	} else if (!empty($_POST['cs_password'])) {
 	    /* Login attempt */
-	    if ($_POST['g2_password'] == $passPhrase) {
-		setcookie("G2PREINSTALLER",md5($passPhrase),0);
+	    if ($_POST['cs_password'] == $passPhrase) {
+		setcookie("CLANSUITE_WEBINSTALLER",md5($passPhrase),0);
 		return true;
 	    } else {
 		render('passwordForm', array('incorrectPassword' => 1));
@@ -614,6 +622,10 @@ class FopenDownloader extends DownloadMethod {
 	if (!Platform::isDirectoryWritable()) {
 	    return 'Unable to write to current working directory';
 	}
+	
+	if (@ini_get('memory_limit') < 16)
+		@ini_set('memory_limit', '16M');
+	
 	$start =time();
 
 	Platform::extendTimeLimit();
@@ -1126,8 +1138,8 @@ function render($renderType, $args=array()) {
 	 </span>
 	 <form id="loginForm" method="post">
 	   Password:
-	   <input type="password" name="g2_password"/>
-	   <script type="text/javascript">document.getElementById('loginForm')['g2_password'].focus();</script>
+	   <input type="password" name="cs_password"/>
+	   <script type="text/javascript">document.getElementById('loginForm')['cs_password'].focus();</script>
 	   <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
 	 </form>
 	 <?php if (!empty($args['incorrectPassword'])): ?>
