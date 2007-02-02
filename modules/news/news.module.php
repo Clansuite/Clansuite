@@ -50,8 +50,8 @@ class module_news
         global $lang, $trail;
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('News'), '/index.php?mod=news'); 
-       
+        $trail->addStep($lang->t('News'), '/index.php?mod=news');
+
         switch ($_REQUEST['action'])
         {
             default:
@@ -107,14 +107,14 @@ class module_news
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
         // required connect
         SmartyPaginate::connect();
-        // set URL 
+        // set URL
         SmartyPaginate::setUrl('index.php?mod=news');
         SmartyPaginate::setUrlVar('page');
         // set items per page
         SmartyPaginate::setLimit(5);
-               
+
         // $newslist = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT SQL_CALC_FOUND_ROWS 
+        $stmt = $db->prepare('SELECT SQL_CALC_FOUND_ROWS
                                 n.*, u.nick, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
@@ -122,43 +122,46 @@ class module_news
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
                                 WHERE n.news_hidden = ?
-                                ORDER BY news_id DESC LIMIT '. SmartyPaginate::getCurrentIndex() .' , 
-                                                            '. SmartyPaginate::getLimit() .' ');
-        
+                                ORDER BY news_id DESC LIMIT ?,?');
+
         /* TODO: news with status: draft, published, private, private+protected*/
         $hidden = '0';
-        $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
+        $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
+        $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
+        $stmt->bindParam(3, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(4, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->execute();
         $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
-               
-        // Get Number of Rows          
+
+        // Get Number of Rows
         $rows = $db->prepare('SELECT found_rows() AS rows');
         $rows->execute();
         $rows_array = $rows->fetch(PDO::FETCH_NUM);
         $rows->closeCursor();
         $count = $rows_array[0];
         // DEBUG - show total numbers of last Select
-        // echo 'Found Rows: ' . $count;     
-              
+        // echo 'Found Rows: ' . $count;
+
         // Finally: assign total number of rows to SmartyPaginate
         SmartyPaginate::setTotal($count);
-        // assign the {$paginate} to $tpl (smarty var) 
+        // assign the {$paginate} to $tpl (smarty var)
         SmartyPaginate::assign($tpl);
-       
-         
+
+
         // ---------  Prepared Statements: One time defined, often used!
-        
-        // Prepare Statement 1: Count all newst 
+
+        // Prepare Statement 1: Count all newst
         $stmt1 = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
-        
+
         // Prepare Statement 2: get the nickname of the last comment for certain news_id
         $stmt2 = $db->prepare('SELECT u.nick, c.pseudo
                                    FROM '. DB_PREFIX .'news_comments c
                                    LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
                                    WHERE c.news_id = ?
                                    ORDER BY c.comment_id DESC');
-        
+
         // --------- Database Loops over prepared Statements
-                                   
+
         // add the general news_comments data to the array of fetched news
         foreach ($newslist as $k => $v)
         {
@@ -169,7 +172,7 @@ class module_news
 
             // if news_comments exist for that news
             if ($newslist[$k]['nr_news_comments'] > 0 )
-            {                 
+            {
                  // Execute prepared Statement 2
                  // add to $newslist array, the nickname of the author of the last comment for each news_id
                  $stmt2->execute( array( $v['news_id'] ) );
@@ -177,7 +180,7 @@ class module_news
             }
 
         }
-       
+
         // give $newslist array to Smarty for template output
         $tpl->assign('news', $newslist);
 
@@ -192,12 +195,12 @@ class module_news
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
         // required connect
         SmartyPaginate::connect();
-        // set URL 
+        // set URL
         SmartyPaginate::setUrl('index.php?mod=news&action=archiv');
         SmartyPaginate::setUrlVar('page');
         // set items per page
         SmartyPaginate::setLimit(20);
-        
+
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT SQL_CALC_FOUND_ROWS
                                      n.news_id,  n.news_title, n.news_added,
@@ -209,7 +212,7 @@ class module_news
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
                                 WHERE n.news_hidden = ?
-                                ORDER BY news_id LIMIT '. SmartyPaginate::getCurrentIndex() .' , 
+                                ORDER BY news_id LIMIT '. SmartyPaginate::getCurrentIndex() .' ,
                                                        '. SmartyPaginate::getLimit() .' ');
 
         // TODO: news with status: draft, published, private, private+protected
@@ -217,18 +220,18 @@ class module_news
         $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
-        // Get Number of Rows          
+        // Get Number of Rows
         $rows = $db->prepare('SELECT found_rows() AS rows');
         $rows->execute();
         $rows_array = $rows->fetch(PDO::FETCH_NUM);
         $rows->closeCursor();
         $count = $rows_array[0];
         // DEBUG - show total numbers of last Select
-        echo 'Found Rows: ' . $count;     
-              
+        echo 'Found Rows: ' . $count;
+
         // Finally: assign total number of rows to SmartyPaginate
         SmartyPaginate::setTotal($count);
-        // assign the {$paginate} to $tpl (smarty var) 
+        // assign the {$paginate} to $tpl (smarty var)
         SmartyPaginate::assign($tpl);
 
         // $categories for module_news

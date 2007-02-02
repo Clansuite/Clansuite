@@ -67,62 +67,62 @@ class db
     */
 
     protected $db;
-    
+
     /**
     * @desc Number of performed statements
     */
 
     public $query_counter = 0;
-    
+
     /**
     * @desc Queries Array
     */
 
     public $queries = array();
-    
+
     /**
     * @desc Exec's Array
     */
 
     public $execs = array();
-    
+
     /**
     * @desc Prepare Statements Array
     */
 
     public $prepares = array();
-    
+
     /**
     * @desc Active Queries to prevent buffering failures
     */
 
     public $query_active = 0;
-    
+
     /**
     * @desc The active PDOStatement as reference
     */
 
     public $query_active_reference;
-    
+
     /**
     * @desc Last SQL
     */
-    
+
     public $last_sql;
-    
+
     //----------------------------------------------------------------
     // Constructor
     // Create DB Object
     // Set counters to zero
     //----------------------------------------------------------------
     public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
-    {   
+    {
         global $lang, $tpl, $error, $cfg;
-        
+
         try
         {
             $this->db = new PDO($dsn, $user, $pass, $driver_options);
-            
+
             // Error
             $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
             // Table-names in lower-case
@@ -137,18 +137,18 @@ class db
             {
                 // Buffering
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-            
+
                 // Unicode (mysql)
                 $this->exec('SET CHARACTER SET utf8');
             }
         }
         catch (PDOException $e)
         {
-            $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>'); 
+            $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
             die();
         }
     }
- 
+
     /**
     * @desc Call forward to DB
     */
@@ -157,7 +157,7 @@ class db
     {
         return call_user_func_array(array($this->db, $func), $args);
     }
-    
+
     /**
     * @desc Prepare a statement
     */
@@ -183,28 +183,28 @@ class db
 		}
 		else
 		{
-			$error->show( $lang->t('DB Prepare Error'), $lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1); 
+			$error->show( $lang->t('DB Prepare Error'), $lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1);
             die();
 		}
-        
+
     }
-    
+
     /**
     * @desc Simple Query with closeCursor() !
     */
 
     public function simple_query($sql='', $args = array() )
     {
-        
+
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
         $res->execute( $args );
         $res->closeCursor();
         $res = NULL;
-        
+
         return $res;
     }
-    
+
     /**
     * @desc Deliver query to DB
     * @desc Increase counter
@@ -213,13 +213,13 @@ class db
     public function query( $sql='' )
     {
         $this->last_sql = $sql;
-        
+
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
             $this->query_active_reference = NULL;
         }
-                
+
         $this->query_counter++;
         $this->queries[] = $sql;
         $res = $this->db->query($sql);
@@ -228,16 +228,16 @@ class db
         {
             $db->query_active_reference = $res;
             return $res;
-        }          
+        }
         return $res;
     }
-    
+
     /**
     * @desc Performs a Select returning the total number of rows found by a SELECT query
     *
-    * At first it tries to get the total number of rows by 
+    * At first it tries to get the total number of rows by
     * a mysql specific command "SQL_CALC_FOUND_ROWS".
-    * If that fails an additional "found_rows" query is executed. 
+    * If that fails an additional "found_rows" query is executed.
     *
     * Usage: $db->select
     *
@@ -249,43 +249,43 @@ class db
     *   var_dump($stmt->fetchAll()); # Normal dump of found data
     *   var_dump($count); # The number of rows found, at most 4.
     *
-    * Function is fetched from the PHP Database Mailing List 
-    * Original Author: Rob C [ Mi, 09 November 2005 19:18 ] 
-    */ 
-    
+    * Function is fetched from the PHP Database Mailing List
+    * Original Author: Rob C [ Mi, 09 November 2005 19:18 ]
+    */
+
     public function select( $sql='', &$count = NULL, $limit = NULL)
     {
         global $error, $lang;
-                        
+
         $sql = 'SELECT '.(!is_null($count)?'SQL_CALC_FOUND_ROWS ':'').$sql;
-      
+
         $this->last_sql = $sql;
-         
+
         try {
             $res = $this->db->prepare($sql);
             $res->execute(); // Problem ! -> How to assign Vars for the ? in the sql..
-        
+
             if (!is_null($count)) {
                 $rows = $this->db->prepare('SELECT found_rows() AS rows');
                 $rows->execute();
                 $rows_array = $rows->fetch(PDO::FETCH_NUM);
                 $rows->closeCursor();
                 $count = $rows_array[0];
-                
+
                 if (!is_null($limit) && $count > $limit) {
                 $count = $limit;
                 }
             }
         } catch (PDOException $e) {
-        
-            $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1); 
+
+            $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1);
             die();
         }
-        
+
         return $res;
         }
-    
-    
+
+
     /**
     * @desc Exec
     * @desc Increase counter
@@ -293,23 +293,23 @@ class db
 
     public function exec( $sql='' )
     {
-        
+
         $this->last_sql = $sql;
-        
+
         if( is_object($this->query_active_reference) )
         {
             $this->query_active_reference->closeCursor();
             $this->query_active_reference = NULL;
         }
-        
+
         $this->exec_counter++;
         $res = $this->db->exec($sql );
-        
+
         $this->execs[] = $sql;
-        
+
         return $res;
     }
-    
+
 }
 
 /**
@@ -318,25 +318,25 @@ class db
 class db_statements
 {
     public $db_statement;
-    
+
     /**
     * @desc Constructor
     */
 
     function __construct($db_pre_s)
     {
-        $this->db_statement = $db_pre_s; 
+        $this->db_statement = $db_pre_s;
     }
-    
+
     /**
     * @desc Non-existing methods
     */
 
     function __call($func, $args)
     {
-        return call_user_func_array(array($this->db_statement, $func), $args);        
+        return call_user_func_array(array($this->db_statement, $func), $args);
     }
-    
+
     /**
     * @desc $stmt->execute
     */
@@ -353,7 +353,14 @@ class db_statements
 
         $db->queries[] = $this->db_statement->queryString;
 
-        $res = $this->db_statement->execute($args);
+        if( count($args) > 0 )
+        {
+            $res = $this->db_statement->execute($args);
+        }
+        else
+        {
+            $res = $this->db_statement->execute();
+        }
 
         if ( $res )
         {
