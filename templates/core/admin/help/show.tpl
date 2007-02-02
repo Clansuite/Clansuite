@@ -13,9 +13,11 @@
     <tr>
         <td style="border-bottom: 1px solid #ACA899; padding: 5px">
             <b>&raquo; {$smarty.request.mod} {if $smarty.request.sub!=''}&raquo; {$smarty.request.sub} {/if}&raquo; {$smarty.request.main_action}</b>
-            <input type="hidden" id="save_mod" name="save_mod" value="{$smarty.request.mod}" />
-            <input type="hidden" id="save_sub" name="save_sub" value="{$smarty.request.sub}" />
-            <input type="hidden" id="save_action" name="save_action" value="{$smarty.request.main_action}" />
+            {if $cfg->help_edit_mode==1}
+                <input type="hidden" id="save_mod" name="save_mod" value="{$smarty.request.mod}" />
+                <input type="hidden" id="save_sub" name="save_sub" value="{$smarty.request.sub}" />
+                <input type="hidden" id="save_action" name="save_action" value="{$smarty.request.main_action}" />
+            {/if}
         </td>
     </tr>
 
