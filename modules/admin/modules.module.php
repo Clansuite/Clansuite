@@ -225,6 +225,29 @@ class module_admin_modules
         $this->output .= $tpl->fetch('admin/modules/show_all.tpl');
     }
 
+    function ajaxupdate_onoffswitch()
+    {
+      global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;  
+        
+        /**
+        * @desc Incoming vars 
+        * urldecode, check if only int, assign as $value
+        */
+        $value = $input->check(urldecode($_POST['value']), 'is_int');
+        
+        //set module activ inactiv
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules 
+                               SET enabled = ? WHERE module_id = ? AND name = ?' );
+        $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+       
+         // return value
+        $this->output .= $value;
+
+        // suppress mainframe
+        $this->suppress_wrapper = true;
+    
+    }
+
     /**
     * @desc Ajax Update Function called from show_all.tpl
     * $_POST
@@ -240,16 +263,18 @@ class module_admin_modules
         $value = urldecode($_POST['value']);
         $cell_string = urldecode($_POST['cell']);
 
-
+        // Pregmatch $cell_string 
         $pattern = '!([0-9]+)_(.+)_(.+)!is';
         if(preg_match($pattern, $cell_string))
         {
             $result = preg_match($pattern, $cell_string, $subpattern);
-
+            
+            // split $cell_string into into vars
             $modules_id      = $subpattern[1];
             $modules_name    = $subpattern[2];
             $modules_dbfield = $subpattern[3];
-
+            
+            // whitelist for $modules_dbfields
             $whitelist = array( 'name',
                                 'author',
                                 'homepage',
@@ -265,19 +290,21 @@ class module_admin_modules
                                 'version',
                                 'cs_version',
                                 'core');
-
+            
+            // check if $modules_dbfield exists in $whitelist
             if( in_array($modules_dbfield, $whitelist) )
             {
-                // update field in db
+                // if yes, update that field in db 
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
                                                                        WHERE module_id = ? AND name = ?' );
                 $stmt->execute( array(  $value, $modules_id, $modules_name ) );
             }
             else
-            {
+            {   
                 $security->intruder_alert();
             }
         }
+        
         // return value
         $this->output .= $value;
 
