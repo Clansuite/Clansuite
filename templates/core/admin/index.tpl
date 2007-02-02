@@ -60,22 +60,19 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             </script>
             {/literal}
 
-            <div style="float: right; font-size: xx-small;">
-            <img onclick="help_toggler(); return false;" style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help" border="0">
-
+            <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
+                <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help" border="0">
                 Help
             </div>
 
             </td>
             <td id="help_toggle" class="admin_header_help" style="display: none;">
                &raquo; {translate}Help{/translate}
-
             </td>
         </tr>
 
         <tr>
             <td width="80%" class="admin_content">
-
                 {$content}
             </td>
 
