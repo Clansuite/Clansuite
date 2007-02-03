@@ -75,7 +75,7 @@ class module_admin_help
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-            
+
             case 'get_helptext':
                 $this->get_helptext();
                 break;
@@ -91,7 +91,7 @@ class module_admin_help
             case 'save_related_links':
                 $this->save_related_links();
                 break;
-            
+
         }
 
         return array( 'OUTPUT'          => $this->output,
@@ -123,17 +123,18 @@ class module_admin_help
         $mod    = $_REQUEST['mod'];
         $sub    = $_REQUEST['sub'];
         $action = $_REQUEST['main_action'];
-        
-        $stmt = $db->prepare( 'SELECT helptext,related_links FROM ' . DB_PREFIX . 'help 
+
+        $stmt = $db->prepare( 'SELECT helptext,related_links FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
-       
+
         // BBCode load class and init
         require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $info['helptext'] = $bbcode->parse($info['helptext']);
-      
+
+        $tpl->assign( 'help_edit_mode', $cfg->help_edit_mode );
         $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
     }
@@ -144,22 +145,22 @@ class module_admin_help
     function get_helptext()
     {
         global $db;
-        
+
           // load smarty_ajax
         require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
         ajax_register('save_helptext');
         ajax_register('save_related_links');
         ajax_process_call();
-        
+
         $mod    = $_GET['m'];
         $sub    = $_GET['s'];
         $action = $_GET['a'];
 
-        $stmt = $db->prepare( 'SELECT helptext FROM ' . DB_PREFIX . 'help 
+        $stmt = $db->prepare( 'SELECT helptext FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $result = $stmt->fetch(PDO::FETCH_NAMED);
-        
+
         // Helptext in Raw from Database
         $this->output = $result['helptext'];
         $this->suppress_wrapper = true;
@@ -171,17 +172,17 @@ class module_admin_help
     function get_related_links()
     {
         global $db;
-        
+
         $mod    = $_GET['m'];
         $sub    = $_GET['s'];
         $action = $_GET['a'];
 
-        $stmt = $db->prepare( 'SELECT related_links FROM ' . DB_PREFIX . 'help 
+        $stmt = $db->prepare( 'SELECT related_links FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $result = $stmt->fetch(PDO::FETCH_NAMED);
-        
-        $this->output = $result['related_links'];        
+
+        $this->output = $result['related_links'];
         $this->suppress_wrapper = true;
     }
 
@@ -205,22 +206,22 @@ class module_admin_help
         $sub            = urldecode($_GET['s']);
         $action         = urldecode($_GET['a']);
         $helptext       = urldecode($_POST['value']);
-               
-        $stmt = $db->prepare( 'SELECT help_id, helptext FROM ' . DB_PREFIX . 'help 
+
+        $stmt = $db->prepare( 'SELECT help_id, helptext FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action, $helptext ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ( is_array( $check ) )
         {
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help 
-                                   SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ? 
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help
+                                   SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ?
                                    WHERE `help_id` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $helptext, $check['help_id'] ) );
         }
         else
         {
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help 
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help
                                    SET `mod` = ?, `sub` = ?, `action` = ?, `helptext` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $helptext ) );
         }
@@ -229,8 +230,8 @@ class module_admin_help
         require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $parsed_helptext = $bbcode->parse($helptext);
-        
-        $this->output .= $parsed_helptext;        
+
+        $this->output .= $parsed_helptext;
         $this->suppress_wrapper = 1;
     }
 
@@ -245,33 +246,33 @@ class module_admin_help
         $sub            = urldecode($_GET['s']);
         $action         = urldecode($_GET['a']);
         $related_links  = urldecode($_POST['value']);
-      
-        $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help 
+
+        $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
         $check = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ( is_array( $check ) )
         {
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help 
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'help
                                    SET `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ? WHERE `help_id` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $related_links, $check['help_id'] ) );
         }
         else
         {
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help 
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'help
                                    SET `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $related_links ) );
         }
-        
+
         /*
         if ( strpos($related_links, "\n") > 0 )
         {
             $related_links_n = explode( "\n", $related_links);
         }
         */
-               
-        $this->output .= $related_links;        
+
+        $this->output .= $related_links;
         $this->suppress_wrapper = 1;
     }
 }
