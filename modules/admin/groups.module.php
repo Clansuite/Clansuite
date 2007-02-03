@@ -305,12 +305,21 @@ class module_admin_groups
         /**
         * @desc Incoming Vars
         */
-        $submit = $_POST['submit'];
+        $submit   = $_POST['submit'];
         $group_id = $_GET['id'];
+        $users    = !empty($_POST['PickList']) ? $_POST['PickList'] : array();
 
         if( !empty( $submit ) )
         {
+            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'user_groups WHERE group_id = ?' );
+            $stmt->execute( array( $group_id ) );
 
+            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'user_groups SET user_id = ?, group_id = ?' );
+            foreach( $users as $id )
+            {
+                $stmt->execute( array ( $id, $group_id ) );
+            }
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The Groupmembers have been set.' ), 'admin' );
         }
         else
         {
@@ -319,22 +328,18 @@ class module_admin_groups
                                    FROM ' . DB_PREFIX . 'user_groups cu,
                                         ' . DB_PREFIX . 'users cs
                                    WHERE cs.user_id = cu.user_id
-                                   AND cu.group_id = ?');
-
+                                   AND cu.group_id = ? ORDER BY nick ASC');
             $stmt2->execute( array ( $group_id ));
             $info['users_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
 
-            // Get the members of the group
-            $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id
-                                   FROM ' . DB_PREFIX . 'user_groups cu,
-                                        ' . DB_PREFIX . 'users cs
-                                   WHERE NOT cs.user_id = cu.user_id
-                                   AND cu.group_id = ? GROUP BY cs.user_id');
-
+            // Get the members not in the group
+            $stmt2 = $db->prepare('SELECT user_id, nick FROM ' . DB_PREFIX . 'users WHERE user_id
+                                   NOT IN( SELECT user_id FROM ' . DB_PREFIX . 'user_groups WHERE group_id = ? ) ORDER BY nick ASC');
             $stmt2->execute( array ( $group_id ));
             $info['users_not_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
         }
 
+        $tpl->assign('group_id', $group_id);
         $tpl->assign('info', $info);
         $this->output .= $tpl->fetch( 'admin/groups/add_members.tpl' );
     }

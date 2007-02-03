@@ -14,10 +14,11 @@ function initIt() {
   var selectList = document.getElementById("SelectList");
   var selectOptions = selectList.options;
   var selectIndex = selectList.selectedIndex;
-  var pickList = document.getElementById("PickList");
+  var pickList = document.getElementById("PickList[]");
   var pickOptions = pickList.options;
   //pickOptions[0] = null;  // Remove initial entry from picklist (was only used to set default width)
-  if (!(selectIndex > -1)) {
+  if (!(selectIndex > -1) && selectOptions[0])
+  {
     selectOptions[0].selected = true;  // Set first selected on load
     selectOptions[0].defaultSelected = true;  // In case of reset/reload
   }
@@ -29,7 +30,7 @@ function addIt() {
   var selectList = document.getElementById("SelectList");
   var selectIndex = selectList.selectedIndex;
   var selectOptions = selectList.options;
-  var pickList = document.getElementById("PickList");
+  var pickList = document.getElementById("PickList[]");
   var pickOptions = pickList.options;
   var pickOLength = pickOptions.length;
   // An item must be selected
@@ -57,7 +58,10 @@ function addIt() {
     selectIndex = selectList.selectedIndex;
     pickOLength = pickOptions.length;
   }
-  selectOptions[0].selected = true;
+  if(selectOptions[0])
+  {
+      selectOptions[0].selected = true;
+  }
 }
 
 // Deletes an item from the picklist
@@ -65,7 +69,7 @@ function delIt() {
   var selectList = document.getElementById("SelectList");
   var selectOptions = selectList.options;
   var selectOLength = selectOptions.length;
-  var pickList = document.getElementById("PickList");
+  var pickList = document.getElementById("PickList[]");
   var pickIndex = pickList.selectedIndex;
   var pickOptions = pickList.options;
   while (pickIndex > -1) {
@@ -96,15 +100,16 @@ function delIt() {
 
 // Selection - invoked on submit
 function selIt(btn) {
-  var pickList = document.getElementById("PickList");
+  var pickList = document.getElementById("PickList[]");
   var pickOptions = pickList.options;
   var pickOLength = pickOptions.length;
-  if (pickOLength < 1) {
-    alert("No Selections in the Picklist\nPlease Select using the [->] button");
-    return false;
-  }
-  for (var i = 0; i < pickOLength; i++) {
-    pickOptions[i].selected = true;
+
+  if (pickOLength >= 1)
+  {
+    for (var i = 0; i < pickOLength; i++)
+    {
+        pickOptions[i].selected = true;
+    }
   }
   return true;
 }

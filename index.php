@@ -325,7 +325,7 @@ else
         {
              if ( $_SESSION['user']['user_id'] == 0 )
              {
-                $functions->redirect('index.php?mod=account&action=login&referer='.urlencode($_SERVER['REQUEST_URI']));
+                $functions->redirect('index.php?mod=account&action=login&referer='.base64_encode($_SERVER['REQUEST_URI']));
              }
              else
              {
