@@ -15,7 +15,7 @@
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}General Settings{/translate}  </td>
+            <td class="td_header_small"  colspan="2">  {translate}General Settings{/translate}  </td>
         </tr>
         </thead>
 
@@ -24,18 +24,18 @@
                     {translate}Page Title{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" />
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small" width="15px" colspan="2">  {translate}Standard Template with Files{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}Standard Template with Files{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Standard Template{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->tpl_name}" name="config[tpl_name]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->tpl_name}" name="config[tpl_name]" />
                 </td>
             </tr>
             <tr>
@@ -43,7 +43,7 @@
                     {translate}Standard Template Wrapper File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->tpl_wrapper_file}" name="config[tpl_wrapper_file]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->tpl_wrapper_file}" name="config[tpl_wrapper_file]" />
                 </td>
             </tr>
               <tr>
@@ -51,7 +51,7 @@
                     {translate}Standard CSS File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_css}" name="config[std_css]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->std_css}" name="config[std_css]" />
                 </td>
             </tr>
             <tr>
@@ -59,29 +59,29 @@
                     {translate}Standard JS File{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_javascript}" name="config[std_javascript]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->std_javascript}" name="config[std_javascript]" />
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small" width="15px" colspan="2">  {translate}Default Language{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}Default Language{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Standard Language{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->language}" name="config[language]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->language}" name="config[language]" />
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small" width="15px" colspan="2">  {translate}Default Module / Action{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}Default Module / Action{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Standard module{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_module}" name="config[std_module]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->std_module}" name="config[std_module]" />
                 </td>
             </tr>
             <tr>
@@ -89,7 +89,7 @@
                     {translate}Standard module action{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" />
                 </td>
             </tr>
         </table>
@@ -102,7 +102,7 @@
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Define Meta Tags{/translate}  </td>
+            <td class="td_header_small"  colspan="2">  {translate}Define Meta Tags{/translate}  </td>
         </tr>
         </thead>
 
@@ -111,7 +111,7 @@
                     {translate}Description{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->meta.description}" name="config[meta][description]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->meta.description}" name="config[meta][description]" />
                 </td>
             </tr>
             <tr>
@@ -119,7 +119,7 @@
                     {translate}Language{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->meta.language}" name="config[meta][language]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->meta.language}" name="config[meta][language]" />
                 </td>
             </tr>
             <tr>
@@ -127,15 +127,15 @@
                     {translate}Author{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->meta.author}" name="config[meta][author]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->meta.author}" name="config[meta][author]" />
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}eMail{/translate}
+                    {translate}Mailer{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->meta.email}" name="config[meta][email]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->meta.email}" name="config[meta][email]" />
                 </td>
             </tr>
             <tr>
@@ -143,11 +143,11 @@
                     {translate}Keywords{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->meta.keywords}" name="config[meta][keywords]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->meta.keywords}" name="config[meta][keywords]" />
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small" width="15px" colspan="2">  {translate}Define Dublin Core Metadata Elements{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}Define Dublin Core Metadata Elements{/translate}  </td>
             </tr>
         </table>
     </div>
@@ -155,11 +155,11 @@
    {* #### TAB PAGE - EMAIL SETTINGS #### *}
 
    <div class="tab-page">
-       <h2 class="tab">{translate}eMail{/translate}</h2>
+       <h2 class="tab">{translate}eMailer{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Mailer Configuration{/translate}  </td>
+            <td class="td_header_small"  colspan="2">  {translate}Mail Server Configuration{/translate}  </td>
         </tr>
         </thead>
 
@@ -183,7 +183,7 @@
                     {translate}Mailerhost{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->mailerhost}" name="config[mailerhost]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->mailerhost}" name="config[mailerhost]" />
                 </td>
             </tr>
             <tr>
@@ -191,23 +191,7 @@
                     {translate}Mailerport{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->mailerport}" name="config[mailerport]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
-                    {translate}SMTP username{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->smtp_username}" name="config[smtp_username]" class="input_text" />
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
-                    {translate}SMTP password{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->smtp_password}" name="config[smtp_password]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->mailerport}" name="config[mailerport]" />
                 </td>
             </tr>
             <tr>
@@ -215,23 +199,45 @@
                     {translate}Mail encryption{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->mailencryption}" name="config[mailencryption]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->mailencryption}" name="config[mailencryption]" />
+                </td>
+            </tr>
+            <tr>
+                <td class="td_header_small"  colspan="2">  {translate}SMPT Auth{/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}SMTP username{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->smtp_username}" name="config[smtp_username]" />
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}From{/translate}
+                    {translate}SMTP password{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->from}" name="config[from]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->smtp_password}" name="config[smtp_password]" />
+                </td>
+            </tr>
+            <tr>
+                <td class="td_header_small"  colspan="2">  {translate}Mail Sender Address{/translate}  </td>
+            </tr>            
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}From (email){/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}From name{/translate}
+                    {translate}From (name){/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->from_name}" name="config[from_name]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->from_name}" name="config[from_name]" />
                 </td>
             </tr>
         </table>
@@ -245,7 +251,7 @@
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Login{/translate}  </td>
+            <td class="td_header_small"  colspan="2">  {translate}Login{/translate}  </td>
         </tr>
         </thead>
 
@@ -265,7 +271,7 @@
                     {translate}Remember me time{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->remember_me_time}" name="config[remember_me_time]" class="input_text" />&nbsp; seconds
+                    <input class="input_text" type="text" value="{$cfg->remember_me_time}" name="config[remember_me_time]" />&nbsp; seconds
                 </td>
             </tr>
             <tr>
@@ -273,7 +279,7 @@
                     {translate}Maximum login attempts{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->max_login_attempts}" name="config[max_login_attempts]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->max_login_attempts}" name="config[max_login_attempts]" />
                 </td>
             </tr>
             <tr>
@@ -281,16 +287,16 @@
                     {translate}Login ban minutes{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->login_ban_minutes}" name="config[login_ban_minutes]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->login_ban_minutes}" name="config[login_ban_minutes]" />
                 </td>
             </tr>
-            <tr><td class="td_header_small" width="15px" colspan=2>  {translate}Password Settings{/translate}  </td></tr>
+            <tr><td class="td_header_small"  colspan=2>  {translate}Password Settings{/translate}  </td></tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Minimum password length{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->min_pass_length}" name="config[min_pass_length]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->min_pass_length}" name="config[min_pass_length]" />
                 </td>
             </tr>
             <tr>
@@ -309,23 +315,12 @@
                     {translate}Salt{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->salt}" name="config[salt]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->salt}" name="config[salt]" />
                 </td>
             </tr>
-        </table>
-   </div>
-
-   {* #### TAB PAGE - SESSION SETTINGS #### *}
-
-   <div class="tab-page">
-       <h2 class="tab">{translate}Session{/translate}</h2>
-        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Session{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">  {translate}Session Parameters{/translate}  </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Use cookies{/translate}
@@ -349,20 +344,34 @@
                     {translate}Session name{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="text" value="{$cfg->session_name}" name="config[session_name]" class="input_text" />
+                    <input class="input_text" type="text" value="{$cfg->session_name}" name="config[session_name]" />
                 </td>
             </tr>
         </table>
    </div>
-
-   {* #### TAB PAGE - ERRORS SETTINGS #### *}
+ 
+  {* #### TAB PAGE - ERRORS SETTINGS #### *}
 
    <div class="tab-page">
-       <h2 class="tab">{translate}Errors{/translate}</h2>
+       <h2 class="tab">{translate}Developers{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <thead>
         <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Error Reporting{/translate}  </td>
+            <td class="td_header_small"  colspan="2">  {translate}Developer Settings{/translate}  </td>
+        </tr>
+        </thead>
+
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Help Edit Mode{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
+                </td>
+            </tr>
+             <tr>
+            <td class="td_header_small"  colspan="2">  {translate}Error Reporting{/translate}  </td>
         </tr>
         </thead>
 
@@ -391,29 +400,6 @@
                 <td class="cell1" style="padding: 3px">
                     <input type="radio" value="1" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 1}checked{/if} /> {translate}yes{/translate}
                     <input type="radio" value="0" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
-                </td>
-            </tr>
-        </table>
-   </div>
-
-   {* #### TAB PAGE - ERRORS SETTINGS #### *}
-
-   <div class="tab-page">
-       <h2 class="tab">{translate}Developers{/translate}</h2>
-        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small" width="15px" colspan="2">  {translate}Developer Settings{/translate}  </td>
-        </tr>
-        </thead>
-
-            <tr>
-                <td class="cell2" width="15%">
-                    {translate}Help Edit Mode{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
         </table>
