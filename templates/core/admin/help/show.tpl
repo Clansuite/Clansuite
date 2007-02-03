@@ -13,7 +13,7 @@
     <tr>
         <td style="border-bottom: 1px solid #ACA899; padding: 5px">
             <b>&raquo; {$smarty.request.mod} {if $smarty.request.sub!=''}&raquo; {$smarty.request.sub} {/if}&raquo; {$smarty.request.main_action}</b>
-            {if $cfg->help_edit_mode==1}
+            {if $help_edit_mode==1}
                 <input type="hidden" id="save_mod" name="save_mod" value="{$smarty.request.mod}" />
                 <input type="hidden" id="save_sub" name="save_sub" value="{$smarty.request.sub}" />
                 <input type="hidden" id="save_action" name="save_action" value="{$smarty.request.main_action}" />
@@ -23,7 +23,7 @@
 
     <tr>
         <td style="border-bottom: 1px solid #ACA899; border-top: 1px solid #FFFFFF; padding: 15px">
-            {if $cfg->help_edit_mode==1}{translate}Click on Helptext to add or edit!{/translate}{/if}
+            {if $help_edit_mode==1}{translate}Click on Helptext to add or edit!{/translate}{/if}
             <div id="helptext">
 
                          {if $info.helptext!=''}
@@ -40,7 +40,7 @@
                         {/if}
             </div>
 
-            {if $cfg->help_edit_mode==1}
+            {if $help_edit_mode==1}
                 {literal}
                  <script type="text/javascript">
                     new Ajax.InPlaceEditor('helptext',
@@ -59,7 +59,7 @@
     </tr>
     <tr>
         <td style="border-top: 1px solid #FFFFFF; padding: 15px">
-         {if $cfg->help_edit_mode==1}{translate}Click on Links to add or edit!{/translate}{/if}
+         {if $help_edit_mode==1}{translate}Click on Links to add or edit!{/translate}{/if}
          <div id="related_links_container">
 
             {if count($info.related_links)!=0}
@@ -72,11 +72,11 @@
             {else}
                 {translate}There are no links assigned.{/translate}
                 <br />
-                {if $cfg->help_edit_mode==1}{translate}Add links (each line a link){/translate}{/if}
+                {if $help_edit_mode==1}{translate}Add links (each line a link){/translate}{/if}
             {/if}
          </div>
 
-        {if $cfg->help_edit_mode==1}
+        {if $help_edit_mode==1}
             {literal}
              <script type="text/javascript">
                 new Ajax.InPlaceEditor('related_links_container',
