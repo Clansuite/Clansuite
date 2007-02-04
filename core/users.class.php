@@ -51,35 +51,35 @@ class users
         switch ($type )
         {
             case 'id':
-                
+
                 break;
-                
+
             case 'email':
-                
+
                 break;
-                
+
             case 'name':
-                
+
                 break;
-                
+
             case 'nick':
-                
+
                 break;
-                
+
             case 'clan_id':
-                
+
                 break;
-                
+
             case 'squad_id':
-                
+
                 break;
-                
+
                 default:
                 // per id! => get('2')
                 break;
         }
     }
-    
+
     /**
     * @desc Create user-object and $_SESSION['user'] array
     */
@@ -87,9 +87,9 @@ class users
     function create_user($user_id = '', $email = '', $nick = '')
     {
         global $db, $session, $lang, $functions;
-             
+
         $user = '';
-        
+
         /**
         * @desc DB User Queries
         */
@@ -99,14 +99,14 @@ class users
             $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
-            
+
         }
         else if ( !empty($email) )
         {
             $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE email = ?');
             $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
-            
+
         }
         else if ( !empty($nick) )
         {
@@ -118,19 +118,19 @@ class users
         {
             $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
             $stmt->execute( array( session_id() ) );
-            $session_res = $stmt->fetch();               
+            $session_res = $stmt->fetch();
         }
-        
+
         $_SESSION[$session->session_name] = session_id();
-        
+
         // check if session-table[user_id] is a valid user-table[user_id]
-        if ( $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
+        if ( isset($session_res) AND $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $session_res['user_id'] ) );
-            $user = $stmt->fetch();  
+            $user = $stmt->fetch();
         }
-        
+
         // check if this user is activated, else reset cookie, session and redirect
         if ( is_array($user) AND $user['activated'] == 0 )
         {
@@ -139,7 +139,7 @@ class users
             $session->_session_destroy(session_id());
             $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
-        
+
         /**
         * @desc Create $_SESSION['user'] array, containing user data
         */
@@ -149,27 +149,27 @@ class users
             /**
             * @desc User infos
             */
-            
+
             $_SESSION['user']['authed']     = 1;
             $_SESSION['user']['user_id']    = $user['user_id'];
-            
+
             $_SESSION['user']['password']   = $user['password'];
             $_SESSION['user']['email']      = $user['email'];
             $_SESSION['user']['nick']       = $user['nick'];
-            
+
             $_SESSION['user']['first_name'] = $user['first_name'];
             $_SESSION['user']['last_name']  = $user['last_name'];
-            
+
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
-            
+
             /**
             * @desc Get Groups & Rights of user_id
             */
-            
+
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
-            
+
             $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_groups WHERE user_id = ?' );
             $stmt->execute( array( $user['user_id'] ) );
             $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -194,34 +194,34 @@ class users
             }
         }
         else // reset $_SESSION['user'] array
-        {   
+        {
             /**
             * @desc User infos
             */
-            
+
             $_SESSION['user']['authed']     = 0;
             $_SESSION['user']['user_id']    = 0;
             $_SESSION['user']['nick']       = $lang->t('Guest');
-            
+
             $_SESSION['user']['password']   = '';
             $_SESSION['user']['email']      = '';
 
-            
+
             $_SESSION['user']['first_name'] = '';
             $_SESSION['user']['last_name']  = '';
-            
+
             $_SESSION['user']['disabled']   = 0;
             $_SESSION['user']['activated']  = 0;
 
             /**
             * @desc Groups & Rights
             */
-            
+
             $_SESSION['user']['groups'] = array();
-            $_SESSION['user']['rights'] = array();            
+            $_SESSION['user']['rights'] = array();
         }
     }
-    
+
     /**
     * @desc Check the user
     * @desc output return $user_id
@@ -230,7 +230,7 @@ class users
     function check_user($login_method = 'nick', $value, $password)
     {
         global $db, $security;
-        
+
         if( $login_method == 'nick' )
         {
             // anhand email user_id, und password auslesen
@@ -238,14 +238,14 @@ class users
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         }
-        
+
         if( $login_method == 'email' )
         {
             // anhand email user_id, und password auslesen
             $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        }        
+        }
 
         // falls $user mit daten gefüllt wurde, das pw überprüfen
         if ( is_array($user) && $user['password'] == $security->db_salted_hash( $password ) )
@@ -260,7 +260,7 @@ class users
             return false;
         }
     }
-    
+
     /**
     * @desc Login the user
     * @desc input $user_id, $rememberme
@@ -269,37 +269,37 @@ class users
     function login($user_id, $remember_me, $password)
     {
         global $db, $security, $cfg;
-        
+
         // 1. Benutzerdaten holen
         // anhand $user_id entsprechende userdata in Session ablegen
         $this->create_user($user_id);
-        
-        // 2. Remember-Me 
+
+        // 2. Remember-Me
         // ( Logindata als Cookie ablegen )
-        
+
         if ( $remember_me == 1 )
         {
             setcookie('user_id', $user_id, time() + $cfg->remember_me_time);
             setcookie('password',$security->build_salted_hash( $password ), time() + $cfg->remember_me_time);
         }
-        
+
         // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
         // Es lassen sich also Guest-Session und User-Session unterscheiden.
         $this->session_set_user_id();
-                
+
         // 4. Login attempts löschen
         unset($_SESSION['login_attempts']);
-        
+
         // 5. Stats-Updaten
         //
     }
-    
+
     /**
-    * @desc Es wird überprüft, ob ein Login Cookie gesetzt ist. 
+    * @desc Es wird überprüft, ob ein Login Cookie gesetzt ist.
     */
 
-    function check_login_cookie() 
-    { 
+    function check_login_cookie()
+    {
         global $db, $security, $cfg;
 
         /**
@@ -316,10 +316,10 @@ class users
             * @desc Proceed if match
             */
 
-	        if (    is_array($user) && 
+	        if (    is_array($user) &&
                     $security->build_salted_hash( $_COOKIE['password'] ) == $user['password'] &&
-                    $_COOKIE['user_id'] == $user['user_id'] ) 
-		    
+                    $_COOKIE['user_id'] == $user['user_id'] )
+
 		    {
                 /**
                 * @desc Update the cookie
@@ -327,19 +327,19 @@ class users
 
                 setcookie('user_id', $_COOKIE['user_id'], time() + $cfg->remember_me_time);
                 setcookie('password',$_COOKIE['password'], time() + $cfg->remember_me_time);
-                
+
                 /**
                 * @desc Create $_SESSION['user']
                 */
 
                 $this->create_user($user['user_id']);
-	            
+
 	       	    /**
                 * @desc Update Session in DB
                 */
 
 			    $this->session_set_user_id();
-	        
+
 	        }
             else
             {
@@ -348,7 +348,7 @@ class users
                 */
 
         	    setcookie('user_id', false );
-        		setcookie('password', false );    
+        		setcookie('password', false );
 	        }
         }
     }
@@ -358,21 +358,21 @@ class users
     * @desc Bind user_id to session
     */
 
-    function session_set_user_id() 
+    function session_set_user_id()
     {
 	    global $db, $session;
-	    
+
 	    $stmt = $db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
         $stmt->execute( array( session_id() ) );
         $session_res = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($session_res['session_id'] == $_SESSION[$session->session_name] )
         {
             // fügt der jeweiligen Session die user_id hinzu
             $stmt = $db->prepare('UPDATE '. DB_PREFIX .'session SET user_id = ? WHERE session_id = ?');
-            $stmt->execute( array(  $_SESSION['user']['user_id'], 
+            $stmt->execute( array(  $_SESSION['user']['user_id'],
                                     $_SESSION[$session->session_name] ) );
         }
-	}    
+	}
 }
 ?>
