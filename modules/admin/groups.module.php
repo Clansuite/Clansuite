@@ -60,10 +60,9 @@ if (!defined('IN_CS'))
 //----------------------------------------------------------------
 class module_admin_groups
 {
-    public $output          = '';
-
-    public $additional_head = '';
-    public $suppress_wrapper= '';
+    public $output              = '';
+    public $additional_head     = '';
+    public $suppress_wrapper    = '';
 
     //----------------------------------------------------------------
     // First function to run - switches between $_REQUEST['action'] Vars to the functions
@@ -78,7 +77,8 @@ class module_admin_groups
         $trail->addStep($lang->t('Groups'), '/index.php?mod=admin&sub=groups');
 
         switch ($_REQUEST['action'])
-        {
+        {   
+            // direct actions on groups
             default:
             case 'show':
                 $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=groups&action=show');
@@ -87,32 +87,32 @@ class module_admin_groups
 
             case 'create':
                 $trail->addStep($lang->t('Create a new group'), '/index.php?mod=admin&sub=groups&action=create');
-                $this->create();
+                $this->create_group();
                 break;
 
+            case 'edit':
+                $trail->addStep($lang->t('Edit a group'), '/index.php?mod=admin&sub=groups&action=edit');
+                $this->edit_group();
+                break;
+
+            case 'delete':
+                $this->delete_group();
+                break;
+            
+            // indirect actions related to groups/membership operations
+            case 'members':
+                $trail->addStep($lang->t('Show Group and its Members'), '/index.php?mod=admin&sub=groups&action=members');
+                $this->show_group_members($group_id);
+                break;
+            
             case 'add_members':
                 $trail->addStep($lang->t('Add members'), '/index.php?mod=admin&sub=groups&action=add_members');
                 $this->add_members();
                 break;
 
-            case 'edit':
-                $trail->addStep($lang->t('Edit a group'), '/index.php?mod=admin&sub=groups&action=edit');
-                $this->edit();
-                break;
-
-            case 'delete':
-                $this->delete();
-                break;
-
-            case 'members':
-                $trail->addStep($lang->t('Show Group and its Members'), '/index.php?mod=admin&sub=groups&action=members');
-                $this->show_group_members($group_id);
-                break;
-
          }
 
         return array( 'OUTPUT'          => $this->output,
-
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -120,25 +120,24 @@ class module_admin_groups
     /**
     * @desc Show all groups
     */
+    /**
+     * Sets the color of the eyes.
+     *
+     * @param  string $eyeColor Color of the eyes
+     * @return boolean
+     */
     function show_groups()
     {
         global $db, $tpl, $error, $lang;
 
-        /**
-        * @desc Init
-        */
+        // init
         $icons  = array();
         $groups = array();
 
-        /**
-        * @desc Extrapolate icons from dir
-        */
+        // Extrapolate icons from dir
         $icons = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
 
-        /**
-        * @desc Get the DB result sets
-        * Abfrage der Benutzergruppen
-        */
+        // Get the DB result sets (get the usergroups)
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups ORDER BY sortorder ASC' );
         $stmt->execute();
         $groups = $stmt->fetchAll(PDO::FETCH_NAMED);
@@ -161,9 +160,7 @@ class module_admin_groups
             $groups[$i]['users'] = $user_in_group;
         }
 
-        /**
-        * @desc Assing to template & output
-        */
+        // Assing to template & output
         $tpl->assign( 'icons'   , $icons );
         $tpl->assign( 'groups'  , $groups );
 
@@ -171,21 +168,18 @@ class module_admin_groups
     }
 
     /**
-    * @desc Create a new group
+    * @desc Creates a new group
     */
-    function create()
+    function create_group()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
 
-        /**
-        * @desc Init
-        */
+        // Init
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
         $sets       = '';
-        /**
-        * @desc Icons & Images
-        */
+        
+        // Icons & Images
         $icons  = array();
         foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
@@ -201,9 +195,7 @@ class module_admin_groups
         }
         $tpl->assign( 'images'   , $images );
 
-        /**
-        * @desc Select the areas and assing the rights
-        */
+        // Select the areas and assing the rights
         $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas' );
         $stmt3->execute();
         $areas_result = $stmt3->fetchAll(PDO::FETCH_ASSOC);
@@ -222,9 +214,7 @@ class module_admin_groups
 
         if ( !empty( $submit ) )
         {
-            /**
-            * @desc Group already stored?
-            */
+            // Group already stored?
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
             $stmt->execute( array( $info['name'] ) );
             $group = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -233,9 +223,7 @@ class module_admin_groups
                 $err['name_already'] = 1;
             }
 
-            /**
-            * @desc Form filled?
-            */
+            // Form filled?
             if( empty($info['name']) OR
                 empty($info['description']))
             {
@@ -243,14 +231,10 @@ class module_admin_groups
             }
         }
 
-        /**
-        * @desc No errors - procceed to edit
-        */
+        // No errors - procceed to edit
         if ( !empty($submit) AND count($err) == 0 )
         {
-            /**
-            * @desc Update the DB
-            */
+            // Update the DB
             $sets =  'sortorder = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'groups SET ' . $sets );
             $stmt->execute( array ( $info['sortorder'],
@@ -261,16 +245,12 @@ class module_admin_groups
                                     $info['color'] ) );
 
 
-            /**
-            * @desc Get the id
-            */
+            // Get the id
             $stmt = $db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'groups WHERE name = ?' );
             $stmt->execute( array( $info['name'] ) );
             $id_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            /**
-            * @desc Insert the rights
-            */
+            // Insert the rights
             $sets =  'right_id = ?, group_id = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
             $info['rights'] = array_unique( $info['rights'] );
@@ -279,20 +259,14 @@ class module_admin_groups
                 $stmt->execute( array ( $right_id, $id_array['group_id'] ) );
             }
 
-            /**
-            * @desc Redirect...
-            */
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group has been created.' ), 'admin' );
-
+            // Redirect...
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'The group has been created.' ), 'admin' );
         }
 
-        /**
-        * @desc Assign & Show template
-        */
+        // Assign & Show template
         $tpl->assign( 'areas'       , $areas );
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch('admin/groups/create.tpl');
-
     }
 
     /**
@@ -302,9 +276,7 @@ class module_admin_groups
     {
         global $db, $tpl, $error, $lang, $functions, $input;
 
-        /**
-        * @desc Incoming Vars
-        */
+        // Incoming Vars
         $submit   = $_POST['submit'];
         $group_id = $_GET['id'];
         $users    = !empty($_POST['PickList']) ? $_POST['PickList'] : array();
@@ -319,7 +291,7 @@ class module_admin_groups
             {
                 $stmt->execute( array ( $id, $group_id ) );
             }
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The Groupmembers have been set.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'The Groupmembers have been set.' ), 'admin' );
         }
         else
         {
@@ -347,13 +319,11 @@ class module_admin_groups
     /**
     * @desc Edit a group
     */
-    function edit()
+    function edit_group()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
 
-        /**
-        * @desc Init
-        */
+        // Init
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
         $id         = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['id'];
@@ -361,9 +331,7 @@ class module_admin_groups
         $images     = array();
         $icons      = array();
 
-        /**
-        * @desc Get the images
-        */
+        // Get the images
         foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);
@@ -377,9 +345,7 @@ class module_admin_groups
         }
         $tpl->assign( 'images'   , $images );
 
-        /**
-        * @desc Group already stored?
-        */
+        // Group already stored?
         if( !empty( $submit ) )
         {
             if ( !empty( $info['name'] ) )
@@ -395,16 +361,12 @@ class module_admin_groups
         }
         else
         {
-            /**
-            * @desc Select the group
-            */
+            // Select the group
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
             $stmt->execute( array( $id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            /**
-            * @desc Select the permissions of group
-            */
+            // Select the permissions of group
             $info['rights'] = array();
             $stmt2 = $db->prepare('SELECT tr.name, ug.right_id
                                    FROM ' . DB_PREFIX . 'group_rights ug,
@@ -419,9 +381,7 @@ class module_admin_groups
                 $info['rights'][$r_temp['right_id']] = $r_temp;
             }
 
-            /**
-            * @desc Select the areas and asigning the rights
-            */
+            // Select the areas and asigning the rights
             $info['areas'] = array();
             $stmt3 = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'areas ORDER BY name ASC' );
             $stmt3->execute();
@@ -440,9 +400,7 @@ class module_admin_groups
             }
         }
 
-        /**
-        * @desc Form filled?
-        */
+        // Form filled?
         if( ( empty($info['name'] ) OR
               empty($info['description']) ) AND !empty($submit) )
         {
@@ -451,9 +409,7 @@ class module_admin_groups
 
         if ( !empty($submit) AND count($err) == 0 )
         {
-            /**
-            * @desc Update the DB
-            */
+            // Update the DB
             $sets =  'sortorder = ?, name = ?, description = ?, icon = ?, image = ?, color = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'groups SET ' . $sets . ' WHERE group_id = ?' );
             $stmt->execute( array ( $info['sortorder'],
@@ -464,9 +420,7 @@ class module_admin_groups
                                     $info['color'],
                                     $info['group_id'] ) );
 
-            /**
-            * @desc Drop & Insert the rights
-            */
+            // Drop & Insert the rights
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_rights WHERE group_id = ?' );
             $stmt->execute( array ( $info['group_id'] ) );
 
@@ -478,16 +432,12 @@ class module_admin_groups
                 $stmt->execute( array ( $right_id, $info['group_id'] ) );
             }
 
-            /**
-            * @desc Redirect...
-            */
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show', 'metatag|newsite', 3, $lang->t( 'The group has been edited.' ), 'admin' );
+            // Redirect to main
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'The group has been edited.' ), 'admin' );
 
         }
 
-        /**
-        * @desc Assign & show template
-        */
+        // Assign & show template
         $tpl->assign( 'err'         , $err );
         $tpl->assign( 'info'        , $info );
         $this->output .= $tpl->fetch('admin/groups/edit.tpl');
@@ -496,13 +446,11 @@ class module_admin_groups
     /**
     * @desc Delete the groups list
     */
-    function delete()
+    function delete_group()
     {
         global $db, $functions, $input, $lang;
 
-        /**
-        * @desc Init
-        */
+        // Init
         $submit     = $_POST['submit'];
         $confirm    = $_POST['confirm'];
         $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
@@ -510,22 +458,19 @@ class module_admin_groups
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
 
+        // Check, if there is a delete request
         if ( count($delete) < 1 )
         {
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'No groups selected to delete! Aborted... ' ), 'admin' );
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'No groups selected to delete! Aborted... ' ), 'admin' );
         }
 
-        /**
-        * @desc Abort...
-        */
+        // Abort...
         if ( isset( $_POST['abort'] ) )
         {
-            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all' );
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups' );
         }
 
-        /**
-        * @desc Select from DB
-        */
+        // Select from DB
         $stmt = $db->prepare( 'SELECT group_id, name FROM ' . DB_PREFIX . 'groups' );
         $stmt->execute();
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -538,10 +483,7 @@ class module_admin_groups
             }
         }
 
-
-        /**
-        * @desc Delete Groups
-        */
+        // Delete Groups
         foreach( $all_groups as $key => $value )
         {
             if ( count ( $delete ) > 0 )
@@ -565,7 +507,8 @@ class module_admin_groups
             }
         }
 
-        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_all', 'metatag|newsite', 3, $lang->t( 'The groups have been delete.' ), 'admin' );
+        // Redirect to main
+        $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'The groups have been delete.' ), 'admin' );
 
     }
 
