@@ -169,12 +169,12 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[mailmethod]" class="input_text">
-                        <option value="mail" {if $cfg->mailmethod == mail}selected{/if}>{translate}Normal{/translate}</option>
-                        <option value="smtp" {if $cfg->mailmethod == smtp}selected{/if}>{translate}SMTP{/translate}</option>
-                        <option value="sendmail" {if $cfg->mailmethod == sendmail}selected{/if}>{translate}Sendmail{/translate}</option>
-                        <option value="exim" {if $cfg->mailmethod == exim}selected{/if}>{translate}Exim{/translate}</option>
-                        <option value="qmail" {if $cfg->mailmethod == qmail}selected{/if}>{translate}Qmail{/translate}</option>
-                        <option value="postfix" {if $cfg->mailmethod == postfix}selected{/if}>{translate}PostFix{/translate}</option>
+                        <option value="mail" {if $cfg->mailmethod == 'mail'}selected{/if}>{translate}Normal{/translate}</option>
+                        <option value="smtp" {if $cfg->mailmethod == 'smtp'}selected{/if}>{translate}SMTP{/translate}</option>
+                        <option value="sendmail" {if $cfg->mailmethod == 'sendmail'}selected{/if}>{translate}Sendmail{/translate}</option>
+                        <option value="exim" {if $cfg->mailmethod == 'exim'}selected{/if}>{translate}Exim{/translate}</option>
+                        <option value="qmail" {if $cfg->mailmethod == 'qmail'}selected{/if}>{translate}Qmail{/translate}</option>
+                        <option value="postfix" {if $cfg->mailmethod == 'postfix'}selected{/if}>{translate}PostFix{/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -261,8 +261,8 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[login_method]" class="input_text">
-                        <option value="nick" {if $cfg->login_method == nick}selected{/if}>{translate}By nickname{/translate}</option>
-                        <option value="email" {if $cfg->login_method == email}selected{/if}>{translate}By eMail{/translate}</option>
+                        <option value="nick" {if $cfg->login_method == 'nick'}selected{/if}>{translate}By nickname{/translate}</option>
+                        <option value="email" {if $cfg->login_method == 'email'}selected{/if}>{translate}By eMail{/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -305,8 +305,8 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[encryption]" class="input_text">
-                        <option value="md5" {if $cfg->encryption == md5}selected{/if}>{translate}MD5 (faster){/translate}</option>
-                        <option value="sha1" {if $cfg->encryption == sha1}selected{/if}>{translate}SHA1 (more secure){/translate}</option>
+                        <option value="md5" {if $cfg->encryption == 'md5'}selected{/if}>{translate}MD5 (faster){/translate}</option>
+                        <option value="sha1" {if $cfg->encryption == 'sha1'}selected{/if}>{translate}SHA1 (more secure){/translate}</option>
                     </select>
                 </td>
             </tr>

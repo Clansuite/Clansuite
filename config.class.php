@@ -132,7 +132,7 @@ class config
         // Session configuration
 
         $this->use_cookies = 1;
-        $this->use_cookies = 1;
+        $this->use_cookies_only = 0;
         $this->session_name = 'suiteSID';
 
         // Error Handling
