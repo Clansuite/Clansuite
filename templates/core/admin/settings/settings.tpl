@@ -223,7 +223,7 @@
             </tr>
             <tr>
                 <td class="td_header_small"  colspan="2">  {translate}Mail Sender Address{/translate}  </td>
-            </tr>            
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}From (email){/translate}
@@ -326,8 +326,8 @@
                     {translate}Use cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies]" class="input_text" {if $cfg->use_cookies == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[use_cookies]" class="input_text" {if $cfg->use_cookies == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[use_cookies]" {if $cfg->use_cookies == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[use_cookies]" {if $cfg->use_cookies == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -335,8 +335,8 @@
                     {translate}Use only cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies_only]" class="input_text" {if $cfg->use_cookies_only == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[use_cookies_only]" class="input_text" {if $cfg->use_cookies_only == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -349,7 +349,7 @@
             </tr>
         </table>
    </div>
- 
+
   {* #### TAB PAGE - ERRORS SETTINGS #### *}
 
    <div class="tab-page">
@@ -366,8 +366,8 @@
                     {translate}Help Edit Mode{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[help_edit_mode]" class="input_text" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
              <tr>
@@ -380,8 +380,8 @@
                     {translate}Suppress Errors{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[suppress_errors]" class="input_text" {if $cfg->suppress_errors == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[suppress_errors]" class="input_text" {if $cfg->suppress_errors == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[suppress_errors]" {if $cfg->suppress_errors == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[suppress_errors]" {if $cfg->suppress_errors == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -389,8 +389,8 @@
                     {translate}Debugging{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[debug]" class="input_text" {if $cfg->debug == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[debug]" class="input_text" {if $cfg->debug == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[debug]" {if $cfg->debug == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[debug]" {if $cfg->debug == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -398,8 +398,8 @@
                     {translate}Debugging in a popup{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[debug_popup]" class="input_text" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[debug_popup]" {if $cfg->debug_popup == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[debug_popup]" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
                 </td>
             </tr>
         </table>

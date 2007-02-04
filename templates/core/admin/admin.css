@@ -1,10 +1,10 @@
 body
-{   margin: 0px; 
+{   margin: 0px;
     padding: 0px;
-    background: #E4E0C7; 
+    background: #E4E0C7;
     /* background: url(../images/bgr.png); */
     font-family: tahoma, verdana, arial, sans-serif;
-    font-size: 11px; 
+    font-size: 11px;
     margin: 2em;
 }
 
@@ -84,18 +84,18 @@ a:hover
 
 
 .crudbutton
-{   
+{
     text-align: center;
-   
+
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    
+
     padding: 3px;
     /* width: 30%; */
     height: 14px;
-    
-    
+
+
     position:relative;
     border: 1px solid #F1EFE2;
     z-index: 5;
@@ -107,7 +107,7 @@ a:hover
     background-color: #ffffff;
     border: 1px solid #ACA899;
 }
-    
+
 .redirect
 {
     padding: 10px;
@@ -131,7 +131,10 @@ a:hover
     font-weight: bold;
 }
 
-form input, form textarea, form select {
+form input,
+form textarea,
+form select
+{
 	width:auto;      /* auto-size, otherwise watch for wrap on resize */
 	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
                               label aligns textarea better in IE */
@@ -146,16 +149,16 @@ form input, form textarea, form select {
     font-size: 11px;
 }
 
-select.input_text
+form select.input_text
 {
-    height: 15px;
+    height: auto;
 }
 
 .input_textarea
 {
     border: 1px solid black;
     font-family: tahoma, verdana, arial, sans-serif;
-    font-size: 11px;     
+    font-size: 11px;
 }
 
 .checkbox
@@ -163,7 +166,7 @@ select.input_text
     border: 1px solid black;
 }
 
-img { 
+img {
     border: 0px;
 }
 
@@ -172,10 +175,10 @@ table td
     vertical-align: top;
 }
 
-p 
+p
 {
     font-family: tahoma, verdana, arial, sans-serif;
-    font-size: 11px; 
+    font-size: 11px;
     margin: 2em;
 }
 
@@ -192,11 +195,11 @@ table.admintable thead th
 }
 
 table.admintable tbody
-{   
+{
     background: #ECE9D8;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    cursor: default; 
+    cursor: default;
 }
 
 table.admintable td{
@@ -208,7 +211,7 @@ table.admintable td{
 }
 
 table.admintable tr#cell2
-{   
+{
     background: #E4E0C7;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
@@ -216,7 +219,7 @@ table.admintable tr#cell2
 }
 
 table.admintable tr#cell3
-{   
+{
     background: #E4E0C7;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
@@ -229,7 +232,7 @@ table.admintable tr#cell3
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     padding: 5px;
-    cursor: default;    
+    cursor: default;
 }
 
 .tr_row2 td
@@ -265,7 +268,7 @@ table.admintable tr#cell3
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     padding: 0px;
-    cursor: default;    
+    cursor: default;
 }
 
 .td_header
@@ -289,7 +292,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-	background: url(../images/td_header.gif) repeat-x;    
+	background: url(../images/td_header.gif) repeat-x;
 }
 
 .tr_header_small td
@@ -315,7 +318,7 @@ table.admintable tr#cell3
     font-size: 12px;
     font-weight: bold;
 }
- 
+
 .left_menu
 {
     font-family: tahoma, verdana, arial, sans-serif;
@@ -325,7 +328,7 @@ table.admintable tr#cell3
 .right_menu
 {
     font-family: tahoma, verdana, arial, sans-serif;
-    font-size: 11px; 
+    font-size: 11px;
     margin: 2em;
 }
 
@@ -346,16 +349,16 @@ table.admintable tr#cell3
 }
 
 .menugradient {
-    
-    height: 24px; 
-    
+
+    height: 24px;
+
     background: #ECE9D8;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     /* overflow: auto; Aufgrund des Floatens der Innencontainer */
     padding-top:    1px;
     padding-bottom: 1px;
-    
+
 }
 
 .bar
@@ -365,19 +368,19 @@ table.admintable tr#cell3
 }
 
 .search
-{   
+{
     vertical-align: middle;
     height: 30px;
     float:  right;
     width:  auto;
-    margin-right: 5px; 
+    margin-right: 5px;
 }
 
-.search input, 
-.search select 
-{     
+.search input,
+.search select
+{
     font-family: georgia, tahoma, verdana;
-    font-size: 12px;  
+    font-size: 12px;
     margin-top: 4px;
 }
 
@@ -485,7 +488,7 @@ table.admintable tr#cell3
 	width: 100%;
 	margin: 0px;
 	left: 0px;
-	bottom: 0px; 
+	bottom: 0px;
 	/* top: 0px; */
 	height: 20px;
 	background-color: #FFFF99;
