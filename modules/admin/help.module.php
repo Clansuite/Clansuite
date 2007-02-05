@@ -146,7 +146,7 @@ class module_admin_help
     {
         global $db;
 
-          // load smarty_ajax
+        // load smarty_ajax
         require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
         ajax_register('save_helptext');
         ajax_register('save_related_links');
@@ -272,7 +272,12 @@ class module_admin_help
         }
         */
 
-        $this->output .= $related_links;
+        // Transform RAW text to BB-formatted Text
+        require_once( CORE_ROOT . '/bbcode.class.php' );
+        $bbcode = new bbcode();
+        $parsed_related_links = $bbcode->parse($related_links);
+
+        $this->output .= $parsed_related_links;
         $this->suppress_wrapper = 1;
     }
 }
