@@ -1,15 +1,26 @@
+{* Debug of Array 
+                    {$info|@var_dump}
+                    {$info.users_not_in_group|@var_dump}
+                    {$info.users_in_group|@var_dump} 
+                    {$info.group|@var_dump}
+*} 
+
+
 {doc_raw}
 <script src="{$www_core_tpl_root}/javascript/picklist.js" type="text/javascript"></script>
 {/doc_raw}
 
-<form action="index.php?mod=admin&sub=groups&action=add_members&id={$group_id}" method="POST" onSubmit="return selIt();">
+<form action="index.php?mod=admin&sub=groups&action=add_members&id={$info.group_id}" method="POST" onSubmit="return selIt();">
 
-    <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
-        <tr class="tr_header">
+    <table class"admintable" cellpadding="0" cellspacing="0" border="0" width="700" align="center">
+        <thead>
+        <tr class="tr_header"><td colspan="3" style="text-align: center;"><img src="{$info.group.icon}" alt="Icon " ><font color="{$info.group.color}">{$info.group.name}</font> - <small>{$info.group.description}</small></td></tr>
+        <tr class="tr_header_small">
             <td align="center">{translate}Members not in the group{/translate}</td>
             <td align="center">{translate}Opt.{/translate}</td>
             <td align="center">{translate}Members in the group{/translate}</td>
         </tr>
+        </thead>
         <tr>
             <td class="cell1" align="center">
                 <select multiple="multiple" name="SelectList" id="SelectList" class="input_textarea" style="width: 200px" size="15">
@@ -33,7 +44,7 @@
         <tr>
             <td class="cell2" align="right" colspan="3">
                 <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=groups'"/>
-                <input type="Button" value="{translate}Reset{/translate}" class="ButtonGrey" onClick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$group_id}'"/>
+                <input type="Button" value="{translate}Reset{/translate}" class="ButtonGrey" onClick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$info.group_id}'"/>
                 <input type="submit" name="submit" value="{translate}Set Members{/translate}" class="ButtonGreen" />
             </td>
         </tr>

@@ -296,11 +296,11 @@ class module_admin_groups
         else
         {
             // Get the members of the group
-            $stmt2 = $db->prepare('SELECT cs.nick, cs.user_id
-                                   FROM ' . DB_PREFIX . 'user_groups cu,
-                                        ' . DB_PREFIX . 'users cs
-                                   WHERE cs.user_id = cu.user_id
-                                   AND cu.group_id = ? ORDER BY nick ASC');
+            $stmt2 = $db->prepare('SELECT u.nick, u.user_id
+                                   FROM ' . DB_PREFIX . 'users u,
+                                        ' . DB_PREFIX . 'user_groups ug
+                                   WHERE u.user_id = ug.user_id
+                                   AND ug.group_id = ? ORDER BY nick ASC');
             $stmt2->execute( array ( $group_id ));
             $info['users_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
 
@@ -309,9 +309,15 @@ class module_admin_groups
                                    NOT IN( SELECT user_id FROM ' . DB_PREFIX . 'user_groups WHERE group_id = ? ) ORDER BY nick ASC');
             $stmt2->execute( array ( $group_id ));
             $info['users_not_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
-        }
+            
+            // Get Informations about $group_id
+            $stmt3 = $db->prepare('SELECT g.*
+                                   FROM ' . DB_PREFIX . 'groups g
+                                   WHERE g.group_id = ?');
+            $stmt3->execute( array ( $group_id ));
+            $info['group'] = $stmt3->fetch(PDO::FETCH_NAMED);
+       }
 
-        $tpl->assign('group_id', $group_id);
         $tpl->assign('info', $info);
         $this->output .= $tpl->fetch( 'admin/groups/add_members.tpl' );
     }
