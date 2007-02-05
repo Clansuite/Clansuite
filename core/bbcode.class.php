@@ -60,13 +60,13 @@ class bbcode
         /**
         * @desc Generate Standard BB Codes such as [url][/url] etc.
         */
-        $this->bb_code->addCode ('url', 'usecontent?', 'do_bbcode_url', array ('usecontent_param' => 'default'),
+        $this->bb_code->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bb_code->addCode ('link', 'callback_replace_single', 'do_bbcode_url', array (),
+        $this->bb_code->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bb_code->addCode ('img', 'usecontent', 'do_bbcode_img', array (),
+        $this->bb_code->addCode ('img', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
                           'image', array ('listitem', 'block', 'inline', 'link'), array ());
-        $this->bb_code->addCode ('bild', 'usecontent', 'do_bbcode_img', array (),
+        $this->bb_code->addCode ('bild', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
                           'image', array ('listitem', 'block', 'inline', 'link'), array ());
         $this->bb_code->setOccurrenceType ('img', 'image');
         $this->bb_code->setOccurrenceType ('bild', 'image');
