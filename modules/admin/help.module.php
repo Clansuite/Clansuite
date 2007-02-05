@@ -133,6 +133,7 @@ class module_admin_help
         require_once( CORE_ROOT . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $info['helptext'] = $bbcode->parse($info['helptext']);
+        $info['related_links'] = $bbcode->parse($info['related_links']);
 
         $tpl->assign( 'help_edit_mode', $cfg->help_edit_mode );
         $tpl->assign( 'info' , $info );
