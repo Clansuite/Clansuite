@@ -61,8 +61,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             {/literal}
 
             <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
-                <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help" border="0">
-                Help
+                <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help Toggle" border="0">
+            {translate}Help{/translate}
             </div>
 
             </td>

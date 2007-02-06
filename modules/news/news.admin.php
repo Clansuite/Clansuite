@@ -1,9 +1,8 @@
 <?php
 /**
-* admin
-* News module
+* new.admin.php
+* Modul - News - Admin Interface
 *
-* PHP >= version 5.1.4
 *
 * LICENSE:
 *
@@ -22,10 +21,10 @@
 *
 * @author     Florian Wolf <xsign.dll@clansuite.com>
 * @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
+* @copyright  2005-2007 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Jens-André Koch, Florian Wolf
+* @author     Jens-André Koch
 * @copyright  Clansuite Group
 * @license    GPL v2
 * @version    SVN: $Id$
@@ -39,6 +38,7 @@ if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
+
 
 /**
 * @desc Start module class
@@ -56,8 +56,7 @@ class module_news_admin
 
     function auto_run()
     {
-        
-        global $lang;
+        global $lang, $trail;
         $params = func_get_args();
         
         // Set Pagetitle and Breadcrumbs
@@ -75,11 +74,9 @@ class module_news_admin
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-             
         }
         
         return array( 'OUTPUT'          => $this->output,
-                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -91,10 +88,74 @@ class module_news_admin
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
-         
+        // Smarty Pagination load and init
+        require(ROOT . 'core/smarty/SmartyPaginate.class.php');
+        // required connect
+        SmartyPaginate::connect();
+        // set URL
+        SmartyPaginate::setUrl('index.php?mod=news&action=archiv');
+        SmartyPaginate::setUrlVar('page');
+        // set items per page
+        SmartyPaginate::setLimit(20);
+
+
+        // SmartyColumnSort -- Easy sorting of html table columns.
+        require(ROOT . 'core/smarty/SmartyColumnSort.class.php');
+        // A list of database columns to use in the table.
+        // The third column "age" is having descending sort order as default.
+        $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick');
+        // Create the columnsort object
+        $columnsort = &new SmartyColumnSort($columns);
+        // And set the the default sort column and order.
+        $columnsort->setDefault('n.news_added', 'desc');
+        // Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+
+        echo $sortorder;
+
+        // $newsarchiv = newsentries mit nick und category
+        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
+                                     n.user_id, u.nick,
+                                     n.cat_id, c.name as cat_name, c.image as cat_image
+                                FROM ' . DB_PREFIX .'news n
+                                LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
+                                LEFT JOIN '. DB_PREFIX .'categories c
+                                ON ( n.cat_id = c.cat_id AND
+                                     c.module_id = ? )
+                                WHERE n.news_hidden = ?
+                                ORDER BY ? LIMIT ?,?');
+
+        // TODO: news with status: draft, published, private, private+protected
+        $hidden = '0';
+        $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
+        $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
+        $stmt->bindParam(3, $sortorder, PDO::PARAM_STR );
+        $stmt->bindParam(4, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(5, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->execute();
+        $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // Get Number of Rows
+        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
+        $rows->execute();
+        $count = count($rows->fetchALL(PDO::FETCH_NUM));
+        // DEBUG - show total numbers of last Select
+        // echo 'Found Rows: ' . $count;
         
-        
-        
+        // Finally: assign total number of rows to SmartyPaginate
+        SmartyPaginate::setTotal($count);
+        // assign the {$paginate} to $tpl (smarty var)
+        SmartyPaginate::assign($tpl);
+
+        // $categories for module_news
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // give $newslist array to Smarty for template output
+        $tpl->assign('newsarchiv', $newsarchiv);
+        $tpl->assign('newscategories', $newscategories);
+ 
        $this->output = $tpl->fetch('news/show_admin.tpl');
     }
     
