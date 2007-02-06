@@ -27,7 +27,7 @@
     <tr>
          <td colspan="2">Kategorie-Auswahl:
             
-            <form method="post" name="news_list" action="/index.php?mod=news&amp;action=archiv">
+            <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
             <select name="cat_id" class="form">
                 <option value="0">----</option>
                 
@@ -45,33 +45,23 @@
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr>
-        <th>{columnsort asc_image="$www_core_tpl_root/images/icons/asc.png" 
-                        desc_image="$www_core_tpl_root/images/icons/desc.png" 
-                        html="Datum"}</th>
-        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
-                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
-                        selected_class="selected"  
+        <th>{columnsort html="Datum"}</th>
+        <th>{columnsort selected_class="selected"  
                         html='Title'}</th>
-        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
-                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
-                        selected_class="selected"  
-                        html='Kategorie'}</th>
-        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
-                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
-                        selected_class="selected"  
-                        html='Verfasser'}</th>
+        <th>{columnsort html='Kategorie'}</th>
+        <th>{columnsort html='Verfasser'}</th>
         <th>Draft</th>
         <th>Action</th>
     </tr>
     
     {foreach item=news from=$newsarchiv}
     <tr>
-        <td>{$news.news_added}</td>
-        <td>{$news.news_title}</td>
-        <td>{$news.cat_name}</td>
-        <td><a href='index.php?mod=users&id={$news.user_id}'>{$news.nick}</a></td>
-        <td>published</td>
-        <td>add edit</td>
+            <td>{$news.news_added}</td>
+            <td>{$news.news_title}</td>
+            <td>{$news.cat_name}</td>
+            <td><a href='index.php?mod=users&id={$news.user_id}'>{$news.nick}</a></td>
+            <td>published</td>
+            <td>add edit</td>
     </tr>
     {/foreach}
     

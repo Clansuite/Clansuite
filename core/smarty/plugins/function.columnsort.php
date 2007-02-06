@@ -17,12 +17,22 @@
 * @author XML compliance patch by Vaccafoeda on the Smarty forum 
 * @author TGKnIght - Modified to allow for unique ids and store in $_SESSION scope 
 */ 
+/**
+*   modified for clansuite.com by Jens-Andre Koch ( 06-Feb-2007 )
+*
+*   line 29+30: imagepath hardcoded 
+*   and
+*   line 76-84: asc_image and desc_image parameterdetection disabled 
+*/
 function smarty_function_columnsort($params, &$smarty) { 
 	static $selected_class = NULL; 
 	static $current_id = 0; 
 
-	static $sort_asc_image = NULL; 
-	static $sort_desc_image = NULL; 
+    //static $sort_asc_image = null;
+    //static $sort_desc_image = null;
+
+    static $sort_asc_image = '/templates/core/images/icons/asc.png'; 
+	static $sort_desc_image = '/templates/core/images/icons/desc.png'; 
 
 	static $SMCS_id = 'default'; 
 
@@ -63,7 +73,7 @@ function smarty_function_columnsort($params, &$smarty) {
 		$id = $current_id++; 
 	} 
 	
-
+    /* disabled
 	if(isset($params['asc_image']) && isset($params['desc_image'])) { 
 		// Set asc and desc sort images (will be placed after the sorted column) 
 		$sort_asc_image = $params['asc_image']; 
@@ -71,13 +81,15 @@ function smarty_function_columnsort($params, &$smarty) {
 	} else if(isset($params['asc_image']) || isset($params['desc_image']))	{ 
 		$smarty->trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.'); 
 	} 
-
+    */
+    
 	// alt for image 
 	if(isset($params['img_alt'])) { 
 		 $img_alt = $params['img_alt']; 
 	} else { 
 		 $img_alt = ""; 
 	} 
+	
 
 	// Get current sort order for current column id 
 	$sort_order = _smarty_columnsort_sort_order($id, $columnsort['column_array'], $columnsort['default_sort'], $smarty); 
