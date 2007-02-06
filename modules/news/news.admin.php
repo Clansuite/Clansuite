@@ -111,8 +111,6 @@ class module_news_admin
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        echo $sortorder;
-
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
                                      n.user_id, u.nick,
@@ -123,15 +121,14 @@ class module_news_admin
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
                                 WHERE n.news_hidden = ?
-                                ORDER BY ? LIMIT ?,?');
+                                ORDER BY '. $sortorder .' LIMIT ?,?');
 
         // TODO: news with status: draft, published, private, private+protected
         $hidden = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
         $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
-        $stmt->bindParam(3, $sortorder, PDO::PARAM_STR );
-        $stmt->bindParam(4, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(5, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->bindParam(3, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(4, SmartyPaginate::getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
