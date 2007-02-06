@@ -62,13 +62,15 @@ class input
                     $security->intruder_alert();
                 }
             }
-            
-            $value['id']      = isset($value['id'])     ? (int) $value['id'] : null;
-            $value['user_id'] = isset($value['user_id'])? (int) $value['user_id'] : null;
+
+            if( isset($value['id']) )
+                $value['id'] = (int) $value['id'];
+            if( isset($value['user_id']) )
+                $value['user_id'] = (int) $value['user_id'];
             $value['mod']     = isset($value['mod'])    ? $this->check($value['mod']    , 'is_int|is_abc|is_custom', '_') ? $value['mod'] : $cfg->std_module : $cfg->std_module;
             $value['sub']     = isset($value['sub'])    ? $this->check($value['sub']    , 'is_int|is_abc|is_custom', '_') ? $value['sub'] : '' : '';
             $value['action']  = isset($value['action']) ? $this->check($value['action'] , 'is_int|is_abc|is_custom', '_') ? $value['action'] : $cfg->std_module_action : $cfg->std_module_action;
-            
+
             switch($key)
             {
                 case '_REQUEST':
@@ -82,14 +84,14 @@ class input
                 case '_POST':
                     $_POST = $value;
                     break;
-                    
+
                 case '_COOKIE':
                     $_COOKIE = $value;
                     break;
             }
         }
     }
-    
+
     /**
     * @desc Modify a given String
     */
@@ -98,7 +100,7 @@ class input
     {
         $mods = array();
         $mods = split('[|]' ,$modificators);
-        
+
         foreach ($mods as $key => $value)
         {
             switch ($value)
@@ -106,41 +108,41 @@ class input
                 case 'add_slashes':
                     $string = addslashes($string);
                     break;
-                    
+
                 case 'strip_slashes':
                     $string = stripslashes($string);
                     break;
-                    
+
                 case 'strip_tags':
                     $string = striptags($string);
                     break;
-                    
+
                 case 'urlencode':
                     $string = urlencode($string);
                     break;
-                    
+
                 case 'urldecode':
                     $string = urldecode($string);
                     break;
-                    
+
                     // Replacement: ? instead of &#233
                 case 'html_replace:numeric_entities':
                     $string = preg_replace('/[^!-%\x27-;=?-~ ]/e', '"&#".ord("$0").chr(59)', $str);
                     break;
-                    
+
                     // Replacement: zB &#8364 instead of &euro
                 case 'html_replace:normal_to_numerical_entities':
                     $string = $this->modify( html_entity_decode($string),'html_numeric_entities' );
                     break;
-                    
+
                 default:
                     break;
             }
         }
-        
+
         return $string;
     }
-    
+
     /**
     * @desc Check a string
     */
@@ -190,16 +192,16 @@ class input
     function check( $string = '', $types = '', $pattern = '', $length = 0 )
     {
         global $error, $lang, $cfg;
-        
+
         $r_bool  = false;
         $bools   = array();
         $a_types = array();
         $a_types = split('[|]' ,$types);
-        
+
         if (count($a_types) > 1 )
         {
             $reg_exp = '/^[';
-            
+
             foreach ($a_types as $key => $type)
             {
                 switch ($type)
@@ -214,22 +216,22 @@ class input
                             $reg_exp .= '\\'.$value;
                         }
                         break;
-                        
+
                         // Normal RegExp Cases
-                        
+
                         // Is integer?
                     case 'is_int':
                         $reg_exp .= '0-9';
                         break;
-                        
+
                         // Is alphabetic?
                     case 'is_abc':
                         $reg_exp .= 'a-zA-Z';
                         break;
                 }
-                
+
             }
-            
+
             if ($length == 0 )
             {
                 $reg_exp .= ']+$/';
@@ -249,88 +251,88 @@ class input
                 case 'is_pass_length':
                     $reg_exp = '/^.{'. $cfg->min_pass_length .',}$/';
                     break;
-                    
+
                     // SPECIAL : set reg_exp to specific searchpattern
                     // give-trough
                     // @input : $pattern
                 case 'is_pattern':
                     $reg_exp = $pattern;
                     break;
-                    
+
                     // Normal RegExp Cases
-                    
+
                     // Is integer?
                 case 'is_int':
                     $reg_exp = '/^[0-9]+$/';
                     break;
-                    
+
                     // Is alphabetic?
                 case 'is_abc':
                     $reg_exp = '/^[a-zA-Z]+$/';
                     break;
-                    
+
                     // Is ICQ ?
                 case 'is_icq':
                     $reg_exp = '/^[\d-]*$/i';
                     break;
-                    
+
                     // Is Sessionid ?
                 case 'is_sessionid':
                     $reg_exp     = '/^[A-Za-z0-9]+$/';
                     break;
-                    
+
                     // Is hostname?
                 case 'is_hostname':
                     $reg_exp = '/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/)*([a-z]{1,}[\w-.]{0,}).([a-z]{2,6})$/i';
                     break;
-                    
+
                     // Is url?
                 case 'is_url':
                     $reg_exp  = "/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/)([a-z]{1,}[\w-.]{0,}).([a-z]{2,6})(\/{1}[\w_]{1}[\/\w-&?=_%]{0,}(.{1}[\/\w-&?=_%]{0,})*)*$/i";
                     break;
-                    
+
                     // Is Steam ID ?
                 case 'is_steam_id':
                     $reg_exp     = '/^[0-9]+:[0-9]+:[0-9]+$/';
                     break;
-                    
+
                     // Check if mail is valid ?
                 case 'is_email':
                     $reg_exp = '/^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?)$/';
                     break;
-                    
+
                     // Check if valid ip ?
                 case 'is_ip':
                     $num = "(25[0-5]|2[0-4]\d|[01]?\d\d|\d)";
                     $reg_exp = "/^$num\\.$num\\.$num\\.$num$/";
                     break;
-                    
+
                     // Check for violent code
                 case 'is_violent':
                     $reg_exp = '/SELECT\s|\x|chr\(|eval\(|password\s|\0|phpinfo\(/i';
                     break;
             }
-            
+
             $r_bool = preg_match($reg_exp, $string) ? true : false;
-            
+
             if ($length != 0 AND strlen($string ) > $length )
             {
                 $r_bool = false;
             }
-            
+
             if (strlen($string ) == 0 )
             {
                 $r_bool = false;
             }
         }
-        
+
         if ($r_bool == false AND $a_types[0] != 'is_violent')
         {
             $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
         return $r_bool;
     }
-    
+
     function fix_magic_quotes($var = NULL, $sybase = NULL )
     {
         // if sybase style quoting isn't specified, use ini setting
@@ -338,7 +340,7 @@ class input
         {
             $sybase = ini_get('magic_quotes_sybase');
         }
-        
+
         // if no var is specified, fix all affected superglobals
         if (!isset($var) )
         {
@@ -347,31 +349,31 @@ class input
             {
                 // workaround because magic_quotes does not change $_SERVER['argv']
                 $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
-                
+
                 // fix all affected arrays
                 foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
                 {
                     $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
                 }
-                
+
                 $_SERVER['argv'] = $argv;
-                
+
                 // turn off magic quotes
                 // so scripts which require this setting will work correctly
                 ini_set('magic_quotes_gpc', 0);
             }
-            
+
             // disable magic_quotes_sybase
             if ($sybase )
             {
                 ini_set('magic_quotes_sybase', 0);
             }
-            
+
             // disable magic_quotes_runtime
             set_magic_quotes_runtime(0);
             return TRUE;
         }
-        
+
         // if var is an array, fix each element
         if (is_array($var) )
         {
@@ -379,16 +381,16 @@ class input
             {
                 $var[$key] = $this->fix_magic_quotes($val, $sybase);
             }
-            
+
             return $var;
         }
-        
+
         // if var is a string, strip slashes
         if (is_string($var) )
         {
             return $sybase ? str_replace('\'\'', '\'', $var) : stripslashes($var);
         }
-        
+
         // otherwise ignore and just return
         return $var;
     }
