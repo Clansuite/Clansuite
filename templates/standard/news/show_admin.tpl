@@ -1,9 +1,8 @@
-{* Debugoutout of Arrays:  *}
-{$newsarchiv|@var_dump} 
+{* Debugoutout of Arrays:  
+{if $smarty.const.DEBUG eq "1"} Debug of Newsarchiv {html_alt_table loop=$newsarchiv}   {/if}
 {$newscategories|@var_dump} 
 {$paginate|@var_dump} 
-
-
+*}
   
 <style type="text/css">
     {literal}
@@ -46,18 +45,23 @@
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr>
-        <th>{columnsort selected_class="selected" html="news_added"}</th>
-        <th>{columnsort html="news_title"}</th>
-        <th>{columnsort html="cat_name"}</th>
-        <th>{columnsort html="nick"}</th>
-    </tr>
-    <tr>
-        <td>Datum</td>
-        <td>Titel</td>
-        <td>Kategorie</td>
-        <td>Verfasser</td>
-        <td>Draft</td>
-        <td>Action</td>
+        <th>{columnsort asc_image="$www_core_tpl_root/images/icons/asc.png" 
+                        desc_image="$www_core_tpl_root/images/icons/desc.png" 
+                        html="Datum"}</th>
+        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
+                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
+                        selected_class="selected"  
+                        html='Title'}</th>
+        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
+                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
+                        selected_class="selected"  
+                        html='Kategorie'}</th>
+        <th>{columnsort asc_image="`$www_core_tpl_root`/images/icons/asc.png" 
+                        desc_image="`$www_core_tpl_root`/images/icons/desc.png" 
+                        selected_class="selected"  
+                        html='Verfasser'}</th>
+        <th>Draft</th>
+        <th>Action</th>
     </tr>
     
     {foreach item=news from=$newsarchiv}
@@ -72,29 +76,3 @@
     {/foreach}
     
 </table>
-
-<br />
-
-{doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
-{/doc_raw}
-
-{* Debugoutput 
-{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$newsarchiv}   {/if}
-*}
-
- {datatable data=$newsarchiv
-            class="tr_header_small"
-            sortable=1 
-            cycle=1 
-            mouseover=1 
-            searchable=1 
-            width="80%" 
-            }
-      
-      {column id="news_added" name="Date" align="left"}
-      {column id="news_title" name="Title" align="left"}
-      {column id="cat_name" name="Category" align="left"}
-      {column id="nick" name="Nick" align="left"}
- {/datatable}
