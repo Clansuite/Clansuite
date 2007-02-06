@@ -5,10 +5,9 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
 {/doc_raw}
 
-{* todo : Debugausgabe nur wenn DEBUG = 1 *}
-{if $smarty.const.DEBUG eq "1"} 
-Debugausgabe des Arrays:  {html_alt_table loop=$users}   
-{/if}
+{* Debugoutput *}
+{if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$users}   {/if}
+{$users|@var_dump}
 
 <br />
 

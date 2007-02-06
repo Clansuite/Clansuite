@@ -174,12 +174,11 @@ class module_news
                  $stmt2->execute( array( $v['news_id'] ) );
                  $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN);
             }
-
         }
 
         // give $newslist array to Smarty for template output
         $tpl->assign('news', $newslist);
-
+        
         $this->output = $tpl->fetch('news/show.tpl');
     }
 
@@ -187,7 +186,7 @@ class module_news
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
 
-         // Smarty Pagination load and init
+        // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
         // required connect
         SmartyPaginate::connect();

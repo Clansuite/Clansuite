@@ -1,9 +1,9 @@
 {* Debugausgabe des Arrays: {$news|@var_dump}*}
 
-<b> Comments for News {$news.news_id} </b>
+<h2> Comments for News {$news.news_id} </h2>
  
 <!-- Anker-Sprungmarke fr {$news.news_id}--> <a name="news-{$news.news_id}"></a>
-<table border="1" cellspacing="1" cellpadding="3">
+<table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr> 
         <td height="20" ><b>{$news.news_title} - {$news.cat_name}</b></td>
         <td rowspan="3" valign="top"><img src="{$news.image}" alt="Category-Image: {$news.cat_name} " /><center><br /></td>
