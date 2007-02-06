@@ -79,7 +79,7 @@
 
                 new Ajax.InPlaceEditor('related_links_container',
                                    'index.php?mod=admin&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
-                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, okText: '{/literal}Save{literal}',hoverText: '{/literal}Click to Edit{literal}',cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'}
+                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, okText: '{/literal}Save{literal}',cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'}
                                     );
 
              </script>
