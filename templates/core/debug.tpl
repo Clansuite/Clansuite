@@ -40,7 +40,8 @@
 	{/section}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('3')">Assigned config file variables (outer template scope):</a></b></td></tr>
+	{*
+    <tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('3')">Assigned config file variables (outer template scope):</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_3"><table border=0 width=100%>
 	{section name=config_vars loop=$_debug_config_keys}
 		<tr bgcolor={if %config_vars.index% is even}#E4E0C7{else}#fafafa{/if}><td valign=top width=10%><font color=maroon>{ldelim}#{$_debug_config_keys[config_vars]}#{rdelim}</font></td><td><font color=green>{$_debug_config_vals[config_vars]|@debug_print_var}</font></td></tr>
@@ -48,6 +49,7 @@
 		<tr bgcolor=#E4E0C7><td colspan=2><i>no config vars assigned</i></td></tr>
 	{/section}
 	</table></span></td></tr>
+	*}
 
 	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">Database Stuff (Queries, Prepares, Execs, PDO Attributes)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_11"><table border=0 width=100%>
