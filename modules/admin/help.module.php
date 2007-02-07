@@ -109,7 +109,7 @@ class module_admin_help
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
-        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+        $this->output .= $lang->t('This is the help module...stuff todo here...');
     }
 
     /**
@@ -120,10 +120,14 @@ class module_admin_help
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 
+        /**
+        * @desc Incoming Vars
+        */
         $mod    = $_REQUEST['mod'];
         $sub    = $_REQUEST['sub'];
         $action = $_REQUEST['main_action'];
 
+        // Get helptext & related links from DB
         $stmt = $db->prepare( 'SELECT helptext,related_links FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
@@ -135,6 +139,7 @@ class module_admin_help
         $info['helptext'] = $bbcode->parse($info['helptext']);
         $info['related_links'] = $bbcode->parse($info['related_links']);
 
+        // output
         $tpl->assign( 'help_edit_mode', $cfg->help_edit_mode );
         $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
@@ -147,16 +152,16 @@ class module_admin_help
     {
         global $db;
 
-        // load smarty_ajax
-        require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
-        ajax_register('save_helptext');
-        ajax_register('save_related_links');
-        ajax_process_call();
-
+        /**
+        * @desc Incoming Vars
+        */
         $mod    = $_GET['m'];
         $sub    = $_GET['s'];
         $action = $_GET['a'];
 
+        /**
+        * @desc Get Help from DB
+        */
         $stmt = $db->prepare( 'SELECT helptext FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
@@ -174,6 +179,9 @@ class module_admin_help
     {
         global $db;
 
+        /**
+        * @desc Incoming Vars
+        */
         $mod    = $_GET['m'];
         $sub    = $_GET['s'];
         $action = $_GET['a'];
@@ -195,19 +203,15 @@ class module_admin_help
     function save_helptext()
     {
         global $db, $tpl;
-
-          // load smarty_ajax
-        require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
-        ajax_register('save_helptext');
-        ajax_register('save_related_links');
-        ajax_process_call();
-
-
+        /**
+        * @desc Incoming Vars
+        */
         $mod            = urldecode($_GET['m']);
         $sub            = urldecode($_GET['s']);
         $action         = urldecode($_GET['a']);
         $helptext       = urldecode($_POST['value']);
 
+        // Get Helptext
         $stmt = $db->prepare( 'SELECT help_id, helptext FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action, $helptext ) );
@@ -243,11 +247,15 @@ class module_admin_help
     {
         global $db, $tpl;
 
+        /**
+        * @desc Incoming Vars
+        */
         $mod            = urldecode($_GET['m']);
         $sub            = urldecode($_GET['s']);
         $action         = urldecode($_GET['a']);
         $related_links  = urldecode($_POST['value']);
 
+        // Get related Links from DB
         $stmt = $db->prepare( 'SELECT help_id FROM ' . DB_PREFIX . 'help
                                WHERE `mod` = ? AND `sub` = ? AND `action` = ?' );
         $stmt->execute( array( $mod, $sub, $action ) );
@@ -265,13 +273,6 @@ class module_admin_help
                                    SET `mod` = ?, `sub` = ?, `action` = ?, `related_links` = ?' );
             $stmt->execute( array( $mod, $sub, $action, $related_links ) );
         }
-
-        /*
-        if ( strpos($related_links, "\n") > 0 )
-        {
-            $related_links_n = explode( "\n", $related_links);
-        }
-        */
 
         // Transform RAW text to BB-formatted Text
         require_once( CORE_ROOT . '/bbcode.class.php' );

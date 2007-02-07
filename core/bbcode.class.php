@@ -38,10 +38,10 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
 // Begin of class module_admin_bbcode
 class bbcode
 {
-     public $bb_code;
+    public $bb_code;
 
-     function __construct()
-     {
+    function __construct()
+    {
         global $db;
 
         /**
@@ -56,6 +56,13 @@ class bbcode
         $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'bb_code');
         $stmt->execute();
         $bb_codes = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        /**
+        * @desc Conversions & Filters
+        */
+        $this->bb_code->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
+        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem'), 'htmlspecialchars');
+        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem'), 'nl2br');
 
         /**
         * @desc Generate Standard BB Codes such as [url][/url] etc.
@@ -81,16 +88,16 @@ class bbcode
             $this->bb_code->addCode ($code['name'], 'simple_replace', null, array ('start_tag' => $code['start_tag'], 'end_tag' => $code['end_tag']),
                               $code['content_type'], $allowed_in, $not_allowed_in);
         }
-     }
+    }
 
-     function parse($text)
-     {
-         return $this->bb_code->parse($text);
-     }
+    function parse($text)
+    {
+        return $this->bb_code->parse($text);
+    }
 
-     // Handle BB Code URLs
-     function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
-     {
+    // Handle BB Code URLs
+    function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
+    {
         if ($action == 'validate')
         {
             return true;
@@ -101,15 +108,21 @@ class bbcode
             return '<a href="'.htmlspecialchars ($content).'">'.htmlspecialchars ($content).'</a>';
         }
         return '<a href="'.htmlspecialchars ($attributes['default']).'">'.$content.'</a>';
-     }
+    }
 
-     // Handle Pictures
-     function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
-     {
+    // Handle Pictures
+    function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
+    {
         if ($action == 'validate')
         {
             return true;
         }
         return '<img src="'.htmlspecialchars($content).'" alt="">';
-     }
+    }
+
+    // Convert linebreak of different OS
+    function convertlinebreaks ($text)
+    {
+        return preg_replace ("/\015\012|\015|\012/", "\n", $text);
+    }
 }

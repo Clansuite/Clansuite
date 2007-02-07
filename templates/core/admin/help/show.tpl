@@ -28,7 +28,7 @@
 
                          {foreach key=key item=item from=$info.helptext}
                                 {if $item!=''}
-                                    {$item|nl2br}
+                                    {$item}
                                 {/if}
                          {/foreach}
 
@@ -62,7 +62,7 @@
 
                         {foreach key=key item=item from=$info.related_links}
                                 {if $item!=''}
-                                    {$item|nl2br}
+                                    {$item}
                                 {/if}
                          {/foreach}
             {else}
@@ -70,9 +70,9 @@
                 <br />
             {/if}
          </div>
-         
-        <input id="links_edit_button" type="Button" value="Add Links" class="ButtonGreen">
-
+        <p>
+            <input id="links_edit_button" type="Button" value="Edit links" class="ButtonGreen">
+        </p>
         {if $help_edit_mode==1}
             {literal}
              <script type="text/javascript">

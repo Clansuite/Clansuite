@@ -199,11 +199,15 @@
                     {translate}Mail encryption{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->mailencryption}" name="config[mailencryption]" />
+                    <select name="config[mailencryption]" class="input_text">
+                        <option value="SWIFT_OPEN" {if $cfg->mailencryption == 'SWIFT_OPEN'}selected{/if}>{translate}No encryption{/translate}</option>
+                        <option value="SWIFT_SSL" {if $cfg->mailencryption == 'SWIFT_SSL'}selected{/if}>{translate}SSL encryption{/translate}</option>
+                        <option value="SWIFT_TLS" {if $cfg->mailencryption == 'SWIFT_TLS'}selected{/if}>{translate}TLS/SSL encryption{/translate}</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}SMPT Auth{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}SMTP authentication{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -222,11 +226,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Mail Sender Address{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}eMail sender address{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}From (email){/translate}
+                    {translate}From (eMail){/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
