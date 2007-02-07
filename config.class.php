@@ -77,9 +77,9 @@ class config
 
         // Meta Tag Information
 
-        $this->meta['description'] = 'Clansuite is a Content Management System for handling the needs of clans';
+        $this->meta['description'] = 'ClanSuite is a free Content Management System (CMS) to handle the needs of clans';
         $this->meta['language'] = 'de';
-        $this->meta['author'] = 'Florian Wolf, Jens-Andre Koch';
+        $this->meta['author'] = 'Florian Wolf, Jens-André Koch';
         $this->meta['email'] = 'system@clansuite.com';
         $this->meta['keywords'] = 'clan, cms, content management system, portal';
 
@@ -114,7 +114,7 @@ class config
         $this->language = 'de';
         $this->std_module = 'index';
         $this->std_module_action = 'show';
-        $this->std_page_title = 'clansuite.com';
+        $this->std_page_title = 'ClanSuite.com';
         $this->std_css = 'standard.css';
         $this->std_javascript = 'standard.js';
 
