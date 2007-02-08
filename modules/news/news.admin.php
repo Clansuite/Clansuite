@@ -89,7 +89,7 @@ class module_news_admin
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
         
         // Smarty Pagination load and init
-        require(ROOT . 'core/smarty/SmartyPaginate.class.php');
+        require( CORE_ROOT . '/smarty/SmartyPaginate.class.php');
         // required connect
         SmartyPaginate::connect();
         // set URL
@@ -100,7 +100,7 @@ class module_news_admin
 
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require(ROOT . 'core/smarty/SmartyColumnSort.class.php');
+        require( CORE_ROOT . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         // The third column "age" is having descending sort order as default.
         $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick');
