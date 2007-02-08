@@ -53,7 +53,9 @@ class permissions
         {
             if( $type == 'redirect' )
             {
+                // ternary: set text by param or standard text
                 $text = $text != '' ? $lang->t($text) : $lang->t('You do not have sufficient rights.');
+                // redirect to index.php
                 $functions->redirect( 'index.php', 'metatag|newsite', 5, $text );
             }
             else
