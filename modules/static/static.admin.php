@@ -143,7 +143,7 @@ class module_static_admin
         $tpl->assign( 'url'         , $url );
         $tpl->assign( 'html'        , $html);
         $tpl->assign( 'err'         , $err);
-        $this->output .= $tpl->fetch('admin/static/create.tpl');
+        $this->output .= $tpl->fetch('static/create.tpl');
     }
 
     /**
@@ -213,7 +213,7 @@ class module_static_admin
 
         $tpl->assign( 'err'  , $err);
         $tpl->assign( 'info' , $info);
-        $this->output .= $tpl->fetch('admin/static/edit.tpl');
+        $this->output .= $tpl->fetch('static/edit.tpl');
     }
     
     /**
@@ -237,7 +237,7 @@ class module_static_admin
         $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $tpl->assign( 'info', $info);
-        $this->output .= $tpl->fetch('admin/static/show.tpl');
+        $this->output .= $tpl->fetch('static/show.tpl');
     }
 }
 ?>
