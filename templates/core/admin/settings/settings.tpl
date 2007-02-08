@@ -109,13 +109,9 @@
                     {translate}Reason for maintenance{/translate}
                 </td>
                 <td>
-                    <textarea name="config[maintenance_reason]" col="20" row="40">
-                        {translate}
-                        SITE is currently undergoing scheduled maintenance.
-                        Please try back in 60 minutes.
-                        Sorry for the inconvenience.
-                        {/translate}
-                    </textarea>
+                    <textarea name="config[maintenance_reason]" cols="30" rows="10" class="input_textarea">{translate}SITE is currently undergoing scheduled maintenance.
+Please try back in 60 minutes.
+Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
         </table>
