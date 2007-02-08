@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ie5.js"></script>
 {/doc_raw}
 
-<!-- start: AdminMenu - Kopfzeile 2//-->
+<!-- start: AdminMenu - Header 2 //-->
 
 <script type="text/javscript">
 /* preload images */
@@ -22,6 +22,7 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
             <tr>
                 <td>&nbsp;</td>
 
+                <!-- mod-include: admin menueditor get_html_div //-->
                 {mod name="admin" sub="menueditor" func="get_html_div"}
 
                 <td align="right" width="100%">
@@ -59,4 +60,4 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
     </div>
 
 </div>
-<!-- end: AdminMenu - Kopfzeile 2//-->
+<!-- end: AdminMenu - Header 2 //-->
