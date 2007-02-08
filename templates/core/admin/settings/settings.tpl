@@ -92,6 +92,18 @@
                     <input class="input_text" type="text" value="{$cfg->std_module_action}" name="config[std_module_action]" />
                 </td>
             </tr>
+            <tr>
+                <td class="td_header_small"  colspan="2">  {translate}Maintenance Mode{/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Maintenance Mode{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[maintenance]" {if $cfg->maintenance == 1}checked{/if} /> {translate}activated{/translate}
+                    <input type="radio" value="0" name="config[maintenance]" {if $cfg->maintenance == 0}checked{/if} /> {translate}deactivated{/translate}
+                </td>
+            </tr>
         </table>
    </div>
 
@@ -149,6 +161,18 @@
             <tr>
                 <td class="td_header_small"  colspan="2">  {translate}Define Dublin Core Metadata Elements{/translate}  </td>
             </tr>
+             <tr>
+                <td class="td_header_small"  colspan="2">  {translate}Search Engine Optimization (SEO){/translate}  </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Apache Mod_rewrite URL's{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 0}checked{/if} /> {translate}no{/translate}
+                </td>
+            </tr>
         </table>
     </div>
 
@@ -199,15 +223,11 @@
                     {translate}Mail encryption{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <select name="config[mailencryption]" class="input_text">
-                        <option value="SWIFT_OPEN" {if $cfg->mailencryption == 'SWIFT_OPEN'}selected{/if}>{translate}No encryption{/translate}</option>
-                        <option value="SWIFT_SSL" {if $cfg->mailencryption == 'SWIFT_SSL'}selected{/if}>{translate}SSL encryption{/translate}</option>
-                        <option value="SWIFT_TLS" {if $cfg->mailencryption == 'SWIFT_TLS'}selected{/if}>{translate}TLS/SSL encryption{/translate}</option>
-                    </select>
+                    <input class="input_text" type="text" value="{$cfg->mailencryption}" name="config[mailencryption]" />
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}SMTP authentication{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}SMPT Auth{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -226,11 +246,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}eMail sender address{/translate}  </td>
+                <td class="td_header_small"  colspan="2">  {translate}Mail Sender Address{/translate}  </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}From (eMail){/translate}
+                    {translate}From (email){/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
@@ -242,8 +262,18 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->from_name}" name="config[from_name]" />
-                </td>
+                </td>                
             </tr>
+            <tr>
+                <td class="td_header_small"  colspan="2">  {translate}Send Test Mail{/translate}  </td>
+            </tr>
+            <td class="cell2" width="15%">
+                    {translate}Recipient (email){/translate}
+                </td>
+            <td class="cell1" style="padding: 3px">
+                   <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
+                   <input type="button" class="ButtonOrange" value="Send Mail" />
+            </td>            
         </table>
    </div>
 
@@ -354,7 +384,7 @@
         </table>
    </div>
 
-  {* #### TAB PAGE - ERRORS SETTINGS #### *}
+  {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
 
    <div class="tab-page">
        <h2 class="tab">{translate}Developers{/translate}</h2>
@@ -407,6 +437,39 @@
                 </td>
             </tr>
         </table>
+   </div>
+   
+   {* #### TAB PAGE - CACHE SETTINGS #### *}
+
+   <div class="tab-page">
+       <h2 class="tab">{translate}Cache{/translate}</h2>
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+        <thead>
+        <tr>
+            <td class="td_header_small"  colspan="2">  {translate}Cache Settings{/translate}  </td>
+        </tr>
+        </thead>
+
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Cache On/Off{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[caching]" {if $cfg->caching == 1}checked{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[caching]" {if $cfg->caching == 0}checked{/if} /> {translate}no{/translate}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Cache Lifetime{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->cache_lifetime}" name="config[cache_lifetime]" />&nbsp; seconds
+                    <br /> <small>set to -1 if developers mode on</small>
+                </td>
+            </tr>
+            
+        </table>   
    </div>
 </div>
 
