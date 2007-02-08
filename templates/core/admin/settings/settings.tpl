@@ -104,6 +104,20 @@
                     <input type="radio" value="0" name="config[maintenance]" {if $cfg->maintenance == 0}checked{/if} /> {translate}deactivated{/translate}
                 </td>
             </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Reason for maintenance{/translate}
+                </td>
+                <td>
+                    <textarea name="config[maintenance_reason]" col="20" row="40">
+                        {translate}
+                        SITE is currently undergoing scheduled maintenance.
+                        Please try back in 60 minutes.
+                        Sorry for the inconvenience.
+                        {/translate}
+                    </textarea>
+                </td>
+            </tr>
         </table>
    </div>
 
