@@ -268,15 +268,17 @@ class module_admin_menueditor
                      $result .= "\n\t";
                      $result .= '<a class="button" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                     $result .= '<img style="top: 3px" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     
                      if( $entry['icon'] != 'empty.png' )
                      {
-                         $result .= '<div style="margin-left: 17px">' . htmlspecialchars($lang->t($entry['name'])) . '</div>';
+                         $result .= '<div class="element">' . htmlspecialchars($lang->t($entry['name'])) . '</div>';
                      }
                      else
-                     {                     	 $result .= htmlspecialchars($lang->t($entry['name']));
-                     }
-                     $result .= '<img style="margin-left: -5px; top: -1px" class="pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" alt=""/></a>';
+                     {         
+                         $result .= htmlspecialchars($lang->t($entry['name']));            	 
+                     }                      
+                     $result .= '<img class="nubs_pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" alt=""/></a>';
                  }
                  else
                  {
