@@ -57,19 +57,19 @@ class module_replays_admin
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Replays'), '/index.php?mod=Replays&sub=admin');
+        $trail->addStep($lang->t('Replays'), '/index.php?mod=replays&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Replays&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=replays&action=show');
                 $this->show();
                 break;
 

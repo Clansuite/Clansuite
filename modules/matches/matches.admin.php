@@ -57,19 +57,19 @@ class module_matches_admin
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Matches'), '/index.php?mod=Matches&sub=admin');
+        $trail->addStep($lang->t('Matches'), '/index.php?mod=matches&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Matches&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=matches&action=show');
                 $this->show();
                 break;
 

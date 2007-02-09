@@ -57,19 +57,19 @@ class module_downloads_admin
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Downloads'), '/index.php?mod=Downloads&sub=admin');
+        $trail->addStep($lang->t('Downloads'), '/index.php?mod=downloads&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Downloads&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=downloads&action=show');
                 $this->show();
                 break;
 

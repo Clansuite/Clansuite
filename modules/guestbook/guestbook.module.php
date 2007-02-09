@@ -57,11 +57,11 @@ class module_guestbook
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=Guestbook');
+        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_guestbook
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Guestbook&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&action=show');
                 $this->show();
                 break;
 

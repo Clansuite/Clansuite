@@ -57,11 +57,11 @@ class module_forum
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Forum'), '/index.php?mod=Forum');
+        $trail->addStep($lang->t('Forum'), '/index.php?mod=forum');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_forum
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Forum&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=forum&action=show');
                 $this->show();
                 break;
 

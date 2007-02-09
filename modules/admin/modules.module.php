@@ -657,6 +657,22 @@ class module_admin_modules
                                                 $cfg->version,
                                                 $core) );
 
+                        $module_id = $db->lastInsertId();
+
+                        // insert admin submodul
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
+                        $stmt->execute( array( 'admin', $name.'.admin.php', 'module_' . $name . '_admin' ) );
+
+                        // insert relation of submodul to modul
+
+                        // ?-> 1. INSERT IGNORE, because module_id primary keys are doubled up
+
+                        // ?-> 2. how not to use pdo::last_insert_id, as it's not supported by all pdo drivers
+                        //        and using "INSERT IGNORE INTO with SELECT" instead
+
+                        $stmt = $db->prepare( 'INSERT IGNORE INTO ' . DB_PREFIX .'mod_rel_sub SET module_id = ?, submodule_id = ? ');
+                        $stmt->execute( array( $module_id, $db->lastInsertId() ) );
+
                                                 #serialize( array(  'admin' => array( $name . '.admin.php', 'module_' . $name . '_admin' ) ) )
                         $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The module has been successfully created...' ), 'admin' );
                     }

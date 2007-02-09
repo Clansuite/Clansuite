@@ -57,19 +57,19 @@ class module_forum_admin
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Forum'), '/index.php?mod=Forum&sub=admin');
+        $trail->addStep($lang->t('Forum'), '/index.php?mod=forum&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Forum&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=forum&action=show');
                 $this->show();
                 break;
 

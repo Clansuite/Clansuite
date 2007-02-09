@@ -57,11 +57,11 @@ class module_gallery
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Gallery'), '/index.php?mod=Gallery');
+        $trail->addStep($lang->t('Gallery'), '/index.php?mod=gallery');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_gallery
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Gallery&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=gallery&action=show');
                 $this->show();
                 break;
 
