@@ -227,25 +227,25 @@ class module_admin_modules
 
     function ajaxupdate_onoffswitch()
     {
-      global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;  
-        
+      global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+
         /**
-        * @desc Incoming vars 
+        * @desc Incoming vars
         * urldecode, check if only int, assign as $value
         */
         $value = $input->check(urldecode($_POST['value']), 'is_int');
-        
+
         //set module activ inactiv
-        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules 
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules
                                SET enabled = ? WHERE module_id = ? AND name = ?' );
         $stmt->execute( array(  $value, $modules_id, $modules_name ) );
-       
+
          // return value
         $this->output .= $value;
 
         // suppress mainframe
         $this->suppress_wrapper = true;
-    
+
     }
 
     /**
@@ -263,17 +263,17 @@ class module_admin_modules
         $value = urldecode($_POST['value']);
         $cell_string = urldecode($_POST['cell']);
 
-        // Pregmatch $cell_string 
+        // Pregmatch $cell_string
         $pattern = '!([0-9]+)_(.+)_(.+)!is';
         if(preg_match($pattern, $cell_string))
         {
             $result = preg_match($pattern, $cell_string, $subpattern);
-            
+
             // split $cell_string into into vars
             $modules_id      = $subpattern[1];
             $modules_name    = $subpattern[2];
             $modules_dbfield = $subpattern[3];
-            
+
             // whitelist for $modules_dbfields
             $whitelist = array( 'name',
                                 'author',
@@ -290,21 +290,21 @@ class module_admin_modules
                                 'version',
                                 'cs_version',
                                 'core');
-            
+
             // check if $modules_dbfield exists in $whitelist
             if( in_array($modules_dbfield, $whitelist) )
             {
-                // if yes, update that field in db 
+                // if yes, update that field in db
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules SET ' . $modules_dbfield . ' = ?
                                                                        WHERE module_id = ? AND name = ?' );
                 $stmt->execute( array(  $value, $modules_id, $modules_name ) );
             }
             else
-            {   
+            {
                 $security->intruder_alert();
             }
         }
-        
+
         // return value
         $this->output .= $value;
 
@@ -448,11 +448,9 @@ class module_admin_modules
         * @desc Permitted chars
         */
         if (  ( !$input->check( $name       , 'is_abc|is_int|is_custom', '_' ) OR
-                !$input->check( $description, 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $license    , 'is_abc|is_int|is_custom', '_\s' ) OR
                 !$input->check( $copyright  , 'is_abc|is_int|is_custom', '_\s' ) OR
-                !$input->check( $title      , 'is_abc|is_int|is_custom', '_\s' ) OR
-                !$input->check( $author     , 'is_abc|is_int|is_custom', '-_\s' ) ) AND
+                !$input->check( $title      , 'is_abc|is_int|is_custom', '_\s' ) ) AND
                 !empty ( $submit ) AND !$err['fill_form'] )
         {
             $err['no_special_chars'] = 1;
