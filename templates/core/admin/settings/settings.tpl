@@ -28,6 +28,16 @@
                 </td>
             </tr>
             <tr>
+                <td class="cell2" width="15%">
+                    {translate}Favicon{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" />
+                    <br /> <b>todo: Upload and Chooser</b> <small>{$www_tpl_root}/images/</small>
+                </td>
+            </tr>
+            
+            <tr>
                 <td class="td_header_small"  colspan="2">  {translate}Standard Template with Files{/translate}  </td>
             </tr>
             <tr>
@@ -108,7 +118,7 @@
                 <td class="cell2" width="15%">
                     {translate}Reason for maintenance{/translate}
                 </td>
-                <td>
+                <td class="cell1" style="padding: 3px">
                     <textarea name="config[maintenance_reason]" cols="30" rows="10" class="input_textarea">{translate}SITE is currently undergoing scheduled maintenance.
 Please try back in 60 minutes.
 Sorry for the inconvenience.{/translate}</textarea>
