@@ -1,7 +1,7 @@
 <?php
 /**
 * guestbook
-* The guestbook for visitors
+* Guestbook
 *
 * PHP >= version 5.1.4
 *
@@ -25,9 +25,9 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Florian Wolf, Jens-André Koch
-* @copyright  ClanSuite Group
-* @license    GPL v2
+* @author     Jens-Andre Koch
+* @copyright  JAK
+* @license    GPL
 * @version    SVN: $Id$
 * @link       http://www.clansuite.com
 */
@@ -57,19 +57,19 @@ class module_guestbook_admin
     function auto_run()
     {
 
-        global $lang,$trail;
+        global $lang;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook&sub=admin');
+        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=Guestbook&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=Guestbook&action=show');
                 $this->show();
                 break;
 
