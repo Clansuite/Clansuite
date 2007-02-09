@@ -1,7 +1,7 @@
 <?php
 /**
 * Modulename:   guestbook
-* Description:  The guestbook for visitors
+* Description:  Guestbook
 *
 * PHP >= version 5.1.4
 *
@@ -25,9 +25,9 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Florian Wolf, Jens-André Koch
-* @copyright  ClanSuite Group
-* @license    GPL v2
+* @author     Jens-Andre Koch
+* @copyright  JAK
+* @license    GPL
 * @version    SVN: $Id$
 * @link       http://www.clansuite.com
 */
@@ -56,8 +56,7 @@ class module_guestbook
 
     function auto_run()
     {
-
-        global $lang,$trail;
+        global $lang, $trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
@@ -92,10 +91,24 @@ class module_guestbook
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+        // get all guestbook entries
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'guestbook' );
+        $stmt->execute();
+        $guestbook = $stmt->fetchALL(PDO::FETCH_NAMED);
+
+        if ( !is_array( $guestbook ) )
+            {
+                $this->output .= $lang->t('No Guestbook Entries found.');
+            }
+         else
+            {
+               $tpl->assign('guestbook', $guestbook);
+               
+               /**
+               * @desc Handle the output - $lang-t() translates the text.
+               */
+               $this->output .= $tpl->fetch('guestbook/show.tpl');
+            }
     }
 
 

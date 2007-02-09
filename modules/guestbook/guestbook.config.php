@@ -24,9 +24,9 @@
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Florian Wolf, Jens-André Koch
-* @copyright  ClanSuite Group
-* @license    GPL v2
+* @author     Jens-Andre Koch
+* @copyright  JAK
+* @license    GPL
 * @version    SVN: $Id$
 * @link       http://www.clansuite.com
 */
@@ -72,14 +72,14 @@ $info['subs'] = array();
 // module in the admin interface.
 //---------------------------------------------------------------- 
 
-$info['author']         = 'Florian Wolf, Jens-André Koch';
+$info['author']         = 'Jens-Andre Koch';
 $info['homepage']       = 'http://www.clansuite.com';
-$info['license']        = 'GPL v2';
-$info['copyright']      = 'ClanSuite Group';
-$info['timestamp']      = 1171003030;
+$info['license']        = 'GPL';
+$info['copyright']      = 'JAK';
+$info['timestamp']      = 1170979184;
 $info['name']           = 'guestbook';
 $info['title']          = 'Guestbook';
-$info['description']    = 'The guestbook for visitors';
+$info['description']    = 'Guestbook';
 $info['class_name']     = 'module_guestbook';
 $info['file_name']      = 'guestbook.module.php';
 $info['folder_name']    = 'guestbook';
