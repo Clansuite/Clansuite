@@ -255,7 +255,8 @@ $stats->assign_statistic_vars();
 header('Content-Type: text/html; charset=UTF-8');
 
 /**
-* @desc $_REQUEST Switch - Fetches content for mod and sub
+* @desc $_REQUEST Switch - This fetches the content for the module / sub
+* @output $content
 */
 $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
@@ -290,9 +291,9 @@ $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
-$tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
 $tpl->assign('copyright'        , $cfg->copyright );
+if (!empty($content['ADDITIONAL_HEAD'])) { $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] ); }
 $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
