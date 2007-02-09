@@ -2,7 +2,7 @@
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
-{* DC Tags Example todo *}
+{* Dublin Core Metatags *}
 <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
 <meta name="DC.Creator" content="Florian Wolf, Jens-Andre Koch" />
 <meta name="DC.Date" content="20070101" />
@@ -36,7 +36,7 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
 <![endif]-->
 
-{$additional_head}
+{if $additional_head} {$additional_head} {/if}
 {$redirect}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
@@ -46,14 +46,14 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <!-- BrowserCheck //-->
  <h2 class="oops">{translate}
-	You shouldn't be able to read this, because this site uses complex stylesheets to 
-	display the information - your browser doesn't support these new standards. However, all 
-	is not lost, you can upgrade your browser absolutely free, so please 
-	
-	UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"  
+	You shouldn't be able to read this, because this site uses complex stylesheets to
+	display the information - your browser doesn't support these new standards. However, all
+	is not lost, you can upgrade your browser absolutely free, so please
+
+	UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"
 	title="Download a browser that complies with Web standards.">
-	standards-compliant browser</a>. If you decide against doing so, then 
-	this and other similar sites will be lost to you. Remember...upgrading is free, and it 
+	standards-compliant browser</a>. If you decide against doing so, then
+	this and other similar sites will be lost to you. Remember...upgrading is free, and it
 	enhances your view of the Web.{/translate}
 </h2>
 
@@ -76,11 +76,11 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <td width="10">
                         Menu
     </td>
-    
+
     <td>
                         {include file='breadcrumbs.tpl'}
     </td>
-    
+
     <td width="200">
                         Infos
     </td>
@@ -93,9 +93,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             <table id="menu1" height="300" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
                 <td>
-                    
+
                     <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-    
+
                     <div class="section">
                         <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_tpl_root}/images/icons/modules.png" border="0" width="16" height="16">Modules<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
@@ -106,27 +106,27 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                               <a class="item" href="index.php?mod=static&page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Credits</a>
                               <a class="item" href="index.php?mod=static&action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16">Static Pages Overview</a>
                            </div>
-                        
+
                         <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_tpl_root}/images/icons/users.png" border="0" width="16" height="16">Users<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
                               <a class="item" href="index.php?mod=account">Login</a>
                               <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16">Logout</a>
                           </div>
                     </div>
-                    
+
                     <a class="button" href="index.php?mod=admin">Admin</a>
-     
+
                 </td>
             </tr>
             </table>
-            
+
         </div>
     </td>
-    
+
     <td class="cell1">
                         {$content}
     </td>
-    
+
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
             {mod name="account" func="login"}
@@ -142,7 +142,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                 <tr> {* {$stats|@var_dump} *}
                     <td class="cell1">Online: {$stats.online} <br/>
                                       - Users : {$stats.authed_users}
-                                      - Guests : {$stats.guest_users} <br/> 
+                                      - Guests : {$stats.guest_users} <br/>
                                       Today: {$stats.today_impressions} <br/>
                                       Yesterday: {$stats.yesterday_impressions} <br/>
                                       Month: {$stats.month_impressions} <br/>
