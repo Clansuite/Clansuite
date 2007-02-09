@@ -466,7 +466,7 @@ Sorry for the inconvenience.{/translate}</textarea>
 
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Cache On/Off{/translate}
+                    {translate}Cache On{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input type="radio" value="1" name="config[caching]" {if $cfg->caching == 1}checked{/if} /> {translate}yes{/translate}
