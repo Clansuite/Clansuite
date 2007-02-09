@@ -293,7 +293,10 @@ $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
 $tpl->assign('copyright'        , $cfg->copyright );
-if (!empty($content['ADDITIONAL_HEAD'])) { $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] ); }
+if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD'])) 
+{ 
+    $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] ); 
+    }
 $tpl->assign('content'          , $content['OUTPUT'] );
 
 /**
