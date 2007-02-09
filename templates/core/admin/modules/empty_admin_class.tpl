@@ -57,19 +57,19 @@ class {$admin_class_name}
     function auto_run()
     {ldelim}
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('{$title}'), '/index.php?mod={$title}&sub=admin');
+        $trail->addStep($lang->t('{$title}'), '/index.php?mod={$name}&sub=admin');
 
         switch ($_REQUEST['action'])
         {ldelim}
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod={$title}&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod={$name}&action=show');
                 $this->show();
                 break;
 

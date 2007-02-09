@@ -57,11 +57,11 @@ class module_replays
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Replays'), '/index.php?mod=Replays');
+        $trail->addStep($lang->t('Replays'), '/index.php?mod=replays');
 
         //
         switch ($_REQUEST['action'])

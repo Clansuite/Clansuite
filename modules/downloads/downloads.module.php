@@ -57,11 +57,11 @@ class module_downloads
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Downloads'), '/index.php?mod=Downloads');
+        $trail->addStep($lang->t('Downloads'), '/index.php?mod=downloads');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_downloads
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Downloads&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=downloads&action=show');
                 $this->show();
                 break;
 

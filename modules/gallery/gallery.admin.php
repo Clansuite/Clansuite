@@ -57,19 +57,19 @@ class module_gallery_admin
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Gallery'), '/index.php?mod=Gallery&sub=admin');
+        $trail->addStep($lang->t('Gallery'), '/index.php?mod=gallery&sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Gallery&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=gallery&action=show');
                 $this->show();
                 break;
 

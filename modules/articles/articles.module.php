@@ -57,11 +57,11 @@ class module_articles
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Articles'), '/index.php?mod=Articles');
+        $trail->addStep($lang->t('Articles'), '/index.php?mod=articles');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_articles
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Articles&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=articles&action=show');
                 $this->show();
                 break;
 

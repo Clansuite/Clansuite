@@ -57,11 +57,11 @@ class module_matches
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Matches'), '/index.php?mod=Matches');
+        $trail->addStep($lang->t('Matches'), '/index.php?mod=matches');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_matches
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Matches&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=matches&action=show');
                 $this->show();
                 break;
 

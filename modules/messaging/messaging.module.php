@@ -57,11 +57,11 @@ class module_messaging
     function auto_run()
     {
 
-        global $lang;
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Messaging'), '/index.php?mod=Messaging');
+        $trail->addStep($lang->t('Messaging'), '/index.php?mod=messaging');
 
         //
         switch ($_REQUEST['action'])
@@ -69,7 +69,7 @@ class module_messaging
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=Messaging&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=messaging&action=show');
                 $this->show();
                 break;
 
