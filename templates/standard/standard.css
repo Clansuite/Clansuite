@@ -193,7 +193,8 @@ form select
     font-size: 11px;
 }
 
-form select.input_text
+form select.input_text,
+select.input_text
 {
     height: auto;
 }
@@ -473,6 +474,12 @@ table.admintable tr#cell3
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     padding: 5px;
     cursor: default;
+}
+
+.profile_icon
+{
+    height: 13px;
+    text-align: center;
 }
 
 .ajax_input_class

@@ -73,6 +73,11 @@ class module_account_profile
                 $this->show();
                 break;
 
+            case 'get_custom_text':
+                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&action=get_custom_text');
+                $this->get_custom_text();
+                break;
+
             case 'ajax_update':
                 $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&action=ajax_update');
                 $this->ajax_update();
@@ -102,9 +107,45 @@ class module_account_profile
         $stmt->execute( array( $_SESSION['user']['user_id'] ) );
         $info = $stmt->fetch(PDO::FETCH_NAMED);
 
+        // BBCode load class and init
+        require_once( CORE_ROOT . '/bbcode.class.php' );
+        $bbcode = new bbcode();
+        $info['custom_text'] = $bbcode->parse($info['custom_text']);
+
+        // Gender
+        if( $info['gender'] == 'female' )
+        {
+            $info['gender'] = $lang->t('Female');
+        }
+        else if( $info['gender'] == 'male' )
+        {
+            $info['gender'] = $lang->t('Male');
+        }
+        else
+        {
+            $info['gender'] = '-';
+        }
+
         // Output
         $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch('profile/show.tpl');
+    }
+
+    /**
+    * @desc Function: Show
+    */
+    function get_custom_text()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
+
+        // DB Select
+        $stmt = $db->prepare('SELECT custom_text FROM '. DB_PREFIX .'profiles WHERE user_id = ?');
+        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
+        $info = $stmt->fetch(PDO::FETCH_NAMED);
+
+        // Output
+        $this->output .= $info['custom_text'];
+        $this->suppress_wrapper = true;
     }
 
     /**
@@ -118,7 +159,7 @@ class module_account_profile
         * @desc Incoming vars
         */
         $value  = urldecode($_POST['value']);
-        $cell   = urldecode($_POST['cell']);
+        $cell   = isset($_POST['cell']) ? urldecode($_POST['cell']) : urldecode($_GET['cell']);
 
 
         // whitelist for $modules_dbfields
@@ -140,6 +181,11 @@ class module_account_profile
         // check if $modules_dbfield exists in $whitelist
         if( in_array($cell, $whitelist) )
         {
+            if( $cell == 'birthday' )
+            {
+                $old_value = $value;
+                $value = strtotime($value);
+            }
             // if yes, update that field in db
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'profiles SET `' . $cell . '` = ?, `timestamp` = ?
                                                                    WHERE user_id = ?' );
@@ -148,6 +194,33 @@ class module_account_profile
         else
         {
             $security->intruder_alert();
+        }
+
+        // Convert timestamp back
+        if( $cell == 'birthday' ) $value = $old_value;
+
+        if( $cell == 'custom_text' )
+        {
+            // BBCode load class and init
+            require_once( CORE_ROOT . '/bbcode.class.php' );
+            $bbcode = new bbcode();
+            $value = $bbcode->parse($value);
+        }
+
+        if( $cell == 'gender' )
+        {
+            if( $value == 'female' )
+            {
+                $value = $lang->t('Female');
+            }
+            else if( $value == 'male' )
+            {
+                $value = $lang->t('Male');
+            }
+            else
+            {
+                $value = '-';
+            }
         }
 
         // Output + Suppress wrappering!

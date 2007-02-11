@@ -76,39 +76,200 @@ TableGrid.prototype = {
     },
 
     createEditField: function() {
-		this.cell.style.backgroundColor = '#ffffff';
-		this.cell.style.padding = '0px';
+        if( this.table == 'profile' && this.cell.id == 'birthday' )
+        {
+    		this.cell.style.backgroundColor = '#ffffff';
+    		this.cell.style.padding = '0px';
 
-		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
-		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
-		Event.stopObserving(this.cell, 'click', this.onclickListener);
+    		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
+    		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
+    		Event.stopObserving(this.cell, 'click', this.onclickListener);
 
-		var text = this.cell.innerHTML;
-		var obj = this;
-		this.oldValue = text;
+    		var text = this.cell.innerHTML.split(".");
+    		var obj = this;
+    		this.oldValue = text;
 
-	    var textField = document.createElement("input");
-        textField.obj = this;
-	    textField.type = 'text';
-	    textField.setAttribute('class', this.input_class);
-	    textField.name = 'value';
-	    textField.setAttribute('autocomplete', 'off');
-	    textField.id = 'value';
-	    textField.maxLength = '255';
-	    textField.size = '10';
-	    textField.value = text.replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
-	    //textField.style.backgroundColor = '#fbecc0';
-		//textField.onblur = this.onBlur.bind(this);
-	    textField.onclick = this.enterInput.bind(this);
-	    textField.onblur = this.onBlur.bind(this);
+    	    var textField = document.createElement("input");
+            textField.obj = this;
+    	    textField.type = 'text';
+    	    textField.setAttribute('class', this.input_class);
+    	    textField.name = 'value';
+    	    textField.setAttribute('autocomplete', 'off');
+    	    textField.id = 'value';
+    	    textField.maxLength = '2';
+    	    textField.size = '2';
+    	    textField.value = text[0].replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
+    	    textField.onclick = this.enterInput.bind(this);
+    	    //textField.onblur = this.onBlur.bind(this);
 
-	    this.editField = textField;
-	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+    	    var textField2 = document.createElement("input");
+            textField2.obj = this;
+    	    textField2.type = 'text';
+    	    textField2.setAttribute('class', this.input_class);
+    	    textField2.name = 'value';
+    	    textField2.setAttribute('autocomplete', 'off');
+    	    textField2.id = 'value';
+    	    textField2.maxLength = '2';
+    	    textField2.size = '2';
+    	    textField2.value = text[1].replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
+    	    textField2.onclick = this.enterInput.bind(this);
+    	    //textField2.onblur = this.onBlur.bind(this);
 
-	    this.cell.innerHTML = '';
-	    this.cell.appendChild(this.editField);
+    	    var textField3 = document.createElement("input");
+            textField3.obj = this;
+    	    textField3.type = 'text';
+    	    textField3.setAttribute('class', this.input_class);
+    	    textField3.name = 'value';
+    	    textField3.setAttribute('autocomplete', 'off');
+    	    textField3.id = 'value';
+    	    textField3.maxLength = '4';
+    	    textField3.size = '4';
+    	    textField3.value = text[2].replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
+    	    textField3.onclick = this.enterInput.bind(this);
+    	    textField3.onblur = this.onBlur.bind(this);
 
-	    this.editField.focus();
+    	    this.editField = textField;
+    	    this.editField2 = textField2;
+    	    this.editField3 = textField3;
+    	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+    	    Event.observe(this.editField2, "keypress", this.onKeyPress.bindAsEventListener(this));
+    	    Event.observe(this.editField3, "keypress", this.onKeyPress.bindAsEventListener(this));
+
+    	    this.cell.innerHTML = '';
+    	    this.cell.appendChild(this.editField);
+    	    this.cell.appendChild(this.editField2);
+    	    this.cell.appendChild(this.editField3);
+
+    	    this.editField.focus();
+        }
+        else if (this.table == 'profile' && this.cell.id == 'gender')
+        {
+    		this.cell.style.backgroundColor = '#ffffff';
+    		this.cell.style.padding = '0px';
+
+    		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
+    		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
+    		Event.stopObserving(this.cell, 'click', this.onclickListener);
+
+    		var text = this.cell.innerHTML;
+    		var obj = this;
+    		this.oldValue = text;
+
+    	    var textField = document.getElementById("gender_container").cloneNode(true);
+            textField.obj = this;
+    	    textField.setAttribute('class', this.input_class);
+    	    textField.name = 'value';
+    	    textField.setAttribute('autocomplete', 'off');
+    	    textField.id = 'value';
+    	    textField.onclick = this.enterInput.bind(this);
+    	    textField.onblur = this.onBlur.bind(this);
+
+    	    this.editField = textField;
+    	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+
+    	    this.cell.innerHTML = '';
+    	    this.cell.appendChild(this.editField);
+
+    	    this.editField.focus();
+        }
+        else if (this.table == 'profile' && this.cell.id == 'country')
+        {
+    		this.cell.style.backgroundColor = '#ffffff';
+    		this.cell.style.padding = '0px';
+
+    		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
+    		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
+    		Event.stopObserving(this.cell, 'click', this.onclickListener);
+
+    		var text = this.cell.innerHTML;
+    		var obj = this;
+    		this.oldValue = text;
+
+    	    var textField = document.getElementById("country_container").cloneNode(true);
+            textField.obj = this;
+    	    textField.setAttribute('class', this.input_class);
+    	    textField.name = 'value';
+    	    textField.setAttribute('autocomplete', 'off');
+    	    textField.id = 'value';
+    	    textField.onclick = this.enterInput.bind(this);
+    	    textField.onblur = this.onBlur.bind(this);
+
+    	    this.editField = textField;
+    	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+
+    	    this.cell.innerHTML = '';
+    	    this.cell.appendChild(this.editField);
+
+    	    this.editField.focus();
+        }
+        else if (this.table == 'profile' && this.cell.id == 'custom_text')
+        {
+    		this.cell.style.backgroundColor = '#ffffff';
+    		this.cell.style.padding = '0px';
+
+    		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
+    		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
+    		Event.stopObserving(this.cell, 'click', this.onclickListener);
+
+    		var text = this.cell.innerHTML;
+    		var obj = this;
+    		this.oldValue = text;
+
+    	    var textField = document.createElement("textarea");
+            textField.obj = this;
+    	    //textField.type = 'textarea';
+    	    textField.setAttribute('class', 'input_textarea');
+    	    textField.name = 'value';
+    	    textField.setAttribute('autocomplete', 'off');
+    	    textField.id = 'value';
+    	    textField.rows = '15';
+    	    textField.cols = '40';
+    	    textField.value = text.replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
+    	    textField.onclick = this.enterInput.bind(this);
+    	    textField.onblur = this.onBlur.bind(this);
+
+    	    this.editField = textField;
+    	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+
+    	    this.cell.innerHTML = '';
+    	    this.cell.appendChild(this.editField);
+
+    	    this.editField.focus();
+        }
+        else
+        {
+    		this.cell.style.backgroundColor = '#ffffff';
+    		this.cell.style.padding = '0px';
+
+    		Event.stopObserving(this.cell, 'mouseover', this.mouseoverListener);
+    		Event.stopObserving(this.cell, 'mouseout', this.mouseoutListener);
+    		Event.stopObserving(this.cell, 'click', this.onclickListener);
+
+    		var text = this.cell.innerHTML;
+    		var obj = this;
+    		this.oldValue = text;
+
+    	    var textField = document.createElement("input");
+            textField.obj = this;
+    	    textField.type = 'text';
+    	    textField.setAttribute('class', this.input_class);
+    	    textField.name = 'value';
+    	    textField.setAttribute('autocomplete', 'off');
+    	    textField.id = 'value';
+    	    textField.maxLength = '255';
+    	    textField.size = '10';
+    	    textField.value = text.replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
+    	    textField.onclick = this.enterInput.bind(this);
+    	    textField.onblur = this.onBlur.bind(this);
+
+    	    this.editField = textField;
+    	    Event.observe(this.editField, "keypress", this.onKeyPress.bindAsEventListener(this));
+
+    	    this.cell.innerHTML = '';
+    	    this.cell.appendChild(this.editField);
+
+    	    this.editField.focus();
+    	}
 	},
 
     onKeyPress: function(event) {
@@ -179,7 +340,14 @@ TableGrid.prototype = {
 	saveData: function() {
     	this.saving = true;
 
-    	var pars = '&table=' + escape(encodeURIComponent(this.table)) + '&value=' + escape(encodeURIComponent(this.editField.value)) + '&cell=' + escape(encodeURIComponent(this.cell.id));
+        if( this.table == 'profile' && this.cell.id == 'birthday' )
+        {
+           var pars = '&table=' + escape(encodeURIComponent(this.table)) + '&value=' + escape(encodeURIComponent(this.editField.value)) + '.' + escape(encodeURIComponent(this.editField2.value)) + '.' + escape(encodeURIComponent(this.editField3.value)) + '&cell=' + escape(encodeURIComponent(this.cell.id));
+        }
+        else
+        {
+    	   var pars = '&table=' + escape(encodeURIComponent(this.table)) + '&value=' + escape(encodeURIComponent(this.editField.value)) + '&cell=' + escape(encodeURIComponent(this.cell.id));
+    	}
 
 
     	this.removeInput();
