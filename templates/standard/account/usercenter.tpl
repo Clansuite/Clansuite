@@ -23,6 +23,11 @@
     </tr>
     <tr>
         <td align="center">
+            <a href="index.php?mod=messaging&action=show">{translate}Messages{/translate}</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
             <a href="index.php?mod=account&action=logout">{translate}Logout{/translate}</a>
         </td>
     </tr>

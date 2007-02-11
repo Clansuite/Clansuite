@@ -1,11 +1,11 @@
 {doc_raw}
     {* StyleSheets *}
     <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
-    
+    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />
+
     {* JavaScripts *}
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>
     {literal}
     <script type="text/javascript">
         function clip_area(id)
@@ -26,11 +26,11 @@
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
- 
+
 <form target="_self" method="POST" action="index.php?mod=admin&sub=groups&action=edit">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
-    
+
         <tr class="tr_header">
             <td>
                 {translate}Description{/translate}
@@ -39,7 +39,7 @@
                 {translate}Input{/translate}
             </td>
         </tr>
-        
+
         <tr class="tr_row1">
             <td>
                 {translate}Name{/translate}
@@ -49,7 +49,7 @@
                 <input name="info[name]" type="text" value="{$info.name|escape:"html"}" size="30" class="input_text" />
             </td>
         </tr>
-        
+
         <tr class="tr_row1">
             <td>
                 {translate}Description{/translate}
@@ -58,7 +58,7 @@
                 <input name="info[description]" type="text" value="{$info.description|escape:"html"}" size="30" class="input_text"/>
             </td>
         </tr>
-                
+
         <tr class="tr_row2">
             <td>
                 {translate}Position{/translate}
@@ -67,7 +67,7 @@
                 <input name="info[sortorder]" type="text" value="{$info.sortorder|escape:"html"}" size="3" class="input_text"/>
             </td>
         </tr>
-        
+
         <tr class="tr_row2">
             <td>
                 {translate}Hex-Code{/translate} ( <a id="color_href" href="javascript: showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{translate}pick{/translate}</a> )
@@ -87,7 +87,7 @@
                 {/if}
             </td>
         </tr>
-        
+
         <tr class="tr_row1">
             <td>
                 {translate}Icon{/translate}
@@ -103,13 +103,13 @@
             </td>
             <td align="center">
                 {if $info.icon==''}
-                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
+                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_icon" border="0" width="16" height="16" class="border3d">
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/icons/{$info.icon|escape:"html"}" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
-                {/if}            
+                    <img src="{$www_core_tpl_root}/images/groups/icons/{$info.icon|escape:"html"}" id="insert_icon" border="0" width="16" height="16" class="border3d">
+                {/if}
             </td>
         </tr>
-        
+
         <tr class="tr_row2">
             <td>
                 {translate}Image{/translate}
@@ -124,13 +124,13 @@
             </td>
             <td align="center">
                 {if $info.image==''}
-                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d"> 
+                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d">
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/images/{$info.image|escape:"html"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
+                    <img src="{$www_core_tpl_root}/images/groups/images/{$info.image|escape:"html"}" id="insert_image" border="0" width="48" height="48" class="border3d">
                 {/if}
             </td>
         </tr>
-        
+
         <tr class="tr_row1">
             <td>
                 {translate}Available Rights{/translate}<br />
@@ -176,16 +176,17 @@
                                 {$right_array.name}
                             </td>
 
-                        </tr>               
+                        </tr>
                     {/foreach}
                 </table>
             </td>
         </tr>
-        
+
         <tr class="tr_row2">
             <td colspan="3" align="right">
+                <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=groups'"/>
                 <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the group{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />        
+                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
             </td>
         </tr>
     </table>

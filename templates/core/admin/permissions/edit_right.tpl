@@ -6,11 +6,11 @@
 {if $smarty.const.DEBUG eq "1"} Debugausgabe der Var:  {$permission|@var_dump}   {/if}
 *}
 
- 
+
 <form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=edit_right">
 
     <input type="hidden" name="info[right_id]" class="input_text" value="{$info.right_id}" />
-    
+
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="400">
     <tr class="tr_header">
         <td width="80">
@@ -37,7 +37,7 @@
         <td>
             <input type="text" name="info[description]" class="input_text" value="{$info.description|escape:"html"}" />
         </td>
-    </tr> 
+    </tr>
 
     <tr class="tr_row1">
         <td>
@@ -54,10 +54,11 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
+            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=permissions'" />
             <input type="submit" name="submit" value="{translate}Edit the right{/translate}" class="ButtonGreen" />
             <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>
     </tr>
     </table>
-	 
+
 </form>
