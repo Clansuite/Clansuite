@@ -398,7 +398,7 @@ CREATE TABLE `cs_rights` (
 --
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
-INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a News'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a news'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news');
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
@@ -448,7 +448,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'8723145b519a66d8bc85465ce2682914','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1\";client_host|s:9:\"localhost\";suiteSID|s:32:\"8723145b519a66d8bc85465ce2682914\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1171175159,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'8723145b519a66d8bc85465ce2682914','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1\";client_host|s:9:\"localhost\";suiteSID|s:32:\"8723145b519a66d8bc85465ce2682914\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1171176006,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -598,4 +598,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-02-11  5:56:29
+-- Dump completed on 2007-02-11  6:11:18
