@@ -19,9 +19,6 @@
                 <table cellpadding="5" cellspacing="0" border="0" width="100%">
                 {foreach key=key item=item from=$messages}
                     <tr>
-                        <td colspan="2" class="cell3">&nbsp;</td>
-                    </tr>
-                    <tr>
                         <td class="cell2">
                             <div class="{if $item.read==0}message_new{else}message_old{/if}">
 
