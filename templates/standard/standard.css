@@ -175,12 +175,27 @@ a[href^="http:"]:not([href^="http://www.clansuite.com"])::after {
     font-weight: bold;
 }
 
+form input,
+form textarea,
+form select
+{
+	width:auto;      /* auto-size, otherwise watch for wrap on resize */
+	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+}
+
 .input_text
 {
     border: 1px solid black;
     height: 13px;
     font-family: tahoma, verdana, arial, sans-serif;
     font-size: 11px;
+}
+
+form select.input_text
+{
+    height: auto;
 }
 
 .input_textarea
@@ -300,6 +315,15 @@ table.admintable tr#cell3
     cursor: default;
 }
 
+.red_cell
+{
+    background: #FF0000;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
 .td_header
 {
     background: #254161;
@@ -388,6 +412,58 @@ table.admintable tr#cell3
     padding-top:    1px;
     padding-bottom: 1px;
 
+}
+
+.message_new
+{
+    border: 1px solid #999999;
+    background: #CCFF99;
+    padding: 3px;
+}
+
+.message_old
+{
+    border: 1px solid #999999;
+    background: #EEEEEE;
+    padding: 3px;
+
+}
+
+.message_date
+{
+    clear: left;
+    font-size: 10px;
+}
+
+.message_headline
+{
+    float: left;
+    clear: both;
+}
+
+.message_message
+{
+
+}
+
+.message_divider
+{
+    border-width: 1px 0px 0px 0px;
+    border-color: #000000;
+    border-style: solid;
+    clear: both;
+    height: 1px;
+}
+
+.message_buttons
+{
+    float: right;
+    top: 0px;
+}
+
+.message_selections
+{
+    float: right;
 }
 
 .bar

@@ -177,7 +177,7 @@ CREATE TABLE `cs_group_rights` (
 --
 
 /*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
-INSERT INTO `cs_group_rights` VALUES (1,10),(1,11),(1,12),(1,13),(2,11),(3,1),(3,3),(3,4),(3,5);
+INSERT INTO `cs_group_rights` VALUES (1,10),(1,11),(1,12),(1,13),(1,16),(2,11),(3,1),(3,3),(3,4),(3,5);
 /*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
 
 --
@@ -261,7 +261,7 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[
 
 DROP TABLE IF EXISTS `cs_messages`;
 CREATE TABLE `cs_messages` (
-  `message_id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL auto_increment,
   `from` int(11) NOT NULL,
   `to` int(11) NOT NULL,
   `headline` varchar(255) NOT NULL,
@@ -270,13 +270,14 @@ CREATE TABLE `cs_messages` (
   `read` int(1) NOT NULL,
   PRIMARY KEY  (`message_id`),
   KEY `from` (`from`,`to`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_messages`
 --
 
 /*!40000 ALTER TABLE `cs_messages` DISABLE KEYS */;
+INSERT INTO `cs_messages` VALUES (10,1,1,'uschi','furuzzz',1171204602,1),(11,1,1,'uschi','furuzzz',1171204602,1),(12,1,1,'uschi','furuzzz',1171204602,0);
 /*!40000 ALTER TABLE `cs_messages` ENABLE KEYS */;
 
 --
@@ -391,14 +392,14 @@ CREATE TABLE `cs_rights` (
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`right_id`,`area_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_rights`
 --
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
-INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a news'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a news'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news'),(16,17,'use_messaging_system','The ability to use the messaging system.');
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
@@ -448,7 +449,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'8723145b519a66d8bc85465ce2682914','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1\";client_host|s:9:\"localhost\";suiteSID|s:32:\"8723145b519a66d8bc85465ce2682914\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:4:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;}}','suiteSID',1171176006,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'8723145b519a66d8bc85465ce2682914','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1\";client_host|s:9:\"localhost\";suiteSID|s:32:\"8723145b519a66d8bc85465ce2682914\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:10:\"first_name\";s:13:\"Administrator\";s:9:\"last_name\";s:13:\"Administrator\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:5:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:20:\"use_messaging_system\";i:1;}}','suiteSID',1171206470,1,'messaging');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -598,4 +599,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-02-11  6:11:18
+-- Dump completed on 2007-02-11 14:39:07
