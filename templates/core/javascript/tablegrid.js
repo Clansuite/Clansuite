@@ -11,9 +11,18 @@ Ajax.Responders.register({
 
 TableGrid = Class.create();
 TableGrid.prototype = {
-	initialize: function(table, cols, url ) {
+	initialize: function(table, cols, url, edit_class, input_class ) {
     	this.table = table;
     	this.url = url;
+    	if( !edit_class )
+    	   this.edit_class = 'editcell';
+    	else
+            this.edit_class = edit_class;
+
+    	if( !input_class )
+    	   this.input_class = 'ajax_input_class';
+    	else
+            this.input_class = input_class;
 
    		this.tbody = $(table).getElementsByTagName('tbody')[0];
 
@@ -32,7 +41,7 @@ TableGrid.prototype = {
 
 	addCellEvent: function() {
 	    //  table#id td.class
-	    $$('table#' + this.table + ' td.editcell').each(function(item) {
+	    $$('table#' + this.table + ' td.' + this.edit_class).each(function(item) {
 			Event.observe(item, 'mouseover', this.mouseoverListener);
 			Event.observe(item, 'mouseout', this.mouseoutListener);
 			Event.observe(item, 'click', this.onclickListener);
@@ -62,6 +71,7 @@ TableGrid.prototype = {
 
     	this.editing = true;
     	this.cell = Event.element(event);
+    	this.old_padding = this.cell.style.padding;
     	this.createEditField();
     },
 
@@ -78,15 +88,16 @@ TableGrid.prototype = {
 		this.oldValue = text;
 
 	    var textField = document.createElement("input");
-	    textField.obj = this;
+        textField.obj = this;
 	    textField.type = 'text';
+	    textField.setAttribute('class', this.input_class);
 	    textField.name = 'value';
 	    textField.setAttribute('autocomplete', 'off');
 	    textField.id = 'value';
-	    textField.maxLength = '40';
+	    textField.maxLength = '255';
 	    textField.size = '10';
 	    textField.value = text.replace(/^[\s]+/,'').replace(/&lt;/,'<').replace(/&gt;/,'>');
-	    textField.style.backgroundColor = '#fbecc0';
+	    //textField.style.backgroundColor = '#fbecc0';
 		//textField.onblur = this.onBlur.bind(this);
 	    textField.onclick = this.enterInput.bind(this);
 	    textField.onblur = this.onBlur.bind(this);
@@ -158,7 +169,7 @@ TableGrid.prototype = {
       		Element.remove(this.editField);
       		this.editField = null;
     	}
-    	this.cell.style.padding = '2px';
+    	this.cell.style.padding = this.old_padding;
 
     	Event.observe(this.cell, 'mouseover', this.mouseoverListener);
 		Event.observe(this.cell, 'mouseout', this.mouseoutListener);

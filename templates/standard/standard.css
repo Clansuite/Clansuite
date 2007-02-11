@@ -466,6 +466,27 @@ table.admintable tr#cell3
     float: right;
 }
 
+.profile_editcell
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.ajax_input_class
+{
+	width:auto;      /* auto-size, otherwise watch for wrap on resize */
+	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
 .bar
 {
     float: left;

@@ -148,12 +148,12 @@ class config
         $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
 
         // Cache
-        
+
         $this->caching = 0;
         $this->cache_lifetime = '-1';
 
         // Maintenance Mode
-        
+
         $this->maintenance = 0;
     }
 }

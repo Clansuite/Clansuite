@@ -57,7 +57,7 @@ class {$admin_class_name}
     function auto_run()
     {ldelim}
 
-        global $lang,$trail;
+        global $lang, $trail, $perms;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
