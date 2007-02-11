@@ -69,9 +69,20 @@ class module_messaging
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=messaging&action=show');
+                $trail->addStep($lang->t('Incoming messages'), '/index.php?mod=messaging&action=show');
                 $this->show();
                 break;
+
+            case 'show_outgoing':
+                $trail->addStep($lang->t('Outgoing messages'), '/index.php?mod=messaging&action=show');
+                $this->show_outgoing();
+                break;
+
+            case 'create':
+                $trail->addStep($lang->t('Create'), '/index.php?mod=messaging&action=show');
+                $this->create();
+                break;
+
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -85,19 +96,47 @@ class module_messaging
     }
 
 
-     /**
-    * @desc Function: Show
+    /**
+    * @desc Function: Show all incoming messages
     */
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t('You have created a new module, that currently handles this message');
+        // Get all incoming messages
+        $stmt = $db->prepare('SELECT `message_id`,`headline`,`from`,`to`,`message`,`timestamp`,`read` FROM ' . DB_PREFIX . 'messages WHERE `to` = ?');
+        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
+        $messages = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // Output
+        $tpl->assign( 'menu'    , $tpl->fetch('messaging/menu.tpl') );
+        $tpl->assign( 'messages', $messages );
+        $this->output .= $tpl->fetch('messaging/show.tpl');
     }
 
+    /**
+    * @desc Function: Create a new message
+    */
+    function create()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+
+        // Incoming vars
+        $submit = $_POST['submit'];
+
+        if( !empty($submit) )
+        {
+
+        }
+        else
+        {
+
+        }
+
+        // Output
+        $tpl->assign( 'menu'    , $tpl->fetch('messaging/menu.tpl') );
+        $this->output .= $tpl->fetch( 'messaging/create.tpl' );
+    }
 
     /**
     * @desc Function: instant_show

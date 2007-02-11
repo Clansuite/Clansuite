@@ -90,7 +90,7 @@ class {$class_name}
     */
     function show()
     {ldelim}
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
         /**
         * @desc Handle the output - $lang-t() translates the text.
@@ -110,7 +110,7 @@ class {$class_name}
     */
     function instant_show($my_text)
     {ldelim}
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
         /**
         * @desc Handle the output - $lang-t() translates the text.
