@@ -45,7 +45,7 @@ class trail
 
         // auto-executed at initialization of class trail
         // assigns "Home >>"
-        function trail($homeArea = true, $homeLabel = 'Home', $homeLink = WWW_ROOT)
+        function trail($homeArea = true, $homeLabel = 'Home', $homeLink = '/')
         {
             global $lang;
 
@@ -62,7 +62,7 @@ class trail
 
             if (strlen($link) > 0)
             {
-                $item['link'] = $link;
+                $item['link'] = WWW_ROOT . $link;
             }
 
             $this->path[] = $item;
