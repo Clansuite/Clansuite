@@ -18,10 +18,10 @@
 		               filter:alpha(opacity=75);'>&nbsp;{$error_head}&nbsp;</strong>
 	</legend>
 	<label>
-		{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br>{/if}
-		<strong>Error Message:</strong> <i>{$debug_info}</i><br>
-		{if isset($file)}<strong>File:</strong> <i>{$file}</i><br>{/if}
-		{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br>{/if}
+		{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br />{/if}
+		<strong>Error Message:</strong> <i>{$debug_info}</i><br />
+		{if isset($file)}<strong>File:</strong> <i>{$file}</i><br />{/if}
+		{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br />{/if}
 	</label>
 </fieldset>
 
