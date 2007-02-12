@@ -77,17 +77,16 @@ if (ini_get('register_globals'))
 }
 
 /**
-* @desc Path Assignments
+* @desc Set Base_URL -> BASE_URL_SEED2
 */
-define('BASEDIR'    , str_replace('\\', '/', dirname(__FILE__) ) . '/');
-define('BASE_URL_SEED'    , 'http://'.$_SERVER['SERVER_NAME']);
+define('BASE_URL'    , 'http://'.$_SERVER['SERVER_NAME']);
 if (dirname($_SERVER['PHP_SELF']) == "\\" )
 {
-    define('BASE_URL_SEED2', BASE_URL_SEED );
+    define('BASE_URL_SEED', BASE_URL );
 }
 else
 {
-    define('BASE_URL_SEED2', BASE_URL_SEED.dirname($_SERVER['PHP_SELF']) );
+    define('BASE_URL_SEED', BASE_URL.dirname($_SERVER['PHP_SELF']) );
 }
 
 /**
@@ -99,16 +98,18 @@ require('config.class.php');
 $cfg = new config;
 
 /**
-* @desc Defines: *_ROOT, *_NAME, DEBUG, DB_PREFIX
+* @desc Defines: Path Assignments, *_ROOT, *_NAME, DEBUG, DB_PREFIX
+* ROOT is Basedir
+* WWW_ROOT complete www-path with server
 */
-define('ROOT'       , $cfg->root);
+define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
 define('MOD_ROOT'   , ROOT . $cfg->mod_folder);
 define('TPL_ROOT'   , ROOT . $cfg->tpl_folder);
 define('LANG_ROOT'  , ROOT . $cfg->lang_folder);
 define('CORE_ROOT'  , ROOT . $cfg->core_folder);
 define('UPLOAD_ROOT', ROOT . $cfg->upload_folder);
+define('WWW_ROOT'   , BASE_URL_SEED);
 define('TPL_NAME'   , $cfg->tpl_name);
-define('WWW_ROOT'   , $cfg->www_root);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
 
