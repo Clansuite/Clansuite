@@ -44,7 +44,8 @@ class trail
         public $path = array();
 
         // auto-executed at initialization of class trail
-        function trail($homeArea = true, $homeLabel = 'Home', $homeLink = '/')
+        // assigns "Home >>"
+        function trail($homeArea = true, $homeLabel = 'Home', $homeLink = WWW_ROOT)
         {
             global $lang;
 
