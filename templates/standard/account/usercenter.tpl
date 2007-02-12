@@ -13,22 +13,22 @@
     {/if}
     <tr>
         <td align="center">
-            <a href="index.php?mod=account&sub=options">{translate}Options{/translate}</a>
+            <a href="index.php?mod=account&amp;sub=options">{translate}Options{/translate}</a>
         </td>
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=account&sub=profile">{translate}Profile{/translate}</a>
+            <a href="index.php?mod=account&amp;sub=profile">{translate}Profile{/translate}</a>
         </td>
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=messaging&action=show">{translate}Messages{/translate}</a>
+            <a href="index.php?mod=messaging&amp;action=show">{translate}Messages{/translate}</a>
         </td>
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=account&action=logout">{translate}Logout{/translate}</a>
+            <a href="index.php?mod=account&amp;action=logout">{translate}Logout{/translate}</a>
         </td>
     </tr>
 </table>
