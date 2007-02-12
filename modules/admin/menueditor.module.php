@@ -268,7 +268,7 @@ class module_admin_menueditor
                      $result .= "\n\t";
                      $result .= '<a class="button" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     $result .= '<img alt="Image of Folder" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      
                      if( $entry['icon'] != 'empty.png' )
                      {
@@ -278,15 +278,15 @@ class module_admin_menueditor
                      {         
                          $result .= htmlspecialchars($lang->t($entry['name']));            	 
                      }                      
-                     $result .= '<img class="nubs_pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" alt=""/></a>';
+                     $result .= '<img alt="Dots" class="nubs_pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" alt="" /></a>';
                  }
                  else
                  {
                      $result .= '<a class="item" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                     $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                     $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      $result .= htmlspecialchars($lang->t($entry['name']));
-                     $result .= '<img class="arrow" src="';
+                     $result .= '<img alt="arrow" class="arrow" src="';
                      $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
                      $result .= '</a>';
                  }
@@ -297,7 +297,7 @@ class module_admin_menueditor
                 $result .= "\n\t";
                 $result .= '<a class="item" href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                $result .= '<img  class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                $result .= '<img alt="Image of Item" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 $result .= htmlspecialchars($lang->t($entry['name']));
                 $result .= '</a>';
             }
@@ -438,16 +438,16 @@ class module_admin_menueditor
 
                 if ( $entry['icon'] == '' )
                 {
-                    $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')">';
+                    $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="'.$entry['id'].'">';
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0" />';
                 }
                 else
                 {
                     $result .= '';
-                    $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')">';
+                    $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="'.$entry['id'].'">';
-                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 }
                 $result .= '<span class="text" style="padding-left: 5px;">'.$entry['name'].'</span>';
 
@@ -460,15 +460,15 @@ class module_admin_menueditor
                 $result .= "\t<div class=\"doc\">";
                 if ( $entry['icon'] == '' )
                 {
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="' . $level . $entry['id'] . '">';
-                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/empty.png" border="0" width="16" height="16">';
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/empty.png" border="0" width="16" height="16" />';
                 }
                 else
                 {
-                    $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . "/core/admin/adminmenu/images/tree-leaf.gif' width='18' height='18' border='0'>";
+                    $result .= "<img src='". WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="' . $level . $entry['id'] . '">';
-                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16">';
+                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 }
             }
 
