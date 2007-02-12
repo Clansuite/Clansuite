@@ -9,9 +9,7 @@
 {* Debuganzeige, wenn DEBUG = 1 |   {$servers|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}
    
-<form action="index.php?mod=serverlist&sub=admin&action=delete" method="POST">
-    
-    <table id="tabledesign-coffee" cellpadding="0" cellspacing="0" border="0" width="100%">      
+<table id="tabledesign-coffee" cellpadding="0" cellspacing="0" border="0" width="100%">      
         
         <thead>
             <tr>
@@ -29,7 +27,7 @@
             {foreach key=key item=server from=$servers}
                
                 <tr>
-                   <td width=50><img onclick="{ajax_update url='index.php?mod=serverlist&action=get_serverdetails'
+                   <td width=50><img onclick="{ajax_update url='index.php?mod=serverlist&amp;action=get_serverdetails'
                                                   update_id="server_details_`$server.server_id`" 
                                                   params="server_id=`$server.server_id`"
                                                   callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
@@ -45,20 +43,20 @@
                         
                    </td>
                    <td>{$server.server_id}</td>
-                   <td><img src="{$www_tpl_root}/images/serverlist/gametype/{$server.gametype}.ico"></td>
+                   <td><img alt="Gametype Icon" src="{$www_tpl_root}/images/serverlist/gametype/{$server.gametype}.ico" /></td>
                    <td>
                         {if $server.image_country==''}
-                            <img src="{$www_core_tpl_root}/images/empty.png" width="16" height="16">
+                            <img alt="Country as Empty Icon" src="{$www_core_tpl_root}/images/empty.png" width="16" height="16" />
                         {else}
-                            <img src="{$www_core_tpl_root}/images/countries/{$server.image_country}">
+                            <img alt="Country Icon" src="{$www_core_tpl_root}/images/countries/{$server.image_country}" />
                         {/if}
                     </td>
                     <td>{$server.name}</td>
                     <td>{$server.ip}:{$server.port}</td>
                     <td>
-                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect""></a>
+                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_tpl_root}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect" /></a>
                         {if $server.csquery_engine == 'steam'}
-                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect"></a>
+                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_tpl_root}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect" /></a>
                         {/if}
                     </td>
                 </tr>
@@ -80,5 +78,3 @@
             {/foreach}
         </tbody>
     </table>
-    
-</form>
