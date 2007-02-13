@@ -43,21 +43,19 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
             {literal}
             <script type="text/javascript">
-            <![CDATA[
-            function help_toggler()
-            {
-             if ( document.getElementById('help_toggle').style.display == 'none' )
-             { // Show Stuff
-              new Effect.Appear('help_toggle');
-              new Effect.Appear('help_toggle_2');
-             }
-             else
-             { // Hide Stuff
-              new Effect.Fade('help_toggle');
-              new Effect.Fade('help_toggle_2');
-             }
-            }
-            /*]]>*/ 
+                function help_toggler()
+                {
+                 if ( document.getElementById('help_toggle').style.display == 'none' )
+                 { // Show Stuff
+                  new Effect.Appear('help_toggle');
+                  new Effect.Appear('help_toggle_2');
+                 }
+                 else
+                 { // Hide Stuff
+                  new Effect.Fade('help_toggle');
+                  new Effect.Fade('help_toggle_2');
+                 }
+                }
             </script>
             {/literal}
 
