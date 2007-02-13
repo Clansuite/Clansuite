@@ -5,26 +5,12 @@
     
     {* JavaScripts *}
 	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>      
-    {literal}
-    <script type="text/javascript">
-        function clip_area(id)
-        {
-            if( document.getElementById(id).style.display == 'none' )
-            {
-                document.getElementById(id).style.display = 'block';
-            }
-            else
-            {
-                document.getElementById(id).style.display = 'none';
-            }
-        }
-    </script>
-    {/literal}
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>
+	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>      
 {/doc_raw}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
-{if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
+{if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                           {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
  
 <form target="_self" method="POST" action="index.php?mod=admin&sub=groups&action=edit">
@@ -138,7 +124,7 @@
             </td>
             <td align="center">
                 {foreach key=area_name item=area_array from=$info.areas}
-                    <input type="button" onClick="clip_area('area_{$area_name}')" class="ButtonYellow" value="{$area_name}" />
+                    <input type="button" onClick="clip_id('area_{$area_name}')" class="ButtonYellow" value="{$area_name}" />
                 {/foreach}
             </td>
             <td align="center" style="padding: 0px;" width="150">
