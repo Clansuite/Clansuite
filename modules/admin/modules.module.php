@@ -367,8 +367,8 @@ class module_admin_modules
                 if ( is_dir( $file ) )
                 {
                     $result .= "\t<div class='folder' id='folder-{name}-$x'>\n";
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-{name}-'. $file . $x .'" onclick="javascript: node_click(\'{name}-'. $file . $x .'\')">';
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
+                    $result .= '<img alt="Tree Node" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-{name}-'. $file . $x .'" onclick="javascript: node_click(\'{name}-'. $file . $x .'\')" />';
+                    $result .= '<img alt="Tree Folder" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0" />';
                     $result .= preg_replace( '#^(.*)/#', '', $file);
                     $result .= '<div class="section" id="section-{name}-'. $file . $x .'" style="display: none">';
                     $x++;
@@ -380,8 +380,8 @@ class module_admin_modules
                 {
                     $result .= "\t<div class=\"doc\">\n";
                     $file_count++;
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
-                    $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16">';
+                    $result .= '<img alt="Tree Leaf" src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" />';
+                    $result .= '<img alt="Tree Doc" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16" />';
                     $result .= '<span class="text"><input type="checkbox" value="" style="position: relative; top: 2px"/>';
                     $result .= preg_replace( '#^(.*)/#', '', $file);
                     $result .= '</span>';
