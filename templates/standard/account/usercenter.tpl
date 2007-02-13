@@ -23,7 +23,7 @@
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=messaging&amp;action=show">{translate}Messages{/translate}</a>
+            <a href="index.php?mod=messaging&amp;action=show">{translate}Messages ({mod name="messaging" func="get_new_messages_count"}){/translate}</a>
         </td>
     </tr>
     <tr>

@@ -22,6 +22,28 @@
     </tr>
     <tr>
         <td class="cell2">
+            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+        </td>
+        <td class="cell2">
+            {translate}First name{/translate}
+        </td>
+        <td class="profile_editcell" id="first_name">
+            {$info.first_name}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2">
+            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+        </td>
+        <td class="cell2">
+            {translate}Last name{/translate}
+        </td>
+        <td class="profile_editcell" id="last_name">
+            {$info.last_name}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2">
             <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/cake.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">

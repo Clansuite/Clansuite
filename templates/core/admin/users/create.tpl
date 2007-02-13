@@ -50,18 +50,6 @@
             </td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}First Name{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.first_name|escape:"html"}" class="input_text" name="info[first_name]" /></td>
-        </tr>
-        <tr class="tr_row1">
-            <td>{translate}Last Name{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.last_name|escape:"html"}" class="input_text" name="info[last_name]" /></td>
-        </tr>
-        <tr class="tr_row1">
-            <td>{translate}Infotext{/translate}</td>
-            <td><input type="text" value="{$smarty.post.info.infotext|escape:"html"}" class="input_text" name="info[infotext]" /></td>
-        </tr>
-        <tr class="tr_row1">
             <td>{translate}Activated{/translate}</td>
             <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $smarty.post.info.activated==1}checked{/if} /></td>
         </tr>

@@ -128,7 +128,7 @@ class module_account_profile
 
         // Output
         $tpl->assign( 'info' , $info );
-        $this->output .= $tpl->fetch('profile/show.tpl');
+        $this->output .= $tpl->fetch('account/profile/show.tpl');
     }
 
     /**
@@ -176,7 +176,9 @@ class module_account_profile
                             'skype',
                             'phone',
                             'mobile',
-                            'custom_text' );
+                            'custom_text',
+                            'first_name',
+                            'last_name' );
 
         // check if $modules_dbfield exists in $whitelist
         if( in_array($cell, $whitelist) )

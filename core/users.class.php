@@ -45,38 +45,26 @@ class users
     /**
     * @desc Get a user by any kind of given type
     */
-
-    function get($value='', $type='' )
+    function get( $type = '', $user_id = '' )
     {
-        switch ($type )
+        global $db, $security, $input;
+
+        if( !$input->check( $type       , 'is_abc|is_int|is_custom', '_' ) OR
+            !$input->check( $user_id    , 'is_int' ) )
         {
-            case 'id':
+            $security->intruder_alert();
+        }
+        else
+        {
+            $user_id = $user_id == '' ? $_SESSION['user']['user_id'] : $user_id;
 
-                break;
-
-            case 'email':
-
-                break;
-
-            case 'name':
-
-                break;
-
-            case 'nick':
-
-                break;
-
-            case 'clan_id':
-
-                break;
-
-            case 'squad_id':
-
-                break;
-
-                default:
-                // per id! => get('2')
-                break;
+            $stmt = $db->prepare('SELECT `' . $type . '` FROM ' . DB_PREFIX . 'users
+                                  LEFT JOIN ' . DB_PREFIX . 'profiles
+                                  ON ' . DB_PREFIX . 'users.user_id = ' . DB_PREFIX . 'profiles.user_id
+                                  WHERE ' . DB_PREFIX . 'users.user_id = ?');
+            $stmt->execute( array( $user_id ) );
+            $result = $stmt->fetch(PDO::FETCH_NAMED);
+            return $result[$type];
         }
     }
 
@@ -96,21 +84,21 @@ class users
 
         if ( !empty($user_id) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
 
         }
         else if ( !empty($email) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE email = ?');
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE email = ?');
             $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
 
         }
         else if ( !empty($nick) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,first_name,last_name,disabled,activated FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
             $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
@@ -157,9 +145,6 @@ class users
             $_SESSION['user']['email']      = $user['email'];
             $_SESSION['user']['nick']       = $user['nick'];
 
-            $_SESSION['user']['first_name'] = $user['first_name'];
-            $_SESSION['user']['last_name']  = $user['last_name'];
-
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
 
@@ -205,10 +190,6 @@ class users
 
             $_SESSION['user']['password']   = '';
             $_SESSION['user']['email']      = '';
-
-
-            $_SESSION['user']['first_name'] = '';
-            $_SESSION['user']['last_name']  = '';
 
             $_SESSION['user']['disabled']   = 0;
             $_SESSION['user']['activated']  = 0;
