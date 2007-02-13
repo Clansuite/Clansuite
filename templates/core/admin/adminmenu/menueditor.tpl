@@ -31,13 +31,13 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveUp.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveDown.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveLeft.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveRight.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-insert" class="insert" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/insert.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-info" class="info" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/info.gif" width="20" height="20" alt="" /></a>
-                    <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/delete.gif" width="20" height="20" alt="" /></a>
+                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
+                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
+                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" /></a>
+                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" /></a>
+                    <a id="tree-insert" class="insert" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" /></a>
+                    <a id="tree-info" class="info" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" /></a>
+                    <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_core_tpl_root}/admin/adminmenu/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" /></a>
                     <div class="tooltip" id="tree-tooltip"></div>
                 </div>
                 <div id="tree-insert-form">
@@ -76,7 +76,7 @@
                                         <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
-                                <img src="" id="insert_icon" width="16" height="16" border="1">
+                                <img alt="insert icon" src="" id="insert_icon" width="16" height="16" border="1" />
                             </td>
                         </tr>
                         <tr>
@@ -116,7 +116,7 @@
                                         <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
-                                <img src="" name="update_icon" id="update_icon" width="16" height="16" border="1">
+                                <img alt="update icon" src="" name="update_icon" id="update_icon" width="16" height="16" border="1" />
                             </td>
                         </tr>
                         <tr>
