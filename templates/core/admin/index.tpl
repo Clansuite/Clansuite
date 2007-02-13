@@ -23,10 +23,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 -->
 
 {/doc_raw}
-<body>
 
     <div class="header">
-        <a href="index.php?mod=admin"><img style="margin-bottom: -3px;" src="{$www_tpl_root}/images/clansuite-80x15.png" alt="Clansuite CMS" border="0"></a> - Control Center
+        <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_tpl_root}/images/clansuite-80x15.png" border="0" /></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
 
@@ -44,6 +43,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
             {literal}
             <script type="text/javascript">
+            <![CDATA[
             function help_toggler()
             {
              if ( document.getElementById('help_toggle').style.display == 'none' )
@@ -57,6 +57,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
               new Effect.Fade('help_toggle_2');
              }
             }
+            /*]]>*/ 
             </script>
             {/literal}
 
@@ -86,7 +87,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" />
+    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
 
