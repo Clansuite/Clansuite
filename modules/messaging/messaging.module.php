@@ -112,6 +112,11 @@ class module_messaging
                 $this->get_back();
                 break;
 
+            case 'get_new_messages_count':
+                $this->output .= call_user_func_array( array( $this, 'get_new_messages_count' ), $params );
+                break;
+
+
             case 'create':
                 $trail->addStep($lang->t('Create'), '/index.php?mod=messaging&action=create');
                 $this->create();
@@ -129,6 +134,20 @@ class module_messaging
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
 
+    /**
+    * @desc Function: Get the number of new messages
+    */
+    function get_new_messages_count()
+    {
+        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+
+        // Get all incoming messages
+        $stmt = $db->prepare('SELECT COUNT(*) FROM ' . DB_PREFIX . 'messages WHERE `to` = ? AND `read` = 0');
+        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
+        $messages = $stmt->fetch(PDO::FETCH_NUM);
+
+        return $messages[0];
+    }
 
     /**
     * @desc Function: Show all incoming messages

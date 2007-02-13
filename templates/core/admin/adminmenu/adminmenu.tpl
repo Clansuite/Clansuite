@@ -30,7 +30,7 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
 
                         <a class="itembtn" href="index.php?mod=admin&sub=users&action=usercenter">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
-                            &nbsp;{$smarty.session.user.first_name} '{$smarty.session.user.nick}' {$smarty.session.user.last_name}
+                            &nbsp;{$smarty.session.user.nick}
                         </a>
                         &nbsp;
 
