@@ -36,13 +36,10 @@ class Render_SmartyDoc extends Smarty
         , 'Frameset' => array(
             'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">'
           )
-        , 'Strict11' => array(
-            'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'
-          )
         )
     , 'XHTML1.1' => array(
           'Normal' => array(
-            'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">'
+            'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">'
           )
         )
     );
@@ -410,7 +407,7 @@ class Render_SmartyDoc extends Smarty
     {
         $params['key'] = !isset($params['key']) ? '' : $params['key'];
         $params['target'] = !isset($params['target']) ? '' : $params['target'];
-        
+
         $key = (isset($params['key']) && is_string($params['key']) && strlen($params['key'])>0)
             ? $params['key']
             : null;
@@ -562,7 +559,7 @@ class Render_SmartyDoc extends Smarty
                         $doc_source .= "/* ]]> */\n";
                         $doc_source .= "{$indent}</style>\n";
                     }
-                
+
                 }
             }
 
