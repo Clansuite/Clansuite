@@ -10,6 +10,9 @@ body {
 img {
 	border: 0;
 }
+p {
+	padding: 5px 0;
+}
 /* Hyperlinks */
 a, a:link, a:hover {
 	text-decoration: none;
@@ -242,10 +245,12 @@ label {
 label:hover {
 	color: #f00;
 }
-dt label {
+dt label, dt span {
 	font-weight: bold;
 }
 fieldset {
+	width: 70%;
+	margin: 0 auto;
 	padding: 10px;
 	border: 0;
 	text-align: left;
@@ -256,8 +261,11 @@ legend {
 	border: 1px solid #333;
 	font-weight: bold;
 }
-fieldset input, fieldset textarea {
+fieldset dd input, fieldset dd textarea {
 	width: 100%;
+}
+.form_bottom {
+	margin-top: 5px;
 }
 /* Colored Buttons */
 .Button, .ButtonYellow, .ButtonRed, .ButtonGreen, .ButtonGrey, .ButtonOrange {
@@ -327,4 +335,19 @@ fieldset input, fieldset textarea {
 }
 .error_beige {
 	background: #ffc;
+}
+/* Redirect */
+.redirect
+{
+	width: 200px;
+	height: 50px;
+	margin-top: -25px;
+	margin-left: -100px;
+	padding: 10px;
+	background: #ccc;
+	border: 1px solid #000;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }

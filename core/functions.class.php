@@ -80,7 +80,7 @@ class functions
                 $c = parse_url($url);
                 if( array_key_exists('host', $c) )
                 {
-                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
                 }
                 else
                 {
@@ -101,7 +101,7 @@ class functions
                         }
                     }
 
-                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . WWW_ROOT . $url . '">';
+                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . WWW_ROOT . $url . '" />';
                 }
                 break;
 
@@ -127,7 +127,7 @@ class functions
                         }
                     }
                 }
-                $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '">';
+                $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
                 $tpl->assign( 'redirect', $redirect );
                 $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
@@ -323,7 +323,8 @@ class functions
 						}
 
 						while($parent_folder_path = array_pop($folder_path))
-						{						    if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
+						{
+						    if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
 						    	$this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
 						}
 
