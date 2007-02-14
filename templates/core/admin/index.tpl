@@ -45,7 +45,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             <script type="text/javascript">
                 function help_toggler()
                 {
-                 if ( document.getElementById('help_toggle').style.display == 'none' )
+                 if ( $('help_toggle').style.display == 'none' )
                  { // Show Stuff
                   new Effect.Appear('help_toggle');
                   new Effect.Appear('help_toggle_2');
