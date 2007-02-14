@@ -23,7 +23,7 @@
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=messaging&amp;action=show">{translate}Messages ({mod name="messaging" func="get_new_messages_count"}){/translate}</a>
+            <a href="index.php?mod=messaging&amp;action=show">{if $smarty.session.user.rights.use_messaging_system == 1}{translate}Messages{/translate} ({mod name="messaging" func="get_new_messages_count"}){/if}</a>
         </td>
     </tr>
     <tr>
