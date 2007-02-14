@@ -1,4 +1,4 @@
-<div id="loading" style="display:none;position:absolute;top:0;left:0;width:100%;height:20px;text-align:center;background:lightblue">
+<div id="loading" style="width:100%;height:20px;background:lightblue;text-align:center;display:none;position:absolute;top:0;left:0;">
 Loading...
 </div>
 {if $show_form === true}
@@ -6,16 +6,16 @@ Loading...
 <form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
 	<fieldset>
 		<dl>
-			<dt><label for="name">{translate}Name{/translate}:</label></dt>
-			<dd><input class="input_text" id="name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
+			<dt><label for="shout_name">{translate}Name{/translate}:</label></dt>
+			<dd><input class="input_text" id="shout_name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="mail">{translate}Mail{/translate}:</label></dt>
-			<dd><input class="input_text" id="mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
+			<dt><label for="shout_mail">{translate}Mail{/translate}:</label></dt>
+			<dd><input class="input_text" id="shout_mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="msg">{translate}Message{/translate}:</label></dt>
-			<dd><textarea class="input_textarea" id="msg" name="msg" cols="17" rows="3"></textarea></dd>
+			<dt><label for="shout_msg">{translate}Message{/translate}:</label></dt>
+			<dd><textarea class="input_textarea" id="shout_msg" name="msg" cols="17" rows="3"></textarea></dd>
 		</dl>
 	</fieldset>
 	<div class="form_bottom">

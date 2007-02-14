@@ -36,8 +36,9 @@
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
 <![endif]-->
 
-{if $additional_head} {$additional_head} {/if}
-{$redirect}
+{if isset($additional_head)} {$additional_head} {/if}
+{if isset($redirect)} {$redirect} {/if}
+
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
@@ -106,7 +107,6 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		</div>
 	</div>
 	<div id="right">
-		<h3>Infos</h3>
 		{mod name="account" func="login"}
 		{mod name="shoutbox" func="show"}
 		<h3>{translate}Statistics{/translate}</h3>
