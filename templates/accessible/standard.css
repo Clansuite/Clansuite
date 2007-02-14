@@ -322,20 +322,6 @@ fieldset dd input, fieldset dd textarea {
 .shout_content {
 	padding: 2px;
 }
-/* Error Messages */
-.error_red, .error_orange, .error_beige {
-	padding: 5px;
-	border: 1px solid #333;
-}
-.error_red {
-	background: #f00;
-}
-.error_orange {
-	background: #f90;
-}
-.error_beige {
-	background: #ffc;
-}
 /* Redirect */
 .redirect
 {
