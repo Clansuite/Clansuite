@@ -37,7 +37,7 @@
 <![endif]-->
 
 {if isset($additional_head)} {$additional_head} {/if}
-{if isset({$redirect})} {$redirect} {/if}
+{if isset($redirect)} {$redirect} {/if}
 
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
