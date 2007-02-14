@@ -102,7 +102,7 @@ class modules
     */
     static function get_instant_content($params)
     {
-        global $modules, $cfg, $lang, $error;
+        global $modules, $cfg, $lang, $error, $trail;
 
         /**
         * @desc Init Vars
@@ -165,7 +165,15 @@ class modules
                     $_REQUEST['main_action'] = $_REQUEST['action'];
                     $_REQUEST['action'] = $params['func'];
 
+                    // trail stop on
+                    $trail->trail_stop = '666';
+                    
+                    // load module
                     $output = call_user_func_array( array( $module_{$mod}, 'auto_run' ), $func_params );
+                    
+                    // trail stop off
+                    $trail->trail_stop = '0';
+                    
                     echo $output['OUTPUT'];
                     $_REQUEST['action'] = $_REQUEST['main_action'];
 

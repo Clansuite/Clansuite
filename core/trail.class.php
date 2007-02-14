@@ -42,6 +42,7 @@ if (!defined('IN_CS'))
 class trail
     {
         public $path = array();
+        public $trail_stop = '0'; 
 
         // auto-executed at initialization of class trail
         // assigns "Home >>"
@@ -57,16 +58,20 @@ class trail
 
         // adds a step to the trail-path / pagetitle
         function addstep($title, $link = '')
-        {
-            $item = array('title' => $title);
-
-            if (strlen($link) > 0)
-            {
-                $item['link'] = WWW_ROOT . $link;
-            }
-
-            $this->path[] = $item;
-
+        {           
+           // if not 0 adding of trails is stopped
+           // used for instant loading of modules via {mod}  
+           if ($this->trail_stop == '0') {
+                            
+                $item = array('title' => $title);
+    
+                if (strlen($link) > 0)
+                {
+                    $item['link'] = WWW_ROOT . $link;
+                }
+    
+                $this->path[] = $item;
+           }
         }
     }
 ?>
