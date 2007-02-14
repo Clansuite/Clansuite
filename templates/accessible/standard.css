@@ -1,0 +1,330 @@
+/* General Settings */
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background: #e4e0c7;
+	font: 62.5% Tahoma, Verdana, Arial, sans-serif;
+}
+img {
+	border: 0;
+}
+/* Hyperlinks */
+a, a:link, a:hover {
+	text-decoration: none;
+	color: #00f;
+}
+a:hover {
+	color: #000;
+}
+/* Lists */
+ul, ol {
+	margin: 10px 20px;
+}
+ul ul, ol ol {
+	margin: 0 20px;
+}
+/* Headings */
+h1 {
+	font-size: 1.5em;
+}
+h2 {
+	font-size: 1.4em;
+}
+h3 {
+	font-size: 1.3em;
+}
+h4 {
+	font-size: 1.2em;
+}
+h5 {
+	font-size: 1.1em;
+}
+h6 {
+	font-size: 1em;
+}
+/* Layout */
+#header {
+	height: 180px;
+	margin: 10px 0;
+	background: url('images/clansuite-header.png') no-repeat 50% 0;
+}
+#box {
+	font-size: 1.2em;
+}
+#left {
+	width: 150px;
+	float: left;
+}
+#left h3, #right h3, #content #breadcrumbs {
+	padding: 5px;
+	background: #254161 url('images/header.gif') repeat-x;
+	border: 1px solid;
+	border-color: #fff #ACA899 #ACA899 #fff;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: left;
+	cursor: default;
+}
+#right {
+	width: 250px;
+	float: right;
+}
+#counter li {
+	list-style: none;
+}
+#content {
+	margin: 0 260px 0 160px;
+}
+#breadcrumbs {
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #f00;
+}
+#breadcrumbs a {
+	color: #00f;
+}
+#breadcrumbs a:hover, #breadcrumbs span {
+	color: #000;
+}
+#footer {
+	font-size: 1.1em;
+	color: #f00;
+	text-align: center;
+	letter-spacing: 0.1em;
+	clear: both;
+}
+/*
+** -------------------------------------------------
+**
+**   Menu.css, XulMenu
+**
+**   Modified by: Michael F. S. Christensen
+**
+**   Valid CSS2 stylesheet (www.w3c.org)
+**
+** -------------------------------------------------
+*/
+
+.XulMenu {
+	font-size: 0.9em;
+}
+.XulMenu .button, .XulMenu .button:hover, .XulMenu .button-active, .XulMenu .button-active:hover {
+	width: 100px;
+	margin: 1px;
+	padding: 4px 6px;
+	border: 1px solid #ccc;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+	line-height: normal;
+	cursor: default;
+	white-space: nowrap;
+	display: block;
+	position: relative;
+}
+ .XulMenu .button:hover {
+	margin: 1px;
+	background: #EFECDE;
+	border: 1px solid #8F8F85;
+}
+.XulMenu .button-active, .XulMenu .button-active:hover {
+	margin: 1px;
+	background: #C9D5E5;
+	border: 1px solid #8F8F85;
+}
+.XulMenu .item, .XulMenu .item:hover, .XulMenu .item-active, .XulMenu .item-active:hover {
+	padding: 4px 30px 4px 25px;
+	background: #FDFDF9;
+	border: 1px solid #FDFDF9;
+	color: #000;
+	text-decoration: none;
+	line-height: normal;
+	cursor: default;
+	white-space: nowrap;
+	display: block;
+	position: relative;
+}
+.XulMenu .item:hover, .XulMenu .item-active, .XulMenu .item-active:hover {
+	background: #C9D5E5;
+	border: 1px solid #316BC6;
+	color: #000;
+}
+/*
+.XulMenu .item {
+	margin:1px;
+	background: #ffffff;
+	padding: 3px 30px 3px 20px;
+}
+.XulMenu .item,
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+	line-height: normal;
+
+	color: #000000;
+	text-decoration: none;
+	cursor: default;
+	white-space: nowrap;
+	position: relative;
+	display: block;
+}
+.XulMenu .item:hover,
+.XulMenu .item-active,
+.XulMenu .item-active:hover {
+	margin:0px;
+	border:1px solid #316BC6;
+	background: #C9D5E5;
+	padding: 2px 30px 2px 20px;
+}
+*/
+.XulMenu .section {
+	padding: 2px 1px 1px 2px; /* top right bottom left */
+	background: #FCFCF8;
+	border: 1px solid;
+	border-color: #F1EFE2 #716F64 #716F64 #F1EFE2;
+	position: absolute;
+	visibility: hidden;
+	z-index: -1;
+}
+.XulMenu .arrow {
+	border: 0;
+	position: absolute;
+	top: 7px;
+	right: 8px;
+}
+.XulMenu .pic {
+	border: 0;
+	position: absolute;
+	top: 2px;
+	left: 3px;
+}
+.XulMenu .itembtn, .XulMenu .itembtn:hover, .XulMenu .itembtn-active, .XulMenu .itembtn-active:hover {
+	padding: 1px 3px 3px 3px;
+	color: #000;
+	text-decoration: none;
+	line-height: normal;
+	cursor: default;
+	white-space: nowrap;
+	position: relative;
+}
+.XulMenu .itembtn:hover, .XulMenu .itembtn-active, .XulMenu .itembtn-active:hover {
+	padding: 1px 2px 3px 2px;
+	background: #C9D5E5;
+	border: 1px solid;
+	border-color: #316BC6;
+	color: black;
+}
+* html .XulMenu {
+	position: relative; /* ie 5.0 fix */
+}
+/* AJAX Progress Indicator */
+#notification {
+	width: 100%;
+	margin: 0;
+	height: 20px;
+	background: #ff9;
+	font: bold 1.3em/20px Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+	display: block;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+/* Forms */
+form {
+	text-align: center;
+}
+label {
+	cursor: pointer;
+}
+label:hover {
+	color: #f00;
+}
+dt label {
+	font-weight: bold;
+}
+fieldset {
+	padding: 10px;
+	border: 0;
+	text-align: left;
+}
+legend {
+	padding: 1px 5px;
+	background: #fff;
+	border: 1px solid #333;
+	font-weight: bold;
+}
+fieldset input, fieldset textarea {
+	width: 100%;
+}
+/* Colored Buttons */
+.Button, .ButtonYellow, .ButtonRed, .ButtonGreen, .ButtonGrey, .ButtonOrange {
+    margin: 3px;
+	padding: 2px;
+	background-color: #fff;
+	border: 1px solid #999;
+	border-top-color: #ccc;
+	border-left-color: #ccc;
+	font-weight: bold;
+	font-size: 1em;
+	color: #333;
+    white-space: nowrap;
+}
+.Button, .ButtonGrey {
+	background: url('images/background_form_element_grey.gif') repeat-x;
+}
+.ButtonYellow {
+	background: url('images/background_form_element_yellow.gif') repeat-x;
+}
+.ButtonOrange {
+	background: url('images/background_form_element_orange.gif') repeat-x;
+}
+.ButtonRed {
+	background: url('images/background_form_element_red.gif') repeat-x;
+}
+.ButtonGreen {
+	background: url('images/background_form_element_green.gif') repeat-x;
+}
+.Button:active, .ButtonYellow:active, .ButtonRed:active, .ButtonGreen:active, .ButtonGrey:active,.ButtonOrange:active {
+	border: 1px solid #ccc;
+	border-top-color: #999;
+	border-left-color: #999;
+}
+/* Usercenter */
+.usercenter {
+	margin-top: 10px;
+	text-align: center;
+}
+.usercenter ul {
+	list-style: none;
+}
+/* Shoutbox */
+.shoutbox {
+	width: 90%;
+	margin: 0 auto 10px auto;
+	border: 1px solid #c2c2c2;
+}
+.shout_header {
+	padding: 2px;
+	background: #eee;
+	border-bottom: 1px solid #c2c2c2;
+}
+.shout_content {
+	padding: 2px;
+}
+/* Error Messages */
+.error_red, .error_orange, .error_beige {
+	padding: 5px;
+	border: 1px solid #333;
+}
+.error_red {
+	background: #f00;
+}
+.error_orange {
+	background: #f90;
+}
+.error_beige {
+	background: #ffc;
+}

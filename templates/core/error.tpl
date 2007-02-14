@@ -7,24 +7,20 @@
 <body>
 {/if}
 
-<fieldset style="border-color: red; background: 
-{if $error_type==1}red
-{elseif $error_type==2}orange
-{elseif $error_type==3}lightsalmon
+<fieldset class="
+{if $error_type==1}error_red
+{elseif $error_type==2}error_orange
+{elseif $error_type==3}error_beige
 {/if}
-;">
+">
 	<legend>
-		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75; 
-		               filter:alpha(opacity=75);'>&nbsp;{$error_head}&nbsp;</strong>
+		{$error_head}
 	</legend>
-	<label>
-		{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br />{/if}
-		<strong>Error Message:</strong> <i>{$debug_info}</i><br />
-		{if isset($file)}<strong>File:</strong> <i>{$file}</i><br />{/if}
-		{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br />{/if}
-	</label>
+	{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br />{/if}
+	<strong>Error Message:</strong> <i>{$debug_info}</i><br />
+	{if isset($file)}<strong>File:</strong> <i>{$file}</i><br />{/if}
+	{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br />{/if}
 </fieldset>
-
 {if $error_type==1}
 </body>
 </html>

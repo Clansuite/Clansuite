@@ -167,7 +167,7 @@
 </span>
 
 {if $debug.debug_popup==1}
-	<SCRIPT language=javascript>
+	<script type="text/javascript">
 
 	if ( self.name == '' )
 	{ldelim}
