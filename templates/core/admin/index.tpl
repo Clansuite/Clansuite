@@ -14,7 +14,7 @@
 <link rel="shortcut icon" href="{$www_core_tpl_root}/images/icons/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/admin.css" />
 
-{$additional_head}
+{if isset($additional_head)}{$additional_head}{/if}
 {$redirect}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
