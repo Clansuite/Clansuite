@@ -722,16 +722,18 @@ table.admintable tr#cell3
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	padding-top: 5px;
 }
+
 /* Error Messages */
 legend {
 	padding: 1px 5px;
 	background: #fff;
 	border: 1px solid #333;
 	font-weight: bold;
+	opacity: 0.75;
 }
 .error_red, .error_orange, .error_beige {
 	padding: 5px;
-	border: 1px solid #333;
+	border: 1px solid #333;	
 }
 .error_red {
 	background: #f00;
