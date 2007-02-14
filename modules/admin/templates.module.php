@@ -111,9 +111,9 @@ class module_admin_templates
     */
     function build_folder_tree( $path, $x = 0 )
     {
-        global $cfg;
+        global $cfg, $tpl;
         
-        $result  = '';
+        $result  = ''; //todo: $x is not suitable in recursion
         
         $file_count = 0;
         
@@ -124,8 +124,8 @@ class module_admin_templates
                 if ( is_dir( $file ) )
                 {
                     $result .= "\t<div class='folder' id='folder-$x'>\n";
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-'. $file . $x .'" onclick="javascript: node_click(\''. $file . $x .'\')">';
-                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0">';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" alt="Tree Node Icon" width="18" height="18" border="0" id="node-'. $file . $x .'" onclick="javascript: node_click(\''. $file . $x .'\')" />';
+                    $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" alt="Tree Folder Icon" width="18" height="18" border="0" />';
                     $result .= preg_replace( '#^(.*)/#', '', $file);
                     $result .= '<div class="section" id="section-'. $file . $x .'" style="display: none">';
                     $x++;
@@ -139,9 +139,9 @@ class module_admin_templates
                     {
                         $result .= "\t<div class=\"doc\">\n";
                         $file_count++;
-                        $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">';
-                        $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16">';
-                        $result .= '<span class="text" onclick="return sendAjaxRequest(\'get\', \'' . $file . '\', \'index.php?mod=admin&sub=templates&action=ajax_get\');">';
+                        $result .= '<img src="'. WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" alt="Tree Leaf Icon" />';
+                        $result .= '<img class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-doc.gif" border="0" width="16" height="16" alt="Tree Doc Icon" />';
+                        $result .= '<span id="' . $file .'" class="text" onclick="getTemplateFile(this)">';
                         $result .= preg_replace( '#^(.*)/#', '', $file);
                         $result .= '</span>';
                         $result .= '</div>';
@@ -154,7 +154,7 @@ class module_admin_templates
             $result .= "</div>\n";
         }
         $result .= "</div>\n";
-        return $result;
+        return $result;           
     }
     
     /**
@@ -178,8 +178,13 @@ class module_admin_templates
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
-        $tpl_path = $_POST['tpl_path'];
-        $this->output .= file_get_contents( $tpl_path );
+        $filename = $_POST['filename'];
+        
+        // todo ; security 
+        // 1. cut filename path down to /templates
+        // 2. add template path + filename to prevent from fetching files outside of template-dir or upper dirs     
+                
+        $this->output .= file_get_contents( $filename );
         $this->suppress_wrapper = true;
     }
     
@@ -190,9 +195,16 @@ class module_admin_templates
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
         
-        $tpl_path   = $_POST['tpl_path'];
+        $filename   = $_POST['filename'];
         $content    = $_POST['content'];
-        file_put_contents( urldecode($tpl_path), urldecode($content) );
+        
+        // todo ; security 
+        // 1. cut filename path down to /templates
+        // 2. add template path + filename to prevent from saving files outside of template-dir or upper dirs  
+        
+        file_put_contents( urldecode($filename), urldecode($content) );
+        
+        $this->output .= 'Saved!';
         $this->suppress_wrapper = true;
     }
 }
