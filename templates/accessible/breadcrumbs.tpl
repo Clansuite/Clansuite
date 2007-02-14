@@ -1,0 +1,1 @@
+<h3 id="breadcrumbs">{breadcrumbs trail=$trail separator=" &raquo; " length=30}</h3>
