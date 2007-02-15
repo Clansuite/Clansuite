@@ -60,13 +60,13 @@ class module_admin_settings
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&sub=settings');  
-       
+        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&sub=settings');
+
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=settings&action=show'); 
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=settings&action=show');
                 $this->show();
                 break;
 
@@ -112,13 +112,13 @@ class module_admin_settings
         foreach($data as $key => $value)
         {
             if( is_array($value) )
-            {                foreach( $value as $meta_key => $meta_value )
-                {                	if( preg_match('#^[0-9]+$#', $meta_value) )
+            {                foreach( $value as $meta_key => $meta_value )
+                {                	if( preg_match('#^[0-9]+$#', $meta_value) )
                 	{
                 	    $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = ' . $meta_value . ';', $cfg_file );
                 	}
                 	else
-                	{                		$cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = \'' . $meta_value . '\';', $cfg_file );
+                	{                		$cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = \'' . $meta_value . '\';', $cfg_file );
                 	}
                 }
             }
@@ -129,7 +129,7 @@ class module_admin_settings
                     $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = ' . $value . ';', $cfg_file );
                 }
                 else
-                {                	$cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = \'' . $value . '\';', $cfg_file );
+                {                	$cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = \'' . $value . '\';', $cfg_file );
                 }
             }
         }
