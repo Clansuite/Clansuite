@@ -135,7 +135,7 @@ class module_admin_groups
         $groups = array();
 
         // Extrapolate icons from dir
-        $icons = glob( TPL_ROOT . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
+        $icons = glob( ROOT_TPL . '/core/images/groups/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE);
 
         // Get the DB result sets (get the usergroups)
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups ORDER BY sortorder ASC' );
@@ -181,7 +181,7 @@ class module_admin_groups
         
         // Icons & Images
         $icons  = array();
-        foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);
         }
@@ -189,7 +189,7 @@ class module_admin_groups
 
 
         $images  = array();
-        foreach( glob( TPL_ROOT . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);
         }
@@ -338,14 +338,14 @@ class module_admin_groups
         $icons      = array();
 
         // Get the images
-        foreach( glob( TPL_ROOT . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);
         }
         $tpl->assign( 'icons'   , $icons );
 
 
-        foreach( glob( TPL_ROOT . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/groups/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);
         }

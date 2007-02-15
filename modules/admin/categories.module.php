@@ -150,7 +150,7 @@ class module_admin_categories
         * @desc Icons & Images
         */
         $icons  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);   
         }
@@ -158,7 +158,7 @@ class module_admin_categories
         
 
         $images  = array();    
-        foreach( glob( TPL_ROOT . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }
@@ -253,14 +253,14 @@ class module_admin_categories
         /**
         * @desc Get the images
         */
-        foreach( glob( TPL_ROOT . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $icons[] = preg_replace( '#^(.*)/#', '', $file);   
         }
         $tpl->assign( 'icons'   , $icons );
         
 
-        foreach( glob( TPL_ROOT . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
+        foreach( glob( ROOT_TPL . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
             $images[] = preg_replace( '#^(.*)/#', '', $file);   
         }

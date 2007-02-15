@@ -110,7 +110,7 @@ class module_admin_menueditor
 
         $icons = array();
 
-        $dir_handler = opendir( TPL_ROOT . '/core/images/icons/' );
+        $dir_handler = opendir( ROOT_TPL . '/core/images/icons/' );
 
         while( false !== ($file = readdir($dir_handler)) )
         {
@@ -278,7 +278,7 @@ class module_admin_menueditor
                      {         
                          $result .= htmlspecialchars($lang->t($entry['name']));            	 
                      }                      
-                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_CORE_TPL_ROOT . '/images/adminmenu/nubs.gif" /></a>';
+                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_ROOT_TPL_CORE . '/images/adminmenu/nubs.gif" /></a>';
                  }
                  else
                  {

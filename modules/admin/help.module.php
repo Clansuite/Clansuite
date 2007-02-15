@@ -134,7 +134,7 @@ class module_admin_help
         $info = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // BBCode load class and init
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $info['helptext'] = $bbcode->parse($info['helptext']);
         $info['related_links'] = $bbcode->parse($info['related_links']);
@@ -232,7 +232,7 @@ class module_admin_help
         }
 
         // Transform RAW text to BB-formatted Text
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $parsed_helptext = $bbcode->parse($helptext);
 
@@ -275,7 +275,7 @@ class module_admin_help
         }
 
         // Transform RAW text to BB-formatted Text
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $parsed_related_links = $bbcode->parse($related_links);
 

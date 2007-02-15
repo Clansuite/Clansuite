@@ -150,7 +150,7 @@ class modules
             */
             if ( $folder_name!='' && $file_name!='' && $class_name!='' )
             {
-                $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
+                $file = ROOT_MOD . '/' . $folder_name . '/' . $file_name;
 
                 if ( file_exists($file ) )
                 {
@@ -167,13 +167,13 @@ class modules
 
                     // trail stop on
                     $trail->trail_stop = '666';
-                    
+
                     // load module
                     $output = call_user_func_array( array( $module_{$mod}, 'auto_run' ), $func_params );
-                    
+
                     // trail stop off
                     $trail->trail_stop = '0';
-                    
+
                     echo $output['OUTPUT'];
                     $_REQUEST['action'] = $_REQUEST['main_action'];
 
@@ -234,7 +234,7 @@ class modules
 
             if ($folder_name!='' && $file_name!='' && $class_name!='' )
             {
-                $file = MOD_ROOT . '/' . $folder_name . '/' . $file_name;
+                $file = ROOT_MOD . '/' . $folder_name . '/' . $file_name;
 
                 if (file_exists( $file ) )
                 {

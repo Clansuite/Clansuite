@@ -58,11 +58,11 @@ class module_news_admin
     {
         global $lang, $trail;
         $params = func_get_args();
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
         $trail->addStep($lang->t('News'), '/index.php?mod=news&sub=admin');
-        
+
         switch ($_REQUEST['action'])
         { 
             default:
@@ -74,8 +74,23 @@ class module_news_admin
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
+
+            case 'create':
+                $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&sub=admin&action=show&action=create');
+                $this->create_server();
+                break;
+
+            case 'edit':
+                $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&sub=admin&action=show&action=edit');
+                $this->edit_server();
+                break;
+
+            case 'delete':
+                $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&sub=admin&action=show&action=delete');
+                $this->delete_server();
+                break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
@@ -87,9 +102,9 @@ class module_news_admin
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         // Smarty Pagination load and init
-        require( CORE_ROOT . '/smarty/SmartyPaginate.class.php');
+        require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
         // required connect
         SmartyPaginate::connect();
         // set URL
@@ -100,7 +115,7 @@ class module_news_admin
 
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( CORE_ROOT . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         // The third column "age" is having descending sort order as default.
         $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick');
@@ -138,7 +153,7 @@ class module_news_admin
         $count = count($rows->fetchALL(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
-        
+
         // Finally: assign total number of rows to SmartyPaginate
         SmartyPaginate::setTotal($count);
         // assign the {$paginate} to $tpl (smarty var)
@@ -152,10 +167,10 @@ class module_news_admin
         // give $newslist array to Smarty for template output
         $tpl->assign('newsarchiv', $newsarchiv);
         $tpl->assign('newscategories', $newscategories);
- 
+
        $this->output = $tpl->fetch('news/show_admin.tpl');
     }
-    
+
     /**
     * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -163,7 +178,7 @@ class module_news_admin
     function instant_show($my_text)
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */

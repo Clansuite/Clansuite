@@ -116,7 +116,7 @@ class module_admin_bbcode
         /**
         * @desc Preview
         */
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         foreach( $bb_codes as $key => $code )
         {

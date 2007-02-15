@@ -56,7 +56,7 @@ class module_captcha
 
     function __construct()
     {
-        $this->font = TPL_ROOT . '/core/fonts/Vera.ttf';
+        $this->font = ROOT_TPL . '/core/fonts/Vera.ttf';
         $this->generate_image($this->random_string($this->str_length));
     }
     

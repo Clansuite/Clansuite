@@ -116,12 +116,10 @@ class module_messaging
                 $this->output .= call_user_func_array( array( $this, 'get_new_messages_count' ), $params );
                 break;
 
-
             case 'create':
                 $trail->addStep($lang->t('Create'), '/index.php?mod=messaging&action=create');
                 $this->create();
                 break;
-
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -162,7 +160,7 @@ class module_messaging
         $messages = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // BBCode load class and init
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         foreach( $messages as $key => $value )
         {
@@ -188,7 +186,7 @@ class module_messaging
         $messages = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // BBCode load class and init
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         foreach( $messages as $key => $value )
         {
@@ -229,7 +227,7 @@ class module_messaging
             $message['from_user'] = $result['nick'];
 
             // BBCode load class and init
-            require_once( CORE_ROOT . '/bbcode.class.php' );
+            require_once( ROOT_CORE . '/bbcode.class.php' );
             $bbcode = new bbcode();
             $message['bb_message'] = $message['message'];
             $message['message'] = $bbcode->parse($message['message']);

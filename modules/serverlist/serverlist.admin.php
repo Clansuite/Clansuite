@@ -165,7 +165,7 @@ class module_serverlist_admin
        #var_dump($servers);
        
        // load smarty_ajax
-       require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
+       require_once( ROOT_CORE . '/smarty/smarty_ajax.php');
        
        ajax_register('lookup_server');
        ajax_register('add_server');

@@ -82,7 +82,6 @@ class module_shoutbox
         }
 
         return array( 'OUTPUT'          => $this->output,
-                      
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -108,10 +107,12 @@ class module_shoutbox
         $tpl->assign('field_value_msg'      , $lang->t('Your Msg'));
 
         // Einträge auslesen:
-        $stmt = $db->prepare('SELECT        id, name, mail, msg, time
-                              FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
+        $stmt = $db->prepare('SELECT id, name, mail, msg, time
+                              FROM  ' . DB_PREFIX . 'shoutbox 
+                              ORDER BY time DESC LIMIT 0,5');
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_NAMED);
+       
         if ( is_array( $result ) )
         {
            $tpl->assign('shoutbox_is_empty', false);

@@ -42,70 +42,70 @@ class mailer
     function __construct()
     {
         global $cfg;
-        
+
         /**
         * @desc Get swift mailer class
         */
 
-        require( CORE_ROOT . '/swiftmailer/Swift.php');
-                
+        require( ROOT_CORE . '/swiftmailer/Swift.php');
+
         /**
         * @desc Include Connection Class & Set $connection
         */
 
         if ($cfg->mailmethod != 'smtp')
         {
-            require( CORE_ROOT . '/swiftmailer/Swift/Connection/Sendmail.php'); 
+            require( ROOT_CORE . '/swiftmailer/Swift/Connection/Sendmail.php');
         }
 
 
         switch ($cfg->mailmethod)
         {
             case 'smtp':
-                require( CORE_ROOT . '/swiftmailer/Swift/Connection/SMTP.php');
+                require( ROOT_CORE . '/swiftmailer/Swift/Connection/SMTP.php');
                 $connection = new Swift_Connection_SMTP( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
                 break;
-            
+
             case 'sendmail':
                 $connection = new Swift_Connection_Sendmail;
                 break;
-            
+
             case 'exim':
                 $connection = new Swift_Connection_Sendmail('/usr/sbin/exim -bs');
                 break;
-            
+
             case 'qmail':
                 $connection = new Swift_Connection_Sendmail('/usr/sbin/qmail -bs');
                 break;
-            
+
             case 'postfix':
                 $connection = new Swift_Connection_Sendmail('/usr/sbin/postfix -bs');
                 break;
-            
+
             default:
                 $connection = new Swift_Connection_Sendmail;
         }
-            
+
         /**
         * @desc $mailer init
         */
 
         global $swiftmailer;
-        
+
         $swiftmailer = new Swift($connection, $cfg->mailerhost);
     }
-    
-    
+
+
     function sendmail($to_address, $from_address, $subject, $body)
     {
         global $error, $swiftmailer;
-        
+
         //If anything goes wrong you can see what happened in the logs
         if ($swiftmailer->isConnected())
         {
             //Sends a simple email
             $swiftmailer->send($to_address, $from_address, $subject, $body);
-            
+
             //Closes cleanly... works without this but it's not as polite.
             $swiftmailer->close();
             return true;

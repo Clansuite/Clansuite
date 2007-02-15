@@ -103,18 +103,16 @@ $cfg = new config;
 * WWW_ROOT complete www-path with server
 */
 define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
-define('MOD_ROOT'   , ROOT . $cfg->mod_folder);
-define('TPL_ROOT'   , ROOT . $cfg->tpl_folder);
-define('LANG_ROOT'  , ROOT . $cfg->lang_folder);
-define('CORE_ROOT'  , ROOT . $cfg->core_folder);
-define('UPLOAD_ROOT', ROOT . $cfg->upload_folder);
-define('WWW_ROOT'   , BASE_URL_SEED);
+define('ROOT_MOD'   , ROOT . $cfg->mod_folder);
+define('ROOT_TPL'   , ROOT . $cfg->tpl_folder);
+define('ROOT_LANG'  , ROOT . $cfg->lang_folder);
+define('ROOT_CORE'  , ROOT . $cfg->core_folder);
+define('ROOT_UPLOAD', ROOT . $cfg->upload_folder);
 define('TPL_NAME'   , $cfg->tpl_name);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
-
-// Some 'other' shortcuts :)
-define('WWW_CORE_TPL_ROOT', $cfg->www_root . '/' . $cfg->tpl_folder .  '/core');
+define('WWW_ROOT'   , BASE_URL_SEED);
+define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
 /**
 * @desc Error Reporting Depth
@@ -130,21 +128,21 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 /**
 * @desc Require Core Classes
 */
-require(CORE_ROOT . '/smarty/Smarty.class.php');
-require(CORE_ROOT . '/smarty/Render_SmartyDoc.class.php');
-require(CORE_ROOT . '/session.class.php');
-require(CORE_ROOT . '/input.class.php');
-require(CORE_ROOT . '/debug.class.php');
-require(CORE_ROOT . '/errorhandling.class.php');
-require(CORE_ROOT . '/modules.class.php');
-require(CORE_ROOT . '/functions.class.php');
-require(CORE_ROOT . '/language.class.php');
-require(CORE_ROOT . '/security.class.php');
-require(CORE_ROOT . '/users.class.php');
-require(CORE_ROOT . '/db.class.php');
-require(CORE_ROOT . '/stats.class.php');
-require(CORE_ROOT . '/permissions.class.php');
-require(CORE_ROOT . '/trail.class.php');
+require(ROOT_CORE . '/smarty/Smarty.class.php');
+require(ROOT_CORE . '/smarty/Render_SmartyDoc.class.php');
+require(ROOT_CORE . '/session.class.php');
+require(ROOT_CORE . '/input.class.php');
+require(ROOT_CORE . '/debug.class.php');
+require(ROOT_CORE . '/errorhandling.class.php');
+require(ROOT_CORE . '/modules.class.php');
+require(ROOT_CORE . '/functions.class.php');
+require(ROOT_CORE . '/language.class.php');
+require(ROOT_CORE . '/security.class.php');
+require(ROOT_CORE . '/users.class.php');
+require(ROOT_CORE . '/db.class.php');
+require(ROOT_CORE . '/stats.class.php');
+require(ROOT_CORE . '/permissions.class.php');
+require(ROOT_CORE . '/trail.class.php');
 
 
 /**
@@ -173,16 +171,16 @@ $trail      = new trail;
 /**
 * @desc Smarty Settings
 */
-$tpl->template_dir      = array(TPL_ROOT . '/' . TPL_NAME . '/', TPL_ROOT . '/core/' ) ;
-$tpl->compile_dir       = CORE_ROOT .'/smarty/templates_c/';
-$tpl->config_dir        = CORE_ROOT .'/smarty/configs/';
-$tpl->cache_dir         = CORE_ROOT .'/smarty/cache/';
+$tpl->template_dir      = array(ROOT_TPL . '/' . TPL_NAME . '/', ROOT_TPL . '/core/' ) ;
+$tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
+$tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
+$tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';
 $tpl->debugging         = DEBUG ? true : false;
 $tpl->force_compile     = true;
 $tpl->caching           = $cfg->caching;
 $tpl->compile_check     = true;
 $tpl->cache_lifetime    = $cfg->cache_lifetime;
-$tpl->debug_tpl         = TPL_ROOT . '/core/debug.tpl';
+$tpl->debug_tpl         = ROOT_TPL . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                      );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
@@ -282,7 +280,7 @@ else
 * Keep in mind ! that we spend a lot of time and ideas on this project.
 * If you rip, rip real good, knowing that you are forced to give something back to the community.
 */
-$security->check_copyright(TPL_ROOT . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
+$security->check_copyright(ROOT_TPL . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 
 /**
 * @desc Assign the results
@@ -310,6 +308,11 @@ $tpl->assign('content'          , $content['OUTPUT'] );
 *                     - else redirect to index or login
 *                   - if normal modules reqiested:
 *                     - display tpl_wrapper_file (content of module and stuff around that)
+*
+* A. Display Admininterface
+* B. Display Normalpage by tpl_wrapper
+* C. Display Maintenance Mode 
+* D. Display Normalpage but suppressed_wrapper
 */
 if ( $content['SUPPRESS_WRAPPER'] == true )
 {
@@ -319,22 +322,28 @@ else
 {
     /**
     * @desc Admin module <-> Normal module
+    * Switch for $_REQUEST mod=admin / sub=admin
     */
-    if ( $_REQUEST['mod'] == 'admin'  OR $_REQUEST['sub'] == 'admin' )
+    if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
     {
+        // check if sufficent right to access "admin control center" center
         if ( $perms->check('access_controlcenter', 'no_redirect') )
         {
+           // display the admin interface
            $tpl->displayDoc('admin/index.tpl');
         }
         else
-        {
+        {    
+             // not enough rights to access "acc" 
+             // if not even logged in, so redirect to login
+             // else user is logged in, but doesn't have sufficent rights
              if ( $_SESSION['user']['user_id'] == 0 )
              {
                 $functions->redirect('index.php?mod=account&action=login&referer='.base64_encode($_SERVER['REQUEST_URI']));
              }
              else
              {
-                $functions->redirect( 'index.php', 'metatag|newsite', 5, $lang->t('You do not have sufficient rights to access the ACP') );
+                $functions->redirect( 'index.php', 'metatag|newsite', 5, $lang->t('You do not have sufficient rights!') );
              }
         }
     }
