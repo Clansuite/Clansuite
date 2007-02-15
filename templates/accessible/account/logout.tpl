@@ -4,7 +4,7 @@
 	</p>
 	<div class="form_bottom">
 		<input type="hidden" name="confirm" value="1" />
-		<input class="ButtonRed" type="submit" name="submit" value="{translate}Confirm{/translate}" />
-		<input class="ButtonGreen" type="button" value="{translate}Abort{/translate}" onclick="self.location.href='index.php'" />
+		<input type="submit" name="submit" value="{translate}Confirm{/translate}" class="button" />
+		<input type="button" value="{translate}Abort{/translate}" onclick="self.location.href='index.php'" class="button" />
 	</div>
 </form>
