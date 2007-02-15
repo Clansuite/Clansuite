@@ -397,6 +397,7 @@ switch ($condition) {
                     
             // (D) display the maintenance template
             case 'display_maintenance_template':
+                    $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
                     $tpl->displayDoc('maintenance.tpl');
                     break;
             
