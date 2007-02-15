@@ -1,7 +1,6 @@
 {* Debugausgabe des Arrays: {$overview|@var_dump} *}
-
-<dl>
+<ol>
 {foreach from=$overview item=staticpage}
-  <dt>({$staticpage.id}) <a href='index.php?mod=static&page={$staticpage.title}'>{$staticpage.title}</a> {$staticpage.description}</dt>
+	<li><a href='index.php?mod=static&amp;page={$staticpage.title}'>{$staticpage.title}</a> {$staticpage.description}</li>
 {/foreach}
-</dl>
+</ol>
