@@ -1,3 +1,12 @@
 php_value magic_quotes_runtime "0"
 php_value magic_quotes_gpc "0"
 php_value register_globals "off"
+
+# wildcard fetching blocker
+RewriteEngine On
+RewriteCond %{QUERY_STRING} ^(.*)wget%20 [OR]
+RewriteCond %{QUERY_STRING} ^(.*)fetch%20 [OR]
+RewriteCond %{QUERY_STRING} ^(.*)=http://(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)=ftp://(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)=https://(.*)
+RewriteRule ^.*$ http://127.0.0.1/ [L,R=301]
