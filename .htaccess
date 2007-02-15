@@ -2,8 +2,10 @@ php_value magic_quotes_runtime "0"
 php_value magic_quotes_gpc "0"
 php_value register_globals "off"
 
-# wildcard fetching blocker
-RewriteEngine On
+# Apache Mod Rewrite 
+RewriteEngine Off
+
+# Rewrite Conditions: wildcard fetching blocker
 RewriteCond %{QUERY_STRING} ^(.*)wget%20 [OR]
 RewriteCond %{QUERY_STRING} ^(.*)fetch%20 [OR]
 RewriteCond %{QUERY_STRING} ^(.*)=http://(.*) [OR]
