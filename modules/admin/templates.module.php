@@ -102,7 +102,7 @@ class module_admin_templates
         * @desc Handle the output - $lang-t() translates the text.
         */
 
-        $tpl->assign( 'folder_tree', $this->build_folder_tree( TPL_ROOT ) );
+        $tpl->assign( 'folder_tree', $this->build_folder_tree( ROOT_TPL ) );
         $this->output .= $tpl->fetch( 'admin/templates/show.tpl' );
     }
     

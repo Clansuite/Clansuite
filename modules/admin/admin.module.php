@@ -81,7 +81,7 @@ class module_admin
         $col    = 0;
         $images = array();
 
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu_shortcuts ORDER BY `order` ASC, title ASC' );
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'adminmenu_shortcuts ORDER BY `cat` DESC, `order` ASC, title ASC' );
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         

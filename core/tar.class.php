@@ -18,7 +18,7 @@
 //
 // $Id: Tar.php,v 1.29 2005/03/17 21:02:31 vblavet Exp $
 
-require_once ( CORE_ROOT . '/pear.class.php' );
+require_once ( ROOT_CORE . '/pear.class.php' );
 
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
@@ -376,14 +376,14 @@ class Archive_Tar extends PEAR
     function addString($p_filename, $p_string)
     {
         $v_result = true;
-        
+
         if (!$this->_isArchive()) {
             if (!$this->_openWrite()) {
                 return false;
             }
             $this->_close();
         }
-        
+
         if (!$this->_openAppend())
             return false;
 
@@ -523,12 +523,12 @@ class Archive_Tar extends PEAR
     function setAttribute()
     {
         $v_result = true;
-        
+
         // ----- Get the number of variable list of arguments
         if (($v_size = func_num_args()) == 0) {
             return true;
         }
-        
+
         // ----- Get the arguments
         $v_att_list = &func_get_args();
 
@@ -1565,7 +1565,7 @@ class Archive_Tar extends PEAR
     {
         if (filesize($this->_tarname) == 0)
           return $this->_openWrite();
-          
+
         if ($this->_compress) {
             $this->_close();
 
@@ -1580,7 +1580,7 @@ class Archive_Tar extends PEAR
                 $v_temp_tar = @gzopen($this->_tarname.".tmp", "rb");
             elseif ($this->_compress_type == 'bz2')
                 $v_temp_tar = @bzopen($this->_tarname.".tmp", "rb");
-                
+
             if ($v_temp_tar == 0) {
                 $this->_error('Unable to open file \''.$this->_tarname
 				              .'.tmp\' in binary read mode');
@@ -1648,7 +1648,7 @@ class Archive_Tar extends PEAR
     {
         if (!$this->_openAppend())
             return false;
-            
+
         if ($this->_addList($p_filelist, $p_add_dir, $p_remove_dir))
            $this->_writeFooter();
 
@@ -1693,7 +1693,7 @@ class Archive_Tar extends PEAR
     // {{{ _pathReduction()
 
     /**
-     * Compress path by changing for example "/dir/foo/../bar" to "/dir/bar", 
+     * Compress path by changing for example "/dir/foo/../bar" to "/dir/bar",
      * rand emove double slashes.
      *
      * @param string $p_dir path to reduce

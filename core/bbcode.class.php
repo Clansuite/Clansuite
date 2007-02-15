@@ -47,7 +47,7 @@ class bbcode
         /**
         * @desc Generate the object
         */
-        require_once( CORE_ROOT . '/bbcode/stringparser_bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode/stringparser_bbcode.class.php' );
         $this->bb_code = new StringParser_BBCode();
 
         /**

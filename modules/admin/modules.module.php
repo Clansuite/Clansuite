@@ -145,13 +145,13 @@ class module_admin_modules
         global $cfg, $db, $tpl, $error, $lang;
 
         // for all Moduldirectories
-        $dir_handler = opendir( MOD_ROOT );
+        $dir_handler = opendir( ROOT_MOD );
 
         while( false !== ($content = readdir($dir_handler)) )
         {
             if ( $content != '.' && $content != '..' && $content != '.svn' )
             {
-                if ( is_dir( MOD_ROOT . '/' . $content ) )
+                if ( is_dir( ROOT_MOD . '/' . $content ) )
                 {
                     $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE folder_name = ?' );
                     $stmt->execute( array( $content ) );
@@ -188,13 +188,13 @@ class module_admin_modules
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
 
-                        if ( !file_exists( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' ) )
+                        if ( !file_exists( ROOT_MOD . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
                         }
                         else
                         {
-                            require_once( MOD_ROOT . '/' . $content . '/' . $content . '.config.php' );
+                            require_once( ROOT_MOD . '/' . $content . '/' . $content . '.config.php' );
                             $container['not_in_whitelist'][$x] = array_merge( $container['not_in_whitelist'][$x], $info );
                         }
                     }
@@ -336,7 +336,7 @@ class module_admin_modules
 
         $err = array();
 
-        if ( !is_writeable( MOD_ROOT ) )
+        if ( !is_writeable( ROOT_MOD ) )
         {
             $err['mod_folder_not_writeable'] = 1;
         }
@@ -426,7 +426,7 @@ class module_admin_modules
         /**
         * @desc Folder's writeable?
         */
-        if ( !is_writeable( MOD_ROOT ) )
+        if ( !is_writeable( ROOT_MOD ) )
         {
             $err['mod_folder_not_writeable'] = 1;
         }
@@ -555,7 +555,7 @@ class module_admin_modules
                 * @desc Create as submodule
                 */
 
-                if ( file_exists( MOD_ROOT . '/' . $name . '.module.php' ) )
+                if ( file_exists( ROOT_MOD . '/' . $name . '.module.php' ) )
                 {
                     // - todo -
                     // sicherstellen das hauptmodul fr submodul als file besteht.
@@ -585,7 +585,7 @@ class module_admin_modules
 
                         $tpl->unregister_outputfilter( 'remove_tpl_comments' );
 
-                        file_put_contents ( MOD_ROOT . '/' . $modul['folder_name'] . '/' . $name . '.module.php', $mod_class );
+                        file_put_contents ( ROOT_MOD . '/' . $modul['folder_name'] . '/' . $name . '.module.php', $mod_class );
 
                         // insert submodul
                         $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
@@ -625,17 +625,17 @@ class module_admin_modules
                 $stmt->execute( array( $name ) );
                 $res = $stmt->fetch();
 
-                if ( file_exists( MOD_ROOT . '/' . $name ) OR is_array($res) )
+                if ( file_exists( ROOT_MOD . '/' . $name ) OR is_array($res) )
                 {
                     $err['mod_already_exist'] = 1;
                 }
                 else
                 {
-                    if ( mkdir ( MOD_ROOT . '/' . $name, 0755 ) )
+                    if ( mkdir ( ROOT_MOD . '/' . $name, 0755 ) )
                     {
-                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.admin.php', $admin_class );
-                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.module.php', $mod_class );
-                        file_put_contents ( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
+                        file_put_contents ( ROOT_MOD . '/' . $name . '/' . $name . '.admin.php', $admin_class );
+                        file_put_contents ( ROOT_MOD . '/' . $name . '/' . $name . '.module.php', $mod_class );
+                        file_put_contents ( ROOT_MOD . '/' . $name . '/' . $name . '.config.php', $cfg_class );
 
                         $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
                         $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?';
@@ -743,7 +743,7 @@ class module_admin_modules
         $err            = array();
         $tared_files    = array();
 
-        if ( !is_writeable( UPLOAD_ROOT ) )
+        if ( !is_writeable( ROOT_UPLOAD ) )
         {
             $err['upload_folder_not_writeable'] = 1;
         }
@@ -790,7 +790,7 @@ class module_admin_modules
                                 $exported_menu[$value] = $result;
                                 if ( $result['icon'] != '' )
                                 {
-                                    $icons[] = TPL_ROOT . '/core/images/icons/' . $result['icon'];
+                                    $icons[] = ROOT_TPL . '/core/images/icons/' . $result['icon'];
                                 }
                             }
                         }
@@ -824,7 +824,7 @@ class module_admin_modules
                 /**
                 * @desc Write config
                 */
-                file_put_contents( MOD_ROOT . '/' . $name . '/' . $name . '.config.php', $cfg_class );
+                file_put_contents( ROOT_MOD . '/' . $name . '/' . $name . '.config.php', $cfg_class );
 
                 /**
                 * @desc Shape CREATE TABLE Statements and write it
@@ -842,25 +842,25 @@ class module_admin_modules
                 {
                 	$create_stmts = $sql_textarea;
                 }
-                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_sql.php', serialize($create_stmts) );
+                file_put_contents( ROOT_UPLOAD . '/modules/temp/mod_sql.php', serialize($create_stmts) );
 
                 /**
                 * @desc Write Mod Info Container
                 */
                 $container = array( 'name' => $res['name'], 'folder_name' => $res['folder_name'] );
-                file_put_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php', serialize($container) );
+                file_put_contents( ROOT_UPLOAD . '/modules/temp/mod_info.php', serialize($container) );
 
-                $tared_files['mod'] = MOD_ROOT . '/' . $name . '/';
+                $tared_files['mod'] = ROOT_MOD . '/' . $name . '/';
 
-                require( CORE_ROOT . '/tar.class.php' );
-                $tar = new Archive_Tar( UPLOAD_ROOT . '/modules/export/' . $name . '.tar' );
+                require( ROOT_CORE . '/tar.class.php' );
+                $tar = new Archive_Tar( ROOT_UPLOAD . '/modules/export/' . $name . '.tar' );
 
-                if ( $tar->createModify( $tared_files['mod'], '', MOD_ROOT ) )
+                if ( $tar->createModify( $tared_files['mod'], '', ROOT_MOD ) )
                 {
-                    $tar->addModify(  TPL_ROOT . '/core/images/modules/' . $res['image_name'], 'image', TPL_ROOT . '/core/images/modules/' );
-                    $tar->addModify(  $icons, 'icons', TPL_ROOT . '/core/images/icons/' );
-                    $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_sql.php', '', UPLOAD_ROOT . '/modules/temp/' );
-                    $tar->addModify(  UPLOAD_ROOT . '/modules/temp/mod_info.php', '', UPLOAD_ROOT . '/modules/temp/' );
+                    $tar->addModify(  ROOT_TPL . '/core/images/modules/' . $res['image_name'], 'image', ROOT_TPL . '/core/images/modules/' );
+                    $tar->addModify(  $icons, 'icons', ROOT_TPL . '/core/images/icons/' );
+                    $tar->addModify(  ROOT_UPLOAD . '/modules/temp/mod_sql.php', '', ROOT_UPLOAD . '/modules/temp/' );
+                    $tar->addModify(  ROOT_UPLOAD . '/modules/temp/mod_info.php', '', ROOT_UPLOAD . '/modules/temp/' );
                     if( !empty($files[$name]) )
                     {
                         foreach( $files[$name] as $key => $value )
@@ -876,7 +876,7 @@ class module_admin_modules
         /**
         * @desc Get the exportable modules that are whitelisted
         */
-        $dir_handler = opendir( MOD_ROOT );
+        $dir_handler = opendir( ROOT_MOD );
 
 		if( !empty($details_name) )
 		{
@@ -895,7 +895,7 @@ class module_admin_modules
 	        {
 	            if ( !preg_match('/^\.(.*)$/', $content) )
 	            {
-	                if ( is_dir( MOD_ROOT . '/' . $content ) )
+	                if ( is_dir( ROOT_MOD . '/' . $content ) )
 	                {
 	                    $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE folder_name = ?' );
 	                    $stmt->execute( array( $content ) );
@@ -947,7 +947,7 @@ class module_admin_modules
     {
         global $tpl, $db, $input, $functions, $lang;
 
-        $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
+        $functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
 
         set_time_limit(0);
 
@@ -957,12 +957,12 @@ class module_admin_modules
         $dirs   = array();
         $used   = array();
 
-        if ( !is_writeable( UPLOAD_ROOT ) )
+        if ( !is_writeable( ROOT_UPLOAD ) )
         {
             $err['upload_folder_not_writeable'] = 1;
         }
 
-        if ( !is_writeable( MOD_ROOT ) )
+        if ( !is_writeable( ROOT_MOD ) )
         {
             $err['mod_folder_not_writeable'] = 1;
         }
@@ -981,17 +981,17 @@ class module_admin_modules
 
             if ( count ($err) == 0 )
             {
-                if ( move_uploaded_file( $_FILES['file']['tmp_name'], UPLOAD_ROOT . '/modules/import/' . $_FILES['file']['name'] ) )
+                if ( move_uploaded_file( $_FILES['file']['tmp_name'], ROOT_UPLOAD . '/modules/import/' . $_FILES['file']['name'] ) )
                 {
-                    require( CORE_ROOT . '/tar.class.php' );
-                    $tar = new Archive_Tar( UPLOAD_ROOT . '/modules/import/' . $_FILES['file']['name'] );
+                    require( ROOT_CORE . '/tar.class.php' );
+                    $tar = new Archive_Tar( ROOT_UPLOAD . '/modules/import/' . $_FILES['file']['name'] );
 
-                    $tar->extract( UPLOAD_ROOT . '/modules/temp/' );
+                    $tar->extract( ROOT_UPLOAD . '/modules/temp/' );
 
-                    $handler = opendir( UPLOAD_ROOT . '/modules/temp/' );
+                    $handler = opendir( ROOT_UPLOAD . '/modules/temp/' );
                     while( false !== ($dh = readdir($handler)) )
                     {
-                        if ( $dh != '.' && $dh != '..' && $dh != '.svn' && is_dir( UPLOAD_ROOT . '/modules/temp/' . $dh ) )
+                        if ( $dh != '.' && $dh != '..' && $dh != '.svn' && is_dir( ROOT_UPLOAD . '/modules/temp/' . $dh ) )
                         {
                             $dirs[] = $dh;
                         }
@@ -1001,26 +1001,26 @@ class module_admin_modules
                     foreach( $dirs as $value )
                     {
 
-                        $container = unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_info.php' ) );
+                        $container = unserialize( file_get_contents( ROOT_UPLOAD . '/modules/temp/mod_info.php' ) );
 
                         if ( $value == 'icons' )
                         {
-                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/icons/', TPL_ROOT . '/core/images/icons/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
+                            $functions->dir_copy( ROOT_UPLOAD . '/modules/temp/icons/', ROOT_TPL . '/core/images/icons/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
                         }
 
                         if ( $value == 'images' )
                         {
-                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/images/', TPL_ROOT . '/core/images/modules/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
+                            $functions->dir_copy( ROOT_UPLOAD . '/modules/temp/images/', ROOT_TPL . '/core/images/modules/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
                         }
 
                         if ( $value == $container['folder_name'] )
                         {
-                            $functions->dir_copy( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/', MOD_ROOT . '/' . $container['folder_name'] . '/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
+                            $functions->dir_copy( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/', ROOT_MOD . '/' . $container['folder_name'] . '/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
                         }
 
-                        if ( file_exists ( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' ) )
+                        if ( file_exists ( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' ) )
                         {
-                            require( UPLOAD_ROOT . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' );
+                            require( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' );
                         }
                         else
                         {
@@ -1082,7 +1082,7 @@ class module_admin_modules
 						/**
 						* @desc Insert the custom SQL Commands
 						*/
-						$sql_commands = trim(unserialize( file_get_contents( UPLOAD_ROOT . '/modules/temp/mod_sql.php' ) ) );
+						$sql_commands = trim(unserialize( file_get_contents( ROOT_UPLOAD . '/modules/temp/mod_sql.php' ) ) );
                         $cmds = preg_split('#;#',$sql_commands);
 						foreach( $cmds as $key => $value)
 						{
@@ -1095,7 +1095,7 @@ class module_admin_modules
 				        /**
 				        * @desc Clear temp
 				        */
-				        //$functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
+				        //$functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
 
 						/**
 						* @desc Redirect
@@ -1114,7 +1114,7 @@ class module_admin_modules
         /**
         * @desc Clear temp
         */
-        $functions->delete_dir_content( UPLOAD_ROOT . '/modules/temp/' );
+        $functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
 
         $tpl->assign('err'                  , $err );
         $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=import' );
@@ -1377,7 +1377,7 @@ class module_admin_modules
 
                                 $tpl->unregister_outputfilter( 'remove_tpl_comments' );
 
-                                file_put_contents ( MOD_ROOT . '/' . $info[$value['module_id']]['folder_name'] . '/' . $arr['file'], $mod_class );
+                                file_put_contents ( ROOT_MOD . '/' . $info[$value['module_id']]['folder_name'] . '/' . $arr['file'], $mod_class );
 
                             }
                         }
@@ -1519,7 +1519,7 @@ class module_admin_modules
         {
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
             $stmt->execute( array($module_id) );
-            $functions->delete_dir_content( MOD_ROOT . '/' . $folder_name, true );
+            $functions->delete_dir_content( ROOT_MOD . '/' . $folder_name, true );
 	        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules has been uninstalled.' ), 'admin' );
         }
         else
@@ -1590,7 +1590,7 @@ class module_admin_modules
         {
             if ( $type == 'modules' )
             {
-                if ( !$functions->chmod( MOD_ROOT, '755', 1 ) )
+                if ( !$functions->chmod( ROOT_MOD, '755', 1 ) )
                 {
                     $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'The permissions could not be set.' ) );
                 }
@@ -1602,7 +1602,7 @@ class module_admin_modules
 
             if ( $type == 'uploads' )
             {
-                if ( !$functions->chmod( UPLOAD_ROOT, '755', 1 ) )
+                if ( !$functions->chmod( ROOT_UPLOAD, '755', 1 ) )
                 {
                     $functions->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'The permissions could not be set.' ) );
                 }

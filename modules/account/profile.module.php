@@ -108,7 +108,7 @@ class module_account_profile
         $info = $stmt->fetch(PDO::FETCH_NAMED);
 
         // BBCode load class and init
-        require_once( CORE_ROOT . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.class.php' );
         $bbcode = new bbcode();
         $info['custom_text'] = $bbcode->parse($info['custom_text']);
 
@@ -204,7 +204,7 @@ class module_account_profile
         if( $cell == 'custom_text' )
         {
             // BBCode load class and init
-            require_once( CORE_ROOT . '/bbcode.class.php' );
+            require_once( ROOT_CORE . '/bbcode.class.php' );
             $bbcode = new bbcode();
             $value = $bbcode->parse($value);
         }

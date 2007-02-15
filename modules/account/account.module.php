@@ -59,66 +59,61 @@ class module_account
         {
             // Login
             case 'login':
-                $title = ' Login ';
+                $trail->addStep($lang->t('Login'), '/index.php?mod=account&action=login');
                 $this->login();
                 break;
 
             // Logout
             case 'logout':
-                $title = ' Logout ';
+                $trail->addStep($lang->t('Logout'), '/index.php?mod=account&action=logout');
                 $this->logout();
                 break;
 
             // Registration
             case 'register':
-                $title = ' Registration ';
+                $trail->addStep($lang->t('Registration'), '/index.php?mod=account&action=registration');
                 $this->register();
                 break;
 
             // Activate Account
             case 'activate_account':
-                $title = ' Activate account ';
+                $trail->addStep($lang->t('Activate account'), '/index.php?mod=account&action=activate_account');
                 $this->activate_account();
                 break;
 
             // Send Activation Email
             case 'activation_email':
-                $title = ' Resend activation email ';
+                $trail->addStep($lang->t('Resend activation email'), '/index.php?mod=account&action=activation_email');
                 $this->activation_email();
                 break;
 
             // Forgot Password
             case 'forgot_password':
+                $trail->addStep($lang->t('Forgot Password'), '/index.php?mod=account&action=forgot_password');
                 $this->forgot_password();
-                $title = ' Forgot Password ';
                 break;
 
             // Activate Password
             case 'activate_password':
+                $trail->addStep($lang->t('Activate Password'), '/index.php?mod=account&action=activate_password');
                 $this->activate_password();
-                $title = ' Activate Password ';
                 break;
 
             // Default Action: if authed present logout, else login
             default:
                 if ( $_SESSION['user']['authed'] == 1 )
                 {
-                    $title = ' Logout ';
                     $this->logout();
                 }
                 else
                 {
-                    $title = ' Login ';
                     $this->login();
                 }
                 break;
         }
 
-        // Set Pagetitle
-        $this->mod_page_title = $lang->t('User :: ' . $title );
-
+       
         return array( 'OUTPUT'          => $this->output,
-
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -382,7 +377,7 @@ class module_account
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 // Load mailer & send mail
-                require ( CORE_ROOT . '/mail.class.php' );
+                require ( ROOT_CORE . '/mail.class.php' );
                 $mailer = new mailer;
 
                 $to_address     = '"' . $nick . '" <' . $email . '>';
@@ -481,7 +476,7 @@ class module_account
                         $stmt->execute( array ( $code, $user_id ) );
 
                         // Load mailer & Prepare mail
-                        require ( CORE_ROOT . '/mail.class.php' );
+                        require ( ROOT_CORE . '/mail.class.php' );
                         $mailer = new mailer;
 
                         $to_address     = '"' . $nick . '" <' . $email . '>';
@@ -620,7 +615,7 @@ class module_account
                         $stmt->execute( array ( $code, $new_pass, $user_id ) );
 
                         // Load mailer
-                        require ( CORE_ROOT . '/mail.class.php' );
+                        require ( ROOT_CORE . '/mail.class.php' );
                         $mailer = new mailer;
 
                         $to_address     = '"' . $nick . '" <' . $email . '>';

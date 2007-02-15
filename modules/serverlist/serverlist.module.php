@@ -206,7 +206,7 @@ class module_serverlist
         	$servers['htmldetail'] = '<tr valign="top"><td align="left">No</td><td align="left">Response</td></tr>' . "\n";
             
             // set serverstats_filename to noresponse.tpl   
-            $servers['serverstats_filename'] = TPL_ROOT . '/standard/serverlist/serverstats/noresponse.tpl';
+            $servers['serverstats_filename'] = ROOT_TPL . '/standard/serverlist/serverstats/noresponse.tpl';
             }
        */
        $tpl->assign('serverdata', $server_data);
@@ -222,7 +222,7 @@ class module_serverlist
       global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
       
       // load smarty_ajax
-      //require_once( CORE_ROOT . '/smarty/smarty_ajax.php');
+      //require_once( ROOT_CORE . '/smarty/smarty_ajax.php');
       
       // register function avaiable for ajax
       // put function in to ajax calls array      

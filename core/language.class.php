@@ -49,19 +49,19 @@ class language
     public  $loaded  = array();	 	// Contains the filenames of the loaded language files
 	public	$lang    = array();    	// Contains all translation of a file in the following form:
 									// array(%id% => %message%);
-    
+
     /**
     * @desc Conrtuctor to register {translate} in SMARTY Template Engine
     */
 
-    
+
     function __construct()
     {
         global $tpl;
-        
+
         $tpl->register_block("translate", array('language',"smarty_translate"), false);
     }
-    
+
     /**
     * @desc Function for SMARTY to handle {translate}
     */
@@ -69,7 +69,7 @@ class language
     static function smarty_translate($params, $string, &$smarty)
     {
         global $lang;
-        		
+
         foreach ($params as $key => $value)
         {
             $params["%" . $key] = $value;
@@ -77,32 +77,32 @@ class language
         }
         echo($lang->t($string, $params));
     }
-    
+
     /**
     * @desc Translate a string into the given language
     */
 
     function t($string, $args = array() )
-    {        
+    {
 		global $lang;
-		
-        if(isset($lang->lang[ $string ])) 
+
+        if(isset($lang->lang[ $string ]))
 		{
 			return strtr($lang->lang[ $string ], $args);
 		}
         return strtr($string, $args);
     }
-    
-    /** 
+
+    /**
     * @desc Just add another XML File to $lang->xml tree
     */
 
     function load_lang( $xml_file_name='' )
     {
         global $cfg;
-        
-        $file = LANG_ROOT . '/' . $cfg->language . '/' . $xml_file_name . '.xml';
-        			
+
+        $file = ROOT_LANG . '/' . $cfg->language . '/' . $xml_file_name . '.xml';
+
 		/**
 		 * Parse translations via Simple XML
 		 * and write to array
@@ -112,18 +112,18 @@ class language
             if (!in_array($xml_file_name, $this->loaded) )
             {
 				array_push($this->loaded, $xml_file_name );
-				
+
 				$xml = new SimpleXMLElement(file_get_contents($file));
-				
+
 				foreach($xml->message as $msg)
                 {
 					$id = $msg->id;
 					$string = $msg->string;
-					
+
                     $this->lang = array_merge($this->lang, array((string)$id => (string)$string));
-				}                
+				}
             }
         }
-    }    
+    }
 }
 ?>
