@@ -10,7 +10,7 @@ Loading...
 			<dd><input class="input_text" id="shout_name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="shout_mail">{translate}Mail{/translate}:</label></dt>
+			<dt><label for="shout_mail">{translate}E-Mail{/translate}:</label></dt>
 			<dd><input class="input_text" id="shout_mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
 		</dl>
 		<dl>
@@ -19,7 +19,7 @@ Loading...
 		</dl>
 	</fieldset>
 	<div class="form_bottom">
-		<input class="ButtonGreen" id="shoutbox_submit" type="submit" name="sent" value="{$save_entry}" />
+		<input type="submit" id="shoutbox_submit" name="sent" value="{$save_entry}" class="button" />
 	</div>
 </form>
 <div id="request_return" style="text-align:center">

@@ -1,4 +1,4 @@
-<h3>{translate}Register{/translate}</h3>
+<h1>{translate}Register{/translate}</h1>
 {if $err.not_filled == 1}<p class="error">{translate}Please fill out all required fields!{/translate}</p>{/if}
 {if $err.nick_wrong == 1}<p class="error">{translate}The nickname contains violating characters!{/translate}</p>{/if}
 {if $err.email_wrong == 1}<p class="error">{translate}The email address is wrong!{/translate}</p>{/if}
@@ -31,6 +31,6 @@
 		</dl>
 	</fieldset>
 	<div class="form_bottom">
-		<input class="ButtonGrey" type="submit" name="submit" value="{translate}Register{/translate}" />
+		<input type="submit" name="submit" value="{translate}Register{/translate}" class="button" />
 	</div>
 </form>

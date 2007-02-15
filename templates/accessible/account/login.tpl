@@ -22,11 +22,11 @@
 		<abbr title="Cookies required">{translate}Remember me{/translate}</abbr>
 	</div>
 	<div class="form_bottom">
-		<input class="ButtonGreen" type="submit" name="submit" value="{translate}Login{/translate}" />
+		<input type="submit" name="submit" value="{translate}Login{/translate}" class="button" />
 	</div>
 </form>
 <ul>
-	<li><a href="index.php?mod=account&amp;action=register">{translate}Not yet registered ?{/translate}</a></li>
-	<li><a href="index.php?mod=account&amp;action=forgot_password">{translate}Forgot password ?{/translate}</a></li>
-	<li><a href="index.php?mod=account&amp;action=activation_email">{translate}Did not get an activation email ?{/translate}</a></li>
+	<li><a href="index.php?mod=account&amp;action=register">{translate}Not yet registered?{/translate}</a></li>
+	<li><a href="index.php?mod=account&amp;action=forgot_password">{translate}Forgot password?{/translate}</a></li>
+	<li><a href="index.php?mod=account&amp;action=activation_email">{translate}Did not get an activation email?{/translate}</a></li>
 </ul>

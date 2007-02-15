@@ -1,15 +1,16 @@
 /* Error Messages */
-
-legend {
+.error_red, .error_orange, .error_beige {
+	width: 90%;
+	margin: 0 auto;
+	padding: 5px;
+	border: 1px solid #333;
+}
+.error_red legend, .error_orange legend, .error_beige legend {
 	padding: 1px 5px;
 	background: #fff;
 	border: 1px solid #333;
 	font-weight: bold;
 	opacity: 0.75;
-}
-.error_red, .error_orange, .error_beige {
-	padding: 5px;
-	border: 1px solid #333;	
 }
 .error_red {
 	background: #f00;
