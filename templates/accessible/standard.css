@@ -13,6 +13,23 @@ img {
 p {
 	padding: 5px 0;
 }
+/* Tables */
+table, tr, th, td {
+	border: 1px solid #333;
+	border-collapse: collapse;
+}
+table {
+	width: 100%;
+}
+th {
+	padding: 1px 2px;
+	background: #f00;
+	font-size: 1.1em;
+	color: #fff;
+}
+td {
+	text-align: center;
+}
 /* Hyperlinks */
 a, a:link, a:hover {
 	color: #069;
@@ -28,6 +45,9 @@ ul, ol {
 }
 ul ul, ol ol {
 	margin: 0 20px;
+}
+dl {
+	text-align: left;
 }
 /* Headings */
 h1 {
@@ -97,13 +117,16 @@ h6 {
 }
 #box {
 	font-size: 1.2em;
+	position: relative;
 }
 #left {
 	width: 200px;
 	background: #eee;
 	border: 1px solid #333;
 	border-width: 0 1px 1px 0;
-	float: left;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 #left h3, #right h3 {
 	padding: 5px 5px 5px 10px;
@@ -120,13 +143,15 @@ h6 {
 	background: #eee;
 	border: 1px solid #333;
 	border-width: 0 0 1px 1px;
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 #counter li {
 	list-style: none;
 }
 #content {
-	margin: 0 260px 0 210px;
+	padding: 10px 260px 0 210px;
 }
 #footer {
 	font-size: 1.1em;
@@ -176,6 +201,9 @@ legend {
 }
 fieldset dd input, fieldset dd textarea {
 	width: 100%;
+}
+fieldset dd textarea {
+	overflow: auto;
 }
 .button {
 	padding: 1px 7px;
