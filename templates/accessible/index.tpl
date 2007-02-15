@@ -28,13 +28,7 @@
 <link rel="icon" href="{$www_tpl_root}/images/animated_favicon.gif" type="image/gif" />
 
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript"></script>
-
-<!--[if IE]>
-<link rel="stylesheet" href="{$www_core_tpl_root}/css/IEhack.css" type="text/css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
-<![endif]-->
 
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
