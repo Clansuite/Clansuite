@@ -51,7 +51,7 @@ dl {
 }
 /* Headings */
 h1 {
-	padding: 5px 0;
+	padding-bottom: 5px;
 	font-size: 1.5em;
 }
 h2 {
@@ -180,11 +180,11 @@ form {
 label {
 	cursor: pointer;
 }
-label:hover {
-	color: #f00;
-}
 dt label, dt span {
 	font-weight: bold;
+}
+dt label:hover {
+	color: #f00;
 }
 fieldset {
 	width: 70%;
@@ -257,4 +257,34 @@ fieldset dd textarea {
 	position: absolute;
 	top: 50%;
 	left: 50%;
+}
+/* News */
+.newsbox {
+	margin-bottom: 10px;
+	border: 1px solid #333;
+}
+.news_cat_img {
+	width: 125px;
+	border-left: 1px solid #333;
+	float: right;
+}
+.news_head {
+	margin-right: 125px;
+	padding: 0 5px;
+	background: #f00;
+	border: 1px solid #333;
+	border-width: 0 1px 1px 0;
+	color: #fff;
+	line-height: 20px;
+}
+.news_author_comments {
+	margin-right: 125px;
+	padding: 0 5px;
+	border: 1px solid #333;
+	border-width: 0 1px 1px 0;
+}
+.news_content {
+	margin-right: 125px;
+	padding: 5px;
+	border-right: 1px solid #333;
 }
