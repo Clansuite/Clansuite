@@ -143,8 +143,7 @@ class config
 
         $this->help_edit_mode = 1;
         $this->version      = (float) 0.1;
-        $this->copyright    = '&copy; 2006 by <a href="http://www.clansuite.com">clansuite.com</a>';
-
+      
         // Cache
 
         $this->caching = 0;

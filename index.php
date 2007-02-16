@@ -275,7 +275,7 @@ $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
-$tpl->assign('copyright'        , $cfg->copyright );
+$tpl->assign('copyright'        , $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
 if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD'])) 
 { 
     $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] ); 
