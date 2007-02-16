@@ -1,3 +1,4 @@
+<h1>News</h1>
 {* DEBUG OUTPUT of assigned Arrays:
 	{$news|@var_dump}
 	{$paginate|@var_dump}
@@ -34,5 +35,4 @@
 		{$news.news_body}
 	</div>
 </div>
-
 {/foreach}
