@@ -156,12 +156,16 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     </td>
 </tr>
 </table>
-<div class="cell1" style="padding: 5px" align="center">
-    <span class="copyright">
-        {$copyright}
-        &nbsp;Queries: {$query_counter}</span><br />
-        <img src="{$www_tpl_root}/images/clansuite-80x15.png" alt="Copyright Clansuite.">
-</div>
+
+<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+<p class="copyright">
+    <center>
+            <hr />
+            {$copyright} <br />
+            Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
+    </center>
+</p>
+
 <script type="text/javascript">
     var menu1 = new XulMenu("menu1");
     menu1.type = "vertical";
