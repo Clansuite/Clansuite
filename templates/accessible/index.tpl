@@ -75,11 +75,15 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		{$content}
 	</div>
 </div>
-<div id="footer">
-	{$copyright}
-	Queries: {$query_counter}
-	<br />
-	<img src="{$www_tpl_root}/images/clansuite-80x15.png" alt="Copyright Clansuite." />
+<div id="footer>
+<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+<p class="copyright">
+    <center>
+           
+            {$copyright} <br />
+            Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
+    </center>
+</p>
 </div>
 {* Ajax Notification *}
 <div id="notification" style="margin-top:20px;vertical-align:middle;display:none">
