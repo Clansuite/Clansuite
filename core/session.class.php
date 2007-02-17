@@ -98,7 +98,7 @@ class session
         $this->session_cookies              = $cfg->use_cookies;
         $this->session_cookies_only         = $cfg->use_cookies_only;
         ini_set('session.save_handler'      , 'user' );
-        ini_set('session.gc_maxlifetime'    , $this->session_expire_time );
+        ini_set('session.gc_maxlifetime'    , $cfg->session_expire_time );
         ini_set('session.gc_probability'    , $this->session_probability );
         ini_set('session.name'              , $this->session_name );
         ini_set('session.use_trans_sid'     , 1 );
