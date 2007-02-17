@@ -1,4 +1,4 @@
-{doc_info DOCTYPE=XHTML1.1 LEVEL=Normal}
+{doc_info DOCTYPE=XHTML LEVEL=Transitional}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
@@ -75,15 +75,10 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		{$content}
 	</div>
 </div>
-<div id="footer>
+<div id="footer">
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-<p class="copyright">
-    <center>
-           
-            {$copyright} <br />
-            Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
-    </center>
-</p>
+	{$copyright}<br />
+	Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
 </div>
 {* Ajax Notification *}
 <div id="notification" style="margin-top:20px;vertical-align:middle;display:none">
