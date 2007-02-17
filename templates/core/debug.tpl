@@ -1,4 +1,5 @@
 {assign_debug_info}
+{$config_vars|@var_dump}
 
 <span id="container_1" style="{if $debug.debug_popup==0}display: block{else}display: none{/if};">
 	<script>
@@ -155,7 +156,9 @@
 		{/foreach}
 	</table></span></td></tr>
 
-	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('10')">Loaded Modules ($modules->loaded)</a></b></td></tr>
+	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;">
+	<td colspan=2 class="header"><b>
+	<a style="text-decoration: none;" href="javascript:clip('10')">Loaded Modules ($modules->loaded)</a></b></td></tr>
 	<tr><td width=100% colspan=2><span style="display:none" id="span_10"><table border=0 width=100%>
 		{foreach key=schluessel item=wert from=$debug.mods_loaded}
 			<tr bgcolor=#E4E0C7><td width=100 valign=top colspan=2>
@@ -189,3 +192,44 @@
 	document.getElementById("container_1").innerHTML = '';
 	</script>
 {/if}
+
+<hr />
+
+{literal}
+<style>
+dd {
+  margin:0; 
+  padding:0; 
+  text-align:left; 
+  border-top:1px solid #fff; 
+  }
+
+dt {
+  margin:0; 
+  padding:0.4em; 
+  text-align:left; 
+  font-size: 1.4em; 
+  font-weight:bold; 
+  background: #69c;
+  }
+
+dl {
+  margin: 0; 
+  padding: 0; 
+  border-left:1px solid #fff; 
+  border-right:1px solid #fff;
+  }
+  
+</style>
+{/literal}
+
+{foreach key=outerkey name=outer item=debugouter from=$debug}
+  <dl>
+  <dt><strong>{$outerkey}</strong></dt>  
+  {foreach key=key item=item from=$debugouter}
+    <dd>
+        <font color=brown>{$key}</font>  : {$item}
+    </dd>
+  {/foreach}  
+  </dl>
+{/foreach}
