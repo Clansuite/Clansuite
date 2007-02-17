@@ -329,7 +329,7 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Remember me time{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->remember_me_time}" name="config[remember_me_time]" />&nbsp; seconds
+                    <input class="input_text" type="text" value="{$cfg->remember_me_time}" name="config[remember_me_time]" />&nbsp; days
                 </td>
             </tr>
             <tr>
