@@ -260,8 +260,8 @@ class users
 
         if ( $remember_me == 1 )
         {
-            setcookie('user_id', $user_id, time() + $cfg->remember_me_time);
-            setcookie('password',$security->build_salted_hash( $password ), time() + $cfg->remember_me_time);
+            setcookie('user_id', $user_id, time() + round($cfg->remember_me_time*24*60*60));
+            setcookie('password',$security->build_salted_hash( $password ), time() + round($cfg->remember_me_time*24*60*60));
         }
 
         // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
@@ -306,8 +306,8 @@ class users
                 * @desc Update the cookie
                 */
 
-                setcookie('user_id', $_COOKIE['user_id'], time() + $cfg->remember_me_time);
-                setcookie('password',$_COOKIE['password'], time() + $cfg->remember_me_time);
+                setcookie('user_id', $_COOKIE['user_id'], time() + round($cfg->remember_me_time*24*60*60));
+                setcookie('password',$_COOKIE['password'], time() + round($cfg->remember_me_time*24*60*60));
 
                 /**
                 * @desc Create $_SESSION['user']
