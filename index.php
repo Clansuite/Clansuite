@@ -285,32 +285,48 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 * Pre-Conditions for Template Output
 * check $_REQUEST
 *
-* @desc Step 1:     Check if : Suppress Wrapper is set
+* @desc Step 1:     Check if : Maintenance_mode is set
+*                   - show only the content of the maintenance tpl
+*                   - if right for access_controlcenter
+*                   - turn maintenance off, show normal wrapped template
+*
+* @desc Step 2:     Check if : Suppress Wrapper is set
 *                   - only the content of the suppressing module is echoed
 *
-* @desc Step 2:     Check if : Maintenance_mode is set
-*                   - show only the content of the maintenance tpl
-*
-* @desc Step 1:     Check if : Admin module <-> Normal module
+* @desc Step 3:     Check if : Admin module <-> Normal module
 *                   - if admin modules requested:
 *                     - check permissions
-*                     - if right for access_controlcenter reset the maintenance mode then display
+*                     - if right for access_controlcenter, turn maintenance off, then display
 *                     - else redirect to index or login
 *                   - if normal modules reqiested:
 *                     - display tpl_wrapper_file (content of module and stuff around that)
 *
 */
  
-// set default_condition 
-$condition = 'nothing';
+// set default_condition : normal template
+$condition = 'display_normal_wrapped_template';
 
 /**
 *  set condition for maintenance 
-*  switch for enabled maintenance mode
 */ 
 if ( $cfg->maintenance == '1' ) 
 { 
     $condition = 'display_maintenance_template';
+    
+    // override maintenance_mode for admins to keep system maintainable
+    if ( $perms->check('access_controlcenter', 'no_redirect') == true ) 
+    {   
+        $cfg->maintenance == '0';
+        $condition = 'display_normal_wrapped_template';
+    }
+}
+
+/**
+*  set condition for suppress wrapper 
+*/
+if ( $content['SUPPRESS_WRAPPER'] == true )
+{
+    $condition = 'display_template_with_suppressed_wrapper';
 }
 
 /** 
@@ -341,23 +357,6 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
             $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('You do not have sufficient rights!') );
          }
     }
-}
-
-/**
-*  set condition for normal (wrapped) template 
-*  switch for $_REQUEST mod=account / action=  login
-*  in case user wants to logout - so it's ok, even if maintenance mode is set
-*  todo: should this work for ($_REQUEST['action'] == 'logout' OR login )?? 
-*/ 
-if ( $_REQUEST['mod'] == 'account' AND (  $_REQUEST['action'] == 'login' )  )
-{  
-    $condition = 'display_normal_wrapped_template';    
-}
-
-// suppress wrapper
-if ( $content['SUPPRESS_WRAPPER'] == true )
-{
-    $condition = 'display_template_with_suppressed_wrapper';
 }
 
 /**
