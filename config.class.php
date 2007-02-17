@@ -120,6 +120,7 @@ class config
 
         $this->login_method = 'nick';
         $this->remember_me_time = 7776000; // 90 Days
+        $this->session_expire_time = 30; // minutes
         $this->max_login_attempts = 5;
         $this->login_ban_minutes = 30;
 
