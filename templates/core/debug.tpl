@@ -193,6 +193,8 @@
 	</script>
 {/if}
 
+
+{* testing 
 <hr />
 
 {literal}
@@ -228,8 +230,9 @@ dl {
   <dt><strong>{$outerkey}</strong></dt>  
   {foreach key=key item=item from=$debugouter}
     <dd>
-        <font color=brown>{$key}</font>  : {$item}
+        <font color=brown>{$key}</font>  : <dt>{$item|@debug_print_var}</dt>
     </dd>
   {/foreach}  
   </dl>
 {/foreach}
+*}
