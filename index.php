@@ -276,9 +276,9 @@ $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
 $tpl->assign('copyright'        , $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
-if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD'])) 
-{ 
-    $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] ); 
+if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
+{
+    $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
     }
 
 /**
@@ -302,57 +302,57 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 *                     - display tpl_wrapper_file (content of module and stuff around that)
 *
 */
- 
+
 // set default_condition : normal template
 $condition = 'display_normal_wrapped_template';
 
 /**
-*  set condition for maintenance 
-*/ 
-if ( $cfg->maintenance == '1' ) 
-{ 
+*  set condition for maintenance
+*/
+if ( $cfg->maintenance == '1' )
+{
     $condition = 'display_maintenance_template';
-    
+
     // override maintenance_mode for admins to keep system maintainable
-    if ( $perms->check('access_controlcenter', 'no_redirect') == true ) 
-    {   
+    if ( $perms->check('access_controlcenter', 'no_redirect') == true )
+    {
         $cfg->maintenance == '0';
         $condition = 'display_normal_wrapped_template';
     }
 }
 
 /**
-*  set condition for suppress wrapper 
+*  set condition for suppress wrapper
 */
 if ( $content['SUPPRESS_WRAPPER'] == true )
 {
     $condition = 'display_template_with_suppressed_wrapper';
 }
 
-/** 
+/**
 *  set condition for admininterface
 *  switch for $_REQUEST mod=admin / sub=admin
 */
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
-{       
+{
     // check if sufficent right to access "admin control center" center
     if ( $perms->check('access_controlcenter', 'no_redirect') == true )
-    {   
+    {
         // override maintenance_mode for admins to keep system maintainable
         $cfg->maintenance_mode = '0';
         //set condition to display_admincontrolcenter
         $condition = 'display_admincontrolcenter';
     }
-    else 
-    {    
-         // not enough rights to access "acc" 
+    else
+    {
+         // not enough rights to access "acc"
          // if not even logged in, so redirect to login
          if ( $_SESSION['user']['user_id'] == 0 )
          {
             $functions->redirect('index.php?mod=account&action=login&referer='.base64_encode($_SERVER['REQUEST_URI']));
          }
          // else user is logged in, but doesn't have sufficent rights
-         else 
+         else
          {
             $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('You do not have sufficient rights!') );
          }
@@ -363,7 +363,7 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 *   Finally: The Switch on Pre-Conditions
 *
 *   A. display_normal_wrapped_template
-*   B. display_template_with_suppressed_wrapper 
+*   B. display_template_with_suppressed_wrapper
 *   C. display_admincontrolcenter
 *   D. display_maintenance_template
 */
@@ -372,7 +372,7 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 // echo $condition;
 
 switch ($condition) {
-          
+
             // (A) displays content of modul with portal frame
             default:
             case 'display_normal_wrapped_template':
@@ -380,34 +380,34 @@ switch ($condition) {
                     $tpl->assign('content', $content['OUTPUT'] );
                     $tpl->displayDoc($cfg->tpl_wrapper_file);
                     break;
-          
+
             // (B) means just the content of the modul, without the portal frame
             case 'display_template_with_suppressed_wrapper':
                     $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
-                    echo $content['OUTPUT'];            
+                    echo $content['OUTPUT'];
                     break;
-                    
+
             // (C) display AdminControlCenter
             case 'display_admincontrolcenter':
                     $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
                     $tpl->assign('content', $content['OUTPUT'] );
                     $tpl->displayDoc('admin/index.tpl');
                     break;
-                    
+
             // (D) display the maintenance template
             case 'display_maintenance_template':
                     $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
                     $tpl->displayDoc('maintenance.tpl');
                     break;
-            
+
 }
 
 /**
 * @desc Show Debug Console - but not with suppressed wrapper and maintenance mode
 */
-if ( $condition !== 'display_template_with_suppressed_wrapper' AND $condition !== 'display_maintenance_template' ) 
+if ( $condition !== 'display_template_with_suppressed_wrapper' AND $condition !== 'display_maintenance_template' )
 {
-DEBUG ? $debug->show_console() : ''; 
+DEBUG ? $debug->show_console() : '';
 }
 
 ?>
