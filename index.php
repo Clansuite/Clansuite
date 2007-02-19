@@ -32,8 +32,6 @@
    /**
     *
     * index.php
-    * Initialize objects, create DB link, load templates, clean input
-    *
     *
     * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @author     Jens-Andre Koch <vain@clansuite.com>
@@ -42,17 +40,12 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
-    * @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+    * @version    SVN: $Id$
     */
 
-/**
-* @desc Security Handler
-*/
-define('IN_CS', true);
+define('IN_CS', true);  # Security Handler
 
-/**
-* @desc Alter php.ini settings
-*/
+// Alter php.ini settings
 ini_set('display_errors'                , true); // todo: give no information to possible attackers, set false if DEBUG false
 ini_set('zend.ze1_compatibility_mode'   , false);
 ini_set('zlib.output_compression'       , true);
@@ -60,9 +53,7 @@ ini_set('zlib.output_compression_level' , '6');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 
-/**
-* @desc Reverse the effect of register_globals
-*/
+// Reverse the effect of register_globals
 if (ini_get('register_globals'))
 {
     foreach ($GLOBALS as $s_variable_name => $m_variable_value)
@@ -76,9 +67,7 @@ if (ini_get('register_globals'))
     unset($GLOBLAS['m_variable_value']);
 }
 
-/**
-* @desc Set Base_URL -> BASE_URL_SEED2
-*/
+// GET PATH => Set Base_URL -> BASE_URL_SEED2
 define('BASE_URL'    , 'http://'.$_SERVER['SERVER_NAME']);
 if (dirname($_SERVER['PHP_SELF']) == "\\" )
 {
@@ -90,19 +79,15 @@ else
 }
 
 /**
-* @desc Load config
-* @desc Create Object $cfg
+*  ===========================================
+*  Config Classes is loaded and initalized.
+*  ===========================================
 */
-
 require('config.class.php');
 $cfg = new config;
 
-/**
-* @desc Defines: Path Assignments, *_ROOT, *_NAME, DEBUG, DB_PREFIX
-* ROOT is Basedir
-* WWW_ROOT complete www-path with server
-*/
-define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
+// Defines: Path Assignments, *_ROOT, *_NAME, DEBUG, DB_PREFIX
+define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/'); # ROOT is Basedir
 define('ROOT_MOD'   , ROOT . $cfg->mod_folder);
 define('ROOT_TPL'   , ROOT . $cfg->tpl_folder);
 define('ROOT_LANG'  , ROOT . $cfg->lang_folder);
@@ -111,23 +96,19 @@ define('ROOT_UPLOAD', ROOT . $cfg->upload_folder);
 define('TPL_NAME'   , $cfg->tpl_name);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
-define('WWW_ROOT'   , BASE_URL_SEED);
+define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
 define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
-/**
-* @desc Error Reporting Depth
-*/
+// Error Reporting Depth
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
 /**
- *  ===========================================
- *  Required Classes are loaded and initalized.
- *  ===========================================
- */
-
-/**
-* @desc Require Core Classes
+*  ===========================================
+*  Required Classes are loaded and initalized.
+*  ===========================================
 */
+
+// Require Core Classes
 require(ROOT_CORE . '/smarty/Smarty.class.php');
 require(ROOT_CORE . '/smarty/Render_SmartyDoc.class.php');
 require(ROOT_CORE . '/session.class.php');
@@ -144,10 +125,7 @@ require(ROOT_CORE . '/stats.class.php');
 require(ROOT_CORE . '/permissions.class.php');
 require(ROOT_CORE . '/trail.class.php');
 
-
-/**
-* @desc Create objects out of classes
-*/
+// Create objects out of classes
 $tpl        = new Render_SmartyDoc;
 $session    = new session;
 $input      = new input;
@@ -163,14 +141,12 @@ $perms      = new permissions;
 $trail      = new trail;
 
 /**
- *  =====================================
- *  The settings for the objects are set.
- *  =====================================
- */
-
-/**
-* @desc Smarty Settings
+*  ===========================================
+*     Object: Settings and  Function Calls
+*  ===========================================
 */
+
+// Smarty Settings
 $tpl->template_dir      = array(ROOT_TPL . '/' . TPL_NAME . '/', ROOT_TPL . '/core/' ) ;
 $tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
 $tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
@@ -182,101 +158,83 @@ $tpl->compile_check     = true;
 $tpl->cache_lifetime    = $cfg->cache_lifetime;
 $tpl->debug_tpl         = ROOT_TPL . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
-                                   ,'output' => array('tidyrepairhtml')
+                                   #,'output' => array('tidyrepairhtml')
                                     );
-DEBUG ? $tpl->clear_compiled_tpl() : '';
+DEBUG ? $tpl->clear_compiled_tpl() : ''; # clear compiled tpls in case of debug
 
 // PHP 5.1 strftime fix by setting the timezone
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/Berlin');
 
-/**
-* @desc Breadcrumb-Trail Home
-*/
-$tpl->assign_by_ref('trail', $trail->path);
-
-/**
-* @desc Create DB Object by setting DSN and connecting to DB
-*/
+// Create DB Object by setting DSN and connecting to DB
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
 $db = new db($dsn, $user, $password, array() );
 
+$input->fix_magic_quotes();         # Revert magic_quotes() if still enabled
+$input->cleanup_request();          # Clean $_REQUEST input from violent code
+$error->set_callbacks();            # Set the callback function for errors
+$modules->load_whitelist();         # Load whitelist of modules
+$session->create_session($db);      # Create a session
+$users->create_user();              # Create a user
+$users->check_login_cookie();       # Check for login cookie - Guest/Member
+$stats->assign_statistic_vars();    # Assign Statistic Variables
+
 /**
-* @desc Assign Paths to Template (tpl)
-*/
+ *  ==================================
+ *          Prepare the Output ! 
+ *  ==================================
+ */
+
+// Set our Content-Type to UTF-8 encoding
+header('Content-Type: text/html; charset=UTF-8');
+
+// Set Language for requested module
+# todo -> right place would be core language class?
+$_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
+
+/**
+ *  ====================================================
+ *     Assignments to the Template (tpl) in General
+ *  ====================================================
+ */
+
+// Assign Paths (for general use in tpl)
 $tpl->assign('www_root'         , WWW_ROOT );
 $tpl->assign('www_tpl_root'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
 $tpl->assign('www_core_tpl_root', WWW_ROOT_TPL_CORE );
 
-/**
-* @desc Revert magic_quotes() if still enabled
-* @desc Clean $_REQUEST input from violent code
-*/
-$input->fix_magic_quotes();
-$input->cleanup_request();
-
-/**
-* @desc Set the callback function for errors
-*/
-$error->set_callbacks();
-
-/**
-* @desc Load whitelist of modules
-*/
-$modules->load_whitelist();
-
-/**
-* @desc Create a session
-*/
-$session->create_session($db);
-
-/**
-* @desc Create a user and check for login cookie - Guest/Member
-*/
-$users->create_user();
-$users->check_login_cookie();
-
-/**
-* @desc Assign Statistic Variables
-*/
-$stats->assign_statistic_vars();
-
-/**
- *  ==================================
- *          Prepare Output !
- *  ==================================
- */
-
-/**
-* @desc Set our Content-Type to UTF-8 encoding
-*/
-header('Content-Type: text/html; charset=UTF-8');
-
-/**
-* @desc Set Language for requested module
-* todo -> right place would be core language class?
-*/
-$_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
-
-/**
-* Check for our Copyright-Sign
-* Keep in mind ! that we spend a lot of time and ideas on this project.
-* If you rip, rip real good, knowing that you are forced to give something back to the community.
-*/
-$security->check_copyright(ROOT_TPL . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
-
-/**
-* @desc Assign the results
-*/
+// Assign Config Values (for use in header of tpl)
 $tpl->assign('meta'             , $cfg->meta );
 $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
+
+// Assign Breadcrumb-Trail Home
+$tpl->assign_by_ref('trail'     , $trail->path);
+
+/** 
+*   Check for our Copyright-Sign {$copyright} and assign it
+*
+*   Keep in mind ! that we spend a lot of time and ideas on this project.
+*   If you rip, rip real good, knowing that you are forced to give something back to the community.
+*/
+$security->check_copyright( ROOT_TPL . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
 $tpl->assign('copyright'        , $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
+
+/**
+ *  ====================================================
+ *     Assignments to the Template (tpl) from Module 
+ *  ====================================================
+ */
+
+// $content is array and contains ['ADDITIONAL_HEAD'], ['SUPPRESS_WRAPPER'], ['OUTPUT']
+$content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
+
+// handle additional_head 
 if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 {
     $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
@@ -284,32 +242,30 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 
 /**
 * Pre-Conditions for Template Output
-* check $_REQUEST
+* checks $_REQUEST, $content['SUPPRESS_WRAPPER'], $cfg->maintenance
+* and sets Condition
+* 
+* Step 1:     Check if : Maintenance_mode is set
+*             - show only the content of the maintenance tpl
+*             - if right for access_controlcenter
+*             - turn maintenance off, show normal wrapped template
 *
-* @desc Step 1:     Check if : Maintenance_mode is set
-*                   - show only the content of the maintenance tpl
-*                   - if right for access_controlcenter
-*                   - turn maintenance off, show normal wrapped template
+* Step 2:     Check if : Suppress Wrapper is set
+*             - only the content of the suppressing module is echoed
 *
-* @desc Step 2:     Check if : Suppress Wrapper is set
-*                   - only the content of the suppressing module is echoed
-*
-* @desc Step 3:     Check if : Admin module <-> Normal module
-*                   - if admin modules requested:
-*                     - check permissions
-*                     - if right for access_controlcenter, turn maintenance off, then display
-*                     - else redirect to index or login
-*                   - if normal modules reqiested:
-*                     - display tpl_wrapper_file (content of module and stuff around that)
-*
+* Step 3:     Check if : Admin module <- Switch -> Normal module
+*             - if admin modules requested:
+*               - check permissions
+*               - if right for access_controlcenter, turn maintenance off, then display
+*               - else redirect to index or login
+*             - if normal modules reqiested:
+*               - display tpl_wrapper_file (content of module and stuff around that)
 */
 
 // set default_condition : normal template
 $condition = 'display_normal_wrapped_template';
 
-/**
-*  set condition for maintenance
-*/
+// Step 1: set condition for maintenance
 if ( $cfg->maintenance == 1 )
 {
     $condition = 'display_maintenance_template';
@@ -322,10 +278,13 @@ if ( $cfg->maintenance == 1 )
     }
 }
 
-/**
-*  set condition for admininterface
-*  switch for $_REQUEST mod=admin / sub=admin
-*/
+// Step 2: set condition for suppress wrapper
+if ( $content['SUPPRESS_WRAPPER'] == true )
+{
+    $condition = 'display_template_with_suppressed_wrapper';
+}
+
+// Step 3: set condition for admininterface
 if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 {
     // check if sufficent right to access "admin control center" center
@@ -353,15 +312,7 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 }
 
 /**
-*  set condition for suppress wrapper
-*/
-if ( $content['SUPPRESS_WRAPPER'] == true )
-{
-    $condition = 'display_template_with_suppressed_wrapper';
-}
-
-/**
-*   Finally: The Switch on Pre-Conditions
+*   Finally: The Switch on Conditions
 *
 *   A. display_normal_wrapped_template
 *   B. display_template_with_suppressed_wrapper
@@ -370,24 +321,21 @@ if ( $content['SUPPRESS_WRAPPER'] == true )
 */
 
 switch ($condition) {
-
+    
             // (A) displays content of modul with portal frame
             default:
             case 'display_normal_wrapped_template':
-                    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
                     $tpl->assign('content', $content['OUTPUT'] );
                     $tpl->displayDoc($cfg->tpl_wrapper_file);
                     break;
 
             // (B) means just the content of the modul, without the portal frame
             case 'display_template_with_suppressed_wrapper':
-                    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
                     echo $content['OUTPUT'];
                     break;
 
             // (C) display AdminControlCenter
             case 'display_admincontrolcenter':
-                    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
                     $tpl->assign('content', $content['OUTPUT'] );
                     $tpl->displayDoc('admin/index.tpl');
                     break;
@@ -397,15 +345,11 @@ switch ($condition) {
                     $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
                     $tpl->displayDoc('maintenance.tpl');
                     break;
-
 }
 
-/**
-* @desc Show Debug Console - but not with suppressed wrapper and maintenance mode
-*/
-if ( $condition != 'display_template_with_suppressed_wrapper' AND $condition !== 'display_maintenance_template' )
+// Show Debug Console - but not with suppressed wrapper or in maintenance mode
+if ( $condition != 'display_template_with_suppressed_wrapper' OR $condition !== 'display_maintenance_template' )
 {
     DEBUG ? $debug->show_console() : '';
 }
-
 ?>
