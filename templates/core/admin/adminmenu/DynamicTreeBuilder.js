@@ -77,7 +77,6 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
                             handle = a.id.split("||");
                             node.custom_icon = handle[0];
                             node.right_to_view = handle[1];
-                            document.write(node.right_to_view);
                         }
                     } else {
                         node.text = nodes[i].firstChild.nodeValue.trim();
