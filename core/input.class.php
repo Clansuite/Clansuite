@@ -126,6 +126,7 @@ class input
                     break;
 
                     // Replacement: ? instead of &#233
+                    // todo: include replacement of & with amp -> menueditor.module.php line155
                 case 'html_replace:numeric_entities':
                     $string = preg_replace('/[^!-%\x27-;=?-~ ]/e', '"&#".ord("$0").chr(59)', $str);
                     break;

@@ -151,6 +151,8 @@ class module_admin_menueditor
             $id = (int) $id;
             $parent = str_replace( 'tree-', '', $value['parent'] );
             $parent = (int) $parent;
+            
+            $value['href'] = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
 
             $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['right_to_view'] ) );
