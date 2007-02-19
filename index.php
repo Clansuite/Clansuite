@@ -182,7 +182,8 @@ $tpl->compile_check     = true;
 $tpl->cache_lifetime    = $cfg->cache_lifetime;
 $tpl->debug_tpl         = ROOT_TPL . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
-                                     );
+                                   #,'output' => array('tidyrepairhtml')
+                                    );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
 
 // PHP 5.1 strftime fix by setting the timezone
