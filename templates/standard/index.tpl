@@ -1,4 +1,4 @@
-{doc_info DOCTYPE=XHTML}
+{doc_info DOCTYPE=HTML LEVEL=Strict}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
@@ -66,10 +66,12 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 </tr>
 </table>
 <script type="text/javscript">
+//<![CDATA[
     var arrow1 = new Image(4, 7);
     arrow1.src = "{$www_tpl_root}/images/arrow1.gif";
     var arrow2 = new Image(4, 7);
     arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
+//]]>
 </script>
 
 <table cellspacing="0" cellpadding="0" width="100%">
@@ -104,8 +106,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                               <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
                               <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
                               <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
-                              <a class="item" href="index.php?mod=static&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
-                              <a class="item" href="index.php?mod=static&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
+                              <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
+                              <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
                            </div>
 
                         <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_tpl_root}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
@@ -167,12 +169,14 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 </p>
 
 <script type="text/javascript">
+//<![CDATA[
     var menu1 = new XulMenu("menu1");
     menu1.type = "vertical";
     menu1.position.level1.top = 0;
     menu1.arrow1 = "{$www_tpl_root}/images/arrow1.gif";
     menu1.arrow2 = "{$www_tpl_root}/images/arrow2.gif";
     menu1.init();
+//]]>
 </script>
 
 <br />
