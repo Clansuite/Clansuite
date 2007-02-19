@@ -1,6 +1,6 @@
 <?php
 /**
-* Static Pages Admin Module Class
+* staticpages Pages Admin Module Class
 *
 * PHP versions 5.1.4
 *
@@ -39,7 +39,7 @@ if (!defined('IN_CS'))
 /**
 * @desc Admin Module - Static Pages Class
 */
-class module_static_admin
+class module_staticpages_admin
 {
     public $output          = '';
     public $additional_head = '';
@@ -57,23 +57,23 @@ class module_static_admin
                 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=static&sub=admin');
+        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=staticpages&sub=admin');
        
         switch ($_REQUEST['action'])
         {
             default:    
             case 'show':
-                $trail->addStep($lang->t('Overview'), '/index.php?mod=static&sub=admin&action=show');
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=staticpages&sub=admin&action=show');
                 $this->show_staticpages_admin();
                 break;
             
             case 'create':
-                $trail->addStep($lang->t('Create'), '/index.php?mod=static&sub=admin&action=create');
+                $trail->addStep($lang->t('Create'), '/index.php?mod=staticpages&sub=admin&action=create');
                 $this->create_staticpages();
                 break;
                 
             case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=static&sub=admin&action=edit');
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=staticpages&sub=admin&action=edit');
                 $this->edit_staticpages();
                 break;
         }
@@ -158,7 +158,7 @@ class module_static_admin
                 $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
                 $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
                 
-                $functions->redirect( 'index.php?mod=admin&sub=static&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=admin&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
             }
         }
         
@@ -222,7 +222,7 @@ class module_static_admin
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
                 $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
                 
-                $functions->redirect( 'index.php?mod=admin&sub=static&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=admin&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
             }
         }
         else

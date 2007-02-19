@@ -43,7 +43,7 @@ if (!defined('IN_CS'))
 /**
 * @desc Start module index class
 */
-class module_static
+class module_staticpages
 {
     public $output          = '';
     public $additional_head = '';
@@ -59,18 +59,18 @@ class module_static
         global $lang, $trail;
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=static');
+        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=staticpages');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show Page'), '/index.php?mod=static&action=show');
+                $trail->addStep($lang->t('Show Page'), '/index.php?mod=staticpages&action=show');
                 $this->show_staticpages();
                 break;
 
             case 'overview':
-                $trail->addStep($lang->t('Overview'), '/index.php?mod=static&action=show');
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=staticpages&action=show');
                 $this->overview_staticpages();
                 break;
 
@@ -89,7 +89,7 @@ class module_static
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $trail;
 
         $page = $_GET['page'];
-        $trail->addStep($lang->t($page), '/index.php?mod=static&action=show&page='. $page);
+        $trail->addStep($lang->t($page), '/index.php?mod=staticpages&action=show&page='. $page);
 
         if ( !empty($page) AND $input->check( $page, 'is_abc|is_int|is_custom', '_\s' ) )
         {
@@ -124,7 +124,7 @@ class module_static
         }
         else
         {
-            $functions->redirect('index.php?mod=static&action=overview');
+            $functions->redirect('index.php?mod=staticpages&action=overview');
         }
     }
     
