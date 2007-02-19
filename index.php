@@ -182,7 +182,7 @@ $tpl->compile_check     = true;
 $tpl->cache_lifetime    = $cfg->cache_lifetime;
 $tpl->debug_tpl         = ROOT_TPL . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
-                                   #,'output' => array('tidyrepairhtml')
+                                   ,'output' => array('tidyrepairhtml')
                                     );
 DEBUG ? $tpl->clear_compiled_tpl() : '';
 
