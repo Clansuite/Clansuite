@@ -20,11 +20,11 @@
         </td>
     </tr>
 {foreach key=key item=item from=$info}
-<form action="index.php?mod=static&sub=admin&action=edit" method="POST">
+<form action="index.php?mod=static&sub=admin&action=edit" method="post">
     <tr>
         <td class="cell1" align="center">
             <input type="hidden" name="id" value="{$item.id}">
-            <b><a href="index.php?mod=static&page={$item.title}" target="_blank">{$item.title}</a></b>
+            <b><a href="index.php?mod=staticpages&page={$item.title}" target="_blank">{$item.title}</a></b>
         </td>
         <td class="cell2">
             {$item.description}
