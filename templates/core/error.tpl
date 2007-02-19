@@ -1,7 +1,7 @@
 {* In case error_type 2 and 3 a header is set and doc_raw content is moved there. *}
 {* In case error_type 1 (fatal error) such movement takes not place! It's directly linked !*}
 
-{doc_raw} 
+{doc_raw}
 <link rel="stylesheet" href="{$www_core_tpl_root}/css/error.css" type="text/css" />
 {/doc_raw}
 
@@ -14,8 +14,6 @@
 </head>
 <body>
 {/if}
-
-
 
 <fieldset class="
 {if $error_type==1}error_red
