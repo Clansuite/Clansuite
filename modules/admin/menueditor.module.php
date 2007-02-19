@@ -68,10 +68,6 @@ class module_admin_menueditor
                 break;
 
             case 'update':
-                // Set Pagetitle and Breadcrumbs
-                $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
-                $trail->addStep($lang->t('Update a Menu'), '/index.php?mod=admin&sub=menueditor&action=update');
                 $this->update();
                 break;
 
@@ -151,7 +147,7 @@ class module_admin_menueditor
             $id = (int) $id;
             $parent = str_replace( 'tree-', '', $value['parent'] );
             $parent = (int) $parent;
-            
+
             $value['href'] = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
 
             $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
@@ -222,13 +218,13 @@ class module_admin_menueditor
     */
     function get_html_div($menu = '')
     {
-        global $lang, $cfg;
+        global $lang, $cfg, $perms;
 
         $result = !isset( $result ) ? '' : $result;
 
         if ( empty( $menu ) )
         {
-            $menu = $this->build_editormenu();
+            $menu = $this->build_editormenu(true);
         }
 
         foreach($menu as $entry)
@@ -236,14 +232,16 @@ class module_admin_menueditor
             /**
             * @desc Init Vars
             */
-            $entry['type']      = isset($entry['type'])     ? $entry['type']    : '';
-            $entry['content']   = isset($entry['content'])  ? $entry['content'] : '';
-            $entry['href']      = isset($entry['href'])     ? $entry['href']    : '';
-            $entry['title']     = isset($entry['title'])    ? $entry['title']   : '';
-            $entry['target']    = isset($entry['target'])   ? $entry['target']  : '';
-            $entry['icon']      = isset($entry['icon'])     ? $entry['icon']    : '';
-            $entry['name']      = isset($entry['name'])     ? $entry['name']    : '';
+            $entry['type']          = isset($entry['type'])             ? $entry['type']            : '';
+            $entry['content']       = isset($entry['content'])          ? $entry['content']         : '';
+            $entry['href']          = isset($entry['href'])             ? $entry['href']            : '';
+            $entry['title']         = isset($entry['title'])            ? $entry['title']           : '';
+            $entry['target']        = isset($entry['target'])           ? $entry['target']          : '';
+            $entry['icon']          = isset($entry['icon'])             ? $entry['icon']            : '';
+            $entry['name']          = isset($entry['name'])             ? $entry['name']            : '';
+            $entry['right_to_view'] = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
 
+            // Set empty image, if no image is given [ IE HACK ]
             if ( $entry['icon'] == '' )
             {
                 $entry['icon'] = 'empty.png';
@@ -252,14 +250,14 @@ class module_admin_menueditor
             /**
             * @desc Build Menu
             */
-            if ($entry['href'] == '' )
+            if ( $entry['href'] == '' && isset( $entry['href'] ) )
             {
                 $entry['href'] = 'javascript:void(0)';
             }
 
             ################# Start ####################
 
-             if ( $entry['type'] == 'folder')
+            if ( $entry['type'] == 'folder')
             {
 
                  $result .= "\n\t";
@@ -289,17 +287,17 @@ class module_admin_menueditor
                      $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      $result .= htmlspecialchars($lang->t($entry['name']));
                      $result .= '<img alt="arrow" class="arrow" src="';
-                     $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" />';
+                     $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
                      $result .= '</a>';
                  }
              }
 
-             if ( $entry['type'] != 'folder' )
+             if ( $entry['type'] != 'folder' && isset($entry['type']) )
             {
                 $result .= "\n\t";
                 $result .= '<a class="item" href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="' . htmlspecialchars($entry['target']) . '">';
-                $result .= '<img alt="Image of Item" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
+                $result .= '<img alt="Item" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 $result .= htmlspecialchars($lang->t($entry['name']));
                 $result .= '</a>';
             }
@@ -307,7 +305,7 @@ class module_admin_menueditor
 
          	if ( is_array($entry['content']) )
         	{
-            	$result .= "\n\t<div class=\"section\">";
+                $result .= "\n\t<div class=\"section\">";
               	$result .= $this->get_html_div($entry['content']);
               	$result .= "\t</div>\n";
            	}
@@ -333,7 +331,7 @@ class module_admin_menueditor
 
         if ( empty( $menu ) )
         {
-            $menu = $this->build_editormenu();
+            $menu = $this->build_editormenu(false);
         }
 
         foreach($menu as $entry)
@@ -400,14 +398,14 @@ class module_admin_menueditor
     */
     function get_export_div( $menu = '', $level = '', $module = '' )
     {
-        global $lang, $cfg;
+        global $lang, $cfg, $perms;
 
         $result  = '';
         $jscript = '';
 
         if ( !is_array($menu) )
         {
-            $menu = $this->build_editormenu();
+            $menu = $this->build_editormenu(false);
         }
 
         foreach($menu as $entry)
@@ -518,10 +516,9 @@ class module_admin_menueditor
     /**
     * @desc Read menu from DB
     */
-
-    function build_editormenu( &$result = '', $parent = 0, $level = 0)
+    function build_editormenu( $perm_check = true, &$result = '', $parent = 0, $level = 0 )
     {
-        global $db;
+        global $db, $perms;
 
         if ( empty($result) )
         {
@@ -538,25 +535,29 @@ class module_admin_menueditor
         {
             if($result[$i]['parent'] == $parent)
             {
-                $output[$result[$i]['id']] = array(
-                                                    'name'   => $result[$i]['text'],
-                                                    'level'  => $level,
-                                                    'type'   => $result[$i]['type'],
-                                                    'parent' => $result[$i]['parent'],
-                                                    'id'     => $result[$i]['id'],
-                                                    'href'   => $result[$i]['href'],
-                                                    'title'  => $result[$i]['title'],
-                                                    'target' => $result[$i]['target'],
-                                                    'order'  => $result[$i]['order'],
-                                                    'icon'   => $result[$i]['icon'],
-                                                    'right_to_view' => $result[$i]['right_to_view']
+                if( $perms->check( $result[$i]['right_to_view'] , 'no_redirect' ) OR $result[$i]['right_to_view'] == '' OR $perm_check == false)
+                {
+                    $output[$result[$i]['id']] = array(
+                                                        'name'   => $result[$i]['text'],
+                                                        'level'  => $level,
+                                                        'type'   => $result[$i]['type'],
+                                                        'parent' => $result[$i]['parent'],
+                                                        'id'     => $result[$i]['id'],
+                                                        'href'   => $result[$i]['href'],
+                                                        'title'  => $result[$i]['title'],
+                                                        'target' => $result[$i]['target'],
+                                                        'order'  => $result[$i]['order'],
+                                                        'icon'   => $result[$i]['icon'],
+                                                        'right_to_view' => $result[$i]['right_to_view']
                                                     );
-                $output[$result[$i]['id']]['content'] = $this->build_editormenu($result, $result[$i]['id'], $level + 1);
 
-                if (count($output[$result[$i]['id']]['content']) == 0)
-                    unset($output[$result[$i]['id']]['content']);
-                else
-                    $output[$result[$i]['id']]['expanded'] = true;
+                    $output[$result[$i]['id']]['content'] = $this->build_editormenu($perm_check, $result, $result[$i]['id'], $level + 1);
+
+                    if( count($output[$result[$i]['id']]['content']) == 0)
+                        unset($output[$result[$i]['id']]['content']);
+                    else
+                        $output[$result[$i]['id']]['expanded'] = true;
+                }
             }
         }
         return array_values($output);
