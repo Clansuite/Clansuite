@@ -1,4 +1,4 @@
-{doc_info DOCTYPE=HTML LEVEL=Transitional}
+{doc_info DOCTYPE=XHTML}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
@@ -61,7 +61,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-                <img src="{$www_tpl_root}/images/clansuite-header.png" />
+                <img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
     </td>
 </tr>
 </table>
@@ -91,27 +91,27 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <td class="cell1" width="100" height="300">
         <div class="left_menu">
 
-            <table id="menu1" height="300" cellspacing="0" cellpadding="0" class="XulMenu">
+            <table id="menu1" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
                 <td>
 
                     <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
 
                     <div class="section">
-                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_tpl_root}/images/icons/modules.png" border="0" width="16" height="16" />Modules<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
+                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_tpl_root}/images/icons/modules.png" border="0" width="16" height="16" alt="" />Modules<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
                               <a class="item" href="index.php">Main</a>
-                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" />News</a>
-                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" />Newsarchiv</a>
-                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" />Serverlist</a>
-                              <a class="item" href="index.php?mod=static&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" />Credits</a>
-                              <a class="item" href="index.php?mod=static&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" />Static Pages Overview</a>
+                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
+                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
+                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
+                              <a class="item" href="index.php?mod=static&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
+                              <a class="item" href="index.php?mod=static&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
                            </div>
 
-                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_tpl_root}/images/icons/users.png" border="0" width="16" height="16" />Users<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
+                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_tpl_root}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
                               <a class="item" href="index.php?mod=account">Login</a>
-                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" />Logout</a>
+                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a>
                           </div>
                     </div>
 
@@ -183,6 +183,3 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
-
-</body>
-</html>
