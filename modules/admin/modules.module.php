@@ -1029,7 +1029,7 @@ class module_admin_modules
 
                     }
 
-                        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
+                        $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE `name` = ?' );
                         $stmt->execute( array ( $info['name'] ) );
 
                         $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
@@ -1064,7 +1064,7 @@ class module_admin_modules
                         {
                             $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
 
-                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (id, parent, type, text, href, title, target, `order`,icon) VALUES (?,?,?,?,?,?,?,?,?)' );
+                            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
                             foreach( $info['admin_menu'] as $item )
                             {
                                 $stmt->execute( array ( $item['id'],
@@ -1075,7 +1075,8 @@ class module_admin_modules
                                                         $item['title'],
                                                         $item['target'],
                                                         $item['order'],
-                                                        $item['icon'] ) );
+                                                        $item['icon'],
+                                                        $item['right_to_view'] ) );
                             }
                         }
 
@@ -1578,7 +1579,6 @@ class module_admin_modules
     /**
     * @desc Try a chmod
     */
-
     function chmod()
     {
         global $functions, $input, $lang;
