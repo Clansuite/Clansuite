@@ -4,7 +4,7 @@
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
 {/doc_raw}
 
-<form action="index.php?mod=admin&sub=settings&action=update" method="POST">
+<form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="POST">
 <div class="tab-pane" id="tab-pane-1">
 
    {* #### TAB PAGE - STANDARD SETTINGS #### *}
@@ -291,13 +291,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             <tr>
                 <td class="td_header_small"  colspan="2">  {translate}Send Test Mail{/translate}  </td>
             </tr>
-            <td class="cell2" width="15%">
+            <tr>
+                <td class="cell2" width="15%">
                     {translate}Recipient (email){/translate}
                 </td>
-            <td class="cell1" style="padding: 3px">
-                   <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
-                   <input type="button" class="ButtonOrange" value="Send Mail" />
-            </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
+                    <input type="button" class="ButtonOrange" value="Send Mail" />
+                </td>
+            </tr>
         </table>
    </div>
 
