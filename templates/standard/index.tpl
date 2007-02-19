@@ -1,4 +1,4 @@
-{doc_info DOCTYPE=XHTML1.1 LEVEL=Normal}
+{doc_info DOCTYPE=HTML LEVEL=Transitional}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
