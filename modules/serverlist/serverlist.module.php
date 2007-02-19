@@ -65,7 +65,7 @@ class module_serverlist
         {                   
             default:
             case 'show':
-                $trail->addStep($lang->t('Show Gameservers & Details'), '/index.php?mod=serverlist&action=show'); 
+                $trail->addStep($lang->t('Show Gameservers &amp; Details'), '/index.php?mod=serverlist&action=show'); 
                 $this->show_servers();
                 break;            
             
@@ -132,7 +132,8 @@ class module_serverlist
      
      if(!$gameserver->query_server(TRUE, TRUE)) { // fetch everything
         // query was not succesful, dumping some debug info
-        echo "<div>Error ".$gameserver->errstr."</div>\n";
+        //todo: add to errorlog | show up in debug info
+        # echo "<div>Error ".$gameserver->errstr."</div>\n";
         return FALSE;
       }
     
