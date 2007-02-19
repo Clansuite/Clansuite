@@ -279,7 +279,7 @@ $tpl->assign('copyright'        , $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'))
 if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 {
     $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
-    }
+}
 
 /**
 * Pre-Conditions for Template Output
@@ -309,24 +309,16 @@ $condition = 'display_normal_wrapped_template';
 /**
 *  set condition for maintenance
 */
-if ( $cfg->maintenance == '1' )
+if ( $cfg->maintenance == 1 )
 {
     $condition = 'display_maintenance_template';
 
     // override maintenance_mode for admins to keep system maintainable
     if ( $perms->check('access_controlcenter', 'no_redirect') == true )
     {
-        $cfg->maintenance == '0';
+        $cfg->maintenance == 0;
         $condition = 'display_normal_wrapped_template';
     }
-}
-
-/**
-*  set condition for suppress wrapper
-*/
-if ( $content['SUPPRESS_WRAPPER'] == true )
-{
-    $condition = 'display_template_with_suppressed_wrapper';
 }
 
 /**
@@ -360,6 +352,14 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 }
 
 /**
+*  set condition for suppress wrapper
+*/
+if ( $content['SUPPRESS_WRAPPER'] == true )
+{
+    $condition = 'display_template_with_suppressed_wrapper';
+}
+
+/**
 *   Finally: The Switch on Pre-Conditions
 *
 *   A. display_normal_wrapped_template
@@ -367,9 +367,6 @@ if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
 *   C. display_admincontrolcenter
 *   D. display_maintenance_template
 */
-
-// DEBUG
-// echo $condition;
 
 switch ($condition) {
 
@@ -405,9 +402,9 @@ switch ($condition) {
 /**
 * @desc Show Debug Console - but not with suppressed wrapper and maintenance mode
 */
-if ( $condition !== 'display_template_with_suppressed_wrapper' AND $condition !== 'display_maintenance_template' )
+if ( $condition != 'display_template_with_suppressed_wrapper' AND $condition !== 'display_maintenance_template' )
 {
-DEBUG ? $debug->show_console() : '';
+    DEBUG ? $debug->show_console() : '';
 }
 
 ?>

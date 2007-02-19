@@ -112,7 +112,7 @@ class module_account
                 break;
         }
 
-       
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
@@ -158,7 +158,7 @@ class module_account
             {
                 // perform login for user_id and redirect
                 $users->login( $user_id, $remember_me, $password );
-                $functions->redirect( !empty($referer) ? base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
+                $functions->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
             {
