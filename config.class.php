@@ -144,7 +144,7 @@ class config
 
         $this->help_edit_mode = 1;
         $this->version      = (float) 0.1;
-      
+
         // Cache
 
         $this->caching = 0;

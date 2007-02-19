@@ -74,7 +74,10 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
                         }
                         if (a.id)
                         {
-                            node.custom_icon = a.id;
+                            handle = a.id.split("||");
+                            node.custom_icon = handle[0];
+                            node.right_to_view = handle[1];
+                            document.write(node.right_to_view);
                         }
                     } else {
                         node.text = nodes[i].firstChild.nodeValue.trim();
@@ -86,12 +89,12 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
                 node.isFolder   = (nodes[i].className == "folder");
                 tree.childNodes.push(node);
                 this.allNodes[node.id] = node;
-                
+
             }
             if (nodes[i].nodeType == 1 && nodes[i].childNodes) {
                 this.parse(nodes[i].childNodes, tree.childNodes.getLast());
             }
-            
+
         }
     };
     this.nodeClick = function(id) {
@@ -115,7 +118,7 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
             el.style.display = "block";
             if (this.allNodes[id].isLast()) { node.src = this.img.nodeOpenEnd; }
             else { node.src = this.img.nodeOpen; }
-            
+
             if ( this.allNodes[id].custom_icon )
             {
                 icon.src = tree.custom_icon_path+this.allNodes[id].custom_icon;
@@ -338,6 +341,7 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
         this.title = "";
         this.target = "";
         this.custom_icon = "";
+        this.right_to_view = "";
         this.isFirst = function() {
             if (this.parentNode) {
                 return this.parentNode.childNodes[0].id == this.id;

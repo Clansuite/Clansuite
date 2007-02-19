@@ -1,6 +1,5 @@
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/adminmenu/DynamicTree.css" />
-{* bei src= die anführungsstriche setzen *}                    
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/plugins.js"></script>
 {literal}
@@ -45,27 +44,31 @@
                         <table cellspacing="0" cellpadding="0">
                         <tr id="tree-insert-where-div">
                             <td class="label">Where</td>
-                            <td><select id="tree-insert-where" name="tree-insert-where" class="where"><option value="before">Before</option><option value="after">After</option></select></td>
+                            <td><select id="tree-insert-where" name="tree-insert-where" class="input_text"><option value="before">Before</option><option value="after">After</option></select></td>
                         </tr>
                         <tr>
                             <td class="label">Type</td>
-                            <td><select id="tree-insert-type" name="tree-insert-type"><option value="doc">Document</option><option value="folder">Folder</option></select></td>
+                            <td><select id="tree-insert-type" name="tree-insert-type" class="input_text"><option value="doc">Document</option><option value="folder">Folder</option></select></td>
                         </tr>
                         <tr>
                             <td class="label">Name</td>
-                            <td><input class="input" size="20" id="tree-insert-name" name="tree-insert-name" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-insert-name" name="tree-insert-name" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Href</td>
-                            <td><input class="input" size="20" id="tree-insert-href" name="tree-insert-href" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-insert-href" name="tree-insert-href" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Title</td>
-                            <td><input class="input" size="20" id="tree-insert-title" name="tree-insert-href" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-insert-title" name="tree-insert-href" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Target</td>
-                            <td><input class="input" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td class="label">{translate}Right to view{/translate}</td>
+                            <td><input class="input_text" size="20" id="tree-insert-right_to_view" name="tree-insert-right_to_view" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{translate}Icon{/translate}</td>
@@ -93,24 +96,28 @@
                         <table cellspacing="0" cellpadding="0">
                         <tr>
                             <td class="label">{translate}Name{/translate}</td>
-                            <td><input class="input" size="20" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{translate}Href{/translate}</td>
-                            <td><input class="input" size="20" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{translate}Title{/translate}</td>
-                            <td><input class="input" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{translate}Target{/translate}</td>
-                            <td><input class="input" size="20" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td class="label">{translate}Right to view{/translate}</td>
+                            <td><input class="input_text" size="20" id="tree-info-right_to_view" name="tree-info-right_to_view" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{translate}Icon{/translate}</td>
                             <td>
-                                <select onChange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input" id="tree-info-custom_icon">
+                                <select onChange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
                                     <option name=""></option>
                                     {foreach key=key item=item from=$icons}
                                         <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
@@ -159,7 +166,7 @@
         </td>
     </tr>
     </table>
-    
+
     <script type="text/javascript">
     var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/", "{$www_core_tpl_root}/images/icons/");
     tree.init();
