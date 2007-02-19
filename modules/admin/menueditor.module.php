@@ -272,7 +272,7 @@ class module_admin_menueditor
 
                      if( $entry['icon'] != 'empty.png' )
                      {
-                         $result .= '<div class="element">' . htmlspecialchars($lang->t($entry['name'])) . '</div>';
+                         $result .= '<span class="element">' . htmlspecialchars($lang->t($entry['name'])) . '</span>';
                      }
                      else
                      {

@@ -60,7 +60,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             {/literal}
 
             <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
-                <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help Toggle" border="0">
+                <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help Toggle" />
             {translate}Help{/translate}
             </div>
 
@@ -84,10 +84,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
     <p>&nbsp;</p>
 
 {* Ajax Notification *}
-<div id="notification" style="display: none;">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Toggle" />
+<div id="notification" style="vertical-align: middle; display: none;">
+    <img src="{$www_core_tpl_root}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
-
-</body>
-</html>
