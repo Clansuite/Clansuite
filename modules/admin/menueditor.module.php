@@ -289,7 +289,7 @@ class module_admin_menueditor
                      $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      $result .= htmlspecialchars($lang->t($entry['name']));
                      $result .= '<img alt="arrow" class="arrow" src="';
-                     $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" alt="" />';
+                     $result .= WWW_ROOT . '/' . $cfg->tpl_folder . '/core/images/adminmenu/arrow1.gif" width="4" height="7" />';
                      $result .= '</a>';
                  }
              }
