@@ -5,9 +5,9 @@
     {foreach key=col item=data from=$image}
         <td align="center">
             <a href="{$data.href}">
-                <img alt="Shortcut Icon" src="{$www_core_tpl_root}/images/symbols/{$data.file_name}">
+                <img alt="Shortcut Icon" src="{$www_core_tpl_root}/images/symbols/{$data.file_name}" />
                 <br />
-                <div style="padding-top: 10px;">{translate}{$data.title}{/translate}</div>
+                <span style="margin-top: 10px; display: block">{translate}{$data.title}{/translate}</span>
             </a>
         </td>
     {/foreach}

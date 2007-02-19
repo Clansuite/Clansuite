@@ -26,9 +26,7 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
                 {mod name="admin" sub="menueditor" func="get_html_div"}
 
                 <td align="right" width="100%">
-                    <span height="1%">
-
-                        <a class="itembtn" href="index.php?mod=admin&sub=users&action=usercenter">
+                        <a class="itembtn" href="index.php?mod=admin&amp;sub=users&amp;action=usercenter">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
                             &nbsp;{$smarty.session.user.nick}
                         </a>
@@ -40,12 +38,10 @@ arrow2.src =  "{$www_core_tpl_root}/images/adminmenu/arrow2.gif";
                         </a>
                         &nbsp;
 
-                        <a href="index.php?mod=account&action=logout" class="itembtn">
+                        <a href="index.php?mod=account&amp;action=logout" class="itembtn">
                             <img style="position:relative; top: 4px" src="{$www_core_tpl_root}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
                             &nbsp;{translate}Logout{/translate}
                         </a>
-                    </span>
-                    &nbsp;
                 </td>
             </tr>
         </table>

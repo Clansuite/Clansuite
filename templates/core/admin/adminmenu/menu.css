@@ -126,6 +126,7 @@
 
 .XulMenu .element {
     padding-left: 23px;
+	display: block;
 }
 
 
