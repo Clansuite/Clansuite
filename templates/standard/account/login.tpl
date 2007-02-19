@@ -35,9 +35,9 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2">
-                <a href="index.php?mod=account&action=register">{translate}Not yet registered ?{/translate}</a> <br>
-                <a href="index.php?mod=account&action=forgot_password">{translate}Forgot password ?{/translate}</a> <br>
-                <a href="index.php?mod=account&action=activation_email">{translate}Did not get an activation email ?{/translate}</a> <br>
+                <a href="index.php?mod=account&action=register">{translate}Not yet registered ?{/translate}</a> <br />
+                <a href="index.php?mod=account&action=forgot_password">{translate}Forgot password ?{/translate}</a> <br />
+                <a href="index.php?mod=account&action=activation_email">{translate}Did not get an activation email ?{/translate}</a> <br />
             </td>
         </tr>
     </table>
