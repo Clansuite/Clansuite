@@ -1,5 +1,4 @@
 {assign_debug_info}
-{$config_vars|@var_dump}
 
 <span id="container_1" style="{if $debug.debug_popup==0}display: block{else}display: none{/if};">
 	<script>
@@ -53,15 +52,20 @@
 	*}
 
 	<tr style="border-color: #ffffff #ACA899 #ACA899 #ffffff;"><td colspan=2 class="header"><b><a style="text-decoration: none;" href="javascript:clip('11')">Database Stuff (Queries, Prepares, Execs, PDO Attributes)</a></b></td></tr>
-	<tr><td width=100% colspan=2><span style="display:none" id="span_11"><table border=0 width=100%>
-			<tr bgcolor=#E4E0C7><td width=100 valign=top>
-			<font color=blue>Queries:</font></td><td><font color=green>
-			{foreach key=schluessel item=wert from=$debug.queries}
-            <font color=brown> {$wert|@debug_print_var} </font> <br />
-            {/foreach}
-			</font>
-			</td></tr>
-
+	<tr><td width=100% colspan=2><span style="display:none" id="span_11">
+	
+	<ul style="list-style-image:url(list_style_image.gif)">
+    <li>&#160; <font color=blue>Queries:</font> 
+                <font color=green>
+                {foreach key=schluessel item=wert from=$debug.queries}
+                    <font color=brown> {$wert|@debug_print_var} </font> <br />
+                {/foreach}
+                </font>
+    </li> </ul>	
+    </td>
+    </tr>
+			
+    <table border=0 width=100%>
 			<tr bgcolor=#fafafa><td width=100 valign=top>
 			<font color=blue>Prepares:</font></td><td><font color=green>
 			{foreach key=schluessel item=wert from=$debug.prepares}
@@ -225,7 +229,7 @@ dl {
 </style>
 {/literal}
 
-{foreach key=outerkey name=outer item=debugouter from=$debug}
+{foreach key=outerkey name=outer item=debugouter from=$debug_superglobals}
   <dl>
   <dt><strong>{$outerkey}</strong></dt>  
   {foreach key=key item=item from=$debugouter}
@@ -235,4 +239,16 @@ dl {
   {/foreach}  
   </dl>
 {/foreach}
+
+{foreach key=outerkey name=outer item=debugouter from=$debug_db}
+  <dl>
+  <dt><strong>{$outerkey}</strong></dt>  
+  {foreach key=key item=item from=$debugouter}
+    <dd>
+        <font color=brown>{$key}</font>  : <dt>{$item|@debug_print_var}</dt>
+    </dd>
+  {/foreach}  
+  </dl>
+{/foreach}
+
 *}
