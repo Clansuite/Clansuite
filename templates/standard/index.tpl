@@ -1,4 +1,4 @@
-{doc_info DOCTYPE=HTML LEVEL=Strict}
+{doc_info DOCTYPE=XHTML LEVEL=Transitional}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
@@ -61,7 +61,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-                <img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
+        <img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
     </td>
 </tr>
 </table>
@@ -76,17 +76,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr class="tr_header">
-    <td width="10">
-                        Menu
-    </td>
-
-    <td>
-                        {include file='breadcrumbs.tpl'}
-    </td>
-
-    <td width="200">
-                        Infos
-    </td>
+    <td width="10">Menu</td>
+    <td>{include file='breadcrumbs.tpl'}</td>
+    <td width="200">Infos</td>
 </tr>
 
 <tr>
@@ -135,7 +127,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
             {mod name="account" func="login"}
         </div>
         <div style="margin-top: 10px">
-		    {mod name="shoutbox" func="show"}
+		   {* {mod name="shoutbox" func="show"} *}
 		</div>
         <div style="margin-top: 10px">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
@@ -152,6 +144,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                                       <hr />
                                       This Page: {$stats.page_impressions} <br/>
                                       Total Impressions: {$stats.all_impressions} <br/>
+                    </td>
                 </tr>
           </table>
         </div>
@@ -163,8 +156,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <p class="copyright">
     <center>
             <hr />
-            {$copyright} <br />
-            Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
+            {$copyright} 
+            <br /> Theme: {* {$theme-copyright} *}
+            <p> {include file='server_stats.tpl'} </p>
     </center>
 </p>
 
@@ -179,7 +173,6 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 //]]>
 </script>
 
-<br />
 <br />
 
 {* Ajax Notification *}
