@@ -1,14 +1,71 @@
+* {margin:0;padding:0}
 body
-{   margin: 0px;
-	padding: 0px;
+{   margin: 10px;
+	padding: 10px;
+	color:#000;
 	background: #E4E0C7;
 	/* background: url(../images/bgr.png); */
 	font-family: tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
-	margin: 2em;
 }
 
 html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
+
+#container {/* #809900 is background color of right column and image is bg of left column*/
+	background:#809900 url(images/lcolex2.gif) repeat-y 20% 0;
+	border:1px solid #fff;
+}
+#header {
+	height:180px;
+	border-bottom:1px solid #fff;
+	background:#cccccc;
+	text-align:center;
+	color:#fff;
+}
+#inner{width:100%;float:left;}
+#left {
+	float:left;
+	width:32%;/* note this width is 32% and not 20% */
+	margin-left:-31.9%;/* must be less than width */
+	position:relative;
+	left:-.01%;
+}
+#right {
+	margin-right:-31.9%;/* must be less than width */
+	float:right;
+	width:32%;/* note this width is 32% and not 20% */
+	position:relative;
+	left:.01%;
+}
+#middle {
+	border-left:1px solid #fff;
+	border-right:1px solid #fff;
+	background:#7eddff;
+	margin-left:20%;
+	margin-right:20%;
+ min-height:0;
+}
+/* mac hie \*/
+* html #middle {height:1%;position:relative;}
+/* end hide */
+#footer {
+	clear:both;
+	border-top:1px solid #fff;
+	height:100px;
+	text-align:center;
+	background:#304a00;
+	color:#fff;
+}
+#footer a{color:#fff}
+h1,h3 {margin:0 0 1em 0}
+p {padding:0 5px;margin:.5em 0}
+h3 {margin:0;padding-top:10px}
+.clearer{
+	height:1px;
+	overflow:hidden;
+	margin-top:-1px;
+	clear:both;
+}
 
 .oops
 {

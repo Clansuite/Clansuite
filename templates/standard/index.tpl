@@ -26,26 +26,16 @@
 
 <link rel="shortcut icon" href="{$www_tpl_root}/images/favicon.ico" />
 <link rel="icon" href="{$www_tpl_root}/images/animated_favicon.gif" type="image/gif" />
-
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
-
-<!--[if IE]>
-<link rel="stylesheet" href="{$www_core_tpl_root}/css/IEhack.css" type="text/css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
-<![endif]-->
-
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
-<!--
-page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
--->
+<!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
 {/doc_raw}
 
-<!-- BrowserCheck //-->
+<!-- BrowserCheck // -->
  <h2 class="oops">{translate}
 	You shouldn't be able to read this, because this site uses complex stylesheets to
 	display the information - your browser doesn't support these new standards. However, all
@@ -58,125 +48,93 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	enhances your view of the Web.{/translate}
 </h2>
 
-<table cellspacing="0" cellpadding="0" width="100%">
-<tr>
-    <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
-    </td>
-</tr>
-</table>
-<script type="text/javscript">
-//<![CDATA[
-    var arrow1 = new Image(4, 7);
-    arrow1.src = "{$www_tpl_root}/images/arrow1.gif";
-    var arrow2 = new Image(4, 7);
-    arrow2.src = "{$www_tpl_root}/images/arrow2.gif";
-//]]>
-</script>
+<div id="container"> 
+  
+<!-- div:title // -->
+<div id="header">
+<img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
+</div>
 
-<table cellspacing="0" cellpadding="0" width="100%">
-<tr class="tr_header">
-    <td width="10">Menu</td>
-    <td>{include file='breadcrumbs.tpl'}</td>
-    <td width="200">Infos</td>
-</tr>
-
-<tr>
-    <td class="cell1" width="100" height="300">
-        <div class="left_menu">
-
-            <table id="menu1" cellspacing="0" cellpadding="0" class="XulMenu">
-            <tr>
-                <td>
-
-                    <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-
-                    <div class="section">
-                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_tpl_root}/images/icons/modules.png" border="0" width="16" height="16" alt="" />Modules<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-                          <div class="section">
-                              <a class="item" href="index.php">Main</a>
-                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
-                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
-                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
-                           </div>
-
-                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_tpl_root}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_tpl_root}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-                          <div class="section">
-                              <a class="item" href="index.php?mod=account">Login</a>
-                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a>
-                          </div>
-                    </div>
-
-                    <a class="button" href="index.php?mod=admin">Admin</a>
-
-                </td>
-            </tr>
-            </table>
-
+<!-- div:middle open // -->
+<div id="middle"> 
+    
+    <!-- div:inner open // -->
+    <div id="inner">
+        
+        <!-- div:left open // -->
+        <div id="left"> 
+        <p>Menü</p>
+                
+            <dl>    
+            <dt>Main</dt>
+            <dd><a href="index.php">Main</a></dd>
+            <dt>Modules</dt>
+            <dd><a href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
+            <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
+            <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
+            <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
+            <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
+            <dt>Users</dt>
+            <dd><a class="item" href="index.php?mod=account">Login</a></dd>
+            <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
+            <dt>ACP</dt> 
+            <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
+            </dl>
         </div>
-    </td>
-
-    <td class="cell1">
-                        {$content}
-    </td>
-
-    <td class="cell1" style="padding: 0px;">
-        <div style="margin-top: 10px">
-            {mod name="account" func="login"}
+        <!-- div:left close // -->
+ 
+          <!-- div:right // -->
+          <div id="right">
+          <p>Menü</p>
+        
+          <div style="margin-top: 10px">{* {mod name="account" func="login"}*}</div>
+          <div style="margin-top: 10px">{* {mod name="shoutbox" func="show"} *}</div>
+          <div style="margin-top: 10px">
+                {translate}Statistics{/translate}
+                    {* {$stats|@var_dump} *}
+                  Online: {$stats.online} <br/>
+                  - Users : {$stats.authed_users}
+                  - Guests : {$stats.guest_users} <br/>
+                  Today: {$stats.today_impressions} <br/>
+                  Yesterday: {$stats.yesterday_impressions} <br/>
+                  Month: {$stats.month_impressions} <br/>
+              
+                  This Page: {$stats.page_impressions} <br/>
+                  Total Impressions: {$stats.all_impressions} <br/>
+          </div> 
         </div>
-        <div style="margin-top: 10px">
-		   {* {mod name="shoutbox" func="show"} *}
-		</div>
-        <div style="margin-top: 10px">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
-                <tr>
-                    <td class="td_header" colspan="2">{translate}Statistics{/translate}</td>
-                </tr>
-                <tr> {* {$stats|@var_dump} *}
-                    <td class="cell1">Online: {$stats.online} <br/>
-                                      - Users : {$stats.authed_users}
-                                      - Guests : {$stats.guest_users} <br/>
-                                      Today: {$stats.today_impressions} <br/>
-                                      Yesterday: {$stats.yesterday_impressions} <br/>
-                                      Month: {$stats.month_impressions} <br/>
-                                      <hr />
-                                      This Page: {$stats.page_impressions} <br/>
-                                      Total Impressions: {$stats.all_impressions} <br/>
-                    </td>
-                </tr>
-          </table>
-        </div>
-    </td>
-</tr>
-</table>
+        <!-- div:right close // -->
+        
+<p>
+{include file='breadcrumbs.tpl'} 
+<br /> 
+{$content}
+</p> 
 
-<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-<p class="copyright">
-    <center>
-            <hr />
-            {$copyright} 
-            <br /> Theme: {* {$theme-copyright} *}
-            <p> {include file='server_stats.tpl'} </p>
-    </center>
-</p>
+    </div><!-- div:inner close // -->
+</div><!-- div:middle close // -->
+ 
+<!-- style clearer // -->
+<div class="clearer"></div>
 
-<script type="text/javascript">
-//<![CDATA[
-    var menu1 = new XulMenu("menu1");
-    menu1.type = "vertical";
-    menu1.position.level1.top = 0;
-    menu1.arrow1 = "{$www_tpl_root}/images/arrow1.gif";
-    menu1.arrow2 = "{$www_tpl_root}/images/arrow2.gif";
-    menu1.init();
-//]]>
-</script>
+<!-- div:footer open // -->
+<div id="footer">
+    <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+    <p style="text-align:left;clear:both;margin-top:20px;" class="copyright">
+        <center>
+                <hr />
+                {$copyright} 
+                <br /> Theme: {* {$theme-copyright} *}
+                <p> {include file='server_stats.tpl'} </p>
+        </center>
+    </p>
+</div><!-- div:footer close // -->
 
-<br />
+</div><!-- div:container close // -->
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
     <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
+
