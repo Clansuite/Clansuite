@@ -279,13 +279,13 @@ if ( $cfg->maintenance == 1 )
 }
 
 // Step 2: set condition for suppress wrapper
-if ( $content['SUPPRESS_WRAPPER'] == true )
+if ( isset($content['SUPPRESS_WRAPPER'] ) && ( $content['SUPPRESS_WRAPPER'] == true ) )
 {
     $condition = 'display_template_with_suppressed_wrapper';
 }
 
 // Step 3: set condition for admininterface
-if ( $_REQUEST['mod'] == 'admin' OR $_REQUEST['sub'] == 'admin' )
+if ( ($_REQUEST['mod'] == 'admin') OR ($_REQUEST['sub'] == 'admin') )
 {
     // check if sufficent right to access "admin control center" center
     if ( $perms->check('access_controlcenter', 'no_redirect') == true )
@@ -348,7 +348,7 @@ switch ($condition) {
 }
 
 // Show Debug Console - but not with suppressed wrapper or in maintenance mode
-if ( $condition != 'display_template_with_suppressed_wrapper' OR $condition !== 'display_maintenance_template' )
+if ( ($condition !== 'display_template_with_suppressed_wrapper') OR ($condition !== 'display_maintenance_template') )
 {
     DEBUG ? $debug->show_console() : '';
 }
