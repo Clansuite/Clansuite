@@ -12,7 +12,7 @@
  * @copyright   brainpower, boots, 2002-2005
  * @license     LGPL 2.1
  */
- 
+
  /* Changes
   * 2006-Okt-15:
   *       tdmme, I moved the if-statement that sets the page content-type of the header,
@@ -383,7 +383,7 @@ class Render_SmartyDoc extends Smarty
         $output = parent::fetch($resource_name, $cache_id, $compile_id);
         $this->unregister_outputfilter('smarty_outputfilter_SmartyDoc');
         $this->resetDoc();
-        
+
 		if (!$display) {
 			return $output;
 		}
@@ -502,12 +502,12 @@ class Render_SmartyDoc extends Smarty
     {
         $smarty->addInfo($params);
     }
-	
-	
+
+
 	protected function setContentType()
 	{
     	// first check if type is XHTML or not and if so, whether the browser accepts application/xhtml+xml content type
-        if ($this->doc_info['DOCTYPE']['FAMILY'] === 'XHTML') {
+        /*if ($this->doc_info['DOCTYPE']['FAMILY'] === 'XHTML') {
             if (stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml')) {
                 $this->HTTP_ACCEPT = 'application/xhtml+xml';
             }
@@ -526,9 +526,9 @@ class Render_SmartyDoc extends Smarty
                 $this->HTTP_ACCEPT = 'text/html';
             }
         }
-        else {
+        else {*/
             $this->HTTP_ACCEPT = 'text/html';
-        }
+        //}
 	}
 
     /**
@@ -541,7 +541,7 @@ class Render_SmartyDoc extends Smarty
     public function smarty_outputfilter_SmartyDoc($source, &$smarty)
     {
 		$this->setContentType();
-	
+
         if (!empty($smarty->doc_info) || !empty($smarty->doc_raw)) {
             $indent     = $smarty->getIndent();
             $_doc_info  =& $smarty->doc_info;
@@ -782,7 +782,7 @@ class Render_SmartyDoc extends Smarty
                         $doc_source .= "/* ]]> */\n";
                         $doc_source .= "{$indent}</style>\n";
                     }
-                
+
                 }
             }
 

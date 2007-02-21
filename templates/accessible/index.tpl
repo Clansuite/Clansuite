@@ -29,7 +29,13 @@
 
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script src="{$javascript}" type="text/javascript"></script>
-
+{literal}
+<!--[if lte IE 6]>
+<style type="text/css">
+table { width: 99%; }
+</style>
+<![endif]-->
+{/literal}
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 

@@ -124,9 +124,7 @@ h6 {
 	background: #eee;
 	border: 1px solid #333;
 	border-width: 0 1px 1px 0;
-	position: absolute;
-	top: 0;
-	left: 0;
+	float: left;
 }
 #left h3, #right h3 {
 	padding: 5px 5px 5px 10px;
@@ -143,9 +141,7 @@ h6 {
 	background: #eee;
 	border: 1px solid #333;
 	border-width: 0 0 1px 1px;
-	position: absolute;
-	top: 0;
-	right: 0;
+	float: right;
 }
 #counter li {
 	list-style: none;
