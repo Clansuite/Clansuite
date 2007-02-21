@@ -10,7 +10,7 @@
     </tr>
 
     <tr> 
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&id={$news.user_id}'>{$news.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&sub=newscomments&id={$news.news_id}'>{$news.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments} comments</a></font></td>
     </tr>
   
     <tr> 
@@ -20,7 +20,7 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&sub=newscomments&id={$news.news_id}">{$news.nr_news_comments} Comments</a>
+            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
             {if isset($news.lastcomment_by) }<span> : {$news.lastcomment_by}</span>{/if}
     	</td>
     </tr>
