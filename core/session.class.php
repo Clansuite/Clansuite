@@ -119,7 +119,7 @@ class session
         
         
         /**
-        * @desc Start Session with Error on failure
+        * @desc Start Session and throw Error on failure
         */
 
         if (!session_start())
