@@ -130,8 +130,8 @@ class security
         else
         {   
             // Error: Template File not found 
-            die( $error->show( $lang->t('Template File not found'),
-                               $lang->t('The main template file of the choosen template was not found! Please check your template dir for that file.'),
+            die( $error->show( $lang->t('Template File not found !'),
+                               $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.'),
                                1 ) );
                                
            /* todo:
