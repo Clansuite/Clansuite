@@ -46,7 +46,7 @@
         <td>{$news.news_added}</td>
         <td>{$news.news_title}</td>
         <td>{$news.cat_name}</td>
-        <td><a href='index.php?mod=users&id={$news.user_id}'>{$news.nick}</a></td>
+        <td><a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a></td>
     </tr>
     {/foreach}
     
