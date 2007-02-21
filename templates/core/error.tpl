@@ -1,24 +1,23 @@
 {* In case error_type 2 and 3 a header is set and doc_raw content is moved there. *}
 {* In case error_type 1 (fatal error) such movement takes not place! It's directly linked !*}
 
-{doc_raw}
-<link rel="stylesheet" href="{$www_core_tpl_root}/css/error.css" type="text/css" />
-{/doc_raw}
-
-{if $error_type==1}
+{if $error_type == 1}
 <html>
 <head>
 <link rel="stylesheet" href="{$www_core_tpl_root}/css/error.css" type="text/css" />
 {$redirect}
-<title>{$error_head}</title>
+<title>{$error_head} - errortype {$error_type}</title>
 </head>
 <body>
+{else}
+<link rel="stylesheet" href="{$www_core_tpl_root}/css/error.css" type="text/css" />
 {/if}
 
+
 <fieldset class="
-{if $error_type==1}error_red
-{elseif $error_type==2}error_orange
-{elseif $error_type==3}error_beige
+{if $error_type == 1}error_red
+{elseif $error_type == 2}error_orange
+{elseif $error_type == 3}error_beige
 {/if}
 ">
 	<legend>
