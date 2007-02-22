@@ -137,7 +137,7 @@ class Render_SmartyDoc extends Smarty
     private $doc_info = array();
     private $doc_raw  = array();
     private $doc_modules = array();
-    static $target_choices = array('head', 'body', 'style', 'script');
+    static $target_choices = array('head', 'body', 'body_post', 'style', 'script');
 
     /**
      * CONSTRUCTOR
@@ -869,6 +869,13 @@ class Render_SmartyDoc extends Smarty
 
             // insert module header-pre content
             $doc_source .= $module_content['body_post'];
+
+            // vain add {insert body_post doc_raw content}
+            if (isset($this->doc_raw['body_post'])) {
+                foreach ($this->doc_raw['body_post'] as $raw) {
+                    $doc_source .= "{$indent}{$raw}\n";
+                }
+            } //vain add off
 
             // y'all come back now, y'hear?
             $doc_source .= "</body>\n</html>";
