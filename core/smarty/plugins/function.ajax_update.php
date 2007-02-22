@@ -34,12 +34,12 @@ function smarty_function_ajax_update($params, &$smarty)
   $callback = isset($params['callback']) ? $params['callback'] : '';
 
 
-  if ($parameters !== '') $parameters .= '&';
+  if ($parameters !== '') $parameters .= '&amp;';
   $parameters .= 'f=' . $function;
 
-  return 'SmartyAjax.update(\'' . $update_id . '\', 
-                            \'' . $url . '\', 
-                            \'' . $method . '\',                           
+  return 'SmartyAjax.update(\'' . $update_id . '\',
+                            \'' . $url . '\',
+                            \'' . $method . '\',
                             \'' . $parameters . '\',
                             \'' . $callback . '\'); return false;';
 }
