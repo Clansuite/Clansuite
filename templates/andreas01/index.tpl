@@ -4,7 +4,6 @@
 <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="{$meta.language}">
 <meta name="robots" content="index, follow" />
 <meta name="author" content="{$meta.author}">
