@@ -70,14 +70,19 @@ function DynamicTreeBuilder(id, path_para, custom_icon_path_para) {
                             node.title = a.title;
                         }
                         if (a.target) {
-                            node.target = a.target;
+                            handle = a.target.split("___");
+                            node.target = handle[0];
+                            node.custom_icon = handle[1];
+                            node.right_to_view = handle[2];
                         }
+                        /*
                         if (a.id)
                         {
                             handle = a.id.split("||");
                             node.custom_icon = handle[0];
                             node.right_to_view = handle[1];
                         }
+                        */
                     } else {
                         node.text = nodes[i].firstChild.nodeValue.trim();
                     }

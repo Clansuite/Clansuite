@@ -7,7 +7,7 @@
 *}
 
 
-<form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=create_area">
+<form target="_self" method="post" action="index.php?mod=admin&sub=permissions&action=create_area">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="400">
     <tr class="tr_header">
@@ -39,7 +39,7 @@
 
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=permissions'" />
+            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=permissions'" />
             <input type="submit" name="submit" value="{translate}Create the area{/translate}" class="ButtonGreen" />
             <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>

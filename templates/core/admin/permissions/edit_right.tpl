@@ -7,7 +7,7 @@
 *}
 
 
-<form target="_self" method="POST" action="index.php?mod=admin&sub=permissions&action=edit_right">
+<form target="_self" method="post" action="index.php?mod=admin&sub=permissions&action=edit_right">
 
     <input type="hidden" name="info[right_id]" class="input_text" value="{$info.right_id}" />
 
@@ -54,7 +54,7 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=permissions'" />
+            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=permissions'" />
             <input type="submit" name="submit" value="{translate}Edit the right{/translate}" class="ButtonGreen" />
             <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>

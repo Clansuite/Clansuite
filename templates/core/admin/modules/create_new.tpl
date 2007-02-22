@@ -150,12 +150,12 @@ function rem_col(id)
             </select>
         </td>
         <td class="cell1" align="center">
-            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('{literal}{$key}{/literal}');" />
+            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onclick="javascript:rem_col('{literal}{$key}{/literal}');" />
         </td>
     </tr>
 </table>
 
-<form action="index.php?mod=admin&sub=modules&action=create_new" method="POST">
+<form action="index.php?mod=admin&sub=modules&action=create_new" method="post">
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="700">
 <tr>
     
@@ -311,7 +311,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('{$key}');" />
+                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onclick="javascript:rem_col('{$key}');" />
                         </td>
                     </tr>
                 {/foreach}
@@ -381,7 +381,7 @@ function rem_col(id)
                             </select>
                         </td>
                         <td class="cell1" align="center">
-                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onClick="javascript:rem_col('1');" />
+                            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onclick="javascript:rem_col('1');" />
                         </td>
                     </tr>
                 {/if}
@@ -393,7 +393,7 @@ function rem_col(id)
             </tr>
             <tr>
                 <td colspan="2" align="right">
-                    <input type="button" class="ButtonGreen" value="{translate}Add a column{/translate}" onClick="javascript:add_col();" />
+                    <input type="button" class="ButtonGreen" value="{translate}Add a column{/translate}" onclick="javascript:add_col();" />
                 </td>
             </tr>
         </table>

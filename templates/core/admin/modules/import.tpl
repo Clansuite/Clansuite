@@ -12,7 +12,7 @@
 </div>
 {/if}
 
-<form enctype="multipart/form-data" action="index.php?mod=admin&sub=modules&action=import" method="POST">
+<form enctype="multipart/form-data" action="index.php?mod=admin&sub=modules&action=import" method="post">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     

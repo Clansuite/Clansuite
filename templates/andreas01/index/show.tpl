@@ -8,7 +8,7 @@
 <br />
 In der LanguageDatei existiert eine Übersetzung für "Hello":
 {php} print(language::t("Hello")); {/php} 
-<form action="index.php" method="POST">
+<form action="index.php" method="post">
 <input type="submit" name="set" value="1">
 </form>
 <br />

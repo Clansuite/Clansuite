@@ -67,25 +67,25 @@
                 <td colspan="4"> <table border="1" cellspacing="0" cellpadding="2">
                     <tr> 
                       <td>your name:</td>
-                      <td><input name="gbname" type="text" class="form_off" onFocus="this.className='form_on'" onBlur="this.className='form_off'" size="40"> 
+                      <td><input name="gbname" type="text" class="form_off" onFocus="this.className='form_on'" onblur="this.className='form_off'" size="40"> 
                       </td>
                     </tr>
                     <tr> 
                       <td>your e-mail:</td>
-                      <td><input name="gbemail" type="text" class="form_off" onFocus="this.className='form_on'" onBlur="this.className='form_off'" size="40"></td>
+                      <td><input name="gbemail" type="text" class="form_off" onFocus="this.className='form_on'" onblur="this.className='form_off'" size="40"></td>
                     </tr>
                     <tr> 
                       <td>Icq#:</td>
-                      <td><input name="icq" type="text" class="form_off" onFocus="this.className='form_on'" onBlur="this.className='form_off'" size="40"></td>
+                      <td><input name="icq" type="text" class="form_off" onFocus="this.className='form_on'" onblur="this.className='form_off'" size="40"></td>
                     </tr>
                     <tr> 
                       <td>your homepage:</td>
-                      <td><input name="gburl" type="text" class="form_off" onFocus="this.className='form_on'" onBlur="this.className='form_off'" value="http://" size="40"></td>
+                      <td><input name="gburl" type="text" class="form_off" onFocus="this.className='form_on'" onblur="this.className='form_off'" value="http://" size="40"></td>
                     </tr>
                   </table></td>
               </tr>
               <tr> 
-                <td colspan="4">your message:<br> <textarea name="message" rows="5" cols="35" style="width:$picsize_l\px;" class="form_off" onFocus="this.className='form_on'" onBlur="this.className='form_off'"></textarea></td>
+                <td colspan="4">your message:<br> <textarea name="message" rows="5" cols="35" style="width:$picsize_l\px;" class="form_off" onFocus="this.className='form_on'" onblur="this.className='form_off'"></textarea></td>
               </tr>
               <tr> 
                 <td>&nbsp;</td>

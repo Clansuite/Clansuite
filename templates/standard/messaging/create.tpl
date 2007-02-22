@@ -1,4 +1,4 @@
-<form action="index.php?mod=messaging&action=create" method="POST">
+<form action="index.php?mod=messaging&action=create" method="post">
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
     <tr class="tr_header">
             <td width="140px">

@@ -19,7 +19,7 @@
             mouseover=1 
             searchable=1 
             width="80%" 
-            row_onClick="row_clicked( '\$user_id', '\$nick', '\$email')"}
+            row_onclick="row_clicked( '\$user_id', '\$nick', '\$email')"}
       
       {column id="user_id" name="User ID" align="left" sorttype="Numerical"}
       {column id="email" name="Email" align="left"}

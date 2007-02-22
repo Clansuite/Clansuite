@@ -73,10 +73,10 @@
                         <tr>
                             <td class="label">{translate}Icon{/translate}</td>
                             <td>
-                                <select onChange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
-                                    <option name=""></option>
+                                <select onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
+                                    <option value=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img alt="insert icon" src="" id="insert_icon" width="16" height="16" border="1" />
@@ -117,10 +117,10 @@
                         <tr>
                             <td class="label">{translate}Icon{/translate}</td>
                             <td>
-                                <select onChange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
-                                    <option name=""></option>
+                                <select onchange="document.getElementById('update_icon').src='{$www_core_tpl_root}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
+                                    <option value=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" name="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_core_tpl_root}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img alt="update icon" src="" name="update_icon" id="update_icon" width="16" height="16" border="1" />
@@ -141,24 +141,24 @@
         <td valign="top">
 
             <p>
-                <input type="button" class="ButtonYellow" onClick="window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{translate}Help{/translate}" />
+                <input type="button" class="ButtonYellow" onclick="window.open('{$www_core_tpl_root}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{translate}Help{/translate}" />
             </p>
             <p>
-                <input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" onClick="treePluginGenerateMenu();" />
+                <input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" onclick="treePluginGenerateMenu();" />
             </p>
             <p>
-                <input type="button" onClick="self.location.href='index.php?mod=admin&sub=menueditor&action=restore'"class="ButtonRed" value="{translate}Restore last menu{/translate}" />
+                <input type="button" onclick="self.location.href='index.php?mod=admin&sub=menueditor&amp;action=restore'"class="ButtonRed" value="{translate}Restore last menu{/translate}" />
             </p>
         </td>
         <td valign="top">
 
             <div id="tree-plugin">
-                <form action="index.php?mod=admin&sub=menueditor&action=update" method="POST">
+                <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post">
                 <div id="tree-plugin-content"></div>
                 <b>{translate}The menu has been generated.{/translate}</b> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />
                 <p>
-                    <input class="ButtonGreen" type="submit" name="submit" value="{translate}Update the menu{/translate}">
+                    <input class="ButtonGreen" type="submit" name="submit" value="{translate}Update the menu{/translate}" />
                 </p>
                 </form>
             </div>
@@ -168,8 +168,8 @@
     </table>
 
     <script type="text/javascript">
-    var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/", "{$www_core_tpl_root}/images/icons/");
-    tree.init();
-    DynamicTreePlugins.call(tree);
+        var tree = new DynamicTreeBuilder("tree", "{$www_core_tpl_root}/admin/adminmenu/images/", "{$www_core_tpl_root}/images/icons/");
+        tree.init();
+        DynamicTreePlugins.call(tree);
     </script>
     <script type="text/javascript" src="{$www_core_tpl_root}/admin/adminmenu/actions.js"></script>

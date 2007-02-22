@@ -8,7 +8,7 @@
                 <p>
                     <input type="hidden" name="confirm" value="1" />
                     <input class="ButtonRed" type="submit" name="submit" value="{translate}Confirm{/translate}" />
-                    <input class="ButtonGreen" type="button" value="{translate}Abort{/translate}" onClick="self.location.href='index.php'" />
+                    <input class="ButtonGreen" type="button" value="{translate}Abort{/translate}" onclick="self.location.href='index.php'" />
                 </p>
             </td>
         </tr>
