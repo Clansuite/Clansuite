@@ -50,8 +50,8 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		<li><a href="index.php?mod=news">News</a></li>
 		<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
 		<li><a href="index.php?mod=serverlist">Serverlist</a></li>
-		<li><a href="index.php?mod=static&amp;page=credits">Credits</a></li>
-		<li><a href="index.php?mod=static&amp;action=overview">Static Pages Overview</a></li>
+		<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
+		<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
 	</ul>
 </div>
 {include file='breadcrumbs.tpl'}
