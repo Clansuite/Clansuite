@@ -52,7 +52,7 @@ class security
         $salt .= '-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
         return $salt;
     }
-    
+
     /**
     * @desc MD5 Hash creation
     */
@@ -61,7 +61,7 @@ class security
     {
         return md5(md5($string ) );
     }
-    
+
     /**
     * @desc SHA1 Hash creation
     */
@@ -70,7 +70,7 @@ class security
     {
         return sha1(sha1($string ) );
     }
-    
+
     /**
     * @desc Build salted Hash string (Cookie Hash)
     */
@@ -78,29 +78,29 @@ class security
     function build_salted_hash( $string = '' )
     {
         global $cfg;
-        
+
         $salt = split('-', $cfg->salt);
-        
+
         switch ( $cfg->encryption )
         {
             case 'sha1':
                 $hash = $this->generate_sha1( $string );
                 break;
-                
+
             case 'md5':
                 $hash = $this->generate_md5( $string );
                 break;
         }
-        
-        
+
+
         for ($x=0; $x<6; $x++)
         {
             $hash = str_replace( $salt[$x], $salt[$x+6], $hash );
         }
-        
+
         return $hash;
     }
-    
+
     /**
     * @desc Build the DB salted Hash
     */
@@ -109,7 +109,7 @@ class security
     {
         return $this->build_salted_hash( $this->build_salted_hash( $string ) );
     }
-    
+
     /**
     * @desc Check for {$copyright} tag in $cfg->tpl_wrapper_file
     */
@@ -117,32 +117,32 @@ class security
     function check_copyright( $file )
     {
         global $lang, $error;
-        
-        // check for existance of the main tpl_wrapper_file 
+
+        // check for existance of the main tpl_wrapper_file
         // (index.tpl related to the choosen template directory)
         if (file_exists($file) )
-        {   
+        {
             // Check for a removal or out-commenting of Copyright Tag
             $string = file_get_contents($file);
-            preg_match('/\{\$copyright\}/' , $string ) ? '' : die($error->show( $lang->t('Copyright Violation'), $lang->t('You removed the copyright tag - that is not allowed and a violation of our rules!'), 1) );
+            preg_match('/\{\$copyright\}/' , $string ) ? '' : die($error->show( $lang->t('Copyright Violation'), $lang->t('You removed the copyright tag - that is not allowed and a violation of our rules! Please put {$copyright} in the main template file.'), 1) );
             preg_match('/\<\!\-\-[^>](.*)\{\$copyright\}(.*)\-\-\>/', $string ) ? die($error->show( $lang->t('Copyright Violation'), $lang->t('Do not try to fool the system by hiding the copyright tag!'), 1 ) ) : '';
         }
         else
-        {   
-            // Error: Template File not found 
+        {
+            // Error: Template File not found
             die( $error->show( $lang->t('Template File not found !'),
                                $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.'),
                                1 ) );
-                               
+
            /* todo:
-              in case there's no correct template wrapper file found, 
-              switch (a) to the default or (b) the next possible template dir 
+              in case there's no correct template wrapper file found,
+              switch (a) to the default or (b) the next possible template dir
               if there is still nothing found, report error.
-              
+
            */
         }
     }
-    
+
     /**
     * @desc Handle Intruders
     */
