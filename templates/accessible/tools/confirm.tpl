@@ -5,7 +5,7 @@
 <title>{translate}Please confirm!{/translate}</title>
 </head>
 <body>
-<form action="{$link}" method="POST">
+<form action="{$link}" method="post">
 
 <table class="redirect" cellpadding="0" border="0" cellspacing="0">
 <tr>

@@ -20,7 +20,7 @@ var Serverform = {
 {* Debuganzeige, wenn DEBUG = 1 |  {$servers|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}
   
-  <form action="index.php?mod=serverlist&sub=admin&action=delete" method="POST">
+  <form action="index.php?mod=serverlist&sub=admin&action=delete" method="post">
     
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
         <thead>
@@ -50,14 +50,14 @@ var Serverform = {
                             <img src="{$www_core_tpl_root}/images/countries/{$server.image_country}" class="border3d">
                         {/if}
                     </td>
-                    <td align="center"><input onClick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></td>
+                    <td align="center"><input onclick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></td>
                     <td align="center"><input type="checkbox" name="delete[]" value="{$server.group_id}"></td>
                 
                 </tr>
             {/foreach}
             <tr>
                 <td colspan="9" align="right" class="cell1">
-                    <input onClick="javascript:clip_span('add_{$server.server_id}')" class="ButtonGreen" type="button" value="{translate}Enter new Server{/translate}" />
+                    <input onclick="javascript:clip_span('add_{$server.server_id}')" class="ButtonGreen" type="button" value="{translate}Enter new Server{/translate}" />
                     <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
                     <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected servers{/translate}" />
                 </td>

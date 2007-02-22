@@ -1,6 +1,6 @@
 {foreach key=key item=item from=$folders}
     <div class='folder'>
-        <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-{$name}-{$key}" onClick="sendFilebrowserAjaxRequest('{$key}', '{$name}');" />
+        <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" id="node-{$name}-{$key}" onclick="sendFilebrowserAjaxRequest('{$key}', '{$name}');" />
         <input type="checkbox" name="files[{$name}][]" value="{$key}" />
         <img src="{$www_core_tpl_root}/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0" />
         {$item}

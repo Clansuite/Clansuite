@@ -25,7 +25,7 @@
         We are sorry but a static page with this name already exists in the database.
     {/error}
 {/if}
-<form action="index.php?mod=admin&sub=static&action=edit" method="POST" target="_self">
+<form action="index.php?mod=admin&sub=static&action=edit" method="post" target="_self">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
         <td class="td_header" width="100%" colspan="2">

@@ -229,7 +229,7 @@
 
             <td class="cell1" align="center">
                 <p align="center">
-                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}&folder_name={$wert.folder_name}" method="POST">
+                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}&folder_name={$wert.folder_name}" method="post">
                         <input type="hidden" name="module_name" value="{$wert.title}" />
                         <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
                     </form>
@@ -405,7 +405,7 @@
 
             <td class="cell1" align="center">
                 <p align="center">
-                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}" method="POST">
+                    <form action="index.php?mod=admin&sub=modules&action=uninstall&module_id={$wert.module_id}" method="post">
                         <input type="hidden" name="module_name" value="{$wert.title}" />
                         <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
                     </form>

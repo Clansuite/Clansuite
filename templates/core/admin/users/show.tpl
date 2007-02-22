@@ -12,7 +12,7 @@
     {/error}
 {/if}
 
-<form action="index.php?mod=admin&sub=users&action=delete" method="POST">
+<form action="index.php?mod=admin&sub=users&action=delete" method="post">
 
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
 
@@ -39,7 +39,7 @@
                     <td>                {$wert.last_name}   </td>
                     <td>                {$wert.infotext}    </td>
                     <td align="center">
-                        <input type="button" class="ButtonGreen" onClick="self.location.href='index.php?mod=admin&sub=users&action=edit&id={$wert.user_id}'" value="{translate}Edit{/translate}" />
+                        <input type="button" class="ButtonGreen" onclick="self.location.href='index.php?mod=admin&sub=users&action=edit&id={$wert.user_id}'" value="{translate}Edit{/translate}" />
                     </td>
                     <td align="center"> 
                         <input type="hidden" name="ids[]" value="{$wert.user_id}">
@@ -52,7 +52,7 @@
             <tr class="tr_row1">
                <td height="20" colspan="9" align="right">
 
-                    <input class="ButtonGreen" type="button" name="submit" onClick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="{translate}Create new user{/translate}" />
+                    <input class="ButtonGreen" type="button" name="submit" onclick="self.location.href='index.php?mod=admin&sub=users&action=create'"  value="{translate}Create new user{/translate}" />
                     <input class="Button" name="reset" type="reset" value="{translate}Reset{/translate}"/>
                     <input class="ButtonRed" type="submit" name="delete_text" value="{translate}Delete Selected Users{/translate}" />
                    

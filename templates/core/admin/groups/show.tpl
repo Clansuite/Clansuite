@@ -1,4 +1,4 @@
-<form action="index.php?mod=admin&sub=groups&action=delete" method="POST">
+<form action="index.php?mod=admin&sub=groups&action=delete" method="post">
 
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
         <thead>
@@ -42,8 +42,8 @@
                         {/foreach}
                     </td>
                     <td align="center">
-                    <input onClick="self.location.href='index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /><br />
-                    <input onClick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$group.group_id}'" type="button" value="{translate}Add Members{/translate}" class="ButtonGreen" />
+                    <input onclick="self.location.href='index.php?mod=admin&sub=groups&action=edit&id={$group.group_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /><br />
+                    <input onclick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$group.group_id}'" type="button" value="{translate}Add Members{/translate}" class="ButtonGreen" />
                     </td>
                     <td align="center"><input type="checkbox" name="delete[]" value="{$group.group_id}"></td>
 
@@ -51,7 +51,7 @@
             {/foreach}
             <tr>
                 <td colspan="9" align="right" class="cell1">
-                    <input onClick="self.location.href='index.php?mod=admin&sub=groups&action=create'" class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
+                    <input onclick="self.location.href='index.php?mod=admin&sub=groups&action=create'" class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
                     <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
                     <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected groups{/translate}" />
                 </td>

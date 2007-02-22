@@ -54,7 +54,7 @@
             {translate}Select the area on the left side{/translate}
             </div>
             {foreach key=area_id item=area_array from=$areas}
-                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="POST">
+                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="post">
                     <table style="display: none;" id="area_{$area_array.name}" cellpadding="0" cellspacing="0" border="0">
                         <tr class="tr_header_small">
                             <td width="100">{translate}Right ID{/translate}        </td>
@@ -70,8 +70,8 @@
                                 <td>{$right_array.description}</td>
                                 
                                 <td align="center">
-                                    <input type="Button" class="ButtonGreen" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_right&right_id={$right_array.right_id}'" value="{translate}Edit{/translate}" />
-                                    <input type="Button" class="ButtonYellow" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" value="{translate}Lookup users{/translate}" />
+                                    <input type="Button" class="ButtonGreen" onclick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_right&right_id={$right_array.right_id}'" value="{translate}Edit{/translate}" />
+                                    <input type="Button" class="ButtonYellow" onclick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" value="{translate}Lookup users{/translate}" />
                                 </td>
                                 <td align="center">
                                     <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -81,15 +81,15 @@
                         {/foreach}
                         <tr class="tr_row1">
                             <td align="right" colspan="5">
-                                <input type="Button" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_area&area_id={$area_id}'" class="ButtonGreen" value="{translate}Edit the area{/translate}" />
-                                <input type="Button" onClick="self.location.href='index.php?mod=admin&sub=permissions&action=delete_area&area_id={$area_id}'" class="ButtonRed" value="{translate}Delete the area{/translate}" />
+                                <input type="Button" onclick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_area&area_id={$area_id}'" class="ButtonGreen" value="{translate}Edit the area{/translate}" />
+                                <input type="Button" onclick="self.location.href='index.php?mod=admin&sub=permissions&action=delete_area&area_id={$area_id}'" class="ButtonRed" value="{translate}Delete the area{/translate}" />
                                 <input type="submit" name="submit" class="ButtonRed" value="{translate}Delete selected Permissions{/translate}" />
                                 <input type="reset" name="submit" class="ButtonGrey" value="{translate}Reset{/translate}" />
                         </tr>
                     </table>
                 </form>
             {/foreach}
-                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="POST">
+                <form action="index.php?mod=admin&sub=permissions&action=delete_right" method="post">
                     <table style="display: none;" id="area_unassigned" cellpadding="0" cellspacing="0" border="0">
                         <tr class="tr_header_small">
                             <td width="100">{translate}Right ID{/translate}        </td>
@@ -105,8 +105,8 @@
                                 <td>{$right_array.description}</td>
                                 
                                 <td align="center">
-                                    <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_perm&right_id={$right_array.right_id}'" type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
-                                    <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" />
+                                    <input onclick="self.location.href='index.php?mod=admin&sub=permissions&action=edit_perm&right_id={$right_array.right_id}'" type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
+                                    <input onclick="self.location.href='index.php?mod=admin&sub=permissions&action=lookup_users&right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" />
                                 </td>
                                 <td align="center">
                                     <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -125,8 +125,8 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create_area'" type="Button" class="ButtonGreen" value="{translate}Create new area{/translate}" />
-            <input onClick="self.location.href='index.php?mod=admin&sub=permissions&action=create_right'" type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" />
+            <input onclick="self.location.href='index.php?mod=admin&sub=permissions&action=create_area'" type="Button" class="ButtonGreen" value="{translate}Create new area{/translate}" />
+            <input onclick="self.location.href='index.php?mod=admin&sub=permissions&action=create_right'" type="Button" class="ButtonGreen" value="{translate}Create new right{/translate}" />
         </td>
     </tr>
 </table>

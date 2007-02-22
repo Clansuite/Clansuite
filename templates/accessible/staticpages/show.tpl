@@ -20,7 +20,7 @@
         </td>
     </tr>
 {foreach key=key item=item from=$info}
-<form action="index.php?mod=static&sub=admin&action=edit" method="POST">
+<form action="index.php?mod=static&sub=admin&action=edit" method="post">
     <tr>
         <td class="cell1" align="center">
             <input type="hidden" name="id" value="{$item.id}">

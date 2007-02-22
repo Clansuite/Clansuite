@@ -4,7 +4,7 @@
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
 {/doc_raw}
 
-<form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="POST">
+<form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post">
 <div class="tab-pane" id="tab-pane-1">
 
    {* #### TAB PAGE - STANDARD SETTINGS #### *}

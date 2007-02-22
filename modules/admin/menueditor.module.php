@@ -355,7 +355,7 @@ class module_admin_menueditor
             {
                 $result .= "<div class=\"folder\">";
                 $result .= '<a href="'.$entry['href'];
-                $result .= '" title="'.htmlspecialchars($entry['title']) . '" id="' . $entry['icon'] . '||' . htmlspecialchars($entry['right_to_view']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
                 $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
             }
 
@@ -373,7 +373,7 @@ class module_admin_menueditor
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
-                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" id="' . $entry['icon'] . '||' . htmlspecialchars($entry['right_to_view']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
                     $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
                 }
         	}

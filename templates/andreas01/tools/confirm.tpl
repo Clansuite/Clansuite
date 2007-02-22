@@ -5,7 +5,7 @@
 <title>{translate}Please confirm!{/translate}</title>
 </head>
 <body>
-<form action="{$link}" method="POST">
+<form action="{$link}" method="post">
     <center>
     <div class='redirect'>
     {$message}<br />

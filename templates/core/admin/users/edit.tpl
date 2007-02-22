@@ -28,7 +28,7 @@
     {/error}
 {/if}
 
-<form target="_self" method="POST" action="index.php?mod=admin&sub=users&action=edit">
+<form target="_self" method="post" action="index.php?mod=admin&sub=users&action=edit">
 
     <input type="hidden" name="info[user_id]" value="{$user.user_id}" />
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
@@ -78,7 +78,7 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2" align="right">
-                <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onClick="self.location.href='index.php?mod=admin&sub=users'"/>
+                <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=users'"/>
                 <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
                 <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
             </td>
