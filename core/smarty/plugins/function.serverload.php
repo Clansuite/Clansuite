@@ -26,7 +26,7 @@ function smarty_function_serverload($params, &$smarty)
     
     // get
     $load = sys_getloadavg();
-    return $load;
+    print_r($load);
     
     /*
     // check for shut down in case 80 processes
