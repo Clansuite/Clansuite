@@ -326,12 +326,14 @@ switch ($condition) {
             default:
             case 'display_normal_wrapped_template':
                     $tpl->assign('content', $content['OUTPUT'] );
+                    DEBUG ? $debug->show_console() : '';
                     $tpl->displayDoc($cfg->tpl_wrapper_file);
                     break;
 
             // (B) means just the content of the modul, without the portal frame
             case 'display_template_with_suppressed_wrapper':
                     echo $content['OUTPUT'];
+                    DEBUG ? $debug->show_console() : '';
                     break;
 
             // (C) display AdminControlCenter
@@ -347,9 +349,4 @@ switch ($condition) {
                     break;
 }
 
-// Show Debug Console - but not with suppressed wrapper or in maintenance mode
-if ( ($condition !== 'display_template_with_suppressed_wrapper') OR ($condition !== 'display_maintenance_template') )
-{
-    DEBUG ? $debug->show_console() : '';
-}
 ?>
