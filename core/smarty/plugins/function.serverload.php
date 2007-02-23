@@ -26,7 +26,7 @@ function smarty_function_serverload($params, &$smarty)
     
     // get
     $load = sys_getloadavg();
-    print_r($load);
+    echo '1[' .$load[0]. '] 5[' .$load[1]. '] 15[' .$load[2]. ']';
     
     /*
     // check for shut down in case 80 processes
