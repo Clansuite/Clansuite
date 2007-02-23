@@ -99,15 +99,15 @@ a[href^="http:"]:not([href^="http://www.clansuite.com"])::after {
 
 /* Breadcrumb / Trail ( You are here >> )*/
 
-#breadcrumbs {
+.breadcrumbs {
 	font-size : 85%;
 	color : #000;
 	margin-bottom : 5px;
 }
-#breadcrumbs a {
+.breadcrumbs a {
 	color : #f00;
 }
-#breadcrumbs a:hover {
+.breadcrumbs a:hover {
 	color : #fff;
 	background-color : #f00;
 }

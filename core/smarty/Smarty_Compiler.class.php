@@ -727,7 +727,9 @@ class Smarty_Compiler extends Smarty {
             $this->_pop_tag($tag_command);
 
         if ($start_tag) {
-            $output = '<?php ' . $this->_push_cacheable_state('block', $tag_command);
+           
+            $output = '<?php $this->currfileblock = "'.$this->_current_file.'"; ?>';
+            $output .= '<?php ' . $this->_push_cacheable_state('block', $tag_command);
             $attrs = $this->_parse_attrs($tag_args);
             $_cache_attrs='';
             $arg_list = $this->_compile_arg_list('block', $tag_command, $attrs, $_cache_attrs);
@@ -735,7 +737,8 @@ class Smarty_Compiler extends Smarty {
             $output .= '$_block_repeat=true;' . $this->_compile_plugin_call('block', $tag_command).'($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);';
             $output .= 'while ($_block_repeat) { ob_start(); ?>';
         } else {
-            $output = '<?php $_block_content = ob_get_contents(); ob_end_clean(); ';
+            $output = '<?php $this->currfileblock = "'.$this->_current_file.'"; ?>';
+            $output .= '<?php $_block_content = ob_get_contents(); ob_end_clean(); ';
             $_out_tag_text = $this->_compile_plugin_call('block', $tag_command).'($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat)';
             if ($tag_modifier != '') {
                 $this->_parse_modifiers($_out_tag_text, $tag_modifier);
@@ -804,6 +807,11 @@ class Smarty_Compiler extends Smarty {
         $this->_add_plugin('function', $tag_command);
 
         $_cacheable_state = $this->_push_cacheable_state('function', $tag_command);
+       
+        if ($tag_command === 'doc_info' || $tag_command === 'tag') {
+          $tag_args .= ' tplorig="'.$this->_current_file.'"';
+        } // end if
+               
         $attrs = $this->_parse_attrs($tag_args);
         $_cache_attrs = '';
         $arg_list = $this->_compile_arg_list('function', $tag_command, $attrs, $_cache_attrs);
