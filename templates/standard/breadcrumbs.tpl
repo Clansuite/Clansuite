@@ -1,3 +1,5 @@
-<div id="breadcrumbs">
+{strip}
+<span id="breadcrumbs">
     {breadcrumbs trail=$trail separator=" &raquo; " length=30}
-</div>
+</span>
+{/strip}

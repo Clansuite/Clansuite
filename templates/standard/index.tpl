@@ -119,13 +119,11 @@
 <!-- div:footer open // -->
 <div id="footer">
     <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-    <p style="text-align:left;clear:both;margin-top:20px;" class="copyright">
-        <center>
-                <hr />
+    <hr/>
+    <p style="text-align:center;clear:both;margin-top:20px;" class="copyright">
                 {$copyright} 
-                <br /> Theme: {* {$theme-copyright} *}
-                <p> {include file='server_stats.tpl'} </p>
-        </center>
+                <br/> Theme: {* {$theme-copyright} *}
+                <br/> {include file='server_stats.tpl'} 
     </p>
 </div><!-- div:footer close // -->
 
@@ -133,7 +131,7 @@
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Image"/>
+    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="middle" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
 
