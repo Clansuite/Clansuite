@@ -2,7 +2,6 @@
 /**
 * Index Modul Handler Class
 *
-* PHP versions 5.1.4
 *
 * LICENSE:
 *
@@ -41,8 +40,7 @@ if (!defined('IN_CS'))
 */
 class module_index
 {
-    public $output     = '';
-    public $mod_page_title     = '';
+    public $output          = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -54,9 +52,7 @@ class module_index
     function auto_run()
     {
         global $lang;
-        
-        $this->mod_page_title = $lang->t('Entrance' );
-        
+
         switch ($_REQUEST['action'])
         {
             case 'show':
@@ -67,9 +63,8 @@ class module_index
                 $this->show();
                 break;
         }
-        
-        return array( 'OUTPUT'     => $this->output,
-                      'MOD_PAGE_TITLE'    => $this->mod_page_title,
+
+        return array( 'OUTPUT'             => $this->output,
                       'ADDITIONAL_HEAD'    => $this->additional_head );
     }
 
@@ -80,11 +75,10 @@ class module_index
     function show()
     {
         global $tpl, $error, $lang;
-        
+
         $this->output .= $tpl->fetch('index/show.tpl');
-        $this->output .= $error->show($lang->t('Module Failure'), $lang->t('The Module has a failure (testing $error->show... Level 2 Failure...)'), 2);
     }
-    
+
 
     /**
     * @desc time test-function
@@ -97,11 +91,11 @@ class module_index
             case 'unix':
                 $time = time();
                 break;
-                
+
             case 'german':
                 $time = date('d'.$seperator.'m'.$seperator.'Y', time() );
                 break;
-                
+
             case 'english':
                 $time = date('Y'.$seperator.'m'.$seperator.'d', time() );
                 break;
