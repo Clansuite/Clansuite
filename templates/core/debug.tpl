@@ -28,7 +28,7 @@
 
 <div class="debug_wrapper">
     
-<h2 style="padding: 8px;">Smarty Debug Console</h2>
+<h2 style="padding: 8px;">Clansuite Debug Console</h2>
 
 <div class="one" onclick="clip('element_1');"><b>1. Error Log</b></div>
 <div style="display:none; padding: 8px; width: 90%;" id="element_1">
