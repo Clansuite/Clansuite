@@ -6,19 +6,15 @@
 
 <form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post">
 <div class="tab-pane" id="tab-pane-1">
-
    {* #### TAB PAGE - STANDARD SETTINGS #### *}
-
    <div class="tab-page">
        <h2 class="tab">{translate}Standard{/translate}</h2>
-
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}General Settings{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}General Settings{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Page Title{/translate}
@@ -36,9 +32,10 @@
                     <br /> <b>todo: Upload and Chooser</b> <small>{$www_tpl_root}/images/</small>
                 </td>
             </tr>
-
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Standard Template with Files{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Standard Template with Files{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -73,7 +70,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Default Language{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Default Language{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -84,7 +83,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Default Module / Action{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Default Module / Action{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -103,7 +104,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Maintenance Mode{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Maintenance Mode{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -126,18 +129,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
         </table>
    </div>
-
     {* #### TAB PAGE - META TAGSINFOS SETTINGS #### *}
-
     <div class="tab-page">
         <h2 class="tab">{translate}Meta Tags{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Define Meta Tags{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Define Meta Tags{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Description{/translate}
@@ -179,10 +179,14 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Define Dublin Core Metadata Elements{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Define Dublin Core Metadata Elements{/translate}
+                </td>
             </tr>
              <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Search Engine Optimization (SEO){/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                     {translate}Search Engine Optimization (SEO){/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -195,18 +199,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
         </table>
     </div>
-
    {* #### TAB PAGE - EMAIL SETTINGS #### *}
-
    <div class="tab-page">
        <h2 class="tab">{translate}eMailer{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Mail Server Configuration{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Mail Server Configuration{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Mail method{/translate}
@@ -251,7 +252,9 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}SMTP authentication{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}SMTP authentication{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -270,7 +273,9 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}eMail sender address{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}eMail sender address{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -289,7 +294,9 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Send Test Mail{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Send Test Mail{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -302,19 +309,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
         </table>
    </div>
-
-
    {* #### TAB PAGE - LOGIN SETTINGS #### *}
-
    <div class="tab-page">
        <h2 class="tab">{translate}Login{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Login{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Login{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Login method{/translate}
@@ -358,7 +361,11 @@ Sorry for the inconvenience.{/translate}</textarea>
                     <input class="input_text" type="text" value="{$cfg->login_ban_minutes}" name="config[login_ban_minutes]" />
                 </td>
             </tr>
-            <tr><td class="td_header_small"  colspan=2>  {translate}Password Settings{/translate}  </td></tr>
+            <tr>
+                <td class="td_header_small" colspan="2">
+                    {translate}Password Settings{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Minimum password length{/translate}
@@ -387,7 +394,9 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
             </tr>
             <tr>
-                <td class="td_header_small"  colspan="2">  {translate}Session Parameters{/translate}  </td>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Session Parameters{/translate}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
@@ -417,18 +426,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
         </table>
    </div>
-
   {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
-
    <div class="tab-page">
        <h2 class="tab">{translate}Developers{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Developer Settings{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Developer Settings{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Help Edit Mode{/translate}
@@ -438,11 +444,11 @@ Sorry for the inconvenience.{/translate}</textarea>
                     <input type="radio" value="0" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
-             <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Error Reporting{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Error Reporting{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Suppress Errors{/translate}
@@ -472,18 +478,15 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
         </table>
    </div>
-
    {* #### TAB PAGE - CACHE SETTINGS #### *}
-
    <div class="tab-page">
        <h2 class="tab">{translate}Cache{/translate}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <thead>
-        <tr>
-            <td class="td_header_small"  colspan="2">  {translate}Cache Settings{/translate}  </td>
-        </tr>
-        </thead>
-
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}Cache Settings{/translate}
+                </td>
+            </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {translate}Cache On{/translate}
@@ -502,15 +505,13 @@ Sorry for the inconvenience.{/translate}</textarea>
                     <br /> <small>set to -1 if developers mode on</small>
                 </td>
             </tr>
-
         </table>
    </div>
 </div>
-
 <br />
-
-<div align="center"><input type="submit" class="ButtonGreen" value="{translate}Change settings{/translate}" name="submit" /></div>
+<div style="text-align:center">
+    <input type="submit" class="ButtonGreen" value="{translate}Change settings{/translate}" name="submit" />
+</div>
 </form>
-
 {* #### Init TabPane #### *}
 <script type="text/javascript">setupAllTabs();</script>
