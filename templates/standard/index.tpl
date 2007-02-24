@@ -47,47 +47,47 @@
 	enhances your view of the Web.{/translate}
 </h2>
 
-<div id="container"> 
-  
+<div id="container">
+
 <!-- div:title // -->
 <div id="header">
 <img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
 </div>
 
 <!-- div:middle open // -->
-<div id="middle"> 
-    
+<div id="middle">
+
     <!-- div:inner open // -->
     <div id="inner">
-        
+
         <!-- div:left open // -->
-        <div id="left"> 
+        <div id="left">
         <p>Menü</p>
-                
-            <dl>    
-            <dt>Main</dt>
-            <dd><a href="index.php">Main</a></dd>
-            <dt>Modules</dt>
-            <dd><a href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
-            <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
-            <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
-            <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
-            <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
-            <dt>Users</dt>
-            <dd><a class="item" href="index.php?mod=account">Login</a></dd>
-            <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
-            <dt>ACP</dt> 
-            <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
+
+            <dl>
+                <dt>Main</dt>
+                <dd><a href="index.php">Main</a></dd>
+                <dt>Modules</dt>
+                <dd><a href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
+                <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
+                <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
+                <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
+                <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
+                <dt>Users</dt>
+                <dd><a class="item" href="index.php?mod=account">Login</a></dd>
+                <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
+                <dt>ACP</dt>
+                <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
             </dl>
         </div>
         <!-- div:left close // -->
- 
+
           <!-- div:right // -->
           <div id="right">
           <p>Menü</p>
-        
-          <div style="margin-top: 10px">{* {mod name="account" func="login"}*}</div>
-          <div style="margin-top: 10px">{* {mod name="shoutbox" func="show"} *}</div>
+
+          <div style="margin-top: 10px">{mod name="account" func="login"}</div>
+          <div style="margin-top: 10px">{mod name="shoutbox" func="show"}</div>
           <div style="margin-top: 10px">
                 {translate}Statistics{/translate}
                     {* {$stats|@var_dump} *}
@@ -97,22 +97,22 @@
                   Today: {$stats.today_impressions} <br/>
                   Yesterday: {$stats.yesterday_impressions} <br/>
                   Month: {$stats.month_impressions} <br/>
-              
+
                   This Page: {$stats.page_impressions} <br/>
                   Total Impressions: {$stats.all_impressions} <br/>
-          </div> 
+          </div>
         </div>
         <!-- div:right close // -->
-        
+
 <p>
-{include file='breadcrumbs.tpl'} 
-<br /> 
+{include file='breadcrumbs.tpl'}
+<br />
 {$content}
-</p> 
+</p>
 
     </div><!-- div:inner close // -->
 </div><!-- div:middle close // -->
- 
+
 <!-- style clearer // -->
 <div class="clearer"></div>
 
@@ -121,9 +121,9 @@
     <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
     <hr/>
     <p style="text-align:center;clear:both;margin-top:20px;" class="copyright">
-                {$copyright} 
+                {$copyright}
                 <br/> Theme: {* {$theme-copyright} *}
-                <br/> {include file='server_stats.tpl'} 
+                <br/> {include file='server_stats.tpl'}
     </p>
 </div><!-- div:footer close // -->
 

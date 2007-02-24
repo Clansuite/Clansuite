@@ -64,7 +64,7 @@ class module_news_admin
         $trail->addStep($lang->t('News'), '/index.php?mod=news&sub=admin');
 
         switch ($_REQUEST['action'])
-        { 
+        {
             default:
             case 'show':
                 $trail->addStep($lang->t('Show'), '/index.php?mod=news&sub=admin&action=show');
@@ -117,7 +117,6 @@ class module_news_admin
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        // The third column "age" is having descending sort order as default.
         $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick');
         // Create the columnsort object
         $columnsort = &new SmartyColumnSort($columns);
@@ -150,12 +149,12 @@ class module_news_admin
         // Get Number of Rows
         $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
         $rows->execute();
-        $count = count($rows->fetchALL(PDO::FETCH_NUM));
+        $count = $rows->fetch(PDO::FETCH_NUM);
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
 
         // Finally: assign total number of rows to SmartyPaginate
-        SmartyPaginate::setTotal($count);
+        SmartyPaginate::setTotal($count[0]);
         // assign the {$paginate} to $tpl (smarty var)
         SmartyPaginate::assign($tpl);
 
