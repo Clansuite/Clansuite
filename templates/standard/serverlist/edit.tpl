@@ -82,7 +82,7 @@
                <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $info.icon|escape:"htmlall"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.icon|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
@@ -104,7 +104,7 @@
                <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $info.image|escape:"htmlall"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.image|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
@@ -134,7 +134,7 @@
                         {foreach key=right_name item=right_array from=$area_array}
                             <tr class="tr_row1">
                                 <td align="center" width="20%">
-                                    <input type="checkbox" name="info[rights][]" value="{$right_array.right_id}" {if array_key_exists($right_array.right_id,$info.rights)}checked{/if} />
+                                    <input type="checkbox" name="info[rights][]" value="{$right_array.right_id}" {if array_key_exists($right_array.right_id,$info.rights)}checked="checked"{/if} />
                                 </td>
                                 <td align="left" width="90%">
                                     {$right_name}
@@ -156,7 +156,7 @@
                     {foreach key=right_id item=right_array from=$info.rights}
                         <tr class="tr_row1">
                             <td align="center" width="5%" style="padding: 0px">
-                                <input type="checkbox" name="info[rights][]" value="{$right_id}" checked />
+                                <input type="checkbox" name="info[rights][]" value="{$right_id}" checked="checked" />
                             </td>
                             <td align="left" width="98%" style="padding: 2px; padding-left: 5px">
                                 {$right_array.name}

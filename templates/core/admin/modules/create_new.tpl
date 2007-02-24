@@ -37,6 +37,8 @@
 {/if}
 
 {doc_raw}
+
+{*
 {literal}
 <script type="text/javascript">
 
@@ -82,102 +84,32 @@ function rem_col(id)
 }
 {/literal}
 </script>
+*}
 {/doc_raw}
 
-<table style="display: none">
-    <tr id="add_col_container">
-        <td class="cell1" width="50" align="center">
-            <b>{translate}Col{/translate} #{literal}{$key}{/literal}:</b>
-        </td>
-        <td class="cell2" width="50" align="center">
-            <input class="input_text" type="text" name="db_cols[{literal}{$key}{/literal}][name]" value="">
-        </td>
-        <td class="cell1" align="center" width="50">
-            <select name="db_cols[{literal}{$key}{/literal}][type]" class="input_text">
-                <option value="VARCHAR">VARCHAR</option>
-                <option value="TINYINT">TINYINT</option>
-
-                <option value="TEXT">TEXT</option>
-                <option value="DATE">DATE</option>
-                <option value="SMALLINT">SMALLINT</option>
-                <option value="MEDIUMINT">MEDIUMINT</option>
-                <option value="INT">INT</option>
-                <option value="BIGINT">BIGINT</option>
-
-                <option value="FLOAT">FLOAT</option>
-                <option value="DOUBLE">DOUBLE</option>
-                <option value="DECIMAL">DECIMAL</option>
-                <option value="DATETIME">DATETIME</option>
-                <option value="TIMESTAMP">TIMESTAMP</option>
-                <option value="TIME">TIME</option>
-
-                <option value="YEAR">YEAR</option>
-                <option value="CHAR">CHAR</option>
-                <option value="TINYBLOB">TINYBLOB</option>
-                <option value="TINYTEXT">TINYTEXT</option>
-                <option value="BLOB">BLOB</option>
-                <option value="MEDIUMBLOB">MEDIUMBLOB</option>
-
-                <option value="MEDIUMTEXT">MEDIUMTEXT</option>
-                <option value="LONGBLOB">LONGBLOB</option>
-                <option value="LONGTEXT">LONGTEXT</option>
-                <option value="ENUM">ENUM</option>
-                <option value="SET">SET</option>
-                <option value="BOOL">BOOL</option>
-
-                <option value="BINARY">BINARY</option>
-                <option value="VARBINARY">VARBINARY</option>
-            </select>
-        </td>
-        
-        <td class="cell2" width="50" align="center">
-            <input type="text" class="input_text" value="" name="db_cols[{literal}{$key}{/literal}][length]">
-        </td>
-        
-        <td class="cell1" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][extras]" class="input_text">
-                <option value="" selected></option>
-                <option value="auto_increment">{translate}auto_increment{/translate}</option>
-            </select>
-        </td>
-        
-        <td class="cell2" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][keys]" class="input_text">
-                <option value="" selected></option>
-                <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
-                <option value="INDEX">{translate}INDEX{/translate}</option>
-                <option value="UNIQUE">{translate}UNIQUE{/translate}</option>
-            </select>
-        </td>
-        <td class="cell1" align="center">
-            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onclick="javascript:rem_col('{literal}{$key}{/literal}');" />
-        </td>
-    </tr>
-</table>
-
-<form action="index.php?mod=admin&sub=modules&action=create_new" method="post">
-<table cellspacing="0" cellpadding="0" border="0" align="center" width="700">
+<form action="index.php?mod=admin&amp;sub=modules&amp;action=create_new" method="post">
+<table cellspacing="0" cellpadding="0" border="0" align="center" width="400">
 <tr>
-    
+
     <td class="td_header" width="100">
         {translate}Description{/translate}
     </td>
-    
+
     <td class="td_header" width="90%">
     {translate}Needed information{/translate}
     </td>
-    
+
 </tr>
 <tr>
-   
+
     <td class="cell1">
         {translate}This are the information that are needed to be stored into the Database and for preparing the necessary files.{/translate}
     </td>
-    
+
     <td class="cell2">
-        <table border="0" cellpadding="0" cellspacing="0">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr class="tr_row1"><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><div class="font_mini">?mod=name</div></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><span class="font_mini">?mod=name</span></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"html"}" /></td></tr>
             <tr class="tr_row1"><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"html"}" /></td></tr>
             <tr class="tr_row1"><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"html"}" /></td></tr>
             <tr class="tr_row1"><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"html"}" /></td></tr>
@@ -196,12 +128,21 @@ function rem_col(id)
                         {foreach key=key item=item from=$modules}
                             <option value="{$item.module_id}">{$item.name}</option>
                         {/foreach}
-                    </select>    
+                    </select>
                 </td>
                 </tr>
         </table>
     </td>
 </tr>
+<tr>
+    <td align="center" colspan="2" style="padding: 10px" class="cell1">
+        <input class="ButtonGreen" type="submit" value="{translate}Create the new module{/translate}" name="submit" />
+    </td>
+</tr>
+</table>
+</form>
+
+{*
 <tr>
     <td class="cell1">
         {translate}This optional information inserts a table and rows into the Database.{/translate}
@@ -225,7 +166,7 @@ function rem_col(id)
                 {error title="SQL - No special chars"}
                     No special chars except '_' are allowed in the cols and the tablename.
                 {/error}
-            {/if}            
+            {/if}
                 <table border="0" cellpadding="2" cellspacing="0" id="all_cols" width="800">
                 <tr>
                     <td width="50" align="center" class="cell1">
@@ -234,7 +175,7 @@ function rem_col(id)
                     <td class="cell2" colspan="6">
                         <b>{$db_prefix}</b><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"html"}">
                     </td>
-                </tr>                
+                </tr>
                 <tr>
                     <td class="td_header_small" align="center">Nr.</td>
                     <td class="td_header_small" align="center">{translate}Name{/translate}</td>
@@ -290,18 +231,18 @@ function rem_col(id)
                                 <option value="VARBINARY">VARBINARY</option>
                             </select>
                         </td>
-                        
+
                         <td class="cell2" width="50" align="center">
                             <input type="text" class="input_text" value="{$item.length}" name="db_cols[{$key}][length]">
                         </td>
-                        
+
                         <td class="cell1" width="50" align="center">
                             <select name="db_cols[{$key}][extras]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="AUTO_INCREMENT">{translate}AUTO_INCREMENT{/translate}</option>
                             </select>
                         </td>
-                        
+
                         <td class="cell2" width="50" align="center">
                             <select name="db_cols[{$key}][keys]" class="input_text">
                                 <option value="" selected></option>
@@ -360,18 +301,18 @@ function rem_col(id)
                                 <option value="VARBINARY">VARBINARY</option>
                             </select>
                         </td>
-                        
+
                         <td class="cell2" width="50" align="center">
                             <input type="text" class="input_text" value="" name="db_cols[1][length]">
                         </td>
-                        
+
                         <td class="cell1" width="50" align="center">
                             <select name="db_cols[1][extras]" class="input_text">
                                 <option value="" selected></option>
                                 <option value="auto_increment">{translate}auto_increment{/translate}</option>
                             </select>
                         </td>
-                        
+
                         <td class="cell2" width="50" align="center">
                             <select name="db_cols[1][keys]" class="input_text">
                                 <option value="" selected></option>
@@ -386,8 +327,8 @@ function rem_col(id)
                     </tr>
                 {/if}
                     <tr id="add_new">
-                    
-                    </tr>                
+
+                    </tr>
                 </table>
             </td>
             </tr>
@@ -399,10 +340,76 @@ function rem_col(id)
         </table>
     </td>
 </tr>
-<tr>
-    <td align="center" colspan="2" style="padding: 10px" class="cell1">
-        <input class="ButtonGreen" type="submit" value="{translate}Create the new module{/translate}" name="submit">
-    </td>
-</tr>
+
+
+<table style="display: none">
+    <tr id="add_col_container">
+        <td class="cell1" width="50" align="center">
+            <b>{translate}Col{/translate} #{literal}{$key}{/literal}:</b>
+        </td>
+        <td class="cell2" width="50" align="center">
+            <input class="input_text" type="text" name="db_cols[{literal}{$key}{/literal}][name]" value="">
+        </td>
+        <td class="cell1" align="center" width="50">
+            <select name="db_cols[{literal}{$key}{/literal}][type]" class="input_text">
+                <option value="VARCHAR">VARCHAR</option>
+                <option value="TINYINT">TINYINT</option>
+
+                <option value="TEXT">TEXT</option>
+                <option value="DATE">DATE</option>
+                <option value="SMALLINT">SMALLINT</option>
+                <option value="MEDIUMINT">MEDIUMINT</option>
+                <option value="INT">INT</option>
+                <option value="BIGINT">BIGINT</option>
+
+                <option value="FLOAT">FLOAT</option>
+                <option value="DOUBLE">DOUBLE</option>
+                <option value="DECIMAL">DECIMAL</option>
+                <option value="DATETIME">DATETIME</option>
+                <option value="TIMESTAMP">TIMESTAMP</option>
+                <option value="TIME">TIME</option>
+
+                <option value="YEAR">YEAR</option>
+                <option value="CHAR">CHAR</option>
+                <option value="TINYBLOB">TINYBLOB</option>
+                <option value="TINYTEXT">TINYTEXT</option>
+                <option value="BLOB">BLOB</option>
+                <option value="MEDIUMBLOB">MEDIUMBLOB</option>
+
+                <option value="MEDIUMTEXT">MEDIUMTEXT</option>
+                <option value="LONGBLOB">LONGBLOB</option>
+                <option value="LONGTEXT">LONGTEXT</option>
+                <option value="ENUM">ENUM</option>
+                <option value="SET">SET</option>
+                <option value="BOOL">BOOL</option>
+
+                <option value="BINARY">BINARY</option>
+                <option value="VARBINARY">VARBINARY</option>
+            </select>
+        </td>
+
+        <td class="cell2" width="50" align="center">
+            <input type="text" class="input_text" value="" name="db_cols[{literal}{$key}{/literal}][length]">
+        </td>
+
+        <td class="cell1" width="50" align="center">
+            <select name="db_cols[{literal}{$key}{/literal}][extras]" class="input_text">
+                <option value="" selected></option>
+                <option value="auto_increment">{translate}auto_increment{/translate}</option>
+            </select>
+        </td>
+
+        <td class="cell2" width="50" align="center">
+            <select name="db_cols[{literal}{$key}{/literal}][keys]" class="input_text">
+                <option value="" selected="selected"></option>
+                <option value="PRIMARY KEY">{translate}PRIMARY KEY{/translate}</option>
+                <option value="INDEX">{translate}INDEX{/translate}</option>
+                <option value="UNIQUE">{translate}UNIQUE{/translate}</option>
+            </select>
+        </td>
+        <td class="cell1" align="center">
+            <input type="button" class="ButtonRed" value="{translate}Remove{/translate}" onclick="javascript:rem_col('{literal}{$key}{/literal}');" />
+        </td>
+    </tr>
 </table>
-</form>
+*}

@@ -51,11 +51,11 @@
         </tr>
         <tr class="tr_row1">
             <td>{translate}Activated{/translate}</td>
-            <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $smarty.post.info.activated==1}checked{/if} /></td>
+            <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $smarty.post.info.activated==1}checked="checked"{/if} /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Disabled/Banned{/translate}</td>
-            <td><input type="checkbox" value="1" class="input_text" name="info[disabled]" {if $smarty.post.info.disabled==1}checked{/if} /></td>
+            <td><input type="checkbox" value="1" class="input_text" name="info[disabled]" {if $smarty.post.info.disabled==1}checked="checked"{/if} /></td>
         </tr>
         <tr class="tr_row1">
             <td>{translate}Groups{/translate}</td>
@@ -64,7 +64,7 @@
                 {foreach item=item key=key from=$all_groups}
                     <tr class="tr_row1">
                         <td width="1%">
-                            <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $smarty.post.info.groups)}checked{/if}/>
+                            <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $smarty.post.info.groups)}checked="checked"{/if}/>
                         </td>
                         <td>
                             <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
