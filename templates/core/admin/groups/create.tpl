@@ -91,7 +91,7 @@
                <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $smarty.post.info.icon|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $smarty.post.info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
@@ -113,7 +113,7 @@
                <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $smarty.post.info.image|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $smarty.post.info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
@@ -143,7 +143,7 @@
                         {foreach key=right_name item=right_array from=$area_array}
                             <tr class="tr_row1">
                                 <td align="center" width="20%">
-                                    <input type="checkbox" name="info[rights][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked{/if} />
+                                    <input type="checkbox" name="info[rights][]" value="{$right_array.right_id}" {if $smarty.post.info.member_of_group==1}checked="checked"{/if} />
                                 </td>
                                 <td align="left" width="90%">
                                     {$right_name}

@@ -47,7 +47,7 @@
             <select name="info[area_id]" class="input_text">
                 <option value="0">{translate}- not assigned -{/translate}</option>
                 {foreach key=key item=area_array from=$areas}
-                    <option value="{$area_array.area_id}" {if $info.area_id==$area_array.area_id}selected{/if}>{$area_array.name|escape:"html"}</option>
+                    <option value="{$area_array.area_id}" {if $info.area_id==$area_array.area_id}selected="selected"{/if}>{$area_array.name|escape:"html"}</option>
                 {/foreach}
             </select>
         </td>

@@ -36,7 +36,7 @@
                     <br /> <b>todo: Upload and Chooser</b> <small>{$www_tpl_root}/images/</small>
                 </td>
             </tr>
-            
+
             <tr>
                 <td class="td_header_small"  colspan="2">  {translate}Standard Template with Files{/translate}  </td>
             </tr>
@@ -110,8 +110,8 @@
                     {translate}Maintenance Mode{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[maintenance]" {if $cfg->maintenance == 1}checked{/if} /> {translate}activated{/translate}
-                    <input type="radio" value="0" name="config[maintenance]" {if $cfg->maintenance == 0}checked{/if} /> {translate}deactivated{/translate}
+                    <input type="radio" value="1" name="config[maintenance]" {if $cfg->maintenance == 1}checked="checked"{/if} /> {translate}activated{/translate}
+                    <input type="radio" value="0" name="config[maintenance]" {if $cfg->maintenance == 0}checked="checked"{/if} /> {translate}deactivated{/translate}
                 </td>
             </tr>
             <tr>
@@ -189,8 +189,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Apache Mod_rewrite URL's{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
         </table>
@@ -213,12 +213,12 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[mailmethod]" class="input_text">
-                        <option value="mail" {if $cfg->mailmethod == 'mail'}selected{/if}>{translate}Normal{/translate}</option>
-                        <option value="smtp" {if $cfg->mailmethod == 'smtp'}selected{/if}>{translate}SMTP{/translate}</option>
-                        <option value="sendmail" {if $cfg->mailmethod == 'sendmail'}selected{/if}>{translate}Sendmail{/translate}</option>
-                        <option value="exim" {if $cfg->mailmethod == 'exim'}selected{/if}>{translate}Exim{/translate}</option>
-                        <option value="qmail" {if $cfg->mailmethod == 'qmail'}selected{/if}>{translate}Qmail{/translate}</option>
-                        <option value="postfix" {if $cfg->mailmethod == 'postfix'}selected{/if}>{translate}PostFix{/translate}</option>
+                        <option value="mail" {if $cfg->mailmethod == 'mail'}selected="selected"{/if}>{translate}Normal{/translate}</option>
+                        <option value="smtp" {if $cfg->mailmethod == 'smtp'}selected="selected"{/if}>{translate}SMTP{/translate}</option>
+                        <option value="sendmail" {if $cfg->mailmethod == 'sendmail'}selected="selected"{/if}>{translate}Sendmail{/translate}</option>
+                        <option value="exim" {if $cfg->mailmethod == 'exim'}selected="selected"{/if}>{translate}Exim{/translate}</option>
+                        <option value="qmail" {if $cfg->mailmethod == 'qmail'}selected="selected"{/if}>{translate}Qmail{/translate}</option>
+                        <option value="postfix" {if $cfg->mailmethod == 'postfix'}selected="selected"{/if}>{translate}PostFix{/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -244,9 +244,9 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[mailencryption]" class="input_text">
-                        <option value="SWIFT_OPEN" {if $cfg->mailencryption == 'SWIFT_OPEN'}selected{/if}>{translate}No encryption{/translate}</option>
-                        <option value="SWIFT_SSL" {if $cfg->mailencryption == 'SWIFT_SSL'}selected{/if}>{translate}SSL encryption{/translate}</option>
-                        <option value="SWIFT_TLS" {if $cfg->mailencryption == 'SWIFT_TLS'}selected{/if}>{translate}TLS/SSL encryption{/translate}</option>
+                        <option value="SWIFT_OPEN" {if $cfg->mailencryption == 'SWIFT_OPEN'}selected="selected"{/if}>{translate}No encryption{/translate}</option>
+                        <option value="SWIFT_SSL" {if $cfg->mailencryption == 'SWIFT_SSL'}selected="selected"{/if}>{translate}SSL encryption{/translate}</option>
+                        <option value="SWIFT_TLS" {if $cfg->mailencryption == 'SWIFT_TLS'}selected="selected"{/if}>{translate}TLS/SSL encryption{/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -321,8 +321,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[login_method]" class="input_text">
-                        <option value="nick" {if $cfg->login_method == 'nick'}selected{/if}>{translate}By nickname{/translate}</option>
-                        <option value="email" {if $cfg->login_method == 'email'}selected{/if}>{translate}By eMail{/translate}</option>
+                        <option value="nick" {if $cfg->login_method == 'nick'}selected="selected"{/if}>{translate}By nickname{/translate}</option>
+                        <option value="email" {if $cfg->login_method == 'email'}selected="selected"{/if}>{translate}By eMail{/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -373,8 +373,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[encryption]" class="input_text">
-                        <option value="md5" {if $cfg->encryption == 'md5'}selected{/if}>{translate}MD5 (faster){/translate}</option>
-                        <option value="sha1" {if $cfg->encryption == 'sha1'}selected{/if}>{translate}SHA1 (more secure){/translate}</option>
+                        <option value="md5" {if $cfg->encryption == 'md5'}selected="selected"{/if}>{translate}MD5 (faster){/translate}</option>
+                        <option value="sha1" {if $cfg->encryption == 'sha1'}selected="selected"{/if}>{translate}SHA1 (more secure){/translate}</option>
                     </select>
                 </td>
             </tr>
@@ -394,8 +394,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Use cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies]" {if $cfg->use_cookies == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[use_cookies]" {if $cfg->use_cookies == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[use_cookies]" {if $cfg->use_cookies == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[use_cookies]" {if $cfg->use_cookies == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -403,8 +403,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Use only cookies{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -434,8 +434,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Help Edit Mode{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[help_edit_mode]" {if $cfg->help_edit_mode == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
              <tr>
@@ -448,8 +448,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Suppress Errors{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[suppress_errors]" {if $cfg->suppress_errors == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[suppress_errors]" {if $cfg->suppress_errors == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[suppress_errors]" {if $cfg->suppress_errors == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[suppress_errors]" {if $cfg->suppress_errors == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -457,8 +457,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Debugging{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[debug]" {if $cfg->debug == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[debug]" {if $cfg->debug == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[debug]" {if $cfg->debug == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[debug]" {if $cfg->debug == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>
@@ -466,8 +466,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Debugging in a popup{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[debug_popup]" {if $cfg->debug_popup == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[debug_popup]" {if $cfg->debug_popup == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[debug_popup]" {if $cfg->debug_popup == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[debug_popup]" {if $cfg->debug_popup == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
         </table>
@@ -489,8 +489,8 @@ Sorry for the inconvenience.{/translate}</textarea>
                     {translate}Cache On{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[caching]" {if $cfg->caching == 1}checked{/if} /> {translate}yes{/translate}
-                    <input type="radio" value="0" name="config[caching]" {if $cfg->caching == 0}checked{/if} /> {translate}no{/translate}
+                    <input type="radio" value="1" name="config[caching]" {if $cfg->caching == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[caching]" {if $cfg->caching == 0}checked="checked"{/if} /> {translate}no{/translate}
                 </td>
             </tr>
             <tr>

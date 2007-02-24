@@ -60,7 +60,7 @@
              <select class="input_text" name="info[module_id]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach name=outer item=modul from=$modules}                    
-                      <option {if $info.module_id|escape:"html"==$modul.module_id}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$modules.module_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$modul.module_id}" value="{$modul.module_id}" name="{$modul.module_id}">{$modul.module_id} - {$modul.name}</option>
+                      <option {if $info.module_id|escape:"html"==$modul.module_id}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$modules.module_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$modul.module_id}" value="{$modul.module_id}" name="{$modul.module_id}">{$modul.module_id} - {$modul.name}</option>
                     {/foreach}
                </select>
 
@@ -95,7 +95,7 @@
                <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $info.icon|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
@@ -117,7 +117,7 @@
                <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $info.image|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>

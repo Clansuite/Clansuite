@@ -55,7 +55,7 @@
              <select class="input_text" name="info[area_id]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach name=outer item=area from=$areas}
-                      <option {if $info.area_id|escape:"html"==$area.area_id}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$area.area_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$area.area_id}" name="{$area.area_id}">{$area.area_id} - {$area.name}</option>
+                      <option {if $info.area_id|escape:"html"==$area.area_id}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$area.area_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$area.area_id}" name="{$area.area_id}">{$area.area_id} - {$area.name}</option>
                     {/foreach}
                </select>
 
@@ -86,7 +86,7 @@
                <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $smarty.post.info.icon|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $smarty.post.info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
@@ -108,7 +108,7 @@
                <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/categories/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $smarty.post.info.image|escape:"html"==$item}selected{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $smarty.post.info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/categories/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>

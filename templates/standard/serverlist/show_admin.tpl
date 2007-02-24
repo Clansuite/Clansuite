@@ -6,27 +6,27 @@
 
 <script type="text/javascript">
 {literal}
-var Serverform = { 
+var Serverform = {
 
   params: function() {
-    return { gametype: $F("gametype"), 
-             ip: $F("ip"), 
+    return { gametype: $F("gametype"),
+             ip: $F("ip"),
              port: $F("gametype") }
-  }  
+  }
 }
 {/literal}
 </script>
 
 {* Debuganzeige, wenn DEBUG = 1 |  {$servers|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}
-  
+
   <form action="index.php?mod=serverlist&sub=admin&action=delete" method="post">
-    
-    <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
+
+    <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
         <thead>
         	<tr class="tr_header">
         		<td align="center">{translate}ID{/translate}</td>
-        		<td align="center">{translate}IP{/translate}</td>                
+        		<td align="center">{translate}IP{/translate}</td>
         		<td align="center">{translate}Port{/translate}</td>
         		<td align="center">{translate}Name{/translate}</td>
         		<td align="center">{translate}Gametype{/translate}</td>
@@ -34,7 +34,7 @@ var Serverform = {
         		<td align="center">{translate}Edit{/translate}</td>
         		<td align="center">{translate}Delete{/translate}</td>
         	</tr>
-            
+
             {foreach key=key item=server from=$servers}
                 <tr class="{cycle values="tr_row1,tr_row2"}">
                    <input type="hidden" name="ids[]" value="{$server.server_id}" />
@@ -52,7 +52,7 @@ var Serverform = {
                     </td>
                     <td align="center"><input onclick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></td>
                     <td align="center"><input type="checkbox" name="delete[]" value="{$server.group_id}"></td>
-                
+
                 </tr>
             {/foreach}
             <tr>
@@ -72,7 +72,7 @@ var Serverform = {
 
 {ajax_form method='post' id='lookup_server' url='index.php?mod=serverlist&sub=admin'}
 
-<table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
+<table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
         <thead>
         	<tr class="tr_header">
         		<td align="center">{translate}Server Engine / Gametype{/translate}</td>
@@ -82,12 +82,12 @@ var Serverform = {
         <td>
             <select name="gametype">
                   <option ></option>
-                  <option value="steam" selected>   Steam           </option>
+                  <option value="steam" selected="selected">   Steam           </option>
                   <option value="q3a">              Quake 3 Arena   </option>
-                 
+
             </select>
         </td>
-        <td>   
+        <td>
             <input name="ip" value="85.214.27.93"/>
             <input name="port" value="27339"/>
         </td>
@@ -102,10 +102,10 @@ var Serverform = {
     </tr>
     <tr>
         <td colspan="9" align="right" class="cell1">
-            <input class="ButtonOrange" value="{translate}Lookup Server{/translate}" id="send" 
+            <input class="ButtonOrange" value="{translate}Lookup Server{/translate}" id="send"
                    onclick="{* {ajax_call url="index.php?mod=serverlist&amp;sub=admin&amp;action=lookup_server"
-                                       method="post" 
-                                       params="Serverform.params" 
+                                       method="post"
+                                       params="Serverform.params"
                                        } *}">
             <input class="ButtonGreen" type="button" value="{translate}Add a new Server{/translate}" />
             <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
