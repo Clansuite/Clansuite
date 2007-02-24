@@ -7,8 +7,8 @@
                 <td class="cell3">
                     #{$row.id} - <b>{$row.name}:</b>
                 </td>
+            </tr>
             <tr>
-            
                 <td class="cell1">
                 <div class="small_grey">{$row.time|date_format:"%d.%m.%Y - %H:%M"}</div>
                     {$row.msg|nl2br|wordwrap:20:"<br />\n":true}
