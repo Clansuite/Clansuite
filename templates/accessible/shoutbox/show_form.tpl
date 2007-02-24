@@ -140,7 +140,7 @@ function handleResponse()
 			{
 				// Error ...
 				var errors = response.split('---error---');
-				response_text = '<strong>{/literal}{translate}Error:{/translate}{literal}</strong>';
+				response_text = '\<strong>{/literal}{translate}Error:{/translate}{literal}\<\/strong>';
 				for(i = 0; i < errors.length; i++)
 				{
 					if ( errors[ i ] != '' )
@@ -152,7 +152,7 @@ function handleResponse()
 			}
 			else
 			{
-				response_text = '<span class="shoutbox_success">{/literal}{translate}...saved...{/translate}{literal}</span>';
+				response_text = '\<span class="shoutbox_success">{/literal}{translate}...saved...{/translate}{literal}\<\/span>';
 				document.getElementById('entries_box').innerHTML = response;
 				document.getElementById('msg').value='';
 				document.getElementById(id).innerHTML = response_text;
@@ -160,7 +160,7 @@ function handleResponse()
 		}
 		else
 		{
-			response_text = '<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}</span>';
+			response_text = '\<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}\<\/span>';
 			document.getElementById(id).innerHTML = response_text;
 		}
 
