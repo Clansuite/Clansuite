@@ -26,7 +26,7 @@
                                             {if $message.read==0}<b>{translate}New{/translate}:&nbsp;</b>{/if}<a href="index.php?mod=messaging&action=read&id={$message.message_id}">{$message.headline}</a>
                                         </div>
                                         <div class="message_buttons">
-                                            <input type="Button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$message.message_id}'" />
+                                            <input type="button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$message.message_id}'" />
                                         </div>
                                         <div class="message_date">{$message.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}</div>
                                         <hr class="message_divider"></hr>

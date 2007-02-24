@@ -105,9 +105,39 @@ class module_admin_users
     {
         global $db, $tpl, $error, $lang;
 
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users ORDER BY user_id ASC LIMIT 0,20' );
+        // Smarty Pagination load and init
+        require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
+        // required connect
+        SmartyPaginate::connect();
+        // set URL
+        SmartyPaginate::setUrl('index.php?mod=admin&sub=users&amp;action=show');
+        SmartyPaginate::setUrlVar('page');
+        // set items per page
+        SmartyPaginate::setLimit(20);
+
+
+        // SmartyColumnSort -- Easy sorting of html table columns.
+        require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
+        // A list of database columns to use in the table.
+        $columns = array( 'u.user_id','u.email', 'u.nick', 'u.joined', 'p.first_name','p.last_name');
+        // Create the columnsort object
+        $columnsort = &new SmartyColumnSort($columns);
+        // And set the the default sort column and order.
+        $columnsort->setDefault('u.nick', 'asc');
+        // Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+
+        // Query users
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users AS u LEFT JOIN ' . DB_PREFIX . 'profiles AS p ON p.user_id = u.user_id ORDER BY ' . $sortorder . ' LIMIT ?,?' );
+        $stmt->bindParam(1, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(2, SmartyPaginate::getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // Get Number of Rows
+        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'users');
+        $rows->execute();
+        $count = $rows->fetch(PDO::FETCH_NUM);
 
         if ( is_array( $users ) )
         {
@@ -117,6 +147,11 @@ class module_admin_users
         {
             $err['no_users'] = 1;
         }
+
+        // Finally: assign total number of rows to SmartyPaginate
+        SmartyPaginate::setTotal($count[0]);
+        // assign the {$paginate} to $tpl (smarty var)
+        SmartyPaginate::assign($tpl);
 
         $tpl->assign( 'err', $err );
         $this->output .= $tpl->fetch('admin/users/show.tpl');
@@ -250,11 +285,12 @@ class module_admin_users
         /**
         * @desc Init
         */
-        $id                 = isset($_GET['id']) ? (int) $_GET['id'] : $_POST['info']['user_id'];
-        $submit             = $_POST['submit'];
-        $info               = $_POST['info'];
+        $id                 = isset($_GET['id'])                    ? (int) $_GET['id']             : $_POST['info']['user_id'];
+        $submit             = isset($_POST['submit'])               ? $_POST['submit']              : '';
+        $info               = isset($_POST['info'])                 ? $_POST['info']                : array();
         $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
         $info['disabled']   = isset($_POST['info']['disabled'])     ? $_POST['info']['disabled']    : 0;
+        $profile            = isset($_POST['profile'])              ? $_POST['profile']             : array();
         $err                = array();
         $all_groups         = array();
         $groups             = array();
@@ -281,6 +317,17 @@ class module_admin_users
 
         $stmt->execute( array () );
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Clean out profile stuff (if not existing)
+        $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX . 'profiles WHERE user_id = ?');
+        $stmt->execute( array( $id ) );
+        $profile_result = $stmt->fetch(PDO::FETCH_NUM);
+
+        if( !is_array( $profile_result ) )
+        {
+            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'profiles SET user_id = ?, timestamp = ?');
+            $stmt->execute( array( $id, time() ) );
+        }
 
         /**
         * @desc Nick or eMail already in ?
@@ -333,9 +380,17 @@ class module_admin_users
             $stmt->execute( array ( $id ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            // Get thte profile
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX .'profiles WHERE user_id = ?');
+            $stmt->execute( array($id) );
+            $profile = $stmt->fetch(PDO::FETCH_NAMED);
+            unset($profile['profile_id']);
+            unset($profile['user_id']);
+
             if ( is_array( $user ) )
             {
                 $tpl->assign('user', $user);
+                $tpl->assign('profile', $profile);
             }
             else
             {
@@ -373,6 +428,19 @@ class module_admin_users
                                         $info['disabled'],
                                         $info['user_id'] ) );
             }
+
+            // Profile Update
+            $profile[':shaped_birthday'] = strtotime( $profile['birthday']['day'] .'-'. $profile['birthday']['month'] . '-' . $profile['birthday']['year'] );
+            $profile[':shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
+            $profile[':user_id'] = $info['user_id'];
+            $profile_sets = '`icq` = :icq, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
+                             `birthday` = :shaped_birthday, `height` = :height, `address` = :address, `zipcode` = :zipcode,
+                             `city` = :city, `country` = :country, `homepage` = :homepage, `skype` = :skype, `phone` = :phone,
+                             `mobile` = :mobile, `custom_text` = :custom_text, `timestamp` = :shaped_timestamp';
+            $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'profiles SET ' . $profile_sets . ' WHERE user_id = :user_id');
+            $stmt->execute( $profile );
+
+
 
             /**
             * @desc Update groups table

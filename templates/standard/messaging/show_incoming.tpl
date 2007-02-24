@@ -26,9 +26,9 @@
                                     {if $item.read==0}<b>{translate}New{/translate}:&nbsp;</b>{/if}<a href="index.php?mod=messaging&action=read&id={$item.message_id}">{$item.headline}</a>
                                 </div>
                                 <div class="message_buttons">
-                                    <input type="Button" class="ButtonGreen" value="{translate}Reply{/translate}" onclick="self.location.href='index.php?mod=messaging&action=create&reply_id={$item.message_id}'" />
-                                    <input type="Button" class="ButtonYellow" value="{if $item.read==0}{translate}Mark as read{/translate}{else}{translate}Mark as unread{/translate}{/if}" onclick="self.location.href='index.php?mod=messaging&action=mark&id={$item.message_id}&read={if $item.read==0}1{else}0{/if}'" />
-                                    <input type="Button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$item.message_id}'" />
+                                    <input type="button" class="ButtonGreen" value="{translate}Reply{/translate}" onclick="self.location.href='index.php?mod=messaging&action=create&reply_id={$item.message_id}'" />
+                                    <input type="button" class="ButtonYellow" value="{if $item.read==0}{translate}Mark as read{/translate}{else}{translate}Mark as unread{/translate}{/if}" onclick="self.location.href='index.php?mod=messaging&action=mark&id={$item.message_id}&read={if $item.read==0}1{else}0{/if}'" />
+                                    <input type="button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$item.message_id}'" />
                                 </div>
                                 <div class="message_date">{$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}</div>
                                 <hr class="message_divider"></hr>

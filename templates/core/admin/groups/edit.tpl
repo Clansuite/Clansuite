@@ -184,7 +184,7 @@
 
         <tr class="tr_row2">
             <td colspan="3" align="right">
-                <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=groups'"/>
+                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=groups'"/>
                 <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the group{/translate}" />
                 <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
             </td>

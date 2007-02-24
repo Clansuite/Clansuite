@@ -43,8 +43,8 @@
         </tr>
         <tr>
             <td class="cell2" align="right" colspan="3">
-                <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=groups'"/>
-                <input type="Button" value="{translate}Reset{/translate}" class="ButtonGrey" onclick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$info.group_id}'"/>
+                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=groups'"/>
+                <input type="button" value="{translate}Reset{/translate}" class="ButtonGrey" onclick="self.location.href='index.php?mod=admin&sub=groups&action=add_members&id={$info.group_id}'"/>
                 <input type="submit" name="submit" value="{translate}Set Members{/translate}" class="ButtonGreen" />
             </td>
         </tr>

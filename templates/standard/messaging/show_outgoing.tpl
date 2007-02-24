@@ -26,7 +26,7 @@
                                     {if $item.read==0}<b>{translate}New{/translate}:&nbsp;</b>{/if}<a href="index.php?mod=messaging&action=read&id={$item.message_id}">{$item.headline}</a>
                                 </div>
                                 <div class="message_buttons">
-                                    {if $item.read==0}<input type="Button" class="ButtonRed" value="{translate}Get meesage back{/translate}" onclick="self.location.href='index.php?mod=messaging&action=get_back&id={$item.message_id}'" />{/if}
+                                    {if $item.read==0}<input type="button" class="ButtonRed" value="{translate}Get meesage back{/translate}" onclick="self.location.href='index.php?mod=messaging&action=get_back&id={$item.message_id}'" />{/if}
                                 </div>
                                 <div class="message_date">{$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}</div>
                                 <hr class="message_divider"></hr>

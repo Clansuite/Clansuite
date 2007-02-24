@@ -52,7 +52,7 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input type="Button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=permissions'" />
+            <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=permissions'" />
             <input type="submit" name="submit" value="{translate}Create the right{/translate}" class="ButtonGreen" />
             <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>
