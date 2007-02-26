@@ -183,7 +183,7 @@ $stats->assign_statistic_vars();    # Assign Statistic Variables
 
 /**
  *  ==================================
- *          Prepare the Output ! 
+ *          Prepare the Output !
  *  ==================================
  */
 
@@ -216,53 +216,53 @@ $tpl->assign('std_page_title'   , $cfg->std_page_title );
 // Assign Breadcrumb-Trail Home
 $tpl->assign_by_ref('trail'     , $trail->path);
 
-/** 
-*   Check for our Copyright-Sign {$copyright} and assign it
-*
-*   Keep in mind ! that we spend a lot of time and ideas on this project.
-*   If you rip, rip real good, knowing that you are forced to give something back to the community.
-*/
+/**
+ *   Check for our Copyright-Sign {$copyright} and assign it
+ *
+ *   Keep in mind ! that we spend a lot of time and ideas on this project.
+ *   If you rip, rip real good, knowing that you are forced to give something back to the community.
+ */
 $security->check_copyright( ROOT_TPL . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
-$tpl->assign('copyright'        , $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
+$tpl->assign('copyright', $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
 
 /**
  *  ====================================================
- *     Assignments to the Template (tpl) from Module 
+ *     Assignments to the Template (tpl) from Module
  *  ====================================================
  */
 
-// $content is array and contains ['ADDITIONAL_HEAD'], ['SUPPRESS_WRAPPER'], ['OUTPUT']
+// $content is an array and contains ['ADDITIONAL_HEAD'], ['SUPPRESS_WRAPPER'], ['OUTPUT']
 $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
 
-// handle additional_head 
+// handle additional_head
 if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 {
     $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
 }
 
 /**
-* Pre-Conditions for Template Output
-* checks $_REQUEST, $content['SUPPRESS_WRAPPER'], $cfg->maintenance
-* and sets Condition
-* 
-* Step 1:     Check if : Maintenance_mode is set
-*             - show only the content of the maintenance tpl
-*             - if right for access_controlcenter
-*             - turn maintenance off, show normal wrapped template
-*
-* Step 2:     Check if : Suppress Wrapper is set
-*             - only the content of the suppressing module is echoed
-*
-* Step 3:     Check if : Admin module <- Switch -> Normal module
-*             - if admin modules requested:
-*               - check permissions
-*               - if right for access_controlcenter, turn maintenance off, then display
-*               - else redirect to index or login
-*             - if normal modules reqiested:
-*               - display tpl_wrapper_file (content of module and stuff around that)
-*/
+ * Pre-Conditions for Template Output
+ * checks $_REQUEST, $content['SUPPRESS_WRAPPER'], $cfg->maintenance
+ * and sets Condition
+ *
+ * Step 1:     Check if : Maintenance_mode is set
+ *             - show only the content of the maintenance tpl
+ *             - if right for access_controlcenter
+ *             - turn maintenance off, show normal wrapped template
+ *
+ * Step 2:     Check if : Admin module <- Switch -> Normal module
+ *             - if admin modules requested:
+ *               - check permissions
+ *               - if right for access_controlcenter, turn maintenance off, then display
+ *               - else redirect to index or login
+ *             - if normal modules reqiested:
+ *               - display tpl_wrapper_file (content of module and stuff around that)
+ *
+ * Step 3:     Check if : Suppress Wrapper is set
+ *             - only the content of the suppressing module is echoed
+ */
 
-// set default_condition : normal template
+// Set default_condition : normal template
 $condition = 'display_normal_wrapped_template';
 
 // Step 1: set condition for maintenance
@@ -278,27 +278,21 @@ if ( $cfg->maintenance == 1 )
     }
 }
 
-// Step 2: set condition for suppress wrapper
-if ( isset($content['SUPPRESS_WRAPPER'] ) && ( $content['SUPPRESS_WRAPPER'] == true ) )
-{
-    $condition = 'display_template_with_suppressed_wrapper';
-}
-
-// Step 3: set condition for admininterface
+// Step 2: Set condition for admininterface
 if ( ($_REQUEST['mod'] == 'admin') OR ($_REQUEST['sub'] == 'admin') )
 {
-    // check if sufficent right to access "admin control center" center
+    // Check if sufficent right to access "admin control center" center
     if ( $perms->check('access_controlcenter', 'no_redirect') == true )
     {
-        // override maintenance_mode for admins to keep system maintainable
-        $cfg->maintenance_mode = '0';
-        //set condition to display_admincontrolcenter
+        // Overwrite maintenance_mode for admins to keep system maintainable
+        $cfg->maintenance_mode = 0;
+        // Set condition to display_admincontrolcenter
         $condition = 'display_admincontrolcenter';
     }
     else
     {
-         // not enough rights to access "acc"
-         // if not even logged in, so redirect to login
+         // Not enough rights to access "acc"
+         // If not even logged in, so redirect to login
          if ( $_SESSION['user']['user_id'] == 0 )
          {
             $functions->redirect('index.php?mod=account&action=login&referer='.base64_encode($_SERVER['REQUEST_URI']));
@@ -311,17 +305,23 @@ if ( ($_REQUEST['mod'] == 'admin') OR ($_REQUEST['sub'] == 'admin') )
     }
 }
 
-/**
-*   Finally: The Switch on Conditions
-*
-*   A. display_normal_wrapped_template
-*   B. display_template_with_suppressed_wrapper
-*   C. display_admincontrolcenter
-*   D. display_maintenance_template
-*/
+// Step 3: Set condition for suppressed wrapper
+if ( isset($content['SUPPRESS_WRAPPER'] ) && ( $content['SUPPRESS_WRAPPER'] == true ) )
+{
+    $condition = 'display_template_with_suppressed_wrapper';
+}
 
-switch ($condition) {
-    
+/**
+ *   Finally: The Switch on Conditions
+ *
+ *   A. display_normal_wrapped_template
+ *   B. display_template_with_suppressed_wrapper
+ *   C. display_admincontrolcenter
+ *   D. display_maintenance_template
+ */
+switch ($condition)
+{
+
             // (A) displays content of modul with portal frame
             default:
             case 'display_normal_wrapped_template':
@@ -333,7 +333,6 @@ switch ($condition) {
             // (B) means just the content of the modul, without the portal frame
             case 'display_template_with_suppressed_wrapper':
                     echo $content['OUTPUT'];
-                    DEBUG ? $debug->show_console() : '';
                     break;
 
             // (C) display AdminControlCenter
