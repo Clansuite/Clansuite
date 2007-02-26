@@ -61,8 +61,8 @@ class bbcode
         * @desc Conversions & Filters
         */
         $this->bb_code->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
-        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem'), 'htmlspecialchars');
-        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem'), 'nl2br');
+        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'htmlspecialchars');
+        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
 
         /**
         * @desc Generate Standard BB Codes such as [url][/url] etc.
@@ -75,6 +75,8 @@ class bbcode
                           'image', array ('listitem', 'block', 'inline', 'link'), array ());
         $this->bb_code->addCode ('bild', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
                           'image', array ('listitem', 'block', 'inline', 'link'), array ());
+        $this->bb_code->addCode ('code', 'usecontent?', array( $this, 'do_bbcode_code' ), array ('usecontent_param' => 'default'),
+                          'code', array ('listitem', 'block', 'inline'), array ('code'));
         $this->bb_code->setOccurrenceType ('img', 'image');
         $this->bb_code->setOccurrenceType ('bild', 'image');
 
@@ -90,6 +92,7 @@ class bbcode
         }
     }
 
+    // Parse the BB Code
     function parse($text)
     {
         return $this->bb_code->parse($text);
@@ -119,6 +122,26 @@ class bbcode
         }
         return '<img src="'.htmlspecialchars($content).'" alt="">';
     }
+
+    // Handle PHP Code Hightlightning
+    function do_bbcode_code ($action, $attributes, $content, $params, $node_object)
+    {
+        if ($action == 'validate')
+        {
+            return true;
+        }
+
+        // Include the GeSHi library
+        require_once( ROOT_CORE . '/geshi/geshi.php' );
+
+        // Create a GeSHi object
+        $geshi =& new GeSHi($content, $attributes['default']);
+
+        // And echo the result!
+        return $geshi->parse_code();
+    }
+
+
 
     // Convert linebreak of different OS
     function convertlinebreaks ($text)
