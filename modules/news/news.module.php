@@ -135,7 +135,7 @@ class module_news
         // Get Number of Rows
         $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
         $rows->execute();
-        $count = count($rows->fetchALL(PDO::FETCH_NUM));
+        $count = count($rows->fetch(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
 
@@ -164,7 +164,7 @@ class module_news
             // Execute prepared Statement 1
             // add to $newslist array, the numbers of news_comments for each news_id
             $stmt1->execute( array( $v['news_id'] ) );
-            $newslist[$k]['nr_news_comments'] = $stmt->fetch(PDO::FETCH_COLUMN);
+            $newslist[$k]['nr_news_comments'] = $stmt1->fetch(PDO::FETCH_COLUMN);
 
             // if news_comments exist for that news
             if ($newslist[$k]['nr_news_comments'] > 0 )
@@ -172,7 +172,7 @@ class module_news
                  // Execute prepared Statement 2
                  // add to $newslist array, the nickname of the author of the last comment for each news_id
                  $stmt2->execute( array( $v['news_id'] ) );
-                 $newslist[$k]['lastcomment_by'] = $stmt->fetch(PDO::FETCH_COLUMN);
+                 $newslist[$k]['lastcomment_by'] = $stmt2->fetch(PDO::FETCH_COLUMN);
             }
         }
 
@@ -217,7 +217,7 @@ class module_news
         // Get Number of Rows
         $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
         $rows->execute();
-        $count = count($rows->fetchALL(PDO::FETCH_NUM));
+        $count = count($rows->fetch(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
         
