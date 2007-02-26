@@ -339,14 +339,6 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Session expire time{/translate}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->session_expire_time}" name="config[session_expire_time]" />&nbsp; minutes
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
                     {translate}Maximum login attempts{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
@@ -418,12 +410,20 @@ Sorry for the inconvenience.{/translate}</textarea>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
+                    {translate}Session expire time{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->session_expire_time}" name="config[session_expire_time]" />&nbsp; minutes
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
                     {translate}Session name{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->session_name}" name="config[session_name]" />
                 </td>
-            </tr>
+            </tr>            
         </table>
    </div>
   {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
