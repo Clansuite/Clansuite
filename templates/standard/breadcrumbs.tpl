@@ -1,5 +1,5 @@
 {strip}
 <span id="breadcrumbs">
-    {breadcrumbs trail=$trail separator=" &raquo; " length=30}
+  You are here: {breadcrumbs trail=$trail separator=" &raquo; " length=30}
 </span>
 {/strip}
