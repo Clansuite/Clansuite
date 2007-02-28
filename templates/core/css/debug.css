@@ -1,0 +1,10 @@
+    body            { font-family: Arial, Helvetica, sans-serif; font-size:small; }
+    div.one, caption { width: 90%; font-variant: small-caps; text-align:left; font-weight:bold; padding: 8px; border-bottom: 2px solid #BDB76B; border-left:8px solid #BDB76B; background-color: #F0E68C; }
+    table           { width: 90%; border-collapse: collapse; border-spacing:0; }
+    tr.head, th     { text-align: left; background-color:#EEE8AA; padding:4px; color: blue;}
+    td              { padding: 4px; vertical-align:top; }
+    col.one         { background-color: #eeeeee; }
+    col.two         { background-color: #fafafa; }
+    dt              { border: 1px solid #9AA7AE; margin-bottom: 5px;}
+    dt.initial      { border-left:8px solid #9AA7AE; padding:3px 10px 3px 5px; background-color: white; }
+    div.debug_wrapper { width: 99%;}
