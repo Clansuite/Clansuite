@@ -124,7 +124,7 @@
             </td>
             <td align="center">
                 {foreach key=area_name item=area_array from=$info.areas}
-                    <input type="button" onclick="clip_id('area_{$area_name}')" class="ButtonYellow" value="{$area_name}" />
+                    <input type="button" onclick="clip('area_{$area_name}')" class="ButtonYellow" value="{$area_name}" />
                 {/foreach}
             </td>
             <td align="center" style="padding: 0px;" width="150">
