@@ -1,8 +1,6 @@
 <?php
 /**
-* Initialize objects, create DB link, load templates, clean input
-*
-* PHP versions 5.1.4
+* language.class.php
 *
 * LICENSE:
 *
@@ -37,24 +35,37 @@ if (!defined('IN_CS'))
 }
 
 /**
-* @desc Start lanugage class
-*/
+ * Start of Language Class
+ * @package Clansuite Core
+ * @subpackage Language
+ */
 class language
 {
     /**
-    * @desc Public $xml array for languagefile data after parsing xml-file
-    * @desc $loaded array for storing all loaded XML language files
-    */
-
-    public  $loaded  = array();	 	// Contains the filenames of the loaded language files
-	public	$lang    = array();    	// Contains all translation of a file in the following form:
-									// array(%id% => %message%);
+     * $loaded array for contains the filenames
+     * of the loaded xml language files
+     *
+     * @var array
+     * @access public
+     */
+    public $loaded  = array();
 
     /**
-    * @desc Conrtuctor to register {translate} in SMARTY Template Engine
-    */
+     * $lang array for languagefile data after parsing the xml-files
+     * Contains all translation of a file in the following form:
+     * array(%id% => %message%);
+     *
+     * @var array
+     * @access public
+     */
+	public $lang    = array();
 
-
+    /**
+     * Constructor sets up {translate} block in SMARTY Template Engine
+     * {@link function smarty_translate}
+     *
+     * @global $tpl object Contains Smarty Template Data
+     */
     function __construct()
     {
         global $tpl;
@@ -63,9 +74,16 @@ class language
     }
 
     /**
-    * @desc Function for SMARTY to handle {translate}
-    */
-
+     * Function for SMARTY to handle {translate}word{/translate} blocks
+     * Prints the translated word, if found.
+     *
+     * @access public
+     * @static
+     * @global array $lang language data array
+     * @param $params
+     * @param $string string to translate
+     * @param $smarty smarty data
+     */
     static function smarty_translate($params, $string, &$smarty)
     {
         global $lang;
@@ -75,13 +93,18 @@ class language
             $params["%" . $key] = $value;
             unset($params[$key]);
         }
+        // print the return of translation function $lang->t();
         echo($lang->t($string, $params));
     }
 
     /**
-    * @desc Translate a string into the given language
-    */
-
+     * Translates a string into the given language.
+     *
+     * @global object $lang
+     * @param string $string stringname to translate
+     * @param array $args value of the name
+     * @return string
+     */
     function t($string, $args = array() )
     {
 		global $lang;
@@ -94,9 +117,11 @@ class language
     }
 
     /**
-    * @desc Just add another XML File to $lang->xml tree
-    */
-
+     * Adds another XML File to $lang->xml tree
+     *
+     * @global $cfg
+     * @param $xml_file_name string filename of languagefile
+     */
     function load_lang( $xml_file_name='' )
     {
         global $cfg;
@@ -123,7 +148,8 @@ class language
                     $this->lang = array_merge($this->lang, array((string)$id => (string)$string));
 				}
             }
-        }
+         }
     }
+
 }
 ?>
