@@ -33,7 +33,7 @@
 */
 
 // Security Handler
-if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.' ); {rdelim}
+if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {rdelim}
 
 // Begin of class {$class_name}
 class {$class_name}
@@ -86,35 +86,38 @@ class {$class_name}
 
 
     /**
-    * @desc Function: Show
+    * Action -> Show
+    * Direct Call by URL/index.php?mod={$name}&action=show
+    *
+    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
     */
+
     function show()
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
+         // Add $lang-t() translated text to the output.
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
     {rdelim}
 
 
     /**
-    * @desc Function: instant_show
+    * Instant Show
     *
-    * This content can be instantly displayed by adding this into a template:
-    * {ldelim}mod name="{$name}" func="instant_show" params="mytext"{rdelim}
+    * Content of a module can be instantly displayed by adding the
+    * {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim}
+    * block into a template.
     *
     * You have to add the lines as shown above into the case block:
     * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    *
+    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users
     */
     function instant_show($my_text)
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
+        // Add $lang-t() translated text to the output.
         $this->output .= $lang->t($my_text);
     {rdelim}
 {rdelim}
