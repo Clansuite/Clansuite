@@ -31,38 +31,37 @@
 * @link       {$homepage}
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{ldelim}
-    die('You are not allowed to view this page statically.' );
-{rdelim}
-
+// Security Handler
+if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.' ); {rdelim}
 
 //----------------------------------------------------------------
 // Subfiles of the module
 // -----------------------
-// Subfiles of the module are used to extend the modules use.
+// Subfiles are used to extend the usage of a module,
+// by shuffling functionality into a new file.
+//
 // For example:
-// You have a module, that becomes beyond 5000 lines and you want
-// to split that. Then you create a sub-module, that can be called
-// by the following type of URL:
+// If you have a module, that becomes beyond 3000 lines and you want to split that,
+// you can create a sub-module and shuffle off some of the functionality into the new file.
+// You have then the option to call the new submodule directly by its URL
 //
-// http://www.myclan.com/index.php?mod=mymodule&sub=mysubmodule
+// http://URL/index.php?mod=mymodule&sub=mysubmodule
 //
-// Or inside a template:
+// or from inside a template by using the {ldelim}mod{rdelim} - block
 // {ldelim}mod name="{$name}" func="show" sub="mysubmodule" params="myparams"{rdelim}
-// 
+//
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
-{if is_array($subs)}
-{* DEBUG will be printed in file :) {$subs|@var_dump} *}
 
-$info['subs'] = array({foreach key=key item=item from=$subs}'{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
-{/foreach} );
+{if is_array($subs)}
+    {* DEBUG will be printed in file :) {$subs|@var_dump} *}
+    
+    $info['subs'] = array( {foreach key=key item=item from=$subs}
+                            '{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
+                           {/foreach} 
+                         );
 {else}
-$info['subs'] = array();
+    $info['subs'] = array();
 {/if}
 
 
@@ -77,7 +76,7 @@ $info['subs'] = array();
 // reference.
 // If you want to change the real values, so lookup the
 // module in the admin interface.
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 $info['author']         = '{$author}';
 $info['homepage']       = '{$homepage}';
@@ -96,9 +95,9 @@ $info['cs_version']     = (float) {$cs_version};
 $info['core']           = {$core};
 
 /**
-* @desc Admin Menus
+* Admin Menu Entries
 */
- 
+
 $info['admin_menu'] = '{$admin_menu}';
 
 ?>

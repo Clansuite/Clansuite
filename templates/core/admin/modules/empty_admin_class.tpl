@@ -32,13 +32,8 @@
 * @link       {$homepage}
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{ldelim}
-    die('You are not allowed to view this page statically.' );
-{rdelim}
+// Security Handler
+if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {rdelim}
 
 /**
 * @desc Start module class
@@ -50,8 +45,17 @@ class {$admin_class_name}
     public $suppress_wrapper= '';
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
+    * General Function Hook of {$name}-Modul
+    *
+    * 1. Set Pagetitle and Breadcrumbs
+    * 2. $_REQUEST['action'] determines the switch
+    * 3. function title is added to page title, to complete the title
+    * 4. switch-functions are called
+    *
+    * @global $lang
+    * @global $trail
+    * @return: array ( OUTPUT, ADDITIONAL_HEAD, SUPPRESS_WRAPPER )
+    *
     */
 
     function auto_run()
@@ -69,7 +73,7 @@ class {$admin_class_name}
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod={$name}&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod={$name}&sub=admin&action=show');
                 $this->show();
                 break;
 
@@ -85,29 +89,38 @@ class {$admin_class_name}
     {rdelim}
 
     /**
-    * @desc Show the entrance - welcome message etc.
+    * Action -> Show
+    * Direct Call by URL/index.php?mod={$name}&sub=admin&action=show
+    *
+    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
     */
+
     function show()
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t('This is the admin submodule. Here you can place all administrative stuff you need for your module.');
+        // Add $lang-t() translated text to the output.
+        $this->output .= $lang->t('This is the admin submodule: {$admin_class_name}. Place Administration of the Module here.');
     {rdelim}
 
     /**
-    * @desc This content can be instantly displayed by adding {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim} into a template
-    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    * Instant Show
+    *
+    * Content of a module can be instantly displayed by adding the
+    * {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim}
+    * block into a template.
+    *
+    * You have to add the lines as shown above into the case block:
+    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+    *
+    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users
     */
+
     function instant_show($my_text)
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
+        // Add $lang-t() translated text to the output.
         $this->output .= $lang->t($my_text);
     {rdelim}
 {rdelim}
