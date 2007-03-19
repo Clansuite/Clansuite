@@ -26,23 +26,18 @@
 * @since      File available since Release 0.1
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+// Security Handler
+if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 
 /**
- * Start of Language Class
+ * Start of Core - Language Class
  * @package Clansuite Core
  * @subpackage Language
  */
 class language
 {
     /**
-     * $loaded array for contains the filenames
+     * $loaded array contains the filenames
      * of the loaded xml language files
      *
      * @var array
