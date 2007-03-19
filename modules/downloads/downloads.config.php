@@ -84,8 +84,8 @@ $info['class_name']     = 'module_downloads';
 $info['file_name']      = 'downloads.module.php';
 $info['folder_name']    = 'downloads';
 $info['image_name']     = 'module_downloads.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

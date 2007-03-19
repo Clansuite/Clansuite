@@ -84,8 +84,8 @@ $info['class_name']     = 'module_gallery';
 $info['file_name']      = 'gallery.module.php';
 $info['folder_name']    = 'gallery';
 $info['image_name']     = 'module_gallery.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

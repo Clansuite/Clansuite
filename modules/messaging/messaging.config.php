@@ -84,8 +84,8 @@ $info['class_name']     = 'module_messaging';
 $info['file_name']      = 'messaging.module.php';
 $info['folder_name']    = 'messaging';
 $info['image_name']     = 'module_messaging.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

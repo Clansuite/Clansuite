@@ -91,8 +91,8 @@ $info['class_name']     = 'module_admin';
 $info['file_name']      = 'admin.module.php';
 $info['folder_name']    = 'admin';
 $info['image_name']     = 'module_admin.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 1;
 
 /**

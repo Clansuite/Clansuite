@@ -86,8 +86,8 @@ $info['class_name']     = 'module_filebrowser';
 $info['file_name']      = 'filebrowser.module.php';
 $info['folder_name']    = 'filebrowser';
 $info['image_name']     = 'module_filebrowser.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**
