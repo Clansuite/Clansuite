@@ -78,7 +78,7 @@ $downloadUrls['daily']= 'http://svn.gna.org/daily/clansuite-snapshot.tar.gz';
 
 /* This page on www.clansuite.com lists the latest versions 
 /* So we scan gna.org/downloads for archives and add the daily-svn archiv.  */
-$versionCheckUrl = 'http://www.clansuite.com/clansuite_version_check.php';
+$versionCheckUrl = 'http://www.clansuite.com/versions/versions_check.php';
 
 /* Local name of the clansuite archive (without extension ) [clansuite].zip */
 $archiveBaseName = 'clansuite';
@@ -1039,8 +1039,8 @@ function render($renderType, $args=array()) {
         
         <p>
         	 <b>This webinstaller gets the Clansuite web application on your server.</b>
-        	 <br>It's an alternative to the common but time consuming webinstallation ways of uploading all 
-        	 files via FTP or uploading the archive and extracting the archive via ssh terminal access. We hope 
+        	 <br>It's an alternative to the common, but time consuming way of uploading all 
+        	 files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope 
         	 this will ease the process of installation, take work out of your hands and finally safe you some time!
 	    </p>
 	    
