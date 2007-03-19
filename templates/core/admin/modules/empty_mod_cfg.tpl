@@ -90,8 +90,8 @@ $info['class_name']     = '{$class_name}';
 $info['file_name']      = '{$file_name}';
 $info['folder_name']    = '{$folder_name}';
 $info['image_name']     = '{$image_name}';
-$info['version']        = (float) {$version};
-$info['cs_version']     = (float) {$cs_version};
+$info['module_version']        = (float) {$version};
+$info['clansuite_version']     = (float) {$cs_version};
 $info['core']           = {$core};
 
 /**
