@@ -84,8 +84,8 @@ $info['class_name']     = 'module_captcha';
 $info['file_name']      = 'captcha.module.php';
 $info['folder_name']    = 'captcha';
 $info['image_name']     = 'module_captcha.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 1;
 
 /**

@@ -84,8 +84,8 @@ $info['class_name']     = 'module_forum';
 $info['file_name']      = 'forum.module.php';
 $info['folder_name']    = 'forum';
 $info['image_name']     = 'module_forum.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

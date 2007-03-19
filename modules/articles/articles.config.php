@@ -84,8 +84,8 @@ $info['class_name']     = 'module_articles';
 $info['file_name']      = 'articles.module.php';
 $info['folder_name']    = 'articles';
 $info['image_name']     = 'module_articles.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

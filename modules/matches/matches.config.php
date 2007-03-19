@@ -84,8 +84,8 @@ $info['class_name']     = 'module_matches';
 $info['file_name']      = 'matches.module.php';
 $info['folder_name']    = 'matches';
 $info['image_name']     = 'module_matches.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

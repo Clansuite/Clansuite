@@ -84,8 +84,8 @@ $info['class_name']     = 'module_index';
 $info['file_name']      = 'index.module.php';
 $info['folder_name']    = 'index';
 $info['image_name']     = 'module_index.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 1;
 
 /**

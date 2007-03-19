@@ -84,8 +84,8 @@ $info['class_name']     = 'module_serverlist';
 $info['file_name']      = 'serverlist.module.php';
 $info['folder_name']    = 'serverlist';
 $info['image_name']     = 'module_serverlist.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 0;
 
 /**

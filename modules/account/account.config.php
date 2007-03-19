@@ -84,8 +84,8 @@ $info['class_name']     = 'module_account';
 $info['file_name']      = 'account.module.php';
 $info['folder_name']    = 'account';
 $info['image_name']     = 'module_account.jpg';
-$info['version']        = (float) 0.1;
-$info['cs_version']     = (float) 0.1;
+$info['module_version']        = (float) 0.1;
+$info['clansuite_version']     = (float) 0.1;
 $info['core']           = 1;
 
 /**
