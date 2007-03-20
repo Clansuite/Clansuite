@@ -27,10 +27,10 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.16
+ * @version 2.6.18
  */
 
-/* $Id: Smarty.class.php,v 1.526 2006/11/30 17:01:28 mohrt Exp $ */
+/* $Id: Smarty.class.php,v 1.528 2007/03/06 10:40:06 messju Exp $ */
 
 /**
  * DIR_SEP isn't used anymore, but third party apps might
@@ -109,7 +109,7 @@ class Smarty
      *
      * @var boolean
      */
-    var $error_reporting  =  '';
+    var $error_reporting  =  null;
 
     /**
      * This is the path to the debug console template. If not set,
@@ -464,7 +464,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.16';
+    var $_version              = '2.6.18';
 
     /**
      * current template inclusion depth
@@ -1060,7 +1060,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;
+            return $_tmp;   
         }
     }
 
@@ -1119,7 +1119,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-
+        
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
