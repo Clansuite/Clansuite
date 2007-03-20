@@ -28,25 +28,31 @@
 * @since      File available since Release 0.1
 */
 
+// Security Handler
+if (!defined('IN_CS')){ die('You are not allowed to view this page.' ); }
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
-* @desc Start modules class
-*/
+ * Start of Core - Modules Class
+ * @package Clansuite Core
+ * @subpackage Modules
+ */
 class modules
 {
+    /**
+     * $loaded array
+     *
+     *
+     * @var array
+     * @access public
+     */
     public $loaded = array();
 
     /**
-    * @desc Register {mod} in SMARTY Template Engine
-    */
+     * Constructor sets up {mod} block in SMARTY Template Engine
+     * {@link function smarty_translate}
+     *
+     * @global $tpl object Contains Smarty Template Data
+     */
     function __construct()
     {
         global $tpl;
@@ -55,8 +61,13 @@ class modules
     }
 
     /**
-    * @desc Load whitelist
-    */
+     * Load whitelist of modules and submodules
+     * into array $cfg->modules['some_modulname']['submodules]['some_submodulename']
+     *
+     * @global $db
+     * @global $cfg
+     * @todo: is this whitelisting required to ensure security matters? are there other options avaiable?
+     */
     function load_whitelist()
     {
         global $db, $cfg;
@@ -98,15 +109,16 @@ class modules
     }
 
     /**
-    * @desc {mod} handler function
+    * Get Instant Content
+    * Fetches the content of a module for {mod} handler function.
+    *
+    * @params $params
     */
     static function get_instant_content($params)
     {
         global $modules, $cfg, $lang, $error, $trail;
 
-        /**
-        * @desc Init Vars
-        */
+        // Init Vars
         $params['params']   = !isset( $params['params'] ) ? '' : $params['params'];
         $params['sub']      = !isset( $params['sub'] ) ? '' : $params['sub'];
         $params['name']     = !isset( $params['name'] ) ? '' : $params['name'];
@@ -184,7 +196,10 @@ class modules
 
 
     /**
-    * @desc Get normal content of a module from auto_run()
+    * Get normal content of a module from auto_run()
+    *
+    * @param $mod
+    * @param $sub
     */
 
     function get_content($mod='' , $sub='' )
