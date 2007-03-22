@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005,2006
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
     * http://www.clansuite.com/
     *
     * File:         index.php
@@ -25,10 +25,11 @@
     *
     * @license    GNU/GPL, see COPYING.txt
     * 
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  2006 Clansuite Group
-    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *  
+    * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
