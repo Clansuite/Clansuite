@@ -1,9 +1,13 @@
 <?php
    /**
-    *   Clansuite - just an E-Sport CMS
-    *   Jens-Andre Koch, Florian Wolf © 2005,2006
-    *   http://www.clansuite.com/
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
     *
+    * File:         config.class.php
+    * Requires:     PHP5+
+    *
+    * Purpose:      Variable Configuration and Settings Class
     *
     * LICENSE:
     *
@@ -20,6 +24,18 @@
     *    You should have received a copy of the GNU General Public License
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    * 
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *  
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
     */
 
    /**  =====================================================================
@@ -28,40 +44,33 @@
     *  =====================================================================
     */
 
-  /**
-    * config.class.php
-    * Variable Configuration
-    *
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  2006 Clansuite Group
-    * @license    see COPYING.txt
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
-    *
-    * @version    SVN: $Id: config.class.php 147 2006-06-11 23:15:37Z vain $
-    */
-
 /**
-* @desc Security Handler
-*/
+ * Defines the Security Handler
+ */
 if (!defined('IN_CS'))
 {
     die('You are not allowed to view this page statically.' );
 }
 
-/*******************************************************************
-*   Variable Configuration
-*   Use them while scripting in this way:
-*	Class is normally initalized: $cfg = new cfg;
-*	$cfg->variable_name = 'variable_value';
-*******************************************************************/
-
 /**
-* @desc Start config class
+* This is the Config class of Clansuite. It contains all settings.
+* 
+* Variable Configuration
+* Use them while scripting in this way:
+* Class is normally initalized: $cfg = new cfg;
+* $cfg->variable_name = 'variable_value';
+*
+* @package clansuite
+* @subpackage config
+* @todo maybe change this class to a ini file
 */
 class config
 {
+    
+    /**
+     * CONSTRUCTOR
+     * sets up all variables
+     */
     function __construct()
     {
 
@@ -107,7 +116,7 @@ class config
 
         // Template Configurations
 
-        $this->tpl_name = 'standard';
+        $this->tpl_name = 'accessible';
         $this->tpl_wrapper_file = 'index.tpl';
         $this->language = 'de';
         $this->std_module = 'index';
@@ -143,7 +152,7 @@ class config
         // Developers configuration
 
         $this->help_edit_mode = 1;
-        $this->version      = (float) 0.1;
+        $this->version  = (float) 0.1;
 
         // Cache
 
@@ -153,9 +162,8 @@ class config
         // Maintenance Mode
 
         $this->maintenance = 0;
-        $this->maintenance_reason = 'SITE is currently undergoing scheduled maintenance.
-Please try back in 60 minutes.
-Sorry for the inconvenience.';
+        $this->maintenance_reason = 'SITE is currently undergoing scheduled maintenance. 
+                                     <br>Please try back in 60 minutes. Sorry for the inconvenience.';
     }
 }
 ?>
