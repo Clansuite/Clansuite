@@ -1,98 +1,151 @@
 <?php
-/**
-* Session Handler Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: session.class.php 155 2006-06-13 20:55:04Z xsign $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
-
-
-
-/**
-* @desc Table structure for cs_session
-*/
-/*
-CREATE TABLE `cs_session` (
-`user_id` int(11) NOT NULL default '0',
-`session_id` varchar(255) NOT NULL default '',
-`session_data` text NOT NULL,
-`session_name` text  NOT NULL,
-`session_expire` int(11) NOT NULL default '0',
-`session_visibility` tinyint(4) NOT NULL default '0',
-`session_where` text NOT NULL,
-PRIMARY KEY  (`session_id`),
-UNIQUE KEY `session_id` (`session_id`),
-KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-*/
-
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         session.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for Session Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+ *  Database Table Structure for cs_session
+ *
+    CREATE TABLE `cs_session` (
+    `user_id` int(11) NOT NULL default '0',
+    `session_id` varchar(32) NOT NULL default '',
+    `session_data` text NOT NULL,
+    `session_name` text  NOT NULL,
+    `session_expire` int(11) NOT NULL default '0',
+    `session_visibility` tinyint(4) NOT NULL default '0',
+    `session_where` text NOT NULL,
+    PRIMARY KEY  (`session_id`),
+    UNIQUE KEY `session_id` (`session_id`),
+    KEY `user_id` (`user_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+ *
+ */
 
 /**
-* @desc Class session start
-*/
+ * Defines the Security Handler
+ */
+if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
+
+/**
+ * This is the Clansuite Core Class for Session Handling
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  session
+ */
+
 class session
 {
     /**
-    * @desc Init class session | set common session vars
-    */
+     * Set common session vars
+     */
+
+    /**
+     * @access public
+     * @var string $session_name contains the session name
+     */
 
     public $session_name            = 'suiteSID';
-    public $session_expire_time     = 30; // minutes
-    public $session_probability     = 30; // precenatge
+
+    /**#@+
+     * @access public
+     * @var integer
+     */
+    /**
+     * Session Expire time in minutes
+     */
+
+    public $session_expire_time     = 30;
+
+    /**
+     * Probabliity of trashing the Session as percentage
+     */
+
+    public $session_probability     = 30;
     public $session_cookies         = 1;
     public $session_cookies_only    = 0;
-    public $session_security        = array('check_ip', 'check_browser', 'check_host');
-    public $db;
-    
+
+    /**#@-*/
+
     /**
-    * @desc Overwrite php.ini settings
-    * @desc Start the session
-    */
+     * Array with Settings for the Session Security Check
+     * possible options are: 'check_ip', 'check_browser', 'check_host'
+     *
+     * @access public
+     */
+
+    public $session_security        = array('check_ip', 'check_browser', 'check_host');
+
+    /**
+     * @access public
+     * @var object $db is the Reference to PDO
+     */
+
+    public $db;
+
+
+    /**
+     * This creates the session
+     *
+     * Overwrite php.ini settings
+     * Start the session
+     * @global $cfg, $lang, $error, $functions, $input
+     * @param object
+     */
 
     function create_session($db)
     {
         global $cfg, $lang, $error, $functions, $input;
-        
+
         /**
-        * @desc Reference PDO
-        */
+         * Reference PDO
+         */
 
         $this->db = $db;
-        
+
         /**
-        * @desc Set the ini Vars and look for configs
-        */
+         * Set the session configuration Parameters accordingly to Config Class Values
+         */
 
         $this->session_name                 = $cfg->session_name;
         $this->session_cookies              = $cfg->use_cookies;
@@ -105,10 +158,10 @@ class session
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
         ini_set('session.use_cookies'       , $cfg->use_cookies );
         ini_set('session.use_only_cookies'  , $cfg->use_cookies_only );
-        
+
         /**
-        * @desc Set the handlers
-        */
+         * Setup the custom session handler
+         */
 
         session_set_save_handler(   array($this, "_session_open"   ),
                                     array($this, "_session_close"  ),
@@ -116,76 +169,84 @@ class session
                                     array($this, "_session_write"  ),
                                     array($this, "_session_destroy"),
                                     array($this, "_session_gc"     ));
-        
-        
+
+
         /**
-        * @desc Start Session and throw Error on failure
-        */
+         * Start Session and throw Error on failure
+         */
 
         if (!session_start())
         {
             $error->show($lang->t('Session Error' ), $lang->t('The session start failed!' ), 3 );
         }
-        
+
         /**
-        * @desc Create new ID if session is not in DB or corrupted
-        */
+         * Create new ID if session is not in DB or string-lenght corrupted
+         */
 
         if ($this->_session_read(session_id() ) === false OR strlen(session_id() ) != 32)
         {
             session_regenerate_id();
         }
-        
+
         /**
-        * @desc Security Check
+        * Perform Security Check
+        *
+        * If Session doesn't pass this, redirect to login.
         */
 
         if (!$this->_session_check_security() )
         {
             die($functions->redirect('index.php?mod=login') );
         }
-        
+
         /**
-        * @desc Control the session
-        */
+         * Control the session
+         */
 
         $this->session_control();
 
         /**
-        * @desc Rergister shutdown
-        */
+         *  Register shutdown
+         */
 
         register_shutdown_function('session_write_close');
     }
-    
+
     /**
-    * @desc Open a session
-    */
+     * Opens a session
+     *
+     * @return true
+     */
 
     function _session_open()
     {
         return true;
     }
-    
+
     /**
-    * @desc Close a session
-    */
+     * Closes a session
+     *
+     * @return true
+     */
 
     function _session_close()
     {
         session::_session_gc(0);
         return true;
     }
-    
+
     /**
-    * @desc Read a session
-    */
+     * Reads a session
+     *
+     * @param integer $id contains the session_id
+     */
 
     function _session_read( $id )
-    {      
+    {
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
-        
+
         if ($result = $stmt->fetch() )
         {
             $data = $result['session_data'];
@@ -196,23 +257,26 @@ class session
             return false;
         }
     }
-    
+
     /**
-    * @desc Write a session
-    */
+     * Write a session
+     *
+     * @param integer $id contains session_id
+     * @param array $data contains session_data
+     */
 
     function _session_write( $id, $data )
-    {       
+    {
         /**
-        * @desc Time Settings
-        */
+         * Time Settings
+         */
 
         $seconds = $this->session_expire_time * 60;
         $expires = time() + $seconds;
-        
+
         /**
-        * @desc Check if session is in DB
-        */
+         * Check if session exists in DB
+         */
 
         $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute( array( $id ) );
@@ -222,8 +286,8 @@ class session
         if ( is_array($res) )
         {
             /**
-            * @desc Update Session in DB
-            */
+             * Update Session
+             */
 
             $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
             $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
@@ -232,8 +296,8 @@ class session
         else
         {
             /**
-            * @desc Create Session @ DB & Cookies OR $_GET
-            */
+             * Insert Session
+             */
 
             $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
             $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
@@ -241,22 +305,22 @@ class session
         }
         return true;
     }
-    
+
     /**
-    * @desc Destroy a session
-    */
+     * Destroy a session
+     */
 
     function _session_destroy( $id )
     {
         /**
-        * @desc Unset Session
-        */
+         * Unset Session
+         */
 
         unset($_SESSION);
-                
+
         /**
-        * @desc Unset Cookie Vars
-        */
+         *  Unset Cookie Vars
+         */
 
         if (isset($_COOKIE[$this->session_name]))
         {
@@ -264,63 +328,71 @@ class session
         }
 
         /**
-        * @desc Delete session from DB
-        */
+         * Delete session from DB
+         */
 
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute(array($this->session_name, $id ) );
 
         /**
-        * @desc Optimize DB
-        */
+         *  Optimize DB
+         */
 
         if ($stmt->rowCount() > 0)
         {
             $this->_session_optimize();
         }
-        
+
     }
 
     /**
-    * @desc Session garbage collector
-    */
+     * Session garbage collector
+     *
+     * Removes the current session, if the session max_lifetime expired
+     *
+     * @param integer $max_lifetime contains the session-liftetime value
+     */
 
     function _session_gc($max_lifetime )
     {
-        /**
-        * @desc Prune
-        */
-
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array($this->session_name, time() ) );
-        
+
         if ($stmt->rowCount() > 0)
         {
             $this->_session_optimize();
         }
     }
-    
+
     /**
-    * @desc Optimize the session table
-    */
+     * Optimize the session table
+     *
+     * @todo function is deactivated - Check how session table can be optimized while using pdo
+     */
 
     function _session_optimize()
     {
-        /* NON WROKING WITH PDO
+        /* NON WORKING WITH PDO
         $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
         $stmt->closeCursor();
         */
     }
-    
+
     /**
-    * @desc Check for a secure session
-    */
+     * Ensure the session integrity
+     *
+     * 1. Check for IP
+     * 2. Check for Browser
+     * 3. Check for Host Address
+     *
+     * @return boolean
+     */
 
     function _session_check_security()
     {
         /**
-        * @desc Check for IP
-        */
+         * 1. Check for IP
+         */
 
         if (in_array("check_ip", $this->session_security))
         {
@@ -335,10 +407,10 @@ class session
                 return false;
             }
         }
-        
+
         /**
-        * @desc Check for Browser
-        */
+         * 2. Check for Browser
+         */
 
         if ( in_array("check_browser", $this->session_security) )
         {
@@ -352,10 +424,10 @@ class session
                 return false;
             }
         }
-        
+
         /**
-        * @desc Check for Host Address
-        */
+         * 3. Check for Host Address
+         */
 
         if(in_array("check_host", $this->session_security))
         {
@@ -371,38 +443,43 @@ class session
         }
 
         /**
-        * @desc Return true if everything is ok
-        */
+         *  Return true if everything is ok
+         */
 
         return true;
     }
 
     /**
-    * @desc Session control
-    * @desc - prune timeouts 
-    */
+     * Session control
+     * 1. Prune no activated users
+     * 2. Prune out-timed Sessions
+     * 3.
+     *
+     * @global object $function
+     * @global array  $lang
+     */
 
     function session_control()
     {
         global $functions, $lang;
 
         /**
-        * @desc Prune not activated users
-        */
+         *  Delete not activated users after 3 days
+         */
 
         $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
         $stmt->execute();
-        
+
         /**
-        * @desc Prune Sessions
-        */
+         *  Delete all out-timed Sessions
+         */
 
         $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
         $stmt->execute();
-        
+
         /**
-        * @desc Check if session expired
-        */
+         *  Check if session expired
+         */
 
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) AND $_SESSION['user']['user_id'] != 0 )
         {
@@ -411,7 +488,7 @@ class session
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );   
+                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );
             }
         }
     }
