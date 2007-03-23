@@ -1,50 +1,73 @@
 <?php
 /**
-* Users Handler Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: users.class.php 129 2006-06-09 12:09:03Z vain $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         users.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for Users Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
+    
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('You are not allowed to view this page.'); }
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-
-/**
-* @desc Start of users class
-*/
+ * This Clansuite Core Class for Users Handling
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  users
+ */
 class users
 {
     /**
-    * @desc Get a user by any kind of given type
-    */
+     * Get a user by any type of db field information
+     * 
+     * @param string 
+     * @param integer
+     * @global $db
+     * @global $security
+     * @global $input
+     * @return $result[$type] if found
+     * @todo is this funtion used somewhere?
+     */
     function get( $type = '', $user_id = '' )
     {
         global $db, $security, $input;
@@ -64,13 +87,22 @@ class users
                                   WHERE ' . DB_PREFIX . 'users.user_id = ?');
             $stmt->execute( array( $user_id ) );
             $result = $stmt->fetch(PDO::FETCH_NAMED);
+            
             return $result[$type];
         }
     }
 
     /**
-    * @desc Create user-object and $_SESSION['user'] array
-    */
+     * Creates the User-Object and the $_SESSION['user'] Array
+     *
+     * @param $user_id
+     * @param $email
+     * @param $nick
+     * @global $db
+     * @global $session
+     * @global $lang
+     * @global $function
+     */
 
     function create_user($user_id = '', $email = '', $nick = '')
     {
@@ -79,8 +111,8 @@ class users
         $user = '';
 
         /**
-        * @desc DB User Queries
-        */
+         *  DB User Queries
+         */
 
         if ( !empty($user_id) )
         {
@@ -129,14 +161,14 @@ class users
         }
 
         /**
-        * @desc Create $_SESSION['user'] array, containing user data
-        */
+         * Create $_SESSION['user'] array, containing user data
+         */
 
         if ( is_array($user) )
         {
             /**
-            * @desc User infos
-            */
+             * User infos
+             */
 
             $_SESSION['user']['authed']     = 1;
             $_SESSION['user']['user_id']    = $user['user_id'];
@@ -149,8 +181,8 @@ class users
             $_SESSION['user']['activated']  = $user['activated'];
 
             /**
-            * @desc Get Groups & Rights of user_id
-            */
+             * Get Groups & Rights of user_id
+             */
 
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
@@ -181,8 +213,8 @@ class users
         else // reset $_SESSION['user'] array
         {
             /**
-            * @desc User infos
-            */
+             * User infos
+             */
 
             $_SESSION['user']['authed']     = 0;
             $_SESSION['user']['user_id']    = 0;
@@ -195,8 +227,8 @@ class users
             $_SESSION['user']['activated']  = 0;
 
             /**
-            * @desc Groups & Rights
-            */
+             * Groups & Rights
+             */
 
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
@@ -204,9 +236,19 @@ class users
     }
 
     /**
-    * @desc Check the user
-    * @desc output return $user_id
-    */
+     * Check the user
+     *
+     * Validate the existance of the user via nick or email and the password
+     * This is done in two steps:
+     * 1. check if given nick or email exists
+     * 2. if thats the case compare password
+     *
+     * @param string $login_method contains the login_method ('nick' or 'email')
+     * @param string $value contains nick or email string to look for
+     * @param string $password contains password string
+     * @return if user is found $user_id else false
+     * @todo has $user array to be resetted at the start of this function to get fresh values from db?
+     */
 
     function check_user($login_method = 'nick', $value, $password)
     {
@@ -214,7 +256,7 @@ class users
 
         if( $login_method == 'nick' )
         {
-            // anhand email user_id, und password auslesen
+            // get user_id and password with the nick
             $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE nick = ? LIMIT 1' );
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -222,70 +264,87 @@ class users
 
         if( $login_method == 'email' )
         {
-            // anhand email user_id, und password auslesen
+            // get user_id and password with the email
             $stmt = $db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
-        // falls $user mit daten gefüllt wurde, das pw überprüfen
+        // if user was found, check if passwords match each other
         if ( is_array($user) && $user['password'] == $security->db_salted_hash( $password ) )
         {
-            // demnach existiert ein user mit der kombination von email & pw
-            // und es wird die user_id zurückgeliefert
+            // ok, user with nick or email exists and passwords matched
+            // return the user_id
             return $user['user_id'];
         }
         else
         {
-            // Die Kombination von Email und Pw exisitert nicht!
+            // the combination, either nick and password or email and password, doesn't exist
             return false;
         }
     }
 
     /**
-    * @desc Login the user
-    * @desc input $user_id, $rememberme
-    */
+     * Login
+     * 
+     * @param integer $user_id contains user_id
+     * @param integer $remember_me contains remember_me setting
+     * @param string $password contains password string
+     * @global $db
+     * @global $security
+     * @global $cfg
+     */
 
     function login($user_id, $remember_me, $password)
     {
         global $db, $security, $cfg;
 
-        // 1. Benutzerdaten holen
-        // anhand $user_id entsprechende userdata in Session ablegen
+        /**
+         * 1. Create the User Data Array and the Session via $user_id
+         */
         $this->create_user($user_id);
 
-        // 2. Remember-Me
-        // ( Logindata als Cookie ablegen )
-
+        /**
+         * 2. Remember-Me ( set Logindata via Cookie )
+         */
         if ( $remember_me == 1 )
         {
             setcookie('user_id', $user_id, time() + round($cfg->remember_me_time*24*60*60));
             setcookie('password',$security->build_salted_hash( $password ), time() + round($cfg->remember_me_time*24*60*60));
         }
 
-        // 3. Der Session ohne user_id wird nun die user_id zugeordnet.
-        // Es lassen sich also Guest-Session und User-Session unterscheiden.
+        /**
+         * 3. user_id is now inserted into the session without user_id
+         * This transforms the so called Guest-Session to a User-Session
+         */
         $this->session_set_user_id();
 
-        // 4. Login attempts löschen
+        /**
+         * 4. Delete Login attempts
+         */
         unset($_SESSION['login_attempts']);
 
-        // 5. Stats-Updaten
-        //
+        /**
+         * 5. Stats-Updaten
+         * @todo stats update after login?
+         */
     }
 
     /**
-    * @desc Es wird überprüft, ob ein Login Cookie gesetzt ist.
-    */
+     * Checks if a login cookie is set
+     *
+     * @global $db
+     * @global $security
+     * @global $cfg
+     */
 
     function check_login_cookie()
     {
         global $db, $security, $cfg;
 
         /**
-        * @desc Check for login cookie
-        */
+         * Check for login cookie
+         */
 
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
@@ -294,39 +353,37 @@ class users
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             /**
-            * @desc Proceed if match
-            */
+             * Proceed if match
+             */
 
-	        if (    is_array($user) &&
-                    $security->build_salted_hash( $_COOKIE['password'] ) == $user['password'] &&
-                    $_COOKIE['user_id'] == $user['user_id'] )
-
+	        if ( is_array($user) &&
+                 $security->build_salted_hash( $_COOKIE['password'] ) == $user['password'] &&
+                 $_COOKIE['user_id'] == $user['user_id'] )
 		    {
                 /**
-                * @desc Update the cookie
-                */
+                 * Update the cookie
+                 */
 
                 setcookie('user_id', $_COOKIE['user_id'], time() + round($cfg->remember_me_time*24*60*60));
                 setcookie('password',$_COOKIE['password'], time() + round($cfg->remember_me_time*24*60*60));
 
                 /**
-                * @desc Create $_SESSION['user']
-                */
+                 * Create $_SESSION['user']
+                 */
 
                 $this->create_user($user['user_id']);
 
 	       	    /**
-                * @desc Update Session in DB
-                */
+                 * Update Session in DB
+                 */
 
 			    $this->session_set_user_id();
-
 	        }
             else
             {
                 /**
-                * @desc Delete cookies, if no match
-                */
+                 * Delete cookies, if no match
+                 */
 
         	    setcookie('user_id', false );
         		setcookie('password', false );
@@ -336,8 +393,11 @@ class users
 
 
     /**
-    * @desc Bind user_id to session
-    */
+     * Sets user_id to a session
+     *
+     * @global $db
+     * @global $session
+     */
 
     function session_set_user_id()
     {
