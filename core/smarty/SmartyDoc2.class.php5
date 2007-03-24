@@ -721,22 +721,56 @@ class Render_SmartyDoc extends Smarty
 				$this->occur_once[] = $key;
 			}
 		}
-
-		$this->register_function('doc_info', array($this, 'smarty_function_doc_info'), false);
-		$this->register_function('info', array($this, 'smarty_function_info'), false);
-
-		$this->register_function('tag', array($this, 'smarty_function_tag'), false);
-		$this->register_function('xslt', array($this, 'smarty_function_xslt'), false);
-		$this->register_modifier('xsl', array($this, 'smarty_modifier_xsl'), false);
-		$this->register_modifier('xml', array($this, 'smarty_modifier_xml'), false);
-		// Couldn't these be cached?
-		$this->register_block('xsl', array($this, 'smarty_block_xsl'), false);
-		$this->register_block('xml', array($this, 'smarty_block_xml'), false);
-		$this->register_block('moveto', array($this, 'smarty_block_moveto'), false);
-		$this->register_block('doc_raw', array($this, 'smarty_block_doc_raw'), false);
-		$this->register_block('tagc', array($this, 'smarty_block_tagc'), false);
-		$this->register_block('cdata', array($this, 'smarty_block_cdata'), false);
-		$this->register_block('xinclude', array($this, 'smarty_block_xinclude'), false);
+        
+        /**
+         * Register Smarty Functions
+         *
+         * - info
+         * - doc_info (alias for info, both accessing the same function)
+         * - tag
+         * - xslt
+         */
+         
+		$this->register_function('info',        array($this, 'smarty_function_info'), false);
+		$this->register_function('doc_info',    array($this, 'smarty_function_info'), false); // alias
+		$this->register_function('tag',         array($this, 'smarty_function_tag'), false);
+		$this->register_function('xslt',        array($this, 'smarty_function_xslt'), false);
+		
+		/**
+		 * Register Smarty Modifiers
+		 * - xsl
+		 * - xml
+		 */	
+		 	
+		$this->register_modifier('xsl',         array($this, 'smarty_modifier_xsl'), false);
+		$this->register_modifier('xml',         array($this, 'smarty_modifier_xml'), false);
+		
+		/**
+		 * Register Smarty Blocks
+		 *
+		 * - xsl
+		 * - xml
+		 * - moveto
+		 * - doc_raw (alias for moveto, both accessing the same function)
+		 * - tagc
+		 * - cdata
+		 * - xinclude
+		 *
+		 * @todo: Check if these could be cached?
+		 */
+		 
+		$this->register_block('xsl',            array($this, 'smarty_block_xsl'), false);
+		$this->register_block('xml',            array($this, 'smarty_block_xml'), false);
+		$this->register_block('moveto',         array($this, 'smarty_block_moveto'), false);
+		$this->register_block('doc_raw',        array($this, 'smarty_block_moveto'), false); // alias
+		$this->register_block('tagc',           array($this, 'smarty_block_tagc'), false);
+		$this->register_block('cdata',          array($this, 'smarty_block_cdata'), false);
+		$this->register_block('xinclude',       array($this, 'smarty_block_xinclude'), false);
+		
+		/**
+		 * Register Smarty Prefilter
+		 */
+		 		
 		$this->register_prefilter(array($this, 'smarty_prefilter_SmartyDoc'));
 	}
 
@@ -2017,19 +2051,6 @@ class Render_SmartyDoc extends Smarty
 	}
 
 	/**
-	 * Smarty {doc_raw} block plugin
-	 *
-	 * Deprecated alias of moveto
-	 *
-	 * @return nothing
-	 * @see smarty_block_moveto()
-	 */
-	public function smarty_block_doc_raw($params, $content, &$smarty, &$repeat)
-	{
-		$this->smarty_block_moveto($params, $content, $smarty, $repeat);
-	}
-
-	/**
 	 * Smarty {moveto} block plugin
 	 *
 	 * Insert some raw text into the html header from anywhere at anytime
@@ -2346,20 +2367,6 @@ class Render_SmartyDoc extends Smarty
 		}
 	}
 
-
-	/**
-	 * Smarty {doc_info} function plugin
-	 *
-	 * deprecated alias for smarty_function_info
-	 *
-	 * @return nothing
-	 * @see smarty_function_info()
-	 */
-	public function smarty_function_doc_info($params, &$smarty)
-	{
-		$this->smarty_function_info($params, $smarty);
-	}
-	
 	/**
 	 * Smarty {info} function plugin
 	 *
