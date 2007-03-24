@@ -1,64 +1,171 @@
 <?php
 
-// $langu = ''; // Global variable used for localizing my own scripts--you should uncomment this just in case you have register globals on
-
-// I added the && $this->HTTP_ACCEPT !== 'text/html' conditions within the outputfilter (when xml_plain was on--to try to serve without any XML elements like XML Declaration or xml-stylesheet, etc. when the browser didn't support it) during testing, but they may not really be necessary, as the problem may have more been the fact that I hadn't served a "rel" attribute when printing out the link element for these visitors (those to whom I was trying to serve as application/xhtml+xml but who could only accept text/html). Though I did just discover now that although Explorer 7 doesn't _mind_ an xml-stylesheet also (nor the XML Declaration), it must have a link element to process it, so it is of no use anyways to serve the xml-related instructions when trying to serve as XML but where the browser doesn't accept it. One potential pitfull to watch out for though is that one would need separate caches for each type (and this program is setting/detecting them during output time (the outputfilter), so one would have to find a way to add this information to the caching conditions, assuming it is possible (or get the contenttype earlier).
-
-// Change doctype, dtd, head, body, entity, so that they can accept multiple blocks, but into the same place?
-// Note that one should use 'file' instead of 'subtype' in 'entity' docraws in order for the file to be created
-// If multiple doc_raws exist for the same file (e.g., if specifying keys), make only one at most contain an xform=true
-
-// If you want to still allow {} in literals, you should find and change this line in Smarty_Compiler.class.php to the following:
-/*
-return "<?php echo '" . strtr($block[2], array("'"=>"\'", "\\"=>"\\\\")) . "'; ?>" . $this->_additional_newline;
-return "<?php echo '" . strtr($block[2], array("[[["=>"{","]]]"=>"}", "'"=>"\'", "\\"=>"\\\\")) . "'; ?>" . $this->_additional_newline;
-*/
-// Future: If integrating the doc_infos into a common function could make sure that if the file were XHTML 1.1 or higher, "lang" would not be printed (and would be replaced with xml:lang)
-
-require('Smarty_Compiler.class.php');
-
-/* $Id: $ */
 /**
- * Project:	 LAF: the Lazy Abstract Framework
+ * Project:     SmartyDoc2 - a Plugin for Smarty
+ * File:        SmartyDoc2.class.php5
  *
- * @package	 LAF
- * @author	  boots [jayboots ~ yahoo com]
- * @author	  brettz9 [brettz9 ~ yahoo com]
- * @author	  tdmme [no2spam ~ chello nl]
- * @version	 0.4.2 2006-Okt-15 (@since 2005-May-16)
- * @copyright   brainpower, boots, 2002-2007, brettz9 2006-2007
- * @license	 LGPL 2.1
+ * SmartyDoc helps to create a qualified document using 
+ * previously collected user information.
+ * 
+ * Requires:    PHP5 and Smarty 2.6.10+
+ *
+ * License:
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * For questions, help, comments, discussion, etc., please use the
+ * project forums at sourceforge:
+ * @link http://sourceforge.net/projects/smartydocb/
+ *
+ * @copyright   vain 2007
+ *              brettz9 2006-2007
+ *              brainpower, boots 2002-2007
+ * @author	    brettz9 <brettz9@yahoo.com>
+ * @author      vain    <jakoch@web.de>
+ * @author	    boots   <jayboots@yahoo.com>
+ * @author	    tdmme   <no2spam@chello.nl>
+ * @package     SmartyDocB
+ * @license	    LGPL 2.1 license.txt
+ *
+ * @version     SVN: $Id$
  */
- 
- /* Changes
-  * 2006-Okt-15:
-  *	   tdmme, I moved the if-statement that sets the page content-type of the header,
-  *	   from the constructor to a separate function called 'setContentType()' and
-  *	   added a call to that function at the beginning of the 'smarty_outputfilter_SmartyDoc'
-  *	   function. This way the $this->doc_info array is NOT empty, like it was in when
-  *	   it was in the constructor. Now the automatic content-type recornizion works.
-  */
 
+/**
+ * Global variable used for localizing my own scripts
+ * you should uncomment this just in case you have register globals on
+ */
+// $langu = '';
+
+/**
+ *  Require the Smarty_Compiler.class
+ *  Require the wtplfileaccs Compiler Patch
+ */
+require('Smarty_Compiler.class.php');
+require('Smarty_Compiler_wtplfileaccs.class.php');
+
+
+/**
+ * Class Render_SmartyDoc
+ *
+ * Main class of the SmartyDocB package extending the functionality of Smarty
+ * @package    SmartyDocB
+ * @subpackage Render_SmartyDoc
+ */
 
 class Render_SmartyDoc extends Smarty
 {
-	public $debug = true; // Gives file locations when XSL transforms fail
-	public $add_openclose = false; // If true, will add plain html, head, and body tags automatically if not specified by doc_info (will also not add if a plain XML document); leaving it false allows one to manually specify these in the document
-	public $xml_plain = false; // If true, will add relevant XML headers, and allow stylesheets to be added (with appropriate attributes) as xsl-stylesheet's rather than link tags (if not using XHTML, be sure to change add_openclose also to false, so html, head, and body tags won't be added automatically); if true, be wary of inline scripts/styles and even other elements like titles getting distorted in Firefox (as it will serve application/xhtml+xml as it is supposed to, but which is not well-supported)
-	public $xml_auto_declare = false;
-	public $assume_standalone = false; // This will assume that your XML document should have a standalone attribute set to "yes". This can slightly add efficiency to a validating XML parser (assuming the benefit is not lost by the extra code required here!) as it is not troubled to look for external DTDs. However, don't mark this true if you are manually adding external (non-public) DTDs (at least if they will change the output of your document, as is likely). Note that even if you have this true, the code checks to see if you have any dtd docinfos or dtd docraws before adding it (though sometimes the latter are admittedly used for "PUBLIC" identifiers which can sometimes get by with standalone yes if the net does not need to be accessed).
-	public $application_xml = false; // If wanting to specify an XML http accept type; preferable to leave false where document to be available for human reading: http://www.rfc-editor.org/rfc/rfc3023.txt (or set to 'XHTML' if not using a doc_info to do so, in order that the code will auto-detect whether application/xhtml+xml type, etc. can be served); however, "XML in a Nutshell" recommends using application/xml in most cases given that text/xml is supposed to only be for documents limited to ASCII.
-	public $use_auto = true; // Process the output filter regardless of whether doc_raws or docinfos exist in the document (e.g., if taking advantage of SmartyDocB features strictly through the PHP interface)
-	// Don't put slashes at the end of these
-	// Need to fix to use with dtds and not just xsds to allow http, etc. to show in the page HTML code?
-	public $force_html = true; // This is used to force the header to text/html even if the document originally being served was XML. Used when transforming XML into HTML (Explorer doesn't seem to handle this well otherwise--whether a client-side or server-side transformation).
+    /**
+     * Gives file locations when XSL transforms fail
+     *
+     * @var bool
+     */
+	public $debug = true;
+
+	/**
+	 * If true, will add plain html, head, and body tags automatically if not
+	 * specified by doc_info (will also not add if a plain XML document); leaving
+	 * it false allows one to manually specify these in the document
+	 *
+	 * @var bool
+	 */
+	public $add_openclose = true;
+
+	/**
+	 * If true, will add relevant XML headers, and allow stylesheets to be added
+	 * (with appropriate attributes) as xsl-stylesheet's rather than link tags (if
+	 * not using XHTML, be sure to change add_openclose also to false, so html,
+	 * head, and body tags won't be added automatically); if true, be wary of
+	 * inline scripts/styles and even other elements like titles getting distorted
+	 * in Firefox (as it will serve application/xhtml+xml as it is supposed to, but
+	 * which is not well-supported)
+	 *
+	 * @var bool
+	 */
+	public $xml_plain = false;
+	/**
+	 * @var bool
+	 */
+	public $xml_auto_declare = true;
+
+	/**
+	 *	This will assume that your XML document should have a standalone
+	 *  attribute set to "yes". This can slightly add efficiency to a validating XML
+	 *  parser (assuming the benefit is not lost by the extra code required here!)
+	 *  as it is not troubled to look for external DTDs. However, don't mark this
+	 *  true if you are manually adding external (non-public) DTDs (at least if they
+	 *  will change the output of your document, as is likely). Note that even if
+	 *  you have this true, the code checks to see if you have any dtd docinfos or
+	 *  dtd docraws before adding it (though sometimes the latter are admittedly
+	 *  used for "PUBLIC" identifiers which can sometimes get by with standalone yes
+	 *  if the net does not need to be accessed).
+	 *
+	 * @var bool
+	 */
+	public $assume_standalone = false;
+
+	/**
+	 *  If wanting to specify an XML http accept type; preferable to leave false
+	 *  where document to be available for human reading: http://www.rfc-
+	 *  editor.org/rfc/rfc3023.txt (or set to 'XHTML' if not using a doc_info to do
+	 *  so, in order that the code will auto-detect whether application/xhtml+xml
+	 *  type, etc. can be served); however, "XML in a Nutshell" recommends using
+	 *  application/xml in most cases given that text/xml is supposed to only be
+	 *  for documents limited to ASCII.
+	 *
+	 * @var bool
+	 */
+	public $application_xml = true;
+
+	/**
+	 * Process the output filter regardless of whether doc_raws or docinfos
+	 * exist in the document (e.g., if taking advantage of SmartyDocB features
+	 * strictly through the PHP interface)
+	 * Need to fix to use with dtds and not just xsds to allow http, etc. to show in the page HTML code?
+	 * @todo: where does this belong to?
+	 */
+	public $use_auto = true; // 
+
+	/**
+     *	This is used to force the header to text/html even if the document
+     *  originally being served was XML. Used when transforming XML into HTML
+     *	(Explorer doesn't seem to handle this well otherwise--whether a client-side
+     *	or server-side transformation). // Still working on this and not sure I need
+     *	this after all (scratches head)
+	 */
+	public $force_html = false; // 
 	public $force_css = false;
-	// Due to these variables being also used found in the prefilter and overridden compiler class, one cannot access these variables meaningfully after construction, so changes would need to be made here
-	public $doc_rawalias = 'moveto'; // To use the old alias, change here to 'doc_raw'
-	public $doc_infoalias = 'info'; // To use the old alias, change here to 'doc_info'
-	
-	public $site_root_public = 'C:\xampplite\htdocs\work\clansuite\trunk';
-	public $site_root_hidden = 'C:\xampplite\htdocs\work\clansuite\trunk';
+
+	/**
+	 * Set the Smarty tags to invoke the main functions of SmartyDocB
+	 *
+	 *  Due to these variables being also used found in the prefilter and
+	 *  overridden compiler class, one cannot access these variables meaningfully
+	 *  after construction, so changes would need to be made here.
+	 *
+	 *  You can use the old aliases {doc_raw} and {doc_info} by setting:
+	 *  $doc_rawalias = 'doc_raw'; $doc_infoalias = 'doc_info';
+	 *
+	 * @var    string
+	 * @see    __construct()
+	 */
+	public $doc_rawalias = 'moveto';
+	public $doc_infoalias = 'info';
+
+	// Don't put slashes at the end of these
+	public $site_root_public = '';
+	public $site_root_hidden = '';
 	// The following need slashes at the beginning
 	public $dr_css_file_src = '/dr_mainstyles.css';
 	public $dr_code_file_src = '/dr_mainscripts.js';
@@ -121,7 +228,7 @@ class Render_SmartyDoc extends Smarty
 
 	public $common_XHTML_probs = TRUE; // Fixes some common XHTML parsing problems for XSL server-side xform
 	public $tidy_on = FALSE;
-	public $tidy_for_xslt = false; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
+	public $tidy_for_xslt = TRUE; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
 
 	public $strip_whitespace = TRUE; // Will strip excess whitespace if Tidy is not used (Tidy will strip anyhow)
 	public $whitespace_get = TRUE; // Specifies whether one can use a $_GET URL to turn comments on
@@ -137,7 +244,10 @@ class Render_SmartyDoc extends Smarty
 	public $xhtmlbasic_xsl = '/home/bahai/public_html/xhtmlbasic1.xsl'; // Infinitely faster to copy this to a local file location!
 
 	
-	public $auto_xform_mobile = false; // Automatically transform file into XHTML Basic when detecting mobile user agent devices
+	public $xformtobasic_get = TRUE; // Allows transformation into XHTML Basic via a GET request
+	public $xformtobasic_url = 'xhtmlbasic1'; // If $xformtobasic_get is true, defines the GET Request name that will trigger the transform
+
+	public $auto_xform_mobile = TRUE; // Automatically transform file into XHTML Basic when detecting mobile user agent devices
 	// public $Browscap_file = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\Browscap.php5';
 	// public $Browscap_cache_dir = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\cache';
 	public $Browscap_file = '/home/bahai/Browscap/Browscap.php5';
@@ -157,8 +267,18 @@ class Render_SmartyDoc extends Smarty
 //	public $right_tagclose = '}}';
 	public $styles_to_css = false; // Will convert all tag function uses of style (e.g., istyle) into the css equivalent (especially useful when tag function set to replace all HTML tags, as "style" (or subsequent tweaks such as "clstyle", etc.) will be shuffled off into an external file (you may also wish to consider changing the tagc delimiters above to single <>'s as described in a note above.
 	
-	// These are set via set_rootnode (set via the constructor)
+	/**
+	 * Variable is set via set_rootnode (set via the constructor)
+	 * @access protected
+	 * @see set_rootnode()
+	 */
 	protected $dr_xsd_file;
+
+	/**
+	 * Variable is set via set_rootnode (set via the constructor)
+	 * @access protected
+	 * @see set_rootnode()
+	 */
 	protected $dr_dtd_file;
 
 	public $visible_notes = true; // Be aware that if this is set to true, the URL of your notes will be referenced within the code (albeit as a (publicly visible) comment) unless you add a "hide" attribute (e.g., as "true") to the specific note you don't even want referenced in the notes; you can still keep/set the directory to hidden (see below) so the file is not publicly accessible.
@@ -166,9 +286,9 @@ class Render_SmartyDoc extends Smarty
 	public $encoding = 'UTF-8'; // Used for generating headers
 	public $HTTP_ACCEPT = 'text/html';
 
-	public $rewrite_docraw_on = true; // This should be turned off (to false) to gain performance if code within doc_raw (css or code) is not changing but is required for the styles/scripts/etc. to be written (unless turned on by setting the rewrite_docraw_get to true and calling it via a GET request!
+	public $rewrite_docraw_on = false; // This should be turned off (to false) to gain performance if code within doc_raw (css or code) is not changing but is required for the styles/scripts/etc. to be written (unless turned on by setting the rewrite_docraw_get to true and calling it via a GET request!
 	public $rewrite_docraw_get = true; // Lets a URL be specified to choose the value of $rewrite_docraw_on
-	public $rewrite_docraw_get_url = 'rewrite'; // If you have the rewrite_docraw_get set to 'true', you may want to change this so that other visitors to your site cannot force a rewrite of your CSS on each load with the GET 
+	public $rewrite_docraw_get_url = 'rewrite'; // If you have the rewrite_docraw_get set to 'true', you may want to change this so that other visitors to your site cannot force a rewrite of your CSS on each load with the GET
 	public $gzip_output = true; // Tries to gzip the main output if the browser will accept it (and if not already on via the Zlib extension)
 
 	// Note the following will not uncomment the comments within files which are needed to identify which blocks to rewrite on subsequent calls
@@ -182,11 +302,13 @@ class Render_SmartyDoc extends Smarty
 	public $id_prefix = 'id'; // Used as the base for non-labeled id's
 	public $class_prefix = 'cl'; // distinct from Tidy's default 'c'
 
-	public $parsed_ent_name = 'ents'; // Used for naming the parsed entity that includes entities submitted via a doctype with a file attribute (list of pipe-delimited files)
+	public $param_ent_name = 'ents'; // Used for naming the parameter entity that includes entities submitted via a doctype with a file attribute (list of pipe-delimited files)
 	public $entity_replace = true; // Replace entities within document and added via doc_raw 'dtd' or 'entity' with their replacement text (though the entities will still be declared)
-	public $entity_files = 'c:\Program Files\Apache Software Foundation\Apache2.2\htdocs\main_fr.ent|c:\Program Files\Apache Software Foundation\Apache2.2\htdocs\main_de.ent|c:\Program Files\Apache Software Foundation\Apache2.2\htdocs\main_zh.ent'; // By choosing, 'default' as a file type, you will automatically use this file for entities; note, however, that this script will overwrite anything in this file (unlike the doc_raws usually do)--Fix: this should probably be fixed in a future version; note this should be pipe-delimited in the order you want your entity doc_raws(labeled with file=main) to include translations after the entity alias name.
-	
+	public $noextparams = true; // This could be set to false if more browsers start supporting external (parameter) entity references (currently Firefox has a bug even printing one let alone using it) or if one simply wanted to generate the XML for non-web purposes; server-side replacement can still take place if this is set to true.
+	public $entity_files = 'main_en.ent|main_zh.ent|main_fr.ent'; // By choosing, 'defaults' as a file type, you will automatically use this file for entities; note, however, that this script will overwrite anything in this file (unlike the doc_raws usually do)--Fix: this should probably be fixed in a future version; note this should be pipe-delimited in the order you want your entity doc_raws(labeled with file=main) to include translations after the entity alias name.
 	public $getentparams = 'langu en zh fr'; // If used (it can also be overridden by the get attribute of an entity doc_raw), this should be a space-delimited string, beginning with the $_GET parameter and followed by the language abbreviations the $_GET call will require for a given language--e.g., "language en fr de" would allow "?language=fr". This must be used with a tab-delimited entity doc_raw of language values (the first column of which contains the entity alias used in the document and the other columns  representing a language translation--which should follow the same order of languages as that in this $getentparams after the $_GET parameter name)
+	private $extra_ent_comments;
+	private $entity_file_toget;
 
 //	private $keepapptype; // Set in getdoctypesignature
 	private $file_attribs = array('href', 'src', 'file', 'family'); // Brett added the last two to the condition (those to be urlencoded) // Not xmlns, xsi__noNamespaceSchemaLocation, xsi__schemaLocation ?
@@ -197,11 +319,36 @@ class Render_SmartyDoc extends Smarty
 	private static $id_ctr = 0; // Used by "tag" function
 	private $internaldoctype = false; // Used by getdoctypesignature
 
-	// Note that these are not implemented yet in browsers
-	public $xinclude_ns = 'http://www.w3.org/2001/XInclude';
-	private $xincludeset = false;
-	
-	private static $modular_xml = array('1.1'); // This denotes which XHTML (or other prespecified DTD's here) are modular (i.e., which can accept internal doctypes)
+	/**
+     * XInclude Variables as used by smarty_block_xinclude
+     * Note that these are not implemented yet in browsers
+     *
+     * @var string
+     * @see smarty_block_xinclude()
+     */
+	public  $xinclude_ns = 'http://www.w3.org/2001/XInclude';
+	/**
+	 * @var	bool switches xinclude on/off
+     */
+    private $xincludeset = false;
+    
+	/**
+	 * This denotes which XHTML (or other prespecified DTD's here) are modular
+	 * (i.e., which can accept internal doctypes)
+	 *
+	 * @var array $modular_xml denotes which XHTML Doctypes can accept internal doctypes
+	 * @access private
+	 * @static
+	 * @see getDoctypeSignature()
+	 */
+	private static $modular_xml = array('1.1', '1.1+', 'Basic1.1');
+
+	/**
+     * DOCTYPES Array
+     *
+     * @var array $DTDS contains serveral DOCTYPE definitions
+     * @access protected
+     */
 
 	protected $DTDS = array(
 		'HTML' => array(
@@ -231,16 +378,38 @@ class Render_SmartyDoc extends Smarty
 		, '1.1+' => array(
 			'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">'
 			)
-		, 'Basic' => array(
+		, 'Basic1.1' => array(
 			'signature' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">'
 			)
 		)
 	);
 
-
-	// Note that most of the attributes below should be legitimate XHTML attributes and most of the keys/elements (besides root and comments/notes) should be the same name as legitimate XHTML elements or tags (e.g., 'script' or 'doctype') or, if for an external doc_raw equivalent, a pseudonym (e.g., 'code' or 'dtd') (Note: 'xsl' and 'xsd' have no internal doc_raw equivalents, so they are only under the pseudonym and this implementation only has one 'entity' option (though it can be used internally or externally). Also, note that 'comments' is the internal name and 'notes' the external name, though these have no XHTML element equivalent--they are simply comments or referenced text)
-	// Note that "rel" is listed in the exclude list of CSS so that it will be excluded when serving genuine XML as application/xhtml+xml (i.e., non-Explorer), but it is in the include list so that, although xml plain mode may be on for some browsers, when it is off, the rel attribute will be included.
-	// These are arranged in rough order (besides CSS which is in place for XML, but may appear around style tags if not)
+	/**
+     * doc_info_types array
+     *
+     * Note that most of the attributes below should be legitimate XHTML attributes
+     * and most of the keys/elements (besides root and comments/notes) should be
+     * the same name as legitimate XHTML elements or tags (e.g., 'script' or
+     * 'doctype') or, if for an external doc_raw equivalent, a pseudonym (e.g.,
+     * 'code' or 'dtd') (Note: 'xsl' and 'xsd' have no internal doc_raw
+     * equivalents, so they are only under the pseudonym and this implementation
+     * only has one 'entity' option (though it can be used internally or
+     * externally). Also, note that 'comments' is the internal name and 'notes' the
+     * external name, though these have no XHTML element equivalent--they are
+     * simply comments or referenced text)
+     *
+     * Note that "rel" is listed in the exclude list of CSS so that it will be
+     * excluded when serving genuine XML as application/xhtml+xml (i.e., non-
+     * Explorer), but it is in the include list so that, although xml plain mode
+     * may be on for some browsers, when it is off, the rel attribute will be
+     * included.
+     *
+     * These are arranged in rough order (besides CSS which is in place for XML,
+     * but may appear around style tags if not)
+     *
+     * @var array $doc_info_types
+     * @access protected
+     */
 	protected $doc_info_types = array(
 		'bom' => array(
 			'renameto' => null
@@ -295,11 +464,11 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'notes' => array(
 			'renameto' => 'file'
-			, 'optional' => array('hide', 'comment_style')
+			, 'optional' => array('hide')
 			, 'defaults' => array()
 			, 'doc_raw_target' => 'external'
 			, 'doc_raw_comment_style' => 'variable'
-			, 'meta_attribs' => array('file', 'tplorig')
+			, 'meta_attribs' => array('file', 'tplorig', 'comment_style')
 		)
 		, 'comments' => array(
 			'renameto' => null
@@ -328,11 +497,12 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'doctype' => array(
 			'renameto' => null
-			, 'optional' => array('root')
+			, 'optional' => array('level', 'root', 'type', 'subtype', 'family')
 			, 'defaults' => array()
 			, 'doc_raw_target' => 'internal'
 			, 'doc_raw_comment_style' => 'xml'
 			, 'occur_once' => true
+			, 'defaults' => array('level'=>'Transitional', 'type'=>'PUBLIC')
 			, 'meta_attribs' => array('tplorig', 'file')
 		)
 		, 'entity' => array(
@@ -366,16 +536,16 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'html' => array(
 			'renameto' => 'xml:lang'
-			, 'optional' => array('xmlns__xsi', 'xmlns', 'dir', 'xml__lang', 'lang')
+			, 'optional' => array('xmlns', 'dir', 'xml__lang', 'lang', 'id', 'version')
 			, 'xml_defaults' => array('xmlns'=>'http://www.w3.org/1999/xhtml')
 			, 'occur_once' => true
-			, 'meta_attribs' => array('tplorig', 'version')
-			, 'include_in_xml' => array('xsi__schemaLocation', 'xsi__noNamespaceSchemaLocation', 'xmlns__xsi', 'xmlns', 'dir', 'xml__lang', 'lang')
+			, 'meta_attribs' => array('tplorig', 'v')
+			, 'include_in_xml' => array('xsi__schemaLocation', 'xsi__noNamespaceSchemaLocation', 'xmlns__xsi', 'xmlns', 'dir', 'xml__lang', 'lang', 'id')
 			, 'defaults' => array()
 		)
 		, 'head' => array(
 			'renameto' => null
-			, 'optional' => array('profile', 'dir', 'xml__lang', 'lang')
+			, 'optional' => array('profile', 'dir', 'xml__lang', 'lang', 'id')
 			, 'defaults' => array()
 			, 'doc_raw_comment_style' => 'xml'
 			, 'doc_raw_target' => 'internal'
@@ -384,7 +554,7 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'meta' => array(
 			'renameto' => 'name'
-			, 'optional' => array('content', 'http_equiv', 'scheme', 'dir', 'lang', 'xml__lang')
+			, 'optional' => array('content', 'http_equiv', 'scheme', 'name', 'id', 'lang', 'xml__lang')
 			, 'defaults' => array('content'=>'')
 			, 'meta_attribs' => array('tplorig')
 		)
@@ -398,14 +568,14 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'base' => array(
 			'renameto' => 'href'
-			, 'optional' => array('target')
+			, 'optional' => array('target', 'id')
 			, 'defaults' => array()
 			, 'occur_once' => true
 			, 'meta_attribs' => array('tplorig')
 		)
 		, 'style' => array(
 			'renameto' => null
-			, 'optional' => array('type', 'media', 'title', 'lang', 'xml__lang', 'dir')
+			, 'optional' => array('type', 'media', 'title', 'lang', 'xml__lang', 'id')
 			, 'defaults' => array('type'=>'text/css')
 			, 'doc_raw_target' => 'internal'
 			, 'doc_raw_comment_style' => 'c'
@@ -413,13 +583,13 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'link' => array(
 			'renameto' => 'href'
-			, 'optional' => array('rel', 'id', 'class', 'dir', 'lang', 'style', 'xml__lang', 'type', 'rev', 'media', 'hreflang', 'charset', 'title')
+			, 'optional' => array('rel', 'id', 'class', 'dir', 'lang', 'style', 'xml__lang', 'type', 'rev', 'media', 'hreflang', 'charset', 'title', 'xml__space', 'target', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove', 'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup')
 			, 'defaults' => array()
 			, 'meta_attribs' => array('tplorig', 'target')
 		)
 		, 'script' => array(
 			'renameto' => null
-			, 'optional' => array('type', 'charset', 'defer')
+			, 'optional' => array('type', 'charset', 'defer', 'language')
 			, 'defaults' => array('type'=>'text/javascript')
 			, 'doc_raw_target' => 'internal'
 			, 'doc_raw_comment_style' => 'c'
@@ -427,7 +597,7 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'code' => array(
 			'renameto' => 'src'
-			, 'optional' => array('type', 'defer', 'xml__space', 'charset', 'language')
+			, 'optional' => array('type', 'defer', 'charset', 'language')
 			, 'defaults' => array('type'=>'text/javascript')
 			, 'doc_raw_target' => 'external'
 			, 'doc_raw_comment_style' => 'c'
@@ -443,7 +613,7 @@ class Render_SmartyDoc extends Smarty
 		)
 		, 'body'=> array(
 			'renameto' => 'onload'
-			, 'optional' => array('onload', 'id', 'class', 'lang', 'dir', 'xml__lang', 'title', 'style', 'onunload', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove', 'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup', 'bgcolor', 'background', 'text', 'link', 'vlink', 'alink')
+			, 'optional' => array('onload', 'id', 'class', 'lang', 'dir', 'xml__lang', 'title', 'style', 'onunload', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove', 'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup', 'xml__space', 'bgcolor', 'background', 'text', 'link', 'vlink', 'alink')
 			, 'defaults' => array()
 			, 'doc_raw_comment_style' => 'xml'
 			, 'doc_raw_target' => 'internal'
@@ -467,49 +637,94 @@ class Render_SmartyDoc extends Smarty
 			, 'meta_attribs' => array('tplorig')
 		)
 	);
+	/**
+	 * doc_indent sets the level of indention by a specific number of spaces
+	 * @var string
+	 * @access protected
+	 * @see setIndent()
+	 */
 	protected $doc_indent = '	';
+	/**
+	 * doc_css_url contains the path to css files
+	 * @var string
+	 * @access protected
+	 * @see setCSSUrl()
+	 */
 	protected $doc_css_url = '';
+	/**
+	 * doc_script_url contains the path to script style urls
+	 * @var string
+	 * @access protected
+	 * @see setScriptUrl()
+	 */
 	protected $doc_script_url = '';
 
+	/**
+	 * doc_info, doc_raw and doc_modules array
+	 *
+	 * @var array
+	 * @access private
+	 */
 	private $doc_info = array();
 	private $doc_raw  = array();
 	private $doc_modules = array();
 
 	
+	
 	/**
 	 * CONSTRUCTOR
+	 *
+	 * @param string
+	 * @param string
 	 */
 	public function __construct($doc_infoalias='', $doc_rawalias='')
 	{
-		if ($doc_rawalias != '') {
+		// sets the doc_raw alias
+		if ($doc_rawalias != '') 
+		{
 			$this->doc_rawalias = $doc_rawalias;
-		} // end if
-		if ($doc_infoalias != '') {
+		}
+		
+		// sets the doc_infoalias
+		if ($doc_infoalias != '')
+		{
 			$this->doc_infoalias = $doc_infoalias;
-		} // end if
+		}
+		// Currently this just assigns the variable "SCRIPT_NAME"
+		$this->Smarty();
 
-		$this->Smarty(); // Currently this just assign the variable "SCRIPT_NAME"
+		
 		$this->set_rewrite_docraw_get();
 		$this->set_comments_get();
 		$this->set_whitespace_get();
 
 		$this->set_rootnode($this->rootnode);
 
-		foreach($this->doc_info_types as $key => $value) {
-			if (array_key_exists('doc_raw_target', $value)) {
-				$this->doc_raws_tosearch[] = $key; // Populated with those elements which can be targets of doc_raw blocks
-				if ($value['doc_raw_target'] === 'external') {
-					$this->external_doc_raws[] = $key; // Populated with those elements which can be targets of doc_raw blocks and shuffled off into external files
-				} // end if
-			} // end if
-			if (isset($value['occur_once'])) {
-				$this->occur_once[] = $key; // Populated with those elements which should only occur once
-			} // end if
-		} // end foreach
+		foreach($this->doc_info_types as $key => $value)
+		{
+			if (array_key_exists('doc_raw_target', $value))
+			{
+				// Populated with those elements which can be targets of doc_raw blocks
+				$this->doc_raws_tosearch[] = $key;
+
+				if ($value['doc_raw_target'] === 'external')
+				{
+					// Populated with those elements which can be targets of doc_raw blocks 
+					// and shuffled off into external files
+					$this->external_doc_raws[] = $key;
+				}
+			}
+
+			if (isset($value['occur_once'])) 
+			{
+				// Populated with those elements which should only occur once
+				$this->occur_once[] = $key;
+			}
+		}
 
 		$this->register_function('doc_info', array($this, 'smarty_function_doc_info'), false);
 		$this->register_function('info', array($this, 'smarty_function_info'), false);
-		
+
 		$this->register_function('tag', array($this, 'smarty_function_tag'), false);
 		$this->register_function('xslt', array($this, 'smarty_function_xslt'), false);
 		$this->register_modifier('xsl', array($this, 'smarty_modifier_xsl'), false);
@@ -530,61 +745,108 @@ class Render_SmartyDoc extends Smarty
 	 * PUBLIC API
 	 */
 
-	 
-	 public function set_rewrite_docraw_get($new_rewrite_get = null) {
-		if (!is_null($new_rewrite_get)) {
+	 /**
+      * sets rewrite_docraw_on via URL -> $_GET[$this->rewrite_docraw_get_url]
+      *
+      * @param string
+      */
+	 public function set_rewrite_docraw_get($new_rewrite_get = null)
+	 {
+		if (!is_null($new_rewrite_get))
+		{
 			$this->rewrite_docraw_get = $new_rewrite_get;
-		} // end if
-		if ($this->rewrite_docraw_get && !empty($_GET[$this->rewrite_docraw_get_url])) {
+		}
+		if ($this->rewrite_docraw_get && !empty($_GET[$this->rewrite_docraw_get_url]))
+		{
 			$this->rewrite_docraw_on = TRUE;
-		} // end if
-	 } // end function
+		}
+	 }
 
-	 public function set_rewrite_docraw_on($rewrite = true) {
-		if ($rewrite) {
+	/**
+      * This sets rewrite_docraw_on variable to true or false
+      *
+      * @param bool
+      */
+	 public function set_rewrite_docraw_on($rewrite = true)
+	 {
+		if ($rewrite)
+		{
 			$this->rewrite_docraw_on = TRUE;
-		} // end if
-		else {
+		}
+		else
+		{
 			$this->rewrite_docraw_on = FALSE;
-		} // end else
+		}
 	}
 
-	public function set_comments ($comments = true) {
-		if ($comments) {
+	/**
+     * This sets comments variable to true or false
+     *
+     * @param bool
+     */
+	public function set_comments ($comments = true)
+	{
+		if ($comments)
+		{
 			$this->comments = TRUE;
-		} // end if
-		else {
+		}
+		else
+		{
 			$this->comments = FALSE;
-		} // end else
-	} // end function
-	
-	public function set_comments_get($new_comments_get = null) {
-		if (!is_null($new_comments_get)) {
-			$this->comments_get = $new_comments_get;
-		} // end if
-		if ($this->comments_get && !empty($_GET[$this->comments_get_url])) {
-			$this->comments = TRUE;
-		} // end if
-	} // end function
+		}
+	}
 
-	public function set_whitespace_get($new_whitespace_get=null) {
-		if (!is_null($new_whitespace_get)) {
+    /**
+	 * Sets comments by URL via $_GET
+	 *
+	 * @param string
+	 */
+	public function set_comments_get($new_comments_get = null)
+	{
+		if (!is_null($new_comments_get))
+		{
+			$this->comments_get = $new_comments_get;
+		}
+		if ($this->comments_get && !empty($_GET[$this->comments_get_url]))
+		{
+			$this->comments = TRUE;
+		}
+	}
+
+	/**
+	 * Sets whitespaces by URL via $_GET
+	 *
+	 * @param string
+	 */
+	public function set_whitespace_get($new_whitespace_get=null)
+	{
+		if (!is_null($new_whitespace_get))
+		{
 			$this->whitespace_get = $new_whitespace_get;
-		} // end if
-		if ($this->whitespace_get) {
-			if (empty($_GET[$this->whitespace_get_url]) && $this->show_whitespace_comments) {
-				if ($this->strip_all_whitespace) {
+		}
+		if ($this->whitespace_get)
+		{
+			if (empty($_GET[$this->whitespace_get_url]) && $this->show_whitespace_comments)
+			{
+
+				if ($this->strip_all_whitespace)
+				{
 					$this->whitespace_comment_type = 'all';
-				} // end if
-				elseif ($this->strip_whitespace) {
+				}
+				elseif ($this->strip_whitespace)
+				{
 					$this->whitespace_comment_type = 'some';
-				} // end elseif
-				else {
+				}
+				else
+				{
 					$this->whitespace_comment_type = 'none';
-				} // end else
-			} // end if
-			else {
-				switch($_GET[$this->whitespace_get_url]) {
+				}
+
+			}
+			else
+			{
+				switch($_GET[$this->whitespace_get_url])
+				{
 					case 'none':
 					case '0':
 						$this->strip_whitespace = FALSE;
@@ -603,42 +865,74 @@ class Render_SmartyDoc extends Smarty
 						$this->whitespace_comment_type = 'some';
 						break;
 				} // end switch
-			} // end else
-		} // end if
+			}
+		}
 	} // end function
-	
-	 public function xml_plain($val = true) {
+
+	/**
+	 * This sets xml_plain to $val
+	 * calls setContentType
+	 * sets headers_ran true
+	 * @param bool
+	 */
+	 public function xml_plain($val = true)
+	 {
 		$this->xml_plain = $val;
 		$this->setContentType();
 		$this->headers_ran = true;
-	 } // end function
-	 
-	 public function rewrite_docraw_on($val = true) {
-		$this->rewrite_docraw_on = $val;
-	} // end function
+	 }
 
-	public function hidden_notes_dir ($hidden = true) {
-		if ($hidden || $hidden === 'hidden' || $hidden === 'hide') {
+	/**
+	 * Set Rewrite_docraw_on to $val
+	 * @param bool
+	 */
+	public function rewrite_docraw_on($val = true)
+	{
+		$this->rewrite_docraw_on = $val;
+	}
+
+	/**
+     * This hides the notes directory.
+     *
+     * @param bool
+     */
+	public function hidden_notes_dir ($hidden = true)
+	{
+		if ($hidden || $hidden === 'hidden' || $hidden === 'hide')
+		{
 			$this->notes_in_hiddendir = true;
 			$this->dr_notes_file = $this->site_root_hidden.$this->dr_notes_file_src;
-		} // end if
-		else {
+		}
+		else
+		{
 			$this->notes_in_hiddendir = false;
 			$this->dr_notes_file = $this->site_root_public.$this->dr_notes_file_src;
-		} // end else
+		}
 	}
-	 
-	public function hide_notes ($bool = true) { // Note that the opposite will make the notes public as well as visible in the comments of the output
-		if ($bool) {
+
+	/**
+     * If hide_notes(false) makes the notes public and visible in the comments of the output
+     * 
+     * @param bool
+     */
+	public function hide_notes ($bool = true) {
+		if ($bool)
+		{
 			$this->visible_notes = true;
 			$this->hidden_notes_dir(false);
-		} // end if
-		else {
+		}
+		else
+		{
 			$this->visible_notes = false;
 			$this->hidden_notes_dir();
-		} // end else
+		}
 	}
-	 
+
+    /**
+     * sets the rootnode element
+     *
+     * @param string
+     */
 	public function set_rootnode ($node = 'html') {
 		$this->rootnode = $node;
 
@@ -647,7 +941,7 @@ class Render_SmartyDoc extends Smarty
 		$lang = $langu;
 		if (!in_array($langu, array('cy', 'de', 'en', 'es', 'fr', 'pt', 'ru', 'ar', 'fa', 'it', 'hu'))) {
 			$lang = 'err'; // This shouldn't overwrite English if there is an error
-		} // end if
+		}
 		$this->dr_code_file_src = '/dr_mainscripts_'.$lang.'.js';
 		$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$lang.'.js';
 
@@ -669,25 +963,37 @@ class Render_SmartyDoc extends Smarty
 		$this->dr_xsl_pre = '<'.'?xml-stylesheet href="';
 		$this->dr_xsl_post = '?'.">\n";
 		
-		$this->xsd_prefixed = '<'.'?xml version="'.$this->xsd_xml_version.'"?'.">\n".'<xs:schema xmlns:xs="'.$this->xsd_ns.'"
-targetNamespace="'.$this->xsd_target_ns.'"
-xmlns="'.$this->xsd_xmlns.'"
-elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
+		$this->xsd_prefixed = '<'.'?xml version="'.$this->xsd_xml_version.'"?'.">\n".'<xs:schema xmlns:xs="'.$this->xsd_ns.'"targetNamespace="'.$this->xsd_target_ns.'"xmlns="'.$this->xsd_xmlns.'"elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
+
 		$this->xsl_prefixed = '<'.'?xml version="1.0"?'.">\n".'<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">'."\n";
 		
 		$this->entity_prefixed = '<'.'?xml version="1.0"?'.">\n";
 	}
 
-	public function no_prefilter() {
+	/**
+     * unregisters the smarty_prefilter_SmartyDoc
+     */
+	public function no_prefilter()
+	{
 		unregister_prefilter('smarty_prefilter_SmartyDoc');
 	}
 
+	/**
+     * Get a certain SmartyDocModule
+     *
+     * @param string
+     */
 	public function &getDocModule($smarty_doc_module='')
 	{
 		$module = $this->loadDocModule($smarty_doc_module);
 		return $this->doc_modules[$module];
 	}
 
+	/**
+     * Loades the SmartyDocModule
+     *
+     * @param string $smarty_doc_module contains modulename
+     */
 	public function loadDocModule($smarty_doc_module='')
 	{
 		if (!isset($smarty_doc_module) && is_string($smarty_doc_module) && strlen($smarty_doc_module)>0) {
@@ -701,6 +1007,11 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 		return $module;
 	}
 
+	/**
+     * Registers DocModule
+     *
+     * @param class
+     */
 	public function registerDocModule(ISmartyDocModule $smarty_doc_module)
 	{
 		$class = get_class($smarty_doc_module);
@@ -720,6 +1031,9 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Set the doctype family and level
+	 *
+	 * @param string $family contains doctype family
+	 * @param string $level cotains doctype level
 	 */
 	public function setDoctype($family='XHTML', $level='Transitional')
 	{
@@ -734,114 +1048,168 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	/**
 	 * Get the signature of the currently set doctype
 	 *
-	 * @return mixed doctype signature if available or otherwise null
+	 * @param string $docinfo contains the docinfo string
+	 * @param string $val contains value
+	 *
+	 * @return $dtd - mixed doctype signature if available or otherwise null
 	 */
 	public function getDoctypeSignature($docinfo = 'doc_info', $val = '')
 	{
 
-		if ($docinfo === 'doc_info' || $this->doc_infoalias) {
-			$value = $this->doc_info['dtd']; // A docinfo or add_openclose (value for latter will be empty if there is no docinfo (but not a doc_raw))
-		} // end if
-		else {
+		if ($docinfo === 'doc_info' || $docinfo === $this->doc_infoalias)
+		{
+			// A docinfo or add_openclose (value for latter will be empty if there is no docinfo (but not a doc_raw))
+			$value = $this->doc_info['dtd'];
+		}
+		else
+		{
 			$value = $val;
-		} // end else
-		if (!empty($value)) {
-			$family = strtoupper($value['family']); // Assuming an uppercase family name to allow lowercase to work in attributes (just using HTML and XHTML right now anyways)
+		}
+		if (!empty($value))
+		{
+			// Assuming an uppercase family name to allow lowercase to work in attributes (just using HTML and XHTML right now anyways)
+			$family = strtoupper($value['family']);
 			$level = ucfirst(strtolower($value['level']));
 			$file = $value['file'];
-			if ($this->external_comments || $this->comments) {
+			if ($this->external_comments || $this->comments)
+			{
 				$tplorig = $value['tplorig'];
 				$docpre = '<!-- Begin '.$docinfo.' dtd from template '.$tplorig." -->\n";
 				$docpost = '<!-- End '.$docinfo.' dtd from template '.$tplorig." -->\n";
-			} // end if
-			if ($level == '') {
-				$level = $this->doc_info_types['dtd']['meta_attribs']['level']; // Gets the default (e.g., "transitional")
-			} // end if
+			}
+			if ($level == '')
+			{
+				// Gets the default (e.g., "transitional")
+				$level = $this->doc_info_types['dtd']['meta_attribs']['level'];
+			}
 
-			$try_internal_doctype = false; // This is an extra attempt to see whether an internal doctype would be possible for an XHTML type
-			$rtbracket = '>'; // Used in else clause further below if not first reset in this next 'if'
-			if ($this->xml_plain && $this->internaldoctype) { // Note that this won't add any internal doctypes unless being served as XML
+			// This is an extra attempt to see whether an internal doctype would be possible for an XHTML type
+			$try_internal_doctype = false;
+			// Used in else clause further below if not first reset in this next 'if'
+			$rtbracket = '>';
+
+			// Note that this won't add any internal doctypes unless being served as XML
+			if ($this->xml_plain && $this->internaldoctype)
+			{
 				$try_internal_doctype = true;
 				$rtbracket = " [\n".$this->doctype_rawcontent.$this->docpre_doctype.$this->doctype_add.$this->docpost_doctype."\n]>";
-			} // end if
+			}
 
 			if (array_key_exists($family, $this->DTDS) &&
-				 array_key_exists($level, $this->DTDS[$family])) {
+				 array_key_exists($level, $this->DTDS[$family]))
+				{
 				$dtd = $docpre.$this->DTDS[$family][$level]['signature'];
-				if ($try_internal_doctype && in_array($level, self::$modular_xml)) {
-					$dtd = rtrim($dtd, '>'); // Make way for internal doctype first
+				if ($try_internal_doctype && in_array($level, self::$modular_xml))
+				{
+					// Make way for internal doctype first
+					$dtd = rtrim($dtd, '>');
 					$addrtbr = $rtbracket;
-				} // end if
-				elseif ($try_internal_doctype) { // Since they are adding an internal doctype, convert to form which can accept an internal doctype
+				}
+				// Since they are adding an internal doctype, convert to form which can accept an internal doctype
+				elseif ($try_internal_doctype)
+				{
 					$dtd = rtrim($this->DTDS['XHTML']['1.1']['signature'], '>');
 					$addrtbr = $rtbracket;
 					$this->application_xml = 'XHTML';
-				} // end elseif
+				}
 				$dtd .= $addrtbr."\n".$docpost;
-			} // end if
+			}
 			else {
-				$type = strtoupper($value['type']); // only uses uppercase (SYSTEM or PUBLIC identifiers)
+				// only uses uppercase (SYSTEM or PUBLIC identifiers)
+				$type = strtoupper($value['type']);
 				$subtype = $value['subtype'];
-				if (!empty($value['root'])) { // If dtd specified a root
+				// If dtd specified a root
+				if (!empty($value['root']))
+				{
 					$root = $value['root'];
-				} // end if
-				else {
+				}
+				else
+				{
 					$root = $this->rootnode; // May have been set by 'root' doc_info in addition to the other means (uses default otherwise)
-				} // end else
+				}
 
-				if ($root === 'html' && $type === 'PUBLIC' && !isset($subtype)) {
+				if ($root === 'html' && $type === 'PUBLIC' && !isset($subtype))
+				{
 					$type = $this->doc_info_types['dtd']['defaults']['type']; // PUBLIC
 					$subtype = '-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'; // If you're trying a DTD, go for the modular
 					$this->application_xml == 'XHTML';
-					$this->set_rootnode('html'); // It now should be (X)HTML
-				} // end if
-				elseif ($root !== 'html' && $type === 'PUBLIC' && !isset($subtype)) {
-					$type = 'SYSTEM'; // If a regular external DTD (but set by default to 'PUBLIC')
-				} // end elseif
-
-				if ($subtype == '') { // i.e., if original set but not blank but subtype is blank
-					if ($file == '') {
+					// It now should be (X)HTML
+					$this->set_rootnode('html');
+				}
+				elseif (!$this->avoid_blanksubtype && $root !== 'html' && $type === 'PUBLIC' && !isset($subtype))
+				{
+					// If a regular external DTD (but set by default to 'PUBLIC')
+					$type = 'SYSTEM';
+				}
+				elseif ($root !== 'html' && $type === 'PUBLIC' && !isset($subtype))
+				{
+					$nosubtype = true;
+				}
+				
+				// For a doctype doc_raw with no subtype specified
+				if ($nosubtype && $this->avoid_blanksubtype) {
+					$dtd = $docpre.'<!DOCTYPE '.$root;
+					$dtd .= $rtbracket;
+					$dtd .= "\n".$docpost;
+				}
+				// If original set but not blank but subtype is blank
+				elseif ($subtype == '')
+				{
+					if ($file == '')
+					{
 						$file = $this->dr_dtd_public_file;
-					} // end if
+					}
 					$dtd = $docpre.'<!DOCTYPE '.$root.' '.$type.' "'.$file.'"';
 					$dtd .= $rtbracket;
 					$dtd .= "\n".$docpost;
-				} // end if
+				}
 				else {
 					$dtd = $docpre.'<!DOCTYPE '.$root.' '.$type.' "'.$subtype.'"';
 					$dtd .= $rtbracket;
 					$dtd .= "\n".$docpost;
-				} // end else
-			} // end else
-		} // end if
-		elseif ($this->add_openclose) { // This should not allow internal doctypes since even modular XHTML would not only have an internal doctype
-			if ($this->external_comments || $this->comments) {
+				}
+			}
+		}
+		// This should not allow internal doctypes since even modular XHTML would not only have an internal doctype
+		elseif ($this->add_openclose)
+		{
+			if ($this->external_comments || $this->comments)
+			{
 				$docpre = '<!-- Begin auto add_openclose dtd '."-->\n";
 				$docpost = '<!-- End auto add_openclose dtd '."-->\n";
-			} // end if
-			$version = $this->doc_info['html']['version'];
-			if (isset($version)) { // If version is specified, add that version as a default
+			}
+			$version = $this->doc_info['html']['v'];
+			// If version is specified, add that version as a default
+			if (isset($version))
+			{
 				$dtd = $docpre.$this->DTDS['XHTML'][$version]['signature']."\n".$docpost;
-			} // end if
-			else {
+			}
+			else
+			{
 				$dtd = $docpre.$this->DTDS['XHTML']['Transitional']['signature']."\n".$docpost;
-			} // end else
-		} // end elseif
+			}
+		}
 
 		return $dtd;
 	}
 
 	/**
 	 * Set the default amount of indenting to apply to generated tags
+	 * variablename: doc_indent
+	 *
+	 * @param string $indent contains a certain number of indention spaces
 	 */
 	public function setIndent($indent='	')
 	{
-		if (isset($indent) && !empty($indent) && is_string($indent)) {
+		if (isset($indent) && !empty($indent) && is_string($indent))
+		{
 			$this->doc_indent = $indent;
 		}
 	}
 	/**
 	 * Get the default amount of indenting to apply to generated tags
+	 *
+	 * @return $this->doc_indent
 	 */
 	public function getIndent()
 	{
@@ -850,6 +1218,9 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Set the path to append to CSS style urls
+	 * variablename: doc_css_url
+	 *
+	 * @param string $url contains the doc_script_url
 	 */
 	public function setCSSUrl($url='')
 	{
@@ -860,6 +1231,9 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Set the path to append to script style urls
+	 * variablename: doc_script_url
+	 *
+	 * @param string $url contains the doc_script_url
 	 */
 	public function setScriptUrl($url='')
 	{
@@ -870,6 +1244,10 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Add raw data to be inserted verbatim into the document head
+	 *
+	 * @param string $content contains the content
+	 * @param $key
+	 * @param string $target contains the target
 	 */
 	public function addRawHeader($content='', $key=null, $target='head')
 	{
@@ -878,6 +1256,10 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Add raw data to be inserted verbatim into the document body
+	 *
+	 * @param string $content contains the content
+	 * @param $key
+	 * @param string $target contains the target
 	 */
 	public function addRawContent($content='', $key=null, $target='body')
 	{
@@ -887,114 +1269,148 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Add an item to the doc_info collected information
+	 *
+	 * @param array $params
+	 * @param bool $docraw
 	 */
 	public function addInfo($params=array(), $docraw = false)
 	{
 
-//		The following should be in the occur_once array:'title', 'base', 'xml', 'html', 'root', 'head', 'body', 'doctype', 'dtd';
-
-		if ($docraw) {
+		// The following should be in the occur_once array:'title', 'base', 'xml', 'html', 'root', 'head', 'body', 'doctype', 'dtd';
+		if ($docraw)
+		{
 			// Brett removed "is_string($params['key']) &&" from the following condition in order to allow keys which specified a sequence for placement
 			$key = (isset($params['key']) && strlen($params['key'])>0)
 				? $params['key']
 				: null;
 			$target = $params['target'];
 			$fileparam = $params['file'];
-			if ($fileparam == '') {
+			if ($fileparam == '')
+			{
 				$fileparam = 'main';
-			} // end if
-		} // end if
+			}
+		}
 	
-		foreach ($this->doc_info_types as $allowed=>$rules) {
+		foreach ($this->doc_info_types as $allowed=>$rules)
+		{
 			$element = array();
 			
+			// This 'if' follows constraints unless 'root' is the element (assuming it is not the "root" attribute within a 'dtd' or 'doctype') 
+			// Brett added a condition for doc_raws since they won't necessarily have an allowable parameter (but they may rely on the default attributes and definitely on the meta attribute target)
 			if (($docraw && strstr($allowed, $target)) || 
 				(isset($params[$allowed]) && array_key_exists($allowed, $params)) || 
 				($allowed === 'root' && isset($params['root'])&& !isset($params['dtd']) && !isset($params['doctype'])) ||
-				$allowed === 'pi' && isset($params['pi'])) {
-				// The above 'if' follows constraints unless 'root' is the element (assuming it is not the "root" attribute within a 'dtd' or 'doctype') // Brett added a condition for doc_raws since they won't necessarily have an allowable parameter (but they may rely on the default attributes and definitely on the meta attribute target)
-			 	if (($allowed === 'pi' && isset($params['pi'])) || ($allowed === 'root' && isset($params['root'])&& !isset($params['dtd']) && !isset($params['doctype']))) { // Allow plain XML to have as many attributes as its call has (besides "root" itself)
-					foreach($params as $k=>$v) {
-						if ($k !== 'root' && $k !== 'pi') { // Don't want 'root' showing up in the attributes
+				$allowed === 'pi' && isset($params['pi']))
+				{
+			 	// Allow plain XML to have as many attributes as its call has (besides "root" itself)
+			 	if (($allowed === 'pi' && isset($params['pi'])) || ($allowed === 'root' && isset($params['root'])&& !isset($params['dtd']) && !isset($params['doctype'])))
+			 	{
+					foreach($params as $k=>$v)
+					{
+						// Don't want 'root' showing up in the attributes
+						if ($k !== 'root' && $k !== 'pi')
+						{
 							$_k = str_replace('_', '-', str_replace('__', ':', $k));
 							$element[$_k] = $params[$k];
-							if (in_array($attribute, $this->file_attribs)) {
+							if (in_array($attribute, $this->file_attribs))
+							{
 								$element[$_k] = urlencode($element[$_k]);
-							} // end if
-						} // end if
-					} // end foreach
-				} // end if
-				else {
-					if ($this->xml_plain && is_array($rules['include_in_xml'])) {
+							}
+						}
+					}
+				}
+				else
+				{
+					if ($this->xml_plain && is_array($rules['include_in_xml']))
+					{
 						$rules2cycle = $rules['include_in_xml'];
-						if (is_array($rules['xml_defaults'])) {
-							foreach($this->doc_info_types[$allowed]['xml_defaults'] as $defkey => $default) {
+						if (is_array($rules['xml_defaults']))
+						{
+							foreach($this->doc_info_types[$allowed]['xml_defaults'] as $defkey => $default)
+							{
 								$element[$defkey] = $default;
-							} // end foreach
-						} // end if
-					} // end if
-					else {
+							}
+						}
+					}
+					else
+					{
 						$rules2cycle = $rules['optional'];
-					} // end else
-					
+					}
+
 					$rules2cycle = array_merge($rules2cycle, $rules['meta_attribs']);
 
-					
+
 					$paramkeys = array_keys($params);
-					
-					foreach ($paramkeys as $paramkey) { // If contains unexpected attributes, cycle again to avoid the break below (e.g., if the $allowed doctype was, by a fluke, in the params--e.g., "title" not as a title but as an attribute of some other element)
+
+					// If contains unexpected attributes, cycle again to avoid the break below (e.g., if the $allowed doctype was, by a fluke, in the params--e.g., "title" not as a title but as an attribute of some other element)
+					foreach ($paramkeys as $paramkey) {
 						if (((!$docraw && $paramkey !== $allowed) ||
 							($docraw && $params['target'] !== $allowed)) &&
 								!in_array($paramkey, $rules2cycle) && 
-								!in_array($paramkey, $rules['defaults'])) {
-								// If decide to allow renameto's for docraws, the portion "!docraw &&" of the first condition should be removed 
+								!in_array($paramkey, $rules['defaults']))
+							{
+							// If decide to allow renameto's for docraws, the portion "!docraw &&" of the first condition should be removed 
 							continue 2;
 						}
-					} // end foreach
+					}
 
-					foreach ($rules2cycle as $key2 => $attribute) {
+					foreach ($rules2cycle as $key2 => $attribute)
+					{
 						$_attribute = str_replace('_', '-', str_replace('__', ':', $attribute));
-						if (isset($params[$attribute]) && array_key_exists($attribute, $params)) {
+						if (isset($params[$attribute]) && array_key_exists($attribute, $params))
+						{
 							$element[$_attribute] = $params[$attribute];
-						} elseif (array_key_exists($attribute, $params)) {
+						}
+						elseif (array_key_exists($attribute, $params))
+						{
 							$element[$_attribute] = null;
-						} elseif (array_key_exists($attribute, $rules['defaults'])) {
+						}
+						elseif (array_key_exists($attribute, $rules['defaults']))
+						{
 							$element[$_attribute] = $rules['defaults'][$attribute];
 						}
-						if (in_array($attribute, $this->file_attribs)) {
+						if (in_array($attribute, $this->file_attribs))
+						{
 							$element[$_attribute] = urlencode($element[$_attribute]);
-						} // end if
-					} // end foreach
+						}
+					}
 
-				} // end else
-				if (!$docraw) { // The renameto portion might also be allowed for docraws (but first follow the notes around the "continue 2" loop above; some other changes would also be necessary
+				}
+				// The renameto portion might also be allowed for docraws (but first follow the notes around the "continue 2" loop above; some other changes would also be necessary
+				if (!$docraw)
+				{
 					$renameto = (is_null($rules['renameto'])) ? '_content' : $rules['renameto'];
 					$element[$renameto] = $params[$allowed];
 					// Docinfos now also have access to originating template (but won't print this out except in comments)
 					$element['tplorig'] = $params['tplorig'];
 					if (in_array($allowed, $this->occur_once)) { // Those that occur once
 						$this->doc_info[$allowed] = $element;
-					} else {
+					}
+					else
+					{
 						$this->doc_info[$allowed][$element[$renameto]] = $element;	
-					} // end else
-				} // end if
+					}
+				}
 				break;
-			} // end if
-		} // end foreach
+			}
+		}
 		if ($docraw) {
 			// Add file attribute to external ones (and xform to both)
 			$element['tplorig'] = $params['tplorig'];
 
-			if (empty($key)) {
+			if (empty($key))
+			{
 				self::$unique++;
 				$id = self::$unique;
 				$this->doc_raw[$target][$fileparam][$id] = $element;
-			} else {
+			}
+			// by specific (renameto) (e.g., the doc_raw referencing that file; otherwise, if as above, the doc_raw variable may be overwritten)
+			else
+			{
 				$this->doc_raw[$target][$fileparam][$key] = $element;
-			} // by specific (renameto) (e.g., the doc_raw referencing that file; otherwise, if as above, the doc_raw variable may be overwritten)
-
-		} // end if
-	} // end function addInfo
+			} 
+		}
+	}
 
 	/**
 	 * Get a previously stored raw header data item
@@ -1009,6 +1425,9 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	/**
 	 * Get a previously stored raw header data item
 	 *
+	 * @param $key
+	 * @param string $target
+	 *	 
 	 * @return mixed raw header item based on key, current header item if key=null otherwise false
 	 */
 	public function getRawHeader($key=null, $target='head')
@@ -1019,6 +1438,9 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	/**
 	 * Get a previously stored raw body data item
 	 *
+	 * @param $key
+	 * @param string $target
+	 *
 	 * @return mixed raw body item based on key, current body item if key=null otherwise false
 	 */
 	public function getRawContent($key=null, $target='body')
@@ -1028,15 +1450,24 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Override Smarty::fetch() to ensure that the SmartyDoc outputfilter is not active
+	 *
+	 * @param $resource_name
+	 * @param $cache_id
+	 * @param $compile_id
+	 * @param bool $display
+	 *
+	 * @return echoes $output
 	 */
 	public function fetch($resource_name, $cache_id=null, $compile_id=null, $display=false)
 	{
 		$outputfilter_loaded = array_key_exists('smarty_outputfilter_SmartyDoc', $this->_plugins['outputfilter']);
-		if ($outputfilter_loaded) {
+		if ($outputfilter_loaded)
+		{
 			$this->unregister_outputfilter('smarty_outputfilter_SmartyDoc');
 		}
 		$output = parent::fetch($resource_name, $cache_id, $compile_id);
-		if ($outputfilter_loaded) {
+		if ($outputfilter_loaded)
+		{
 			$this->register_outputfilter(array($this, 'smarty_outputfilter_SmartyDoc'));
 		}
 		if (!$display) return $output;
@@ -1045,6 +1476,10 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 	/**
 	 * Similar to Smarty::display() except that it defers to SmartyDoc::fetchDoc().
+ 	 *
+	 * @param $resource_name
+	 * @param $cache_id
+	 * @param $compile_id
 	 */
 	public function displayDoc($resource_name, $cache_id=null, $compile_id=null)
 	{
@@ -1057,130 +1492,169 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 * Produce a complete document as determined by the collected document
 	 * information and using the SmartyDoc outputfilter. Clears collected
 	 * document information after executing.
+	 *
+	 * @param $resource_name
+	 * @param $cache_id
+	 * @param $compile_id
+	 * @param bool $display
+	 *
+	 * @return echoes $output
 	 */
 	public function fetchDoc($resource_name, $cache_id=null, $compile_id=null, $display=false)
 	{
 		
 		$this->register_outputfilter(array($this, 'smarty_outputfilter_SmartyDoc'));
-		if ($this->strip_whitespace) {
+		if ($this->strip_whitespace)
+		{
+			// This filter doesn't work for very large files at least within the textarea block (due to use of preg_replace which has apparent size limits)--for my system anything greater than 99996 characters would cause the page to go completely blank
 			$this->load_filter('output', 'trimwhitespace');
-		} // end elseif
+		}
 		$output = parent::fetch($resource_name, $cache_id, $compile_id);
 //		if (!isset($this->headers_ran) || !$this->headers_ran) {
-
-
 			$this->setContentType();
-			
+			/* While I was testing, it seemed Explorer needed the following to be forced, though now it is ok (scratches head); still working on this, so don't delete it yet
 			if ($this->force_html) {
 				$this->HTTP_ACCEPT = 'text/html';
-			} // end if
+			}
 			elseif ($this->force_css) {
 				$this->HTTP_ACCEPT = 'text/css';
-			} // end elseif
-			
+			}
+*/
+
 			header('Content-Script-Type: text/javascript');
 			header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
-//		} // end if
+//		}
 		
 		$this->unregister_outputfilter('smarty_outputfilter_SmartyDoc');
 		$this->resetDoc();
 
+		// zlib.output_compression cannot be used with ob_gzhandler()
 		if (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
 			substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && 
 			ini_get('zlib.output_compression')
-			) { // zlib.output_compression cannot be used with ob_gzhandler()
+			)
+		{
 			// If you want to use this, you will presumably want to set zlib.output_compression_level to a positive value as well
 			$ob_enabled = false;
-		} // end if
-		elseif (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && $this->gzip_output) { // PHP documentation states that the former is preferable (if available)
-			ob_start('ob_gzhandler'); // Commenting out for local testing
+		}
+		// PHP documentation states that the former is preferable (if available)
+		elseif (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
+		 		  substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') 
+		 		  && $this->gzip_output)
+		{
+			ob_start('ob_gzhandler');
 			$ob_enabled = true;
-		} // end elseif
-		else {
+		}
+		else
+		{
 			$ob_enabled = false; // (could add a plain ob_start(), but no point in this script)
-		} // end else
+		}
 
-		if (!$display) {
+		if (!$display)
+		{
 			return $output;
-		} // end if
-		
+		}
+
 		echo $output;
 
-		if ($ob_enabled) { // This surrounding conditional probably isn't necessary
+		// This surrounding conditional probably isn't necessary
+		if ($ob_enabled)
+		{
 			ob_end_flush();
-		} // end if
+		}
 
 	}
 
 	/**
+	 * This function sets up the Smarty SmartyDoc Prefilter
+	 *
 	 * Convert the curly braces temporarily into double brackets, so that
 	 * Smarty can parse them (for CSS or Javascript)
+	 *
 	 */
 	public function smarty_prefilter_SmartyDoc($source, &$smarty)
 	{
-		// Remember when debugging prefilters like this one, you have to require compiling each time or delete the compiled files!!!
+		// Remember when debugging prefilters like this one, you have to require
+		// compiling each time or delete the compiled files!!!
 	
-		if ($this->left_tagcdelim === '<') { // protect comments temporarily
+		// protect comments temporarily
+		if ($this->left_tagcdelim === '<')
+		{
 			$source = preg_replace('@'.$this->left_tagcdelim.'\!([^'.$this->right_tagcdelim.']*?)'.$this->right_tagcdelim.'@', '[[[!$1!]]]', $source);
 			$source = preg_replace('@'.$this->left_tagcdelim.'\?([^'.$this->right_tagcdelim.']*?)'.$this->right_tagcdelim.'@', '[[[?$1?]]]', $source);
 			$source = preg_replace('@'.$this->left_tagcdelim.'([^'.$this->right_tagcdelim.']*?)/'.$this->right_tagcdelim.'@', '[[[/$1/]]]', $source);
 			$callback00 = create_function('$matches', "return \$matches[1].str_replace(array('<', '>'), array('--docinfobegin--', '--docinfoend--'), \$matches[2]).\$matches[3];");
 			$source = preg_replace_callback('@(\{'.$this->doc_infoalias.')([^}]*?)(\})@s', $callback00, $source);
-			$callback0 = create_function('$matches', "return \$matches[1].str_replace('<', '--cdata--', \$matches[2]).\$matches[3];");			
+			$callback0 = create_function('$matches', "return \$matches[1].str_replace('<', '--cdata--', \$matches[2]).\$matches[3];");
 			$source = preg_replace_callback('@(\{cdata\})([^{]*?)(\{\/cdata\})@s', $callback0, $source);
-		} // end if
+		}
 
+		/**
+		 * Prepare delimiters for insertion into regexps below
+		 */
+		 
+		// The "closing" tag does not need the actual tag name, but since it may be more clear in the template to have it, it can be deleted here through a regexp (instead of later in the next str_replace
+		$source = preg_replace('@'.$this->left_tagcclose.'[^'.$this->right_tagcclose.']*?'.$this->right_tagcclose.'@', '{/tagc}', $source);
 
-		// Prepare delimiters for insertion into regexps below
-		$source = preg_replace('@'.$this->left_tagcclose.'[^'.$this->right_tagcclose.']*?'.$this->right_tagcclose.'@', '{/tagc}', $source); // The "closing" tag does not need the actual tag name, but since it may be more clear in the template to have it, it can be deleted here through a regexp (instead of later in the next str_replace
-//		$source = preg_replace('@'.$this->left_tagclose.'([^'.$this->right_tagclose.']*?)'.$this->right_tagclose.'@', '</$1>', $source); //  Didn't really need these (unless making them as opening rather than self-closing tags--but opening would probably be rare)
+		//  Didn't really need these (unless making them as opening rather than self-closing tags--but opening would probably be rare)
+		// $source = preg_replace('@'.$this->left_tagclose.'([^'.$this->right_tagclose.']*?)'.$this->right_tagclose.'@', '</$1>', $source);
 
 		// Could replace these with regular expresions (e.g., to avoid replacement of the delimiters not meant as delimiters), but would slow things down somewhat
 		// The function will probably be most conveniently used with self-closing tags (although self-closing that need styling would be rare) since just using opening tags might be even more rare
 		$source = str_replace(
 			array(
-			$this->left_tagcdelim, $this->right_tagcdelim , 
-				$this->left_tagdelim, $this->right_tagdelim2, $this->right_tagdelim, 
-			), 	
+			$this->left_tagcdelim, $this->right_tagcdelim ,
+				$this->left_tagdelim, $this->right_tagdelim2, $this->right_tagdelim,
+			),
 			array(
 				'{tagc e=', '}' ,
 				'{tag sc=', '}', '}'
 			), $source);
 
-		if ($this->left_tagcdelim === '<') { // protect comments temporarily
+		// protect comments temporarily
+		if ($this->left_tagcdelim === '<')
+		{
 			$source = str_replace(array('[[[!', '!]]]'), array('<!', '>'), $source);
 			$source = str_replace(array('[[[?', '?]]]'), array('<?', '>'), $source);
 			$source = str_replace(array('[[[/', '/]]]'), array('<', '/>'), $source);
 			$source = str_replace('--cdata--', '<', $source);
 			$source = str_replace('--docinfobegin--', '<', $source);
 			$source = str_replace('--docinfoend--', '>', $source);
-		} // end if
+		}
 
 		$ldelim = preg_quote($this->left_delimiter, '@');
 		$rdelim = preg_quote($this->right_delimiter, '@');
 
-		$source = preg_replace('@'.$ldelim.'\$([^}]*?)'.$rdelim.'@', '-~#-~$1-#~-', $source); // Adding a temporary replacement to hide the genuine smarty variables from the other curly brace items
-		$source = preg_replace('@'.$ldelim.'#([^}]*?)'.$rdelim.'@', '--#-~$1--~-', $source); // Adding a temporary replacement to hide the genuine config variables from the other curly brace items
+		// Adding a temporary replacement to hide the genuine smarty variables from the other curly brace items
+		$source = preg_replace('@'.$ldelim.'\$([^}]*?)'.$rdelim.'@', '-~#-~$1-#~-', $source);
+		// Adding a temporary replacement to hide the genuine config variables from the other curly brace items
+		$source = preg_replace('@'.$ldelim.'#([^}]*?)'.$rdelim.'@', '--#-~$1--~-', $source);
 
-		$callback = create_function('$matches', "return \$matches[1].str_replace(array('{', '}'), array('[[[', ']]]'), \$matches[4]).\$matches[5];"); // This approach is better than using preg_replace with the e modifier, since preg_replace auto-performs addslashes() which we do not want here
+		// This approach is better than using preg_replace with the e modifier, since preg_replace auto-performs addslashes() which we do not want here
+		$callback = create_function('$matches', "return \$matches[1].str_replace(array('{', '}'), array('[[[', ']]]'), \$matches[4]).\$matches[5];");
 
 		$source = preg_replace_callback("@(".$ldelim.$this->doc_infoalias."\s+(style|script)=(['|\"]))([^\\3]*?)(\\3.*?".$rdelim.")@s", $callback, $source);
 
-		$glued_docraws = implode('|', $this->doc_raws_tosearch); // Will search for all allowable doc_raw targets
+		// Will search for all allowable doc_raw targets
+		$glued_docraws = implode('|', $this->doc_raws_tosearch);
 
-//		print "@(".$ldelim."doc_raw\s+target=(['|\"]{0,1})(".$glued_docraws.")\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/doc_raw".$rdelim.")@s";exit;
-//print htmlentities($source);exit;
+		//	print "@(".$ldelim."doc_raw\s+target=(['|\"]{0,1})(".$glued_docraws.")\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/doc_raw".$rdelim.")@s";exit;
+		//	print htmlentities($source);exit;
 		
+
+
+
 		$source = preg_replace_callback("@(".$ldelim.$this->doc_rawalias."\s+target=(['|\"]{0,1})(".$glued_docraws.")\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/".$this->doc_rawalias.$rdelim.")@s", $callback, $source);
-		
 
-		$source = preg_replace('@-~#-~(.*?)-#\~-@s', $this->left_delimiter.'$$1'.$this->right_delimiter, $source); // Reverting back temporary replacement from above to allow smarty variables to work
-		$source = preg_replace('@--#-~(.*?)--\~-@s', $this->left_delimiter.'#$1'.$this->right_delimiter, $source); // Reverting back temporary replacement from above to allow config variables to work
+		// Reverting back temporary replacement from above to allow smarty variables to work
+		$source = preg_replace('@-~#-~(.*?)-#\~-@s', $this->left_delimiter.'$$1'.$this->right_delimiter, $source);
+		// Reverting back temporary replacement from above to allow config variables to work
+		$source = preg_replace('@--#-~(.*?)--\~-@s', $this->left_delimiter.'#$1'.$this->right_delimiter, $source);
 
 		$source = str_replace(array('[#', '#]'), array($this->left_delimiter.'#', $this->right_delimiter), $source);
 		$source = str_replace(array('[-', '-]'), array($this->left_delimiter.'$', $this->right_delimiter), $source);
-		$source = str_replace(array('[=', '=]'), array($this->left_delimiter, $this->right_delimiter), $source); // For Smarty functions
-	
+		// For Smarty functions
+		$source = str_replace(array('[=', '=]'), array($this->left_delimiter, $this->right_delimiter), $source);
 
 		return $source;
 	}
@@ -1190,39 +1664,77 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 * PROTECTED API
 	 */
 
+	/**
+     * This functions adds Raw content to the doc_raw array.
+     *
+     * @param $content
+     * @param string $key
+	 * @param string $target
+	 * @param string $file
+	 * @access protected
+     */
 	protected function addRaw($content, $key='', $target='head', $file='main')
 	{
 		$target = strtolower($target);
-		
-		if (!in_array($target, $this->doc_raws_tosearch)) { // Set if the target is faulty
+
+		// Set if the target is faulty
+		if (!in_array($target, $this->doc_raws_tosearch))
+		{
 			$target = 'head';
 		}
-		if (isset($content) && !empty($content)) { // Brett removed && is_string($content) 
-			if ($file == '') {
+	
+		// Brett removed && is_string($content)
+		if (isset($content) && !empty($content))
+		{
+			if ($file == '')
+			{
 				$file = 'main';
-			} // end if
-			if (empty($key)) {
+			}
+			if (empty($key))
+			{
 				self::$unique++;
 				$id = self::$unique;
 				$this->doc_raw[$target][$file][$id]['_content'] =  $content;
-			} else {
+			}
+			else
+			{
 				$this->doc_raw[$target][$file][$key]['_content'] = $content;
 			}
 		}
 	}
-	// Note that getRaw is now getting an associative array, since the attributes are included. --Brett
+
+	/**
+	 * This function gets Raw content from the doc_raw array.
+	 *
+	 * Note by Brett:
+	 * getRaw is now getting an associative array, since the attributes are included.
+	 *
+	 * @param string $key
+	 * @param string $target
+	 * @param string $file
+	 * @access protected
+	 * @return doc_raw[$target][$file][$key]
+	 */
 	protected function getRaw($key=null, $target='head', $file='main')
 	{
 		$target = strtolower($target);
-		if (!in_array($target, $this->doc_raws_tosearch)) {
+
+		// Set if the target is faulty
+		if (!in_array($target, $this->doc_raws_tosearch))
+		{
 			$target = 'head';
-		} // Set if the target is faulty
-		if (isset($key) && is_string($key) && strlen($key)>0) {
-			if (!isset($this->doc_raw[$target][$file][$key])) {
+		}
+
+		if (isset($key) && is_string($key) && strlen($key)>0)
+		{
+			if (!isset($this->doc_raw[$target][$file][$key]))
+			{
 				return false;
 			}
 			return $this->doc_raw[$target][$file][$key];
-		} else {
+		}
+		else
+		{
 			self::$unique++;
 			$id = self::$unique;
 			return current($this->doc_raw[$target][$file][$id]);
@@ -1249,63 +1761,83 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$smarty->loadDocModule($params['name']);
 		}
 	}
-	
 
- /**
-  * Smarty
-  *
-  * Function used by modifier, function, and block to transform XML by XSL
-  *
-  * @returns transformed XML
-  */	
-	public function prepare_xsl($xml, $xsl, $prefix = '', $xmlns = '', $xsisl = '', $pre_add = '') {
-		
+
+
+    /**
+     * prepare_xsl
+     *
+     * This function is used by a set of XML/XSL smarty modifiers, block functions, 
+     * and a regular function, to transform XML by XSL
+     *
+     * @param $xml
+     * @param $xsl
+     * @param string $prefix
+     * @param string $xmlns
+     * @param string $xsisl
+     * @param string $pre_add
+     * @return transformed XML
+     */
+	public function prepare_xsl($xml, $xsl, $prefix = '', $xmlns = '', $xsisl = '', $pre_add = '')
+	{
 		// Note that pre_add can only work if converting all of the document's elements to the same one namespace (i.e., no multiple prefixes should be submitted to this function nor should there be any already there if using pre_add (nor any additional xmlns')--otherwise, delimit prefixes/xsisl/xmlns by space and make sure the prefixes match the xmlns order)
 		// I wasn't actually able to get the pre_add to work (at least by using an XSL command which referenced the prefix:  <for-each select="goo:catalog/goo:cd"> in it; just set this to '' for now
-		if ($xsisl != '') {
+		if ($xsisl != '')
+		{
 			$tok = strtok($xsisl, ' ');
-			while ($tok !== false) {
+			while ($tok !== false)
+			{
 				$this->extra_xsds[$tok] = $tok; // added $tok as key to prevent duplicates
 				$tok = strtok(' ');
-			} // end while
-		} // end if
-		if ($xmlns != '') {
+			}
+		}
+		if ($xmlns != '')
+		{
 			$xmlnss = explode(' ', $xmlns);
 			$prefixes = explode(' ', $prefix);
-			for ($i = 0, $cnt = count($xmlnss); $i < $cnt; $i++) {
+			for ($i = 0, $cnt = count($xmlnss); $i < $cnt; $i++)
+			{
 				$this->extra_xmlns[$prefixes[$i]] = 'xmlns:'.$prefixes[$i].'="'.$xmlnss[$i].'"';
-			} // end for
-		} // end if
+			}
+		}
 
-		if ((strstr($xml, '/') || strstr($xml, '.')) && !strstr($xml, '<')) { // i.e., if a file and not XML
+		// If a file and not XML
+		if ((strstr($xml, '/') || strstr($xml, '.')) && !strstr($xml, '<'))
+		{
 			$xml = file_get_contents($xml);
-		} // end if
+		}
 
 		$xslproc = new XSLTProcessor;
-		if ((strstr($xml, '/') || strstr($xsl, '.')) && !strstr($xsl, '<')) { // i.e., if a file and not XML
+
+		// If a file and not XML
+		if ((strstr($xml, '/') || strstr($xsl, '.')) && !strstr($xsl, '<'))
+		{
 			$xsl = file_get_contents($xsl);
-		} // end if
+		}
 
 		$rootnode = '';
-		if (!empty($pre_add) && !strstr($prefix, ' ')) {
+		if (!empty($pre_add) && !strstr($prefix, ' '))
+		{
 			$xml = preg_replace('@\<(\s*)(([^!/<> ?]+)[^<>]*?)\>@e', '$rootnode = \'<'.$prefix.':$2 xmlns:'.$prefix.'="'.$xmlns.'">\';', $xml, 1); // Only do the first tag (i.e., the root)
 			$xml = preg_replace('@\<(\s*)([^!/<>:?][^<>:]*?)\>@s', '<'.$prefix.':$2>', $xml);
 			$xml = stripslashes(preg_replace('@\<(\s*)/([^!<>:]*?)\>@s', '</'.$prefix.':$2>', $xml));
-		} // end if
+		}
 
 		// This and the next str_replace were necessary since Smarty's "capture" feature was creating these echo statements apparently
 		$xsl = str_replace(array("<?php echo '<?xml'; ?>version", "<?php echo '?>'; ?>"), array('<?xml version', '?>'), $xsl);
 
-		$xslproc->importStyleSheet(DOMDocument::loadXML($xsl)); // attach the xsl rule
+		// Attach the xsl rule
+		$xslproc->importStyleSheet(DOMDocument::loadXML($xsl));
 
 		$xml = str_replace(array("<?php echo '<?xml'; ?>-", "<?php echo '<?xml'; ?>version", "<?php echo '?>'; ?>", "<?php echo '?>';  echo '<?xml'; ?>-"), array('<?xml-', '<?xml version', '?>', '?><?xml-'), $xml);
 
 		$xml = $xslproc->transformToXML(DOMDocument::loadXML($xml));
 
-		if (empty($pre_add) && isset($prefix) && !strstr($prefix, ' ')) {
+		if (empty($pre_add) && isset($prefix) && !strstr($prefix, ' '))
+		{
 			$xml = preg_replace('@\<(\s*)([^/<>:?][^<>]*?)\>@s', '<'.$prefix.':$2>', $xml);
 			$xml = preg_replace('@\<(\s*)/([^<>:]*?)\>@s', '</'.$prefix.':$2>', $xml);
-		} // end if
+		}
 
 
 		return str_replace("<"."?xml version=\"1.0\"?".">", '', $xml);
@@ -1320,7 +1852,7 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 *									or variable.
 	 * Arguments:
 	 * 	xsl - xsl filename or variable to use
-	 * 
+	 *
 	 * Example:  {$xmldoc|xsl:"/path/to/myxsl.xsl"}
 	 * Author: Brett Zamir (idea from Richard Bateman's SomeXSLTPlugins)
 	 * -------------------------------------------------------------
@@ -1338,7 +1870,7 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 * Purpose:  Transform the variable using the specified XSL file or variable.
 	 * Arguments:
 	 * 	xml - xml variable or filename to use
-	 * 
+	 *
 	 * Example:  {$xsldoc|xml:"/path/to/myxml.xml"}
 	 * Author: Brett Zamir (idea from Richard Bateman's SomeXSLTPlugins)
 	 * -------------------------------------------------------------
@@ -1347,7 +1879,7 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	{
 		return $this->prepare_xsl($xml, $xsl);
 	}
-	
+
 	/*
 	 * Smarty plugin
 	 * -------------------------------------------------------------
@@ -1360,7 +1892,7 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 *  prefix: Optional argument to add a namespace prefix; takes values 'prexform' or 'postxform' as to at which stage the prefix is added
 	 * xslprefix: Optional argument to add namespace prefix to XSL stylesheet before transforming (i.e., "xsl" if your stylesheet doesn't already use it)
 	 * Author: Brett Zamir (idea from Richard Bateman's SomeXSLTPlugins)
-	 * 
+	 *
 	 * -------------------------------------------------------------
 	 */
 	public function smarty_function_xslt($params, &$this)
@@ -1375,21 +1907,22 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 		return $xml;
 	}
 
-	/*
+	/**
 	 * Smarty plugin
 	 * -------------------------------------------------------------
 	 * File:     block.xsl.php
 	 * Type:     block
 	 * Name:     xsl
 	 * Purpose:  transform XML from variable or file using XSLT inside block
-	 * Params:  
+	 * Params:
 	 * * "xml" - specify a variable or filename with the XML document
 	 * Author:   Brett Zamir (idea from Serge Stepanov's XSLT block function)
 	 * -------------------------------------------------------------
 	 */
 	public function smarty_block_xsl($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '') {
+		if ($content != '') 
+		{
 			$xml = $params['xml'];
 			$xsl = $content;
 			$prefix = $params['prefix'];
@@ -1397,24 +1930,25 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$xsisl = $params['xsisl'];
 			$xmlns = $params['xmlns'];
 			return $this->prepare_xsl($xml, $xsl, $prefix, $xmlns, $xsisl, $pre_add);
-		} // end if
+		}
 	}
 
-	/*
+	/**
 	 * Smarty plugin
 	 * -------------------------------------------------------------
 	 * File:     block.xml.php
 	 * Type:     block
 	 * Name:     xml
 	 * Purpose:  transform XML inside block from XSL variable or file
-	 * Params:  
+	 * Params:
 	 * * "xsl" - specify a variable or filename with the XSL document
 	 * Author:   Brett Zamir (idea from Serge Stepanov's XSLT block function)
 	 * -------------------------------------------------------------
 	 */
 	public function smarty_block_xml($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '') {
+		if ($content != '')
+		{
 			$xml = $content;
 			$xsl = $params['xsl'];
 			$prefix = $params['prefix'];
@@ -1426,30 +1960,40 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	}
 
 	/**
-	 * Smarty {doc_raw} block plugin
+	 * Smarty {cdata} block plugin
 	 *
 	 * Escape some raw text as CDATA
 	 *
+	 * @param $params
+     * @param $content
+     * @param $smarty
+     * @param $repeat
 	 * @return nothing
 	 */
 	public function smarty_block_cdata($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '' && $this->xml_plain) {
+		if ($content != '' && $this->xml_plain)
+		{
 			return "<![CDATA[\n".$content."\n]]>\n";
-		} // end if
-	} // end function smarty_block_cdata
+		}
+	}
 
 
-/**
-	 * Smarty {doc_raw} block plugin
+	/**
+	 * Smarty {xinclude} block plugin
 	 *
 	 * Export some text into a file and then include it via an XInclude reference
 	 *
+	 * @param $params
+     * @param $content
+     * @param $smarty
+     * @param $repeat
 	 * @return nothing
 	 */
 	public function smarty_block_xinclude($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '' && $this->xml_plain) {
+		if ($content != '' && $this->xml_plain)
+		{
 			$this->xincludeset = true;
 			$output = "<xi:include";
 
@@ -1463,73 +2007,87 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$output .= isset($params['accept_language'])?' accept-language="'.$params['accept_language'].'"':'';
 			$output .= "/>\n";
 
-			if ($smarty->rewrite_docraw_on && !$this->caching && $this->compile_check) {
+			if ($smarty->rewrite_docraw_on && !$this->caching && $this->compile_check)
+			{
 				$file = isset($params['file'])?$params['file']:$params['href'];
 				file_put_contents($file, $content);
-			} // end if
+			}
 			return $output;
-		} // end if
-	} // end function smarty_block_cdata
+		}
+	}
 
 	/**
 	 * Smarty {doc_raw} block plugin
 	 *
-	 * Alias of moveto
+	 * Deprecated alias of moveto
 	 *
 	 * @return nothing
+	 * @see smarty_block_moveto()
 	 */
-	public function smarty_block_doc_raw($params, $content, &$smarty, &$repeat) {
+	public function smarty_block_doc_raw($params, $content, &$smarty, &$repeat)
+	{
 		$this->smarty_block_moveto($params, $content, $smarty, $repeat);
 	}
-	
+
 	/**
 	 * Smarty {moveto} block plugin
 	 *
 	 * Insert some raw text into the html header from anywhere at anytime
 	 *
+	 * @param $params
+     * @param $content
+     * @param $smarty
+     * @param $repeat
 	 * @return nothing
 	 */
 	public function smarty_block_moveto($params, $content, &$smarty, &$repeat)
 	{
-		//	var_dump($content);
-		if (isset($params['tplorig'])) { // Might have been set in "tag"
+		// Might have been set in "tag"
+		if (isset($params['tplorig']))
+		{
 			$smarty->currfileblock = $params['tplorig'];
-		} // end if
+		}
 		$target = $params['target'];
 		$fileparam = $params['file'];
 		$getparam = $params['get'];
-
+		
 		// Brett removed this condition: is_string($params['key']) && 
 		$key = (isset($params['key']) && strlen($params['key'])>0)
 			? $params['key']
 			: null;
 		$doc_info_comm_style = $this->doc_info_types[$target]['doc_raw_comment_style'];
-		$comment_style = $params['comment_style'];
+		$comment_style = strtolower($params['comment_style']);
 		$comments = true;
 
 		$externaldocraw = false;
-		if (in_array($target, $this->external_doc_raws)) {
-			$externaldocraw = true; // Always, always add comments to the stylesheet/script/etc. since otherwise we cannot auto-replace the correct portion of the file
-		} // end if
+		if (in_array($target, $this->external_doc_raws))
+		{
+			// Always, always add comments to the stylesheet/script/etc. since otherwise we cannot auto-replace the correct portion of the file
+			$externaldocraw = true;
+		}
 
 		// The following checks if the type is potentially variable for comment type, and if so, whether the user specified a non-default type
-		if (($doc_info_comm_style === 'hidden' || $comment_style === 'hidden') && !$externaldocraw) { // If the type, or the user specifies comments to be hidden, make it hidden
+		// If the type, or the user specifies comments to be hidden, make it hidden
+		if (($doc_info_comm_style === 'hidden' || $comment_style === 'hidden') && !$externaldocraw)
+		{
 			$comment_type = 'none'; // This was added for the sake of notes, but as it could cause problems in external documents as in external documents, it will keep writing additional data; therefore, this 'if' does not occur (though if you want to make comments visible within internal doc_raws, you could label an element as being of comment_style 'hidden'
-		} // end if
-		elseif ($doc_info_comm_style === 'variable') {
-				if (!empty($comment_style)) { // If user chose one
-					$comment_type = $comment_style;
-				} // end if
-				else {
-					$comment_type = 'c';
-				} // end else
-		} // end if
+		}
+		elseif ($doc_info_comm_style === 'variable')
+		{
+			// If user chose a comment style
+			if (!empty($comment_style)) {
+				$comment_type = $comment_style;
+			}
+			else {
+				$comment_type = 'c';
+			}
+		}
 		else {
 			$comment_type = $doc_info_comm_style;
-		} // end else
+		}
 
 		switch ($comment_type) {
-			case 'c': 
+			case 'c':
 				$comm_begin = '/*';
 				$comm_end = '*/';
 				break;
@@ -1543,48 +2101,59 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			break;
 		} // end switch
 
-		if ($target === 'entity' && $content == '' && (count($params) === 2 || isset($params['get']) && count($params) <= 3)) { // If this is an entity in which there is only the default tplorig and a file attribute, it must be a tab-delimited contents entity (on the next round when contents are available)
-			
+		// If this is an entity in which there is only the default tplorig and a file attribute, it must be a tab-delimited contents entity (on the next round when contents are available)
+		if ($target === 'entity' && $content == '' && (count($params) === 2 || isset($params['get']) && count($params) <= 3))
+		{
 			$this->entityparams = $params;
 			return;
-		} // end if
-		elseif ($target === 'entity' && $content != '' && strstr($content, "\t")) {
-		
+		}
+		elseif ($target === 'entity' && $content != '' && strstr($content, "\t"))
+		{
 			$content = rtrim($content); // Don't want the last one if it exists
 			$content = rtrim($content, ';');
 			
-			$cont_arr = explode(";", $content); // Tried \n but troublesome
+			$cont_arr = explode(';', $content); // Tried \n but troublesome
 			array_walk($cont_arr, create_function('&$a', '$a = explode("\t", trim($a));'));
 
 			$content = '';
 			$entfiles = array();
 
-			if (is_null($getparam)) {
+			if (is_null($getparam))
+			{
 				$getparams = explode(' ', $this->getentparams);
-			} // end if
-			else {
+			}
+			else
+			{
 				$getparams = explode(' ', $getparam);
-			} // end else
+			}
 			
 			$entget = isset ($_GET[$getparams[0]])?$_GET[$getparams[0]]:null;
-			$entgotten = array_search($entget, $getparams);
+			$entgotten = @array_search($entget, $getparams);
 			
 			if (!$entgotten) {
 				$entgotten = 1;
-			} // end if
-			
-			if (isset($fileparam)) { // Makes an external parameter entity out of the tab-delimited items (or at least the GET-selected ones if more than one); although all will get saved, only the GET selected file (or default if no GET) will have its entities replaced later at the end of the outputfilter
-				if ($fileparam === 'default') { // This allows easier portability, as one can simply list the file as 'default' and not worry about filenames throughout the template (though again, this is currently being overwritten completely)
+			}
+
+			// Makes an external parameter entity out of the tab-delimited items (or at least the GET-selected ones if more than one); 
+			// although all will get saved, only the GET selected file (or default 2nd column if no GET) will have 
+			// its entities replaced later at the end of the outputfilter
+			if (isset($fileparam))
+			{
+				if ($fileparam === 'defaults')
+				{
+					// This allows easier portability, as one can simply list the file as 'defaults' and not worry about filenames throughout the template
 					$params['file'] = $fileparam = $this->entity_files;
-				} // end if
-			
+				}
+
 				$entfiles = explode('|', $fileparam);
-				$ents = $this->parsed_ent_name; // 'ents';
-				for ($j=1, $count2=count($cont_arr[0]); $j < $count2; $j++) {
-					for ($i=0, $count=count($cont_arr); $i < $count; $i++) {
+				$ents = $this->param_ent_name; // 'ents';
+				for ($j=1, $count2=count($cont_arr[0]); $j < $count2; $j++)
+				{
+					for ($i=0, $count=count($cont_arr); $i < $count; $i++)
+					{
 						$entcontents[$entfiles[$j-1]] .= '<!ENTITY '.$cont_arr[$i][0].' "'.$cont_arr[$i][$j].'">'."\n";
-					} // end for
-				} // end for
+					}
+				}
 
 				unset($params['file']);
 				$params['param'] = true; // Will allow it to be referenced as a parameter entity
@@ -1593,153 +2162,198 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 				$params['subtype'] = $entfiles[$entgotten-1];
 				$params['tplorig'] = $this->currfileblock;
 				$smarty->addInfo($params, true); // Add attribute info for doc_raw since not called on the first run (due to our need to reset the parameters just above)
-				
+
 				$entfiles_nocurr = $entfiles;
 				unset($entfiles_nocurr[$entgotten-1]);
-				if ($this->external_comments || $this->comments) {
+				if ($this->external_comments || $this->comments)
+				{
 					$this->extra_ent_comments .= '<!-- Additional entity files were created and sent to '.implode(',', $entfiles_nocurr).' -->';
-				} // end if
+				}
 
-				for ($i=0, $count3=count($entcontents); $i < $count3; $i++) {
-					if ($this->entity_replace && $i === $entgotten-1) { // server-side entity replacement // && !$setents
+				for ($i=0, $count3=count($entcontents); $i < $count3; $i++)
+				{
+					// server-side entity replacement // && !$setents
+					if ($this->entity_replace && $i === $entgotten-1)
+					{
 						// Don't need the following three lines since using the entity_file_toget below and replacements will be performed on its contents instead of performing the replacements here
 						// preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $entcontents[$entfiles[$i]], $matches);
 						//$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
 						//$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
 						$this->entity_file_toget = $entfiles[$i]; // This will allow one to manually edit the file as the whole file contents will be gotten later and searched for replacement entities to apply
-					} // end if
+					}
 					$params['file'] = $entfiles[$i];
 					$params['dummy'] = 'dummyvar';
 					$this->smarty_block_moveto($params, '', $smarty, $repeat);
 					$this->smarty_block_moveto($params, $entcontents[$entfiles[$i]], $smarty, $repeat);
-				} // end for
-			} // end if
-			else { // Build entities into the internal doctype and optionally replace them in the document
+				}
+			}
+			else
+			{ 
+				// Build entities into the internal doctype and optionally replace them in the document
 				$j = $entgotten;
 
-				for ($i=0, $count=count($cont_arr); $i < $count; $i++) {
+				for ($i=0, $count=count($cont_arr); $i < $count; $i++)
+				{
 					$content .= '<!ENTITY '.$cont_arr[$i][0].' "'.$cont_arr[$i][$j].'">'."\n";
-				} // end for
-				if ($this->entity_replace) { // server-side entity replacement // Might replace this with check of whole doc_source at end of outputfilter so as to catch entities added via doctype doc_raw
+				}
+				// Might replace this with check of whole doc_source at end of outputfilter so as to catch entities added via doctype doc_raw
+				if ($this->entity_replace) {
+					// server-side entity replacement 
 					preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $content, $matches);
 					$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
 					$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
-				} // end if
+				}
 				$params['target'] = 'doctype';
 				$this->smarty_block_moveto($params, $content, $smarty, $repeat);
-			} // end else
+			}
 			return;
-		} // end elseif
-		elseif ($target === 'entity' && $content !='') { // Perform entity replacement here (on non-tab-delimited) since if external will not otherwise be checked
+		}
+		elseif ($target === 'entity' && $content !='')
+		{
+			// Perform entity replacement here (on non-tab-delimited) since if external will not otherwise be checked
 			if (isset($params['param']) && $params['param']) { // If an external parameter entity which contains some entities (but not in tab-delimited shorthand--whether due to the fact it was not submitted in this shorthand or whether the tabs were already converted in the last run (see the 'if' above))
 				if ($this->entity_replace && (!isset($params['dummy']))) { // server-side entity replacement if not a parameter entity already set above // Had  || $params['subtype'] === $params['file'] within the dummy check, but not necessary since will be checked later due to file being set above
 //					preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $content, $matches);
 //					$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
 //					$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
-				} // end if
-			} // end if
-			else { // If a regular general external entity
-				if ($this->entity_replace) {
+				}
+			}
+			// If a regular general external entity
+			else
+			{
+				if ($this->entity_replace && isset($params['name']))
+				{
 					$this->extra_ext_ent_nm[] = $params['name'];
 					$this->extra_ext_ent_txt[] = $content;
-				} // end if
-			} // end else
-		} // end elseif
-		elseif ($target === 'dtd' && $content !='') { // Perform entity replacement here since if external will not otherwise be checked; might also do this for doctype if not replacing from the whole doc_source at the end of the outputfilter; Might replace this with getting the file attribute of the dtd here to check at end of outputfilter for the contents of the file (in case the dtd were manually edited)
-			if ($this->entity_replace && (!isset($params['dummy']) || $params['subtype'] === $params['file'])) { // server-side entity replacement
-			
+				}
+				else
+				{
+					// If just blank data, send it to the internal doctype
+					$params['target'] = 'doctype';
+					$this->smarty_block_moveto($params, $content, $smarty, $repeat);
+				}
+			}
+		}
+		// Perform entity replacement here since if external will not otherwise be checked; might also do this for doctype if not replacing from the whole 
+		//  doc_source at the end of the outputfilter; Might replace this with getting the file attribute of the dtd here to check at end of outputfilter 
+		//  for the contents of the file (in case the dtd were manually edited)
+		elseif (($target === 'dtd' || $target === 'doctype') && $content !='') {
+			// server-side entity replacement
+			if ($this->entity_replace && (!isset($params['dummy']) || $params['subtype'] === $params['file']))
+			{
 				preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $content, $matches);
 				$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
 				$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
-			} // end if
-		} // end elseif
+			}
+		}
 
-
-		
 		// If wanted to allow file parameter on internal, could add condition " || $fileparam" with the in_array test, but would also need to fix things with the target name and in the outputfilter to write the contents to a file (e.g., treat a "script" as a "code" there too)
 		
-		if ($smarty->rewrite_docraw_on && !$this->caching && $this->compile_check && in_array($target, $this->external_doc_raws)) {
-
-		if ($this->timer_dr_{$target}[$this->currfileblock][$fileparam] == 0) { // Replace all doc_raw data of this type from the main external stylesheet (or specific stylesheet) (if caching off, etc.?--doc_raws are currently not being cached--see the register_block lines)
-		
-				if ($target === 'code') {
+		if ($smarty->rewrite_docraw_on && !$this->caching && $this->compile_check && in_array($target, $this->external_doc_raws))
+		{
+			// Replace all doc_raw data of this type from the main external stylesheet (or specific stylesheet) 
+			//  (if caching off, etc.?--doc_raws are currently not being cached--see the register_block lines)
+			if ($this->timer_dr_{$target}[$this->currfileblock][$fileparam] == 0)
+			{
+				// Although this is called in the constructor, the $langu variable may only have been set by now
+				if ($target === 'code')
+				{
 					global $langu;
 					if (isset($langu) && $langu != '') {
 						$this->dr_code_file_src = '/dr_mainscripts_'.$langu.'.js';
 						$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$langu.'.js';
-					} // end if
-				} // end if
-				if ($fileparam == '' || $target === 'notes') {
+					}
+				}
+				if ($fileparam == '' || $target === 'notes')
+				{
 					$dr_wkeytarget0 = 'dr_'.$target.'_file';
 					$dr_wkeytarget = $this->$dr_wkeytarget0;
 					
-				} // end if
-				else {
+				}
+				else
+				{
 					$dr_wkeytarget = $this->site_root_public.'/'.$fileparam;
-				} // end else
+				}
 				$file_contents = @file_get_contents($dr_wkeytarget);
-				if ($this->doc_info_types[$target]['doc_raw_prepostfix']) { // Replace auto-generated headers and closings for external XSL/XSD files (from doc_raws)
 
+				// Replace auto-generated headers and closings for external XSL/XSD files (from doc_raws)
+				if ($this->doc_info_types[$target]['doc_raw_prepostfix'])
+				{
 					$newprefix = $target.'_prefixed';
 					$newprefixed = $this->$newprefix;
-					
+
 					$newpostfix = $target.'_postfixed';
-					
+
 					$file_contents = preg_replace('@'.preg_quote($newprefixed).'@s', '', $file_contents);
 					$file_contents = preg_replace('@'.preg_quote($this->$newpostfix).'@s', '', $file_contents);
-				} // end if
+				}
 				$file_contents = preg_replace('@'.preg_quote($comm_begin).' Begin '.$this->doc_rawalias.' '.preg_quote($smarty->currfileblock).' .*?end '.$this->doc_rawalias.' '.preg_quote($comm_end).'\n\n@s', '', $file_contents);
 //				print $dr_wkeytarget;exit;
 
 				file_put_contents($dr_wkeytarget, $file_contents);
-			} // end if
-		} // end if
+			}
+		}
 
-		if ($externaldocraw || $this->print_main_comments || $this->comments) {
-			if ($content != '' && ($comments || $externaldocraw)) {
+		if ($externaldocraw || $this->print_main_comments || $this->comments)
+		{
+			if ($content != '' && ($comments || $externaldocraw))
+			{
 				$content = $this->temp_content.$content.$comm_begin.' '.$smarty->currfileblock.' end '.$this->doc_rawalias.' '.$comm_end."\n\n";
-				$this->temp_content = ''; // Reset beginning comments
-			} // end if
-			elseif ($comments || $externaldocraw) {
+				// Reset beginning comments
+				$this->temp_content = '';
+			}
+			elseif ($comments || $externaldocraw)
+			{
 				$this->temp_content = $comm_begin.' Begin '.$this->doc_rawalias.' '.$smarty->currfileblock.' '.$comm_end."\n"; // removed $content at end since blank
 				$this->timer_dr_{$target}[$this->currfileblock][$fileparam]++;
-			} // end elseif
-			else {
+			}
+			else
+			{
 				$this->temp_content = ''; // Reset beginning comments
-			} // end else
-		} // end if
-		
-		if ($content != '') {
-			if (isset($target) && strtolower($target) === 'body') {
+			}
+		}
+
+		if ($content != '')
+		{
+			if (isset($target) && strtolower($target) === 'body')
+			{
 				$smarty->addRawContent($content, $key, $target);
-			} elseif(isset($target) && strtolower($target) === 'head') {
+			}
+			elseif(isset($target) && strtolower($target) === 'head')
+			{
 				$smarty->addRawHeader($content, $key, $target);
-			} elseif(isset($target) && in_array(strtolower($target), array_keys($this->doc_info_types))) {
+			}
+			elseif(isset($target) && in_array(strtolower($target), array_keys($this->doc_info_types)))
+			{
 				$smarty->addRaw($content, $key, $target, $fileparam);
-			} // end elseif
-		} // end if
-		
-		elseif ($target === 'entity' && (count($params) === 1)) {
+			}
+		}
+		elseif ($target === 'entity' && (count($params) === 1))
+		{
 		/*
 			$params['tplorig'] = $this->currfileblock;
 			$smarty->addInfo($params, true); // Add attribute info for doc_raws
 		*/
-		} // end elseif
-		else {
+		}
+		else
+		{
+
 //			 if (!isset($params['tplorig'])) { // Might have been set in "tag"
 				$params['tplorig'] = $this->currfileblock;
-//			} // end if
-			$smarty->addInfo($params, true); // Add attribute info for doc_raws
-		} // end else
+//			}
+			// Add attribute info for doc_raws
+			$smarty->addInfo($params, true);
+		}
 	}
 
-	
+
 	/**
-	 * Smarty {info} function plugin
+	 * Smarty {doc_info} function plugin
 	 *
-	 * Insert html header items from anywhere at anytime
+	 * deprecated alias for smarty_function_info
 	 *
 	 * @return nothing
+	 * @see smarty_function_info()
 	 */
 	public function smarty_function_doc_info($params, &$smarty)
 	{
@@ -1747,50 +2361,78 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	}
 	
 	/**
-	 * Smarty {doc_info} function plugin
+	 * Smarty {info} function plugin
 	 *
 	 * Insert html header items from anywhere at anytime
 	 *
 	 * @return nothing
+	 * @todo: the functionality is doubled ! search for "$repeatno = false;" and look some lines after that
 	 */
 	public function smarty_function_info($params, &$smarty)
 	{
-
-		$smarty->addInfo($params); // Overridden method below will have already added tplorig to this
+		// Overridden method below will have already added tplorig to this
+		$smarty->addInfo($params);
 
 		// Adding the following to make the type information available to the templates
-
 		if ($this->HTTP_ACCEPT == '' && !$smarty->keepapptype) {
 			$this->setContentType();
-			$smarty->assign('http_accept', $this->HTTP_ACCEPT); // However, this may be overridden (and thus inconsistent) if relying on a fallback setting in getdoctypesignature to change the application_xml value--e.g., to XHTML (and thus change setcontenttype results which determines the actual header sent)
-		} // end if
+			/**
+			* However, this may be overridden (and thus inconsistent) if relying 
+			* on a fallback setting in getdoctypesignature to change the application_xml
+			* value--e.g., to XHTML (and thus change setcontenttype results which determines
+			* the actual header sent)
+			*
+			*/
+			$smarty->assign('http_accept', $this->HTTP_ACCEPT);
+		}
 
 	}
-	
+
+	/**
+     * Smarty {tagc} Block function
+     *
+     * @param $params
+     * @param $content
+     * @param $smarty
+     * @param $repeat
+     */
 	public function smarty_block_tagc($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '') {
+		if ($content != '')
+		{
 			$params['_con'] = $content;
 			return $this->smarty_function_tag($params, 	$smarty);
-		} // end if
+		}
 	}
-	
+
+	/**
+     * Smarty {tag} function
+     *
+     * @param $params
+     * @param $smarty
+     *
+     * @return $ret
+     */
 	public function smarty_function_tag($params, &$smarty)
 	{
-		if ($this->styles_to_css) {
+		if ($this->styles_to_css)
+		{
 			$styl_array = array('ecss'=>'estyle', 'eclcss'=>'eclstyle', 'clcss'=>'clstyle', 'icss'=>'istyle');
-			foreach ($styl_array as $att => $val) {
-				if (!isset($params[$att]) && isset($params[$val])) {
+			foreach ($styl_array as $att => $val)
+			{
+				if (!isset($params[$att]) && isset($params[$val]))
+				{
 					$params[$att] = $params[$val];
-				} // end if
+				}
 				unset($params[$val]);
-			} // end foreach
+			}
 			if (isset($params['style'])) {
-				$params['icss'] .= $params['style']; // Assume a plain style tag is referring to just that id
-			} // end if
+				// Assume a plain style tag is referring to just that id
+				$params['icss'] .= $params['style'];
+			}
 			unset($params['style']);
-		} // end if
-	
+		}
+
 		$closing = false;
 		$selfclose = '';
 		$pseudoel = '';
@@ -1805,6 +2447,7 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 					unset($params[$param]);
 					break;
 				case 'comm':
+					// Not sure anymore what I was thinking of doing with this...
 					$selfclose = '--';
 					$commentdata = $value; // No other attributes
 					unset($params[$param]);
@@ -1825,9 +2468,10 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 					unset($params[$param]);
 					break;
 				case 'estyle':
-					if (isset($params['pseudo'])) {
+					if (isset($params['pseudo']))
+					{
 						$pseudoel = ':'.$params['pseudo'];
-					} // end if
+					}
 					$style .= '__tag__'.$pseudoel.' {'.$value."}\n";
 					$params['target'] = 'style';
 					unset($params[$param]);
@@ -1835,17 +2479,21 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 				case 'eclstyle':
 					$pref = '__tag__';
 				case 'clstyle':
-					if (isset($params['pseudo'])) {
+					if (isset($params['pseudo']))
+					{
 						$pseudoel2 = ':'.$params['pseudo'];
-					} // end if
+					}
 					$class = $params['class'];
-					if (empty($class)) {
+					if (empty($class))
+					{
 						self::$class_ctr++;
 						$class = $this->class_prefix.self::$class_ctr;
-					} // end if
-					if (isset($attrs['class'])) { // Can have multiple class names if run before
+					}
+					if (isset($attrs['class']))
+					{
+						// Can have multiple class names if run before
 						$attrs['class'] .= ' ';
-					} // end if
+					}
 					$attrs['class'] .= $class;
 					$style .= $pref.'.'.$class.$pseudoel2.' {'.$value."}\n";
 					$pref = '';
@@ -1853,21 +2501,25 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 					break;
 				case 'istyle':
 					$id = $params['id'];
-					if (isset($attrs['id'])) { // If set before by icss, use that id instead
+					if (isset($attrs['id']))
+					{
+						// If set before by icss, use that id instead
 						$id = $attrs['id'];
-					} // end if
-					elseif (empty($id)) {
+					}
+					elseif (empty($id))
+					{
 						self::$id_ctr++;
 						$id = $this->id_prefix.self::$id_ctr;
-					} // end if
+					}
 					$attrs['id'] = $id; // Overwrite as should have only one id
 					$style .= '#'.$id.' {'.$value."}\n";
 					$params['target'] = 'style';
 					break;
 				case 'ecss':
-					if (isset($params['pseudo'])) {
+					if (isset($params['pseudo']))
+					{
 						$pseudoel = ':'.$params['pseudo'];
-					} // end if
+					}
 					$style .= '__tag__'.$pseudoel.' {'.$value."}\n";
 					$params['target'] = 'css';
 					unset($params[$param]);
@@ -1875,17 +2527,21 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 				case 'eclcss':
 					$pref = '__tag__';
 				case 'clcss':
-					if (isset($params['pseudo'])) {
+					if (isset($params['pseudo']))
+					{
 						$pseudoel2 = ':'.$params['pseudo'];
-					} // end if
+					}
 					$class = $params['class'];
-					if (empty($class)) {
+					if (empty($class))
+					{
 						self::$class_ctr++;
 						$class = $this->class_prefix.self::$class_ctr;
-					} // end if
-					if (isset($attrs['class'])) { // Can have multiple class names if run before
+					}
+					if (isset($attrs['class']))
+					{
+						// Can have multiple class names if run before
 						$attrs['class'] .= ' ';
-					} // end if
+					}
 					$attrs['class'] .= $class;
 					$style .= $pref.'.'.$class.$pseudoel2.' {'.$value."}\n";
 					$pref = '';
@@ -1893,45 +2549,57 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 					break;
 				case 'icss':
 					$id = $params['id'];
-					if (isset($attrs['id'])) { // If set before by istyle, use that id instead
+					if (isset($attrs['id']))
+					{
+						// If set before by istyle, use that id instead
 						$id = $attrs['id'];
-					} // end if
-					elseif (empty($id)) {
+					}
+					elseif (empty($id))
+					{
 						self::$id_ctr++;
 						$id = $this->id_prefix.self::$id_ctr;
-					} // end if
+					}
 					$attrs['id'] = $id; // Overwrite as should have only one id
 					$style .= '#'.$id.' {'.$value."}\n";
 					$params['target'] = 'css';
 					break;
 				case 'class':
-					if (!isset($params['clstyle']) && !isset($params['eclstyle']) && !isset($params['clcss']) && !isset($params['eclcss'])) {
+					if (!isset($params['clstyle']) && !isset($params['eclstyle']) 
+						&& !isset($params['clcss']) && !isset($params['eclcss']))
+					{
 						$attrs['class'] = $value;
-					} // end if
+					}
 					break;
 				case 'id':
-					if (!isset($params['istyle']) && !isset($params['icss'])) {
+					if (!isset($params['istyle']) && !isset($params['icss']))
+					{
 						$attrs['id'] = $value;
-					} // end if
+					}
 					break;
 				case 'css':
 					$param = 'style'; // Thus one can easily convert an "icss" or "clcss", etc. into a "css" for testing templates
 					$attrs['style'] = $value;
 					unset($params[$param]);					
 					break;
+				case 'styleid':
+					$params['id'] = $value;
+					break;
 				case 'pseudo':
 				case 'key':
 				case 'file':
 				case 'tplorig':
-				// We could conceivably add something to tplorig for writing in the file (or head) to indicate that it originated from a "tag" (assuming it is also checked for in the smarty_doc_raw_block function so that rewrites will first remove the old content correctly)
+					// We could conceivably add something to tplorig for writing in the file (or head) to indicate that it originated from a "tag" (assuming it is also checked for in the smarty_doc_raw_block function so that rewrites will first remove the old content correctly)
 					break;
 				default:
 					$attrs[$param] = $value;
-					unset($params[$param]); // Unset everything (besides file (used by css/style if shuffling off to a specific file rather than the site's main file), key (if replacing an earlier item), tplorig (added by the overridden compiler method for the sake of comments indicating the source file of this), 'pseudo' (which defines a pseudo class in conjunction with the right-named class), 'id' and 'class' (which are unset later as they may be needed within a subsequent run of the loop), and newly added target) for the sake of doc_raw; if one wants other attributes to go to the style/css tags (instead of the result tag of this {tag} function), add a "case" for them above along the lines of 'file'--keeping in mind that it would not be good to have attributes which could conceivably be used by the tag(c) elements using this feature--also, the "target" attribute could not be added in this way to the css link, as it is being used by this function to get the styles working in the first place (via doc_raw below)
+					unset($params[$param]); // Unset everything (besides styleid (which is converted into an 'id' for the style tag) file (used by css/style if shuffling off to a specific file rather than the site's main file), key (if replacing an earlier item--though this hasn't been implemented as of yet), tplorig (added by the overridden compiler method for the sake of comments indicating the source file of this), 'pseudo' (which defines a pseudo class in conjunction with the right-named class), 'id' and 'class' (which are unset later as they may be needed within a subsequent run of the loop), and newly added target) for the sake of doc_raw; if one wants other attributes to go to the style/css tags (instead of the result tag of this {tag} function), add a "case" for them above along the lines of 'file'--keeping in mind that it would not be good to have attributes which could conceivably be used by the tag(c) elements using this feature--also, the "target" attribute could not be added in this way to the css link, as it is being used by this function to get the styles working in the first place (via doc_raw below)
 					break;
-			} // end switch
-		} // end foreach
-		// These must be unset (if they exist), outside of the switch
+			}
+		}
+		
+		/**
+		 * These must be unset (if they exist), outside of the switch
+		 */
 		unset($params['class']);
 		unset($params['pseudo']);
 		unset($params['id']);
@@ -1942,79 +2610,117 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 		unset($params['clcss']);
 		unset($params['icss']);
 		$style = str_replace('__tag__', $tag, $style);
-		
+
 		$content = $params['_content'] = $style;
 		$repeat = true;
 		$repeatno = false;
 
 		$smarty->smarty_block_moveto($params, '', $smarty, $repeat);
 		$smarty->smarty_block_moveto($params, $content, $smarty, $repeatno);
-		
+
 		// Adding the following to make the type information available to the templates
-		if ($this->HTTP_ACCEPT == '' && !$this->keepapptype) {
+		if ($this->HTTP_ACCEPT == '' && !$this->keepapptype)
+		{
 			$this->setContentType();
-			$smarty->assign('http_accept', $this->HTTP_ACCEPT); // However, this may be overridden (and thus inconsistent) if relying on a fallback setting in getdoctypesignature to change the application_xml value--e.g., to XHTML (and thus change setcontenttype results which determines the actual header sent)
-		} // end if
-		
+			/**
+			* However, this may be overridden (and thus inconsistent) if
+			* relying on a fallback setting in getdoctypesignature to change the
+			* application_xml value--e.g., to XHTML (and thus change
+			* setcontenttype results which determines the actual header sent)
+			*/
+			$smarty->assign('http_accept', $this->HTTP_ACCEPT);
+		}
+
 		$finalattrs = '';
-		foreach ((array) $attrs as $a=>$v) {
+		foreach ((array) $attrs as $a=>$v)
+		{
 			$finalattrs .= " {$a}=\"{$v}\"";
-		} // end foreach
-		
+		}
+
 		$close = '';
-		if ($closing) {
+		if ($closing)
+		{
 			$close = '</'.$tag.'>';
-		} // end if
+		}
 		$ret = '<'.$tag.$commentdata.$finalattrs.$selfclose.'>'.$contents.$close;
 
 		return $ret;
-		
+
 	}
-	
+
+	/**
+	 * setContentType $this->HTTP_ACCEPT
+	 *
+	 * @access protected
+	 */
 	protected function setContentType()
 	{
 		// first check if type is XHTML or not and if so, whether the browser accepts application/xhtml+xml content type
-		if ($this->xml_plain && ($this->application_xml === 'XHTML' || (isset($this->doc_info['dtd']['family']) && $this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html']))) { // Assume that a version attribute (used  for auto-setting a doctype for XHTML when no doc_info['dtd'] is et--e.g., if it is XHTML version 1.1) means it is XHTML
-			if (stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml')) {
+		// Assume that a version attribute (used  for auto-setting a doctype for XHTML when no doc_info['dtd'] is set--e.g., 
+		// if it is XHTML version 1.1) means it is XHTML
+		if ($this->xml_plain &&
+				($this->application_xml === 'XHTML' || 
+					(isset($this->doc_info['dtd']['family']) && $this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html'])))
+		{
+
+			if (stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml'))
+			{
 				$this->HTTP_ACCEPT = 'application/xhtml+xml';
-			} // end if
+			}
+			/* Explorer seemed to need this when I was testing... (scratches head)
 			elseif ($this->force_html) {
 				$this->HTTP_ACCEPT = 'text/html';
-			} // end elseif
+			}
 			elseif ($this->force_css) {
 				$this->HTTP_ACCEPT = 'text/css';
-			} // end elseif
-			elseif (stristr($_SERVER['HTTP_ACCEPT'], 'application/xml')) {
+			}
+			*/
+			elseif (stristr($_SERVER['HTTP_ACCEPT'], 'application/xml'))
+			{
 				$this->HTTP_ACCEPT = 'application/xml';
-			} // end elseif
-			elseif (stristr($_SERVER['HTTP_ACCEPT'], 'text/xml')) {
+			}
+			elseif (stristr($_SERVER['HTTP_ACCEPT'], 'text/xml'))
+			{
 				$this->HTTP_ACCEPT = 'text/xml';
-			} // end elseif
+			}
 			//Send Opera 7.0 application/xhtml+xml
-			elseif (stristr($_SERVER['HTTP_USER_AGENT'], 'Opera 7') || stristr($_SERVER['HTTP_USER_AGENT'], 'Opera/7')) {
+			elseif (stristr($_SERVER['HTTP_USER_AGENT'], 'Opera 7') || stristr($_SERVER['HTTP_USER_AGENT'], 'Opera/7'))
+			{
 				$this->HTTP_ACCEPT = 'application/xhtml+xml';
-			} // end elseif
+			}
 			//Send everyone else text/html (even though XHTML)
-			else {
+			else
+			{
 				$this->HTTP_ACCEPT = 'text/html';
-			} // end else
-		}
-		elseif ($this->xml_plain && !$this->application_xml) {
+			}		}
+		elseif ($this->xml_plain && !$this->application_xml)
+		{
 			$this->HTTP_ACCEPT = 'text/xml';
-		} // end elseif
-		elseif ($this->xml_plain && $this->application_xml) {
+		}
+		elseif ($this->xml_plain && $this->application_xml)
+		{
 			$this->HTTP_ACCEPT = 'application/xml';
-		} // end elseif
-		else {
+		}
+		else
+		{
 			$this->HTTP_ACCEPT = 'text/html';
-		} // end else
-	} // end function setContentType
+		}
+	}
 
-	public function doc_raw_head_build ($target, $attribs = false, $savecomments = false) {
+	/**
+	 * doc_raw_head_build
+	 *
+	 * @param array $target
+	 * @param bool $attribs
+	 * @param bool $savecomments
+	 *
+	 * @return string $doc_source
+	 */
+	public function doc_raw_head_build ($target, $attribs = false, $savecomments = false)
+	{
 
-	
-		if (isset($this->doc_raw[$target]['main'])) {
-
+		if (isset($this->doc_raw[$target]['main']))
+		{
 			$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types[$target]['meta_attribs'])); // Prepare for comparison
 
 			$rawtoadd = '';
@@ -2022,347 +2728,454 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$temppre = 'dr_'.$target.'_pre';
 			$temppostpre = 'dr_'.$target.'_postpre';
 			$temppost = 'dr_'.$target.'_post';
-	
-			ksort($this->doc_raw[$target]['main']); // Sort for the sake of manually added keys
 
-			foreach ($this->doc_raw[$target]['main'] as $rawid => $rawkeys) {
-				foreach ($rawkeys as $a => $v) {
-					if ($a === '_content') {
-						if (!$this->nexthide) {
+			// Sort for the sake of manually added keys
+			ksort($this->doc_raw[$target]['main']);
+
+			foreach ($this->doc_raw[$target]['main'] as $rawid => $rawkeys)
+			{
+				foreach ($rawkeys as $a => $v)
+				{
+					if ($a === '_content')
+					{
+						if (!$this->nexthide)
+						{
 							$rawtoadd .= $v."\n";
 							unset($this->nexthide);
 						}
 						$contentcount++;
-					} // end if
-					elseif ($a === 'hide') {
-						$this->nexthide = true; // Causes the next subsequent comment to be hidden
+					}
+					elseif ($a === 'hide')
+					{
+						// Causes the next subsequent comment to be hidden
+						$this->nexthide = true;
 						$hidecount++;
-					} // end elseif
-					elseif ($a === 'tplorig') {
+					}
+					elseif ($a === 'tplorig')
+					{
 						$tpl_list[] = $v;
-					} // end elseif
-					elseif ($a === 'prefix') {
+					}
+					elseif ($a === 'prefix')
+					{
 						$this->pi_prefix = $v;
-					} // end elseif
-					elseif ($attribs && !empty($v) && !@in_array($a, $targetmeta_attr)) {
+					}
+					elseif ($attribs && !empty($v) && !@in_array($a, $targetmeta_attr))
+					{
 						$attr[$a] = $v;
-					} // end elseif
-				} // end foreach
-			} // end foreach
+					}
+				}
+			}
 			unset($this->nexthide);
-			if ($hidecount > 0 && $hidecount === $contentcount) {
-				return; // If all content is to be hidden, don't print anything including comments
-			} // end if
-			if (!empty($tpl_list)) {
+			if ($hidecount > 0 && $hidecount === $contentcount)
+			{
+				// If all content is to be hidden, don't print anything including comments
+				return;
+			}
+			if (!empty($tpl_list))
+			{
 				$tpl_list = array_unique($tpl_list);
 				natcasesort($tpl_list);
-				if ($this->head_comments || $this->comments) {
+				if ($this->head_comments || $this->comments)
+				{
 					$tpl_pre = '<!-- Begin '.$this->doc_rawalias.' '.$target.' from template(s) '.implode(', ', $tpl_list)." -->\n";
 					$tpl_post = '<!-- End '.$this->doc_rawalias.' '.$target.' from template(s) '.implode(', ', $tpl_list)." -->\n";
-				} // end if
-			} // end if
-			
-			if (!empty($attr)) {
-				foreach ($attr as $a => $v) {
-					if (!empty($v)) {
+				}
+			}
+
+			if (!empty($attr))
+			{
+				foreach ($attr as $a => $v)
+				{
+					if (!empty($v))
+					{
 						$attrs .= " {$a}=\"{$v}\"";
-					} // end if
-				} // end foreach
-			} // end if
-			if ($savecomments) {
+					}
+				}
+			}
+			if ($savecomments)
+			{
 				$doc_source .= $this->$temppre.$attrs.$this->$temppostpre;
 				$tpltargetpre = $target.'_tpl_pre';
 				$tpltargetpost = $target.'_tpl_post';
 				$this->$tpltargetpre = $tpl_pre;
 				$this->$tpltargetpost = $tpl_post;
-			} // end if
-			else {
+			}
+			else
+			{
 				$doc_source .= $tpl_pre.$this->$temppre.$attrs.$this->$temppostpre;
-			} // end else
+			}
 			$raw = str_replace(array('[[[', ']]]'), array('{', '}'), $rawtoadd);
-			if ($savecomments) {
+			if ($savecomments)
+			{
 				$doc_source .= $raw.$this->$temppost;
-			} // end if
-			else {
+			}
+			else
+			{
 				$doc_source .= $raw.$this->$temppost.$tpl_post;
-			} // end else
-						
+			}
 			return $doc_source;
-		} // end if
-	} // end function
+		}
+	}
 
-
-
-	public function doc_raw_build ($target, $exclude_in_xml='', $pub_or_hide='public', $hidden = false, $print_ext = true, $both_main_indiv = true) {
-		$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types[$target]['meta_attribs'])); // Prepare for comparison
+	/**
+     * doc_raw_build
+     *
+     * @param array $target
+     * @param string $exclude_in_xml
+     * @param string $pub_or_hide
+     * @param bool $hidden
+     * @param bool $print_ext
+     * @param bool $both_main_indiv
+     */
+	public function doc_raw_build ($target, $exclude_in_xml='', $pub_or_hide='public', $hidden = false, $print_ext = true, $both_main_indiv = true)
+	{
+		$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types[$target]['meta_attribs']));
 		$ds_attrs_arr = $ds_attrs_arr2 = $rootattrs = array();
-		
-		if (isset($this->doc_raw[$target])) {
+
+		if (isset($this->doc_raw[$target]))
+		{
 			$main_ext_doc = '';
 			$indiv_ext_doc = array();
 			$main_attribs = $indiv_attribs = array();
 
+			foreach ($this->doc_raw[$target] as $doc_raw_file => $rawfileparam)
+			{
+				// Although this may be repeated if there are multiple doc_raws for the same file, this will at least ensure that any numeric keys are put in order
+				ksort($this->doc_raw[$target][$doc_raw_file]);
+			}
 
-			foreach ($this->doc_raw[$target] as $doc_raw_file => $rawfileparam) {
-				ksort($this->doc_raw[$target][$doc_raw_file]); // Although this may be repeated if there are multiple doc_raws for the same file, this will at least ensure that any numeric keys are put in order
-			} // end foreach
-			
-			
-			foreach ($this->doc_raw[$target] as $doc_raw_file => $rawfileparam) {
-				foreach ($rawfileparam as $rawkey) {
-					foreach ($rawkey as $a => $v) {
+			foreach ($this->doc_raw[$target] as $doc_raw_file => $rawfileparam)
+			{
+				foreach ($rawfileparam as $rawkey)
+				{
+					foreach ($rawkey as $a => $v)
+					{
 //					if ($a === 'key' && $v == 1) {print $rawkey['_content'];exit;}
 //					if ($a === 'key' && $v == 2) {print $rawkey['_content'];exit;}
 
 						if (!isset($rawkey['key'])) {$key = 0;}
 						else {$key = $rawkey['key'];}
-					
-						if (!empty($v)) {					
-							if ($a === 'tplorig') {
+
+						if (!empty($v))
+						{
+							if ($a === 'tplorig')
+							{
 								$tpl_list[$doc_raw_file][] = $v;
-							} // end if
-							elseif ($a === 'hide') {
+							}
+							elseif ($a === 'hide')
+							{
 								$hide[$doc_raw_file] = true; // Make sure comments, etc. don't show up in the main page
 								$pub_or_hides[$doc_raw_file] = 'hidden'; // Reference hidden directory
-							} // end elseif
-							elseif ($a === 'target' || $a === 'key') {
-								// A catch for meta_attribs should probably be added here
-							} // end elseif
-							elseif ($doc_raw_file === 'main' && $a != '_content') {
-								$main_attribs[$a] = $v; // Allows duplicate attribute use to be overwritten (will use latest addition)
-							} // end elseif
-							elseif ($a != '_content') {
+							}
+							elseif ($a === 'target' || $a === 'key')
+							{
+								// Can these be added to meta_attribs array so that this catch is not necessary?
+							}
+							elseif ($doc_raw_file === 'main' && $a != '_content')
+							{
+								// Allows duplicate attribute use to be overwritten (will use latest addition)
+								$main_attribs[$a] = $v;
+							}
+							elseif ($a != '_content')
+							{
 								$indiv_attribs[$doc_raw_file][$a] = $v; // Allows duplicate attribute use to be overwritten (will use latest addition)
-								if ($a === 'xform' && ($v || $this->xform_all)) {
+								if (($a === 'xform' && $v) || ($target === 'xsl' && $this->xform_all))
+								{
 									$this->xsl[] = $doc_raw_file;
 									$this->pre_xform[] = TRUE;
-								} // end if
-							} // end elseif
+								}
+							}
 							else { // i.e., $a === '_content'
-
-								if ($doc_raw_file === 'main') {
+								if ($doc_raw_file === 'main')
+								{
 									$main_ext_doc .= $v; // Took off \n
-								} // end if
-								elseif ($doc_raw_file === 'head') {
+								}
+								elseif ($doc_raw_file === 'head')
+								{
 									// Placeholder for adding element to head equivalent
-								} // end else
-								elseif ($doc_raw_file != '') {
+								}
+								elseif ($doc_raw_file != '')
+								{
 									$indiv_ext_doc[$doc_raw_file] .= $v;
-								} // end elseif
-							} // end else
-						} // end if
-					} // end foreach
-				} // end foreach
-			} // end foreach
+								}
+							}
+						}
+					}
+				}
+			}
 
-			if (($this->external_comments || $this->comments) && !empty($tpl_list)) {
-
-				foreach($tpl_list as $tplfile => $tplitem) {
+			if (($this->external_comments || $this->comments) && !empty($tpl_list))
+			{
+				foreach($tpl_list as $tplfile => $tplitem)
+				{
 					$tplitem = array_unique($tplitem);
 					natcasesort($tplitem);
 					$tpl_pre[$tplfile] = '<!-- Begin '.$this->doc_rawalias.' '.$target.' '.implode(', ', $tplitem).' from template '." -->\n";
 					$tpl_post[$tplfile] = '<!-- End '.$this->doc_rawalias.' '.$target.' '.implode(', ', $tplitem).' from template '." -->\n";
-				} // end foreach
-			} // end if
+				}
+			}
 			$targetprefixed = $target.'_prefixed';
 			$targetpostfixed = $target.'_postfixed';
 			$tgtprefixed = $this->$targetprefixed;
 
-			if ($this->rewrite_docraw_on && !$this->caching && $this->compile_check && !empty($main_ext_doc)) {
+			if ($this->rewrite_docraw_on && !$this->caching && $this->compile_check && !empty($main_ext_doc))
+			{
 				$main_ext_doc = str_replace(array('[[[', ']]]'), array('{', '}'), $main_ext_doc);
 				$drtargetfile = 'dr_'.$target.'_file';
 
 				$file_contents = @file_get_contents($this->$drtargetfile);
-				file_put_contents($this->$drtargetfile, $tgtprefixed.$main_ext_doc.$file_contents.$this->$targetpostfixed); // prepend so that designer is forced to see effects of cascading of other preexisting main styles on that stylesheet
-			} // end if
+				// prepend so that designer is forced to see effects of cascading of other preexisting main styles on that stylesheet
+				file_put_contents($this->$drtargetfile, $tgtprefixed.$main_ext_doc.$file_contents.$this->$targetpostfixed);
+			}
 
-					
-			if ($this->rewrite_docraw_on && !$this->caching && $this->compile_check && !empty($indiv_ext_doc)) {
-				foreach ($indiv_ext_doc as $file => $filevalue) {
-					if ($pub_or_hides[$file] === 'hidden') {
+
+			if ($this->rewrite_docraw_on && !$this->caching && $this->compile_check && !empty($indiv_ext_doc))
+			{
+				foreach ($indiv_ext_doc as $file => $filevalue)
+				{
+					if ($pub_or_hides[$file] === 'hidden')
+					{
 						$siterootpuborhide = 'site_root_hidden';
-					} // end if
-					else {
+					}
+					else
+					{
 						$siterootpuborhide = 'site_root_'.$pub_or_hide;
-					} // end else
+					}
 					$filevalue = str_replace(array('[[[', ']]]'), array('{', '}'), $filevalue);
 					$file_contents = @file_get_contents($file);
 					file_put_contents($this->$siterootpuborhide.'/'.$file, $tgtprefixed.$filevalue.$file_contents.$this->$targetpostfixed);
 					$xsisls[] = $file;
-				} // end foreach
-			} // end if
+				}
+			}
 
 			$drtargetpre = 'dr_'.$target.'_pre';
 			$drtargetpost = 'dr_'.$target.'_post';
 			$drtargetfilesrc = 'dr_'.$target.'_file_src';
-			if (!empty($main_ext_doc)) { // i.e., if some content for the main site's file has been added
-				if (!$hide['main'] && (!$hidden || $hidden === 'skippre')) {
-					if ($hidden !== 'skippre' && $print_ext) { // Skipped where opening tag should not be created (e.g., 'xsd' filling in the root element's data)
-					
+			// If some content for the main site's file has been added
+			if (!empty($main_ext_doc)) {
+				if (!$hide['main'] && (!$hidden || $hidden === 'skippre'))
+				{
+					// Skipped where opening tag should not be created (e.g., 'xsd' filling in the root element's data)
+					if ($hidden !== 'skippre' && $print_ext)
+					{
 						$doc_source .= $tpl_pre['main'].$this->$drtargetpre.$this->$drtargetfilesrc.'"';
-					} // end if
-					if ($print_ext) {
-						foreach ($main_attribs as $a => $v) {
-							if (!empty($v)) {
-								if (!@in_array($a, $targetmeta_attr) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml])) { // Not in meta_attribs as a key or value
+					}
+					if ($print_ext)
+					{
+						foreach ($main_attribs as $a => $v)
+						{
+							if (!empty($v))
+							{
+								// Not in meta_attribs as a key or value
+								if (!@in_array($a, $targetmeta_attr) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml]))
+								{
 									$ds_attrs .= " {$a}=\"{$v}\"";
-									if ($target === 'xsd') {
+									if ($target === 'xsd')
+									{
 										$ds_attrs_arr[$a] = $v;
-									} // end if
-								} // end if
-								elseif ($a == 'xsi:schemaLocation') {
+									}
+								}
+								elseif ($a == 'xsi:schemaLocation')
+								{
 									$xsimain = $v;
-								} // end elseif
-								elseif ($a == 'xsi:noNamespaceSchemaLocation') {
+								}
+								elseif ($a == 'xsi:noNamespaceSchemaLocation')
+								{
 									$xsimain_nns = $v;
-								} // end elseif
-							} // end if
-							if ($target == 'xsl' && ($main_attribs['xform'] || $this->xform_all)) {
+								}
+							}
+							if ($target == 'xsl' && ($main_attribs['xform'] || $this->xform_all))
+							{
 								$this->xsl[] = $this->dr_xsl_file;
 								$this->pre_xform[] = TRUE;
-							} // end if
-						} // end foreach
-						if ($target !== 'xsd') {
+							}
+						}
+						if ($target !== 'xsd')
+						{
 							$doc_source .= $ds_attrs;
-						} // end if
-					} // end if
-					if ($hidden !== 'skippre' && $print_ext) {
+						}
+					}
+					if ($hidden !== 'skippre' && $print_ext)
+					{
 						$doc_source .= $this->$drtargetpost.$tpl_post['main'];
-					} // end if
-				} // end if
-			} // end if
-			
-			if (($both_main_indiv || empty($main_ext_doc)) && !empty($indiv_ext_doc)) {
-				if (!$hidden || $hidden === 'skippre') {
+					}
+				}
+			}
+
+			if (($both_main_indiv || empty($main_ext_doc)) && !empty($indiv_ext_doc))
+			{
+				if (!$hidden || $hidden === 'skippre')
+				{
 					$keys = array_keys($this->doc_raw[$target]);
-					foreach ($keys as $file) {
-						if ($file != 'main' && !$hide[$file]) {
-					 		if ($hidden !== 'skippre') {
+					foreach ($keys as $file)
+					{
+						if ($file != 'main' && !$hide[$file])
+						{
+					 		if ($hidden !== 'skippre')
+					 		{
 								$thisdrtargetpre = $this->$drtargetpre;
-								if ($print_ext) {
+								if ($print_ext)
+								{
 									$doc_source .= $tpl_pre[$file].$thisdrtargetpre.$file.'"';
-								} // end if
-								else {
+								}
+								else
+								{
 									$targetfiles = $target."_files";
 									$this->{$targetfiles}[$file] = $file;
-								} // end else
-							} // end if
-							if ($print_ext && !empty($indiv_attribs)) {
+								}
+							}
+							if ($print_ext && !empty($indiv_attribs))
+							{
 								$ds_attrs2 = '';
-								foreach ($indiv_attribs[$file] as $a => $v) {
-									if (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml])) {
+								foreach ($indiv_attribs[$file] as $a => $v)
+								{
+									if (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml]))
+									{
 										$ds_attrs2 .= " {$a}=\"{$v}\"";
-										if ($target === 'xsd') {
+										if ($target === 'xsd')
+										{
 											$ds_attrs_arr2[$a] = $v;
-										} // end if
-									} // end if
-									elseif ($a == 'xsi:schemaLocation') {
+										}
+									}
+									elseif ($a == 'xsi:schemaLocation')
+									{
 										$xsiindiv[] = $v;
-									} // end elseif
-									elseif ($a == 'xsi:noNamespaceSchemaLocation') {
-										$xsiindiv_nns = $v; // Overwrite any others, since should only be one
-									} // end elseif
-								} // end foreach
-							} // end if
-							if ($target !== 'xsd') {
+									}
+									elseif ($a == 'xsi:noNamespaceSchemaLocation')
+									{
+										// Overwrite any others, since should only be one
+										$xsiindiv_nns = $v;
+									}
+								}
+							}
+							if ($target !== 'xsd')
+							{
 								$doc_source .= $ds_attrs2;
-							} // end if
-							if ($hidden !== 'skippre' && $print_ext) {
+							}
+							if ($hidden !== 'skippre' && $print_ext)
+							{
 								$doc_source .= $this->$drtargetpost.$tpl_post[$file];
-							} // end if	
-						} // end if
-					} // end foreach
-				} // end if
-			} // end if
-
+							}
+						}
+					}
+				}
+			}
 
 			$tplpretarget = 'tpl_pre_'.$target;
 			$tplposttarget = 'tpl_post_'.$target;
 			
 			$this->$tplpretarget = $tpl_pre; // Store it so it can be used in the outputfilter if needed
 			$this->$tplposttarget = $tpl_post; // Store it so it can be used in the outputfilter if needed
-		} // end if
+		}
 
-		if (($target === 'xsd' || $target === 'root')) { // && $this->xml_plain (took this condition out since 'html''s attributes still need to be created regardless of whether it is XML plain or not)
-			if (isset($this->doc_info['xsd'])) {
-				foreach ($this->doc_info['xsd'] as $filexsd) { // Just treat as if another XSD
-					foreach ($filexsd as $a => $v) {
-						if (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml])) {
+		if (($target === 'xsd' || $target === 'root'))
+			{
+			// && $this->xml_plain (took this condition out since 'html''s attributes still need to be created regardless of whether it is XML plain or not)
+			if (isset($this->doc_info['xsd']))
+			{
+				foreach ($this->doc_info['xsd'] as $filexsd)
+					{ // Just treat as if another XSD
+					foreach ($filexsd as $a => $v)
+					{
+						if (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types[$target][$exclude_in_xml]))
+						{
 							$ds_attrs_arr2[$a] = $v;
-						} // end if
-						elseif ($a == 'xsi:schemaLocation') {
+						}
+						elseif ($a == 'xsi:schemaLocation')
+						{
 							$xsiindiv[] = $v;
-						} // end elseif
-						elseif ($a == 'xsi:noNamespaceSchemaLocation') {
-							$xsiindiv_nns = $v; // Overwrite any others, since should only be one
-						} // end elseif
-						elseif ($a === 'tplorig') {
-							if ($this->external_comments || $this->comments) {
+						}
+						elseif ($a == 'xsi:noNamespaceSchemaLocation')
+						{
+							// Overwrite any others, since should only be one
+							$xsiindiv_nns = $v;
+						}
+						elseif ($a === 'tplorig')
+						{
+							if ($this->external_comments || $this->comments)
+							{
 								$this->docpre_xsdcomm[] = '<!-- Begin '.$this->doc_infoalias.' xsd from template '.$v." -->\n";
 								$this->docpost_xsdcomm[] = '<!-- End '.$this->doc_infoalias.' xsd from template '.$v." -->\n";
-							} // end if
-						} // end elseif
-					} // end foreach
-				} // end foreach
-			} // end if
+							}
+						}
+					}
+				}
+			}
 			$ds_attrs_arr = array_merge($ds_attrs_arr, $ds_attrs_arr2);
-			
-			$rootattrs = array_merge($ds_attrs_arr, $this->rootattrs); // Array from doc_info['root'] or ['html']
+
+			// Array from doc_info['root'] or ['html']
+			$rootattrs = @array_merge($ds_attrs_arr, $this->rootattrs);
 
 
-			if ($rootattrs) { // If it works, go with the newer, larger array; otherwise, go on to use the original value
+			// If it works, go with the newer, larger array; otherwise, go on to use the original value
+			if ($rootattrs)
+			{
 				$ds_attrs_arr = $rootattrs;
-			} // end if
-			foreach ($ds_attrs_arr as $a => $v) {
+			}
+			foreach ($ds_attrs_arr as $a => $v)
+			{
 				$doc_source .= " {$a}=\"{$v}\"";
-			} // end foreach
-			if (isset($xsimain_nns)) {
+			}
+			if (isset($xsimain_nns))
+			{
 				$doc_source .= ' xsi:noNamespaceSchemaLocation="'.$xsimain_nns.'"'; // There can be only one noNamespaceSchemaLocation
-			} // end if
-			elseif (isset($xsiindiv_nns)) {
+			}
+			elseif (isset($xsiindiv_nns))
+			{
 				$doc_source .= ' xsi:noNamespaceSchemaLocation="'.$xsiindiv_nns.'"';
-			} // end elseif
-			elseif (isset($this->root_nns_xsd)) { // if set by root doc_info (cannot be set by individual xsd's, since there can only be one)
+			}
+			// if set by root doc_info (cannot be set by individual xsd's, since there can only be one)
+			elseif (isset($this->root_nns_xsd)) {
 				$doc_source .= ' xsi:noNamespaceSchemaLocation="'.$this->root_nns_xsd.'"';
-			} // end elseif
+			}
 
-			if (!empty($main_ext_doc) || !empty($indiv_ext_doc) || isset($xsisls) || isset($this->extra_xsds) || isset($this->doc_info['xsd'])) {
+			if (!empty($main_ext_doc) || !empty($indiv_ext_doc) || isset($xsisls) || isset($this->extra_xsds) || isset($this->doc_info['xsd']))
+			{
 				$doc_source .= ' xsi:schemaLocation="';
-				if (!empty($main_ext_doc)) {
-					if ($xsimain) { // If the templater specified a xsi:schemaLocation attribute, use that instead
+				if (!empty($main_ext_doc))
+				{
+					if ($xsimain)
+					{ 
+						// If the templater specified a xsi:schemaLocation attribute, use that instead
 						$doc_source .= $xsimain.' ';
-					} // end if
+					}
 					// Main XSD should be automatic (the attribute for schemaLocation is for additional ones)
 					$doc_source .= $this->dr_xsd_public_file;
-				} // end if
-				if (!empty($indiv_ext_doc) || isset($xsiindiv)) {
-					if (!empty($main_ext_doc)) {
+				}
+				if (!empty($indiv_ext_doc) || isset($xsiindiv))
+				{
+					if (!empty($main_ext_doc))
+					{
 						$doc_source .= ' ';
-					} // end if
+					}
 					$doc_source .= implode(' ', $xsiindiv);
 				}
 				if (isset($xsisls)) {
-					if (!empty($main_ext_doc) || !empty($indiv_ext_doc)) {
+					if (!empty($main_ext_doc) || !empty($indiv_ext_doc))
+					{
 						$doc_source .= ' ';
-					} // end if
+					}
 					$doc_source .= implode(' ', $xsisls);
-				} // end if
-				if (isset($this->extra_xsds)) {
-					if (!empty($main_ext_doc) || !empty($indiv_ext_doc) || isset($xsisls)) {
+				}
+				if (isset($this->extra_xsds))
+				{
+					if (!empty($main_ext_doc) || !empty($indiv_ext_doc) || isset($xsisls))
+					{
 						$doc_source .= ' ';
-					} // end if
+					}
 					$doc_source .= implode(' ', $this->extra_xsds);
-					
-					if (!isset($this->doc_info['xsd']) || !isset($this->doc_raws['xsd'])) {
+
+					if ((!isset($this->doc_info['xsd']) || !isset($this->doc_raw['xsd'])) && !array_key_exists('xmlns:xsi', $this->doc_info['root']))
+					{
 						$doc_source .= '" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance';
-					} // end if
-				} // end if
+					}
+				}
 				$doc_source .= '"';
-			} // end if
-		} // end if
+			}
+		}
 
 		return $doc_source;
-	} // end function doc_raw_build
+	}
 
 
 	/**
@@ -2370,45 +3183,56 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 	 *
 	 * Create qualified document using previously collected user information
 	 *
+	 * @param $source
+	 * @param $smarty
+	 *
 	 * @return string document
 	 */
 	public function smarty_outputfilter_SmartyDoc($source, &$smarty)
 	{
 
-		if (!empty($smarty->doc_info) || !empty($smarty->doc_raw) || $this->use_auto) {
-
-			if (!$this->headers_ran) {
-				$this->setContentType(); // Get content type here so can detect whether to serve stylesheets, etc. in XML style given that some browsers that don't support this style.
-			} // end if
-		
+		if (!empty($smarty->doc_info) || !empty($smarty->doc_raw) || $this->use_auto)
+		{
+			if (!$this->headers_ran)
+			{
+				// Get content type here so can detect whether to serve stylesheets, etc. in XML style given that some browsers that don't support this style.
+				$this->setContentType();
+			}
 			$indent = $smarty->getIndent();
 			$_doc_info  =& $smarty->doc_info;
 
-			// var_dump($_doc_info['dtd']);exit;
-			if (($_doc_info['dtd']['family'] == '' || strtoupper($_doc_info['dtd']['family']) === 'XML') && isset($_doc_info['dtd']['type'])) { // Override add_openclose if this is clearly a plain XML document (e.g., a DTD but with no family)
+			 // Override add_openclose if this is clearly a plain XML document (e.g., a DTD but with no family)
+			if (($_doc_info['dtd']['family'] == '' || strtoupper($_doc_info['dtd']['family']) === 'XML') && isset($_doc_info['dtd']['type']))
+			{
 				$this->add_openclose = false;
-			} // end if
+			}
 			
 			// process modules
 			$module_content = array('head_pre'=>'', 'head_post'=>'', 'body_pre'=>'', 'body_post'=>'');
 			
-			foreach ($this->doc_modules as $module) {
+			foreach ($this->doc_modules as $module)
+			{
 				$module->onDocStart();
 
 				$mod_content = $module->onHeadStart();
-				if (!empty($mod_content)) {
+				if (!empty($mod_content))
+				{
 					$module_content['head_pre'] .= "\n" . $mod_content . "\n";
 				}
+
 				$mod_content = $module->onHeadEnd();
-				if (!empty($mod_content)) {
+				if (!empty($mod_content))
+				{
 					$module_content['head_post'] .= "\n" . $mod_content . "\n";
 				}
 				$mod_content = $module->onBodyStart();
-				if (!empty($mod_content)) {
+				if (!empty($mod_content))
+				{
 					$module_content['body_pre'] .= "\n" . $mod_content . "\n";
 				}
 				$mod_content = $module->onBodyEnd();
-				if (!empty($mod_content)) {
+				if (!empty($mod_content))
+				{
 					$module_content['body_post'] .= "\n" . $mod_content . "\n";
 				}
 				$mod_content = $module->onDocEnd();
@@ -2417,46 +3241,59 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 			$extcomments = ($this->external_comments || $this->comments);
 
-			if (isset($_doc_info['bom'])) {
+			if (isset($_doc_info['bom']))
+			{
 				$doc_source .= $_doc_info['bom'][_content];
-			} // end if
+			}
 
 			// process 'xml' (XML Declaration) doc info
-			if (isset($_doc_info['xml']) && $this->HTTP_ACCEPT !== 'text/html') {
-				foreach ($_doc_info['xml'] as $a=>$v) {
-					if ($a == 'version') { // Should be first
+			if (isset($_doc_info['xml']) && $this->HTTP_ACCEPT !== 'text/html')
+			{
+				foreach ($_doc_info['xml'] as $a=>$v)
+				{
+					// Version should be first
+					if ($a == 'version')
+					{
 						$docadd = " {$a}=\"{$v}\"";
-					} // end if
-					elseif ($a === 'tplorig') {
-						if ($extcomments) {
+					}
+					elseif ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							// Only a "post" item, since XML Declaration should not have whitespace or any content before it
 							$docpost_xml = '<!-- End above doc_info from template '.$v." -->\n";
-						} // end if
-					} // end elseif
-					elseif (!empty($v)) {
+						}
+					}
+					elseif (!empty($v))
+					{
 						$docadd2 .= " {$a}=\"{$v}\"";
-					} // end elseif
-				} // end foreach
-				if ($this->assume_standalone && !isset($_doc_info['xml']['standalone']) && !isset($_doc_info['dtd']) && !isset($this->doc_raw['dtd'])) {
+					}
+				}
+				if ($this->assume_standalone && !isset($_doc_info['xml']['standalone']) && !isset($_doc_info['dtd']) && !isset($this->doc_raw['dtd']))
+				{
 					$docadd2 .= ' standalone="yes"';
-				} // end if
+				}
 				$doc_source .= '<'.'?xml'.$docadd.$docadd2;
 				$doc_source .= '?'.">\n".$docpost_xml;
-			} // end if
-			elseif ($this->xml_auto_declare && $this->xml_plain && $this->HTTP_ACCEPT !== 'text/html') {
+			}
+			elseif ($this->xml_auto_declare && $this->xml_plain && $this->HTTP_ACCEPT !== 'text/html')
+			{
 				$doc_source .= '<'.'?xml version="1.0"';
-			//	$this->xml_plain = false; //   &#xEFBBBF;  &#xFFFE;
-				if ($this->assume_standalone) {
+				if ($this->assume_standalone)
+				{
 					$doc_source .= ' standalone="yes"';
-				} // end if
+				}
 				$doc_source .= '?'.">\n";
-				if ($extcomments) {
+				if ($extcomments)
+				{
 					$doc_source .= '<!-- End above auto add_openclose xml -->'."\n";
-				} // end if
-			} // end elseif
-			if ($this->show_whitespace_comments && isset($this->whitespace_comment_type)) {
+				}
+			}
+			if ($this->show_whitespace_comments && isset($this->whitespace_comment_type))
+			{
 				$ws_geturl = $this->whitespace_get_url;
-				switch ($this->whitespace_comment_type) {
+				switch ($this->whitespace_comment_type)
+				{
 					case 'all':
 						$doc_source .= '<!-- You can remove just some whitespace by setting "'.$ws_geturl.'" in the URL equal to "some" or remove no whitespace by setting it to "none" -->'."\n";
 						break;
@@ -2466,760 +3303,1051 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 					case 'none':
 						$doc_source .= '<!-- You can remove just some whitespace by setting "'.$ws_geturl.'" in the URL equal to "some" or remove all whitespace by setting it to "all" -->'."\n";
 						break;			
-				} // end switch
-			} // end if
+				}
+			}
 					
-			if (isset($_doc_info['robots']) && $this->xml_plain) {
-				foreach ($_doc_info['robots'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+			if (isset($_doc_info['robots']) && $this->xml_plain)
+			{
+				foreach ($_doc_info['robots'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$docpre_robots = '<!-- Begin '.$this->doc_infoalias.' robots from template '.$v." -->\n";
 							$docpost_robots = '<!-- End '.$this->doc_infoalias.' robots from template '.$v." -->\n";
-						} // end if
-					} // end if
-					elseif ($a === 'index') { // Place this first (not sure if its necessary, but it seems to be convention)
+						}
+					}
+					// Place index first (not sure if its necessary, but it seems to be convention)
+					elseif ($a === 'index')
+					{
 						$doc_src_robots1 = "{$a}=\"{$v}\"";
-					} // end elseif
-					elseif (!empty($v)) {
+					}
+					elseif (!empty($v))
+					{
 						$doc_src_robots2 .= " {$a}=\"{$v}\"";
-					} // end elseif
-				} // end foreach
+					}
+				}
 				$doc_source .= $docpre_robots.'<'.'?robots '.$doc_src_robots1.$doc_src_robots2.'?'.">\n".$docpost_robots;
-			} // end if
+			}
 
 			// process 'pi' (processing instruction) doc info
-			if (isset($_doc_info['pi']) && $this->xml_plain) {
-				foreach ($_doc_info['pi'] as $pi) {
+			if (isset($_doc_info['pi']) && $this->xml_plain)
+			{
+				foreach ($_doc_info['pi'] as $pi)
+				{
 					$doc_src_pi = '';
 					$doc_src_picontent = '';
 					$docpiprefix = '';
-					foreach ($pi as $a=>$v) {
-						if ($a === 'tplorig') {
-							if ($extcomments) {
+					foreach ($pi as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
 								$docpre_pi = '<!-- Begin '.$this->doc_infoalias.' pi from template '.$v." -->\n";
 								$docpost_pi = '<!-- End '.$this->doc_infoalias.' pi from template '.$v." -->\n";
-							} // end if
-						} // end elseif
-						elseif ($a === 'prefix') {
+							}
+						}
+						elseif ($a === 'prefix')
+						{
 							$docpiprefix = $v;
-						} // end elseif
-						elseif ($a === '-content') {
+						}
+						elseif ($a === '-content')
+						{
 							$doc_src_picontent = $v;
-						} // end elseif
-						elseif (!empty($v)) {
+						}
+						elseif (!empty($v))
+						{
 							$doc_src_pi .= " {$a}=\"{$v}\"";
-						} // end elseif
-					} // end foreach
-					if ($doc_src_picontent != '') {
+						}
+					}
+					if ($doc_src_picontent != '')
+					{
 						$doc_src_picontent = ' '.$doc_src_picontent;
-					} // end if
+					}
 					$doc_source .= $docpre_pi.'<'.'?'.$docpiprefix.$doc_src_pi.$doc_src_picontent.'?'.">\n".$docpost_pi;
-				} // end foreach
-			} // end if
-			if ($this->xml_plain && isset($this->doc_raw['pi']['main'])) {
+				}
+			}
+			if ($this->xml_plain && isset($this->doc_raw['pi']['main']))
+			{
 				// Note that the following could not be merged with doc_raw_head_build, as the latter assumed that independent items would be merged into one (and for processing instructions, there could be more than one)
 				$this->dr_pi_pre = ' ';
-				foreach ($this->doc_raw['pi']['main'] as $rawid => $rawkeys) {
+				foreach ($this->doc_raw['pi']['main'] as $rawid => $rawkeys)
+				{
 					$pi_attrs = '';
-					foreach ($rawkeys as $a => $v) {
-						if ($a === '_content') {
+					foreach ($rawkeys as $a => $v)
+					{
+						if ($a === '_content')
+						{
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n?>\n".$pi_tpl_post;
 							$pi_tpl_post = '';
 							continue 2;
-						} // end if
-						elseif ($a === 'tplorig') {
-							if ($this->head_comments || $this->comments) {
+						}
+						elseif ($a === 'tplorig')
+						{
+							if ($this->head_comments || $this->comments)
+							{
 								$pi_tpl_pre = '<!-- Begin '.$this->doc_rawalias.' pi from template '.$v." -->\n";
 								$pi_tpl_post = '<!-- End '.$this->doc_rawalias.' pi from template '.$v." -->\n";
-							} // end if
-						} // end elseif
-						elseif ($a === 'prefix') {
+							}
+						}
+						elseif ($a === 'prefix')
+						{
 							$pi_prefix = $v;
-						} // end elseif
-						elseif ($attribs && !empty($v) && !@in_array($a, $targetmeta_attr)) {
+						}
+						elseif ($attribs && !empty($v) && !@in_array($a, $targetmeta_attr))
+						{
 							$pi_attrs .= " {$a}=\"{$v}\"";
-						} // end elseif
-					} // end foreach
-					if ($pi_attrs == '') {
+						}
+					} 
+					if ($pi_attrs == '')
+					{
 						$pi_attrs = ' ';
-					} // end if					
+					}					
 					$doc_source .= $pi_tpl_pre.'<?'.$pi_prefix.$pi_attrs; // Closed above
-				} // end foreach
-			} // end if
+				} 
+			}
 			
 			// process 'xsl' (xml-stylesheet) doc info
-			if (isset($_doc_info['xsl'])) {
+			if (isset($_doc_info['xsl']))
+			{
 				$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['xsl']['meta_attribs'])); // Prepare for comparison
-				foreach ($_doc_info['xsl'] as $stylesheet) {
+				foreach ($_doc_info['xsl'] as $stylesheet)
+				{
 					$doc_src_xsl = '';
-					foreach ($stylesheet as $a=>$v) {
-						if (!@in_array($a, $targetmeta_attr) && !empty($v)) {
+					foreach ($stylesheet as $a=>$v)
+					{
+						if (!@in_array($a, $targetmeta_attr) && !empty($v))
+						{
 							$doc_src_xsl .= " {$a}=\"{$v}\"";
 						}
-						elseif ($a === 'tplorig') {
-							if ($extcomments) {
+						elseif ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
 								$docpre_xsl = '<!-- Begin '.$this->doc_infoalias.' xsl from template '.$v." -->\n";
 								$docpost_xsl = '<!-- End '.$this->doc_infoalias.' xsl from template '.$v." -->\n";
-							} // end if
-						} // end elseif
-					} // end foreach
+							}
+						}
+					} 
 					$this->xsl[] = $stylesheet['href']; // for XSL processing below
-					if (!$this->xform_all) {
-						if ($stylesheet['xform'] === 'true') {
+					if (!$this->xform_all)
+					{
+						if ($stylesheet['xform'] === 'true')
+						{
 							$stylesheet['xform'] = true;
 						}
 						$this->pre_xform[] = $stylesheet['xform']; // for XSL processing below
-					} // end if
-					else {
+					}
+					else
+					{
 						$this->pre_xform[] = true;
-					} // end else
+					}
 					$doc_source .= $docpre_xsl.'<'.'?xml-stylesheet'.$doc_src_xsl.'?'.">\n".$docpost_xsl;
-				} // end foreach
-			} // end if
+				} 
+			}
 			
+			// Per http://www.w3.org/TR/xhtml1/#C_14 , internal style elements in XHTML should be referenced by an xml-stylesheet referring to their id
+			$styleidcount = 0;
+			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html')
+			{
+				if (isset($this->doc_raw['style']['main']))
+				{
+					foreach ($this->doc_raw['style']['main'] as &$styleids)
+					{
+						if ($extcomments)
+						{
+							$docpre_styleid = '<!-- Begin style with id from template '.$styleids['tplorig'].' -->'."\n";
+							$docpost_styleid = '<!-- End style with id from template '.$styleids['tplorig'].' -->'."\n";
+						}
+						if (isset($styleids['id']))
+						{
+							$doc_source .= $docpre_styleid.'<'.'?xml-stylesheet href="#'.$styleids['id'].'" type="text/css"?>'."\n".$docpost_styleid;
+						}
+						elseif (!isset($styleids['_content']))
+						{
+							$styleidcount++;
+							$styleids['id'] = 'style_tag_id'.$styleidcount; // Add the 'id' so that it can be processed below when the style tag is printed
+							$doc_source .= $docpre_styleid.'<'.'?xml-stylesheet href="#style_tag_id'.$styleidcount.'" type="text/css"?>'."\n".$docpost_styleid;
+						}
+					}
+				}
+				if (isset($_doc_info['style']))
+				{
+					foreach($_doc_info['style'] as &$distyleids)
+					{
+						if ($extcomments)
+						{
+							$docpre2_styleid = '<!-- Begin style with id from template '.$distyleids['tplorig'].' -->'."\n";
+							$docpost2_styleid = '<!-- End style with id from template '.$distyleids['tplorig'].' -->'."\n";
+						}
+						if (isset($distyleids['id']))
+						{
+							$doc_source .= $docpre2_styleid.'<'.'?xml-stylesheet href="#'.$distyleids['id'].'" type="text/css"?>'."\n".$docpost2_styleid;
+						}
+						else
+						{
+							$styleidcount++;
+							$distyleids['id'] = 'style_tag_id'.$styleidcount; // Add the 'id' so that it can be processed below when the style tag is printed
+							$doc_source .= $docpre2_styleid.'<'.'?xml-stylesheet href="#style_tag_id'.$styleidcount.'" type="text/css"?>'."\n".$docpost2_styleid;
+						}
+					} 
+				}
+			}
 			
-			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html') {
+
+			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html')
+			{
 				$this->dr_css_pre = $this->dr_xsl_pre;
 				$this->dr_css_post = $this->dr_xsl_post;
 				$doc_source .= $this->doc_raw_build('css', 'exclude_in_xml');
 
-				// process 'css' doc info
-				
-				if (isset($_doc_info['css'])) {
+
+				// process 'css' doc info	
+				if (isset($_doc_info['css']))
+				{
 					$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['css']['meta_attribs'])); // Prepare for comparison
-					foreach ($_doc_info['css'] as $link) {
+					foreach ($_doc_info['css'] as $link)
+					{
 						$href = $link['href'];
-						if (!(substr($href, 0, 1) == '/' || substr($href, 0, 7) == 'http://')) {
+						if (!(substr($href, 0, 1) == '/' || substr($href, 0, 7) == 'http://'))
+						{
 							$href = $smarty->doc_css_url . $href;
 						}
 						unset($link['href']);
 						$doc_src_css = '';
 						unset($link['external']);
-						foreach ($link as $a=>$v) {
-							if ($a === 'tplorig') {
-								if ($extcomments) {
+						foreach ($link as $a=>$v)
+						{
+							if ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_css = '<!-- Begin '.$this->doc_infoalias.' css from template '.$v." -->\n";
 									$docpost_css = '<!-- End '.$this->doc_infoalias.' css from template '.$v." -->\n";
-								} // end if
-							} // end if
-							elseif (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types['css']['exclude_in_xml'])) {
+								}
+							}
+							elseif (!@in_array($a, $targetmeta_attr) && !empty($v) && !@in_array($a, $this->doc_info_types['css']['exclude_in_xml']))
+							{
 								$doc_src_css .= " {$a}=\"{$v}\"";
-							} // end elseif
-						} // end foreach
+							}
+						} 
 						$doc_source .= $docpre_css.'<'.'?xml-stylesheet'." href=\"{$href}\"".$doc_src_css.$this->dr_css_post.$docpost_css;
-					} // end foreach
-				} // end if
-			}  // end if
+					} 
+				}
+			} 
 
-			// ksort($this->doc_raw['xsl']['docbook.xsl']);
-			
 			$doc_source .= $this->doc_raw_build('xsl');
 
 			// Process 'notes' (not evident in the main file, except optionally as a comment)
 
-			if ($this->notes_in_hiddendir) {
+			if ($this->notes_in_hiddendir)
+			{
 				$hiddenfile = 'hidden';
-			} // end if
-			else {
+			}
+			else
+			{
 				$hiddenfile = 'public';
-			} // end else
+			}
 			$doc_source .= $this->doc_raw_build('notes', '', $hiddenfile, !$this->visible_notes);
 
 			// process 'comments' doc raw
-			if ($this->visible_notes) {
+			if ($this->visible_notes)
+			{
 				$doc_source .= $this->doc_raw_head_build('comments');
-			} // end if
+			}
 
 			// process 'notes' doc info
-			if ($this->visible_notes && isset($_doc_info['notes'])) {
-				foreach ($_doc_info['notes'] as $note) {
-					if ($extcomments) {
+			if ($this->visible_notes && isset($_doc_info['notes']))
+			{
+				foreach ($_doc_info['notes'] as $note)
+				{
+					if ($extcomments)
+					{
 						$docpre_notes = '<!-- Begin '.$this->doc_infoalias.' notes from template '.$note['tplorig']." -->\n";
 						$docpost_notes = '<!-- End '.$this->doc_infoalias.' notes from template '.$note['tplorig']." -->\n";
-					} // end if
-					if (!$note['hide']) {
+					}
+					if (!$note['hide'])
+					{
 						$doc_source .= $docpre_notes.$this->dr_notes_pre;
 						$doc_source .= $note['file'];
 						$doc_source .= " -->\n".$docpost_notes;
-					} // end if
-				} // end foreach
-			} // end if
+					}
+				} 
+			}
 			
 			// process 'comments' doc info
-			if ($this->visible_notes && isset($_doc_info['comments'])) {
-				foreach ($_doc_info['comments'] as $comment) {
-					if ($extcomments) {
+			if ($this->visible_notes && isset($_doc_info['comments']))
+			{
+				foreach ($_doc_info['comments'] as $comment)
+				{
+					if ($extcomments)
+					{
 						$docpre_comm = '<!-- Begin '.$this->doc_infoalias.' comments from template '.$comment['tplorig']." -->\n";
 						$docpost_comm = '<!-- End '.$this->doc_infoalias.' comments from template '.$comment['tplorig']." -->\n";
-					} // end if
-					if (!$comment['hide']) {
+					}
+					if (!$comment['hide'])
+					{
 						$doc_source .= $docpre_comm."<!-- ";
 						$doc_source .= $comment['_content'];
 						$doc_source .= " -->\n".$docpost_comm;
-					} // end if
-				} // end foreach
-			} // end if
+					}
+				} 
+			}
 
 			// process doc_raw targetted before the root (no attributes)
-			if (isset($this->doc_raw['root_pre']['main'])) {
-				foreach ($this->doc_raw['root_pre']['main'] as $rawpre) {
-					foreach ($rawpre as $a => $v) {
-						if ($a === '_content') {
+			if (isset($this->doc_raw['root_pre']['main']))
+			{
+				foreach ($this->doc_raw['root_pre']['main'] as $rawpre)
+				{
+					foreach ($rawpre as $a => $v)
+					{
+						if ($a === '_content')
+						{
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
-						} // end if
-					} // end foreach
-				} // end foreach
-			} // end if
+						}
+					} 
+				} 
+			}
 			// process doc_info targetted before the root (no attributes)
-			if (isset($_doc_info['root_pre'])) {
-				foreach ($_doc_info['root_pre'] as $rawpre) {
-					if ($extcomments) {
+			if (isset($_doc_info['root_pre']))
+			{
+				foreach ($_doc_info['root_pre'] as $rawpre)
+				{
+					if ($extcomments)
+					{
 						$docpre_root_pre = '<!-- Begin '.$this->doc_infoalias.' root_pre from template '.$rawpre['tplorig']." -->\n";
 						$docpost_root_pre = '<!-- End '.$this->doc_infoalias.' root_pre from template '.$rawpre['tplorig']." -->\n";
-					} // end if
+					}
 					$doc_source .= $docpre_root_pre.$indent.$rawpre['_content']."\n".$docpost_root_pre;
-				} // end foreach
-			} // end if
+				} 
+			}
 
 //			print $this->HTTP_ACCEPT;exit;
-			// This block is needed for the next item and subsequent ones
-			if (isset($_doc_info['root']['_content'])) {
-				$this->set_rootnode($_doc_info['root']['_content']);
-				if (isset($_doc_info['root']['xmlns'])) {
-					$this->xmlns = $_doc_info['root']['xmlns'];
-				} // end if
-				else {
-					$this->xmlns = ''; // Override the default XHTML, since probably not using that namespace
-				} // end else
-			} // end if
 
+			// This block is needed for the next item and subsequent ones
+			if (isset($_doc_info['root']['_content']))
+			{
+				$this->set_rootnode($_doc_info['root']['_content']);
+				if (isset($_doc_info['root']['xmlns']))
+				{
+					$this->xmlns = $_doc_info['root']['xmlns'];
+				}
+				else
+				{
+					$this->xmlns = ''; // Override the default XHTML, since probably not using that namespace
+				}
+			}
 
 
 			// Prepare entity
 			// Note that to get an XML text declaration (e.g., to specify a non-utf-8/non-utf-16 or xml 1.1+ entity), this must be set page-wide through the $this->entity_prefixed variable
-			
-
-			if (isset($_doc_info['entity']) || isset($this->doc_raw['entity'])) {
-				if (isset($this->doc_raw['entity'])) {
+			if (isset($_doc_info['entity']) || isset($this->doc_raw['entity']))
+			{
+				if (isset($this->doc_raw['entity']))
+				{
 					$this->doc_raw_build('entity', '', 'public', false, false, false); // No printed output, and no need to go through
-					foreach ($this->doc_raw['entity'] as $fileentity => $val) {
-						// $paramentity = $paramname = $paramtype = $paramfilevalue = $paramndata = $ndata = $paramnotationtype = $paramnotation = '';
+					foreach ($this->doc_raw['entity'] as $fileentity => $val)
+					{
 						$paramtrue = false;
-//						var_dump($this->doc_raw['entity']);exit;
-						foreach ($val as $elem) {
-							if (!isset($elem['dummy'])) {
+
+						foreach ($val as $elem)
+						{
+							if (!isset($elem['dummy']))
+							{
 								$paramentity = $paramname = $paramtype = $paramfilevalue = $paramndata = $ndata = $paramnotationtype = $paramnotation = $docpre_entity = $docpost_entity = '';
-								foreach ($elem as $a => $v) {
-									if ($a === '_content') {
+								if ($this->noextparams && isset($elem['param']) && ($elem['param'] || strtolower($elem['param']) === 'true'))
+								{
+									continue;
+								}
+								foreach ($elem as $a => $v)
+								{
+									if ($a === '_content')
+									{
 										continue 2;
-									} // end if
-									if ($a === 'tplorig') {
-										if ($extcomments) {
+									}
+									if ($a === 'tplorig')
+									{
+										if ($extcomments)
+										{
 											$docpre_entity = '<!-- Begin '.$this->doc_rawalias.' entity from template '.$v." -->\n";
 											$docpost_entity = '<!-- End '.$this->doc_rawalias.' entity from template '.$v." -->\n";
-										} // end if
-									} // end if
-									elseif ($a === 'param' && ($v === true || strtolower($v) === 'true')) {
+										}
+									}
+									elseif ($a === 'param' && ($v === true || strtolower($v) === 'true'))
+									{
 										$paramentity = '% ';
 										$paramtrue = true;
-									} // end if
-									elseif ($a === 'name') {
+									}
+									elseif ($a === 'name')
+									{
 										$paramname = $v.' ';
-									} // end if
-									elseif ($a === 'type') {
+									}
+									elseif ($a === 'type')
+									{
 										$paramtype = strtoupper($v).' ';
-									} // end if
-									elseif (($a === 'file' || $a === 'subtype') && !empty($v)) {
+									}
+									elseif (($a === 'file' || $a === 'subtype') && !empty($v))
+									{
 										$paramfilevalue = '"'.$v.'"';
-									} // end if
-									elseif ($a === 'ndata' && !empty($v) && !isset($elem['param'])) {
+									}
+									elseif ($a === 'ndata' && !empty($v) && !isset($elem['param']))
+									{
 										$paramndata = ' NDATA '.$v;
 										$ndata = $v;
-									} // end if
-									elseif ($a === 'notation-type') {
+									}
+									elseif ($a === 'notation-type')
+									{
 										$paramnotationtype = strtoupper($v);
-									} // end if
-									elseif ($a === 'notation') {
+									}
+									elseif ($a === 'notation')
+									{
 										$paramnotation = $v;
-									} // end if
-								} // end foreach
-								if (empty($elem['file']) && empty($elem['subtype'])) { // This ought to be targeted to the main file
+									}
+								} 
+								if (empty($elem['file']) && empty($elem['subtype']))
+								{ 
+								// This ought to be targeted to the main file
 									$paramfilevalue = '"'.$this->dr_entity_file_src.'"';
-								} // end if
+								}
 								$extraentcomm = '';
-								if (isset($this->extra_ent_comments)) {
+								if (isset($this->extra_ent_comments))
+								{
 									$extraentcomm = $this->extra_ent_comments;
-								} // end if
+								}
 								$this->doctype_rawcontent .= $docpre_entity.'<!ENTITY '.$paramentity.$paramname.$paramtype.$paramfilevalue.$paramndata.'>'."\n";
-								if ($paramtrue) { // Note that due to bug https://bugzilla.mozilla.org/show_bug.cgi?id=267350 of Firefox, instantiating this will not only not work in Firefox, but cause subsequent references, etc. in the internal doctype to be ignored; for Firefox now 1/29/2007, this could be safely commented out (and avoid subsequent referencing from failing), but for those actually making it here and trying to use this, it would fail its purpose (unless they added this instantiation elsewhere in the dtd)
+								if ($paramtrue)
+								{
+									// Note that due to bug https://bugzilla.mozilla.org/show_bug.cgi?id=267350 of Firefox, instantiating this will not only not work in Firefox, but cause subsequent references, etc. in the internal doctype to be ignored; for Firefox now 1/29/2007, this could be safely commented out (and avoid subsequent referencing from failing), but for those actually making it here and trying to use this, it would fail its purpose (unless they added this instantiation elsewhere in the dtd)
 									$this->doctype_rawcontent .= '%'.rtrim($paramname, ' ').";\n".$extraentcomm."\n";
-								} // end if
-								elseif ($paramnotation != '') {
+								}
+								elseif ($paramnotation != '')
+								{
 									$this->doctype_rawcontent .= '<!NOTATION '.$ndata.' '.$paramnotationtype.' "'.$paramnotation."\">\n";
-								} // end elseif
+								}
 								$this->doctype_rawcontent .= $docpost_entity;
-							} // end if
-						} // end foreach
-					} // end foreach
-				} // end if
-				if (isset($_doc_info['entity'])) {
-					foreach ($_doc_info['entity'] as $fileentity => $val) {
+							}
+						} 
+					} 
+				}
+				if (isset($_doc_info['entity']))
+				{
+					foreach ($_doc_info['entity'] as $fileentity => $val)
+					{
 						$paramentity = $paramname = $paramtype = $paramfilevalue = $paramndata = $ndata = $paramnotationtype = $paramnotation = $docpre_entity = $docpost_entity = '';
-						foreach ($val as $a => $v) {
-							if ($a === '-content') {
+						foreach ($val as $a => $v)
+						{
+							if ($a === '-content')
+							{
 								$paramcontents = '"'.$v.'"';
-							} // end if
-							elseif ($a === 'tplorig') {
-								if ($extcomments) {
+							}
+							elseif ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_entity = '<!-- Begin '.$this->doc_infoalias.' entity from template '.$v." -->\n";
 									$docpost_entity = '<!-- End '.$this->doc_infoalias.' entity from template '.$v." -->\n";
-								} // end if
-							} // end elseif
-							elseif ($a === 'param' && ($v === true || strtolower($v) === 'true')) {
+								}
+							}
+							elseif ($a === 'param' && ($v === true || strtolower($v) === 'true'))
+							{
 								$paramentity = '% ';
 								$paramtrue = true;
-							} // end if
-							elseif ($a === 'name') {
+							}
+							elseif ($a === 'name')
+							{
 								$paramname = $v.' ';
-							} // end if
-							elseif ($a === 'type') {
+							}
+							elseif ($a === 'type')
+							{
 								$paramtype = strtoupper($v).' ';
-							} // end if
-							elseif (($a === 'file' || $a === 'subtype') && !empty($v)) {
+							}
+							elseif (($a === 'file' || $a === 'subtype') && !empty($v))
+							{
 								$paramfilevalue = '"'.$v.'"';
-							} // end if
-							elseif ($a === 'ndata' && !empty($v) && !isset($elem['param'])) {
+							}
+							elseif ($a === 'ndata' && !empty($v) && !isset($elem['param']))
+							{
 								$paramndata = ' NDATA '.$v;
 								$ndata = $v;
-							} // end if
-							elseif ($a === 'notation-type') {
+							}
+							elseif ($a === 'notation-type')
+							{
 								$paramnotationtype = strtoupper($v);
-							} // end if
-							elseif ($a === 'notation') {
+							}
+							elseif ($a === 'notation')
+							{
 								$paramnotation = $v;
-							} // end if
-						} // end foreach
+							}
+						} 
 						
-						if (isset($paramcontents)) {
+						if (isset($paramcontents))
+						{
 							$paramfilevalue = $paramcontents;
-							
-						} // end if
-						elseif (empty($val['file']) && empty($val['subtype'])) { // This ought to be targeted to the main file
+						}
+						elseif (empty($val['file']) && empty($val['subtype'])) 
+						{ // This ought to be targeted to the main file
 							$paramfilevalue = '"'.$this->dr_entity_file_src.'"';
-						} // end if
+						}
 
 						$this->doctype_rawcontent .= $docpre_entity.'<!ENTITY '.$paramentity.$paramname.$paramtype.$paramfilevalue.$paramndata.'>'."\n";
-						if ($paramtrue) { // Note that due to bug https://bugzilla.mozilla.org/show_bug.cgi?id=267350 of Firefox, instantiating this will not only not work in Firefox, but cause subsequent references, etc. in the internal doctype to be ignored; for Firefox now 1/29/2007, this could be safely commented out (and avoid subsequent referencing from failing), but for those actually making it here and trying to use this, it would fail its purpose (unless they added this instantiation elsewhere in the dtd)
+						if ($paramtrue)
+						{ // Note that due to bug https://bugzilla.mozilla.org/show_bug.cgi?id=267350 of Firefox, instantiating this will not only not work in Firefox, but cause subsequent references, etc. in the internal doctype to be ignored; for Firefox now 1/29/2007, this could be safely commented out (and avoid subsequent referencing from failing), but for those actually making it here and trying to use this, it would fail its purpose (unless they added this instantiation elsewhere in the dtd)
 							$this->doctype_rawcontent .= '%'.rtrim($paramname, ' ').";\n";
-						} // end if
-						elseif ($paramnotation != '') {
+						}
+						elseif ($paramnotation != '')
+						{
 							$this->doctype_rawcontent .= '<!NOTATION '.$ndata.' '.$paramnotationtype.' "'.$paramnotation."\">\n";
-						} // end if
+						}
 						$this->doctype_rawcontent .= $docpost_entity;
 
-					} // end foreach
-				} // end if
+					} 
+				}
 				$this->internaldoctype = true; // Unnecessary
 				
-			} // end if
+			}
 
 			// Prepare internal (doctype) docraws
-			
 			$this->doctype_rawcontent .= $this->doc_raw_head_build('doctype'); // Add previous to the end in case it added invalid external parameter entity reference instantiation
-			if (isset($_doc_info['doctype'])) {
+			if (isset($_doc_info['doctype']))
+			{
 				$this->internaldoctype = true;
-				foreach ($_doc_info['doctype'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+				foreach ($_doc_info['doctype'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$this->docpre_doctype = '<!-- Begin '.$this->doc_infoalias.' doctype from template '.$v." -->\n";
 							$this->docpost_doctype = '<!-- End '.$this->doc_infoalias.' doctype from template '.$v." -->\n";
-						} // end if
-					} // end elseif
-					elseif ($a === 'root') {
+						}
+					}
+					elseif ($a === 'root')
+					{
 						$this->set_rootnode($v);
 					}
-					elseif ($a === '_content') {
+					elseif ($a === '_content')
+					{
 						$this->doctype_add = $v;
 					}
-				} // end foreach
-			} // end if
-			elseif ($this->doctype_rawcontent != '') {
+				} 
+			}
+			elseif ($this->doctype_rawcontent != '')
+			{
 				$this->internaldoctype = true;
-			} // end elseif
+			}
 
 			
 
 			// Process external (dtd) docraws
-			if (isset($this->doc_raw['dtd'])) {
+			if (isset($this->doc_raw['dtd']) || isset($this->doc_raw['doctype']))
+			{
 				$this->doc_raw_build('dtd', '', 'public', false, false, false); // No printed output, and no need to go through
 				// Could place the above doc_raw_build call after the next nested foreach (after both complete), obviating the need for the exta parameter $both_main_indiv since there'd only be one item in that part of doc_raw, if first do these two lines:
 //				unset($this->doc_raw['dtd']);
 //				$this->doc_raw['dtd][$file_dtd][$idkey] = $value_dtd;
 				$value_dtd = array();
-				foreach ($this->doc_raw['dtd'] as $file_dtd => $val) {
-					foreach ($val as $idkey => $elem) {
+				if (isset($this->doc_raw['dtd']))
+				{
+					$doctypedtd = $this->doc_raw['dtd'];
+				}
+				elseif (isset($this->doc_raw['doctype']))
+				{
+					$doctypedtd = $this->doc_raw['doctype'];
+					$this->avoid_blanksubtype = true;
+				}
+				foreach ($doctypedtd as $file_dtd => $val)
+				{
+					foreach ($val as $idkey => $elem)
+					{
 						$value_dtd = array_merge($elem, $value_dtd); // Get all attributes of one doc_raw
-					} // end foreach
+					}
 					break; // Only use one doc_raw since can only be one dtd
-				} // end foreach
+				}
 				$doc_source .= $smarty->getDoctypeSignature($this->doc_rawalias, $value_dtd);
-			} // end if
-			elseif (isset($_doc_info['dtd']) || $this->add_openclose) { // generate the auto-doctype (external) signature (from doc_info)--in an 'elseif' since can't have two external dtds in a document
+			}
+			elseif (isset($_doc_info['dtd']) || $this->add_openclose)
+			{
+				// generate the auto-doctype (external) signature (from doc_info)--in an 'elseif' since can't have two external dtds in a document
 				$doc_source .= $smarty->getDoctypeSignature($this->doc_infoalias);
-			} // end elseif
-			elseif ($this->xml_plain && (isset($_doc_info['doctype']) || isset($this->doc_raw['doctype']) || isset($_doc_info['entity']) || isset($this->doc_raw['entity']))) { // Assume plain XML served as such or otherwise won't render
-				$doc_source .= '<!DOCTYPE '.$this->rootnode." [\n".$this->doctype_rawcontent.$this->docpre_doctype.$this->doctype_add.$this->docpost_doctype."\n]>\n";
-			} // end elseif
-
+			}
+			elseif ($this->xml_plain && (isset($_doc_info['doctype']) || isset($_doc_info['entity']) || isset($this->doc_raw['entity'])))
+			{
+				// Assume plain XML served as such or otherwise won't render; doc_info doctype might be better moved about with the doc_raw doctype so that default or manually-specified PUBLIC/SYSTEM identifiers, etc. can be detected
+				if (isset($_doc_info['doctype']) || !$this->noextparams)
+				{
+					// This might block out some valid entities, but as entities are not well-supported anyways, it is better to block them than to have an empty DOCTYPE we don't need
+					$doc_source .= '<!DOCTYPE '.$this->rootnode." [\n".$this->doctype_rawcontent.$this->docpre_doctype.$this->doctype_add.$this->docpost_doctype."\n]>\n";
+				}
+			}
+			elseif (isset($this->doc_info['html']['v']))
+			{
+				$doc_source .= $this->DTDS['XHTML'][$this->doc_info['html']['v']]['signature']."\n";
+			}
 
 			// This long sequence sets the rootnode of the document (and possibly any xsd's)
 			if (($this->rootnode != 'html' && $this->rootnode != '') || 
 					isset($this->doc_raw['xsd']) || isset($this->doc_info['xsd']) || 
 							isset($_doc_info['root']['_content']) ||
 								$this->add_openclose || isset($_doc_info['html'])
-							) { // Assumes XML or XHTML
+							)
+			{ // Assumes XML or XHTML
 
 				$doc_source_temp = '<';
 /*
 				// Add if one adjusts the code to have separate specifier for prefix
 				if (isset($_doc_info['root']['prefix'])) {
 					$doc_source .= $_doc_info['root']['prefix'].':';
-				} // end if
+				}
 */
-				if ($this->rootnode != '' && !$this->add_openclose) {
+				if ($this->rootnode != '' && !$this->add_openclose)
+				{
 					$doc_source_temp .= $this->rootnode;
-				} // end if
-				else {
+				}
+				else
+				{
 					$doc_source_temp .= 'html';			
-				} // end else
+				}
 
-				if ($this->xmlns != '') { // Will also be triggered if $_doc_info['root'] exists and has an xmlns value (see above)
+				if ($this->xmlns != '')
+				{ 
+					// Will also be triggered if $_doc_info['root'] exists and has an xmlns value (see above)
 					$doc_source_temp .= ' xmlns="'.$this->xmlns.'"';
-				} // end if
+				}
 				
-				if ($this->xincludeset) {
+				if ($this->xincludeset)
+				{
 					$doc_source_temp .= ' xmlns:xi="'.$this->xinclude_ns.'"';
-				} // end if
+				}
 
-				if (isset($_doc_info['root'])) {
+				if (isset($_doc_info['root']))
+				{
 					$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['root']['meta_attribs'])); // Prepare for comparison
-					foreach ($_doc_info['root'] as $a=>$v) {
-						if (!empty($v)) {
-							if ($a != '_content' && $a != 'xmlns' && !@in_array($a, $targetmeta_attr)) { //  && $a != 'prefix'
+					foreach ($_doc_info['root'] as $a=>$v)
+					{
+						if (!empty($v))
+						{
+							if ($a != '_content' && $a != 'xmlns' && !@in_array($a, $targetmeta_attr))
+							{ //  && $a != 'prefix'
 								$this->rootattrs[$a] = $v;
-							} // end if
-							elseif ($a === 'tplorig') {
-								if ($extcomments) {
+							}
+							elseif ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_root = '<!-- Begin '.$this->doc_infoalias.' root from template '.$v." -->\n";
 									$docpost_root = '<!-- End '.$this->doc_infoalias.' root from template '.$v." -->\n";
-								} // end if
-							} // end elseif
-							elseif ($a === 'xsi:noNamespaceSchemaLocation') {
+								}
+							}
+							elseif ($a === 'xsi:noNamespaceSchemaLocation')
+							{
 								$this->root_nns_xsd = $v;
-							} // end elseif
-							elseif ($a === 'xsi:schemaLocation') {
+							}
+							elseif ($a === 'xsi:schemaLocation')
+							{
 								$this->extra_xsds[$v] = $v;
-							} // end elseif
-						} // end if
-					} // end foreach
-				} // end if
-				else {
+							}
+						}
+					} 
+				}
+				else
+				{
 					// process 'html' doc info
-					if (isset($_doc_info['html'])) {
-						foreach ((array) $_doc_info['html'] as $a=>$v) {
-							if (!empty($v)) {
-								if ($a === 'tplorig') {
-									if ($extcomments) {
+					if (isset($_doc_info['html']))
+					{
+						foreach ((array) $_doc_info['html'] as $a=>$v)
+						{
+							if (!empty($v))
+							{
+								if ($a === 'tplorig')
+								{
+									if ($extcomments)
+									{
 										$docpre_root = '<!-- Begin '.$this->doc_infoalias.' html from template '.$v." -->\n";
 										$docpost_root = '<!-- End '.$this->doc_infoalias.' html from template '.$v." -->\n";
-									} // end if
-								} // end if
-								elseif ($a === 'xsi:noNamespaceSchemaLocation') {
+									}
+								}
+								elseif ($a === 'xsi:noNamespaceSchemaLocation')
+								{
 									$this->root_nns_xsd = $v;
-								} // end elseif
-								elseif ($a === 'xsi:schemaLocation') {
+									if (!isset($_doc_info['html']['xsi:schemaLocation']))
+									{
+										$this->rootattrs['xmlns:xsi'] = 'http://www.w3.org/2001/XMLSchema-instance';
+									}
+								}
+								elseif ($a === 'xsi:schemaLocation')
+								{
 									$this->extra_xsds[$v] = $v;
-								} // end elseif
-								elseif ($a !== 'version' && ($a !== 'xmlns' || $this->xmlns == '')) { // Don't need to avoid xmlns for HTML here (e.g., if the $this->xmlns is blank) since it requires xml_plain to be turned on in order to show up as a default
-								// This also means xmlns will not show up as a default (where doc_info['html'] is on) unless served with xml_plain true
+								}
+								elseif ($a !== 'v' && ($a !== 'xmlns' || $this->xmlns == ''))
+								{
+									// Don't need to avoid xmlns for HTML here (e.g., if the $this->xmlns is blank) since it requires xml_plain to be turned on in order to show up as a default
+									// This also means xmlns will not show up as a default (where doc_info['html'] is on) unless served with xml_plain true
 									$this->rootattrs[$a] = $v;
-								} // end elseif
-							} // end if
-						} // end foreach
-					} // end if
-					elseif ($this->add_openclose) {
-						if ($extcomments) {
+								}
+							}
+						} 
+					}
+					elseif ($this->add_openclose)
+					{
+						if ($extcomments)
+						{
 							$docpre_html = '<!-- Begin auto add_openclose html '."-->\n";
 							$docpost_html = '<!-- End auto add_openclose html '."-->\n";
-						} // end if
-						if ($this->application_xml === 'XHTML' || $_doc_info['dtd']['family'] === 'XHTML') {
+						}
+						if ($this->application_xml === 'XHTML' || $_doc_info['dtd']['family'] === 'XHTML')
+						{
 							$this->rootattrs['xmlns'] = 'http://www.w3.org/1999/xhtml';
-						} // end if
-					} // end elseif
-				} // end else
-				if (isset($this->extra_xmlns)) {
+						}
+					}
+				}
+				if (isset($this->extra_xmlns))
+				{
 					$doc_source_temp .= ' '.implode(' ', $this->extra_xmlns);
-				} // end if
+				}
 
-				if (isset($this->doc_raw['xsd']) || isset($this->extra_xsds) || isset($_doc_info['xsd'])) {
+				if (isset($this->doc_raw['xsd']) || isset($this->extra_xsds) || isset($_doc_info['xsd']))
+				{
 					$doc_source_temp .= $this->doc_raw_build('xsd', '', 'public', 'skippre');
-				} // end if
-				else { // Changed to allow all (including html) to check; was(isset($_doc_info['root'])) {
+				}
+				else
+				{ 
+					// Changed to allow all (including html) to check; was(isset($_doc_info['root'])) {
 					$doc_source_temp .= $this->doc_raw_build('root', '', 'public', 'skippre');
-				} // end elseif
+				}
 				
 				$doc_source_temp .= ">\n";
 
-				if ($extcomments) {
-				
+				if ($extcomments)
+				{				
 					$doc_source .= $docpre_html.$docpre_root.@implode('', $this->docpre_xsdcomm).@implode("\n", $this->tpl_pre_xsd).$doc_source_temp.@implode("\n", $this->tpl_post_xsd).@implode('', $this->docpost_xsdcomm).$docpost_root.$docpost_html; // Allow any comments to be added around the element
-				} // end if
-				else {
+				}
+				else
+				{
 					$doc_source .= $doc_source_temp;
-				} // end else
-			} // end if
+				}
+			}
 
 
 			// process doc_raw targetted for the beginning of the head
-			if (isset($this->doc_raw['head']['main'])) {
-				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html'])) {
+			if (isset($this->doc_raw['head']['main']))
+			{
+				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
+				{
 					$this->dr_head_pre = '<head';
-				} // end if
-				if (isset($_doc_info['head'])) { // Allow attributes from doc_infos to be added
-					foreach ($_doc_info['head'] as $a=>$v) {
-						if ($a === 'tplorig') {
-							if ($extcomments) {
+				}
+				if (isset($_doc_info['head']))
+				{
+				// Allow attributes from doc_infos to be added
+					foreach ($_doc_info['head'] as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
 								$docpre_head = '<!-- Begin '.$this->doc_infoalias.' head from template '.$v." -->\n";
 								$docpost_head = "\n".'<!-- End '.$this->doc_infoalias.' head from template '.$v." -->\n";
-							} // end if
-						} // end if
-						elseif ($a === '-content') {
+							}
+						}
+						elseif ($a === '_content')
+						{
 							$head_content = $v;
-						} // end elseif
-						elseif (!empty($v)) {
+						}
+						elseif (!empty($v))
+						{
 							$this->dr_head_pre .= " {$a}=\"{$v}\"";
-						} // end if
-					} // end foreach
-				} // end if
-				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html'])) {
+						}
+					} 
+				}
+				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
+				{
 					$this->dr_head_postpre = ">\n";
 					$addheadclose = true;
-				} // end if
+				}
 				$doc_source .= $docpre_head.$this->doc_raw_head_build('head', true).$head_content.$docpost_head;
-			} // end if
-			elseif (isset($_doc_info['head'])) { // process 'head' doc info
-				foreach ($_doc_info['head'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+			}
+			// process 'head' doc info
+			elseif (isset($_doc_info['head']))
+			{
+				foreach ($_doc_info['head'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$docpre_head = '<!-- Begin '.$this->doc_infoalias.' head from template '.$v." -->\n";
-							$docpost_head = '<!-- End '.$this->doc_infoalias.' head from template '.$v." -->\n";
-							
-						} // end if
-					} // end if
-					elseif ($a === '-content') {
-					
+							$docpost_head = '<!-- End '.$this->doc_infoalias.' head from template '.$v." -->\n";	
+						}
+					}
+					elseif ($a === '_content')
+					{
 						$head_content = $v;
-					} // end elseif
-					elseif (!empty($v)) {
-					
+					}
+					elseif (!empty($v))
+					{
 						$doc_src_head .= " {$a}=\"{$v}\"";
 					}
 				}
 				$doc_source .= $docpre_head.'<head'.$doc_src_head.">\n".$head_content.$docpost_head;
 				
 				$addheadclose = true;
-			} // end if
+			}
 
-			elseif ($this->add_openclose) {
-				if ($extcomments) {
+			elseif ($this->add_openclose)
+			{
+				if ($extcomments)
+				{
 					$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
 					$docpost_head = '<!-- End auto add_openclose head '."-->\n";
-				} // end if
+				}
 				$doc_source .= $docpre_head."<head>\n".$docpost_head;
 				$addheadclose = true;
 			}
 
-			// insert module header-pre content
-			$doc_source .= $module_content['head_pre'];
-
 			// Do the charset meta's need to be taken out to make sure they are first right after the head?
 			// process 'meta' doc info
-			if (isset($_doc_info['meta'])) {
-				foreach ($_doc_info['meta'] as $meta) {
+			if (isset($_doc_info['meta']))
+			{
+				foreach ($_doc_info['meta'] as $meta)
+				{
 					$doc_src_meta = '';
 					$doc_src_meta0 = '';
-					if (isset($meta['http_accept']) || isset($meta['http-equiv'])) {
-						foreach ($meta as $a=>$v) {
-							if ($a === 'tplorig') {
-								if ($extcomments) {
-									$docpre_meta0 = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-									$docpost_meta0 = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-								} // end if
-							} // end if
-							elseif ($v === 'http_accept') { // Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)			
-							// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
-								$doc_src_meta0 .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
-							} // end elseif
-							elseif (!empty($v)) {
-								$doc_src_meta0 .= " {$a}=\"{$v}\"";
-							} // end elseif
-						} // end foreach
-					} // end if
-					else {
-						foreach ($meta as $a=>$v) {
-							if ($a === 'tplorig') {
-								if ($extcomments) {
+					if (isset($meta['http-equiv']))
+					{
+						if (!$this->xml_plain)
+						{ 
+							// Meta with http-equiv should apparently not be printed for XML: 
+							foreach ($meta as $a=>$v)
+							{
+								if ($a === 'tplorig')
+								{
+									if ($extcomments)
+									{
+										$docpre_meta0 = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+										$docpost_meta0 = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+									}
+								}
+								// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)
+								elseif ($a === 'content' && $v === 'http_accept')
+								{
+									// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
+									$doc_src_meta0 .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
+								}
+								elseif (!empty($v))
+								{
+									$doc_src_meta0 .= " {$a}=\"{$v}\"";
+								}
+							} 
+						}
+					}
+					else
+					{
+						foreach ($meta as $a=>$v)
+						{
+							if ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_meta = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
 									$docpost_meta = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-								} // end if
-							} // end if
-							elseif ($v === 'http_accept') { // Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)			
+								}
+							}
+							// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)			
+							elseif ($v === 'http_accept')
+							{
 							// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
 								$doc_src_meta .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
-							} // end elseif
-							elseif (!empty($v)) {
+							}
+							elseif (!empty($v))
+							{
 								$doc_src_meta .= " {$a}=\"{$v}\"";
-							} // end elseif
-						} // end foreach
-					} // end else
-					if ($doc_src_meta0 != '') {
+							}
+						} 
+					}
+					if ($doc_src_meta0 != '')
+					{
 						$doc_source_meta0 .= $docpre_meta0."{$indent}<meta".$doc_src_meta0." />\n".$docpost_meta0; // Ensure http_accept type goes first
-					} // end if
-					if ($doc_src_meta != '') {
+					}
+					if ($doc_src_meta != '')
+					{
 						$doc_source_meta .= $docpre_meta."{$indent}<meta".$doc_src_meta." />\n".$docpost_meta;
-					} // end if
-				} // end foreach
+					}
+				} 
 				$doc_source .= $doc_source_meta0.$doc_source_meta;
-			} // end if
+			}
 
-			if (isset($_doc_info['robots']) && !$this->xml_plain) {
-				foreach ($_doc_info['robots'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+			// insert module header-pre content (I placed this after the meta, since meta http-equiv in HTML should come first
+			$doc_source .= $module_content['head_pre'];
+
+			if (isset($_doc_info['robots']) && !$this->xml_plain)
+			{
+				foreach ($_doc_info['robots'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$docpre_robots = '<!-- Begin '.$this->doc_infoalias.' robots from template '.$v." -->\n";
 							$docpost_robots = '<!-- End '.$this->doc_infoalias.' robots from template '.$v." -->\n";
-						} // end if
-					} // end if
-					elseif ($a === 'index') { // Place this first (not sure if its necessary, but it seems to be convention)
-						if ($v === 'yes') {
+						}
+					}
+					// Place this first (not sure if its necessary, but it seems to be convention)
+					elseif ($a === 'index')
+					{ 
+						if ($v === 'yes')
+						{
 							$doc_src_robots1 = 'index';
-						} // end if
-						elseif ($v === 'no') {
+						}
+						elseif ($v === 'no')
+						{
 							$doc_src_robots1 = 'noindex';			
-						} // end else
-					} // end elseif
-					elseif ($a === 'follow') {
-						if ($v === 'yes') {
+						}
+					}
+					elseif ($a === 'follow')
+					{
+						if ($v === 'yes')
+						{
 							$doc_src_robots2 = ',follow';
-						} // end if
-						elseif ($v === 'no') {
+						}
+						elseif ($v === 'no')
+						{
 							$doc_src_robots2 = ',nofollow';			
-						} // end else
-					} // end elseif
-					else {
+						}
+					}
+					else
+					{
 						$doc_src_robots1 = $v; // Allow 'all' or 'none'
-					} // end lese
-				} // end foreach
+					}
+				} 
 				$doc_source .= $docpre_robots.'<meta name="robots" content="'.$doc_src_robots1.$doc_src_robots2."\" />\n".$docpost_robots;
-			} // end if
+			}
 
 			// process 'base' doc info
-			if (isset($_doc_info['base'])) {
-				foreach ($_doc_info['base'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+			if (isset($_doc_info['base']))
+			{
+				foreach ($_doc_info['base'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$docpre_base = '<!-- Begin '.$this->doc_infoalias.' base from template '.$v." -->\n";
 							$docpost_base = '<!-- End '.$this->doc_infoalias.' base from template '.$v." -->\n";
-						} // end if
-					} // end if
-					elseif (!empty($v)) {
+						}
+					}
+					elseif (!empty($v))
+					{
 						$doc_src_base .= " {$a}=\"{$v}\"";
 					}
 				}
 				$doc_source .= $docpre_base."{$indent}<base".$doc_src_base." />\n".$docpost_base;
 			}
-// print_r($this->doc_raw['css']);exit;
+
 			// If XML plain, should be above as xml-stylesheet
-			if (!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html') {
+			if (!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html')
+			{
 				$this->dr_css_pre = "{$indent}<link href=\"";
 				$doc_source .= $this->doc_raw_build('css');
-			} // end if
+			}
 
 			$this->dr_style_pre = "{$indent}<style";
 			$doc_source .= $this->doc_raw_head_build('style', true);
 
 			// process 'style' doc info
-			if (isset($_doc_info['style'])) {
+			if (isset($_doc_info['style']))
+			{
 				$doc_src_style = '';
-				foreach ($_doc_info['style'] as $styleattribs) {
-					foreach ($styleattribs as $a=>$v) {
-						if ($a === 'tplorig') {
+				foreach ($_doc_info['style'] as $styleattribs)
+				{
+					foreach ($styleattribs as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
 							$docpres_style[$v] = $v; // Ensure filenames are not repeated
 							$docposts_style[$v] = $v;
-						} // end if
-						elseif ($a != '_content') {
-							if (!empty($v)) {
+						}
+						elseif ($a != '_content')
+						{
+							if (!empty($v))
+							{
 								$doc_src_style[$a] = " {$a}=\"{$v}\""; // Ensure attributes are not repeated
 							}
 						}
-						else {
-							if (!empty($v)) {
+						else
+						{
+							if (!empty($v))
+							{
 								$stylecontent .= $v;
-							} // end if
-						} // end else
-					} // end foreach
-				} // end foreach
-				if ($extcomments) {
+							}
+						}
+					} 
+				} 
+				if ($extcomments)
+				{
 					$docpre_style = '<!-- Begin '.$this->doc_infoalias.' style from template '.implode(', ', $docpres_style)." -->\n";
 					$docpost_style = '<!-- End '.$this->doc_infoalias.' style from template '.implode(', ', $docposts_style)." -->\n";
-				} // end if
+				}
 
 				$stylecontent = str_replace(array('[[[', ']]]'), array('{', '}'), $stylecontent);
 				$doc_source .= $docpre_style."{$indent}<style".implode('', $doc_src_style).$this->dr_style_postpre.$stylecontent."\n".$this->dr_style_post.$docpost_style;
-			} // end if
-
+			}
 
 			// process 'css' doc info
-			if ((!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html') && $_doc_info['css']) { // Serve plain link tags for CSS if the browser doesn't support XML-style (or if not serving as XML)
+			if ((!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html') && $_doc_info['css'])
+			{
+				// Serve plain link tags for CSS if the browser doesn't support XML-style (or if not serving as XML)
 				$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['css']['meta_attribs'])); // Prepare for comparison
-				foreach ($_doc_info['css'] as $link) {
+				foreach ($_doc_info['css'] as $link)
+				{
 					$href = $link['href'];
-					if (!(substr($href, 0, 1) == '/' || substr($href, 0, 7) == 'http://')) {
+					if (!(substr($href, 0, 1) == '/' || substr($href, 0, 7) == 'http://'))
+					{
 						$href = $smarty->doc_css_url . $href;
 					}
 					unset($link['href']);
 					$doc_src_css = '';
-					if ($link['external'] === true && isset($link['external'])) {
+					if ($link['external'] === true && isset($link['external']))
+					{
 						unset($link['external']);
-						foreach ($link as $a=>$v) {
-							if ($a === 'tplorig') {
-								if ($extcomments) {
+						foreach ($link as $a=>$v)
+						{
+							if ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_css = '<!-- Begin '.$this->doc_infoalias.' css from template '.$v." -->\n";
 									$docpost_css = '<!-- End '.$this->doc_infoalias.' css from template '.$v." -->\n";
-								} // end if
-							} // end if
-							elseif (!@in_array($a, $targetmeta_attr) && !empty($v)) {
+								}
+							}
+							elseif (!@in_array($a, $targetmeta_attr) && !empty($v))
+							{
 								$doc_src_css .= " {$a}=\"{$v}\"";
 							}
 						}
 						$doc_source .= $docpre_css."{$indent}<link".$doc_src_css." href=\"{$href}\" />\n".$docpost_css;
 					}
-					else {
+					else
+					{
 						unset($link['external']);
 						unset($link['title']);
 						unset($link['rel']);
-						foreach ($link as $a=>$v) {
-							if (!@in_array($a, $targetmeta_attr) && !empty($v)) {
+						foreach ($link as $a=>$v)
+						{
+							if (!@in_array($a, $targetmeta_attr) && !empty($v))
+							{
 								$doc_src_css .= " {$a}=\"{$v}\"";
 							}
-							elseif ($a === 'tplorig') {
-								if ($extcomments) {
+							elseif ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
 									$docpre_css = '<!-- Begin '.$this->doc_infoalias.' css from template '.$v." -->\n";
 									$docpost_css = '<!-- End '.$this->doc_infoalias.' css from template '.$v." -->\n";
-								} // end if
-							} // end elsef
+								}
+							}
 						}
 						$doc_source .= $docpre_css."{$indent}<style".$doc_src_css;
 						$doc_source .= $this->dr_style_postpre;
@@ -3231,20 +4359,28 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			}
 
 			// process 'link' doc info
-			if (isset($_doc_info['link'])) {
-				foreach ($_doc_info['link'] as $link) {
+			if (isset($_doc_info['link']))
+			{
+				foreach ($_doc_info['link'] as $link)
+				{
 					$doc_src_link = '';
-					foreach ($link as $a=>$v) {
-						if ($a === 'tplorig') {
-							if ($extcomments) {
+					foreach ($link as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
 								$docpre_link = '<!-- Begin '.$this->doc_infoalias.' link from template '.$v." -->\n";
 								$docpost_link = '<!-- End '.$this->doc_infoalias.' link from template '.$v." -->\n";
-							} // end if
-						} // end if
-						elseif ($v === 'http_accept') { // Allow for http type to be auto-calculated (such as from the Navbarcrumbs class)
+							}
+						}
+						elseif ($v === 'http_accept')
+						{ 
+							// Allow for http type to be auto-calculated (such as from the Navbarcrumbs class)
 							$doc_src_link .= " {$a}=\"{$this->HTTP_ACCEPT}\"";
 						}
-						elseif (!empty($v)) {
+						elseif (!empty($v))
+						{
 							$doc_src_link .= " {$a}=\"{$v}\"";
 						}
 					}
@@ -3254,11 +4390,13 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
 			$this->dr_code_pre = "{$indent}<script src=\"";
 
+			// Although this is called in the constructor, the $langu variable may only have been set by now
 			global $langu; // Adding to localize "script" file as it contains localized instructions at our site
-			if (isset($langu) && $langu != '') {
+			if (isset($langu) && $langu != '')
+			{
 				$this->dr_code_file_src = '/dr_mainscripts_'.$langu.'.js';
 				$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$langu.'.js';
-			} // end if
+			}
 			
 			$doc_source .= $this->doc_raw_build('code');
 
@@ -3267,167 +4405,215 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$doc_source .= $this->doc_raw_head_build('script', true);
 
 			// process 'script' doc info
-			if (isset($_doc_info['script'])) {
+			if (isset($_doc_info['script']))
+			{
 				$doc_src_script = '';
-				foreach ($_doc_info['script'] as $scriptattribs) {
-					foreach ($scriptattribs as $a=>$v) {
-						if ($a === 'tplorig') {
+				foreach ($_doc_info['script'] as $scriptattribs)
+				{
+					foreach ($scriptattribs as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
 							$docpres_script[$v] = $v; // Ensure filenames are not repeated
 							$docposts_script[$v] = $v;
-						} // end if
-						elseif ($a != '_content') {
-							if (!empty($v)) {
+						}
+						elseif ($a != '_content')
+						{
+							if (!empty($v))
+							{
 								$doc_src_script[$a] .= " {$a}=\"{$v}\""; // Ensure attributes are not repeated
-							} // end if
-						} // end elseif
-						else {
-							if (!empty($v)) {
+							}
+						}
+						else
+						{
+							if (!empty($v))
+							{
 								$scriptcontent .= $v;
-							} // end if
-						} // end else
-					} // end foreach
-				} // end foreach
-				if ($extcomments) {
+							}
+						}
+					} 
+				} 
+				if ($extcomments)
+				{
 					$docpre_script = '<!-- Begin '.$this->doc_infoalias.' script from template '.implode(', ', $docpres_script)." -->\n";
 					$docpost_script = '<!-- End '.$this->doc_infoalias.' script from template '.implode(', ', $docposts_script)." -->\n";
-				} // end if
+				}
 
 				$scriptcontent = str_replace(array('[[[', ']]]'), array('{', '}'), $scriptcontent);
 				$doc_source .= $docpre_script."{$indent}<script".implode('', $doc_src_script).$this->dr_script_postpre.$scriptcontent."\n".$this->dr_script_post.$docpost_script;
 			}
 
 			// process 'code' doc info
-			if (isset($_doc_info['code'])) {
+			if (isset($_doc_info['code']))
+			{
 				$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['code']['meta_attribs'])); // Prepare for comparison
-				foreach ($_doc_info['code'] as $link) {
+				foreach ($_doc_info['code'] as $link)
+				{
 					$src = $link['src'];
-					if (!(substr($src, 0, 1) == '/' || substr($src, 0, 7) == 'http://')) {
+					if (!(substr($src, 0, 1) == '/' || substr($src, 0, 7) == 'http://'))
+					{
 						$src = $smarty->doc_script_url . $src;
-					} // end if
+					}
 					unset($link['src']);
 					$doc_src_code = '';
 					foreach ($link as $a=>$v) {
-						if (!@in_array($a, $targetmeta_attr) && !empty($v)) {
+						if (!@in_array($a, $targetmeta_attr) && !empty($v))
+						{
 							$doc_src_code .= " {$a}=\"{$v}\"";
-						} // end if
-						elseif ($a === 'tplorig') {
-							if ($extcomments) {
+						}
+						elseif ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
 								$docpre_code = '<!-- Begin '.$this->doc_infoalias.' code from template '.$v." -->\n";
 								$docpost_code = '<!-- End '.$this->doc_infoalias.' code from template '.$v." -->\n";
-							} // end if
-						} // end elseif
-					} // end foreach
+							}
+						}
+					} 
 					$doc_source .= $docpre_code."{$indent}<script".$doc_src_code." src=\"{$src}\"></script>\n".$docpost_code;
-				} // end foreach
-			} // end if
+				} 
+			}
 
 			// insert module header-pre content
 			$doc_source .= $module_content['head_post'];
 
 			// process doc_raw targetted at the end of the head (no attributes)
-			if (isset($this->doc_raw['head_post']['main'])) {
-				foreach ($this->doc_raw['head_post']['main'] as $rawpre) {
-					foreach ($rawpre as $a => $v) {
-						if ($a === '_content') {
+			if (isset($this->doc_raw['head_post']['main']))
+			{
+				foreach ($this->doc_raw['head_post']['main'] as $rawpre)
+				{
+					foreach ($rawpre as $a => $v)
+					{
+						if ($a === '_content')
+						{
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
-						} // end if
-					} // end foreach
-				} // end foreach
-			} // end if
+						}
+					} 
+				} 
+			}
 			// process doc_info targetted at the end of the head (no attributes)
-			if (isset($_doc_info['head_post'])) {
-				foreach ($_doc_info['head_post'] as $rawpre) {
-					if ($extcomments) {
+			if (isset($_doc_info['head_post']))
+			{
+				foreach ($_doc_info['head_post'] as $rawpre)
+				{
+					if ($extcomments)
+					{
 						$docpre_head_post2 = '<!-- Begin '.$this->doc_infoalias.' head_post from template '.$rawpre['tplorig']." -->\n";
 						$docpost_head_post2 = '<!-- End '.$this->doc_infoalias.' head_post from template '.$rawpre['tplorig']." -->\n";
-					} // end if
+					}
 					$doc_source .= $docpre_head_post2.$indent.$rawpre['_content']."\n".$docpost_head_post2;
 				}
 			}
-			
+
 			// process 'title' doc info
-			if (isset($_doc_info['title'])) {
-				foreach ($_doc_info['title'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
+			if (isset($_doc_info['title']))
+			{
+				foreach ($_doc_info['title'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
 							$docpre_title = '<!-- Begin '.$this->doc_infoalias.' title from template '.$v." -->\n";
 							$docpost_title = '<!-- End '.$this->doc_infoalias.' title from template '.$v." -->\n";
-						} // end if
-					} // end if
-					elseif ($a !== '_content' && !empty($v)) {
+						}
+					}
+					elseif ($a !== '_content' && !empty($v))
+					{
 						$doc_src_title .= " {$a}=\"{$v}\"";
 					}
 				}
 				$doc_source .= $docpre_title."{$indent}<title".$doc_src_title.">{$_doc_info['title']['_content']}</title>\n".$docpost_title;
-			} // end if
-			elseif ($this->add_openclose) {
+			}
+			elseif ($this->add_openclose)
+			{
 				if ($extcomments) {
 					$docpre_title= '<!-- Begin auto add_openclose title '."-->\n";
 					$docpost_title = '<!-- End auto add_openclose title '."-->\n";
-				} // end if
+				}
 				$doc_source .= $docpre_title."<title></title>\n".$docpost_title;
-			} // end elseif
+			}
 
-			
-			// process doc_raw targetted for the beginning of the body
-			if (isset($this->doc_raw['body']['main'])) {
-				if ($addheadclose) {
-					$this->dr_body_pre = "</head>\n";
-				} // end if
-				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html'])) {
-					$this->dr_body_pre .= '<body';
-				} // end if
-				if (isset($_doc_info['body'])) { // allow attributes from doc_infos to be added
-					foreach ($_doc_info['body'] as $a=>$v) {
-						if ($a === 'tplorig') {
-							if ($extcomments) {
-								$docpre_body = '<!-- Begin '.$this->doc_infoalias.' body from template '.$v." -->\n";
-								$docpost_body = '<!-- End '.$this->doc_infoalias.' body from template '.$v." -->\n";
-							} // end if
-						} // end if
-						elseif (!empty($v)) {
-							$this->dr_body_pre .= " {$a}=\"{$v}\"";
-						} // end if
-					} // end foreach
-				} // end if
-				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html'])) {
-					$this->dr_body_postpre = ">\n";
-				} // end if
-				$doc_source .= $docpre_body.$this->doc_raw_head_build('body', true).$docpost_body;
-			} // end if
-			elseif (isset($_doc_info['body'])) { // process 'body' doc info
-				foreach ($_doc_info['body'] as $a=>$v) {
-					if ($a === 'tplorig') {
-						if ($extcomments) {
-							$docpre_body = '<!-- Begin '.$this->doc_infoalias.' body from template '.$v." -->\n";
-							$docpost_body = '<!-- End '.$this->doc_infoalias.' body from template '.$v." -->\n";
-						} // end if
-					} // end if
-					elseif (!empty($v)) {
-						$doc_src_body .= " {$a}=\"{$v}\"";
-					} // end if
-				} // end foreach
-				if ($addheadclose) { // Set if head raw, head doc_info or add_openclose
-					if ($extcomments) {
-						$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
-						$docpost_head = '<!-- End auto add_openclose head '."-->\n";
-					} // end if
-					$doc_source .= $docpre_head."</head>\n".$docpost_head;
-				} // end if
-				$doc_source .= $docpre_body.'<body'.$doc_src_body.">\n".$docpost_body;
-			} // end if
-			elseif ($this->add_openclose) {
-				if ($extcomments) {
+			if ($addheadclose)
+			{
+				if ($extcomments)
+				{
 					$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
 					$docpost_head = '<!-- End auto add_openclose head '."-->\n";
+				}
+				$doc_source .= $docpre_head."</head>\n".$docpost_head;
+			}
+
+			// process doc_raw targetted for the beginning of the body
+			if (isset($this->doc_raw['body']['main']))
+			{
+				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
+				{
+					$this->dr_body_pre .= '<body';
+				}
+				if (isset($_doc_info['body']))
+				{ // allow attributes from doc_infos to be added
+					foreach ($_doc_info['body'] as $a=>$v)
+					{
+						if ($a === 'tplorig')
+						{
+							if ($extcomments)
+							{
+								$docpre_body = '<!-- Begin '.$this->doc_infoalias.' body from template '.$v." -->\n";
+								$docpost_body = '<!-- End '.$this->doc_infoalias.' body from template '.$v." -->\n";
+							}
+						}
+						elseif (!empty($v))
+						{
+							$this->dr_body_pre .= " {$a}=\"{$v}\"";
+						}
+					} 
+				}
+				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
+				{
+					$this->dr_body_postpre = ">\n";
+				}
+				
+				$doc_source .= $docpre_body.$this->doc_raw_head_build('body', true).$docpost_body;
+			}
+			elseif (isset($_doc_info['body']))
+			{ // process 'body' doc info
+				foreach ($_doc_info['body'] as $a=>$v)
+				{
+					if ($a === 'tplorig')
+					{
+						if ($extcomments)
+						{
+							$docpre_body = '<!-- Begin '.$this->doc_infoalias.' body from template '.$v." -->\n";
+							$docpost_body = '<!-- End '.$this->doc_infoalias.' body from template '.$v." -->\n";
+						}
+					}
+					elseif (!empty($v))
+					{
+						$doc_src_body .= " {$a}=\"{$v}\"";
+					}
+				} 
+				if ($addheadclose)
+				{ // Set if head raw, head doc_info or add_openclose
+					if ($extcomments)
+					{
+						$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
+						$docpost_head = '<!-- End auto add_openclose head '."-->\n";
+					}
+					$doc_source .= $docpre_head."</head>\n".$docpost_head;
+				}
+				$doc_source .= $docpre_body.'<body'.$doc_src_body.">\n".$docpost_body;
+			}
+			elseif ($this->add_openclose)
+			{
+				if ($extcomments)
+				{
 					$docpre_body = '<!-- Begin auto add_openclose body '."-->\n";
 					$docpost_body = '<!-- End auto add_openclose body '."-->\n";
-				} // end if
-				$doc_source .= $docpre_head."</head>\n".$docpost_head;
+				}
 				$doc_source .= $docpre_body."<body>\n".$docpost_body;
-			} // end elseif
-
+			}
 
 			// insert module header-pre content
 			$doc_source .= $module_content['body_pre'];
@@ -3439,205 +4625,251 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 			$doc_source .= $module_content['body_post'];
 
 			// process doc_raw targetted for the end of the body (no attributes)
-			if (isset($this->doc_raw['body_post']['main'])) {
-				foreach ($this->doc_raw['body_post']['main'] as $rawpre) {
-					foreach ($rawpre as $a => $v) {
+			if (isset($this->doc_raw['body_post']['main']))
+			{
+				foreach ($this->doc_raw['body_post']['main'] as $rawpre)
+				{
+					foreach ($rawpre as $a => $v)
+					{
 						$doc_source .= $indent.$raw['_content']."\n";
-						if ($a === '_content') {
+						if ($a === '_content')
+						{
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
-						} // end if
-					} // end foreach
-				} // end foreach
-			} // end if
-
-
-			// process doc_info targetted for the end of the body (no attributes)
-			if (isset($_doc_info['body_post'])) {
-				foreach ($_doc_info['body_post'] as $rawpre) {
-					if ($extcomments) {
-						$docpre_body_post2 = '<!-- Begin '.$this->doc_infoalias.' body_post from template '.$rawpre['tplorig']." -->\n";
-						$docpost_body_post2 = '<!-- End '.$this->doc_infoalias.' body_post from template '.$rawpre['tplorig']." -->\n";
-					} // end if
-					$doc_source .= $docpre_body_post2.$indent.$rawpre['_content']."\n".$docpost_body_post2;
+						}
+					}
 				}
 			}
 
 
+			// process doc_info targetted for the end of the body (no attributes)
+			if (isset($_doc_info['body_post']))
+			{
+				foreach ($_doc_info['body_post'] as $rawpre)
+				{
+					if ($extcomments)
+					{
+						$docpre_body_post2 = '<!-- Begin '.$this->doc_infoalias.' body_post from template '.$rawpre['tplorig']." -->\n";
+						$docpost_body_post2 = '<!-- End '.$this->doc_infoalias.' body_post from template '.$rawpre['tplorig']." -->\n";
+					}
+					$doc_source .= $docpre_body_post2.$indent.$rawpre['_content']."\n".$docpost_body_post2;
+				}
+			}
+
 			// y'all come back now, y'hear?
-			if ($this->add_openclose || isset($_doc_info['body']) || isset($this->doc_raw['body'])) {
-				if ($extcomments) {
+			if ($this->add_openclose || isset($_doc_info['body']) || isset($this->doc_raw['body']))
+			{
+				if ($extcomments)
+				{
 					$docpre_body = '<!-- Begin auto add_openclose body '."-->\n";
 					$docpost_body = '<!-- End auto add_openclose body '."-->\n";
-				} // end if
+				}
 
-				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('version', $this->doc_info['html'])) {
+				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
+				{
 					$doc_source .= $docpre_body."</body>\n".$docpost_body;
-				} // end if
-			} // end if
+				}
+			}
 
-			if ($this->add_openclose || isset($_doc_info['html'])) {
-			
-				if ($extcomments) {
+			if ($this->add_openclose || isset($_doc_info['html']))
+			{
+				if ($extcomments)
+				{
 					$docpre_html = '<!-- Begin auto add_openclose html '."-->\n";
 					$docpost_html = '<!-- End auto add_openclose html '."-->\n";
-				} // end if
+				}
 				$doc_source .= $docpre_html.'</html>'.$docpost_html;
-			} // end if
-			elseif (isset($_doc_info['root'])) {
+			}
+			elseif (isset($_doc_info['root']['_content']))
+			{
 				$doc_source .= $docpre_root.'</';
 /*				if (isset($_doc_info['root']['prefix'])) {
 					$doc_source .= $_doc_info['root']['prefix'].':';
 				}
 */
 				$doc_source .= $_doc_info['root']['_content'].'>'.$docpost_root;
-			} // end elseif
+			}
+			elseif (($this->rootnode != 'html' && $this->rootnode != '') || 
+					isset($this->doc_raw['xsd']) || isset($this->doc_info['xsd']))
+			{
+				$doc_source .= '</';
+				$doc_source .= $this->rootnode;
+				$doc_source .= '>';
+			}
+			
 
 			// process doc_raw targetted before the root (no attributes)
-			if (isset($this->doc_raw['root_post']['main'])) {
-				foreach ($this->doc_raw['root_post']['main'] as $rawpost) {
-					foreach ($rawpost as $a => $v) {
-						if ($a === '_content') {
+			if (isset($this->doc_raw['root_post']['main']))
+			{
+				foreach ($this->doc_raw['root_post']['main'] as $rawpost)
+				{
+					foreach ($rawpost as $a => $v)
+					{
+						if ($a === '_content')
+						{
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
-						} // end if
-					} // end foreach
-				} // end foreach
-			} // end if
+						}
+					}
+				}
+			}
 			// process doc_info targetted before the root (no attributes)
-			if (isset($_doc_info['root_post'])) {
-				foreach ($_doc_info['root_post'] as $rawpost) {
-					if ($extcomments) {
+			if (isset($_doc_info['root_post']))
+			{
+				foreach ($_doc_info['root_post'] as $rawpost)
+				{
+					if ($extcomments)
+					{
 						$docpre_root_post = '<!-- Begin '.$this->doc_infoalias.' root_post from template '.$rawpost['tplorig']." -->\n";
 						$docpost_root_post = '<!-- End '.$this->doc_infoalias.' root_post from template '.$rawpost['tplorig']." -->\n";
-					} // end if
+					}
 					$doc_source .= $docpre_root_post.$indent.$rawpost['_content']."\n".$docpost_root_post;
-				} // end foreach
-			} // end if
+				}
+			}
 
 
 			$xhtmlbasic = false;
-			if ($_GET['xhtmlbasic1']) {
+			if ($_GET[$this->xformtobasic_url] && $this->xformtobasic_get)
+			{
 				$this->xsl[] = $this->xhtmlbasic_xsl;
 				$this->pre_xform[] = true;
 				$xhtmlbasic = true;
-			} // end if
-			elseif ($this->auto_xform_mobile && $this->Browscap_file != '' && file_exists($this->Browscap_file)) {
-				//Loads the class
+			}
+			elseif ($this->auto_xform_mobile && $this->Browscap_file != '' && file_exists($this->Browscap_file))
+			{
+				//Loads the class (get at http://garetjax.info/projects/browscap/ )
 				require $this->Browscap_file;
 				//Creates a new browscap object; loads or creates the cache)
 				$bc = new Browscap($this->Browscap_cache_dir);
 				//Gets information about the current browser's user agent
 				$current_browser = $bc->getBrowser();
-				if ($current_browser->isMobileDevice) {
+				if ($current_browser->isMobileDevice)
+				{
 					$this->xsl[] = $this->xhtmlbasic_xsl;
 					$this->pre_xform[] = true;
 					$xhtmlbasic = true;
-				} // end if
-			} // end elseif
+				}
+			}
 			// If have access to .ini, can do the following instead of the above elseif contents
-//Can test out with something like this (the argument forces the script to treat the page like a mobile device, in this case the "Blazer" type): $current_browser = get_browser('Blazer');
-			else { // Note I haven't tested the following option
+			//Can test out with something like this (the argument forces the script to treat the page like a mobile device, in this case the "Blazer" type): $current_browser = get_browser('Blazer');
+			else
+			{ // Note I haven't tested the following option
 				$browscapfile = ini_get('browscap');
-				if (!is_null($browscapfile)) { // Note that one must have the specified browscap.ini file // One can get it from http://browsers.garykeith.com/downloads.asp (but be sure to get the PHP version!)
-					if (file_exists($browscapfile)) {
+				if (!is_null($browscapfile))
+				{ // Note that one must have the specified browscap.ini file // One can get it from http://browsers.garykeith.com/downloads.asp (but be sure to get the PHP version!)
+					if (file_exists($browscapfile))
+					{
 						$current_browser = get_browser();
-						if ($current_browser->isMobileDevice) {
+						if ($current_browser->isMobileDevice)
+						{
 							$this->xsl[] = $this->xhtmlbasic_xsl;
 							$this->pre_xform[] = true;
 							$xhtmlbasic = true;
-						} // end if
-					} // end if
-				} // end elseif
-			} // end else
+						}
+					}
+				}
+			}
 
-			if (($this->tidy_on || ($this->tidy_for_xslt && @in_array(TRUE, $pre_xform))) && extension_loaded('tidy')) {
+			if (($this->tidy_on || ($this->tidy_for_xslt && @in_array(TRUE, $pre_xform))) && extension_loaded('tidy'))
+			{
 				$tidy = new tidy;
-				if ($this->xml_plain && $_doc_info['dtd']['family'] !== 'XHTML' && $this->application_xml !== 'XHTML') {
+				if ($this->xml_plain && $_doc_info['dtd']['family'] !== 'XHTML' && $this->application_xml !== 'XHTML')
+				{
 					$config = array('output-xml' => TRUE, 'char-encoding' => 'utf8');
-				} // end if
-				else {
+				}
+				else
+				{
 					$config = array('output-xhtml' => TRUE, 'quote-ampersand' => FALSE, 'quote-nbsp' => FALSE, 'char-encoding' => 'utf8');
-				} // end else
+				}
 				$tidy->parseString($doc_source, $config, 'utf8');
 				$tidy->cleanRepair();
 				$doc_source = $tidy;
-			} // end if
+			}
 
 
-			if (extension_loaded('xsl') && !$this->xform_none && !($this->xform_get && !empty($_GET[$this->xform_get_url]))) {
-
-				if ($this->common_XHTML_probs) {
+			if (extension_loaded('xsl') && !$this->xform_none && !($this->xform_get && !empty($_GET[$this->xform_get_url])))
+			{
+				if ($this->common_XHTML_probs)
+				{
 					$doc_source = str_replace(' & ', ' &amp; ', $doc_source); // This is not caught otherwise
 					$doc_source = str_replace('&nbsp;', '&#160;', $doc_source);
-				} // end if
+				}
 
 				
 				$xslproc = new XSLTProcessor;
 				$xslcount = count($this->xsl);
 
 				
-				for ($i = 0; $i < $xslcount; $i++) {
-				
-					if ($this->xform_all || $this->pre_xform[$i]) { // make sure the template designer in fact wants the stylesheet transformed server-side	
-
+				for ($i = 0; $i < $xslcount; $i++)
+				{
+					if ($this->xform_all || $this->pre_xform[$i])
+					{ // make sure the template designer in fact wants the stylesheet transformed server-side
 						$ss = @DOMDocument::load($this->xsl[$i]);
-							
-						if (!$ss) {
+
+						if (!$ss)
+						{
 							print 'Couldn\'t perform XSL server-side xform';
-							if ($this->debug) {
+							if ($this->debug)
+							{
 								print ' as file '.$this->xsl[$i].' couldn\'t be found/opened.'."\n";
-							} // end if
+							}
 							exit;
-						} // end if
-						elseif ($opened && !$ss) {
+						}
+						elseif ($opened && !$ss)
+						{
 							print 'Opened but didn\'t load';
 							exit;
-						} // end elseif
-
-						elseif ($ss) {
+						}
+						elseif ($ss)
+						{
 							$xslproc->importStyleSheet($ss); // attach the XSL rule
 							$xformed = @DOMDocument::loadXML($doc_source);
-							if ($xformed === false) {
-								
+							if ($xformed === false)
+							{
 								$doc_source .= '<!-- XML file could not be transformed (against XSL file';
-								if ($this->debug) {
+								if ($this->debug)
+								{
 									$doc_source .= ' '.$this->xsl[$i];
-								} // end if
+								}
 								$doc_source .= '). -->';
 								break;
-							} // end if
+							}
 							
 							$doc_source = $xslproc->transformToXML($xformed);
 				
-							if ($this->strip_xml_decl) {
+							if ($this->strip_xml_decl)
+							{
 								$doc_source = str_replace("<"."?xml version=\"1.0\"?".">", '', $doc_source);
-							} // end if
-						} // end elseif
-					} // end if
-					else {
+							}
+						}
+					}
+					else
+					{
 						$opened = @fopen($this->xsl[$i], 'r');
-						if (!$opened) {
+						if (!$opened)
+						{
 							print 'File will not be transformable client-side since the file';
-							if ($this->debug) {
+							if ($this->debug)
+							{
 								print ' '.$this->xsl[$i];
-							} // end if
+							}
 							print ' cannot be found.';
 							exit;
-						} // end if
-					} // end else
+						}
+					}
 				} // end for
-			} // end if
+			}
 
-			if ($this->strip_all_whitespace || ($xhtmlbasic && $this->strip_all_ws_xhtmlbasic)) {
+			if ($this->strip_all_whitespace || ($xhtmlbasic && $this->strip_all_ws_xhtmlbasic))
+			{
 				$doc_source = preg_replace('@\s+@', ' ', $doc_source);
-			} // end if
+			}
 
 
 			// Send javascript header
 
-			if ($this->entity_replace) { // server-side entity replacement
-
+			if ($this->entity_replace)
+			{ // server-side entity replacement
 				// Besides the file contents of a tab-delimited entity doc_raw, could come from entities in the doctype or dtd doc_raw, a general entity, or a parameter entity that was not submitted as tab-delimited (though not checking within any of these entire files at present for manual changes--besides the tab-delimited ones)
 			
 				$ent_file_content = file_get_contents($this->entity_file_toget);
@@ -3650,45 +4882,52 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 				$ent_nms = isset($this->extra_ent_repl_nm)?$this->extra_ent_repl_nm:array();
 				$ent_txt = isset($this->extra_ent_repl_txt)?$this->extra_ent_repl_txt:array();
 
-
 				preg_match_all('@<!ENTITY\s+([^%" ]*?)\s+"([^"]*?)"@', $doc_source, $matches);
 //				preg_match_all('@<!ENTITY\s+([^%"]*?)\s+SYSTEM\s+"([^"]*?)"@', $doc_source, $matches2);
 			//	preg_match_all('@<!ENTITY\s+%\s+([^%"]*?)\s+SYSTEM\s+"([^"]*?)"@', $doc_source, $matches3); // Could use this to convert external parameter references into internal ones, but would need to add functionality to doc_raw and to the array_merges below
 				
 				$nw_arr = array_merge((array) $ent_nms, (array) $this->extra_ext_ent_nm);
-//			var_dump($ent_nms);exit;	
 
 				array_walk($nw_arr, create_function('&$matches', '$matches = \'&\'.$matches.\';\';'));
 
 				//$aaaa = array_merge((array) $ent_txt, (array) $matches[2], (array) $this->extra_ext_ent_txt);
 
 				$doc_source = str_replace($nw_arr, array_merge((array) $ent_txt, (array) $this->extra_ext_ent_txt), $doc_source);
-			} // end if
+			}
 //print $doc_source;exit;
-			if (isset($_doc_info['code']) || isset($_doc_info['script']) || isset($this->doc_raw['script']) || isset($this->doc_raw['code'])) {
+			if (isset($_doc_info['code']) || isset($_doc_info['script']) || isset($this->doc_raw['script']) || isset($this->doc_raw['code']))
+			{
 				header('Content-Script-Type: text/javascript');
-			} // end if
+			}
 			header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
 			
 			return $doc_source;
-			$this->headers_ran = true;
+//			$this->headers_ran = true;
 		} // end (long) if
+
 		return $source;
-	} // end function
-	
-	
+	}	
 
-	// Override function from Smarty calling Smarty_Compiler.class.php (needed to alter just one line below to instantiate the overriding class--a class with just two methods we need to override and just five total lines--in Smarty_Compiler.class.php -- see new class Smarty_Compiler_wtplfileaccs below)
 
-	    function _compile_source($resource_name, &$source_content, &$compiled_content, $cache_include_path=null)
+	/**
+	 * Override function from Smarty calling Smarty_Compiler.class.php (needed
+	 * to alter just one line below to instantiate the overriding class--a class
+	 * with just two methods we need to override and just five total lines--in
+	 * Smarty_Compiler.class.php -- see new class Smarty_Compiler_wtplfileaccs
+	 * below)
+     */
+
+	function _compile_source($resource_name, &$source_content, &$compiled_content, $cache_include_path=null)
     {
-        if (file_exists(SMARTY_DIR . $this->compiler_file)) {
+        if (file_exists(SMARTY_DIR . $this->compiler_file))
+        {
             require_once(SMARTY_DIR . $this->compiler_file);
-        } else {
+        }
+    	else
+    	{
             // use include_path
             require_once($this->compiler_file);
         }
-
 
         $smarty_compiler = new Smarty_Compiler_wtplfileaccs; // Brett alteration
 
@@ -3715,7 +4954,8 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
         $smarty_compiler->_config            = $this->_config;
         $smarty_compiler->request_use_auto_globals  = $this->request_use_auto_globals;
 
-        if (isset($cache_include_path) && isset($this->_cache_serials[$cache_include_path])) {
+        if (isset($cache_include_path) && isset($this->_cache_serials[$cache_include_path]))
+        {
             $smarty_compiler->_cache_serial = $this->_cache_serials[$cache_include_path];
         }
         $smarty_compiler->_cache_include = $cache_include_path;
@@ -3723,23 +4963,29 @@ elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
         $_results = $smarty_compiler->_compile_file($resource_name, $source_content, $compiled_content);
 
-        if ($smarty_compiler->_cache_serial) {
+        if ($smarty_compiler->_cache_serial)
+        {
             $this->_cache_include_info = array(
                 'cache_serial'=>$smarty_compiler->_cache_serial
                 ,'plugins_code'=>$smarty_compiler->_plugins_code
                 ,'include_file_path' => $cache_include_path);
-
-        } else {
+        }
+    	else
+    	{
             $this->_cache_include_info = null;
-
         }
 
         return $_results;
     }
-	
+
 } // end class
 
 
+/**
+ * Interface ISmartyDocModule
+ *
+ * @see class ASmartyDocModule
+ */
 interface ISmartyDocModule
 {
 	public function onDocStart();
@@ -3750,6 +4996,14 @@ interface ISmartyDocModule
 	public function onBodyEnd();
 }
 
+/**
+ * Abstraction Class
+ *
+ * @abstract
+ * Note by vain: add @ prefix to the following lines for phpdoc commenting
+ * package SmartyDocB
+ * subpackage ASmartyDocModule
+ */
 abstract class ASmartyDocModule implements ISmartyDocModule
 {
 	protected $smarty;
@@ -3763,182 +5017,6 @@ abstract class ASmartyDocModule implements ISmartyDocModule
 	public function onHeadEnd() {}
 	public function onBodyStart() {}
 	public function onBodyEnd() {}
-}
-
-// This just adds 2 lines of code and slightly modifies 2 lines (from the Smarty_Compiler class in the Smarty_Compiler.class.php file) in one function and one line in another function; search for "Brett" below to see what was changed. These changes were essential (as far as I could tell) to allow the names of included templates to be retrieved later (post-compilation) as associated with their content (in this case, I wanted to have doc_raw be able to selectively indicate in its comments which css, scripts, etc. were being added in which files, since when stringing them all together, it would otherwise be cumbersome if not impossible to detect which style, etc. came from which template)
-
-class Smarty_Compiler_wtplfileaccs extends Smarty_Compiler {
-    function _compile_block_tag($tag_command, $tag_args, $tag_modifier, &$output)
-    {
-
-        if (substr($tag_command, 0, 1) == '/') {
-            $start_tag = false;
-            $tag_command = substr($tag_command, 1);
-        } else
-            $start_tag = true;
-
-        $found = false;
-        $have_function = true;
-
-       /*
-         * First we check if the block function has already been registered
-         * or loaded from a plugin file.
-         */
-        if (isset($this->_plugins['block'][$tag_command])) {
-            $found = true;
-            $plugin_func = $this->_plugins['block'][$tag_command][0];
-
-            if (!is_callable($plugin_func)) {
-                $message = "block function '$tag_command' is not implemented";
-                $have_function = false;
-            }
-        }
-        /*
-         * Otherwise we need to load plugin file and look for the function
-         * inside it.
-         */
-        else if ($plugin_file = $this->_get_plugin_filepath('block', $tag_command)) {
-            $found = true;
-
-            include_once $plugin_file;
-
-            $plugin_func = 'smarty_block_' . $tag_command;
-            if (!function_exists($plugin_func)) {
-                $message = "plugin function $plugin_func() not found in $plugin_file\n";
-                $have_function = false;
-            } else {
-                $this->_plugins['block'][$tag_command] = array($plugin_func, null, null, null, true);
-
-            }
-        }
-
-        if (!$found) {
-            return false;
-        } else if (!$have_function) {
-            $this->_syntax_error($message, E_USER_WARNING, __FILE__, __LINE__);
-            return true;
-        }
-
-        /*
-         * Even though we've located the plugin function, compilation
-         * happens only once, so the plugin will still need to be loaded
-         * at runtime for future requests.
-         */
-        $this->_add_plugin('block', $tag_command);
-
-        if ($start_tag)
-            $this->_push_tag($tag_command);
-        else
-            $this->_pop_tag($tag_command);
-
-        if ($start_tag) {
-// Brett adding:
-			$output = '<?php $this->currfileblock = "'.$this->_current_file.'"; ?>';
-// Brett modified the following to be .= instead of just =
-            $output .= '<?php ' . $this->_push_cacheable_state('block', $tag_command);
-            $attrs = $this->_parse_attrs($tag_args);
-            $_cache_attrs='';
-            $arg_list = $this->_compile_arg_list('block', $tag_command, $attrs, $_cache_attrs);
-            $output .= "$_cache_attrs\$this->_tag_stack[] = array('$tag_command', array(".implode(',', $arg_list).')); ';
-            $output .= '$_block_repeat=true;' . $this->_compile_plugin_call('block', $tag_command).'($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);';
-            $output .= 'while ($_block_repeat) { ob_start(); ?>';
-        } else {
-// Brett adding:
-			$output = '<?php $this->currfileblock = "'.$this->_current_file.'"; ?>';
-
-// Brett modified the following to be .= instead of just =
-            $output .= '<?php $_block_content = ob_get_contents(); ob_end_clean(); ';
-            $_out_tag_text = $this->_compile_plugin_call('block', $tag_command).'($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat)';
-            if ($tag_modifier != '') {
-                $this->_parse_modifiers($_out_tag_text, $tag_modifier);
-            }
-            $output .= '$_block_repeat=false;echo ' . $_out_tag_text . '; } ';
-            $output .= " array_pop(\$this->_tag_stack); " . $this->_pop_cacheable_state('block', $tag_command) . '?>';
-
-        }
-
-        return true;
-    }
-
-    /**
-     * compile custom function tag
-     *
-     * @param string $tag_command
-     * @param string $tag_args
-     * @param string $tag_modifier
-     * @return string
-     */
-    function _compile_custom_tag($tag_command, $tag_args, $tag_modifier, &$output)
-    {
-        $found = false;
-        $have_function = true;
-
-        /*
-         * First we check if the custom function has already been registered
-         * or loaded from a plugin file.
-         */
-        if (isset($this->_plugins['function'][$tag_command])) {
-            $found = true;
-            $plugin_func = $this->_plugins['function'][$tag_command][0];
-            if (!is_callable($plugin_func)) {
-                $message = "custom function '$tag_command' is not implemented";
-                $have_function = false;
-            }
-        }
-        /*
-         * Otherwise we need to load plugin file and look for the function
-         * inside it.
-         */
-        else if ($plugin_file = $this->_get_plugin_filepath('function', $tag_command)) {
-            $found = true;
-
-            include_once $plugin_file;
-
-            $plugin_func = 'smarty_function_' . $tag_command;
-            if (!function_exists($plugin_func)) {
-                $message = "plugin function $plugin_func() not found in $plugin_file\n";
-                $have_function = false;
-            } else {
-                $this->_plugins['function'][$tag_command] = array($plugin_func, null, null, null, true);
-
-            }
-        }
-
-        if (!$found) {
-            return false;
-        } else if (!$have_function) {
-            $this->_syntax_error($message, E_USER_WARNING, __FILE__, __LINE__);
-            return true;
-        }
-
-        /* declare plugin to be loaded on display of the template that
-           we compile right now */
-        $this->_add_plugin('function', $tag_command);
-
-        $_cacheable_state = $this->_push_cacheable_state('function', $tag_command);
-
-					// Brett added
-					if ($tag_command === $this->doc_infoalias || $tag_command === 'info' || $tag_command === 'doc_info' || $tag_command === 'tag') {
-						$tag_args .= ' tplorig="'.$this->_current_file.'"';
-					} // end if
-
-        $attrs = $this->_parse_attrs($tag_args);
-        $_cache_attrs = '';
-        $arg_list = $this->_compile_arg_list('function', $tag_command, $attrs, $_cache_attrs);
-
-        $output = $this->_compile_plugin_call('function', $tag_command).'(array('.implode(',', $arg_list)."), \$this)";
-        if($tag_modifier != '') {
-            $this->_parse_modifiers($output, $tag_modifier);
-        }
-
-
-        if($output != '') {
-            $output =  '<?php ' . $_cacheable_state . $_cache_attrs . 'echo ' . $output . ';'
-                . $this->_pop_cacheable_state('function', $tag_command) . "?>" . $this->_additional_newline;
-        }
-					
-        return true;
-    }
 
 }
 
