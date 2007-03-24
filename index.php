@@ -277,22 +277,25 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
  * It checks $_REQUEST, $content['SUPPRESS_WRAPPER'], $cfg->maintenance
  * and sets $condition accordingly.
  *
- * Step 1:     Check if : Maintenance_mode is set
- *             - show only the content of the maintenance tpl
- *             - but if user_right for access_controlcenter is set
- *             - turn maintenance off, show normal wrapped template
+ * 1. Check 
+ * - if Maintenance_mode is set
+ *  - show only the content of the maintenance tpl
+ * - but if user_right for access_controlcenter is set
+ *  - turn maintenance off, show normal wrapped template
  *
- * Step 2:     Check if : Admin module <- Switch -> Normal module
- *             - if admin modules requested:
- *               - check permissions
- *               - if user_right for access_controlcenter is set
-                 - turn maintenance off, then display
- *               - else redirect to index or login
- *             - if non admin module is requested:
- *               - display tpl_wrapper_file
+ * 2. Check     
+ * - if Admin module <- Switch -> Normal module
+ *  - if admin modules requested:
+ *   - check permissions
+ *   - if user_right for access_controlcenter is set
+ *   - turn maintenance off, then display
+ *  - else redirect to index or login
+ *  - if non admin module is requested:
+ *   - display tpl_wrapper_file
  *
- * Step 3:     Check if : Suppress Wrapper is set
- *             - only the content of the suppressing module is echoed
+ * 3. Check 
+ * - if Suppress Wrapper is set
+ *  - only the content of the suppressing module is echoed
  */
 
 // Set default_condition : normal template
@@ -345,19 +348,19 @@ if ( isset($content['SUPPRESS_WRAPPER'] ) && ( $content['SUPPRESS_WRAPPER'] == t
 }
 
 /**
- *   the switch on $condition
+ * The switch on $condition
  *
- *   4 Cases are handled here:
+ * 4 Cases are handled here:
  *
- *   A. display_normal_wrapped_template
- *   B. display_template_with_suppressed_wrapper
- *   C. display_admincontrolcenter
- *   D. display_maintenance_template
+ * 1. display_normal_wrapped_template
+ * 2. display_template_with_suppressed_wrapper
+ * 3. display_admincontrolcenter
+ * 4. display_maintenance_template
  */
 switch ($condition)
 {
 
-            // (A) displays content of modul with portal frame
+            // (1) displays content of modul with portal frame
             default:
             case 'display_normal_wrapped_template':
                     $tpl->assign('content', $content['OUTPUT'] );
@@ -365,18 +368,18 @@ switch ($condition)
                     $tpl->displayDoc($cfg->tpl_wrapper_file);
                     break;
 
-            // (B) means just the content of the modul, without the portal frame
+            // (2) means just the content of the modul, without the portal frame
             case 'display_template_with_suppressed_wrapper':
                     echo $content['OUTPUT'];
                     break;
 
-            // (C) display AdminControlCenter
+            // (3) display AdminControlCenter
             case 'display_admincontrolcenter':
                     $tpl->assign('content', $content['OUTPUT'] );
                     $tpl->displayDoc('admin/index.tpl');
                     break;
 
-            // (D) display the maintenance template
+            // (4) display the maintenance template
             case 'display_maintenance_template':
                     $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
                     $tpl->displayDoc('maintenance.tpl');
