@@ -1,55 +1,85 @@
 <?php
-/**
-* Error Handler Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: error.class.php 137 2006-06-11 06:12:53Z xsign $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         errorhandling.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for Error Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
 
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
-* @desc Start of error class
-*/
+ * This Clansuite Core Class for Error Handling
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  error
+ */
 class error
 {
     /**
-    * @desc Set normal error handlers and load error.xml
-    */
+     * This sets up the error callbacks 
+     *
+     * - sets up error handlers 
+     * - sets up exception handlers 
+     * - loads the languagefile error.xml
+     * - registers the {error} block which calls smarty_error function 
+     *
+     * @global $lang
+     * @global $cfg
+     * @global $tpl
+     *
+     * @see error::smarty_error()
+     * @see error::advanced_error_handler()
+     * @see error::exception_handler()
+     */
+     
     function set_callbacks()
     {
-        global $lang, $cfg, $tpl;
+        global $lang, $tpl;
 
         $lang->load_lang('error');
+        
         set_error_handler(array($this, 'advanced_error_handler') );
         set_exception_handler(array($this, 'exception_handler' ) );
 
@@ -57,14 +87,22 @@ class error
     }
 
     /**
-    * @desc Registered Smarty {error level="1" title="Error"}
-    */
+     * This registeres the Smarty Block {error level="1" title="Error"}
+     *
+     * @param array $params mixed array
+     * @param string $string contains string data
+     * @param array $smarty smarty array
+     * @access static
+     */
     static function smarty_error($params, $string, &$smarty)
     {
         global $error, $lang;
+        
         /**
-        * @desc Init Vars
-        */
+         * Init Vars 
+         * - level 
+         * - title
+         */
         $params['level']   = !isset( $params['level'] ) ? 3 : $params['level'];
         $params['title']   = !isset( $params['level'] ) ? 'Unkown Error' : $params['title'];
 
@@ -75,8 +113,20 @@ class error
     }
 
     /**
-    * @desc Advanced error_handler callback function
-    */
+     * Advanced error_handler callback function
+     *
+     * This is basically a switch defining the actions taken, 
+     * in case of serveral PHP Error States
+     *
+     * @param integer $errno contains the error as integer
+     * @param string $errstr contains error string info
+     * @param string $errfile contains the filename with occuring error
+     * @param string $errline contains the line of error
+     * @global $debug
+     * @global $tpl
+     * @global $cfg
+     * @todo is the gloal debug needed? $debug contains the pdo error, no??
+     */
     function advanced_error_handler( $errno, $errstr, $errfile, $errline )
     {
         global $debug, $tpl, $cfg;
@@ -128,10 +178,43 @@ class error
             break;
         }
     }
+    
+    /**
+     * Exception Handler callback function 
+     *
+     * This is used to trigger the output via error::show
+     *
+     * @param $e
+     * @global $cfg
+     * @global $lang
+     * @global $db
+     *
+     * @see error::show()
+     */
+
+    function exception_handler( $e )
+    {
+        global $cfg, $db;
+
+        if ($cfg->suppress_errors == 0 )
+        {
+            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last SQL:&nbsp;</b>' . $db->last_sql, 1 );
+        }
+    }
 
     /**
-    * @desc Script Error Handler
-    */
+     * This method is used to show errors
+     *
+     * It a switch on different error level 
+     * it assings the error strings 
+     * outputs the error.tpl
+     *
+     * @param string $error_head contains the Name of the Error
+     * @param string $string contains errorstring
+     * @param integer $level contains errorlvl
+     * @param string $redirect contains redirect url
+     * @global $tpl
+     */
 
     function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
@@ -162,21 +245,6 @@ class error
                 echo( $tpl->fetch( 'error.tpl' ) );
                 break;
         }
-    }
-
-    /**
-    * @desc Exception Handler
-    */
-
-    function exception_handler( $e )
-    {
-        global $cfg, $lang, $db;
-
-        if ($cfg->suppress_errors == 0 )
-        {
-            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last SQL:&nbsp;</b>' . $db->last_sql, 1 );
-        }
-    }
+    }   
 }
-
 ?>

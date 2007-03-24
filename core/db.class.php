@@ -1,147 +1,215 @@
 <?php
-/**
-* PDO - Database Handler - Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Jens-André Koch <vain@clansuite.com>
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @copyright  Copyright &copy; 2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         errorhandling.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for PDO Database Handler
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
 
 /**
-* PDO is not an database-abstraction layer, it doesn't rewrite SQL or emulate missing features!
-*
-* It's an data-access abstraction layer, regardless which database you're using,
-* you use the same functions to issue queries and fetch data.
-*
-* PDO gives data-access to the following Databases:
-*
-* DBLIB			FreeTDS / Microsoft SQL Server / Sybase
-* FIREBIRD		Firebird/Interbase 6
-* INFORMIX		IBM Informix Dynamic Server
-* MYSQL			MySQL 3.x/4.x
-* OCI			Oracle Call Interface
-* ODBC			ODBC v3 (IBM DB2, unixODBC and win32 ODBC)
-* PGSQL			PostgreSQL
-* SQLITE		SQLite 3 and SQLite 2
-*
-* {@link http://wiki.cc/php/PDO_Basics }
-*
-*/
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
-* @desc PDO Wrapper Class
-*/
+ * This Clansuite Core Class for PDO Database Handler
+ * 
+ * PDO is not an database-abstraction layer, it doesn't rewrite SQL or emulate missing features!
+ *
+ * It's an data-access abstraction layer, regardless which database you're using,
+ * you use the same functions to issue queries and fetch data.
+ * This means that you have to watch out and take care, which functions are 
+ * avaiable on all db-systems or only on some.
+ *
+ * PDO gives data-access to the following Databases:
+ *
+ * DBLIB	    FreeTDS / Microsoft SQL Server / Sybase
+ * FIREBIRD		Firebird/Interbase 6
+ * INFORMIX		IBM Informix Dynamic Server
+ * MYSQL		MySQL 3.x/4.x
+ * OCI			Oracle Call Interface
+ * ODBC			ODBC v3 (IBM DB2, unixODBC and win32 ODBC)
+ * PGSQL		PostgreSQL
+ * SQLITE		SQLite 3 and SQLite 2
+ *
+ * @link http://wiki.cc/php/PDO_Basics
+ *
+ * Clansuite Core Class - Db 
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  db
+ */
 class db
 {
     /**
-    * @desc DB Object
-    */
+     * @var $db
+     * @access protected
+     */
 
     protected $db;
 
     /**
-    * @desc Number of performed statements
-    */
+     * Number of performed statements
+     * @var integer
+     */
 
     public $query_counter = 0;
 
     /**
-    * @desc Queries Array
-    */
+     * Queries Array
+     * @var array
+     */
 
     public $queries = array();
 
     /**
-    * @desc Exec's Array
-    */
+     * Exec's Array
+     * @var array
+     /
 
     public $execs = array();
 
     /**
-    * @desc Prepare Statements Array
-    */
-
+     * Prepare Statements Array
+     * @var array
+     */
+     
     public $prepares = array();
 
     /**
-    * @desc Active Queries to prevent buffering failures
-    */
-
+     * Active Queries to prevent buffering failures
+     * @var integer
+     */
+     
     public $query_active = 0;
 
     /**
-    * @desc The active PDOStatement as reference
-    */
-
+     * The active PDOStatement as reference
+     * @var object
+     * @todo is variable type right?
+     */
+     
     public $query_active_reference;
 
     /**
-    * @desc Last SQL
+    * Last SQL
+    * @var string?
+    * @todo is variable type right?
     */
 
     public $last_sql;
 
-    //----------------------------------------------------------------
-    // Constructor
-    // Create DB Object
-    // Set counters to zero
-    //----------------------------------------------------------------
-    public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
+    /**
+     * CONSTRUCTOR
+     *
+     * Create the DB Object
+     * Set db related counters to zero
+     *
+     * @param string
+     * @param string
+     * @param string
+     * @param string
+     * @global $lang
+     * @global $tpl
+     * @global $error
+     * @global $cfg
+     * @todo correct var types
+     */
+   
+   public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
     {
         global $lang, $tpl, $error, $cfg;
 
+        /**
+         * try, try, try to set up PDO :)
+         */
         try
         {
+            /**
+             * Create PDO object @ $db
+             */
+            
             $this->db = new PDO($dsn, $user, $pass, $driver_options);
 
-            // Error
-            $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            // Table-names in lower-case
-            $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
-            // Fetch Mode
             /**
-            * @desc UNQUOTE ON PHP 5.2 !!!
-            */
+             * Set the Error Attribute
+             */
+             
+            $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
+            /**
+             * Table-names in lower-case
+             */
+            
+            $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
+            
+            /**
+             * Fetch Mode
+             * UNQUOTE ON PHP 5.2 !!!
+             * @todo note by vain: what's this, why unquote?? note it here!! else no one will know.
+             */
 
-            //$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+            /**
+             * $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+             */
+             
             if ( $cfg->db_type == 'mysql' )
             {
-                // Buffering
+                /**
+                 * Buffering
+                 */
+                 
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
-                // Unicode (mysql)
+                /**
+                 * Unicode (mysql)
+                 */
+                 
                 $this->exec('SET CHARACTER SET utf8');
             }
         }
+        
+        /**
+         * In case Database Error occurs catch exception and show Error
+         */        
         catch (PDOException $e)
         {
             $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
@@ -150,8 +218,12 @@ class db
     }
 
     /**
-    * @desc Call forward to DB
-    */
+     * CALL
+     * It's a forward to $db
+     *
+     * @param $func
+     * @param $args
+     */
 
     public function __call( $func, $args )
     {
@@ -159,8 +231,12 @@ class db
     }
 
     /**
-    * @desc Prepare a statement
-    */
+     * Prepare a statement
+     *
+     * @param string
+     * @global $error
+     * @global $lang
+     */
 
     public function prepare( $sql='' )
     {
@@ -190,8 +266,18 @@ class db
     }
 
     /**
-    * @desc Simple Query with closeCursor() !
-    */
+     * This method is a Simple Query with closeCursor() !
+     *
+     * - It sets the last_sql to the current sql query string.
+     * - prepares the query
+     * - executes
+     * - and closescursor finally
+     * - return result
+     *
+     * @param string
+     * @param array
+     * @return $res
+     */
 
     public function simple_query($sql='', $args = array() )
     {
@@ -206,9 +292,11 @@ class db
     }
 
     /**
-    * @desc Deliver query to DB
-    * @desc Increase counter
-    */
+     * Deliver query to DB
+     * Increase counter
+     *
+     * @param string    
+     */
 
     public function query( $sql='' )
     {
@@ -233,25 +321,35 @@ class db
     }
 
     /**
-    * @desc Performs a Select returning the total number of rows found by a SELECT query
-    *
-    * At first it tries to get the total number of rows by
-    * a mysql specific command "SQL_CALC_FOUND_ROWS".
-    * If that fails an additional "found_rows" query is executed.
-    *
-    * Usage: $db->select
-    *
-    * Example Call:
-    * (notice the chopped SQL, so don't use a "SELECT" in your sql-query)
-    *
-    *   $count = -1; #reset counter
-    *   $stmt = $db->select( '* FROM foo WHERE bar < 40 LIMIT 4 OFFSET 2', $c, 4);
-    *   var_dump($stmt->fetchAll()); # Normal dump of found data
-    *   var_dump($count); # The number of rows found, at most 4.
-    *
-    * Function is fetched from the PHP Database Mailing List
-    * Original Author: Rob C [ Mi, 09 November 2005 19:18 ]
-    */
+     *  Performs a Select returning the total number of rows found by a SELECT query
+     *
+     * At first it tries to get the total number of rows by
+     * a mysql specific command "SQL_CALC_FOUND_ROWS".
+     * If that fails an additional "found_rows" query is executed.
+     *
+     * Usage: $db->select
+     *
+     * Example Call:
+     * (notice the chopped SQL, so don't use a "SELECT" in your sql-query)
+     *
+     *   $count = -1; #reset counter
+     *   $stmt = $db->select( '* FROM foo WHERE bar < 40 LIMIT 4 OFFSET 2', $c, 4);
+     *   var_dump($stmt->fetchAll()); # Normal dump of found data
+     *   var_dump($count); # The number of rows found, at most 4.
+     *
+     * Function is fetched from the PHP Database Mailing List
+     * @author Rob C [ Mi, 09 November 2005 19:18 ]
+     *
+     * @param string
+     * @param integer
+     * @param integer
+     * @global $error
+     * @global $lang
+     * @return $res
+     * @todo note by vain: is this still needed or deprecated? 
+     *       i think the limit was placed here because of the need for limiting the pagination
+     *       but as far as i know it's handled there
+     */
 
     public function select( $sql='', &$count = NULL, $limit = NULL)
     {
@@ -261,9 +359,17 @@ class db
 
         $this->last_sql = $sql;
 
+         /**
+         * try, try, try to prepare the PDO Query :)
+         */
         try {
             $res = $this->db->prepare($sql);
-            $res->execute(); // Problem ! -> How to assign Vars for the ? in the sql..
+            $res->execute(); 
+            
+            /**
+             * Problem ! -> How to assign Vars for the ? in the sql..
+             * @todo note by vain: deprecated??
+             */
 
             if (!is_null($count)) {
                 $rows = $this->db->prepare('SELECT found_rows() AS rows');
@@ -276,7 +382,13 @@ class db
                 $count = $limit;
                 }
             }
-        } catch (PDOException $e) {
+        } 
+        
+        /**
+         * In case Database Error occurs catch exception and show Error
+         */ 
+         
+        catch (PDOException $e) {
 
             $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1);
             die();
@@ -287,9 +399,11 @@ class db
 
 
     /**
-    * @desc Exec
-    * @desc Increase counter
-    */
+     * Query Exec
+     * Increase counter
+     *
+     * @param string
+     */
 
     public function exec( $sql='' )
     {
@@ -313,15 +427,30 @@ class db
 }
 
 /**
-* @desc Db Statements Wrapper
-*/
+ * Clansuite Core Class - Db Statements Wrapper
+ *
+ * This is a simply substitution of the original PDO Statements Class 
+ * simply needed to place a db-query-counter in the execution of statements.
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  db_statements
+ *
+ */
 class db_statements
 {
     public $db_statement;
 
     /**
-    * @desc Constructor
-    */
+     * CONSTRUCTOR
+     *
+     * $param object
+     */
 
     function __construct($db_pre_s)
     {
@@ -329,8 +458,11 @@ class db_statements
     }
 
     /**
-    * @desc Non-existing methods
-    */
+     * This is the Callback function for the Non-existing methods in this class
+     *
+     * @param array
+     * @param array
+     */
 
     function __call($func, $args)
     {
@@ -338,8 +470,13 @@ class db_statements
     }
 
     /**
-    * @desc $stmt->execute
-    */
+     * This method is used for execution of statements
+     * $stmt->execute
+     *
+     * @param array
+     * @global $db
+     * @return $res
+     */
     function execute( $args = array() )
     {
         global $db;
@@ -360,7 +497,9 @@ class db_statements
         }
         else
         {
-             // in case $args is empty execute!!
+             /**
+              * in case $args is empty execute!!
+              */
             $res = $this->db_statement->execute();
         }
 

@@ -1,45 +1,82 @@
 <?php
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         captcha.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for Easy Captcha Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
+
 /**
-* Easy Captcha Class
-*
-* A Captcha is a acronym for "Completely Automated Public Turing-Test to
-* Tell Computers and Humans Apart". It is type of a challenge-response test
-* to determine whether or not the user is human.
-*
-* The Purpose of Captcha's is to prevent bots from using various types of
-* computing services, like posting to guestbooks, boards or register email
-* accounts. The bot-generated spam could be reduced by requiring that the
-* (unrecognized) sender passes that CAPTCHA test before the service is delivered.
-*
-* Remember: Captchas are deafeatable!
-* It's a matter of artificial intelligence and pattern recognition.
-* {@link http://www.cs.sfu.ca/~mori/research/gimpy/ Greg Mori's - Breaking Captchas}
-* {@link http://www.pwntcha.net/test.html PwnTcha : Test the Captcha - Strength}
-* {@link http://captcha.megaleecher.net/ Megaleecher Captcha Kill Pro Class}
-*/
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+
 /**
-*  @package captcha-unlimited
-*
-*  @author Jens-André Koch <jakoch@web.de>
-*  @copyright (c) Jens-André Koch, 2006
-*
-*  License: Lesser General Public License - LGPL
-*
-*  This software is free software; you can redistribute it and/or
-*  modify it under the terms of the GNU Lesser General Public
-*  License as published by the Free Software Foundation; either
-*  version 2.1 of the License, or (at your option) any later version.
-*
-*  This software is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-*  Lesser General Public License for more details.
-*  {@link http://www.gnu.org/licenses/lgpl.html}
-*
-*  @version $Id: captcha.class.php 128 2006-06-09 12:07:21Z vain $
-*/
+ * Easy Captcha Class
+ *
+ * A Captcha is a acronym for "Completely Automated Public Turing-Test to
+ * Tell Computers and Humans Apart". It is type of a challenge-response test
+ * to determine whether or not the user is human.
+ *
+ * The Purpose of Captcha's is to prevent bots from using various types of
+ * computing services, like posting to guestbooks, boards or register email
+ * accounts. The bot-generated spam could be reduced by requiring that the
+ * (unrecognized) sender passes that CAPTCHA test before the service is delivered.
+ *
+ * Remember: Captchas are deafeatable!
+ * It's a matter of artificial intelligence and pattern recognition.
+ * {@link http://www.cs.sfu.ca/~mori/research/gimpy/ Greg Mori's - Breaking Captchas}
+ * {@link http://www.pwntcha.net/test.html PwnTcha : Test the Captcha - Strength}
+ * {@link http://captcha.megaleecher.net/ Megaleecher Captcha Kill Pro Class}
+ *
+ * Clansuite Core Class - Easy Captcha Class
+ *
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2006-$LastChangedDate$)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  captcha
+ */
 class captcha
 {    
+    /**
+     * @var integer
+     * @todo comment variables and rest of file
+     */
     public  $str_length = 4;
     
     // image settings
@@ -49,8 +86,8 @@ class captcha
     public  $font = '/fonts/Vera.ttf';
     
     /**
-    * @desc Contructor
-    */
+     * CONSTRUCTOR
+     */
 
     function __construct()
     {
@@ -58,8 +95,8 @@ class captcha
     }
     
     /**
-    * @desc Get GD Version
-    */
+     * Get GD Version
+     */
 
     function gd_version()
     {
@@ -85,15 +122,15 @@ class captcha
     }
     
     /**
-    * @desc Get a random captcha string by size (@link $strlength)
-    */
+     * Get a random captcha string by size (@link $strlength)
+     */
 
     function randomString($str_length)
     {
         /**
-        * @desc Exclusion of characters
-        * @desc Excluded-Chars: 0, 1, 7, I, O
-        */
+         * Exclusion of characters
+         * Excluded-Chars: 0, 1, 7, I, O
+         */
 
         $excludeChars = array(48, 49, 55, 73, 79);
         
@@ -115,8 +152,8 @@ class captcha
     
     
     /**
-    * @desc Generate the image
-    */
+     * Generate the image
+     */
 
     function generate_image()
     {
@@ -238,16 +275,16 @@ class captcha
         }
 
         /**
-        * @desc Final: Render Image! & Free Memory.
-        */
+         * Final: Render Image! & Free Memory.
+         */
 
         ImagePNG($captcha);
         imageDestroy($captcha);
     }
 
     /**
-    * @desc Interlaces a Image ( every 2th line is blacked )
-    */
+     * Interlaces a Image ( every 2th line is blacked )
+     */
 
     function interlace(&$image)
     {
@@ -260,5 +297,11 @@ class captcha
         }
     } 
 }
+
+/**
+ *
+ * @todo: init class at the end! find a better way?
+ */
 $captcha = new captcha;
+
 ?>
