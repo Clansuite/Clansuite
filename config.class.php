@@ -47,10 +47,7 @@
 /**
  * Defines the Security Handler
  */
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 
 /**
 * This is the Config class of Clansuite. It contains all settings.
