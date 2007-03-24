@@ -1,72 +1,108 @@
 <?php
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         bbcode.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for for BBCode Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
+
 /**
-* Modulename:   bbcode
-* Description:  Edit or add BB Code Styles
-*
-* PHP >= version 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @link       http://gna.org/projects/clansuite
-*
-* @author     Florian Wolf
-* @copyright  ClanSuite Group
-* @license    GPL v2
-* @version    SVN: $Id$
-* @link       http://www.clansuite.com
-*/
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
-// Security Handler
-if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
-
-// Begin of class module_admin_bbcode
+/**
+ * This Clansuite Core Class for BBCode Handling (Wrapper)
+ *
+ * It's a wrapper for GeShi Code Highligther and bbcode_stringparser.
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  bbcode
+ */
 class bbcode
 {
+    /**
+     * @var array
+     */
+    
     public $bb_code;
+    
+    /**
+     * CONSTRUCTOR
+     *
+     * @
+     */
 
     function __construct()
     {
         global $db;
 
         /**
-        * @desc Generate the object
-        */
+         * Include Stringpaser_bbcode Class
+         * Generate the object
+         */
+         
         require_once( ROOT_CORE . '/bbcode/stringparser_bbcode.class.php' );
         $this->bb_code = new StringParser_BBCode();
 
         /**
-        * @desc Load the BB Code Vars
-        */
+         * Load the BB Code Vars
+         */
+         
         $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'bb_code');
         $stmt->execute();
         $bb_codes = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         /**
-        * @desc Conversions & Filters
-        */
+         * Conversions & Filters
+         */
+         
         $this->bb_code->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
         $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'htmlspecialchars');
         $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
 
         /**
-        * @desc Generate Standard BB Codes such as [url][/url] etc.
-        */
+         * Generate Standard BB Codes such as [url][/url] etc.
+         */
+         
         $this->bb_code->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
         $this->bb_code->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
@@ -81,8 +117,8 @@ class bbcode
         $this->bb_code->setOccurrenceType ('bild', 'image');
 
         /**
-        * @desc Implement DB BB Codes
-        */
+         * Implement DB BB Codes
+         */
         foreach( $bb_codes as $key => $code )
         {
             $allowed_in = explode(',', $code['allowed_in']);
@@ -92,13 +128,31 @@ class bbcode
         }
     }
 
-    // Parse the BB Code
+    /**
+     * Parse the BB Code
+     *
+     * @param string
+     * @return bb_code parsed text
+     */
+     
     function parse($text)
     {
         return $this->bb_code->parse($text);
     }
 
-    // Handle BB Code URLs
+    /**
+     * Handle BB Code URLs
+     *
+     * @param string
+     * @param array
+     * @param string
+     * @param mixed
+     * @param mixed
+     * @return return url
+     *
+     * @todo $params and $node_objects are unuseed check
+     */
+     
     function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
@@ -113,7 +167,13 @@ class bbcode
         return '<a href="'.htmlspecialchars ($attributes['default']).'">'.$content.'</a>';
     }
 
-    // Handle Pictures
+    /** 
+     * Handle Pictures
+     * 
+     * @todo comment params
+     * @return image string
+     */
+     
     function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
@@ -123,7 +183,12 @@ class bbcode
         return '<img src="'.htmlspecialchars($content).'" alt="">';
     }
 
-    // Handle PHP Code Hightlightning
+    /**
+     * Handle PHP Code Hightlightning with GeShi
+     * 
+     * @return codehighlighted string
+     */
+     
     function do_bbcode_code ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
@@ -131,19 +196,36 @@ class bbcode
             return true;
         }
 
-        // Include the GeSHi library
+        /**
+         * Include the GeSHi library
+         */
+         
         require_once( ROOT_CORE . '/geshi/geshi.php' );
 
-        // Create a GeSHi object
+        /**
+         * Create a GeSHi object
+         */
+         
         $geshi =& new GeSHi($content, $attributes['default']);
 
-        // And echo the result!
+        /**
+         * And echo the result!
+         */
+         
         return $geshi->parse_code();
     }
 
 
 
-    // Convert linebreak of different OS
+    /**
+     * Convert linebreak of different OS
+     *
+     * @param string
+     * @return line_break_converted string
+     *
+     * @todo note by vain: why is this needed? describe problem?
+     */
+     
     function convertlinebreaks ($text)
     {
         return preg_replace ("/\015\012|\015|\012/", "\n", $text);
