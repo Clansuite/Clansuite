@@ -160,7 +160,7 @@ class config
 
         $this->maintenance = 0;
         $this->maintenance_reason = 'SITE is currently undergoing scheduled maintenance. 
-                                     <br>Please try back in 60 minutes. Sorry for the inconvenience.';
+                                     <br />Please try back in 60 minutes. Sorry for the inconvenience.';
     }
 }
 ?>
