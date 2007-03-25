@@ -231,13 +231,13 @@ fieldset dd textarea {
 	margin: 0 auto 10px auto;
 	border: 1px solid #333;
 }
-.shout_header {
+.shout-header {
 	padding: 2px;
 	background: #f00;
 	border-bottom: 1px solid #333;
 	color: #fff;
 }
-.shout_content {
+.shout-content {
 	padding: 2px;
 }
 /* Redirect */
@@ -260,12 +260,12 @@ fieldset dd textarea {
 	margin-bottom: 10px;
 	border: 1px solid #333;
 }
-.news_cat_img {
+.news-cat-img {
 	width: 125px;
 	border-left: 1px solid #333;
 	float: right;
 }
-.news_head {
+.news-head {
 	margin-right: 125px;
 	padding: 0 5px;
 	background: #f00;
@@ -274,13 +274,13 @@ fieldset dd textarea {
 	color: #fff;
 	line-height: 20px;
 }
-.news_author_comments {
+.news-author-comments {
 	margin-right: 125px;
 	padding: 0 5px;
 	border: 1px solid #333;
 	border-width: 0 1px 1px 0;
 }
-.news_content {
+.news-content {
 	margin-right: 125px;
 	padding: 5px;
 	border-right: 1px solid #333;

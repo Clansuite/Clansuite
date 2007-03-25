@@ -23,14 +23,14 @@
 <!-- Anker-Sprungmarke für {$news.news_id}-->
 <a id="news-{$news.news_id}"></a>
 <div class="newsbox">
-	<div class="news_cat_img">
+	<div class="news-cat-img">
 		<img src="{$news.image}" alt="Category-Image: {$news.cat_name}" />
 	</div>
-	<h4 class="news_head">{$news.news_title} - {$news.cat_name}</h4>
-	<div class="news_author_comments">
+	<h4 class="news-head">{$news.news_title} - {$news.cat_name}</h4>
+	<div class="news-author-comments">
 		Geschrieben von <a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments} comments</a>
 	</div>
-	<div class="news_content">
+	<div class="news-content">
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
 		{$news.news_body}
 	</div>
