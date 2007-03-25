@@ -1,69 +1,81 @@
-{* Debugausgabe des Arrays: {$guestbook|@var_dump} *}
-{html_alt_table loop=$guestbook}
-{* ############### Guestbook Show Entries ##################### *}
-<table width="100%" border="1" cellspacing="1" cellpadding="2" bgcolor="$border">
-    <tr bgcolor="$bghead">
-        <td class="title">
-            <img src="images/icons/posticon.gif" alt="" />
-            <a name="$n"> # $n by</a> <strong>$name</strong>
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="$pagebg"></td>
-    </tr>
-    <tr bgcolor="$bg1">
-       <td>
-           <table width="100%" border="1" cellspacing="0" cellpadding="2">
-               <tr>
-                   <td>
-                       <table width="100%" border="1" cellpadding="0" cellspacing="0">
-                           <tr>
-                               <td><em>$date</em> $email $hp $icq IP: $ip</td>
-                               <td align="right">$quote$actions</td>
-                           </tr>
-                       </table>
-                       <hr width="200" size="1" noshade="noshade" align="left" />
-                       <div style="overflow:hidden;">$message</div>
-                   </td>
-               </tr>
-               <tr>
-                   <td>$admincomment</td>
-               </tr>
-           </table>
-       </td>
-    </tr>
-</table>
-<br />
-{foreach item=entry from=$guestbook}
-    {$entry.gb_id}
-    {$entry.gb_added}
-    {$entry.gb_nick} <a href="index.php?mod=users&amp;show">{$entry.gb_nick}</a>
-    {$entry.gb_email}
-    {$entry.gb_icq}
-    {$entry.gb_website}
-    {$entry.gb_town}
-    {$entry.gb_text}
-    {$entry.gb_ip}
-{/foreach}
+<h1>{translate}Guestbook{/translate}</h1>
+{* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *} 
+
 {* ############### Guestbook Add Entry ##################### *}
+
 <div id="guestbook_add_entry">
-    <form action="index.php?mod=guestbook" method="post" onsubmit="return chkFormular()">
+
+    <form name="post" method="post" action="index.php?mod=guestbook&action=add_guestbook_entry">
+      <table width="100%" border="1" cellspacing="1" cellpadding="2">
+        <tr> 
+          <td align="center" class="title">{translate}Add a guestbook entry{/translate}</td>
+        </tr>
+        <tr>
+            <td>
+                {if !empty($message_errors)}
+                    <table cellpadding="5" cellspacing="0" border="0" width="400px">
+                        <tr>
+                            <td class="red_cell">
+                                {if $message_errors.no_gbname == 1}
+                                    {translate}You should enter a username.{/translate}<br />
+                                {/if}  
+                                {if $message_errors.no_message == 1}
+                                    {translate}You should enter a guestbook message.{/translate}<br />
+                                {/if}                                                              
+                                {if $message_errors.no_infos == 1}
+                                    {translate}You haven't supplied any informations at all.{/translate}<br />
+                                {/if}                                
+                            </td>
+                        </tr>
+                    </table>
+                    {/if}
+            </td>
+      </table>
         <fieldset>
             <dl>
                 <dt><label for="gbname">Your Name:</label></dt>
-                <dd><input type="text" name="gbname" id="gbname" class="form_off" onfocus="this.className='form_on'" onblur="this.className='form_off'" /></dd>
+                <dd><input type="text" name="info[gbname]" id="gbname" /></dd>
                 <dt><label for="gbemail">Your e-mail:</label></dt>
-                <dd><input type="text" name="gbemail" id="gbemail" class="form_off" onfocus="this.className='form_on'" onblur="this.className='form_off'" /></dd>
+                <dd><input type="text" name="info[gbemail]" id="gbemail" /></dd>
                 <dt><label for="icq">ICQ:</label></dt>
-                <dd><input type="text" name="icq" id="icq" class="form_off" onfocus="this.className='form_on'" onblur="this.className='form_off'" /></dd>
+                <dd><input type="text" name="info[gbicq]" id="icq" /></dd>
+                <dt><label for="gbtown">Your Town:</label></dt>
+                <dd><input type="town" name="info[gbtown]" id="town" /></dd>
                 <dt><label for="gburl">Your homepage:</label></dt>
-                <dd><input type="text" name="gburl" id="gburl" class="form_off" onfocus="this.className='form_on'" onblur="this.className='form_off'" value="http://" /></dd>
+                <dd><input type="text" name="info[gbwebsite]" id="gburl" value="http://" /></dd>
                 <dt><label for="message">Message:</label></dt>
-                <dd><textarea name="message" id="message" rows="5" cols="35" style="width:$picsize_l\px;" class="form_off" onfocus="this.className='form_on'" onblur="this.className='form_off'"></textarea></dd>
+                <dd><textarea name="info[gbmessage]" id="message" rows="5" cols="35"></textarea></dd>
             </dl>
         </fieldset>
         <div class="form_bottom">
-            <input name="save" type="submit" value="Submit" class="button" />
+            <input name="submit" type="submit" value="{translate}Add Entry{/translate}" class="button" />
         </div>
     </form>
+
 </div>
+
+{* ############### Show Guestbook Entries ##################### *}
+<br/>
+
+{foreach item=entry from=$guestbook}    
+    Comment <a name="{$entry.gb_id}"> # {$entry.gb_id} by</a> <b> <a href='index.php?mod=users&show'>{$entry.gb_nick}</a></b>
+    <br />
+    Date: {$entry.gb_added} 
+    <br />  
+    Email: {$entry.gb_email}
+    <br />
+    ICQ: {$entry.gb_icq}
+    <br />
+    WWW: {$entry.gb_website}
+    <br />
+    City: {$entry.gb_town}
+    <br />    
+    IP: {$entry.gb_ip}
+    <br />
+    Guestbook Message: {$entry.gb_text}
+    <br />    
+    Admin Comments: {$entry.gb_admincomment}
+    <br />
+    <hr>
+{/foreach}
+
