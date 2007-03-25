@@ -1,41 +1,63 @@
 <?php
-/**
-* Modulename:   {$name}
-* Description:  {$description}
-*
-* PHP >= version 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @link       http://gna.org/projects/clansuite
-*
-* @author     {$author}
-* @copyright  {$copyright}
-* @license    {$license}
-* @version    SVN: $Id$
-* @link       {$homepage}
-*/
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         {$name}.module.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Module Class - {$name}
+    *               {$description}
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
 
-// Security Handler
+/**
+ *  Security Handler
+ */
 if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {rdelim}
 
-// Begin of class {$class_name}
+/**
+ * This is the Clansuite Module Class - {$class_name}
+ *
+ * Description:  {$description}
+ *
+ * @author     {$author}
+ * @copyright  {$copyright}
+ * @link       {$homepage}
+ * @since      Class available since Release 0.1
+ *
+ * @package     clansuite
+ * @category    module
+ * @subpackage  {$class_name}
+ */
 class {$class_name}
 {ldelim}
     public $output          = '';
