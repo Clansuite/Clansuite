@@ -45,7 +45,7 @@
 </div>
 
 <div class="one" onclick="clip('element_2');"><b>2. Included templates & config files and their load time in seconds</b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_2">
+<table rules="rows" frame="void" style="display: none;" id="element_2" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Templatename</th></tr></thead>
 <tbody>
@@ -74,7 +74,7 @@
 </table>
 
 <div class="one" onclick="clip('element_3');"><b>3. Assigned template variables ($tpl->assign)</b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_3">
+<table rules="rows" frame="void" style="display: none;" id="element_3" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Assign</th><th>Data</th></tr></thead>
 <tbody>
@@ -101,7 +101,7 @@
 </table>
 
 <div class="one" onclick="clip('element_4');"><b>4. Assigned config file variables (outer template scope)</b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_4">
+<table rules="rows" frame="void" style="display: none;" id="element_4" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Assign</th><th>Data</th></tr></thead>
 <tbody>
@@ -124,7 +124,7 @@
 
 
 <div class="one" onclick="clip('element_5');"><b>5. Database Stuff (Queries, Prepares, Execs, PDO Attributes)</b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_5">
+<table rules="rows" frame="void" style="display: none;" id="element_5" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Infosection</th><th>Data</th></tr></thead>
 <tbody>
@@ -144,7 +144,7 @@
 </table>
 
 <div class="one" onclick="clip('element_6');"><b>6. Loaded Modules ($modules->loaded) and Loaded Language Files ($lang->loaded)</b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_6">
+<table rules="rows" frame="void" style="display: none;" id="element_6" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th><strong>Loaded Modules ($modules->loaded)</strong></th></tr></thead>
 <tbody>
@@ -164,7 +164,7 @@
 </table>
 
 <div class="one" onclick="clip('element_7');"><b>7. CONFIG ($cfg->setting) </b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_7">
+<table rules="rows" frame="void" style="display: none;" id="element_7" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <tbody>
 {foreach key=outerkey name=outer item=debugouter from=$debug.config}
@@ -184,7 +184,7 @@
 </table>
 
 <div class="one" onclick="clip('element_8');"><b>8. Incoming Vars (COOKIES, GET, POST, REQUEST, SESSION | FILES, SERVER, ENV) </b></div>
-<table rules="rows" frame="void" style="display: none;" id="element_8">
+<table rules="rows" frame="void" style="display: none;" id="element_8" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <tbody>
 {foreach key=outerkey name=outer item=debugouter from=$debug_globals}
