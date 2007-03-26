@@ -22,7 +22,7 @@
   {/literal}
   {/doc_raw}
 
-<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript" language="javascript"></script>
+<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript"></script>
 
 <br/><hr/>
 
