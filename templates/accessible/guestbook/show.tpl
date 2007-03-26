@@ -3,35 +3,31 @@
 
 {* ############### Guestbook Add Entry ##################### *}
 
-<div id="guestbook_add_entry">
+<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript" language="javascript"></script>
 
-    <form name="post" method="post" action="index.php?mod=guestbook&action=add_guestbook_entry">
-      <table width="100%" border="1" cellspacing="1" cellpadding="2">
-        <tr> 
-          <td align="center" class="title">{translate}Add a guestbook entry{/translate}</td>
-        </tr>
-        <tr>
-            <td>
-                {if !empty($message_errors)}
-                    <table cellpadding="5" cellspacing="0" border="0" width="400px">
-                        <tr>
-                            <td class="red_cell">
-                                {if $message_errors.no_gbname == 1}
-                                    {translate}You should enter a username.{/translate}<br />
-                                {/if}  
-                                {if $message_errors.no_message == 1}
-                                    {translate}You should enter a guestbook message.{/translate}<br />
-                                {/if}                                                              
-                                {if $message_errors.no_infos == 1}
-                                    {translate}You haven't supplied any informations at all.{/translate}<br />
-                                {/if}                                
-                            </td>
-                        </tr>
-                    </table>
-                    {/if}
-            </td>
-      </table>
-        <fieldset>
+<div onclick="clip('guestbook_add_entry_div');"><b>{translate}Click to add a guestbook entry{/translate}</b></div>
+<div style="display:none;" id="guestbook_add_entry_div">
+
+    {if !empty($message_errors)}
+        <table cellpadding="5" cellspacing="0" border="0" width="400px">
+            <tr>
+                <td class="red_cell">
+                    {if $message_errors.no_gbname == 1}
+                        {translate}You should enter a username.{/translate}<br />
+                    {/if}  
+                    {if $message_errors.no_message == 1}
+                        {translate}You should enter a guestbook message.{/translate}<br />
+                    {/if}                                                              
+                    {if $message_errors.no_infos == 1}
+                        {translate}You haven't supplied any informations at all.{/translate}<br />
+                    {/if}                                
+                </td>
+            </tr>
+        </table>
+     {/if}
+     
+    <form name="post" method="post" action="index.php?mod=guestbook&amp;action=add_guestbook_entry">
+       <fieldset>
             <dl>
                 <dt><label for="gbname">Your Name:</label></dt>
                 <dd><input type="text" name="info[gbname]" id="gbname" /></dd>
@@ -40,7 +36,7 @@
                 <dt><label for="icq">ICQ:</label></dt>
                 <dd><input type="text" name="info[gbicq]" id="icq" /></dd>
                 <dt><label for="gbtown">Your Town:</label></dt>
-                <dd><input type="town" name="info[gbtown]" id="town" /></dd>
+                <dd><input type="text" name="info[gbtown]" id="gbtown" /></dd>
                 <dt><label for="gburl">Your homepage:</label></dt>
                 <dd><input type="text" name="info[gbwebsite]" id="gburl" value="http://" /></dd>
                 <dt><label for="message">Message:</label></dt>
@@ -57,8 +53,16 @@
 {* ############### Show Guestbook Entries ##################### *}
 <br/>
 
+<br />
+{* display pagination header *}
+Entries {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
+<br />
+{* display pagination info *}
+{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+<hr />
+
 {foreach item=entry from=$guestbook}    
-    Comment <a name="{$entry.gb_id}"> # {$entry.gb_id} by</a> <b> <a href='index.php?mod=users&show'>{$entry.gb_nick}</a></b>
+    Comment <a id="guestbook_entry_{$entry.gb_id}"> # {$entry.gb_id} by</a> <b> <a href='index.php?mod=users&amp;show'>{$entry.gb_nick}</a></b>
     <br />
     Date: {$entry.gb_added} 
     <br />  
@@ -76,6 +80,15 @@
     <br />    
     Admin Comments: {$entry.gb_admincomment}
     <br />
-    <hr>
+    todo: <strong>Frontpage Editing for Admin</strong>
+    <br />
+    if isset $entry.gb_admincomment -> anzeigen + [BUTTON: edit]
+    <br />
+    if not set = [BUTTON: add admin comment]
+    <br />
+    <hr />
 {/foreach}
 
+<hr />
+{* display pagination info *}
+{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
