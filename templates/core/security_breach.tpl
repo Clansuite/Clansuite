@@ -9,7 +9,7 @@
 <img src="{$www_core_tpl_root}/images/security_breach.jpg" border="0">
 <br>
 <font face="Verdana" size="2" color="red">
-<b>{translate}SECURITY BREACH!{/translate}</b>
+<strong>{translate}SECURITY BREACH!{/translate}</strong>
 <br>
 {translate}There seems to be an hacking attempt or unusual failure in progress...{/translate}
 <br>

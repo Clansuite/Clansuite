@@ -30,7 +30,7 @@
 
 <h2 style="padding: 8px;">Clansuite Debug Console</h2>
 
-<div class="one" onclick="clip('element_1');"><b>1. Error Log</b></div>
+<div class="one" onclick="clip('element_1');"><strong>1. Error Log</strong></div>
 <div style="display:none; padding: 8px; width: 90%;" id="element_1">
     {foreach key=key item=item from=$debug.error_log}
     <dl>
@@ -38,13 +38,13 @@
                                  {elseif $key eq "user_notice"}#FFCC00
                                  {elseif $key eq "warning"}#FF3333
                                  {/if};"
-            class="initial"><b>{$key}</b> | {$item|@debug_print_var}
+            class="initial"><strong>{$key}</strong> | {$item|@debug_print_var}
         </dt>
     </dl>
     {/foreach}
 </div>
 
-<div class="one" onclick="clip('element_2');"><b>2. Included templates & config files and their load time in seconds</b></div>
+<div class="one" onclick="clip('element_2');"><strong>2. Included templates & config files and their load time in seconds</strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_2" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Templatename</th></tr></thead>
@@ -62,18 +62,18 @@
          {strip}
          <!-- Loadtime -->
          {if isset($_debug_tpls[templates].exec_time)}
-         <i>({$_debug_tpls[templates].exec_time|string_format:"%.5f"})
-            {if %templates.index% eq 0} (total){/if}</i>
+         <em>({$_debug_tpls[templates].exec_time|string_format:"%.5f"})
+            {if %templates.index% eq 0} (total){/if}</em>
          {/if}{/strip}
     </td>
 </tr>
 {sectionelse}
-<tr><td><i>no templates included</i></td></tr>
+<tr><td><em>no templates included</em></td></tr>
 {/section}
 </tbody>
 </table>
 
-<div class="one" onclick="clip('element_3');"><b>3. Assigned template variables ($tpl->assign)</b></div>
+<div class="one" onclick="clip('element_3');"><strong>3. Assigned template variables ($tpl->assign)</strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_3" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Assign</th><th>Data</th></tr></thead>
@@ -94,13 +94,13 @@
 	{/if}
 {sectionelse}
 	<tr bgcolor="#E4E0C7">
-	<td colspan="2"><i>no template variables assigned</i></td>
+	<td colspan="2"><em>no template variables assigned</em></td>
 	</tr>
 {/section}
 </tbody>
 </table>
 
-<div class="one" onclick="clip('element_4');"><b>4. Assigned config file variables (outer template scope)</b></div>
+<div class="one" onclick="clip('element_4');"><strong>4. Assigned config file variables (outer template scope)</strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_4" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Assign</th><th>Data</th></tr></thead>
@@ -116,14 +116,14 @@
 	</tr>
 {sectionelse}
 	<tr bgcolor="#E4E0C7">
-	    <td colspan="2"><i>no config vars assigned</i></td>
+	    <td colspan="2"><em>no config vars assigned</em></td>
 	</tr>
 {/section}
 </tbody>
 </table>
 
 
-<div class="one" onclick="clip('element_5');"><b>5. Database Stuff (Queries, Prepares, Execs, PDO Attributes)</b></div>
+<div class="one" onclick="clip('element_5');"><strong>5. Database Stuff (Queries, Prepares, Execs, PDO Attributes)</strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_5" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th>Infosection</th><th>Data</th></tr></thead>
@@ -143,7 +143,7 @@
 </tbody>
 </table>
 
-<div class="one" onclick="clip('element_6');"><b>6. Loaded Modules ($modules->loaded) and Loaded Language Files ($lang->loaded)</b></div>
+<div class="one" onclick="clip('element_6');"><strong>6. Loaded Modules ($modules->loaded) and Loaded Language Files ($lang->loaded)</strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_6" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <thead><tr><th><strong>Loaded Modules ($modules->loaded)</strong></th></tr></thead>
@@ -163,7 +163,7 @@
 </tbody>
 </table>
 
-<div class="one" onclick="clip('element_7');"><b>7. CONFIG ($cfg->setting) </b></div>
+<div class="one" onclick="clip('element_7');"><strong>7. CONFIG ($cfg->setting) </strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_7" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <tbody>
@@ -183,7 +183,7 @@
 </tbody>
 </table>
 
-<div class="one" onclick="clip('element_8');"><b>8. Incoming Vars (COOKIES, GET, POST, REQUEST, SESSION | FILES, SERVER, ENV) </b></div>
+<div class="one" onclick="clip('element_8');"><strong>8. Incoming Vars (COOKIES, GET, POST, REQUEST, SESSION | FILES, SERVER, ENV) </strong></div>
 <table rules="rows" frame="void" style="display: none;" id="element_8" summary="Debugging Table">
 <col class="one" /><col class="two" />
 <tbody>

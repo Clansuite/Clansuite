@@ -23,10 +23,10 @@
 	<legend>
 		{$error_head}
 	</legend>
-	{if isset($code)}<strong>Standard Code:</strong> <i>{$code}</i><br />{/if}
-	<strong>Error Message:</strong> <i>{$debug_info}</i><br />
-	{if isset($file)}<strong>File:</strong> <i>{$file}</i><br />{/if}
-	{if isset($line)}<strong>Line:</strong> <i>{$line}</i><br />{/if}
+	{if isset($code)}<strong>Standard Code:</strong> <em>{$code}</em><br />{/if}
+	<strong>Error Message:</strong> <em>{$debug_info}</em><br />
+	{if isset($file)}<strong>File:</strong> <em>{$file}</em><br />{/if}
+	{if isset($line)}<strong>Line:</strong> <em>{$line}</em><br />{/if}
 </fieldset>
 
 {if $error_type==1}
