@@ -490,6 +490,9 @@ class module_admin_groups
         }
 
         // Delete Groups
+        // note by vain
+        // @todo: groupnumber to delete = query count, cause each one is a delete-query
+        // @see: users-admin module how to edit the query to delete all with one!!
         foreach( $all_groups as $key => $value )
         {
             if ( count ( $delete ) > 0 )
