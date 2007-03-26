@@ -23,7 +23,7 @@
                                     <td class="{if $message.read==0}message_new{else}message_old{/if}">
 
                                         <div class="message_headline">
-                                            {if $message.read==0}<b>{translate}New{/translate}:&nbsp;</b>{/if}<a href="index.php?mod=messaging&action=read&id={$message.message_id}">{$message.headline}</a>
+                                            {if $message.read==0}<strong>{translate}New{/translate}:&nbsp;</strong>{/if}<a href="index.php?mod=messaging&action=read&id={$message.message_id}">{$message.headline}</a>
                                         </div>
                                         <div class="message_buttons">
                                             <input type="button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$message.message_id}'" />

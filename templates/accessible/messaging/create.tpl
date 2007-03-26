@@ -31,7 +31,7 @@
                         {/if}
                         {if $message_errors.users_not_found == 1}
                             {translate}The following users couldn't be found in the database:{/translate}<br />
-                            <b>{$message_errors.users}</b>
+                            <strong>{$message_errors.users}</strong>
                         {/if}
                     </td>
                 </tr>
