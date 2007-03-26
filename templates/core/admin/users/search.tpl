@@ -38,7 +38,7 @@
 </center>
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 function row_clicked( user_id, nick, email )
 {
   alert( 'You clicked user_id '+user_id+', name is '+nick+', email is '+email+'.' );
