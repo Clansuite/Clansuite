@@ -135,7 +135,7 @@
             <td style="padding: 0px;" width="150">
                 {foreach key=area_name item=area_array from=$info.areas}
                     <table style="display: none;" id="area_{$area_name}" cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tr class="tr_row2"><td colspan="2"><b>{$area_name}</b></td></tr>
+                        <tr class="tr_row2"><td colspan="2"><strong>{$area_name}</strong></td></tr>
                         {foreach key=right_name item=right_array from=$area_array}
                             <tr class="tr_row1">
                                 <td width="20%">
