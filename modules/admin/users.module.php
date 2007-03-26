@@ -526,15 +526,15 @@ class module_admin_users
     }
 
     /**
-    * @desc Delete the users
-    */
+     * @desc Delete the users
+     */
     function delete()
     {
         global $db, $functions, $input, $lang;
 
         /**
-        * @desc Init
-        */
+         * @desc Init
+         */
         $submit     = $_POST['submit'];
         $confirm    = $_POST['confirm'];
         $abort      = $_POST['abort'];
@@ -542,28 +542,30 @@ class module_admin_users
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
-
+  
         if ( count($delete) < 1 )
         {
             $functions->redirect( 'index.php?mod=admin&sub=users', 'metatag|newsite', 3, $lang->t( 'No users selected to delete! Aborted... ' ), 'admin' );
         }
 
         /**
-        * @desc Abort
-        */
+         * @desc Abort
+         */
         if ( !empty( $abort ) )
         {
             $functions->redirect( 'index.php?mod=admin&sub=users' );
         }
 
         /**
-        * @desc Create Select Statement
-        */
+         * @desc Create Select Statement
+         */
         $select = 'SELECT user_id, nick FROM ' . DB_PREFIX . 'users WHERE ';
         foreach ( $delete as $key => $id )
         {
             $select .= 'user_id = ' . $id . ' OR ';
         }
+        // code by xsign
+        // @todo explain reason for settings this: [OR user_id = -1000] 
         $select .= 'user_id = -1000';
         $stmt = $db->prepare( $select );
         $stmt->execute();
@@ -577,8 +579,8 @@ class module_admin_users
         }
 
         /**
-        * @desc Delete the groups
-        */
+         * @desc Delete the groups
+         */
         foreach( $all_users as $key => $value )
         {
             if ( count ( $delete ) > 0 )
@@ -605,7 +607,7 @@ class module_admin_users
         /**
         * @desc Redirect on finish
         */
-        $functions->redirect( 'index.php?mod=admin&sub=users&action=show_all', 'metatag|newsite', 3, $lang->t( 'The user(s) have been delete.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=admin&sub=users&action=show_all', 'metatag|newsite', 3, $lang->t( 'The selected user(s) were deleted.' ), 'admin' );
 
     }
 
