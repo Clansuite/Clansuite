@@ -155,7 +155,7 @@
             <div id="tree-plugin">
                 <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post">
                 <div id="tree-plugin-content"></div>
-                <b>{translate}The menu has been generated.{/translate}</b> <br />
+                <strong>{translate}The menu has been generated.{/translate}</strong> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />
                 <p>
                     <input class="ButtonGreen" type="submit" name="submit" value="{translate}Update the menu{/translate}" />

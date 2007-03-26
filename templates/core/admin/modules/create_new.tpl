@@ -108,18 +108,18 @@ function rem_col(id)
 
     <td class="cell2">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr class="tr_row1"><td><b>{translate}Title:{/translate}</b></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Name:{/translate}<br /><span class="font_mini">?mod=name</span></b></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Description:{/translate}</b></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Author:{/translate}</b></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Copyright:{/translate}</b></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Homepage:{/translate}</b></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}License:{/translate}</b></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"html"}" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Enabled:{/translate}</b></td><td><input type="checkbox" name="enabled" value="1" /></td></tr>
-            <tr class="tr_row1"><td><b>{translate}Core module:{/translate}</b></td><td><input type="checkbox" name="core" value="1" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Title:{/translate}</strong></td><td><input class="input_text" type="text" name="title" value="{$smarty.post.title|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Name:{/translate}<br /><span class="font_mini">?mod=name</span></strong></td><td><input class="input_text" type="text" name="name" value="{$smarty.post.name|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Description:{/translate}</strong></td><td><input class="input_text" type="text" name="description" value="{$smarty.post.description|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Author:{/translate}</strong></td><td><input class="input_text" type="text" name="author" value="{$smarty.post.author|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Copyright:{/translate}</strong></td><td><input class="input_text" type="text" name="copyright" value="{$smarty.post.copyright|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Homepage:{/translate}</strong></td><td><input class="input_text" type="text" name="homepage" value="{$smarty.post.homepage|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}License:{/translate}</strong></td><td><input class="input_text" type="text" name="license" value="{$smarty.post.license|escape:"html"}" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Enabled:{/translate}</strong></td><td><input type="checkbox" name="enabled" value="1" /></td></tr>
+            <tr class="tr_row1"><td><strong>{translate}Core module:{/translate}</strong></td><td><input type="checkbox" name="core" value="1" /></td></tr>
             <tr class="tr_row1">
                 <td>
-                    <b>{translate}Submodule:{/translate}</b>
+                    <strong>{translate}Submodule:{/translate}</strong>
                 </td>
                 <td>
                     <input type="checkbox" name="submodule" value="1" />
@@ -170,10 +170,10 @@ function rem_col(id)
                 <table border="0" cellpadding="2" cellspacing="0" id="all_cols" width="800">
                 <tr>
                     <td width="50" align="center" class="cell1">
-                        <b>{translate}Tablename:{/translate}</b>
+                        <strong>{translate}Tablename:{/translate}</strong>
                     </td>
                     <td class="cell2" colspan="6">
-                        <b>{$db_prefix}</b><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"html"}">
+                        <strong>{$db_prefix}</strong><input class="input_text" type="text" name="db_table" value="{$smarty.post.db_table|escape:"html"}">
                     </td>
                 </tr>
                 <tr>
@@ -189,7 +189,7 @@ function rem_col(id)
                 {foreach key=key item=item from=$smarty.post.db_cols}
                     <tr id="col{$key}">
                         <td class="cell1" width="50" align="center">
-                            <b>{translate}Col{/translate} #{$key}:</b>
+                            <strong>{translate}Col{/translate} #{$key}:</strong>
                         </td>
                         <td class="cell2" width="50" align="center">
                             <input class="input_text" type="text" name="db_cols[{$key}][name]" value="{$item.name}">
@@ -259,7 +259,7 @@ function rem_col(id)
                 {else}
                     <tr id="col1">
                         <td class="cell1" width="50" align="center">
-                            <b>{translate}Col{/translate} #1:</b>
+                            <strong>{translate}Col{/translate} #1:</strong>
                         </td>
                         <td class="cell2" width="50" align="center">
                             <input class="input_text" type="text" name="db_cols[1][name]" value="">
@@ -345,7 +345,7 @@ function rem_col(id)
 <table style="display: none">
     <tr id="add_col_container">
         <td class="cell1" width="50" align="center">
-            <b>{translate}Col{/translate} #{literal}{$key}{/literal}:</b>
+            <strong>{translate}Col{/translate} #{literal}{$key}{/literal}:</strong>
         </td>
         <td class="cell2" width="50" align="center">
             <input class="input_text" type="text" name="db_cols[{literal}{$key}{/literal}][name]" value="">

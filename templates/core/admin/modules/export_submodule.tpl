@@ -107,7 +107,7 @@ Loading...
 <tr>
 
     <td class="cell1" align="center"  width="120px">
-    <b>{$wert.title}</b><br />
+    <strong>{$wert.title}</strong><br />
     <img width="100px" height="100px" src="{$www_core_tpl_root}/images/modules/{$wert.image_name}">
     </td>
 
@@ -121,11 +121,11 @@ Loading...
     	       <h2 class="tab">{translate}General{/translate}</h2>
     	       <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
                 <table cellpadding="2" cellspacing="2" border="0">
-                    <tr><td><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
-                    <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
-                    <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
-                    <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
-                    <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
+                    <tr><td><strong>{translate}Description:{/translate}</strong></td><td>{$wert.description}</td></tr>
+                    <tr><td><strong>{translate}Foldername:{/translate}</strong></td><td>{$wert.folder_name}</td></tr>
+                    <tr><td><strong>{translate}Classname:{/translate}</strong></td><td>{$wert.class_name}</td></tr>
+                    <tr><td><strong>{translate}Filename:{/translate}</strong></td><td>{$wert.file_name}</td></tr>
+                    <tr><td><strong>{translate}URL:{/translate}</strong></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
                 </table>
             </div>
 

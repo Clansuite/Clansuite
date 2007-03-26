@@ -2,13 +2,13 @@
 
 {if $err.wrong_filetype == 1}
 <div class="cell1" align="center">
-    <b>{translate}That file has the wrong filetype.{/translate}</b>
+    <strong>{translate}That file has the wrong filetype.{/translate}</strong>
 </div>
 {/if}
 
 {if $err.no_correct_upload == 1}
 <div class="cell1" align="center">
-    <b>{translate}The upload failed. Please try again.{/translate}</b>
+    <strong>{translate}The upload failed. Please try again.{/translate}</strong>
 </div>
 {/if}
 

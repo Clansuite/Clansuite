@@ -75,7 +75,7 @@
         </div>
     </td>
     <td valign="top" width="100%">
-        <b>{translate}Current Template:{/translate}</b>&nbsp;
+        <strong>{translate}Current Template:{/translate}</strong>&nbsp;
         <div id="filename">&nbsp; Select Filename ... </div>
         <textarea class="input_textarea" wrap="off" rows="30" style="width: 100%;" id="template_textarea"></textarea>
     </td>

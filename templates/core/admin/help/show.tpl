@@ -12,7 +12,7 @@
 <table class="klappable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
         <td style="border-bottom: 1px solid #ACA899; padding: 5px">
-            <b>&raquo; {$smarty.request.mod} {if $smarty.request.sub!=''}&raquo; {$smarty.request.sub} {/if}&raquo; {$smarty.request.main_action}</b>
+            <strong>&raquo; {$smarty.request.mod} {if $smarty.request.sub!=''}&raquo; {$smarty.request.sub} {/if}&raquo; {$smarty.request.main_action}</strong>
             {if $help_edit_mode==1}
                 <input type="hidden" id="save_mod" name="save_mod" value="{$smarty.request.mod}" />
                 <input type="hidden" id="save_sub" name="save_sub" value="{$smarty.request.sub}" />
@@ -53,7 +53,7 @@
     </tr>
     <tr>
         <td style="border-bottom: 1px solid #ACA899; border-top: 1px solid #FFFFFF; padding: 5px">
-            <b>&raquo; {translate}Related Links{/translate}</b>
+            <strong>&raquo; {translate}Related Links{/translate}</strong>
         </td>
     </tr>
     <tr>
