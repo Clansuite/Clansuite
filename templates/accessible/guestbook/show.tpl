@@ -3,11 +3,10 @@
 
 {* ############### Guestbook Add Entry ##################### *}
 
-<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript" language="javascript"></script>
+<script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript"></script>
 
-<div onclick="clip('guestbook_add_entry_div');"><b>{translate}Click to add a guestbook entry{/translate}</b></div>
+<div onclick="clip('guestbook_add_entry_div');"><strong>{translate}Click to add a guestbook entry{/translate}</strong></div>
 <div style="display:none;" id="guestbook_add_entry_div">
-
     {if !empty($message_errors)}
         <table cellpadding="5" cellspacing="0" border="0" width="400px">
             <tr>
@@ -24,8 +23,7 @@
                 </td>
             </tr>
         </table>
-     {/if}
-     
+    {/if}
     <form name="post" method="post" action="index.php?mod=guestbook&amp;action=add_guestbook_entry">
        <fieldset>
             <dl>
@@ -47,7 +45,6 @@
             <input name="submit" type="submit" value="{translate}Add Entry{/translate}" class="button" />
         </div>
     </form>
-
 </div>
 
 {* ############### Show Guestbook Entries ##################### *}
@@ -62,7 +59,7 @@ Entries {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
 <hr />
 
 {foreach item=entry from=$guestbook}    
-    Comment <a id="guestbook_entry_{$entry.gb_id}"> # {$entry.gb_id} by</a> <b> <a href='index.php?mod=users&amp;show'>{$entry.gb_nick}</a></b>
+    Comment <a id="guestbook_entry_{$entry.gb_id}"> # {$entry.gb_id} by</a> <strong> <a href='index.php?mod=users&amp;show'>{$entry.gb_nick}</a></strong>
     <br />
     Date: {$entry.gb_added} 
     <br />  

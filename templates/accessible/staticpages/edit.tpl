@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td class="cell1">
-            <b>Title:</b>
+            <strong>Title:</strong>
         </td>
         <td class="cell2">
             <input name="id" type="hidden" value="{$info.id}">
@@ -53,7 +53,7 @@
     </tr>
     <tr>
         <td class="cell1">
-            <b>Description:</b>
+            <strong>Description:</strong>
         </td>
         <td class="cell2">
             <input name="description" type="text" value="{$info.description|escape:html}" class="input_text">
@@ -61,7 +61,7 @@
     </tr>
     <tr>
         <td class="cell1">
-            <b>URL:</b>
+            <strong>URL:</strong>
         </td>
         <td class="cell2">
             <input name="url" type="text" value="{$info.url|escape:html}" class="input_text"><br />
