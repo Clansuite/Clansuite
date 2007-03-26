@@ -1,4 +1,4 @@
-/*  Prototype JavaScript framework, version 1.5.1_rc1
+/*  Prototype JavaScript framework, version 1.5.1_rc2
  *  (c) 2005-2007 Sam Stephenson
  *
  *  Prototype is freely distributable under the terms of an MIT-style license.
@@ -7,7 +7,7 @@
 /*--------------------------------------------------------------------------*/
 
 var Prototype = {
-  Version: '1.5.1_rc1',
+  Version: '1.5.1_rc2',
 
   Browser: {
     IE:     !!(window.attachEvent && !window.opera),
@@ -625,6 +625,21 @@ var $A = Array.from = function(iterable) {
     for (var i = 0, length = iterable.length; i < length; i++)
       results.push(iterable[i]);
     return results;
+  }
+}
+
+if (Prototype.Browser.WebKit) {
+  $A = Array.from = function(iterable) {
+    if (!iterable) return [];
+    if (!(typeof iterable == 'function' && iterable == '[object NodeList]') &&
+      iterable.toArray) {
+      return iterable.toArray();
+    } else {
+      var results = [];
+      for (var i = 0, length = iterable.length; i < length; i++)
+        results.push(iterable[i]);
+      return results;
+    }
   }
 }
 
@@ -1273,7 +1288,7 @@ Element.extend = function(element) {
       element[property] = cache.findOrStore(value);
   }
 
-  element._extended = true;
+  element._extended = Prototype.emptyFunction;
   return element;
 };
 
@@ -1359,7 +1374,7 @@ Element.Methods = {
   },
 
   descendants: function(element) {
-    return $A($(element).getElementsByTagName('*'));
+    return $A($(element).getElementsByTagName('*')).each(Element.extend);
   },
 
   immediateDescendants: function(element) {
@@ -1976,6 +1991,10 @@ Element.ClassNames.prototype = {
 };
 
 Object.extend(Element.ClassNames.prototype, Enumerable);
+/* Portions of the Selector class are derived from Jack Slocum’s DomQuery,
+ * part of YUI-Ext version 0.40, distributed under the terms of an MIT-style
+ * license.  Please see http://www.yui-ext.com/ for more information. */
+
 var Selector = Class.create();
 
 Selector.prototype = {
@@ -2226,15 +2245,12 @@ Object.extend(Selector, {
     // filters out duplicates and extends all nodes
     unique: function(nodes) {
       if (nodes.length == 0) return nodes;
-      var results = [nodes[0]], n;
-      nodes[0]._counted = true;
-      for (var i = 0, l = nodes.length; i < l; i++) {
-        n = nodes[i];
-        if (!n._counted) {
+      var results = [], n;
+      for (var i = 0, l = nodes.length; i < l; i++)
+        if (!(n = nodes[i])._counted) {
           n._counted = true;
           results.push(Element.extend(n));
         }
-      }
       return Selector.handlers.unmark(results);
     },
 
