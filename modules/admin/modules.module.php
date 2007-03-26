@@ -28,17 +28,14 @@
 * @since      File available since Release 0.1
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+// Security Handler
+if (!defined('IN_CS')){ die('You are not allowed to view this page.'); }
 
 /**
-* @desc Module Class
-*/
+ * Start of Module Admin Modules (Modules Administration)
+ * @package module_admin
+ * @subpackage modules
+ */
 class module_admin_modules
 {
     public $output          = '';
@@ -49,8 +46,11 @@ class module_admin_modules
     private $used = array();
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loading necessary language files
+    * First function to run - switches between $_REQUEST['action'] Vars to the functions
+    *
+    * @global $lang
+    * @global $trail
+    * @return array( 'OUTPUT', 'ADDITIONAL_HEAD', 'SUPPRESS_WRAPPER' )
     */
 
     function auto_run()
@@ -117,8 +117,8 @@ class module_admin_modules
                 $this->suppress_wrapper = 1;
                 break;
 
-            case 'add_to_whitelist':
-                $this->add_to_whitelist();
+            case 'add_to_db':
+                $this->add_to_db();
                 break;
 
             case 'chmod':
@@ -128,7 +128,6 @@ class module_admin_modules
         }
 
         return array( 'OUTPUT'          => $this->output,
-
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -940,23 +939,43 @@ class module_admin_modules
     }
 
     /**
-    * @desc Import Module
+    * Import Module
+    *
+    * 1) Extract tar in temp
+    * 2) Copy files from temp dirs to correct dirs
+    * 3) Remove module with same name
+    *	 Delete * from cs_modules where name
+    * 4) Insert module infos into cs_modules
+    * 5) insert each submodul of this modul into submodules table
+    * 6) insert the admin menu
+    * 7) Insert the custom SQL Commands
+    * 8) Clean up Temp Dir
+    * 9) Redirect
+    *
+    *
+    * @global $tpl
+    * @global $db
+    * @global $input
+    * @global $functions
+    * @global $lang
     */
 
     function import()
     {
         global $tpl, $db, $input, $functions, $lang;
 
-        $functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
+        // set time limit for file operations
+		set_time_limit(0);
 
-        set_time_limit(0);
-
+        // fetch POST submit
         $submit = $_POST['submit'];
 
+        // setup arrays
         $err    = array();
         $dirs   = array();
         $used   = array();
 
+        // check if dirs writeable
         if ( !is_writeable( ROOT_UPLOAD ) )
         {
             $err['upload_folder_not_writeable'] = 1;
@@ -967,6 +986,7 @@ class module_admin_modules
             $err['mod_folder_not_writeable'] = 1;
         }
 
+		// 1) Extract tar in temp
         if ( count ( $err ) == 0 AND !empty( $submit ) )
         {
             if ( !preg_match("/\.(tar)$/i", $_FILES['file']['name']) )
@@ -998,6 +1018,7 @@ class module_admin_modules
                     }
                     closedir($handler);
 
+                    // 2) Copy files from temp dirs to correct dirs
                     foreach( $dirs as $value )
                     {
 
@@ -1029,10 +1050,12 @@ class module_admin_modules
 
                     }
 
+						// 3) Remove module with same name
                         $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE `name` = ?' );
                         $stmt->execute( array ( $info['name'] ) );
 
-                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
+						// 4) Insert module infos into cs_modules
+                        $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `module_version`, `clansuite_version`, `core`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                         $stmt->execute( array(  $info['author'],
                                                 $info['homepage'],
                                                 $info['license'],
@@ -1045,10 +1068,11 @@ class module_admin_modules
                                                 $info['folder_name'],
                                                 0,
                                                 $info['image_name'],
-                                                $info['version'],
-                                                $info['cs_version'],
+                                                $info['module_version'],
+                                                $info['clansuite_version'],
                                                 $info['core']) );
 
+						// 5) insert each submodul of this modul into submodules table
                         foreach($info['subs'] as $submodul => $v)
                         {
                          $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'submodules` SET
@@ -1056,9 +1080,7 @@ class module_admin_modules
                          $stmt->execute( array( $submodul, $v[0], $v[1] ) );
                         }
 
-                       /**
-                       * @desc Insert the admin menu
-                       */
+                       // 6) insert the admin menu
                         $info['admin_menu'] = unserialize( $info['admin_menu'] );
                         if ( !empty( $info['admin_menu'] ) )
                         {
@@ -1080,9 +1102,7 @@ class module_admin_modules
                             }
                         }
 
-						/**
-						* @desc Insert the custom SQL Commands
-						*/
+						// 7) Insert the custom SQL Commands
 						$sql_commands = trim(unserialize( file_get_contents( ROOT_UPLOAD . '/modules/temp/mod_sql.php' ) ) );
                         $cmds = preg_split('#;#',$sql_commands);
 						foreach( $cmds as $key => $value)
@@ -1093,38 +1113,46 @@ class module_admin_modules
 								$stmt->execute();
 							}
 						}
-				        /**
-				        * @desc Clear temp
-				        */
-				        //$functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
 
-						/**
-						* @desc Redirect
-						*/
-                        $functions->redirect( 'index.php?mod=admin', 'metatag|newsite', 3, $lang->t( 'Module installed successfully.' ), 'admin' );
+						// Ok, module is installed successfully - so:
+				  		// 8) Clean up Temp Dir and
+				  		$functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
+
+						// 9) Redirect in case "successfully installed"
+						$functions->redirect( 'index.php?mod=admin', 'metatag|newsite', 3, $lang->t( 'Module installed successfully.' ), 'admin' );
 
 
                 }
                 else
                 {
+      				// Too Bad, the file could not moved for extraction
+                	// 8) Clean up Temp Dir
+        			$functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
+
+                	// 9) Redirect in case "file not moveable"
                     $functions->redirect( 'index.php?mod=admin', 'metatag|newsite', 3, $lang->t( 'The file could not be moved to the upload directory.' ), 'admin' );
                 }
             }
         }
 
-        /**
-        * @desc Clear temp
-        */
-        $functions->delete_dir_content( ROOT_UPLOAD . '/modules/temp/' );
-
+        // assign variables for $tpl
         $tpl->assign('err'                  , $err );
         $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=import' );
         $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
+        // get tpl-file and assign it to output
         $this->output .= $tpl->fetch('admin/modules/import.tpl');
     }
 
     /**
-    * @desc Build a new folder
+    * Build a new folder
+    *
+    * @param integer $old_id old id
+    * @param integer $new_id new id
+    * @param integer $parent parent id
+    *
+    * @global $db
+    * @return array of merged ($this->return_array, $this->folder_array)
+    * @todo: move function into adminmenu class? because it's administration of adminmenu elements
     */
 
     function build_folder( $old_id = 0, $new_id = 0, $parent = 0 )
@@ -1195,7 +1223,12 @@ class module_admin_modules
     }
 
     /**
-    * @desc Build a menu array (recursively)
+    * Build a menu array (recursively)
+    *
+    *
+    * @global $db
+    * @return $menu_array array of menudata
+    * @todo: move function into adminmenu class?
     */
 
     function build_menu( $menu_array )
@@ -1500,8 +1533,15 @@ class module_admin_modules
     }
 
 	/**
-	* @desc Uninstall a module
+	* Uninstall a module by deleting:
+	* 1) it's db informations by $module_id
+	* 2) it's directory content by $folder_name
+	*
+	* @global $db
+    * @global $functions
+    * @global $lang
 	*/
+
 	function uninstall()
 	{
 		global $db, $functions, $lang;
@@ -1530,10 +1570,17 @@ class module_admin_modules
   	}
 
     /**
-    * @desc Add a module to the DBs whitelist
-    */
+     * Adds a module to the DB
+     * Array Data from $_POST['info'] is inserted into the modules table
+     *
+     * @global $db
+     * @global $cfg
+     * @global $functions
+     * @global $lang
+     *
+     */
 
-    function add_to_whitelist()
+    function add_to_db()
     {
         global $db, $cfg, $functions, $lang;
 
@@ -1546,7 +1593,7 @@ class module_admin_modules
             $info['core'] = !empty($info['core']) ? $info['core'] : 0;
             if ( $info['add'] == 1 )
             {
-                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `version`, `cs_version`, `core` )
+                $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `module_version`, `clansuite_version`, `core` )
                                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' );
                 $stmt->execute( array(  $info['author'],
                                         $info['homepage'],
@@ -1560,7 +1607,7 @@ class module_admin_modules
                                         $info['folder_name'],
                                         $info['enabled'],
                                         $info['image_name'],
-                                        $info['version'],
+                                        $info['module_version'],
                                         $cfg->version,
                                         $info['core'] ) );
                 $x++;
@@ -1577,8 +1624,14 @@ class module_admin_modules
     }
 
     /**
-    * @desc Try a chmod
-    */
+     * Try a chmod
+     *
+     * @global $functions
+     * @global $input
+     * @global $lang
+     * @todo: move function into functions class, because it's a try of chmod and not specific to this module
+     */
+
     function chmod()
     {
         global $functions, $input, $lang;
