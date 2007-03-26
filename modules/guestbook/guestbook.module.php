@@ -109,35 +109,55 @@ class module_guestbook
     }
 
     /**
-    * @desc Function: Show Guestbook
-    */
+     * Function: Show Guestbook
+     * @todo: change setLimit to a Variable for editing by user from (Guestbook Module Settings)
+     */
     function show_guestbook()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+
+        // Smarty Pagination load and init
+        require(ROOT . 'core/smarty/SmartyPaginate.class.php');
+        // required connect
+        SmartyPaginate::connect();
+        // set URL
+        SmartyPaginate::setUrl('index.php?mod=guestbook&amp;action=show');
+        SmartyPaginate::setUrlVar('page');
+        // set items per page
+        SmartyPaginate::setLimit(20);
 
         // get all guestbook entries
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'guestbook' );
         $stmt->execute();
         $guestbook = $stmt->fetchALL(PDO::FETCH_NAMED);
-
+      
+        // if array contains data proceed, else show empty message
         if ( !is_array( $guestbook ) )
-            {
-                $this->output .= $lang->t('No Guestbook Entries found.');
-            }
-         else
-            {
-               $tpl->assign('guestbook', $guestbook);
-
-               /**
-               * @desc Handle the output - $lang-t() translates the text.
-               */
-               $this->output .= $tpl->fetch('guestbook/show.tpl');
-            }
+        {
+            $this->output .= $lang->t('We are sorry to say, but your Guestbook is empty.');
+        }
+        else
+        {   
+            // total number of guestbook entries by counting the array
+            $number_of_guestbook_entries = count($guestbook); 
+            
+            // Finally: assign total number of rows to SmartyPaginate
+            SmartyPaginate::setTotal($number_of_guestbook_entries);
+            // assign the {$paginate} to $tpl (smarty var)
+            SmartyPaginate::assign($tpl);
+           
+            $tpl->assign('guestbook', $guestbook);
+    
+            /**
+             * @desc Handle the output - $lang-t() translates the text.
+             */
+            $this->output .= $tpl->fetch('guestbook/show.tpl');
+        }
     }
 
     /**
-    * @desc Add Entry Guestbook
-    */
+     * @desc Add Entry Guestbook
+     */
     function add_guestbook_entry()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
@@ -147,21 +167,16 @@ class module_guestbook
          */
         $infos          = isset($_POST['info']) ? $_POST['info'] : array();
         
-        #var_dump($infos);
-
         /**
          * Set Error: message and gbname were empty
          */
         if( empty($infos['gbname']) )       $errors['no_gbname']    = 1;
         if( empty($infos['gbmessage']) )    $errors['no_message']   = 1;
-        
 
         if( !empty($infos) )
         {
-            echo 'array filled';
             if( count($errors) == 0 )
             {
-                echo 'no errors';
                 /**
                  * Insert data into DB
                  *
