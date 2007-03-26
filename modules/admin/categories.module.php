@@ -248,7 +248,6 @@ class module_admin_categories
         $sets       = '';
         $images     = array();            
         $icons      = array();
-        var_dump($info);
         
         /**
         * @desc Get the images
