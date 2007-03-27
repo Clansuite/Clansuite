@@ -24,11 +24,11 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL, see COPYING.txt
-    * 
+    *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
     * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
-    *  
+    *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
@@ -45,13 +45,13 @@
 /**
  * Defines the Security Handler
  */
-define('IN_CS', true);  
+define('IN_CS', true);
 
 /**
  * Alter php.ini settings
  * @todo give no information to possible attackers, set (display_errors = false) if (DEBUG = false)
  */
-ini_set('display_errors'                , true); 
+ini_set('display_errors'                , true);
 ini_set('zend.ze1_compatibility_mode'   , false);
 ini_set('zlib.output_compression'       , true);
 ini_set('zlib.output_compression_level' , '6');
@@ -76,7 +76,7 @@ if (ini_get('register_globals'))
 
 /**
  * DEFINE PATHS
- * BASE_URL = Serverurl 
+ * BASE_URL = Serverurl
  * BASE_URL_SEED = BASE_URL added by application directory
  */
 define('BASE_URL'    , 'http://'.$_SERVER['SERVER_NAME']);
@@ -271,19 +271,19 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 }
 
 /**
- * This sets up the $condition for the template output 
+ * This sets up the $condition for the template output
  * as controlled by the switch command underneath.
  *
  * It checks $_REQUEST, $content['SUPPRESS_WRAPPER'], $cfg->maintenance
  * and sets $condition accordingly.
  *
- * 1. Check 
+ * 1. Check
  * - if Maintenance_mode is set
  *  - show only the content of the maintenance tpl
  * - but if user_right for access_controlcenter is set
  *  - turn maintenance off, show normal wrapped template
  *
- * 2. Check     
+ * 2. Check
  * - if Admin module <- Switch -> Normal module
  *  - if admin modules requested:
  *   - check permissions
@@ -293,7 +293,7 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
  *  - if non admin module is requested:
  *   - display tpl_wrapper_file
  *
- * 3. Check 
+ * 3. Check
  * - if Suppress Wrapper is set
  *  - only the content of the suppressing module is echoed
  */
@@ -376,6 +376,7 @@ switch ($condition)
             // (3) display AdminControlCenter
             case 'display_admincontrolcenter':
                     $tpl->assign('content', $content['OUTPUT'] );
+                    DEBUG ? $debug->show_console() : '';
                     $tpl->displayDoc('admin/index.tpl');
                     break;
 
