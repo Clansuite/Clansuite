@@ -726,31 +726,40 @@ class module_admin_modules
 
     function export()
     {
-        global $functions, $cfg, $db, $tpl;
+        global $functions, $cfg, $db, $tpl, $lang;
 
         $submit       	  = $_POST['submit'];
         $name         	  = $_POST['name'];
-        $menu_ids     	  = isset($_POST['menu_ids']) ? $_POST['menu_ids'] : array();
-        $tables       	  = isset($_POST['tables']) ? $_POST['tables'] : array();
-        $files        	  = isset($_POST['files']) ? $_POST['files'] : array();
-        $sql_textarea 	  = $_POST['sql_textarea'];
-        $use_sql_textarea = $_POST['use_sql_textarea'];
-        $details_name	  = $_GET['details_name'];
+        $export_type      = isset($_POST['export_type'])         ? $_POST['export_type'] : '';
+        $menu_ids     	  = isset($_POST['menu_ids'])            ? $_POST['menu_ids'] : array();
+        $tables       	  = isset($_POST['tables'])              ? $_POST['tables'] : array();
+        $files        	  = isset($_POST['files'])               ? $_POST['files'] : array();
+        $sql_textarea 	  = isset($_POST['sql_textarea'])        ? $_POST['sql_textarea'] : '';
+        $use_sql_textarea = isset($_POST['use_sql_textarea'])    ? $_POST['use_sql_textarea'] : '';
+        $details_name	  = isset($_GET['details_name'])         ? $_GET['details_name'] : '';
+        $subdetails_id	  = isset($_GET['subdetails_id'])        ? $_GET['subdetails_id'] : '';
 
         $exported_menu  = array();
         $needed_ids     = array();
         $err            = array();
         $tared_files    = array();
 
+        // Check upload folder
         if ( !is_writeable( ROOT_UPLOAD ) )
         {
             $err['upload_folder_not_writeable'] = 1;
         }
 
+        // Check incoming Vars
+        if( !empty($submit) AND empty($export_type) )
+        {
+            $functions->redirect( 'index.php?mod=admin&sub=modules&action=export', 'metatag|newsite', 3, $lang->t( 'Internal Error: Export type not given.' ), 'admin' );
+        }
+
         /**
-        * @desc Everything OK - Export...
+        * @desc Everything OK - Export the module...
         */
-        if ( count($err) == 0 AND !empty($submit) )
+        if ( count($err) == 0 AND !empty($submit) AND $export_type == 'module')
         {
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE name = ?' );
             $stmt->execute( array( $name ) );
@@ -888,6 +897,10 @@ class module_admin_modules
 	            $container['whitelisted'][$res['title']] = $res;
 	        }
 		}
+		elseif ( !empty($subdetails_id) )
+		{
+
+		}
 		else
 		{
 	        while( false !== ($content = readdir($dir_handler)) )
@@ -896,13 +909,17 @@ class module_admin_modules
 	            {
 	                if ( is_dir( ROOT_MOD . '/' . $content ) )
 	                {
-	                    $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'modules WHERE folder_name = ?' );
+	                    $stmt = $db->prepare( 'SELECT `name`,`title`, `module_id` FROM ' . DB_PREFIX . 'modules WHERE folder_name = ?' );
 	                    $stmt->execute( array( $content ) );
 	                    $res = $stmt->fetch();
 
 	                    if ( is_array( $res ) )
 	                    {
-	                        $container['whitelisted'][$res['title']] = $res;
+	                        $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'mod_rel_sub AS mrs LEFT JOIN ' . DB_PREFIX . 'submodules AS s ON s.submodule_id = mrs.submodule_id WHERE mrs.module_id = ?');
+                            $stmt->execute( array($res['module_id'] ) );
+                            $sub_res = $stmt->fetchAll(PDO::FETCH_NAMED);
+                            $container['whitelisted'][$res['title']] = $res;
+                            $container['whitelisted'][$res['title']]['subs'] = $sub_res;
 	                    }
 	                }
 	            }
@@ -932,10 +949,19 @@ class module_admin_modules
         $tpl->assign('folder_tree'          , $this->build_folder_tree( ROOT ) );
         $tpl->assign('chmod_redirect_url'   , 'index.php?mod=admin&sub=modules&action=export' );
         $tpl->assign('chmod_tpl'            , $tpl->fetch('admin/modules/chmod.tpl') );
+
         if( !empty( $details_name ) )
-        	$this->output .= $tpl->fetch('admin/modules/export_details.tpl');
+        {
+        	$this->output .= $tpl->fetch('admin/modules/export_module.tpl');
+		}
+        elseif ( !empty( $subdetails_id ) )
+		{
+			$this->output .= $tpl->fetch('admin/modules/export_submodule.tpl');
+		}
 		else
+		{
 			$this->output .= $tpl->fetch('admin/modules/export.tpl');
+		}
     }
 
     /**
