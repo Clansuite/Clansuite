@@ -142,6 +142,7 @@ class module_admin_help
         // output
         $tpl->assign( 'help_edit_mode', $cfg->help_edit_mode );
         $tpl->assign( 'info' , $info );
+        //var_dump($info['helptext']);
         $this->output .= $tpl->fetch( 'admin/help/show.tpl' );
     }
 

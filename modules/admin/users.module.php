@@ -433,6 +433,7 @@ class module_admin_users
             $profile[':shaped_birthday'] = strtotime( $profile['birthday']['day'] .'-'. $profile['birthday']['month'] . '-' . $profile['birthday']['year'] );
             $profile[':shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
             $profile[':user_id'] = $info['user_id'];
+
             $profile_sets = '`icq` = :icq, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
                              `birthday` = :shaped_birthday, `height` = :height, `address` = :address, `zipcode` = :zipcode,
                              `city` = :city, `country` = :country, `homepage` = :homepage, `skype` = :skype, `phone` = :phone,
