@@ -26,11 +26,11 @@
                     else
                     {
                         con = getXMLRequester();
-		                con.open('POST', 'index.php?mod=filebrowser&action=get_folder', true);
+		                con.open('POST', 'index.php?mod=filebrowser&amp;action=get_folder', true);
                         global_path = path;
                         global_name = name;
 
-                        param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&name='+escape(encodeURIComponent(name));
+                        param = 'path='+escape(encodeURIComponent(path))+'&amp;section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&amp;name='+escape(encodeURIComponent(name));
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		                con.setRequestHeader("Content-length", param.length);
