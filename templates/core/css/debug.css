@@ -1,10 +1,9 @@
-    body            { font-family: Arial, Helvetica, sans-serif; font-size:small; }
-    div.one, caption { width: 90%; font-variant: small-caps; text-align:left; font-weight:bold; padding: 8px; border-bottom: 2px solid #BDB76B; border-left:8px solid #BDB76B; background-color: #F0E68C; }
-    table           { width: 90%; border-collapse: collapse; border-spacing:0; }
-    tr.head, th     { text-align: left; background-color:#EEE8AA; padding:4px; color: blue;}
-    td              { padding: 4px; vertical-align:top; }
-    col.one         { background-color: #eeeeee; }
-    col.two         { background-color: #fafafa; }
-    dt              { border: 1px solid #9AA7AE; margin-bottom: 5px;}
-    dt.initial      { border-left:8px solid #9AA7AE; padding:3px 10px 3px 5px; background-color: white; }
-    div.debug_wrapper { width: 99%;}
+        div.debug_one, caption { cursor: pointer; width: auto; font-variant: small-caps; font-family: Verdana; font-size: 11px; height: 8px; text-align:left; font-weight:bold; padding: 8px; background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899;  }
+        col.debug_one         { background-color: #eeeeee; }
+        col.debug_two         { background-color: #fafafa; }
+        dl.debug_dl { padding: 0; margin: 0; }
+        dt.debug_initial      { border-left:8px solid #cc9966; padding: 3px 10px 3px 5px; background-color: white; font-family: Verdana; font-size: 11px; }
+        dt.debug_second      { border-left:8px solid #cc9966; padding: 3px 10px 3px 5px; background-color: #cccccc; font-weight: bold; font-family: Verdana; font-size: 11px; }
+        div.debug_wrapper { margin: auto; width: 80%; border: padding: 8px; background: #ECE9D8; border: 1px solid; border-color: #ffffff #ACA899 #ACA899 #ffffff; font-family: Verdana; font-size: 11px; }
+        h2.debug_heading { text-align: center; color: grey; }
+        div.debug_inline { padding: 0px; width: 100%;background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899; }
