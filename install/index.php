@@ -78,7 +78,7 @@ if( $_GET['step'] == 2 )
         empty($_SESSION['admin_nick']) ||
         empty($_SESSION['admin_pass']) )
     {
-        header("Location: /install/index.php?step=1&error=fill_form");
+        header("Location: /" . $_SERVER['PHP_SELF'] . "?step=1&error=fill_form");
         die();
     }
 
@@ -105,7 +105,7 @@ if( $_GET['step'] == 3 )
             empty($_SESSION['ftp_username']) ||
             empty($_SESSION['ftp_folder']) )
         {
-            header("Location: /install/index.php?step=2&error=fill_form");
+            header("Location: /" . $_SERVER['PHP_SELF'] . "?step=2&error=fill_form");
             die();
         }
 
@@ -115,7 +115,7 @@ if( $_GET['step'] == 3 )
         $ftp_con = ftp_connect($_SESSION['ftp_hostname'], $_SESSION['ftp_port']);
         if( !ftp_con )
         {
-            header("Location: /install/index.php?step=2&error=no_connection");
+            header("Location: /" . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
             die();
         }
         else
@@ -123,7 +123,7 @@ if( $_GET['step'] == 3 )
             $ftp_login = ftp_login($ftp_con, $_SESSION['ftp_username'], $_SESSION['ftp_pass']);
             if( !$ftp_login )
             {
-                header("Location: /install/index.php?step=2&error=no_connection");
+                header("Location: /" . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
                 die();
             }
             else
@@ -155,7 +155,7 @@ if( $_GET['step'] == 4 )
         empty($_SESSION['db_name']) ||
         empty($_SESSION['db_prefix']) )
     {
-        header("Location: /install/index.php?step=3&error=fill_form");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=fill_form");
         die();
     }
 
@@ -169,7 +169,7 @@ if( $_GET['step'] == 4 )
     catch (PDOException $e)
     {
         $db = null;
-        header("Location: /install/index.php?step=3&error=no_connection");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=no_connection");
         die();
     }
 
