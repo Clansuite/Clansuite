@@ -9,22 +9,22 @@
         font-size: 11px;
         font-family: Verdana;
     }
-    
+
     .inputs
     {
         border: 1px solid grey;
     }
-    
+
     .error
     {
         color: red;
-        font-weight: bold;   
+        font-weight: bold;
     }
-        
+
     table td
     {
         font-size: 11px;
-        font-family: Verdana;    
+        font-family: Verdana;
     }
 </style>
 <center>
@@ -35,9 +35,9 @@ This Installer will guide you in 3 small steps through the hole installation of 
 <form action="index.php?step=3" method="POST">
 <table style="border: 1px solid black" width="400">
     <tr>
-        <td height="50" colspan="2" align="center"><b>Step 2:</b> Generate config (FTP)</td>
+        <td height="50" colspan="2" align="center"><b>Step 2:</b> Generate config (<b>FTP</b>)</td>
     </tr>
-            <?php 
+            <?php
                 if( $_GET['error'] == 'fill_form' )
                 {
                     echo '<tr><td height="30" align="center" colspan="2"><div class="error">Please fill all fields in the form!</div></td></tr>';
@@ -74,7 +74,7 @@ This Installer will guide you in 3 small steps through the hole installation of 
             <a href="/install/index.php?step=1"><<< Back to Step 1</a>
             <br />
             <small>
-                * If you don't got any FTP data you can check the field. After Installation you will receive the config file as download, so you can upload it.
+                * If you don't have any FTP data you can check the field. After installation you will receive the config file as download, so you can upload it.
                 <br /><br />
                 By clicking the button above you accept the <a href="/COPYING.txt">GPL Licensing</a>.
             </small>
