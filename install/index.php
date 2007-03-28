@@ -54,7 +54,7 @@ $_SESSION = array_merge( $_SESSION, $_POST );
 * @desc Suppress Errors
 */
 //error_reporting(0);
-    
+
 /**
 * @desc STEP 1
 */
@@ -71,7 +71,7 @@ if( $_GET['step'] == 2 )
     /**
     * @desc Check whether form is filled or not
     */
-    
+
     if( empty($_SESSION['admin_firstname']) ||
         empty($_SESSION['admin_lastname']) ||
         empty($_SESSION['admin_email']) ||
@@ -79,9 +79,9 @@ if( $_GET['step'] == 2 )
         empty($_SESSION['admin_pass']) )
     {
         header("Location: /install/index.php?step=1&error=fill_form");
-        die();       
+        die();
     }
-    
+
     /**
     * @desc Load template for step 2
     */
@@ -108,7 +108,7 @@ if( $_GET['step'] == 3 )
             header("Location: /install/index.php?step=2&error=fill_form");
             die();
         }
-        
+
         /**
         * @desc Check the connection
         */
@@ -124,7 +124,7 @@ if( $_GET['step'] == 3 )
             if( !$ftp_login )
             {
                 header("Location: /install/index.php?step=2&error=no_connection");
-                die();            
+                die();
             }
             else
             {
@@ -132,7 +132,7 @@ if( $_GET['step'] == 3 )
             }
         }
     }
-    
+
     /**
     * @desc Load template for step 3
     */
@@ -156,7 +156,7 @@ if( $_GET['step'] == 4 )
         empty($_SESSION['db_prefix']) )
     {
         header("Location: /install/index.php?step=3&error=fill_form");
-        die();       
+        die();
     }
 
     /**
@@ -164,25 +164,54 @@ if( $_GET['step'] == 4 )
     */
     try
     {
-       $dbh = new PDO($_SESSION['db_type'].':host='.$_SESSION['db_host'].';dbname='.$_SESSION['db_name'], $_SESSION['db_username'],$_SESSION['db_pass']);
-       $dbh = null;
+       $db = new PDO($_SESSION['db_type'].':host='.$_SESSION['db_host'].';dbname='.$_SESSION['db_name'], $_SESSION['db_username'],$_SESSION['db_pass']);
     }
     catch (PDOException $e)
     {
+        $db = null;
         header("Location: /install/index.php?step=3&error=no_connection");
         die();
     }
 
     /**
-    * @desc ALLRIGHT - EVERYTHING SEEMS FINE - GO ON!    
+    * @desc ALLRIGHT - EVERYTHING SEEMS FINE - GO ON!
     */
-    
-    
+    $sql = file_get_contents('clansuite.sql');
+    $db->exec($sql);
+    $error = $db->errorInfo();
+    if( $error[2] != '' )
+    {
+        $errors = true;
+    }
+
+    $creates = array();
+    /*
+    preg_match_all('#CREATE TABLE([^;]*);#s', $sql, $creates);
+    $output = '';
+
+    foreach( $creates[0] as $key => $value )
+    {
+        $db->exec($value);
+        $error = $db->errorInfo();
+        if( $error[2] != '' )
+        {
+            $errors = true;
+            $output .= '<div style="color: red; text-align: center; font-weight: bold; font-family: Verdana; font-size: 11px;">'.$error[2].'</div>';
+        }
+        else
+        {
+            $result = array();
+            preg_match('#CREATE TABLE `(.*)`#', $value, $result);
+            $output .= '<div style="color: green; text-align: center; font-weight: bold; font-family: Verdana; font-size: 11px;">'.$result[0].'</div>';
+        }
+    }
+    */
+
     /**
     * @desc Load template for the finish
     */
     require( 'install-step4.php' );
 }
-var_dump($_SESSION);
+//var_dump($_SESSION);
 session_write_close()
 ?>

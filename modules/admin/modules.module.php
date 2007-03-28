@@ -1130,6 +1130,8 @@ class module_admin_modules
 
 						// 7) Insert the custom SQL Commands
 						$sql_commands = trim(unserialize( file_get_contents( ROOT_UPLOAD . '/modules/temp/mod_sql.php' ) ) );
+                        $db->exec($sql_commands);
+                        /*
                         $cmds = preg_split('#;#',$sql_commands);
 						foreach( $cmds as $key => $value)
 						{
@@ -1139,6 +1141,7 @@ class module_admin_modules
 								$stmt->execute();
 							}
 						}
+						*/
 
 						// Ok, module is installed successfully - so:
 				  		// 8) Clean up Temp Dir and

@@ -26,11 +26,11 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL, see COPYING.txt
-    * 
+    *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
     * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
-    *  
+    *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
@@ -51,7 +51,7 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 
 /**
 * This is the Config class of Clansuite. It contains all settings.
-* 
+*
 * Variable Configuration
 * Use them while scripting in this way:
 * Class is normally initalized: $cfg = new cfg;
@@ -63,7 +63,7 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 */
 class config
 {
-    
+
     /**
      * CONSTRUCTOR
      * sets up all variables
@@ -109,7 +109,7 @@ class config
         // encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
         $this->mailencryption = 'SWIFT_OPEN';
         $this->from = 'system@clansuite.com';
-        $this->from_name = 'Clansuite Group';
+        $this->from_name = 'ClanSuite Group';
 
         // Template Configurations
 
@@ -159,7 +159,7 @@ class config
         // Maintenance Mode
 
         $this->maintenance = 0;
-        $this->maintenance_reason = 'SITE is currently undergoing scheduled maintenance. 
+        $this->maintenance_reason = 'SITE is currently undergoing scheduled maintenance.
                                      <br />Please try back in 60 minutes. Sorry for the inconvenience.';
     }
 }
