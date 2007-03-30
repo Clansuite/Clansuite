@@ -1,4 +1,4 @@
-{doc_raw}
+{doc_raw target="head"}
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/smarty_ajax.js"></script>
