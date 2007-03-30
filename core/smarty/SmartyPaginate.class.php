@@ -397,4 +397,8 @@ class SmartyPaginate {
 
 }
 
+global $SmartyPaginate;
+$SmartyPaginate = new SmartyPaginate();
+$SmartyPaginate->connect();
+
 ?>

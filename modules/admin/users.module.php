@@ -107,13 +107,12 @@ class module_admin_users
 
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
-        // required connect
-        SmartyPaginate::connect();
+
         // set URL
-        SmartyPaginate::setUrl('index.php?mod=admin&sub=users&amp;action=show');
-        SmartyPaginate::setUrlVar('page');
+        $SmartyPaginate->setUrl('index.php?mod=admin&sub=users&amp;action=show');
+        $SmartyPaginate->setUrlVar('page');
         // set items per page
-        SmartyPaginate::setLimit(20);
+        $SmartyPaginate->setLimit(20);
 
 
         // SmartyColumnSort -- Easy sorting of html table columns.
@@ -129,8 +128,8 @@ class module_admin_users
 
         // Query users
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users AS u LEFT JOIN ' . DB_PREFIX . 'profiles AS p ON p.user_id = u.user_id ORDER BY ' . $sortorder . ' LIMIT ?,?' );
-        $stmt->bindParam(1, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(2, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->bindParam(1, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(2, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
 
@@ -149,9 +148,9 @@ class module_admin_users
         }
 
         // Finally: assign total number of rows to SmartyPaginate
-        SmartyPaginate::setTotal($count[0]);
+        $SmartyPaginate->setTotal($count[0]);
         // assign the {$paginate} to $tpl (smarty var)
-        SmartyPaginate::assign($tpl);
+        $SmartyPaginate->assign($tpl);
 
         $tpl->assign( 'err', $err );
         $this->output .= $tpl->fetch('admin/users/show.tpl');
