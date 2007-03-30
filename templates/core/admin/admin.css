@@ -7,6 +7,13 @@ body
     font: 11px tahoma, verdana, arial, sans-serif;
 }
 
+#footer {
+	font-size: 1.1em;
+	color: #f00;
+	text-align: center;
+	letter-spacing: 0.1em;
+}
+
 a,
 a:link,
 a:visited

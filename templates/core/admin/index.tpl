@@ -90,6 +90,18 @@
     </table>
     <p>&nbsp;</p>
 
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+    <td class="admin_content">
+        <div id="footer">
+        <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+        	{$copyright}<br />
+        	Theme: {* {$theme-copyright} *} | &nbsp; Queries: {$query_counter}
+        </div>
+    <td>
+</tr>
+</table>
+
 {* Ajax Notification *}
 <div id="notification" style="vertical-align: middle; display: none;">
     <img src="{$www_core_tpl_root}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
