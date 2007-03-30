@@ -8,10 +8,9 @@ body
 }
 
 #footer {
-	font-size: 1.1em;
+	font: 9px tahoma, verdana, arial, sans-serif;
 	color: #f00;
-	text-align: center;
-	letter-spacing: 0.1em;
+	text-align: center;	
 }
 
 a,
@@ -119,7 +118,7 @@ a:hover
     background-color: #e3e3e3;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
-	padding: 10px;
+	padding-bottom: 10px;
 }
 
 #redirect_heading
@@ -127,7 +126,7 @@ a:hover
     position:absolute;
 	top: 50%;
 	left: 50%;
-	width:30em;
+	width: 30em;
 	margin-top: -9em; /*set to a negative number 1/2 of your height*/
 	margin-left: -15em; /*set to a negative number 1/2 of your width*/
 	background-color: #ccc;
@@ -150,8 +149,8 @@ form input,
 form textarea,
 form select
 {
-	width:auto;      /* auto-size, otherwise watch for wrap on resize */
-	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+	width: auto;      /* auto-size, otherwise watch for wrap on resize */
+	margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
                               label aligns textarea better in IE */
     padding-left: 3px;
 }
@@ -515,6 +514,3 @@ table.admintable tr#cell3
 	padding-top: 5px;
 }
 
-p {
-	margin: 1em;
-}

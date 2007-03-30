@@ -13,7 +13,7 @@
         <img src="{$www_core_tpl_root}/images/symbols/redirect.png">
     </p>
     <div class="redirect_message">
-        {$message}
+        <p>{$message}</p>
     </div>        
 </div>
 </body>

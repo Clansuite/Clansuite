@@ -284,7 +284,7 @@ class module_news_admin
                     $d = in_array( $value['news_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following news to delete: ' . $names ), 'admin' );
+                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $names, 'admin', $lang->t( 'You have selected the following news to delete:') );
                     }
                     else
                     {
