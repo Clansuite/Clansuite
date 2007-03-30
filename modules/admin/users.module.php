@@ -314,7 +314,7 @@ class module_admin_users
         */
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
 
-        $stmt->execute( array () );
+        $stmt->execute();
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Clean out profile stuff (if not existing)

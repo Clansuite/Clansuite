@@ -85,7 +85,7 @@ class module_news_admin
                 break;
 
             case 'create':
-                $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&amp;sub=admin&amp;action=show&amp;action=create');
+                $trail->addStep($lang->t('Create News'), '/index.php?mod=news&amp;sub=admin&amp;action=show&amp;action=create');
                 $this->create();
                 break;
 
@@ -149,7 +149,7 @@ class module_news_admin
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
         // Category settings
-        $sql_cat = $cat == 0 ? '' : 'AND n.cat_id = ' . $cat;
+        $sql_cat = $cat == 0 ? '' : 'WHERE n.cat_id = ' . $cat;
 
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, n.draft,
@@ -160,15 +160,14 @@ class module_news_admin
                                 LEFT JOIN '. DB_PREFIX .'categories c
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ? ' . $sql_cat . '
+                                ' . $sql_cat . '
                                 ORDER BY '. $sortorder .' LIMIT ?,?');
 
         // TODO: news with status: draft, published, private, private+protected
         $hidden = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
-        $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
-        $stmt->bindParam(3, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(4, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
+        $stmt->bindParam(2, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(3, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
@@ -272,7 +271,6 @@ class module_news_admin
             }
             $all[] = $result;
         }
-        var_dump($all);
 
         /**
          * @desc Delete the groups
@@ -286,7 +284,7 @@ class module_news_admin
                     $d = in_array( $value['news_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
+                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following news to delete: ' . $names ), 'admin' );
                     }
                     else
                     {
@@ -307,6 +305,67 @@ class module_news_admin
 
     }
 
+    /**
+    * Create news
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    * @global $tpl
+    * @global $cfg
+    */
+    function create()
+    {
+        global $db, $functions, $input, $lang, $tpl, $cfg;
+
+        // Incoming Vars
+        $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+        $infos = $_POST['infos'];
+
+        // Create news in DB
+        if( !empty($submit) )
+        {
+            // build groups
+            foreach( $infos['groups'] as $key => $value )
+            {
+                $groups .= $value . ',';
+            }
+            $groups = substr( $groups, 0, -1 );
+
+            // Query DB
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ?, visible_to_groups = ?' );
+            $stmt->execute( array(  $infos['title'],
+                                    $infos['body'],
+                                    $infos['cat_id'],
+                                    $_SESSION['user']['user_id'],
+                                    time(),
+                                    $infos['draft'],
+                                    $groups ) );
+
+            // Redirect on finish
+            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been created.' ), 'admin' );
+
+        }
+
+        // Get all groups
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
+
+        $stmt->execute();
+        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // $categories for module_news
+        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // give $newslist array to Smarty for template output
+        $tpl->assign('newscategories', $newscategories);
+
+        // Output Stuff
+        $tpl->assign( 'all_groups'  , $all_groups);
+        $this->output .= $tpl->fetch('news/admin_create.tpl');
+    }
 
     /**
     * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
