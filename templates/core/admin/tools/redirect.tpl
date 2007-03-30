@@ -6,14 +6,15 @@
 <title>{translate}Redirect - Please wait...{/translate}</title>
 </head>
 <body>
-
-<center>
-
-<div class='redirect'>
-<img src="{$www_core_tpl_root}/images/symbols/redirect.png">
-<br />
-{$message}
+<div id="redirect_heading">  
+    <p>
+        {$heading}
+        <br /> 
+        <img src="{$www_core_tpl_root}/images/symbols/redirect.png">
+    </p>
+    <div class="redirect_message">
+        {$message}
+    </div>        
 </div>
-<center>
 </body>
 </html>

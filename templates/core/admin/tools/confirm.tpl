@@ -6,12 +6,19 @@
 </head>
 <body>
 <form action="{$link}" method="post">
-    <center>
-    <div class='redirect'>
-    {$message}<br />
-    <input style="background-color: lightgreen;" type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input style="background-color: red;" type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}">
-    </div>
-    <center>
+    <div id="redirect_heading">  
+        <p>
+            {$heading}
+        </p>
+        <div class="redirect_message">
+            {$message}    
+        </div>    
+        <p>
+            <input type="submit" class="ButtonRed" name="confirm" value="{translate}Confirm{/translate}">
+            &nbsp;
+            <input type="submit" class="ButtonGreen" name="abort" value="{translate}Abort{/translate}" />
+        </p>
+    </div>    
 </form>
 </body>
 </html>
