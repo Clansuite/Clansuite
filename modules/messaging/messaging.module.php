@@ -73,42 +73,42 @@ class module_messaging
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Incoming messages'), '/index.php?mod=messaging&action=show');
+                $trail->addStep($lang->t('Incoming messages'), '/index.php?mod=messaging&amp;action=show');
                 $this->show_incoming();
                 break;
 
             case 'show_outgoing':
-                $trail->addStep($lang->t('Outgoing messages'), '/index.php?mod=messaging&action=show_outgoing');
+                $trail->addStep($lang->t('Outgoing messages'), '/index.php?mod=messaging&amp;action=show_outgoing');
                 $this->show_outgoing();
                 break;
 
             case 'read':
-                $trail->addStep($lang->t('Read messages'), '/index.php?mod=messaging&action=read');
+                $trail->addStep($lang->t('Read messages'), '/index.php?mod=messaging&amp;action=read');
                 $this->read();
                 break;
 
             case 'mark':
-                $trail->addStep($lang->t('Mark messages'), '/index.php?mod=messaging&action=mark');
+                $trail->addStep($lang->t('Mark messages'), '/index.php?mod=messaging&amp;action=mark');
                 $this->mark();
                 break;
 
             case 'multiple_mark_read':
-                $trail->addStep($lang->t('Multiple mark messages as read'), '/index.php?mod=messaging&action=multiple_mark_read');
+                $trail->addStep($lang->t('Multiple mark messages as read'), '/index.php?mod=messaging&amp;action=multiple_mark_read');
                 $this->multiple_mark_read();
                 break;
 
             case 'multiple_mark_unread':
-                $trail->addStep($lang->t('Multiple mark messages as unread'), '/index.php?mod=messaging&action=multiple_mark_unread');
+                $trail->addStep($lang->t('Multiple mark messages as unread'), '/index.php?mod=messaging&amp;action=multiple_mark_unread');
                 $this->multiple_mark_unread();
                 break;
 
             case 'delete':
-                $trail->addStep($lang->t('Delete messages'), '/index.php?mod=messaging&action=delete');
+                $trail->addStep($lang->t('Delete messages'), '/index.php?mod=messaging&amp;action=delete');
                 $this->delete();
                 break;
 
             case 'get_back':
-                $trail->addStep($lang->t('Get messages back'), '/index.php?mod=messaging&action=get_back');
+                $trail->addStep($lang->t('Get messages back'), '/index.php?mod=messaging&amp;action=get_back');
                 $this->get_back();
                 break;
 
@@ -117,7 +117,7 @@ class module_messaging
                 break;
 
             case 'create':
-                $trail->addStep($lang->t('Create'), '/index.php?mod=messaging&action=create');
+                $trail->addStep($lang->t('Create'), '/index.php?mod=messaging&amp;action=create');
                 $this->create();
                 break;
 

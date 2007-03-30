@@ -19,7 +19,7 @@
 *    along with this program; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-* @author     Björn Spiegel <firstlor@yahoo.de>
+* @author     Bjï¿½rn Spiegel <firstlor@yahoo.de>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
@@ -57,8 +57,8 @@ class module_shoutbox
         global $lang, $tpl, $trail;
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Shoutbox'), '/index.php?mod=shoutbox'); 
-       
+        $trail->addStep($lang->t('Shoutbox'), '/index.php?mod=shoutbox');
+
         // Smarty Flags:
         $tpl->assign('show_form'   , false);
         $tpl->assign('is_saved'    , false);
@@ -75,7 +75,7 @@ class module_shoutbox
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=shoutbox&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=shoutbox&amp;action=show');
                 $this->show();
                 break;
 
@@ -98,7 +98,7 @@ class module_shoutbox
         $tpl->assign('shoutbox_is_empty',   true);
         $tpl->assign('show_form',           true);
 
-        // Formular und Einträge anzeigen //
+        // Formular und Eintrï¿½ge anzeigen //
 
         // Values der Felder:
         $tpl->assign('save_entry'           , $lang->t('Save Entry'));
@@ -106,13 +106,13 @@ class module_shoutbox
         $tpl->assign('field_value_mail'     , $lang->t('Your Mail'));
         $tpl->assign('field_value_msg'      , $lang->t('Your Msg'));
 
-        // Einträge auslesen:
+        // Eintrï¿½ge auslesen:
         $stmt = $db->prepare('SELECT id, name, mail, msg, time
-                              FROM  ' . DB_PREFIX . 'shoutbox 
+                              FROM  ' . DB_PREFIX . 'shoutbox
                               ORDER BY time DESC LIMIT 0,5');
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_NAMED);
-       
+
         if ( is_array( $result ) )
         {
            $tpl->assign('shoutbox_is_empty', false);
@@ -204,7 +204,7 @@ class module_shoutbox
             $tpl->assign('shoutbox_is_empty',   true);
             $tpl->assign('show_form',           true);
 
-            // Einträge auslesen:
+            // Eintrï¿½ge auslesen:
             $stmt = $db->prepare('SELECT        id, name, mail, msg, time
                                   FROM          ' . DB_PREFIX . 'shoutbox ORDER BY time DESC LIMIT 0,5');
             $stmt->execute();

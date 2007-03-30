@@ -60,13 +60,13 @@ class module_filebrowser
         $params = func_get_args();
 
          // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser'); 
-      
+        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser');
+
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=news&action=filebrowser');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=news&amp;action=filebrowser');
                 $this->show();
                 break;
 
@@ -76,7 +76,7 @@ class module_filebrowser
 
             case 'get_folder':
                 $this->get_folder();
-                break;   
+                break;
         }
 
         return array( 'OUTPUT'          => $this->output,

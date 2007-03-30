@@ -59,43 +59,43 @@ class module_account
         {
             // Login
             case 'login':
-                $trail->addStep($lang->t('Login'), '/index.php?mod=account&action=login');
+                $trail->addStep($lang->t('Login'), '/index.php?mod=account&amp;action=login');
                 $this->login();
                 break;
 
             // Logout
             case 'logout':
-                $trail->addStep($lang->t('Logout'), '/index.php?mod=account&action=logout');
+                $trail->addStep($lang->t('Logout'), '/index.php?mod=account&amp;action=logout');
                 $this->logout();
                 break;
 
             // Registration
             case 'register':
-                $trail->addStep($lang->t('Registration'), '/index.php?mod=account&action=registration');
+                $trail->addStep($lang->t('Registration'), '/index.php?mod=account&amp;action=registration');
                 $this->register();
                 break;
 
             // Activate Account
             case 'activate_account':
-                $trail->addStep($lang->t('Activate account'), '/index.php?mod=account&action=activate_account');
+                $trail->addStep($lang->t('Activate account'), '/index.php?mod=account&amp;action=activate_account');
                 $this->activate_account();
                 break;
 
             // Send Activation Email
             case 'activation_email':
-                $trail->addStep($lang->t('Resend activation email'), '/index.php?mod=account&action=activation_email');
+                $trail->addStep($lang->t('Resend activation email'), '/index.php?mod=account&amp;action=activation_email');
                 $this->activation_email();
                 break;
 
             // Forgot Password
             case 'forgot_password':
-                $trail->addStep($lang->t('Forgot Password'), '/index.php?mod=account&action=forgot_password');
+                $trail->addStep($lang->t('Forgot Password'), '/index.php?mod=account&amp;action=forgot_password');
                 $this->forgot_password();
                 break;
 
             // Activate Password
             case 'activate_password':
-                $trail->addStep($lang->t('Activate Password'), '/index.php?mod=account&action=activate_password');
+                $trail->addStep($lang->t('Activate Password'), '/index.php?mod=account&amp;action=activate_password');
                 $this->activate_password();
                 break;
 

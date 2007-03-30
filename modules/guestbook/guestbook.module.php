@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf ï¿½ 2005-2007
     * http://www.clansuite.com/
     *
     * File:         guestbook.module.php
@@ -88,12 +88,12 @@ class module_guestbook
 
             default:
             case 'show_guestbook':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&action=show_guestbook');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&amp;action=show_guestbook');
                 $this->show_guestbook();
                 break;
 
             case 'add_guestbook_entry':
-                $trail->addStep($lang->t('Add'), '/index.php?mod=guestbook&action=add_guestbook_entry');
+                $trail->addStep($lang->t('Add'), '/index.php?mod=guestbook&amp;action=add_guestbook_entry');
                 $this->add_guestbook_entry();
                 break;
 
@@ -130,24 +130,24 @@ class module_guestbook
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'guestbook' );
         $stmt->execute();
         $guestbook = $stmt->fetchALL(PDO::FETCH_NAMED);
-      
+
         // if array contains data proceed, else show empty message
         if ( !is_array( $guestbook ) )
         {
             $this->output .= $lang->t('We are sorry to say, but your Guestbook is empty.');
         }
         else
-        {   
+        {
             // total number of guestbook entries by counting the array
-            $number_of_guestbook_entries = count($guestbook); 
-            
+            $number_of_guestbook_entries = count($guestbook);
+
             // Finally: assign total number of rows to SmartyPaginate
             SmartyPaginate::setTotal($number_of_guestbook_entries);
             // assign the {$paginate} to $tpl (smarty var)
             SmartyPaginate::assign($tpl);
-           
+
             $tpl->assign('guestbook', $guestbook);
-    
+
             /**
              * @desc Handle the output - $lang-t() translates the text.
              */
@@ -166,7 +166,7 @@ class module_guestbook
          * Incoming vars
          */
         $infos          = isset($_POST['info']) ? $_POST['info'] : array();
-        
+
         /**
          * Set Error: message and gbname were empty
          */
@@ -184,7 +184,7 @@ class module_guestbook
                  * gb_id, gb_added, gb_nick, gb_email, gb_icq, gb_website, gb_town, gb_text, gb_ip
                  */
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'guestbook (gb_added, gb_nick, gb_email, gb_icq, gb_website, gb_town, gb_text, gb_ip) VALUES (?,?,?,?,?,?,?,?)');
-                
+
                 $stmt->execute( array( time(),
                                        $infos['gbname'],
                                        $infos['gbemail'],
@@ -194,7 +194,7 @@ class module_guestbook
                                        $infos['gbmessage'],
                                        $_SESSION['client_ip']
                                        ) );
-           
+
                 $functions->redirect( 'index.php?mod=guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The entry was added successfully to the guestbook.' ) );
             }
         }
@@ -205,7 +205,7 @@ class module_guestbook
              */
             $errors['no_infos'] = 1;
         }
-        
+
 
         // Output
         $tpl->assign( 'message_errors'  , $errors );

@@ -59,13 +59,13 @@ class module_admin_modules
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&sub=modules');
+        $trail->addStep($lang->t('Modules'), '/index.php?mod=admin&amp;sub=modules');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show_all':
-                $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&sub=modules&action=show_all');
+                $trail->addStep($lang->t('Show and edit all modules'), '/index.php?mod=admin&amp;sub=modules&amp;action=show_all');
                 $this->show_all();
                 break;
 
@@ -85,22 +85,22 @@ class module_admin_modules
                 break;
 
             case 'install_new':
-                $trail->addStep($lang->t('Install new modules'), '/index.php?mod=admin&sub=modules&action=install_new');
+                $trail->addStep($lang->t('Install new modules'), '/index.php?mod=admin&amp;sub=modules&amp;action=install_new');
                 $this->install_new();
                 break;
 
             case 'create_new':
-                $trail->addStep($lang->t('Create a new module'), '/index.php?mod=admin&sub=modules&action=create_new');
+                $trail->addStep($lang->t('Create a new module'), '/index.php?mod=admin&amp;sub=modules&amp;action=create_new');
                 $this->create_new();
                 break;
 
             case 'export':
-                $trail->addStep($lang->t('Export a module'), '/index.php?mod=admin&sub=modules&action=export');
+                $trail->addStep($lang->t('Export a module'), '/index.php?mod=admin&amp;sub=modules&amp;action=export');
                 $this->export();
                 break;
 
             case 'import':
-                $trail->addStep($lang->t('Import a module'), '/index.php?mod=admin&sub=modules&action=import');
+                $trail->addStep($lang->t('Import a module'), '/index.php?mod=admin&amp;sub=modules&amp;action=import');
                 $this->import();
                 break;
 
@@ -557,8 +557,8 @@ class module_admin_modules
                 if ( file_exists( ROOT_MOD . '/' . $name . '.module.php' ) )
                 {
                     // - todo -
-                    // sicherstellen das hauptmodul fr submodul als file besteht.
-                    // eigentlich msste das main_module_exists sein oder?
+                    // sicherstellen das hauptmodul fï¿½r submodul als file besteht.
+                    // eigentlich mï¿½sste das main_module_exists sein oder?
 
                     // take care, that modul exists as file
                     $err['sub_already_exists'] = 1;

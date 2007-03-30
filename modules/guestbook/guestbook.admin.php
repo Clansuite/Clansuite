@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf ï¿½ 2005-2007
     * http://www.clansuite.com/
     *
     * File:         guestbook.module.php
@@ -67,31 +67,31 @@ class module_guestbook_admin
 
     function auto_run()
     {
-        global $lang,$trail;        
+        global $lang,$trail;
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook&sub=admin');
+        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook&amp;sub=admin');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&sub=admin&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
                 $this->show();
-                break; 
-            
+                break;
+
             case 'add_admincomment':
-                $trail->addStep($lang->t('Add Admincomment'), '/index.php?mod=guestbook&sub=admin&action=add_admincomment');
+                $trail->addStep($lang->t('Add Admincomment'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=add_admincomment');
                 $this->add_admincomment();
-                break; 
-            
-                
+                break;
+
+
             case 'delete':
                 $this->delete();
-                break;   
-                         
+                break;
+
         }
 
         return array( 'OUTPUT'          => $this->output,
@@ -126,16 +126,16 @@ class module_guestbook_admin
         $columnsort->setDefault('gb_added', 'desc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
-        
+
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX .'guestbook
                               ORDER BY '. $sortorder .' LIMIT ?,?');
-                              
+
         $stmt->bindParam(1, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
         $stmt->bindParam(2, SmartyPaginate::getLimit(), PDO::PARAM_INT );
         $stmt->execute();
-        $guestbook_entries = $stmt->fetchAll(PDO::FETCH_NAMED); 
-        
+        $guestbook_entries = $stmt->fetchAll(PDO::FETCH_NAMED);
+
         // Get Number of Rows
         $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'guestbook');
         $rows->execute();
@@ -146,8 +146,8 @@ class module_guestbook_admin
         // Finally: assign total number of rows to SmartyPaginate
         SmartyPaginate::setTotal($count[0]);
         // assign the {$paginate} to $tpl (smarty var)
-        SmartyPaginate::assign($tpl);   
-        
+        SmartyPaginate::assign($tpl);
+
             // give $newslist array to Smarty for template output
         $tpl->assign('guestbook', $guestbook_entries);
 
@@ -155,37 +155,37 @@ class module_guestbook_admin
          * Handle the output - $lang-t() translates the text.
          */
         $this->output = $tpl->fetch('guestbook/show_admin.tpl');
-        
+
     }
-    
+
     function add_admincomment()
     {
         global $tpl, $db, $functions, $input, $lang;
-           
+
         /**
          * Incoming vars
          */
         $submit     = $_POST['submit'];
         $info       = isset($_POST['info']) ? $_POST['info'] : array();
         $gb_id      = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['gb_id'];
-        
+
         /**
          * @desc Insert on submit, no error
          */
         if ( !empty( $submit ) && count($errors) == 0 )
-        {        
+        {
              /**
              * Set Error: admin comment
              */
             if( empty($info['gb_admincomment']) ) $errors['fill_form']    = 1;
-           
+
             /**
              * @desc Insert the area into the DB
              */
               echo 'info';    var_dump($info);
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook SET gb_admincomment = ? WHERE gb_id = ?');
             $stmt->execute( array ( $info['gb_admincomment'], $info['gb_id'] ) );
-            
+
             /**
              * @desc Redirect...
              */
@@ -197,17 +197,17 @@ class module_guestbook_admin
             // so attach gb_id from url to the first output of the add_admincomment.tpl
              $info['gb_id'] = $gb_id;
         }
-        
+
         // Output
         $tpl->assign( 'errors'  , $errors );
         $tpl->assign( 'info'    , $info);
-        $this->output .= $tpl->fetch( 'guestbook/add_admincomment.tpl' ); 
-    }   
-    
+        $this->output .= $tpl->fetch( 'guestbook/add_admincomment.tpl' );
+    }
+
     function delete()
     {
         global $db, $functions, $input, $lang;
-     
+
         // Init
         $submit     = $_POST['submit'];
         $confirm    = $_POST['confirm'];
@@ -218,11 +218,11 @@ class module_guestbook_admin
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
 
         echo 'to delete :' . count($delete);
-        var_dump($delete); 
-        
+        var_dump($delete);
+
         echo 'ids:';
         var_dump($ids);
-        
+
         // Check, if there is a delete request
         if ( count($delete) < 1 )
         {
@@ -235,7 +235,7 @@ class module_guestbook_admin
             $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show' );
         }
 
-        // Create the select to fetch (the Entries to delete) from DB 
+        // Create the select to fetch (the Entries to delete) from DB
         // to have more infos to ask and decide on deletion
         $select = 'SELECT gb_id, gb_nick, gb_text FROM ' . DB_PREFIX . 'guestbook WHERE ';
         foreach ( $delete as $key => $id )
@@ -243,9 +243,9 @@ class module_guestbook_admin
             $select .= 'gb_id = ' . $id . ' OR ';
         }
         // code by xsign
-        // @todo explain reason for settings this: [OR user_id = -1000] 
+        // @todo explain reason for settings this: [OR user_id = -1000]
         $select .= 'gb_id = -1000';
-        
+
         // prepare and execute the constructed select
         $stmt = $db->prepare( $select );
         $stmt->execute();
@@ -256,8 +256,8 @@ class module_guestbook_admin
                 $names = '<br /># ' . $result['gb_id'] . ' by ' . $result['gb_nick'] . ' <b>' .  $result['gb_text'] . '</b>';
             }
             $all_gb_entries_to_delete[] = $result;
-        }        
-        
+        }
+
         // Delete Groups
         foreach( $all_gb_entries_to_delete as $key => $value )
         {
@@ -286,7 +286,7 @@ class module_guestbook_admin
         $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected guestbook entr(y/ies) were deleted.' ), 'admin' );
 
     }
-        
-}    
+
+}
 
 ?>
