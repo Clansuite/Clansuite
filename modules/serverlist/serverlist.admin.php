@@ -177,7 +177,7 @@ class module_serverlist_admin
     /**
     * @desc Handle the output - $lang-t() translates the text.
     */
-    $this->output .= $tpl->fetch('serverlist/show_admin.tpl');
+    $this->output .= $tpl->fetch('serverlist/admin_show.tpl');
     }
 
     /**

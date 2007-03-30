@@ -65,7 +65,7 @@ class debug
      * @global $db
      * @return $attributes
      */
-     
+
     function return_pdo_attributes_array()
     {
        global $db,$cfg;
@@ -73,28 +73,28 @@ class debug
        /**
         * save current errorlevel
         */
-       
+
        $old_suppress = $cfg->suppress_errors;
-       
+
        /**
-        * Suppress Errors 
+        * Suppress Errors
         * If Attribut unknown to Db-Driver, Error is thrown
         * Cause: SQLSTATE[IM001]: Driver does not support this function: driver does not support that attribute
         */
-        
+
        $cfg->suppress_errors = 1;
 
        /**
         * Set PDO Errormode Silent
         */
-        
+
        $old_pdo_errormode = $db->getAttribute(PDO::ATTR_ERRMODE);
        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 
        /**
-        * Whitelist PDO::ATTR_* Attributs 
+        * Whitelist PDO::ATTR_* Attributs
         */
-        
+
        $attributes_names = array(   "AUTOCOMMIT",
                                     "ERRMODE",
                                     "CASE",
@@ -103,11 +103,11 @@ class debug
                                     "PERSISTENT",
                                     "SERVER_INFO",
                                     "SERVER_VERSION");
-                                    
+
         /**
          * Loop over PDO::ATTR_* with $attributes_names
          */
-         
+
         foreach ($attributes_names as $val)
         {
           $attributes['PDO::ATTR_'.$val] = $db->getAttribute(constant('PDO::ATTR_'.$val));
@@ -116,13 +116,13 @@ class debug
         /**
          * Set PDO Errormode back to old Errorlevel
          */
-         
+
         $db->setAttribute(PDO::ATTR_ERRMODE, $old_pdo_errormode);
 
         /**
          * Set Suppress_errors to $old_errorlevel
          */
-         
+
         $cfg->suppress_errors = $old_suppress;
 
         return $attributes;
@@ -153,7 +153,7 @@ class debug
      * @global $error
      * @global $lang
      * @global $modules
-     * @todo note by vain: check with xdebug for array doubling. guess 
+     * @todo note by vain: check with xdebug for array doubling. guess
      *       it's ok, because of the better debug overview
      */
 
@@ -164,7 +164,7 @@ class debug
         /**
          * Setup Arrays
          */
-         
+
         $debug_superglobals = array();
         $debug_db = array();
         $debug = array();
@@ -173,7 +173,7 @@ class debug
          * Superglobals ($_VARS)
          * some vars excluded, because not needed
          */
-         
+
         $debug_superglobals['cookies']       = $_COOKIE;
         $debug_superglobals['get']           = $_GET;
         $debug_superglobals['post']          = $_POST;
@@ -187,7 +187,7 @@ class debug
         /**
          * Database related Informations
          */
-         
+
         $debug_db['queries']       = $db->queries;
         $debug_db['prepares']      = $db->prepares;
         $debug_db['execs']         = $db->execs;
@@ -196,33 +196,33 @@ class debug
         /**
          * Config Settings, Errors, Languages, Modules
          */
-         
+
         $debug['config']       = $cfg;
         $debug['error_log']     = $error->error_log;
         $debug['lang_loaded']   = $lang->loaded;
         $debug['mods_loaded']   = $modules->loaded;
-        
+
         /**
          * Toggle for DebugConsole to be displayed inline or as popup
          */
-         
+
         $debug['debug_popup']   = $cfg->debug_popup;
 
         /**
          * Assign Arrays to tpl-vars
          */
-         
+
         $tpl->assign( 'debug_globals'       , $debug_superglobals );
         $tpl->assign( 'debug_db'            , $debug_db );
         $tpl->assign( 'debug'               , $debug );
-        
+
         /**
          * Display Debug Template
          * by addingRawContent before DisplayDoc( maintemplate) is called
          * at position body_post, that means before site-closing by </body></html>
          */
-         
-        $tpl->addRawContent( $tpl->fetch('debug.tpl'), '', 'body_post' );       
+
+        $tpl->addRawContent( $tpl->fetch('debug.tpl'), '', 'body_post' );
     }
 }
 ?>
