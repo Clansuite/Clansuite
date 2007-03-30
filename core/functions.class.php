@@ -48,7 +48,7 @@ class functions
     * @desc Redirection modes
     */
 
-    function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user' )
+    function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user', $heading = '' )
     {
         global $session, $tpl, $cfg;
 
@@ -129,15 +129,17 @@ class functions
                 }
                 $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
                 $tpl->assign( 'redirect', $redirect );
-                $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
+                
                 $tpl->assign( 'message', $message );
                 session_write_close();
                 if ( $use_tpl == 'admin' )
                 {
+                    $tpl->assign( 'css', WWW_ROOT . '/templates/core/admin/admin.css');
                     $tpl->display( 'admin/tools/redirect.tpl' );
                 }
                 else
                 {
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                     $tpl->display( 'tools/redirect.tpl' );
                 }
                 exit;
@@ -166,15 +168,17 @@ class functions
                     }
                 }
                 $tpl->assign( 'link', $url );
-                $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                 $tpl->assign( 'message', $message );
+                $tpl->assign( 'heading', $heading );
                 session_write_close();
                 if ( $use_tpl == 'admin' )
                 {
+                    $tpl->assign( 'css', WWW_ROOT . '/templates/core/admin/admin.css');
                     $tpl->display( 'admin/tools/confirm.tpl' );
                 }
                 else
-                {
+                {   
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
                     $tpl->display( 'tools/confirm.tpl' );
                 }
                 exit;
