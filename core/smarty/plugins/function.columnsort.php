@@ -59,7 +59,7 @@ function smarty_function_columnsort($params, &$smarty) {
 		return;
 	}
 
-	if($params['translate'] == 1)
+	if($params['translate'] != 0)
 	{
 	   $params['html'] = $lang->t($params['html']);
 	}

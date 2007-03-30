@@ -77,17 +77,17 @@ class module_news_admin
 
             case 'create':
                 $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&sub=admin&action=show&action=create');
-                $this->create_server();
+                $this->create_news();
                 break;
 
             case 'edit':
                 $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&sub=admin&action=show&action=edit');
-                $this->edit_server();
+                $this->edit_news();
                 break;
 
             case 'delete':
                 $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&sub=admin&action=show&action=delete');
-                $this->delete_server();
+                $this->delete_news();
                 break;
         }
 
@@ -108,14 +108,17 @@ class module_news_admin
 
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
-        // required connect
-        SmartyPaginate::connect();
-        // set URL
-        SmartyPaginate::setUrl('index.php?mod=news&action=archiv');
-        SmartyPaginate::setUrlVar('page');
-        // set items per page
-        SmartyPaginate::setLimit(20);
 
+        // required connect
+        $SmartyPaginate = new SmartyPaginate();
+        $SmartyPaginate->connect();
+
+        // set URL
+        $SmartyPaginate->setUrl('index.php?mod=news&action=archiv');
+        $SmartyPaginate->setUrlVar('page');
+        // set items per page
+        $SmartyPaginate->setLimit(20);
+        echo "peter stinkt";
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
@@ -132,7 +135,7 @@ class module_news_admin
         $sql_cat = $cat == 0 ? '' : 'AND n.cat_id = ' . $cat;
 
         // $newsarchiv = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
+        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, n.draft,
                                      n.user_id, u.nick,
                                      n.cat_id, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
@@ -147,8 +150,8 @@ class module_news_admin
         $hidden = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
         $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
-        $stmt->bindParam(3, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(4, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->bindParam(3, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(4, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
@@ -160,9 +163,9 @@ class module_news_admin
         // echo 'Found Rows: ' . $count;
 
         // Finally: assign total number of rows to SmartyPaginate
-        SmartyPaginate::setTotal($count[0]);
+        $SmartyPaginate->setTotal($count[0]);
         // assign the {$paginate} to $tpl (smarty var)
-        SmartyPaginate::assign($tpl);
+        $SmartyPaginate->assign($tpl);
 
         // $categories for module_news
         $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );

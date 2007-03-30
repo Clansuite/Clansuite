@@ -14,7 +14,7 @@
                 <option value="0">-- {translate}all{/translate} --</option>
 
                 {foreach item=cats from=$newscategories}
-                    <option value="{$cats.cat_id}" {if $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name}</option>
+                    <option value="{$cats.cat_id}" {if isset($smarty.post.cat_id) && $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name}</option>
                 {/foreach}
 
             </select>
@@ -39,12 +39,12 @@
 </table>
 <table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
     <tr class="tr_header">
-        <th width="150px">{columnsort html='Date' translate='1'}</th>
+        <th width="150px">{columnsort html='Date'}</th>
         <th>{columnsort selected_class="selected"
-                        html='Title' translate='1'}</th>
-        <th>{columnsort html='Category' translate='1'}</th>
-        <th>{columnsort html='Author' translate='1'}</th>
-        <th>{columnsort html='Draft' translate='1'}</th>
+                        html='Title'}</th>
+        <th>{columnsort html='Category'}</th>
+        <th>{columnsort html='Author'}</th>
+        <th>{columnsort html='Draft'}</th>
         <th width="1%">{translate}Edit{/translate}</th>
         <th width="1%">{translate}Delete{/translate}</th>
     </tr>
