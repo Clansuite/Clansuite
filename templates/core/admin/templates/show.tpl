@@ -37,7 +37,7 @@
        
         </script>
         
-        <script>
+        <script type="text/javascript">
         	function getTemplateFile(filename){
         	    var url = 'index.php?mod=admin&sub=templates&action=ajax_get';
         		//alert('File:' + filename.id);
