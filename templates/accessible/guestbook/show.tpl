@@ -1,6 +1,13 @@
 <h1>{translate}Guestbook{/translate}</h1>
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *} 
 
+{doc_raw}
+{* Include Lightbox *}
+<link rel="stylesheet" href="{$www_core_tpl_root}/javascript/lightbox/css/lightbox.css" type="text/css" />
+<script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
+<script src="{$www_core_tpl_root}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+{/doc_raw}
+
 {* ############### Guestbook Add Entry ##################### *}
 
 <script src="{$www_core_tpl_root}/javascript/clip.js" type="text/javascript"></script>
@@ -81,7 +88,9 @@ Entries {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
     <br />
     if isset $entry.gb_admincomment -> anzeigen + [BUTTON: edit]
     <br />
-    if not set = [BUTTON: add admin comment]
+    <p class="lightbox"> if not set =    </p>
+    <a href="{$www_tpl_root}/guestbook/add_admincoment_front.tpl" class="lbOn"> [BUTTON: add admin comment] </a>
+    
     <br />
     <hr />
 {/foreach}
