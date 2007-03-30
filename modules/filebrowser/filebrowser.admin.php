@@ -46,7 +46,7 @@ if (!defined('IN_CS'))
 class module_filebrowser_admin
 {
     public $output          = '';
-    
+
     public $additional_head = '';
     public $suppress_wrapper= '';
 
@@ -57,32 +57,32 @@ class module_filebrowser_admin
 
     function auto_run()
     {
-        
+
         global $lang;
         $params = func_get_args();
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser&sub=admin');
-        
+        $trail->addStep($lang->t('Filebrowser'), '/index.php?mod=filebrowser&amp;sub=admin');
+
         switch ($_REQUEST['action'])
         {
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=filebrowser&sub=admin&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=filebrowser&amp;sub=admin&amp;action=show');
                 $this->show();
                 break;
 
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
-                
+
             default:
                 $this->show();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
-                      
+
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
@@ -93,13 +93,13 @@ class module_filebrowser_admin
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= $lang->t('This is the admin submodule. Here you can place all administrative stuff you need for your module.');
     }
-    
+
     /**
     * @desc This content can be instantly displayed by adding {mod name="filebrowser" sub="admin" func="instant_show" params="mytext"} into a template
     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
@@ -107,7 +107,7 @@ class module_filebrowser_admin
     function instant_show($my_text)
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */

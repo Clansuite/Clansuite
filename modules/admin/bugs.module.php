@@ -61,13 +61,13 @@ class module_admin_bugs
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Bugs'), '/index.php?mod=admin&sub=bugs');
+        $trail->addStep($lang->t('Bugs'), '/index.php?mod=admin&amp;sub=bugs');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=bugs&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=bugs&amp;action=show');
                 $this->show();
                 break;
 

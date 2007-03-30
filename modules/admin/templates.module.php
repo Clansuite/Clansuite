@@ -56,27 +56,27 @@ class module_admin_templates
 
     function auto_run()
     {
-        
+
         global $lang, $trail;
         $params = func_get_args();
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Templates'), '/index.php?mod=admin&sub=templates'); 
-              
+        $trail->addStep($lang->t('Templates'), '/index.php?mod=admin&amp;sub=templates');
+
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=templates&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=templates&amp;action=show');
                 $this->show();
                 break;
-                
+
             case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&sub=templates&action=edit');
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&amp;sub=templates&amp;action=edit');
                 $this->edit();
                 break;
-                
+
             case 'ajax_get':
                 $this->ajax_get();
                 break;
@@ -85,7 +85,7 @@ class module_admin_templates
                 $this->ajax_save();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
@@ -97,7 +97,7 @@ class module_admin_templates
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
@@ -105,20 +105,20 @@ class module_admin_templates
         $tpl->assign( 'folder_tree', $this->build_folder_tree( ROOT_TPL ) );
         $this->output .= $tpl->fetch( 'admin/templates/show.tpl' );
     }
-    
+
     /**
     * @desc Build folder tree
     */
     function build_folder_tree( $path, $x = 0 )
     {
         global $cfg, $tpl;
-        
+
         $result  = ''; //todo: $x is not suitable in recursion
-        
+
         $file_count = 0;
-        
+
         foreach( glob( $path . '/*', GLOB_BRACE) as $file )
-        {   
+        {
             if($file != '.' && $file != '..' && $file != '.svn')
             {
                 if ( is_dir( $file ) )
@@ -154,56 +154,56 @@ class module_admin_templates
             $result .= "</div>\n";
         }
         $result .= "</div>\n";
-        return $result;           
+        return $result;
     }
-    
+
     /**
     * @desc Edit a template
     */
     function edit()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
-        
+
         $this->output .= $tpl->fetch('admin/templates/show.tpl');
     }
-    
+
     /**
     * @desc Get the tpl
     */
     function ajax_get()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         $filename = $_POST['filename'];
-        
-        // todo ; security 
+
+        // todo ; security
         // 1. cut filename path down to /templates
-        // 2. add template path + filename to prevent from fetching files outside of template-dir or upper dirs     
-                
+        // 2. add template path + filename to prevent from fetching files outside of template-dir or upper dirs
+
         $this->output .= file_get_contents( $filename );
         $this->suppress_wrapper = true;
     }
-    
+
     /**
     * @desc Save the tpl
     */
     function ajax_save()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
-        
+
         $filename   = $_POST['filename'];
         $content    = $_POST['content'];
-        
-        // todo ; security 
+
+        // todo ; security
         // 1. cut filename path down to /templates
-        // 2. add template path + filename to prevent from saving files outside of template-dir or upper dirs  
-        
+        // 2. add template path + filename to prevent from saving files outside of template-dir or upper dirs
+
         file_put_contents( urldecode($filename), urldecode($content) );
-        
+
         $this->output .= 'Saved!';
         $this->suppress_wrapper = true;
     }

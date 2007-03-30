@@ -61,18 +61,18 @@ class module_admin_themes
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Themes'), '/index.php?mod=admin&sub=themes');
+        $trail->addStep($lang->t('Themes'), '/index.php?mod=admin&amp;sub=themes');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=themes&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=themes&amp;action=show');
                 $this->show();
                 break;
 
             case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&sub=themes&action=edit');
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&amp;sub=themes&amp;action=edit');
                 $this->edit();
                 break;
 
@@ -99,15 +99,15 @@ class module_admin_themes
 
         // 1. installed themes
             // a. check /templates/* dirs | exclude core | get theme.xml
-            
+
             $counter = 0;
             foreach( glob( ROOT_TPL . "/*", GLOB_BRACE|GLOB_ONLYDIR) as $directory )
-            {   
-               // exclude 'core' dir 
-               // todo insert exclude pattern into glob? 
+            {
+               // exclude 'core' dir
+               // todo insert exclude pattern into glob?
                // {[!c]} (excludes all dirs starting with c
-               if ($directory == ROOT_TPL . '/core') 
-               { 
+               if ($directory == ROOT_TPL . '/core')
+               {
                 //nothing
                }
                else
@@ -120,12 +120,12 @@ class module_admin_themes
                    $counter++;
                }
             }
-            
+
             // b. get xml description file
-            
-            
-            
-            
+
+
+
+
             // c. get theme preview picture
             // d. choose this as default for all, choose this as my theme
             // e. preview theme
@@ -135,14 +135,14 @@ class module_admin_themes
 
         // 4.
 
-    
+
         //$tpl->assign( 'info', $this->build_folder_tree( ROOT_TPL ) );
         $tpl->assign( 'info', $theme_folders );
         //"{*.png,*.txt}"
         $this->output .= $tpl->fetch( 'admin/themes/show.tpl' );
     }
-    
-  
+
+
 
     /**
     * @desc Build folder tree

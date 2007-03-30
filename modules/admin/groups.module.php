@@ -29,7 +29,7 @@
 */
 
 /*
--- Tabellenstruktur für Tabelle `cs_usergroups`
+-- Tabellenstruktur fï¿½r Tabelle `cs_usergroups`
 
 CREATE TABLE `cs_usergroups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
@@ -42,7 +42,7 @@ CREATE TABLE `cs_usergroups` (
   PRIMARY KEY  (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- Daten für Tabelle `cs_usergroups`
+-- Daten fï¿½r Tabelle `cs_usergroups`
 
 INSERT INTO `cs_usergroups` VALUES (1, 1, 'Administrator', NULL, '0000FF', NULL);
 */
@@ -74,39 +74,39 @@ class module_admin_groups
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Groups'), '/index.php?mod=admin&sub=groups');
+        $trail->addStep($lang->t('Groups'), '/index.php?mod=admin&amp;sub=groups');
 
         switch ($_REQUEST['action'])
-        {   
+        {
             // direct actions on groups
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=groups&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=groups&amp;action=show');
                 $this->show_groups();
                 break;
 
             case 'create':
-                $trail->addStep($lang->t('Create a new group'), '/index.php?mod=admin&sub=groups&action=create');
+                $trail->addStep($lang->t('Create a new group'), '/index.php?mod=admin&amp;sub=groups&amp;action=create');
                 $this->create_group();
                 break;
 
             case 'edit':
-                $trail->addStep($lang->t('Edit a group'), '/index.php?mod=admin&sub=groups&action=edit');
+                $trail->addStep($lang->t('Edit a group'), '/index.php?mod=admin&amp;sub=groups&amp;action=edit');
                 $this->edit_group();
                 break;
 
             case 'delete':
                 $this->delete_group();
                 break;
-            
+
             // indirect actions related to groups/membership operations
             case 'members':
-                $trail->addStep($lang->t('Show Group and its Members'), '/index.php?mod=admin&sub=groups&action=members');
+                $trail->addStep($lang->t('Show Group and its Members'), '/index.php?mod=admin&amp;sub=groups&amp;action=members');
                 $this->show_group_members($group_id);
                 break;
-            
+
             case 'add_members':
-                $trail->addStep($lang->t('Add members'), '/index.php?mod=admin&sub=groups&action=add_members');
+                $trail->addStep($lang->t('Add members'), '/index.php?mod=admin&amp;sub=groups&amp;action=add_members');
                 $this->add_members();
                 break;
 
@@ -178,7 +178,7 @@ class module_admin_groups
         $submit     = $_POST['submit'];
         $info       = $_POST['info'];
         $sets       = '';
-        
+
         // Icons & Images
         $icons  = array();
         foreach( glob( ROOT_TPL . '/core/images/groups/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
@@ -309,7 +309,7 @@ class module_admin_groups
                                    NOT IN( SELECT user_id FROM ' . DB_PREFIX . 'user_groups WHERE group_id = ? ) ORDER BY nick ASC');
             $stmt2->execute( array ( $group_id ));
             $info['users_not_in_group'] = $stmt2->fetchAll(PDO::FETCH_NAMED);
-            
+
             // Get Informations about $group_id
             $stmt3 = $db->prepare('SELECT g.*
                                    FROM ' . DB_PREFIX . 'groups g

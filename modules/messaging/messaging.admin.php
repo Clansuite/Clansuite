@@ -62,14 +62,14 @@ class module_messaging_admin
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Messaging'), '/index.php?mod=messaging&sub=admin');
+        $trail->addStep($lang->t('Messaging'), '/index.php?mod=messaging&amp;sub=admin');
 
         switch ($_REQUEST['action'])
         {
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=messaging&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=messaging&amp;action=show');
                 $this->show();
                 break;
 

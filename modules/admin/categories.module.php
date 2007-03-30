@@ -44,7 +44,7 @@ class module_admin_categories
     public $output          = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
-    
+
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loading necessary language files
@@ -53,40 +53,40 @@ class module_admin_categories
     function auto_run()
     {
         global $lang, $trail;
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Categories'), '/index.php?mod=admin&sub=categories');
-               
+        $trail->addStep($lang->t('Categories'), '/index.php?mod=admin&amp;sub=categories');
+
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=categories&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=categories&amp;action=show');
                 $this->show_categories();
                 break;
-                
+
             case 'create':
-                $trail->addStep($lang->t('Create Category'), '/index.php?mod=admin&sub=categories&action=create');
+                $trail->addStep($lang->t('Create Category'), '/index.php?mod=admin&amp;sub=categories&amp;action=create');
                 $this->create_categories();
                 break;
-    
+
             case 'edit':
-                $trail->addStep($lang->t('Edit Categories'), '/index.php?mod=admin&sub=categories&action=edit');
+                $trail->addStep($lang->t('Edit Categories'), '/index.php?mod=admin&amp;sub=categories&amp;action=edit');
                 $this->edit_categories();
                 break;
-                
+
             case 'delete':
-                $trail->addStep($lang->t('Delete Categories'), '/index.php?mod=admin&sub=categories&action=delete');
+                $trail->addStep($lang->t('Delete Categories'), '/index.php?mod=admin&amp;sub=categories&amp;action=delete');
                 $this->delete_categories();
                 break;
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
-    
+
     /**
     * @desc Show categories
     */
@@ -98,29 +98,29 @@ class module_admin_categories
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories' );
         $stmt->execute( );
         $categories = $stmt->fetchAll(PDO::FETCH_NAMED);
-       
-        // Prepared Statement 2: 
+
+        // Prepared Statement 2:
         // get modulname by module_id of every category
         $stmt2 = $db->prepare('SELECT name FROM ' . DB_PREFIX . 'modules WHERE module_id = ?');
-       
+
         $i = 0;
         foreach( $categories as $category )
-        {   
+        {
             // if category belongs to a module
-            if ( $category['module_id'] != NULL ) {            
-            
+            if ( $category['module_id'] != NULL ) {
+
             // Execute Statement 2:
             $stmt2->execute(  array ( $category['module_id'] ) );
             $categories[$i]['module_name'] = $stmt2->fetch(PDO::FETCH_COLUMN);
             }
-            else 
+            else
             // if category belongs not to any module
-            { 
+            {
             $categories[$i]['module_name'] = 'none';
             }
-        $i++;            
+        $i++;
         }
-                
+
         if ( is_array( $categories ) )
         {
             $tpl->assign('categories', $categories);
@@ -129,49 +129,49 @@ class module_admin_categories
         {
         $this->output .= 'No Categories could be found.';
         }
-       
+
         $this->output .= $tpl->fetch('admin/categories/show.tpl');
     }
-    
+
     /**
     * @desc Create a Category
     */
     function create_categories()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
-       
+
         /**
         * @desc Init
         */
         $submit     = $_POST['submit'];
-        $info       = $_POST['info'];      
-        $sets       = '';        
+        $info       = $_POST['info'];
+        $sets       = '';
         /**
         * @desc Icons & Images
         */
-        $icons  = array();    
+        $icons  = array();
         foreach( glob( ROOT_TPL . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
-            $icons[] = preg_replace( '#^(.*)/#', '', $file);   
+            $icons[] = preg_replace( '#^(.*)/#', '', $file);
         }
         $tpl->assign( 'icons'   , $icons );
-        
 
-        $images  = array();    
+
+        $images  = array();
         foreach( glob( ROOT_TPL . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
-            $images[] = preg_replace( '#^(.*)/#', '', $file);   
+            $images[] = preg_replace( '#^(.*)/#', '', $file);
         }
         $tpl->assign( 'images'   , $images );
-        
+
         /**
         * @desc Select all modules
         */
         $stmt = $db->prepare( 'SELECT module_id, name FROM ' . DB_PREFIX . 'modules' );
         $stmt->execute();
         $modules= $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-            
+
+
         if ( !empty( $submit ) )
         {
             /**
@@ -182,19 +182,19 @@ class module_admin_categories
             $cats = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $cats ) )
             {
-                $err['name_already'] = 1;        
+                $err['name_already'] = 1;
             }
-            
+
             /**
             * @desc Form filled?
             */
-            if( empty($info['name']) OR 
+            if( empty($info['name']) OR
                 empty($info['description']))
             {
-                $err['fill_form'] = 1;   
+                $err['fill_form'] = 1;
             }
         }
-        
+
         /**
         * @desc No errors - procceed to edit
         */
@@ -208,29 +208,29 @@ class module_admin_categories
             $stmt->execute( array ( $info['module_id'],
                                     $info['sortorder'],
                                     $info['name'],
-                                    $info['description'], 
+                                    $info['description'],
                                     $info['image'],
                                     $info['icon'],
                                     $info['color']) );
-             
+
             /**
             * @desc Redirect...
             */
             $functions->redirect( 'index.php?mod=admin&sub=categories&action=show', 'metatag|newsite', 3, $lang->t( 'The Category has been created.' ), 'admin' );
-    
+
         }
-        
+
         /**
         * @desc Assign & Show template
         */
         $tpl->assign( 'modules'     , $modules );
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch('admin/categories/create.tpl');
-       
+
     }
-    
-             
-    
+
+
+
     /**
     * @desc Edit Categories
     */
@@ -238,7 +238,7 @@ class module_admin_categories
     function edit_categories()
     {
          global $db, $tpl, $error, $lang, $functions, $input;
-       
+
         /**
         * @desc Init
         */
@@ -246,25 +246,25 @@ class module_admin_categories
         $info       = $_POST['info'];
         $id         = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['id'];
         $sets       = '';
-        $images     = array();            
+        $images     = array();
         $icons      = array();
-        
+
         /**
         * @desc Get the images
         */
         foreach( glob( ROOT_TPL . '/core/images/categories/icons/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
-            $icons[] = preg_replace( '#^(.*)/#', '', $file);   
+            $icons[] = preg_replace( '#^(.*)/#', '', $file);
         }
         $tpl->assign( 'icons'   , $icons );
-        
+
 
         foreach( glob( ROOT_TPL . '/core/images/categories/images/{*.jpg,*.JPG,*.png,*.PNG,*.gif,*.GIF}', GLOB_BRACE) as $file )
         {
-            $images[] = preg_replace( '#^(.*)/#', '', $file);   
+            $images[] = preg_replace( '#^(.*)/#', '', $file);
         }
         $tpl->assign( 'images'   , $images );
-        
+
         /**
         * @desc Category already stored?
         */
@@ -277,7 +277,7 @@ class module_admin_categories
                 $cat_already = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ( is_array( $cat_already ) )
                 {
-                    $err['name_already'] = 1;        
+                    $err['name_already'] = 1;
                 }
             }
         }
@@ -289,25 +289,25 @@ class module_admin_categories
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE cat_id = ?' );
             $stmt->execute( array( $id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             /**
             * @desc Select all avaiable modules
             */
             $stmt2 = $db->prepare('SELECT module_id, name FROM ' . DB_PREFIX . 'modules ');
             $stmt2->execute();
             $modules = $stmt2->fetchALL(PDO::FETCH_ASSOC);
-            
+
         }
-        
+
         /**
         * @desc Form filled?
         */
-        if( ( empty($info['name'] ) OR 
+        if( ( empty($info['name'] ) OR
               empty($info['description']) ) AND !empty($submit) )
         {
-            $err['fill_form'] = 1;   
-        }        
-        
+            $err['fill_form'] = 1;
+        }
+
         if ( !empty($submit) AND count($err) == 0 )
         {
             /**
@@ -318,20 +318,20 @@ class module_admin_categories
             $stmt->execute( array ( $info['module_id'],
                                     $info['sortorder'],
                                     $info['name'],
-                                    $info['description'], 
+                                    $info['description'],
                                     $info['image'],
                                     $info['icon'],
                                     $info['color'],
                                     $info['cat_id'] ) );
-                                                                              
+
         /**
         * @desc Redirect...
         */
         $functions->redirect( 'index.php?mod=admin&sub=categories&action=show', 'metatag|newsite', 3, $lang->t( 'The categories have been edited.' ), 'admin' );
-        
+
         }
-        
-        
+
+
         /**
         * @desc Assign & show template
         */
@@ -340,14 +340,14 @@ class module_admin_categories
         $tpl->assign( 'modules'     , $modules );
         $this->output .= $tpl->fetch('admin/categories/edit.tpl');
      }
-     
+
       /**
     * @desc Delete categories
     */
     function delete_categories()
     {
         global $db, $functions, $input, $lang;
-        
+
         /**
         * @desc Init
         */
@@ -357,12 +357,12 @@ class module_admin_categories
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
-        
+
         if ( count($delete) < 1 )
-        { 
+        {
             $functions->redirect( 'index.php?mod=admin&sub=categories&action=show_all', 'metatag|newsite', 3, $lang->t( 'No categories selected to delete! Aborted... ' ), 'admin' );
         }
-        
+
         /**
         * @desc Abort...
         */
@@ -370,23 +370,23 @@ class module_admin_categories
         {
             $functions->redirect( 'index.php?mod=admin&sub=categories&action=show_all' );
         }
-        
+
         /**
         * @desc Select from DB
         */
         $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories' );
         $stmt->execute();
         $all_categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         foreach( $all_categories as $key => $value )
         {
             if( in_array( $value['cat_id'], $delete  ) )
             {
                 $names .= '<br /><b>' .  $value['name'] . '</b>';
             }
-        }       
-        
-        
+        }
+
+
         /**
         * @desc Delete categories
         */
@@ -412,11 +412,11 @@ class module_admin_categories
                 }
             }
         }
-        
+
         $functions->redirect( 'index.php?mod=admin&sub=categories&action=show_all', 'metatag|newsite', 3, $lang->t( 'The categories have been delete.' ), 'admin' );
-        
+
     }
-    
+
 
 }
 ?>

@@ -60,18 +60,18 @@ class module_admin_settings
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&sub=settings');
+        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&amp;sub=settings');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=settings&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
                 $this->show();
                 break;
 
             case 'update':
-                $trail->addStep($lang->t('Update'), '/index.php?mod=admin&sub=settings&action=update');
+                $trail->addStep($lang->t('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
                 $this->update();
                 break;
 

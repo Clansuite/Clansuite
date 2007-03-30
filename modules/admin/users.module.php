@@ -56,33 +56,33 @@ class module_admin_users
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Users'), '/index.php?mod=admin&sub=users');
+        $trail->addStep($lang->t('Users'), '/index.php?mod=admin&amp;sub=users');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=users&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=users&amp;action=show');
                 $this->show();
                 break;
 
             case 'usercenter':
-                $trail->addStep($lang->t('Usercenter'), '/index.php?mod=admin&sub=users&action=usercenter');
+                $trail->addStep($lang->t('Usercenter'), '/index.php?mod=admin&amp;sub=users&amp;action=usercenter');
                 $this->show_usercenter();
                 break;
 
 	        case 'create':
-                $trail->addStep($lang->t('Create New Useraccount'), '/index.php?mod=admin&sub=users&action=create');
+                $trail->addStep($lang->t('Create New Useraccount'), '/index.php?mod=admin&amp;sub=users&amp;action=create');
                 $this->create();
                 break;
 
             case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&sub=users');
+                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&amp;sub=users');
                 $this->edit();
                 break;
 
             case 'search':
-                $trail->addStep($lang->t('Search'), '/index.php?mod=admin&sub=users');
+                $trail->addStep($lang->t('Search'), '/index.php?mod=admin&amp;sub=users');
                 $this->search();
                 break;
 
@@ -543,7 +543,7 @@ class module_admin_users
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
-  
+
         if ( count($delete) < 1 )
         {
             $functions->redirect( 'index.php?mod=admin&sub=users', 'metatag|newsite', 3, $lang->t( 'No users selected to delete! Aborted... ' ), 'admin' );
@@ -566,7 +566,7 @@ class module_admin_users
             $select .= 'user_id = ' . $id . ' OR ';
         }
         // code by xsign
-        // @todo explain reason for settings this: [OR user_id = -1000] 
+        // @todo explain reason for settings this: [OR user_id = -1000]
         $select .= 'user_id = -1000';
         $stmt = $db->prepare( $select );
         $stmt->execute();

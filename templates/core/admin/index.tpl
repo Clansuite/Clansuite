@@ -25,25 +25,19 @@
     -->
 
 {/doc_raw}
-
     <div class="header">
         <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/clansuite-80x15.png" border="0" /></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
-
     {include file="admin/adminmenu/adminmenu.tpl"}
-
-
     <p>&nbsp;</p>
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <thead>
             <tr>
                 <td class="admin_header">
-
                 <div style="float: left">
                     {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
                 </div>
-
                 {literal}
                     <script type="text/javascript">
                         function help_toggler()
@@ -63,12 +57,10 @@
                         }
                     </script>
                 {/literal}
-
                 <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
                     <img style="margin-bottom: -3px;" src="{$www_core_tpl_root}/images/icons/help.png" alt="Help Toggle" />
                     {translate}Help{/translate}
                 </div>
-
                 </td>
                 <td id="help_toggle" class="admin_header_help" style="display: none;">
                    &raquo; {translate}Help{/translate}
@@ -80,27 +72,18 @@
             <td width="80%" class="admin_content">
                 {$content}
             </td>
-
             <td id="help_toggle_2" width="20%" class="admin_help" style="padding: 0px; display: none;">
                 {mod name="admin" sub="help" func="instant_show"}
             </td>
-
         </tr>
         </tbody>
     </table>
     <p>&nbsp;</p>
-
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-<tr>
-    <td class="admin_content">
-        <div id="footer">
-        <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-        	{$copyright}<br />
-        	Theme: {* {$theme-copyright} *} | &nbsp; Queries: {$query_counter}
-        </div>
-    <td>
-</tr>
-</table>
+<div id="footer" class="admin_content">
+<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+    {$copyright}<br />
+    Theme: {* {$theme-copyright} *} | &nbsp; Queries: {$query_counter}
+</div>
 
 {* Ajax Notification *}
 <div id="notification" style="vertical-align: middle; display: none;">

@@ -65,12 +65,12 @@ class module_staticpages
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show Page'), '/index.php?mod=staticpages&action=show');
+                $trail->addStep($lang->t('Show Page'), '/index.php?mod=staticpages&amp;action=show');
                 $this->show_staticpages();
                 break;
 
             case 'overview':
-                $trail->addStep($lang->t('Overview'), '/index.php?mod=staticpages&action=show');
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=staticpages&amp;action=show');
                 $this->overview_staticpages();
                 break;
 
@@ -127,8 +127,8 @@ class module_staticpages
             $functions->redirect('index.php?mod=staticpages&action=overview');
         }
     }
-    
-    
+
+
      /**
     * @desc Show an overview of all static pages (Static Page Index)
     */

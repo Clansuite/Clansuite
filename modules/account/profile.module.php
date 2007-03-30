@@ -69,17 +69,17 @@ class module_account_profile
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=profile&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=profile&amp;action=show');
                 $this->show();
                 break;
 
             case 'get_custom_text':
-                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&action=get_custom_text');
+                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&amp;action=get_custom_text');
                 $this->get_custom_text();
                 break;
 
             case 'ajax_update':
-                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&action=ajax_update');
+                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&amp;action=ajax_update');
                 $this->ajax_update();
                 break;
 

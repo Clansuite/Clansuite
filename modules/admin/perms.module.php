@@ -42,10 +42,10 @@ if (!defined('IN_CS'))
 class module_admin_permissions
 {
     public $output          = '';
-    
+
     public $additional_head = '';
     public $suppress_wrapper= '';
-    
+
     //----------------------------------------------------------------
     // First function to run - switches between $_REQUEST['action'] Vars to the functions
     // Loading necessary language files
@@ -53,63 +53,63 @@ class module_admin_permissions
     function auto_run()
     {
         global $lang, $trail;
-        
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Permissions'), '/index.php?mod=admin&sub=permissions');  
-        
+        $trail->addStep($lang->t('Permissions'), '/index.php?mod=admin&amp;sub=permissions');
+
         switch ($_REQUEST['action'])
         {
             default:
             case 'show_all':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&sub=modules&action=show_all'); 
+                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=modules&amp;action=show_all');
                 $this->show_all();
                 break;
-                                
+
             case 'edit_right':
-                $trail->addStep($lang->t('Edit Permissions'), '/index.php?mod=admin&sub=modules&action=edit_right'); 
+                $trail->addStep($lang->t('Edit Permissions'), '/index.php?mod=admin&amp;sub=modules&amp;action=edit_right');
                 $this->edit_right();
                 break;
 
             case 'edit_area':
-                $trail->addStep($lang->t('Edit Area'), '/index.php?mod=admin&sub=modules&action=edit_area'); 
+                $trail->addStep($lang->t('Edit Area'), '/index.php?mod=admin&amp;sub=modules&amp;action=edit_area');
                 $this->edit_area();
                 break;
-                                
+
             case 'create_right':
-                $trail->addStep($lang->t('Create Permission'), '/index.php?mod=admin&sub=modules&action=create_right'); 
+                $trail->addStep($lang->t('Create Permission'), '/index.php?mod=admin&amp;sub=modules&amp;action=create_right');
                 $this->create_right();
                 break;
 
             case 'create_area':
-                $trail->addStep($lang->t('Create Area'), '/index.php?mod=admin&sub=modules&action=create_area'); 
+                $trail->addStep($lang->t('Create Area'), '/index.php?mod=admin&amp;sub=modules&amp;action=create_area');
                 $this->create_area();
                 break;
-                                
+
             case 'delete_right':
-                $trail->addStep($lang->t('Delete Permission'), '/index.php?mod=admin&sub=modules&action=delete_right'); 
+                $trail->addStep($lang->t('Delete Permission'), '/index.php?mod=admin&amp;sub=modules&amp;action=delete_right');
                 $this->delete_right();
                 break;
 
             case 'delete_area':
-                $trail->addStep($lang->t('Delete Area'), '/index.php?mod=admin&sub=modules&action=delete_area'); 
+                $trail->addStep($lang->t('Delete Area'), '/index.php?mod=admin&amp;sub=modules&amp;action=delete_area');
                 $this->delete_area();
                 break;
-                         
+
         }
-        
+
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
-    
+
     /**
     * @desc Show all rights depending on areas
     */
     function show_all()
     {
         global $db, $tpl, $error, $lang;
-        
+
         /**
         * @desc Select the areas and assing the rights
         */
@@ -126,25 +126,25 @@ class module_admin_permissions
             {
                 $rights[$area['area_id']][$right['name']] = $right;
             }
-            
+
             $stmt5 = $db->prepare( 'SELECT ri.* FROM ' . DB_PREFIX . 'rights AS ri LEFT JOIN ' . DB_PREFIX . 'areas AS ar ON ri.area_id=ar.area_id WHERE ar.area_id IS NULL ORDER BY ri.name ASC' );
             $stmt5->execute();
             $unassigned = $stmt5->fetchAll(PDO::FETCH_ASSOC);
         }
-        
+
         $tpl->assign( 'unassigned'  , $unassigned );
         $tpl->assign( 'rights'      , $rights );
         $tpl->assign( 'areas'       , $areas );
         $this->output .= $tpl->fetch('admin/permissions/show.tpl');
     }
-    
+
     /**
     * @desc Edit a right
     */
     function edit_right()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
-       
+
        /**
        * @desc Init
        */
@@ -156,12 +156,12 @@ class module_admin_permissions
         if ( empty( $submit ) )
         {
             /**
-            * @desc Select the right from DB      
+            * @desc Select the right from DB
             */
             $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'rights WHERE right_id = ?' );
             $stmt->execute( array( $right_id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ( !is_array( $info ) )
             {
                 $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'There is no right with that id.' ), 'admin' );
@@ -170,49 +170,49 @@ class module_admin_permissions
         else
         {
             /**
-            * @desc Select the right from DB      
+            * @desc Select the right from DB
             */
             $stmt = $db->prepare( 'SELECT name FROM ' . DB_PREFIX . 'rights WHERE right_id != ? AND name = ?' );
             $stmt->execute( array( $right_id , $info['name'] ) );
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];   
+                $err['name_already'];
             }
-            
+
             /**
             * @desc Fill form?
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];   
+                $err['fill_form'];
             }
         }
-        
+
         /**
         * @desc Select the areas
         */
         $stmt3 = $db->prepare( 'SELECT area_id, name, description FROM ' . DB_PREFIX . 'areas ORDER BY name ASC' );
         $stmt3->execute();
         $areas = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-        
+
         /**
         * @desc Update on submit
         */
         if ( !empty( $submit ) && count($err) == 0 )
-        {        
+        {
             /**
             * @desc Update right in DBe
             */
             $sets =  'name = ?, description = ?, area_id = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'rights SET ' . $sets . ' WHERE right_id = ?' );
             $stmt->execute( array ( $info['name'], $info['description'], $info['area_id'], $info['right_id'] ) );
-            
+
             /**
             * @desc Redirect...
             */
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The right has been edited.' ), 'admin' );
-    
+
         }
 
         $tpl->assign( 'areas'   , $areas );
@@ -220,14 +220,14 @@ class module_admin_permissions
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/edit_right.tpl');
     }
-  
+
     /**
     * @desc Create a right
     */
     function create_right()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
-       
+
        /**
        * @desc Init
        */
@@ -246,58 +246,58 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];   
+                $err['name_already'];
             }
-            
+
             /**
             * @desc Fill form?
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];   
+                $err['fill_form'];
             }
         }
-        
+
         /**
         * @desc Select the areas
         */
         $stmt3 = $db->prepare( 'SELECT area_id, name, description FROM ' . DB_PREFIX . 'areas ORDER BY name ASC' );
         $stmt3->execute();
         $areas = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-        
+
         /**
         * @desc Insert on submit, no error
         */
         if ( !empty( $submit ) && count($err) == 0 )
-        {        
+        {
             /**
             * @desc Insert right into the DB
             */
             $sets =  'name = ?, description = ?, area_id = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'rights SET ' . $sets );
             $stmt->execute( array ( $info['name'], $info['description'], $info['area_id'] ) );
-            
+
             /**
             * @desc Redirect...
             */
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The right has been created.' ), 'admin' );
-    
+
         }
 
         $tpl->assign( 'areas'   , $areas );
         $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/create_right.tpl');
-    
+
     }
-    
+
     /**
     * @desc Create a area
     */
     function create_area()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
-       
+
        /**
        * @desc Init
        */
@@ -315,50 +315,50 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];   
+                $err['name_already'];
             }
-            
+
             /**
             * @desc Fill form?
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];   
+                $err['fill_form'];
             }
         }
-        
+
         /**
         * @desc Insert on submit, no error
         */
         if ( !empty( $submit ) && count($err) == 0 )
-        {        
+        {
             /**
             * @desc Insert the area into the DB
             */
             $sets =  'name = ?, description = ?';
             $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'areas SET ' . $sets );
             $stmt->execute( array ( $info['name'], $info['description'] ) );
-            
+
             /**
             * @desc Redirect...
             */
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The area has been created.' ), 'admin' );
-    
+
         }
 
         $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/create_area.tpl');
-    
+
     }
-    
+
     /**
     * @desc Edit a area
     */
     function edit_area()
     {
         global $db, $tpl, $error, $lang, $functions, $input;
-       
+
        /**
        * @desc Init
        */
@@ -370,12 +370,12 @@ class module_admin_permissions
         if ( empty( $submit ) )
         {
             /**
-            * @desc Select the right from DB      
+            * @desc Select the right from DB
             */
             $stmt = $db->prepare( 'SELECT area_id, name, description FROM ' . DB_PREFIX . 'areas WHERE area_id = ?' );
             $stmt->execute( array( $area_id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ( !is_array( $info ) )
             {
                 $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'There is no area with that id.' ), 'admin' );
@@ -391,30 +391,30 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];   
+                $err['name_already'];
             }
-            
+
             /**
             * @desc Fill form?
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];   
+                $err['fill_form'];
             }
         }
-        
+
         /**
         * @desc Insert on submit, no error
         */
         if ( !empty( $submit ) && count($err) == 0 )
-        {        
+        {
             /**
             * @desc Insert the area into the DB
             */
             $sets =  'name = ?, description = ?';
             $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'areas SET ' . $sets . ' WHERE area_id = ?');
             $stmt->execute( array ( $info['name'], $info['description'], $info['area_id'] ) );
-            
+
             /**
             * @desc Redirect...
             */
@@ -424,19 +424,19 @@ class module_admin_permissions
         $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/edit_area.tpl');
-    
+
     }
-    
-    
+
+
     /**
     * @desc Delete rights
     */
     function delete_right()
     {
         global $db, $functions, $input, $lang;
-        
+
         /**
-        * @desc Init     
+        * @desc Init
         */
         $submit     = $_POST['submit'];
         $confirm    = $_POST['confirm'];
@@ -445,15 +445,15 @@ class module_admin_permissions
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
-        
+
         /**
         * @desc Nothing selected ?
         */
         if ( count($delete) == 0 )
-        { 
+        {
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'No rights have been selected! Aborted... ' ), 'admin' );
         }
-        
+
         /**
         * @desc Abort
         */
@@ -461,14 +461,14 @@ class module_admin_permissions
         {
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'Aborted... ' ), 'admin' );
         }
-        
+
         /**
         * @desc DB Select
         */
         $stmt = $db->prepare( 'SELECT right_id, name FROM ' . DB_PREFIX . 'rights' );
         $stmt->execute();
         $all_permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         /**
         * @desc Right Names
         */
@@ -478,7 +478,7 @@ class module_admin_permissions
             {
                 $names .= '<br /><b>' .  $value['name'] . '</b>';
             }
-        }       
+        }
 
         /**
         * @desc Delete relating to the the ids
@@ -505,25 +505,25 @@ class module_admin_permissions
                 }
             }
         }
-        
+
         $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The rights have been deleted.' ), 'admin' );
     }
-    
+
     /**
     * @desc Delete rights
     */
     function delete_area()
     {
         global $db, $functions, $input, $lang;
-        
+
         /**
-        * @desc Init     
+        * @desc Init
         */
         $submit     = $_POST['submit'];
         $confirm    = $_POST['confirm'];
         $abort      = $_POST['abort'];
         $area_id    = $_GET['area_id'];
-        
+
         /**
         * @desc Abort
         */
@@ -531,13 +531,13 @@ class module_admin_permissions
         {
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'Aborted... ' ), 'admin' );
         }
-        
+
         /**
         * @desc DB Select
         */
         $stmt = $db->prepare( 'SELECT name FROM ' . DB_PREFIX . 'areas WHERE area_id = ?' );
         $stmt->execute( array( $area_id ) );
-        $area = $stmt->fetch(PDO::FETCH_ASSOC);    
+        $area = $stmt->fetch(PDO::FETCH_ASSOC);
 
         /**
         * @desc Delete the area after confirmation
@@ -545,13 +545,13 @@ class module_admin_permissions
         if( !empty( $confirm ) )
         {
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'areas WHERE area_id = ?' );
-            $stmt->execute( array( $area_id ) );            
+            $stmt->execute( array( $area_id ) );
         }
         else
         {
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=delete_area&area_id=' . $area_id, 'confirm', 3, $lang->t( 'You have selected the following area to be deleted:<br /> ' . $area['name'] ), 'admin' );
         }
-        
+
         $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The area has been deleted.' ), 'admin' );
     }
 }

@@ -62,8 +62,8 @@ class module_admin_menueditor
             case 'show':
                 // Set Pagetitle and Breadcrumbs
                 $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&sub=menueditor');
-                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&sub=menueditor&action=show');
+                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&amp;sub=menueditor');
+                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
                 $this->show();
                 break;
 

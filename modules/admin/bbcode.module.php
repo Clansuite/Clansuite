@@ -63,7 +63,7 @@ class module_admin_bbcode
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('BB Code Editor'), '/index.php?mod=admin&sub=bbcode');
+        $trail->addStep($lang->t('BB Code Editor'), '/index.php?mod=admin&amp;sub=bbcode');
 
         // Set Page Title
         $this->mod_page_title = $lang->t( 'BB Code Editor' ) . ' &raquo; ';
