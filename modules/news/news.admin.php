@@ -323,8 +323,16 @@ class module_news_admin
         $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
         $infos = $_POST['infos'];
 
+        // check for fills
+        if( ( empty($infos['title']) OR
+            empty($infos['body']) )
+            AND !empty($submit) )
+        {
+            $err['fill_form'] = 1;
+        }
+
         // Create news in DB
-        if( !empty($submit) )
+        if( !empty($submit) && count($err) == 0)
         {
             // build groups
             /*
@@ -368,8 +376,92 @@ class module_news_admin
         $tpl->assign('newscategories', $newscategories);
 
         // Output Stuff
-        $tpl->assign( 'all_groups'  , $all_groups);
+        $tpl->assign( 'err'         , $err);
+        //$tpl->assign( 'all_groups'  , $all_groups);
         $this->output .= $tpl->fetch('news/admin_create.tpl');
+    }
+
+    /**
+    * Edit news
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    * @global $tpl
+    * @global $cfg
+    */
+    function edit()
+    {
+        global $db, $functions, $input, $lang, $tpl, $cfg;
+
+        // Incoming Vars
+        $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+        $infos = $_POST['infos'];
+        $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];
+
+        // check for fills
+        if( ( empty($infos['title']) OR
+            empty($infos['body']) )
+            AND !empty($submit) )
+        {
+            $err['fill_form'] = 1;
+        }
+
+        // Create news in DB
+        if( !empty($submit) && count($err) == 0)
+        {
+            // build groups
+            /*
+            foreach( $infos['groups'] as $key => $value )
+            {
+                $groups .= $value . ',';
+            }
+            $groups = substr( $groups, 0, -1 );
+            */
+
+            // Query DB
+            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ? WHERE news_id = ?' );
+            $stmt->execute( array(  $infos['title'],
+                                    $infos['body'],
+                                    $infos['cat_id'],
+                                    $_SESSION['user']['user_id'],
+                                    time(),
+                                    $infos['draft'],
+                                    //$groups ) );
+                                    $id ) );
+
+            // Redirect on finish
+            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ), 'admin' );
+
+        }
+
+        // Get all groups
+        /*
+        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
+
+        $stmt->execute();
+        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        */
+
+        // get infos
+        $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
+        $stmt->execute( array( $id ) );
+        $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+        // $categories for module_news
+        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // give $newslist array to Smarty for template output
+        $tpl->assign('newscategories', $newscategories);
+
+        // Output Stuff
+        $tpl->assign( 'infos'       , $result );
+        $tpl->assign( 'err'         , $err);
+        //$tpl->assign( 'all_groups'  , $all_groups);
+        $this->output .= $tpl->fetch('news/admin_edit.tpl');
     }
 
     /**

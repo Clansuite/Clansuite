@@ -2,27 +2,9 @@
 	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
 {/doc_raw}
 
-{if $err.no_special_chars == 1}
-    {error title="Special Chars"}
-        No special chars except '_' are allowed.
-    {/error}
-{/if}
-
-{if $err.give_correct_url == 1}
-    {error title="Valid URL"}
-        Please enter a valid URL or leave the field blank.
-    {/error}
-{/if}
-
 {if $err.fill_form == 1}
     {error title="Fill form"}
         Please fill all fields.
-    {/error}
-{/if}
-
-{if $err.static_already_exist == 1}
-    {error title="Already exists"}
-        We are sorry but a static page with this name already exists in the database.
     {/error}
 {/if}
 <form action="index.php?mod=news&amp;sub=admin&amp;action=create" method="post" target="_self">
@@ -114,5 +96,4 @@
         </td>
     </tr>
 </table>
-
 </form>
