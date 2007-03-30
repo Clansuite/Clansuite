@@ -2,6 +2,10 @@
 
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
+    {* Prototype + Scriptaculous + Smarty_Ajax *}
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js" ></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/smarty_ajax.js"></script>
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
