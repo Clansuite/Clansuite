@@ -61,13 +61,13 @@ class module_news_admin
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('News'), '/index.php?mod=news&sub=admin');
+        $trail->addStep($lang->t('News'), '/index.php?mod=news&amp;sub=admin');
 
         switch ($_REQUEST['action'])
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=news&sub=admin&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
                 $this->show();
                 break;
 
@@ -76,17 +76,17 @@ class module_news_admin
                 break;
 
             case 'create':
-                $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&sub=admin&action=show&action=create');
+                $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&amp;sub=admin&amp;action=show&amp;action=create');
                 $this->create_news();
                 break;
 
             case 'edit':
-                $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&sub=admin&action=show&action=edit');
+                $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=edit');
                 $this->edit_news();
                 break;
 
             case 'delete':
-                $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&sub=admin&action=show&action=delete');
+                $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=delete');
                 $this->delete_news();
                 break;
         }
@@ -108,11 +108,6 @@ class module_news_admin
 
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
-
-        // required connect
-        global $SmartyPaginate;
-        $SmartyPaginate = new SmartyPaginate();
-        $SmartyPaginate->connect();
 
         // set URL
         $SmartyPaginate->setUrl('index.php?mod=news&amp;sub=admin');
