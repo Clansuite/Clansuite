@@ -30,20 +30,20 @@
     <tr>
         <td class="td_header" width="100%" colspan="2">
         Edits    </td>
-    
+
     </tr>
     <tr>
-        
+
         <td class="td_header_small" width="40">
-        Title    </td>
-        
+        {translate}Title{/translate}    </td>
+
         <td class="td_header_small" width="99%">
-        Information    </td>   
-    
+        {translate}Information{/translate}    </td>
+
     </tr>
     <tr>
         <td class="cell1">
-            <strong>Title:</strong>
+            <strong>{translate}Title{/translate}:</strong>
         </td>
         <td class="cell2">
             <input name="title" type="text" value="{$title|escape:html}" class="input_text">
@@ -51,7 +51,7 @@
     </tr>
     <tr>
         <td class="cell1">
-            <strong>Description:</strong>
+            <strong>{translate}Description{/translate}:</strong>
         </td>
         <td class="cell2">
             <input name="description" type="text" value="{$description|escape:html}" class="input_text">
@@ -78,7 +78,7 @@
         	<script type="text/javascript">
 
             var sBasePath = "{$www_root}/core/fckeditor/";
-            
+
             var oFCKeditor = new FCKeditor( 'html' );
             oFCKeditor.BasePath	= sBasePath;
             oFCKeditor.Height	= 400;

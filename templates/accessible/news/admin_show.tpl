@@ -14,7 +14,7 @@
                 <option value="0">-- {translate}all{/translate} --</option>
 
                 {foreach item=cats from=$newscategories}
-                    <option value="{$cats.cat_id}" {if isset($smarty.post.cat_id) && $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name}</option>
+                    <option value="{$cats.cat_id}" {if isset($smarty.post.cat_id) && $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name|escape:html}</option>
                 {/foreach}
 
             </select>
@@ -82,7 +82,7 @@
     {/foreach}
     <tr class="tr_row1">
         <td colspan="6"></td>
-        <td><input class="ButtonRed" type="submit" value="{translate}Delete{/translate}" /></td>
+        <td><input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" /></td>
     </tr>
 
 </table>
