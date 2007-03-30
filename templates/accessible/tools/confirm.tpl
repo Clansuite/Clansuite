@@ -7,14 +7,14 @@
 <body>
 <form action="{$link}" method="post">
 
-<table class="redirect" cellpadding="0" border="0" cellspacing="0">
-<tr>
-    <td>
-    {$message}<br />
-    <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}" />
-    </td>
-</tr>
-</table>
+
+    <div class="redirect">
+        {$message}
+        <br />
+        <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">
+        &nbsp;
+        <input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}" />
+    </div>
 </form>
 </body>
 </html>
