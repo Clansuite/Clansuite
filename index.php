@@ -228,6 +228,7 @@ $tpl->assign('www_core_tpl_root', WWW_ROOT_TPL_CORE );
  * Assign Config Values (for use in header of tpl)
  */
 $tpl->assign('meta'             , $cfg->meta );
+$tpl->assign('cs_version'       , $cfg->version );
 $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
