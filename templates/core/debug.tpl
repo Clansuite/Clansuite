@@ -161,7 +161,7 @@
 </div>
 
 
-<div class="debug_one" onclick="clip('element_7');"><strong>7. CONFIG ($cfg->setting) </strong></div>
+<div class="debug_one" onclick="clip('element_7');"><strong>7. Config ($cfg->setting) </strong></div>
 <div class="debug_inline" style="display:none;" id="element_7">
     <dl class="debug_dl">
         {foreach key=outerkey name=outer item=debugouter from=$debug.config}

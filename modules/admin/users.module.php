@@ -526,8 +526,13 @@ class module_admin_users
     }
 
     /**
-     * @desc Delete the users
-     */
+    * Deletes a user with questioning
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    */
     function delete()
     {
         global $db, $functions, $input, $lang;
