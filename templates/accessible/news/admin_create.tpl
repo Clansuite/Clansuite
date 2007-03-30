@@ -64,6 +64,7 @@
             </select>
         </td>
     </tr>
+    {*
     <tr>
         <td class="cell1">
             <strong>{translate}Visible to groups{/translate}:</strong>
@@ -83,6 +84,7 @@
             </table>
         </td>
     </tr>
+    *}
     <tr>
         <td class="cell1">
             <strong>{translate}Draft{/translate}:</strong>

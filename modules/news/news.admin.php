@@ -327,21 +327,24 @@ class module_news_admin
         if( !empty($submit) )
         {
             // build groups
+            /*
             foreach( $infos['groups'] as $key => $value )
             {
                 $groups .= $value . ',';
             }
             $groups = substr( $groups, 0, -1 );
+            */
 
             // Query DB
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ?, visible_to_groups = ?' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ?' );
             $stmt->execute( array(  $infos['title'],
                                     $infos['body'],
                                     $infos['cat_id'],
                                     $_SESSION['user']['user_id'],
                                     time(),
                                     $infos['draft'],
-                                    $groups ) );
+                                    //$groups ) );
+                                    ) );
 
             // Redirect on finish
             $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been created.' ), 'admin' );
@@ -349,10 +352,12 @@ class module_news_admin
         }
 
         // Get all groups
+        /*
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
 
         $stmt->execute();
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        */
 
         // $categories for module_news
         $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
