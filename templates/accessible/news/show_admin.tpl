@@ -70,6 +70,10 @@
             </td>
     </tr>
     {/foreach}
+    <tr class="tr_row1">
+        <td colspan="6"></td>
+        <td><input class="ButtonRed" type="submit" value="Delete" /></td>
+    </tr>
 
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
