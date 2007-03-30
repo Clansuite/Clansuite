@@ -41,8 +41,17 @@ if (!defined('IN_CS'))
 
 
 /**
-* @desc Start module class
-*/
+ * This Clansuite News Module
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-$LastChangedDate$)
+ * @since      Class available since Release 1.0alpha
+ *
+ * @package     clansuite
+ * @category    module
+ * @subpackage  news
+ */
 class module_news_admin
 {
     public $output          = '';
@@ -77,17 +86,17 @@ class module_news_admin
 
             case 'create':
                 $trail->addStep($lang->t('Add a News'), '/index.php?mod=news&amp;sub=admin&amp;action=show&amp;action=create');
-                $this->create_news();
+                $this->create();
                 break;
 
             case 'edit':
                 $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=edit');
-                $this->edit_news();
+                $this->edit();
                 break;
 
             case 'delete':
                 $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=delete');
-                $this->delete_news();
+                $this->delete();
                 break;
         }
 
@@ -97,11 +106,24 @@ class module_news_admin
     }
 
     /**
-    * @desc Show Overview of News (ordered: Date, Cats)
+    * Show all news entries and give the possibility to edit/delete
+    *
+    * @global $cfg
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $functions
+    * @global $security
+    * @global $input
+    * @global $perms
     */
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+
+        // Permission check
+        $perms->check('edit_news');
 
         // Incoming Vars
         $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
@@ -173,6 +195,118 @@ class module_news_admin
 
         $this->output = $tpl->fetch('news/admin_show.tpl');
     }
+
+    /**
+    * Deletes a news with questioning
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    */
+    function delete()
+    {
+        global $db, $functions, $input, $lang;
+
+        /**
+         * @desc Init
+         */
+        $submit     = $_POST['submit'];
+        $confirm    = $_POST['confirm'];
+        $abort      = $_POST['abort'];
+        $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
+        $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
+        $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
+        $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
+
+        if ( count($delete) < 1 )
+        {
+            $functions->redirect( 'index.php?mod=news&sub=admin', 'metatag|newsite', 3, $lang->t( 'No news selected to delete! Aborted... ' ), 'admin' );
+        }
+
+        /**
+         * @desc Abort
+         */
+        if ( !empty( $abort ) )
+        {
+            $functions->redirect( 'index.php?mod=news&sub=admin' );
+        }
+
+        /**
+         * @desc Create Select Statement
+         */
+        $select = 'SELECT news_id, news_title FROM ' . DB_PREFIX . 'news WHERE ';
+        foreach ( $delete as $key => $id )
+        {
+            $select .= 'news_id = ' . $id . ' OR ';
+        }
+        // code by xsign
+        // @todo explain reason for settings this: [OR user_id = -1000]
+        // @nodo: too lazy :D
+        // @done: substr, after discussion battles in icq - see below :D
+        /*
+          22:54 x!sign.dll: OTR:         // code by xsign
+                // @todo explain reason for settings this: [OR user_id = -1000]
+          22:55 x!sign.dll: OTR:         foreach ( $delete as $key => $id )
+                {
+                    $select .= 'news_id = ' . $id . ' OR ';
+                }
+                // code by xsign
+                // @todo explain reason for settings this: [OR user_id = -1000]
+                $select .= 'news_id = -1000';
+          22:56 Stunt|vain: OTR: $select .= 'news_id = ' . $id;
+          22:57 x!sign.dll: OTR: news_id = 1 OR news_id = 2
+          22:57 x!sign.dll: OTR: news_id = 1 OR news_id = 2 OR
+          22:59 Stunt|vain: OTR: 1+OR ; 2+OR
+          22:59 Stunt|vain: OTR: 1; OR+2; OR+3
+          23:00 x!sign.dll: OTR: $select = substr($select, 0, -4);
+        */
+        $select = substr($select, 0, -4);
+        $stmt = $db->prepare( $select );
+        $stmt->execute();
+        while( $result = $stmt->fetch(PDO::FETCH_ASSOC) )
+        {
+            if( in_array( $result['news_id'], $delete  ) )
+            {
+                $names .= '<br /><b>' .  $result['news_title'] . '</b>';
+            }
+            $all[] = $result;
+        }
+        var_dump($all);
+
+        /**
+         * @desc Delete the groups
+         */
+        foreach( $all as $key => $value )
+        {
+            if ( count ( $delete ) > 0 )
+            {
+                if ( in_array( $value['news_id'], $ids ) )
+                {
+                    $d = in_array( $value['news_id'], $delete  ) ? 1 : 0;
+                    if ( !isset ( $_POST['confirm'] ) )
+                    {
+                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
+                    }
+                    else
+                    {
+                        if ( $d == 1 )
+                        {
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'news WHERE news_id = ?' );
+                            $stmt->execute( array($value['news_id']) );
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+        * @desc Redirect on finish
+        */
+        $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
+
+    }
+
 
     /**
     * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
