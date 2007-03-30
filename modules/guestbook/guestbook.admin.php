@@ -82,9 +82,9 @@ class module_guestbook_admin
                 $this->show();
                 break;
 
-            case 'add_admincomment':
-                $trail->addStep($lang->t('Add Admincomment'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=add_admincomment');
-                $this->add_admincomment();
+            case 'add_comment':
+                $trail->addStep($lang->t('Add Admincomment'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=add_comment');
+                $this->add_comment();
                 break;
 
 
@@ -154,11 +154,11 @@ class module_guestbook_admin
         /**
          * Handle the output - $lang-t() translates the text.
          */
-        $this->output = $tpl->fetch('guestbook/show_admin.tpl');
+        $this->output = $tpl->fetch('guestbook/admin_show.tpl');
 
     }
 
-    function add_admincomment()
+    function add_comment()
     {
         global $tpl, $db, $functions, $input, $lang;
 
@@ -201,7 +201,7 @@ class module_guestbook_admin
         // Output
         $tpl->assign( 'errors'  , $errors );
         $tpl->assign( 'info'    , $info);
-        $this->output .= $tpl->fetch( 'guestbook/add_admincomment.tpl' );
+        $this->output .= $tpl->fetch( 'guestbook/admin_add_comment.tpl' );
     }
 
     function delete()
