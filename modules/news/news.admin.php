@@ -103,6 +103,9 @@ class module_news_admin
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
+        // Incoming Vars
+        $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
+
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
         // required connect
@@ -117,13 +120,16 @@ class module_news_admin
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick');
+        $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick', 'n.draft');
         // Create the columnsort object
         $columnsort = &new SmartyColumnSort($columns);
         // And set the the default sort column and order.
         $columnsort->setDefault('n.news_added', 'desc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+
+        // Category settings
+        $sql_cat = $cat == 0 ? '' : 'AND n.cat_id = ' . $cat;
 
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
@@ -134,7 +140,7 @@ class module_news_admin
                                 LEFT JOIN '. DB_PREFIX .'categories c
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ?
+                                WHERE n.news_hidden = ? ' . $sql_cat . '
                                 ORDER BY '. $sortorder .' LIMIT ?,?');
 
         // TODO: news with status: draft, published, private, private+protected
@@ -159,7 +165,7 @@ class module_news_admin
         SmartyPaginate::assign($tpl);
 
         // $categories for module_news
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
         $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
         $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
 
