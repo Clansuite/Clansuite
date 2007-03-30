@@ -26,7 +26,9 @@
  * @version 1.5
  */
 
-function smarty_function_paginate_last($params, &$smarty) {
+function smarty_function_paginate_last($params, &$smarty)
+{
+    global $SmartyPaginate;
 
     $_id = 'default';
     $_attrs = array();
@@ -43,7 +45,7 @@ function smarty_function_paginate_last($params, &$smarty) {
     foreach($params as $_key => $_val) {
         switch($_key) {
             case 'id':
-                if (!SmartyPaginate::isConnected($_val)) {
+                if (!$SmartyPaginate->isConnected($_val)) {
                     $smarty->trigger_error("paginate_last: unknown id '$_val'");
                     return;
                 }
@@ -55,20 +57,20 @@ function smarty_function_paginate_last($params, &$smarty) {
         }
     }
 
-    if (SmartyPaginate::getTotal($_id) === false) {
+    if (SmartyPaginate->getTotal($_id) === false) {
         $smarty->trigger_error("paginate_last: total was not set");
         return;
     }
 
-    $_url = SmartyPaginate::getURL($_id);
-    $_total = SmartyPaginate::getTotal($_id);
-    $_limit = SmartyPaginate::getLimit($_id);
+    $_url = $SmartyPaginate->getURL($_id);
+    $_total = $SmartyPaginate->getTotal($_id);
+    $_limit = $SmartyPaginate->getLimit($_id);
 
     $_attrs = !empty($_attrs) ? ' ' . implode(' ', $_attrs) : '';
 
-    $_text = isset($params['text']) ? $params['text'] : SmartyPaginate::getLastText($_id);
+    $_text = isset($params['text']) ? $params['text'] : $SmartyPaginate->getLastText($_id);
     $_url .= (strpos($_url, '?') === false) ? '?' : '&';
-    $_url .= SmartyPaginate::getUrlVar($_id) . '=';
+    $_url .= $SmartyPaginate->getUrlVar($_id) . '=';
     $_url .= ($_total % $_limit > 0) ? $_total - ( $_total % $_limit ) + 1 : $_total - $_limit + 1;
 
     return '<a href="' . preg_replace('/&([^a][^m][^p][^\;])/', "&amp;$1", $_url) . '"' . $_attrs . '>' . $_text . '</a>';

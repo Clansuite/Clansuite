@@ -26,7 +26,9 @@
  * @version 1.5
  */
 
-function smarty_function_paginate_first($params, &$smarty) {
+function smarty_function_paginate_first($params, &$smarty)
+{
+    global $SmartyPaginate;
 
     $_id = 'default';
     $_attrs = array();
@@ -64,9 +66,9 @@ function smarty_function_paginate_first($params, &$smarty) {
 
     $_attrs = !empty($_attrs) ? ' ' . implode(' ', $_attrs) : '';
 
-    $_text = isset($params['text']) ? $params['text'] : SmartyPaginate::getFirstText($_id);
+    $_text = isset($params['text']) ? $params['text'] : $SmartyPaginate->getFirstText($_id);
     $_url .= (strpos($_url, '?') === false) ? '?' : '&';
-    $_url .= SmartyPaginate::getUrlVar($_id) . '=1';
+    $_url .= $SmartyPaginate->getUrlVar($_id) . '=1';
 
     return '<a href="' . preg_replace('/&([^a][^m][^p][^\;])/', "&amp;$1", $_url) . '"' . $_attrs . '>' . $_text . '</a>';
 }
