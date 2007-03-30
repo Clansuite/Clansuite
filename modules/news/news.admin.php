@@ -171,7 +171,7 @@ class module_news_admin
         $tpl->assign('newsarchiv', $newsarchiv);
         $tpl->assign('newscategories', $newscategories);
 
-        $this->output = $tpl->fetch('news/show_admin.tpl');
+        $this->output = $tpl->fetch('news/admin_show.tpl');
     }
 
     /**
