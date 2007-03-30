@@ -56,12 +56,12 @@ class module_news
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=news&action=show');
+                $trail->addStep($lang->t('Show'), '/index.php?mod=news&amp;action=show');
                 $this->show();
                 break;
 
             case 'archiv':
-                $trail->addStep($lang->t('Newsarchiv'), '/index.php?mod=news&action=archiv');
+                $trail->addStep($lang->t('Newsarchiv'), '/index.php?mod=news&amp;action=archiv');
                 $this->archiv();
                 break;
         }
@@ -105,13 +105,12 @@ class module_news
 
         // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
-        // required connect
-        SmartyPaginate::connect();
+
         // set URL
-        SmartyPaginate::setUrl('index.php?mod=news');
-        SmartyPaginate::setUrlVar('page');
+        $SmartyPaginate->setUrl('index.php?mod=news');
+        $SmartyPaginate->setUrlVar('page');
         // set items per page
-        SmartyPaginate::setLimit(5);
+        $SmartyPaginate->setLimit(5);
 
         // $newslist = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
@@ -127,8 +126,8 @@ class module_news
         $hidden = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
         $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
-        $stmt->bindParam(3, SmartyPaginate::getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(4, SmartyPaginate::getLimit(), PDO::PARAM_INT );
+        $stmt->bindParam(3, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
+        $stmt->bindParam(4, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
 
@@ -140,9 +139,9 @@ class module_news
         // echo 'Found Rows: ' . $count;
 
         // Finally: assign total number of rows to SmartyPaginate
-        SmartyPaginate::setTotal($count);
+        $SmartyPaginate->setTotal($count);
         // assign the {$paginate} to $tpl (smarty var)
-        SmartyPaginate::assign($tpl);
+        $SmartyPaginate->assign($tpl);
 
         // ---------  Prepared Statements: One time defined, often used!
 
@@ -178,7 +177,7 @@ class module_news
 
         // give $newslist array to Smarty for template output
         $tpl->assign('news', $newslist);
-        
+
         $this->output = $tpl->fetch('news/show.tpl');
     }
 
@@ -188,13 +187,12 @@ class module_news
 
         // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
-        // required connect
-        SmartyPaginate::connect();
+
         // set URL
-        SmartyPaginate::setUrl('index.php?mod=news&action=archiv');
-        SmartyPaginate::setUrlVar('page');
+        $SmartyPaginate->setUrl('index.php?mod=news&action=archiv');
+        $SmartyPaginate->setUrlVar('page');
         // set items per page
-        SmartyPaginate::setLimit(20);
+        $SmartyPaginate->setLimit(20);
 
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
@@ -206,8 +204,8 @@ class module_news
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
                                 WHERE n.news_hidden = ?
-                                ORDER BY news_id LIMIT '. SmartyPaginate::getCurrentIndex() .' ,
-                                                       '. SmartyPaginate::getLimit() .' ');
+                                ORDER BY news_id LIMIT '. $SmartyPaginate->getCurrentIndex() .' ,
+                                                       '. $SmartyPaginate->getLimit() .' ');
 
         // TODO: news with status: draft, published, private, private+protected
         $hidden = '0';
@@ -220,11 +218,11 @@ class module_news
         $count = count($rows->fetch(PDO::FETCH_NUM));
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
-        
+
         // Finally: assign total number of rows to SmartyPaginate
-        SmartyPaginate::setTotal($count);
+        $SmartyPaginate->setTotal($count);
         // assign the {$paginate} to $tpl (smarty var)
-        SmartyPaginate::assign($tpl);
+        $SmartyPaginate->assign($tpl);
 
         // $categories for module_news
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
