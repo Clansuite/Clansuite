@@ -3,6 +3,7 @@
 {doc_raw}
 
 {* Dublin Core Metatags *}
+<link rel="schema.DC". href="http://purl.org/dc/elements/1.1/" />
 <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
 <meta name="DC.Creator" content="Florian Wolf, Jens-Andre Koch" />
 <meta name="DC.Date" content="20070101" />
