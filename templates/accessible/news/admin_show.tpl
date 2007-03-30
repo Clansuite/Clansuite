@@ -81,8 +81,11 @@
     </tr>
     {/foreach}
     <tr class="tr_row1">
-        <td colspan="6"></td>
-        <td><input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" /></td>
+        <td colspan="9" align="right">
+        <input onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=create'" class="ButtonGreen" type="button" value="{translate}Create News{/translate}" />
+        <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}" />                
+        <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" />
+        </td>
     </tr>
 
 </table>
