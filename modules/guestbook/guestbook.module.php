@@ -116,15 +116,15 @@ class module_guestbook
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
+               
         // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
-        // required connect
-        SmartyPaginate::connect();
+      
         // set URL
-        SmartyPaginate::setUrl('index.php?mod=guestbook&amp;action=show');
-        SmartyPaginate::setUrlVar('page');
+        $SmartyPaginate->setUrl('index.php?mod=guestbook&amp;action=show');
+        $SmartyPaginate->setUrlVar('page');
         // set items per page
-        SmartyPaginate::setLimit(20);
+        $SmartyPaginate->setLimit(20);
 
         // get all guestbook entries
         $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'guestbook' );
@@ -142,9 +142,9 @@ class module_guestbook
             $number_of_guestbook_entries = count($guestbook);
 
             // Finally: assign total number of rows to SmartyPaginate
-            SmartyPaginate::setTotal($number_of_guestbook_entries);
+            $SmartyPaginate->setTotal($number_of_guestbook_entries);
             // assign the {$paginate} to $tpl (smarty var)
-            SmartyPaginate::assign($tpl);
+            $SmartyPaginate->assign($tpl);
 
             $tpl->assign('guestbook', $guestbook);
 
