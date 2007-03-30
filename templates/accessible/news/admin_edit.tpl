@@ -1,89 +1,101 @@
-{* Debugoutout of Arrays:
-{if $smarty.const.DEBUG eq "1"} Debug of Newsarchiv {html_alt_table loop=$newsarchiv}   {/if}
-{$newscategories|@var_dump}
-{$paginate|@var_dump}
-*}
-<form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
-<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
-    <tr class="tr_header">
-        <td colspan="3">{translate}News Settings{/translate}</td>
+{doc_raw}
+	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
+{/doc_raw}
+
+{if $err.fill_form == 1}
+    {error title="Fill form"}
+        Please fill all fields.
+    {/error}
+{/if}
+
+<form action="index.php?mod=news&amp;sub=admin&amp;action=edit" method="post" target="_self">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td class="td_header" width="100%" colspan="2">
+        {translate}Create news{/translate}    </td>
+
     </tr>
-    <tr class="tr_row1">
-         <td colspan="2"><b>{translate}Category:{/translate}</b>
-            <select name="cat_id" class="input_text">
-                <option value="0">-- {translate}all{/translate} --</option>
+    <tr>
+
+        <td class="td_header_small" width="40">
+        {translate}Title{/translate}    </td>
+
+        <td class="td_header_small" width="99%">
+        {translate}Information{/translate}    </td>
+
+    </tr>
+    <tr>
+        <td class="cell1">
+            <strong>{translate}Title{/translate}:</strong>
+        </td>
+        <td class="cell2">
+            <input name="infos[title]" type="text" value="{$infos.news_title|escape:html}" class="input_text" />
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+            <strong>{translate}Category{/translate}:</strong>
+        </td>
+        <td class="cell2">
+            <select name="infos[cat_id]" class="input_text">
+                <option value="0">-- {translate}none{/translate} --</option>
 
                 {foreach item=cats from=$newscategories}
-                    <option value="{$cats.cat_id}" {if isset($smarty.post.cat_id) && $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name}</option>
+                    <option value="{$cats.cat_id}" {if $infos.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name|escape:html}</option>
                 {/foreach}
 
             </select>
+        </td>
+    </tr>
+    {*
+    <tr>
+        <td class="cell1">
+            <strong>{translate}Visible to groups{/translate}:</strong>
+        </td>
+        <td class="cell2">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+            {foreach item=item key=key from=$all_groups}
+                <tr class="tr_row1">
+                    <td width="1%">
+                        <input type="checkbox" value="{$item.group_id}" class="input_text" name="infos[groups][]" checked="checked" />
+                    </td>
+                    <td>
+                        <a href="index.php?mod=admin&amp;sub=groups&amp;action=edit&amp;id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
+                    </td>
+                </tr>
+            {/foreach}
+            </table>
+        </td>
+    </tr>
+    *}
+    <tr>
+        <td class="cell1">
+            <strong>{translate}Draft{/translate}:</strong>
+        </td>
+        <td class="cell2">
+            <input type="radio" name="infos[draft]" value="0" {if $infos.draft==0}checked="checked"{/if} />{translate}unpublished{/translate}
+            <input type="radio" name="infos[draft]" value="1" {if $infos.draft==1}checked="checked"{/if} />{translate}published{/translate}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="cell3">
+        	<script type="text/javascript">
 
-             <input class="ButtonYellow" type="submit" name="submit" value="{translate}Show{/translate}" />
+            var sBasePath = "{$www_root}/core/fckeditor/";
+
+            var oFCKeditor = new FCKeditor( 'infos[body]' );
+            oFCKeditor.BasePath	= sBasePath;
+            oFCKeditor.Height	= 400;
+            oFCKeditor.Value	= '{$infos.news_body|escape:javascript}';
+            oFCKeditor.Create();
+        	</script>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="cell2" align="center">
+            <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit news{/translate}" />
         </td>
     </tr>
 </table>
-<br/>
+<input type="hidden" name="id" value="{$infos.news_id}" />
 </form>
-
-<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
-    <tr class="tr_header_small">
-        <td>
-            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
-        </td>
-        <td>
-            {* display pagination info *}
-            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-        </td>
-    </tr>
-</table>
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
-    <tr class="tr_header">
-        <th width="150px">{columnsort html='Date'}</th>
-        <th>{columnsort selected_class="selected"
-                        html='Title'}</th>
-        <th>{columnsort html='Category'}</th>
-        <th>{columnsort html='Author'}</th>
-        <th>{columnsort html='Draft'}</th>
-        <th width="1%">{translate}Edit{/translate}</th>
-        <th width="1%">{translate}Delete{/translate}</th>
-    </tr>
-
-    {foreach item=news from=$newsarchiv}
-    <tr class="tr_row1">
-            <td>{translate}{$news.news_added|date_format:"%A"}{/translate}, {translate}{$news.news_added|date_format:"%B"}{/translate}{$news.news_added|date_format:" %e, %Y"}</td>
-            <td><b>{$news.news_title}</b></td>
-            <td>{$news.cat_name}</td>
-            <td><a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a></td>
-            <td>
-            {if $news.draft==0}
-                {translate}unpublished{/translate}
-            {else}
-                {translate}published{/translate}
-            {/if}
-            </td>
-            <td align="center">
-                <input class="ButtonGreen" type="button" value="Edit" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}'" />
-            </td>
-            <td align="center">
-                <input type="checkbox" value="{$news.news_id}" name="deletes[]" />
-            </td>
-    </tr>
-    {/foreach}
-    <tr class="tr_row1">
-        <td colspan="6"></td>
-        <td><input class="ButtonRed" type="submit" value="Delete" /></td>
-    </tr>
-
-</table>
-<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
-    <tr class="tr_header_small">
-        <td>
-            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
-        </td>
-        <td>
-            {* display pagination info *}
-            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-        </td>
-    </tr>
-</table>
