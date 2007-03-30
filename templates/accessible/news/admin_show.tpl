@@ -76,6 +76,7 @@
             </td>
             <td align="center">
                 <input type="checkbox" value="{$news.news_id}" name="delete[]" />
+                <input type="hidden" value="{$news.news_id}" name="ids[]" />
             </td>
     </tr>
     {/foreach}
