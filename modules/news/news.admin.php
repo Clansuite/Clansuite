@@ -110,15 +110,15 @@ class module_news_admin
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
 
         // required connect
+        global $SmartyPaginate;
         $SmartyPaginate = new SmartyPaginate();
         $SmartyPaginate->connect();
 
         // set URL
-        $SmartyPaginate->setUrl('index.php?mod=news&action=archiv');
+        $SmartyPaginate->setUrl('index.php?mod=news&amp;sub=admin');
         $SmartyPaginate->setUrlVar('page');
         // set items per page
-        $SmartyPaginate->setLimit(20);
-        echo "peter stinkt";
+        $SmartyPaginate->setLimit(10);
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
@@ -176,7 +176,7 @@ class module_news_admin
         $tpl->assign('newsarchiv', $newsarchiv);
         $tpl->assign('newscategories', $newscategories);
 
-       $this->output = $tpl->fetch('news/show_admin.tpl');
+        $this->output = $tpl->fetch('news/show_admin.tpl');
     }
 
     /**

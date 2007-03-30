@@ -26,7 +26,9 @@
  * @version 1.5
  */
 
-function smarty_function_paginate_middle($params, &$smarty) {
+function smarty_function_paginate_middle($params, &$smarty)
+{
+    global $SmartyPaginate;
 
     $_id = 'default';
     $_prefix = '[';
@@ -48,7 +50,7 @@ function smarty_function_paginate_middle($params, &$smarty) {
     foreach($params as $_key => $_val) {
         switch($_key) {
             case 'id':
-                if (!SmartyPaginate::isConnected($_val)) {
+                if (!$SmartyPaginate->isConnected($_val)) {
                     $smarty->trigger_error("paginate_middle: unknown id '$_val'");
                     return;
                 }
@@ -88,9 +90,9 @@ function smarty_function_paginate_middle($params, &$smarty) {
 
     $_url = $_SESSION['SmartyPaginate'][$_id]['url'];
 
-    $_total = SmartyPaginate::getTotal($_id);
-    $_curr_item = SmartyPaginate::getCurrentItem($_id);
-    $_limit = SmartyPaginate::getLimit($_id);
+    $_total = $SmartyPaginate->getTotal($_id);
+    $_curr_item = $SmartyPaginate->getCurrentItem($_id);
+    $_limit = $SmartyPaginate->getLimit($_id);
 
     $_item = 1;
     $_page = 1;
@@ -121,7 +123,7 @@ function smarty_function_paginate_middle($params, &$smarty) {
         if($_item != $_curr_item) {
             $_this_url = $_url;
             $_this_url .= (strpos($_url, '?') === false) ? '?' : '&';
-            $_this_url .= SmartyPaginate::getUrlVar($_id) . '=' . $_item;
+            $_this_url .= $SmartyPaginate->getUrlVar($_id) . '=' . $_item;
             $_ret .= $_link_prefix . '<a href="' . preg_replace('/&([^a][^m][^p][^\;])/', "&amp;$1", $_this_url) . '"' . $_attrs . '>' . $_text . '</a>' . $_link_suffix;
         } else {
             $_ret .= $_link_prefix . $_text . $_link_suffix;
