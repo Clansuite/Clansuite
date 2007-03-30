@@ -282,7 +282,8 @@ table.admintable tr#cell3
 	background: url(../images/td_header.gif) repeat-x;
 }
 
-.tr_header td
+.tr_header td,
+.tr_header th
 {
     background: #254161;
     border: 1px solid;

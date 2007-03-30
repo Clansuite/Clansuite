@@ -3,66 +3,80 @@
 {$newscategories|@var_dump}
 {$paginate|@var_dump}
 *}
-
-<style type="text/css">
-    {literal}
-    .selected { color:green; }
-    {/literal}
-    </style>
-
-
-<table border="0" cellpadding="0" cellspacing="0" style="width:99%">
+<form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
+<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
     <tr class="tr_header">
-        <td colspan="3">News - Liste - New News - Settings</td>
+        <td colspan="3">{translate}News Settings{/translate}</td>
     </tr>
+    <tr class="tr_row1">
+         <td colspan="2"><b>{translate}Category:{/translate}</b>
+            <select name="cat_id" class="input_text">
+                <option value="0">-- {translate}all{/translate} --</option>
+
+                {foreach item=cats from=$newscategories}
+                    <option value="{$cats.cat_id}" {if $smarty.post.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name}</option>
+                {/foreach}
+
+            </select>
+
+             <input class="ButtonYellow" type="submit" name="submit" value="{translate}Show{/translate}" />
+        </td>
+    </tr>
+</table>
+<br/>
+</form>
+
+<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
     <tr class="tr_header_small">
         <td>
-            <img src="symbols/crystal_clear/16/contents.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
+            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
         </td>
         <td>
             {* display pagination info *}
             {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
         </td>
     </tr>
-    <tr>
-         <td colspan="2">Kategorie-Auswahl:
-
-            <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
-            <select name="cat_id" class="form">
-                <option value="0">----</option>
-
-                {foreach item=cats from=$newscategories}
-                <option value="{$cats.cat_id}">{$cats.name}</option>
-                {/foreach}
-
-            </select>
-
-             <input type="submit" name="submit" value="Anzeigen" class="form"/></form>
-        </td>
-    </tr>
 </table>
-<br/>
-
-<table border="0" cellspacing="1" cellpadding="3" style="width:99%">
-    <tr>
-        <th>{columnsort html="Datum"}</th>
+<table border="0" cellspacing="0" cellpadding="0" style="width:99%">
+    <tr class="tr_header">
+        <th width="150px">{columnsort html='Date' translate='1'}</th>
         <th>{columnsort selected_class="selected"
-                        html='Title'}</th>
-        <th>{columnsort html='Kategorie'}</th>
-        <th>{columnsort html='Verfasser'}</th>
-        <th>Draft</th>
-        <th>Action</th>
+                        html='Title' translate='1'}</th>
+        <th>{columnsort html='Category' translate='1'}</th>
+        <th>{columnsort html='Author' translate='1'}</th>
+        <th>{columnsort html='Draft' translate='1'}</th>
+        <th>{translate}Actions{/translate}</th>
     </tr>
 
     {foreach item=news from=$newsarchiv}
-    <tr>
-            <td>{$news.news_added}</td>
-            <td>{$news.news_title}</td>
+    <tr class="tr_row1">
+            <td>{translate}{$news.news_added|date_format:"%A"}{/translate}, {translate}{$news.news_added|date_format:"%B"}{/translate}{$news.news_added|date_format:" %e, %Y"}</td>
+            <td><b>{$news.news_title}</b></td>
             <td>{$news.cat_name}</td>
-            <td><a href='index.php?mod=users&id={$news.user_id}'>{$news.nick}</a></td>
-            <td>published</td>
-            <td>add edit</td>
+            <td><a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a></td>
+            <td>
+            {if $news.draft==0}
+                {translate}unpublished{/translate}
+            {else}
+                {translate}published{/translate}
+            {/if}
+            </td>
+            <td align="center">
+                <input class="ButtonGreen" type="button" value="Edit" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}'" />
+                <input class="ButtonRed" type="button" value="Delete" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=delete&amp;id={$news.news_id}'" />
+            </td>
     </tr>
     {/foreach}
 
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
+    <tr class="tr_header_small">
+        <td>
+            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
+        </td>
+        <td>
+            {* display pagination info *}
+            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+        </td>
+    </tr>
 </table>

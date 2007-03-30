@@ -25,6 +25,8 @@
 *   line 76-84: asc_image and desc_image parameterdetection disabled
 */
 function smarty_function_columnsort($params, &$smarty) {
+    global $lang;
+
 	static $selected_class = NULL;
 	static $current_id = 0;
 
@@ -55,6 +57,11 @@ function smarty_function_columnsort($params, &$smarty) {
 	if(!isset($params['html'])) {
 		$smarty->trigger_error("columnsort: missing 'html' parameter.");
 		return;
+	}
+
+	if($params['translate'] == 1)
+	{
+	   $params['html'] = $lang->t($params['html']);
 	}
 	$html = $params['html'];
 
