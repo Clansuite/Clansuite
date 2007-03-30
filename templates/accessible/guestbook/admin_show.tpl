@@ -71,7 +71,7 @@
             <td>{if isset($entry.gb_admincomment)} 
                 {$entry.gb_admincomment} 
                 {else}
-                <input onclick="self.location.href='index.php?mod=guestbook&amp;sub=admin&amp;action=add_admincomment&amp;id={$entry.gb_id}'" type="button" value="{translate}Add Admin Comment{/translate}" class="ButtonGreen" /><br />
+                <input onclick="self.location.href='index.php?mod=guestbook&amp;sub=admin&amp;action=add_comment&amp;id={$entry.gb_id}'" type="button" value="{translate}Add Admin Comment{/translate}" class="ButtonGreen" /><br />
                 {/if}
                 </td>  
             <td align="center">
