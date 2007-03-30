@@ -4,7 +4,7 @@
 {$paginate|@var_dump}
 *}
 <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
-<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
+<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
     <tr class="tr_header">
         <td colspan="3">{translate}News Settings{/translate}</td>
     </tr>
@@ -26,7 +26,7 @@
 <br/>
 </form>
 
-<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
+<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
     <tr class="tr_header_small">
         <td>
             <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
@@ -37,7 +37,7 @@
         </td>
     </tr>
 </table>
-<table border="0" cellspacing="0" cellpadding="0" style="width:99%">
+<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
     <tr class="tr_header">
         <th width="150px">{columnsort html='Date' translate='1'}</th>
         <th>{columnsort selected_class="selected"
@@ -45,7 +45,8 @@
         <th>{columnsort html='Category' translate='1'}</th>
         <th>{columnsort html='Author' translate='1'}</th>
         <th>{columnsort html='Draft' translate='1'}</th>
-        <th>{translate}Actions{/translate}</th>
+        <th width="1%">{translate}Edit{/translate}</th>
+        <th width="1%">{translate}Delete{/translate}</th>
     </tr>
 
     {foreach item=news from=$newsarchiv}
@@ -63,13 +64,15 @@
             </td>
             <td align="center">
                 <input class="ButtonGreen" type="button" value="Edit" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}'" />
-                <input class="ButtonRed" type="button" value="Delete" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=delete&amp;id={$news.news_id}'" />
+            </td>
+            <td align="center">
+                <input type="checkbox" value="{$news.news_id}" name="deletes[]" />
             </td>
     </tr>
     {/foreach}
 
 </table>
-<table border="0" cellpadding="0" cellspacing="0" style="width:99%;">
+<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
     <tr class="tr_header_small">
         <td>
             <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
