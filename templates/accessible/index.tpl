@@ -54,7 +54,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
 	</ul>
 </div>
-{include file='breadcrumbs.tpl'}
+{include file='tools/breadcrumbs.tpl'}
 <div id="box">
 	<div id="left">
 		{mod name="account" func="login"}
