@@ -32,18 +32,28 @@
 </script>
 {/literal}
 
+<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
+    <tr class="tr_header_small">
+        <td>
+        <div style="float:left;">
+            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> 
+            {if $paginate.size gt 1}
+              Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
+            {else}
+              Item {$paginate.first} of {$paginate.total} displayed.    
+            {/if}
+        </div>
+        <span style="float:right;">
+            {* display pagination info *}
+            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+        </span>       
+        </td>
+    </tr>
+</table>
+
 <form action="index.php?mod=guestbook&amp;sub=admin&amp;action=delete" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="800px" align="center" style="text-align:center">
-        <tr class="tr_header_small">
-            <td colspan="9">
-                <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
-            </td>
-            <td colspan="2">
-                {* display pagination info *}
-                {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-            </td>
-        </tr>
-      	<tr class="tr_header">
+        <tr class="tr_header">
          	<td>{columnsort html='ID'}</td>
        		<td>{columnsort html='Author/Nick'}</td>
        		<td>{columnsort selected_class="selected" html='Date/Added'}</td>
@@ -86,15 +96,25 @@
                 <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}" />
                 <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected entries{/translate}" />
             </td>
-        </tr>      
-        <tr class="tr_header_small">
-            <td colspan="9">
-                <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> Gesamt: 13
-            </td>
-            <td colspan="2">
-                {* display pagination info *}
-                {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-            </td>
-        </tr>
+        </tr>        
 </table>
 </form>
+
+<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
+    <tr class="tr_header_small">
+        <td>
+        <div style="float:left;">
+            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" /> 
+            {if $paginate.size gt 1}
+              Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
+            {else}
+              Item {$paginate.first} of {$paginate.total} displayed.    
+            {/if}
+        </div>
+        <span style="float:right;">
+            {* display pagination info *}
+            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+        </span>       
+        </td>
+    </tr>
+</table>
