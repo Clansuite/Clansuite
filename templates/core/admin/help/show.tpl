@@ -1,10 +1,5 @@
 {* DEBUG {$info|@var_dump} *}
-{doc_raw}
-
-    {* Prototype + Scriptaculous + Smarty_Ajax *}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js" ></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/smarty_ajax.js"></script>
+{doc_raw}    
     {* Clip Clap Toggle *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 {/doc_raw}
