@@ -1,5 +1,5 @@
 {* DEBUG {$info|@var_dump} *}
-{doc_raw}    
+{doc_raw}
     {* Clip Clap Toggle *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
 {/doc_raw}
@@ -38,7 +38,7 @@
 				 	//<![CDATA[
                     new Ajax.InPlaceEditor('helptext',
                                           'index.php?mod=admin&sub=help&action=save_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
-                                          {handleLineBreaks: false, okText: '{/literal}Save{literal}',hoverText: '{/literal}Click to Edit{literal}',cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=admin&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+                                          {handleLineBreaks: false, okText: '{/literal}Save{literal}',hoverText: '{/literal}Click to Edit{literal}',cancelButton: true, cancelLink: false, cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=admin&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
 					//]]>
                  </script>
                 {/literal}
@@ -76,7 +76,7 @@
 				//<![CDATA[
                 new Ajax.InPlaceEditor('related_links_container',
                                    'index.php?mod=admin&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
-                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, okText: '{/literal}Save{literal}',cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'}
+                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, okText: '{/literal}Save{literal}',cancelButton: true, cancelLink: false, cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=admin&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'}
                                     );
 				//]]>
              </script>

@@ -46,17 +46,22 @@
                     <script type="text/javascript">
                         function help_toggler()
                         {
-                            if ( $('help_toggle').style.display == 'none' )
+
+                            if ( $('help_td').style.display == 'none' )
                             {
                                 // Show Stuff
-                                new Effect.Appear('help_toggle');
-                                new Effect.Appear('help_toggle_2');
+                                new Effect.Scale('help_toggle', 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalWidth: 350 }});
+                                new Effect.Scale('help_toggle_2', 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalWidth: 350 }});
+                                new Effect.Appear( 'help_td' );
+                                new Effect.Appear( 'help_td_2' );
                             }
                             else
                             {
                                 // Hide Stuff
-                                new Effect.Fade('help_toggle');
-                                new Effect.Fade('help_toggle_2');
+                                new Effect.Scale('help_toggle', 0, {scaleContent: false, scaleFrom: 100, scaleMode: { originalWidth: 350 }});
+                                new Effect.Scale('help_toggle_2', 0, {scaleContent: false, scaleFrom: 100, scaleMode: { originalWidth: 350 }});
+                                new Effect.Fade( 'help_td' );
+                                new Effect.Fade( 'help_td_2' );
                             }
                         }
                     </script>
@@ -66,18 +71,19 @@
                     {translate}Help{/translate}
                 </div>
                 </td>
-                <td id="help_toggle" class="admin_header_help" style="display: none;">
-                   &raquo; {translate}Help{/translate}
+                <td id="help_td" class="admin_header_help" style="display: none;" width="1px">
+                   <div id="help_toggle" style="height: 18px; width: 0px; overflow: hidden;">&raquo; {translate}Help{/translate}</div>
                 </td>
             </tr>
         </thead>
         <tbody>
         <tr>
-            <td width="80%" class="admin_content">
+            <td class="admin_content" width="100%">
                 {$content}
             </td>
-            <td id="help_toggle_2" width="20%" class="admin_help" style="padding: 0px; display: none;">
-                {mod name="admin" sub="help" func="instant_show"}
+            <td id="help_td_2" class="admin_help" style="padding: 0px; display: none;">
+                <div id="help_toggle_2" style="height: 100%; padding: 0px; width: 0px; overflow: hidden;">{mod name="admin" sub="help" func="instant_show"}</div>
+
             </td>
         </tr>
         </tbody>

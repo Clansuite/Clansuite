@@ -64,7 +64,7 @@
     <tr class="tr_row1">
         <td>{translate}{$news.news_added|date_format:"%A"}{/translate}, {translate}{$news.news_added|date_format:"%B"}{/translate}{$news.news_added|date_format:" %e, %Y"}</td>
         <td>
-        <strong>{$news.news_title}</strong>&nbsp;( <a href="javascript:void(0);" onclick='{literal}Dialog.alert({url: "index.php?mod=news&sub=admin&action=show_single&id={/literal}{$news.news_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:540, okLabel: "{/literal}{translate}Close{/translate}{literal}"});{/literal}'>fast view</a> )
+        <strong>{$news.news_title}</strong>&nbsp;( <a href="javascript:void(0);" onclick='{literal}Dialog.alert({url: "index.php?mod=news&amp;sub=admin&amp;action=show_single&amp;id={/literal}{$news.news_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:540, okLabel: "{/literal}{translate}Close{/translate}{literal}"});{/literal}'>fast view</a> )
         </td>
         <td>{$news.cat_name}</td>
         <td><a href='index.php?mod=admin&amp;sub=users&amp;action=edit&amp;id={$news.user_id}'>{$news.nick}</a></td>
