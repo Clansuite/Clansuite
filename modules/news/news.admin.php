@@ -148,9 +148,9 @@ class module_news_admin
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        // Category settings
+        // add cat_id to select statement if set, else empty
         $sql_cat = $cat == 0 ? '' : 'WHERE n.cat_id = ' . $cat;
-
+        
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, n.draft,
                                      n.user_id, u.nick,
@@ -164,16 +164,15 @@ class module_news_admin
                                 ORDER BY '. $sortorder .' LIMIT ?,?');
 
         // TODO: news with status: draft, published, private, private+protected
-        $hidden = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
         $stmt->bindParam(2, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
         $stmt->bindParam(3, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
-
+     
         // Get Number of Rows
-        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
-        $rows->execute();
+        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news n '. $sql_cat);
+        $rows->execute( );
         $count = $rows->fetch(PDO::FETCH_NUM);
         // DEBUG - show total numbers of last Select
         // echo 'Found Rows: ' . $count;
@@ -239,27 +238,9 @@ class module_news_admin
         {
             $select .= 'news_id = ' . $id . ' OR ';
         }
-        // code by xsign
-        // @todo explain reason for settings this: [OR user_id = -1000]
-        // @nodo: too lazy :D
-        // @done: substr, after discussion battles in icq - see below :D
-        /*
-          22:54 x!sign.dll: OTR:         // code by xsign
-                // @todo explain reason for settings this: [OR user_id = -1000]
-          22:55 x!sign.dll: OTR:         foreach ( $delete as $key => $id )
-                {
-                    $select .= 'news_id = ' . $id . ' OR ';
-                }
-                // code by xsign
-                // @todo explain reason for settings this: [OR user_id = -1000]
-                $select .= 'news_id = -1000';
-          22:56 Stunt|vain: OTR: $select .= 'news_id = ' . $id;
-          22:57 x!sign.dll: OTR: news_id = 1 OR news_id = 2
-          22:57 x!sign.dll: OTR: news_id = 1 OR news_id = 2 OR
-          22:59 Stunt|vain: OTR: 1+OR ; 2+OR
-          22:59 Stunt|vain: OTR: 1; OR+2; OR+3
-          23:00 x!sign.dll: OTR: $select = substr($select, 0, -4);
-        */
+        /** 
+         * dirty select statement creation, by cutting off the last OR
+         */
         $select = substr($select, 0, -4);
         $stmt = $db->prepare( $select );
         $stmt->execute();
