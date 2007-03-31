@@ -101,6 +101,7 @@ class module_news_admin
                 $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=delete');
                 $this->delete();
                 break;
+
             case 'show_single':
                 $this->show_single();
                 break;
@@ -305,10 +306,11 @@ class module_news_admin
     * @global $input
     * @global $tpl
     * @global $cfg
+    * @global $perms
     */
     function create()
     {
-        global $db, $functions, $input, $lang, $tpl, $cfg;
+        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
         // Permission check
         $perms->check('create_news');
@@ -384,10 +386,11 @@ class module_news_admin
     * @global $input
     * @global $tpl
     * @global $cfg
+    * @global $perms
     */
     function edit()
     {
-        global $db, $functions, $input, $lang, $tpl, $cfg;
+        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
         // Permission check
         $perms->check('edit_news');
@@ -484,11 +487,26 @@ class module_news_admin
     * @global $input
     * @global $tpl
     * @global $cfg
+    * @global $perms
     */
     function show_single()
     {
-        global $db, $functions, $input, $lang, $tpl, $cfg;
+        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
+        // Incoming vars
+        $news_id = $_GET['id'];
+
+        if( $perms->check('view_news', 'no_redirect') == true )
+        {
+            $stmt = $db->prepare('SELECT news_body FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
+            $stmt->execute( array( $news_id ) );
+            $result = $stmt->fetch( PDO::FETCH_NAMED );
+            $this->output =  $result['news_body'];
+        }
+        else
+        {
+            $this->output .= $lang->t('You are not allowed to view single news.');
+        }
         $this->suppress_wrapper = 1;
     }
 
