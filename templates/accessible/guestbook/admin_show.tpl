@@ -1,7 +1,6 @@
 {* Debugausgabe des Arrays:  {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
-
-{doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax_inplace_fader.js"></script>
+{doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"> </script>
   	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
   	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
