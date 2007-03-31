@@ -1,10 +1,10 @@
-Posts in Thread of Forum {$board_navigation.parent_forum} (posts.tpl)
+Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 
 <table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
     
     <tr class="tr_header">
         <th>Author</th>
-        <th>Entry</th>
+        <th>Entry </th>
     </tr>
 
  {*   {foreach item=post from=$posts} *}
@@ -16,6 +16,8 @@ Posts in Thread of Forum {$board_navigation.parent_forum} (posts.tpl)
             -avatarimage
             <br />
             -rank
+            <br /> 
+            -x posts
             <br />
             -group
             <br />
@@ -27,6 +29,8 @@ Posts in Thread of Forum {$board_navigation.parent_forum} (posts.tpl)
                 
                 <br />
                 {$post.message} MESSAGE
+                <br />
+                last edited by author / date
                 <br />
                 Profile - WWW - ICQ    
             </td>                   

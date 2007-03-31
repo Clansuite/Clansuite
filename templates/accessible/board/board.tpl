@@ -6,7 +6,6 @@
 
 {$board_footer}
 
-
 {include file="board/forums.tpl"}
 
 <br />
@@ -26,3 +25,6 @@
 <br />
 
 {include file="board/posts.tpl}
+
+{include file="board/stats.tpl}
+
