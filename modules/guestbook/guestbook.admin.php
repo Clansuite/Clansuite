@@ -90,6 +90,14 @@ class module_guestbook_admin
                 $this->get_comment();
                 break;
 
+            case 'show_single':
+                $this->show_single();
+                break;
+
+            case 'edit':
+                $this->edit();
+                break;
+
             case 'delete':
                 $this->delete();
                 break;
@@ -165,6 +173,7 @@ class module_guestbook_admin
         $bbcode = new bbcode();
         foreach( $guestbook_entries as $key => $value )
         {
+            $guestbook_entries[$key]['gb_text'] = $bbcode->parse($value['gb_text']);
             $guestbook_entries[$key]['gb_comment'] = $bbcode->parse($value['gb_comment']);
         }
 
@@ -242,6 +251,41 @@ class module_guestbook_admin
         // Helptext in Raw from Database
         $this->output = $result['gb_comment'];
         $this->suppress_wrapper = true;
+    }
+
+    /**
+    * AJAX request to save the comment
+    * 1. save comment in raw with bbcodes on - into database
+    * 2. return comment with formatted bbcode = raw to html-style
+    *
+    * @global $db
+    * @global $tpl
+    * @global $functions
+    * @global $lang
+    */
+    function edit()
+    {
+        global $db, $tpl, $functions, $lang;
+        /**
+        * @desc Incoming Vars
+        */
+        $infos = $_POST['infos'];
+
+        // Add/Modify comment
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
+                               SET  `gb_added` = :gb_added,
+                                    `gb_icq` = :gb_icq,
+                                    `gb_nick` = :gb_nick,
+                                    `gb_email` = :gb_email,
+                                    `gb_website` = :gb_website,
+                                    `gb_town` = :gb_town,
+                                    `gb_text` = :gb_text,
+                                    `gb_ip` = :gb_ip
+                               WHERE `gb_id` = :gb_id' );
+        $stmt->execute( $infos );
+
+        // Redirect on finish
+        $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
     }
 
     function delete()
@@ -324,7 +368,39 @@ class module_guestbook_admin
 
         // Redirect to main
         $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected guestbook entr(y/ies) were deleted.' ), 'admin' );
-
     }
 
+    /**
+    * Show a single news
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    * @global $tpl
+    * @global $cfg
+    * @global $perms
+    */
+    function show_single()
+    {
+        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
+
+        // Incoming vars
+        $gb_id = $_GET['id'];
+
+        if( $perms->check('view_gb', 'no_redirect') == true )
+        {
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
+            $stmt->execute( array( $gb_id ) );
+            $result = $stmt->fetch( PDO::FETCH_NAMED );
+
+            $tpl->assign( 'infos', $result);
+            $this->output = $tpl->fetch('guestbook/admin_edit.tpl');
+        }
+        else
+        {
+            $this->output = $lang->t('You are not allowed to view single news.');
+        }
+        $this->suppress_wrapper = 1;
+    }
 }

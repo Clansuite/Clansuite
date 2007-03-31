@@ -1,6 +1,15 @@
 {* Debugausgabe des Arrays:  {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax_inplace_fader.js"></script>
+{doc_raw}
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax_inplace_fader.js"></script>
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
+{/doc_raw}
 
 {include file="tools/paginate.tpl"}
 
@@ -16,7 +25,8 @@
        		<td>{columnsort html='Town'}</td>
        		<td>{columnsort html='Message'}</td>
        		<td>{columnsort html='IP'}</td>
-       		<td width="1%">{translate}Delete{/translate}</td>
+       		<td align="center" width="1%">{translate}Edit{/translate}</td>
+       		<td align="center" width="1%">{translate}Delete{/translate}</td>
        	</tr>
 
         {foreach item=entry from=$guestbook}
@@ -26,10 +36,11 @@
                 <td>{$entry.gb_added}</td>
                 <td>{$entry.gb_email}</td>
                 <td>{$entry.gb_icq}</td>
-                <td>{$entry.gb_website}</td>
+                <td><a href="{$entry.gb_website}" target="_blank">{$entry.gb_website|truncate:15:"...":true}</a></td>
                 <td>{$entry.gb_town}</td>
                 <td>{$entry.gb_text}</td>
                 <td>{$entry.gb_ip}</td>
+                <td align="center"><input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.alert({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=show_single&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:540, okLabel: "{/literal}{translate}Abort{/translate}{literal}"});{/literal}' /></td>
                 <td align="center">
                             <input type="hidden" name="ids[]" value="{$entry.gb_id}" />
                             <input type="checkbox" name="delete[]" value="{$entry.gb_id}" />
@@ -38,7 +49,7 @@
             <tr class="tr_row1">
                 <td colspan="2"><b>{translate}Comment:{/translate}</b></td>
                 <td colspan="11" style="background: #3BC2F2;">
-                    <div id="gb_comment">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}{translate}There is no comment. Click here to add one.{/translate}{/if}</div>
+                    <div id="gb_comment" height="1%">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}{translate}There is no comment. Click here to add one.{/translate}{/if}</div>
                 </td>
             </tr>
             {* GB Comment AJAX *}

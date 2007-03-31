@@ -153,13 +153,17 @@ Object.extend(Ajax.InPlaceEditorPlusFader.prototype, {
     this.oldInnerHTML = null;
     this.onLeaveEditMode();
   },
+  truelyRemoveForm: function(form) {
+      if (this.form.parentNode) Element.remove(this.form);
+      this.form = null;
+  },
   removeForm: function() {
     if(this.form) {
-      //if (this.form.parentNode) //Element.remove(this.form);
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.truelyRemoveForm.bind(this), 700);
       new Effect.Scale(this.editField, 10, {scaleContent: false, scaleFrom: 100, scaleMode: { originalHeight: 200, originalWidth: 400 }});
       new Effect.Fade(this.editField);
       new Effect.Fade(this.form);
-      //this.form = null;
     }
   },
   onLoading: function() {
