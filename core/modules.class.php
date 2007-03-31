@@ -100,12 +100,8 @@ class modules
         // add submodule values to each module
         foreach ($modules as $modul => $value)
         {
-         $cfg->modules[$value['name']] = $value;
-
+            $cfg->modules[$value['name']] = $value;
         }
-
-        // DEBUG
-        // var_dump($cfg->modules);
     }
 
     /**
