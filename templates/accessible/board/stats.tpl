@@ -19,7 +19,7 @@ Board Statistics (stats.tpl)
                 <br />
                 Newest Member: x
                 <br />
-                Forum Page Views: 407
+                Forum Page Views: x
             </td> 
          </tr>          
  {*   {/foreach} *}

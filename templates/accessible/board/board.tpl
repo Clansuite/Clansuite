@@ -26,5 +26,14 @@
 
 {include file="board/posts.tpl}
 
+<br />
+
+<br />
+
 {include file="board/stats.tpl}
 
+<br />
+
+<br />
+
+{include file="board/quickpost.tpl}
