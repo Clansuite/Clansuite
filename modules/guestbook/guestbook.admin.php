@@ -82,11 +82,13 @@ class module_guestbook_admin
                 $this->show();
                 break;
 
-            case 'add_comment':
-                $trail->addStep($lang->t('Add Admincomment'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=add_comment');
-                $this->add_comment();
+            case 'save_comment':
+                $this->save_comment();
                 break;
 
+            case 'get_comment':
+                $this->get_comment();
+                break;
 
             case 'delete':
                 $this->delete();
@@ -100,8 +102,18 @@ class module_guestbook_admin
     }
 
     /**
-     * Show the entrance - welcome message etc.
-     */
+    * Show all guestbook entries and give the possibility to edit/delete
+    *
+    * @global $cfg
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $functions
+    * @global $security
+    * @global $input
+    * @global $perms
+    */
     function show()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
@@ -148,7 +160,15 @@ class module_guestbook_admin
         // assign the {$paginate} to $tpl (smarty var)
         $SmartyPaginate->assign($tpl);
 
-            // give $newslist array to Smarty for template output
+        // Transform RAW text to BB-formatted Text
+        require_once( ROOT_CORE . '/bbcode.class.php' );
+        $bbcode = new bbcode();
+        foreach( $guestbook_entries as $key => $value )
+        {
+            $guestbook_entries[$key]['gb_comment'] = $bbcode->parse($value['gb_comment']);
+        }
+
+        // give $newslist array to Smarty for template output
         $tpl->assign('guestbook', $guestbook_entries);
 
         /**
@@ -158,50 +178,70 @@ class module_guestbook_admin
 
     }
 
-    function add_comment()
+    /**
+    * AJAX request to save the comment
+    * 1. save comment in raw with bbcodes on - into database
+    * 2. return comment with formatted bbcode = raw to html-style
+    *
+    * @global $db
+    * @global $tpl
+    */
+    function save_comment()
     {
-        global $tpl, $db, $functions, $input, $lang;
+        global $db, $tpl;
+        /**
+        * @desc Incoming Vars
+        */
+        $gb_id      = urldecode($_GET['id']);
+        $comment    = urldecode($_POST['value']);
 
         /**
-         * Incoming vars
-         */
-        $submit     = $_POST['submit'];
-        $info       = isset($_POST['info']) ? $_POST['info'] : array();
-        $gb_id      = isset($_GET['id']) ? (int)$_GET['id'] : (int)$_POST['info']['gb_id'];
+        * @desc Get comment from DB
+        */
+        $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
+                               WHERE `gb_id` = ?' );
+        $stmt->execute( array( $gb_id ) );
+        $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+        // Add/Modify comment
+        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
+                               SET `gb_comment` = ? WHERE `gb_id` = ?' );
+        $stmt->execute( array( $comment, $gb_id ) );
+
+        // Transform RAW text to BB-formatted Text
+        require_once( ROOT_CORE . '/bbcode.class.php' );
+        $bbcode = new bbcode();
+        $parsed_comment = $bbcode->parse($comment);
+
+        $this->output .= $parsed_comment;
+        $this->suppress_wrapper = 1;
+    }
+
+    /**
+    * AJAX request to get the helptext in raw from database
+    *
+    * @global $db
+    */
+    function get_comment()
+    {
+        global $db;
 
         /**
-         * @desc Insert on submit, no error
-         */
-        if ( !empty( $submit ) && count($errors) == 0 )
-        {
-             /**
-             * Set Error: admin comment
-             */
-            if( empty($info['gb_admincomment']) ) $errors['fill_form']    = 1;
+        * @desc Incoming Vars
+        */
+        $gb_id = $_GET['id'];
 
-            /**
-             * @desc Insert the area into the DB
-             */
-              echo 'info';    var_dump($info);
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook SET gb_admincomment = ? WHERE gb_id = ?');
-            $stmt->execute( array ( $info['gb_admincomment'], $info['gb_id'] ) );
+        /**
+        * @desc Get comment from DB
+        */
+        $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
+                               WHERE `gb_id` = ?' );
+        $stmt->execute( array( $gb_id ) );
+        $result = $stmt->fetch(PDO::FETCH_NAMED);
 
-            /**
-             * @desc Redirect...
-             */
-            $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The admincomment added.' ), 'admin' );
-        }
-        else
-        {
-            // submit is empty
-            // so attach gb_id from url to the first output of the add_admincomment.tpl
-             $info['gb_id'] = $gb_id;
-        }
-
-        // Output
-        $tpl->assign( 'errors'  , $errors );
-        $tpl->assign( 'info'    , $info);
-        $this->output .= $tpl->fetch( 'guestbook/admin_add_comment.tpl' );
+        // Helptext in Raw from Database
+        $this->output = $result['gb_comment'];
+        $this->suppress_wrapper = true;
     }
 
     function delete()

@@ -262,7 +262,7 @@ CREATE TABLE `cs_guestbook` (
 --
 
 /*!40000 ALTER TABLE `cs_guestbook` DISABLE KEYS */;
-INSERT INTO `cs_guestbook` VALUES ('1',1241234123,'nick','email',123124,'www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf',1231231231,'mir nur ganz alleine :)');
+INSERT INTO `cs_guestbook` VALUES ('1',1241234123,'nick','email',123124,'www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf',1231231231,'mir nur ganz alleine :) [b]fu[/b]\n\n\nasdfasdf');
 /*!40000 ALTER TABLE `cs_guestbook` ENABLE KEYS */;
 
 --
@@ -279,14 +279,14 @@ CREATE TABLE `cs_help` (
   `related_links` text NOT NULL,
   PRIMARY KEY  (`help_id`),
   UNIQUE KEY `help_id` (`help_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_help`
 --
 
 /*!40000 ALTER TABLE `cs_help` DISABLE KEYS */;
-INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[/b] [i]ITALICS: Italiener sind Spagettifresser![/i]\n[s]STRANGETEST: not defined bbcode[/s]\n\n[code=php]\n<?php\necho \'test\';\n?>\n[/code]','www'),(2,'admin','modules','export','test',''),(3,'admin','bbcode','show','[b]asdfsadf[/b]\n\n[i]help[/i]',''),(7,'admin','users','show','[s]not defined[/s]','[url]http://www.clansuite.com/users[/url]'),(9,'admin','groups','show','[b]wow[/b]',''),(10,'admin','settings','show','[b]ficken[/b]\n\n\nasdf','[url]www.google.de[/url]\n[url]www.clansuite.com[/url]'),(11,'admin','modules','install_new','[b]fuuuuuu[/b]\n\n\n[url]http:/hhhhasdfsadfas\n','asdfsdf'),(12,'serverlist','admin','show','','[url]http://www.google.de[/url]'),(13,'admin','modules','show_all','sadfsaf','');
+INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[/b] [i]ITALICS: Italiener sind Spagettifresser![/i]\n[s]STRANGETEST: not defined bbcode[/s]\n\n[code=php]\n<?php\necho \'test\';\n?>\n[/code]','www'),(2,'admin','modules','export','test',''),(3,'admin','bbcode','show','[b]asdfsadf[/b]\n\n[i]help[/i]',''),(7,'admin','users','show','[s]not defined[/s]','[url]http://www.clansuite.com/users[/url]'),(9,'admin','groups','show','[b]wow[/b]',''),(10,'admin','settings','show','[b]ficken[/b]\n\n\nasdf','[url]www.google.de[/url]\n[url]www.clansuite.com[/url]'),(11,'admin','modules','install_new','[b]fuuuuuu[/b]\n\n\n[url]http:/hhhhasdfsadfas\n','asdfsdf'),(12,'serverlist','admin','show','','[url]http://www.google.de[/url]'),(13,'admin','modules','show_all','sadfsaf',''),(14,'guestbook','admin','show','','');
 /*!40000 ALTER TABLE `cs_help` ENABLE KEYS */;
 
 --
@@ -520,7 +520,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'6ffbe998ecf4bb30ae244cf6f9c64fbd','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"6ffbe998ecf4bb30ae244cf6f9c64fbd\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:8:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:1;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:45:\"index.php?mod=guestbook&sub=admin&action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:10:{i:0;s:5:\"gb_id\";i:1;s:8:\"gb_added\";i:2;s:7:\"gb_nick\";i:3;s:8:\"gb_email\";i:4;s:6:\"gb_icq\";i:5;s:10:\"gb_website\";i:6;s:7:\"gb_town\";i:7;s:7:\"gb_text\";i:8;s:15:\"gb_admincomment\";i:9;s:5:\"gb_ip\";}s:14:\"default_column\";i:1;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:1;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:46:\"/index.php?mod=guestbook&sub=admin&action=show\";}}','suiteSID',1175372803,1,'guestbook');
+INSERT INTO `cs_session` VALUES (1,'6ffbe998ecf4bb30ae244cf6f9c64fbd','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"6ffbe998ecf4bb30ae244cf6f9c64fbd\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:8:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:1;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:45:\"index.php?mod=guestbook&sub=admin&action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:10:{i:0;s:5:\"gb_id\";i:1;s:8:\"gb_added\";i:2;s:7:\"gb_nick\";i:3;s:8:\"gb_email\";i:4;s:6:\"gb_icq\";i:5;s:10:\"gb_website\";i:6;s:7:\"gb_town\";i:7;s:7:\"gb_text\";i:8;s:15:\"gb_admincomment\";i:9;s:5:\"gb_ip\";}s:14:\"default_column\";i:1;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:1;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:46:\"/index.php?mod=guestbook&sub=admin&action=show\";}}','suiteSID',1175375626,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -686,4 +686,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-03-31 20:02:11
+-- Dump completed on 2007-03-31 20:44:02
