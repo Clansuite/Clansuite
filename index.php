@@ -268,7 +268,7 @@ if( $cfg->modules[$_REQUEST['mod']]['enabled'] == 1 )
 }
 else
 {
-    $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('This module has been disable.') );
+    $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('This module has been disabled.') );
 }
 
 /**
