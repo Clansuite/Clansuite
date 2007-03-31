@@ -1,37 +1,6 @@
 {* Debugausgabe des Arrays:  {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
-
-{* Windows + Windows CSS Basic + Extra Theme *}
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax_inplace_fader.js"></script>
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"></script>
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/effects.js"> </script>
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/debug.js"> </script>
-<!-- Set Xilinus default and specific theme-->
-<link href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="{$www_core_tpl_root}/javascript/xilinus/themes/darkX.css" rel="stylesheet" type="text/css"/>
-
-
-<a href="#" onclick="openAlert()">open alert dialog</a><br/>
-<a href="#" onclick="openConfirm()">open confirm dialog</a><br/>
-<a href="#" onclick="openAjaxConfirm()">open confirm dialog, dialog content is filled by an ajax call</a><br/>
-
-{literal}
-<script type="text/javascript">
-  function openAlert() {
-   Dialog.alert("Add your <b>HTML</b> message here", {windowParameters: {className: "alphacube"}})
-  }
-
-  function openConfirm() {
-    Dialog.confirm("Add your <b>HTML</b> message here<br/>Better than a classic javascript alert?",
-                   {top: 10, width:250, className: "darkX", okLabel: "Yes", cancelLabel:"No"})
-  }
-
-  function openAjaxConfirm() {
-      Dialog.confirm({url: "dialog_ajax.html", options: {method: 'get'}},
-                     {top: 10, width:250, className: "darkX", okLabel: "Yes", cancelLabel:"No"})
-  }
-</script>
-{/literal}
 
 {include file="tools/paginate.tpl"}
 

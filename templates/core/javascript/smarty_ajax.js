@@ -1,5 +1,5 @@
 var SmartyAjax = {
-  
+
   call: function(url, method, params, params_func, callback) {
     if (params_func) {
       if (params.length != 0) params += "&";
@@ -12,8 +12,8 @@ var SmartyAjax = {
         parameters: params,
         onComplete: callback
       });
-  },  
-  
+  },
+
   update: function(update_id, url, method, params, callback) {
     var myAjax = new Ajax.Updater(
       update_id,
