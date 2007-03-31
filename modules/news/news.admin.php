@@ -65,8 +65,11 @@ class module_news_admin
 
     function auto_run()
     {
-        global $lang, $trail;
+        global $lang, $trail, $perms;
         $params = func_get_args();
+
+        // Permission check
+        $perms->check('access_controlcenter');
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
@@ -123,7 +126,7 @@ class module_news_admin
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
         // Permission check
-        $perms->check('edit_news');
+        $perms->check('view_news');
 
         // Incoming Vars
         $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
@@ -150,7 +153,7 @@ class module_news_admin
 
         // add cat_id to select statement if set, else empty
         $sql_cat = $cat == 0 ? '' : 'WHERE n.cat_id = ' . $cat;
-        
+
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, n.draft,
                                      n.user_id, u.nick,
@@ -169,7 +172,7 @@ class module_news_admin
         $stmt->bindParam(3, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
-     
+
         // Get Number of Rows
         $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news n '. $sql_cat);
         $rows->execute( );
@@ -201,10 +204,14 @@ class module_news_admin
     * @global $lang
     * @global $functions
     * @global $input
+    * @global $perms
     */
     function delete()
     {
-        global $db, $functions, $input, $lang;
+        global $db, $functions, $input, $lang, $perms;
+
+        // Permission check
+        $perms->check('edit_news');
 
         /**
          * @desc Init
@@ -236,9 +243,9 @@ class module_news_admin
         $select = 'SELECT news_id, news_title FROM ' . DB_PREFIX . 'news WHERE ';
         foreach ( $delete as $key => $id )
         {
-            $select .= 'news_id = ' . $id . ' OR ';
+            $select .= 'news_id = ' . (int) $id . ' OR ';
         }
-        /** 
+        /**
          * dirty select statement creation, by cutting off the last OR
          */
         $select = substr($select, 0, -4);
@@ -299,6 +306,9 @@ class module_news_admin
     function create()
     {
         global $db, $functions, $input, $lang, $tpl, $cfg;
+
+        // Permission check
+        $perms->check('create_news');
 
         // Incoming Vars
         $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
@@ -375,6 +385,9 @@ class module_news_admin
     function edit()
     {
         global $db, $functions, $input, $lang, $tpl, $cfg;
+
+        // Permission check
+        $perms->check('edit_news');
 
         // Incoming Vars
         $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
