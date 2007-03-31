@@ -58,12 +58,7 @@
 <br/>
 
 <br />
-{* display pagination header *}
-Entries {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
-<br />
-{* display pagination info *}
-{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-<hr />
+{include file="tools/paginate.tpl"}
 
 {foreach item=entry from=$guestbook}    
     Comment <a id="guestbook_entry_{$entry.gb_id}"> # {$entry.gb_id} by</a> <strong> <a href='index.php?mod=users&amp;show'>{$entry.gb_nick}</a></strong>
@@ -95,6 +90,4 @@ Entries {$paginate.first}-{$paginate.last} out of {$paginate.total} displayed.
     <hr />
 {/foreach}
 
-<hr />
-{* display pagination info *}
-{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+{include file="tools/paginate.tpl"}
