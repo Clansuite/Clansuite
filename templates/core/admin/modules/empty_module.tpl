@@ -65,16 +65,15 @@ class {$class_name}
     public $suppress_wrapper= '';
 
     /**
-    * @desc General Function Hook of {$name}-Modul
-    *
-    * 1. Set Pagetitle and Breadcrumbs
-    * 2. $_REQUEST['action'] determines the switch
-    * 3. function title is added to page title, to complete the title
-    * 4. switch-functions are called
-    *
-    * @return: array ( OUTPUT, ADDITIONAL_HEAD, SUPPRESS_WRAPPER )
-    *
-    */
+     * @desc General Function Hook of {$name}-Modul
+     *
+     * 1. Set Pagetitle and Breadcrumbs
+     * 2. $_REQUEST['action'] determines the switch
+     * 3. function title is added to page title, to complete the title
+     * 4. switch-functions are called
+     *
+     * @return: array ( OUTPUT, ADDITIONAL_HEAD, SUPPRESS_WRAPPER )
+     */
 
     function auto_run()
     {ldelim}
@@ -83,7 +82,7 @@ class {$class_name}
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('{$title}'), '/index.php?mod={$name}');
+        $trail->addStep($lang->t('{$title}'), 'index.php?mod={$name}');
 
         //
         switch ($_REQUEST['action'])
@@ -91,7 +90,7 @@ class {$class_name}
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod={$name}&action=show');
+                $trail->addStep($lang->t('Show'), 'index.php?mod={$name}&amp;action=show');
                 $this->show();
                 break;
 
@@ -106,13 +105,12 @@ class {$class_name}
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     {rdelim}
 
-
     /**
-    * Action -> Show
-    * Direct Call by URL/index.php?mod={$name}&action=show
-    *
-    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
-    */
+     * Action -> Show
+     * Direct Call by URL/index.php?mod={$name}&action=show
+     *
+     * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
+     */
 
     function show()
     {ldelim}
@@ -122,19 +120,19 @@ class {$class_name}
         $this->output .= $lang->t('You have created a new module, that currently handles this message');
     {rdelim}
 
-
     /**
-    * Instant Show
-    *
-    * Content of a module can be instantly displayed by adding the
-    * {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim}
-    * block into a template.
-    *
-    * You have to add the lines as shown above into the case block:
-    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    *
-    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users
+     * Instant Show
+     *
+     * Content of a module can be instantly displayed by adding the
+     * {ldelim}mod name="{$name}" sub="admin" func="instant_show" params="mytext"{rdelim}
+     * block into a template.
+     *
+     * You have to add the lines as shown above into the case block:
+     * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+     *
+     * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users
     */
+    
     function instant_show($my_text)
     {ldelim}
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
