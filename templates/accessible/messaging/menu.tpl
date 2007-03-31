@@ -1,3 +1,3 @@
-<a href="index.php?mod=messaging&action=create">{translate}Create a message{/translate}</a><br />
-<a href="index.php?mod=messaging&action=show">{translate}Incoming messages{/translate} ({$incoming_count})</a><br />
-<a href="index.php?mod=messaging&action=show_outgoing">{translate}Outgoing messages{/translate} ({$outgoing_count})</a><br />
+<img src="{$www_core_tpl_root}/images/crystal_clear/16/mail_new.png"> <a href="index.php?mod=messaging&action=create">{translate}Create a message{/translate}</a> |
+<img src="{$www_core_tpl_root}/images/crystal_clear/16/inbox.png"> <a href="index.php?mod=messaging&action=show">{translate}Incoming messages{/translate} ({$incoming_count})</a> |
+<img src="{$www_core_tpl_root}/images/crystal_clear/16/outbox.png"> <a href="index.php?mod=messaging&action=show_outgoing">{translate}Outgoing messages{/translate} ({$outgoing_count})</a>
