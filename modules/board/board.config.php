@@ -43,7 +43,7 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
 // For example:
 // If you have a module, that becomes beyond 3000 lines and you want to split that,
 // you can create a sub-module and shuffle off some of the functionality into the new file.
-// You have then the option to call the new submodule directly by its URL
+// So you've got the option to call the new submodule directly by its URL
 //
 // http://URL/index.php?mod=mymodule&sub=mysubmodule
 //
@@ -53,7 +53,7 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
 // $sub_files = array( 'sub_module_name' => array( 'file_name', 'class_name' ) );
 //----------------------------------------------------------------
 
-    $info['subs'] = array();
+$info['subs'] = array( 'admin' => array( 'board.admin.php', 'module_board_admin') );
 
 
 
