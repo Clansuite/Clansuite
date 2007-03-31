@@ -10,7 +10,6 @@
     <script src="{$www_core_tpl_root}/javascript/smarty_ajax.js" type="text/javascript"></script>
     {* Tablegrid Extension *}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/css/tablegrid.css" />
     {literal}
         <script type="text/javascript">
         function toggle(x,id)
@@ -85,7 +84,7 @@
                     </tr>
                     {/foreach}
                     </table>
-                    <script type="text/javascript">new TableGrid('table_for_modules_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modules');</script>
+                    <script type="text/javascript">new TableGrid('table_for_modules_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
                 {* #### MODULES - DETAILS #### *}
              <div class="tab-page" id="{$wert.name}_details">
@@ -99,7 +98,7 @@
                         </tr>
                     {/foreach}
                     </table>
-                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modules');</script>
+                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
                 {* #### MODULES - SUBMODULES #### *}
                 <div class="tab-page" id="{$wert.name}_subs">
@@ -131,7 +130,7 @@
                                 </td>
                             </tr>
                             </table>
-                            <script type="text/javascript">new TableGrid('submodules_table_{$wert.module_id}_{$item.submodule_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_submodules');</script>
+                            <script type="text/javascript">new TableGrid('submodules_table_{$wert.module_id}_{$item.submodule_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_submodules');</script>
                             {/foreach}
                             {else} {* #### NO SUBMODULES FOUND #### *}
                                 {translate}No submodules.{/translate}
@@ -154,16 +153,14 @@
                         </tr>
                     {/foreach}
                     </table>
-                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modules');</script>
+                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
                 </div>
             </td>
             <td class="cell2" style="text-align:center;vertical-align:middle">
-                {if $wert.enabled==1}
-                <input class="ButtonOrange" type="submit" value="{translate}Disable{/translate}" name="submit" />
-                {else}
-                <input class="ButtonGreen" type="submit" value="{translate}Enable{/translate}" name="submit" />
-                {/if}
+                <div id="module_disabled_{$wert.module_id}" {if $wert.enabled==1}style="display: block"{else}style="display: none"{/if}><input class="ButtonOrange" type="button" onclick="{ajax_update url="index.php?mod=admin&sub=modules&action=ajaxupdate_onoffswitch" params="module_id=`$wert.module_id`&value=0" callback="document.getElementById(\'module_disabled_`$wert.module_id`\').style.display=\'none\';document.getElementById(\'module_enabled_`$wert.module_id`\').style.display=\'block\';" method="get"}" value="{translate}Disable{/translate}" name="submit" /></div>
+                <div id="module_enabled_{$wert.module_id}" {if $wert.enabled==1}style="display: none"{else}style="display: block"{/if}><input class="ButtonGreen" type="button" onclick="{ajax_update url="index.php?mod=admin&sub=modules&action=ajaxupdate_onoffswitch" params="module_id=`$wert.module_id`&value=1" callback="document.getElementById(\'module_disabled_`$wert.module_id`\').style.display=\'block\';document.getElementById(\'module_enabled_`$wert.module_id`\').style.display=\'none\';" method="get"}" value="{translate}Enable{/translate}" name="submit" /></div>
+
             </td>
             <td class="cell1" style="text-align:center;vertical-align:middle">
                 <form action="index.php?mod=admin&amp;sub=modules&amp;action=uninstall&amp;module_id={$wert.module_id}&amp;folder_name={$wert.folder_name}" method="post">
@@ -216,7 +213,7 @@
                         </tr>
                     {/foreach}
                     </table>
-                    <script type="text/javascript">new TableGrid('table_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modules');</script>
+                    <script type="text/javascript">new TableGrid('table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
                 {* #### MODULES - DETAILS #### *}
                 <div class="tab-page" id="{$wert.name}_details">
@@ -230,7 +227,7 @@
                         </tr>
                     {/foreach}
                     </table>
-                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modules');</script>
+                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modules');</script>
                 </div>
                 {* #### MODULES - SUBMODULES  #### *}
                 <div class="tab-page" id="{$wert.name}_subs">
@@ -264,7 +261,7 @@
                                 <td colspan="3">&nbsp;</td>
                             </tr>
                             </table>
-                            <script type="text/javascript">new TableGrid('submodules_table_{$wert.module_id}_{$item.submodule_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_submodules');</script>
+                            <script type="text/javascript">new TableGrid('submodules_table_{$wert.module_id}_{$item.submodule_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_submodules');</script>
                             {/foreach}
                             {else} {* #### NO SUBMODULES FOUND #### *}
                             {translate}No submodules.{/translate}
@@ -274,15 +271,15 @@
                         </td>
                     </tr>
                     </table>
-                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&amp;sub=modules&amp;action=ajaxupdate_modulesdetails');</script>
+                    <script type="text/javascript">new TableGrid('details_table_{$wert.module_id}', '2', 'index.php?mod=admin&sub=modules&action=ajaxupdate_modulesdetails');</script>
                 </div>
             </td>
             <td class="cell2" style="text-align:center;vertical-align:middle">
                 {if $wert.enabled==1}
-                <input id="modul_button_`$wert.module_id`" class="ButtonOrange" type="submit" onclick="{ajax_update url='index.php?mod=admin&amp;sub=modules&amp;action=ajax_onoffswitch' update_id="modul_id_`$wert.module_id`" params="server_id=`$server.server_id`" callback="new Effect.Puff(\'modul_onoff_image_`$wert.module_id`\')"}" value="{translate}Disable{/translate}" name="submit" />
+                <input id="modul_button_{$wert.module_id}" class="ButtonOrange" type="button" onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajaxupdate_onoffswitch' update_id="modul_id_{$wert.module_id}" params="module_id={$wert.module_id}&value=0" callback="new Effect.Puff(\'modul_onoff_image_`$wert.module_id`\')"}" value="{translate}Disable{/translate}" name="submit" />
                 {* new `$(this).Classnames.set = 'ButtonGreen'` *}
                 {else}
-                <input id=" "class="ButtonGreen" type="submit" onclick="{ajax_update url='index.php?mod=admin&amp;sub=modules&amp;action=ajax_onoffswitch' update_id="server_details_`$server.server_id`" params="server_id=`$server.server_id`" callback="new Effect.Appear(\'modul_onoff_image_`$wert.module_id`\')"}" value="{translate}Enable{/translate}" name="submit" />
+                <input id=" "class="ButtonGreen" type="submit" onclick="{ajax_update url='index.php?mod=admin&sub=modules&action=ajax_onoffswitch' update_id="server_details_`$server.server_id`" params="server_id=`$server.server_id`" callback="new Effect.Appear(\'modul_onoff_image_`$wert.module_id`\')"}" value="{translate}Enable{/translate}" name="submit" />
                 {/if}
             </td>
             <td class="cell1" style="text-align:center;vertical-align:middle">

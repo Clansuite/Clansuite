@@ -101,6 +101,9 @@ class module_news_admin
                 $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=delete');
                 $this->delete();
                 break;
+            case 'show_single':
+                $this->show_single();
+                break;
         }
 
         return array( 'OUTPUT'          => $this->output,
@@ -471,5 +474,23 @@ class module_news_admin
         */
         $this->output .= $lang->t($my_text);
     }
+
+    /**
+    * Show a single news
+    *
+    * @global $db
+    * @global $lang
+    * @global $functions
+    * @global $input
+    * @global $tpl
+    * @global $cfg
+    */
+    function show_single()
+    {
+        global $db, $functions, $input, $lang, $tpl, $cfg;
+
+        $this->suppress_wrapper = 1;
+    }
+
 }
 ?>

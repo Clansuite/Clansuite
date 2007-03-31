@@ -3,6 +3,13 @@
 {$newscategories|@var_dump}
 {$paginate|@var_dump}
 *}
+{doc_raw}
+    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/themese/alphacube.css" />
+{/doc_raw}
 <form method="post" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=show">
 <table border="0" cellpadding="0" cellspacing="0" width="800" align="center">
     <tr class="tr_header">
@@ -54,9 +61,17 @@
     {foreach item=news from=$newsarchiv}
     <tr class="tr_row1">
         <td>{translate}{$news.news_added|date_format:"%A"}{/translate}, {translate}{$news.news_added|date_format:"%B"}{/translate}{$news.news_added|date_format:" %e, %Y"}</td>
-        <td><strong>{$news.news_title}</strong></td>
+        <td>
+        <div class="listing" style="display:none" id="open_ajax_dialog_codediv">
+        <strong><a onclick='Dialog.alert({literal}{url: "index.php?mod=news&amp;sub=admin&amp;action=&amp;show_single&amp;id={/literal}{$news.news_id}{literal}", options: {method: "get"}},
+            {className: "alphacube", width:540, okLabel: "Close"}{/literal});' href="#">{$news.news_title}</a></strong>
+        <div class="listing" style="display:none" id="open_ajax_dialog_codediv">
+          <xmp id="ajax_dialog">Dialog.alert({literal}{url: "index.php?mod=news&amp;sub=admin&amp;action=&amp;show_single&amp;id={/literal}{$news.news_id}{literal}", options: {method: 'post'}},
+            {className: "alphacube", width:540, okLabel: "Close"}{/literal});</xmp>
+        </div>
+        </td>
         <td>{$news.cat_name}</td>
-        <td><a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a></td>
+        <td><a href='index.php?mod=admin&amp;sub=users&amp;action=edit&amp;id={$news.user_id}'>{$news.nick}</a></td>
         <td>
         {if $news.draft == 1}
             {translate}unpublished{/translate}
