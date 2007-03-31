@@ -95,10 +95,7 @@ class module_board
                 $this->show();
                 break;
 
-            case 'instant_show':
-                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;
-
+            
         }
 
         return array( 'OUTPUT'          => $this->output,
@@ -118,29 +115,19 @@ class module_board
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
+        /**
+         * Fetch all Forums
+         */
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_forums');
+        $stmt->execute();
+        $forums = $stmt->fetchAll(PDO::FETCH_NAMED);
+
+        // give $forums array to Smarty for template output
+        $tpl->assign('forums', $forums);
+        
         // Output the Board
         $this->output .= $tpl->fetch('board/board.tpl');
     }
-
-
-    /**
-    * Instant Show
-    *
-    * Content of a module can be instantly displayed by adding the
-    * {mod name="board" sub="admin" func="instant_show" params="mytext"}
-    * block into a template.
-    *
-    * You have to add the lines as shown above into the case block:
-    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    *
-    * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users
-    */
-    function instant_show($my_text)
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
-
-        // Add $lang-t() translated text to the output.
-        $this->output .= $lang->t($my_text);
-    }
+   
 }
 ?>

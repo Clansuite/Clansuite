@@ -70,8 +70,8 @@ class module_admin
     }
     
     /**
-    * @desc Show the entracne - welcome message etc.
-    */
+     * Show the welcome to adminmenu and shortcuts
+     */
 
     function show()
     {
