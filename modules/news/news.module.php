@@ -119,13 +119,13 @@ class module_news
                                 LEFT JOIN '. DB_PREFIX .'categories c
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ?
+                                WHERE n.draft = ?
                                 ORDER BY news_id DESC LIMIT ?,?');
 
         /* TODO: news with status: draft, published, private, private+protected*/
-        $hidden = '0';
+        $draft = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
-        $stmt->bindParam(2, $hidden, PDO::PARAM_INT );
+        $stmt->bindParam(2, $draft, PDO::PARAM_INT );
         $stmt->bindParam(3, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
         $stmt->bindParam(4, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
@@ -185,6 +185,9 @@ class module_news
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
 
+        // Incoming Vars
+        $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
+
         // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
 
@@ -193,6 +196,9 @@ class module_news
         $SmartyPaginate->setUrlVar('page');
         // set items per page
         $SmartyPaginate->setLimit(20);
+
+        // Category settings
+        $sql_cat = $cat == 0 ? '' : 'AND n.cat_id = ' . $cat;
 
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
@@ -203,13 +209,14 @@ class module_news
                                 LEFT JOIN '. DB_PREFIX .'categories c
                                 ON ( n.cat_id = c.cat_id AND
                                      c.module_id = ? )
-                                WHERE n.news_hidden = ?
+                                WHERE n.draft = ?
+                                 ' . $sql_cat . '
                                 ORDER BY news_id LIMIT '. $SmartyPaginate->getCurrentIndex() .' ,
                                                        '. $SmartyPaginate->getLimit() .' ');
 
         // TODO: news with status: draft, published, private, private+protected
-        $hidden = '0';
-        $stmt->execute( array ( $cfg->modules['news']['module_id'] , $hidden) );
+        $draft = '0';
+        $stmt->execute( array ( $cfg->modules['news']['module_id'] , $draft) );
         $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // Get Number of Rows
