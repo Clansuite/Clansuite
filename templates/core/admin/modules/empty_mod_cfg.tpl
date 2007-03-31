@@ -53,7 +53,7 @@ if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {
  * For example:
  * If you have a module, that becomes beyond 3000 lines and you want to split that,
  * you can create a sub-module and shuffle off some of the functionality into the new file.
- * You have then the option to call the new submodule directly by its URL
+// So you've got the option to call the new submodule directly by its URL
  *
  * http://URL/index.php?mod=mymodule&sub=mysubmodule
  *
@@ -64,23 +64,23 @@ if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {
  */
 
 {if is_array($subs)}
-    {* DEBUG will be printed in file :) {$subs|@var_dump} *}
-    
-    $info['subs'] = array( {foreach key=key item=item from=$subs}
-                            '{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
-                           {/foreach} 
-                         );
+{* DEBUG will be printed in file :) {$subs|@var_dump} *}
+
+$info['subs'] = array( {foreach key=key item=item from=$subs}
+                        '{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
+                       {/foreach}
+                     );
 {else}
-    $info['subs'] = array();
+$info['subs'] = array();
 {/if}
 
 /**
- * Infos 
+ * Infos
  * -----
  * These infos are BACKUP Infos! They do not alter the shown
  * infos in any way. Just in case somebody installed a module by
- * copy and paste into the module folder, they are used as a
- * reference.
+ * copy and paste into the module folder.
+ * Those are used as a reference!
  * If you want to change the real values, so lookup the
  * module in the admin interface.
  */

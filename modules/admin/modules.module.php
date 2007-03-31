@@ -184,6 +184,7 @@ class module_admin_modules
                     else
                     {
                         $x++;
+
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
 
@@ -195,6 +196,7 @@ class module_admin_modules
                         {
                             require_once( ROOT_MOD . '/' . $content . '/' . $content . '.config.php' );
                             $container['not_in_whitelist'][$x] = array_merge( $container['not_in_whitelist'][$x], $info );
+                            $container['not_in_whitelist'][$x]['subs'] = serialize($container['not_in_whitelist'][$x]['subs']);
                         }
                     }
                 }
@@ -232,12 +234,13 @@ class module_admin_modules
         * @desc Incoming vars
         * urldecode, check if only int, assign as $value
         */
-        $value = $input->check(urldecode($_POST['value']), 'is_int');
+        $value = (int) $_GET['value'];
+        $module_id = (int) $_GET['module_id'];
 
         //set module activ inactiv
         $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules
-                               SET enabled = ? WHERE module_id = ? AND name = ?' );
-        $stmt->execute( array(  $value, $modules_id, $modules_name ) );
+                               SET enabled = ? WHERE module_id = ?' );
+        $stmt->execute( array(  $value, $module_id ) );
 
          // return value
         $this->output .= $value;
@@ -1098,12 +1101,26 @@ class module_admin_modules
                                                 $info['clansuite_version'],
                                                 $info['core']) );
 
-						// 5) insert each submodul of this modul into submodules table
-                        foreach($info['subs'] as $submodul => $v)
+                        // Insert Submodules
+                        $subs = $info['subs'];
+                        if( count($subs) > 0 )
                         {
-                         $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'submodules` SET
-                                               name = ?, file_name = ?, class_name = ?' );
-                         $stmt->execute( array( $submodul, $v[0], $v[1] ) );
+                            foreach( $subs as $key => $value )
+                            {
+                                // insert admin submodul
+                                $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
+                                $stmt->execute( array( $key, $value[0], $value[1] ) );
+
+                                // insert relation of submodul to modul
+
+                                // ?-> 1. INSERT IGNORE, because module_id primary keys are doubled up
+
+                                // ?-> 2. how not to use pdo::last_insert_id, as it's not supported by all pdo drivers
+                                //        and using "INSERT IGNORE INTO with SELECT" instead
+
+                                $stmt = $db->prepare( 'INSERT IGNORE INTO ' . DB_PREFIX .'mod_rel_sub SET module_id = ?, submodule_id = ? ');
+                                $stmt->execute( array( $module_id, $db->lastInsertId() ) );
+                            }
                         }
 
                        // 6) insert the admin menu
@@ -1587,9 +1604,20 @@ class module_admin_modules
         }
         elseif ( !empty( $confirm ) )
         {
+            // Delete submodules
+            $stmt = $db->prepare(   'DELETE s,r FROM ' . DB_PREFIX . 'mod_rel_sub r,
+                                    ' . DB_PREFIX . 'submodules s
+                                    WHERE r.submodule_id =  s.submodule_id
+                                    AND   r.module_id = ?');
+            $stmt->execute( array($module_id) );
+
+            // Delete the module
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'modules WHERE module_id = ?' );
             $stmt->execute( array($module_id) );
+
+            // Delete the dir recursively! (Does not work if .svn is inherent!!! -> not writeable settings)
             $functions->delete_dir_content( ROOT_MOD . '/' . $folder_name, true );
+
 	        $functions->redirect( 'index.php?mod=admin&sub=modules&action=show_all', 'metatag|newsite', 3, $lang->t( 'The modules has been uninstalled.' ), 'admin' );
         }
         else
@@ -1620,6 +1648,7 @@ class module_admin_modules
         {
             $info['enabled'] = !empty($info['enabled']) ? $info['enabled'] : 0;
             $info['core'] = !empty($info['core']) ? $info['core'] : 0;
+            $info['module_version'] = !empty($info['module_version']) ? $info['module_version'] : 0;
             if ( $info['add'] == 1 )
             {
                 $stmt = $db->prepare( 'INSERT INTO `' . DB_PREFIX . 'modules`(`author`, `homepage`, `license`, `copyright`, `name`, `title`, `description`, `class_name`, `file_name`, `folder_name`, `enabled`, `image_name`, `module_version`, `clansuite_version`, `core` )
@@ -1640,6 +1669,52 @@ class module_admin_modules
                                         $cfg->version,
                                         $info['core'] ) );
                 $x++;
+
+                $module_id = $db->lastInsertId();
+
+                // Insert Submodules
+                $subs = unserialize($info['subs']);
+                if( count($subs) > 0 )
+                {
+                    foreach( $subs as $key => $value )
+                    {
+                        // insert admin submodul
+                        $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX .'submodules SET name = ?, file_name = ?, class_name = ?' );
+                        $stmt->execute( array( $key, $value[0], $value[1] ) );
+
+                        // insert relation of submodul to modul
+
+                        // ?-> 1. INSERT IGNORE, because module_id primary keys are doubled up
+
+                        // ?-> 2. how not to use pdo::last_insert_id, as it's not supported by all pdo drivers
+                        //        and using "INSERT IGNORE INTO with SELECT" instead
+
+                        $stmt = $db->prepare( 'INSERT IGNORE INTO ' . DB_PREFIX .'mod_rel_sub SET module_id = ?, submodule_id = ? ');
+                        $stmt->execute( array( $module_id, $db->lastInsertId() ) );
+                    }
+                }
+
+                // Insert Admin Menu
+                $info['admin_menu'] = unserialize( $info['admin_menu'] );
+                if ( !empty( $info['admin_menu'] ) )
+                {
+                    $info['admin_menu'] = $this->build_menu( $info['admin_menu'] );
+
+                    $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+                    foreach( $info['admin_menu'] as $item )
+                    {
+                        $stmt->execute( array ( $item['id'],
+                                                $item['parent'],
+                                                $item['type'],
+                                                $item['text'],
+                                                $item['href'],
+                                                $item['title'],
+                                                $item['target'],
+                                                $item['order'],
+                                                $item['icon'],
+                                                $item['right_to_view'] ) );
+                    }
+                }
             }
         }
         if ( $x > 0 )
