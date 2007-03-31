@@ -1,17 +1,13 @@
+<h1>Website Messenger</h1>
+
 <form action="index.php?mod=messaging" method="post">
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-    <tr class="tr_header">
-            <td width="140px">
-                {translate}Options{/translate}
-            </td>
-            <td>
-                {translate}Results{/translate}
-            </td>
-    </tr>
     <tr>
         <td class="cell1">
-            {$menu}
+           {$menu}
         </td>
+    </tr>
+    <tr>
         <td class="cell1">
             {if empty($messages)}
                 <div align="center">{translate}There are no messages{/translate}</div>

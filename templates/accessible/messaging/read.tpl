@@ -1,16 +1,10 @@
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-    <tr class="tr_header">
-            <td width="140px">
-                {translate}Options{/translate}
+        <tr>
+            <td class="cell1">
+                {$menu}
             </td>
-            <td>
-                {translate}Results{/translate}
-            </td>
-    </tr>
-    <tr>
-        <td class="cell1">
-            {$menu}
-        </td>
+        </tr>
+        <tr>
         <td class="cell1" align="center">
             {if empty($message)}
                 <div align="center">{translate}There are no messages{/translate}</div>
