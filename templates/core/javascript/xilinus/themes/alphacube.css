@@ -1,8 +1,8 @@
 .overlay_alphacube {
-	background-color: #85BBEF;
-	filter:alpha(opacity=60);
-	-moz-opacity: 0.6;
-	opacity: 0.6;
+	background-color: #505050;
+	filter:alpha(opacity=70);
+	-moz-opacity: 0.7;
+	opacity: 0.7;
 }
 
 .alphacube_nw {
