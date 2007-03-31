@@ -387,5 +387,5 @@ switch ($condition)
                     $tpl->displayDoc('maintenance.tpl');
                     break;
 }
-
+ 
 ?>
