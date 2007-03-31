@@ -10,7 +10,7 @@ body
 #footer {
 	font: 9px tahoma, verdana, arial, sans-serif;
 	color: #f00;
-	text-align: center;	
+	text-align: center;
 }
 
 a,
@@ -159,6 +159,14 @@ form select
 {
     border: 1px solid black;
     height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+.ajax_input_text input,
+.ajax_input_text textarea
+{
+    border: 1px solid black;
     font-family: tahoma, verdana, arial, sans-serif;
     font-size: 11px;
 }

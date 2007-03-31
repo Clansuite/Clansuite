@@ -174,7 +174,9 @@ class module_admin_help
     }
 
     /**
-    * @desc AJAX request to get the helptext in raw from database
+    * AJAX request to get the helptext in raw from database
+    *
+    * @global $db
     */
     function get_related_links()
     {
@@ -197,9 +199,12 @@ class module_admin_help
     }
 
     /**
-    * @desc AJAX request to save the helptext
+    * AJAX request to save the helptext
     * 1. save helptext in raw with bbcodes on - into database
     * 2. return helptext with formatted bbcode = raw to html-style
+    *
+    * @global $db
+    * @global $tpl
     */
     function save_helptext()
     {
