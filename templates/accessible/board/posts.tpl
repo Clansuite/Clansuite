@@ -27,11 +27,14 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
             <td>
                 <b>{$post.title} posttitle</b> - {$post.description} postdesc
                 
-                <br />
+                <hr width="100%" size="1" class="hrcolor"/>
+                
                 {$post.message} MESSAGE
                 <br />
                 last edited by author / date
-                <br />
+                
+                <hr width="100%" size="1" class="hrcolor"/>
+                
                 Profile - WWW - ICQ    
             </td>                   
             
