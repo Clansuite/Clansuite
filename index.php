@@ -260,8 +260,16 @@ $tpl->assign('copyright', $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
  *
  * $content is an array and contains ['ADDITIONAL_HEAD'], ['SUPPRESS_WRAPPER'], ['OUTPUT']
  * as return values of the requested module
+ * Also checks for status of module
  */
-$content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
+if( $cfg->modules[$_REQUEST['mod']]['enabled'] == 1 )
+{
+    $content = $modules->get_content($_REQUEST['mod'], $_REQUEST['sub']);
+}
+else
+{
+    $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('This module has been disable.') );
+}
 
 /**
  * Handle $content['ADDITIONAL_HEAD'] if var contains data
@@ -387,5 +395,5 @@ switch ($condition)
                     $tpl->displayDoc('maintenance.tpl');
                     break;
 }
- 
+
 ?>
