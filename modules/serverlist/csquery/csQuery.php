@@ -1,15 +1,15 @@
 <?php
 /*
- *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith. 
- *  It's also inspired by gameq, squery, phgstats
+ *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
+* *  It's also inspired by gameq, squery, phgstats
  *  and several other projectes like kquery and hlsw. 
  *
  *  csQuery - gameserver query class
- *  Copyright (c) 2005-2006 Jens-Andre Koch <jakoch@web.de>
+ *  @copyright Copyright (c) 2005-2007 Jens-Andre Koch <jakoch@web.de>
  *  http://www.clansuite.com
  *
  *  gsQuery - Querys game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  @copyright Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
  *  http://www.gsQuery.org
  *
  *  This file is part of the e-sport CMS Clansuite.
@@ -36,6 +36,7 @@
  * @author    Jens-Andre Koch <vain@clansuite.com>
  * @link      http://gna.org/projects/clansuite
  * @license   LGPL - as stated above
+ *
  * @version   SVN: $Id$
  */
  

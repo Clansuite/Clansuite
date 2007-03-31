@@ -1,3 +1,9 @@
+{* DEBUG OUTPUT of assigned Arrays:
+	{$paginate|@var_dump}
+*}
+
+{$forums|@var_dump}
+
 Board >> Overview of Forums (forums.tpl)
 
 <table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
@@ -8,11 +14,11 @@ Board >> Overview of Forums (forums.tpl)
         <th>Last Entry</th>
     </tr>
 
-  {*  {foreach item=forum from=$forums} *}
+    {foreach item=forum from=$forums} 
          <tr>
-            <td><b>{$forum.title} title </b> <br /> {$forum.description} desc</td>
+            <td style="text-align: left;"><b>{$forum.name} </b> <br /> Description: {$forum.description} </td>
             
-            <td>{$forum.threads} # Threads <br /> {$forum.posts} # Posts</td>
+            <td>Threads: {$forum.threads} <br /> Posts:  {$forum.posts}</td>
             
             <td><a href='index.php?mod=board&amp;action=showthread&amp;id={$forum.id_of_last_post}'>{$forum.name_of_last_post} Name of Last Post </a>
                 <br />
@@ -21,5 +27,5 @@ Board >> Overview of Forums (forums.tpl)
                 <a href='index.php?mod=users&amp;id={$forum.userid_of_last_post}'>{$forum.username_of_last_post} Author of Last Post</a>
             </td>    
         </tr>
-    {* {/foreach} *}
+     {/foreach} 
 </table>
