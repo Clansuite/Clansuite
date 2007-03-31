@@ -2,6 +2,7 @@
 
 
 {* Windows + Windows CSS Basic + Extra Theme *}
+<script type="text/javascript" src="{$www_core_tpl_root}/javascript/ajax_inplace_fader.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"></script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/effects.js"> </script>
 <script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/debug.js"> </script>
@@ -75,7 +76,7 @@
             {literal}
             <script type="text/javascript">
             //<![CDATA[
-            new Ajax.InPlaceEditor('gb_comment',
+            new Ajax.InPlaceEditorPlusFader('gb_comment',
                                'index.php?mod=guestbook&sub=admin&action=save_comment&id={/literal}{$entry.gb_id}{literal}',
                                {handleLineBreaks: false, highlightendcolor: '#3BC2F2', formClassName: 'ajax_input_text', okText: '{/literal}Save{literal}',cancelButton: true, cancelLink: false, cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=guestbook&sub=admin&action=get_comment&id={/literal}{$entry.gb_id}{literal}'}
                                 );
