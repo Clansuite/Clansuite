@@ -10,6 +10,7 @@ Posts in Thread of Forum {$board_navigation.parent_forum} (posts.tpl)
  {*   {foreach item=post from=$posts} *}
          <tr>
             <td>
+            <a name="postid" />
             <a href='index.php?mod=users&amp;id={$thread.userid_of_last_post}'>{$post.username} Author of Last Post</a>
             <br />
             -avatarimage
@@ -22,12 +23,16 @@ Posts in Thread of Forum {$board_navigation.parent_forum} (posts.tpl)
             </td> 
             
             <td>
-                <b>{$post.title} posttitle</b> <br /> {$post.description} postdesc
+                <b>{$post.title} posttitle</b> - {$post.description} postdesc
                 
+                <br />
                 {$post.message} MESSAGE
+                <br />
+                Profile - WWW - ICQ    
+            </td>                   
             
-            </td>          
- 
          </tr>
+         
+         
  {*   {/foreach} *}
 </table>
