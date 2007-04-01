@@ -40,9 +40,9 @@ $cs_version = '0.1';
 define('CS_ROOT', './');
 
 // In Case config.class.php exists, exit
-if (file_exists(CS_ROOT.'config.class.php')) 
+if (!file_exists(CS_ROOT.'config.class.php')) 
 {
-	exit('The file \'config.class.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed. You should go <a href="index.php">here</a> instead.');
+	exit('The file \'config.class.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed. You should go <a href="../index.php">here</a> instead.');
 }
 
 /**
@@ -54,6 +54,9 @@ ini_set('zlib.output_compression'       , true);
 ini_set('zlib.output_compression_level' , '6');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
+
+// Turn off PHP time limit
+@set_time_limit(0);
 
 session_start();
 

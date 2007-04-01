@@ -182,21 +182,22 @@ CREATE TABLE `cs_board_posts` (
   `forumid` int(11) NOT NULL default '0',
   `threadid` int(11) NOT NULL default '0',
   `postid` int(11) NOT NULL auto_increment,
-  `author` varchar(32) collate latin1_general_ci NOT NULL default '',
-  `message` text collate latin1_general_ci NOT NULL,
-  `subject` tinytext collate latin1_general_ci NOT NULL,
+  `author` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '',
+  `message` text character set latin1 collate latin1_general_ci NOT NULL,
+  `subject` tinytext character set latin1 collate latin1_general_ci NOT NULL,
   `date` int(10) NOT NULL default '0',
-  `icon` varchar(50) collate latin1_general_ci default NULL,
-  `signatur` varchar(15) collate latin1_general_ci NOT NULL default '',
-  `ip` varchar(15) collate latin1_general_ci NOT NULL default '',
-  `bbcodeoff` varchar(15) collate latin1_general_ci NOT NULL default '',
-  `smileyoff` varchar(15) collate latin1_general_ci NOT NULL default '',
+  `icon` varchar(50) character set latin1 collate latin1_general_ci default NULL,
+  `signatur` varchar(15) character set latin1 collate latin1_general_ci NOT NULL default '',
+  `ip` varchar(15) character set latin1 collate latin1_general_ci NOT NULL default '',
+  `bbcodeoff` varchar(15) character set latin1 collate latin1_general_ci NOT NULL default '',
+  `smileyoff` varchar(15) character set latin1 collate latin1_general_ci NOT NULL default '',
+  `edited_by` text,
   PRIMARY KEY  (`postid`),
   KEY `fid` (`forumid`),
   KEY `tid` (`threadid`),
   KEY `dateline` (`date`),
   KEY `author` (`author`(8))
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cs_board_posts`
@@ -607,7 +608,7 @@ CREATE TABLE `cs_session` (
 
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'590b6cd6ffe4a21fdf959fc942f21ee0','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"590b6cd6ffe4a21fdf959fc942f21ee0\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:10;s:10:\"item_total\";i:10;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:32:\"index.php?mod=news&amp;sub=admin\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:12:\"n.news_added\";i:1;s:12:\"n.news_title\";i:2;s:8:\"cat_name\";i:3;s:6:\"u.nick\";i:4;s:7:\"n.draft\";}s:14:\"default_column\";i:0;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:0;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:41:\"/index.php?mod=news&sub=admin&action=show\";}}','suiteSID',1175396665,1,'news'),(1,'21decb9a9225760ff4285c2538b26ab0','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"21decb9a9225760ff4285c2538b26ab0\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:10;s:10:\"item_total\";i:10;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:32:\"index.php?mod=news&amp;sub=admin\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:12:\"n.news_added\";i:1;s:12:\"n.news_title\";i:2;s:8:\"cat_name\";i:3;s:6:\"u.nick\";i:4;s:7:\"n.draft\";}s:14:\"default_column\";i:0;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:0;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:41:\"/index.php?mod=news&sub=admin&action=show\";}}','suiteSID',1175397462,1,'index');
+INSERT INTO `cs_session` VALUES (1,'5a836b39aa5f5f90b40057384182bfab','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"5a836b39aa5f5f90b40057384182bfab\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:2;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:39:\"index.php?mod=guestbook&amp;action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}','suiteSID',1175452372,1,'index');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
