@@ -9,33 +9,51 @@
   	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-<h1>Website Messenger</h1>
+<h1>Website Messenger - Incoming</h1>
 
 <form action="index.php?mod=messaging" method="post">
-<div class="message_menu">
-   {$menu}
-</div>
+
+<div class="message_menu">  {$menu} </div>
 
 <br />
 
-{if empty($messages)}
+{if empty($messages)}   
+
     <div align="center">{translate}There are no messages{/translate}</div>
+
 {else}
+
     <table border="0" width="100%">
+    <tr>
+        <td class="cell2" colspan="3">
+            <div class="message_selections">
+                <select name="action" class="input_text">
+                    <option value="delete">{translate}Delete selected messages{/translate}</option>
+                    <option value="multiple_mark_read">{translate}Mark messages as read{/translate}</option>
+                    <option value="multiple_mark_unread">{translate}Mark messages as unread{/translate}</option>
+                </select>
+                <input type="submit" name="submit" value="{translate}Go!{/translate}" class="ButtonGreen" />
+            </div>
+        </td>
+     </tr>
+    
     {foreach key=key item=item from=$messages}
         <tr>
-            <td width="30px" align="center">
+            
+            <td width="30px" align="center" class="cell1">
                 <input type="checkbox" value="{$item.message_id}" name="infos[message_id][]" />
             </td>
-            <td>
+            
+            <td class="cell2">
                 <div class="{if $item.read==0}message_new{else}message_old{/if}">
-
-                    <div class="message_date">{$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}</div>
+                    
+                    From: {$item.from} on {$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}
+                    
                     <hr width="100%" size="1" class="hrcolor" />
 
                     <div class="message_headline">
                         {if $item.read==0}
-                        <strong>{translate}New{/translate}:&nbsp;</strong>
+                        <strong>{translate}New{/translate}:&nbsp;</strong> from {$item.from}
                         {/if}
                         <a href="index.php?mod=messaging&action=read&id={$item.message_id}"><strong>{$item.headline}</strong></a>
                     </div>
@@ -46,7 +64,8 @@
 
                 </div>
             </td>
-            <td>
+            
+            <td class="cell2">
                 <div class="message_buttons">
                     <input class="ButtonGreen" type="button" value="{translate}Reply{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create&reply_id={/literal}{$item.message_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}' />
                     <br />
@@ -55,21 +74,13 @@
                     <input type="button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$item.message_id}'" />
                 </div>
             </td>
+        
         </tr>
 
-    {/foreach}
-        <tr>
-            <td class="cell2" colspan="2">
-                <div class="message_selections">
-                    <select name="action" class="input_text">
-                        <option value="delete">{translate}Delete selected messages{/translate}</option>
-                        <option value="multiple_mark_read">{translate}Mark messages as read{/translate}</option>
-                        <option value="multiple_mark_unread">{translate}Mark messages as unread{/translate}</option>
-                    </select>
-                    <input type="submit" name="submit" value="{translate}Go!{/translate}" class="ButtonGreen" />
-                </div>
-            </td>
-        </tr>
+    {/foreach}  
+          
     </table>
+    
 {/if}
+
 </form>

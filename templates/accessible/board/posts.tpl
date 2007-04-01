@@ -16,7 +16,7 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 
  {*   {foreach item=post from=$posts} *}
          <tr>
-            <td>
+            <td rowspan="2">
             <a name="postid" />
             <a href='index.php?mod=users&amp;id={$thread.userid_of_last_post}'>{$post.username} Author of Last Post</a>
             <br />
@@ -32,23 +32,60 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
             </td>
 
             <td>
+                <table width="100%" border="0"><tbody><tr>
+				<td valign="middle"><a href="index.php/post#postanchor{$post.id}"><img border="0" alt="" src=".."/></a></td>
+				<td valign="middle">
+					<div id="subject_252" style="font-weight: bold;">
+						<a href="index.php/post#postanchor{$post.id}">{$post.title}</a>
+					</div>
+					<div class="smalltext">« <b>Antwort #2 am:</b> {$post.date}</div></td>
+				<td>
+				Quote Edit Delete Split [x]
+				</td>
+			</tr></tbody></table>
+            
+            
+            
                 <b>{$post.title} posttitle</b> - {$post.description} postdesc
 
                 <hr width="100%" size="1" class="hrcolor"/>
 
                 {$post.message} MESSAGE
                 
-                {$post.ip}
+                
+                author / date Diesen Beitrag einem Moderator melden | IP: {$post.ip} Gespeichert
+                
                 <br />
-                last edited by author / date
+                
 
                 <hr width="100%" size="1" class="hrcolor"/>
 
                 Profile - WWW - ICQ
             </td>
-
-         </tr>
-
+            </tr>
+            <tr>
+				<td width="85%" valign="bottom" class="smalltext">
+					<table width="100%" border="0" style="table-layout: fixed;">
+					<tbody>
+    				<tr>
+    				    <td width="100%" class="smalltext" colspan="2"></td>
+    				</tr>
+					<tr>
+						<td valign="bottom" id="modified_250" class="smalltext">
+							<i> last edited by: {$post.last_edit}</i>
+						</td>
+						<td valign="bottom" align="right" class="smalltext">
+							<a href="index.php?action=reporttm;topic=67.0;msg=250">Moderator informieren</a>  
+							<img border="0" alt="" src="http://www.clansuite.com/smf/Themes/EnglishSteel/images/ip.gif"/>
+							<a href="index.php?action=trackip;searchip={$post.ip}">{$post.ip}</a>
+						</td>
+					</tr>
+					</tbody>
+					</table>
+					<hr width="100%" size="1" class="hrcolor"/>
+					<div class="signature">{$post.author.signature}</div>
+				</td>
+			</tr>
 
  {*   {/foreach} *}
 </table>

@@ -148,6 +148,14 @@ class module_board
                
         $tpl->assign('threads', $threads);
         
+        ###############################################
+        
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_posts');
+        $stmt->execute( );
+        $posts = $stmt->fetchAll(PDO::FETCH_NAMED);
+               
+        $tpl->assign('posts', $posts);
+        
         
         // Output the Board
         $this->output .= $tpl->fetch('board/board.tpl');
