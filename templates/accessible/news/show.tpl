@@ -44,8 +44,13 @@
 	<div class="news-content">
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
 		{$news.news_body}<br />
-        {if $smarty.session.user.rights.edit_news == 1}
-            <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' />
+        {if $smarty.session.user.rights.edit_news == 1 AND $smarty.session.user.rights.access_controlcenter == 1}
+
+            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+                <input type="hidden" value="{$news.news_id}" name="delete[]" />
+                <input type="hidden" value="{$news.news_id}" name="ids[]" />
+                <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" />
+            </form>
         {/if}
 	</div>
 </div>

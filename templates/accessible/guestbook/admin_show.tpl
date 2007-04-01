@@ -51,7 +51,7 @@
             <tr class="tr_row1">
                 <td colspan="1"><b>{translate}Comment:{/translate}</b></td>
                 <td colspan="5" style="background: #3BC2F2;">
-                    <div id="gb_comment" height="1%">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}{translate}There is no comment. Click here to add one.{/translate}{/if}</div>
+                    <div id="gb_comment" height="1%">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}&nbsp;{/if}</div>
                 </td>
             </tr>
             {*

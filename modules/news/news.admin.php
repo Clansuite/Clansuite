@@ -227,6 +227,7 @@ class module_news_admin
         $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
         $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
         $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
+        $front      = isset($_GET['front'])     ? $_GET['front'] : 0;
 
         if ( count($delete) < 1 )
         {
@@ -276,7 +277,7 @@ class module_news_admin
                     $d = in_array( $value['news_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $names, 'admin', $lang->t( 'You have selected the following news to delete:') );
+                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)) . ( $front==1 ? '&front=1' : '' ), 'confirm', 3, $names, 'admin', $lang->t( 'You have selected the following news to delete:') );
                     }
                     else
                     {
@@ -293,7 +294,10 @@ class module_news_admin
         /**
         * @desc Redirect on finish
         */
-        $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
+        if( $front == 1 )
+            $functions->redirect( 'index.php?mod=news&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
+        else
+            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
 
     }
 
