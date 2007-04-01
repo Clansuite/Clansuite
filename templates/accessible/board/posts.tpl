@@ -2,7 +2,7 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 
 <table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
     
-    <tr class="tr_header">
+    <tr>
         <th>Author</th>
         <th>Entry </th>
     </tr>
