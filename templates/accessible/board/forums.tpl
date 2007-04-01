@@ -6,7 +6,7 @@
 
 <h2>Board - Overview of Forums </h2> (forums.tpl)
 
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center" class="forum">
+<table border="0" cellspacing="0" cellpadding="0" align="center">
 
     <tr style="text-align: left;">
         <th>-</th>

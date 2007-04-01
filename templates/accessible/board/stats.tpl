@@ -1,8 +1,8 @@
 Board Statistics (stats.tpl)
 
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center" class="forum">
+<table border="0" cellspacing="0" cellpadding="0" align="center">
 
-    <tr class="tr_header">
+    <tr>
         <th>-</th>
         <th>stats</th>
     </tr>
