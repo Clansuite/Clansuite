@@ -10,26 +10,47 @@
 
     <tr style="text-align: left;">
         <th>-</th>
-        <th>Boards</th>
+        <th>Forums</th>
         <th>Inhalt</th>
         <th>Last Entry</th>
     </tr>
 
     {foreach item=forum from=$forums}
          <tr>
+            {* IMG for New Entries + Link to jump to unread *}
             <td rowspan="2">
                 <a href="index.php?mod=board&amp;action=unread;board=1.0;children"><img title="No new Entries" alt="No new Entries" src="off.gif"/></a>
             </td>
 
-            <td style="text-align: left;"><b><a href="index.php?mod=board&amp;action=showboard&amp;forumid={$forum.forumid}" > {$forum.name} -  (id:{$forum.forumid})</a> </b> <br /> Description: {$forum.description} </td>
+            {* Name - Description - Moderator *}
+            <td style="text-align: left;">
+            <b><a href="index.php?mod=board&amp;action=showboard&amp;forumid={$forum.forumid}" > {$forum.name} -  (id:{$forum.forumid})</a> </b> 
+            <br /> 
+            Description: {$forum.description} 
+            
+            {if isset($forum.moderator)}
+                <div style="padding-top: 1px;">
+                <small>
+                <i>Moderator:
+                <a title="Moderator" href="index.php?mod=users&amp;action=profile;id={$forum.moderator}">{$forum.moderator}</a>
+                </i>
+                </small>
+                </div>
+            {/if}
+                
+            </td>
+            
+            {* Threads + Posts *}
+            <td>{$forum.threads} Threads <br /> {$forum.posts} Posts</td>
 
-            <td>Threads: {$forum.threads} <br /> Posts:  {$forum.posts}</td>
-
-            <td><a href='index.php?mod=board&amp;action=showthread&amp;id={$forum.id_of_last_post}'>{$forum.name_of_last_post} Name of Last Post </a>
-                <br />
+            {* Author, Date, Name of LastPost *}
+            <td>
+                Last Entry by <a href='index.php?mod=users&amp;id={$forum.userid_of_last_post}'>{$forum.username_of_last_post} Author of Last Post</a>
+            <br />
+                <a href='index.php?mod=board&amp;action=showthread&amp;id={$forum.id_of_last_post}'>{$forum.name_of_last_post} Name of Last Post </a>
+            <br />
                 {$forum.date_of_last_post} Date of Last Post
-                <br />
-                <a href='index.php?mod=users&amp;id={$forum.userid_of_last_post}'>{$forum.username_of_last_post} Author of Last Post</a>
+            <br />
             </td>
         </tr>
         {* Show Subforums in case the Forum has some *}

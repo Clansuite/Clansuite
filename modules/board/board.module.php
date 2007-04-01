@@ -83,7 +83,7 @@ class module_board
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('board'), '/index.php?mod=board');
+        $trail->addStep($lang->t('Board'), '/index.php?mod=board');
 
         //
         switch ($_REQUEST['action'])
@@ -91,8 +91,8 @@ class module_board
 
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=board&amp;action=show');
-                $this->show();
+                $trail->addStep($lang->t('Overview'), '/index.php?mod=board&amp;action=show');
+                $this->overview();
                 break;
 
             
@@ -111,19 +111,43 @@ class module_board
     * @global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
     */
 
-    function show()
+    function overview()
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
 
         /**
          * Fetch all Forums
          */
-        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_forums');
-        $stmt->execute();
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_forums WHERE type = ? AND status = ? ORDER BY displayorder');
+        $stmt->execute( array ( 'forum', 'on') );
         $forums = $stmt->fetchAll(PDO::FETCH_NAMED);
-
+        // @todo : lookup subforum for forum id only name of board + id
+        
         // give $forums array to Smarty for template output
         $tpl->assign('forums', $forums);
+        
+        ##############################################
+        
+        /** 
+         * Fetch all Subforums of Forum $forumid
+         * dbfield type -> forum | sub
+         * dbfield status -> on | off 
+         */
+        $forumparentid = 1;
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_forums WHERE type = ? AND forumparent = ? AND status = ? ORDER BY displayorder');
+        $stmt->execute( array ( 'sub', $forumparentid, 'on' ));
+        $subforums = $stmt->fetchAll(PDO::FETCH_NAMED);
+               
+        $tpl->assign('subforums', $subforums);
+        
+        ###############################################
+        
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'board_threads');
+        $stmt->execute( array ( 'sub', $forumparentid, 'on' ));
+        $threads = $stmt->fetchAll(PDO::FETCH_NAMED);
+               
+        $tpl->assign('threads', $threads);
+        
         
         // Output the Board
         $this->output .= $tpl->fetch('board/board.tpl');

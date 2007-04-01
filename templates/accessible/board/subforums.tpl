@@ -10,7 +10,7 @@ Forum {$subforums.0.forumparent} >> Subforumsoverview (Subforums of Parent_Forum
 
     <tr style="text-align: left;">
         <th>-</th>
-        <th>Subforum</th>
+        <th>Subforums</th>
         <th>Inhalt</th>
         <th>Last Entry</th>
     </tr>
@@ -21,11 +21,14 @@ Forum {$subforums.0.forumparent} >> Subforumsoverview (Subforums of Parent_Forum
                 <a href="index.php?mod=board&amp;action=unread;board=1.0;children"><img title="No new Entries" alt="No new Entries" src="off.gif"/></a>
             </td>
 
-            <td style="text-align: left;"><b><a href="index.php?mod=board&amp;action=showboard&amp;forumid={$subforum.forumid}" > {$subforum.name} -  (id:{$subforum.forumid})</a> </b> <br /> Description: {$subforum.description} </td>
+            <td style="text-align: left;">
+            <b><a href="index.php?mod=board&amp;action=showboard&amp;forumid={$subforum.forumid}" > {$subforum.name} -  (id:{$subforum.forumid})</a> </b> 
+            <br /> Description: {$subforum.description} </td>
 
-            <td>Threads: {$subforum.threads} <br /> Posts:  {$subforum.posts}</td>
+            <td>{$subforum.threads} Threads  <br /> {$subforum.posts} Posts </td>
 
-            <td><a href='index.php?mod=board&amp;action=showthread&amp;id={$subforum.id_of_last_post}'>{$subforum.name_of_last_post} Name of Last Post </a>
+            <td> 
+            Last Entry by <a href='index.php?mod=board&amp;action=showthread&amp;id={$subforum.id_of_last_post}'>{$subforum.name_of_last_post} Name of Last Post </a>
                 <br />
                 {$fourm.date_of_last_post} Date of Last Post
                 <br />

@@ -1,3 +1,10 @@
+{* DEBUG OUTPUT of assigned Arrays:
+	{$paginate|@var_dump}
+*}
+
+{$threads|@var_dump}
+
+
 Threads in Forum {$board_navigation.parent_forum} (threads.tpl)
 
 <table border="0" cellspacing="0" cellpadding="0" align="center">
@@ -11,7 +18,7 @@ Threads in Forum {$board_navigation.parent_forum} (threads.tpl)
         <th>Last Entry</th>
     </tr>
 
-   {* {foreach item=forum from=$threads} *}
+    {foreach item=thread from=$threads}
          <tr>
             <td><b>{$thread.title}</b> <br /> {$thread.description}</td>
 
@@ -19,8 +26,8 @@ Threads in Forum {$board_navigation.parent_forum} (threads.tpl)
 
             <td>{$thread.first_post_date} {$thread.first_post_author}</td>
 
-            <td>{$thread.number_of_answers} #answers</td>
-            <td>{$thread.number_of_clicks} #clicks</td>
+            <td>{$thread.replies} Replies</td>
+            <td>{$thread.views} View</td>
 
             <td><a href='index.php?mod=board&amp;action=showthread&amp;id={$thread.id_of_last_post}'>{$thread.name_of_last_post} Name of Last Post </a>
                 <br />
@@ -31,5 +38,5 @@ Threads in Forum {$board_navigation.parent_forum} (threads.tpl)
 
 
         </tr>
-   {* {/foreach} *}
+    {/foreach} 
 </table>
