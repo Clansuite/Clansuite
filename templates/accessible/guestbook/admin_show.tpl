@@ -10,10 +10,12 @@
   	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
+<div class="guestbook">
+
 {include file="tools/paginate.tpl"}
 
 <form action="index.php?mod=guestbook&amp;sub=admin&amp;action=delete" method="post">
-    <table cellpadding="0" cellspacing="0" border="0" width="800px" align="center" style="text-align:center">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" style="text-align:center">
         <tr class="tr_header">
          	<td width="1%">{columnsort html='ID'}</td>
        		<td>{columnsort html='Author/Nick'}</td>
@@ -23,19 +25,22 @@
        		<td>{columnsort html='Website'}</td>
        		<td>{columnsort html='Town'}</td>
        		<td>{columnsort html='IP'}</td>
+       		<td align="center" width="1%">{translate}Edit{/translate}</td>
        		<td align="center" width="1%">{translate}Delete{/translate}</td>
        	</tr>
 
         {foreach item=entry from=$guestbook}
             <tr class="{cycle values="tr_row1,tr_row2"}">
                 <td rowspan="3">{$entry.gb_id}</td>
-                <td style="font-weight:bold" rowspan="3">{$entry.gb_nick}</td>
+                <td style="font-weight:bold">{$entry.gb_nick}</td>
                 <td>{$entry.gb_added}</td>
                 <td>{$entry.gb_email}</td>
                 <td>{$entry.gb_icq}</td>
                 <td><a href="{$entry.gb_website}" target="_blank">{$entry.gb_website|truncate:15:"...":true}</a></td>
                 <td>{$entry.gb_town}</td>
                 <td>{$entry.gb_ip}</td>
+                <td align="center" rowspan="2"><input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' /></td>
+            
                 <td align="center">
                             <input type="hidden" name="ids[]" value="{$entry.gb_id}" />
                             <input type="checkbox" name="delete[]" value="{$entry.gb_id}" />
@@ -43,14 +48,13 @@
             </tr>
             <tr class="tr_row1">
                 <td colspan="1"><b>{translate}Message:{/translate}</b></td>
-                <td colspan="5" style="background: #3BC2F2;">
+                <td colspan="6">
                     {$entry.gb_text}
                 </td>
-                <td align="center" rowspan="2"><input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' /></td>
             </tr>
             <tr class="tr_row1">
                 <td colspan="1"><b>{translate}Comment:{/translate}</b></td>
-                <td colspan="5" style="background: #3BC2F2;">
+                <td colspan="6">
                     <div id="gb_comment" height="1%">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}&nbsp;{/if}</div>
                 </td>
             </tr>
@@ -78,3 +82,5 @@
 </form>
 
 {include file="tools/paginate.tpl"}
+
+</div>
