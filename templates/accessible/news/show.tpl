@@ -45,7 +45,7 @@
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
 		{$news.news_body}<br />
         {if $smarty.session.user.rights.edit_news == 1}
-            <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 700});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' />
         {/if}
 	</div>
 </div>
