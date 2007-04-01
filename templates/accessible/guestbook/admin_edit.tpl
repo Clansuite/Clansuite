@@ -77,11 +77,20 @@
             <b>{translate}Text:{/translate}</b>
         </td>
         <td align="left">
-            <textarea class="input_textarea" name="infos[gb_text]" cols="55" rows="10">{$infos.gb_text|escape:"html"}</textarea>
+            <textarea class="input_textarea" name="infos[gb_text]" cols="55" rows="5">{$infos.gb_text|escape:"html"}</textarea>
+        </td>
+    </tr>
+    <tr class="tr_row1">
+        <td style="padding: 3px">
+            <b>{translate}Comment:{/translate}</b>
+        </td>
+        <td align="left">
+            <textarea class="input_textarea" name="infos[gb_comment]" cols="55" rows="5">{$infos.gb_comment|escape:"html"}</textarea>
         </td>
     </tr>
     <tr class="tr_row2">
         <td colspan="2" align="right">
+            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{translate}Abort{/translate}"/>
             <input type="submit" name="submit" value="{translate}Edit GB Entry{/translate}" class="ButtonGreen" />
             <input type="reset" name="reset" value="{translate}Reset{/translate}" class="ButtonGrey" />
         </td>
