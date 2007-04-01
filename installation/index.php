@@ -29,9 +29,21 @@
 */
 
 /**
-* @desc Security Handler
-*/
+ * Security Handler
+ */
 define('IN_CS', true);
+
+// The Clansuite version this script installs
+$cs_version = '0.1';
+
+// Define Root Path 
+define('CS_ROOT', './');
+
+// In Case config.class.php exists, exit
+if (file_exists(CS_ROOT.'config.class.php')) 
+{
+	exit('The file \'config.class.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed. You should go <a href="index.php">here</a> instead.');
+}
 
 /**
 * @desc Alter php.ini settings

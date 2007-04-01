@@ -48,9 +48,9 @@
 define('IN_CS', true);
 
 /**
- * Check if install.php is found, if true redirect to installation page
+ * Check if config.class.php is found, if true redirect to installation page
  */ 
-if ( file_exists( 'install.php' ) ) { header( 'Location: install/index.php' ); exit(); }
+if ( !file_exists( 'config.class.php' ) ) { header( 'Location: installation/index.php' ); exit(); }
 
 /**
  * Alter php.ini settings
