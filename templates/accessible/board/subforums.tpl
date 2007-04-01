@@ -6,7 +6,7 @@
 
 Forum {$subforums.0.forumparent} >> Subforumsoverview (Subforums of Parent_Forum {$board_navigation.parent_forum} ) (subforums.tpl)
 
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center" class="forum">
+<table border="0" cellspacing="0" cellpadding="0" align="center">
 
     <tr style="text-align: left;">
         <th>-</th>

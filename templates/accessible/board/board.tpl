@@ -1,3 +1,4 @@
+<div class="forum">
 {$board_announcements}
 
 {$board_navigation}
@@ -37,3 +38,4 @@
 <br />
 
 {include file="board/quickpost.tpl}
+</div>

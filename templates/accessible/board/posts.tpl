@@ -1,6 +1,6 @@
 Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center" class="forum">
+<table border="0" cellspacing="0" cellpadding="0" align="center">
 
     <tr>
         <th>Author</th>
