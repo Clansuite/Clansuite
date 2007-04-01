@@ -14,25 +14,28 @@ p {
 	padding: 5px 0;
 }
 /* Tables */
-/*
-table, tr, th, td {
+
+.forum table,
+.forum tr,
+.forum th,
+.forum td {
 	border: 1px solid #333;
 	border-collapse: collapse;
 }
 
-table {
+.forum table {
 	width: 100%;
 }
-th {
+.forum th {
 	padding: 1px 2px;
 	background: #f00;
 	font-size: 1.1em;
 	color: #fff;
 }
-td {
+.forum td {
 	text-align: center;
 }
-*/
+
 /* Hyperlinks */
 a, a:link, a:hover {
 	color: #069;
