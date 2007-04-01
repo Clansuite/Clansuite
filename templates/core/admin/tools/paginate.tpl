@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="0" width="800px" align="center">
+<table border="0" cellpadding="0" cellspacing="0" align="center">
     <tr class="tr_header_small">
         <td>
         <div style="float:left;">
