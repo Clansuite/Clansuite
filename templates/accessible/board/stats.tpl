@@ -1,7 +1,7 @@
 Board Statistics (stats.tpl)
 
-<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center">
-    
+<table border="0" cellspacing="0" cellpadding="0" width="800px" align="center" class="forum">
+
     <tr class="tr_header">
         <th>-</th>
         <th>stats</th>
@@ -20,7 +20,7 @@ Board Statistics (stats.tpl)
                 Newest Member: x
                 <br />
                 Forum Page Views: x
-            </td> 
-         </tr>          
+            </td>
+         </tr>
  {*   {/foreach} *}
 </table>
