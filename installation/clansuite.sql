@@ -29,7 +29,7 @@ CREATE TABLE `cs_adminmenu` (
   `title` varchar(255) NOT NULL,
   `target` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL,
-  `icon` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) NOT NULL,
   `right_to_view` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -576,7 +576,6 @@ CREATE TABLE `cs_session` (
   `session_expire` int(11) NOT NULL default '0',
   `session_visibility` tinyint(4) NOT NULL default '0',
   `session_where` text NOT NULL,
-  PRIMARY KEY  (`session_id`),
   UNIQUE KEY `session_id` (`session_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -601,7 +600,6 @@ CREATE TABLE `cs_shoutbox` (
   `msg` tinytext NOT NULL,
   `time` int(10) unsigned NOT NULL,
   `ip` varchar(15) NOT NULL,
-  PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
@@ -752,4 +750,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-04-01 21:03:31
+-- Dump completed on 2007-04-01 21:06:45
