@@ -177,9 +177,11 @@ h6 {
 	bottom: 0;
 }
 /* Forms */
+/*
 form {
 	text-align: center;
 }
+*/
 label {
 	cursor: pointer;
 }
@@ -481,4 +483,31 @@ form select.input_text
     cursor: default;
     font-size: 12px;
     font-weight: bold;
+}
+
+.cell1
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.cell2
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.cell3
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 0px;
+    cursor: default;
 }

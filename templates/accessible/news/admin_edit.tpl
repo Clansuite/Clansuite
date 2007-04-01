@@ -8,7 +8,7 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
         <td class="td_header" width="100%" height="100%" colspan="2">
-        {translate}Create news{/translate}    </td>
+        {translate}Edit news{/translate}    </td>
 
     </tr>
     <tr>

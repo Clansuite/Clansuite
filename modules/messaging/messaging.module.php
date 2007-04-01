@@ -604,6 +604,7 @@ class module_messaging
         $tpl->assign( 'message_errors'  , $errors );
         $tpl->assign( 'menu'            , $this->menu() );
         $this->output .= $tpl->fetch( 'messaging/create.tpl' );
+        $this->suppress_wrapper = 1;
     }
 
     /**

@@ -183,7 +183,7 @@ class module_guestbook
             if( !empty( $submit ) )
             {
                 // Set user stuff
-                $infos['gb_ip'] = $_SEESSION['client_ip'];
+                $infos['gb_ip'] = $_SESSION['client_ip'];
                 $infos['gb_added'] = time();
 
                 // Add gb entry
