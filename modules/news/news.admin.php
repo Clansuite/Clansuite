@@ -393,75 +393,107 @@ class module_news_admin
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
         // Permission check
-        $perms->check('edit_news');
-
-        // Incoming Vars
-        $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
-        $infos = $_POST['infos'];
-        $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];
-
-        // check for fills
-        if( ( empty($infos['title']) OR
-            empty($infos['body']) )
-            AND !empty($submit) )
+        if( $perms->check('edit_news', 'no_redirect') == true )
         {
-            $err['fill_form'] = 1;
-        }
 
-        // Create news in DB
-        if( !empty($submit) && count($err) == 0)
-        {
-            // build groups
-            /*
-            foreach( $infos['groups'] as $key => $value )
+            // Incoming Vars
+            $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+            $infos = $_POST['infos'];
+            $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];
+            $front  = isset($_GET['front']) ? $_GET['front'] : 0;
+
+            // check for fills
+            if( ( empty($infos['title']) OR
+                empty($infos['news_body']) )
+                AND !empty($submit) )
             {
-                $groups .= $value . ',';
+                $err['fill_form'] = 1;
             }
-            $groups = substr( $groups, 0, -1 );
+
+            // Create news in DB
+            if( !empty($submit) )
+            {
+                if( count($err) == 0 )
+                {
+                    // build groups
+                    /*
+                    foreach( $infos['groups'] as $key => $value )
+                    {
+                        $groups .= $value . ',';
+                    }
+                    $groups = substr( $groups, 0, -1 );
+                    */
+
+                    // Query DB
+                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ? WHERE news_id = ?' );
+                    $stmt->execute( array(  $infos['title'],
+                                            $infos['news_body'],
+                                            $infos['cat_id'],
+                                            $_SESSION['user']['user_id'],
+                                            time(),
+                                            $infos['draft'],
+                                            //$groups ) );
+                                            $id ) );
+
+                    if( $infos['front'] == 1 )
+                    {
+                        // Redirect on finish
+                        $functions->redirect( 'index.php?mod=news&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ) );
+                    }
+                    else
+                    {
+                        // Redirect on finish
+                        $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ), 'admin' );
+                    }
+                }
+                else
+                {
+                    $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'ERROR: Please fill all fields!' ), 'admin' );
+                }
+
+            }
+
+            // Get all groups
+            /*
+            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
+
+            $stmt->execute();
+            $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
             */
 
-            // Query DB
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ? WHERE news_id = ?' );
-            $stmt->execute( array(  $infos['title'],
-                                    $infos['body'],
-                                    $infos['cat_id'],
-                                    $_SESSION['user']['user_id'],
-                                    time(),
-                                    $infos['draft'],
-                                    //$groups ) );
-                                    $id ) );
+            // get infos
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
+            $stmt->execute( array( $id ) );
+            $result = $stmt->fetch(PDO::FETCH_NAMED);
 
-            // Redirect on finish
-            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ), 'admin' );
+            // $categories for module_news
+            $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
+            $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+            $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
 
+            // give $newslist array to Smarty for template output
+            $tpl->assign('newscategories', $newscategories);
+
+            // Load FCK
+            require( ROOT_CORE . '/fckeditor/fckeditor_php5.php' );
+            $fck = new FCKeditor('infos[news_body]');
+            $fck->Height = '550';
+            $fck->Value = $result['news_body'];
+            $fck_html = $fck->CreateHtml();
+
+            // Output Stuff
+            $tpl->assign( 'front'       , $front );
+            $tpl->assign( 'fck'         , $fck_html );
+            $tpl->assign( 'infos'       , $result );
+            $tpl->assign( 'err'         , $err);
+            //$tpl->assign( 'all_groups'  , $all_groups);
+            $this->output .= $tpl->fetch('news/admin_edit.tpl');
         }
-
-        // Get all groups
-        /*
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
-
-        $stmt->execute();
-        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        */
-
-        // get infos
-        $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
-        $stmt->execute( array( $id ) );
-        $result = $stmt->fetch(PDO::FETCH_NAMED);
-
-        // $categories for module_news
-        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
-        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
-
-        // give $newslist array to Smarty for template output
-        $tpl->assign('newscategories', $newscategories);
-
-        // Output Stuff
-        $tpl->assign( 'infos'       , $result );
-        $tpl->assign( 'err'         , $err);
-        //$tpl->assign( 'all_groups'  , $all_groups);
-        $this->output .= $tpl->fetch('news/admin_edit.tpl');
+        else
+        {
+            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
+        }
+        $this->suppress_wrapper = 1;
     }
 
     /**

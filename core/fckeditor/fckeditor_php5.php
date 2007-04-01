@@ -38,8 +38,10 @@ class FCKeditor
 	// PHP 5 Constructor (by Marcus Bointon <coolbru@users.sourceforge.net>)
 	function __construct( $instanceName )
  	{
-		$this->InstanceName	= $instanceName ;
-		$this->BasePath		= '/fckeditor/' ;
+		global $cfg;
+
+        $this->InstanceName	= $instanceName ;
+		$this->BasePath		= WWW_ROOT . '/' . $cfg->core_folder . '/fckeditor/' ;
 		$this->Width		= '100%' ;
 		$this->Height		= '200' ;
 		$this->ToolbarSet	= 'Default' ;
