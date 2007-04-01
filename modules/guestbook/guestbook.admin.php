@@ -262,30 +262,53 @@ class module_guestbook_admin
     * @global $tpl
     * @global $functions
     * @global $lang
+    * @global $perms
     */
     function edit()
     {
-        global $db, $tpl, $functions, $lang;
-        /**
-        * @desc Incoming Vars
-        */
-        $infos = $_POST['infos'];
+        global $db, $tpl, $functions, $lang, $perms;
 
-        // Add/Modify comment
-        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
-                               SET  `gb_added` = :gb_added,
-                                    `gb_icq` = :gb_icq,
-                                    `gb_nick` = :gb_nick,
-                                    `gb_email` = :gb_email,
-                                    `gb_website` = :gb_website,
-                                    `gb_town` = :gb_town,
-                                    `gb_text` = :gb_text,
-                                    `gb_ip` = :gb_ip
-                               WHERE `gb_id` = :gb_id' );
-        $stmt->execute( $infos );
+        // Permissions check
+        if( $perms->check('edit_gb', 'no_redirect') == true )
+        {
 
-        // Redirect on finish
-        $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+            // Incoming Vars
+            $infos  = $_POST['infos'];
+            $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+            $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
+
+            if( !empty( $submit ) )
+            {
+                // Add/Modify comment
+                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
+                                       SET  `gb_added` = :gb_added,
+                                            `gb_icq` = :gb_icq,
+                                            `gb_nick` = :gb_nick,
+                                            `gb_email` = :gb_email,
+                                            `gb_website` = :gb_website,
+                                            `gb_town` = :gb_town,
+                                            `gb_text` = :gb_text,
+                                            `gb_ip` = :gb_ip,
+                                            `gb_comment` = :gb_comment
+                                       WHERE `gb_id` = :gb_id' );
+                $stmt->execute( $infos );
+
+                // Redirect on finish
+                $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+            }
+
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
+            $stmt->execute( array( $gb_id ) );
+            $result = $stmt->fetch( PDO::FETCH_NAMED );
+
+            $tpl->assign( 'infos', $result);
+            $this->output = $tpl->fetch('guestbook/admin_edit.tpl');
+        }
+        else
+        {
+            $this->output = $lang->t('You do not have sufficient rights.');
+        }
+        $this->suppress_wrapper = 1;
     }
 
     function delete()
