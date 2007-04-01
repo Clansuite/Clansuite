@@ -317,7 +317,7 @@ class module_guestbook_admin
         }
         else
         {
-            $this->output = $lang->t('You do not have sufficient rights.');
+            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
     }

@@ -92,9 +92,9 @@ class module_guestbook
                 $this->show_guestbook();
                 break;
 
-            case 'add_guestbook_entry':
-                $trail->addStep($lang->t('Add'), '/index.php?mod=guestbook&amp;action=add_guestbook_entry');
-                $this->add_guestbook_entry();
+            case 'create':
+                $trail->addStep($lang->t('Add'), '/index.php?mod=guestbook&amp;action=create');
+                $this->create();
                 break;
 
             case 'instant_show':
@@ -116,10 +116,10 @@ class module_guestbook
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
-               
+
         // Smarty Pagination load and init
         require(ROOT . 'core/smarty/SmartyPaginate.class.php');
-      
+
         // set URL
         $SmartyPaginate->setUrl('index.php?mod=guestbook&amp;action=show');
         $SmartyPaginate->setUrlVar('page');
@@ -156,60 +156,74 @@ class module_guestbook
     }
 
     /**
-     * @desc Add Entry Guestbook
-     */
-    function add_guestbook_entry()
+    * AJAX request to save the comment
+    * 1. save comment in raw with bbcodes on - into database
+    * 2. return comment with formatted bbcode = raw to html-style
+    *
+    * @global $db
+    * @global $tpl
+    * @global $functions
+    * @global $lang
+    * @global $perms
+    */
+    function create()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        global $db, $tpl, $functions, $lang, $perms;
 
-        /**
-         * Incoming vars
-         */
-        $infos          = isset($_POST['info']) ? $_POST['info'] : array();
-
-        /**
-         * Set Error: message and gbname were empty
-         */
-        if( empty($infos['gbname']) )       $errors['no_gbname']    = 1;
-        if( empty($infos['gbmessage']) )    $errors['no_message']   = 1;
-
-        if( !empty($infos) )
+        // Permissions check
+        if( $perms->check('create_gb_entries', 'no_redirect') == true )
         {
-            if( count($errors) == 0 )
+
+            // Incoming Vars
+            $infos  = $_POST['infos'];
+            $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+            $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
+            $front  = isset($_GET['front']) ? $_GET['front'] : 0;
+
+            if( !empty( $submit ) )
             {
-                /**
-                 * Insert data into DB
-                 *
-                 * SQL Structure:
-                 * gb_id, gb_added, gb_nick, gb_email, gb_icq, gb_website, gb_town, gb_text, gb_ip
-                 */
-                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'guestbook (gb_added, gb_nick, gb_email, gb_icq, gb_website, gb_town, gb_text, gb_ip) VALUES (?,?,?,?,?,?,?,?)');
+                // Set user stuff
+                $infos['gb_ip'] = $_SEESSION['client_ip'];
+                $infos['gb_added'] = time();
 
-                $stmt->execute( array( time(),
-                                       $infos['gbname'],
-                                       $infos['gbemail'],
-                                       $infos['gbicq'],
-                                       $infos['gbwebsite'],
-                                       $infos['gbtown'],
-                                       $infos['gbmessage'],
-                                       $_SESSION['client_ip']
-                                       ) );
+                // Add gb entry
+                $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'guestbook
+                                       SET  `gb_added` = :gb_added,
+                                            `gb_icq` = :gb_icq,
+                                            `gb_nick` = :gb_nick,
+                                            `gb_email` = :gb_email,
+                                            `gb_website` = :gb_website,
+                                            `gb_town` = :gb_town,
+                                            `gb_text` = :gb_text,
+                                            `gb_ip` = :gb_ip' );
+                $stmt->execute( $infos );
 
-                $functions->redirect( 'index.php?mod=guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The entry was added successfully to the guestbook.' ) );
+                if( $infos['front'] == 1 )
+                {
+                    // Redirect on finish
+                    $functions->redirect( 'index.php?mod=guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been created.' ) );
+                }
+                else
+                {
+                    // Redirect on finish
+                    $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been created.' ), 'admin' );
+                }
+
             }
+
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
+            $stmt->execute( array( $gb_id ) );
+            $result = $stmt->fetch( PDO::FETCH_NAMED );
+
+            $tpl->assign( 'infos', $result);
+            $tpl->assign( 'front', $front);
+            $this->output = $tpl->fetch('guestbook/create.tpl');
         }
         else
         {
-            /**
-             * Set Error: User did not fill any fields
-             */
-            $errors['no_infos'] = 1;
+            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
-
-
-        // Output
-        $tpl->assign( 'message_errors'  , $errors );
-        $this->output .= $tpl->fetch( 'guestbook/show.tpl' );
+        $this->suppress_wrapper = 1;
     }
 
     /**
