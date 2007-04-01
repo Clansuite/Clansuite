@@ -77,7 +77,7 @@
         {/if}
         </td>
         <td align="center">
-            <input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:900, height: 700});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' />
         </td>
         <td align="center">
             <input type="checkbox" value="{$news.news_id}" name="delete[]" />

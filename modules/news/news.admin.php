@@ -477,7 +477,7 @@ class module_news_admin
             // Load FCK
             require( ROOT_CORE . '/fckeditor/fckeditor_php5.php' );
             $fck = new FCKeditor('infos[news_body]');
-            $fck->Height = '550';
+            $fck->Height = '450';
             $fck->Value = $result['news_body'];
             $fck_html = $fck->CreateHtml();
 
