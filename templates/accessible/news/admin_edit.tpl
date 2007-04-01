@@ -1,7 +1,3 @@
-{doc_raw}
-	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
-{/doc_raw}
-
 {if $err.fill_form == 1}
     {error title="Fill form"}
         Please fill all fields.
@@ -11,16 +7,16 @@
 <form action="index.php?mod=news&amp;sub=admin&amp;action=edit" method="post" target="_self">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
-        <td class="td_header" width="100%" colspan="2">
+        <td class="td_header" width="100%" height="100%" colspan="2">
         {translate}Create news{/translate}    </td>
 
     </tr>
     <tr>
 
-        <td class="td_header_small" width="40">
+        <td class="td_header_small" width="60">
         {translate}Title{/translate}    </td>
 
-        <td class="td_header_small" width="99%">
+        <td class="td_header_small">
         {translate}Information{/translate}    </td>
 
     </tr>
@@ -79,23 +75,27 @@
     </tr>
     <tr>
         <td colspan="2" class="cell3">
-        	<script type="text/javascript">
+        	{*
+            <script type="text/javascript">
 
             var sBasePath = "{$www_root}/core/fckeditor/";
 
             var oFCKeditor = new FCKeditor( 'infos[body]' );
             oFCKeditor.BasePath	= sBasePath;
             oFCKeditor.Height	= 400;
-            oFCKeditor.Value	= '{$infos.news_body|escape:javascript}';
+            oFCKeditor.Value	= '';
             oFCKeditor.Create();
-        	</script>
+        	</script>*}
+        	{$fck}
         </td>
     </tr>
     <tr>
         <td colspan="2" class="cell2" align="center">
+            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{translate}Abort{/translate}"/>
             <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit news{/translate}" />
         </td>
     </tr>
 </table>
 <input type="hidden" name="id" value="{$infos.news_id}" />
+<input type="hidden" name="infos[front]" value="{$front}" />
 </form>

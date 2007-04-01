@@ -3,6 +3,7 @@
 {$newscategories|@var_dump}
 {$paginate|@var_dump}
 *}
+    <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
 {doc_raw}
     <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"> </script>
   	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
@@ -76,7 +77,7 @@
         {/if}
         </td>
         <td align="center">
-            <input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick="self.location.href='index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}'" />
+            <input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:900, height: 700});{/literal}' />
         </td>
         <td align="center">
             <input type="checkbox" value="{$news.news_id}" name="delete[]" />

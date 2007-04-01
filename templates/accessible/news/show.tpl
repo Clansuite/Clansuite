@@ -3,6 +3,17 @@
 	{$news|@var_dump}
 	{$paginate|@var_dump}
 *}
+    <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
+{doc_raw}
+    <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_core_tpl_root}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
+{/doc_raw}
 
 {* display pagination header *}
 {if $paginate.size gt 1}
@@ -32,7 +43,10 @@
 	</div>
 	<div class="news-content">
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
-		{$news.news_body}
+		{$news.news_body}<br />
+        {if $smarty.session.user.rights.edit_news == 1}
+            <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 700});{/literal}' />
+        {/if}
 	</div>
 </div>
 {/foreach}
