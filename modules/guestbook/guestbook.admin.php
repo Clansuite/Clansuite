@@ -276,6 +276,7 @@ class module_guestbook_admin
             $infos  = $_POST['infos'];
             $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
             $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
+            $front  = isset($_GET['front']) ? $_GET['front'] : 0;
 
             if( !empty( $submit ) )
             {
@@ -293,8 +294,17 @@ class module_guestbook_admin
                                        WHERE `gb_id` = :gb_id' );
                 $stmt->execute( $infos );
 
-                // Redirect on finish
-                $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+                if( $infos['front'] == 1 )
+                {
+                    // Redirect on finish
+                    $functions->redirect( 'index.php?mod=guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ) );
+                }
+                else
+                {
+                    // Redirect on finish
+                    $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+                }
+
             }
 
             $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
@@ -302,6 +312,7 @@ class module_guestbook_admin
             $result = $stmt->fetch( PDO::FETCH_NAMED );
 
             $tpl->assign( 'infos', $result);
+            $tpl->assign( 'front', $front);
             $this->output = $tpl->fetch('guestbook/admin_edit.tpl');
         }
         else

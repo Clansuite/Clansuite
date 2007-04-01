@@ -1,11 +1,17 @@
 <h1>{translate}Guestbook{/translate}</h1>
-{* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *} 
+{* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
 {doc_raw}
 {* Include Lightbox *}
-<link rel="stylesheet" href="{$www_core_tpl_root}/javascript/lightbox/css/lightbox.css" type="text/css" />
-<script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
-<script src="{$www_core_tpl_root}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$www_core_tpl_root}/javascript/lightbox/css/lightbox.css" type="text/css" />
+    <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_core_tpl_root}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
 {* ############### Guestbook Add Entry ##################### *}
@@ -20,13 +26,13 @@
                 <td class="red_cell">
                     {if $message_errors.no_gbname == 1}
                         {translate}You should enter a username.{/translate}<br />
-                    {/if}  
+                    {/if}
                     {if $message_errors.no_message == 1}
                         {translate}You should enter a guestbook message.{/translate}<br />
-                    {/if}                                                              
+                    {/if}
                     {if $message_errors.no_infos == 1}
                         {translate}You haven't supplied any informations at all.{/translate}<br />
-                    {/if}                                
+                    {/if}
                 </td>
             </tr>
         </table>
@@ -60,11 +66,11 @@
 <br />
 {include file="tools/paginate.tpl"}
 
-{foreach item=entry from=$guestbook}    
+{foreach item=entry from=$guestbook}
     Comment <a id="guestbook_entry_{$entry.gb_id}"> # {$entry.gb_id} by</a> <strong> <a href='index.php?mod=users&amp;show'>{$entry.gb_nick}</a></strong>
     <br />
-    Date: {$entry.gb_added} 
-    <br />  
+    Date: {$entry.gb_added}
+    <br />
     Email: {$entry.gb_email}
     <br />
     ICQ: {$entry.gb_icq}
@@ -72,21 +78,16 @@
     WWW: {$entry.gb_website}
     <br />
     City: {$entry.gb_town}
-    <br />    
+    <br />
     IP: {$entry.gb_ip}
     <br />
     Guestbook Message: {$entry.gb_text}
-    <br />    
+    <br />
     Admin Comments: {$entry.gb_admincomment}
     <br />
-    todo: <strong>Frontpage Editing for Admin</strong>
-    <br />
-    if isset $entry.gb_admincomment -> anzeigen + [BUTTON: edit]
-    <br />
-    <p class="lightbox"> if not set =    </p>
-    <a href="{$www_tpl_root}/guestbook/add_admincoment_front.tpl" class="lbOn"> [BUTTON: add admin comment] </a>
-    
-    <br />
+    {if $smarty.session.user.rights.edit_gb == 1}
+        <input class="ButtonGreen" type="button" value="{translate}Edit or add comment{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+    {/if}
     <hr />
 {/foreach}
 

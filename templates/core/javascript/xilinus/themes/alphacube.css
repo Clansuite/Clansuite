@@ -6,57 +6,57 @@
 }
 
 .alphacube_nw {
-	background: transparent url(alphacube/left-top.gif) no-repeat 0 0;			
+	background: transparent url(alphacube/left-top.gif) no-repeat 0 0;
   width:10px;
   height:25px;
 }
 
 .alphacube_n {
-  background: transparent url(alphacube/top-middle.gif) repeat-x 0 0;			
+  background: transparent url(alphacube/top-middle.gif) repeat-x 0 0;
   height:25px;
 }
 
 .alphacube_ne {
-  background: transparent url(alphacube/right-top.gif) no-repeat 0 0;			
-  width:10px;	  
+  background: transparent url(alphacube/right-top.gif) no-repeat 0 0;
+  width:10px;
   height:25px;
 }
 
 .alphacube_w {
-  background: transparent url(alphacube/frame-left.gif) repeat-y top left;			
+  background: transparent url(alphacube/frame-left.gif) repeat-y top left;
   width:7px;
 }
 
 .alphacube_e {
-  background: transparent url(alphacube/frame-right.gif) repeat-y top right;			
-  width:7px;	  
+  background: transparent url(alphacube/frame-right.gif) repeat-y top right;
+  width:7px;
 }
 
 .alphacube_sw {
-  background: transparent url(alphacube/bottom-left-c.gif) no-repeat 0 0;			
+  background: transparent url(alphacube/bottom-left-c.gif) no-repeat 0 0;
   width:7px;
   height:7px;
 }
 
 .alphacube_s {
-  background: transparent url(alphacube/bottom-middle.gif) repeat-x 0 0;			
+  background: transparent url(alphacube/bottom-middle.gif) repeat-x 0 0;
   height:7px;
 }
 
 .alphacube_se, .alphacube_sizer  {
-  background: transparent url(alphacube/bottom-right-c.gif) no-repeat 0 0;			
+  background: transparent url(alphacube/bottom-right-c.gif) no-repeat 0 0;
   width:7px;
   height:7px;
 }
 
 .alphacube_sizer {
-	cursor:se-resize;	
+	cursor:se-resize;
 }
 
 .alphacube_close {
 	width: 23px;
 	height: 23px;
-	background: transparent url(alphacube/button-close-focus.gif) no-repeat 0 0;			
+	background: transparent url(alphacube/button-close-focus.gif) no-repeat 0 0;
 	position:absolute;
 	top:0px;
 	right:11px;
@@ -67,7 +67,7 @@
 .alphacube_minimize {
 	width: 23px;
 	height: 23px;
-	background: transparent url(alphacube/button-min-focus.gif) no-repeat 0 0;			
+	background: transparent url(alphacube/button-min-focus.gif) no-repeat 0 0;
 	position:absolute;
 	top:0px;
 	right:55px;
@@ -78,7 +78,7 @@
 .alphacube_maximize {
 	width: 23px;
 	height: 23px;
-	background: transparent url(alphacube/button-max-focus.gif) no-repeat 0 0;			
+	background: transparent url(alphacube/button-max-focus.gif) no-repeat 0 0;
 	position:absolute;
 	top:0px;
 	right:33px;
@@ -100,13 +100,13 @@
 	overflow:auto;
 	color: #000;
 	font-family: Tahoma, Arial, sans-serif;
-  font: 12px arial;
+    font: 12px arial;
 	background:#FDFDFD;
 }
 
 /* For alert/confirm dialog */
 .alphacube_window {
-	border:1px solid #F00;	
+	border:1px solid #F00;
 	background: #FFF;
 	padding:20px;
 	margin-left:auto;
@@ -115,7 +115,7 @@
 }
 
 .alphacube_message {
-  font: 12px arial;
+    font: 12px arial;
 	text-align:center;
 	width:100%;
 	padding-bottom:10px;
@@ -144,7 +144,7 @@
 	background: #FFF;
 	filter:alpha(opacity=60);
 	-moz-opacity: 0.6;
-	opacity: 0.6;	
+	opacity: 0.6;
 }
 
 
