@@ -1,3 +1,10 @@
+{* DEBUG OUTPUT of assigned Arrays:
+	{$paginate|@var_dump}
+*}
+
+{$posts|@var_dump}
+
+
 Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 
 <table border="0" cellspacing="0" cellpadding="0" align="center">
@@ -30,6 +37,8 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
                 <hr width="100%" size="1" class="hrcolor"/>
 
                 {$post.message} MESSAGE
+                
+                {$post.ip}
                 <br />
                 last edited by author / date
 
