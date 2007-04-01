@@ -10,7 +10,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-<div class="guestbook">
+<div class="admin_guestbook">
 
 {include file="tools/paginate.tpl"}
 

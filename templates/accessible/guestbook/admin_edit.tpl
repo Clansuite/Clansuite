@@ -1,3 +1,5 @@
+<div class="admin_guestbook">
+
 {if $errors.fill_form == 1}
     {error title="Fill form"}Please fill all necessary fields.{/error}
 {/if}
@@ -99,3 +101,4 @@
     </table>
 
 </form>
+</div>
