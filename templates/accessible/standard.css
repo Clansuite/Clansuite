@@ -14,10 +14,12 @@ p {
 	padding: 5px 0;
 }
 /* Tables */
+/*
 table, tr, th, td {
 	border: 1px solid #333;
 	border-collapse: collapse;
 }
+
 table {
 	width: 100%;
 }
@@ -30,6 +32,7 @@ th {
 td {
 	text-align: center;
 }
+*/
 /* Hyperlinks */
 a, a:link, a:hover {
 	color: #069;
@@ -307,7 +310,7 @@ fieldset dd textarea {
 }
 .message_selections {
 }
-.message_new { 
+.message_new {
 }
 .message_old {
 }
@@ -370,4 +373,109 @@ fieldset dd textarea {
 	border: 1px solid #CCCCCC;
 	border-top-color: #999999;
 	border-left-color: #999999;
+}
+
+form input,
+form textarea,
+form select
+{
+	width: auto;      /* auto-size, otherwise watch for wrap on resize */
+	margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+}
+
+.input_text
+{
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+.ajax_input_text input,
+.ajax_input_text textarea
+{
+    border: 1px solid black;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+form select.input_text
+{
+    height: auto;
+}
+
+.input_textarea
+{
+    border: 1px solid black;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+.tr_row1 td
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.tr_row2 td
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.td_header
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+	background: url(images/td_header.gif) repeat-x;
+}
+
+.tr_header td,
+.tr_header th
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+	background: url(images/td_header.gif) repeat-x;
+}
+
+.tr_header_small td
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.td_header_small
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
 }

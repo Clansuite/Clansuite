@@ -5,8 +5,9 @@
 <form target="_self" method="post" action="index.php?mod=guestbook&amp;sub=admin&amp;action=edit">
 
     <input type="hidden" name="infos[gb_id]" value="{$infos.gb_id}" />
+    <input type="hidden" name="infos[front]" value="{$front}" />
 
-    <table cellpadding="5" cellspacing="0" border="0" align="center" width="450" height="400" >
+    <table cellpadding="5" cellspacing="0" border="0" align="center" style="margin: auto" width="450" height="400" >
     <tr class="tr_header">
         <td width="100">
             {translate}Description{/translate}
