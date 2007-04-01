@@ -48,6 +48,11 @@
 define('IN_CS', true);
 
 /**
+ * Check if install.php is found, if true redirect to installation page
+ */ 
+if ( file_exists( 'install.php' ) ) { header( 'Location: install/index.php' ); exit(); }
+
+/**
  * Alter php.ini settings
  * @todo give no information to possible attackers, set (display_errors = false) if (DEBUG = false)
  */
