@@ -24,8 +24,8 @@
 <meta name="description" content="{$meta.description}" />
 <meta name="keywords" content="{$meta.keywords}" />
 
-<link rel="shortcut icon" href="{$www_tpl_root}/images/favicon.ico" />
-<link rel="icon" href="{$www_tpl_root}/images/animated_favicon.gif" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_tpl}/images/favicon.ico" />
+<link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
 {if isset($additional_head)} {$additional_head} {/if}
@@ -52,7 +52,7 @@
 
 <!-- div:title // -->
 <div id="header">
-<img alt="Clansuite Header" src="{$www_tpl_root}/images/clansuite-header.png" />
+<img alt="Clansuite Header" src="{$www_root_tpl}/images/clansuite-header.png" />
 </div>
 
 <!-- div:middle open // -->
@@ -69,14 +69,14 @@
                 <dt>Main</dt>
                 <dd><a href="index.php">Main</a></dd>
                 <dt>Modules</dt>
-                <dd><a href="index.php?mod=news"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
-                <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
-                <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_tpl_root}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
-                <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
-                <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_tpl_root}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
+                <dd><a href="index.php?mod=news"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
+                <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
+                <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_root_tpl}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
+                <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
+                <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
                 <dt>Users</dt>
                 <dd><a class="item" href="index.php?mod=account">Login</a></dd>
-                <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_tpl_root}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
+                <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_tpl}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
                 <dt>ACP</dt>
                 <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
             </dl>
@@ -132,7 +132,7 @@
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="middle" alt="Ajax Notification Image"/>
+    <img src="{$www_root_tpl_core}/images/ajax/2.gif" align="middle" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
 

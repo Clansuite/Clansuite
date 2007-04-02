@@ -1,7 +1,7 @@
 {* DEBUG {$info|@var_dump} *}
 {doc_raw}
     {* Clip Clap Toggle *}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
 {/doc_raw}
 
 <table class="klappable" cellpadding="0" cellspacing="0" border="0" width="100%">

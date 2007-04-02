@@ -1,8 +1,8 @@
 <h2>User :: Search</h2>
 
 {doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/datatable.css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/admin/datatable.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/datatable.css" />
+<script type="text/javascript" src="{$www_root_tpl_core}/admin/datatable.js"></script>
 {/doc_raw}
 
 {* Debugoutput *}

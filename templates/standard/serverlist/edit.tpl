@@ -1,12 +1,12 @@
 {doc_raw}
     {* StyleSheets *}
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/js_color_picker_v2.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/fieldset.css" />  
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/js_color_picker_v2.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/fieldset.css" />  
     
     {* JavaScripts *}
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/color_functions.js"></script>		
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/js_color_picker_v2.js"></script>
-	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>      
+	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/color_functions.js"></script>		
+	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/js_color_picker_v2.js"></script>
+	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>      
 {/doc_raw}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
@@ -79,19 +79,19 @@
                 {translate}Icon{/translate}
             </td>
             <td width="1">
-               <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_core_tpl_root}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
+               <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input" id="icon">
                     <option name=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $info.icon|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.icon|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_root_tpl_core}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
             </td>
             <td align="center">
                 {if $info.icon==''}
-                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
+                    <img src="{$www_root_tpl_core}/images/empty.png" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/icons/{$info.icon|escape:"htmlall"}" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
+                    <img src="{$www_root_tpl_core}/images/groups/icons/{$info.icon|escape:"htmlall"}" id="insert_icon" border="0" width="16" height="16" class="border3d"> 
                 {/if}            
             </td>
         </tr>
@@ -101,18 +101,18 @@
                 {translate}Image{/translate}
             </td>
             <td width="1">
-               <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_core_tpl_root}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
+               <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_tpl_core}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input" id="image">
                     <option name=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $info.image|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_core_tpl_root}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
+                        <option {if $info.image|escape:"htmlall"==$item}selected="selected"{/if} style="background-image:url('{$www_root_tpl_core}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" name="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
             <td align="center">
                 {if $info.image==''}
-                    <img src="{$www_core_tpl_root}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d"> 
+                    <img src="{$www_root_tpl_core}/images/empty.png" id="insert_image" border="0" width="48" height="48" class="border3d"> 
                 {else}
-                    <img src="{$www_core_tpl_root}/images/groups/images/{$info.image|escape:"htmlall"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
+                    <img src="{$www_root_tpl_core}/images/groups/images/{$info.image|escape:"htmlall"}" id="insert_image" border="0" width="48" height="48" class="border3d"> 
                 {/if}
             </td>
         </tr>

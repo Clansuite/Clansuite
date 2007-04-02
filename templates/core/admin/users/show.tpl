@@ -2,7 +2,7 @@
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if} *}
 
 {doc_raw}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/clip.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
 {/doc_raw}
 
 

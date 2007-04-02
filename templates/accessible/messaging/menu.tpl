@@ -1,3 +1,3 @@
-<img src="{$www_core_tpl_root}/images/crystal_clear/16/mail_new.png"> <a href="#create" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}'>{translate}Create a message{/translate}</a> |
-<img src="{$www_core_tpl_root}/images/crystal_clear/16/inbox.png"> <a href="index.php?mod=messaging&action=show">{translate}Incoming messages{/translate} ({$incoming_count})</a> |
-<img src="{$www_core_tpl_root}/images/crystal_clear/16/outbox.png"> <a href="index.php?mod=messaging&action=show_outgoing">{translate}Outgoing messages{/translate} ({$outgoing_count})</a>
+<img src="{$www_root_tpl_core}/images/crystal_clear/16/mail_new.png"> <a href="#create" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}'>{translate}Create a message{/translate}</a> |
+<img src="{$www_root_tpl_core}/images/crystal_clear/16/inbox.png"> <a href="index.php?mod=messaging&action=show">{translate}Incoming messages{/translate} ({$incoming_count})</a> |
+<img src="{$www_root_tpl_core}/images/crystal_clear/16/outbox.png"> <a href="index.php?mod=messaging&action=show_outgoing">{translate}Outgoing messages{/translate} ({$outgoing_count})</a>
