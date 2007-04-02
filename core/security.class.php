@@ -178,7 +178,7 @@ class security
              */
              
             die( $error->show( $lang->t('Template File not found !'),
-                               $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.'),
+                               $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.') . '<br /><br /> <strong>Missing Templatefile: </strong>' . $file ,
                                1 ) );
 
            /* todo:

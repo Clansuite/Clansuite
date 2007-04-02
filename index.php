@@ -111,7 +111,7 @@ define('ROOT_TPL'   , ROOT . $cfg->tpl_folder);
 define('ROOT_LANG'  , ROOT . $cfg->lang_folder);
 define('ROOT_CORE'  , ROOT . $cfg->core_folder);
 define('ROOT_UPLOAD', ROOT . $cfg->upload_folder);
-define('TPL_NAME'   , $cfg->tpl_name);
+define('TPL_NAME'   , $cfg->theme);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
 define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
@@ -159,12 +159,13 @@ $perms      = new permissions;
 $trail      = new trail;
 
 /**
-*  ============================================
-*      Object: Settings and  Function Calls
-*  ============================================
-*/
+ *  ============================================
+ *      Object: Settings and  Function Calls
+ *  ============================================
+ */
 
 // Smarty Settings
+// template_dir sets CORE and DEFAULT THEME as fallback (defined in $cfg)
 $tpl->template_dir      = array(ROOT_TPL . '/' . TPL_NAME . '/', ROOT_TPL . '/core/' ) ;
 $tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
 $tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
@@ -184,7 +185,7 @@ DEBUG ? $tpl->clear_compiled_tpl() : ''; # clear compiled tpls in case of debug
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/Berlin');
 
-// Create DB Object by setting DSN and connecting to DB
+// Create DB Object by setting up dsn, user and password and connecting to DB
 $dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
 $user = $cfg->db_username;
 $password = $cfg->db_password;
@@ -200,6 +201,47 @@ $users->check_login_cookie();       # Check for login cookie - Guest/Member
 $stats->assign_statistic_vars();    # Assign Statistic Variables
 
 /**
+ * Set Theme via URL by $_GET['theme']
+ */
+if(isset($_GET['theme']) && !empty($_GET['theme']) && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['theme']))
+{
+	$theme = $_GET['theme'];
+    
+    if(!empty($theme))
+    {    
+         // @todo: is this correct to check, if a certain theme dir exists ?
+         if(is_dir(ROOT_TPL . '/' . $theme . '/'))
+         {  
+            $_SESSION['user']['theme'] = $theme;
+         }
+    } 
+}
+$theme = '/'.(!empty($_SESSION['user']['theme']) ? $_SESSION['user']['theme'] : $cfg->theme);
+$tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
+
+
+/**
+ * I18N
+ *
+ * 1) default language is set by config
+ *    $cfg->language
+ *    - up to this point this language is used for any output, like error-messages
+ * NOW:
+ * 2) override this by user-selection via URL by $_GET['lang']
+ *    and set $_SESSION parameter accordingly
+ *
+ * notice by vain: to check if language exists is not important,
+ *                 because there are 1) english and 2) the default language as fallback
+ *
+ * @todo: security on $_GET['lang'] => only abc chars 
+ *        && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['lang'] ) ???
+ */
+if(isset($_GET['lang']) && !empty($_GET['lang']) )
+{
+	$_SESSION['user']['language'] = $_GET['lang'];
+}
+
+/**
  *  ==================================
  *          Prepare the Output !
  *  ==================================
@@ -211,10 +253,10 @@ $stats->assign_statistic_vars();    # Assign Statistic Variables
 header('Content-Type: text/html; charset=UTF-8');
 
 /*
- * Set Language for requested module
+ * Set Language for requested module, if no mod is set do nothing
  * @todo: right place would be core language class?
  */
-$_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
+$_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['language'] ) : '';
 
 /**
  *  =====================================================

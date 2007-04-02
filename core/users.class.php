@@ -106,7 +106,7 @@ class users
 
     function create_user($user_id = '', $email = '', $nick = '')
     {
-        global $db, $session, $lang, $functions;
+        global $cfg, $db, $session, $lang, $functions;
 
         $user = '';
 
@@ -116,21 +116,21 @@ class users
 
         if ( !empty($user_id) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
             $stmt->execute( array( $user_id ) );
             $user = $stmt->fetch();
 
         }
         else if ( !empty($email) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE email = ?');
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE email = ?');
             $stmt->execute( array( $email ) );
             $user = $stmt->fetch();
 
         }
         else if ( !empty($nick) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
             $stmt->execute( array( $nick ) );
             $user = $stmt->fetch();
         }
@@ -179,6 +179,9 @@ class users
 
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
+            
+            $_SESSION['user']['language']   = $user['language'];
+            $_SESSION['user']['theme']      = $user['theme'];
 
             /**
              * Get Groups & Rights of user_id
@@ -225,6 +228,14 @@ class users
 
             $_SESSION['user']['disabled']   = 0;
             $_SESSION['user']['activated']  = 0;
+            
+            // This means guest-sessions have only standard language
+            // as defined in $cfg->language
+            // @todo: assign guest-selected language to the session
+            $_SESSION['user']['language']   = $cfg->language;
+            
+            // same as above for theme (template)
+            $_SESSION['user']['theme']      = $cfg->theme;
 
             /**
              * Groups & Rights

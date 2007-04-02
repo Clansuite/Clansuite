@@ -51,20 +51,16 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 class language
 {
     /**
-     * $loaded array contains the filenames
-     * of the loaded xml language files
-     *
-     * @var array
+     * @var array $loaded contains the filenames of the loaded xml language files
      * @access public
      */
     public $loaded  = array();
 
     /**
-     * $lang array for languagefile data after parsing the xml-files
      * Contains all translation of a file in the following form:
      * array(%id% => %message%);
      *
-     * @var array
+     * @var array $lang contains array for languagefile data after parsing the xml-files
      * @access public
      */
 	public $lang    = array();
@@ -79,6 +75,9 @@ class language
     {
         global $tpl;
 
+        /**
+         * Sets up {translate} block in SMARTY Template Engine
+         */
         $tpl->register_block("translate", array('language',"smarty_translate"), false);
     }
 
@@ -126,38 +125,76 @@ class language
     }
 
     /**
-     * Adds another XML File to $lang->xml tree
+     * Browser Locale Detection
+     *
+     * Basically locales are composed by 3 elements:
+     * PREFIX-SUBCLASS ; QUALITY=value
+     *
+     * PREFIX:      is the main language identifier
+     *              (i.e. en-us, en-ca => both have prefix EN)
+     * SUBCLASS:    is a subdivision for main language (prefix)
+     *              (i.e. en-us runs for english - united states) IT CAN BE BLANK
+     * QUALITY:     is the importance for given language
+     *              primary language setting defaults to 1 (100%)
+     *              secondary and further selections have a lower Q value (value <1).
+     *
+     *
+     *
+     */
+
+
+    /**
+     * Adds another XML File to $lang array (xml tree)
      *
      * @global $cfg
      * @param $xml_file_name string filename of languagefile
+     * @param $language sets locale
      */
-    function load_lang( $xml_file_name='' )
+    function load_lang( $xml_file_name = '', $language = 'en' )
     {
         global $cfg;
 
-        $file = ROOT_LANG . '/' . $cfg->language . '/' . $xml_file_name . '.xml';
+        // construct $file with path and xml_file_name        
+        $file = ROOT_LANG . '/' . $language . '/' . $xml_file_name . '.xml';
 
 		/**
 		 * Parse translations via Simple XML
 		 * and write to array
 		 */
 		 if (file_exists($file))
-         {
+         {  
+            // if xml_file_name was not already added
             if (!in_array($xml_file_name, $this->loaded) )
             {
+                // push name into array to know which translations were loaded
 				array_push($this->loaded, $xml_file_name );
 
+                // extract xml data from file
 				$xml = new SimpleXMLElement(file_get_contents($file));
-
+                
+                if (!$xml)
+         	    {
+         	      $error->show( $lang->t('Languagefile loading Failure'), $lang->t('The Languagefile exists, but could not be loaded.') . '<br />' . $file, 2);
+                  #return false;
+         	    }
+         	    
+                /**
+                 * process xml lang file
+                 *
+                 * foreach <message> </message> container extract the
+                 * element <id> and <string> and merge each into the
+                 * $lang array (id => string)
+                 *
+                 * @todo: note for vain: change element names to exleaf specification
+                 
 				foreach($xml->message as $msg)
                 {
-					$id = $msg->id;
-					$string = $msg->string;
-
-                    $this->lang = array_merge($this->lang, array((string)$id => (string)$string));
+					$this->lang = array_merge($this->lang, array((string)$msg->id => (string)$msg->string));
 				}
+				*/
             }
          }
+
     }
 
 }
