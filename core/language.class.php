@@ -164,10 +164,10 @@ class language
 		 if (file_exists($file))
          {  
             // if xml_file_name was not already added
-            if (!in_array($xml_file_name, $this->loaded) )
+            if (!in_array($file, $this->loaded) )
             {
                 // push name into array to know which translations were loaded
-				array_push($this->loaded, $xml_file_name );
+				array_push($this->loaded, $file );
 
                 // extract xml data from file
 				$xml = new SimpleXMLElement(file_get_contents($file));
