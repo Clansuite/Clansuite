@@ -18,7 +18,7 @@
         <td class="cell2" colspan="2">
             <div class="message_selections">
                 <select name="action" class="input_text">
-                    <option value="get_back">{translate}Get messages back (if possible){/translate}</option>
+                    <option value="get_back">{translate}Undo the sending of a messages (if still unread){/translate}</option>
                 </select>
                 <input type="submit" name="submit" value="{translate}Go!{/translate}" class="ButtonGreen" />
             </div>

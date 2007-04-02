@@ -1,8 +1,8 @@
 {doc_raw}
     {* Prototype + Tablegrid Extension *}
-    <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
+    <script src="{$www_root_tpl_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/tablegrid.js"></script>
     {literal}
       <style type="text/css">
             /* Define the basic CSS used by TableGrid - Editable Ajax Table */

@@ -226,8 +226,8 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'] ) : '';
  * Assign Paths (for general use in tpl)
  */
 $tpl->assign('www_root'         , WWW_ROOT );
-$tpl->assign('www_tpl_root'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
-$tpl->assign('www_core_tpl_root', WWW_ROOT_TPL_CORE );
+$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
+$tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 
 /**
  * Assign Config Values (for use in header of tpl)

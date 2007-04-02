@@ -1,7 +1,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="{$css}" type="text/css" />
-<link rel="stylesheet" href="{$www_core_tpl_root}/css/error.css" type="text/css" />
+<link rel="stylesheet" href="{$www_root_tpl_core}/css/error.css" type="text/css" />
 {literal}
 <style type="text/css">
 html, body {

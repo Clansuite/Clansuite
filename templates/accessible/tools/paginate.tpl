@@ -2,7 +2,7 @@
     <tr class="tr_header_small">
         <td>
         <div style="float:left;">
-            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
+            <img src="{$www_root_tpl_core}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
             {if $paginate.size gt 1}
               Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
             {else}

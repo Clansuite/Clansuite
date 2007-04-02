@@ -1,7 +1,7 @@
 {doc_raw}
     {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/admin/luna.css" />
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/luna.css" />
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/tabpane.js"></script>
 {/doc_raw}
 
 <form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post">
@@ -29,7 +29,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" />
-                    <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_tpl_root}/images/</small>
+                    <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_tpl}/images/</small>
                 </td>
             </tr>
             <tr>

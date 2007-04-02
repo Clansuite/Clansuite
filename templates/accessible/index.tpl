@@ -24,8 +24,8 @@
 <meta name="description" content="{$meta.description}" />
 <meta name="keywords" content="{$meta.keywords}" />
 
-<link rel="shortcut icon" href="{$www_tpl_root}/images/favicon.ico" />
-<link rel="icon" href="{$www_tpl_root}/images/animated_favicon.gif" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_tpl}/images/favicon.ico" />
+<link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
 
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script src="{$javascript}" type="text/javascript"></script>
@@ -90,6 +90,6 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 </div>
 {* Ajax Notification *}
 <div id="notification" style="margin-top:20px;vertical-align:middle;display:none">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" alt="Ajax Notification Image" />
+    <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>

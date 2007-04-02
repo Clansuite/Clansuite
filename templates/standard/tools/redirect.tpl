@@ -10,7 +10,7 @@
 <table class="redirect" cellpadding="0" border="0" cellspacing="0">
 <tr>
     <td>
-        <img src="{$www_core_tpl_root}/images/symbols/redirect.png">
+        <img src="{$www_root_tpl_core}/images/symbols/redirect.png">
         <br />
         {$message}
     </td>

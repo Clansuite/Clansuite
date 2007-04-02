@@ -5,13 +5,13 @@
 *}
     <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
 {doc_raw}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/prototype/prototype.js"> </script>
-  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_core_tpl_root}/javascript/xilinus/window_effects.js"> </script>
-  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alphacube.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/alert.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/javascript/xilinus/themes/default.css" />
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"> </script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 <form method="post" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=show">
 <table border="0" cellpadding="0" cellspacing="0" width="800" align="center">
@@ -37,7 +37,7 @@
     <tr class="tr_header_small">
         <td>
         <div style="float:left;">
-            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
+            <img src="{$www_root_tpl_core}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
             {if $paginate.size gt 1}
               Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
             {else}
@@ -98,7 +98,7 @@
     <tr class="tr_header_small">
         <td>
         <div style="float:left;">
-            <img src="{$www_core_tpl_root}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
+            <img src="{$www_root_tpl_core}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
             {if $paginate.size gt 1}
               Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
             {else}

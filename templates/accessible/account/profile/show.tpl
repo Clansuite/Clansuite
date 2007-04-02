@@ -1,11 +1,11 @@
 {doc_raw}
     {* Prototype + Scriptaculous + Smarty_Ajax *}
-    <script src="{$www_core_tpl_root}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_core_tpl_root}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-    <script src="{$www_core_tpl_root}/javascript/smarty_ajax.js" type="text/javascript"></script>
+    <script src="{$www_root_tpl_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script src="{$www_root_tpl_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
     {* Tablegrid Extension *}
-    <script type="text/javascript" src="{$www_core_tpl_root}/javascript/tablegrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_core_tpl_root}/css/tablegrid.css" />
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/tablegrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/css/tablegrid.css" />
 {/doc_raw}
 
 <table cellpadding="0" cellspacing="0" border="0" id="profile" width="100%">
@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}First name{/translate}
@@ -33,7 +33,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Last name{/translate}
@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/cake.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/cake.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Birthday{/translate}
@@ -55,7 +55,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/male.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/male.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Gender{/translate}
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/text_linespacing.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/text_linespacing.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Height{/translate}
@@ -77,7 +77,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/book.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/book.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Address{/translate}
@@ -88,7 +88,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/vcard.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/vcard.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}ZIP code{/translate}
@@ -99,7 +99,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/house.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/house.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}City{/translate}
@@ -110,7 +110,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/world.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/world.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Country{/translate}
@@ -121,7 +121,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/html.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/html.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Homepage{/translate}
@@ -132,7 +132,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/icq.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/icq.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}ICQ{/translate}
@@ -143,7 +143,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/msn.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/msn.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}MSN{/translate}
@@ -154,7 +154,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/skype.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/skype.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Skype{/translate}
@@ -165,7 +165,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/telephone.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/telephone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Phone{/translate}
@@ -176,7 +176,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/phone.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/phone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Mobile{/translate}
@@ -187,7 +187,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_tpl_root}/images/icons/application_view_list.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/application_view_list.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {translate}Custom Text{/translate}
