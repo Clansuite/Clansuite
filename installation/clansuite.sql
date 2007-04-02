@@ -396,7 +396,7 @@ CREATE TABLE `cs_mod_rel_sub` (
 --
 
 /*!40000 ALTER TABLE `cs_mod_rel_sub` DISABLE KEYS */;
-INSERT INTO `cs_mod_rel_sub` VALUES (1,70),(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,61),(2,72),(5,18),(7,16),(9,17),(13,65),(14,62),(15,66),(16,69),(17,63),(18,64),(19,68),(20,67),(21,71),(25,123);
+INSERT INTO `cs_mod_rel_sub` VALUES (1,70),(1,124),(1,125),(1,126),(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,61),(2,72),(5,18),(7,16),(9,17),(13,65),(14,62),(15,66),(16,69),(17,63),(18,64),(19,68),(20,67),(21,71),(25,123);
 /*!40000 ALTER TABLE `cs_mod_rel_sub` ENABLE KEYS */;
 
 --
@@ -482,11 +482,34 @@ INSERT INTO `cs_news_comments` VALUES (1,1,1,'123','2005-07-29 13:04:07','','127
 /*!40000 ALTER TABLE `cs_news_comments` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_profiles`
+-- Table structure for table `cs_profiles_computer`
 --
 
-DROP TABLE IF EXISTS `cs_profiles`;
-CREATE TABLE `cs_profiles` (
+DROP TABLE IF EXISTS `cs_profiles_computer`;
+CREATE TABLE `cs_profiles_computer` (
+  `computer_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `cpu` varchar(255) NOT NULL,
+  `ram` varchar(255) NOT NULL,
+  `gpu` varchar(255) NOT NULL,
+  PRIMARY KEY  (`computer_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_profiles_computer`
+--
+
+/*!40000 ALTER TABLE `cs_profiles_computer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_profiles_computer` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_profiles_general`
+--
+
+DROP TABLE IF EXISTS `cs_profiles_general`;
+CREATE TABLE `cs_profiles_general` (
   `profile_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
@@ -511,12 +534,39 @@ CREATE TABLE `cs_profiles` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cs_profiles`
+-- Dumping data for table `cs_profiles_general`
 --
 
-/*!40000 ALTER TABLE `cs_profiles` DISABLE KEYS */;
-INSERT INTO `cs_profiles` VALUES (1,1,1175369474,'Florian','Wolf',496274400,'male',178,'Mühlenstr. 65','78126','Jena','DE','http://www.clansuite.com','163164530','-','-','-','-','[b]bla[/b]'),(2,3,1172510321,'','',0,'-',0,'-','-','-','-','-','-','-','-','-','-','');
-/*!40000 ALTER TABLE `cs_profiles` ENABLE KEYS */;
+/*!40000 ALTER TABLE `cs_profiles_general` DISABLE KEYS */;
+INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274400,'male',178,'Mühlenstr. 65','78126','Jena','DE','http://www.clansuite.com','163164530','-','-','-','-','[b]bla[/b]'),(2,3,1172510321,'','',0,'-',0,'-','-','-','-','-','-','-','-','-','-','');
+/*!40000 ALTER TABLE `cs_profiles_general` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_profiles_guestbook`
+--
+
+DROP TABLE IF EXISTS `cs_profiles_guestbook`;
+CREATE TABLE `cs_profiles_guestbook` (
+  `gb_id` int(11) NOT NULL auto_increment,
+  `gb_added` int(12) default NULL,
+  `gb_nick` varchar(25) default NULL,
+  `gb_email` varchar(35) default NULL,
+  `gb_icq` int(13) default NULL,
+  `gb_website` varchar(35) default NULL,
+  `gb_town` varchar(25) default NULL,
+  `gb_text` text,
+  `gb_ip` int(12) default NULL,
+  `gb_comment` text,
+  PRIMARY KEY  (`gb_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_profiles_guestbook`
+--
+
+/*!40000 ALTER TABLE `cs_profiles_guestbook` DISABLE KEYS */;
+INSERT INTO `cs_profiles_guestbook` VALUES (1,1241234123,'nick','email',123124,'www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf',1231231231,'mir nur ganz alleine :) [b]fu[/b] asdfasdf'),(2,1175392043,'123','123',123,'123','123','123',NULL,NULL);
+/*!40000 ALTER TABLE `cs_profiles_guestbook` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_rights`
@@ -585,7 +635,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'5a836b39aa5f5f90b40057384182bfab','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"5a836b39aa5f5f90b40057384182bfab\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:2;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:39:\"index.php?mod=guestbook&amp;action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}','suiteSID',1175452372,1,'index');
+INSERT INTO `cs_session` VALUES (1,'460d19afd74e06cb39c3fe666eca63e6','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"460d19afd74e06cb39c3fe666eca63e6\";user|a:9:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}','suiteSID',1175528928,1,'account');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -646,14 +696,14 @@ CREATE TABLE `cs_submodules` (
   `file_name` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`submodule_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_submodules`
 --
 
 /*!40000 ALTER TABLE `cs_submodules` DISABLE KEYS */;
-INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_filebrowser_admin'),(2,'configs','configs.module.php','module_admin_configs'),(3,'modules','modules.module.php','module_admin_modules'),(4,'users','users.module.php','module_admin_users'),(5,'usercenter','usercenter.module.php','module_admin_usercenter'),(6,'groups','groups.module.php','module_admin_groups'),(7,'permissions','perms.module.php','module_admin_permissions'),(8,'menueditor','menueditor.module.php','module_admin_menueditor'),(9,'static','static.module.php','module_admin_static'),(10,'bugs','bugs.module.php','module_admin_bugs'),(11,'manual','manual.module.php','module_admin_manual'),(12,'templates','templates.module.php','module_admin_templates'),(13,'settings','settings.module.php','module_admin_settings'),(14,'categories','categories.module.php','module_admin_categories'),(15,'help','help.module.php','module_admin_help'),(16,'admin','news.admin.php','module_news_admin'),(17,'admin','serverlist.admin.php','module_serverlist_admin'),(61,'bbcode','bbcode.module.php','module_admin_bbcode'),(62,'admin','forum.admin.php','module_forum_admin'),(63,'admin','articles.admin.php','module_articles_admin'),(64,'admin','gallery.admin.php','module_gallery_admin'),(65,'admin','guestbook.admin.php','module_guestbook_admin'),(66,'admin','matches.admin.php','module_matches_admin'),(67,'admin','messaging.admin.php','module_messaging_admin'),(68,'admin','replays.admin.php','module_replays_admin'),(69,'admin','downloads.admin.php','module_downloads_admin'),(70,'profile','profile.module.php','module_account_profile'),(18,'admin','staticpages.admin.php','module_static_admin'),(72,'themes','themes.module.php','module_admin_themes'),(123,'admin','board.admin.php','module_board_admin');
+INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_filebrowser_admin'),(2,'configs','configs.module.php','module_admin_configs'),(3,'modules','modules.module.php','module_admin_modules'),(4,'users','users.module.php','module_admin_users'),(5,'usercenter','usercenter.module.php','module_admin_usercenter'),(6,'groups','groups.module.php','module_admin_groups'),(7,'permissions','perms.module.php','module_admin_permissions'),(8,'menueditor','menueditor.module.php','module_admin_menueditor'),(9,'static','static.module.php','module_admin_static'),(10,'bugs','bugs.module.php','module_admin_bugs'),(11,'manual','manual.module.php','module_admin_manual'),(12,'templates','templates.module.php','module_admin_templates'),(13,'settings','settings.module.php','module_admin_settings'),(14,'categories','categories.module.php','module_admin_categories'),(15,'help','help.module.php','module_admin_help'),(16,'admin','news.admin.php','module_news_admin'),(17,'admin','serverlist.admin.php','module_serverlist_admin'),(61,'bbcode','bbcode.module.php','module_admin_bbcode'),(62,'admin','forum.admin.php','module_forum_admin'),(63,'admin','articles.admin.php','module_articles_admin'),(64,'admin','gallery.admin.php','module_gallery_admin'),(65,'admin','guestbook.admin.php','module_guestbook_admin'),(66,'admin','matches.admin.php','module_matches_admin'),(67,'admin','messaging.admin.php','module_messaging_admin'),(68,'admin','replays.admin.php','module_replays_admin'),(69,'admin','downloads.admin.php','module_downloads_admin'),(70,'profile','profile.module.php','module_account_profile'),(18,'admin','staticpages.admin.php','module_static_admin'),(72,'themes','themes.module.php','module_admin_themes'),(123,'admin','board.admin.php','module_board_admin'),(124,'guestbook','guestbook.module.php','module_account_guestbook'),(125,'general','general.module.php','module_account_general'),(126,'computer','computer.module.php','module_account_computer');
 /*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
@@ -750,4 +800,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-04-01 21:06:45
+-- Dump completed on 2007-04-02 15:20:01
