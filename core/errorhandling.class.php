@@ -76,9 +76,10 @@ class error
      
     function set_callbacks()
     {
-        global $lang, $tpl;
+        global $lang, $tpl, $cfg;
 
-        $lang->load_lang('error');
+        // set error handling language to default language
+        $lang->load_lang('error', $cfg->language);
         
         set_error_handler(array($this, 'advanced_error_handler') );
         set_exception_handler(array($this, 'exception_handler' ) );
