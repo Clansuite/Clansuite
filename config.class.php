@@ -50,17 +50,17 @@
 if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 
 /**
-* This is the Config class of Clansuite. It contains all settings.
-*
-* Variable Configuration
-* Use them while scripting in this way:
-* Class is normally initalized: $cfg = new cfg;
-* $cfg->variable_name = 'variable_value';
-*
-* @package clansuite
-* @subpackage config
-* @todo maybe change this class to a ini file
-*/
+ * This is the Config class of Clansuite. It contains all settings.
+ *
+ * Variable Configuration
+ * Use them while scripting in this way:
+ * Class is normally initalized: $cfg = new cfg;
+ * $cfg->variable_name = 'variable_value';
+ *
+ * @package clansuite
+ * @subpackage config
+ * @todo maybe change this class to a ini file
+ */
 class config
 {
 
@@ -80,14 +80,6 @@ class config
         $this->db_host      = 'localhost';
         $this->db_prefix    = 'cs_';
         $this->db_abs_layer = 'pdo';
-
-        // Meta Tag Information
-
-        $this->meta['description'] = 'Clansuite is a Content Management System for handling the needs of clans';
-        $this->meta['language'] = 'de';
-        $this->meta['author'] = 'Florian Wolf, Jens-Andre Koch';
-        $this->meta['email'] = 'system@clansuite.com';
-        $this->meta['keywords'] = 'clan, cms, content management system, portal';
 
         // Standard Path Configuration
 
@@ -113,22 +105,39 @@ class config
 
         // Template Configurations
 
-        $this->tpl_name = 'accessible';
+        $this->theme = 'accessible';
         $this->tpl_wrapper_file = 'index.tpl';
-        $this->language = 'de';
+        
+        // Modules: Default Module and Default Action
+        
         $this->std_module = 'index';
         $this->std_module_action = 'show';
+        
+        // Default Page Title + CSS + Javascript 
+        
         $this->std_page_title = 'clansuite.com';
         $this->std_css = 'standard.css';
         $this->std_javascript = 'standard.js';
 
+        // Default Language / Locale Setting
+        
+        $this->language = 'de';
+        
+        // Meta Tag Informations
+
+        $this->meta['description'] = 'Clansuite - just an e-sport content management system.';
+        $this->meta['language'] = $this->language;
+        $this->meta['author']  = 'Jens-Andre Koch, Florian Wolf';
+        $this->meta['email'] = 'system@clansuite.com';
+        $this->meta['keywords'] = 'cms, content management system, portal, e-sport';
+
         // Login Configuration & Password Encryption
 
-        $this->login_method = 'nick';
+        $this->login_method = 'nick'; # email or nick
         $this->remember_me_time = 90; # days
         $this->session_expire_time = 30; # minutes
         $this->max_login_attempts = 5;
-        $this->login_ban_minutes = 30;
+        $this->login_ban_minutes = 30; # minutes
 
         $this->min_pass_length = 6;
         $this->encryption = 'sha1';

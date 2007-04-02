@@ -131,7 +131,7 @@
 </div><!-- div:container close // -->
 
 {* Ajax Notification *}
-<div id="notification" style="display: none;">
+<div id="notification" style="display: none; z-index: 99;">
     <img src="{$www_root_tpl_core}/images/ajax/2.gif" align="middle" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
