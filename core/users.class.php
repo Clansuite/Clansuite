@@ -234,8 +234,10 @@ class users
             // @todo: assign guest-selected language to the session
             $_SESSION['user']['language']   = $cfg->language;
             
+            
             // same as above for theme (template)
             $_SESSION['user']['theme']      = $cfg->theme;
+            // #$theme = '/'.(!empty($_SESSION['user']['theme']) ? $_SESSION['user']['theme'] : $cfg->theme);
 
             /**
              * Groups & Rights
