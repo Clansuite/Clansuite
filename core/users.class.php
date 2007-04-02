@@ -180,8 +180,8 @@ class users
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
             
-            $_SESSION['user']['language']   = $user['language'];
-            $_SESSION['user']['theme']      = $user['theme'];
+            $_SESSION['user']['language']   = (!empty($user['language']) ? $user['language'] : $cfg->language);
+            $_SESSION['user']['theme']      = (!empty($user['theme']) ? $user['theme'] : $cfg->theme);
 
             /**
              * Get Groups & Rights of user_id
