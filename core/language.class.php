@@ -154,6 +154,8 @@ class language
     {
         global $cfg;
 
+        echo 'loaded = ' . $xml_file_name . ' -- lang: ' . $language;
+        
         // construct $file with path and xml_file_name        
         $file = ROOT_LANG . '/' . $language . '/' . $xml_file_name . '.xml';
 
