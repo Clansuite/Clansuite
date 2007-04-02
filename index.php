@@ -216,7 +216,6 @@ if(isset($_GET['theme']) && !empty($_GET['theme']) && preg_match('!^[_a-zA-Z0-9-
          }
     } 
 }
-$theme = '/'.(!empty($_SESSION['user']['theme']) ? $_SESSION['user']['theme'] : $cfg->theme);
 $tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
 
 
@@ -268,7 +267,7 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['lan
  * Assign Paths (for general use in tpl)
  */
 $tpl->assign('www_root'         , WWW_ROOT );
-$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME );
+$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
 $tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 
 /**
@@ -278,8 +277,8 @@ $tpl->assign('meta'             , $cfg->meta );
 $tpl->assign('cs_version'       , $cfg->version );
 $tpl->assign('query_counter'    , $db->query_counter );
 $tpl->assign('redirect'         , $functions->redirect );
-$tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css );
-$tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_javascript );
+$tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css );
+$tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_javascript );
 $tpl->assign('std_page_title'   , $cfg->std_page_title );
 
 /**
