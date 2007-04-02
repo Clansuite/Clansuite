@@ -148,6 +148,7 @@ h6 {
 	border: 1px solid #333;
 	border-width: 0 0 1px 1px;
 	float: right;
+	clear: right;
 }
 #counter li {
 	list-style: none;

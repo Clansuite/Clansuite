@@ -380,7 +380,7 @@ class module_admin_users
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Get thte profile
-            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX .'profiles WHERE user_id = ?');
+            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX .'profiles_general WHERE user_id = ?');
             $stmt->execute( array($id) );
             $profile = $stmt->fetch(PDO::FETCH_NAMED);
             unset($profile['profile_id']);

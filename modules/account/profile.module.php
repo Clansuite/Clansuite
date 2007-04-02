@@ -73,16 +73,6 @@ class module_account_profile
                 $this->show();
                 break;
 
-            case 'get_custom_text':
-                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&amp;action=get_custom_text');
-                $this->get_custom_text();
-                break;
-
-            case 'ajax_update':
-                $trail->addStep($lang->t('Ajax Update'), '/index.php?mod=profile&amp;action=ajax_update');
-                $this->ajax_update();
-                break;
-
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
@@ -96,38 +86,15 @@ class module_account_profile
 
 
     /**
-    * @desc Function: Show
+    * Show the profile
+    *
+    * @global $tpl
     */
     function show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
-
-        // DB Select
-        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'profiles WHERE user_id = ?');
-        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
-        $info = $stmt->fetch(PDO::FETCH_NAMED);
-
-        // BBCode load class and init
-        require_once( ROOT_CORE . '/bbcode.class.php' );
-        $bbcode = new bbcode();
-        $info['custom_text'] = $bbcode->parse($info['custom_text']);
-
-        // Gender
-        if( $info['gender'] == 'female' )
-        {
-            $info['gender'] = $lang->t('Female');
-        }
-        else if( $info['gender'] == 'male' )
-        {
-            $info['gender'] = $lang->t('Male');
-        }
-        else
-        {
-            $info['gender'] = '-';
-        }
+        global $tpl;
 
         // Output
-        $tpl->assign( 'info' , $info );
         $this->output .= $tpl->fetch('account/profile/show.tpl');
     }
 
