@@ -58,7 +58,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 class permissions
 {
     /**
-     * This checks if the logged in user has the right in his session table 
+     * This checks if the logged in user has the right in his session table
      * and returns true else it it will redirect
      *
      * @param string $right contains the name of the right
@@ -68,13 +68,12 @@ class permissions
      * @global $lang
      * @global $functions
      * @return bool
-     * @todo note by vain: why is $type defined, when redirect is the only option to go... 
      *
      */
     function check( $right = '', $type = 'redirect', $redirect = 'index.php', $text = '' )
     {
         global $lang, $functions;
-        
+
         /**
          * Check if $right is in session array of user
          */
@@ -83,8 +82,8 @@ class permissions
             /**
              * Ok, right was found in session array
              */
-            
-            return true;   
+
+            return true;
         }
         else
         {
@@ -94,17 +93,33 @@ class permissions
                  * This is a ternary operator
                  * It sets the text by param $text if given or takes the standard text otherwise
                  */
-                
+
                 $text = $text != '' ? $lang->t($text) : $lang->t('You do not have sufficient rights.');
-                
+
                 /**
                  * redirect to index.php
                  */
                 $functions->redirect( 'index.php', 'metatag|newsite', 3, $text );
             }
-            else
+
+            if( $type == 'no_redirect' )
             {
-                return false;   
+                return false;
+            }
+
+            if( $type == 'die' )
+            {
+                /**
+                 * This is a ternary operator
+                 * It sets the text by param $text if given or takes the standard text otherwise
+                 */
+
+                $text = $text != '' ? $lang->t($text) : $lang->t('You do not have sufficient rights.');
+
+                /**
+                 * die with text
+                 */
+                die( $text );
             }
         }
     }
