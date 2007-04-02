@@ -186,12 +186,12 @@ class language
                  * $lang array (id => string)
                  *
                  * @todo: note for vain: change element names to exleaf specification
-                 
+                 */
 				foreach($xml->message as $msg)
                 {
 					$this->lang = array_merge($this->lang, array((string)$msg->id => (string)$msg->string));
 				}
-				*/
+				
             }
          }
 
