@@ -71,7 +71,7 @@
                     {translate}Help{/translate}
                 </div>
                 </td>
-                <td id="help_td" class="admin_header_help" style="display: none;" width="1px">
+                <td id="help_td" class="admin_header_help" style="width: 1px; display: none;">
                    <div id="help_toggle" style="height: 18px; width: 0px; overflow: hidden;">&raquo; {translate}Help{/translate}</div>
                 </td>
             </tr>
