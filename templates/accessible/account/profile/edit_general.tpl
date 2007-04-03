@@ -35,6 +35,9 @@
                 {if $key == country}
                     {translate}Country{/translate}
                 {/if}
+                {if $key == state}
+                    {translate}State{/translate}
+                {/if}
                 {if $key == city}
                     {translate}City{/translate}
                 {/if}
@@ -66,7 +69,7 @@
             <td>
                 {if $key == gender}
                     <select name="profile[{$key}]" class="input_text">
-                        <option value="-">{translate}-{/translate}</option>
+                        <option value="">{translate}---{/translate}</option>
                         <option value="male">{translate}Male{/translate}</option>
                         <option value="female">{translate}Female{/translate}</option>
                     </select>
