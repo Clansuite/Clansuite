@@ -8,74 +8,66 @@
 {/doc_raw}
 *}
 <div class="profile">
-<table cellpadding="0" cellspacing="10" border="0" id="profile" width="100%">
-    <tr>
-        <td width="1%">
-            <div class="picture">
-                <img src="" alt="" />
-            </div>
-        </td>
-        <td class="personal_infos">
-            <div class="nick">{$info.nick}</div>
-            <dl>
-                <dt>{translate}First name{/translate}:</dt>
-                    <dd>{$info.first_name}</dd>
-                <dt>{translate}Last name{/translate}:</dt>
-                    <dd>{$info.last_name}</dd>
-                <dt>{translate}Gender{/translate}:</dt>
-                    <dd>{$info.gender}</dd>
-                <dt>{translate}Birthday{/translate}:</dt>
-                    <dd>{$info.birthday|date_format:"%d.%m.%Y"}</dd>
-                <dt>{translate}Height{/translate}:</dt>
-                    <dd>{$info.height}</dd>
-            </dl>
-        </td>
-    </tr>
-    <tr>
-        <td class="location">
-            <dl>
-                <dt>{translate}Country{/translate}:</dt>
-                    <dd>
-                        {if $info.country == 'not_specified'}
-                            <span class="not_specified">{translate}not specified{/translate}</span>
-                        {else}
-                            <img src="{$www_root_tpl_core}/images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
-                            &nbsp;{$info.country}
-                        {/if}
-                    </dd>
-                <dt>{translate}State{/translate}:</dt>
-                    <dd>{$info.state|wordwrap:50:"<br />":true}</dd>
-                <dt>{translate}City{/translate}:</dt>
-                    <dd>{$info.city}</dd>
-                <dt>{translate}ZIP Code{/translate}:</dt>
-                    <dd>{$info.zipcode}</dd>
-                <dt>{translate}Address{/translate}:</dt>
-                    <dd>{$info.address}</dd>
-            </dl>
-        </td>
-        <td class="miscellaneous">
-            <dl>
-                <dt>{translate}Country{/translate}:</dt>
-                    <dd>
-                        {if $info.country == 'not_specified'}
-                            <span class="not_specified">{translate}not specified{/translate}</span>
-                        {else}
-                            <img src="{$www_root_tpl_core}/images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
-                            &nbsp;{$info.country}
-                        {/if}
-                    </dd>
-                <dt>{translate}State{/translate}:</dt>
-                    <dd>{$info.state|wordwrap:50:"<br />":true}</dd>
-                <dt>{translate}City{/translate}:</dt>
-                    <dd>{$info.city}</dd>
-                <dt>{translate}ZIP Code{/translate}:</dt>
-                    <dd>{$info.zipcode}</dd>
-                <dt>{translate}Address{/translate}:</dt>
-                    <dd>{$info.address}</dd>
-            </dl>
-        </td>
-    </tr>
-</table>
+    <div class="picture">
+        <img src="" alt="" />
+    </div>
+    <div class="personal_infos">
+        <div class="nick">{$info.nick}</div>
+        <dl>
+            <dt>{translate}First name{/translate}:</dt>
+                <dd>{$info.first_name}</dd>
+            <dt>{translate}Last name{/translate}:</dt>
+                <dd>{$info.last_name}</dd>
+            <dt>{translate}Gender{/translate}:</dt>
+                <dd>{$info.gender}</dd>
+            <dt>{translate}Birthday{/translate}:</dt>
+                <dd>{$info.birthday|date_format:"%d.%m.%Y"}</dd>
+            <dt>{translate}Height{/translate}:</dt>
+                <dd>{$info.height}</dd>
+        </dl>
+    </div>
+    <div class="location">
+        <dl>
+            <dt>{translate}Country{/translate}:</dt>
+                <dd>
+                    {if $info.country == 'not_specified'}
+                        <span class="not_specified">{translate}not specified{/translate}</span>
+                    {else}
+                        <img src="{$www_root_tpl_core}/images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
+                        &nbsp;{$info.country}
+                    {/if}
+                </dd>
+            <dt>{translate}State{/translate}:</dt>
+                <dd>{$info.state|wordwrap:50:"<br />":true}</dd>
+            <dt>{translate}City{/translate}:</dt>
+                <dd>{$info.city}</dd>
+            <dt>{translate}ZIP Code{/translate}:</dt>
+                <dd>{$info.zipcode}</dd>
+            <dt>{translate}Address{/translate}:</dt>
+                <dd>{$info.address}</dd>
+        </dl>
+    </div>
+    <div class="miscellaneous">
+        <dl>
+            <dt>{translate}Country{/translate}:</dt>
+                <dd>
+                    {if $info.country == 'not_specified'}
+                        <span class="not_specified">{translate}not specified{/translate}</span>
+                    {else}
+                        <img src="{$www_root_tpl_core}/images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
+                        &nbsp;{$info.country}
+                    {/if}
+                </dd>
+            <dt>{translate}State{/translate}:</dt>
+                <dd>{$info.state|wordwrap:50:"<br />":true}</dd>
+            <dt>{translate}City{/translate}:</dt>
+                <dd>{$info.city}</dd>
+            <dt>{translate}ZIP Code{/translate}:</dt>
+                <dd>{$info.zipcode}</dd>
+            <dt>{translate}Address{/translate}:</dt>
+                <dd>{$info.address}</dd>
+        </dl>
+    </div>
 </div>
 
 <table cellpadding="0" cellspacing="0" border="0" id="profile" width="100%" style="display: none">
