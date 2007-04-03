@@ -8,7 +8,7 @@
   	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/effects.js"></script>
   	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window.js"></script>
   	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window_effects.js"></script>
-  	<script src="{$www_root_tpl_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/smarty_ajax.js"></script>
 
   	{* Smarty AJAX Request for entrance *}
     <script type="text/javascript">

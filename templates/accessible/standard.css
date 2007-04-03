@@ -512,3 +512,56 @@ form select.input_text
     padding: 0px;
     cursor: default;
 }
+
+.profile .picture
+{
+    border: 1px solid black;
+    height: 150px;
+    width: 150px;
+    margin: auto;
+}
+
+.profile .nick
+{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.profile .personal_infos,
+.profile .location,
+.profile .miscellaneous
+{
+    vertical-align: top;
+    border: 1px solid lightgrey;
+    padding: 10px;
+}
+
+.profile .country_picture
+{
+    width: 16px;
+    height: 11px;
+    margin: auto;
+}
+
+.profile dt
+{
+    font-weight:bold;
+    width:7em;
+    float:left;
+    clear:left;
+}
+
+.profile dl dt
+{
+    width: 80px;
+}
+
+.profile dl dd
+{
+    width:300px;
+}
+
+.profile .not_specified
+{
+    font-style: italic;
+}

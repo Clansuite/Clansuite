@@ -120,34 +120,49 @@ class module_account_general
     {
         global  $db, $lang, $tpl;
 
+        // Incoming Vars
+        $user_id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user']['user_id'];
+
         // DB Select
-        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'profiles_general WHERE user_id = ?');
-        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
+        $stmt = $db->prepare('SELECT p.*,u.nick FROM '. DB_PREFIX .'profiles_general p,'. DB_PREFIX .'users u WHERE u.user_id = p.user_id AND u.user_id = ?');
+        $stmt->execute( array( $user_id ) );
         $info = $stmt->fetch(PDO::FETCH_NAMED);
 
-        // BBCode load class and init
-        require_once( ROOT_CORE . '/bbcode.class.php' );
-        $bbcode = new bbcode();
-        $info['custom_text'] = $bbcode->parse($info['custom_text']);
+        if( count($info) > 0 )
+        {
+            // BBCode load class and init
+            require_once( ROOT_CORE . '/bbcode.class.php' );
+            $bbcode = new bbcode();
+            $info['custom_text'] = $bbcode->parse($info['custom_text']);
 
-        // Gender
-        if( $info['gender'] == 'female' )
-        {
-            $info['gender'] = $lang->t('Female');
-        }
-        else if( $info['gender'] == 'male' )
-        {
-            $info['gender'] = $lang->t('Male');
+            // Gender
+            if( $info['gender'] == 'female' )
+            {
+                $info['gender'] = $lang->t('Female');
+            }
+            else if( $info['gender'] == 'male' )
+            {
+                $info['gender'] = $lang->t('Male');
+            }
+
+            foreach( $info as $key => $value )
+            {
+                $info[$key] = empty($value) ? '<span class="not_specified">' . $lang->t('not specified') . '</span>' : $value;
+                if( $key == 'country' && empty($value) )
+                {
+                    $info[$key] = 'not_specified';
+                }
+            }
+
+            // Output
+            $tpl->assign( 'info' , $info );
+            $this->output .= $tpl->fetch('account/profile/general.tpl');
+            $this->suppress_wrapper = 1;
         }
         else
         {
-            $info['gender'] = '-';
+            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'No such user!' ) );
         }
-
-        // Output
-        $tpl->assign( 'info' , $info );
-        $this->output .= $tpl->fetch('account/profile/general.tpl');
-        $this->suppress_wrapper = 1;
     }
 
     /**
@@ -164,7 +179,7 @@ class module_account_general
 
         // Incoming vars
         $submit     = $_POST['submit'];
-        $profile    = isset($_POST['profile'])              ? $_POST['profile']             : array();
+        $profile    = isset($_POST['profile']) ? $_POST['profile'] : array();
 
         if( !empty($submit) )
         {
@@ -173,7 +188,7 @@ class module_account_general
             $profile[':shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
             $profile[':user_id'] = $_SESSION['user']['user_id'];
 
-            $profile_sets = '`icq` = :icq, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
+            $profile_sets = '`icq` = :icq, `state` = :state, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
                              `birthday` = :shaped_birthday, `height` = :height, `address` = :address, `zipcode` = :zipcode,
                              `city` = :city, `country` = :country, `homepage` = :homepage, `skype` = :skype, `phone` = :phone,
                              `mobile` = :mobile, `custom_text` = :custom_text, `timestamp` = :shaped_timestamp';
@@ -182,11 +197,11 @@ class module_account_general
 
             if( $stmt->rowCount() > 0 )
             {
-                $functions->redirect( 'index.php?mod=account&sub=profile&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ) );
+                $functions->redirect( 'index.php?mod=account&sub=profile&action=show', 'metatag|newsite', 3, $lang->t( 'The profile has been edited.' ) );
             }
             else
             {
-                $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'No user!' ) );
+                $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'No such user!' ) );
             }
         }
         else

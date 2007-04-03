@@ -56,7 +56,7 @@ var SmartyAjax = {
 SmartyAjax.GlobalHandlers = {
 	onCreate: function() {
 		SmartyAjax.Process.show();
-	},
+	}
 
 };
 
