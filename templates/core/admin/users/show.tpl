@@ -44,10 +44,18 @@
                     <td>                {$wert.nick}        </td>
                     <td>                {$wert.joined|date_format:"%d.%m.%Y"}      </td>
                     <td align="center">
-                        <input class="ButtonGreen" type="button" value="{translate}User settings{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-                        <input class="ButtonGreen" type="button" value="{translate}General{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-                        <input class="ButtonGreen" type="button" value="{translate}Computers{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-                        <input class="ButtonGreen" type="button" value="{translate}Guestbook{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {if $smarty.session.rights.edit_users == 1}
+                            <input class="ButtonGreen" type="button" value="{translate}User settings{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {/if}
+                        {if $smarty.session.rights.edit_generals == 1}
+                            <input class="ButtonGreen" type="button" value="{translate}General{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {/if}
+                        {if $smarty.session.rights.edit_computers == 1}
+                            <input class="ButtonGreen" type="button" value="{translate}Computers{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {/if}
+                        {if $smarty.session.rights.edit_users == 1}
+                            <input class="ButtonGreen" type="button" value="{translate}Guestbook{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {/if}
                     </td>
                     <td align="center" width="1%">
                         <input type="hidden" name="ids[]" value="{$wert.user_id.0}" />

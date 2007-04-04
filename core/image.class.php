@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
 
 /**
- * This Clansuite Core Class for Debugging
+ * This Clansuite Core Class for image resizing
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>

@@ -308,7 +308,7 @@ class module_account_general
             $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX .'profiles_general WHERE user_id = ?');
             $stmt->execute( array($_SESSION['user']['user_id'] ) );
             $profile = $stmt->fetch(PDO::FETCH_NAMED);
-            unset($profile['profile_id']);
+            unset($profile['general_id']);
             unset($profile['user_id']);
 
             $tpl->assign('profile', $profile);
@@ -336,11 +336,12 @@ class module_account_general
             $stmt = $db->prepare( 'SELECT i.*,p.user_id FROM ' . DB_PREFIX . 'profiles_general p LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = p.image_id WHERE p.user_id = ?' );
             $stmt->execute( array( $id ) );
             $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+            require( ROOT_CORE . '/image.class.php' );
+            $img = new image( ROOT_UPLOAD . '/' . $result['location'] );
+            $img->resize( 150, 150 );
+            $img->show();
         }
-        require( ROOT_CORE . '/image.class.php' );
-        $img = new image( ROOT_UPLOAD . '/' . $result['location'] );
-        $img->resize( 150, 150 );
-        $img->show();
     }
 
     /**

@@ -2,10 +2,10 @@
 	{* Einträge ausgeben *}
 	{foreach from=$shoutbox_entries item=row key=key name=shoutbox}
 <div class="shoutbox" title="{$row.time|date_format:"%d.%m.%Y - %H:%M"}">
-	<div class="shout-header">
+	<div class="shout_header">
 		#{$row.id} - <strong>{$row.name}:</strong>
 	</div>
-	<div class="shout-content">
+	<div class="shout_content">
 		{$row.msg|nl2br|wordwrap:20:"<br />\n":true}
 	</div>
 </div>

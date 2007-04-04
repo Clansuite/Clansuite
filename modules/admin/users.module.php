@@ -109,12 +109,21 @@ class module_admin_users
     }
 
     /**
-    * @desc Show all users
+    * Show all users
+    *
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $perms
     */
 
     function show()
     {
-        global $db, $tpl, $error, $lang;
+        global $db, $tpl, $error, $lang, $perms;
+
+        // Permissions
+        $perms->check( 'show_users_at_cc' );
 
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
@@ -168,12 +177,24 @@ class module_admin_users
     }
 
     /**
-    * @desc Create new User
+    * Create a new user
+    *
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $functions
+    * @global $input
+    * @global $security
+    * @global $perms
     */
 
     function create()
     {
-        global $db, $tpl, $error, $lang, $functions, $input, $security;
+        global $db, $tpl, $error, $lang, $functions, $input, $security, $perms;
+
+        // Permissions
+        $perms->check( 'create_users' );
 
         /**
         * @desc Init
@@ -286,12 +307,25 @@ class module_admin_users
     }
 
     /**
-    * @desc Edit User
+    * Edit a user
+    * AJAX
+    *
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $input
+    * @global $security
+    * @global $functions
+    * @global $perms
     */
 
     function edit_standard()
     {
-        global $db, $tpl, $error, $lang, $input, $security, $functions;
+        global $db, $tpl, $error, $lang, $input, $security, $functions, $perms;
+
+        // Permissions
+        $perms->check( 'edit_users' );
 
         /**
         * @desc Init
@@ -477,7 +511,9 @@ class module_admin_users
     }
 
     /**
-    * @desc Usercenter - Shows own Profil, Messages, Next Events, Votes etc.
+    * Usercenter - Shows own Profil, Messages, Next Events, Votes etc.
+    *
+    * @todo: what the hell this function was for ?!?! depricated?
     */
 
     function show_usercenter()
@@ -504,11 +540,21 @@ class module_admin_users
     }
 
     /**
-    * @desc Advanced User-Search
+    * Advanced User-Search
+    *
+    * @todo: export
+    * @global $db
+    * @global $tpl
+    * @global $error
+    * @global $lang
+    * @global $perms
     */
     function search()
     {
-        global $db, $tpl, $error, $lang;
+        global $db, $tpl, $error, $lang, $perms;
+
+        // Permissions check
+        $perms->check( 'search_users_at_cc' );
 
         /**
         * @desc Get the users
@@ -537,10 +583,14 @@ class module_admin_users
     * @global $lang
     * @global $functions
     * @global $input
+    * @global $perms
     */
     function delete()
     {
         global $db, $functions, $input, $lang;
+
+        // Permissions check
+        $perms->check( 'delete_users' );
 
         /**
          * @desc Init
