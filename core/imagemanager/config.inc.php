@@ -6,9 +6,9 @@
  * @package ImageManager
  */
 
-$IMConfig['base_dir'] = 'C:/xampplite/htdocs/work/clansuite/trunk/uploads/images/';
+$IMConfig['base_dir'] = 'D:/Homepage/clansuite.com/uploads/images/';
 $IMConfig['base_url'] = '/uploads/images/';
-/* ==============  AUTO SETTINGS ============== */ 
+/* ==============  AUTO SETTINGS ============== */
 $IMConfig['image_class'] = (function_exists("gd_info")) ? 'GD' : '';
 $IMConfig['image_transform_lib_path'] = (defined('PHP_BINDIR')) ?  str_replace( "\\", "/",PHP_BINDIR) : '';
 $IMConfig['safe_mode'] = (ini_get('safe_mode') == "1" || strtolower(ini_get('safe_mode')) == "on") ? true : false;

@@ -98,6 +98,10 @@ class module_account_general
                 $this->edit();
                 break;
 
+            case 'show_avatar':
+                $this->show_avatar();
+                break;
+
             case 'instant_show':
                 $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
                 break;
@@ -124,7 +128,7 @@ class module_account_general
         $user_id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user']['user_id'];
 
         // DB Select
-        $stmt = $db->prepare('SELECT p.*,u.nick FROM '. DB_PREFIX .'profiles_general p,'. DB_PREFIX .'users u WHERE u.user_id = p.user_id AND u.user_id = ?');
+        $stmt = $db->prepare('SELECT p.*,u.nick,i.* FROM '. DB_PREFIX .'profiles_general AS p LEFT JOIN '. DB_PREFIX .'users AS u ON u.user_id = p.user_id LEFT JOIN '. DB_PREFIX .'images AS i ON i.image_id = p.image_id WHERE u.user_id = ?');
         $stmt->execute( array( $user_id ) );
         $info = $stmt->fetch(PDO::FETCH_NAMED);
 
@@ -172,30 +176,124 @@ class module_account_general
     * @global $lang
     * @global $tpl
     * @global $functions
+    * @global $security
+    * @global $cfg
+    * @global $error
+    * @global $input
     */
     function edit()
     {
-        global  $db, $lang, $tpl, $functions;
+        global  $db, $lang, $tpl, $functions, $security, $cfg, $error, $input;
 
         // Incoming vars
         $submit     = $_POST['submit'];
         $profile    = isset($_POST['profile']) ? $_POST['profile'] : array();
+        $avatar     = isset($_FILES['avatar']) ? $_FILES['avatar'] : $_POST['avatar'];
 
         if( !empty($submit) )
         {
             // Profile Update
-            $profile[':shaped_birthday'] = strtotime( $profile['birthday']['day'] .'-'. $profile['birthday']['month'] . '-' . $profile['birthday']['year'] );
-            $profile[':shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
-            $profile[':user_id'] = $_SESSION['user']['user_id'];
+            $profile['shaped_birthday'] = strtotime( $profile['birthday']['day'] .'-'. $profile['birthday']['month'] . '-' . $profile['birthday']['year'] );
+            $profile['shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
+            $profile['user_id'] = $_SESSION['user']['user_id'];
+
+            $profile['avatar_type'] == ( $profile['avatar_type'] == 'url' OR $profile['avatar_type'] == 'upload' ) ? $profile['avatar_type'] : $security->intruder_alert();
+
+            // Get the image
+            $stmt = $db->prepare('SELECT i.image_id FROM ' . DB_PREFIX .'profiles_general p,' . DB_PREFIX .'images i WHERE i.image_id = p.image_id AND p.user_id = ?');
+            $stmt->execute( array($_SESSION['user']['user_id'] ) );
+            $image_result = $stmt->fetch(PDO::FETCH_NAMED);
+
+            // all valid extensions
+            $extensions = array('jpg', 'gif');
+
+            if( is_array($image_result) )
+            {
+                $image_id = $image_result['image_id'];
+
+                if( $profile['avatar_type'] == 'upload' )
+                {
+                    // delete old image before proceed
+                    foreach( $extensions as $key => $value )
+                    {
+                        if( file_exists( ROOT_UPLOAD .'/images/avatars/' . $profile['user_id'] . '.' . $value ) )
+                            unlink( ROOT_UPLOAD .'/images/avatars/' . $profile['user_id'] . '.' . $value );
+                    }
+
+                    require( ROOT_CORE . '/upload.class.php' );
+                    $upload = new upload( $avatar, ROOT_UPLOAD .'/images/avatars/', $profile['user_id'], $extensions );
+                    if( $upload->done )
+                    {
+                        $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'images SET location = ?, type = ? WHERE user_id = ? AND image_id = ?');
+                        $stmt->execute( array( 'images/avatars/' . $upload->filename, 'upload', $profile['user_id'], $image_id ) );
+                    }
+                    else
+                    {
+                        $error->show('Upload Failure', 'There has been an upload failure!', 1, 'index.php?mod=account&sub=profile&action=show');
+                    }
+                }
+                else
+                {
+                    if( $input->check( $avatar, 'is_url' ) )
+                    {
+                        $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'images SET location = ?, type = ? WHERE user_id = ? AND image_id = ?');
+                        $stmt->execute( array( $avatar, 'url', $profile['user_id'], $image_id ) );
+                    }
+                    else
+                    {
+                        $error->show('URL Failure', 'This is not a valid URL!', 1, 'index.php?mod=account&sub=profile&action=show');
+                    }
+                }
+            }
+            else
+            {
+                if( $profile['avatar_type'] == 'upload' )
+                {
+                    // delete old image before proceed
+                    foreach( $extensions as $key => $value )
+                    {
+                        if( file_exists( ROOT_UPLOAD .'/images/avatars/' . $profile['user_id'] . '.' . $value ) )
+                            unlink( ROOT_UPLOAD .'/images/avatars/' . $profile['user_id'] . '.' . $value );
+                    }
+
+                    require( ROOT_CORE . '/upload.class.php' );
+                    $upload = new upload( $avatar, ROOT_UPLOAD .'/images/avatars/', $profile['user_id'], $extensions );
+                    if( $upload->done )
+                    {
+                        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'images SET location = ?, type = ?, user_id = ?');
+                        $stmt->execute( array( 'images/avatars/' . $upload->filename, 'upload', $profile['user_id'] ) );
+                    }
+                    else
+                    {
+                        $error->show('Upload Failure', 'There has been an upload failure!', 1, 'index.php?mod=account&sub=profile&action=show');
+                    }
+                }
+                else
+                {
+                    if( $input->check( $avatar, 'is_url' ) )
+                    {
+                        $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'images SET location = ?, type = ?, user_id = ?');
+                        $stmt->execute( array( $avatar, 'url', $profile['user_id'] ) );
+                    }
+                    else
+                    {
+                        $error->show('URL Failure', 'This is not a valid URL!', 1, 'index.php?mod=account&sub=profile&action=show');
+                    }
+                }
+                $image_id = $db->lastInsertId();
+            }
+
+
+            $profile['image_id'] = $image_id;
 
             $profile_sets = '`icq` = :icq, `state` = :state, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
                              `birthday` = :shaped_birthday, `height` = :height, `address` = :address, `zipcode` = :zipcode,
                              `city` = :city, `country` = :country, `homepage` = :homepage, `skype` = :skype, `phone` = :phone,
-                             `mobile` = :mobile, `custom_text` = :custom_text, `timestamp` = :shaped_timestamp';
+                             `mobile` = :mobile, `custom_text` = :custom_text, `timestamp` = :shaped_timestamp, `image_id` = :image_id';
             $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'profiles_general SET ' . $profile_sets . ' WHERE user_id = :user_id');
             $stmt->execute( $profile );
 
-            if( $stmt->rowCount() > 0 )
+            if( count( $image_result ) > 0 )
             {
                 $functions->redirect( 'index.php?mod=account&sub=profile&action=show', 'metatag|newsite', 3, $lang->t( 'The profile has been edited.' ) );
             }
@@ -219,6 +317,30 @@ class module_account_general
             $this->output .= $tpl->fetch('account/profile/edit_general.tpl');
             $this->suppress_wrapper = 1;
         }
+    }
+
+    /**
+    * Send a img header
+    *
+    * @global $db
+    */
+    function show_avatar()
+    {
+        global $db;
+
+        // Incoming vars
+        $id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+        if( $id != 0 )
+        {
+            $stmt = $db->prepare( 'SELECT i.*,p.user_id FROM ' . DB_PREFIX . 'profiles_general p LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = p.image_id WHERE p.user_id = ?' );
+            $stmt->execute( array( $id ) );
+            $result = $stmt->fetch(PDO::FETCH_NAMED);
+        }
+        require( ROOT_CORE . '/image.class.php' );
+        $img = new image( ROOT_UPLOAD . '/' . $result['location'] );
+        $img->resize( 150, 150 );
+        $img->show();
     }
 
     /**

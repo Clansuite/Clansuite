@@ -102,14 +102,14 @@ CREATE TABLE `cs_areas` (
   `name` varchar(255) NOT NULL default 'New Area',
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`area_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_areas`
 --
 
 /*!40000 ALTER TABLE `cs_areas` DISABLE KEYS */;
-INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'Control Center','The area to handle the permissions of the control center'),(6,'News','The area for the news module'),(7,'Filebrowser','The filebrowser module area'),(8,'Guestbook','The area to handle the permissions of the guestbook'),(9,'Articles','The area to handle the permissions of the articles'),(10,'Static Pages','The area to handle the permissions of the static pages'),(11,'Forum','The area to handle the permissions of the forum'),(12,'Matches','The area to handle the permissions of the matches'),(13,'Serverlist','The area to handle the permissions of the serverlist'),(14,'Downloads','The area to handle the permissions of the downloads'),(15,'Gallery','The area to handle the permissions of the gallery'),(16,'Replays','The area to handle the permissions of the replays'),(17,'Messaging','The area to handle the permissions of the messaging system'),(18,'Themes','Area to handle the themes');
+INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'Control Center','The area to handle the permissions of the control center'),(6,'News','The area for the news module'),(7,'Filebrowser','The filebrowser module area'),(8,'Guestbook','The area to handle the permissions of the guestbook'),(9,'Articles','The area to handle the permissions of the articles'),(10,'Static Pages','The area to handle the permissions of the static pages'),(11,'Forum','The area to handle the permissions of the forum'),(12,'Matches','The area to handle the permissions of the matches'),(13,'Serverlist','The area to handle the permissions of the serverlist'),(14,'Downloads','The area to handle the permissions of the downloads'),(15,'Gallery','The area to handle the permissions of the gallery'),(16,'Replays','The area to handle the permissions of the replays'),(17,'Messaging','The area to handle the permissions of the messaging system'),(18,'Themes','Area to handle the themes'),(19,'Profile','All profile related rights');
 /*!40000 ALTER TABLE `cs_areas` ENABLE KEYS */;
 
 --
@@ -356,6 +356,28 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[
 /*!40000 ALTER TABLE `cs_help` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_images`
+--
+
+DROP TABLE IF EXISTS `cs_images`;
+CREATE TABLE `cs_images` (
+  `image_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  PRIMARY KEY  (`image_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cs_images`
+--
+
+/*!40000 ALTER TABLE `cs_images` DISABLE KEYS */;
+INSERT INTO `cs_images` VALUES (3,1,'upload','images/avatars/1.jpg');
+/*!40000 ALTER TABLE `cs_images` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_messages`
 --
 
@@ -510,7 +532,7 @@ CREATE TABLE `cs_profiles_computer` (
 
 DROP TABLE IF EXISTS `cs_profiles_general`;
 CREATE TABLE `cs_profiles_general` (
-  `profile_id` int(11) NOT NULL auto_increment,
+  `general_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
@@ -530,16 +552,17 @@ CREATE TABLE `cs_profiles_general` (
   `phone` varchar(255) NOT NULL default '-',
   `mobile` varchar(255) NOT NULL default '-',
   `custom_text` text NOT NULL,
-  PRIMARY KEY  (`profile_id`),
+  `image_id` int(11) NOT NULL,
+  PRIMARY KEY  (`general_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_profiles_general`
 --
 
 /*!40000 ALTER TABLE `cs_profiles_general` DISABLE KEYS */;
-INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274400,'',178,'Mühlenstr. 65','78126','Jena','Thüringenffffffffffffffffffffffffffffffffffffffffffffffffff','','http://www.clansuite.com','163164530','','','','','[b]bla[/b]'),(2,3,1172510321,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','');
+INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274400,'',178,'Mühlenstr. 65','78126','Jena','DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD','','http://www.clansuite.com','163164530','','','','','[b]bla[/b]',3),(2,3,1172510321,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0),(3,2,1175635148,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0);
 /*!40000 ALTER TABLE `cs_profiles_general` ENABLE KEYS */;
 
 --
@@ -580,14 +603,14 @@ CREATE TABLE `cs_rights` (
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`right_id`,`area_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_rights`
 --
 
 /*!40000 ALTER TABLE `cs_rights` DISABLE KEYS */;
-INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a news'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news'),(16,17,'use_messaging_system','The ability to use the messaging system.'),(17,18,'edit_themes','The ability to edit the themes'),(18,8,'view_gb','View the guestbook'),(19,8,'edit_gb','Edit the guestbook'),(20,8,'create_gb_entries','Create guestbook entries');
+INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the shoutbox'),(10,4,'access_controlcenter','The right to access the control center'),(12,6,'create_news','Add a news'),(13,7,'access_filebrowser','Access the filebrowser'),(14,6,'edit_news','Edit a news'),(15,6,'view_news','View the news'),(16,17,'use_messaging_system','The ability to use the messaging system.'),(17,18,'edit_themes','The ability to edit the themes'),(18,8,'view_gb','View the guestbook'),(19,8,'edit_gb','Edit the guestbook'),(20,8,'create_gb_entries','Create guestbook entries'),(21,19,'edit_generals','Abilty to edit the normal profile stuff'),(22,19,'edit_computers','Abilty to edit the computers in the profile'),(23,19,'edit_userguestbook','Abilty to edit the user guestbook');
 /*!40000 ALTER TABLE `cs_rights` ENABLE KEYS */;
 
 --
@@ -636,7 +659,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'364d2a998e7d73be3735334413cae093','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"364d2a998e7d73be3735334413cae093\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:10:\"accessible\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}','suiteSID',1175625052,1,'account');
+INSERT INTO `cs_session` VALUES (1,'364d2a998e7d73be3735334413cae093','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"364d2a998e7d73be3735334413cae093\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:10:\"accessible\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:11:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:3;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:45:\"index.php?mod=admin&sub=users&amp;action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:4:{i:0;s:7:\"user_id\";i:1;s:5:\"email\";i:2;s:4:\"nick\";i:3;s:6:\"joined\";}s:14:\"default_column\";i:2;s:12:\"default_sort\";s:3:\"asc\";s:14:\"current_column\";i:2;s:12:\"current_sort\";s:3:\"asc\";s:11:\"target_page\";s:42:\"/index.php?mod=admin&sub=users&action=show\";}}','suiteSID',1175659942,1,'account');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -803,4 +826,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-04-03 18:04:57
+-- Dump completed on 2007-04-04  3:44:17

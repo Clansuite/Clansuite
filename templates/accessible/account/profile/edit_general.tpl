@@ -1,4 +1,4 @@
-<form action="index.php?mod=account&amp;sub=general&amp;action=edit" method="post">
+<form action="index.php?mod=account&amp;sub=general&amp;action=edit" method="post" enctype="multipart/form-data" name="upload">
 <table cellpadding="0" cellspacing="0" border="0" width="400" align="center" style="margin: auto">
     <tr class="tr_header">
         <td width="1%">
@@ -64,6 +64,9 @@
                 {/if}
                 {if $key == timestamp}
                     {translate}Last changed{/translate}
+                {/if}
+                {if $key == image_id}
+                    {translate}Avatar location{/translate}
                 {/if}
             </td>
             <td>
@@ -330,6 +333,12 @@
                     {$item|date_format:"<input type='text' size='2' name='profile[birthday][day]' class='input_text' value='%d' /><input type='text' size='2' name='profile[birthday][month]' class='input_text' value='%m' /><input type='text' size='4' name='profile[birthday][year]' class='input_text' value='%Y' />"}
                 {elseif $key == timestamp}
                     {$item|date_format:'<input type="text" size="2" name="profile[timestamp][day]" class="input_text" value="%d" /><input type="text" size="2" name="profile[timestamp][month]" class="input_text" value="%m" /><input type="text" size="4" name="profile[timestamp][year]" class="input_text" value="%Y" />'}
+                {elseif $key == image_id}
+                    <select name="profile[avatar_type]" id="type" onchange="{literal}if(document.getElementById('type').options[document.getElementById('type').options.selectedIndex].text=='url'){document.getElementById('upload').type='text'}{/literal}" class="input_text">
+                        <option value="upload">{translate}upload{/translate}</option>
+                        <option value="url">{translate}url{/translate}</option>
+                    </select>
+                    <input type="file" name="avatar" id="upload" />
                 {else}
                     <input name="profile[{$key}]" type="text" value="{$item}" class="input_text" />
                 {/if}

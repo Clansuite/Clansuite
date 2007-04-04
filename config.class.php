@@ -107,22 +107,22 @@ class config
 
         $this->theme = 'accessible';
         $this->tpl_wrapper_file = 'index.tpl';
-        
+
         // Modules: Default Module and Default Action
-        
+
         $this->std_module = 'index';
         $this->std_module_action = 'show';
-        
-        // Default Page Title + CSS + Javascript 
-        
+
+        // Default Page Title + CSS + Javascript
+
         $this->std_page_title = 'clansuite.com';
         $this->std_css = 'standard.css';
         $this->std_javascript = 'standard.js';
 
         // Default Language / Locale Setting
-        
+
         $this->language = 'de';
-        
+
         // Meta Tag Informations
 
         $this->meta['description'] = 'Clansuite - just an e-sport content management system.';
@@ -142,6 +142,9 @@ class config
         $this->min_pass_length = 6;
         $this->encryption = 'sha1';
         $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
+
+        // File/Upload configuration
+        $this->max_upload_filesize = 1048576;
 
         // Session configuration
 
