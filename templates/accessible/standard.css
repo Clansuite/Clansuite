@@ -240,15 +240,26 @@ fieldset dd textarea {
 	margin: 0 auto 10px auto;
 	border: 1px solid #333;
 }
-.shout-header {
+
+.shoutbox_form
+{
+    margin: auto;
+    text-align: center;
+}
+
+.shoutbox .shout_header
+{
 	padding: 2px;
 	background: #f00;
 	border-bottom: 1px solid #333;
 	color: #fff;
 }
-.shout-content {
+
+.shoutbox .shout_content
+{
 	padding: 2px;
 }
+
 /* Redirect */
 .redirect_message
 {
@@ -562,18 +573,19 @@ form select.input_text
 .profile .general .picture
 {
     border: 1px solid black;
-    /*height: 150px;*/
     width: 150px;
     margin: auto;
 }
 
 .profile .general .nick
 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
+    font-family: tahoma;
     height: 30px;
     width: 100%;
     text-align: center;
+    color: #f00;
 }
 
 .profile .general .country_picture

@@ -2,28 +2,30 @@
 Loading...
 </div>
 {if $show_form === true}
-<h3>{translate}Shoutbox{/translate}</h3>
-<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('shout_name,shout_mail,shout_msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
-	<fieldset>
-		<dl>
-			<dt><label for="shout_name">{translate}Name{/translate}:</label></dt>
-			<dd><input class="input_text" id="shout_name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="shout_mail">{translate}E-Mail{/translate}:</label></dt>
-			<dd><input class="input_text" id="shout_mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="shout_msg">{translate}Message{/translate}:</label></dt>
-			<dd><textarea class="input_textarea" id="shout_msg" name="msg" cols="17" rows="3"></textarea></dd>
-		</dl>
-	</fieldset>
-	<div class="form_bottom">
-		<input type="submit" id="shoutbox_submit" name="sent" value="{$save_entry}" class="button" />
-	</div>
-</form>
-<div id="request_return" style="text-align:center">
+<div class="shoutbox_form">
+    <h3>{translate}Shoutbox{/translate}</h3>
+    <form action="{$request}" method="post" onsubmit="return sendAjaxRequest('shout_name,shout_mail,shout_msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
+    	<fieldset>
+    		<dl>
+    			<dt><label for="shout_name">{translate}Name{/translate}:</label></dt>
+    			<dd><input class="input_text" id="shout_name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
+    		</dl>
+    		<dl>
+    			<dt><label for="shout_mail">{translate}E-Mail{/translate}:</label></dt>
+    			<dd><input class="input_text" id="shout_mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
+    		</dl>
+    		<dl>
+    			<dt><label for="shout_msg">{translate}Message{/translate}:</label></dt>
+    			<dd><textarea class="input_textarea" id="shout_msg" name="msg" cols="17" rows="3"></textarea></dd>
+    		</dl>
+    	</fieldset>
+    	<div class="form_bottom">
+    		<input type="submit" id="shoutbox_submit" name="sent" value="{$save_entry}" class="button" />
+    	</div>
+    </form>
+    <div id="request_return" style="text-align:center">
 
+    </div>
 </div>
 <br />
 <div id="entries_box">

@@ -7,7 +7,7 @@
     * File:         upload.class.php
     * Requires:     PHP 5.1.4+
     *
-    * Purpose:      Clansuite Core Class for uploads
+    * Purpose:      Clansuite Core Class for uploading files
     *
     * LICENSE:
     *
@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
 
 /**
- * This Clansuite Core Class for Debugging
+ * This Clansuite Core Class for uploading files
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
@@ -69,6 +69,11 @@ class upload
     public $done = false;
 
 
+    /**
+    * Create an upload stream, check filesize and extension as well as correct upload form
+    *
+    * @global $cfg
+    */
     function __construct( $file = array(), $upload_folder = '', $new_filename = '', $valid_extensions = array(), $max_filesize = 0 )
     {
         global $cfg;
@@ -98,6 +103,9 @@ class upload
         }
     }
 
+    /**
+    * Check if the exitension is valid
+    */
     private function _check_extension()
     {
         $info = explode('.',$this->filename);;
@@ -112,6 +120,9 @@ class upload
             return false;
     }
 
+    /**
+    * Check if the filesize is valid
+    */
     private function _check_filesize()
     {
         if( $this->file['size'] < $this->max_filesize )
