@@ -47,14 +47,14 @@
             <td class="cell2">
                 <div class="{if $item.read==0}message_new{else}message_old{/if}">
                     
+                    {if $item.read==0}
+                        <strong>{translate}New{/translate}:&nbsp;</strong>
+                    {/if}
                     From: {$item.from} on {$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}
                     
                     <hr width="100%" size="1" class="hrcolor" />
 
                     <div class="message_headline">
-                        {if $item.read==0}
-                        <strong>{translate}New{/translate}:&nbsp;</strong> from {$item.from}
-                        {/if}
                         <a href="index.php?mod=messaging&action=read&id={$item.message_id}"><strong>{$item.headline}</strong></a>
                     </div>
 
