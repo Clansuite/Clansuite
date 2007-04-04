@@ -49,7 +49,7 @@ define('IN_CS', true);
 
 /**
  * Check if config.class.php is found, if true redirect to installation page
- */ 
+ */
 if ( !file_exists( 'config.class.php' ) ) { header( 'Location: installation/index.php' ); exit(); }
 
 /**
@@ -206,15 +206,15 @@ $stats->assign_statistic_vars();    # Assign Statistic Variables
 if(isset($_GET['theme']) && !empty($_GET['theme']) && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['theme']))
 {
 	$theme = $_GET['theme'];
-    
+
     if(!empty($theme))
-    {    
+    {
          // @todo: is this correct to check, if a certain theme dir exists ?
          if(is_dir(ROOT_TPL . '/' . $theme . '/'))
-         {  
+         {
             $_SESSION['user']['theme'] = $theme;
          }
-    } 
+    }
 }
 $tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
 
@@ -232,7 +232,7 @@ $tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', RO
  * notice by vain: to check if language exists is not important,
  *                 because there are 1) english and 2) the default language as fallback
  *
- * @todo: security on $_GET['lang'] => only abc chars 
+ * @todo: security on $_GET['lang'] => only abc chars
  *        && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['lang'] ) ???
  */
 if(isset($_GET['lang']) && !empty($_GET['lang']) )
@@ -268,6 +268,7 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['lan
  */
 $tpl->assign('www_root'         , WWW_ROOT );
 $tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
+$tpl->assign('www_root_upload'  , WWW_ROOT . '/' . $cfg->upload_folder );
 $tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 
 /**

@@ -76,9 +76,20 @@ class module_admin_users
                 $this->create();
                 break;
 
-            case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=admin&amp;sub=users');
-                $this->edit();
+            case 'edit_standard':
+                $this->edit_standard();
+                break;
+
+            case 'edit_general':
+                $this->edit_general();
+                break;
+
+            case 'edit_computer':
+                $this->edit_computer();
+                break;
+
+            case 'edit_guestbook':
+                $this->edit_guestbook();
                 break;
 
             case 'search':
@@ -118,16 +129,16 @@ class module_admin_users
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'u.user_id','u.email', 'u.nick', 'u.joined', 'p.first_name','p.last_name');
+        $columns = array( 'user_id','email', 'nick', 'joined');
         // Create the columnsort object
         $columnsort = &new SmartyColumnSort($columns);
         // And set the the default sort column and order.
-        $columnsort->setDefault('u.nick', 'asc');
+        $columnsort->setDefault('nick', 'asc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
         // Query users
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users AS u LEFT JOIN ' . DB_PREFIX . 'profiles AS p ON p.user_id = u.user_id ORDER BY ' . $sortorder . ' LIMIT ?,?' );
+        $stmt = $db->prepare( 'SELECT user_id, nick, email, joined FROM ' . DB_PREFIX . 'users ORDER BY ' . $sortorder . ' LIMIT ?,?' );
         $stmt->bindParam(1, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
         $stmt->bindParam(2, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
         $stmt->execute();
@@ -271,20 +282,21 @@ class module_admin_users
         $tpl->assign( 'groups'      , $groups );
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch( 'admin/users/create.tpl' );
+        $this->suppress_wrapper = 1;
     }
 
     /**
     * @desc Edit User
     */
 
-    function edit()
+    function edit_standard()
     {
         global $db, $tpl, $error, $lang, $input, $security, $functions;
 
         /**
         * @desc Init
         */
-        $id                 = isset($_GET['id'])                    ? (int) $_GET['id']             : $_POST['info']['user_id'];
+        $id                 = isset($_GET['id'])                    ? (int) $_GET['id']             : (int) $_POST['info']['user_id'];
         $submit             = isset($_POST['submit'])               ? $_POST['submit']              : '';
         $info               = isset($_POST['info'])                 ? $_POST['info']                : array();
         $info['activated']  = isset($_POST['info']['activated'])    ? $_POST['info']['activated']   : 0;
@@ -293,6 +305,12 @@ class module_admin_users
         $err                = array();
         $all_groups         = array();
         $groups             = array();
+
+        // Check id
+        if( empty( $id ) )
+        {
+            $error->show( 'No ID given', 'You have\'nt supplied an ID', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+        }
 
         /**
         * @desc Groups of the user
@@ -318,13 +336,13 @@ class module_admin_users
         $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Clean out profile stuff (if not existing)
-        $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX . 'profiles WHERE user_id = ?');
+        $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX . 'profiles_general WHERE user_id = ?');
         $stmt->execute( array( $id ) );
         $profile_result = $stmt->fetch(PDO::FETCH_NUM);
 
         if( !is_array( $profile_result ) )
         {
-            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'profiles SET user_id = ?, timestamp = ?');
+            $stmt = $db->prepare('INSERT INTO ' . DB_PREFIX . 'profiles_general SET user_id = ?, timestamp = ?');
             $stmt->execute( array( $id, time() ) );
         }
 
@@ -341,12 +359,12 @@ class module_admin_users
             {
                 if( $info['email'] == $user['email'] )
                 {
-                    $err['email_already'] = 1;
+                    $error->show( 'eMail', 'eMail already existing!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
                 }
 
                 if( $info['nick'] == $user['nick'] )
                 {
-                    $err['nick_already'] = 1;
+                    $error->show( 'Nickname', 'Nickname already existing!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
                 }
             }
 
@@ -355,7 +373,7 @@ class module_admin_users
             */
             if ( $input->check($info['email'], 'is_email' ) == false )
             {
-                $err['email_wrong'] = 1;
+                $error->show( 'eMail', 'eMail is not valid!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
             }
 
             /**
@@ -364,7 +382,7 @@ class module_admin_users
             if( empty($info['nick']) OR
                 empty($info['email']) )
             {
-                $err['fill_form'] = 1;
+                $error->show( 'Form', 'Please fill the form!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
             }
 
             $groups = $info['groups'];
@@ -393,7 +411,7 @@ class module_admin_users
             }
             else
             {
-                $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
+                $error->show( 'No user', 'The user could not be found!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
             }
         }
 
@@ -428,20 +446,6 @@ class module_admin_users
                                         $info['user_id'] ) );
             }
 
-            // Profile Update
-            $profile[':shaped_birthday'] = strtotime( $profile['birthday']['day'] .'-'. $profile['birthday']['month'] . '-' . $profile['birthday']['year'] );
-            $profile[':shaped_timestamp'] = strtotime( $profile['timestamp']['day'] .'-'. $profile['timestamp']['month'] . '-' . $profile['timestamp']['year'] );
-            $profile[':user_id'] = $info['user_id'];
-
-            $profile_sets = '`icq` = :icq, `msn` = :msn, `first_name` = :first_name, `last_name` = :last_name, `gender` = :gender,
-                             `birthday` = :shaped_birthday, `height` = :height, `address` = :address, `zipcode` = :zipcode,
-                             `city` = :city, `country` = :country, `homepage` = :homepage, `skype` = :skype, `phone` = :phone,
-                             `mobile` = :mobile, `custom_text` = :custom_text, `timestamp` = :shaped_timestamp';
-            $stmt = $db->prepare('UPDATE ' . DB_PREFIX . 'profiles SET ' . $profile_sets . ' WHERE user_id = :user_id');
-            $stmt->execute( $profile );
-
-
-
             /**
             * @desc Update groups table
             */
@@ -468,6 +472,7 @@ class module_admin_users
         $tpl->assign( 'groups'      , $groups);
         $tpl->assign( 'err'         , $err );
         $this->output .= $tpl->fetch( 'admin/users/edit.tpl' );
+        $this->suppress_wrapper = 1;
 
     }
 

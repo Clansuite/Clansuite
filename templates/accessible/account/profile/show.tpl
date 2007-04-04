@@ -23,14 +23,14 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
 
 {/doc_raw}
-<div style="float: left;width: 100%;">
+<div class="profile">
     <div class="tab-pane" id="profile">
         <script type="text/javascript">tp1 = new WebFXTabPane( document.getElementById( "profile" ) );</script>
 
         {* #### GENERALS #### *}
-        <div class="tab-page" id="generals">
-           <h2 class="tab"><div style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}">{translate}Generals{/translate}</div></h2>
-           <script type="text/javascript">tp1.addTabPage( document.getElementById( "generals" ) );</script>
+        <div class="tab-page" id="general">
+           <h2 class="tab"><div style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}">{translate}General{/translate}</div></h2>
+           <script type="text/javascript">tp1.addTabPage( document.getElementById( "general" ) );</script>
             <div id="ajax_general"></div>
         </div>
 

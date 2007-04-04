@@ -3,6 +3,17 @@
 
 {doc_raw}
     <script type="text/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
+
+    {* Prototype + Scriptaculous + Smarty_Ajax + Xilinus*}
+    <script src="{$www_root_tpl_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/effects.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window_effects.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/smarty_ajax.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alphacube.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alert.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
 
@@ -14,32 +25,31 @@
 
 <form action="index.php?mod=admin&sub=users&amp;action=delete" method="post">
 
-    <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
+    <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
 
             <tr class="tr_header">
-                <td width="10%" align="center"> {columnsort html="User ID"}         </td>
+                <td width="1%" align="center"> {columnsort html="ID"}         </td>
                 <td align="center">             {columnsort html="eMail"}           </td>
                 <td align="center">             {columnsort html="Nick"}            </td>
                 <td align="center">             {columnsort html="Joined"}          </td>
-                <td align="center">             {columnsort html="First name"}      </td>
-                <td align="center">             {columnsort html="Last name"}       </td>
-                <td align="center">             {translate}Action{/translate}          </td>
-                <td align="center">             {translate}Delete{/translate}          </td>
+                <td align="center">             {translate}Edit Action{/translate}          </td>
+                <td align="center">             {translate}Del{/translate}          </td>
             </tr>
 
             {foreach key=schluessel item=wert from=$users}
 
                 <tr class="tr_row1">
-                    <td align="center"> {$wert.user_id.0}     </td>
+                    <td align="center"> {$wert.user_id}     </td>
                     <td>                {$wert.email}       </td>
                     <td>                {$wert.nick}        </td>
-                    <td>                {$wert.joined}      </td>
-                    <td>                {$wert.first_name}  </td>
-                    <td>                {$wert.last_name}   </td>
+                    <td>                {$wert.joined|date_format:"%d.%m.%Y"}      </td>
                     <td align="center">
-                        <input type="button" class="ButtonGreen" onclick="self.location.href='index.php?mod=admin&amp;sub=users&amp;action=edit&amp;id={$wert.user_id.0}'" value="{translate}Edit{/translate}" />
+                        <input class="ButtonGreen" type="button" value="{translate}User settings{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{translate}General{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{translate}Computers{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{translate}Guestbook{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                     </td>
-                    <td align="center">
+                    <td align="center" width="1%">
                         <input type="hidden" name="ids[]" value="{$wert.user_id.0}" />
                         <input name="delete[]" type="checkbox" value="{$wert.user_id.0}" />
                     </td>

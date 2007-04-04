@@ -522,3 +522,14 @@ table.admintable tr#cell3
 	padding-top: 5px;
 }
 
+.admin .user_settings
+{
+
+}
+
+.admin .user_settings table td,
+.admin .user_settings table th,
+.admin .user_settings table tr
+{
+    padding: 3px;
+}

@@ -513,55 +513,127 @@ form select.input_text
     cursor: default;
 }
 
-.profile .picture
+.profile
+{
+    float: left;
+    width: 100%;
+}
+
+.profile .general .picture_infos,
+.profile .general .personal_infos,
+.profile .general .location,
+.profile .general .miscellaneous
+{
+    vertical-align: top;
+    float: left;
+    height: 200px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.profile .general .personal_infos,
+.profile .general .location,
+.profile .general .miscellaneous
+{
+    border: 1px solid lightgrey;
+}
+
+.profile .general .picture_infos,
+.profile .general .location
+{
+    clear: left;
+    width: 300px;
+}
+
+.profile .general .miscellaneous,
+.profile .general .personal_infos
+{
+    clear: right;
+}
+
+.profile .general .picture_infos .content,
+.profile .general .personal_infos .content,
+.profile .general .location .content,
+.profile .general .miscellaneous .content
+{
+    padding: 10px;
+}
+
+.profile .general .picture
 {
     border: 1px solid black;
-    height: 150px;
+    /*height: 150px;*/
     width: 150px;
     margin: auto;
 }
 
-.profile .nick
+.profile .general .nick
 {
     font-size: 18px;
     font-weight: bold;
+    height: 30px;
+    width: 100%;
+    text-align: center;
 }
 
-.profile .personal_infos,
-.profile .location,
-.profile .miscellaneous
-{
-    vertical-align: top;
-    border: 1px solid lightgrey;
-    padding: 10px;
-}
-
-.profile .country_picture
+.profile .general .country_picture
 {
     width: 16px;
     height: 11px;
     margin: auto;
 }
 
-.profile dt
+.profile .general dl
+{
+    padding: 10px;
+}
+
+.profile .general dt
 {
     font-weight:bold;
-    width:7em;
     float:left;
     clear:left;
+    padding: 5px;
 }
 
-.profile dl dt
+.profile .general dl dt
 {
     width: 80px;
+
 }
 
-.profile dl dd
+.profile .general dl dd
 {
+    padding: 5px;
     width:300px;
 }
 
-.profile .not_specified
+.profile .general .not_specified
 {
     font-style: italic;
+}
+
+.profile .general .edit_button
+{
+    clear: both;
+}
+
+.profile .general .box_heading
+{
+    padding: 0;
+    /*margin: -10px 10px 10px -10px;*/
+    font-weight: bold;
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+    text-align: center;
+    background-color: #f00;
+    color: #fff;
+}
+
+.profile .general .options
+{
+    clear: both;
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid lightgrey;
 }
