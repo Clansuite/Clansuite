@@ -26,7 +26,7 @@
                     {if $entry.type == url}
                         <img src="{$entry.location}" alt="{$entry.nick}" class="the_pic" />
                     {elseif $entry.type == upload}
-                        <a href="index.php?mod=account&sub=profile&action=show&id={$entry.user_id.1}"><img src="index.php?mod=guestbook&action=show_avatar&id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
+                        <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
                     {else}
                         <img src="{$www_root_tpl}/images/no_avatar_small.jpg" alt="{translate}No avatar{/translate}: {$entry.nick}"  class="the_pic" />
                     {/if}
@@ -82,7 +82,7 @@
             </div>
             {/if}
         </div>
-        <div class="divider"><hr></div>
+        <div class="divider"><hr /></div>
     {/foreach}
     <div class="options">
         <input class="ButtonGreen" type="button" value="{translate}Add a guestbook entry{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
