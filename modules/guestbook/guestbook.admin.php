@@ -269,7 +269,7 @@ class module_guestbook_admin
         global $db, $tpl, $functions, $lang, $perms;
 
         // Permissions check
-        if( $perms->check('edit_gb', 'no_redirect') == true )
+        if( $perms->check('cc_edit_gb', 'no_redirect') == true )
         {
 
             // Incoming Vars
@@ -282,8 +282,7 @@ class module_guestbook_admin
             {
                 // Add/Modify comment
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
-                                       SET  `gb_added` = :gb_added,
-                                            `gb_icq` = :gb_icq,
+                                       SET  `gb_icq` = :gb_icq,
                                             `gb_nick` = :gb_nick,
                                             `gb_email` = :gb_email,
                                             `gb_website` = :gb_website,
@@ -422,7 +421,7 @@ class module_guestbook_admin
         // Incoming vars
         $gb_id = $_GET['id'];
 
-        if( $perms->check('view_gb', 'no_redirect') == true )
+        if( $perms->check('cc_view_gb', 'no_redirect') == true )
         {
             $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
             $stmt->execute( array( $gb_id ) );

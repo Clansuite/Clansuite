@@ -44,7 +44,7 @@
 	<div class="news-content">
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
 		{$news.news_body}<br />
-        {if $smarty.session.user.rights.edit_news == 1 AND $smarty.session.user.rights.access_controlcenter == 1}
+        {if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />

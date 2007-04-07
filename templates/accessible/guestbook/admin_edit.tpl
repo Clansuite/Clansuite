@@ -31,8 +31,8 @@
         <td style="padding: 3px">
             <b>{translate}Date added:{/translate}</b>
         </td>
-        <td align="left">
-            <input type="text" name="infos[gb_added]" class="input_text" value="{$infos.gb_added|escape:"html"}" />
+        <td align="left" style="padding: 3px">
+            {translate}{$infos.gb_added|date_format:"%A"}{/translate}, {translate}{$infos.gb_added|date_format:"%B"}{/translate}{$infos.gb_added|date_format:" %e, %Y"}
         </td>
     </tr>
     <tr class="tr_row1">

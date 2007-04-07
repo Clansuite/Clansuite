@@ -89,112 +89,31 @@ class module_account_profile
     * Show the profile
     *
     * @global $tpl
+    * @global $functions
+    * @global $lang
     */
     function show()
     {
-        global $tpl;
+        global $tpl, $functions, $lang;
 
-        // Output
+        // Incoming Vars
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user']['user_id'];
+
+        // Check if given id
+        if( !isset($id) OR empty($id) )
+        {
+            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'Please give a valid user id.' ) );
+        }
+
+        // Check if guest
+        if( $id == 0 )
+        {
+            $functions->redirect( 'index.php?mod=account&action=register', 'metatag|newsite', 3, $lang->t( 'We are sorry, but guest don\'t have profiles. Please register.' ) );
+        }
+
+        // Output & assignments
+        $tpl->assign( 'id', $id );
         $this->output .= $tpl->fetch('account/profile/show.tpl');
-    }
-
-    /**
-    * @desc Function: Show
-    */
-    function get_custom_text()
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
-
-        // DB Select
-        $stmt = $db->prepare('SELECT custom_text FROM '. DB_PREFIX .'profiles WHERE user_id = ?');
-        $stmt->execute( array( $_SESSION['user']['user_id'] ) );
-        $info = $stmt->fetch(PDO::FETCH_NAMED);
-
-        // Output
-        $this->output .= $info['custom_text'];
-        $this->suppress_wrapper = true;
-    }
-
-    /**
-    * @desc Function: Update the stuff
-    */
-    function ajax_update()
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms, $users;
-
-        /**
-        * @desc Incoming vars
-        */
-        $value  = urldecode($_POST['value']);
-        $cell   = isset($_POST['cell']) ? urldecode($_POST['cell']) : urldecode($_GET['cell']);
-
-
-        // whitelist for $modules_dbfields
-        $whitelist = array( 'zipcode',
-                            'homepage',
-                            'birthday',
-                            'gender',
-                            'height',
-                            'address',
-                            'city',
-                            'country',
-                            'icq',
-                            'msn',
-                            'skype',
-                            'phone',
-                            'mobile',
-                            'custom_text',
-                            'first_name',
-                            'last_name' );
-
-        // check if $modules_dbfield exists in $whitelist
-        if( in_array($cell, $whitelist) )
-        {
-            if( $cell == 'birthday' )
-            {
-                $old_value = $value;
-                $value = strtotime($value);
-            }
-            // if yes, update that field in db
-            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'profiles SET `' . $cell . '` = ?, `timestamp` = ?
-                                                                   WHERE user_id = ?' );
-            $stmt->execute( array(  $value, time(), $_SESSION['user']['user_id'] ) );
-        }
-        else
-        {
-            $security->intruder_alert();
-        }
-
-        // Convert timestamp back
-        if( $cell == 'birthday' ) $value = $old_value;
-
-        if( $cell == 'custom_text' )
-        {
-            // BBCode load class and init
-            require_once( ROOT_CORE . '/bbcode.class.php' );
-            $bbcode = new bbcode();
-            $value = $bbcode->parse($value);
-        }
-
-        if( $cell == 'gender' )
-        {
-            if( $value == 'female' )
-            {
-                $value = $lang->t('Female');
-            }
-            else if( $value == 'male' )
-            {
-                $value = $lang->t('Male');
-            }
-            else
-            {
-                $value = '-';
-            }
-        }
-
-        // Output + Suppress wrappering!
-        $this->output = $value;
-        $this->suppress_wrapper = true;
     }
 }
 ?>

@@ -276,7 +276,7 @@ CREATE TABLE `cs_group_rights` (
 --
 
 /*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
-INSERT INTO `cs_group_rights` VALUES (1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),(1,25),(1,26),(1,27),(1,28),(2,11),(3,1),(3,3),(3,4),(3,5);
+INSERT INTO `cs_group_rights` VALUES (3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(3,21),(3,22),(3,23),(3,24),(3,25),(3,26),(3,27),(3,28);
 /*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
 
 --
@@ -287,21 +287,20 @@ DROP TABLE IF EXISTS `cs_groups`;
 CREATE TABLE `cs_groups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
   `sortorder` int(4) unsigned NOT NULL default '0',
-  `name` varchar(80) default 'New Group',
+  `name` varchar(80) NOT NULL,
   `description` varchar(255) NOT NULL,
   `icon` varchar(255) default NULL,
-  `image` varchar(255) NOT NULL,
-  `color` varchar(7) NOT NULL,
-  PRIMARY KEY  (`group_id`),
-  UNIQUE KEY `group_id` (`group_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `image` varchar(255) default NULL,
+  `color` varchar(7) default NULL,
+  PRIMARY KEY  (`group_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_groups`
 --
 
 /*!40000 ALTER TABLE `cs_groups` DISABLE KEYS */;
-INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group','','','#666600'),(2,1,'Guests','The Guest Group','','','#000000');
+INSERT INTO `cs_groups` VALUES (1,1,'Guest','The non-registered users.','','','#000000'),(2,2,'Normal users','The users are forced into this group after registration.','','','#006600'),(3,3,'Administrators','The website administrator with access to the control center (cc)','','','#FF0000'),(4,4,'Some group','Some testing group','','','#9900CC');
 /*!40000 ALTER TABLE `cs_groups` ENABLE KEYS */;
 
 --
@@ -311,24 +310,26 @@ INSERT INTO `cs_groups` VALUES (1,1,'Administrator','The Administrator Group',''
 DROP TABLE IF EXISTS `cs_guestbook`;
 CREATE TABLE `cs_guestbook` (
   `gb_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
   `gb_added` int(12) default NULL,
   `gb_nick` varchar(25) default NULL,
   `gb_email` varchar(35) default NULL,
-  `gb_icq` int(13) default NULL,
+  `gb_icq` varchar(15) default NULL,
   `gb_website` varchar(35) default NULL,
   `gb_town` varchar(25) default NULL,
   `gb_text` text,
-  `gb_ip` int(12) default NULL,
+  `gb_ip` varchar(15) default NULL,
   `gb_comment` text,
+  `image_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`gb_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cs_guestbook`
 --
 
 /*!40000 ALTER TABLE `cs_guestbook` DISABLE KEYS */;
-INSERT INTO `cs_guestbook` VALUES (1,1241234123,'nick','email',123124,'www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf',1231231231,'mir nur ganz alleine :) [b]fu[/b] asdfasdf'),(2,1175392043,'123','123',123,'123','123','123',NULL,NULL);
+INSERT INTO `cs_guestbook` VALUES (1,1,1003200322,'nick','email','123124','www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf','1231231231','mir nur ganz alleine :) [b]fu[/b] asdfasdf asdfffffffffffffffffasd asdfsadfsafsafsadf asdfsadfsfsafsafddddddddddddddddddddddddddddd  asdfsfsdfsdfsdfddddddddddddddddddddddddd dddddasdfsdfsdfsdfsaf assadfsaf ',3),(2,0,1175392043,'123','123','123','','123','123','0','',0),(3,0,1175919684,'nester tester','asdf','1234---1234','http://www.uschi.de','blablubb','asafsdfd [b]/uschi[/b]','127.0.0.1',NULL,0),(4,1,1175924624,'asdf','asdfafafaf','afaffa','faffa','fafafa','faafaffaaf','127.0.0.1',NULL,3);
 /*!40000 ALTER TABLE `cs_guestbook` ENABLE KEYS */;
 
 --
@@ -659,7 +660,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'dc5c37995db989e91fb1efefcdb5fefa','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"dc5c37995db989e91fb1efefcdb5fefa\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:10:\"accessible\";s:6:\"groups\";a:1:{i:0;s:1:\"1\";}s:6:\"rights\";a:19:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;s:13:\"edit_generals\";i:1;s:14:\"edit_computers\";i:1;s:19:\"edit_userguestbooks\";i:1;s:16:\"show_users_at_cc\";i:1;s:12:\"create_users\";i:1;s:10:\"edit_users\";i:1;s:18:\"search_users_at_cc\";i:1;s:12:\"delete_users\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:3;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:45:\"index.php?mod=admin&sub=users&amp;action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:4:{i:0;s:7:\"user_id\";i:1;s:5:\"email\";i:2;s:4:\"nick\";i:3;s:6:\"joined\";}s:14:\"default_column\";i:2;s:12:\"default_sort\";s:3:\"asc\";s:14:\"current_column\";i:2;s:12:\"current_sort\";s:3:\"asc\";s:11:\"target_page\";s:42:\"/index.php?mod=admin&sub=users&action=show\";}}','suiteSID',1175676266,1,'admin');
+INSERT INTO `cs_session` VALUES (1,'a3a77315af1ec3028d10e4d4e3812ab8','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"a3a77315af1ec3028d10e4d4e3812ab8\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:8:\"password\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:10:\"accessible\";s:6:\"groups\";a:1:{i:0;s:1:\"3\";}s:6:\"rights\";a:19:{s:20:\"access_controlcenter\";i:1;s:13:\"shoutbox_post\";i:1;s:11:\"create_news\";i:1;s:18:\"access_filebrowser\";i:1;s:9:\"edit_news\";i:1;s:9:\"view_news\";i:1;s:20:\"use_messaging_system\";i:1;s:11:\"edit_themes\";i:1;s:7:\"view_gb\";i:1;s:7:\"edit_gb\";i:1;s:17:\"create_gb_entries\";i:1;s:13:\"edit_generals\";i:1;s:14:\"edit_computers\";i:1;s:19:\"edit_userguestbooks\";i:1;s:16:\"show_users_at_cc\";i:1;s:12:\"create_users\";i:1;s:10:\"edit_users\";i:1;s:18:\"search_users_at_cc\";i:1;s:12:\"delete_users\";i:1;}}SmartyPaginate|a:1:{s:7:\"default\";a:9:{s:10:\"item_limit\";i:20;s:10:\"item_total\";i:4;s:12:\"current_item\";i:1;s:6:\"urlvar\";s:4:\"page\";s:3:\"url\";s:39:\"index.php?mod=guestbook&amp;action=show\";s:9:\"prev_text\";s:4:\"prev\";s:9:\"next_text\";s:4:\"next\";s:10:\"first_text\";s:5:\"first\";s:9:\"last_text\";s:4:\"last\";}}','suiteSID',1175930273,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -746,7 +747,7 @@ CREATE TABLE `cs_user_groups` (
 --
 
 /*!40000 ALTER TABLE `cs_user_groups` DISABLE KEYS */;
-INSERT INTO `cs_user_groups` VALUES (1,1);
+INSERT INTO `cs_user_groups` VALUES (1,3);
 /*!40000 ALTER TABLE `cs_user_groups` ENABLE KEYS */;
 
 --
@@ -826,4 +827,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-04-04 18:37:27
+-- Dump completed on 2007-04-07  6:48:04

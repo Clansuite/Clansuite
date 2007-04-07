@@ -119,17 +119,30 @@ class module_account_general
     * @global $db
     * @global $lang
     * @global $tpl
+    * @global $functions
     */
     function show()
     {
-        global  $db, $lang, $tpl;
+        global  $db, $lang, $tpl, $functions;
 
         // Incoming Vars
-        $user_id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user']['user_id'];
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user']['user_id'];
+
+        // Check if given id
+        if( !isset($id) OR empty($id) )
+        {
+            $functions->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'Please give a valid user id.' ) );
+        }
+
+        // Check if guest
+        if( $id == 0 )
+        {
+            $functions->redirect( 'index.php?mod=account&action=register', 'metatag|newsite', 3, $lang->t( 'We are sorry, but guest don\'t have profiles. Please register.' ) );
+        }
 
         // DB Select
         $stmt = $db->prepare('SELECT p.*,u.nick,i.* FROM '. DB_PREFIX .'profiles_general AS p LEFT JOIN '. DB_PREFIX .'users AS u ON u.user_id = p.user_id LEFT JOIN '. DB_PREFIX .'images AS i ON i.image_id = p.image_id WHERE u.user_id = ?');
-        $stmt->execute( array( $user_id ) );
+        $stmt->execute( array( $id ) );
         $info = $stmt->fetch(PDO::FETCH_NAMED);
 
         if( count($info) > 0 )

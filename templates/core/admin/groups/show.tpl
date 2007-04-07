@@ -44,7 +44,7 @@
                 <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=edit&amp;id={$group.group_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /><br />
                 <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$group.group_id}'" type="button" value="{translate}Add Members{/translate}" class="ButtonGreen" />
             </td>
-            <td><input type="checkbox" name="delete[]" value="{$group.group_id}" /></td>
+            <td>{if $group.group_id gt 3}<input type="checkbox" name="delete[]" value="{$group.group_id}" />{else}Core Group{/if}</td>
         </tr>
         {/foreach}
         <tr>

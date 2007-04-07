@@ -87,9 +87,13 @@ class module_guestbook
         {
 
             default:
-            case 'show_guestbook':
+            case 'show':
                 $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&amp;action=show_guestbook');
-                $this->show_guestbook();
+                $this->show();
+                break;
+
+            case 'show_avatar':
+                $this->show_avatar();
                 break;
 
             case 'create':
@@ -112,9 +116,9 @@ class module_guestbook
      * Function: Show Guestbook
      * @todo: change setLimit to a Variable for editing by user from (Guestbook Module Settings)
      */
-    function show_guestbook()
+    function show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
+        global $tpl, $db, $lang;
 
 
         // Smarty Pagination load and init
@@ -127,14 +131,14 @@ class module_guestbook
         $SmartyPaginate->setLimit(20);
 
         // get all guestbook entries
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'guestbook' );
+        $stmt = $db->prepare( 'SELECT i.*,g.*,u.nick FROM ' . DB_PREFIX . 'guestbook g LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id LEFT JOIN ' . DB_PREFIX . 'users u ON g.user_id = u.user_id ORDER BY g.gb_added DESC' );
         $stmt->execute();
-        $guestbook = $stmt->fetchALL(PDO::FETCH_NAMED);
+        $guestbook = $stmt->fetchAll(PDO::FETCH_NAMED);
 
         // if array contains data proceed, else show empty message
         if ( !is_array( $guestbook ) )
         {
-            $this->output .= $lang->t('We are sorry to say, but your Guestbook is empty.');
+            $err['gb_empty'] = 1;
         }
         else
         {
@@ -146,13 +150,48 @@ class module_guestbook
             // assign the {$paginate} to $tpl (smarty var)
             $SmartyPaginate->assign($tpl);
 
-            $tpl->assign('guestbook', $guestbook);
+            // Get the BB-Code Class
+            require_once( ROOT_CORE . '/bbcode.class.php' );
+            $bbcode = new bbcode();
 
-            /**
-             * @desc Handle the output - $lang-t() translates the text.
-             */
-            $this->output .= $tpl->fetch('guestbook/show.tpl');
+            // Set 'not specified's
+            foreach( $guestbook as $entry_key => $entry_value )
+            {
+                foreach( $entry_value as $key => $value )
+                {
+                    switch( $key )
+                    {
+                        case 'nick':
+                            if( empty($value) )
+                                $guestbook[$entry_key][$key] = $guestbook[$entry_key]['gb_nick'];
+                            break;
+
+                        case 'gb_comment':
+                            if( empty($value) )
+                                unset($guestbook[$entry_key][$key]);
+                            else
+                                $guestbook[$entry_key][$key] = $bbcode->parse($guestbook[$entry_key][$key]);
+                            break;
+
+                        case 'gb_text':
+                            $guestbook[$entry_key][$key] = $bbcode->parse($guestbook[$entry_key][$key]);
+                            break;
+
+                        case 'gb_website':
+
+                            break;
+
+                        default:
+                            $guestbook[$entry_key][$key] = empty($value) ? '<span class="not_specified">' . $lang->t('not specified') . '</span>' : $value;
+                            break;
+                    }
+                }
+            }
         }
+
+        $tpl->assign( 'guestbook', $guestbook);
+        $tpl->assign( 'err' , $error );
+        $this->output .= $tpl->fetch('guestbook/show.tpl');
     }
 
     /**
@@ -185,6 +224,20 @@ class module_guestbook
                 // Set user stuff
                 $infos['gb_ip'] = $_SESSION['client_ip'];
                 $infos['gb_added'] = time();
+                $infos['user_id'] = $_SESSION['user']['user_id'];
+
+                // Get an image, if existing
+                if( $infos['user_id'] != 0 )
+                {
+                    $stmt = $db->prepare('SELECT image_id FROM ' . DB_PREFIX . 'profiles_general WHERE user_id = ?');
+                    $stmt->execute( array($infos['user_id']) );
+                    $result = $stmt->fetch(PDO::FETCH_NAMED);
+                    $infos['image_id'] = $result['image_id'];
+                }
+                else
+                {
+                    $infos['image_id'] = 0;
+                }
 
                 // Add gb entry
                 $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'guestbook
@@ -195,7 +248,9 @@ class module_guestbook
                                             `gb_website` = :gb_website,
                                             `gb_town` = :gb_town,
                                             `gb_text` = :gb_text,
-                                            `gb_ip` = :gb_ip' );
+                                            `gb_ip` = :gb_ip,
+                                            `user_id` = :user_id,
+                                            `image_id` = :image_id' );
                 $stmt->execute( $infos );
 
                 if( $infos['front'] == 1 )
@@ -224,6 +279,31 @@ class module_guestbook
             $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
+    }
+
+    /**
+    * Send a img header
+    *
+    * @global $db
+    */
+    function show_avatar()
+    {
+        global $db;
+
+        // Incoming vars
+        $id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+        if( $id != 0 )
+        {
+            $stmt = $db->prepare( 'SELECT i.*,g.gb_id FROM ' . DB_PREFIX . 'guestbook g LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id WHERE g.gb_id = ?' );
+            $stmt->execute( array( $id ) );
+            $result = $stmt->fetch(PDO::FETCH_NAMED);
+
+            require( ROOT_CORE . '/image.class.php' );
+            $img = new image( ROOT_UPLOAD . '/' . $result['location'] );
+            $img->resize( 150, 100 );
+            $img->show();
+        }
     }
 
     /**

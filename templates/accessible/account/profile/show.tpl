@@ -13,7 +13,7 @@
   	{* Smarty AJAX Request for entrance *}
     <script type="text/javascript">
     SmartyAjax.update('ajax_{if $smarty.cookies.webfxtab_profile == 0}general{elseif $smarty.cookies.webfxtab_profile == 1}computer{elseif $smarty.cookies.webfxtab_profile == 2}guestbook{/if}',
-                            'index.php?mod=account&sub={if $smarty.cookies.webfxtab_profile == 0}general{elseif $smarty.cookies.webfxtab_profile == 1}computer{elseif $smarty.cookies.webfxtab_profile == 2}guestbook{/if}&action=show',
+                            'index.php?mod=account&sub={if $smarty.cookies.webfxtab_profile == 0}general{elseif $smarty.cookies.webfxtab_profile == 1}computer{elseif $smarty.cookies.webfxtab_profile == 2}guestbook{/if}&action=show{if isset($id)}&id={$id}{/if}',
                             'get',
                             'f=',
                             '');

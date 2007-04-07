@@ -177,7 +177,7 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];
+                $error->show('Name existing', 'The name for the right does already exist!', 1, 'index.php?mod=admin&sub=permissions');
             }
 
             /**
@@ -185,7 +185,7 @@ class module_admin_permissions
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];
+                $error->show('Fill form', 'Please fill the form!', 1, 'index.php?mod=admin&sub=permissions');
             }
         }
 
@@ -199,7 +199,7 @@ class module_admin_permissions
         /**
         * @desc Update on submit
         */
-        if ( !empty( $submit ) && count($err) == 0 )
+        if ( !empty( $submit ) )
         {
             /**
             * @desc Update right in DBe
@@ -216,9 +216,9 @@ class module_admin_permissions
         }
 
         $tpl->assign( 'areas'   , $areas );
-        $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/edit_right.tpl');
+        $this->suppress_wrapper = 1;
     }
 
     /**
@@ -246,7 +246,7 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];
+                $error->show('Name existing', 'The name for the right does already exist!', 1, 'index.php?mod=admin&sub=permissions');
             }
 
             /**
@@ -254,7 +254,7 @@ class module_admin_permissions
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];
+                $error->show('Fill form', 'Please fill the form!', 1, 'index.php?mod=admin&sub=permissions');
             }
         }
 
@@ -268,7 +268,7 @@ class module_admin_permissions
         /**
         * @desc Insert on submit, no error
         */
-        if ( !empty( $submit ) && count($err) == 0 )
+        if ( !empty( $submit ) )
         {
             /**
             * @desc Insert right into the DB
@@ -284,10 +284,11 @@ class module_admin_permissions
 
         }
 
+        $tpl->assign( 'area_id'   , $area_id );
         $tpl->assign( 'areas'   , $areas );
-        $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/create_right.tpl');
+        $this->suppress_wrapper = 1;
 
     }
 
@@ -315,7 +316,7 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];
+                $error->show('Name existing', 'The name for the right does already exist!', 1, 'index.php?mod=admin&sub=permissions');
             }
 
             /**
@@ -323,14 +324,14 @@ class module_admin_permissions
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];
+                $error->show('Fill form', 'Please fill the form!', 1, 'index.php?mod=admin&sub=permissions');
             }
         }
 
         /**
         * @desc Insert on submit, no error
         */
-        if ( !empty( $submit ) && count($err) == 0 )
+        if ( !empty( $submit ) )
         {
             /**
             * @desc Insert the area into the DB
@@ -346,9 +347,9 @@ class module_admin_permissions
 
         }
 
-        $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/create_area.tpl');
+        $this->suppress_wrapper = 1;
 
     }
 
@@ -391,7 +392,7 @@ class module_admin_permissions
             $check = $stmt->fetch(PDO::FETCH_ASSOC);
             if ( is_array( $check ) )
             {
-                $err['name_already'];
+                $error->show('Name existing', 'The name for the right does already exist!', 1, 'index.php?mod=admin&sub=permissions');
             }
 
             /**
@@ -399,14 +400,14 @@ class module_admin_permissions
             */
             if ( empty( $info['name'] ) OR empty( $info['description'] ) )
             {
-                $err['fill_form'];
+                $error->show('Fill form', 'Please fill the form!', 1, 'index.php?mod=admin&sub=permissions');
             }
         }
 
         /**
         * @desc Insert on submit, no error
         */
-        if ( !empty( $submit ) && count($err) == 0 )
+        if ( !empty( $submit ) )
         {
             /**
             * @desc Insert the area into the DB
@@ -421,10 +422,9 @@ class module_admin_permissions
             $functions->redirect( 'index.php?mod=admin&sub=permissions&action=show_all', 'metatag|newsite', 3, $lang->t( 'The area has been updated.' ), 'admin' );
         }
 
-        $tpl->assign( 'err'     , $err );
         $tpl->assign( 'info'    , $info);
         $this->output .= $tpl->fetch('admin/permissions/edit_area.tpl');
-
+        $this->suppress_wrapper = 1;
     }
 
 

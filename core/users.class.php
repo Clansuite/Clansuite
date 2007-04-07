@@ -37,7 +37,7 @@
     *
     * @version    SVN: $Id$
     */
-    
+
 /**
  * Security Handler
  */
@@ -59,8 +59,8 @@ class users
 {
     /**
      * Get a user by any type of db field information
-     * 
-     * @param string 
+     *
+     * @param string
      * @param integer
      * @global $db
      * @global $security
@@ -87,7 +87,7 @@ class users
                                   WHERE ' . DB_PREFIX . 'users.user_id = ?');
             $stmt->execute( array( $user_id ) );
             $result = $stmt->fetch(PDO::FETCH_NAMED);
-            
+
             return $result[$type];
         }
     }
@@ -179,7 +179,7 @@ class users
 
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
-            
+
             $_SESSION['user']['language']   = (!empty($user['language']) ? $user['language'] : $cfg->language);
             $_SESSION['user']['theme']      = (!empty($user['theme']) ? $user['theme'] : $cfg->theme);
 
@@ -228,23 +228,37 @@ class users
 
             $_SESSION['user']['disabled']   = 0;
             $_SESSION['user']['activated']  = 0;
-            
+
             // This means guest-sessions have only standard language
             // as defined in $cfg->language
             // @todo: assign guest-selected language to the session
             $_SESSION['user']['language']   = $cfg->language;
-            
-            
+
+
             // same as above for theme (template)
             $_SESSION['user']['theme']      = $cfg->theme;
             // #$theme = '/'.(!empty($_SESSION['user']['theme']) ? $_SESSION['user']['theme'] : $cfg->theme);
 
             /**
-             * Groups & Rights
+             * Groups & Rights (Guest Group id = 1)
              */
 
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
+
+            $_SESSION['user']['groups'][] = 1;
+
+            $stmt = $db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
+            $stmt->execute( array( 1 ) );
+            $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if( is_array( $rights ) )
+            {
+                foreach( $rights as $key => $values )
+                {
+                    $_SESSION['user']['rights'][$values['name']] = 1;
+                }
+            }
         }
     }
 
@@ -299,7 +313,7 @@ class users
 
     /**
      * Login
-     * 
+     *
      * @param integer $user_id contains user_id
      * @param integer $remember_me contains remember_me setting
      * @param string $password contains password string

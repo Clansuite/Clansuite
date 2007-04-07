@@ -83,8 +83,8 @@
             {if $smarty.session.user.user_id == $info.user_id.0}
                 <input class="ButtonGreen" type="button" value="{translate}Edit my profile{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:650, height: 550});{/literal}' />
             {/if}
-            {if $smarty.session.rights.access_controlcenter == 1 && $smarty.session.rights.edit_generals}
-                <input class="ButtonGreen" type="button" value="{translate}Edit profile (admin){/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_generals", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+            {if $smarty.session.rights.cc_access == 1 && $smarty.session.rights.cc_edit_generals}
+                <input class="ButtonGreen" type="button" value="{translate}Edit profile (admin){/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=cc_edit_generals", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
             {/if}
         </div>
     </div>
