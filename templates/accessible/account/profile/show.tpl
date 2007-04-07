@@ -29,21 +29,21 @@
 
         {* #### GENERALS #### *}
         <div class="tab-page" id="general">
-           <h2 class="tab"><div style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}">{translate}General{/translate}</div></h2>
+           <h2 class="tab" style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}">{translate}General{/translate}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "general" ) );</script>
             <div id="ajax_general"></div>
         </div>
 
         {* #### Computer #### *}
         <div class="tab-page" id="computer">
-           <h2 class="tab"><div style="height: 15px" onclick="{ajax_update update_id="ajax_computer" url="index.php?mod=account&amp;sub=computer&amp;action=show" method="get"}">{translate}Computer{/translate}</div></h2>
+           <h2 class="tab" style="height: 15px" onclick="{ajax_update update_id="ajax_computer" url="index.php?mod=account&amp;sub=computer&amp;action=show" method="get"}">{translate}Computer{/translate}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "computer" ) );</script>
             <div id="ajax_computer"></div>
         </div>
 
         {* #### Computer #### *}
         <div class="tab-page" id="guestbook">
-           <h2 class="tab"><div style="height: 15px" onclick="{ajax_update update_id="ajax_guestbook" url="index.php?mod=account&amp;sub=guestbook&amp;action=show" method="get"}">{translate}Guestbook{/translate}</div></h2>
+           <h2 class="tab" style="height: 15px" onclick="{ajax_update update_id="ajax_guestbook" url="index.php?mod=account&amp;sub=guestbook&amp;action=show" method="get"}">{translate}Guestbook{/translate}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "guestbook" ) );</script>
             <div id="ajax_guestbook"></div>
         </div>
