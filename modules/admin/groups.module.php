@@ -251,12 +251,15 @@ class module_admin_groups
             $id_array = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Insert the rights
-            $sets =  'right_id = ?, group_id = ?';
-            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
-            $info['rights'] = array_unique( $info['rights'] );
-            foreach( $info['rights'] as $right_id )
+            if( is_array($info['rights']) )
             {
-                $stmt->execute( array ( $right_id, $id_array['group_id'] ) );
+                $sets =  'right_id = ?, group_id = ?';
+                $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
+                $info['rights'] = array_unique( $info['rights'] );
+                foreach( $info['rights'] as $right_id )
+                {
+                    $stmt->execute( array ( $right_id, $id_array['group_id'] ) );
+                }
             }
 
             // Redirect...
@@ -372,6 +375,9 @@ class module_admin_groups
             $stmt->execute( array( $id ) );
             $info = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            if( !is_array($info) )
+                $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'The group does not exist.' ), 'admin' );
+
             // Select the permissions of group
             $info['rights'] = array();
             $stmt2 = $db->prepare('SELECT tr.name, ug.right_id
@@ -430,12 +436,15 @@ class module_admin_groups
             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_rights WHERE group_id = ?' );
             $stmt->execute( array ( $info['group_id'] ) );
 
-            $sets =  'right_id = ?, group_id = ?';
-            $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
-            $info['rights'] = array_unique( $info['rights'] );
-            foreach( $info['rights'] as $right_id )
+            if( is_array($info['rights']) )
             {
-                $stmt->execute( array ( $right_id, $info['group_id'] ) );
+                $sets =  'right_id = ?, group_id = ?';
+                $stmt = $db->prepare( 'INSERT ' . DB_PREFIX . 'group_rights SET ' . $sets );
+                $info['rights'] = array_unique( $info['rights'] );
+                foreach( $info['rights'] as $right_id )
+                {
+                    $stmt->execute( array ( $right_id, $info['group_id'] ) );
+                }
             }
 
             // Redirect to main
@@ -468,6 +477,12 @@ class module_admin_groups
         if ( count($delete) < 1 )
         {
             $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'No groups selected to delete! Aborted... ' ), 'admin' );
+        }
+
+        // Check, if there is a delete request
+        if ( in_array(1,$delete) OR in_array(2,$delete) OR in_array(3,$delete) )
+        {
+            $functions->redirect( 'index.php?mod=admin&sub=groups&action=show_groups', 'metatag|newsite', 3, $lang->t( 'You cannot delete core groups!!!' ), 'admin' );
         }
 
         // Abort...
@@ -509,6 +524,10 @@ class module_admin_groups
                         if ( $d == 1 )
                         {
                             $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'groups WHERE group_id = ?' );
+                            $stmt->execute( array($value['group_id']) );
+                            $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'user_groups SET group_id = 2 WHERE group_id = ?' );
+                            $stmt->execute( array($value['group_id']) );
+                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'group_rights WHERE group_id = ?' );
                             $stmt->execute( array($value['group_id']) );
                         }
                     }

@@ -69,7 +69,7 @@ class module_news_admin
         $params = func_get_args();
 
         // Permission check
-        $perms->check('access_controlcenter');
+        $perms->check('cc_access');
 
         // Set Pagetitle and Breadcrumbs
         $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
@@ -130,7 +130,7 @@ class module_news_admin
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
         // Permission check
-        $perms->check('view_news');
+        $perms->check('cc_view_news');
 
         // Incoming Vars
         $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
@@ -215,7 +215,7 @@ class module_news_admin
         global $db, $functions, $input, $lang, $perms;
 
         // Permission check
-        $perms->check('edit_news');
+        $perms->check('cc_edit_news');
 
         /**
          * @desc Init
@@ -317,7 +317,7 @@ class module_news_admin
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
         // Permission check
-        $perms->check('create_news');
+        $perms->check('cc_create_news');
 
         // Incoming Vars
         $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
@@ -397,7 +397,7 @@ class module_news_admin
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
         // Permission check
-        if( $perms->check('edit_news', 'no_redirect') == true )
+        if( $perms->check('cc_edit_news', 'no_redirect') == true )
         {
 
             // Incoming Vars
@@ -532,7 +532,7 @@ class module_news_admin
         // Incoming vars
         $news_id = $_GET['id'];
 
-        if( $perms->check('view_news', 'no_redirect') == true )
+        if( $perms->check('cc_view_news', 'no_redirect') == true )
         {
             $stmt = $db->prepare('SELECT news_body FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
             $stmt->execute( array( $news_id ) );

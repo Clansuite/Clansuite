@@ -91,7 +91,7 @@ class module_filebrowser
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
-        $perms->check('access_filebrowser');
+        $perms->check('cc_access_filebrowser');
 
         $this->instant_show( '', 'filebrowser/wrapper.tpl', 'filebrowser/sections.tpl', 'index_browser' );
     }
@@ -142,7 +142,7 @@ class module_filebrowser
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
 
-        $perms->check('access_filebrowser');
+        $perms->check('cc_access_filebrowser');
 
         $template   = urldecode(urldecode($_POST['section_template']));
         $path       = urldecode(urldecode($_POST['path']));

@@ -2,7 +2,7 @@
 <div class="usercenter">
 	{translate}You're logged in as {/translate}<strong>{$smarty.session.user.nick}</strong>
 	<ul>
-{if $smarty.session.user.rights.access_controlcenter==1}
+{if $smarty.session.user.rights.cc_access==1}
 		<li><a href="index.php?mod=admin">{translate}Control Center{/translate}</a></li>
 {/if}
 		<li><a href="index.php?mod=account&amp;sub=options">{translate}Options{/translate}</a></li>

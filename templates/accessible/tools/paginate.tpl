@@ -1,18 +1,14 @@
-<table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
-    <tr class="tr_header_small">
-        <td>
-        <div style="float:left;">
-            <img src="{$www_root_tpl_core}/images/icons/page_edit.png" style="height:16px;width:16px" alt="" />
-            {if $paginate.size gt 1}
-              Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
+<div class="paginate">
+        <div class="description">
+            <img class="img" src="{$www_root_tpl_core}/images/icons/page_edit.png" alt="" />
+            {if $paginate.size gt 0}
+              <span class="inline_text">Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.</span>
             {else}
               Item {$paginate.first} of {$paginate.total} displayed.
             {/if}
         </div>
-        <span style="float:right;">
+        <div class="size">
             {* display pagination info *}
-            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
-        </span>
-        </td>
-    </tr>
-</table>
+            <span class="inline_text">{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}</span>
+        </div>
+</div>

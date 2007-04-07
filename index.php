@@ -336,14 +336,14 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
  * 1. Check
  * - if Maintenance_mode is set
  *  - show only the content of the maintenance tpl
- * - but if user_right for access_controlcenter is set
+ * - but if user_right for cc_access is set
  *  - turn maintenance off, show normal wrapped template
  *
  * 2. Check
  * - if Admin module <- Switch -> Normal module
  *  - if admin modules requested:
  *   - check permissions
- *   - if user_right for access_controlcenter is set
+ *   - if user_right for cc_access is set
  *   - turn maintenance off, then display
  *  - else redirect to index or login
  *  - if non admin module is requested:
@@ -363,7 +363,7 @@ if ( $cfg->maintenance == 1 )
     $condition = 'display_maintenance_template';
 
     // override maintenance_mode for admins to keep system maintainable
-    if ( $perms->check('access_controlcenter', 'no_redirect') == true )
+    if ( $perms->check('cc_access', 'no_redirect') == true )
     {
         $cfg->maintenance == 0;
         $condition = 'display_normal_wrapped_template';
@@ -374,7 +374,7 @@ if ( $cfg->maintenance == 1 )
 if ( ($_REQUEST['mod'] == 'admin') OR ($_REQUEST['sub'] == 'admin') )
 {
     // Check if sufficent right to access "admin control center" center
-    if ( $perms->check('access_controlcenter', 'no_redirect') == true )
+    if ( $perms->check('cc_access', 'no_redirect') == true )
     {
         // Overwrite maintenance_mode for admins to keep system maintainable
         $cfg->maintenance_mode = 0;

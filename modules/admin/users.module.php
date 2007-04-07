@@ -123,7 +123,7 @@ class module_admin_users
         global $db, $tpl, $error, $lang, $perms;
 
         // Permissions
-        $perms->check( 'show_users_at_cc' );
+        $perms->check( 'cc_show_users' );
 
         // Smarty Pagination load and init
         require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
@@ -194,7 +194,7 @@ class module_admin_users
         global $db, $tpl, $error, $lang, $functions, $input, $security, $perms;
 
         // Permissions
-        $perms->check( 'create_users' );
+        $perms->check( 'cc_create_users' );
 
         /**
         * @desc Init
@@ -325,7 +325,7 @@ class module_admin_users
         global $db, $tpl, $error, $lang, $input, $security, $functions, $perms;
 
         // Permissions
-        $perms->check( 'edit_users' );
+        $perms->check( 'cc_edit_users' );
 
         /**
         * @desc Init
@@ -554,7 +554,7 @@ class module_admin_users
         global $db, $tpl, $error, $lang, $perms;
 
         // Permissions check
-        $perms->check( 'search_users_at_cc' );
+        $perms->check( 'cc_search_users' );
 
         /**
         * @desc Get the users
@@ -590,7 +590,7 @@ class module_admin_users
         global $db, $functions, $input, $lang;
 
         // Permissions check
-        $perms->check( 'delete_users' );
+        $perms->check( 'cc_delete_users' );
 
         /**
          * @desc Init
