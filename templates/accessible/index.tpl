@@ -89,7 +89,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
 </div>
 {* Ajax Notification *}
-<div id="notification" style="margin-top:20px;vertical-align:middle;display:none; z-index: 99;">
+<div id="notification" style="vertical-align:middle;display:none;z-index:99;">
     <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>

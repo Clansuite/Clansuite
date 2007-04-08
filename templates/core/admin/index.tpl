@@ -94,9 +94,8 @@
     {$copyright}<br />
     Theme: {* {$theme-copyright} *} | &nbsp; Queries: {$query_counter}
 </div>
-
 {* Ajax Notification *}
-<div id="notification" style="vertical-align: middle; display: none;">
+<div id="notification" style="vertical-align:middle;display:none;z-index:99;">
     <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
