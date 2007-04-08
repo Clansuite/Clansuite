@@ -148,13 +148,12 @@ h6 {
 	border: 1px solid #333;
 	border-width: 0 0 1px 1px;
 	float: right;
-	clear: right;
 }
 #counter li {
 	list-style: none;
 }
 #content {
-	padding: 10px 260px 0 210px;
+	padding: 10px 200px 10px 200px;
 }
 #footer {
 	margin-top: 20px;
@@ -642,197 +641,98 @@ form select.input_text
     border: 1px solid lightgrey;
 }
 
-.guestbook
-{
-    float: left;
+.guestbook {
+	width: 100%; /* Workaround für Bug im IE6 */
+	float: left;
 }
-
-.guestbook .center
-{
-    margin: auto;
-    text-align: center;
-    width: 700px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    clear: left;
-}
-
-.guestbook .picture_infos,
-.guestbook .personal_infos
-{
-    vertical-align: top;
-    float: left;
-    height: 150px;
-    margin-bottom: 10px;
-}
-
-.guestbook .message
-{
-    vertical-align: top;
-    float: left;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-.guestbook .personal_infos,
-.guestbook .message
-{
-    border: 1px solid lightgrey;
-}
-
-.guestbook .picture_infos
-{
-    clear: left;
-    width: 250px;
-}
-
-.guestbook .personal_infos
-{
-    width: 440px;
-}
-
-.guestbook .message
-{
-    margin-left: 0px;
-    width: 100%;
-    clear: left;
-}
-
-.guestbook .message .the_text
-{
-    margin: 10px;
-}
-
-.guestbook .personal_infos
-{
-    clear: right;
-}
-
-.guestbook .picture
-{
-    margin: auto;
-}
-
-.guestbook .picture .the_pic
-{
-    border: 1px solid black;
-}
-
-.guestbook .nick
-{
-    font-size: 20px;
-    font-weight: bold;
-    font-family: tahoma;
-    height: 30px;
-    width: 100%;
-    text-align: center;
-    color: #f00;
-}
-
-.guestbook .country_picture
-{
-    width: 16px;
-    height: 11px;
-    margin: auto;
-}
-
-.guestbook dl
-{
-    padding: 5px;
-}
-
-.guestbook dt
-{
-    font-weight:bold;
-    float:left;
-    clear:left;
-    /*padding: 5px;*/
-}
-
-.guestbook dl dt
-{
-    width: 60px;
-
-}
-
-.guestbook dl dd
-{
-    width:390px;
-}
-
-.guestbook .comment
-{
-    border-top: 1px solid black;
-}
-
-.guestbook .comment dd
-{
-    width:690px;
-}
-
-.guestbook .not_specified
-{
-    font-style: italic;
-}
-
-.guestbook .edit_button
-{
-    clear: both;
-}
-
-.guestbook .box_heading
-{
-    padding: 0;
-    font-weight: bold;
-    border-bottom: 1px solid lightgrey;
-    width: 100%;
-    text-align: center;
-    background-color: #f00;
-    color: #fff;
-}
-
-.guestbook .options
-{
-    clear: both;
-    padding: 5px;
-    border: 1px solid lightgrey;
-}
-
-.guestbook .paginate
-{
+.guestbook .paginate {
     background-color: #f00;
     border: 1px solid #000;
     padding: 3px;
     height: 20px;
 }
-.guestbook .paginate .description
-{
+.guestbook .paginate .description {
     text-align: left;
     float:left;
     color: #fff;
 }
-
-.guestbook .paginate .size
-{
+.guestbook .paginate .size {
     float: right;
     color: #fff;
 }
-
-.guestbook .paginate .img
-{
+.guestbook .paginate .img {
     vertical-align: middle;
-    height:16px;
-    width:16px;
+    height: 16px;
+    width: 16px;
 }
-
-.guestbook .paginate .inline_text
-{
+.guestbook .paginate .inline_text {
     vertical-align: middle;
 }
-
-.guestbook .divider
-{
-    clear: left;
+.guestbook .options-top {
+	border: 1px solid #000;
+	border-width: 0 1px 1px 1px;
+}
+.guestbook .options-bottom {
+	border: 1px solid #000;
+	border-width: 1px 1px 0 1px;
+}
+.gb {
+	width: 80%;
+	margin: 10px auto;
+	border: 1px solid #333;
+	background: #eee;
+}
+.gbhead {
+	background: #f00;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #fff;
+	line-height: 25px;
+	border-bottom: 1px solid #333;
+}
+.author {
+	width: 200px;
+	float: left;
+	text-align: center;
+}
+.message {
+	margin-left: 200px;
+	text-align: center;
+}
+.gbleft {
+	max-width: 200px;
+	width: 190px;
+	padding: 5px;
+	border-right: 1px solid #333;
+	float: left;
+}
+.gbleft span {
+	font-weight: bold;
+}
+.gbleft span.user-info {
+	font-weight: normal;
+	cursor: help;
+}
+.gbleft span.user-info:hover {
+	color: #f00;
+}
+.gbright {
+	margin-left: 200px;
+	padding: 5px;
+	border-left: 1px solid #333;
+}
+.gbright fieldset {
+	width: 90%;
+	margin-top: 10px;
+	border: 1px dotted #333;
+}
+.gbfooter {
+	height: 25px;
+	background: #e5e5e5;
+	line-height: 25px;
+	border-top: 1px solid #333;
+	text-align: right;
+	clear: both;
 }
 
 .user_gb
