@@ -33,7 +33,12 @@
                 document.getElementById(id).style.display = 'block';
                 this.old_area = id;
                 //new Effect.Appear( id );
-                new Effect.Scale(id, 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalHeight: $('table_' + id).offsetHeight }});
+                if( $('table_' + id).offsetHeight < 400 )
+                    height = 400;
+                else
+                    height = $('table_' + id).offsetHeight;
+
+                new Effect.Scale(id, 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalHeight: height }});
             }
             else
             {
@@ -56,7 +61,7 @@
         <td align="center">
             <div id="areas" style="clear: both">
             {foreach key=area_id item=area_array from=$areas}
-                <input type="button" value="{$area_array.name}" onclick="clip_area('area_{$area_array.name}')" class="ButtonYellow" style="width: 80px;" /><br />
+                <input type="button" value="{$area_array.name}" onclick="clip_area('area_{$area_array.area_id}')" class="ButtonYellow" style="width: 80px;" /><br />
             {/foreach}
             {if count($unassigned) > 0}
                 <input type="button" value="{translate}Unassigned{/translate}" onclick="clip_area('area_unassigned')" class="ButtonRed" style="width: 80px;" />
@@ -69,8 +74,8 @@
             </div>
             {foreach key=area_id item=area_array from=$areas}
             <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post">
-                <div style="height: 1px; display: none; overflow: hidden" id="area_{$area_array.name}">
-                <table cellpadding="0" cellspacing="0" border="0" id="table_area_{$area_array.name}">
+                <div style="height: 1px; display: none; overflow: hidden" id="area_{$area_array.area_id}">
+                <table cellpadding="0" cellspacing="0" border="0" id="table_area_{$area_array.area_id}">
                     <tr class="tr_header_small">
                         <td width="10">{translate}ID{/translate}</td>
                         <td>{translate}Right Name{/translate}</td>
@@ -121,7 +126,7 @@
                         <td>{$right_array.name}</td>
                         <td>{$right_array.description}</td>
                         <td align="center">
-                            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
+                            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
                             <input onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" />
                         </td>
                         <td align="center">
