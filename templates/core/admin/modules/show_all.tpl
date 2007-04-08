@@ -39,6 +39,23 @@
     </div>  <!-- tab-pane-1 closed -->
     <br />
 {/if}
+{*
+
+
+
+
+
+
+    @todo: XHTML requires a letter to be the first at an id!!! so stuff like id="{$wert.module_id}_{$wert.name}_{$item}" wont't work!!!
+            Next step: Xilinus without this crap!!!
+
+
+
+
+
+
+
+*}
 {* #### TAB PANE 2 - MODULES - IN WHITELIST | NORMAL and CORE #### *}
 <div class="tab-pane" id="tab-pane-2">
     {* #### TAB PAGE - NORMAL MODULES | IN WHITELIST #### *}

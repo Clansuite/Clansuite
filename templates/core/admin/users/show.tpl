@@ -68,7 +68,7 @@
             <tr class="tr_row1">
                <td height="20" colspan="8" align="right">
 
-                    <input class="ButtonGreen" type="button" name="submit" onclick="self.location.href='index.php?mod=admin&amp;sub=users&amp;action=create'"  value="{translate}Create new user{/translate}" />
+                    <input class="ButtonGreen" type="button" value="{translate}Create new user{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
                     <input class="Button" name="reset" type="reset" value="{translate}Reset{/translate}" />
                     <input class="ButtonRed" type="submit" name="delete_text" value="{translate}Delete Selected Users{/translate}" />
 
