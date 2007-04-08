@@ -227,7 +227,7 @@ class modules
                 }
                 else
                 {
-                    $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in the DB! You are being redirected in 3 seconds...'), 2);
+                    $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The subfile you have requested is not registered in the DB!'), 2);
                 }
             }
             else
@@ -280,7 +280,7 @@ class modules
 
             $mod = $cfg->std_module;
 
-            $content['OUTPUT'] = $lang->t('This module does not exist! You are being redirected in 3 seconds...');
+            $content['OUTPUT'] = $error->show($lang->t('Module Failure'), $lang->t('The module does not exist!'), 2);
             $functions->redirect( 'index.php', 'metatag', '3' );
             return $content;
         }

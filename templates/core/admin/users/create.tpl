@@ -30,7 +30,7 @@
 
 <form target="_self" method="post" action="index.php?mod=admin&sub=users&action=create">
 
-    <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="350">
         <tr class="tr_header">
             <td align="center" width="20%">{translate}Description{/translate}</td>
             <td align="center" width="80%">{translate}Input{/translate}</td>
@@ -76,7 +76,7 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2" align="right">
-                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&sub=users'"/>
+                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="Dialog.okCallback()" />
                 <input class="ButtonGreen" type="submit" name="submit" value="{translate}Create the user{/translate}" />
                 <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
             </td>
