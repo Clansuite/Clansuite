@@ -12,7 +12,7 @@
 
 <div class="admin_guestbook">
 
-{include file="tools/paginate.tpl"}
+{include file="admin/tools/paginate.tpl"}
 
 <form action="index.php?mod=guestbook&amp;sub=admin&amp;action=delete" method="post">
     <table cellpadding="0" cellspacing="0" border="0" align="center" style="text-align:center">
@@ -40,7 +40,7 @@
                 <td>{$entry.gb_town}</td>
                 <td>{$entry.gb_ip}</td>
                 <td align="center" rowspan="2"><input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' /></td>
-            
+
                 <td align="center">
                             <input type="hidden" name="ids[]" value="{$entry.gb_id}" />
                             <input type="checkbox" name="delete[]" value="{$entry.gb_id}" />
@@ -81,6 +81,6 @@
 </table>
 </form>
 
-{include file="tools/paginate.tpl"}
+{include file="admin/tools/paginate.tpl"}
 
 </div>
