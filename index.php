@@ -180,6 +180,13 @@ $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                     );
 DEBUG ? $tpl->clear_compiled_tpl() : ''; # clear compiled tpls in case of debug
 
+/**
+ * Assign Paths (for general use in tpl)
+ */
+$tpl->assign('www_root'         , WWW_ROOT );
+$tpl->assign('www_root_upload'  , WWW_ROOT . '/' . $cfg->upload_folder );
+$tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
+
 // PHP 5.1 strftime fix by setting the timezone
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/Berlin');
@@ -198,14 +205,6 @@ $session->create_session($db);      # Create a session
 $users->create_user();              # Create a user
 $users->check_login_cookie();       # Check for login cookie - Guest/Member
 $stats->assign_statistic_vars();    # Assign Statistic Variables
-
-/**
- * Assign Paths (for general use in tpl)
- */
-$tpl->assign('www_root'         , WWW_ROOT );
-$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
-$tpl->assign('www_root_upload'  , WWW_ROOT . '/' . $cfg->upload_folder );
-$tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 
 /**
  * Set Theme via URL by $_GET['theme']
@@ -231,9 +230,10 @@ if(isset($_GET['theme']) && !empty($_GET['theme']))
     }
 }
 
-// Set core to last position
+// Set core to last position & set root tpl
 array_push( $tpl->template_dir, ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' );
 $tpl->template_dir = array_reverse( $tpl->template_dir );
+$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
 
 
 /**
