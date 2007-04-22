@@ -106,7 +106,7 @@ class users
 
     function create_user($user_id = '', $email = '', $nick = '')
     {
-        global $cfg, $db, $session, $lang, $functions;
+        global $cfg, $db, $session, $lang, $functions, $input;
 
         $user = '';
 
@@ -181,7 +181,28 @@ class users
             $_SESSION['user']['activated']  = $user['activated'];
 
             $_SESSION['user']['language']   = (!empty($user['language']) ? $user['language'] : $cfg->language);
-            $_SESSION['user']['theme']      = (!empty($user['theme']) ? $user['theme'] : $cfg->theme);
+            if( $_SESSION['user']['theme'] != $user['theme'] && isset($_SESSION['user']['theme']) && !empty($_SESSION['user']['theme']) )
+            {
+            	// Security Handler
+                if( !$input->check( $_SESSION['user']['theme'], 'is_abc|is_custom', '_' ) )
+                {
+                    $security->intruder_alert();
+                }
+
+                // check if dir exists, else take standard
+                if(is_dir(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'))
+                {
+                    $_SESSION['user']['theme'] = $_SESSION['user']['theme'];
+                }
+                else
+                {
+                    $_SESSION['user']['theme'] = $cfg->theme;
+                }
+            }
+            else
+            {
+                $_SESSION['user']['theme'] = (!empty($user['theme']) ? $user['theme'] : $cfg->theme);
+            }
 
             /**
              * Get Groups & Rights of user_id
