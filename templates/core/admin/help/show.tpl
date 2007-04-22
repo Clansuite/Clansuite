@@ -67,10 +67,10 @@
                 <br />
             {/if}
          </div>
+        {if $help_edit_mode==1}
         <p>
             <input id="links_edit_button" type="button" value="Edit links" class="ButtonGreen" />
         </p>
-        {if $help_edit_mode==1}
             {literal}
              <script type="text/javascript">
 				//<![CDATA[

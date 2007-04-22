@@ -126,8 +126,8 @@ class config
         // Meta Tag Informations
 
         $this->meta['description'] = 'Clansuite - just an e-sport content management system.';
-        $this->meta['language'] = $this->language;
-        $this->meta['author']  = 'Jens-Andre Koch, Florian Wolf';
+        $this->meta['language'] = 'de';
+        $this->meta['author'] = 'Jens-Andre Koch, Florian Wolf';
         $this->meta['email'] = 'system@clansuite.com';
         $this->meta['keywords'] = 'cms, content management system, portal, e-sport';
 
@@ -160,7 +160,7 @@ class config
 
         // Developers configuration
 
-        $this->help_edit_mode = 1;
+        $this->help_edit_mode = 0;
         $this->version  = (float) 0.1;
 
         // Cache
