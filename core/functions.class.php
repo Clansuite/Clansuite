@@ -139,7 +139,7 @@ class functions
                 }
                 else
                 {
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css);
                     $tpl->display( 'tools/redirect.tpl' );
                 }
                 exit;
@@ -178,7 +178,7 @@ class functions
                 }
                 else
                 {   
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . TPL_NAME . '/' . $cfg->std_css);
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css);
                     $tpl->display( 'tools/confirm.tpl' );
                 }
                 exit;
