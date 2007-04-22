@@ -111,7 +111,6 @@ define('ROOT_TPL'   , ROOT . $cfg->tpl_folder);
 define('ROOT_LANG'  , ROOT . $cfg->lang_folder);
 define('ROOT_CORE'  , ROOT . $cfg->core_folder);
 define('ROOT_UPLOAD', ROOT . $cfg->upload_folder);
-define('TPL_NAME'   , $cfg->theme);
 define('DEBUG'      , $cfg->debug);
 define('DB_PREFIX'  , $cfg->db_prefix);
 define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
@@ -165,8 +164,8 @@ $trail      = new trail;
  */
 
 // Smarty Settings
-// template_dir sets CORE and DEFAULT THEME as fallback (defined in $cfg)
-$tpl->template_dir      = array(ROOT_TPL . '/' . TPL_NAME . '/', ROOT_TPL . '/core/' ) ;
+// template_dir sets CORE
+$tpl->template_dir      = array( ROOT_TPL . '/core/' ) ;
 $tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
 $tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
 $tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';
@@ -201,22 +200,40 @@ $users->check_login_cookie();       # Check for login cookie - Guest/Member
 $stats->assign_statistic_vars();    # Assign Statistic Variables
 
 /**
+ * Assign Paths (for general use in tpl)
+ */
+$tpl->assign('www_root'         , WWW_ROOT );
+$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
+$tpl->assign('www_root_upload'  , WWW_ROOT . '/' . $cfg->upload_folder );
+$tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
+
+/**
  * Set Theme via URL by $_GET['theme']
  */
-if(isset($_GET['theme']) && !empty($_GET['theme']) && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['theme']))
+if(isset($_GET['theme']) && !empty($_GET['theme']))
 {
 	$theme = $_GET['theme'];
 
-    if(!empty($theme))
+	// Security Handler
+    if( !$input->check( $theme, 'is_abc|is_custom', '_' ) )
     {
-         // @todo: is this correct to check, if a certain theme dir exists ?
-         if(is_dir(ROOT_TPL . '/' . $theme . '/'))
-         {
-            $_SESSION['user']['theme'] = $theme;
-         }
+        $security->intruder_alert();
+    }
+
+    // check if dir exists, else take standard
+    if(is_dir(ROOT_TPL . '/' . $theme . '/'))
+    {
+        $_SESSION['user']['theme'] = $theme;
+    }
+    else
+    {
+        $_SESSION['user']['theme'] = $cfg->theme;
     }
 }
-$tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
+
+// Set core to last position
+array_push( $tpl->template_dir, ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' );
+$tpl->template_dir = array_reverse( $tpl->template_dir );
 
 
 /**
@@ -237,7 +254,15 @@ $tpl->template_dir = array(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', RO
  */
 if(isset($_GET['lang']) && !empty($_GET['lang']) )
 {
-	$_SESSION['user']['language'] = $_GET['lang'];
+	// Security Handler
+    if( !$input->check( $_GET['lang'], 'is_abc|is_custom', '_' ) )
+    {
+        $security->intruder_alert();
+    }
+    else
+    {
+	   $_SESSION['user']['language'] = $_GET['lang'];
+	}
 }
 
 /**
@@ -259,17 +284,9 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['lan
 
 /**
  *  =====================================================
- *      Assignments to the Template (tpl) in General
+ *      Assignments to the Template (tpl) in general
  *  =====================================================
  */
-
-/**
- * Assign Paths (for general use in tpl)
- */
-$tpl->assign('www_root'         , WWW_ROOT );
-$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
-$tpl->assign('www_root_upload'  , WWW_ROOT . '/' . $cfg->upload_folder );
-$tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 
 /**
  * Assign Config Values (for use in header of tpl)
@@ -293,7 +310,7 @@ $tpl->assign_by_ref('trail'     , $trail->path);
  *   Keep in mind ! that we spend a lot of time and ideas on this project.
  *   If you rip, rip real good, knowing that you are forced to give something back to the community.
  */
-$security->check_copyright( ROOT_TPL . '/' . TPL_NAME . '/' . $cfg->tpl_wrapper_file );
+$security->check_copyright( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' . $cfg->tpl_wrapper_file );
 $tpl->assign('copyright', $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
 
 /**
