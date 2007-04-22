@@ -42,7 +42,7 @@
                     {translate}Standard Template{/translate}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->theme}" name="config[tpl_name]" />
+                    <input class="input_text" type="text" value="{$cfg->theme}" name="config[theme]" />
                 </td>
             </tr>
             <tr>
