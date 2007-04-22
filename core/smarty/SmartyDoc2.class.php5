@@ -80,7 +80,7 @@ class Render_SmartyDoc extends Smarty
 	 *
 	 * @var bool
 	 */
-	public $add_openclose = false;
+	public $add_openclose = true;
 
 	/**
 	 * If true, will add relevant XML headers, and allow stylesheets to be added
@@ -228,7 +228,7 @@ class Render_SmartyDoc extends Smarty
 
 	public $common_XHTML_probs = TRUE; // Fixes some common XHTML parsing problems for XSL server-side xform
 	public $tidy_on = FALSE;
-	public $tidy_for_xslt = FALSE; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
+	public $tidy_for_xslt = TRUE; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
 
 	public $strip_whitespace = TRUE; // Will strip excess whitespace if Tidy is not used (Tidy will strip anyhow)
 	public $whitespace_get = TRUE; // Specifies whether one can use a $_GET URL to turn comments on
@@ -287,7 +287,7 @@ class Render_SmartyDoc extends Smarty
 	public $HTTP_ACCEPT = 'text/html';
 
 	public $rewrite_docraw_on = false; // This should be turned off (to false) to gain performance if code within doc_raw (css or code) is not changing but is required for the styles/scripts/etc. to be written (unless turned on by setting the rewrite_docraw_get to true and calling it via a GET request!
-	public $rewrite_docraw_get = false; // Lets a URL be specified to choose the value of $rewrite_docraw_on
+	public $rewrite_docraw_get = true; // Lets a URL be specified to choose the value of $rewrite_docraw_on
 	public $rewrite_docraw_get_url = 'rewrite'; // If you have the rewrite_docraw_get set to 'true', you may want to change this so that other visitors to your site cannot force a rewrite of your CSS on each load with the GET
 	public $gzip_output = true; // Tries to gzip the main output if the browser will accept it (and if not already on via the Zlib extension)
 
@@ -4543,7 +4543,7 @@ class Render_SmartyDoc extends Smarty
 			}
 
 			if ($addheadclose)
-			{
+			{ // Set if head raw, head doc_info or add_openclose
 				if ($extcomments)
 				{
 					$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
@@ -4551,7 +4551,6 @@ class Render_SmartyDoc extends Smarty
 				}
 				$doc_source .= $docpre_head."</head>\n".$docpost_head;
 			}
-
 			// process doc_raw targetted for the beginning of the body
 			if (isset($this->doc_raw['body']['main']))
 			{
@@ -4600,15 +4599,6 @@ class Render_SmartyDoc extends Smarty
 					{
 						$doc_src_body .= " {$a}=\"{$v}\"";
 					}
-				} 
-				if ($addheadclose)
-				{ // Set if head raw, head doc_info or add_openclose
-					if ($extcomments)
-					{
-						$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
-						$docpost_head = '<!-- End auto add_openclose head '."-->\n";
-					}
-					$doc_source .= $docpre_head."</head>\n".$docpost_head;
 				}
 				$doc_source .= $docpre_body.'<body'.$doc_src_body.">\n".$docpost_body;
 			}
@@ -4990,7 +4980,8 @@ class Render_SmartyDoc extends Smarty
 
 /**
  * Interface ISmartyDocModule
- *
+ * @package    SmartyDocB
+ * @subpackage ISmartyDocModule
  * @see class ASmartyDocModule
  */
 interface ISmartyDocModule
@@ -5007,9 +4998,8 @@ interface ISmartyDocModule
  * Abstraction Class
  *
  * @abstract
- * Note by vain: add @ prefix to the following lines for phpdoc commenting
- * package SmartyDocB
- * subpackage ASmartyDocModule
+ * @package SmartyDocB
+ * @subpackage ASmartyDocModule
  */
 abstract class ASmartyDocModule implements ISmartyDocModule
 {
