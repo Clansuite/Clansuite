@@ -114,31 +114,31 @@ class users
          *  DB User Queries
          */
 
+        $query_string = 'SELECT u.*, o.language, o.theme FROM ' . DB_PREFIX . 'users u LEFT JOIN ' . DB_PREFIX . 'user_options o ON u.user_id = o.user_id ';
         if ( !empty($user_id) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt = $db->prepare( $query_string . 'WHERE u.user_id = ?' );
             $stmt->execute( array( $user_id ) );
-            $user = $stmt->fetch();
-
+            $user = $stmt->fetch(PDO::FETCH_NAMED);
         }
         else if ( !empty($email) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE email = ?');
+            $stmt = $db->prepare( $query_string . 'WHERE u.email = ?');
             $stmt->execute( array( $email ) );
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_NAMED);
 
         }
         else if ( !empty($nick) )
         {
-            $stmt = $db->prepare( 'SELECT user_id,password,email,nick,disabled,activated,language,theme FROM ' . DB_PREFIX . 'users WHERE nick = ?' );
+            $stmt = $db->prepare( $query_string . 'WHERE u.nick = ?' );
             $stmt->execute( array( $nick ) );
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_NAMED);
         }
         else
         {
             $stmt = $db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
             $stmt->execute( array( session_id() ) );
-            $session_res = $stmt->fetch();
+            $session_res = $stmt->fetch(PDO::FETCH_NAMED);
         }
 
         $_SESSION[$session->session_name] = session_id();
@@ -146,9 +146,9 @@ class users
         // check if session-table[user_id] is a valid user-table[user_id]
         if ( isset($session_res) AND $session_res['user_id'] == $_SESSION['user']['user_id'] AND !empty($_SESSION['user']['user_id']) )
         {
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+            $stmt = $db->prepare( $query_string . 'WHERE u.user_id = ?' );
             $stmt->execute( array( $session_res['user_id'] ) );
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_NAMED);
         }
 
         // check if this user is activated, else reset cookie, session and redirect
