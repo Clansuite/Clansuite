@@ -75,7 +75,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr class="tr_header">
     <td width="10">Menu</td>
-    <td>{include file='breadcrumbs.tpl'}</td>
+    <td>{include file='tools/breadcrumbs.tpl'}</td>
     <td width="200">Infos</td>
 </tr>
 

@@ -3,6 +3,17 @@
     {$paginate|@var_dump}  
 *}
 
+{doc_raw}
+    <script src="{$www_root_tpl_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_tpl_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
+{/doc_raw}
+
 {* display pagination header *}
     {if $paginate.size gt 1}
       Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.
@@ -33,7 +44,7 @@
     </tr>
   
     <tr> 
-        <td height="175" width="80%" valign="top">{$news.news_body}</td>
+        <td height="175" width="75%" valign="top">{$news.news_body}</td>
     </tr>
   
     <tr>
@@ -41,6 +52,16 @@
             <strong>&raquo;</strong>
             <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
             {if isset($news.lastcomment_by) }<span> : {$news.lastcomment_by}</span>{/if}
+    	</td>
+    	<td>
+    	{if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
+
+            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+                <input type="hidden" value="{$news.news_id}" name="delete[]" />
+                <input type="hidden" value="{$news.news_id}" name="ids[]" />
+                <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" />
+            </form>
+        {/if}
     	</td>
     </tr>
 </table>
