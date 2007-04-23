@@ -106,6 +106,7 @@ class config
         // Template Configurations
 
         $this->theme = 'accessible';
+        $this->themeswitch_via_url = 1;
         $this->tpl_wrapper_file = 'index.tpl';
 
         // Modules: Default Module and Default Action

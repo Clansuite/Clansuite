@@ -180,30 +180,18 @@ class users
             $_SESSION['user']['disabled']   = $user['disabled'];
             $_SESSION['user']['activated']  = $user['activated'];
 
-            $_SESSION['user']['language']   = (!empty($user['language']) ? $user['language'] : $cfg->language);
-            if( $_SESSION['user']['theme'] != $user['theme'] && isset($_SESSION['user']['theme']) && !empty($_SESSION['user']['theme']) )
+            // Fallback: first take user['language'], else standard language as defined by $cfg->language
+            if ( $_SESSION['user']['language_via_url'] == '0' )
             {
-            	// Security Handler
-                if( !$input->check( $_SESSION['user']['theme'], 'is_abc|is_custom', '_' ) )
-                {
-                    $security->intruder_alert();
-                }
-
-                // check if dir exists, else take standard
-                if(is_dir(ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'))
-                {
-                    $_SESSION['user']['theme'] = $_SESSION['user']['theme'];
-                }
-                else
-                {
-                    $_SESSION['user']['theme'] = $cfg->theme;
-                }
+                $_SESSION['user']['language'] = (!empty($user['language']) ? $user['language'] : $cfg->language);
             }
-            else
+                      
+            // Fallback: first take standard theme as defined by $cfg->theme
+            if ( $_SESSION['user']['theme_via_url'] == '0' )
             {
                 $_SESSION['user']['theme'] = (!empty($user['theme']) ? $user['theme'] : $cfg->theme);
             }
-
+            
             /**
              * Get Groups & Rights of user_id
              */
@@ -237,7 +225,7 @@ class users
         else // reset $_SESSION['user'] array
         {
             /**
-             * User infos
+             * Fill $_SESSION['user'] with Guest-User-infos
              */
 
             $_SESSION['user']['authed']     = 0;
@@ -250,16 +238,18 @@ class users
             $_SESSION['user']['disabled']   = 0;
             $_SESSION['user']['activated']  = 0;
 
-            // This means guest-sessions have only standard language
-            // as defined in $cfg->language
-            // @todo: assign guest-selected language to the session
-            $_SESSION['user']['language']   = $cfg->language;
-
-
-            // same as above for theme (template)
-            $_SESSION['user']['theme']      = $cfg->theme;
-            // #$theme = '/'.(!empty($_SESSION['user']['theme']) ? $_SESSION['user']['theme'] : $cfg->theme);
-
+            // Fallback: standard language as defined by $cfg->language
+            if (empty($_SESSION['user']['language']))
+            {
+                $_SESSION['user']['language']   = $cfg->language;
+            }
+            
+            // Fallback: standard theme as defined by $cfg->theme
+            if (empty($_SESSION['user']['theme']))
+            {
+                $_SESSION['user']['theme']      = $cfg->theme;
+            }
+            
             /**
              * Groups & Rights (Guest Group id = 1)
              */

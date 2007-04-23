@@ -164,12 +164,11 @@ $trail      = new trail;
  */
 
 // Smarty Settings
-// template_dir sets CORE
-$tpl->template_dir      = array( ROOT_TPL . '/core/' ) ;
-$tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
-$tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
-$tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';
-$tpl->debugging         = DEBUG ? true : false;
+$tpl->template_dir      = array( ROOT_TPL . '/core/' ) ;        # template_dir set to CORE / fallback for errors
+$tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';    
+$tpl->config_dir        = ROOT_CORE .'/smarty/configs/';        
+$tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';          
+$tpl->debugging         = DEBUG ? true : false;                 
 $tpl->force_compile     = true;
 $tpl->caching           = $cfg->caching;
 $tpl->compile_check     = true;
@@ -191,11 +190,9 @@ $tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/Berlin');
 
-// Create DB Object by setting up dsn, user and password and connecting to DB
-$dsn = "$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host";
-$user = $cfg->db_username;
-$password = $cfg->db_password;
-$db = new db($dsn, $user, $password, array() );
+// Create DB Object and connect to DB
+$db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", 
+             $cfg->db_username, $cfg->db_password, array() );
 
 $input->fix_magic_quotes();         # Revert magic_quotes() if still enabled
 $input->cleanup_request();          # Clean $_REQUEST input from violent code
@@ -207,32 +204,32 @@ $users->check_login_cookie();       # Check for login cookie - Guest/Member
 $stats->assign_statistic_vars();    # Assign Statistic Variables
 
 /**
- * Set Theme via URL by $_GET['theme']
+ * Set Theme via URL by appendix $_GET['theme'] (?theme=standard)
  */
-if(isset($_GET['theme']) && !empty($_GET['theme']))
+if($cfg->themeswitch_via_url == 1) 
 {
-	$theme = $_GET['theme'];
-
-	// Security Handler
-    if( !$input->check( $theme, 'is_abc|is_custom', '_' ) )
+    if(isset($_GET['theme']) && !empty($_GET['theme']))
     {
-        $security->intruder_alert();
-    }
-
-    // check if dir exists, else take standard
-    if(is_dir(ROOT_TPL . '/' . $theme . '/'))
-    {
-        $_SESSION['user']['theme'] = $theme;
-    }
-    else
-    {
-        $_SESSION['user']['theme'] = $cfg->theme;
-    }
+    	// Security Handler for $_GET['theme']
+        if( !$input->check( $_GET['theme'], 'is_abc|is_custom', '_' ) )
+        {
+            $security->intruder_alert();
+        }    
+        // If $_GET['theme'] dir exists, set it as session-user-theme
+        if(is_dir(ROOT_TPL . '/' . $_GET['theme'] . '/'))
+        {
+            $_SESSION['user']['theme']          = $_GET['theme'];
+            $_SESSION['user']['theme_via_url']  = 1;
+        }
+        else
+        {
+            $_SESSION['user']['theme_via_url']  = 0;
+        }
+    }    
 }
 
-// Set core to last position & set root tpl
-array_push( $tpl->template_dir, ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' );
-$tpl->template_dir = array_reverse( $tpl->template_dir );
+// set template dir to choosen theme
+$tpl->template_dir = array( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
 $tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
 
 
@@ -249,8 +246,6 @@ $tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SE
  * notice by vain: to check if language exists is not important,
  *                 because there are 1) english and 2) the default language as fallback
  *
- * @todo: security on $_GET['lang'] => only abc chars
- *        && preg_match('!^[_a-zA-Z0-9-.]+$!', $_GET['lang'] ) ???
  */
 if(isset($_GET['lang']) && !empty($_GET['lang']) )
 {
@@ -261,7 +256,8 @@ if(isset($_GET['lang']) && !empty($_GET['lang']) )
     }
     else
     {
-	   $_SESSION['user']['language'] = $_GET['lang'];
+	   $_SESSION['user']['language']           = $_GET['lang'];
+	   $_SESSION['user']['language_via_url']   = 1;
 	}
 }
 
