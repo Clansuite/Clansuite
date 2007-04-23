@@ -5,16 +5,20 @@
 <title>{translate}Please confirm!{/translate}</title>
 </head>
 <body>
-<form action="{$link}" method="post">
-
-<table class="redirect" cellpadding="0" border="0" cellspacing="0">
-<tr>
-    <td>
-    {$message}<br />
-    <input type="submit" class="ButtonGrey" name="confirm" value="{translate}Confirm{/translate}">&nbsp;<input type="submit" class="ButtonGrey" name="abort" value="{translate}Abort{/translate}" />
-    </td>
-</tr>
-</table>
+<form action="{$link}" method="post">    
+    <div id="redirect_heading">  
+        <p>
+            {$heading}
+        </p>
+        <div class="redirect_message">
+            {$message}
+        </div>
+        <p>
+            <input type="submit" class="ButtonRed" name="confirm" value="{translate}Confirm{/translate}">
+            &nbsp;
+            <input type="submit" class="ButtonGreen" name="abort" value="{translate}Abort{/translate}" />
+        </p>
+    </div>
 </form>
 </body>
 </html>
