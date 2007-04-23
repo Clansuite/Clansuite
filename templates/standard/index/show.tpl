@@ -1,8 +1,11 @@
 {* Demo-Assignment von XML-Sprachdaten *}
-<b>{translate}Hello{/translate}</b><br />
-<b>{translate}Welcome{/translate}</b><br />
-<i>{translate u="Benutzernamen_variable"}How are you, %u ?{/translate}</i>
+<strong>{translate}Hello{/translate}</strong><br />
+<strong>{translate}Welcome{/translate}</strong><br />
+<br />
 
+<em> {translate u=`$smarty.session.user.nick`}How are you, %u ?{/translate}</em>
+
+<br />
 {* direktes Ansprechen der Sprachzuweisung *}
 {* class language :: function t t(); *} 
 <br />
