@@ -29,13 +29,13 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate: 2007-04-25 21:30:58 +0200 (Mi, 25 Apr 2007) $), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
-    * @version    SVN: $Id$
+    * @version    SVN: $Id: config.class.php 1218 2007-04-25 19:30:58Z vain $
     */
 
    /**  =====================================================================
@@ -50,17 +50,17 @@
 if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
 
 /**
-* This is the Config class of Clansuite. It contains all settings.
-*
-* Variable Configuration
-* Use them while scripting in this way:
-* Class is normally initalized: $cfg = new cfg;
-* $cfg->variable_name = 'variable_value';
-*
-* @package clansuite
-* @subpackage config
-* @todo maybe change this class to a ini file
-*/
+ * This is the Config class of Clansuite. It contains all settings.
+ *
+ * Variable Configuration
+ * Use them while scripting in this way:
+ * Class is normally initalized: $cfg = new cfg;
+ * $cfg->variable_name = 'variable_value';
+ *
+ * @package clansuite
+ * @subpackage config
+ * @todo maybe change this class to a ini file
+ */
 class config
 {
 
@@ -73,21 +73,13 @@ class config
 
     	// Database related configurations
 
-        $this->db_type      = '{DB_TYPE}';
-        $this->db_username  = '{DB_USER}';
-        $this->db_password  = '{DB_PASS}';
-        $this->db_name      = '{DB_NAME}';
-        $this->db_host      = '{DB_HOST}';
-        $this->db_prefix    = '{DB_PREFIX}';
+        $this->db_type      = 'mysql';
+        $this->db_username  = 'clansuite';
+        $this->db_password  = 'toop';
+        $this->db_name      = 'clansuite';
+        $this->db_host      = 'localhost';
+        $this->db_prefix    = 'cs_';
         $this->db_abs_layer = 'pdo';
-
-        // Meta Tag Information
-
-        $this->meta['description'] = 'Clansuite is a Content Management System for handling the needs of clans';
-        $this->meta['language'] = 'de';
-        $this->meta['author'] = 'Florian Wolf, Jens-Andre Koch';
-        $this->meta['email'] = '{ADMIN_EMAIL}';
-        $this->meta['keywords'] = 'clan, cms, content management system, portal';
 
         // Standard Path Configuration
 
@@ -113,26 +105,52 @@ class config
 
         // Template Configurations
 
-        $this->tpl_name = 'standard';
+        $this->theme = 'accessible';
+        $this->themeswitch_via_url = 1;
         $this->tpl_wrapper_file = 'index.tpl';
-        $this->language = 'de';
+
+        // Modules: Default Module and Default Action
+
         $this->std_module = 'index';
         $this->std_module_action = 'show';
+
+        // Default Page Title + CSS + Javascript
+
         $this->std_page_title = 'clansuite.com';
         $this->std_css = 'standard.css';
         $this->std_javascript = 'standard.js';
 
+        // Default Language / Locale Setting
+
+        $this->language = 'de';
+
+        // Meta Tag Informations
+
+        $this->meta['description'] = 'Clansuite - just an e-sport content management system.';
+        $this->meta['language'] = 'de';
+        $this->meta['author'] = 'Jens-Andre Koch, Florian Wolf';
+        $this->meta['email'] = 'system@clansuite.com';
+        $this->meta['keywords'] = 'cms, content management system, portal, e-sport';
+
         // Login Configuration & Password Encryption
 
-        $this->login_method = 'nick';
+        $this->login_method = 'nick'; # email or nick
         $this->remember_me_time = 90; # days
         $this->session_expire_time = 30; # minutes
         $this->max_login_attempts = 5;
-        $this->login_ban_minutes = 30;
+        $this->login_ban_minutes = 30; # minutes
 
         $this->min_pass_length = 6;
         $this->encryption = 'sha1';
         $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
+
+        // OpenID
+        $this->openid_trustroot = 'http://www.clansuite.com/openid/';
+        $this->openid_showcommentsbox = 1;
+        $this->openid_showloginbox = 1;
+
+        // File/Upload configuration
+        $this->max_upload_filesize = 1048576;
 
         // Session configuration
 
@@ -148,7 +166,7 @@ class config
 
         // Developers configuration
 
-        $this->help_edit_mode = 1;
+        $this->help_edit_mode = 0;
         $this->version  = (float) 0.1;
 
         // Cache

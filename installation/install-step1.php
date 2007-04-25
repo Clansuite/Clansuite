@@ -2,32 +2,9 @@
 <html>
 <head>
 <title>ClanSuite.com - just an eSport CMS - Installer</title>
+<link rel="stylesheet" type="text/css" href="installation.css" />
 </head>
 <body>
-<style type="text/css">
-    body
-    {
-        font-size: 11px;
-        font-family: Verdana;
-    }
-    
-    .inputs
-    {
-        border: 1px solid grey;
-    }
-    
-    .error
-    {
-        color: red;
-        font-weight: bold;   
-    }
-    
-    table td
-    {
-        font-size: 11px;
-        font-family: Verdana;    
-    }
-</style>
 <center>
 <h1>Installer</h1>
 <br />
@@ -40,7 +17,7 @@ This Installer will guide you in 3 small steps through the hole installation of 
             <b>Step 1: </b>Administrator Account
         </td>
     </tr>
-            <?php 
+            <?php
                 if( $_GET['error'] == 'fill_form' )
                 {
                     echo '<tr><td height="30" align="center" colspan="2"><div class="error">Please fill all fields in the form!</div></td></tr>';
@@ -56,7 +33,7 @@ This Installer will guide you in 3 small steps through the hole installation of 
     </tr>
     <tr>
         <td width="100" align="right" class="desc">eMail:</td>
-        <td align="left"><input class="inputs" type="text" name="admin_email" value="<?=$_SESSION['admin_email'] ?>" /></td>
+        <td align="left"><input class="inputs" type="text" name="config[from]" value="<?=$_SESSION['admin_email'] ?>" /></td>
     </tr>
     <tr>
         <td width="100" align="right" class="desc">Username:</td>
@@ -65,6 +42,15 @@ This Installer will guide you in 3 small steps through the hole installation of 
     <tr>
         <td width="100" align="right" class="desc">Password:</td>
         <td align="left"><input class="inputs" type="password" name="admin_pass" value="<?=$_SESSION['admin_pass'] ?>" /></td>
+    </tr>
+    <tr>
+        <td width="100" align="right" class="desc">Encryption:</td>
+        <td align="left">
+            <select name="config[encryption]" class="inputs">
+                <option value="md5">MD5</option>
+                <option value="sha1">SHA1</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td height="50" colspan="2" align="center">

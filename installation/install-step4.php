@@ -2,32 +2,9 @@
 <html>
 <head>
 <title>ClanSuite.com - just an eSport CMS - Installer</title>
+<link rel="stylesheet" type="text/css" href="installation.css" />
 </head>
 <body>
-<style type="text/css">
-    body
-    {
-        font-size: 11px;
-        font-family: Verdana;
-    }
-
-    .inputs
-    {
-        border: 1px solid grey;
-    }
-
-    .error
-    {
-        color: red;
-        font-weight: bold;
-    }
-
-    table td
-    {
-        font-size: 11px;
-        font-family: Verdana;
-    }
-</style>
 <center>
 <h1>Installer</h1>
 <br />

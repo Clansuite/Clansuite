@@ -71,12 +71,15 @@ class security
     }
 
     /**
-     * This generates a double MD5 encoded string (Hash) 
+     * This generates a double MD5 encoded string (Hash)
      *
      * @param string
-     * @return 2xmd5 string
-     * @todo note by vain: fmpov the double encodation is somehow security by obscurity ? 
+     * @return doubled md5 string
+     * @todo note by vain: fmpov the double encoding is somehow security by obscurity ?
      *       is there an alternative?
+     *       note by xsign: well - it does help to NOT gain the password. You habe to decrypt
+     *       to an 32 digit password first, to get to the real password. So: no way to gain the real password.
+     *       Anyway: The SALT will the all the job to crash every hacking attempt.
      */
 
     function generate_md5( $string = '' )
@@ -88,7 +91,7 @@ class security
      * This generates a double SHA1 encoded string (Hash)
      *
      * @param string
-     * @return 2xsha1 string
+     * @return doubled sha1 string
      */
 
     function generate_sha1( $string = '' )
@@ -134,7 +137,7 @@ class security
      * Build the DB salted Hash
      *
      * @param string
-     * @return hash 
+     * @return hash
      */
 
     function db_salted_hash( $string = '' )
@@ -159,15 +162,15 @@ class security
          * check for existance of the main tpl_wrapper_file
          * (index.tpl related to the choosen template directory)
          */
-        
+
         if (file_exists($file) )
         {
             /**
              * Check for a removal or out-commenting of Copyright Tag
              */
-            
+
             $string = file_get_contents($file);
-            
+
             preg_match('/\{\$copyright\}/' , $string ) ? '' : die($error->show( $lang->t('Copyright Violation'), $lang->t('You removed the copyright tag - that is not allowed and a violation of our rules! Please put {$copyright} in the main template file.'), 1) );
             preg_match('/\<\!\-\-[^>](.*)\{\$copyright\}(.*)\-\-\>/', $string ) ? die($error->show( $lang->t('Copyright Violation'), $lang->t('Do not try to fool the system by hiding the copyright tag!'), 1 ) ) : '';
         }
@@ -176,7 +179,7 @@ class security
             /**
              * Error: Template File not found
              */
-             
+
             die( $error->show( $lang->t('Template File not found !'),
                                $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.') . '<br /><br /> <strong>Missing Templatefile: </strong>' . $file ,
                                1 ) );
@@ -193,25 +196,25 @@ class security
     /**
      * Intruder Alert
      *
-     * This will assign and report the userdata of the intruder and exit, 
+     * This will assign and report the userdata of the intruder and exit,
      * in case the intruder alert is triggered.
      *
      * @global $tpl
      * @global $lang
-     * @todo 1) add logging! 2) should the intrusion alert be combined with session::session_security()? 
+     * @todo 1) add logging! 2) should the intrusion alert be combined with session::session_security()?
      */
 
     function intruder_alert()
     {
         global $tpl, $lang;
-        
+
         $tpl->assign('hacking_attempt'  , $lang->t('Possible Intrusion detected - The logging is active. A report will be generated.'));
         $tpl->assign('user_ip'          , $_SERVER['REMOTE_ADDR']);
         $tpl->assign('hostname'         , isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '*** not supported by your apache ***' );
         $tpl->assign('user_agent'       , $_SERVER['HTTP_USER_AGENT']);
-        
+
         $tpl->display('security_breach.tpl' );
-        
+
         die();
     }
 }
