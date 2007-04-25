@@ -2,32 +2,9 @@
 <html>
 <head>
 <title>ClanSuite.com - just an eSport CMS - Installer</title>
+<link rel="stylesheet" type="text/css" href="installation.css" />
 </head>
 <body>
-<style type="text/css">
-    body
-    {
-        font-size: 11px;
-        font-family: Verdana;
-    }
-    
-    .inputs
-    {
-        border: 1px solid grey;
-    }
-    
-    .error
-    {
-        color: red;
-        font-weight: bold;   
-    }
-        
-    table td
-    {
-        font-size: 11px;
-        font-family: Verdana;    
-    }
-</style>
 <center>
 <h1>Installer</h1>
 <br />
@@ -38,7 +15,7 @@ This Installer will guide you in 3 small steps through the hole installation of 
     <tr>
         <td height="50" colspan="2" align="center"><b>Step 3:</b> Database data</td>
     </tr>
-            <?php 
+            <?php
                 if( $_GET['error'] == 'fill_form' )
                 {
                     echo '<tr><td height="30" align="center" colspan="2"><div class="error">Please fill all fields in the form!</div></td></tr>';
@@ -58,23 +35,23 @@ This Installer will guide you in 3 small steps through the hole installation of 
     </tr>
     <tr>
         <td width="100" align="right">Host:</td>
-        <td align="left"><input class="inputs" type="text" name="db_host"value="<?=$_SESSION['db_host'] ?>" /></td>
+        <td align="left"><input class="inputs" type="text" name="config[db_host]" value="<?=$_SESSION['config']['db_host'] ?>" /></td>
     </tr>
     <tr>
         <td width="100" align="right">DB name:</td>
-        <td align="left"><input class="inputs" type="text" name="db_name" value="<?=$_SESSION['db_name'] ?>" /></td>
+        <td align="left"><input class="inputs" type="text" name="config[db_name]" value="<?=$_SESSION['config']['db_name'] ?>" /></td>
     </tr>
     <tr>
         <td width="100" align="right" class="desc">Prefix:</td>
-        <td align="left"><input class="inputs" type="text" name="db_prefix" value="<?=$_SESSION['db_prefix'] ?>" /></td>
+        <td align="left"><input class="inputs" type="text" name="config[db_prefix]" value="<?=$_SESSION['config']['db_prefix'] ?>" /></td>
     </tr>
     <tr>
         <td width="100" align="right" class="desc">Username:</td>
-        <td align="left"><input class="inputs" type="text" name="db_username" value="<?=$_SESSION['db_username'] ?>" /></td>
+        <td align="left"><input class="inputs" type="text" name="config[db_username]" value="<?=$_SESSION['config']['db_username'] ?>" /></td>
     </tr>
     <tr>
         <td width="100" align="right" class="desc">Password:</td>
-        <td align="left"><input class="inputs" type="password" name="db_pass" value="<?=$_SESSION['db_pass'] ?>" /></td>
+        <td align="left"><input class="inputs" type="password" name="config[db_password]" value="<?=$_SESSION['config']['db_password'] ?>" /></td>
     </tr>
     <tr>
         <td height="70" colspan="2" align="center">

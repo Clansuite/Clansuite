@@ -36,14 +36,15 @@ define('IN_CS', true);
 // The Clansuite version this script installs
 $cs_version = '0.1';
 
-// Define Root Path 
+// Define Root Path
 define('CS_ROOT', './');
 
 // In Case config.class.php exists, exit
-if (!file_exists(CS_ROOT.'config.class.php')) 
+/* @todo: other solution pls - 'cause the webinstaller currently leeches from the svn snapshot!!!
+if (file_exists(CS_ROOT.'config.class.php'))
 {
 	exit('The file \'config.class.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed. You should go <a href="../index.php">here</a> instead.');
-}
+}*/
 
 /**
 * @desc Alter php.ini settings
@@ -89,9 +90,10 @@ if( $_GET['step'] == 2 )
 
     if( empty($_SESSION['admin_firstname']) ||
         empty($_SESSION['admin_lastname']) ||
-        empty($_SESSION['admin_email']) ||
+        empty($_SESSION['config']['from']) ||
         empty($_SESSION['admin_nick']) ||
-        empty($_SESSION['admin_pass']) )
+        empty($_SESSION['admin_pass']) ||
+        empty($_SESSION['config']['salt']) )
     {
         header("Location: " . $_SERVER['PHP_SELF'] . "?step=1&error=fill_form");
         die();
@@ -163,12 +165,12 @@ if( $_GET['step'] == 4 )
     /**
     * @desc Check whether form is empty or not
     */
-    if( empty($_SESSION['db_type']) ||
-        empty($_SESSION['db_host']) ||
-        empty($_SESSION['db_username']) ||
-        empty($_SESSION['db_pass']) ||
-        empty($_SESSION['db_name']) ||
-        empty($_SESSION['db_prefix']) )
+    if( empty($_SESSION['config']['db_type']) ||
+        empty($_SESSION['config']['db_host']) ||
+        empty($_SESSION['config']['db_username']) ||
+        empty($_SESSION['config']['db_password']) ||
+        empty($_SESSION['config']['db_name']) ||
+        empty($_SESSION['config']['db_prefix']) )
     {
         header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=fill_form");
         die();
@@ -179,7 +181,7 @@ if( $_GET['step'] == 4 )
     */
     try
     {
-       $db = new PDO($_SESSION['db_type'].':host='.$_SESSION['db_host'].';dbname='.$_SESSION['db_name'], $_SESSION['db_username'],$_SESSION['db_pass']);
+       $db = new PDO($_SESSION['config']['db_type'].':host='.$_SESSION['config']['db_host'].';dbname='.$_SESSION['config']['db_name'], $_SESSION['config']['db_username'],$_SESSION['config']['db_password']);
     }
     catch (PDOException $e)
     {
@@ -192,6 +194,7 @@ if( $_GET['step'] == 4 )
     * @desc ALLRIGHT - EVERYTHING SEEMS FINE - GO ON!
     */
     $sql = file_get_contents('clansuite.sql');
+    $sql = str_replace('CREATE TABLE `cs_', 'CREATE TABLE `' . $_SESSION['config']['db_prefix'], $sql);
     $db->exec($sql);
     $error = $db->errorInfo();
     if( $error[2] != '' )
@@ -199,28 +202,138 @@ if( $_GET['step'] == 4 )
         $errors = true;
     }
 
-    $creates = array();
-    /*
-    preg_match_all('#CREATE TABLE([^;]*);#s', $sql, $creates);
-    $output = '';
+    /**
+     * This generates a salt, a random combination of numbers like this "4-5-6-7-8-9"
+     *
+     * @return $salt
+     */
 
-    foreach( $creates[0] as $key => $value )
+    function generate_salt()
     {
-        $db->exec($value);
-        $error = $db->errorInfo();
-        if( $error[2] != '' )
+        $salt = rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
+        $salt .= '-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
+        return $salt;
+    }
+
+    /**
+     * This generates a double MD5 encoded string (Hash)
+     *
+     * @param string
+     * @return doubled md5 string
+     * @todo note by vain: fmpov the double encoding is somehow security by obscurity ?
+     *       is there an alternative?
+     *       note by xsign: well - it does help to NOT gain the password. You habe to decrypt
+     *       to an 32 digit password first, to get to the real password. So: no way to gain the real password.
+     *       Anyway: The SALT will the all the job to crash every hacking attempt.
+     */
+
+    function generate_md5( $string = '' )
+    {
+        return md5(md5($string ) );
+    }
+
+    /**
+     * This generates a double SHA1 encoded string (Hash)
+     *
+     * @param string
+     * @return doubled sha1 string
+     */
+
+    function generate_sha1( $string = '' )
+    {
+        return sha1(sha1($string ) );
+    }
+
+    /**
+     * This builds a salted Hash string (Cookie Hash)
+     *
+     * @global $cfg
+     * @param string
+     * @return $hash
+     */
+
+    function build_salted_hash( $string = '' )
+    {
+        global $cfg;
+
+        $salt = split('-', generate_salt() );
+        $_SESSION['config']['salt'] = $salt;
+
+        switch ( $_SESSION['config']['encryption'] )
         {
-            $errors = true;
-            $output .= '<div style="color: red; text-align: center; font-weight: bold; font-family: Verdana; font-size: 11px;">'.$error[2].'</div>';
+            case 'sha1':
+                $hash = generate_sha1( $string );
+                break;
+
+            case 'md5':
+                $hash = generate_md5( $string );
+                break;
+        }
+
+
+        for ($x=0; $x<6; $x++)
+        {
+            $hash = str_replace( $salt[$x], $salt[$x+6], $hash );
+        }
+
+        return $hash;
+    }
+
+    /**
+     * Build the DB salted Hash
+     *
+     * @param string
+     * @return hash
+     */
+
+    function db_salted_hash( $string = '' )
+    {
+        return build_salted_hash( build_salted_hash( $string ) );
+    }
+
+    // Alter the standard admin user.
+    $stmt = $db->prepare('UPDATE ' . $_SESSION['config']['db_prefix']. 'users SET nick = ?,password = ?,email = ?, joined = ?, activated = ? WHERE id = 1');
+    $stmt->execute( array(  $_SESSION['admin_nick'],
+                            db_salted_hash($_SESSION['admin_pass']),
+                            $_SESSION['config']['from'],
+                            time(),
+                            1 ) );
+
+    /**
+    * @desc Handle the config update
+    */
+    $cfg_file = file_get_contents('config.class.php');
+    foreach($_SESSION['config'] as $key => $value)
+    {
+        if( is_array($value) )
+        {
+            foreach( $value as $meta_key => $meta_value )
+            {
+                if( preg_match('#^[0-9]+$#', $meta_value) )
+            	{
+            	    $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = ' . $meta_value . ';', $cfg_file );
+            	}
+            	else
+            	{
+                    $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = \'' . $meta_value . '\';', $cfg_file );
+            	}
+            }
         }
         else
         {
-            $result = array();
-            preg_match('#CREATE TABLE `(.*)`#', $value, $result);
-            $output .= '<div style="color: green; text-align: center; font-weight: bold; font-family: Verdana; font-size: 11px;">'.$result[0].'</div>';
+            if( preg_match('#^[0-9]+$#', $value) )
+            {
+                $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = ' . $value . ';', $cfg_file );
+            }
+            else
+            {
+                $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = \'' . $value . '\';', $cfg_file );
+            }
         }
     }
-    */
+
+    file_put_contents( '../config.class.php', $cfg_file );
+
 
     /**
     * @desc Load template for the finish
