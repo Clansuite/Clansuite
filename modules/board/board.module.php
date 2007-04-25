@@ -49,8 +49,8 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
  *
  * Description:  The Clansuite Board
  *
- * @author     JAK  FW
- * @copyright  2007 JAK  FW
+ * @author     Jens-Andre Koch  <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch  (2005-$LastChangedDate$)
  * @link       http://www.clansuite.com
  * @since      Class available since Release 0.1
  *
@@ -160,6 +160,26 @@ class module_board
         // Output the Board
         $this->output .= $tpl->fetch('board/board.tpl');
     }
+   
+   
+   function viewforum ()
+   {
+    
+    
+    
+    //Input Variables
+    
+    $threadid = (isset($threadid) && is_numeric($threadid)) ? (int) $threadid : 0;
+    $forumid = (isset($forumid) && is_numeric($forumid)) ? (int) $forumid : 0;
+    
+    
+    // MYSQL 
+    
+    
+    // OUTPUT
+    
+    
+   }
    
 }
 ?>
