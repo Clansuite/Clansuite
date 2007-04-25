@@ -143,6 +143,11 @@ class config
         $this->min_pass_length = 6;
         $this->encryption = 'sha1';
         $this->salt = '1-3-5-8-4-1-7-2-4-1-4-1';
+        
+        // OpenID
+        $this->openid_trustroot = 'http://www.clansuite.com/openid/';
+        $this->openid_showcommentsbox = 1;
+        $this->openid_showloginbox = 1;      
 
         // File/Upload configuration
         $this->max_upload_filesize = 1048576;

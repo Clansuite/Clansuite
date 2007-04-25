@@ -423,7 +423,40 @@ Sorry for the inconvenience.{/translate}</textarea>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$cfg->session_name}" name="config[session_name]" />
                 </td>
-            </tr>            
+            </tr>   
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {translate}OpenID {/translate}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Trust Root{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$cfg->openid_trustroot}" name="config[openid_trustroot]" />
+                </td>                
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Add to Login Box{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[openid_showloginbox]" {if $cfg->openid_showloginbox == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[openid_showloginbox]" {if $cfg->openid_showloginbox == 0}checked="checked"{/if} /> {translate}no{/translate}
+                </td>                
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {translate}Add to Comments{/translate}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input type="radio" value="1" name="config[openid_showcommentsbox]" {if $cfg->showcommentsbox == 1}checked="checked"{/if} /> {translate}yes{/translate}
+                    <input type="radio" value="0" name="config[openid_showcommentsbox]" {if $cfg->showcommentsbox == 0}checked="checked"{/if} /> {translate}no{/translate}
+                </td>                
+            </tr>
+            
+                     
         </table>
    </div>
   {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
