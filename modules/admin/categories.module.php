@@ -199,7 +199,7 @@ class module_admin_categories
         * @desc No errors - procceed to edit
         */
         if ( !empty($submit) AND count($err) == 0 )
-        { print 'insert';
+        { 
             /**
             * @desc Update the DB
             */
