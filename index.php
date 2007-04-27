@@ -143,19 +143,19 @@ require(ROOT_CORE . '/permissions.class.php');
 require(ROOT_CORE . '/trail.class.php');
 
 // Create objects out of classes
-$tpl        = new Render_SmartyDoc;
-$session    = new session;
-$input      = new input;
-$lang       = new language;
-$debug      = new debug;
-$error      = new error;
-$modules    = new modules;
-$functions  = new functions;
-$security   = new security;
-$users      = new users;
-$stats      = new statistics;
-$perms      = new permissions;
-$trail      = new trail;
+$tpl        = new Render_SmartyDoc; # Template
+$session    = new session;          # Session
+$input      = new input;            # Input
+$lang       = new language;         # Language
+$debug      = new debug;            # Debugging
+$error      = new error;            # Error
+$modules    = new modules;          # Modules
+$functions  = new functions;        # Functions
+$security   = new security;         # Security
+$users      = new users;            # Users
+$stats      = new statistics;       # Statistics
+$perms      = new permissions;      # Permissions
+$trail      = new trail;            # Trail/Breadcrumb
 
 /**
  *  ============================================
@@ -165,10 +165,10 @@ $trail      = new trail;
 
 // Smarty Settings
 $tpl->template_dir      = array( ROOT_TPL . '/core/' ) ;        # template_dir set to CORE / fallback for errors
-$tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';    
-$tpl->config_dir        = ROOT_CORE .'/smarty/configs/';        
-$tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';          
-$tpl->debugging         = DEBUG ? true : false;                 
+$tpl->compile_dir       = ROOT_CORE .'/smarty/templates_c/';
+$tpl->config_dir        = ROOT_CORE .'/smarty/configs/';
+$tpl->cache_dir         = ROOT_CORE .'/smarty/cache/';
+$tpl->debugging         = DEBUG ? true : false;
 $tpl->force_compile     = true;
 $tpl->caching           = $cfg->caching;
 $tpl->compile_check     = true;
@@ -191,9 +191,9 @@ $tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 date_default_timezone_set('Europe/Berlin');
 
 // Create DB Object and connect to DB
-$db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", 
-             $cfg->db_username, $cfg->db_password, array() );
+$db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", $cfg->db_username, $cfg->db_password, array() );
 
+// Do all needed build functions to generate valid PHP output, input, throughput and ... put put put
 $input->fix_magic_quotes();         # Revert magic_quotes() if still enabled
 $input->cleanup_request();          # Clean $_REQUEST input from violent code
 $error->set_callbacks();            # Set the callback function for errors
@@ -206,7 +206,7 @@ $stats->assign_statistic_vars();    # Assign Statistic Variables
 /**
  * Set Theme via URL by appendix $_GET['theme'] (?theme=standard)
  */
-if($cfg->themeswitch_via_url == 1) 
+if($cfg->themeswitch_via_url == 1)
 {
     if(isset($_GET['theme']) && !empty($_GET['theme']))
     {
@@ -214,7 +214,7 @@ if($cfg->themeswitch_via_url == 1)
         if( !$input->check( $_GET['theme'], 'is_abc|is_custom', '_' ) )
         {
             $security->intruder_alert();
-        }    
+        }
         // If $_GET['theme'] dir exists, set it as session-user-theme
         if(is_dir(ROOT_TPL . '/' . $_GET['theme'] . '/'))
         {
@@ -225,12 +225,12 @@ if($cfg->themeswitch_via_url == 1)
         {
             $_SESSION['user']['theme_via_url']  = 0;
         }
-    }    
+    }
 }
 
-// set template dir to choosen theme
+// Set template dir to choosen theme and assign the path
 $tpl->template_dir = array( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
-$tpl->assign('www_root_tpl'     , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
+$tpl->assign('www_root_tpl', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
 
 
 /**
@@ -254,6 +254,7 @@ if(isset($_GET['lang']) && !empty($_GET['lang']) )
     {
         $security->intruder_alert();
     }
+    // Update Session
     else
     {
 	   $_SESSION['user']['language']           = $_GET['lang'];
@@ -287,24 +288,20 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['lan
 /**
  * Assign Config Values (for use in header of tpl)
  */
-$tpl->assign('meta'             , $cfg->meta );
-$tpl->assign('cs_version'       , $cfg->version );
-$tpl->assign('query_counter'    , $db->query_counter );
-$tpl->assign('redirect'         , $functions->redirect );
-$tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css );
-$tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_javascript );
-$tpl->assign('std_page_title'   , $cfg->std_page_title );
-
-/**
- * Assign Breadcrumb-Trail Home
- */
-$tpl->assign_by_ref('trail'     , $trail->path);
+$tpl->assign('meta'             , $cfg->meta );             # Meta Inforamtions about the website
+$tpl->assign('cs_version'       , $cfg->version );          # ClanSuite Version from config.class.php
+$tpl->assign('query_counter'    , $db->query_counter );     # Query counters (DB)
+$tpl->assign('redirect'         , $functions->redirect );   # Redirects, if necessary
+$tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css ); # Normal CSS (global)
+$tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_javascript ); # Normal Javascript (global)
+$tpl->assign('std_page_title'   , $cfg->std_page_title );   # Page Title
+$tpl->assign_by_ref('trail'     , $trail->path);            # Breadcrumb
 
 /**
  *   Check for our Copyright-Sign {$copyright} and assign it
  *
  *   Keep in mind ! that we spend a lot of time and ideas on this project.
- *   If you rip, rip real good, knowing that you are forced to give something back to the community.
+ *   If you rip, so rip really good, knowing that you are forced to give something back to the community.
  */
 $security->check_copyright( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' . $cfg->tpl_wrapper_file );
 $tpl->assign('copyright', $tpl->fetch(ROOT_TPL . '/core/copyright.tpl'));
@@ -396,8 +393,8 @@ if ( ($_REQUEST['mod'] == 'admin') OR ($_REQUEST['sub'] == 'admin') )
     }
     else
     {
-         // Not enough rights to access "acc"
-         // If not even logged in, so redirect to login
+         // Not enough rights to access "the control center
+         // If not even logged in, redirect to login form
          if ( $_SESSION['user']['user_id'] == 0 )
          {
             $functions->redirect('index.php?mod=account&action=login&referer='.base64_encode($_SERVER['REQUEST_URI']));
@@ -428,32 +425,31 @@ if ( isset($content['SUPPRESS_WRAPPER'] ) && ( $content['SUPPRESS_WRAPPER'] == t
  */
 switch ($condition)
 {
+    // (1) displays content of modul with portal frame
+    default:
+    case 'display_normal_wrapped_template':
+            $tpl->assign('content', $content['OUTPUT'] );
+            DEBUG ? $debug->show_console() : '';
+            $tpl->displayDoc($cfg->tpl_wrapper_file);
+            break;
 
-            // (1) displays content of modul with portal frame
-            default:
-            case 'display_normal_wrapped_template':
-                    $tpl->assign('content', $content['OUTPUT'] );
-                    DEBUG ? $debug->show_console() : '';
-                    $tpl->displayDoc($cfg->tpl_wrapper_file);
-                    break;
+    // (2) means just the content of the modul, without the portal frame
+    case 'display_template_with_suppressed_wrapper':
+            echo $content['OUTPUT'];
+            break;
 
-            // (2) means just the content of the modul, without the portal frame
-            case 'display_template_with_suppressed_wrapper':
-                    echo $content['OUTPUT'];
-                    break;
+    // (3) display AdminControlCenter
+    case 'display_admincontrolcenter':
+            $tpl->assign('content', $content['OUTPUT'] );
+            DEBUG ? $debug->show_console() : '';
+            $tpl->displayDoc('admin/index.tpl');
+            break;
 
-            // (3) display AdminControlCenter
-            case 'display_admincontrolcenter':
-                    $tpl->assign('content', $content['OUTPUT'] );
-                    DEBUG ? $debug->show_console() : '';
-                    $tpl->displayDoc('admin/index.tpl');
-                    break;
-
-            // (4) display the maintenance template
-            case 'display_maintenance_template':
-                    $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
-                    $tpl->displayDoc('maintenance.tpl');
-                    break;
+    // (4) display the maintenance template
+    case 'display_maintenance_template':
+            $tpl->assign('maintenance_reason', $cfg->maintenance_reason);
+            $tpl->displayDoc('maintenance.tpl');
+            break;
 }
 
 ?>

@@ -25,29 +25,29 @@ $passPhrase = "yeahbabyyeah";
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     */
-    
+
     /** =====================================================================
-    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.                           
+    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.
     *           READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
     *  =====================================================================
-    */    
-    
+    */
+
     /**
     *
     * webinstaller.php
     * installs clansuite from downloaded archive
     *
     * Script performs mainly 3 actions:
-    *    a. download the clansuite archive [.zip] / [tar.gz] 
+    *    a. download the clansuite archive [.zip] / [tar.gz]
     *       from a known server directly to the server where the script is running
     *    b. extract all files and folders
-    *    c. forwards the user to the installation wizard of clansuite 
+    *    c. forwards the user to the installation wizard of clansuite
     *
-    * As this Webinstaller is a modified version of the pre-installer v2.2 for Gallery 
-    * we like to thank for it and give credit to both developers 
+    * As this Webinstaller is a modified version of the pre-installer v2.2 for Gallery
+    * we like to thank for it and give credit to both developers
     * Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
-    * 
-    *  
+    *
+    *
     * @author     Jens-Andre Koch <vain@clansuite.com>
     * @author     Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
     * @copyright  2007 Clansuite Group
@@ -58,7 +58,7 @@ $passPhrase = "yeahbabyyeah";
     *
     * @version    SVN: $Id$
     */
-    
+
 error_reporting(E_ALL);
 set_time_limit(900);
 
@@ -76,7 +76,7 @@ $downloadUrls['stable'] = 'http://svn.gna.org/daily/clansuite-snapshot';
 /*   Latest Daily Snapshot */
 $downloadUrls['daily']= 'http://svn.gna.org/daily/clansuite-snapshot.tar.gz';
 
-/* This page on www.clansuite.com lists the latest versions 
+/* This page on www.clansuite.com lists the latest versions
 /* So we scan gna.org/downloads for archives and add the daily-svn archiv.  */
 $versionCheckUrl = 'http://www.clansuite.com/versions/versions_check.php';
 
@@ -85,7 +85,8 @@ $archiveBaseName = 'clansuite';
 /* A list of folder permissions that are available for chmodding */
 $folderPermissionList = array('777', '755', '555');
 /* Archive extensions available for download */
-$availableExtensions = array('zip', 'tar.gz');
+// $availableExtensions = array('zip', 'tar.gz');
+$availableExtensions = array('tar.gz');
 /* Available versions of G2 */
 $availableVersions = array('stable', 'rc', 'daily');
 
@@ -102,7 +103,7 @@ $preInstaller->main();
 class PreInstaller {
 
     function main() {
-        
+
 	/* Authentication */
 	//$this->authenticate();
 
@@ -111,7 +112,7 @@ class PreInstaller {
                 					new PhpUnzipExtractor(),
                 					new TarGzExtractor(),
                 					new PhpTarGzExtractor());
-					
+
 	$this->_downloadMethods = array(new CurlDownloader(),
                 					new WgetDownloader(),
                 					new FopenDownloader(),
@@ -126,27 +127,27 @@ class PreInstaller {
 	}
 
 	/* Handle the request */
-	if (empty($_POST['command'])) 
-	{ 
-	    $command = ''; 
+	if (empty($_POST['command']))
+	{
+	    $command = '';
 	}
-    else 
-    { 
-        $command = trim($_POST['command']); 
+    else
+    {
+        $command = trim($_POST['command']);
     }
-	
-	/** Actions: 
+
+	/** Actions:
 	*   -extract
 	*   -download
 	*   -chmod
 	*   -rename
 	*   Default: check capabilities of php / server
 	*/
-	
+
 	switch ($command) {
-	    
+
 	    case 'extract':
-	    
+
     		/* Input validation / sanitation */
     		if (empty($_POST['method'])) $method = '';
     		else $method = trim($_POST['method']);
@@ -166,7 +167,7 @@ class PreInstaller {
     				    render('results', array('failure' => 'Extraction was successful, but integrity check failed'));
     				} else {
     				    render('results', array('success' => 'Archive successfully extracted'));
-    
+
     				    /*
     				     * Set the permissions in the clansuite dir may be such that
     				     * the user can modify login.txt
@@ -185,11 +186,11 @@ class PreInstaller {
     		} else {
     		    render('results', array('failure' => 'Extract method is not defined or does not exist!'));
     		}
-    		
+
 		break;
-		
+
 	    case 'download':
-	    
+
     		/* Input validation / sanitation */
     		/* The download method */
     		if (empty($_POST['method'])) $method = '';
@@ -232,11 +233,11 @@ class PreInstaller {
     		} else {
     		    render('results', array('failure' => 'Method is not defined or does not exist!'));
     		}
-    		
+
 		break;
-		
+
 	   case 'chmod':
-		
+
     		/* Input validation / sanitation */
     		if (empty($_POST['folderName'])) $folderName = '';
     		else $folderName = trim($_POST['folderName']);
@@ -266,11 +267,11 @@ class PreInstaller {
     		} else {
     		    render('results', array('failure' => "Invalid permissions $folderPermissions"));
     		}
-		
+
 		break;
-	    
+
 	    case 'rename':
-	    
+
     		if (empty($_POST['folderName'])) $folderName = '';
     		else $folderName = trim($_POST['folderName']);
     		/* Remove trailing / leading slashes */
@@ -292,18 +293,18 @@ class PreInstaller {
     		} else {
     		    render('results', array('success' => "Successfully renamed $oldFolderName to $folderName"));
     		}
-		
+
 		break;
-		
+
 	    default:
-	    
+
 		/* Discover the capabilities of this PHP installation / platform */
 		$capabilities = $this->discoverCapabilities();
-		
+
 		$capabilities['clansuiteFolderName'] = $this->findClansuiteFolder();
-		
+
 		if (!empty($capabilities['clansuiteFolderName'])) {
-		    $statusMessage  = "Ready for installation (Clansuite folder '" . 
+		    $statusMessage  = "Ready for installation (Clansuite folder '" .
 		    $capabilities['clansuiteFolderName'] . "' found)";
 		} else if (!empty($capabilities['anyArchiveExists'])) {
 		    $statusMessage = 'Archive ready for extraction';
@@ -311,9 +312,9 @@ class PreInstaller {
 		    $statusMessage =
 			'No archive in current working directory, please start with step 1';
 		}
-		
+
 		$capabilities['statusMessage'] = $statusMessage;
-		
+
 		/* Is there a ReleaseCandidate avaiable?*/
 		if (!empty($capabilities['downloadMethods'])) {
 		    foreach ($capabilities['downloadMethods'] as $dMethod) {
@@ -404,7 +405,7 @@ class PreInstaller {
 	/* Search in the current folder for a clansuite folder */
 	$basePath = dirname(__FILE__) . '/';
 	if (file_exists($basePath . 'clansuite') &&
-		file_exists($basePath . 'clansuite/install/index.php')) {
+		file_exists($basePath . 'clansuite/installation/index.php')) {
 	    return 'clansuite';
 	}
 
@@ -421,7 +422,7 @@ class PreInstaller {
 	    if ($fileName == '.' || $fileName == '..') {
 		continue;
 	    }
-	    if (file_exists($basePath . $fileName . '/install/index.php')) {
+	    if (file_exists($basePath . $fileName . '/installation/index.php')) {
 		return $fileName;
 	    }
 	}
@@ -448,7 +449,7 @@ class PreInstaller {
 	}
 
 	$url .= '.' . $extension;
-     
+
 	return $url;
     }
 
@@ -622,10 +623,10 @@ class FopenDownloader extends DownloadMethod {
 	if (!Platform::isDirectoryWritable()) {
 	    return 'Unable to write to current working directory';
 	}
-	
+
 	if (@ini_get('memory_limit') < 16)
 		@ini_set('memory_limit', '16M');
-	
+
 	$start =time();
 
 	Platform::extendTimeLimit();
@@ -1011,24 +1012,24 @@ function render($renderType, $args=array()) {
   <body>
      <h1> Clansuite Webinstaller</h1>
      <small>Version 0.1 - 11 Januar 2007</small>
-    
+
     <div>
         <p>
          <fieldset style="border-color: red; background:lightsalmon;">
     	    <legend>
-    		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75; 
+    		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
     		               filter:alpha(opacity=75);'>&nbsp;Security Advise&nbsp;</strong>
     	    </legend>
     	    <label>
-    		
+
     		<strong></strong> <i>Delete the file (<?php print $self; ?>) when you are done!</i><br>
-    		
+
     	    </label>
          </fieldset>
        </p>
     </div>
-   
-     
+
+
      <div class="box">
      <h2>Instructions</h2>
      <span id="instructions-toggle" class="blockToggle"
@@ -1036,18 +1037,18 @@ function render($renderType, $args=array()) {
 	  Show instructions
      </span>
      <div id="instructions" style="display: none;">
-        
+
         <p>
         	 <b>This webinstaller gets the Clansuite web application on your server.</b>
-        	 <br>It's an alternative to the common, but time consuming way of uploading all 
-        	 files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope 
+        	 <br>It's an alternative to the common, but time consuming way of uploading all
+        	 files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope
         	 this will ease the process of installation, take work out of your hands and finally safe you some time!
 	    </p>
-	    
+
 	    <p>
 	        <b>Installation Steps in Detail:</b>
        </p>
-       
+
        <ol>
         	 <li>
         	   <b>Download of the latest Clansuite Archive</b>
@@ -1055,39 +1056,39 @@ function render($renderType, $args=array()) {
         	   download server directly to your webserver.
         	   <br>After this step you will find a [.tar.gz] or [.zip] package on your server.
         	 </li>
-        	 
+
         	 <li>
         	   <b>Extraction of Clansuite Archive</b>
         	   <br>All files and folders are extracted from this archive.
         	   <br>After this step you will find all files and folders of clansuite on your server.
         	 </li>
-        	 
+
         	 <li>
-        	   <b>Installation</b> 
+        	   <b>Installation</b>
         	   <br>Follow the link to the Clansuite installation wizard.
         	   <br>It will guide you through the final installation steps to get
         	   Clansuite running on this server.
-        	 </li>        	 
+        	 </li>
        </ol>
-       
+
        <h1></h1>
-       
+
        <p>
 	      <b>Permission Drawback</b>
-	      <br><br>One possible Problem which arises by running this webinstaller is: 
-	          because it runs as a process of the webserver, all files it creates 
+	      <br><br>One possible Problem which arises by running this webinstaller is:
+	          because it runs as a process of the webserver, all files it creates
 	          are owned by the webserver process. So if you want to modify those
               files yourself, you need to get the webserver to change the permissions
               on them so that you have access.
 	      <br><br>Use the following functions to achive this:
        </p>
-       
+
        <ul>
     	 <li>
     	   <b>Change permissions</b>
     	   <br>Clansuite files have been extracted by the webserver
     	    and not by yourself,  so files and folders are not owned by you. That means for example, that you
-    	    are not allowed to access files and folders or rename the folders manually, 
+    	    are not allowed to access files and folders or rename the folders manually,
     	    unless you change the permissions.
     	 </li>
     	 <li>
@@ -1097,13 +1098,13 @@ function render($renderType, $args=array()) {
     	 </li>
     	 <li>
     	   <b>Deleting Clansuite</b>
-    	   <br>If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at: 
+    	   <br>If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at:
     	   <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
     	 </li>
-    	 
-    	 
-       </ul>  
-       
+
+
+       </ul>
+
      </div>
      </div>
 
@@ -1279,11 +1280,11 @@ function render($renderType, $args=array()) {
        </form>
        <?php else: ?>
 	 <div class="warning">
-	   Oops! - This platform cannot extract archives. 
-	   <br>Steps: 
+	   Oops! - This platform cannot extract archives.
+	   <br>Steps:
 	   <br>a. Do it the old way - download archive, extract files and upload them manually!
 	   <br>b. Ask your webhoster to extract the archive for you.
-	   <br>c. Ask on Clansuite Board for installation help.		   
+	   <br>c. Ask on Clansuite Board for installation help.
 	 </div>
        <?php endif; ?>
        </div>
@@ -1537,7 +1538,7 @@ function compatiblityFunctions() {
 	    $stats = stat($file);
 	    /*
 	     * If stat doesn't work for some reason, assume it's executable.
-	     * 0000100 is the is_executable bit. Windows returns true for .exe files. 
+	     * 0000100 is the is_executable bit. Windows returns true for .exe files.
 	     */
 	    return empty($stats['mode']) || $stats['mode'] & 0000100;
 	}
@@ -1563,8 +1564,8 @@ function BlockToggle(objId, togId, text) {
 }
 
 /* --------------------------------------------------------------------
-        Not all servers include the php service of tar handling, 
-      so we serve a shortened 3rd party code only for tar.gz extraction.            
+        Not all servers include the php service of tar handling,
+      so we serve a shortened 3rd party code only for tar.gz extraction.
 ---------------------------------------------------------------------- */
 
 // --------------------------------------------------------------------------------
