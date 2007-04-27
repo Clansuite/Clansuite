@@ -2,6 +2,7 @@
 {doc_raw}
     <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/luna.css" />
     <script type="text/javascript" src="{$www_root_tpl_core}/javascript/tabpane.js"></script>
+    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/ajax.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/adminmenu/DynamicTree.css" />
     {literal}
         <style type="text/css">
