@@ -86,7 +86,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         	    </p>
 			    {elseif $stats.authed_users == 1}
 			    <p>
-			            <a href="index.php?={$stats.whoisonline.user_id}">{$stats.whoisonline.nick}</a> @ {$stats.whoisonline.session_where}
+			            <a href="index.php?={$stats.whoisonline.0.user_id}">{$stats.whoisonline.0.nick}</a> @ {$stats.whoisonline.0.session_where}
 			    <p/>
 			    {/if}
 			   
