@@ -1,3 +1,5 @@
+{"begin"|timemarker:"Rendertime:"} 
+
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
@@ -98,7 +100,9 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <div id="footer">
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
 	{$copyright}<br />
-	Theme: {* {$theme-copyright} *} | &nbsp;Queries: {$query_counter}
+	Theme: {* {$theme-copyright} *}
+	<br/> 
+	{include file='server_stats.tpl'}
 </div>
 {* Ajax Notification *}
 <div id="notification" style="vertical-align:middle;display:none;z-index:99;">

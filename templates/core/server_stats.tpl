@@ -1,6 +1,6 @@
-{translate}Execution time: {$elapsed|default:"n/a"} s{/translate} |
-{translate}Memory usage:{/translate} {memusage} |
-{translate}Database queries:{/translate} {$query_counter} |
-{translate}DB time:{/translate} n/a  n/a |
-GZIP: {gzipcheck} |
-{translate}Server load:{/translate} {serverload}
+{translate} {"end"|timemarker:"Exectime:"} {/translate}  |
+{translate} {"end"|timemarker:"Rendertime"} {/translate} |
+{translate}Memory: {/translate} {memusage} |
+{translate}Queries:{/translate} {$query_counter} |
+Gzip: {gzipcheck} |
+{translate}Serverload:{/translate} {serverload}
