@@ -54,6 +54,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		<li><a href="index.php?mod=board">Board</a></li>
 		<li><a href="index.php?mod=guestbook">Guestbook</a></li>
 		<li><a href="index.php?mod=serverlist">Serverlist</a></li>
+		<li><a href="index.php?mod=userslist">Userslist</a></li>
 		<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
 		<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
 	</ul>
