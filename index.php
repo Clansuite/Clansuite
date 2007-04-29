@@ -116,6 +116,10 @@ define('DB_PREFIX'  , $cfg->db_prefix);
 define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
 define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
+// Little late but setup the benchmarking and a execution-timemarker
+include_once(ROOT_CORE . '/benchmark.class.php'); 
+benchmark::timemarker('begin', 'Exectime:');
+
 // Error Reporting Depth
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
 
@@ -124,7 +128,6 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
  *      Required CORE Classes are loaded and initalized.
  *  ========================================================
  */
-
 require(ROOT_CORE . '/smarty/Smarty.class.php');
 require(ROOT_CORE . '/smarty/Render_SmartyDoc.class.php');
 //require(ROOT_CORE . '/smarty/SmartyDoc2.class.php5'); // note by vain: leave here, needed for plugin dev purposes
@@ -176,7 +179,9 @@ $tpl->cache_lifetime    = $cfg->cache_lifetime;
 $tpl->debug_tpl         = ROOT_TPL . '/core/debug.tpl';
 $tpl->autoload_filters  = array(    'pre' => array('inserttplnames')
                                    #,'output' => array('tidyrepairhtml')
-                                    );
+                                    );                                    
+$tpl->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+
 DEBUG ? $tpl->clear_compiled_tpl() : ''; # clear compiled tpls in case of debug
 
 /**
@@ -451,5 +456,7 @@ switch ($condition)
             $tpl->displayDoc('maintenance.tpl');
             break;
 }
+
+DEBUG ? benchmark::timemarker('list') : ''; # returns a history of timemarkers in case of debug
 
 ?>
