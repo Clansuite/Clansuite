@@ -97,7 +97,7 @@ $info['class_name']     = '{$class_name}';
 $info['file_name']      = '{$file_name}';
 $info['folder_name']    = '{$folder_name}';
 $info['image_name']     = '{$image_name}';
-$info['module_version']        = (float) {$version};
+$info['module_version']        = (float) {$module_version};
 $info['clansuite_version']     = (float) {$cs_version};
 $info['core']           = {$core};
 

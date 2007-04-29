@@ -253,9 +253,9 @@
             <tr><td><strong>{translate}Foldername:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][folder_name]" value="{$wert.folder_name|escape:"html"}"></td></tr>
             <tr><td><strong>{translate}Classname:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][class_name]" value="{$wert.class_name|escape:"html"}"></td></tr>
             <tr><td><strong>{translate}Imagename:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][image_name]" value="{$wert.image_name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][version]" value="{$wert.version|escape:"html"}"></td></tr>
+            <tr><td><strong>{translate}Module Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][module_version]" value="{$wert.module_version|escape:"html"}"></td></tr>
             <tr><td><strong>{translate}Subs:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][subs]" value="{$wert.subs|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}CS Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][cs_version]" value="{$wert.cs_version|escape:"html"}"></td></tr>
+            <tr><td><strong>{translate}Clansuite Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][clansuite_version]" value="{$wert.clansuite_version|escape:"html"}"></td></tr>
             <tr><td><strong>{translate}Enabled?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][enabled]" value="1"></td></tr>
             <tr><td><strong>{translate}Core?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][core]" value="1"></td></tr>
             <tr><td><strong>{translate}Add?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][add]" value="1" checked></td></tr>

@@ -214,7 +214,7 @@ class module_admin_modules
                                         'Homepage'      => 'homepage' );
 
         $container['more'] = array( 'Name'          => 'name',
-                                    'Version'       => 'version',
+                                    'Moduleversion' => 'module_version',
                                     'License'       => 'license',
                                     'Copyright'     => 'copyright',
                                     'Foldername'    => 'folder_name',
@@ -289,8 +289,8 @@ class module_admin_modules
                                 'folder_name',
                                 'enabled',
                                 'image_name',
-                                'version',
-                                'cs_version',
+                                'module_version',
+                                'clansuite_version',
                                 'core');
 
             // check if $modules_dbfield exists in $whitelist
@@ -543,8 +543,8 @@ class module_admin_modules
             $tpl->assign( 'file_name'           , $name . '.module.php' );
             $tpl->assign( 'folder_name'         , $name );
             $tpl->assign( 'image_name'          , $image_name );
-            $tpl->assign( 'version'             , (float) 0.1 );
-            $tpl->assign( 'cs_version'          , $cfg->version );
+            $tpl->assign( 'module_version'      , (float) 0.1 );
+            $tpl->assign( 'clansuite_version'   , $cfg->version );
             $tpl->assign( 'core'                , $core );
             $tpl->assign( 'subs'                , serialize( array(  'admin' => array( $name . '.admin.php',
                                                                                        'module_' . $name . '_admin' )
@@ -640,7 +640,7 @@ class module_admin_modules
                         file_put_contents ( ROOT_MOD . '/' . $name . '/' . $name . '.config.php', $cfg_class );
 
                         $qry  = 'INSERT INTO `' . DB_PREFIX . 'modules`';
-                        $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `version`=?, `cs_version`=?, `core`=?';
+                        $qry .= ' SET `author`=?, `homepage`=?, `license`=?, `copyright`=?, `name`=?, `title`=?, `description`=?, `class_name`=?, `file_name`=?, `folder_name`=?, `enabled`=?, `image_name`=?, `module_version`=?, `clansuite_version`=?, `core`=?';
 
                         $stmt = $db->prepare( $qry );
                         $stmt->execute( array ( $author,
@@ -821,8 +821,8 @@ class module_admin_modules
                 $tpl->assign( 'file_name'   , $res['file_name'] );
                 $tpl->assign( 'folder_name' , $res['folder_name'] );
                 $tpl->assign( 'image_name'  , $res['image_name'] );
-                $tpl->assign( 'version'     , $res['version'] );
-                $tpl->assign( 'cs_version'  , $cfg->version );
+                $tpl->assign( 'module_version'     , $res['module_version'] );
+                $tpl->assign( 'clansuite_version'  , $cfg->version );
                 $tpl->assign( 'core'        , $res['core'] );
                 $tpl->assign( 'admin_menu'  , serialize($exported_menu) );
 
@@ -1448,8 +1448,8 @@ class module_admin_modules
                                 $tpl->assign( 'file_name'   , $arr['file'] );
                                 $tpl->assign( 'folder_name' , $info[$value['module_id']]['folder_name'] );
                                 $tpl->assign( 'image_name'  , $info[$value['module_id']]['image_name'] );
-                                $tpl->assign( 'version'     , $info[$value['module_id']]['version'] );
-                                $tpl->assign( 'cs_version'  , $cfg->version );
+                                $tpl->assign( 'module_version'     , $info[$value['module_id']]['module_version'] );
+                                $tpl->assign( 'clansuite_version'  , $cfg->version );
 
                                 $tpl->register_outputfilter( array ( &$functions, 'remove_tpl_comments' ) );
 
@@ -1483,7 +1483,7 @@ class module_admin_modules
                     $e = in_array( $value['module_id'], $enabled  ) ? 1 : 0;
                     $sets = 'author = ?, homepage = ?, license = ?, copyright = ?,';
                     $sets .= 'folder_name = ?, class_name = ?, file_name = ?, description = ?,';
-                    $sets .= 'name = ?, title = ?, image_name = ?, version = ?, cs_version = ?, enabled = ?';
+                    $sets .= 'name = ?, title = ?, image_name = ?, module_version = ?, clansuite_version = ?, enabled = ?';
                     $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'modules
                                            SET ' . $sets . '
                                            WHERE module_id = ?' );
