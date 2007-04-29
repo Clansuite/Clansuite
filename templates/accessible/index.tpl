@@ -66,12 +66,32 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		<h3>{translate}Statistics{/translate}</h3>
 		<ul id="counter">
 			<li>
-				<strong>Online:</strong>{* {$stats|@var_dump} *} {$stats.online}
+				<strong>Online:</strong>{* {$stats|@var_dump}  *} {$stats.online}
 				<ul>
 					<li><strong>Users:</strong> {$stats.authed_users}</li>
 					<li><strong>Guests:</strong> {$stats.guest_users}</li>
 				</ul>
 			</li>
+			<hr />	
+			<li>
+			    <strong>Who's online?:</strong> 
+			   
+			    {if $stats.authed_users > 1}
+			    <p>
+        			    {foreach item=who from=$stats.whoisonline}
+        			    
+        			    <a href="index.php?={$who.user_id}">{$who.nick} @ {$who.session_where}</a>
+        			    <br/>
+        			    {/foreach}
+        	    </p>
+			    {else}
+			    <p>
+			            <a href="index.php?={$stats.whoisonline.user_id}">{$stats.whoisonline.nick}</a> @ {$stats.whoisonline.session_where}
+			    <p/>
+			    {/if}
+			   
+			</li>
+			<hr />
 			<li><strong>Today:</strong> {$stats.today_impressions}</li>
 			<li><strong>Yesterday:</strong> {$stats.yesterday_impressions}</li>
 			<li><strong>Month:</strong> {$stats.month_impressions}</li>
