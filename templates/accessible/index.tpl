@@ -71,27 +71,19 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 					<li><strong>Users:</strong> {$stats.authed_users}</li>
 					<li><strong>Guests:</strong> {$stats.guest_users}</li>
 				</ul>
+				<strong>Who's online?</strong>
+				{if $stats.authed_users > 1}
+				<ul>
+					{foreach item=who from=$stats.whoisonline}
+					<li><a href="index.php?={$who.user_id}">{$who.nick} @ {$who.session_where}</a></li>
+					{/foreach}
+				</ul>
+				{elseif $stats.authed_users == 1}
+				<ul>
+					<li><a href="index.php?={$stats.whoisonline.0.user_id}">{$stats.whoisonline.0.nick}</a> @ {$stats.whoisonline.0.session_where}</li>
+				</ul>
+				{/if}
 			</li>
-			<hr />	
-			<li>
-			    <strong>Who's online?:</strong> 
-			   
-			    {if $stats.authed_users > 1}
-			    <p>
-        			    {foreach item=who from=$stats.whoisonline}
-        			    
-        			    <a href="index.php?={$who.user_id}">{$who.nick} @ {$who.session_where}</a>
-        			    <br/>
-        			    {/foreach}
-        	    </p>
-			    {elseif $stats.authed_users == 1}
-			    <p>
-			            <a href="index.php?={$stats.whoisonline.0.user_id}">{$stats.whoisonline.0.nick}</a> @ {$stats.whoisonline.0.session_where}
-			    <p/>
-			    {/if}
-			   
-			</li>
-			<hr />
 			<li><strong>Today:</strong> {$stats.today_impressions}</li>
 			<li><strong>Yesterday:</strong> {$stats.yesterday_impressions}</li>
 			<li><strong>Month:</strong> {$stats.month_impressions}</li>
