@@ -96,6 +96,18 @@ class statistics
         $stats['guest_users'] = $stats['online'] - $stats['authed_users'];
 
         /**
+         * Who is online?
+         * Select Session's IDS and Nicks for USERID > 0 (no guests) BUT not hidden ones
+         */
+        $stmt = $db->prepare( 'SELECT table1.user_id, table1.session_where, 
+                                      table2.nick
+                               FROM ' . DB_PREFIX .'session AS table1
+                               LEFT JOIN ' . DB_PREFIX .'users AS table2 ON table1.user_id = table2.user_id 
+                               WHERE table1.user_id != 0 AND table1.session_visibility = 1' );
+        $stmt->execute();
+        $stats['whoisonline'] = $stmt->fetchALL(PDO::FETCH_ASSOC);
+        
+        /**
          * Assign $stats Array
          */
 
