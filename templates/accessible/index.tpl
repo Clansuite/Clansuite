@@ -84,7 +84,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
         			    <br/>
         			    {/foreach}
         	    </p>
-			    {else}
+			    {elseif $stats.authed_users == 1}
 			    <p>
 			            <a href="index.php?={$stats.whoisonline.user_id}">{$stats.whoisonline.nick}</a> @ {$stats.whoisonline.session_where}
 			    <p/>
