@@ -144,6 +144,7 @@ require(ROOT_CORE . '/db.class.php');
 require(ROOT_CORE . '/stats.class.php');
 require(ROOT_CORE . '/permissions.class.php');
 require(ROOT_CORE . '/trail.class.php');
+require(ROOT_CORE . '/openid.class.php');
 
 // Create objects out of classes
 $tpl        = new Render_SmartyDoc; # Template
@@ -159,6 +160,7 @@ $users      = new users;            # Users
 $stats      = new statistics;       # Statistics
 $perms      = new permissions;      # Permissions
 $trail      = new trail;            # Trail/Breadcrumb
+#$openid     = new openid;           # OpenID Authentication
 
 /**
  *  ============================================
