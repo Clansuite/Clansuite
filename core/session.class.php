@@ -461,7 +461,7 @@ class session
 
     function session_control()
     {
-        global $functions, $lang;
+        global $functions, $lang, $tpl;
 
         /**
          *  Delete not activated users after 3 days
@@ -491,6 +491,16 @@ class session
                 $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );
             }
         }
+        
+        /**
+         *  Assign Session Time Values for Session Countdown
+         */
+        $expire_seconds = $this->session_expire_time * 60;
+        $time = time();
+        $expiretime = $time + $expire_seconds;
+        
+        $tpl->assign('SessionCurrentTime', $time);
+        $tpl->assign('SessionExpireTime', $expiretime);
     }
 }
 ?>
