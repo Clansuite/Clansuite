@@ -37,7 +37,17 @@
 table { width: 99%; }
 </style>
 <![endif]-->
+<style type="text/css">
+.special { background-color: #000; color: #fff; }
+.calendar .inf { font-size: 80%; color: #444; }
+  .calendar .wn { font-weight: bold; vertical-align: top; }
+table { width: 99%; }
+</style>
 {/literal}
+
+<script type="text/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"></script>
+<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js"></script>
+
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
@@ -63,7 +73,138 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <div id="box">
 	<div id="left">
 		{mod name="account" func="login"}
-	</div>
+		<br />
+		<h3>{translate}Calendar{/translate}</h3>
+		{dhtml_calendar_init src="`$www_root_tpl_core`/javascript/jscalendar/calendar.js" 
+                             setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js" 
+                             lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js" 
+                             css="`$www_root_tpl_core`/javascript/jscalendar/calendar-win2k-1.css"}
+		
+		<div style="float: right; margin-top: 5px; margin-bottom: 1em; margin-right: 5px;" id="calendar-container"></div>
+		
+        <div id="dateInfotext">dateInfotext</div>
+		<div id="dateinfo-div">dateinfo-div</div>
+		  {literal} 
+    		<script type="application/javascript">
+              // define the initial dateInfo array:
+              var dateInfo = {
+                "20070508" : "Mishoo's&nbsp;birthday",
+                "20070510" : "foo2341234",
+                "20070511" : "bar2341234",
+                "20070518" : "25$412341234",
+                "20070524" : "60$1234123",
+                "20070624" : "60$1234123"
+              };
+            </script>  
+		
+            <script type="application/javascript">
+            	  
+            	  // get new dateInfos from database via ajax
+            	  function getdateInfos(date)
+            	  {
+            	    // ok, now get the new data if month changed!
+                    var y = date.getFullYear();
+                    var m = date.getMonth();     // integer, 0..11
+                  
+           	        var url = 'index.php?mod=calendar&action=ajax_getdateinfos';
+                    var pars = 'year=' + y + '&month=' + m;
+                    var myAjax = new Ajax.Request(url,
+                    {method: 'get', parameters: pars, onComplete: getResponse});
+                  }
+            	  
+            	  // output dateInfo to id="dateInfo-output"
+            	  function getResponse(oReq, oJSN)
+            	  {
+                        var data = eval(oReq.responseText);
+                        $('dateinfo-div').innerHTML = '';
+                        //populate the list
+                        for (var i = 0; i < data.length; i++) 
+                        {
+                            $('dateInfo-output').innerHTML += data[i]+', ';
+                        }
+                    }
+                  
+                  
+                  // output Date + Infotext to separte field
+                  // to the day-field 
+                  // or to an tooltip
+                  function outputDateandInfotext(calendar) 
+                  {
+                    var preview = document.getElementById("dateInfotext");
+                    if (preview) {
+                      preview.innerHTML = calendar.date.print('%a, %b %d, %Y');
+                    }
+                  } 
+                      
+                	  
+            	   // jscalendar-params[dateText] 
+                   // this is called for every day (d) to assign a Text 
+                   // if d == 1 call ajax update for new dateInfo-array
+                   function getDateText(date, d) 
+                   { 
+                     // ajax call 
+                     if (d == 1) 
+                     {
+                       getdateInfos(date);
+                      
+                     }                 
+                    
+                    // assign text to all day divs  
+                    var inf = dateInfo[date.print("%Y%m%d")];
+                    if (!inf) {
+                      return d + "<div class='inf'>&nbsp;</div>";
+                    } else {
+                      return d + "<div class='inf'>" + inf +"</div>";
+                    }
+                              
+                   };
+             	  
+             	  function flatCallback(calendar)
+             	  {
+             	    if (calendar.dateClicked) {
+             	      outputDateandInfotext(calendar);
+             	    
+             	      // windows.status changer
+             	      window.status = "Selected: " + calendar.date;
+             	      var inf = dateInfo[calendar.date.print("%Y%m%d")];
+             	      if (inf) {
+            	        window.status += ".  Additional info: " + inf;
+             	      }
+             	    }
+             	  };
+             	  
+             	  function dateIsSpecial(year, month, day) {
+                    var combined = year + month + day;
+                    var m = dateInfo[year+month+day];
+                    if (m == undefined) { return false; } else { return true; }
+                  };
+             	  
+             	  // function to mark a Day as Special
+                  // .special in css needed
+                  function ourDateStatusFunc(date, y, m, d) 
+                  {
+                    if (dateIsSpecial(y, m, d))
+                    {
+                    return "special";
+                    }
+                    else
+                    {
+                    return false;
+                    }  
+                              
+                  }; 
+              
+            </script>
+        {/literal}
+	
+		{dhtml_calendar flat="calendar-container" 
+		                dateText=getDateText 
+		                flatCallback=flatCallback 
+		              
+		                firstDay="1"}  
+        
+		</div>
+		
 	<div id="right">
 		{mod name="shoutbox" func="show"}
 		<h3>{translate}Statistics{/translate}</h3>
