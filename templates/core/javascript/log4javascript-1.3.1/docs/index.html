@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>log4javascript documentation</title>
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+		<meta name="author" content="Tim Down - tim@timdown.co.uk" />
+		<meta name="description" content="log4javascript, a logging framework for JavaScript based on log4j" />
+		<meta name="robots" content="all" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="../main.css" title="Default" />
+	</head>
+	<body>
+		<div id="container" class="nonav">
+			<div id="header">
+				<h1>log4javascript</h1>
+			</div>
+			<div id="content">
+				<div id="nav">
+					<span class="navitem">docs</span>
+					| <a class="navitem" href="quickstart.html">quick start</a>
+					| <a class="navitem" href="manual.html">manual</a>
+					| <a class="navitem" href="../demos/basic.html">basic demo</a>
+					| <a class="navitem" href="../demos/full.html">full demo</a>
+					| <a class="navitem" href="http://www.timdown.co.uk/log4javascript" target="_blank">website</a>
+				</div>
+				<h1>log4javascript documentation</h1>
+				<div id="links">
+					<h2>Links</h2>
+					<ul>
+						<li><a href="quickstart.html">Quick start</a></li>
+						<li><a href="manual.html">log4javascript manual</a></li>
+						<li><a href="../demos/basic.html">Basic demo</a></li>
+						<li><a href="../demos/full.html">Full demo</a></li>
+					</ul>
+				</div>
+				<div id="contents">
+					<h2>Contents</h2>
+					<ul>
+						<li><a href="#whatitis">What it is</a></li>
+						<li><a href="#whofor">Who it's for</a></li>
+						<li><a href="#features">Features</a></li>
+						<li><a href="#browsers">Browser support</a></li>
+						<li><a href="#licence">Licence</a></li>
+						<li><a href="#furtherreading">Further reading</a></li>
+					</ul>
+				</div>
+				<div id="whatitis">
+					<h2>What it is</h2>
+					<p>
+						log4javascript is a JavaScript logging framework based on the Java
+						logging framework <a href="http://logging.apache.org/log4j/docs/index.html"
+						title="log4j home page (opens in new window)" target="_blank">log4j</a>. 
+					</p>
+					<p>
+						log4javascript implements a subset of log4j (primarily appenders
+						and layouts) and has a few convenience methods of its own for
+						quick JavaScript development. It can be used to debug JavaScript
+						applications of all sizes, including Ajax applications.
+					</p>
+					<p>
+						If you just want to start using it, try the <a href="quickstart.html">quickstart
+						tutorial</a>.
+					</p>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+				
+				<div id="whofor">
+					<h2>Who it's for</h2>
+					<p>
+						log4javascript is aimed at JavaScript developers.
+					</p>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+				<div id="features">
+					<h2>Features</h2>
+					<ul>
+						<li>can be initialized with one JavaScript include and one line of code;</li>
+						<li>
+							by default logs to a pop-up console window with powerful search (including
+							regular expression) and filtering features. This console window can also
+							be used inline as an iframe in the main page;
+						</li>
+						<li>
+							can send log messages to the server via HTTP (Ajax, if you like);
+						</li>
+						<li>
+							highly configurable using familiar methods from log4j, including the
+							powerful <code><a href="manual.html#patternlayout">PatternLayout</a></code>
+							which gives the developer complete control over the format of the log messages.
+						</li>
+					</ul>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+				<div id="browsers">
+					<h2>Browser support</h2>
+					<h3>Fully supported browsers:</h3>
+					<ul>
+						<li>All versions Firefox back to 0.6</li>
+						<li>Other Mozilla-based browsers, as far back as Netscape 7</li>
+						<li>Internet Explorer 5 and higher for Windows</li>
+						<li>Safari 1.3 and higher (untested on earlier versions)</li>
+						<li>Opera 8.01 and higher (pre- version 9 browsers have a rendering
+							bug related to scrolling that affects searching in PopUpAppender and InPageAppender)</li>
+						<li>Konqueror 3.4.3 and higher (untested on earlier versions)</li>
+					</ul>
+					<h3>Partially supported browsers:</h3>
+					<ul>
+						<li>Older Mozilla-based browsers, e.g. Netscape 6.2 (generally OK except for
+							display problems searching and filtering PopUpAppender and InPageAppender)</li>
+						<li>Opera 7.0 - 8.0 (InPageAppender not supported until version 7.5, plus some display
+							problems searching PopUpAppender and InPageAppender. AjaxAppender not supported at all)</li>
+					</ul>
+					<h3>Unsupported browsers:</h3>
+					<ul>
+						<li>
+							Internet Explorer for Mac. I have no plans to make log4javascript work
+							in this browser.
+						</li>
+					</ul>
+					<p>
+						I would welcome any information about whether log4javascript works in other browsers
+						(particularly Safari prior to version 1.3 and Konqueror prior to version 3.4.3).
+					</p>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+				<div id="licence">
+					<h2>Licence</h2>
+					<p>
+						log4javascript is licenced under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html"
+							title="Apache License, Version 2.0 (opens in new window)" target="_blank">Apache License,
+						Version 2.0</a>. The Apache website has <a href="http://www.apache.org/foundation/licence-FAQ.html#WhatDoesItMEAN"
+							title="View licence (opens in new window)" target="_blank">more details</a>.
+					</p>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+				<div id="furtherreading">
+					<h2>Further reading</h2>
+					<p>
+						In order to gain an understanding of the ideas behind log4j and therefore log4javascript,
+						I highly recommend reading the <a href="http://logging.apache.org/log4j/docs/manual.html">short
+						introduction to log4j</a> from the log4j website. log4javascript borrows heavily from
+						log4j, <strong>but does differ in some key aspects</strong>, principally in the
+						implementation of <code>Logger</code>.
+					</p>
+					<p>
+						<a href="manual.html">The full log4javascript manual</a>
+					</p>
+					<p class="linktotop">
+						<a href="#container">Top</a>
+					</p>
+				</div>
+			</div>
+			<div id="footer">
+				<span class="externallinkinfo">
+					<strong>NB.</strong> All external links open in a new window.
+				</span>
+				Written by Tim Down. <a href="mailto:tim@timdown.co.uk">tim@timdown.co.uk</a>
+				<br />
+				log4javascript is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html"
+					title="Apache License, Version 2.0 (opens in new window)" target="_blank">Apache License,
+					Version 2.0</a>
+	
+			</div>
+		</div>
+	
+	</body>
+</html>
