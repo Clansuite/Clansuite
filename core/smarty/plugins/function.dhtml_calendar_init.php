@@ -34,7 +34,7 @@ function smarty_function_dhtml_calendar_init($params, &$smarty)
 
         if( array_key_exists( $field, $params ) ) {
             $$_field = ( empty( $params[$field] ) )
-                ? $default 
+                ? $default
                 : $params[$field];
 
         } else {
@@ -43,10 +43,10 @@ function smarty_function_dhtml_calendar_init($params, &$smarty)
     }
 
 $_out = <<<EOF
-    <link rel="stylesheet" type="text/css" media="all" href="{$_css}">
-    <script src="{$_src}"></script>
-    <script src="{$_lang}"></script>
-    <script src="{$_setup_src}"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="{$_css}" />
+    <script type="text/javascript" src="{$_src}"></script>
+    <script type="text/javascript" src="{$_lang}"></script>
+    <script type="text/javascript" src="{$_setup_src}"></script>
 EOF;
 
     return( $_out );

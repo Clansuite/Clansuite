@@ -1,4 +1,4 @@
-{"begin"|timemarker:"Rendertime:"} 
+{"begin"|timemarker:"Rendertime:"}
 
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 {* everything in doc_raw is moved "as is" to header *}
@@ -31,6 +31,10 @@
 
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script src="{$javascript}" type="text/javascript"></script>
+{dhtml_calendar_init src="`$www_root_tpl_core`/javascript/jscalendar/calendar.js"
+					 setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js"
+					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
+					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-win2k-1.css"}
 {literal}
 <!--[if lte IE 6]>
 <style type="text/css">
@@ -75,16 +79,12 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 		{mod name="account" func="login"}
 		<br />
 		<h3>{translate}Calendar{/translate}</h3>
-		{dhtml_calendar_init src="`$www_root_tpl_core`/javascript/jscalendar/calendar.js" 
-                             setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js" 
-                             lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js" 
-                             css="`$www_root_tpl_core`/javascript/jscalendar/calendar-win2k-1.css"}
-		
+
 		<div style="float: right; margin-top: 5px; margin-bottom: 1em; margin-right: 5px;" id="calendar-container"></div>
-		
+
         <div id="dateInfotext">dateInfotext</div>
 		<div id="dateinfo-div">dateinfo-div</div>
-		  {literal} 
+		  {literal}
     		<script type="application/javascript">
               // define the initial dateInfo array:
               var dateInfo = {
@@ -95,75 +95,75 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                 "20070524" : "60$1234123",
                 "20070624" : "60$1234123"
               };
-            </script>  
-		
+            </script>
+
             <script type="application/javascript">
-            	  
+                  // <![CDATA[
             	  // get new dateInfos from database via ajax
             	  function getdateInfos(date)
             	  {
             	    // ok, now get the new data if month changed!
                     var y = date.getFullYear();
                     var m = date.getMonth();     // integer, 0..11
-                  
-           	        var url = 'index.php?mod=calendar&action=ajax_getdateinfos';
+
+           	        var url = 'index.php?mod=calendar&amp;action=ajax_getdateinfos';
                     var pars = 'year=' + y + '&month=' + m;
                     var myAjax = new Ajax.Request(url,
                     {method: 'get', parameters: pars, onComplete: getResponse});
                   }
-            	  
+
             	  // output dateInfo to id="dateInfo-output"
             	  function getResponse(oReq, oJSN)
             	  {
                         var data = eval(oReq.responseText);
                         $('dateinfo-div').innerHTML = '';
                         //populate the list
-                        for (var i = 0; i < data.length; i++) 
+                        for (var i = 0; i < data.length; i++)
                         {
                             $('dateInfo-output').innerHTML += data[i]+', ';
                         }
                     }
-                  
-                  
+
+
                   // output Date + Infotext to separte field
-                  // to the day-field 
+                  // to the day-field
                   // or to an tooltip
-                  function outputDateandInfotext(calendar) 
+                  function outputDateandInfotext(calendar)
                   {
                     var preview = document.getElementById("dateInfotext");
                     if (preview) {
                       preview.innerHTML = calendar.date.print('%a, %b %d, %Y');
                     }
-                  } 
-                      
-                	  
-            	   // jscalendar-params[dateText] 
-                   // this is called for every day (d) to assign a Text 
+                  }
+
+
+            	   // jscalendar-params[dateText]
+                   // this is called for every day (d) to assign a Text
                    // if d == 1 call ajax update for new dateInfo-array
-                   function getDateText(date, d) 
-                   { 
-                     // ajax call 
-                     if (d == 1) 
+                   function getDateText(date, d)
+                   {
+                     // ajax call
+                     if (d == 1)
                      {
                        getdateInfos(date);
-                      
-                     }                 
-                    
-                    // assign text to all day divs  
+
+                     }
+
+                    // assign text to all day divs
                     var inf = dateInfo[date.print("%Y%m%d")];
                     if (!inf) {
-                      return d + "<div class='inf'>&nbsp;</div>";
+                      return d + "<div class='inf'>&nbsp;<\/div>";
                     } else {
-                      return d + "<div class='inf'>" + inf +"</div>";
+                      return d + "<div class='inf'>" + inf +"<\/div>";
                     }
-                              
+
                    };
-             	  
+
              	  function flatCallback(calendar)
              	  {
              	    if (calendar.dateClicked) {
              	      outputDateandInfotext(calendar);
-             	    
+
              	      // windows.status changer
              	      window.status = "Selected: " + calendar.date;
              	      var inf = dateInfo[calendar.date.print("%Y%m%d")];
@@ -172,16 +172,16 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
              	      }
              	    }
              	  };
-             	  
+
              	  function dateIsSpecial(year, month, day) {
                     var combined = year + month + day;
                     var m = dateInfo[year+month+day];
                     if (m == undefined) { return false; } else { return true; }
                   };
-             	  
+
              	  // function to mark a Day as Special
                   // .special in css needed
-                  function ourDateStatusFunc(date, y, m, d) 
+                  function ourDateStatusFunc(date, y, m, d)
                   {
                     if (dateIsSpecial(y, m, d))
                     {
@@ -190,21 +190,17 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
                     else
                     {
                     return false;
-                    }  
-                              
-                  }; 
-              
+                    }
+
+                  };
+                  // ]]>
             </script>
         {/literal}
-	
-		{dhtml_calendar flat="calendar-container" 
-		                dateText=getDateText 
-		                flatCallback=flatCallback 
-		              
-		                firstDay="1"}  
-        
+		{dhtml_calendar flat="calendar-container"
+		                dateText=getDateText
+		                flatCallback=flatCallback
+		                firstDay="1"}
 		</div>
-		
 	<div id="right">
 		{mod name="shoutbox" func="show"}
 		<h3>{translate}Statistics{/translate}</h3>
@@ -243,7 +239,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
 	{$copyright}<br />
 	Theme: {* {$theme-copyright} *}
-	<br/> 
+	<br/>
 	{include file='server_stats.tpl'}
 </div>
 {* Ajax Notification *}

@@ -204,8 +204,8 @@ function smarty_function_dhtml_calendar($params, &$smarty)
 
     foreach( $requires as $field=>$type ) {
 
-        if( array_key_exists( $field, $params ) 
-            && !empty( $params[$field] ) 
+        if( array_key_exists( $field, $params )
+            && !empty( $params[$field] )
         ) {
             $_params[$field] = $params[$field];
         }
@@ -220,7 +220,7 @@ function smarty_function_dhtml_calendar($params, &$smarty)
     foreach( $allowed as $field=>$type ) {
 
         if( array_key_exists( $field, $params )
-            && isset( $params[$field] ) 
+            && isset( $params[$field] )
         ) {
             $_params[$field] = $params[$field];
         }
@@ -239,7 +239,7 @@ function smarty_function_dhtml_calendar($params, &$smarty)
 
         if( is_bool( $value ) ) {
             $value = ( $value )
-                ? 'true' 
+                ? 'true'
                 : 'false';
 
         } elseif( !is_numeric( $value )
@@ -248,14 +248,14 @@ function smarty_function_dhtml_calendar($params, &$smarty)
             if( is_string( $value ) ) {
                 $value = explode( ',', $value );
             }
-            
+
             if( is_array( $value ) ) {
                 $_values = '';
                 $val_count = count( $value );
-    
+
                 for( $i=0; $i < $val_count; $i++ ) {
                     $_values .= $value[$i];
-                    
+
                     if( ( $i + 1 ) != $val_count ) {
                         $_values .= ',';
                     }
@@ -275,11 +275,11 @@ function smarty_function_dhtml_calendar($params, &$smarty)
         $_params_out .= '"' . $field . '":' . $value;
     }
 
-    return( 
-        "\n<script>\n/* <![CDATA[ */\n"
+    return(
+        "\n<script type=\"text/javascript\">\n// <![CDATA[\n"
         .'Calendar.setup({'
         . $_params_out
         . '});'
-        . "\n/* ]]> */\n</script>\n"
+        . "\n// ]]>\n</script>\n"
     );
 }
