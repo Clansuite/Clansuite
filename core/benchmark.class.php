@@ -106,11 +106,14 @@ class benchmark
             case 'list':
             
                             $o = 'Timemarkers History: ';
-                            foreach ($_timer_history as $mark) 
+                            if(isset($_timer_history) && !empty($_timer_history))
                             {
-                                $o .= $mark[2] . " \n";
+                                foreach ($_timer_history as $mark) 
+                                {
+                                    $o .= $mark[2] . " \n";
+                                }
+                                echo $o;
                             }
-                            echo $o;
                             break;
     
             case 'stop':
