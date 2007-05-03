@@ -116,6 +116,19 @@ define('DB_PREFIX'  , $cfg->db_prefix);
 define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
 define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
+/**
+ *  DATABASE
+ *  - require db.class.php
+ *  - Create DB Object 
+ *  - Connect to DB
+ *  
+ *  Why is this located here? 
+ *  Because we do not want functions to be executed between get of $cfg array and the unset of $cfg-db_password
+ */
+require(ROOT_CORE . '/db.class.php');
+$db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", $cfg->db_username, $cfg->db_password, array() );
+unset($cfg->db_password); # unset db_password, because we are really really paranoid
+
 // Little late but setup the benchmarking and a execution-timemarker
 include_once(ROOT_CORE . '/benchmark.class.php'); 
 benchmark::timemarker('begin', 'Exectime:');
@@ -130,7 +143,7 @@ DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
  */
 require(ROOT_CORE . '/smarty/Smarty.class.php');
 require(ROOT_CORE . '/smarty/Render_SmartyDoc.class.php');
-//require(ROOT_CORE . '/smarty/SmartyDoc2.class.php5'); // note by vain: leave here, needed for plugin dev purposes
+//require(ROOT_CORE . '/smarty/SmartyDoc2.class.php5'); // note by vain: leave here, needed for smarty plugin dev purposes
 require(ROOT_CORE . '/session.class.php');
 require(ROOT_CORE . '/input.class.php');
 require(ROOT_CORE . '/language.class.php');
@@ -140,11 +153,10 @@ require(ROOT_CORE . '/modules.class.php');
 require(ROOT_CORE . '/functions.class.php');
 require(ROOT_CORE . '/security.class.php');
 require(ROOT_CORE . '/users.class.php');
-require(ROOT_CORE . '/db.class.php');
 require(ROOT_CORE . '/stats.class.php');
 require(ROOT_CORE . '/permissions.class.php');
 require(ROOT_CORE . '/trail.class.php');
-require(ROOT_CORE . '/openid.class.php');
+//require(ROOT_CORE . '/openid.class.php'); // note by vain: leave here, needed for openid dev purposes
 
 // Create objects out of classes
 $tpl        = new Render_SmartyDoc; # Template
@@ -197,9 +209,6 @@ $tpl->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
 date_default_timezone_set('Europe/Berlin');
 
-// Create DB Object and connect to DB
-$db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", $cfg->db_username, $cfg->db_password, array() );
-
 // Do all needed build functions to generate valid PHP output, input, throughput and ... put put put
 $input->fix_magic_quotes();         # Revert magic_quotes() if still enabled
 $input->cleanup_request();          # Clean $_REQUEST input from violent code
@@ -235,7 +244,7 @@ if($cfg->themeswitch_via_url == 1)
     }
 }
 
-// Set template dir to choosen theme and assign the path
+// Set template dir again, this time to the choosen session theme and assign the path accordingly
 $tpl->template_dir = array( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/', ROOT_TPL . '/core/' ) ;
 $tpl->assign('www_root_tpl', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] );
 
@@ -276,8 +285,10 @@ if(isset($_GET['lang']) && !empty($_GET['lang']) )
  */
 
 /**
+ * Set X-Powered-By Header to Identify Clansuite
  * Set our Content-Type to UTF-8 encoding
  */
+header('X-Powered-By: Clansuite - just an eSport CMS/'.$cfg->version.' (www.clansuite.com)' , false);
 header('Content-Type: text/html; charset=UTF-8');
 
 /*
@@ -332,7 +343,7 @@ if( $cfg->modules[$_REQUEST['mod']]['enabled'] == 1 )
 }
 else
 {
-    $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('This module has been disabled.') );
+    $functions->redirect('index.php', 'metatag|newsite', 5, $lang->t('Module is not avaiable.') );
 }
 
 /**
