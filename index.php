@@ -27,7 +27,7 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005-$Date$), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -288,7 +288,7 @@ if(isset($_GET['lang']) && !empty($_GET['lang']) )
  * Set X-Powered-By Header to Identify Clansuite
  * Set our Content-Type to UTF-8 encoding
  */
-header('X-Powered-By: Clansuite - just an eSport CMS/'.$cfg->version.' (www.clansuite.com)' , false);
+header('X-Powered-By: [ Clansuite - just an eSport CMS ] [ Version : '.$cfg->version.' ] [ www.clansuite.com ]' , false);
 header('Content-Type: text/html; charset=UTF-8');
 
 /*
