@@ -49,8 +49,8 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
  *
  * Description:  Calendar with Eventmanagement
  *
- * @author     Jens Andre Koch
- * @copyright  jak
+ * @author     Jens-Andre Koch
+ * @copyright  Jens-Andre Koch, 2005-2007
  * @link       http://www.clansuite.com
  * @since      Class available since Release 0.1
  *
@@ -132,45 +132,134 @@ class module_calendar
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
 
+        // whatever happens -> suppress the mainframe
+        $this->suppress_wrapper = true;
+
+        // get input values month and year       
         $month = (int) $_GET['month'];
         $year  = (int) $_GET['year'];
 
-        // jscalendar uses month=0=januar, so we have to increase month++
-        $month++;
+        /**
+         *  jscalendar uses month=0=januar, so we have to increase month++
+         *  this is now handled in javascript
+         */
+        // $month++;
 
-        // get calendardata from db
-        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'calendar WHERE year = ? AND month = ?');
+        // get calendardata by month and year from db
+        $stmt = $db->prepare('SELECT * FROM '. DB_PREFIX .'calendar WHERE year = ? AND month = ? ORDER BY day ASC');
         $stmt->execute( array ( $year, $month ) );
         $caldata = $stmt->fetchAll(PDO::FETCH_NAMED);
-    
+        #var_dump($caldata);
+       
+        /**
+         * Reconstruct the Array 
+         *
+         * 1. combined date
+         * 2. eventindex
+         * 3. data for eventindex
+         *
+         * [yearmonthday][id] = array([eventname][description][link])        
+         *
+         * That will look like:
+         *
+         * array
+         *   20070419 => 
+         *       array
+         *        1 => 
+         *           array
+         *             'eventname' => string 'birthday' (length=6)
+         *             'description' => string 'birthday' (length=5)
+         *             'link' => string 'birthday' (length=6)
+         *         2 => 
+         *           array
+         *             'eventname' => string 'going to a party' (length=16)
+         *             'description' => string 'going to a party' (length=18)
+         *             'link' => string 'going to a party' (length=16)
+         *
+         *
+         *
+         * @todo: check if the array reconstuction/reassignments could be optimized!
+         */
         for($x=0;$x<count($caldata);$x++){
-           
+        
+            // add the missing zero to month
             if ($caldata[$x][month] < 10) { $caldata[$x][month] = '0'.$caldata[$x][month]; }
             
-            $dateInfo[$caldata[$x][year]][$caldata[$x][month]][$caldata[$x][day]] = $caldata[$x][eventname];
-        }
-   
-        if(is_array($dateInfo))
-        {   
-            // create a new instance of Services_JSON
-            require_once( ROOT_CORE . '/json/JSON.php');
-            $json = new Services_JSON();
+            // combine the date y+m+d
+            $combined_date = $caldata[$x][year].$caldata[$x][month].$caldata[$x][day];
+        
+            // count if there are elements in this array?
+            // if so, increase the index (i) for the subarray 
+            // else no subelements (subarray of combined_date=0) present and set $i to 1 for first entry
+            if ( count($restructured_caldata[$combined_date]) > 0 )
+            {
+             $i++;  
+            }
+            else
+            {
+             $i = 1;
+            }
             
-            // convert a complex value to JSON notation
-            $value = array(1, 2, 'foo');
-            $dataInfo = $json->encode($caldata);
-            print_r($dataInfo);
-   
-            // 5.2 json_encode :) not avaiable 
-            //$json_dateInfos = json_encode($dateInfo);
-
-        // suppress mainframe
-        $this->suppress_wrapper = true;
-
-        return $dateInfo;
-        }
+            // datas for event from $caldata[$x]
+            $infos = array( 'eventname'      => $caldata[$x][eventname],
+                            'description'    => $caldata[$x][description],
+                            'link'           => $caldata[$x][link]
+                           );
+            
+            // Finally stick all 3 parts together
+            // 1. pos is combined date
+            // 2. pos is subarray id $i
+            // 3. assign $infos 
+            $restructured_caldata[$combined_date][$i] = $infos;
+        }            
+        #var_dump($restructured_caldata);
+        
+        // check if we got an restructured calendar dates array
+        if(is_array($restructured_caldata))
+        {   
+            //clear output array
+            $json_dateInfos = array();
+         
+            // Check if an output format was requested, and if it was XML
+            // Return JSON output by default
+            if( isset($_GET['output']) && strcasecmp($_GET['output'], 'xml') == 0 ) 
+            {   
+                var_dump($restructured_caldata);
+                // Send our XML content-type header
+                header('Content-type: text/xml');
+                // And print out our formatted response
+                echo xmlrpc_encode_request(null,$restructured_caldata);
+            }
+            else
+            {   
+                /**
+                 * Notice by vain:
+                 * That nice json_encode support is avaiable from php v5.2
+                 * and then only when extension is installed!
+                 * Up to this version we have to use a external json-parser class.
+                 */
+                if (PHPVERSION() < 5.2 && !extension_loaded('json'))
+                {
+                    // create a new instance of Services_JSON
+                    require_once( ROOT_CORE . '/json/JSON.php');
+                    $json = new Services_JSON();
+                   
+                    $json_dateInfos = $json->encode($restructured_caldata);
+                }
+                else
+                {
+                    // php 5.2
+                    $json_dateInfos = json_encode($restructured_caldata);   
+                }
+                
+                // return the json array !!
+                #print_r($json_dateInfos);  
+                header('Content-type: application/x-json');
+                //encode and return json data...
+                echo $json_dateInfos;                
+            }
+         }
    }
-
 
     /**
      * Instant Show
