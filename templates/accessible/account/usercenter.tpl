@@ -17,17 +17,15 @@
     <script type="text/javascript">
     var ServerCurrentTime        = {/literal}{$SessionCurrentTime}{literal};	    // Current
     var ServerSessionLogoutTime  = {/literal}{$SessionExpireTime}{literal};	        // Logout
-       
-    function kaufm(x) {
-      var k = (Math.round(x * 100) / 100).toString();
-      k += (k.indexOf('.') == -1)? '.00' : '00';
-      return k.substring(0, k.indexOf('.') + 3);
-    }
-    
-    function count() { 
-        var theCountdown = new Date(ServerSessionLogoutTime - ++ServerCurrentTime);
+
+    function count() {
+        var theCountdown = new Date((ServerSessionLogoutTime - ++ServerCurrentTime)*1000);
 		//var dateString = theCountdown.toGMTString();
-		document.getElementById("countdown").innerHTML = kaufm(theCountdown / 60);
+		if( theCountdown.getSeconds() < 10 )
+		  addNull = "0";
+		else
+		  addNull = "";
+		document.getElementById("countdown").innerHTML = theCountdown.getMinutes() + ":" + addNull + theCountdown.getSeconds();
     	setTimeout('count()', 1000);
     }
     setTimeout('count()', 1000);
