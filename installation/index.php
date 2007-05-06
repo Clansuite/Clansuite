@@ -64,7 +64,12 @@ session_start();
 /**
 * @desc Generate the Session out of the POST data
 */
-$_SESSION = array_merge( $_SESSION, $_POST );
+if( is_array($_SESSION['config']) && is_array($_POST['config']) )
+	$_SESSION['config'] = array_merge( $_SESSION['config'], $_POST['config'] );
+	unset($_POST['config']);
+if( is_array($_SESSION) && is_array($_POST) )
+    $_SESSION = array_merge( $_SESSION, $_POST );
+
 
 /**
 * @desc Suppress Errors
@@ -93,7 +98,7 @@ if( $_GET['step'] == 2 )
         empty($_SESSION['config']['from']) ||
         empty($_SESSION['admin_nick']) ||
         empty($_SESSION['admin_pass']) ||
-        empty($_SESSION['config']['salt']) )
+        empty($_SESSION['config']['encryption']) )
     {
         header("Location: " . $_SERVER['PHP_SELF'] . "?step=1&error=fill_form");
         die();
@@ -111,43 +116,32 @@ if( $_GET['step'] == 2 )
 */
 if( $_GET['step'] == 3 )
 {
-    if( $_SESSION['ftp_no_data'] != 1 )
+    /**
+    * @desc Check whether form is empty or not
+    */
+    if( empty($_SESSION['config']['db_type']) ||
+        empty($_SESSION['config']['db_host']) ||
+        empty($_SESSION['config']['db_username']) ||
+        empty($_SESSION['config']['db_password']) ||
+        empty($_SESSION['config']['db_name']) ||
+        empty($_SESSION['config']['db_prefix']) )
     {
-        /**
-        * @desc Check whether form is filled or not
-        */
-        if( empty($_SESSION['ftp_hostname']) ||
-            empty($_SESSION['ftp_port']) ||
-            empty($_SESSION['ftp_pass']) ||
-            empty($_SESSION['ftp_username']) ||
-            empty($_SESSION['ftp_folder']) )
-        {
-            header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=fill_form");
-            die();
-        }
+        header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=fill_form");
+        die();
+    }
 
-        /**
-        * @desc Check the connection
-        */
-        $ftp_con = ftp_connect($_SESSION['ftp_hostname'], $_SESSION['ftp_port']);
-        if( !ftp_con )
-        {
-            header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
-            die();
-        }
-        else
-        {
-            $ftp_login = ftp_login($ftp_con, $_SESSION['ftp_username'], $_SESSION['ftp_pass']);
-            if( !$ftp_login )
-            {
-                header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
-                die();
-            }
-            else
-            {
-                ftp_close($ftp_con);
-            }
-        }
+    /**
+    * @desc Check DB Connection
+    */
+    try
+    {
+       $db = new PDO($_SESSION['config']['db_type'].':host='.$_SESSION['config']['db_host'].';dbname='.$_SESSION['config']['db_name'], $_SESSION['config']['db_username'],$_SESSION['config']['db_password']);
+    }
+    catch (PDOException $e)
+    {
+        $db = null;
+        header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
+        die();
     }
 
     /**
@@ -162,18 +156,44 @@ if( $_GET['step'] == 3 )
 */
 if( $_GET['step'] == 4 )
 {
-    /**
-    * @desc Check whether form is empty or not
-    */
-    if( empty($_SESSION['config']['db_type']) ||
-        empty($_SESSION['config']['db_host']) ||
-        empty($_SESSION['config']['db_username']) ||
-        empty($_SESSION['config']['db_password']) ||
-        empty($_SESSION['config']['db_name']) ||
-        empty($_SESSION['config']['db_prefix']) )
+
+    if( $_SESSION['ftp_data'] == 1 )
     {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=fill_form");
-        die();
+        /**
+        * @desc Check whether form is filled or not
+        */
+        if( empty($_SESSION['ftp_hostname']) ||
+            empty($_SESSION['ftp_port']) ||
+            empty($_SESSION['ftp_pass']) ||
+            empty($_SESSION['ftp_username']) ||
+            empty($_SESSION['ftp_folder']) )
+        {
+            header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=fill_form");
+            die();
+        }
+
+        /**
+        * @desc Check the connection
+        */
+        $ftp_con = ftp_connect($_SESSION['ftp_hostname'], $_SESSION['ftp_port']);
+        if( !ftp_con )
+        {
+            header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=no_connection");
+            die();
+        }
+        else
+        {
+            $ftp_login = ftp_login($ftp_con, $_SESSION['ftp_username'], $_SESSION['ftp_pass']);
+            if( !$ftp_login )
+            {
+                header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=no_connection");
+                die();
+            }
+            else
+            {
+                ftp_close($ftp_con);
+            }
+        }
     }
 
     /**
@@ -186,7 +206,7 @@ if( $_GET['step'] == 4 )
     catch (PDOException $e)
     {
         $db = null;
-        header("Location: " . $_SERVER['PHP_SELF'] . "?step=3&error=no_connection");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?step=2&error=no_connection");
         die();
     }
 
@@ -195,8 +215,9 @@ if( $_GET['step'] == 4 )
     */
     $sql = file_get_contents('clansuite.sql');
     $sql = str_replace('CREATE TABLE `cs_', 'CREATE TABLE `' . $_SESSION['config']['db_prefix'], $sql);
-    $db->exec($sql);
-    $error = $db->errorInfo();
+
+    $stmt = $db->query($sql);
+    $error = $stmt->errorInfo();
     if( $error[2] != '' )
     {
         $errors = true;
@@ -210,8 +231,8 @@ if( $_GET['step'] == 4 )
 
     function generate_salt()
     {
-        $salt = rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
-        $salt .= '-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
+        $salt = rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9);
+        $salt .= '-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9).'-'.rand(0,9);
         return $salt;
     }
 
@@ -291,13 +312,15 @@ if( $_GET['step'] == 4 )
         return build_salted_hash( build_salted_hash( $string ) );
     }
 
+
     // Alter the standard admin user.
-    $stmt = $db->prepare('UPDATE ' . $_SESSION['config']['db_prefix']. 'users SET nick = ?,password = ?,email = ?, joined = ?, activated = ? WHERE id = 1');
-    $stmt->execute( array(  $_SESSION['admin_nick'],
+    $stmt2 = $db->prepare('UPDATE ' . $_SESSION['config']['db_prefix']. 'users SET `nick` = ?, `password` = ?, `email` = ?, `joined` = ?, `activated` = ? WHERE `user_id` = 1');
+    $stmt2->execute( array(  $_SESSION['admin_nick'],
                             db_salted_hash($_SESSION['admin_pass']),
                             $_SESSION['config']['from'],
                             time(),
                             1 ) );
+                            print_r($stmt2->errorInfo());
 
     /**
     * @desc Handle the config update
@@ -340,6 +363,6 @@ if( $_GET['step'] == 4 )
     */
     require( 'install-step4.php' );
 }
-//var_dump($_SESSION);
+var_dump($_SESSION);
 session_write_close()
 ?>
