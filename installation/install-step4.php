@@ -10,7 +10,7 @@
 <br />
 This Installer will guide you in 3 small steps through the hole installation of the <b>C</b>ontent <b>M</b>anagement <b>S</b>ystem (CMS) ClanSuite.
 <p>&nbsp;</p>
-<form action="index.php?step=4" method="POST">
+<form autocomplete="off" action="index.php?step=4" method="POST">
 <table style="border: 1px solid black" width="400">
     <tr>
         <td height="50" colspan="2" align="center">
