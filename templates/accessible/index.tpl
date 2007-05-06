@@ -44,14 +44,14 @@
 					 setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js"
 					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
 					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-win2k-1.css"}
-					 
+
 {literal}
     <!--[if lte IE 6]>
     <style type="text/css">
         table { width: 99%; }
     </style>
     <![endif]-->
-    
+
     <style type="text/css">
         .special { background-color: #000; color: #fff; }
         .calendar .inf { font-size: 80%; color: #444; }
@@ -97,20 +97,37 @@
 		<ul id="Liste"></ul>
 		  {literal}
     		<script type="application/javascript">
+                        function dump(arr,level) {
+                        var dumped_text = "";
+                        if(!level) level = 0;
+
+                        //The padding given at the beginning of the line.
+                        var level_padding = "";
+                        for(var j=0;j<level+1;j++) level_padding += "    ";
+
+                        if(typeof(arr) == 'object') { //Array/Hashes/Objects
+                         for(var item in arr) {
+                          var value = arr[item];
+
+                          if(typeof(value) == 'object') { //If it is an array,
+                           dumped_text += level_padding + "'" + item + "' ...\n";
+                           dumped_text += dump(value,level+1);
+                          } else {
+                           dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+                          }
+                         }
+                        } else { //Stings/Chars/Numbers etc.
+                         dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+                        }
+                        return dumped_text;
+                        }
               // define the initial dateInfo array:
-              var dataInfos = {
-                "20070508" : "Mishoo's&nbsp;birthday",
-                "20070510" : "foo2341234",
-                "20070511" : "bar2341234",
-                "20070518" : "25$412341234",
-                "20070524" : "60$1234123",
-                "20070624" : "60$1234123"
-              };
+              dataInfos = Class.create();
             </script>
 
             <script type="application/javascript">
                   // <![CDATA[
-            	            	             	  
+
             	  // get new dateInfos from database via ajax
             	  function getdateInfos(date)
             	  {
@@ -122,22 +139,22 @@
 
            	        var url = 'index.php?mod=calendar&action=ajax_getdateinfos';
                     var pars = '&year=' + y + '&month=' + m;
-                    
+
                     // for xml return testing (calling without output=xml returns json)
                     // var pars = '&year=' + y + '&month=' + m +'&output=xml';
-                    
+
                     var myAjax = new Ajax.Request(url,
                     { method: 'get', parameters: pars, onComplete: getResponse }
                     );
                   };
-                                    
-            	  function getResponse(req) 
+
+            	  function getResponse(req)
             	  {
-            	    // debug output to id 
+            	    // debug output to id
             	    // document.getElementById('test-div').innerHTML = req.responseText;
-                   
-                    var dataInfos  = eval('(' + req.responseText + ')');  
-                    
+
+                    dataInfos = eval('(' + req.responseText + ')');
+
                     var o="";
                     for(eventDatum in dataInfos) {
                     	o+=eventDatum+"\n";
@@ -149,16 +166,16 @@
                     		o+="\n";
                     	}
                      }
-                     alert(o);                  
+                     alert(dump(dataInfos));
                   }
-v
+
                   // output Date + Infotext to separte field
                   // to the day-field
                   // or to an tooltip
                   function outputDateandInfotext(calendar)
                   {
                       var preview = document.getElementById("dateInfotext");
-                      if (preview) 
+                      if (preview)
                       {
                         preview.innerHTML = calendar.date.print('%a, %b %d, %Y');
                       }
@@ -172,12 +189,14 @@ v
                      // ajax call
                      if (d == 1)
                      {
-                       getdateInfos(date); 
-                       alert(dataInfos);
+                        getdateInfos(date);
+                        alert(dump(dataInfos));
+                       //alert(dataInfos);
                      };
-                   
+
                      // assign text to all day divs
-                     var inf = dataInfos[date.print("%Y%m%d")];
+                     if( dataInfos[date.print("%Y%m%d")] )
+                        var inf = dataInfos[date.print("%Y%m%d")]["1"]["eventname"];
                      if (!inf) {
                        return d + "<div class='inf'>&nbsp;<\/div>";
                      } else {
@@ -190,26 +209,27 @@ v
              	  {
              	    if (calendar.dateClicked) {
              	      outputDateandInfotext(calendar);
-                 
+
              	      // windows.status changer
              	      window.status = "Selected: " + calendar.date;
-             	      var inf = dateInfo[calendar.date.print("%Y%m%d")];
+             	      var inf = dataInfos[calendar.date.print("%Y%m%d")];
              	      if (inf) {
             	        window.status += ".  Additional info: " + inf;
              	      }
              	    }
              	  };
-                  
+
                   //
-             	  function dateIsSpecial(year, month, day) {
+             	  function dateIsSpecial(year, month, day)
+                  {
                     var combined = year + month + day;
-                    var m = dateInfos[combined];
+                    var m = dataInfos[combined];
                     if (m == undefined) { return false; } else { return true; }
                   };
 
-                  
                   // returns true if dateIsSpecial
-                  function dateIsSpecial(year, month, day) {
+                  function dateIsSpecial(year, month, day)
+                  {
                     // check array -> year
                     var y = SPECIAL_DAYS[year]; if (!y) return false;
                     // check array -> year+month
@@ -218,8 +238,6 @@ v
                     for (var i in m) if (m[i] == day) return true;
                     return false;
                   };
-             	  
-
 
              	  // function to mark a Day as Special
                   // .special in css needed
@@ -235,7 +253,7 @@ v
                     }
 
                   };
-                  
+
                   // ]]>
             </script>
         {/literal}
