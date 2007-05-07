@@ -43,7 +43,7 @@
 {dhtml_calendar_init src="`$www_root_tpl_core`/javascript/jscalendar/calendar.js"
 					 setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js"
 					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
-					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-win2k-1.css"}
+					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-accessible.css"}
 
 {literal}
     <!--[if lte IE 6]>
@@ -97,6 +97,7 @@
 		<ul id="Liste"></ul>
 		  {literal}
     		<script type="application/javascript">
+                  // <![CDATA[
                         function dump(arr,level) {
                         var dumped_text = "";
                         if(!level) level = 0;
@@ -123,6 +124,7 @@
                         }
               // define the initial dateInfo array:
               dataInfos = Class.create();
+                  // ]]>
             </script>
 
             <script type="application/javascript">
