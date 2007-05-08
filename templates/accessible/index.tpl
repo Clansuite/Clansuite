@@ -44,6 +44,8 @@
 					 setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js"
 					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
 					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-accessible.css"}
+<script type="application/javascript" src="{$www_root_tpl_core}/javascript/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+
 
 {literal}
     <!--[if lte IE 6]>
@@ -68,7 +70,7 @@
 {* display cache time as comment *}
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
 {/doc_raw}
-
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
 <div id="header">
 	<ul id="navigation">
 		<li><a href="index.php?mod=news">News</a></li>
@@ -122,6 +124,7 @@
                         }
                         return dumped_text;
                         }
+                        
               // define the initial dateInfo array:
               dataInfos = Class.create();
                   // ]]>
@@ -197,12 +200,40 @@
                      };
 
                      // assign text to all day divs
-                     if( dataInfos[date.print("%Y%m%d")] )
-                        var inf = dataInfos[date.print("%Y%m%d")]["1"]["eventname"];
-                     if (!inf) {
+                     if( dataInfos[date.print("%Y%m%d")] ) 
+                     {
+                        // if day exists, assign datainfo to inf
+                        var inf = dataInfos[date.print("%Y%m%d")]["1"]["eventname"]; 
+                        
+                        for(eventNummer in dataInfos[date.print("%Y%m%d")]) 
+                        {
+                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "E" )
+                    		{ var EventIcon = "<img src='' alt='E' />"; } 
+                    		else 
+                    		{ var EventIcon = ''; }                    		
+                    		
+                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "B" )
+                    		{ var BirthdayIcon = "<img src='' alt='B' />"; }
+                    		else 
+                    		{ var BirthdayIcon = ''; } 
+                    		
+                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "M" )
+                    		{ var MatchIcon = "<img src='' alt='M' />"; } 
+                    		else 
+                    		{ var MatchIcon = ''; }  
+                        }
+                     }
+                     
+                     // check if inf is not empty
+                     if (!inf) 
+                     {
+                       // if empty, print nothing for that (d)ay
                        return d + "<div class='inf'>&nbsp;<\/div>";
-                     } else {
-                       return d + "<div class='inf'>" + inf +"<\/div>";
+                     } 
+                     else 
+                     { 
+                       // inf is not empty, so print inf-data
+                       return d + "<div class='inf'>"+ EventIcon +" - "+ BirthdayIcon +" - "+ MatchIcon +"<a href='javascript:void(0);' onmouseover=\"return overlib('"+ inf +"', CAPTION, 'CAPTION', HEIGHT, 40, ABOVE, SNAPX, 55, SNAPY, 10);\" onmouseout=\"nd();\">" + inf +"<\/a><\/div>";
                      }
 
                    };
