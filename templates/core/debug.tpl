@@ -176,7 +176,10 @@
                     </dt>
                 {/foreach}
             {else}
-            <dt class="debug_initial"><b>{$outerkey}</b>: {$debugouter}</dt>
+            <dt class="debug_initial">
+                {if $outerkey == 'db_password' OR $outerkey == 'smtp_password'} 
+                <b>{$outerkey}</b>: ******** {else} <b> {$outerkey}</b>: {$debugouter} {/if}
+             </dt>
             {/if}
         {/foreach}
     </dl>
