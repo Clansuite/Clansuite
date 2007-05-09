@@ -171,7 +171,7 @@
                     		o+="\n";
                     	}
                      }
-                     alert(dump(dataInfos));
+                     //alert(dump(dataInfos));
                   }
 
                   // output Date + Infotext to separte field
@@ -195,7 +195,7 @@
                      if (d == 1)
                      {
                         getdateInfos(date);
-                        alert(dump(dataInfos));
+                        //alert(dump(dataInfos));
                        //alert(dataInfos);
                      };
 
