@@ -356,7 +356,6 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
 }
 
 $tpl->assign('db_exectime', $benchmark->db_exectime );
-var_dump($benchmark->db_exectime);
 
 /**
  * This sets up the $condition for the template output

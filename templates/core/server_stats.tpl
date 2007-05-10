@@ -1,6 +1,9 @@
-{translate} {"end"|timemarker:"Exectime:"} {/translate}  |
-{translate} {"end"|timemarker:"Rendertime"} {/translate} |
-{translate}Memory: {/translate} {memusage} |
-{translate}Queries:{/translate} {$query_counter} |
-Gzip: {gzipcheck} |
-{translate}Serverload:{/translate} {serverload}
+<a href="javascript:clip('proc_infos')">Document Processing Info</a>
+<span id="proc_infos" style="display: none;">
+{translate}Document:{/translate} 
+[ {"end"|timemarker:"Exectime:"} | {"end"|timemarker:"Rendertime:"} |Gzip: {gzipcheck} ] <br />
+Db: 
+[ {translate}Queries:{/translate} {$db_counter} ExecTime: {$db_exectime} ] <br />
+Server: 
+[ {translate}Memory: {/translate} {memusage} | {translate}Serverload:{/translate} {serverload} ]
+</span>
