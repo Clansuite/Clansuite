@@ -117,8 +117,9 @@ define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
 define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
 // Little late but setup the benchmarking and a execution-timemarker
-include_once(ROOT_CORE . '/benchmark.class.php'); 
-benchmark::timemarker('begin', 'Exectime:');
+require(ROOT_CORE . '/benchmark.class.php'); 
+$benchmark = new benchmark; # Benchmark
+$benchmark->timemarker('begin', 'Exectime:');
 
 /**
  *  DATABASE
@@ -354,6 +355,9 @@ if (isset($content['ADDITIONAL_HEAD']) && !empty($content['ADDITIONAL_HEAD']))
     $tpl->assign('additional_head'  , $content['ADDITIONAL_HEAD'] );
 }
 
+$tpl->assign('db_exectime', $benchmark->db_exectime );
+var_dump($benchmark->db_exectime);
+
 /**
  * This sets up the $condition for the template output
  * as controlled by the switch command underneath.
@@ -470,6 +474,6 @@ switch ($condition)
             break;
 }
 
-DEBUG ? benchmark::timemarker('list') : ''; # returns a history of timemarkers in case of debug
-DEBUG ? benchmark::timemarker('db_list') : ''; # returns a history of database timemarkers in case of debug
+#DEBUG ? $benchmark->timemarker('list') : ''; # returns a history of timemarkers in case of debug
+#DEBUG ? $benchmark->timemarker('db_list') : ''; # returns a history of database timemarkers in case of debug
 ?>
