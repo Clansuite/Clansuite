@@ -45,12 +45,12 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 
 /**
  * This Clansuite Core Class for PDO Database Handler
- * 
+ *
  * PDO is not an database-abstraction layer, it doesn't rewrite SQL or emulate missing features!
  *
  * It's an data-access abstraction layer, regardless which database you're using,
  * you use the same functions to issue queries and fetch data.
- * This means that you have to watch out and take care, which functions are 
+ * This means that you have to watch out and take care, which functions are
  * avaiable on all db-systems or only on some.
  *
  * PDO gives data-access to the following Databases:
@@ -66,7 +66,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
  *
  * @link http://wiki.cc/php/PDO_Basics
  *
- * Clansuite Core Class - Db 
+ * Clansuite Core Class - Db
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
@@ -91,7 +91,9 @@ class db
      * @var integer
      */
 
-    public $query_counter = 0;
+    public $query_counter   = 0;
+    public $exec_counter    = 0;
+    public $stmt_counter    = 0;
 
     /**
      * Queries Array
@@ -103,7 +105,7 @@ class db
     /**
      * Exec's Array
      * @var array
-     /
+     */
 
     public $execs = array();
 
@@ -111,14 +113,14 @@ class db
      * Prepare Statements Array
      * @var array
      */
-     
+
     public $prepares = array();
 
     /**
      * Active Queries to prevent buffering failures
      * @var integer
      */
-     
+
     public $query_active = 0;
 
     /**
@@ -126,7 +128,7 @@ class db
      * @var object
      * @todo is variable type right?
      */
-     
+
     public $query_active_reference;
 
     /**
@@ -153,7 +155,7 @@ class db
      * @global $cfg
      * @todo correct var types
      */
-   
+
    public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
     {
         global $lang, $tpl, $error, $cfg;
@@ -166,21 +168,21 @@ class db
             /**
              * Create PDO object @ $db
              */
-            
+
             $this->db = new PDO($dsn, $user, $pass, $driver_options);
 
             /**
              * Set the Error Attribute
              */
-             
+
             $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            
+
             /**
              * Table-names in lower-case
              */
-            
+
             $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
-            
+
             /**
              * Fetch Mode
              * UNQUOTE ON PHP 5.2 !!!
@@ -190,26 +192,26 @@ class db
             /**
              * $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
              */
-             
+
             if ( $cfg->db_type == 'mysql' )
             {
                 /**
                  * Buffering
                  */
-                 
+
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
                 /**
                  * Unicode (mysql)
                  */
-                 
+
                 $this->exec('SET CHARACTER SET utf8');
             }
         }
-        
+
         /**
          * In case Database Error occurs catch exception and show Error
-         */        
+         */
         catch (PDOException $e)
         {
             $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
@@ -284,7 +286,9 @@ class db
 
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
+        benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->execute( $args );
+        benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->closeCursor();
         $res = NULL;
 
@@ -295,7 +299,7 @@ class db
      * Deliver query to DB
      * Increase counter
      *
-     * @param string    
+     * @param string
      */
 
     public function query( $sql='' )
@@ -310,8 +314,9 @@ class db
 
         $this->query_counter++;
         $this->queries[] = $sql;
+        benchmark::timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
         $res = $this->db->query($sql);
-
+        benchmark::timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
         if ( $res )
         {
             $db->query_active_reference = $res;
@@ -346,7 +351,7 @@ class db
      * @global $error
      * @global $lang
      * @return $res
-     * @todo note by vain: is this still needed or deprecated? 
+     * @todo note by vain: is this still needed or deprecated?
      *       i think the limit was placed here because of the need for limiting the pagination
      *       but as far as i know it's handled there
      */
@@ -364,8 +369,8 @@ class db
          */
         try {
             $res = $this->db->prepare($sql);
-            $res->execute(); 
-            
+            $res->execute();
+
             /**
              * Problem ! -> How to assign Vars for the ? in the sql..
              * @todo note by vain: deprecated??
@@ -382,12 +387,12 @@ class db
                 $count = $limit;
                 }
             }
-        } 
-        
+        }
+
         /**
          * In case Database Error occurs catch exception and show Error
-         */ 
-         
+         */
+
         catch (PDOException $e) {
 
             $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1);
@@ -407,7 +412,8 @@ class db
 
     public function exec( $sql='' )
     {
-
+        $this->exec_counter++;
+        
         $this->last_sql = $sql;
 
         if( is_object($this->query_active_reference) )
@@ -415,9 +421,10 @@ class db
             $this->query_active_reference->closeCursor();
             $this->query_active_reference = NULL;
         }
-
-        $this->exec_counter++;
+        
+        benchmark::timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
         $res = $this->db->exec($sql );
+        benchmark::timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
 
         $this->execs[] = $sql;
 
@@ -429,7 +436,7 @@ class db
 /**
  * Clansuite Core Class - Db Statements Wrapper
  *
- * This is a simply substitution of the original PDO Statements Class 
+ * This is a simply substitution of the original PDO Statements Class
  * simply needed to place a db-query-counter in the execution of statements.
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
@@ -481,7 +488,7 @@ class db_statements
     {
         global $db;
 
-        $db->query_counter++;
+       
         if ( is_object( $db->query_active_reference ) )
         {
             $db->query_active_reference->closeCursor();
@@ -490,18 +497,25 @@ class db_statements
 
         $db->queries[] = $this->db_statement->queryString;
 
-      
+        $db->stmt_counter++;
+        
         if( count($args) > 0 )
         {
+            benchmark::timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
             $res = $this->db_statement->execute($args);
+            benchmark::timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
         }
         else
         {
              /**
               * in case $args is empty execute!!
               */
+            benchmark::timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
             $res = $this->db_statement->execute();
+            benchmark::timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
         }
+        
+       
 
         if ( $res )
         {
