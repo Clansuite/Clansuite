@@ -78,7 +78,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
  * @subpackage  db
  */
 class db
-{
+{   
     /**
      * @var $db
      * @access protected
@@ -286,9 +286,9 @@ class db
 
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
-        benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
+        $benchmark->timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->execute( $args );
-        benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
+        $benchmark->timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->closeCursor();
         $res = NULL;
 
@@ -314,9 +314,9 @@ class db
 
         $this->query_counter++;
         $this->queries[] = $sql;
-        benchmark::timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
+        $benchmark->timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
         $res = $this->db->query($sql);
-        benchmark::timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
+        $benchmark->timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
         if ( $res )
         {
             $db->query_active_reference = $res;
@@ -411,7 +411,9 @@ class db
      */
 
     public function exec( $sql='' )
-    {
+    {   
+        global $benchmark;
+        
         $this->exec_counter++;
         
         $this->last_sql = $sql;
@@ -422,9 +424,9 @@ class db
             $this->query_active_reference = NULL;
         }
         
-        benchmark::timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
+        $benchmark->timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
         $res = $this->db->exec($sql );
-        benchmark::timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
+        $benchmark->timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
 
         $this->execs[] = $sql;
 
@@ -486,7 +488,7 @@ class db_statements
      */
     function execute( $args = array() )
     {
-        global $db;
+        global $db, $benchmark;
 
        
         if ( is_object( $db->query_active_reference ) )
@@ -501,18 +503,18 @@ class db_statements
         
         if( count($args) > 0 )
         {
-            benchmark::timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
+            $benchmark->timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
             $res = $this->db_statement->execute($args);
-            benchmark::timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
+            $benchmark->timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
         }
         else
         {
              /**
               * in case $args is empty execute!!
               */
-            benchmark::timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
+            $benchmark->timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
             $res = $this->db_statement->execute();
-            benchmark::timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
+            $benchmark->timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
         }
         
        

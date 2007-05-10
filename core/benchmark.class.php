@@ -75,10 +75,12 @@
  *
  */
 class benchmark
-{
+{   
+    public $db_exectime;
+    
     function timemarker($mode='begin', $msg='')
     {
-        global $_timer_blocks, $_timer_history, $db_timer_blocks, $db_timer_history, $_db_timer;
+        global $_timer_blocks, $_timer_history, $db_timer_blocks, $db_timer_history;
 
         switch ($mode)
         {
@@ -102,6 +104,8 @@ class benchmark
                             $elapsed = ($b_int - $a_int) + ($b_micro - $a_micro);
 
                             $db_timer_history[0][1] += $elapsed;
+                            $benchmark->db_exectime = $db_timer_history[0][1];
+                            var_dump($benchmark);
                             $db_timer_history[] = array( $elapsed, "$_msg [". round($elapsed, 4) ."s]");
 
                             // add elapsed time to db overall counter
@@ -129,20 +133,18 @@ class benchmark
                                 echo $o;
                             }
 
-                            var_dump($db_timer_history);
-
+                            #var_dump($db_timer_history);
                             break;
 
             /**
              *  Standard - begin, end, list, stop
              */
-
+            default:
             case 'begin':
                             $_timer_blocks[] = array(microtime(), $msg);
                             break;
 
-            case 'end':     var_dump($_msg);
-                            
+            case 'end':    
                             $last = array_pop($_timer_blocks);
                             $_start = $last[0];
                             $_msg = $last[1];
@@ -169,12 +171,12 @@ class benchmark
                             $_timer_history[] = array($elapsed, $_msg, "$_msg [".round($elapsed, 4)."s ".(round(1/$elapsed, 2))."/s]");
 
 
-                            if ($msg)
+                            if ($msg) 
                             {
-                                return "$_msg: {$elapsed}s \n";
+                            return "$_msg: {$elapsed}s \n";
                             }
+                            return $elapsed; 
 
-                            return $elapsed;
                             break;
 
             case 'list':
@@ -183,12 +185,12 @@ class benchmark
                             {
                                 foreach ($_timer_history as $mark)
                                 {
-                                    $o .= $mark[2] . " \n <br />";
+                                    $o .= $mark[2] . "\n <br />";
                                 }
                                 echo $o;
                             }
 
-                            var_dump($_timer_history);
+                            #var_dump($_timer_history);
                             break;
 
             case 'stop':
