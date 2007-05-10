@@ -116,6 +116,10 @@ define('DB_PREFIX'  , $cfg->db_prefix);
 define('WWW_ROOT'   , BASE_URL_SEED); # WWW_ROOT complete www-path with server
 define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 
+// Little late but setup the benchmarking and a execution-timemarker
+include_once(ROOT_CORE . '/benchmark.class.php'); 
+benchmark::timemarker('begin', 'Exectime:');
+
 /**
  *  DATABASE
  *  - require db.class.php
@@ -128,10 +132,6 @@ define('WWW_ROOT_TPL_CORE', WWW_ROOT . '/' . $cfg->tpl_folder .  '/core');
 require(ROOT_CORE . '/db.class.php');
 $db = new db("$cfg->db_type:dbname=$cfg->db_name;host=$cfg->db_host", $cfg->db_username, $cfg->db_password, array() );
 unset($cfg->db_password); # unset db_password, because we are really really paranoid
-
-// Little late but setup the benchmarking and a execution-timemarker
-include_once(ROOT_CORE . '/benchmark.class.php'); 
-benchmark::timemarker('begin', 'Exectime:');
 
 // Error Reporting Depth
 DEBUG ? error_reporting(E_ALL|E_NOTICE) : error_reporting(E_ALL ^ E_NOTICE);
@@ -308,7 +308,7 @@ $_REQUEST['mod']!='' ? $lang->load_lang($_REQUEST['mod'], $_SESSION['user']['lan
  */
 $tpl->assign('meta'             , $cfg->meta );             # Meta Inforamtions about the website
 $tpl->assign('cs_version'       , $cfg->version );          # ClanSuite Version from config.class.php
-$tpl->assign('query_counter'    , $db->query_counter );     # Query counters (DB)
+$tpl->assign('db_counter'       , $db->query_counter + $db->exec_counter + $db->stmt_counter );     # Query counters (DB)
 $tpl->assign('redirect'         , $functions->redirect );   # Redirects, if necessary
 $tpl->assign('css'              , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css ); # Normal CSS (global)
 $tpl->assign('javascript'       , WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_javascript ); # Normal Javascript (global)
@@ -471,5 +471,5 @@ switch ($condition)
 }
 
 DEBUG ? benchmark::timemarker('list') : ''; # returns a history of timemarkers in case of debug
-
+DEBUG ? benchmark::timemarker('db_list') : ''; # returns a history of database timemarkers in case of debug
 ?>
