@@ -104,8 +104,8 @@ class benchmark
                             $elapsed = ($b_int - $a_int) + ($b_micro - $a_micro);
 
                             $db_timer_history[0][1] += $elapsed;
-                            $benchmark->db_exectime = $db_timer_history[0][1];
-                            var_dump($benchmark);
+                            $this->db_exectime = $db_timer_history[0][1];
+                            
                             $db_timer_history[] = array( $elapsed, "$_msg [". round($elapsed, 4) ."s]");
 
                             // add elapsed time to db overall counter
