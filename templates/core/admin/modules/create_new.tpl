@@ -87,7 +87,7 @@ function rem_col(id)
 *}
 {/doc_raw}
 
-<form action="index.php?mod=admin&amp;sub=modules&amp;action=create_new" method="post">
+<form action="index.php?mod=admin&amp;sub=modules&amp;action=create_new" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="400">
 <tr>
 

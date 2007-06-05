@@ -8,7 +8,7 @@
         <td class="td_header_small" width="20%" align="center">Edit</td>
     </tr>
 {foreach key=key item=item from=$info}
-<form action="index.php?mod=static&amp;sub=admin&amp;action=edit" method="post">
+<form action="index.php?mod=static&amp;sub=admin&amp;action=edit" method="post" accept-charset="UTF-8">
     <tr>
         <td class="cell1" align="center">
             <input type="hidden" name="id" value="{$item.id}" />

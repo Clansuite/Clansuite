@@ -10,7 +10,7 @@
 <script src="{$www_root_tpl_core}/javascript/picklist.js" type="text/javascript"></script>
 {/doc_raw}
 
-<form action="index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}" method="post" onsubmit="return selIt();">
+<form action="index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}" method="post" accept-charset="UTF-8" onsubmit="return selIt();">
     <table class="admintable" cellpadding="0" cellspacing="0" border="0" style="width:700px;margin:0 auto;text-align:center">
         <tr class="tr_header">
             <td colspan="3" style="text-align: center;"><img src="{$info.group.icon}" alt="Icon" /><font color="{$info.group.color}">{$info.group.name}</font> - <small>{$info.group.description}</small></td>

@@ -58,7 +58,7 @@
 
    
 
-      <form action="index.php?mod=board&amp;sub=admin&amp;action=create_board" method="post">
+      <form action="index.php?mod=board&amp;sub=admin&amp;action=create_board" method="post" accept-charset="UTF-8">
       <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
             <tr>
                 <td class="td_header_small"  colspan="2">

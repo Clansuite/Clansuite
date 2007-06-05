@@ -1,7 +1,7 @@
 {* Debuganzeige, wenn DEBUG = 1 |    {$categories|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$categories} {/if} *}
 
-<form action="index.php?mod=admin&amp;sub=categories&amp;action=delete" method="post">
+<form action="index.php?mod=admin&amp;sub=categories&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
       	<tr class="tr_header">
        		<td align="center">{translate}ID{/translate}</td>

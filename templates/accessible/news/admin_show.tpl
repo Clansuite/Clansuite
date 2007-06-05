@@ -13,7 +13,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alert.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
-<form method="post" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=show">
+<form method="post" accept-charset="UTF-8" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=show">
 <table border="0" cellpadding="0" cellspacing="0" width="800" align="center">
     <tr class="tr_header">
         <td colspan="3">{translate}News Settings{/translate}</td>
@@ -32,7 +32,7 @@
 </table>
 <br/>
 </form>
-<form method="post" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=delete">
+<form method="post" accept-charset="UTF-8" name="news_list" action="index.php?mod=news&amp;sub=admin&amp;action=delete">
 <table border="0" cellpadding="0" cellspacing="0" width="800" align="center">
     <tr class="tr_header_small">
         <td>

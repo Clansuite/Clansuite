@@ -199,7 +199,7 @@
 
 {if isset($content.not_in_whitelist)}
 
-    <form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="post">
+    <form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="post" accept-charset="UTF-8">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
         <td class="td_header" width="150">    {translate}Module folder problem{/translate}     </td>
@@ -275,7 +275,7 @@
 {* #################           UPDATE           ################ *}
 
 
-<form action="index.php?mod=admin&sub=modules&action=update" method="post">
+<form action="index.php?mod=admin&sub=modules&action=update" method="post" accept-charset="UTF-8">
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
@@ -446,7 +446,7 @@
 {* ########################################################################################### *}
 
 <span id="core_span_1" style="display: none;">
-<form action="index.php?mod=admin&sub=modules&action=update" method="post">
+<form action="index.php?mod=admin&sub=modules&action=update" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     <td class="td_header" width="100%" colspan="4">

@@ -102,7 +102,7 @@ Loading...
 </div>
 
 {foreach key=schluessel item=wert from=$content.whitelisted}
-<form action="index.php?mod=admin&amp;sub=modules&amp;action=export" method="post">
+<form action="index.php?mod=admin&amp;sub=modules&amp;action=export" method="post" accept-charset="UTF-8">
 <input type="hidden" name="export_type" value="module" />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">

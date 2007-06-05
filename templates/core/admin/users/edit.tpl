@@ -1,6 +1,6 @@
 <div class="admin">
     <div class="user_settings">
-    <form method="post" action="index.php?mod=admin&amp;sub=users&amp;action=edit_standard">
+    <form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=users&amp;action=edit_standard">
 
         <input type="hidden" name="info[user_id]" value="{$user.user_id}" />
         <table cellspacing="0" border="0" align="center" width="400">

@@ -37,7 +37,7 @@
    {/literal}
 {/doc_raw}
 
-<form action="index.php?mod=admin&sub=bbcode&action=create" method="post">
+<form action="index.php?mod=admin&sub=bbcode&action=create" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="90%" align="center">
     <tr class="tr_header">
         <td align="center">{translate}Tag Name{/translate}</td>

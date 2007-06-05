@@ -4,7 +4,7 @@
 <table>
     <tr>
 		<th>
-			<form method="post" action="index.php?mod=news&amp;action=archiv">
+			<form method="post" accept-charset="UTF-8" action="index.php?mod=news&amp;action=archiv">
 				<fieldset style="padding:5px">
 					<label for="category">Kategorie-Auswahl:
 					 <select name="cat_id" class="input_text">

@@ -46,7 +46,7 @@
 		{$news.news_body}<br />
         {if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
 
-            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post" accept-charset="UTF-8">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.news_id}" name="ids[]" />
                 <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" />

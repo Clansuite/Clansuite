@@ -1,4 +1,4 @@
-<form method="post" action="index.php?mod=admin&amp;sub=permissions&amp;action=edit_area">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=permissions&amp;action=edit_area">
     <input type="hidden" name="info[area_id]" class="input_text" value="{$info.area_id}" />
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="280">
         <tr class="tr_header">

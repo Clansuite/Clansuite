@@ -7,7 +7,7 @@
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
 
-<form method="post" action="index.php?mod=admin&amp;sub=categories&amp;action=create">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=categories&amp;action=create">
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
         <tr class="tr_header">
             <td>{translate}Description{/translate}</td>

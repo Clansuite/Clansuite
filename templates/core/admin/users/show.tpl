@@ -23,7 +23,7 @@
     {/error}
 {/if}
 
-<form action="index.php?mod=admin&sub=users&amp;action=delete" method="post">
+<form action="index.php?mod=admin&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 
     <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
 
