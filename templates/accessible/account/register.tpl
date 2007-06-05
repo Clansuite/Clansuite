@@ -7,7 +7,7 @@
 {if $err.pass_too_short == 1}<p class="error">{translate}The password is too short!{/translate}</p>{/if}
 {if $err.passes_do_not_fit == 1}<p class="error">{translate}The passwords aren"t the same!{/translate}</p>{/if}
 {if $err.wrong_captcha == 1}<p class="error">{translate}The code you entered is wrong!{/translate}</p>{/if}
-<form action="index.php?mod=account&amp;action=register" method="post">
+<form action="index.php?mod=account&amp;action=register" method="post" accept-charset="UTF-8">
 	<fieldset>
 		<dl>
 			<dt><label for="nick">{translate}Nick:{/translate}</label></dt>

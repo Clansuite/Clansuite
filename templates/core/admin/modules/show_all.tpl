@@ -180,7 +180,7 @@
 
             </td>
             <td class="cell1" style="text-align:center;vertical-align:middle">
-                <form action="index.php?mod=admin&amp;sub=modules&amp;action=uninstall&amp;module_id={$wert.module_id}&amp;folder_name={$wert.folder_name}" method="post">
+                <form action="index.php?mod=admin&amp;sub=modules&amp;action=uninstall&amp;module_id={$wert.module_id}&amp;folder_name={$wert.folder_name}" method="post" accept-charset="UTF-8">
                     <input type="hidden" name="module_name" value="{$wert.title}" />
                     <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
                 </form>
@@ -300,7 +300,7 @@
                 {/if}
             </td>
             <td class="cell1" style="text-align:center;vertical-align:middle">
-                <form action="index.php?mod=admin&amp;sub=modules&amp;action=uninstall&amp;module_id={$wert.module_id}" method="post">
+                <form action="index.php?mod=admin&amp;sub=modules&amp;action=uninstall&amp;module_id={$wert.module_id}" method="post" accept-charset="UTF-8">
                     <input type="hidden" name="module_name" value="{$wert.title}" />
                     <input class="ButtonRed" type="submit" value="{translate}Uninstall{/translate}" name="submit" />
                 </form>

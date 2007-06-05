@@ -1,4 +1,4 @@
-<form action="index.php?mod=admin&amp;sub=groups&amp;action=delete" method="post">
+<form action="index.php?mod=admin&amp;sub=groups&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" style="width:700px;margin:0 auto;text-align:center">
       	<tr class="tr_header">
        		<td>{translate}ID{/translate}</td>

@@ -14,7 +14,7 @@
 
 {include file="admin/tools/paginate.tpl"}
 
-<form action="index.php?mod=guestbook&amp;sub=admin&amp;action=delete" method="post">
+<form action="index.php?mod=guestbook&amp;sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" align="center" style="text-align:center">
         <tr class="tr_header">
          	<td width="1%">{columnsort html='ID'}</td>

@@ -2,7 +2,7 @@
 {if $err.not_filled == 1}<p class="error">{translate}Please fill out all required fields!{/translate}</p>{/if}
 {if $err.mismatch == 1}<p class="error">{translate}This combination is not stored in our database!{/translate}</p>{/if}
 {if $err.login_attempts > 0}<p class="error">{translate}Failed Attempts:{/translate}{$err.login_attempts}</p>{/if}
-<form action="index.php?mod=account&amp;action=login{if $referer|count_characters > 0}&amp;referer={$referer}{/if}" method="post">
+<form action="index.php?mod=account&amp;action=login{if $referer|count_characters > 0}&amp;referer={$referer}{/if}" method="post" accept-charset="UTF-8">
 	<fieldset>
 		<dl>
 {if $cfg->login_method == 'email'}

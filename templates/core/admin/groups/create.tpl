@@ -25,7 +25,7 @@
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
-<form method="post" action="index.php?mod=admin&amp;sub=groups&amp;action=create">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=groups&amp;action=create">
     <table cellpadding="0" cellspacing="0" border="0" style="width:500px;margin:0 auto;text-align:center">
         <tr class="tr_header">
             <td>

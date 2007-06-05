@@ -11,7 +11,7 @@
 
 <h1>Website Messenger - Incoming</h1>
 
-<form action="index.php?mod=messaging" method="post">
+<form action="index.php?mod=messaging" method="post" accept-charset="UTF-8">
 
 <div class="message_menu">  {$menu} </div>
 

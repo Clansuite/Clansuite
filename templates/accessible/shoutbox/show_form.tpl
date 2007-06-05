@@ -4,7 +4,7 @@ Loading...
 {if $show_form === true}
 <div class="shoutbox_form">
     <h3>{translate}Shoutbox{/translate}</h3>
-    <form action="{$request}" method="post" onsubmit="return sendAjaxRequest('shout_name,shout_mail,shout_msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
+    <form action="{$request}" method="post" accept-charset="UTF-8" onsubmit="return sendAjaxRequest('shout_name,shout_mail,shout_msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
     	<fieldset>
     		<dl>
     			<dt><label for="shout_name">{translate}Name{/translate}:</label></dt>

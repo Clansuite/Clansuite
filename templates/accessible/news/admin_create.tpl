@@ -7,7 +7,7 @@
         Please fill all fields.
     {/error}
 {/if}
-<form action="index.php?mod=news&amp;sub=admin&amp;action=create" method="post" target="_self">
+<form action="index.php?mod=news&amp;sub=admin&amp;action=create" method="post" accept-charset="UTF-8">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
         <td class="td_header" width="100%" colspan="2">

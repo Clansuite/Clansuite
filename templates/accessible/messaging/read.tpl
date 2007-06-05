@@ -44,7 +44,7 @@
                     </tr>
                 </table>
                 <br /><br />
-                <form action="index.php?mod=messaging&action=create" method="post">
+                <form action="index.php?mod=messaging&action=create" method="post" accept-charset="UTF-8">
                     <table cellpadding="5" cellspacing="0" border="0" width="400px">
                         <tr>
                             <td class="td_header" colspan="2">

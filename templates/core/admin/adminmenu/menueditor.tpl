@@ -153,7 +153,7 @@
         <td valign="top">
 
             <div id="tree-plugin">
-                <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post">
+                <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
                 <div id="tree-plugin-content"></div>
                 <strong>{translate}The menu has been generated.{/translate}</strong> <br />
                 {translate}Click the button below, to save the menu into the Database.{/translate} <br />

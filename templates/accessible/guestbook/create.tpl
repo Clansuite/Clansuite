@@ -2,7 +2,7 @@
     {error title="Fill form"}Please fill all necessary fields.{/error}
 {/if}
 
-<form target="_self" method="post" action="index.php?mod=guestbook&amp;action=create">
+<form target="_self" method="post" accept-charset="UTF-8" action="index.php?mod=guestbook&amp;action=create">
 
     <input type="hidden" name="infos[gb_id]" value="{$infos.gb_id}" />
     <input type="hidden" name="infos[front]" value="{$front}" />

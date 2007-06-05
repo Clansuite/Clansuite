@@ -73,7 +73,7 @@
             {translate}Select the area on the left side{/translate}
             </div>
             {foreach key=area_id item=area_array from=$areas}
-            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post">
+            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <div style="height: 1px; display: none; overflow: hidden" id="area_{$area_array.area_id}">
                 <table cellpadding="0" cellspacing="0" border="0" id="table_area_{$area_array.area_id}">
                     <tr class="tr_header_small">
@@ -111,7 +111,7 @@
                 </div>
             </form>
             {/foreach}
-            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post">
+            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <table style="display: none;" id="area_unassigned" cellpadding="0" cellspacing="0" border="0">
                     <tr class="tr_header_small">
                         <td width="100">{translate}Right ID{/translate}</td>

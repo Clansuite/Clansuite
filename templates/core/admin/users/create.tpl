@@ -28,7 +28,7 @@
     {/error}
 {/if}
 
-<form target="_self" method="post" action="index.php?mod=admin&sub=users&action=create">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=users&amp;action=create">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="350">
         <tr class="tr_header">

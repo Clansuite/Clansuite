@@ -1,4 +1,4 @@
-<form action="index.php?mod=account&amp;action=logout" method="post">
+<form action="index.php?mod=account&amp;action=logout" method="post" accept-charset="UTF-8">
 	<p>
 		{translate}Do you really want to logout?{/translate}
 	</p>

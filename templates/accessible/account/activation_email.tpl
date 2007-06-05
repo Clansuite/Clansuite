@@ -6,7 +6,7 @@
 <p>
 	{translate}If you have registered and still haven't got an activation email, use the form below to send it again.{/translate}
 </p>
-<form action="index.php?mod=account&amp;action=activation_email" method="post">
+<form action="index.php?mod=account&amp;action=activation_email" method="post" accept-charset="UTF-8">
 	<fieldset>
 		<dl>
 			<dt><label for="email">{translate}E-Mail{/translate}:</label></dt>

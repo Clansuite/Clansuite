@@ -1,6 +1,6 @@
 
 
-    <form action="index.php?mod=admin&sub=modules&action=add_to_db" method="post">
+    <form action="index.php?mod=admin&sub=modules&action=add_to_db" method="post" accept-charset="UTF-8">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
         <td class="td_header" width="150">    {translate}Module folder problem{/translate}     </td>

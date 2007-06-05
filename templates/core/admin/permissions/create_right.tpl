@@ -1,4 +1,4 @@
-<form method="post" action="index.php?mod=admin&amp;sub=permissions&amp;action=create_right">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=permissions&amp;action=create_right">
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="280">
         <tr class="tr_header">
             <td width="70">{translate}Description{/translate}</td>

@@ -1,4 +1,4 @@
-<form action="index.php?mod=account&amp;sub=general&amp;action=edit" method="post" enctype="multipart/form-data" name="upload">
+<form action="index.php?mod=account&amp;sub=general&amp;action=edit" method="post" accept-charset="UTF-8" enctype="multipart/form-data" name="upload">
 <table cellpadding="0" cellspacing="0" border="0" width="500" align="center" style="margin: auto">
     <tr class="tr_header">
         <td width="1%">
