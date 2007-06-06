@@ -56,6 +56,7 @@ $passPhrase = "yeahbabyyeah";
     * @since      File available since Release 0.1
     * @package    Webinstaller
     *
+    * HTML Written = Version 0.2 - 06 June 2007
     * @version    SVN: $Id$
     */
 
@@ -1011,7 +1012,7 @@ function render($renderType, $args=array()) {
   </head>
   <body>
      <h1> Clansuite Webinstaller</h1>
-     <small>Version 0.1 - 11 Januar 2007</small>
+     <small>Version 0.1 - $Date$</small>
 
     <div>
         <p>
@@ -1302,10 +1303,12 @@ function render($renderType, $args=array()) {
 	    <?php print $label .  'link to installation wizard'; ?>
        </span>
        <div id="install" <?php print $display; ?>>
+       
+       <!-- PATH TO CLANSUITE INSTALLER -->
        <?php if (!empty($args['clansuiteFolderName'])): ?>
 	 <span>
 	   Follow this link to start the <a href="<?php print $args['clansuiteFolderName'] .
-								'/install/index.php'; ?>">
+								'/installation/index.php'; ?>">
 	   Clansuite installation wizard</a>!
 	 </span>
        <?php else: ?>
