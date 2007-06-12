@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env perl
+#!/usr/bin/env perl
 
 #####
 #  FCKeditor - The text editor for Internet - http://www.fckeditor.net
