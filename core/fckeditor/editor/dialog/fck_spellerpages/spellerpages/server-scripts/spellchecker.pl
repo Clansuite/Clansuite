@@ -1,4 +1,4 @@
-﻿#!/usr/bin/perl
+#!/usr/bin/perl
 
 use CGI qw/ :standard /;
 use File::Temp qw/ tempfile tempdir /;

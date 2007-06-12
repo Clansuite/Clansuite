@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 
 """
 FCKeditor - The text editor for Internet - http://www.fckeditor.net

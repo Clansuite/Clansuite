@@ -1,4 +1,4 @@
-﻿<cfsilent>
+<cfsilent>
 <!---
 This code uses a CF User Defined Function and should work in CF version 5.0
 and up without alteration.

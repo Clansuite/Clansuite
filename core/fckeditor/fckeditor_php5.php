@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
@@ -38,10 +38,8 @@ class FCKeditor
 	// PHP 5 Constructor (by Marcus Bointon <coolbru@users.sourceforge.net>)
 	function __construct( $instanceName )
  	{
-		global $cfg;
-
-        $this->InstanceName	= $instanceName ;
-		$this->BasePath		= WWW_ROOT . '/' . $cfg->core_folder . '/fckeditor/' ;
+		$this->InstanceName	= $instanceName ;
+		$this->BasePath		= '/fckeditor/' ;
 		$this->Width		= '100%' ;
 		$this->Height		= '200' ;
 		$this->ToolbarSet	= 'Default' ;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
  *
@@ -46,8 +46,8 @@ var FCKeditor = function( instanceName, width, height, toolbarSet, value )
 	this.OnError		= null ;	// function( source, errorNumber, errorDescription )
 }
 
-FCKeditor.prototype.Version			= '2.4.1' ;
-FCKeditor.prototype.VersionBuild	= '14797' ;
+FCKeditor.prototype.Version			= '2.4.2' ;
+FCKeditor.prototype.VersionBuild	= '14978' ;
 
 FCKeditor.prototype.Create = function()
 {
