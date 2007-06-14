@@ -47,6 +47,10 @@
 	lAllowedExtensions = config.allowedExtensions[url.type];
 	lDeniedExtensions = config.deniedExtensions[url.type];
 
+	if ( userFilesPath eq "" ) {
+		userFilesPath = "/userfiles/";
+	}
+
 	// make sure the user files path is correctly formatted
 	userFilesPath = replace(userFilesPath, "\", "/", "ALL");
 	if ( right(userFilesPath,1) neq "/" ) {
@@ -74,8 +78,12 @@
 	// virtual directory or a symbolic link / junction. Use the serverPath config setting to force a physical path if necessary.
 	if ( len(config.serverPath) ) {
 		serverPath = config.serverPath;
+	
+		if ( right(serverPath,1) neq fs ) {
+			serverPath = serverPath & fs;
+		}
 	} else {
-		serverPath = replaceNoCase(getBaseTemplatePath(),replace(cgi.script_name,"/",fs,"all"),"");
+		serverPath = replaceNoCase(getBaseTemplatePath(),replace(cgi.script_name,"/",fs,"all"),"") & replace(userFilesPath,"/",fs,"all");
 	}
 
 	// map the user files path to a physical directory
@@ -360,4 +368,4 @@
 <cfheader name="Pragma" value="no-cache">
 <cfheader name="Cache-Control" value="no-cache, no-store, must-revalidate">
 <cfcontent reset="true" type="text/xml; charset=UTF-8">
-<cfoutput>#xmlHeader##xmlContent##xmlFooter#</cfoutput>	
+<cfoutput>#xmlHeader##xmlContent##xmlFooter#</cfoutput>

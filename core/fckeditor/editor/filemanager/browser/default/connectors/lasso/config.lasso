@@ -41,7 +41,7 @@
     Set which file extensions are allowed and/or denied for each file type.
     */
 	var('config') = map(
-	    'Enabled' = true,
+	    'Enabled' = false,
 		'UserFilesPath' = '/userfiles/',
 		'Subdirectories' = map(
 			'File' = 'File/',
@@ -56,7 +56,7 @@
 			'Media' = array('swf','fla','jpg','gif','jpeg','png','avi','mpg','mpeg')
 		),
 		'DeniedExtensions' = map(
-			'File' = array('html','htm','php','php2','php3','php4','php5','phtml','pwml','inc','asp','aspx','ascx','jsp','cfm','cfc','pl','bat','exe','com','dll','vbs','js','reg','cgi','lasso','lassoapp','htaccess','asis'),
+			'File' = array('html','htm','php','php2','php3','php4','php5','phtml','pwml','inc','asp','aspx','ascx','jsp','cfm','cfc','pl','bat','exe','com','dll','vbs','js','reg','cgi','lasso','lassoapp','htaccess','asis','sh','shtml','shtm','phtm'),
 			'Image' = array(),
 			'Flash' = array(),
 			'Media' = array()
