@@ -88,6 +88,10 @@
 		<!--- we need to know the physical path to the current folder for all commands --->
 		<cfset currentFolderPath = userFilesServerPath & url.type & fs>
 
+		<cfif not directoryExists(currentFolderPath)>
+			<cfdirectory action="create" directory="#currentFolderPath#"/>
+		</cfif>
+
 		<!--- TODO: upload to a temp directory and move file if extension is allowed --->
 
 		<!--- first upload the file with an unique filename --->

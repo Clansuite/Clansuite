@@ -36,7 +36,7 @@
 	config.deniedExtensions = StructNew();
 
 	config.allowedExtensions["File"] = "";
-	config.deniedExtensions["File"] = "html,htm,php,php2,php3,php4,php5,phtml,pwml,inc,asp,aspx,ascx,jsp,cfm,cfc,pl,bat,exe,com,dll,vbs,js,reg,cgi,htaccess,asis";
+	config.deniedExtensions["File"] = "html,htm,php,php2,php3,php4,php5,phtml,pwml,inc,asp,aspx,ascx,jsp,cfm,cfc,pl,bat,exe,com,dll,vbs,js,reg,cgi,htaccess,asis,sh,shtml,shtm,phtm";
 
 	config.allowedExtensions["Image"] = "png,gif,jpg,jpeg,bmp";
 	config.deniedExtensions["Image"] = "";
@@ -60,12 +60,8 @@
 
 </cfif>
 
-<!--- look for config struct in request, application and server scopes --->
-<cfif isDefined("request.FCKeditor") and isStruct(request.FCKeditor)>
-
-	<cfset variables.FCKeditor = request.FCKeditor>
-
-<cfelseif isDefined("application.FCKeditor") and isStruct(application.FCKeditor)>
+<!--- look for config struct in application and server scopes --->
+<cfif isDefined("application.FCKeditor") and isStruct(application.FCKeditor)>
 
 	<cflock scope="application" type="readonly" timeout="5">
 	<cfset variables.FCKeditor = duplicate(application.FCKeditor)>
