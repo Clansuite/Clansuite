@@ -6,22 +6,22 @@
 	<fieldset>
 		<dl>
 {if $cfg->login_method == 'email'}
-			<dt><span>{translate}E-Mail:{/translate}</span></dt>
-			<dd><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}" /></dd>
+			<dt><label for="email">{translate}E-Mail{/translate}</label></dt>
+			<dd><input type="text" id="email" name="email" value="{$smarty.post.email|escape:"html"}" /></dd>
 {/if}
 {if $cfg->login_method == 'nick'}
-			<dt><span>{translate}Nickname:{/translate}</span></dt>
-			<dd><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|escape:"html"}" /></dd>
+			<dt><label for="nickname">{translate}Nickname{/translate}</label></dt>
+			<dd><input type="text" id="nickname" name="nickname" value="{$smarty.post.nickname|escape:"html"}" /></dd>
 {/if}
-			<dt><span>{translate}Password:{/translate}</span></dt>
-			<dd><input class="input_text" type="password" name="password" value="" /></dd>
+			<dt><label for="password">{translate}Password{/translate}</label></dt>
+			<dd><input type="password" id="password" name="password" value="" /></dd>
 		</dl>
 	</fieldset>
-	<div style="text-align:center">
-		<input type="checkbox" name="remember_me" value="1" {if $smarty.post.remember_me == 1}checked="checked" {/if}/>
-		<abbr title="Cookies required">{translate}Remember me{/translate}</abbr>
-	</div>
 	<div class="form_bottom">
+		<label for="remember">
+			<input type="checkbox" id="remember" name="remember_me" value="1" {if $smarty.post.remember_me == 1}checked="checked" {/if}/>
+			<abbr title="Cookies required">{translate}Remember me{/translate}</abbr>
+		</label>
 		<input type="submit" name="submit" value="{translate}Login{/translate}" class="button" />
 	</div>
 </form>

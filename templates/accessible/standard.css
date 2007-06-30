@@ -4,14 +4,15 @@
 	padding: 0;
 }
 body {
-	background: #fff url('images/layout/background.png') repeat-x;
-	font: 62.5% 'Trebuchet MS', Arial, sans-serif;
+	background: #333;
+	font: 62.5% Arial, sans-serif;
+	color: #000;
 }
 img {
 	border: 0;
 }
 p {
-	padding: 5px 0;
+	margin: 5px 0;
 }
 /* Tables */
 
@@ -38,12 +39,11 @@ p {
 
 /* Hyperlinks */
 a, a:link, a:hover {
-	color: #069;
-	text-decoration: none;
+	color: #000;
+	text-decoration: underline;
 }
 a:hover {
-	color: #f90;
-	text-decoration: underline;
+	text-decoration: none;
 }
 /* Lists */
 ul, ol {
@@ -57,107 +57,110 @@ dl {
 }
 /* Headings */
 h1 {
-	padding-bottom: 5px;
-	font-size: 1.5em;
+	font-size: 1.6em;
 }
 h2 {
-	font-size: 1.4em;
+	font-size: 1.5em;
 }
 h3 {
-	font-size: 1.3em;
-}
-h4 {
-	font-size: 1.2em;
-}
-h5 {
-	font-size: 1.1em;
-}
-h6 {
-	font-size: 1em;
-}
-/* Layout */
-#header {
-	height: 40px;
-}
-#navigation {
-	margin: 0 0 0 5px;
-	padding-top: 17px;
-	list-style: none;
-	font-weight: bold;
 	font-size: 1.4em;
 }
+h4 {
+	font-size: 1.3em;
+}
+h5 {
+	font-size: 1.2em;
+}
+h6 {
+	font-size: 1.1em;
+}
+/* Layout */
+#box {
+	width: 95%;
+	margin: 1% auto;
+	padding: 0 1%;
+	background: #fff;
+	border: 2px solid #ccc;
+}
+#header {
+	height: 100px;
+	padding: 0 8px;
+	background: url('images/layout/head_bg.png') repeat-x 0 70px;
+	position: relative;
+}
+#clansuite_title, #date_right {
+	height: 70px;
+	line-height: 70px;
+}
+#clansuite_title {
+	font-size: 2em;
+}
+#login_right {
+	font-size: 1.2em;
+	position: absolute;
+	top: 5px;
+	right: 8px;
+}
+#login_right input {
+	margin: 0 2px 0 0;
+}
+#navigation {
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	top: 73px;
+	left: 8px;
+}
 #navigation li {
+	margin-right: 4px;
 	float: left;
 }
 #navigation li a {
-	margin: 0 1px 0 1px;
-	padding: 0 5px;
-	background: #900;
-	border: 1px solid #333;
+	height: 25px;
+	margin: 1px 1px 0 1px;
+	padding: 0 8px;
+	font: 1.4em/25px 'Trebuchet MS', Arial, sans-serif;
 	color: #fff;
-	line-height: 23px;
+	text-decoration: none;
 	display: block;
 }
 #navigation li a:hover {
-	border-bottom-color: #900;
-	color: #ffc;
-	text-decoration: none;
-}
-#breadcrumbs {
-	height: 27px;
-	padding-left: 10px;
-	font-weight: bold;
-	font-size: 1.2em;
-	color: #fff;
-	line-height: 27px;
-	clear: both;
-}
-#breadcrumbs span {
-	color: #eee;
-}
-#breadcrumbs a {
+	margin: 0;
+	background: #eab2b2;
+	border: 1px solid #000;
 	color: #000;
 }
-#breadcrumbs a:hover {
-	color: #ffc;
+#navigation li a:active, #navigation li a.selected {
+	margin: 0;
+	background: #fff;
+	border: 1px solid #000;
+	border-bottom: 1px solid #fff;
+	color: #000;
 }
-#box {
-	font-size: 1.2em;
-	position: relative;
+#breadcrumb {
+	height: 25px;
+	margin: 10px 0 0;
+	padding: 1px 8px 0;
+	background: #fff url('images/layout/breadcrumb.png') repeat-x;
+	font: bold 1.3em/25px 'Trebuchet MS', Arial, sans-serif;
+	clear: both;
 }
-#left {
-	width: 200px;
-	background: #eee;
-	border: 1px solid #333;
-	border-width: 0 1px 1px 0;
-	float: left;
-}
-#left h3, #right h3 {
-	padding: 5px 5px 5px 10px;
-	background: #f00;
-	border: 1px solid #333;
-	border-width: 1px 0;
-	font-weight: bold;
-	font-size: 1.1em;
-	color: #fff;
-	text-align: left;
-}
-#right {
-	width: 180px;
-	background: #eee;
-	border: 1px solid #333;
-	border-width: 0 0 1px 1px;
-	float: right;
-}
-#counter li {
-	list-style: none;
+#breadcrumb span {
+	color: #f00;
 }
 #content {
-	padding: 10px 200px 10px 215px;
+	margin: 10px 21% 10px 0;
+	font-size: 1.2em;
+}
+#right {
+	width: 20%;
+	float: right;
+	font-size: 1.2em;
 }
 #footer {
-	margin-top: 20px;
-	font-size: 1.1em;
+	padding: 10px 8px;
+	background: url('images/layout/footer.png') repeat-x;
+	font: bold 1em 'Trebuchet MS', Arial, sans-serif;
 	color: #f00;
 	text-align: center;
 	letter-spacing: 0.1em;
@@ -224,6 +227,7 @@ fieldset dd textarea {
 }
 .form_bottom {
 	margin-top: 5px;
+	text-align: center;
 }
 /* Usercenter */
 .usercenter {
@@ -389,16 +393,6 @@ fieldset dd textarea {
 	border: 1px solid #CCCCCC;
 	border-top-color: #999999;
 	border-left-color: #999999;
-}
-
-form input,
-form textarea,
-form select
-{
-	width: auto;      /* auto-size, otherwise watch for wrap on resize */
-	margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
-                              label aligns textarea better in IE */
-    padding-left: 3px;
 }
 
 .input_text

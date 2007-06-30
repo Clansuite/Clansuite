@@ -48,12 +48,6 @@
 
 
 {literal}
-    <!--[if lte IE 6]>
-    <style type="text/css">
-        table { width: 99%; }
-    </style>
-    <![endif]-->
-
     <style type="text/css">
         .special { background-color: #000; color: #fff; }
         .calendar .inf { font-size: 80%; color: #444; }
@@ -71,230 +65,27 @@
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
 {/doc_raw}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
-<div id="header">
-	<ul id="navigation">
-		<li><a href="index.php?mod=news">News</a></li>
-		<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
-		<li><a href="index.php?mod=board">Board</a></li>
-		<li><a href="index.php?mod=guestbook">Guestbook</a></li>
-		<li><a href="index.php?mod=serverlist">Serverlist</a></li>
-		<li><a href="index.php?mod=userslist">Userslist</a></li>
-		<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
-		<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
-	</ul>
-</div>
-{* Breadcrumbs Navigation *}
-{include file='tools/breadcrumbs.tpl'}
 <div id="box">
-	<div id="left">
-	    {* Modulcall name="modulname" func="function" *}
-		{mod name="account" func="login"}
-		<br />
-		<h3>{translate}Calendar{/translate}</h3>
-
-		<div style="float: right; margin-top: 5px; margin-bottom: 1em; margin-right: 5px;" id="calendar-container"></div>
-
-        <div id="dateInfotext">dateInfotext</div>
-		<div id="test-div">dateinfo-div</div>
-		<ul id="Liste"></ul>
-		  {literal}
-    		<script type="application/javascript">
-                  // <![CDATA[
-                        function dump(arr,level) {
-                        var dumped_text = "";
-                        if(!level) level = 0;
-
-                        //The padding given at the beginning of the line.
-                        var level_padding = "";
-                        for(var j=0;j<level+1;j++) level_padding += "    ";
-
-                        if(typeof(arr) == 'object') { //Array/Hashes/Objects
-                         for(var item in arr) {
-                          var value = arr[item];
-
-                          if(typeof(value) == 'object') { //If it is an array,
-                           dumped_text += level_padding + "'" + item + "' ...\n";
-                           dumped_text += dump(value,level+1);
-                          } else {
-                           dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-                          }
-                         }
-                        } else { //Stings/Chars/Numbers etc.
-                         dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
-                        }
-                        return dumped_text;
-                        }
-                        
-              // define the initial dateInfo array:
-              dataInfos = Class.create();
-                  // ]]>
-            </script>
-
-            <script type="application/javascript">
-                  // <![CDATA[
-
-            	  // get new dateInfos from database via ajax
-            	  function getdateInfos(date)
-            	  {
-            	    // ok, now get the new data if month changed!
-                    var y = date.getFullYear();
-                    var m = date.getMonth()+1; // WATCH OUT internally jscalendar uses integer, 0..11
-                                               // WE USE JANUARY = 1 ! so we add +1 to all months
-                                               // for php processing
-
-           	        var url = 'index.php?mod=calendar&action=ajax_getdateinfos';
-                    var pars = '&year=' + y + '&month=' + m;
-
-                    // for xml return testing (calling without output=xml returns json)
-                    // var pars = '&year=' + y + '&month=' + m +'&output=xml';
-
-                    var myAjax = new Ajax.Request(url,
-                    { method: 'get', parameters: pars, onComplete: getResponse }
-                    );
-                  };
-
-            	  function getResponse(req)
-            	  {
-            	    // debug output to id
-            	    // document.getElementById('test-div').innerHTML = req.responseText;
-
-                    dataInfos = eval('(' + req.responseText + ')');
-
-                    var o="";
-                    for(eventDatum in dataInfos) {
-                    	o+=eventDatum+"\n";
-                    	for(eventNummer in dataInfos[eventDatum]) {
-                    		o+=eventNummer+"\n";
-                    		for(eigenschaft in dataInfos[eventDatum][eventNummer]) {
-                    			o+=eigenschaft+": "+dataInfos[eventDatum][eventNummer][eigenschaft]+"\n";
-                    		}
-                    		o+="\n";
-                    	}
-                     }
-                     //alert(dump(dataInfos));
-                  }
-
-                  // output Date + Infotext to separte field
-                  // to the day-field
-                  // or to an tooltip
-                  function outputDateandInfotext(calendar)
-                  {
-                      var preview = document.getElementById("dateInfotext");
-                      if (preview)
-                      {
-                        preview.innerHTML = calendar.date.print('%a, %b %d, %Y');
-                      }
-                  };
-
-            	   // jscalendar-params[dateText]
-                   // this is called for every day (d) to assign a Text
-                   // if d == 1 call ajax update for new dateInfo-array
-                   function getDateText(date, d)
-                   {
-                     // ajax call
-                     if (d == 1)
-                     {
-                        getdateInfos(date);
-                        //alert(dump(dataInfos));
-                       //alert(dataInfos);
-                     };
-
-                     // assign text to all day divs
-                     if( dataInfos[date.print("%Y%m%d")] ) 
-                     {
-                        // if day exists, assign datainfo to inf
-                        var inf = dataInfos[date.print("%Y%m%d")]["1"]["eventname"]; 
-                        
-                        for(eventNummer in dataInfos[date.print("%Y%m%d")]) 
-                        {
-                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "E" )
-                    		{ var EventIcon = "<img src='' alt='E' />"; } 
-                    		else 
-                    		{ var EventIcon = ''; }                    		
-                    		
-                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "B" )
-                    		{ var BirthdayIcon = "<img src='' alt='B' />"; }
-                    		else 
-                    		{ var BirthdayIcon = ''; } 
-                    		
-                    		if ( dataInfos[date.print("%Y%m%d")][eventNummer]["icontype"] == "M" )
-                    		{ var MatchIcon = "<img src='' alt='M' />"; } 
-                    		else 
-                    		{ var MatchIcon = ''; }  
-                        }
-                     }
-                     
-                     // check if inf is not empty
-                     if (!inf) 
-                     {
-                       // if empty, print nothing for that (d)ay
-                       return d + "<div class='inf'>&nbsp;<\/div>";
-                     } 
-                     else 
-                     { 
-                       // inf is not empty, so print inf-data
-                       return d + "<div class='inf'>"+ EventIcon +" - "+ BirthdayIcon +" - "+ MatchIcon +"<a href='javascript:void(0);' onmouseover=\"return overlib('"+ inf +"', CAPTION, 'CAPTION', HEIGHT, 40, ABOVE, SNAPX, 55, SNAPY, 10);\" onmouseout=\"nd();\">" + inf +"<\/a><\/div>";
-                     }
-
-                   };
-
-             	  function flatCallback(calendar)
-             	  {
-             	    if (calendar.dateClicked) {
-             	      outputDateandInfotext(calendar);
-
-             	      // windows.status changer
-             	      window.status = "Selected: " + calendar.date;
-             	      var inf = dataInfos[calendar.date.print("%Y%m%d")];
-             	      if (inf) {
-            	        window.status += ".  Additional info: " + inf;
-             	      }
-             	    }
-             	  };
-
-                  //
-             	  function dateIsSpecial(year, month, day)
-                  {
-                    var combined = year + month + day;
-                    var m = dataInfos[combined];
-                    if (m == undefined) { return false; } else { return true; }
-                  };
-
-                  // returns true if dateIsSpecial
-                  function dateIsSpecial(year, month, day)
-                  {
-                    // check array -> year
-                    var y = SPECIAL_DAYS[year]; if (!y) return false;
-                    // check array -> year+month
-                    var m = SPECIAL_DAYS[year][month]; if (!m) return false;
-                    // check every day in month
-                    for (var i in m) if (m[i] == day) return true;
-                    return false;
-                  };
-
-             	  // function to mark a Day as Special
-                  // .special in css needed
-                  function ourDateStatusFunc(date, y, m, d)
-                  {
-                    if (dateIsSpecial(y, m, d))
-                    {
-                    return "special";
-                    }
-                    else
-                    {
-                    return false;
-                    }
-
-                  };
-
-                  // ]]>
-            </script>
-        {/literal}
-		{dhtml_calendar flat="calendar-container"
-		                dateText=getDateText
-		                flatCallback=flatCallback
-		                firstDay="1"}
+	<div id="header">
+		<h1 id="clansuite_title">Clansuite - Just an eSport CMS</h1>
+		<div id="login_right">
+		{include file="account/login_right.tpl"}
 		</div>
+		<ul id="navigation">
+			<li><a href="index.php?mod=news">News</a></li>
+			<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
+			<li><a href="index.php?mod=board">Board</a></li>
+			<li><a href="index.php?mod=guestbook">Guestbook</a></li>
+			<li><a href="index.php?mod=serverlist">Serverlist</a></li>
+			<li><a href="index.php?mod=userslist">Userslist</a></li>
+			<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
+			<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
+		</ul>
+	</div>
+	<div id="breadcrumb">
+		{* Breadcrumbs Navigation *}
+		{include file='tools/breadcrumbs.tpl'}
+	</div>
 	<div id="right">
 		{mod name="shoutbox" func="show"}
 		<h3>{translate}Statistics{/translate}</h3>
@@ -328,13 +119,13 @@
 	<div id="content">
 		{$content}
 	</div>
-</div>
-<div id="footer">
-<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-	{$copyright}<br />
-	Theme: {* {$theme-copyright} *}
-	<br/>
-	{include file='server_stats.tpl'}
+	<div id="footer">
+		<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+		{$copyright}<br />
+		Theme: {* {$theme-copyright} *}
+		<br/>
+		{include file='server_stats.tpl'}
+	</div>
 </div>
 {* Ajax Notification *}
 <div id="notification" style="vertical-align:middle;display:none;z-index:99;">
