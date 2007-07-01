@@ -58,6 +58,7 @@ dl {
 /* Headings */
 h1 {
 	font-size: 1.6em;
+	margin-bottom: 10px;
 }
 h2 {
 	font-size: 1.5em;
@@ -150,10 +151,12 @@ h6 {
 }
 #content {
 	margin: 10px 21% 10px 0;
+	padding: 0 8px;
 	font-size: 1.2em;
 }
 #right {
 	width: 20%;
+	margin: 10px 8px 0 0;
 	float: right;
 	font-size: 1.2em;
 }
