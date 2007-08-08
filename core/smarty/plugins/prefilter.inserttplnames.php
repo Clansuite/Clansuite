@@ -12,12 +12,11 @@
 * Install: Place in your (local) plugins directory and
 *          add the call:
 *          $smarty->load_filter('pre', 'inserttplnames');
-* Author:  Jens-André Koch
+* Author:  Jens-Andre Koch
 * --------------------------------------------------------
 */
 function smarty_prefilter_inserttplnames( $tpl_source, &$compiler )
 {
     return "\n<!-- _________| Start of {\$smarty.template} |_________ -->\n".$tpl_source."\n<!-- _________| End of {\$smarty.template} |_________ -->\n";
 }
-
 ?>
