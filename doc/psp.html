@@ -89,9 +89,14 @@
         <ul>
     	<li class="firstfollow">smarty</li>
     	<li class="last">switfmailer</li>
+    	<li class="last">fckeditor</li>
+    	<li class="last">bbcode</li>
+    	<li class="last">geshi</li>
+    	<li class="last">magpierss</li>
+    	<li class="last">graph</li>
         </ul>
-	<li>doc</li>
-	<li>install</li>
+	<li>documentation</li>
+	<li>installation</li>
 	<li>languages</li>
         <ul>
     	<li class="firstfollow">de</li>
@@ -101,7 +106,10 @@
 	    <ul>
     	<li class="firstfollow">account</li>
     	<li class="firstfollow">admin</li>
+    	<li class="firstfollow">board</li>
     	<li class="firstfollow">captcha</li>
+    	<li class="firstfollow">...</li>
+    	<li class="firstfollow">news</li>
     	<li class="firstfollow">...</li>
     	<li class="last">static</li>
         </ul>
@@ -110,10 +118,12 @@
     	<li class="firstfollow">core</li>
         	<ul>
     	    <li class="firstfollow">admin</li>
+    	    <li class="last">css</li>
     	    <li class="firstfollow">fonts</li>
     	    <li class="firstfollow">images</li>
     	    <li class="last">javascript</li>
-            </ul>
+    	    <li class="last">tools</li>
+    	    </ul>
     	<li>andreas01</li>
     	<li class="last">standard</li>
     	    <ul>
@@ -136,14 +146,18 @@
 <h2>2. Externe Scripte<a name="externescripte"></a> </h2>
 <p>- Smarty ==&gt; /core/smarty/Smarty.class.php<br>
   - PEAR::DB ==&gt; /core/pear/db.class.php + /core/pear/DB/*.php <br>
-  - Swift Mailer  ==&gt; /core/switftmailer/</p>
+  - Swift Mailer  ==&gt; /core/switftmailer/
+
+
+</p>
   
 <h2>3. Module<a name="module"></a></h2>
 <p>- Ordner: /modules <br>
   - GET Variablen &Uuml;bergabe an index.php ==&gt; z.B. index.php?mod=admin&amp;do=enter<br>
-- Weiterleitung zu Modul in index.php ( per require )</p>
+- Pagecontroller = Weiterleitung zu Modul in index.php ( per require )<br>
 <h2>4. User-/Gruppen<a name="usergruppen"></a></h2>
-<p>- Gruppenrichtlinien via DB, welche userspezifisch in einem Objekt-Array gehalten werden ==&gt; z.B. $user-&gt;group['can_access_acp'], $user-&gt;id, $user-&gt;name, ... (ung&uuml;ngstig?) </p>
+<p>- Gruppenrichtlinien via DB, welche userspezifisch in einem Objekt-Array gehalten werden <br>
+    ==&gt; z.B. $user-&gt;group['can_access_acp'], $user-&gt;id, $user-&gt;name </p>
 <h2>5. Datenbank Struktur<a name="datenbank"></a> </h2>
 <p>- $config-&gt;db_prefix.'_content'<br>
   - Tables: Tabellenname_Feldname ==&gt; e.g. user_name,user_id,user_nick,user_icq</p>
@@ -151,16 +165,16 @@
 <p>- PEAR Coding Standards (unter Umst&auml;nden mit leichten Ver&auml;nderungen...) ==&gt; <a href="http://pear.php.net/manual/de/standards.php">http://pear.php.net/manual/de/standards.php</a><br>
   - private Variablen/Funktionen mit Unterstrich
 ==&gt; $_privatevar, function _privatefunc()<br>
-- docBlock Kommentierungen (Nicht ganz so heftig, aber mindestens mit @desc) ==&gt; <a href="http://pear.php.net/manual/de/standards.comments.php">http://pear.php.net/manual/de/standards.comments.php</a><br>
+- docBlock Kommentierungen !==&gt; <a href="http://pear.php.net/manual/de/standards.comments.php">http://pear.php.net/manual/de/standards.comments.php</a><br>
 - 4 Space Tabstops (widerspricht den PEAR Standards!)<br>
 - Silbentrennung durch Unterstrich ==&gt; $gruenes_haus, $input_vars, $tpl_handler<br>
 - Leerstelle bei PHP Funktionen ==&gt; require ('config.class.php')<br>
 - keine Leerstelle bei normalen Funktionen ==&gt; clear_input($string='')<br>
-- Editoren: PHPed (Features: phpDocumentor, TurtoiseSVN, FTP, SQL), Weaverslave (Features: ???)<br>
+- Tools, you should be able to handle: phpDocumentor, TurtoiseSVN, Subversion <br>
 - Monospaced Fonts (z.B. Courier New)</p>
 <h2>7. Voraussetzungen<a name="voraussetzungen" id="voraussetzungen"></a></h2>
 <p>- PHP 5.1 und h&ouml;her<br>
-  - Datenbank: DBase,FBSQL,iBase,ifx,msql,mssql,mysql,mysqli,oci8,odbc,pgsql,sqllite,sybase,storage<br>
+  - Datenbank: Priorit„t: mysql,mysqli + Rest: DBase,FBSQL,iBase,ifx,msql,mssql,oci8,odbc,pgsql,sqllite,sybase,storage<br>
   - ca. 100 MB Webspace
 </p>
 <h2>8. Lizenz<a name="lizenz" id="lizenz"></a></h2>
