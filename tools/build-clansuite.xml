@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<project name="Clansuite" description="Clansuite Build File" basedir="." default="doc_phpdoc">
+
+    <!-- Define Project Properties -->
+    <property name="version" value="0.1.0" override="true" />
+    <property name="status"  value="alpha-dev" override="true" />
+    
+    <!-- Define Fileset 
+    <fileset id="projectfiles" dir="www">
+        <include name="**" />
+        <include name="LICENSE/**" />
+        <exclude name="files/**"/>
+        <exclude name="config.ini"/>
+        <exclude name=".htaccess"/>
+    </fileset>   -->
+    
+    
+    <!-- Command "all" => all phing-build commands in order -->
+    <target name="all">
+        <echo>------------------------------------------</echo>
+        <echo msg="Building Clansuite ${version} ${status}" />
+        <echo>------------------------------------------</echo>
+        <phingcall target="lint" />    
+        <phingcall target="doc" />
+        <phingcall target="tar" />
+        <echo file="core/clansuite.version.php" append="false">$clansuite_version = '${version} ${status}';</echo>
+    </target>
+    
+    
+    <!-- Documentation -->
+    
+    <property name="documentations_dir" value="apidocs" override="true" />
+    
+    <target name="all_docs">
+        <echo>-----------------------------------</echo>
+ 	    <echo>|   Creating ALL Documentations   |</echo>
+	    <echo>-----------------------------------</echo>
+        <phingcall target="doc_phpdoc" />
+        <phingcall target="doc_doxygen" />
+        <phingcall target="doc_phpxref" />
+    </target>
+        
+        
+        <target name="generate-docs">
+            <!--
+                    Generates the API documentation using Doxygen and PHPDoc
+                    Doxygen is required in the path.
+            -->
+           
+            <exec command="doxygen" dir="."/>
+            <!-- <exec command="make pdf" dir="${build.src.dir}/docs/latex"/> -->           
+            <phpdoc title="Doctrine Documentation" destdir="${build.dest.dir}/docs/API/phpdoc/html"
+                    sourcepath="${project.base.dir}/lib" output="HTML:Smarty:PHP"/>
+ 	    </target>
+        
+         
+        <!-- Command doc_phpdoc => creates phpdocumentor documentation -->
+        
+        <property name="phpdoc_dir" value="phpdoc" override="true" />
+                
+        <target name="doc_phpdoc">
+            <echo>- create phpdoc</echo>
+            <delete dir="${documentations_dir}/${phpdoc_dir}" />
+            <mkdir dir="${documentations_dir}/${phpdoc_dir}" />
+            <exec command="c:\xampplite\htdocs\work\phpdocumentor\phpdoc -c c:/xampplite/htdocs/work/clansuite/doc/clansuite-phpdoc.ini -f c:/xampplite/htdocs/work/clansuite/trunk/*.php -t c:/xampplite/htdocs/work/clansuite/${documentations_dir}/${phpdoc_dir} > debug.txt"/>
+        </target>
+    
+    <!-- Create Archives -->
+    
+    <property name="archive_dir" value="archive" override="true" />
+    
+    <!-- Command tar -->
+    
+    <property name="archive_filename" value="clansuite-${version}" override="true" />
+    
+ 	<target name="tar">
+ 	    <mkdir dir="${archive_dir}" />
+ 	    <delete file="${archive_dir}/${archive_filename}.tgz" />
+ 	    <delete file="${archive_dir}/${archive_filename}.tgz.md5" />
+ 	    
+ 	    <tar destfile="${archive_dir}/${archive_filename}.tgz" compression="gzip">
+ 	        <fileset refid="projectfile" />
+ 	    </tar>
+ 	    
+ 	    <php function="md5_file" returnProperty="md5file">
+ 	        <param value="${archive_dir}/${archive_filename}.tgz"/>
+ 	    </php>
+ 	    
+ 	    <echo msg="${md5file}" file="${archive_dir}/${archive_filename}.tgz.md5"/>	    
+    </target>
+    
+    <!-- Command "tar_doc" -->
+    
+    <target name="tar_doc">        
+        <delete file="${archive_dir}/${archive_filename}-doc.tgz" />
+        <tar destfile="${archive_dir}/${archive_filename}-doc.tgz" compression="gzip">
+	      <fileset id="docfile" dir="${docdir}">
+	        <include name="**" />
+	      </fileset>
+	    </tar>
+    </target>
+    
+
+</project>
