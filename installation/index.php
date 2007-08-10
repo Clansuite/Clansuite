@@ -1,43 +1,49 @@
 <?php
-/**
-* Installer
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+    /**
+     * Clansuite Installer
+     * v0.2dev 10-august-2007 by vain
+     *
+     * LICENSE:
+     *
+     *    This program is free software; you can redistribute it and/or modify
+     *    it under the terms of the GNU General Public License as published by
+     *    the Free Software Foundation; either version 2 of the License, or
+     *    (at your option) any later version.
+     *
+     *    This program is distributed in the hope that it will be useful,
+     *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+     *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     *    GNU General Public License for more details.
+     *    You should have received a copy of the GNU General Public License
+     *    along with this program; if not, write to the Free Software
+     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+     *
+     * @author     Jens-Andre Koch <vain@clansuite.com>
+     * @author     Florian Wolf <xsign.dll@clansuite.com>
+     * @copyright  2006 Clansuite Group
+     * @license    see COPYING.txt
+     *
+     * @link       http://gna.org/projects/clansuite
+     * @since      File available since Release 0.1
+     * @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+     */
+ 
 
-/**
- * Security Handler
- */
-define('IN_CS', true);
+@set_time_limit(0);
+@session_start();
+
+echo 'get:';        var_dump($_GET);
+echo 'post:';       var_dump($_POST);
+echo 'session:';    var_dump($_SESSION);
+
+// Security Handler
+define('IN_CS', true);      
+
+// Get site path
+define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
 
 // The Clansuite version this script installs
 $cs_version = '0.1';
-
-// Define Root Path
-define('CS_ROOT', './');
 
 // In Case config.class.php exists, exit
 /* @todo: other solution pls - 'cause the webinstaller currently leeches from the svn snapshot!!!
@@ -47,52 +53,133 @@ if (file_exists(CS_ROOT.'config.class.php'))
 }*/
 
 /**
-* @desc Alter php.ini settings
-*/
-ini_set('display_errors'                , true);
-ini_set('zend.ze1_compatibility_mode'   , false);
-ini_set('zlib.output_compression'       , true);
-ini_set('zlib.output_compression_level' , '6');
-ini_set('arg_separator.input'           , '&amp;');
-ini_set('arg_separator.output'          , '&amp;');
-
-// Turn off PHP time limit
-@set_time_limit(0);
-
-session_start();
-
-/**
-* @desc Generate the Session out of the POST data
-*/
-if( is_array($_SESSION['config']) && is_array($_POST['config']) )
+ * Transfer Post-Data to Session
+ 
+if( !empty($_SESSION['config']) && !empty($_POST['config']) )
 	$_SESSION['config'] = array_merge( $_SESSION['config'], $_POST['config'] );
 	unset($_POST['config']);
-if( is_array($_SESSION) && is_array($_POST) )
+if( !empty($_SESSION) && !empty($_POST) )
     $_SESSION = array_merge( $_SESSION, $_POST );
-
+*/
 
 /**
-* @desc Suppress Errors
-*/
-//error_reporting(0);
+ * @desc Suppress Errors
+ * E_STRICT forbids the shortage of "<?php echo $language->XY ?>" to "<?=$language->XY ?>"
+ * so we use e_all ... this is just an installer btw :)
+ */
+#error_reporting(E_ALL);
+
+#================
+#     OUTPUT
+#================
+
+# INCLUDE THE HEADER!
+include ('install-header.php');
+
+$step = isset($_POST['step']) ? $_POST['step'] : '1';
 
 /**
-* @desc STEP 1
-*/
-if( !isset($_GET['step']) || $_GET['step'] == 1 )
+ * ==============================
+ *    set default language var
+ * ==============================
+ */
+if (isset($_GET['lang']) and !empty($_GET['lang']))
 {
-    require( 'install-step1.php' );
+    #echo 'var lang = from GET';
+    $_SESSION['lang'] = $lang =  htmlspecialchars($_GET['lang']);
+}
+else
+{
+    if(isset($_SESSION['lang']))
+    {   #echo 'var lang = session';
+        $lang =  $_SESSION['lang'];
+    }    
+    if ($step == 1 and empty( $_SESSION['lang'])) 
+    {
+        #echo 'var lang = default german';
+        $_SESSION['lang'] = $lang = 'german';  
+    }    
+}
+
+if (file_exists (CS_ROOT . '/languages/'.$lang.'.install.php')) 
+{
+	require_once (CS_ROOT . '/languages/'.$lang.'.install.php');
+	$language = new language;
+	$_SESSION['lang'] = $lang;	
+} 
+else 
+{
+    die('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
+}
+
+
+
+/**
+ * Switch to Intallation-functions based on "STEPS"
+ */
+$installfunction  = "installstep_$step"; # add step to function name
+if(function_exists($installfunction))  # check if exists
+{
+    $_SESSION['step'] = $step;
+    $_SESSION['progress'] = calc_progress($step, get_total_steps());        
+    $installfunction($language); # lets rock! :P    
+}
+
+# INCLUDE THE FOOTER !!
+require ('install-footer.php');
+
+/**
+ * Gets the total number of installations steps avaiable
+ * by checking how many functions with name "installstep_x" exist
+ *
+ * @return $_SESSION['total_steps']
+ */
+function get_total_steps()
+{   
+    if(isset($_SESSION['total_steps'])){return $_SESSION['total_steps'];}
+    for($i=1;function_exists('installstep_'.$i)==true;$i++){$_SESSION['total_steps']=$i;}
+    return $_SESSION['total_steps'];
 }
 
 /**
-* @desc STEP 2
-*/
-if( $_GET['step'] == 2 )
+ * Calculate Progress 
+ * is used to display install-progress in percentages
+ *
+ * @return float progress-value
+ */
+function calc_progress($this_is_step,$of_total_steps) 
+{
+   $this_is_step--;
+   return round(100/($of_total_steps-1)*$this_is_step, 0);
+}
+
+// STEP 1 - Language Selection
+function installstep_1($language){    require 'install-step1.php' ;}
+// STEP 2 - System Check
+function installstep_2($language){    require 'install-step2.php' ;}
+// STEP 3 - System Check
+function installstep_3($language){    require 'install-step3.php' ;}
+// STEP 4 - System Check
+function installstep_4($language){    require 'install-step4.php' ;}
+// STEP 5 - System Check
+function installstep_5($language){    require 'install-step5.php' ;}
+// STEP 6 - System Check
+function installstep_6($language){    require 'install-step6.php' ;}
+// STEP 7 - System Check
+function installstep_7($language){    require 'install-step7.php' ;}
+
+#########
+#########
+
+/**
+ * @desc STEP 2 - System Check
+ */
+if( $_POST['step'] == 20 )
 {
     /**
     * @desc Check whether form is filled or not
     */
-
+    print_r($_SESSION);
     if( empty($_SESSION['admin_firstname']) ||
         empty($_SESSION['admin_lastname']) ||
         empty($_SESSION['config']['from']) ||
@@ -100,7 +187,7 @@ if( $_GET['step'] == 2 )
         empty($_SESSION['admin_pass']) ||
         empty($_SESSION['config']['encryption']) )
     {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?step=1&error=fill_form");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?error=fill_form");
         die();
     }
 
@@ -112,9 +199,9 @@ if( $_GET['step'] == 2 )
 
 
 /**
-* @desc STEP 3
-*/
-if( $_GET['step'] == 3 )
+ * @desc STEP 3
+ */
+if( $_POST['step'] == 30 )
 {
     /**
     * @desc Check whether form is empty or not
@@ -131,8 +218,8 @@ if( $_GET['step'] == 3 )
     }
 
     /**
-    * @desc Check DB Connection
-    */
+     * @desc Check DB Connection
+     */
     try
     {
        $db = new PDO($_SESSION['config']['db_type'].':host='.$_SESSION['config']['db_host'].';dbname='.$_SESSION['config']['db_name'], $_SESSION['config']['db_username'],$_SESSION['config']['db_password']);
@@ -152,9 +239,9 @@ if( $_GET['step'] == 3 )
 
 
 /**
-* @desc STEP 4 - FINISH
-*/
-if( $_GET['step'] == 4 )
+ * @desc STEP 4 - FINISH
+ */
+if( $_POST['step'] == 40 )
 {
 
     if( $_SESSION['ftp_data'] == 1 )
@@ -173,8 +260,8 @@ if( $_GET['step'] == 4 )
         }
 
         /**
-        * @desc Check the connection
-        */
+         * @desc Check the connection
+         */
         $ftp_con = ftp_connect($_SESSION['ftp_hostname'], $_SESSION['ftp_port']);
         if( !ftp_con )
         {
@@ -197,8 +284,8 @@ if( $_GET['step'] == 4 )
     }
 
     /**
-    * @desc Check DB Connection
-    */
+     * @desc Check DB Connection
+     */
     try
     {
        $db = new PDO($_SESSION['config']['db_type'].':host='.$_SESSION['config']['db_host'].';dbname='.$_SESSION['config']['db_name'], $_SESSION['config']['db_username'],$_SESSION['config']['db_password']);
@@ -211,8 +298,8 @@ if( $_GET['step'] == 4 )
     }
 
     /**
-    * @desc ALLRIGHT - EVERYTHING SEEMS FINE - GO ON!
-    */
+     * @desc ALLRIGHT - EVERYTHING SEEMS FINE - GO ON!
+     */
     $sql = file_get_contents('clansuite.sql');
     $sql = str_replace('CREATE TABLE `cs_', 'CREATE TABLE `' . $_SESSION['config']['db_prefix'], $sql);
 
@@ -363,6 +450,8 @@ if( $_GET['step'] == 4 )
     */
     require( 'install-step4.php' );
 }
-var_dump($_SESSION);
+
+#echo 'Debug Language Values';
+#var_dump($language);
 session_write_close()
 ?>

@@ -4,10 +4,10 @@
             <div class="step-pass"> [1] Sprachauswahl</div>
             <div class="step-pass"> [2] Systemcheck</div>
             <div class="step-pass"> [3] GNU/GPL Lizenz</div>
-            <div class="step-on">   [4] Datenbank</div>
-            <div class="step-off">  [5] Konfiguration</div>
-            <div class="step-off">  [6] Settings</div>
-            <div class="step-off">  [7] Abschluss</div>
+            <div class="step-pass"> [4] Datenbank</div>
+            <div class="step-pass"> [5] Konfiguration</div>
+            <div class="step-pass"> [6] Settings</div>
+            <div class="step-on">   [7] Abschluss</div>
         </div>
     </div>
 
@@ -17,28 +17,28 @@
                     
             <div class="accordion">
         	   <h2 class="headerstyle">
-        	       <img src="images/64px-Document-save.svg.png" border="0" align="absmiddle"> 
-        	       <?=$language['STEP4_DATABASE'] ?>
+        	       <img src="images/64px-Face-smile-big.svg.png" border="0" align="absmiddle"> 
+        	       <?=$language['STEP7_FINISH'] ?>
         	   </h2>
         			
-        	   <p>Systemcheck...</p>
+        	   <p>Paths / Links / Useraccount - Data <img src="images/face-wink.png" border="0" align="absmiddle"></p>
 
             <div class="navigation">
             			<div class="alignleft">
             			 <form action="index.php" name="lang" method="post">
                             <input type="submit" value="<?=$language['BACKSTEP'] ?>" class="button" name="Button2"/>
-                            <input type="hidden" name="lang" value="<?=$lang; ?>">
+                            <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">
                             <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>">
                          </form>
                         </div>
-                        
+                        <!--
             			<div class="alignright">
             			 <form action="index.php" name="lang" method="post">
                             <input type="submit" value="<?=$language['NEXTSTEP'] ?>" class="button" name="Button2"/>
                             <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">
                             <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>"> 
             			 </form>
-            			</div>
+            			</div>-->
             </div><!-- div navigation end -->
            
         	</div> <!-- div accordion end -->   

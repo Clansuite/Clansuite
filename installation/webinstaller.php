@@ -1012,7 +1012,7 @@ function render($renderType, $args=array()) {
   </head>
   <body>
      <h1> Clansuite Webinstaller</h1>
-     <small>Version 0.1 - $Date$</small>
+     <small>Version 0.1 - Mi, 06 Jun 2007</small>
 
     <div>
         <p>
@@ -1662,7 +1662,7 @@ function BlockToggle(objId, togId, text) {
   {
     $v_result=1;
     $v_nb = 0;
-    $v_extract_all = TRUE;
+    $v_extract_all = true;
     $v_listing = FALSE;
 
     // ----- Check the path
@@ -1689,7 +1689,7 @@ function BlockToggle(objId, togId, text) {
     switch ($p_mode) {
       case "complete" :
 	  // ----- Flag extract of all files
-	  $v_extract_all = TRUE;
+	  $v_extract_all = true;
 	  $v_listing = FALSE;
 	  break;
       case "partial" :
@@ -1700,7 +1700,7 @@ function BlockToggle(objId, togId, text) {
       case "list" :
 	  // ----- Flag list of all files
 	  $v_extract_all = FALSE;
-	  $v_listing = TRUE;
+	  $v_listing = true;
 	  break;
       default :
 	  return false;
@@ -1781,7 +1781,7 @@ function BlockToggle(objId, togId, text) {
 	    if ((strlen($v_header["filename"]) > strlen($p_file_list[$i])) && (substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
 	    {
 	      // ----- The file is in the directory, so extract it
-	      $v_extract_file = TRUE;
+	      $v_extract_file = true;
 
 	      // ----- End of loop
 	      break;
@@ -1792,7 +1792,7 @@ function BlockToggle(objId, togId, text) {
 	  else if ($p_file_list[$i] == $v_header["filename"])
 	  {
 	    // ----- File found
-	    $v_extract_file = TRUE;
+	    $v_extract_file = true;
 
 	    // ----- End of loop
 	    break;
@@ -1807,7 +1807,7 @@ function BlockToggle(objId, togId, text) {
       else
       {
 	// ----- All files need to be extracted
-	$v_extract_file = TRUE;
+	$v_extract_file = true;
       }
 
       // ----- Look if this file need to be extracted

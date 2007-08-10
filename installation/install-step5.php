@@ -4,8 +4,8 @@
             <div class="step-pass"> [1] Sprachauswahl</div>
             <div class="step-pass"> [2] Systemcheck</div>
             <div class="step-pass"> [3] GNU/GPL Lizenz</div>
-            <div class="step-on">   [4] Datenbank</div>
-            <div class="step-off">  [5] Konfiguration</div>
+            <div class="step-pass"> [4] Datenbank</div>
+            <div class="step-on">   [5] Konfiguration</div>
             <div class="step-off">  [6] Settings</div>
             <div class="step-off">  [7] Abschluss</div>
         </div>
@@ -17,8 +17,8 @@
                     
             <div class="accordion">
         	   <h2 class="headerstyle">
-        	       <img src="images/64px-Document-save.svg.png" border="0" align="absmiddle"> 
-        	       <?=$language['STEP4_DATABASE'] ?>
+        	       <img src="images/64px-Preferences-system.svg.png" border="0" align="absmiddle"> 
+        	       <?=$language['STEP5_CONFIG'] ?>
         	   </h2>
         			
         	   <p>Systemcheck...</p>
@@ -27,7 +27,7 @@
             			<div class="alignleft">
             			 <form action="index.php" name="lang" method="post">
                             <input type="submit" value="<?=$language['BACKSTEP'] ?>" class="button" name="Button2"/>
-                            <input type="hidden" name="lang" value="<?=$lang; ?>">
+                            <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">
                             <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>">
                          </form>
                         </div>

@@ -1,89 +1,65 @@
-<html>
-<head>
-<title>ClanSuite.com - just an eSport CMS - Installer</title>
-<link rel="stylesheet" type="text/css" href="installation.css" />
-    <script type="text/javascript">
-        function clip(id)
-        {
-            if(document.getElementById(id).style.display == "none")
-            {
-                document.getElementById(id).style.display = "block";
-            }
-            else
-            {
-                document.getElementById(id).style.display = "none";
-            }
-        }
-    </script>
-</head>
+    <div id="sidebar" id="leftsidebar">
+        <div id="stepbar">
+            Installationsschritte
+            <div class="step-pass"> [1] Sprachauswahl</div>
+            <div class="step-pass"> [2] Systemcheck</div>
+            <div class="step-on">   [3] GNU/GPL Lizenz</div>
+            <div class="step-off">  [4] Datenbank</div>
+            <div class="step-off">  [5] Konfiguration</div>
+            <div class="step-off">  [6] Settings</div>
+            <div class="step-off">  [7] Abschluss</div>
+        </div>
+    </div>
 
-<body>
-<center>
-<h1>Installer</h1>
-<br />
-This Installer will guide you in 3 small steps through the hole installation of the <b>C</b>ontent <b>M</b>anagement <b>S</b>ystem (CMS) ClanSuite.
-<p>&nbsp;</p>
-<form autocomplete="off" action="index.php?step=4" method="POST">
-<table style="border: 1px solid black" width="400">
-    <tr>
-        <td height="50" colspan="2" align="center"><b>Step 3:</b> Generate config (<b>FTP</b>)</td>
-    </tr>
-            <?php
-                if( $_GET['error'] == 'fill_form' )
-                {
-                    echo '<tr><td height="30" align="center" colspan="2"><div class="error">Please fill all fields in the form!</div></td></tr>';
-                }
-            ?>
-    <tr>
-        <td width="220" align="right" class="desc">FTP Upload?*:</td>
-        <td align="left"><input class="inputs" type="checkbox" name="ftp_data" value="1" <? if($_SESSION['ftp_data']==1) { echo 'checked'; } ?> onclick="clip('ftp_data')" /></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <div id="ftp_data" style="display: none">
-                <table width="398">
+    <div id="content" class="narrowcolumn">
+    
+        <div id="content_footer">
+                    
+            <div class="accordion">
+        	   <h2 class="headerstyle">
+        	       <img src="images/64px-Application-certificate.svg.png" border="0" align="absmiddle"> 
+        	       <?=$language['STEP3_LICENCE']; ?>
+        	   </h2>
+        		
+        	    
+                <p><?=$language['STEP3_SENTENCE1']; ?></p>
+                
+                <!-- IFRAME WITH LICENCE -->
+                <iframe scrolling="auto" 
+			            frameborder="0" 
+			            marginwidth="15"
+			          	class="license" 
+			            src="languages/<?php echo $_SESSION['lang']; ?>.gpl.html" 
+			            /></iframe>
+			     
+			    <!-- CHECKBOX -> READ LICENCE -->
+			    <div class="">
+			        <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
+				           onClick="if(this.checked==true) { document.ButtonNextForm.ButtonNext.disabled=false; } else { document.ButtonNextForm.ButtonNext.disabled=true;}" />
+				    <label for="agreecheck"><?=$language['STEP3_CHECKBOX'] ?></label>
+			    </div>			     
+			     
+			     <div class="navigation">
+                			<div class="alignleft">
+                			 <form action="index.php" name="ButtonPrevForm" method="post">
+                                <input type="submit" value="<?=$language['BACKSTEP'] ?>" class="button" name="ButtonPrev"/>
+                                <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">
+                                <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>">
+                             </form>
+                            </div>
+                            
+                			<div class="alignright">
+                			 <form action="index.php" name="ButtonNextForm" method="post">
+                                <input type="submit" value="<?=$language['NEXTSTEP'] ?>" class="button" name="ButtonNext" disabled />
+                                <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">
+                                <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>"> 
+                			 </form>
+                			</div>
+                </div><!-- div navigation end -->
+           
+        	</div> <!-- div accordion end -->   
+    
+        </div> <!-- div content_footer end -->
 
-                    <tr>
-                        <td width="150" align="right">Hostname or IP:</td>
-                        <td align="left"><input class="inputs" type="text" name="ftp_hostname" value="<?=$_SESSION['ftp_hostname'] ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td width="100" align="right" class="desc">Port:</td>
-                        <td align="left"><input class="inputs" type="text" name="ftp_port" value="<?=$_SESSION['ftp_port'] ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td width="100" align="right" class="desc">Username:</td>
-                        <td align="left"><input class="inputs" type="text" name="ftp_username" value="<?=$_SESSION['ftp_username'] ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td width="100" align="right" class="desc">Password:</td>
-                        <td align="left"><input class="inputs" type="password" name="ftp_pass" value="<?=$_SESSION['ftp_pass'] ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td width="100" align="right" class="desc">Folder:</td>
-                        <td align="left"><input class="inputs" type="password" name="ftp_folder" value="<?=$_SESSION['ftp_folder'] ?>" /></td>
-                    </tr>
-
-                </table>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td height="70" colspan="2" align="center">
-            <input type="submit" style="border: 1px solid black" value="Generate config file..." name="submit" />
-            <br /><br />
-            <a href="/install/index.php?step=2"><<< Back to Step 2</a>
-            <br />
-            <small>
-                * If the config generation fails you have the opportunity to upload the config via FTP.
-                <br /><br />
-                By clicking the button above you accept the <a href="/COPYING.txt">GPL Licensing</a>.
-            </small>
-        </td>
-    </tr>
-</table>
-</form>
-</center>
-
-</body>
-</html>
+    </div> <!-- div content end -->     
+     
