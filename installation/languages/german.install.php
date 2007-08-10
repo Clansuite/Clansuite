@@ -16,7 +16,7 @@ class language implements ArrayAccess
     $this->language['STEP1_LANGUAGE_SELECTION'] = 'Schritt [1] Sprachauswahl';
        
     // STEP 2 - System Check
-    $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systemcheck';
+    $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systempr&#252;fung';
     
     // STEP 3 - Licence
     $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
@@ -33,9 +33,21 @@ class language implements ArrayAccess
     $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';
     
     
-    //GLOBAL
+    // GLOBAL
     $this->language['NEXTSTEP'] = 'Weiter >>';
     $this->language['BACKSTEP'] = '<< Zurueck';
+    $this->language['CHANGE_LANGUAGE'] = "Sprachauswahl";
+    
+    // MENU
+    $this->language['MENU_HEADING'] = 'Installationsschritte';
+    $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
+    $this->language['MENUSTEP2'] = '[2] Systempr&#252;fung';
+    $this->language['MENUSTEP3'] = '[3] GPL Lizenz';
+    $this->language['MENUSTEP4'] = '[4] Datenbank';
+    $this->language['MENUSTEP5'] = '[5] Konfiguration';
+    $this->language['MENUSTEP6'] = '[6] Admin anlegen';
+    $this->language['MENUSTEP7'] = '[7] Abschluss';
+    
     
     ####
     

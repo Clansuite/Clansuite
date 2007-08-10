@@ -25,16 +25,18 @@
      *
      * @link       http://gna.org/projects/clansuite
      * @since      File available since Release 0.1
-     * @version    SVN: $Id: index.php 156 2006-06-14 08:45:48Z xsign $
+     * @version    SVN: $Id$
      */
  
 
 @set_time_limit(0);
 @session_start();
 
+/**
 echo 'get:';        var_dump($_GET);
 echo 'post:';       var_dump($_POST);
 echo 'session:';    var_dump($_SESSION);
+*/
 
 // Security Handler
 define('IN_CS', true);      
@@ -76,7 +78,21 @@ if( !empty($_SESSION) && !empty($_POST) )
 # INCLUDE THE HEADER!
 include ('install-header.php');
 
-$step = isset($_POST['step']) ? $_POST['step'] : '1';
+if (isset($_POST['step']))
+{
+    $step = $_POST['step'];
+}
+else
+{
+    if(isset($_SESSION['step']))
+    {
+        $step = $_SESSION['step'];
+    }
+    else
+    {
+        $step = 1;
+    }
+}
 
 /**
  * ==============================
@@ -84,19 +100,17 @@ $step = isset($_POST['step']) ? $_POST['step'] : '1';
  * ==============================
  */
 if (isset($_GET['lang']) and !empty($_GET['lang']))
-{
-    #echo 'var lang = from GET';
+{   
     $_SESSION['lang'] = $lang =  htmlspecialchars($_GET['lang']);
 }
 else
 {
     if(isset($_SESSION['lang']))
-    {   #echo 'var lang = session';
+    {   
         $lang =  $_SESSION['lang'];
     }    
     if ($step == 1 and empty( $_SESSION['lang'])) 
-    {
-        #echo 'var lang = default german';
+    {        
         $_SESSION['lang'] = $lang = 'german';  
     }    
 }

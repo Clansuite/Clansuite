@@ -1,13 +1,13 @@
-    <div id="sidebar" id="leftsidebar">
+    <div id="sidebar">
         <div id="stepbar">
-            Installationsschritte
-            <div class="step-on">  [1] Sprachauswahl </div>
-            <div class="step-off"> [2] Systemcheck</div>
-            <div class="step-off"> [3] GNU/GPL Lizenz</div>
-            <div class="step-off"> [4] Datenbank</div>
-            <div class="step-off"> [5] Konfiguration</div>
-            <div class="step-off"> [6] Settings</div>
-            <div class="step-off"> [7] Abschluss</div>
+            <?=$language['MENU_HEADING']?>
+            <div class="step-on"><?=$language['MENUSTEP1']?> </div>
+            <div class="step-off"><?=$language['MENUSTEP2']?></div>
+            <div class="step-off"><?=$language['MENUSTEP3']?></div>
+            <div class="step-off"><?=$language['MENUSTEP4']?></div>
+            <div class="step-off"><?=$language['MENUSTEP5']?></div>
+            <div class="step-off"><?=$language['MENUSTEP6']?></div>
+            <div class="step-off"><?=$language['MENUSTEP7']?></div>
         </div>
     </div>
 
@@ -17,20 +17,21 @@
                  
             <div class="accordion">
         	   <h2 class="headerstyle">
-        	       <img src="images/64px-Tango_Globe_of_Letters.svg.png" border="0" align="absmiddle">
-        	       <?=$language['STEP1_LANGUAGE_SELECTION'] ?>
+        	       <img src="images/64px-Tango_Globe_of_Letters.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+        	       <?=$language['STEP1_LANGUAGE_SELECTION']?>
         	   </h2>
         	 <p>Willkommen zum Installer von Clansuite / Welcome to the the Clansuite Installer.
-        	 </br>
+        	 <br />
         	 <p>Diese Anwendung fÅhrt Sie schrittweise durch die Installation. / This application will guide you you in several steps through the installation.</p>
         	<p>WÑhlen Sie bitte die Sprache aus. / Please select your language.</p>
         	
         	<p>
         	    <form action="index.php" name="lang" method="post"> 
-        	    <input type="hidden" name="lang" value="<?=$_SESSION['lang'] ?>">   
+        	    <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />   
         	    
                 <?php # pruefen ob es die aktuelle sprache ist, die reloaded werden soll
-                      # nur reloaden, wenn neue sprache ausgewaehlt                ?>
+                      # nur reloaden, wenn neue sprache ausgewaehlt
+                ?>      
                 <select name="lang" style="width: 160px"
                         onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php
@@ -67,7 +68,7 @@
             			</div> -->
             			 
             			<div class="alignright"> 
-            			    <input type="submit" value="<?=$language['NEXTSTEP'] ?>" class="button" name="ButtonNext"/>
+            			    <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="ButtonNext"/>
                             <input type="hidden" name="step" value="<?=$_SESSION['step']+1 ?>">            			 
             			 </form>
             			 </div>
