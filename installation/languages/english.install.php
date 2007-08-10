@@ -35,10 +35,22 @@ class language implements ArrayAccess
         //GLOBAL
         $this->language['NEXTSTEP'] = 'Next >>';
         $this->language['BACKSTEP'] = '<< Back';
+        $this->language['CHANGE_LANGUAGE'] = "Change Language";
         
+        // MENU
+        $this->language['MENU_HEADING'] = 'Installationsteps';
+        $this->language['MENUSTEP1'] = '[1] Select Language';
+        $this->language['MENUSTEP2'] = '[2] Systemcheck';
+        $this->language['MENUSTEP3'] = '[3] GPL Licence';
+        $this->language['MENUSTEP4'] = '[4] Database';
+        $this->language['MENUSTEP5'] = '[5] Configuration';
+        $this->language['MENUSTEP6'] = '[6] Create Admin';
+        $this->language['MENUSTEP7'] = '[7] Finish';
+    
         ###
         
         //GLOBAL
+        
         $this->language['HELP'] = 'Help';
         $this->language['COMPLETED'] = 'Completed';
         $this->language['PRE_INSTALLATION_CHECK'] = 'Pre-installation check';
@@ -70,5 +82,4 @@ class language implements ArrayAccess
         return true;
     }
 }
-
 ?>
