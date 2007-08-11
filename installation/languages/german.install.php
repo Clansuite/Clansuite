@@ -14,6 +14,10 @@ class language implements ArrayAccess
     {
     // STEP 1 - Language Selection
     $this->language['STEP1_LANGUAGE_SELECTION'] = 'Schritt [1] Sprachauswahl';
+    
+    $this->language['STEP1_WELCOME'] = 'Willkommen zum Installer von Clansuite.';   
+    $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung f&#252;hrt Sie schrittweise durch die Installation.';   
+    $this->language['STEP1_CHOOSELANGUAGE'] = 'W&#228;hlen Sie bitte die Sprache aus.';
        
     // STEP 2 - System Check
     $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systempr&#252;fung';
@@ -34,11 +38,19 @@ class language implements ArrayAccess
     
     
     // GLOBAL
+    # Buttons
     $this->language['NEXTSTEP'] = 'Weiter >>';
     $this->language['BACKSTEP'] = '<< Zurueck';
-    $this->language['CHANGE_LANGUAGE'] = "Sprachauswahl";
+    # Help Text for Buttons
+    $this->language['CLICK_NEXT_TO_PROCEED'] = 'Klicken Sie den Button ['. $this->language['NEXTSTEP'] .'] um fortzufahren.';
+    $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zur&#252;ckzukehren.';
+    # Right Side Menu
+    $this->language['INSTALL_PROGRESS'] = 'Installations- Fortschritt';
+    $this->language['COMPLETED'] = 'Fertig';       
+    $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
+    $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
     
-    // MENU
+    # Left Menu
     $this->language['MENU_HEADING'] = 'Installationsschritte';
     $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
     $this->language['MENUSTEP2'] = '[2] Systempr&#252;fung';
@@ -51,9 +63,7 @@ class language implements ArrayAccess
     
     ####
     
-    $this->language['HELP'] = 'Hilfe';
-    $this->language['COMPLETED'] = 'Durchgeführt';
-    $this->language['PRE_INSTALLATION_CHECK'] = 'Vorinstallation Überprüfung';
+    $this->language['HELP'] = 'Hilfe';   
     $this->language['LICENSE'] = 'Lizenz';    
     }
     

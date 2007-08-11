@@ -2,8 +2,8 @@
    <div id="rightsidebar">
     		<ul>
     		    <!-- Installation Progress BAR -->
-    		    <li><h2>Installation Progress</h2></li>
-    		    <li>Completed <b><?=$_SESSION['progress']?>%</b>
+    		    <li><h2><?=$language['INSTALL_PROGRESS']?></h2></li>
+    		    <li><?=$language['COMPLETED']?> <b><?=$_SESSION['progress']?>%</b>
     		      <div id="progressbar">
     		            <?php 
     		            #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
@@ -14,7 +14,7 @@
                 </li> 
     		    
     		    <!-- Clansuite Shortcuts -->
-    		    <li><h2>Clansuite Shortcuts</h2></li>
+    		    <li><h2><?=$language['SHORTCUTS']?></h2></li>
     		  	<li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
     		  	<li><strong><a href="http://www.clansuite.com/smf/">Forum</a></strong></li>
     		  	<li><strong><a href="http://www.clansuite.com/smf/">Installsupport</a></strong></li>

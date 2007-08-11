@@ -20,15 +20,26 @@
         	       <img src="images/64px-Face-smile-big.svg.png" border="0" style="vertical-align:middle" alt="installstep image" /> 
         	       <?=$language['STEP7_FINISH']?>
         	   </h2>
-        			
-        	   <p>Paths / Links / Useraccount - Data <img src="images/face-wink.png" border="0" style="vertical-align:middle" alt="installstep image" /></p>
+        	   <p style="color:darkgreen"><strong>Geschafft! Sie haben Clansuite erfolgreich installiert.</strong></p>
+        	    <p>Das Entwicklerteam w&#252;nscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.
+        	      <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
+        	       <br />Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.
+        	      </p>
 
+        	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
+        	   <br />
+        	  
             <div class="navigation">
+                        
+                        <span style="font-size:10px;">
+                        <?=$language['CLICK_BACK_TO_RETURN']?>
+                        </span>
+                
             			<div class="alignleft">
             			 <form action="index.php" name="lang" method="post">
-                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="Button2"/>
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>">
+                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="Button2" />
+                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>" />
                          </form>
                         </div>
                         <!--

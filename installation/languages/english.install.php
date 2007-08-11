@@ -15,6 +15,11 @@ class language implements ArrayAccess
         // STEP 1 - Language Selection
         $this->language['STEP1_LANGUAGE_SELECTION'] = 'Step [1] Language Selection';
         
+        $this->language['STEP1_WELCOME'] = 'Welcome to the the Clansuite Installer.';   
+        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'This application will guide you you in several steps through the installation.';   
+        $this->language['STEP1_CHOOSELANGUAGE'] = 'Please select your language.';
+   
+        
         // STEP 2 - System Check
         $this->language['STEP2_SYSTEMCHECK'] = 'Step [2] Systemcheck';
         
@@ -33,11 +38,19 @@ class language implements ArrayAccess
         $this->language['STEP7_FINISH'] = 'Step [7] Finish';
         
         //GLOBAL
+        # Buttons
         $this->language['NEXTSTEP'] = 'Next >>';
         $this->language['BACKSTEP'] = '<< Back';
-        $this->language['CHANGE_LANGUAGE'] = "Change Language";
-        
-        // MENU
+        # Help Text for Buttons
+        $this->language['CLICK_NEXT_TO_PROCEED'] = 'Click the Button ['. $this->language['NEXTSTEP'] .'] to proceed with the next Installstep.';
+        $this->language['CLICK_BACK_TO_RETURN'] = 'Click the Button ['. $this->language['BACKSTEP'] .'] to return to the prior one.';
+        # Right Side Menu
+        $this->language['INSTALL_PROGRESS'] = 'Install Progress';
+        $this->language['COMPLETED'] = 'COMPLETED'; 
+        $this->language['CHANGE_LANGUAGE'] = 'Change Language';
+        $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
+                
+        # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsteps';
         $this->language['MENUSTEP1'] = '[1] Select Language';
         $this->language['MENUSTEP2'] = '[2] Systemcheck';
@@ -52,8 +65,6 @@ class language implements ArrayAccess
         //GLOBAL
         
         $this->language['HELP'] = 'Help';
-        $this->language['COMPLETED'] = 'Completed';
-        $this->language['PRE_INSTALLATION_CHECK'] = 'Pre-installation check';
         $this->language['LICENSE'] = 'License';        
         }
    

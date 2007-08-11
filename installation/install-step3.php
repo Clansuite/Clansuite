@@ -40,6 +40,13 @@
 			    </div>			     
 			     
 			     <div class="navigation">
+			                
+			                <span style="font-size:10px;">
+                            <?=$language['CLICK_NEXT_TO_PROCEED']?>
+                            <br />
+                            <?=$language['CLICK_BACK_TO_RETURN']?>
+                            </span>
+			        
                 			<div class="alignleft">
                 			 <form action="index.php" name="ButtonPrevForm" method="post">
                                 <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="ButtonPrev"/>
