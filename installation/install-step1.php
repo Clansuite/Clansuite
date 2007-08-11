@@ -20,18 +20,14 @@
         	       <img src="images/64px-Tango_Globe_of_Letters.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
         	       <?=$language['STEP1_LANGUAGE_SELECTION']?>
         	   </h2>
-        	 <p>Willkommen zum Installer von Clansuite / Welcome to the the Clansuite Installer.
-        	 <br />
-        	 <p>Diese Anwendung fÅhrt Sie schrittweise durch die Installation. / This application will guide you you in several steps through the installation.</p>
-        	<p>WÑhlen Sie bitte die Sprache aus. / Please select your language.</p>
-        	
-        	<p>
-        	    <form action="index.php" name="lang" method="post"> 
+        	 <p><strong><?=$language['STEP1_WELCOME']?></strong></p>
+        	 <p><?=$language['STEP1_APPINSTALL_STEPWISE']?></p>
+        	 <p><?=$language['STEP1_CHOOSELANGUAGE']?></p>
+        	 <p>
+        	    <form action="index.php" name="lang" method="post" /> 
         	    <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />   
         	    
-                <?php # pruefen ob es die aktuelle sprache ist, die reloaded werden soll
-                      # nur reloaden, wenn neue sprache ausgewaehlt
-                ?>      
+                <?php # @todo: nur reloaden, wenn eine neue sprache ausgewaehlt ?>      
                 <select name="lang" style="width: 160px"
                         onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php
@@ -58,15 +54,8 @@
         			 
         	<div class="navigation">
         	        <hr>
-            			<!--
-            			<div class="alignleft">
-            			  <form action="index.php" name="lang" method="post">
-                            <input type="submit" value="<?php echo $language->BACKSTEP; ?>" class="button" name="ButtonPrev"/>
-                            <input type="hidden" name="lang" value="<?php echo $lang; ?>">
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1 ?>">
-                        </form>            			 
-            			</div> -->
-            			 
+        	            <span style="font-size:10px;"><?=$language['CLICK_NEXT_TO_PROCEED']?></span>
+            			
             			<div class="alignright"> 
             			    <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="ButtonNext"/>
                             <input type="hidden" name="step" value="<?=$_SESSION['step']+1 ?>">            			 
