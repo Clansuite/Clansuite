@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf Â© 2005-2007
     * http://www.clansuite.com/
     *
     * File:         captcha.class.php
@@ -38,10 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Easy Captcha Class
@@ -72,19 +70,19 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
  * @subpackage  captcha
  */
 class captcha
-{    
+{
     /**
      * @var integer
      * @todo comment variables and rest of file
      */
     public  $str_length = 4;
-    
+
     // image settings
     public  $img_height = 40;
     public  $img_width = 140;
     // font settings
     public  $font = '/fonts/Vera.ttf';
-    
+
     /**
      * CONSTRUCTOR
      */
@@ -93,7 +91,7 @@ class captcha
     {
         $this->generate_Image();
     }
-    
+
     /**
      * Get GD Version
      */
@@ -101,7 +99,7 @@ class captcha
     function gd_version()
     {
         static $gd_version_number = null;
-        
+
         if ($gd_version_number === null)
         {
             ob_start();
@@ -120,7 +118,7 @@ class captcha
         }
         return $gd_version_number;
     }
-    
+
     /**
      * Get a random captcha string by size (@link $strlength)
      */
@@ -133,7 +131,7 @@ class captcha
          */
 
         $excludeChars = array(48, 49, 55, 73, 79);
-        
+
         $captcha_str = '';
         while (strlen($captcha_str) < $str_length)
         {
@@ -149,8 +147,8 @@ class captcha
         }
         return $captcha_str;
     }
-    
-    
+
+
     /**
      * Generate the image
      */
@@ -160,18 +158,18 @@ class captcha
         // random captcha string
         $str_length = rand(3,5);
         $captcha_str = $this->randomString($str_length);
-        
+
         // set string to session
         $_SESSION['captcha_string'] = $captcha_str;
-        
+
         // send headers
         header('Expires: Mon, 01 Jan 1997 05:00:00 GMT');
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Cache-Control: post-check=0, pre-check=0', false);
         header('Pragma: no-cache');
         header('Content-Type: image/jpeg');
-        header('Easy-Captcha: by Jens-André Koch');
-        
+        header('Easy-Captcha: by Jens-AndrÃ© Koch');
+
         //initialize image $captcha with dimensions from $img_width, $img_heigth
         if ($this->gd_version() >= 2)
         {
@@ -183,18 +181,18 @@ class captcha
             $captcha = ImageCreate($this->img_width, $this->img_height)
                 or die("Cannot Initialize new GD image stream");
         }
-        
+
         // create textcolor from random RGB colors
         $text_color = imageColorAllocate($captcha, rand(50,240), rand(50,240), rand(0,255));
-        
-        
+
+
         // switch between captcha types
         switch ($captchatype_randomizer = rand(1,2))
         {
             case 1:
             // create backgroundcolor from random RGB colors
                 $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
-            
+
             /**
             * Background Fill Effects
             */
@@ -213,7 +211,7 @@ class captcha
                     }
                 break;
             }
-            
+
             // add noise
             for ($i=1; $i<=4; $i++)
             {
@@ -223,8 +221,8 @@ class captcha
             {
                 imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25),$background_color);
             }
-            
-            
+
+
             // loop through $captcha_str and apply random font-effect to every char
             for ($i=0; $i<=$str_length; $i++)
             {
@@ -242,7 +240,7 @@ class captcha
                     break;
                     // Counter-Rotation
                 }
-                
+
                 // string ausgeben !
                 // imagettftext( resource image, float size, float angle, int x, int y, int color, string fontfile, string text )
                 // $i*25 = spaces the characters 25 pixels apart
@@ -251,7 +249,7 @@ class captcha
             }
             // interlacen
             #$this->interlace($captcha);
-            
+
             // rotation
             #if(function_exists('imagerotate')) {
                 #$im2 = imagerotate($captcha,rand(-20,30),$background_color);
@@ -259,13 +257,13 @@ class captcha
                 # $captcha = $im2;
             # }
             break;
-            
+
         case '2':
             // wenig stuff @ image
             // background white
             $white = ImageColorAllocate($captcha, 255, 255, 255);
             imagefill($captcha, 1, 1, $white );
-            
+
             // loop through $captcha_str and apply random font-effect to every char
             for ($i=0; $i<=$str_length; $i++)
             {
@@ -295,7 +293,7 @@ class captcha
         {
             imageline($image, 0, $y, $imagex, $y, $black);
         }
-    } 
+    }
 }
 
 /**
