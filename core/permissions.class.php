@@ -7,7 +7,7 @@
     * File:         permissions.class.php
     * Requires:     PHP 5.1.4+
     *
-    * Purpose:      Clansuite Core Class for Trail / Breadcrumb Handling
+    * Purpose:      Clansuite Core Class for Permission Handling
     *
     * LICENSE:
     *
@@ -38,10 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * This Clansuite Core Class for Permissions Handling
