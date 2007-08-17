@@ -93,7 +93,7 @@ class SmartyColumnSort {
 	function setDefault($column, $sort_order, $id = 'default') {
 		if(!is_array($_SESSION['SmartyColumnSort'][$id]['column_array'])) {
 			trigger_error('setColumns() must be called before setDefault()', E_USER_ERROR);
-			return FALSE;
+			return false;
 		}
 
 		$_SESSION['SmartyColumnSort'][$id]['default_column'] = NULL;
@@ -111,13 +111,13 @@ class SmartyColumnSort {
 
 		if($_SESSION['SmartyColumnSort'][$id]['default_column'] === NULL) {
 			trigger_error("column '$column' not found in column array!", E_USER_ERROR);
-			return FALSE;
+			return false;
 		}
 
 		$sort_order = strtolower($sort_order);
 		if($sort_order != 'asc' && $sort_order != 'desc') {
 			trigger_error('sort_order must be "asc" or "desc"', E_USER_ERROR);
-			return FALSE;
+			return false;
 		}
 
 		$_SESSION['SmartyColumnSort'][$id]['default_sort'] = $sort_order;
@@ -125,7 +125,7 @@ class SmartyColumnSort {
 		  $_SESSION['SmartyColumnSort'][$id]['current_column'] = $_SESSION['SmartyColumnSort'][$id]['default_column'];
 		  $_SESSION['SmartyColumnSort'][$id]['current_sort'] = $_SESSION['SmartyColumnSort'][$id]['default_sort'];
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -176,11 +176,11 @@ class SmartyColumnSort {
 	 * @param String $id (optional) A string to identify this column sorter object
 	 * @return mixed the current sort value.
 	 */
-	function sortOrder($halt_on_error = FALSE, $id = 'default') {
+	function sortOrder($halt_on_error = false, $id = 'default') {
 		$sort = $this->_createFromGet($halt_on_error, $id);
 
-		if($halt_on_error && $sort === FALSE)
-			return FALSE;
+		if($halt_on_error && $sort === false)
+			return false;
 		else
 			return $sort;
 	}
@@ -205,14 +205,14 @@ class SmartyColumnSort {
 			$column = $_SESSION['SmartyColumnSort'][$id]['current_column'];
 			$sort = $_SESSION['SmartyColumnSort'][$id]['current_sort'];
 
-			$error = FALSE;
+			$error = false;
 
-			if(!is_numeric($column)) $error = TRUE;
-			else if($sort != 'DESC' && $sort != 'ASC') $error = TRUE;
+			if(!is_numeric($column)) $error = true;
+			else if($sort != 'DESC' && $sort != 'ASC') $error = true;
 
 			if($error) {
 				if($halt_on_error) {
-					return FALSE;
+					return false;
 				} else {
 					$column = $_SESSION['SmartyColumnSort'][$id]['default_column'];
 					$sort = strtoupper($_SESSION['SmartyColumnSort'][$id]['default_sort']);
@@ -220,7 +220,7 @@ class SmartyColumnSort {
 			}
 		} else {
 			if($halt_on_error && (isset($_GET[$_SESSION['SmartyColumnSort'][$id]['column_var']]) || isset($_GET[$_SESSION['SmartyColumnSort'][$id]['sort_var']])))
-				return FALSE;
+				return false;
 
 			$column = $_SESSION['SmartyColumnSort'][$id]['current_column'];
 			$sort = strtoupper($_SESSION['SmartyColumnSort'][$id]['current_sort']);
@@ -229,7 +229,7 @@ class SmartyColumnSort {
 		// Translate get var to DB field name.
 		if(!($column = $this->_translateColumns($column, $id))) {
 			if($halt_on_error) {
-				return FALSE;
+				return false;
 			} else {
 				$column = $this->_translateColumns($_SESSION['SmartyColumnSort'][$id]['default_column'], $id);
 				$sort = strtoupper($_SESSION['SmartyColumnSort'][$id]['default_sort']);
@@ -246,7 +246,7 @@ class SmartyColumnSort {
 	function _translateColumns($columnid, $id = 'default') {
 		$array = &$_SESSION['SmartyColumnSort'][$id]['column_array'];
 
-		if(!isset($array[$columnid])) return FALSE;
+		if(!isset($array[$columnid])) return false;
 
 		$value = $array[$columnid];
 
