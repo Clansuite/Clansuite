@@ -56,10 +56,8 @@
  *
  */
 
-/**
- * Defines the Security Handler
- */
-if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * This is the Clansuite Core Class for Session Handling
@@ -74,18 +72,19 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.'); }
  * @subpackage  session
  */
 
-class session
+class session implements ISessionHandler, ArrayAccess
 {
     /**
      * Set common session vars
      */
+    #protected $session = null;
 
     /**
      * @access public
      * @var string $session_name contains the session name
      */
 
-    public $session_name            = 'suiteSID';
+    public $session_name    = 'suiteSID';
 
     /**#@+
      * @access public
@@ -114,50 +113,57 @@ class session
      * @access public
      */
 
-    public $session_security        = array('check_ip', 'check_browser', 'check_host');
+    public $session_security    = array('check_ip', 'check_browser', 'check_host');
 
     /**
      * @access public
      * @var object $db is the Reference to PDO
      */
 
-    public $db;
-
+    private $db      = null;
+    private $request = null;
+    private $config  = null;
+    private $lang    = null;
+    private $error   = null;
 
     /**
      * This creates the session
      *
      * Overwrite php.ini settings
      * Start the session
-     * @global $cfg, $lang, $error, $functions, $input
+     * @global $this->config, $lang, $error, $functions, $input
      * @param object
      */
 
-    function create_session($db)
+    function __construct(configuration $config,db $db, request $request, language $lang, errorhandler $error)
     {
-        global $cfg, $lang, $error, $functions, $input;
+        #global $functions, $input;
 
         /**
-         * Reference PDO
+         * Setup References
          */
 
-        $this->db = $db;
+        $this->config   = $config;
+        $this->db       = $db;
+        $this->request  = $request;
+        $this->lang     = $lang;
+        $this->error    = $error;
 
         /**
          * Set the session configuration Parameters accordingly to Config Class Values
          */
 
-        $this->session_name                 = $cfg->session_name;
-        $this->session_cookies              = $cfg->use_cookies;
-        $this->session_cookies_only         = $cfg->use_cookies_only;
+        $this->session_name                 = $this->config['session_name'];
+        $this->session_cookies              = $this->config['use_cookies'];
+        $this->session_cookies_only         = $this->config['use_cookies_only'];
         ini_set('session.save_handler'      , 'user' );
-        ini_set('session.gc_maxlifetime'    , $cfg->session_expire_time );
+        ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
         ini_set('session.gc_probability'    , $this->session_probability );
         ini_set('session.name'              , $this->session_name );
         ini_set('session.use_trans_sid'     , 1 );
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
-        ini_set('session.use_cookies'       , $cfg->use_cookies );
-        ini_set('session.use_only_cookies'  , $cfg->use_cookies_only );
+        ini_set('session.use_cookies'       , $this->config['use_cookies'] );
+        ini_set('session.use_only_cookies'  , $this->config['use_cookies_only'] );
 
         /**
          * Setup the custom session handler
@@ -233,6 +239,7 @@ class session
     function _session_close()
     {
         session::_session_gc(0);
+        session_write_close();
         return true;
     }
 
@@ -245,9 +252,9 @@ class session
     function _session_read( $id )
     {
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute(array($this->session_name, $id ) );
+        $stmt->execute( array($this->session_name, $id ) );
 
-        if ($result = $stmt->fetch() )
+        if ($result = $stmt->fetch())
         {
             $data = $result['session_data'];
             return $data;
@@ -268,39 +275,53 @@ class session
     function _session_write( $id, $data )
     {
         /**
-         * Time Settings
+         * Determine Expiretime of Session
+         *
+         * $this->session_expire_time is a minute time value, we get this from config settings
+         * $sessionLifetime is seconds
          */
-
-        $seconds = $this->session_expire_time * 60;
-        $expires = time() + $seconds;
+        $sessionlifetime = $this->session_expire_time * 60;
+        $expires = time() + $sessionlifetime;
 
         /**
-         * Check if session exists in DB
+         * Determine the current location of a user by checking request['mod']
+         *
+         #var_dump($_REQUEST);
+         #var_dump($this->request);
+         *
+         */
+        $userlocation = (!isset($request['mod']) && empty($this->request['mod'])) ? 'sessionstart' : $this->request['mod'];
+
+
+        /**
+         * Check if session_id exists in DB
          */
 
         $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
         $stmt->execute( array( $id ) );
-        $res = $stmt->fetch();
+        $session_result = $stmt->fetch();
         $stmt->closeCursor();
         $stmt = NULL;
-        if ( is_array($res) )
+
+
+        if ( is_array($session_result) )
         {
             /**
-             * Update Session
+             * Update Session, because we know that session_id already exists
              */
 
             $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
-            $stmt->execute(array($expires, $data, $_REQUEST['mod'], $id ) );
+            $stmt->execute(array($expires, $data, $userlocation, $id ) );
             $stmt->closeCursor();
         }
         else
         {
             /**
-             * Insert Session
+             * Insert Session, because we got no session_result for that session_id
              */
 
             $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
-            $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $_REQUEST['mod'] ) );
+            $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $userlocation ) );
             $stmt->closeCursor();
         }
         return true;
@@ -351,9 +372,10 @@ class session
      * Removes the current session, if the session max_lifetime expired
      *
      * @param integer $max_lifetime contains the session-liftetime value
+     * @todo by vain: wtf? $max_lifetime as parameter does nothing? we compare to the time ?
      */
 
-    function _session_gc($max_lifetime )
+    function _session_gc($max_lifetime)
     {
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array($this->session_name, time() ) );
@@ -376,6 +398,7 @@ class session
         $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
         $stmt->closeCursor();
         */
+
     }
 
     /**
@@ -400,8 +423,7 @@ class session
             {
                 $_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
             }
-            else
-            if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
+            else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
                 session::_session_destroy(session_id());
                 return false;
@@ -449,6 +471,33 @@ class session
         return true;
     }
 
+    /** */
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    public function get($key)
+    {
+        if (isset($_SESSION[$key]))
+        {
+            return $_SESSION[$key];
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    /**
+     * Sets a new SESSION_ID into SESSION['NAME']
+     */
+    function regenerate_session_id()
+    {
+        $_SESSION[$this->session_name] = session_id();
+    }
+
     /**
      * Session control
      * 1. Prune no activated users
@@ -480,27 +529,67 @@ class session
         /**
          *  Check if session expired
          */
+        #var_dump($_SESSION);
 
-        if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) AND $_SESSION['user']['user_id'] != 0 )
+        if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) )
+        #AND $_SESSION['user']['user_id'] != 0 )
         {
             $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-            $stmt->execute( array( $_REQUEST[$this->session_name] ) );
+            $stmt->execute( array( $this->request[$this->session_name] ) );
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                $functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );
+                #$functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );
             }
         }
-        
+
         /**
          *  Assign Session Time Values for Session Countdown
          */
         $expire_seconds = $this->session_expire_time * 60;
         $time = time();
         $expiretime = $time + $expire_seconds;
-        
-        $tpl->assign('SessionCurrentTime', $time);
-        $tpl->assign('SessionExpireTime', $expiretime);
+
+        //@note by vain: assigns for Session Countdown
+        #$tpl->assign('SessionCurrentTime', $time);
+        #$tpl->assign('SessionExpireTime', $expiretime);
+    }
+
+    /**
+     * Implementation of SPL ArrayAccess
+     */
+    public function offsetExists($offset)
+    {
+        return isset($_SESSION[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    // @todo
+    // @note by vain: check if this works on single arrays of session?
+    public function offsetUnset($offset)
+    {
+        unset($_SESSION[$offset]);
+        return true;
     }
 }
+
+interface ISessionHandler
+{
+    public function _session_open();
+    public function _session_close();
+    public function _session_read($id);
+    public function _session_write($id, $data);
+    public function _session_destroy($id);
+    public function _session_gc($max_lifetime);
+}
+
 ?>
