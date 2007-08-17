@@ -1663,7 +1663,7 @@ function BlockToggle(objId, togId, text) {
     $v_result=1;
     $v_nb = 0;
     $v_extract_all = true;
-    $v_listing = FALSE;
+    $v_listing = false;
 
     // ----- Check the path
     /*
@@ -1690,16 +1690,16 @@ function BlockToggle(objId, togId, text) {
       case "complete" :
 	  // ----- Flag extract of all files
 	  $v_extract_all = true;
-	  $v_listing = FALSE;
+	  $v_listing = false;
 	  break;
       case "partial" :
 	  // ----- Flag extract of specific files
-	  $v_extract_all = FALSE;
-	  $v_listing = FALSE;
+	  $v_extract_all = false;
+	  $v_listing = false;
 	  break;
       case "list" :
 	  // ----- Flag list of all files
-	  $v_extract_all = FALSE;
+	  $v_extract_all = false;
 	  $v_listing = true;
 	  break;
       default :
@@ -1736,7 +1736,7 @@ function BlockToggle(objId, togId, text) {
 	}
 
       // ----- Reset extract tag
-      $v_extract_file = FALSE;
+      $v_extract_file = false;
       $v_extraction_stopped = 0;
 
       // ----- Read the 512 bytes header
@@ -1769,7 +1769,7 @@ function BlockToggle(objId, togId, text) {
       if ((!$v_extract_all) && (is_array($p_file_list)))
       {
 	// ----- By default no unzip if the file is not found
-	$v_extract_file = FALSE;
+	$v_extract_file = false;
 
 	// ----- Look into the file list
 	for ($i=0; $i<sizeof($p_file_list); $i++)
