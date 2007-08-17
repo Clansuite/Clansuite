@@ -38,11 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
-
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * This Clansuite Core Class for Debugging
@@ -156,6 +153,10 @@ class debug
      * @todo note by vain: check with xdebug for array doubling. guess
      *       it's ok, because of the better debug overview
      */
+     
+     /**
+      * TODO: print_r(get_declared_interfaces()); ? and introspection stuff or stick by xdebug?
+      */
 
     function show_console()
     {
@@ -174,10 +175,10 @@ class debug
          * some vars excluded, because not needed
          */
 
-        $debug_superglobals['cookies']       = $_COOKIE;
         $debug_superglobals['get']           = $_GET;
         $debug_superglobals['post']          = $_POST;
         $debug_superglobals['request']       = $_REQUEST;
+        $debug_superglobals['cookies']       = $_COOKIE;
         $debug_superglobals['session']       = $_SESSION;
         $debug_superglobals['files']         = $_FILES;
         #$debug_superglobals['server']        = $_SERVER;
@@ -197,7 +198,7 @@ class debug
          * Config Settings, Errors, Languages, Modules
          */
 
-        $debug['config']       = $cfg;
+        $debug['config']        = $cfg;
         $debug['error_log']     = $error->error_log;
         $debug['lang_loaded']   = $lang->loaded;
         $debug['mods_loaded']   = $modules->loaded;
