@@ -37,6 +37,9 @@
     *
     * @version    SVN: $Id$
     */
+    
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Class Benchmark
@@ -76,12 +79,15 @@
  */
 class benchmark
 {   
-    public $db_exectime;
+    private static $db_exectime = 0;
     
-    function timemarker($mode='begin', $msg='')
+    public static function timemarker($mode='begin', $msg='')
     {
-        global $_timer_blocks, $_timer_history, $db_timer_blocks, $db_timer_history;
-
+        global $_timer_blocks, $_timer_history, $db_timer_blocks;
+        
+        # create
+        $db_timer_history = array();
+    
         switch ($mode)
         {
             /**
@@ -102,9 +108,12 @@ class benchmark
                              * $elapsed contains the calculated difference of Start to Endtime
                              */
                             $elapsed = ($b_int - $a_int) + ($b_micro - $a_micro);
-
-                            $db_timer_history[0][1] += $elapsed;
-                            $this->db_exectime = $db_timer_history[0][1];
+                            
+                            $db_timer_history[] += $elapsed;
+                            
+                            // self:: anstelle von benckmark::
+                            // not $this-> because static function and class is not an object
+                            self::$db_exectime = $db_timer_history[0][1];
                             
                             $db_timer_history[] = array( $elapsed, "$_msg [". round($elapsed, 4) ."s]");
 
