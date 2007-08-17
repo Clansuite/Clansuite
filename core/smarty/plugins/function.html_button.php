@@ -43,7 +43,7 @@
 function smarty_function_html_button($params, &$smarty)
 {
   global $_smarty_html_button_ie_wa_output, $is_pda;
-  $is_ie = 0; /* strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') !== FALSE; */
+  $is_ie = 0; /* strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') !== false; */
 
   require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
   require_once $smarty->_get_plugin_filepath('shared','get_var');
