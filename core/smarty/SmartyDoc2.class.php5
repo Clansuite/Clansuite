@@ -226,16 +226,16 @@ class Render_SmartyDoc extends Smarty
 	public $xform_get = true; // If set to true, this will allow server-side XSL to be avoided in favor of client-side (this would allow you in debugging (or if you wanted to share your raw XML and XSL) to view the prexformed data
 	public $xform_get_url = 'noxform'; // Change this if you want to enable the get feature for client-side transforms, but want a nonstandard name so that other users cannot (without guessing your name) get access to your raw XML or XSL
 
-	public $common_XHTML_probs = TRUE; // Fixes some common XHTML parsing problems for XSL server-side xform
-	public $tidy_on = FALSE;
-	public $tidy_for_xslt = TRUE; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
+	public $common_XHTML_probs = true; // Fixes some common XHTML parsing problems for XSL server-side xform
+	public $tidy_on = false;
+	public $tidy_for_xslt = true; // If you want to turn Tidy off normally, but be extra sure when doing XSLT transforms (which depend on good XML), you can set $tidy_on to false but have this be true.
 
-	public $strip_whitespace = TRUE; // Will strip excess whitespace if Tidy is not used (Tidy will strip anyhow)
-	public $whitespace_get = TRUE; // Specifies whether one can use a $_GET URL to turn comments on
+	public $strip_whitespace = true; // Will strip excess whitespace if Tidy is not used (Tidy will strip anyhow)
+	public $whitespace_get = true; // Specifies whether one can use a $_GET URL to turn comments on
 	public $whitespace_get_url = 'stripws';
-	public $strip_all_whitespace = FALSE; // You may want to set this to TRUE as you can still allow whitespace to be optionally seen with $whitespace_get and specify a $whitespace_get_url to determine the URL call to control whitespace from the site (and optionally have $show_whitespace_comments turned on so that others visiting your site can optionally view these options (listed within comments at the top of the HTML source code) to have whitespace added back or removed); note however that this removes all extra whitespace regardless of pre blocks.
+	public $strip_all_whitespace = false; // You may want to set this to true as you can still allow whitespace to be optionally seen with $whitespace_get and specify a $whitespace_get_url to determine the URL call to control whitespace from the site (and optionally have $show_whitespace_comments turned on so that others visiting your site can optionally view these options (listed within comments at the top of the HTML source code) to have whitespace added back or removed); note however that this removes all extra whitespace regardless of pre blocks.
 	public $show_whitespace_comments = true; // Note that if you don't want the feature on at all, you have to set $whitespace_get to false--otherwise the latter must be turned on for the comments to show
-	public $strip_all_ws_xhtmlbasic = TRUE;
+	public $strip_all_ws_xhtmlbasic = true;
 	public $whitespace_comments = false; // Will put comments at the top of the document (after any XML declaration) to let people know that they can see the whitespace added back or taken away with the right GET url)
 	private $whitespace_comment_type;
 
@@ -244,10 +244,10 @@ class Render_SmartyDoc extends Smarty
 	public $xhtmlbasic_xsl = '/home/bahai/public_html/xhtmlbasic1.xsl'; // Infinitely faster to copy this to a local file location!
 
 	
-	public $xformtobasic_get = TRUE; // Allows transformation into XHTML Basic via a GET request
+	public $xformtobasic_get = true; // Allows transformation into XHTML Basic via a GET request
 	public $xformtobasic_url = 'xhtmlbasic1'; // If $xformtobasic_get is true, defines the GET Request name that will trigger the transform
 
-	public $auto_xform_mobile = TRUE; // Automatically transform file into XHTML Basic when detecting mobile user agent devices
+	public $auto_xform_mobile = true; // Automatically transform file into XHTML Basic when detecting mobile user agent devices
 	// public $Browscap_file = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\Browscap.php5';
 	// public $Browscap_cache_dir = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\cache';
 	public $Browscap_file = '/home/bahai/Browscap/Browscap.php5';
@@ -449,7 +449,7 @@ class Render_SmartyDoc extends Smarty
 			, 'defaults' => array('type'=>'text/xsl')
 			, 'doc_raw_target' => 'external'
 			, 'doc_raw_comment_style' => 'xml'
-			, 'doc_raw_prepostfix' => TRUE
+			, 'doc_raw_prepostfix' => true
 			, 'meta_attribs' => array('file', 'xform', 'tplorig', 'key')
 		)
 		, 'css' => array(
@@ -512,7 +512,7 @@ class Render_SmartyDoc extends Smarty
 			, 'defaults' => array()
 			, 'doc_raw_target' => 'external'
 			, 'doc_raw_comment_style' => 'xml'
-			, 'doc_raw_prepostfix' => TRUE
+			, 'doc_raw_prepostfix' => true
 			, 'meta_attribs' => array('file', 'tplorig', 'get', 'subtype', 'dummy')
 		)
 		, 'xsd' => array(
@@ -523,7 +523,7 @@ class Render_SmartyDoc extends Smarty
 			, 'include_in_xml' => array('xmlns__xsi')
 			, 'doc_raw_target' => 'external'
 			, 'doc_raw_comment_style' => 'xml'
-			, 'doc_raw_prepostfix' => TRUE
+			, 'doc_raw_prepostfix' => true
 			, 'meta_attribs' => array('file', 'xsi:schemaLocation', 'xsi__schemaLocation', 'xsi__noNamespaceSchemaLocation', 'tplorig')
 		)
 		, 'root' => array(
@@ -792,7 +792,7 @@ class Render_SmartyDoc extends Smarty
 		}
 		if ($this->rewrite_docraw_get && !empty($_GET[$this->rewrite_docraw_get_url]))
 		{
-			$this->rewrite_docraw_on = TRUE;
+			$this->rewrite_docraw_on = true;
 		}
 	 }
 
@@ -805,11 +805,11 @@ class Render_SmartyDoc extends Smarty
 	 {
 		if ($rewrite)
 		{
-			$this->rewrite_docraw_on = TRUE;
+			$this->rewrite_docraw_on = true;
 		}
 		else
 		{
-			$this->rewrite_docraw_on = FALSE;
+			$this->rewrite_docraw_on = false;
 		}
 	}
 
@@ -822,11 +822,11 @@ class Render_SmartyDoc extends Smarty
 	{
 		if ($comments)
 		{
-			$this->comments = TRUE;
+			$this->comments = true;
 		}
 		else
 		{
-			$this->comments = FALSE;
+			$this->comments = false;
 		}
 	}
 
@@ -843,7 +843,7 @@ class Render_SmartyDoc extends Smarty
 		}
 		if ($this->comments_get && !empty($_GET[$this->comments_get_url]))
 		{
-			$this->comments = TRUE;
+			$this->comments = true;
 		}
 	}
 
@@ -883,19 +883,19 @@ class Render_SmartyDoc extends Smarty
 				{
 					case 'none':
 					case '0':
-						$this->strip_whitespace = FALSE;
-						$this->strip_all_whitespace = FALSE;
+						$this->strip_whitespace = false;
+						$this->strip_all_whitespace = false;
 						$this->whitespace_comment_type = 'none';
 						break;
 					case 'all':
-						$this->strip_all_whitespace = TRUE;
+						$this->strip_all_whitespace = true;
 						$this->whitespace_comment_type = 'all';
 						break;
 					case '1':
 					case 'some':
 					default:
-						$this->strip_all_whitespace = FALSE;
-						$this->strip_whitespace = TRUE;
+						$this->strip_all_whitespace = false;
+						$this->strip_whitespace = true;
 						$this->whitespace_comment_type = 'some';
 						break;
 				} // end switch
@@ -2889,7 +2889,7 @@ class Render_SmartyDoc extends Smarty
 								if (($a === 'xform' && $v) || ($target === 'xsl' && $this->xform_all))
 								{
 									$this->xsl[] = $doc_raw_file;
-									$this->pre_xform[] = TRUE;
+									$this->pre_xform[] = true;
 								}
 							}
 							else { // i.e., $a === '_content'
@@ -2994,7 +2994,7 @@ class Render_SmartyDoc extends Smarty
 							if ($target == 'xsl' && ($main_attribs['xform'] || $this->xform_all))
 							{
 								$this->xsl[] = $this->dr_xsl_file;
-								$this->pre_xform[] = TRUE;
+								$this->pre_xform[] = true;
 							}
 						}
 						if ($target !== 'xsd')
@@ -4767,16 +4767,16 @@ class Render_SmartyDoc extends Smarty
 				}
 			}
 
-			if (($this->tidy_on || ($this->tidy_for_xslt && @in_array(TRUE, $pre_xform))) && extension_loaded('tidy'))
+			if (($this->tidy_on || ($this->tidy_for_xslt && @in_array(true, $pre_xform))) && extension_loaded('tidy'))
 			{
 				$tidy = new tidy;
 				if ($this->xml_plain && $_doc_info['dtd']['family'] !== 'XHTML' && $this->application_xml !== 'XHTML')
 				{
-					$config = array('output-xml' => TRUE, 'char-encoding' => 'utf8');
+					$config = array('output-xml' => true, 'char-encoding' => 'utf8');
 				}
 				else
 				{
-					$config = array('output-xhtml' => TRUE, 'quote-ampersand' => FALSE, 'quote-nbsp' => FALSE, 'char-encoding' => 'utf8');
+					$config = array('output-xhtml' => true, 'quote-ampersand' => false, 'quote-nbsp' => false, 'char-encoding' => 'utf8');
 				}
 				$tidy->parseString($doc_source, $config, 'utf8');
 				$tidy->cleanRepair();
