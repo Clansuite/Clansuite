@@ -38,10 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}<?php
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}<?php
 
 /**
  * This Clansuite Core Class for for Mail Handling (Wrapper for SwiftMailer)
