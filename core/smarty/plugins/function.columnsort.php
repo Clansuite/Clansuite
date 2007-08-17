@@ -101,7 +101,7 @@ function smarty_function_columnsort($params, &$smarty) {
 	// Get current sort order for current column id
 	$sort_order = _smarty_columnsort_sort_order($id, $columnsort['column_array'], $columnsort['default_sort'], $smarty);
 
-	if($sort_order === FALSE) {
+	if($sort_order === false) {
 		$smarty->trigger_error('columnsort: too few columns in translate table!');
 		return;
 	}
@@ -109,21 +109,21 @@ function smarty_function_columnsort($params, &$smarty) {
 	// The column is selected if the get vars exists and is the current column OR
 	// if the get vars does not exist and the current column is default.
 	if($columnsort['current_column'] !== NULL && $columnsort['current_column'] == $id) {
-		$selected = TRUE;
+		$selected = true;
 
 		// Reverse sort order for the output.
 		if($columnsort['current_sort'])
 			$sort_order = strtolower($columnsort['current_sort']) == 'asc' ? 'desc' : 'asc';
 	} else if($columnsort['current_column'] === NULL && $id == $columnsort['default_column']) {
-		$selected = TRUE;
+		$selected = true;
 
 		// Reverse sort order for the output.
 		$sort_order = $sort_order == 'asc' ? 'desc' : 'asc';
 	} else {
-		$selected = FALSE;
+		$selected = false;
 	}
 
-	$columnsort['target_page'] .= (strpos($columnsort['target_page'], '?') !== FALSE ? '&' : '?');
+	$columnsort['target_page'] .= (strpos($columnsort['target_page'], '?') !== false ? '&' : '?');
 
     $url = $columnsort['target_page'] . $columnsort['column_var'] . "=$id&" . $columnsort['sort_var'] . "=$sort_order";
 
@@ -144,13 +144,13 @@ function smarty_function_columnsort($params, &$smarty) {
 }
 
 function _smarty_columnsort_sort_order($id, $columns, $default_sort, &$smarty) {
-	if(!isset($columns[$id])) return FALSE;
+	if(!isset($columns[$id])) return false;
 
 	if(!is_array($columns[$id])) return $default_sort;
 
 	if(count($columns[$id]) != 2) {
 		$smarty->trigger_error('columnsort: column array must be array("value", "asc|desc")');
-		return FALSE;
+		return false;
 	}
 
 	return $columns[$id][1];

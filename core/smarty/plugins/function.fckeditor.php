@@ -43,8 +43,8 @@ function smarty_function_fckeditor($params, &$smarty)
    static $config_arguments = array();
 
    // Test if editor has been loaded before
-   if(!count($base_arguments)) $init = TRUE;
-   else $init = FALSE;
+   if(!count($base_arguments)) $init = true;
+   else $init = false;
    
    // BasePath must be specified once.
    if(isset($params['BasePath']))

@@ -225,7 +225,7 @@ function smarty_block_datatable( $params, $content, &$smarty, &$repeat )
 
   if( !$__smarty_datatable_js_output )
   {
-    $__smarty_datatable_js_output = TRUE;
+    $__smarty_datatable_js_output = true;
     $htmlcode .= <<<ENDJS
 \n<script language="JavaScript" type="text/javascript">
 var sort_col = 0;
