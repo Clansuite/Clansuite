@@ -1,53 +1,68 @@
 <?php
-/**
-* Input Handler Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    see COPYING.txt
-* @version    SVN: $Id: input.class.php 132 2006-06-09 22:47:30Z xsign $
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-Andre Koch, Florian Wolf ? 2005-2007
+    * http://www.clansuite.com/
+    *
+    * File:         input.class.php
+    * Requires:     PHP 5.1.4+
+    *
+    * Purpose:      Clansuite Core Class for Input Handling
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
 
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
-* @desc Start input class
-*/
+ * Inputfilter Class
+ *
+ * This class provides some kind of inputblocker, which filters and cleans up 
+ * the $_REQUEST, reverses magic quotes and gives the check method for several filter checks.
+ * 
+ * @note by vain: check PHP 5 >= 5.2.0 FilterFunctions 
+ * @todo: implement PHP5.2 Filterfunctions 
+ * @link http://www.php.net/manual/de/ref.filter.php
+ *
+ */
 class input
 {
     /**
-    * @desc Essential clean-up of $_REQUEST
-    * @desc Handle intruders/hackers
-    */
-
-    function cleanup_request()
+     * cleanup_request
+     * is normally called at system initalization 
+     * and before frontcontroller execution
+     *
+     * Essential clean-up of $_REQUEST
+     * Handles Intrusion
+     */
+    public static function cleanup_request()
     {
         global $cfg, $security;
 
@@ -93,9 +108,11 @@ class input
     }
 
     /**
-    * @desc Modify a given String
-    */
-
+     * Modify a given String
+     *
+     * @param $string
+     * @param $modificators
+     */
     function modify($string='', $modificators='' )
     {
         $mods = array();
@@ -145,8 +162,12 @@ class input
     }
 
     /**
-    * @desc Check a string
-    */
+     * Check a string
+     *
+     * @todo: docblock comment
+     * @param
+     * USAGE:
+     */
 
     //
     // -----------------------------------------------------------------------------
@@ -334,7 +355,11 @@ class input
         return $r_bool;
     }
 
-    function fix_magic_quotes($var = NULL, $sybase = NULL )
+    /**
+     * Revert magic_quotes() if still enabled
+     * @access public static
+     */
+    public static function fix_magic_quotes($var = NULL, $sybase = NULL )
     {
         // if sybase style quoting isn't specified, use ini setting
         if (!isset($sybase) )
@@ -372,7 +397,7 @@ class input
 
             // disable magic_quotes_runtime
             set_magic_quotes_runtime(0);
-            return TRUE;
+            return true;
         }
 
         // if var is an array, fix each element
