@@ -1,10 +1,10 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf ï¿½ 2005-2007
     * http://www.clansuite.com/
     *
-    * File:         errorhandling.class.php
+    * File:         db.class.php
     * Requires:     PHP 5.1.4+
     *
     * Purpose:      Clansuite Core Class for PDO Database Handler
@@ -38,13 +38,11 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * This Clansuite Core Class for PDO Database Handler
+ * This Clansuite Core Class for Database Handling via PDO
  *
  * PDO is not an database-abstraction layer, it doesn't rewrite SQL or emulate missing features!
  *
@@ -55,14 +53,14 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
  *
  * PDO gives data-access to the following Databases:
  *
- * DBLIB	    FreeTDS / Microsoft SQL Server / Sybase
- * FIREBIRD		Firebird/Interbase 6
- * INFORMIX		IBM Informix Dynamic Server
- * MYSQL		MySQL 3.x/4.x
- * OCI			Oracle Call Interface
- * ODBC			ODBC v3 (IBM DB2, unixODBC and win32 ODBC)
- * PGSQL		PostgreSQL
- * SQLITE		SQLite 3 and SQLite 2
+ * DBLIB        FreeTDS / Microsoft SQL Server / Sybase
+ * FIREBIRD     Firebird/Interbase 6
+ * INFORMIX     IBM Informix Dynamic Server
+ * MYSQL        MySQL 3.x/4.x
+ * OCI          Oracle Call Interface
+ * ODBC         ODBC v3 (IBM DB2, unixODBC and win32 ODBC)
+ * PGSQL        PostgreSQL
+ * SQLITE       SQLite 3 and SQLite 2
  *
  * @link http://wiki.cc/php/PDO_Basics
  *
@@ -70,15 +68,15 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @copyright  Jens-Andre Koch (2005-$Date$), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
  * @category    core
  * @subpackage  db
  */
-class db
-{   
+class db //extends PDO
+{
     /**
      * @var $db
      * @access protected
@@ -116,21 +114,7 @@ class db
 
     public $prepares = array();
 
-    /**
-     * Active Queries to prevent buffering failures
-     * @var integer
-     */
-
-    public $query_active = 0;
-
-    /**
-     * The active PDOStatement as reference
-     * @var object
-     * @todo is variable type right?
-     */
-
-    public $query_active_reference;
-
+    
     /**
     * Last SQL
     * @var string?
@@ -138,6 +122,10 @@ class db
     */
 
     public $last_sql;
+
+    private $config     = null;
+    private $lang       = null;
+    private $error      = null;
 
     /**
      * CONSTRUCTOR
@@ -152,66 +140,74 @@ class db
      * @global $lang
      * @global $tpl
      * @global $error
-     * @global $cfg
+     * @global $config
      * @todo correct var types
      */
 
-   public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
-    {
-        global $lang, $tpl, $error, $cfg;
-
+   public function __construct(configuration $config, language $lang, errorhandler $error)
+   {
+        $this->config = $config;
+        $this->lang   = $lang;
+        $this->error  = $error;
+        
         /**
          * try, try, try to set up PDO :)
          */
         try
         {
             /**
-             * Create PDO object @ $db
+             * Create PDO object
              */
 
-            $this->db = new PDO($dsn, $user, $pass, $driver_options);
+            $this->db = new PDO("$config->db_type:dbname=$config->db_name;host=$config->db_host", $config->db_username, $config->db_password, array ());
 
             /**
-             * Set the Error Attribute
+             *  Set attributes on the database handle
              */
 
-            $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-            /**
-             * Table-names in lower-case
-             */
-
+            // Set the Error Attribute
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // Keep Database Connection persistent
+            $this->db->setAttribute(PDO::ATTR_PERSISTENT, true);
+            // Force table-column names to lower case
             $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
 
             /**
-             * Fetch Mode
-             * UNQUOTE ON PHP 5.2 !!!
-             * @todo note by vain: what's this, why unquote?? note it here!! else no one will know.
+             * Workaround for PDO Bug by Wez Furlong (netevil.org)
+             * BUG: SQL-String containing the chars : or ? throws pdo error,
+             * when creating prepared Statement, because waiting for assign-parameters
              */
+            # this is slower -> if ( version_compare( phpversion(), '5.1.3', '<' ) )
+            if(defined('PDO::ATTR_EMULATE_PREPARES'))
+            {
+                // these pdo settings require atleast PHP >= 5.1.3
+                $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            }
+            else
+            {
+                // fallback for earlier versions
+                $this->db->setAttribute(PDO::MYSQL_ATTR_DIRECT_QUERY, true);
+            }
 
             /**
-             * $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+             * Fetch Mode
              */
+             if ( version_compare( phpversion(), '5.2', '<' ) )
+             {
+                $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+             }
 
-            if ( $cfg->db_type == 'mysql' )
+            if ( $config->db_type == 'mysql' )
             {
-                /**
-                 * Buffering
-                 */
-
+                // Use buffered queries
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
-                /**
-                 * Unicode (mysql)
-                 */
-
+                // Unicode (mysql)
                 $this->exec('SET CHARACTER SET utf8');
             }
         }
 
-        /**
-         * In case Database Error occurs catch exception and show Error
-         */
+        // In case Database Error occurs catch exception and show Error
         catch (PDOException $e)
         {
             $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
@@ -220,8 +216,7 @@ class db
     }
 
     /**
-     * CALL
-     * It's a forward to $db
+     * CALL magic-method -> function-forward to $db
      *
      * @param $func
      * @param $args
@@ -239,34 +234,27 @@ class db
      * @global $error
      * @global $lang
      */
-
-    public function prepare( $sql='' )
+    
+    public function prepare($sql) 
     {
-		global $error, $lang;
-
-        if( is_object($this->query_active_reference) )
-        {
-            $this->query_active_reference->closeCursor();
-            $this->query_active_reference = NULL;
-        }
-
+        $this->stmt_counter++;
+        
         $this->last_sql = $sql;
         $this->prepares[] = $sql;
-
-		$res = $this->db->prepare( $sql );
-
-		if( $res )
-		{
-			return new db_statements( $res );
-		}
-		else
-		{
-			$error->show( $lang->t('DB Prepare Error'), $lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1);
+       
+        $pdo_statement = call_user_func_array(array($this->db, 'prepare'), $sql);
+       
+        if( $pdo_statement )
+        {
+            return new db_statements($this, $pdo_statement );
+        }
+        else
+        {
+            // @todo: instead die -> try/catch or throw
+            $this->error->show( $this->lang->t('DB Prepare Error'), $this->lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1);
             die();
-		}
-
+        } 
     }
-
     /**
      * This method is a Simple Query with closeCursor() !
      *
@@ -286,9 +274,9 @@ class db
 
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
-        $benchmark->timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
+        benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->execute( $args );
-        $benchmark->timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
+        benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->closeCursor();
         $res = NULL;
 
@@ -303,30 +291,21 @@ class db
      */
 
     public function query( $sql='' )
-    {
+    {   $this->exec_counter++;
+        $this->stmt_counter++;
+        
         $this->last_sql = $sql;
-
-        if( is_object($this->query_active_reference) )
-        {
-            $this->query_active_reference->closeCursor();
-            $this->query_active_reference = NULL;
-        }
-
-        $this->query_counter++;
         $this->queries[] = $sql;
-        $benchmark->timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
+          
+        benchmark::timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
         $res = $this->db->query($sql);
-        $benchmark->timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
-        if ( $res )
-        {
-            $db->query_active_reference = $res;
-            return $res;
-        }
+        benchmark::timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
+       
         return $res;
     }
 
     /**
-     *  Performs a Select returning the total number of rows found by a SELECT query
+     * Performs a Select returning the total number of rows found by a SELECT query
      *
      * At first it tries to get the total number of rows by
      * a mysql specific command "SQL_CALC_FOUND_ROWS".
@@ -352,13 +331,14 @@ class db
      * @global $lang
      * @return $res
      * @todo note by vain: is this still needed or deprecated?
-     *       i think the limit was placed here because of the need for limiting the pagination
-     *       but as far as i know it's handled there
+     *       i think the limit was placed here because of the need for limiting the pagination,
+     *       but as far as i know it's handled there.
      */
 
     public function select( $sql='', &$count = NULL, $limit = NULL)
     {
-        global $error, $lang;
+        $lang   = $this->injector->instantiate('language');
+        $error  = $this->injector->instantiate('errorhandler');
 
         $sql = 'SELECT '.(!is_null($count)?'SQL_CALC_FOUND_ROWS ':'').$sql;
 
@@ -389,10 +369,7 @@ class db
             }
         }
 
-        /**
-         * In case Database Error occurs catch exception and show Error
-         */
-
+        // In case Database Error occurs catch exception and show Error
         catch (PDOException $e) {
 
             $error->show( $lang->t('DB SELECT with COUNT OF ROWS Error'), $lang->t('Could not select and count the rows of following statement:') . '<br/>' . $sql, 1);
@@ -411,28 +388,43 @@ class db
      */
 
     public function exec( $sql='' )
-    {   
-        global $benchmark;
-        
+    {
         $this->exec_counter++;
-        
         $this->last_sql = $sql;
-
-        if( is_object($this->query_active_reference) )
-        {
-            $this->query_active_reference->closeCursor();
-            $this->query_active_reference = NULL;
-        }
-        
-        $benchmark->timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
-        $res = $this->db->exec($sql );
-        $benchmark->timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
-
         $this->execs[] = $sql;
+
+        benchmark::timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
+        $res = $this->db->exec($sql );
+        benchmark::timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
 
         return $res;
     }
-
+    
+    /**
+     * tabledescription
+     * - mysql specific command 
+     * - SHOW COLUMNS displays information about the columns in a given table
+     */
+    public function tabledescription($tablename)
+    {
+        $result = $this->query('SHOW COLUMNS FROM ' . $tablename);
+        $tableinfos = array();
+        foreach ($result as $row)
+        {
+            $tableinfos[$row['field']] = array( 'pk' => $row['key'] == 'PRI',
+                                                'type' => $row['type'],);
+        }
+        return $tableinfos;
+    }
+    
+    public function foundRows()
+    {
+        $rows = $this->db->prepare('SELECT found_rows() AS rows', array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
+        $rows->execute();
+        $rowsCount = $rows->fetch(PDO::FETCH_OBJ)->rows;
+        $rows->closeCursor();
+        return $rowsCount;
+    }
 }
 
 /**
@@ -451,9 +443,10 @@ class db
  * @subpackage  db_statements
  *
  */
-class db_statements
+class db_statements //extends PDOStatement
 {
-    public $db_statement;
+    protected $db;
+    protected $db_statement;
 
     /**
      * CONSTRUCTOR
@@ -461,13 +454,15 @@ class db_statements
      * $param object
      */
 
-    function __construct($db_pre_s)
+    function __construct($db, $db_pre_s)
     {
+        $this->db           = $db;
         $this->db_statement = $db_pre_s;
     }
 
     /**
-     * This is the Callback function for the Non-existing methods in this class
+     * CALL magic method -> callback function forwarding all 
+     * non-existing methods in this class
      *
      * @param array
      * @param array
@@ -488,43 +483,14 @@ class db_statements
      */
     function execute( $args = array() )
     {
-        global $db, $benchmark;
-
-       
-        if ( is_object( $db->query_active_reference ) )
-        {
-            $db->query_active_reference->closeCursor();
-            $db->query_active_reference = NULL;
-        }
-
-        $db->queries[] = $this->db_statement->queryString;
-
-        $db->stmt_counter++;
-        
-        if( count($args) > 0 )
-        {
-            $benchmark->timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
-            $res = $this->db_statement->execute($args);
-            $benchmark->timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
-        }
-        else
-        {
-             /**
-              * in case $args is empty execute!!
-              */
-            $benchmark->timemarker('db_begin', 'Database Statement | No.'. $db->stmt_counter);
-            $res = $this->db_statement->execute();
-            $benchmark->timemarker('db_end', 'Database Statement | No.'. $db->stmt_counter);
-        }
-        
-       
-
-        if ( $res )
-        {
-            $db->query_active_reference = $this;
-            return $res;
-        }
+        $this->db->stmt_counter++;
+        $this->db->queries[] = $this->db_statement->queryString;
+  
+        benchmark::timemarker('db_begin', 'Database Statement | No.'. $this->db->stmt_counter);
+        $res = $this->db_statement->execute($args);
+        benchmark::timemarker('db_end', 'Database Statement | No.'. $this->db->stmt_counter);
+     
         return $res;
-    }
+    }        
 }
 ?>
