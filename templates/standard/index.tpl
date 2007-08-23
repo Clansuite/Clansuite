@@ -30,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script type="text/javascript" src="{$www_root_tpl_core}/javascript/XulMenu.js"></script>
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
+<script src="{$www_root_tpl_core}/javascript/clip.js" type="application/javascript"></script>
 
 <!--[if IE]>
 <link rel="stylesheet" href="{$www_core_tpl_root}/css/IEhack.css" type="text/css" />
