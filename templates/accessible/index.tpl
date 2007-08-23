@@ -45,8 +45,6 @@
 					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
 					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-accessible.css"}
 <script type="application/javascript" src="{$www_root_tpl_core}/javascript/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
-
-
 {literal}
     <style type="text/css">
         .special { background-color: #000; color: #fff; }
@@ -58,6 +56,7 @@
 
 <script type="application/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"></script>
 <script type="application/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js"></script>
+<script type="application/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
 
 {* set title - and apply -breadcrumb title="1"- to it *}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
