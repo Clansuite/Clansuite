@@ -56,8 +56,16 @@ if (!defined('IN_CS')) { die('You are not allowed to view this page.' ); }
  * @subpackage  statistics
  */
 
-class statistics
-{
+class statistic
+{  
+    private $db = null;
+    
+    function __construct(db $db)
+    {
+        $this->db = $db;
+        $stats = null;
+    }
+    
     /**
      * This fetches the statistics from db and assigns the vars to tpl
      *
@@ -65,19 +73,19 @@ class statistics
      * @global object $db
      */
 
-    function assign_statistic_vars()
+    public function get_statistic_array()
     {
-        global $tpl, $db;
-
-        $stats['all_impressions'] = 0;
-
-        $stats['page_impressions'] = 0;
+        $stats['all_impressions']       = 0;
+        $stats['page_impressions']      = 0;
+        $stats['today_impressions']     = 0;
+        $stats['yesterday_impressions'] = 0;
+        $stats['month_impressions']      = 0;
 
         /**
          * Number of online users (equals sessions number)
          */
 
-        $stmt = $db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session' );
+        $stmt = $this->db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session' );
         $stmt->execute();
         $stats['online'] = $stmt->fetch(PDO::FETCH_COLUMN);
 
@@ -86,7 +94,7 @@ class statistics
          * Number of authenticated users (user_id not 0)
          */
 
-        $stmt = $db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session WHERE user_id != 0' );
+        $stmt = $this->db->prepare( 'SELECT COUNT(session_id) FROM ' . DB_PREFIX .'session WHERE user_id != 0' );
         $stmt->execute();
         $stats['authed_users'] = $stmt->fetch(PDO::FETCH_COLUMN);
 
@@ -99,19 +107,14 @@ class statistics
          * Who is online?
          * Select Session's IDS and Nicks for USERID > 0 (no guests) BUT not hidden ones
          */
-        $stmt = $db->prepare( 'SELECT table1.user_id, table1.session_where, 
-                                      table2.nick
-                               FROM ' . DB_PREFIX .'session AS table1
-                               LEFT JOIN ' . DB_PREFIX .'users AS table2 ON table1.user_id = table2.user_id 
-                               WHERE table1.user_id != 0 AND table1.session_visibility = 1' );
+        $stmt = $this->db->prepare( 'SELECT table1.user_id, table1.session_where, table2.nick
+                                     FROM ' . DB_PREFIX .'session AS table1
+                                     LEFT JOIN ' . DB_PREFIX .'users AS table2 ON table1.user_id = table2.user_id 
+                                     WHERE table1.user_id != 0 AND table1.session_visibility = 1' );
         $stmt->execute();
         $stats['whoisonline'] = $stmt->fetchALL(PDO::FETCH_ASSOC);
         
-        /**
-         * Assign $stats Array
-         */
-
-        $tpl->assign('stats' , $stats );
+        return $stats;
     }
 }
 ?>
