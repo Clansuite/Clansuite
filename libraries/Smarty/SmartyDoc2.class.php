@@ -4,7 +4,7 @@
  * Project:     SmartyDoc2 - a Plugin for Smarty
  * File:        SmartyDoc2.class.php5
  *
- * SmartyDoc helps to create a qualified document using 
+ * SmartyDocB helps to create a qualified document using 
  * previously collected user information.
  * 
  * Requires:    PHP5 and Smarty 2.6.10+
@@ -54,7 +54,6 @@
  */
 require('Smarty_Compiler.class.php');
 require('Smarty_Compiler_wtplfileaccs.class.php');
-
 
 /**
  * Class Render_SmartyDoc
@@ -129,6 +128,14 @@ class Render_SmartyDoc extends Smarty
 	public $application_xml = true;
 
 	/**
+	 * If set to true, this will perform a DOM validation (according to whatever 
+	 * DTD you have in your document) and output the results (if negative) in an array.
+	 * Can also be forced to true (even if false here) by setting the following in a template:
+	 * {assign var=validateon value=true}
+	 * @var bool
+	 */
+	public $validate = false;
+	/**
 	 * Process the output filter regardless of whether doc_raws or docinfos
 	 * exist in the document (e.g., if taking advantage of SmartyDocB features
 	 * strictly through the PHP interface)
@@ -168,6 +175,7 @@ class Render_SmartyDoc extends Smarty
 	public $site_root_hidden = '';
 	// The following need slashes at the beginning
 	public $dr_css_file_src = '/dr_mainstyles.css';
+	public $dr_code_file_st = '/dr_mainscripts_';
 	public $dr_code_file_src = '/dr_mainscripts.js';
 	public $dr_xsl_file_src = '/dr_mainxsl.xsl';
 	public $dr_xsd_file_src = ''; // Set in constructor via set_rootnode
@@ -973,11 +981,11 @@ class Render_SmartyDoc extends Smarty
 		// Localize script (for my own personal project)
 		global $langu;
 		$lang = $langu;
-		if (!in_array($langu, array('cy', 'de', 'en', 'es', 'fr', 'pt', 'ru', 'ar', 'fa', 'it', 'hu'))) {
+		if (!in_array($langu, array('cy', 'de', 'en-US', 'zh-CN', 'zh-TW', 'es', 'fr', 'pt', 'ru', 'ar', 'fa', 'it', 'hu'))) {
 			$lang = 'err'; // This shouldn't overwrite English if there is an error
 		}
-		$this->dr_code_file_src = '/dr_mainscripts_'.$lang.'.js';
-		$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$lang.'.js';
+		$this->dr_code_file_src = $this->dr_code_file_st.$lang.'.js';
+		$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$lang.'.js';
 
 		$this->dr_xsd_file_src = '/'.$node.'.xsd';
 		$this->dr_dtd_file_src = '/'.$node.'.dtd';
@@ -1500,6 +1508,7 @@ class Render_SmartyDoc extends Smarty
 			$this->unregister_outputfilter('smarty_outputfilter_SmartyDoc');
 		}
 		$output = parent::fetch($resource_name, $cache_id, $compile_id);
+
 		if ($outputfilter_loaded)
 		{
 			$this->register_outputfilter(array($this, 'smarty_outputfilter_SmartyDoc'));
@@ -1543,7 +1552,9 @@ class Render_SmartyDoc extends Smarty
 			// This filter doesn't work for very large files at least within the textarea block (due to use of preg_replace which has apparent size limits)--for my system anything greater than 99996 characters would cause the page to go completely blank
 			$this->load_filter('output', 'trimwhitespace');
 		}
+		
 		$output = parent::fetch($resource_name, $cache_id, $compile_id);
+		
 //		if (!isset($this->headers_ran) || !$this->headers_ran) {
 			$this->setContentType();
 			/* While I was testing, it seemed Explorer needed the following to be forced, though now it is ok (scratches head); still working on this, so don't delete it yet
@@ -1572,11 +1583,11 @@ class Render_SmartyDoc extends Smarty
 			$ob_enabled = false;
 		}
 		// PHP documentation states that the former is preferable (if available)
-		elseif (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
+		elseif (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
 		 		  substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') 
 		 		  && $this->gzip_output)
 		{
-			ob_start('ob_gzhandler');
+//			ob_start('ob_gzhandler'); // This caused problems with blank screens (using Windows machine); see also comment at http://cn.php.net/manual/en/function.ob-gzhandler.php
 			$ob_enabled = true;
 		}
 		else
@@ -1594,8 +1605,8 @@ class Render_SmartyDoc extends Smarty
 		// This surrounding conditional probably isn't necessary
 		if ($ob_enabled)
 		{
-			ob_end_flush();
-		}
+		//	$a = ob_end_clean(); // commenting out since commented above out
+        }
 
 	}
 
@@ -1929,7 +1940,7 @@ class Render_SmartyDoc extends Smarty
 	 *
 	 * -------------------------------------------------------------
 	 */
-	public function smarty_function_xslt($params, &$this)
+	public function smarty_function_xslt($params, &$smarty)
 	{
 		$xml = $params['xml'];
 		$xsl = $params['xsl'];
@@ -2281,8 +2292,8 @@ class Render_SmartyDoc extends Smarty
 				{
 					global $langu;
 					if (isset($langu) && $langu != '') {
-						$this->dr_code_file_src = '/dr_mainscripts_'.$langu.'.js';
-						$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$langu.'.js';
+						$this->dr_code_file_src = $this->dr_code_file_st.$langu.'.js';
+						$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$langu.'.js';
 					}
 				}
 				if ($fileparam == '' || $target === 'notes')
@@ -4231,7 +4242,6 @@ class Render_SmartyDoc extends Smarty
 				} 
 				$doc_source .= $docpre_robots.'<meta name="robots" content="'.$doc_src_robots1.$doc_src_robots2."\" />\n".$docpost_robots;
 			}
-
 			// process 'base' doc info
 			if (isset($_doc_info['base']))
 			{
@@ -4401,8 +4411,8 @@ class Render_SmartyDoc extends Smarty
 			global $langu; // Adding to localize "script" file as it contains localized instructions at our site
 			if (isset($langu) && $langu != '')
 			{
-				$this->dr_code_file_src = '/dr_mainscripts_'.$langu.'.js';
-				$this->dr_code_file = $this->site_root_public.'/dr_mainscripts_'.$langu.'.js';
+				$this->dr_code_file_src = $this->dr_code_file_st.$langu.'.js';
+				$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$langu.'.js';
 			}
 			
 			$doc_source .= $this->doc_raw_build('code');
@@ -4892,12 +4902,57 @@ class Render_SmartyDoc extends Smarty
 				$doc_source = str_replace($nw_arr, array_merge((array) $ent_txt, (array) $this->extra_ext_ent_txt), $doc_source);
 			}
 //print $doc_source;exit;
+
+			if ($this->validate === true || $smarty->_tpl_vars['validateon'])
+			{
+				// Adapted from function on PHP's documentation on Document->validate
+				function staticerror($errno, $errstr, $errfile, $errline, $errcontext, $ret = false)
+				{
+					static $errs = array();
+					if ($ret === true)
+					{
+						return $errs;
+					}
+					$tag = 'DOMDocument::validate(): ';
+					$errs[] = str_replace($tag, '', $errstr);
+				}
+
+				// Load a document
+				$dom = new DOMDocument;
+				$dom->loadXML($doc_source);
+				
+				// Set up error handling
+				set_error_handler('staticerror');
+				$old = ini_set('html_errors', false);
+				
+				// Validate
+				$dom->validate();
+				
+				// Restore error handling
+				ini_set('html_errors', $old);
+				restore_error_handler();
+
+				// Get errors
+				$errs = staticerror(null, null, null, null, null, true);
+				if (!empty($errs))
+				{
+					print 'Validation errors:<pre>';
+					print_r($errs);
+					print '</pre>';
+					exit;
+				}
+				else
+				{
+					print 'No validation errors.';
+					exit;
+				}
+			}
+
 			if (isset($_doc_info['code']) || isset($_doc_info['script']) || isset($this->doc_raw['script']) || isset($this->doc_raw['code']))
 			{
 				header('Content-Script-Type: text/javascript');
 			}
 			header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
-			
 			return $doc_source;
 //			$this->headers_ran = true;
 		} // end (long) if
