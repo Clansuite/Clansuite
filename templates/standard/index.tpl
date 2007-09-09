@@ -3,7 +3,7 @@
 {doc_raw}
 
 {* Dublin Core Metatags *}
-<link rel="schema.DC". href="http://purl.org/dc/elements/1.1/" />
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
 <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
 <meta name="DC.Creator" content="Florian Wolf, Jens-Andre Koch" />
 <meta name="DC.Date" content="20070101" />
@@ -28,13 +28,13 @@
 <link rel="shortcut icon" href="{$www_root_tpl}/images/favicon.ico" />
 <link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/XulMenu.js"></script>
-<script src="{$javascript}" type="text/javascript" language="javascript"></script>
+<script  src="{$www_root_tpl_core}/javascript/XulMenu.js" type="application/javascript"></script>
+<script src="{$javascript}" language="javascript" type="application/javascript"></script>
 <script src="{$www_root_tpl_core}/javascript/clip.js" type="application/javascript"></script>
 
 <!--[if IE]>
-<link rel="stylesheet" href="{$www_core_tpl_root}/css/IEhack.css" type="text/css" />
-<script type="text/javascript" src="{$www_core_tpl_root}/javascript/catfish.js">
+<link rel="stylesheet" href="{$www_root_tpl_core}/css/IEhack.css" type="text/css" />
+<script type="application/javascript" src="{$www_root_tpl_core}/javascript/catfish.js">
 <![endif]-->
 
 {if isset($additional_head)} {$additional_head} {/if}
@@ -64,7 +64,7 @@
     </td>
 </tr>
 </table>
-<script type="text/javscript">
+<script type="application/javscript">
 //<![CDATA[
     var arrow1 = new Image(4, 7);
     arrow1.src = "{$www_root_tpl}/images/arrow1.gif";
@@ -125,7 +125,7 @@
 
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
-            {mod name="account" func="login"}
+           {* {mod name="account" func="login"} *}
         </div>
         <div style="margin-top: 10px">
 		   {* {mod name="shoutbox" func="show"} *}
@@ -160,7 +160,7 @@
                 <br/> {include file='server_stats.tpl'}
     </p>
 
-<script type="text/javascript">
+<script type="application/javascript">
 //<![CDATA[
     var menu1 = new XulMenu("menu1");
     menu1.type = "vertical";
@@ -173,6 +173,6 @@
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_core_tpl_root}/images/ajax/2.gif" align="absmiddle" alt="Ajax Notification Image"/>
+    <img src="{$www_root_tpl_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
