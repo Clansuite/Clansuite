@@ -21,7 +21,6 @@
         	       <?=$language['STEP3_LICENCE']; ?>
         	   </h2>
 
-
                 <p><?=$language['STEP3_SENTENCE1']; ?></p>
 
                 <!-- IFRAME WITH LICENCE -->
@@ -41,21 +40,16 @@
                             <?=$language['CLICK_BACK_TO_RETURN']?>
                             </span>
 
-                			<div class="alignleft">
-                			 <form action="index.php" method="post">
-                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="ButtonPrev" />
-                                <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
-                                <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>" />
-                             </form>
-                            </div>
+						<form action="index.php" method="post">
+	            			<div class="alignleft">
+	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+	                        </div>
 
-                			<div class="alignright">
-                			 <form action="index.php" method="post">
-                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="ButtonNext" id="ButtonNext" disabled="disabled" />
-                                <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
-                                <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>" />
-                			 </form>
-                			</div>
+	            			<div class="alignright">
+	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" id="ButtonNext" disabled="disabled" />
+	            </form>
+	            			</div>
                 </div><!-- div navigation end -->
 
         	</div> <!-- div accordion end -->

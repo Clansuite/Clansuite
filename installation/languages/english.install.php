@@ -21,22 +21,79 @@ class language implements ArrayAccess
    
         
         // STEP 2 - System Check
-        $this->language['STEP2_SYSTEMCHECK'] = 'Step [2] Systemcheck';
+	    $this->language['STEP2_SYSTEMCHECK'] = 'Step [2] Systemcheck';
+		$this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Some System-Settings are required for the correct work of Clansuite.';
+		$this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Other Settings are only recommended to enhance the security or performance.';
+		$this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Red marked Settings show where to take action.';
+		$this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'The System-Check resulted in:';
+		
+		$this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Required Settings';
+		$this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Recommended Settings';
+		
+		$this->language['STEP2_SETTING'] = 'Settings';
+		$this->language['STEP2_SETTING_RESULT'] = 'Results';
+	    $this->language['STEP2_SETTING_EXPECTED'] = 'Expected';
+	    
+	    # REQUIRED SETTINGS (in order)
+	    $this->language['PHP_VERSION'] = 'Checking for PHP version 5.2+';
+	    $this->language['SESSION_FUNCTIONS'] = 'Checking for Session Functions';
+	    $this->language['MAGIC_QUOTES_RUNTIME'] = 'Checking Magic Quotes Runtime';
+	    $this->language['TOKENIZER'] = 'Checking if Tokenizer exists';
+	    
+	    # RECOMMENDED SETTINGS (in order)
+	    $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
+	    $this->language['FILE_UPLOADS'] = 'Checking for File Uploads';
+	    $this->language['REGISTER_GLOBALS'] = 'Checking if Register Globals';
+	    $this->language['ALLOW_URL_FOPEN'] = 'Checking for ALLOW_URL_FOPEN';
+	    $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
+	    $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
+	    $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
+	    $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
         
-        // STEP 3 - Licence
+		// STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
         
         $this->language['STEP3_SENTENCE1'] = 'Realize, that Clansuite is released under GNU/GPL Licence!';
         $this->language['STEP3_CHECKBOX'] = 'I realized that Clansuite is released under the GNU/GPL License!';
         
-        $this->language['STEP4_DATABASE'] = 'Step [4] Database';
-        
+        // STEP 4 - Database
+		$this->language['STEP4_DATABASE'] = 'Step [4] Database';
+	    
+		$this->language['STEP4_SENTENCE1'] = 'Please enter your MySQL Connection Data.';
+		$this->language['DB_HOST'] = 'Database Host';
+		$this->language['DB_NAME'] = 'Database Name';
+		$this->language['DB_USER'] = 'Database Username';
+		$this->language['DB_PASS'] = 'Database Password';
+		$this->language['DB_PREFIX'] = 'Database Prefix';
+		
+		$this->language['ERROR_NO_DB_CONNECT'] = 'ERROR - Database-Connection could not be established.';
+		
+		// STEP 5 - Confioguration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
         
+		$this->language['STEP5_SENTENCE1'] = 'Please enter the basic configurations of your Clansuite-Website.';
+    
+    	$this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
+    	$this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Email Adress of Website';
+    	$this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Encryption of Useraccount-Passwords';
+    	$this->language['STEP5_CONFIG_SALTING'] = 'Salting (Use Randomizer to generate!)';	
+		$this->language['STEP5_CONFIG_TIMEZONE'] = 'Timezone';
+   
+        // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Step [6] Create Administrator';
         
+		$this->language['STEP6_SENTENCE1'] = 'Please enter Name and Password of the Administrator Account.';
+		
+		$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
+		$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Password';	
+		$this->language['STEP6_ADMIN_LANGUAGE'] = 'Language';
+		$this->language['STEP6_ADMIN_EMAIL']	= 'Email Adress';
+		
+		$this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'FEHLER -  Admin Account not created.';
+	
+        // STEP 7 - Finish
         $this->language['STEP7_FINISH'] = 'Step [7] Finish';
-        
+
         //GLOBAL
         # Buttons
         $this->language['NEXTSTEP'] = 'Next >>';

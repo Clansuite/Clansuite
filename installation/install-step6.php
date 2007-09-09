@@ -21,7 +21,20 @@
         	       <?=$language['STEP6_ADMINUSER']?>
         	   </h2>
 
-        	   <p>Systemcheck...</p>
+        	   <p><?=$language['STEP6_SENTENCE1']?></p>
+				
+				<form action="index.php" method="post">
+				<dl>
+					<dt><?=$language['STEP6_ADMIN_NAME']?></dt>
+			   		<dd><input type="name" name="admin_name" value="<?=$values['admin_name']?>" /></dd>
+			   		<dt><?=$language['STEP6_ADMIN_PASSWORD']?></dt>
+			   		<dd><input type="name" name="admin_password" value="<?=$values['admin_password']?>" /></dd>
+			   		<dt><?=$language['STEP6_ADMIN_EMAIL']?></dt>
+			   		<dd><input type="name" name="admin_email" value="<?=$values['admin_email']?>" /></dd>
+			   		<dt><?=$language['STEP6_ADMIN_LANGUAGE']?></dt>
+			   		<dd><input type="name" name="admin_language" value="<?=$values['admin_language']?>" /></dd>
+			   	</dl>
+
 
             <div class="navigation">
 
@@ -31,21 +44,15 @@
                         <?=$language['CLICK_BACK_TO_RETURN']?>
                         </span>
 
-            			<div class="alignleft">
-            			 <form action="index.php" method="post">
-                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="Button2" />
-                            <input type="hidden" name="lang" value="<?=$lang; ?>" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>" />
-                         </form>
-                        </div>
-
-            			<div class="alignright">
-            			 <form action="index.php" method="post">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="Button2" />
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>" />
-            			 </form>
-            			</div>
+							<div class="alignright">
+	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" />
+	            			</div>
+	            			
+	            			<div class="alignleft">
+	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+	                        </div>
+							</form>
                  </div><!-- div navigation end -->
 
         	</div> <!-- div accordion end -->
