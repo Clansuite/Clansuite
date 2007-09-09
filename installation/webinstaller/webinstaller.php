@@ -160,7 +160,7 @@ class PreInstaller {
     		    if ($extractor->isSupported()) {
     			$archiveName = dirname(__FILE__) . '/' .
     				$archiveBaseName .  '.' . $extractor->getSupportedExtension();
-    			if (file_exists($archiveName)) {
+    			if (is_file($archiveName)) {
     			    $results = $extractor->extract($archiveName);
     			    if ($results === true) {
     				/* Make sure the dirs and files were extracted successfully */
@@ -219,7 +219,7 @@ class PreInstaller {
     			$url = $this->getDownloadUrl($version, $extension, $downloader);
     			$results = $downloader->download($url, $archiveName);
     			if ($results === true) {
-    			    if (file_exists($archiveName)) {
+    			    if (is_file($archiveName)) {
     				@chmod($archiveName, 0777);
     				render('results', array('success' => 'File successfully downloaded'));
     			    } else {
@@ -249,7 +249,7 @@ class PreInstaller {
     		    exit;
     		}
     		$folderName = dirname(__FILE__) . '/' .  $folderName;
-    		if (!file_exists($folderName)) {
+    		if (!is_file($folderName)) {
     		    render('results', array('failure' => "Folder $folderName does not exist!"));
     		    exit;
     		}
@@ -283,7 +283,7 @@ class PreInstaller {
     		}
     		$folderName = dirname(__FILE__) . '/' .  $folderName;
     		$oldFolderName = $this->findclansuiteFolder();
-    		if (empty($oldFolderName) || !file_exists(dirname(__FILE__) . '/' . $oldFolderName)) {
+    		if (empty($oldFolderName) || !is_file(dirname(__FILE__) . '/' . $oldFolderName)) {
     		    render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
     		    exit;
     		}
@@ -369,7 +369,7 @@ class PreInstaller {
 	$anyArchiveExists = 0;
 	foreach	($this->_extractMethods as $method) {
 	    $archiveName = $archiveBaseName . '.' . $method->getSupportedExtension();
-	    $archiveExists = file_exists(dirname(__FILE__) . '/' . $archiveName);
+	    $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
 	    $isSupported = $method->isSupported();
 	    $extractMethods[] = array('isSupported' => $isSupported,
 				      'name' => $method->getName(),
@@ -405,8 +405,8 @@ class PreInstaller {
     function findClansuiteFolder() {
 	/* Search in the current folder for a clansuite folder */
 	$basePath = dirname(__FILE__) . '/';
-	if (file_exists($basePath . 'clansuite') &&
-		file_exists($basePath . 'clansuite/installation/index.php')) {
+	if (is_file($basePath . 'clansuite') &&
+		is_file($basePath . 'clansuite/installation/index.php')) {
 	    return 'clansuite';
 	}
 
@@ -423,7 +423,7 @@ class PreInstaller {
 	    if ($fileName == '.' || $fileName == '..') {
 		continue;
 	    }
-	    if (file_exists($basePath . $fileName . '/installation/index.php')) {
+	    if (is_file($basePath . $fileName . '/installation/index.php')) {
 		return $fileName;
 	    }
 	}
@@ -463,12 +463,12 @@ class PreInstaller {
 	 * Fetch the version information from a remote server and if we already have it,
 	 * update it if it's older than an hour
 	 */
-	if (!file_exists($tempFile) || !(($stat = @stat($tempFile)) &&
+	if (!is_file($tempFile) || !(($stat = @stat($tempFile)) &&
 		isset($stat['mtime']) && $stat['mtime'] > time() - 3600)) {
 	    $downloader->download($versionCheckUrl, $tempFile);
 	}
 	/* Parse the fetched version information file */
-	if (file_exists($tempFile)) {
+	if (is_file($tempFile)) {
 	    $contents = @file($tempFile);
 	    if (is_array($contents)) {
 		foreach ($contents as $line) {
@@ -560,7 +560,7 @@ class Platform {
 	/* Now try each path in turn to see which ones work */
 	foreach ($paths as $path) {
 	    $execPath = $path . $binaryName . $extension;
-	    if (file_exists($execPath) && is_executable($execPath)) {
+	    if (is_file($execPath) && is_executable($execPath)) {
 		/* We have a winner */
 		return $execPath;
 	    }
@@ -837,7 +837,7 @@ class CurlDownloader extends DownloadMethod {
 }
 
 class ExtractMethod {
-    /* Extract the archive, add the file_exists() in the calling function */
+    /* Extract the archive, add the is_file() in the calling function */
     function extract() {
 	return false;
     }
@@ -1838,7 +1838,7 @@ function BlockToggle(objId, togId, text) {
 	}
 
 	// ----- Check that the file does not exists
-	if (file_exists($v_header["filename"]))
+	if (is_file($v_header["filename"]))
 	{
 	  // ----- Look if file is a directory
 	  if (is_dir($v_header["filename"]))
