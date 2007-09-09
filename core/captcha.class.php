@@ -173,8 +173,11 @@ class captcha
         //initialize image $captcha with dimensions from $img_width, $img_heigth
         if ($this->gd_version() >= 2)
         {
-            $captcha = @imagecreatetruecolor($this->img_width, $this->img_height)
+            // speed fix with error_reporting, instead of @-operator
+            $old = ini_set("error_reporting", 0)
+            $captcha = imagecreatetruecolor($this->img_width, $this->img_height)
                 or die("Cannot Initialize new GD image stream");
+            ini_set("error_reporting", $old);
         }
         else
         {

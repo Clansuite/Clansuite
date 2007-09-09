@@ -38,7 +38,7 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -54,59 +54,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class input
 {
-    /**
-     * cleanup_request
-     * is normally called at system initalization 
-     * and before frontcontroller execution
-     *
-     * Essential clean-up of $_REQUEST
-     * Handles Intrusion
-     */
-    public static function cleanup_request()
-    {
-        global $cfg, $security;
-
-        $filter = array( '_REQUEST' => $_REQUEST, '_GET' => $_GET, '_POST' => $_POST, '_COOKIE' => $_COOKIE );
-        foreach ( $filter as $key => $value )
-        {
-            $secure = array ( 'id', 'action', 'mod', 'sub', $cfg->session_name, 'user_id' );
-            foreach( $secure as $s_value )
-            {
-                 if ( isset($value[$s_value]) AND $this->check($value[$s_value] , 'is_violent' ) )
-                {
-                    $security->intruder_alert();
-                }
-            }
-
-            if( isset($value['id']) )
-                $value['id'] = (int) $value['id'];
-            if( isset($value['user_id']) )
-                $value['user_id'] = (int) $value['user_id'];
-            $value['mod']     = isset($value['mod'])    ? $this->check($value['mod']    , 'is_int|is_abc|is_custom', '_') ? $value['mod'] : $cfg->std_module : $cfg->std_module;
-            $value['sub']     = isset($value['sub'])    ? $this->check($value['sub']    , 'is_int|is_abc|is_custom', '_') ? $value['sub'] : '' : '';
-            $value['action']  = isset($value['action']) ? $this->check($value['action'] , 'is_int|is_abc|is_custom', '_') ? $value['action'] : $cfg->std_module_action : $cfg->std_module_action;
-
-            switch($key)
-            {
-                case '_REQUEST':
-                    $_REQUEST = $value;
-                    break;
-
-                case '_GET':
-                    $_GET = $value;
-                    break;
-
-                case '_POST':
-                    $_POST = $value;
-                    break;
-
-                case '_COOKIE':
-                    $_COOKIE = $value;
-                    break;
-            }
-        }
-    }
-
     /**
      * Modify a given String
      *
@@ -242,6 +189,7 @@ class input
                         // Normal RegExp Cases
 
                         // Is integer?
+                        # @todo: preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
                     case 'is_int':
                         $reg_exp .= '0-9';
                         break;
@@ -353,72 +301,6 @@ class input
             $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
         return $r_bool;
-    }
-
-    /**
-     * Revert magic_quotes() if still enabled
-     * @access public static
-     */
-    public static function fix_magic_quotes($var = NULL, $sybase = NULL )
-    {
-        // if sybase style quoting isn't specified, use ini setting
-        if (!isset($sybase) )
-        {
-            $sybase = ini_get('magic_quotes_sybase');
-        }
-
-        // if no var is specified, fix all affected superglobals
-        if (!isset($var) )
-        {
-            // if magic quotes is enabled
-            if (get_magic_quotes_gpc() )
-            {
-                // workaround because magic_quotes does not change $_SERVER['argv']
-                $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
-
-                // fix all affected arrays
-                foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
-                {
-                    $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
-                }
-
-                $_SERVER['argv'] = $argv;
-
-                // turn off magic quotes
-                // so scripts which require this setting will work correctly
-                ini_set('magic_quotes_gpc', 0);
-            }
-
-            // disable magic_quotes_sybase
-            if ($sybase )
-            {
-                ini_set('magic_quotes_sybase', 0);
-            }
-
-            // disable magic_quotes_runtime
-            set_magic_quotes_runtime(0);
-            return true;
-        }
-
-        // if var is an array, fix each element
-        if (is_array($var) )
-        {
-            foreach ($var as $key => $val )
-            {
-                $var[$key] = $this->fix_magic_quotes($val, $sybase);
-            }
-
-            return $var;
-        }
-
-        // if var is a string, strip slashes
-        if (is_string($var) )
-        {
-            return $sybase ? str_replace('\'\'', '\'', $var) : stripslashes($var);
-        }
-
-        // otherwise ignore and just return
-        return $var;
     }
 }
 ?>

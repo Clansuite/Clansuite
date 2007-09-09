@@ -37,7 +37,7 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -63,13 +63,25 @@ interface RequestInterface
  */
 class httprequest implements RequestInterface, ArrayAccess
 {
+    #
     private $parameters;
 
     /**
-     * Import SUPERGLOBAL $_REQUEST into $parameters
+     * 1) Filter Globals and Request
+     * 2) Import SUPERGLOBAL $_REQUEST into $parameters
      */
     public function __construct()
     {
+        // Reverse the effect of register_globals
+        if (ini_get('register_globals'))
+        {
+            $this->cleanGlobals();
+        }
+        #$this->cleanup_request();
+        $this->fix_magic_quotes();
+        
+        # 2) Clear Array and Assign the $_REQUEST Global to it
+        $this->parameters = array();
         $this->parameters = $_REQUEST;
     }
 
@@ -129,6 +141,177 @@ class httprequest implements RequestInterface, ArrayAccess
     {
         return $_SERVER['REMOTE_ADDR'];
     }
+    
+    /**
+     * Cleans the global scope of all variables that are found 
+     * in other super-globals.
+     *
+     * This code originally from Richard Heyes and Stefan Esser.
+     *
+     * @access private
+     * @return void
+     */
+     private function cleanGlobals()
+     {
+        $list = array(
+                        'GLOBALS',
+                        '_POST',
+                        '_GET',
+                        '_COOKIE',
+                        '_REQUEST',
+                        '_SERVER',
+                        '_ENV',
+                        '_FILES'
+                      /**
+                       * Notice by vain:
+                       * argc+argv are php commandline stuff
+                       * on an webserver-environment they are found in _SERVER
+                       * thats why they are commented off
+                       *
+                       * Watch out for the comma on the start of the next line
+                       */
+                       //,'argc','argv'
+                     );
+    
+     	// Create a list of all of the keys from the super-global values.
+        // Use array_keys() here to preserve key integrity.
+        $keys = array_merge(
+                    array_keys($_ENV),
+                    array_keys($_GET),
+                    array_keys($_POST),
+                    array_keys($_COOKIE),
+                    array_keys($_SERVER),
+                    array_keys($_FILES),
+                    // $_SESSION = null if you have not started the session yet.
+                    // This insures that a check is performed regardless.
+                    isset($_SESSION) && is_array($_SESSION) ? array_keys($_SESSION) : array()
+                );
+    
+         // Unset the globals.
+         foreach ($keys as $key)
+         {
+            if (isset($GLOBALS[$key]) && ! in_array($key, $list))
+            {
+                unset($GLOBALS[$key]);
+            }
+         }
+    }
+    
+    
+    /**
+     * Essential clean-up of $_REQUEST
+     * Handles possible Injections 
+     */
+    private function cleanup_request()
+    {
+        #global $cfg, $security;
+
+        $filter = array( '_REQUEST' => $_REQUEST, '_GET' => $_GET, '_POST' => $_POST, '_COOKIE' => $_COOKIE );
+        foreach ( $filter as $key => $value )
+        {
+            $secure = array ( 'id', 'action', 'mod', 'sub', $cfg->session_name, 'user_id' );
+            foreach( $secure as $s_value )
+            {
+                 if ( isset($value[$s_value]) AND $this->check($value[$s_value] , 'is_violent' ) )
+                {
+                    $security->intruder_alert();
+                }
+            }
+
+            if( isset($value['id']) )
+                $value['id'] = (int) $value['id'];
+            if( isset($value['user_id']) )
+                $value['user_id'] = (int) $value['user_id'];
+            $value['mod']     = isset($value['mod'])    ? $this->check($value['mod']    , 'is_int|is_abc|is_custom', '_') ? $value['mod'] : $cfg->std_module : $cfg->std_module;
+            $value['sub']     = isset($value['sub'])    ? $this->check($value['sub']    , 'is_int|is_abc|is_custom', '_') ? $value['sub'] : '' : '';
+            $value['action']  = isset($value['action']) ? $this->check($value['action'] , 'is_int|is_abc|is_custom', '_') ? $value['action'] : $cfg->std_module_action : $cfg->std_module_action;
+
+            switch($key)
+            {
+                case '_REQUEST':
+                    $_REQUEST = $value;
+                    break;
+
+                case '_GET':
+                    $_GET = $value;
+                    break;
+
+                case '_POST':
+                    $_POST = $value;
+                    break;
+
+                case '_COOKIE':
+                    $_COOKIE = $value;
+                    break;
+            }
+        }
+    }   
+    
+     /**
+     * Revert magic_quotes() if still enabled
+     * @access public static
+     */
+    private function fix_magic_quotes($var = NULL, $sybase = NULL )
+    {
+        // if sybase style quoting isn't specified, use ini setting
+        if (!isset($sybase) )
+        {
+            $sybase = ini_get('magic_quotes_sybase');
+        }
+
+        // if no var is specified, fix all affected superglobals
+        if (!isset($var) )
+        {
+            // if magic quotes is enabled
+            if (get_magic_quotes_gpc() )
+            {
+                // workaround because magic_quotes does not change $_SERVER['argv']
+                $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
+
+                // fix all affected arrays
+                foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
+                {
+                    $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
+                }
+
+                $_SERVER['argv'] = $argv;
+
+                // turn off magic quotes
+                // so scripts which require this setting will work correctly
+                ini_set('magic_quotes_gpc', 0);
+            }
+
+            // disable magic_quotes_sybase
+            if ($sybase )
+            {
+                ini_set('magic_quotes_sybase', 0);
+            }
+
+            // disable magic_quotes_runtime
+            set_magic_quotes_runtime(0);
+            return true;
+        }
+
+        // if var is an array, fix each element
+        if (is_array($var) )
+        {
+            foreach ($var as $key => $val )
+            {
+                $var[$key] = $this->fix_magic_quotes($val, $sybase);
+            }
+
+            return $var;
+        }
+
+        // if var is a string, strip slashes
+        if (is_string($var) )
+        {
+            return $sybase ? str_replace('\'\'', '\'', $var) : stripslashes($var);
+        }
+
+        // otherwise ignore and just return
+        return $var;
+    }
 
     /**
      * Implementation of SPL ArrayAccess
@@ -152,6 +335,6 @@ class httprequest implements RequestInterface, ArrayAccess
     {
         //unset($this->parameter[$offset]);
         //return true;
-    }
+    }    
 }
 ?>

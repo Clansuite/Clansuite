@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf ï¿½ 2005-2007
     * http://www.clansuite.com/
     *
     * File:         session.class.php
@@ -56,8 +56,9 @@
  *
  */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
 
 /**
  * This is the Clansuite Core Class for Session Handling
@@ -84,7 +85,7 @@ class session implements ISessionHandler, ArrayAccess
      * @var string $session_name contains the session name
      */
 
-    public $session_name    = 'suiteSID';
+    const session_name = 'suiteSID';
 
     /**#@+
      * @access public
@@ -120,47 +121,49 @@ class session implements ISessionHandler, ArrayAccess
      * @var object $db is the Reference to PDO
      */
 
-    private $db      = null;
-    private $request = null;
-    private $config  = null;
-    private $lang    = null;
-    private $error   = null;
+    private $config     = null;
+    private $db         = null;
+    private $request    = null;
+    private $lang       = null;
+    private $error      = null;
+    private $functions  = null;
+    private $input      = null;
 
     /**
      * This creates the session
      *
      * Overwrite php.ini settings
      * Start the session
-     * @global $this->config, $lang, $error, $functions, $input
+     * @global $this->config, $this->lang, $this->error, $this->functions, $input
      * @param object
      */
 
-    function __construct(configuration $config,db $db, request $request, language $lang, errorhandler $error)
+    function __construct($injector)
     {
-        #global $functions, $input;
-
         /**
          * Setup References
          */
 
-        $this->config   = $config;
-        $this->db       = $db;
-        $this->request  = $request;
-        $this->lang     = $lang;
-        $this->error    = $error;
+        $this->config       = $injector->instantiate('configuration');
+        $this->db           = $injector->instantiate('db');
+        $this->request      = $injector->instantiate('httprequest');
+        $this->lang         = $injector->instantiate('language');
+        $this->error        = $injector->instantiate('errorhandler');
+        $this->functions    = $injector->instantiate('functions');
+        $this->input        = $injector->instantiate('input');
 
         /**
          * Set the session configuration Parameters accordingly to Config Class Values
          */
-
-        $this->session_name                 = $this->config['session_name'];
+        #$this->session_name                 = $this->config['session_name'];
         $this->session_cookies              = $this->config['use_cookies'];
         $this->session_cookies_only         = $this->config['use_cookies_only'];
         ini_set('session.save_handler'      , 'user' );
         ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
         ini_set('session.gc_probability'    , $this->session_probability );
-        ini_set('session.name'              , $this->session_name );
-        ini_set('session.use_trans_sid'     , 1 );
+        ini_set('session.name'              , self::session_name );
+        # use_trans_sid off -> because spiders will index with PHPSESSID = thing
+        ini_set('session.use_trans_sid'     , 0 );
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
         ini_set('session.use_cookies'       , $this->config['use_cookies'] );
         ini_set('session.use_only_cookies'  , $this->config['use_cookies_only'] );
@@ -176,24 +179,24 @@ class session implements ISessionHandler, ArrayAccess
                                     array($this, "_session_destroy"),
                                     array($this, "_session_gc"     ));
 
-
         /**
          * Start Session and throw Error on failure
          */
 
         if (!session_start())
         {
-            $error->show($lang->t('Session Error' ), $lang->t('The session start failed!' ), 3 );
+            #echo '<br>session not started!';
+            $this->error->show($this->lang->t('Session Error' ), $this->lang->t('The session start failed!' ), 3 );
         }
 
         /**
          * Create new ID if session is not in DB or string-lenght corrupted
          */
 
-        if ($this->_session_read(session_id() ) === false OR strlen(session_id() ) != 32)
-        {
-            session_regenerate_id();
-        }
+        #if ($this->_session_read(session_id() ) === false OR strlen(session_id() ) != 32)
+        #{
+        #    session_regenerate_id();
+        #}
 
         /**
         * Perform Security Check
@@ -203,7 +206,7 @@ class session implements ISessionHandler, ArrayAccess
 
         if (!$this->_session_check_security() )
         {
-            die($functions->redirect('index.php?mod=login') );
+            die($this->functions->redirect('index.php?mod=login') );
         }
 
         /**
@@ -251,13 +254,14 @@ class session implements ISessionHandler, ArrayAccess
 
     function _session_read( $id )
     {
+        #echo 'session id =>'. $id;
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute( array($this->session_name, $id ) );
-
+        $stmt->execute( array(self::session_name, $id ) );
+        
+        
         if ($result = $stmt->fetch())
         {
-            $data = $result['session_data'];
-            return $data;
+            return $result['session_data'];
         }
         else
         {
@@ -291,7 +295,7 @@ class session implements ISessionHandler, ArrayAccess
          *
          */
         $userlocation = (!isset($request['mod']) && empty($this->request['mod'])) ? 'sessionstart' : $this->request['mod'];
-
+        #echo 'location '.$userlocation;
 
         /**
          * Check if session_id exists in DB
@@ -321,7 +325,7 @@ class session implements ISessionHandler, ArrayAccess
              */
 
             $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
-            $stmt->execute(array($id, $this->session_name, $expires, $data, 1, 0, $userlocation ) );
+            $stmt->execute(array($id, self::session_name, $expires, $data, 1, 0, $userlocation ) );
             $stmt->closeCursor();
         }
         return true;
@@ -343,9 +347,9 @@ class session implements ISessionHandler, ArrayAccess
          *  Unset Cookie Vars
          */
 
-        if (isset($_COOKIE[$this->session_name]))
+        if (isset($_COOKIE[self::session_name]))
         {
-            setcookie($this->session_name, false );
+            setcookie(self::session_name, false );
         }
 
         /**
@@ -353,7 +357,7 @@ class session implements ISessionHandler, ArrayAccess
          */
 
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute(array($this->session_name, $id ) );
+        $stmt->execute(array(self::session_name, $id ) );
 
         /**
          *  Optimize DB
@@ -378,7 +382,7 @@ class session implements ISessionHandler, ArrayAccess
     function _session_gc($max_lifetime)
     {
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
-        $stmt->execute(array($this->session_name, time() ) );
+        $stmt->execute(array(self::session_name, time() ) );
 
         if ($stmt->rowCount() > 0)
         {
@@ -493,9 +497,9 @@ class session implements ISessionHandler, ArrayAccess
     /**
      * Sets a new SESSION_ID into SESSION['NAME']
      */
-    function regenerate_session_id()
+    public static function regenerate_session_id()
     {
-        $_SESSION[$this->session_name] = session_id();
+        $_SESSION[self::session_name] = session_id();
     }
 
     /**
@@ -510,8 +514,6 @@ class session implements ISessionHandler, ArrayAccess
 
     function session_control()
     {
-        global $functions, $lang, $tpl;
-
         /**
          *  Delete not activated users after 3 days
          */
@@ -529,17 +531,16 @@ class session implements ISessionHandler, ArrayAccess
         /**
          *  Check if session expired
          */
-        #var_dump($_SESSION);
 
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) )
         #AND $_SESSION['user']['user_id'] != 0 )
         {
             $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-            $stmt->execute( array( $this->request[$this->session_name] ) );
+            $stmt->execute( array( $this->request[self::session_name] ) );
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                #$functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your session has expired. Please login again.') );
+                #$this->functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $this->lang->t('Your session has expired. Please login again.') );
             }
         }
 
@@ -554,6 +555,12 @@ class session implements ISessionHandler, ArrayAccess
         #$tpl->assign('SessionCurrentTime', $time);
         #$tpl->assign('SessionExpireTime', $expiretime);
     }
+
+    
+    public function __set($offset,$data) {
+		#echo("Name: {$offset}<br/>\nData: {$value}<br/>\n"); 
+		$this->session[$offset] = $value;
+	}
 
     /**
      * Implementation of SPL ArrayAccess
@@ -571,6 +578,7 @@ class session implements ISessionHandler, ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
+        $this->__set($offset, $value);   
     }
 
     // @todo
@@ -580,6 +588,7 @@ class session implements ISessionHandler, ArrayAccess
         unset($_SESSION[$offset]);
         return true;
     }
+
 }
 
 interface ISessionHandler

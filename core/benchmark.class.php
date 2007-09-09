@@ -38,7 +38,7 @@
     * @version    SVN: $Id$
     */
     
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -79,15 +79,27 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class benchmark
 {   
-    private static $db_exectime = 0;
+    # overall db query exectime
+    public static $db_exectime = 0;
+    # counter registering the numbers of used timemarkers
+    public static $timers_counter = 0;
     
-    public static function timemarker($mode='begin', $msg='')
+    # array for db timers
+    public static $db_timer_blocks = array();
+    # array for normal timers   
+    public static $_timer_blocks = array();
+    
+    # history array
+    public static $db_timer_histroy = array();
+    public static $timer_history = array();
+    
+    public static function returnDbexectime()
     {
-        global $_timer_blocks, $_timer_history, $db_timer_blocks;
+        return self::$db_exectime;   
+    }    
         
-        # create
-        $db_timer_history = array();
-    
+    public static function timemarker($mode='begin', $msg='')
+    { 
         switch ($mode)
         {
             /**
@@ -95,27 +107,25 @@ class benchmark
              */
              
             case 'db_begin':
-                            $db_timer_blocks[] = array( microtime() , $msg);
+                            $time = (time() + microtime());
+                            $db_timer_blocks[] = array( $time , $msg);
+                            ++self::$timers_counter;
+                            #var_dump($db_timer_blocks);
                             break;
 
             case 'db_end':
-                            $last = array_pop($db_timer_blocks);
-                            $_start = $last[0];
+                            $last = array_pop(self::$db_timer_blocks);
+                            $_starttime = $last[0];
                             $_msg = $last[1];
-                            list($a_micro, $a_int) = explode(' ', $_start);
-                            list($b_micro, $b_int) = explode(' ', microtime());
-                            /**
-                             * $elapsed contains the calculated difference of Start to Endtime
-                             */
-                            $elapsed = ($b_int - $a_int) + ($b_micro - $a_micro);
+
+                            # $elapsed contains the calculated difference of Start to Endtime
+                            $elapsed = (round((time() + microtime()) - $_starttime, 4));
                             
                             $db_timer_history[] += $elapsed;
                             
-                            // self:: anstelle von benckmark::
-                            // not $this-> because static function and class is not an object
-                            self::$db_exectime = $db_timer_history[0][1];
+                            $db_exectime = $db_timer_history[0][1];
                             
-                            $db_timer_history[] = array( $elapsed, "$_msg [". round($elapsed, 4) ."s]");
+                            $db_timer_history[] = array( $elapsed, "$_msg [". $elapsed ."s]");
 
                             // add elapsed time to db overall counter
 
@@ -154,16 +164,11 @@ class benchmark
                             break;
 
             case 'end':    
-                            $last = array_pop($_timer_blocks);
-                            $_start = $last[0];
-                            $_msg = $last[1];
-                            list($a_micro, $a_int) = explode(' ', $_start);
-                            list($b_micro, $b_int) = explode(' ', microtime());
-                            /**
-                             * $elapsed contains the calculated difference of Start to Endtime
-                             * notice @ - to get rid of division by zero
-                             */
-                            $elapsed = @($b_int - $a_int) + ($b_micro - $a_micro);
+                            $last = array_pop(self::$_timer_blocks);
+                            $_starttime = $last[0];
+                            $_msg = $last[1];                            
+
+                            $elapsed = (round((time() + microtime()) - $_starttime, 4));
 
                             /**
                              * Now this is entered into the $_timmer_history array.
@@ -177,7 +182,7 @@ class benchmark
                              * :) - Strange but true - So... What's the Frequency, Kenneth?
                              */
 
-                            $_timer_history[] = array($elapsed, $_msg, "$_msg [".round($elapsed, 4)."s ".(round(1/$elapsed, 2))."/s]");
+                            $_timer_history[] = array($elapsed, $_msg, "$_msg [". $elapsed ."s ".(round(1/$elapsed, 2))."/s]");
 
 
                             if ($msg) 
