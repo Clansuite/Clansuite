@@ -481,13 +481,17 @@ class Render_SmartyDoc extends Smarty
      */
     public function smarty_block_doc_raw($params, $content, &$smarty)
     {
-        $key = (isset($params['key']) && is_string($params['key']) && strlen($params['key'])>0)
-            ? $params['key']
-            : null;
+        if (isset($params['key']) && is_string($params['key']) && strlen($params['key'])>0) 
+        {
+            $key = $params['key'];
+        } else { 
+            $key =null; 
+        }
+        
         if (isset($params['target']) && strtolower($params['target']) === 'body') {
             $smarty->addRawContent($content, $key, $params['target']);
         } else {
-            $smarty->addRawHeader($content, $key, $params['target']);
+            $smarty->addRawHeader($content, $key, $params);
         }
     }
 
@@ -540,6 +544,9 @@ class Render_SmartyDoc extends Smarty
      */
     public function smarty_outputfilter_SmartyDoc($source, &$smarty)
     {
+        $doc_source = null;
+        $xsl        = null;
+        
 		$this->setContentType();
 
         if (!empty($smarty->doc_info) || !empty($smarty->doc_raw)) {
