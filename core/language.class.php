@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf Â© 2005-2007
     * http://www.clansuite.com/
     *
     * File:         language.class.php
@@ -38,10 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Start of Core - Language Class
@@ -63,22 +61,16 @@ class language
      * @var array $lang contains array for languagefile data after parsing the xml-files
      * @access public
      */
-	public $lang    = array();
+	public static $lang    = array();
 
-    /**
-     * Constructor sets up {translate} block in SMARTY Template Engine
-     * {@link function smarty_translate}
-     *
-     * @global $tpl object Contains Smarty Template Data
-     */
-    function __construct()
+    private $request    = null;
+    private $error      = null;
+
+    function __construct(httprequest $request)
     {
-        global $tpl;
-
-        /**
-         * Sets up {translate} block in SMARTY Template Engine
-         */
-        $tpl->register_block("translate", array('language',"smarty_translate"), false);
+        $this->request = $request;
+        #$this->error   = $error;
+        // determine user_locale + set it
     }
 
     /**
@@ -92,17 +84,20 @@ class language
      * @param $string string to translate
      * @param $smarty smarty data
      */
-    static function smarty_translate($params, $string, &$smarty)
+    public static function smarty_translate($params, $string, &$smarty)
     {
-        global $lang;
-
+        /**
+         * this handles dynamic content in the translation string
+         * example "Hello, %u!", where %u is substituted by a username
+         */
         foreach ($params as $key => $value)
         {
             $params["%" . $key] = $value;
             unset($params[$key]);
         }
+
         // print the return of translation function $lang->t();
-        echo($lang->t($string, $params));
+        echo(language::t($string, $params));
     }
 
     /**
@@ -113,14 +108,14 @@ class language
      * @param array $args value of the name
      * @return string
      */
-    function t($string, $args = array() )
+    public static function t($string, $args = array() )
     {
-		global $lang;
+        //check if $string exists in language array
+        if(isset(self::$lang[$string]))
+        {
 
-        if(isset($lang->lang[ $string ]))
-		{
-			return strtr($lang->lang[ $string ], $args);
-		}
+            return strtr(self::$lang[ $string ], $args);
+        }
         return strtr($string, $args);
     }
 
@@ -146,38 +141,38 @@ class language
     /**
      * Adds another XML File to $lang array (xml tree)
      *
-     * @global $cfg
+     * @global $config
      * @param $xml_file_name string filename of languagefile
      * @param $language sets locale
+     * @access public
      */
-    function load_lang( $xml_file_name = '', $language = 'en' )
+    public function load_lang( $xml_file_name = '', $language = 'en' )
     {
-        global $cfg;
 
-        // construct $file with path and xml_file_name        
-        $file = ROOT_LANG . '/' . $language . '/' . $xml_file_name . '.xml';
+        // construct $file with path and xml_file_name
+        $file = ROOT_LANGUAGES . '/' . $language . '/' . $xml_file_name . '.xml';
+        #echo '<br>loaded Language => '. $file;
 
-		/**
-		 * Parse translations via Simple XML
-		 * and write to array
-		 */
-		 if (file_exists($file))
-         {  
+        /**
+         * Parse translations via Simple XML
+         * and write to array
+         */
+         if (is_file($file))
+         {
             // if xml_file_name was not already added
             if (!in_array($file, $this->loaded) )
             {
                 // push name into array to know which translations were loaded
-				array_push($this->loaded, $file );
+                array_push($this->loaded, $file );
 
                 // extract xml data from file
-				$xml = new SimpleXMLElement(file_get_contents($file));
-                
+                $xml = new SimpleXMLElement(file_get_contents($file));
+
                 if (!$xml)
-         	    {
-         	      $error->show( $lang->t('Languagefile loading Failure'), $lang->t('The Languagefile exists, but could not be loaded.') . '<br />' . $file, 2);
-                  #return false;
-         	    }
-         	    
+                {
+                   $this->error->show( self::t('Languagefile XML-loading Failure'), self::t('The Languagefile exists, but XML Data could not be loaded.') . '<br />' . $file, 2);
+                }
+
                 /**
                  * process xml lang file
                  *
@@ -187,15 +182,12 @@ class language
                  *
                  * @todo: note for vain: change element names to exleaf specification
                  */
-				foreach($xml->message as $msg)
+                foreach($xml->message as $msg)
                 {
-					$this->lang = array_merge($this->lang, array((string)$msg->id => (string)$msg->string));
-				}
-				
+                    self::$lang = array_merge(self::$lang, array((string)$msg->id => (string)$msg->string));
+                }
             }
          }
-
     }
-
 }
 ?>

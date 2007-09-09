@@ -41,7 +41,7 @@
 /**
  * Security Handler
  */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
 
 /**
  * This Clansuite Core Class for BBCode Handling (Wrapper)

@@ -65,7 +65,7 @@ class image
 	*/
 	function __construct($sourceFile)
     {
-		if(file_exists($sourceFile))
+		if(is_file($sourceFile))
         {
 			$this->image = ImageCreateFromJPEG($sourceFile);
 		}

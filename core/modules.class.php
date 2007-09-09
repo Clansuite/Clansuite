@@ -162,10 +162,10 @@ class modules
 
                 if ( file_exists($file ) )
                 {
-                    if (!in_array($mod, $modules->loaded ) )
-                    {
-                        $modules->loaded[] = $mod;
-                    }
+//                    if (!in_array($mod, $modules->loaded ) )
+//                    {
+//                        $modules->loaded[] = $mod;
+//                    }
 
                     require_once( $file );
                     $module_{$mod} = new $class_name;
@@ -174,13 +174,13 @@ class modules
                     $_REQUEST['action'] = $params['func'];
 
                     // trail stop on
-                    $trail->trail_stop = '666';
+                    $trail->trail_stop(true);
 
                     // load module
                     $output = call_user_func_array( array( $module_{$mod}, 'auto_run' ), $func_params );
 
                     // trail stop off
-                    $trail->trail_stop = '0';
+                    $trail->trail_stop(false);
 
                     echo $output['OUTPUT'];
                     $_REQUEST['action'] = $_REQUEST['main_action'];

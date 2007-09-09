@@ -28,14 +28,8 @@
 * @since      File available since Release 0.1
 */
 
-
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
 * @desc Start functions class
@@ -331,11 +325,13 @@ class functions
 						    if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
 						    	$this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
 						}
-
-                        if(!@copy($path, $dest . $file))
+                        
+                        $old = ini_set("error_reporting", 0);
+                        if(!copy($path, $dest . $file))
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
                         }
+                        ini_set("error_reporting", $old);
                     }
                     elseif (is_dir($path))
                     {
@@ -361,7 +357,8 @@ class functions
     	{
     		$directory = substr($directory,0,-1);
     	}
-    	if(!file_exists($directory) || !is_dir($directory))
+    	
+    	if(!is_file($directory) || !is_dir($directory))
     	{
     		return false;
     	}

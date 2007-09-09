@@ -37,7 +37,7 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -68,24 +68,6 @@ class httpresponse implements response_interface
     private $status = '200';
 
     /**
-     * Array holding some often occuring status descriptions.
-     *
-     * @var       array
-     * @access    private
-     */
-    private $statusDescr = array('200'    => 'OK'
-                                ,'202'    => 'Accepted'
-                                ,'301'    => 'Moved Permanently'
-                                ,'302'    => 'Moved Temporarily'
-                                ,'304'    => 'Not Modified'
-                                ,'400'    => 'Bad Request'
-                                ,'401'    => 'Unauthorized'
-                                ,'403'    => 'Forbidden'
-                                ,'404'    => 'Not Found'
-                                ,'500'    => 'Internal Server Error'
-                                );
-
-    /**
      * Array holding the response headers.
      *
      * @var       array
@@ -114,7 +96,7 @@ class httpresponse implements response_interface
     {
         $this->status = (string) $status;
     }
-    
+
     /**
      *
      * todo: check functionality
@@ -164,13 +146,13 @@ class httpresponse implements response_interface
 
     /**
      * This flushes the headers and bodydata to the client.
-     * 
+     *
      * @todo: implement version into header: a. from $config or b. define
      */
     public function flush()
     {
         $config['version'] = '0.1 alpha - dev';
-        
+
         // Send the status line
         header('HTTP/1.1 '.$this->status.' '.$this->statusDescr($this->status), true);
 

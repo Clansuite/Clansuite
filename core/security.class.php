@@ -41,7 +41,7 @@
 /**
  * Security Handler
  */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
 
 /**
  * This Clansuite Core Class for Security Handling
@@ -145,54 +145,7 @@ class security
         return $this->build_salted_hash( $this->build_salted_hash( $string ) );
     }
 
-    /**
-     * Check for {$copyright} tag in $cfg->tpl_wrapper_file
-     *
-     * @param string $file contains the filename to check for copyright
-     * @global $lang
-     * @global $error
-     * @todo in case there's no correc template wrapper found... check lines in the code below
-     */
-
-    function check_copyright( $file )
-    {
-        global $lang, $error;
-
-        /**
-         * check for existance of the main tpl_wrapper_file
-         * (index.tpl related to the choosen template directory)
-         */
-
-        if (file_exists($file) )
-        {
-            /**
-             * Check for a removal or out-commenting of Copyright Tag
-             */
-
-            $string = file_get_contents($file);
-
-            preg_match('/\{\$copyright\}/' , $string ) ? '' : die($error->show( $lang->t('Copyright Violation'), $lang->t('You removed the copyright tag - that is not allowed and a violation of our rules! Please put {$copyright} in the main template file.'), 1) );
-            preg_match('/\<\!\-\-[^>](.*)\{\$copyright\}(.*)\-\-\>/', $string ) ? die($error->show( $lang->t('Copyright Violation'), $lang->t('Do not try to fool the system by hiding the copyright tag!'), 1 ) ) : '';
-        }
-        else
-        {
-            /**
-             * Error: Template File not found
-             */
-
-            die( $error->show( $lang->t('Template File not found !'),
-                               $lang->t('The main template file of the choosen template was not found! <br /> Please ensure correct spelling and existence of (a) your template dir (b) the template filename (c) compared to the related settings.') . '<br /><br /> <strong>Missing Templatefile: </strong>' . $file ,
-                               1 ) );
-
-           /* todo:
-              in case there's no correct template wrapper file found,
-              switch (a) to the default or (b) the next possible template dir
-              if there is still nothing found, report error.
-
-           */
-        }
-    }
-
+    
     /**
      * Intruder Alert
      *

@@ -55,8 +55,15 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.'); }
  * @category    core
  * @subpackage  users
  */
-class users
+class user
 {
+    // forward -> create user and check for login cookie
+    function __construct()
+    {   
+        //
+        $this->create_user();
+        $this->check_login_cookie();       # Check for login cookie - Guest/Member
+    }
     /**
      * Get a user by any type of db field information
      *
@@ -106,9 +113,13 @@ class users
 
     function create_user($user_id = '', $email = '', $nick = '')
     {
-        global $cfg, $db, $session, $lang, $functions, $input;
+        global $functions, $input;
+        $cfg = clansuite_registry::getConfigurationStatic();
+        $db  = clansuite_registry::getDatabaseStatic();
+        $session = clansuite_registry::getSession();
+        $lang = clansuite_registry::getLanguage();
 
-        $user = '';
+        $user = NULL;
 
         /**
          *  DB User Queries

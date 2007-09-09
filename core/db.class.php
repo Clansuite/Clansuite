@@ -62,6 +62,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * PGSQL        PostgreSQL
  * SQLITE       SQLite 3 and SQLite 2
  *
+ * We use PDO to access MySQL specific functions! 
+ * If you'd like to see other Db's supported, then implement and provide functionality.
+ *
  * @link http://wiki.cc/php/PDO_Basics
  *
  * Clansuite Core Class - Db
@@ -177,7 +180,6 @@ class db //extends PDO
              * BUG: SQL-String containing the chars : or ? throws pdo error,
              * when creating prepared Statement, because waiting for assign-parameters
              */
-            # this is slower -> if ( version_compare( phpversion(), '5.1.3', '<' ) )
             if(defined('PDO::ATTR_EMULATE_PREPARES'))
             {
                 // these pdo settings require atleast PHP >= 5.1.3
@@ -197,7 +199,7 @@ class db //extends PDO
                 $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
              }
 
-            if ( $config->db_type == 'mysql' )
+            if ( $config['db_type'] == 'mysql' )
             {
                 // Use buffered queries
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
@@ -210,7 +212,7 @@ class db //extends PDO
         // In case Database Error occurs catch exception and show Error
         catch (PDOException $e)
         {
-            $error->show( $lang->t('DB Connection Failure'), $lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
+            $this->error->show( $this->lang->t('DB Connection Failure'), $this->lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
             die();
         }
     }
@@ -424,6 +426,11 @@ class db //extends PDO
         $rowsCount = $rows->fetch(PDO::FETCH_OBJ)->rows;
         $rows->closeCursor();
         return $rowsCount;
+    }
+    
+    public static function getDbObject()
+    {
+        return $this->db;   
     }
 }
 

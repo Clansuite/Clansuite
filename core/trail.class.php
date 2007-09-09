@@ -41,7 +41,7 @@
 /**
  * Security Handler
  */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
+if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
 
 /**
  * This Clansuite Core Class for Trail / Breadcrumb Handling
@@ -62,7 +62,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' );}
 class trail
 {
         /**
-         * @access public
+         * @access private
          * @var array $path contains the complete path structured as array
          */
 
@@ -75,10 +75,10 @@ class trail
          * @see modules::get_instant_content()
          *
          * @access public
-         * @var string $trail_stop trail adding can be stopped if string is '0'
+         * @var string $trail_stop trail adding can be stopped if false
          */
 
-        public $trail_stop = '0';
+        public $trail_stop = false;
 
         /**
          * CONSTRUCTOR
@@ -106,14 +106,14 @@ class trail
          * @param string $link contains the link as url
          */
 
-        function addstep($title, $link = '')
+        public function addstep($title, $link = '')
         {
            /**
             * Add step procedure is controlled by class variable $trail_stop
             * if not set to '0' the adding of trails is stopped
             * This used for instant loading of modules via {mod}
             */
-           if ($this->trail_stop == '0') 
+           if ($this->trail_stop == true) 
            {
                 $item = array('title' => $title);
 
@@ -122,8 +122,18 @@ class trail
                     $item['link'] = WWW_ROOT . $link;
                 }
 
-                $this->path[] = $item;
+                $this->path[] = $item;                
            }
         }
+        
+        /**
+         * trail_stop toggle         
+         * default false
+         * @param $condition boolean
+         */
+        public function trail_stop($condition = false)
+        {
+          $this->trail_stop = ($condition == true) ? true : false;  
+        }       
     }
 ?>
