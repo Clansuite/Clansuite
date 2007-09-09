@@ -21,7 +21,29 @@
         	       <?=$language['STEP5_CONFIG']?>
         	   </h2>
 
-        	   <p>Systemcheck...</p>
+        	   <p><?=$language['STEP5_SENTENCE1']?></p>
+        	   
+        	   <form action="index.php" method="post">
+        	   <dl>
+			   		<dt><?=$language['STEP5_CONFIG_SITENAME']?></dt>
+			   		<dd><input type="name" name="site_name" value="<?=$values['site_name']?>" /></dd>
+			   
+			   		<dt><?=$language['STEP5_CONFIG_SYSTEMEMAIL']?></dt>
+			   		<dd><input type="name" name="system_email" value="<?=$values['system_email']?>" /></dd>
+			   		
+			   		<? # festes dropdown ?>
+			   		<dt><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></dt>
+			   		<dd><input type="name" name="user_account_enc" value="<?=$values['user_account_enc']?>" /></dd>
+			   		
+			   		<? # random salting ?>
+			   		<dt><?=$language['STEP5_CONFIG_SALTING']?></dt>
+			   		<dd><input type="name" name="salting" value="<?=$values['salting']?>" /></dd>
+			   		
+			   		<? # timezone detection fucntion ?>
+			   		<dt><?=$language['STEP5_CONFIG_TIMEZONE']?></dt>
+			   		<dd><input type="name" name="time_zone" value="<?=$values['time_zone']?>" /></dd>
+			   
+			   </dl>
 
             <div class="navigation">
 
@@ -31,21 +53,16 @@
                         <?=$language['CLICK_BACK_TO_RETURN']?>
                         </span>
 
-            			<div class="alignleft">
-            			 <form action="index.php" method="post">
-                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="Button2" />
-                            <input type="hidden" name="lang" value="<?=$lang; ?>" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>" />
-                         </form>
-                        </div>
-
-            			<div class="alignright">
-            			 <form action="index.php" method="post">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="Button2" />
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>" />
-            			 </form>
-            			</div>
+						<form action="index.php" method="post">
+	            			<div class="alignright">
+	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" />
+	            			</div>
+	            			
+							<div class="alignleft">
+	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+	                        </div>	
+						</form>
             </div><!-- div navigation end -->
 
         	</div> <!-- div accordion end -->

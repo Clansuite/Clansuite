@@ -37,7 +37,7 @@
                       $file = substr($file->getFilename(), 0, -12);
                       // the shortest way to show a selected item by vain :D
                       echo '<option';
-                      if ($lang == $file) { echo ' selected="selected"'; }
+                      if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
                       echo '>';
                       echo $file;
                       echo "</option>\n";
@@ -50,8 +50,7 @@
         	            <hr />
         	            <span style="font-size:10px;"><?=$language['CLICK_NEXT_TO_PROCEED']?></span>
                         <div class="alignright">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="ButtonNext" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']+1 ?>" />
+                        	<input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" />
                         </div>
                     </div><!-- div navigation end -->
                 </form>

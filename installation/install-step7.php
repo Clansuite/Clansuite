@@ -12,12 +12,12 @@
     </div>
 
     <div id="content" class="narrowcolumn">
-    
+
         <div id="content_footer">
-                    
+
             <div class="accordion">
         	   <h2 class="headerstyle">
-        	       <img src="images/64px-Face-smile-big.svg.png" border="0" style="vertical-align:middle" alt="installstep image" /> 
+        	       <img src="images/64px-Face-smile-big.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
         	       <?=$language['STEP7_FINISH']?>
         	   </h2>
         	   <p style="color:darkgreen"><strong>Geschafft! Sie haben Clansuite erfolgreich installiert.</strong></p>
@@ -28,32 +28,31 @@
 
         	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
         	   <br />
-        	  
+
             <div class="navigation">
-                        
+
                         <span style="font-size:10px;">
                         <?=$language['CLICK_BACK_TO_RETURN']?>
                         </span>
-                
-            			<div class="alignleft">
-            			 <form action="index.php" name="lang" method="post">
-                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="Button2" />
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']-1; ?>" />
-                         </form>
-                        </div>
+
+						<form action="index.php" method="post">
+	            			<div class="alignleft">
+	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+	                        </div>
+
+						</form>
                         <!--
             			<div class="alignright">
             			 <form action="index.php" name="lang" method="post">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="Button2"/>
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">
-                            <input type="hidden" name="step" value="<?=$_SESSION['step']+1; ?>"> 
+                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward"/>
+                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">                           
             			 </form>
             			</div>-->
             </div><!-- div navigation end -->
-           
-        	</div> <!-- div accordion end -->   
-    
+
+        	</div> <!-- div accordion end -->
+
         </div> <!-- div content_footer end -->
 
     </div> <!-- div content end -->

@@ -16,6 +16,16 @@ padding:5px 0pt 5px 8px;
 text-decoration:none;
 }
 
+.error
+{
+	border-color: red;
+	border-style: solid;
+	border-width: 1px;
+	padding:2px 0pt 2px 2px;
+	font-weight: bold;
+	color: red;
+}
+
 #sidebar {
     float: left;
     padding: 90px 31px 10px;
