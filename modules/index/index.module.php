@@ -1,106 +1,134 @@
 <?php
 /**
-* Index Modul Handler Class
-*
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    ???
-* @version    SVN: $Id$
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+ * Index Module
+ *
+ *
+ * LICENSE:
+ *
+ *    This program is free software; you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation; either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program; if not, write to the Free Software
+ *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @license    GNU/GPL, see COPYING.txt
+ *
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$Date$), Florian Wolf (2006-2007)
+ *
+ * @link       http://www.clansuite.com
+ * @link       http://gna.org/projects/clansuite
+ * @since      File available since Release 0.1
+ *
+ * @version    SVN: $Id$
+ */
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
+interface clansuite_module
 {
-    die('You are not allowed to view this page statically.' );
+    function execute(httprequest $request, httpresponse $response);
 }
 
 /**
-* @desc Start module index class
-*/
-class module_index
+ * module INDEX controller
+ * Purpose: A PageController which has many pages to deal with for the current Module.
+ */
+class module_index extends controller_base //implements clansuite_module
 {
-    public $output          = '';
-    public $additional_head = '';
-    public $suppress_wrapper= '';
+    function __construct($injector=null)
+    {
+        parent::__construct();
+    }
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
-    */
+     * Controller of Modul
+     *
+     * switches between $_REQUEST['action'] Vars to the functions
+     */
 
-    function auto_run()
+    public function execute($request, $response)
     {
-        global $lang;
-
-        switch ($_REQUEST['action'])
+        $lang = $this->injector->instantiate('language');
+        $trail = $this->injector->instantiate('trail');
+       
+        // Set Pagetitle and Breadcrumbs
+        $trail->addStep($lang->t('Index'), '/index.php?mod=index');
+        
+        switch ($request->getParameter('action'))
         {
             case 'show':
                 $this->show();
                 break;
-
+            case 'index':
+                $this->index();
+                break;
             default:
                 $this->show();
                 break;
         }
 
-        return array( 'OUTPUT'             => $this->output,
-                      'ADDITIONAL_HEAD'    => $this->additional_head );
+        #return array( 'OUTPUT'             => $this->output,
+        #              'ADDITIONAL_HEAD'    => $this->additional_head );
     }
 
     /**
-    * @desc Show the entracne - welcome message etc.
-    */
+     * forward index() to show()
+     */
+
+    function index()
+    {
+        $this->output = 'action index called';
+        $this->show();
+    }
+
+
+    /**
+     * Show the Index / Entrance -> welcome message etc.
+     */
 
     function show()
     {
-        global $tpl, $error, $lang;
+        // Example Usage of Dependency Injector
+        #$injector = $this->injector;
+        #$config = $injector->getComponentInstance('configuration');
 
-        $this->output .= $tpl->fetch('index/show.tpl');
+        $this->view_type = 'smarty';
+
+        $this->output   .= 'action show called';
+        $this->template = 'index/show.tpl';
     }
+}
 
+/**
+ * Purpose: View selects the Model for the choosen view(action)
+ *          and assembles/prepares that view(action) with Model-Informations for Output
+ *          When a Model-Object is fetched, the View calls a certain method on it to extract the data.
+ *          Like $users = $userobject->findUser($email);
+ *
+ */
+class module_index_view
+{
+    
+}
 
-    /**
-    * @desc time test-function
-    */
-
-    function time($type='unix', $seperator='.' )
-    {
-        switch ($type)
-        {
-            case 'unix':
-                $time = time();
-                break;
-
-            case 'german':
-                $time = date('d'.$seperator.'m'.$seperator.'Y', time() );
-                break;
-
-            case 'english':
-                $time = date('Y'.$seperator.'m'.$seperator.'d', time() );
-                break;
-        }
-        return $time;
-    }
+/**
+ * Purpose: Select Data from Database and return Model-Informations (complete objects) to the View-Layer
+ *          Like return $user;
+ */
+class module_index_model
+{
+    
 }
 ?>
