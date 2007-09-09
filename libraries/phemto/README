@@ -1,0 +1,68 @@
+Phemto
+======
+What is phemto? Phemto is a dependency injector for PHP 5. It's
+the smallest dependency injector I could come up with that is
+still useful in a PHP environment. Because of it's simplicity
+it makes an ideal tool to learn about dependency injection or
+for managing medium applications or small frameworks. If your
+needs are more sophisticated, then you might want to look at
+the Pico for PHP.
+
+The core of a dependency injector is it's internal regisitry.
+This can hold single instances or factories and allow global
+access. However it has several capabilities that place it
+above a simple Registry pattern.
+
+The first is that construction can be initiated with only an
+interface name in the code that uses the instance. This
+decouples this client code from dependent object construction.
+This is a powerful feature for frameworks that may utilise
+plug-ins from many different authors. The framework can
+specify interfaces, and utillise code that uses those
+interfaces, without ever coming into contact with the
+implementation code. The application author determines the
+wiring when the injector is set up. This also makes testing
+easier, because mock implementations can be passed to
+the application during testing.
+
+The second capability is to automatically handle constructor
+arguments by the same process. This means that implementations
+can also publicise their dependencies which can in turn be
+managed by the injector. As the publishing mechanism is
+simple type hints in the constructor, it means that the
+component implementation is not just independent of the
+framework and it's own constructor dependencies, it's also
+independent of the injector as well. Constructor injection
+makes the implementations easy to test as mock dependencies
+can simply be passed to the constructor.
+
+The third capability is to detach the lifecycle of the object
+from the class. The injector can register a class as a
+normal object, a Singleton, a session object or any other
+lifecycle choice. This decision is kept out of the original
+class and also out of the client code of the instance.
+This means that the class itself is not cluttered by this
+code and, being a normal object, is easy to test.
+
+A dependency injector achieves a remarkable degree of
+decoupling.
+
+Phemto has some compromises over Pico. The most significant
+is that every hint has to be unique within a constructor.
+Phemto has no way of determining the class by parameter
+position or any other means. It simply injects every hint
+for which it has an instance available. Everywhere else
+gets a parameter if supplied either at registration or
+instantiation.
+
+Phemto is however still fairly extensible. The service
+locators used to instantiate the objects can be replaced
+using dependency injection themselves. In addition new
+registration mechanisms can be added on the fly.
+
+Phemto is public domian code. The only requirement is to
+acknowledge the authors in articles where phemto is used
+as an example. No warranty is implied by this. You use
+this code entirely at your own risk.
+
+yours, Marcus
