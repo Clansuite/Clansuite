@@ -19,11 +19,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  template
  */
 
-class view_smarty extends view_base
+class view_smarty extends renderer_base
 {
     private $smarty     = null;
     
-    protected $module   = null;
+    protected $injector   = null;
+    protected $module_view = null;
     
     private $config     = null;
     private $db         = null;
@@ -35,19 +36,20 @@ class view_smarty extends view_base
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
      */
-    function __construct($module=null)
+    function __construct($module_view, $injector=null)
     {       
       /**
        * apply module instance to class
        * get instances from injector
        */
-      $this->module = $module; 
+      $this->injector = $injector;
+      $this->module_view = $module_view;
       
-      $this->config         = $this->module->injector->instantiate('configuration');
-      $this->db             = $this->module->injector->instantiate('db'); 
-      $this->trail          = $this->module->injector->instantiate('trail');
-      $this->functions      = $this->module->injector->instantiate('functions');
-      $this->language       = $this->module->injector->instantiate('language');
+      $this->config         = $this->injector->instantiate('configuration');
+      $this->db             = $this->injector->instantiate('db'); 
+      $this->trail          = $this->injector->instantiate('trail');
+      $this->functions      = $this->injector->instantiate('functions');
+      $this->language       = $this->injector->instantiate('language');
       
       /**
        * Sets up Smarty Template Engine (Smarty Object)
@@ -213,7 +215,7 @@ class view_smarty extends view_base
         # Breadcrumb
         $this->smarty->assign_by_ref('trail'  , $this->trail->path); 
         # Assign Statistic Variables
-        $statistic = $this->module->injector->instantiate('statistic');
+        $statistic = $this->injector->instantiate('statistic');
         $this->smarty->assign('stats', $statistic->get_statistic_array());         
         # Assign Benchmarks        
         $this->smarty->assign('db_exectime', benchmark::returnDbexectime() );      
@@ -231,8 +233,8 @@ class view_smarty extends view_base
         
         #var_dump($this->smarty);
         
-        #var_dump($this->module->template);
-        $modulcontent =  $this->smarty->fetch($this->module->template);
+        #var_dump($this->module_view->template);
+        $modulcontent =  $this->smarty->fetch($this->module_view->template);
         #var_dump($modulcontent);
         $this->smarty->assign('content',  $modulcontent );
         #DEBUG ? $debug->show_console() : '';
