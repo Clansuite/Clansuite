@@ -31,14 +31,24 @@
     *
     * @version    SVN: $Id$
     */
+
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
     
 /**
  * View Factory 
- * includes and instantiates the VIEW OBJECT and assigns $module to it
+ * includes and instantiates the Renderer Object
  */
 class view_factory
 {
-    public static function getRenderer($view_type, $module)
+    /**
+     * getRenderer
+     *
+     * @params $view_type, $view,  $injector
+     * @access public
+     * @return Renderer Object
+     */
+    public static function getRenderer($view_type, $view, $injector)
     {        
         try
         {	
@@ -49,7 +59,8 @@ class view_factory
 	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
 	            {
-	                $view = new $class($module);
+	                //instantiate and return the renderer, attach $view and $injector
+	                $view = new $class($view, $injector);
 	                #var_dump($view);
 	                return $view;
 	            }
