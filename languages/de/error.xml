@@ -8,7 +8,7 @@
       <lang>Deutsch</lang>
    </header>
    <message>
-       <id>Wrong input given. Please be sure, not to use special characters</id>
-      <string>Falsche Eingabe. Bitte gehen Sie sicher, dass Sie keine Sonderzeichen verwenden</string>
+       <id>Wrong input given. Please be sure, not to use special characters.</id>
+      <string>Falsche Eingabe. Bitte gehen Sie sicher, dass Sie keine Sonderzeichen verwenden.</string>
    </message>
 </locale>
