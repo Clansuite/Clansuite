@@ -24,10 +24,11 @@
         	<?php 
 			if ($error != '' ) 
 			{ ?>
-				<div class="error"><?=$error ?></div>
+				<fieldset class="error_red"">
+            	<legend>Error</legend><strong><?=$error ?></strong>
+            	</fieldset>
 			<?php
 			} ?>
-			
 				
 			<p><?=$language['STEP4_SENTENCE1']; ?></p>
 				
