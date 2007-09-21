@@ -48,7 +48,7 @@ class view_factory
      * @access public
      * @return Renderer Object
      */
-    public static function getRenderer($view_type, $view, $injector)
+    public static function getRenderer($view_type, $injector)
     {        
         try
         {	
@@ -59,8 +59,8 @@ class view_factory
 	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
 	            {
-	                //instantiate and return the renderer, attach $view and $injector
-	                $view = new $class($view, $injector);
+	                //instantiate and return the renderer and pass $injector
+	                $view = new $class($injector);
 	                #var_dump($view);
 	                return $view;
 	            }
