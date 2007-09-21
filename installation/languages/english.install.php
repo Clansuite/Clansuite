@@ -31,7 +31,7 @@ class language implements ArrayAccess
 		$this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Recommended Settings';
 		
 		$this->language['STEP2_SETTING'] = 'Settings';
-		$this->language['STEP2_SETTING_RESULT'] = 'Results';
+		$this->language['STEP2_SETTING_ACTUAL'] = 'Actual';
 	    $this->language['STEP2_SETTING_EXPECTED'] = 'Expected';
 	    
 	    # REQUIRED SETTINGS (in order)
@@ -66,7 +66,7 @@ class language implements ArrayAccess
 		$this->language['DB_PASS'] = 'Database Password';
 		$this->language['DB_PREFIX'] = 'Database Prefix';
 		
-		$this->language['ERROR_NO_DB_CONNECT'] = 'ERROR - Database-Connection could not be established.';
+		$this->language['ERROR_NO_DB_CONNECT'] = 'Database-Connection could not be established.';
 		
 		// STEP 5 - Confioguration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
