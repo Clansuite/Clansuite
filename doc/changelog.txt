@@ -1,0 +1,27 @@
+ÄNDERUNGSHISTORIE | CHANGELOG
+
+------------  ----------------------------------------------------------------
+Legende:      NEW:    Neues Feature            |    New Feature
+              CHG:    Änderung                 |    Change
+              FIX:    Fehler behoben           |    Bugfix
+              LNG:    Sprachdatei aktualisiert |    Languagefile updated
+------------  ----------------------------------------------------------------
+
+VORLAGE FÜR NEUE EINTRÄGE:
+------------  ----------------------------------------------------------------
+[x.x.2007]    REL:    VERSION 0.x
+------------  ----------------------------------------------------------------
+[x.x.2007]    NEW:    added this n that
+[x.x.2007]    FIX:    fixed this n that
+[x.x.2007]    CHG:    removed this n that
+[x.x.2007]    LNG:    added english language file for this n that
+_____________________________________________________________________________
+
+
+START AB VERSION 0.2
+------------  ----------------------------------------------------------------
+
+
+[23.09.2007]  REL:    VERSION 0.2
+------------  ----------------------------------------------------------------
+[15.06.2007]  NEW:    Objektorientierung
