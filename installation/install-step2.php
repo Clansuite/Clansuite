@@ -57,7 +57,8 @@
 							//starting tablerow
 						    $table_rows = '<tr class="'. $csstoggle .'">';
 							#echo $csstoggle;
-							$table_rows .= '<td>'. $settingname .'=>'. $value['text'] .'</td>';
+							#$table_rows .= '<td>'. $settingname .'=>'. $value['text'] .'</td>';
+							$table_rows .= '<td>'. $value['text'] .'</td>';
 							$table_rows .= '<td class="col1">' . $value['expected'] . '</td>';
 							$table_rows .= '<td class="col2">' . $value['status'] .'</td>';							
 							$table_rows .= '</tr>';
@@ -164,13 +165,13 @@
 
 						 ?>
 
-						 <table class="settings" border="1">
+						 <table class="settings" border="0">
 						 <caption class="tbcaption"><?=$language['STEP2_SYSTEMSETTING_REQUIRED']?></caption>
 								<thead class="tbhead">
 									<tr>
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-										<th><?=$language['STEP2_SETTING_RESULT']?></th>										
+										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>										
 									</tr>
 								</thead>
 							<tbody>
@@ -180,13 +181,13 @@
 
 						<br />
 
-						 <table class="settings" border="1">
+						 <table class="settings" border="0">
 						 <caption class="tbcaption"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></caption>
 								<thead class="tbhead">
 									<tr>
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-										<th><?=$language['STEP2_SETTING_RESULT']?></th>										
+										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>										
 									</tr>
 								</thead>
 							<tbody>
