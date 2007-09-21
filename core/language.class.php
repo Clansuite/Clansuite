@@ -165,12 +165,15 @@ class language
                 // push name into array to know which translations were loaded
                 array_push($this->loaded, $file );
 
-                // extract xml data from file
-                $xml = new SimpleXMLElement(file_get_contents($file));
-
-                if (!$xml)
+                try
                 {
-                   $this->error->show( self::t('Languagefile XML-loading Failure'), self::t('The Languagefile exists, but XML Data could not be loaded.') . '<br />' . $file, 2);
+                    // extract xml data from file
+                    $xml = new SimpleXMLElement(file_get_contents(($file)));
+                }
+                catch (Exception $e)
+                {
+                    // file content is not valid XML
+                    throw new clansuite_exception('Language File exists, but an XML Parsing Error occured: ' .  $e->getMessage(), 500);
                 }
 
                 /**
