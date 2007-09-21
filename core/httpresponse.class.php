@@ -175,21 +175,21 @@ class httpresponse implements response_interface
         $this->headers = array();
         $this->data = null;
     }
-    
+
     /**
      * Redirect to URL
      *
      * @param string $url
      * @param integer $status
      * @access public
-     */     
+     */
     public function redirect($url, $status = null)
-    {      
-           // safe session data
-           session_write_close();
-           // set status and header location to redirect url
-           $this->setStatus($status);
-           $this->addHeader('Location', $url)->flush();
+    {
+        // safe session data
+        session_write_close();
+        // set status and header location to redirect url
+        $this->setStatus($status);
+        $this->addHeader('Location', $url)->flush();
     }
 }
 ?>
