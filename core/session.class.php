@@ -182,11 +182,12 @@ class session implements ISessionHandler, ArrayAccess
         /**
          * Start Session and throw Error on failure
          */
-
-        if (!session_start())
+        try
         {
-            #echo '<br>session not started!';
-            $this->error->show($this->lang->t('Session Error' ), $this->lang->t('The session start failed!' ), 3 );
+            session_start();
+        }
+        catch (Exception $e) {
+            throw new clansuite_exception('The session start failed!', 500);
         }
 
         /**
@@ -257,8 +258,8 @@ class session implements ISessionHandler, ArrayAccess
         #echo 'session id =>'. $id;
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute( array(self::session_name, $id ) );
-        
-        
+
+
         if ($result = $stmt->fetch())
         {
             return $result['session_data'];
@@ -556,9 +557,9 @@ class session implements ISessionHandler, ArrayAccess
         #$tpl->assign('SessionExpireTime', $expiretime);
     }
 
-    
+
     public function __set($offset,$data) {
-		#echo("Name: {$offset}<br/>\nData: {$value}<br/>\n"); 
+		#echo("Name: {$offset}<br/>\nData: {$value}<br/>\n");
 		$this->session[$offset] = $value;
 	}
 
@@ -578,7 +579,7 @@ class session implements ISessionHandler, ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
-        $this->__set($offset, $value);   
+        $this->__set($offset, $value);
     }
 
     // @todo
