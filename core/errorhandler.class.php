@@ -79,10 +79,18 @@ class errorhandler
 
         #if(!DEBUG)
         #{
-        	
-            set_error_handler(array($this, 'advanced_error_handler') );
-            set_exception_handler(array($this, 'exception_handler' ) );
-        	#trigger_error('bla');
+        if( function_exists('set_error_handler') )
+        {
+            set_error_handler(array($this, 'clansuite_error_handler') );
+        }
+        #trigger_error('bla');
+
+        # register own exception handler
+        if( function_exists('set_exception_handler') )
+        {
+            set_exception_handler(array($this, 'clansuite_exception_handler' ) );
+        }
+
 		#}
 
         # turn smarty error into php+html with defines
@@ -117,7 +125,7 @@ class errorhandler
     }
 
     /**
-     * Advanced error_handler callback function
+     * clansuite error_handler callback function
      *
      * This is basically a switch defining the actions taken,
      * in case of serveral PHP Error States
@@ -129,16 +137,24 @@ class errorhandler
      * @global $tpl
      * @global $config
      */
-    public function advanced_error_handler( $errno, $errstr, $errfile, $errline )
+    public function clansuite_error_handler( $errno, $errstr, $errfile, $errline )
     {
-        #if($this->config->suppress_errors == 0)
-        #{
-        #    return;
-        #}
-        
+        /**
+         * Error Reporting is silenced
+         * So this is also the place to handle @ operator
+         */
+        if(($this->config->suppress_errors == 0) OR (error_reporting() == 0))
+        {
+            return;
+        }
+
+        // set error details to class
+
+
 		echo 'Fehlernummer: '. $errno;
         switch ($errno)
         {
+            case E_STRICT:
             case E_COMPILE_ERROR:
             case E_CORE_ERROR:
             case E_USER_ERROR:
@@ -158,6 +174,7 @@ class errorhandler
             case E_PARSE:
             case E_COMPILE_WARNING:
             case E_CORE_WARNING:
+            case E_RECOVERABLE_ERROR:
             case E_USER_WARNING:
             case E_WARNING:
             	echo "<div style='width:50%; border-style: solid; border-width:1px; border-color: red; margin-top:10px;'>\n";
@@ -165,7 +182,7 @@ class errorhandler
                 #print_my_backtrace($errno,debug_backtrace());
                 echo "</div>\n";
               	die();
-            
+
                 if ($this->config->suppress_errors == 0 )
                 {
                     echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
@@ -195,6 +212,9 @@ class errorhandler
                 }
                 break;
         }
+
+        // Skip PHP internal error handler */
+        return true; 
     }
 
     /**
@@ -211,11 +231,11 @@ class errorhandler
      * @see error::show()
      */
 
-    public function exception_handler( $e )
+    public function clansuite_exception_handler( $e )
     {
         if ($this->config->suppress_errors == 0 )
         {
-            $this->show($e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last DB-Query:&nbsp;</b>' . $this->db->last_sql, 1 );
+            $this->show('Uncaught exception : ' . $e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last DB-Query:&nbsp;</b>' . $this->db->last_sql, 1 );
         }
     }
 
@@ -237,10 +257,10 @@ class errorhandler
     {
 		echo '<br />errorhead '. $error_head;
 		echo '<br />string '. $string;
-		
-		
-		
-		
+
+
+
+
         #$this->tpl->assign('error_head'    , $error_head );
         #$this->tpl->assign('debug_info'    , $string );
 		/**
@@ -264,7 +284,7 @@ class errorhandler
                 break;
         }
 		*/
-        
+
     }
 }
 ?>
