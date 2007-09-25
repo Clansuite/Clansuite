@@ -37,7 +37,7 @@
 
 						<form action="index.php" method="post">
 	            			<div class="alignleft">
-	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
 	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
 	                        </div>
 
@@ -45,7 +45,7 @@
                         <!--
             			<div class="alignright">
             			 <form action="index.php" name="lang" method="post">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward"/>
+                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward"/>
                             <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">                           
             			 </form>
             			</div>-->
