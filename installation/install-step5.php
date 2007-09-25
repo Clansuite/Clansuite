@@ -26,10 +26,10 @@
         	   <form action="index.php" method="post">
         	   <dl>
 			   		<dt><?=$language['STEP5_CONFIG_SITENAME']?></dt>
-			   		<dd><input type="name" name="site_name" value="<?=$values['site_name']?>" /></dd>
+			   		<dd><input type="text" name="site_name" value="<?=$values['site_name']?>" /></dd>
 
 			   		<dt><?=$language['STEP5_CONFIG_SYSTEMEMAIL']?></dt>
-			   		<dd><input type="name" name="system_email" value="<?=$values['system_email']?>" /></dd>
+			   		<dd><input type="text" name="system_email" value="<?=$values['system_email']?>" /></dd>
 
 			   		<? # festes dropdown ?>
 			   		<dt><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></dt>
@@ -42,7 +42,7 @@
 
 			   		<? # random salting ?>
 			   		<dt><?=$language['STEP5_CONFIG_SALTING']?></dt>
-			   		<dd><input type="name" name="salt" value="<?=$values['salt']?>" /></dd>
+			   		<dd><input type="text" name="salt" value="<?=$values['salt']?>" /></dd>
 
 			   		<? # timezone detection fucntion ?>
 			   		<dt><?=$language['STEP5_CONFIG_TIMEZONE']?></dt>
@@ -84,7 +84,6 @@
                         <?=$language['CLICK_BACK_TO_RETURN']?>
                         </span>
 
-						<form action="index.php" method="post">
 	            			<div class="alignright">
 	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
 	            			</div>
@@ -93,8 +92,8 @@
 	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
 	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
 	                        </div>
-						</form>
-            </div><!-- div navigation end -->
+                        </div><!-- div navigation end -->
+					</form>
 
         	</div> <!-- div accordion end -->
 

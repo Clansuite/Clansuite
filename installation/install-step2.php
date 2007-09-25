@@ -60,7 +60,7 @@
 							#$table_rows .= '<td>'. $settingname .'=>'. $value['text'] .'</td>';
 							$table_rows .= '<td>'. $value['text'] .'</td>';
 							$table_rows .= '<td class="col1">' . $value['expected'] . '</td>';
-							$table_rows .= '<td class="col2">' . $value['status'] .'</td>';							
+							$table_rows .= '<td class="col2">' . $value['status'] .'</td>';
 							$table_rows .= '</tr>';
 
 						  	echo $table_rows;
@@ -124,16 +124,16 @@
 						 $recommended['register_globals']['status'] 	= get_php_setting('register_globals');
 						 $recommended['register_globals']['text'] 		= $language['REGISTER_GLOBALS'];
 						 $recommended['register_globals']['expected']	= 'off';
-						
+
 						 #Checking
 						 $recommended['magic_quotes_gpc']['status'] 	= get_php_setting('magic_quotes_gpc');
 						 $recommended['magic_quotes_gpc']['text'] 		= $language['MAGIC_QUOTES_GPC'];
 						 $recommended['magic_quotes_gpc']['expected']	= 'off';
-						 
+
 						 $recommended['magic_quotes_runtime']['status'] 	= get_php_setting('magic_quotes_runtime');
 						 $recommended['magic_quotes_runtime']['text'] 		= $language['MAGIC_QUOTES_RUNTIME'];
 						 $recommended['magic_quotes_runtime']['expected']	= 'off';
-						 
+
 						 #Checking for tokenizer functions
 						 #$recommended['']['']
 						 #$recommended['']['']
@@ -152,7 +152,7 @@
 						 $recommended['allow_url_fopen']['status'] 		= get_php_setting('allow_url_fopen');
 						 $recommended['allow_url_fopen']['text'] 		= $language['ALLOW_URL_FOPEN'];
 						 $recommended['allow_url_fopen']['expected']	= 'on';
-						
+
 						 #Checking for Safe mode
 						 $recommended['safe_mode']['status'] 		= get_php_setting('safe_mode');
 						 $recommended['safe_mode']['text'] 			= $language['SAFE_MODE'];
@@ -171,7 +171,7 @@
 									<tr>
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>										
+										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>
 									</tr>
 								</thead>
 							<tbody>
@@ -187,7 +187,7 @@
 									<tr>
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>										
+										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>
 									</tr>
 								</thead>
 							<tbody>
@@ -207,14 +207,13 @@
 	            			<div class="alignright">
 	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
 	            			</div>
-	            			
+
 							<div class="alignleft">
 	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
 	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
 	                        </div>
-					</form>
-            </div><!-- div navigation end -->
-
+                    </div><!-- div navigation end -->
+			    </form>
 
         	</div> <!-- div accordion end -->
 

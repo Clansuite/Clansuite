@@ -48,8 +48,8 @@
 
 	            			<div class="alignright">
 	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" id="ButtonNext" disabled="disabled" />
-	            </form>
-	            			</div>
+	                        </div>
+    			    </form>
                 </div><!-- div navigation end -->
 
         	</div> <!-- div accordion end -->
