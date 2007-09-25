@@ -50,7 +50,7 @@
         	            <hr />
         	            <span style="font-size:10px;"><?=$language['CLICK_NEXT_TO_PROCEED']?></span>
                         <div class="alignright">
-                        	<input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" />
+                        	<input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
                         </div>
                     </div><!-- div navigation end -->
                 </form>

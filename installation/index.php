@@ -30,10 +30,6 @@
 session_start();
 set_time_limit(0);
 
-#echo 'get:';        var_dump($_GET);
-echo 'post:';       var_dump($_POST);
-echo 'session:';    var_dump($_SESSION);
-
 // Security Handler
 define('IN_CS', true);
 
@@ -66,7 +62,7 @@ error_reporting(E_ALL);
 #================
 
 # INCLUDE THE HEADER!
-include ('install-header.php');
+include ('install_header.php');
 
 /**
  * ==============================
@@ -76,10 +72,15 @@ include ('install-header.php');
  # Get Total Steps and if we are at max_steps, set step to max
 $total_steps = get_total_steps();
 
+/**
+* Update the session with the given variables!
+*/
+$_SESSION = array_merge($_SESSION, $_POST);
+
 # STEP HANDLING
-if(isset($_SESSION['step'])) 
-{ 
-	$step = $_SESSION['step']; 
+if(isset($_SESSION['step']))
+{
+	$step = $_SESSION['step'];
 	if(isset($_POST['step_forward']))  { $step++; }
 	if(isset($_POST['step_backward'])) { $step--; }
 	if($step >= $total_steps) { $step = $total_steps; }
@@ -112,7 +113,7 @@ else
 }
 
 # Language Include
-try 
+try
 {
 	if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
 	{
@@ -125,12 +126,12 @@ try
 	    throw new Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
 	}
 }
-catch (Exception $e) 
+catch (Exception $e)
 {
 	echo $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
 }
 
-/** 
+/**
  * Handling of STEP 4 - Database
  * if STEP 4 successful, proceed to 5 - else return STEP 4, display error
  */
@@ -140,17 +141,17 @@ if( isset($_POST['step_forward']) AND $step == 5 )
 	if( !$db )
 	{
 		$step = 4;
-		$error = $language['ERROR_NO_DB_CONNECT'];	
+		$error = $language['ERROR_NO_DB_CONNECT'];
 	}
 	else
 	{
 		#splitten und einfügen
-		
+
 	}
 }
 
 
-/** 
+/**
  * Handling of STEP 6 - Create Administrator
  * if STEP 6 successful, proceed to 7 - else return STEP 6, display error
  */
@@ -161,7 +162,7 @@ if( isset($_POST['step_forward']) AND $step == 7 )
 	if( !isset($_POST['admin_name']) and !isset($_POST['admin_password']) )
 	{
 		$step = 6;
-		$error = $language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];	
+		$error = $language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
 	}
 	else
 	{
@@ -174,14 +175,14 @@ if( isset($_POST['step_forward']) AND $step == 7 )
  */
 $installfunction  = "installstep_$step"; # add step to function name
 if(function_exists($installfunction))  # check if exists
-{   
+{
 	# Set Step to Session
 	$_SESSION['step'] = $step;
     $installfunction($language,$error); # lets rock! :P
 }
 
 # INCLUDE THE FOOTER !!
-require ('install-footer.php');
+require ('install_footer.php');
 
 ##### FUNCTIONS #####
 
@@ -196,6 +197,24 @@ function get_total_steps()
     if(isset($_SESSION['total_steps'])){return $_SESSION['total_steps'];}
     for($i=1;function_exists('installstep_'.$i)==true;$i++){$_SESSION['total_steps']=$i;}
     return $_SESSION['total_steps'];
+}
+
+/**
+* Generates a random String (with divider default because needed for SALT)
+*
+* @return string
+*/
+function generate_random_string($length = 6, $with_divider = true)
+{
+	$chars = "ABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
+	$code = "";
+	$clen = strlen($chars) - 1;  //a variable with the fixed length of chars correct for the fence post issue
+	while (strlen($code) < $length)
+	{
+	    $code .= $chars[mt_rand(0,$clen)] . '-';  //mt_rand's range is inclusive - this is why we need 0 to n-1
+	}
+	$code = substr_replace($code, '', -1);
+	return $code;
 }
 
 /**
@@ -218,40 +237,38 @@ function installstep_2($language){    require 'install-step2.php' ;}
 function installstep_3($language){    require 'install-step3.php' ;}
 // STEP 4 - System Check
 function installstep_4($language, $error)
-{    
-	$values['db_host'] 		= isset($_POST['db_host']) ? $_POST['db_host'] : 'localhost';
-	$values['db_name'] 		= isset($_POST['db_name']) ? $_POST['db_name'] : 'clansuite';
-	$values['db_username'] 	= isset($_POST['db_username']) ? $_POST['db_username'] : '';
-	$values['db_password'] 	= isset($_POST['db_password']) ? $_POST['db_password'] : '';
-	$values['db_prefix'] 	= isset($_POST['db_prefix']) ? $_POST['db_prefix'] : 'cs_';
+{
+	$values['db_host'] 		= isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
+	$values['db_name'] 		= isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
+	$values['db_username'] 	= isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
+	$values['db_password'] 	= isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
+	$values['db_prefix'] 	= isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
 
 	require 'install-step4.php' ;
 }
 // STEP 5 - System Check
 function installstep_5($language)
 {
-	$values['site_name']  	= isset($_POST['site_name']) ? $_POST['site_name'] : 'Team Clansuite';
-	$values['system_email'] = isset($_POST['system_email']) ? $_POST['system_email'] : 'system@website.com';
-	$values['user_account_enc']  	= isset($_POST['user_account_enc']) ? $_POST['user_account_enc'] : 'SHA1';
-	$values['salting']  	= isset($_POST['salting']) ? $_POST['salting'] : 'SALT';
-	$values['time_zone']  	= isset($_POST['time_zone']) ? $_POST['time_zone'] : 'Berlin +1';
+	$values['site_name']  			= isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
+	$values['system_email'] 		= isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
+	$values['user_account_enc']  	= isset($_SESSION['user_account_enc']) ? $_SESSION['user_account_enc'] : 'SHA1';
+	$values['salt']  				= isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_random_string(12);
+	$values['time_zone']  			= isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
 
 	require 'install-step5.php';
 }
 // STEP 6 - System Check
 function installstep_6($language)
-{    
-	$values['admin_name'] 		= isset($_POST['admin_name']) ? $_POST['admin_name'] : 'admin';
-	$values['admin_password'] 	= isset($_POST['admin_password']) ? $_POST['admin_password'] : 'admin';
-	$values['admin_email'] 		= isset($_POST['admin_email']) ? $_POST['admin_email'] : 'admin@email.com';
-	$values['admin_language'] 	= isset($_POST['admin_language']) ? $_POST['admin_language'] : 'en_EN';
+{
+	$values['admin_name'] 		= isset($_SESSION['admin_name']) ? $_SESSION['admin_name'] : 'admin';
+	$values['admin_password'] 	= isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
+	$values['admin_email'] 		= isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
+	$values['admin_language'] 	= isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
 
 	require 'install-step6.php';
 }
 // STEP 7 - System Check
 function installstep_7($language){    require 'install-step7.php' ;}
 
-#echo 'Debug Language Values';
-#var_dump($language);
 session_write_close()
 ?>

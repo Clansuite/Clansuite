@@ -20,18 +20,18 @@
         	       <img src="images/64px-Document-save.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
         	       <?=$language['STEP4_DATABASE']?>
         	   </h2>
-        	
-        	<?php 
-			if ($error != '' ) 
+
+        	<?php
+			if ($error != '' )
 			{ ?>
 				<fieldset class="error_red"">
             	<legend>Error</legend><strong><?=$error ?></strong>
             	</fieldset>
 			<?php
 			} ?>
-				
+
 			<p><?=$language['STEP4_SENTENCE1']; ?></p>
-				
+
 			<form action="index.php" method="post">
         	   <dl>
 			   		<dd><input type="hidden" name="db_type" value="mysql" /></dd>
@@ -47,9 +47,9 @@
 			   		<dd><input type="name" name="db_prefix" value="<?=$values['db_prefix']?>" /></dd>
 			   </dl>
 
-			<p>Tabellen und Einträge werden angelegt.</p>
-			
-			<p>Datenbanktabellen eines anderen CMS importieren.</p>
+			<p><?=$language['STEP4_SENTENCE2']; ?></p>
+
+			<p><?=$language['STEP4_SENTENCE3']; ?></p>
 
             <div class="navigation">
 
@@ -60,11 +60,11 @@
                         </span>
 
             			<div class="alignright">
-                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="button" name="step_forward" />
+                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
             			</div>
-						
+
 						<div class="alignleft">
-                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="button" name="step_backward" />
+                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
                             <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
                         </div>
 			</form>
