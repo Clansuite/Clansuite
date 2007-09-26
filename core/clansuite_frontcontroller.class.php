@@ -202,12 +202,12 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         $this->post_filtermanager->processFilters($request, $response);
         
         # 5) 
-        $view = view_factory::getRenderer($moduleController->view_type, $moduleController);
+        $view = view_factory::getRenderer($moduleController->view_type, $this->injector);
         #var_dump($moduleController->view_type);
 		#var_dump($view);
         
         # 6)
-        $view->render();
+        $view->render($moduleController->template);
     }
 }
 ?>

@@ -59,7 +59,7 @@ class view_factory
 	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
 	            {
-	                //instantiate and return the renderer and pass $injector
+	                //instantiate and return the renderer and pass $injector into
 	                $view = new $class($injector);
 	                #var_dump($view);
 	                return $view;
