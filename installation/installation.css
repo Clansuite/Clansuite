@@ -942,3 +942,20 @@ a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visit
 {
   background:#ffc;
 }
+
+.settings
+{
+	width: 100%;
+}
+
+.tbcaption
+{
+	border: 1px solid grey;
+	background-color: #ccc;
+}
+
+dd
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
