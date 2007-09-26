@@ -24,8 +24,7 @@ class view_smarty extends renderer_base
     private $smarty     = null;
     
     protected $injector   = null;
-    protected $module_view = null;
-    
+        
     private $config     = null;
     private $db         = null;
     private $trail      = null;  
@@ -36,12 +35,11 @@ class view_smarty extends renderer_base
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
      */
-    function __construct($module_view, $injector=null)
+    function __construct($injector=null)
     {       
       # apply instances to class
       $this->injector = $injector;
-      $this->module_view = $module_view;
-      
+            
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('configuration');
       $this->db             = $this->injector->instantiate('db'); 
@@ -189,7 +187,7 @@ class view_smarty extends renderer_base
         $this->smarty->display();
     }
 
-    function render()
+    function render($templatename)
     {
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
@@ -232,7 +230,7 @@ class view_smarty extends renderer_base
         #var_dump($this->smarty);
         
         #var_dump($this->module_view->template);
-        $modulcontent =  $this->smarty->fetch($this->module_view->template);
+        $modulcontent =  $this->smarty->fetch($templatename);
         #var_dump($modulcontent);
         $this->smarty->assign('content',  $modulcontent );
         #DEBUG ? $debug->show_console() : '';
