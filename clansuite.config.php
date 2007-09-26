@@ -1,4 +1,4 @@
-<?php
+﻿<?php
    /**
     * Clansuite - just an E-Sport CMS
     * Jens-Andre Koch, Florian Wolf � 2005-2007
@@ -121,15 +121,16 @@ class configuration implements ArrayAccess
         $this->config['from'] = 'system@clansuite.com';
         $this->config['from_name'] = 'ClanSuite Group';
 
-        // Template Configurations
+        // Global Template Configurations
         $this->config['theme'] = 'standard';
-        #$this->config['theme'] = 'accessible';
-        $this->config['themeswitch_via_url'] = 1;
+        #$this->config['theme'] = 'accessible';        
         $this->config['tpl_wrapper_file'] = 'index.tpl';
-
-        // Modules: Default Module and Default Action
-
-        $this->config['default_module'] = 'index';
+		
+	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
+	$this->config['themeswitch_via_url'] = 1;
+        
+	// Controller Resolver : Default Module and Default Action
+	$this->config['default_module'] = 'index';
         $this->config['default_action'] = 'show';
 
         // Default Page Title + CSS + Javascript
