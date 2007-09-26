@@ -38,13 +38,11 @@ class view_smarty extends renderer_base
      */
     function __construct($module_view, $injector=null)
     {       
-      /**
-       * apply module instance to class
-       * get instances from injector
-       */
+      # apply instances to class
       $this->injector = $injector;
       $this->module_view = $module_view;
       
+	  # get instances from injector
       $this->config         = $this->injector->instantiate('configuration');
       $this->db             = $this->injector->instantiate('db'); 
       $this->trail          = $this->injector->instantiate('trail');
