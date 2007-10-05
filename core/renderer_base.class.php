@@ -40,7 +40,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * A abstract base class for all our view renderers. 
  * All renderers must extend from this class.
  *
- * @package Clansuite Core View
+ * @access     public
+ * @package    Clansuite Core
+ * @subpackage View
  */
 abstract class renderer_base 
 {
@@ -57,11 +59,35 @@ abstract class renderer_base
         $this->injector = $injector;       
     }
     
+    
+    
     /**
+     * Assigns a value to a template parameter.
+     *
      * @access public
-     * @param array $data // array $data
-     * @return mixed 
+     * @param string $tpl_parameter The template parameter name
+     * @param mixed $value The value to assign
      */
-    abstract public function display();    
+    abstract public function assign($tpl_parameter, $value);
+    
+    /**
+     * Executes the template rendering and returns the result.
+     *
+     * @access public
+     * @param string $template Template Filename
+     * @param mixed $data Additional data to process
+     * @return string
+     */
+    abstract public function fetch($template, $data = null);
+    
+    /**
+     * Executes the template rendering and displays the result.
+     *
+     * @access public
+     * @param string $template Template Filename
+     * @param mixed $data Additional data to process
+     * @return string
+     */
+    abstract public function display($template, $data = null);   
 }
 ?>
