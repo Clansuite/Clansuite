@@ -191,6 +191,7 @@ class clansuite_frontcontroller implements ControllerCommandInterface
             $trail->trail_stop(true);
             
             // Set Locale and Language for requested module
+            #$locale = $this->LocaleResolver()->resolveLocale($request);
             $lang = $this->injector->instantiate('language'); 
             $lang->load_lang(substr(get_class($moduleController), 7), $_SESSION['user']['language'] );
         
@@ -201,12 +202,14 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         # 4)
         $this->post_filtermanager->processFilters($request, $response);
         
-        # 5) 
-        $view = view_factory::getRenderer($moduleController->view_type, $this->injector);
+        # 5)
+        $view = $moduleController->getView();
+        #$view = view_factory::getRenderer($moduleController->view_type, $this->injector);
         #var_dump($moduleController->view_type);
 		#var_dump($view);
         
         # 6)
+        # pushes RenderEngine generated Output to the response and calls $response->flush!
         $view->render($moduleController->template);
     }
 }
