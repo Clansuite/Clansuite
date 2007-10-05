@@ -1,7 +1,0 @@
-#If you don't need htaccess, then DELETE IT.
-#Slow's down Webserver Processing.
-DirectoryIndex index.php
-php_value magic_quotes_runtime  "0"
-php_value magic_quotes_gpc      "0"
-php_value register_globals      "Off"
-php_value output_buffering      "1"
