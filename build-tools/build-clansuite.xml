@@ -1,9 +1,13 @@
-<?xml version="1.0"?>
-<project name="Clansuite" description="Clansuite Build File" basedir="." default="doc_phpdoc">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Clansuite - Phing Build File 
+-->
+<project name="Clansuite" description="Clansuite Build File" basedir="." default="help">
 
-    <!-- Define Project Properties | make constants -->
-    <property name="version" value="0.1.0" override="true" />
-    <property name="status"  value="alpha-dev" override="true" />
+    <!-- Define Common Properties for all Build Commands | make constants -->
+    <property name="build.base.dir" value="build"/>
+    <property name="version"        value="0.1.0"       override="true" />
+    <property name="status"         value="alpha-dev"   override="true" />
     
     <!-- Define Fileset 
     <fileset id="projectfiles" dir="www">
@@ -14,6 +18,35 @@
         <exclude name=".htaccess"/>
     </fileset>   -->
     
+    
+    <!-- COMMAND => HELP | Displays a helptext for the Phing Build Commands avaiable -->
+    <target name="help">
+        <echo>
+        
+        Welcome to the Clansuite build script!
+        --------------------------------------
+        Use the following syntax to trigger a build command:
+        
+                  phing   &lt;build command&gt;
+        
+        where &lt;build command&gt; can be one of the following:
+        
+        List of Clansuite Build Commands:
+        - help      : guess what, displays this help text
+        - all       : do all build steps (lint, docs, tar)
+        - all_docs  : generate documentation (phpxref, phpdoc, doxygen)
+        - dist      : create release files
+        - build     : prepare a directory for distribution
+        - mrproper  : clean up the build directory
+        - rebuild   : clean first and then build
+        </echo>
+    </target>
+
+    <!-- mrproper cleans the Building Directories -->
+    <target name="mrproper">
+        <echo>Mr.Proper wipes the Building</echo>
+        <delete dir="${build.base.directory}"/>
+    </target>
     
     <!-- Command "all" => all phing-build commands in order -->
     <target name="all">
