@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="Clansuite" description="Clansuite Build File" basedir="." default="doc_phpdoc">
 
-    <!-- Define Project Properties -->
+    <!-- Define Project Properties | make constants -->
     <property name="version" value="0.1.0" override="true" />
     <property name="status"  value="alpha-dev" override="true" />
     
