@@ -170,7 +170,7 @@ class gzip_encode {
 
 	if (!$encoding) return;
 	$this->encoding = $encoding;
-        $this->encoding = 'gzip';
+
 	if ($level === true) {
 	    $level = $this->get_complevel();
 	}
