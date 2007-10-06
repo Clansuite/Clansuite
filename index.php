@@ -44,6 +44,9 @@ define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug
 # Define security constant
 define('IN_CS', true);
 
+#output buffering
+ob_start();
+
 # Benchmarking
 require 'core/benchmark.class.php';
 benchmark::timemarker('begin', 'Exectime:');
@@ -54,7 +57,7 @@ benchmark::timemarker('begin', 'Exectime:');
  *  ==========================================
  */
 # requires configuration & gets a config to work with
-require 'clansuite.config.php'; 
+require 'clansuite.config.php';
 $config = new configuration;
 # initialize constants / errorhandling / ini_sets / paths
 require 'clansuite.init.php';
@@ -111,4 +114,7 @@ $clansuite->processRequest($request, $response);
 
 # Stop debugging and show debugging infos.
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
+
+# Flush Compressed Buffer
+new gzip_encode(7);
 ?>
