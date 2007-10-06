@@ -86,7 +86,7 @@ class gzip_encode {
      *    to see how it should be done.
      *
      * Change Log:
-     *	0.67:	Added Vary header to aid in caching.
+     *	0.67:	Added publicy header to aid in caching.
      *	0.66:	Big bug fix. It wouldn't compress when it should.
      *	0.65:	Fix for PHP-4.0.5 suddenly removing the connection_timeout() function.
      *	0.62:	Fixed a typo
@@ -123,13 +123,13 @@ class gzip_encode {
      *
      */
 
-    var $_version = 0.67; // Version of the gzip_encode class
+    public $_version = 0.67; // Version of the gzip_encode class
 
-    var $level;		// Compression level
-    var $encoding;	// Encoding type
-    var $crc;		// crc of the output
-    var $size;		// size of the uncompressed content
-    var $gzsize;	// size of the compressed content
+    public $level;		// Compression level
+    public $encoding;	// Encoding type
+    public $crc;		// crc of the output
+    public $size;		// size of the uncompressed content
+    public $gzsize;	// size of the compressed content
 
     /*
      * gzip_encode constructor - gzip encodes the current output buffer
@@ -149,7 +149,7 @@ class gzip_encode {
      *	true:	Don't actully output the compressed form but run as if it
      *		had. Used for debugging.
      */
-    function gzip_encode($level = 3, $debug = false) {
+    function gzip_encode($level = 3, $debug = false, $outputCompressedSizes=1) {
 	global $HTTP_ACCEPT_ENCODING;
 	if (!function_exists('gzcompress')) {
 	    trigger_error('gzcompress not found, ' .
@@ -162,12 +162,15 @@ class gzip_encode {
 		    'PHP >= 4.0.1 needed for gzip_encode', E_USER_WARNING);
 	    return;
 	}
+	
+
 	if (headers_sent()) return;
 	if (connection_status() !== 0) return;
 	$encoding = $this->gzip_accepted();
+
 	if (!$encoding) return;
 	$this->encoding = $encoding;
-
+        $this->encoding = 'gzip';
 	if ($level === true) {
 	    $level = $this->get_complevel();
 	}
@@ -177,6 +180,14 @@ class gzip_encode {
 	if ($contents === false) return;
 
 	$gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00"; // gzip header
+	
+	// added by Kasper Skaarhoj for Typo3
+    if ($outputCompressedSizes)
+    {
+        $contents.=chr(10)."<!-- Compressed, level ".$level.", original size was ".strlen($contents)." bytes. New size is ".strlen(gzcompress($contents, $level))." bytes -->";
+        $size = strlen($contents);      // Must set again!
+    }
+	
 	$size = strlen($contents);
 	$crc = crc32($contents);
 	$gzdata .= gzcompress($contents, $level);
@@ -193,7 +204,7 @@ class gzip_encode {
 
 	ob_end_clean();
 	Header('Content-Encoding: ' . $encoding);
-	Header('Vary: Accept-Encoding');
+	Header('publicy: Accept-Encoding');
 	Header('Content-Length: ' . strlen($gzdata));
 	Header('X-Content-Encoded-By: class.gzip_encode '.$this->_version);
 
@@ -215,15 +226,15 @@ class gzip_encode {
      *  note the double colon syntax, I don't know where it is documented but
      *  somehow it got in my brain.
      */
-    function gzip_accepted() {
-	global $HTTP_ACCEPT_ENCODING;
-	if (strpos($HTTP_ACCEPT_ENCODING, 'gzip') === false) return false;
-	if (strpos($HTTP_ACCEPT_ENCODING, 'x-gzip') === false) {
+    static function gzip_accepted()
+    {
+	
+	if (strpos($_SERVER["HTTP_ACCEPT_ENCODING"], 'gzip') === false) return false;
+	if (strpos($_SERVER["HTTP_ACCEPT_ENCODING"], 'x-gzip') === false) {
 	    $encoding = 'gzip';
 	} else {
 	    $encoding = 'x-gzip';
 	}
-
 	// Test file type. I wish I could get HTTP response headers.
 	$magic = substr(ob_get_contents(),0,4);
 	if (substr($magic,0,2) === '^_') {
