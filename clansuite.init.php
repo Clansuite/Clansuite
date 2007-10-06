@@ -102,11 +102,14 @@ define('NL', "<br />\r\n");
  * @note: in php6 zend.ze1 compatbility will be removed
  */
 #ini_set('zend.ze1_compatibility_mode'   , false);
-ini_set('zlib.output_compression'       , true);
-ini_set('zlib.output_compression_level' , '7');
+// set "output_buffering 1" in .htaccess
+#ini_set('zlib.output_compression'       , true);
+#ini_set('zlib.output_compression_level' , '7');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 
+// Output Compression
+require_once(ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php');
 
 // PHP 5.1 strftime fix by setting the timezone
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
