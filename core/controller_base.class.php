@@ -74,22 +74,49 @@ abstract class controller_base
     }
     
     /**
-     * controller_base::getView();
-     *
-     * 1. initialize proper view::viewfactory('smarty, json, rss'); as VIEW
-     * 2. assign model data to that view object
+     * sets the Rendering Engine
+     * 
+     * 
+     */    
+    public function setRenderEngine($renderer)
+    {
+        $this->renderEngine = $renderer;
+    }
+    
+    /**
+     * returns the Rendering Engine, if empty Smarty is set and returned
      *
      * @access public
+     * @return renderengine object, smarty as default
      */
-    
-    public function getView()
+    public function getRenderEngine()
     {
-       # $response = $injector->instantiate('response');
+        if(empty($this->renderEngine)) 
+        { 
+            $this->setRenderEngine('smarty');
+        }
+        return $this->renderEngine;
+    }
     
+    /**
+     * controller_base::getView();
+     * returns an instance of the render engine object and prepares it for rendering the output
+     *
+     * 1. initialize proper viewfactory('smarty, json, rss'); as VIEW
+     * 2. assign model data to that view object
+     * 3. return VIEW
+     *
+     * @access public
+     */    
+    public function getView()
+    {                   
+        $renderEngine = view_factory::getRenderer($this->getRenderEngine(), $this->injector);
+        #$response = $this->injector->instantiate('response');    
         #$response->setRenderer($template);
+        #$response->setContentType();
         #$response->setContent($this->output);
         #$response->flush();
-        echo $this->output;
+        return $renderEngine;
     }
     
     public function display($template)

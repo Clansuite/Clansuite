@@ -68,7 +68,7 @@ abstract class renderer_base
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
-    abstract public function assign($tpl_parameter, $value);
+    #abstract public function assign($tpl_parameter, $value);
     
     /**
      * Executes the template rendering and returns the result.
@@ -78,7 +78,7 @@ abstract class renderer_base
      * @param mixed $data Additional data to process
      * @return string
      */
-    abstract public function fetch($template, $data = null);
+    #abstract public function fetch($template, $data = null);
     
     /**
      * Executes the template rendering and displays the result.
