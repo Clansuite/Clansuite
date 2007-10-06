@@ -181,10 +181,10 @@ class view_smarty extends renderer_base
     /**
      *
      */
-    function display()
+    function display($template, $data = null)
     {
         echo 'display';
-        $this->smarty->display();
+        $this->smarty->display($template, $data = null);
     }
 
     function render($templatename)
