@@ -48,7 +48,7 @@ class view_factory
      * @access public
      * @return Renderer Object
      */
-    public static function getRenderer($view_type, $injector)
+    public static function getRenderer($view_type, Phemto $injector)
     {        
         try
         {	
