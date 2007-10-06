@@ -25,8 +25,8 @@
 <meta name="description" content="{$meta.description}" />
 <meta name="keywords" content="{$meta.keywords}" />
 
-<link rel="shortcut icon" href="{$www_root_tpl}/images/favicon.ico" />
-<link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_tpl}/images/Clansuite-Favicon-16.ico" />
+<link rel="icon" href="{$www_root_tpl}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script  src="{$www_root_tpl_core}/javascript/XulMenu.js" type="application/javascript"></script>
 <script src="{$javascript}" language="javascript" type="application/javascript"></script>
