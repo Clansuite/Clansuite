@@ -44,9 +44,6 @@ define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug
 # Define security constant
 define('IN_CS', true);
 
-#output buffering
-ob_start();
-
 # Benchmarking
 require 'core/benchmark.class.php';
 benchmark::timemarker('begin', 'Exectime:');
@@ -116,5 +113,5 @@ $clansuite->processRequest($request, $response);
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
 
 # Flush Compressed Buffer
-new gzip_encode(7);
+if(defined('OB_GZIP')){ new gzip_encode(7); }
 ?>
