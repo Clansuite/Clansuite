@@ -102,14 +102,25 @@ define('NL', "<br />\r\n");
  * @note: in php6 zend.ze1 compatbility will be removed
  */
 #ini_set('zend.ze1_compatibility_mode'   , false);
-// set "output_buffering 1" in .htaccess
-#ini_set('zlib.output_compression'       , true);
-#ini_set('zlib.output_compression_level' , '7');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
+ini_set('memory_limit'                  , '20M' );
 
-// Output Compression
-require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php';
+/**
+ * Compress output if the browser supports it
+ *
+ * @note by vain: problems reported with cached smarty templates... we'll see how that works out
+ */
+# Method 1 zlib
+ini_set('zlib.output_compression'       , true);
+ini_set('zlib.output_compression_level' , '7');
+# Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
+if(!ini_get('zlib.output_compression') === true) 
+{ 
+  ob_start('ob_gzhandler');
+  require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php'; 
+  define('OB_GZIP', true); 
+}
 
 // PHP 5.1 strftime fix by setting the timezone
 // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
