@@ -37,11 +37,21 @@
  */
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-# PHP Version Check
-if (version_compare(phpversion(), '5.2', '<') == true) { die ('Clansuite requires PHP 5.2'); }
-
-# Check if config.class.php is found, if false redirect to installation page
+# Check if config.class.php is found, else redirect to installation page
 if ( !is_file( 'config.class.php' ) ) { header( 'Location: installation/index.php' ); exit; }
+
+/**
+ *  ================================================
+ *     Startup Checks
+ *  ================================================
+ */
+# PHP Version Check
+define('REQUIRED_PHP_VERSION', '5.2');
+if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <b>' . PHP_VERSION . '</b>! Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>'); }
+# PDO Check
+if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
+# PDO mysql driver Check
+if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); } 
 
 /**
  *  ================================================
@@ -97,8 +107,9 @@ define('DB_PREFIX'          , $config['db_prefix']);
 define('NL', "<br />\r\n");
 
 /**
- * Alter php.ini settings
- *
+ *  ================================================
+ *     Alter php.ini settings
+ *  ================================================
  * @note: in php6 zend.ze1 compatbility will be removed
  */
 #ini_set('zend.ze1_compatibility_mode'   , false);
@@ -107,8 +118,9 @@ ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
 /**
- * Compress output if the browser supports it
- *
+ *  ================================================
+ *     Compress output if the browser supports it
+ *  ================================================
  * @note by vain: problems reported with cached smarty templates... we'll see how that works out
  */
 # Method 1 zlib
