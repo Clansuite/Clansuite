@@ -1,7 +1,7 @@
-﻿<?php
+<?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf � 2005-2007
+    * Jens-Andre Koch, Florian Wolf ? 2005-2007
     * http://www.clansuite.com/
     *
     * File:         config.class.php
