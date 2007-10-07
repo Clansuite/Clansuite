@@ -86,7 +86,7 @@ class gzip_encode {
      *    to see how it should be done.
      *
      * Change Log:
-     *	0.67:	Added publicy header to aid in caching.
+     *	0.67:	Added Vary header to aid in caching.
      *	0.66:	Big bug fix. It wouldn't compress when it should.
      *	0.65:	Fix for PHP-4.0.5 suddenly removing the connection_timeout() function.
      *	0.62:	Fixed a typo
@@ -204,7 +204,7 @@ class gzip_encode {
 
 	ob_end_clean();
 	Header('Content-Encoding: ' . $encoding);
-	Header('publicy: Accept-Encoding');
+	Header('Vary: Accept-Encoding');
 	Header('Content-Length: ' . strlen($gzdata));
 	Header('X-Content-Encoded-By: class.gzip_encode '.$this->_version);
 
