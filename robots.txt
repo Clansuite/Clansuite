@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /core/
+Disallow: /doc/
+Disallow: /languages/
+Disallow: /modules/
+Disallow: /templates/
+Disallow: /uploads/
