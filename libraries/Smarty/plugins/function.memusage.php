@@ -65,7 +65,7 @@ function smarty_function_memusage($params, &$smarty)
         $memusage=$memusage/1024;
         $memunit="GB";
       }
-      print(number_format($memusage,2).$memunit);
+      print(number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit');
     }
 }
 
