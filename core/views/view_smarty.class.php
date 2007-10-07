@@ -22,12 +22,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class view_smarty extends renderer_base
 {
     private $smarty     = null;
-    
+
     protected $injector   = null;
-        
+
     private $config     = null;
     private $db         = null;
-    private $trail      = null;  
+    private $trail      = null;
     private $functions  = null;
     private $language   = null;
 
@@ -35,24 +35,24 @@ class view_smarty extends renderer_base
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
      */
-    function __construct($injector=null)
-    {       
+    function __construct(Phemto $injector=null)
+    {
       # apply instances to class
       $this->injector = $injector;
-            
+
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('configuration');
-      $this->db             = $this->injector->instantiate('db'); 
+      $this->db             = $this->injector->instantiate('db');
       $this->trail          = $this->injector->instantiate('trail');
       $this->functions      = $this->injector->instantiate('functions');
       $this->language       = $this->injector->instantiate('language');
-      
+
       /**
        * Sets up Smarty Template Engine (Smarty Object)
        *    by initializing Render_SmartyDoc as
        *    custom-made Smarty Document Processor
        *
-       * @note by vain: Please leave the following commented lines, 
+       * @note by vain: Please leave the following commented lines,
        *                i need them for SmartyDOC development!
        */
       require(ROOT_LIBRARIES . '/Smarty/Smarty.class.php');
@@ -64,7 +64,7 @@ class view_smarty extends renderer_base
       /**
        * Set Configurations to Smarty Object
        */
-      self::smarty_configuration();        
+      self::smarty_configuration();
     }
 
     function smarty_configuration()
@@ -148,7 +148,7 @@ class view_smarty extends renderer_base
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # @todo: check functionality
         $this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
-        
+
         /**
          * Sets up {translate} block in SMARTY Template Engine
          *
@@ -165,25 +165,25 @@ class view_smarty extends renderer_base
          * @see config.class
          */
         $this->smarty->assign('www_root'         , WWW_ROOT );
-        $this->smarty->assign('www_root_upload'  , WWW_ROOT . '/' . $this->config['upload_folder'] );       
+        $this->smarty->assign('www_root_upload'  , WWW_ROOT . '/' . $this->config['upload_folder'] );
         $this->smarty->assign('www_root_tpl'     , WWW_ROOT . '/' . $this->config['tpl_folder'] . '/' . $_SESSION['user']['theme'] );
         $this->smarty->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
      }
-    
+
     /**
      * Returns Smarty Object
      */
     function getEngine()
     {
-        return $this->smarty;   
+        return $this->smarty;
     }
-    
+
     /**
      *
      */
     function display($template, $data = null)
     {
-        echo 'display';
+        echo 'view_smarty->display() called!';
         $this->smarty->display($template, $data = null);
     }
 
@@ -196,39 +196,39 @@ class view_smarty extends renderer_base
          * Assign Config Values (for use in header of tpl)
          */
         # Meta Inforamtions about the website
-        $this->smarty->assign('meta', $this->config['meta']);  
+        $this->smarty->assign('meta', $this->config['meta']);
         # ClanSuite Version from config.class.php
-        $this->smarty->assign('clansuite_version'    , $this->config['version']);          
+        $this->smarty->assign('clansuite_version'    , $this->config['version']);
         $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
         # Redirects, if necessary
-        $this->smarty->assign('redirect'      , $this->functions->redirect );   
+        $this->smarty->assign('redirect'      , $this->functions->redirect );
         # Normal CSS (global)
-        $this->smarty->assign('css'           , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']); 
+        $this->smarty->assign('css'           , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']);
         # Normal Javascript (global)
-        $this->smarty->assign('javascript'    , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']); 
+        $this->smarty->assign('javascript'    , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
         # Page Title
-        $this->smarty->assign('std_page_title', $this->config['std_page_title']); 
+        $this->smarty->assign('std_page_title', $this->config['std_page_title']);
         # Breadcrumb
-        $this->smarty->assign_by_ref('trail'  , $this->trail->path); 
+        $this->smarty->assign_by_ref('trail'  , $this->trail->path);
         # Assign Statistic Variables
         $statistic = $this->injector->instantiate('statistic');
-        $this->smarty->assign('stats', $statistic->get_statistic_array());         
-        # Assign Benchmarks        
-        $this->smarty->assign('db_exectime', benchmark::returnDbexectime() );      
-        
+        $this->smarty->assign('stats', $statistic->get_statistic_array());
+        # Assign Benchmarks
+        $this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
+
         /**
          * Check for our Copyright-Sign {$copyright} and assign it
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
         #self::check_copyright( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' . $this->config->tpl_wrapper_file );
-        $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_TPL . '/core/copyright.tpl'));       
-                
+        $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_TPL . '/core/copyright.tpl'));
+
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
         #$this->smarty->display($this->module->template);
-        
+
         #var_dump($this->smarty);
-        
+
         #var_dump($this->module_view->template);
         $modulcontent =  $this->smarty->fetch($templatename);
         #var_dump($modulcontent);
@@ -236,7 +236,7 @@ class view_smarty extends renderer_base
         #DEBUG ? $debug->show_console() : '';
         #var_dump($this->config['tpl_wrapper_file']);
         #var_dump($this->smarty->template_dir);
-        $this->smarty->displayDOC($this->config['tpl_wrapper_file']);        
+        $this->smarty->displayDOC($this->config['tpl_wrapper_file']);
     }
 }
 ?>
