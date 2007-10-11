@@ -57,11 +57,24 @@ $passPhrase = "yeahbabyyeah";
     * @package    Webinstaller
     *
     * HTML Written = Version 0.2 - 06 June 2007
+    * HTML Document begins near Line #1000
     * @version    SVN: $Id$
     */
 
+if(ini_get("safe_mode") == true && ini_get("open_basedir") == true) 
+{
+   die('<i>ERROR</i> : <b>Clansuite Webinstaller is not able to perform a curl/wget/fopen/fsockopen command, <br> because \'Safe Mode\' and \'Open_BaseDir Restriction\' are enabled! <br> Shutting Down!</b>');
+}
 error_reporting(E_ALL);
+# will have to effect if safemode on
 set_time_limit(900);
+ini_set("open_basedir",".:..:/usr/bin/");
+ini_set("allow_url_fopen",1);
+ini_set("memory_limit","64M");
+ini_set("upload_max_filesize","64M");
+# ini_set for php.ini only
+#ini_set("safe_mode_exec_dir","/usr/bin/");
+#ini_set("safe_mode", "off");
 
 /*****************************************************************
  * C O N F I G U R A T I O N
@@ -558,9 +571,10 @@ class Platform {
 	}
 
 	/* Now try each path in turn to see which ones work */
+	/* error silenced, because of open_basedir restriction */
 	foreach ($paths as $path) {
 	    $execPath = $path . $binaryName . $extension;
-	    if (is_file($execPath) && is_executable($execPath)) {
+	    if (@is_file($execPath) && is_executable($execPath)) {
 		/* We have a winner */
 		return $execPath;
 	    }
@@ -1011,9 +1025,30 @@ function render($renderType, $args=array()) {
     <?php printJs(); ?>
   </head>
   <body>
-     <h1> Clansuite Webinstaller</h1>
-     <small>Version 0.1 - Mi, 06 Jun 2007</small>
-
+    <div>
+      <b class="rounded_header">
+      <b class="rounded_header1"><b></b></b>
+      <b class="rounded_header2"><b></b></b>
+      <b class="rounded_header3"></b>
+      <b class="rounded_header4"></b>
+      <b class="rounded_header5"></b></b>
+    
+      <div class="rounded_headerfg">   
+        <div>
+            <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://www.clansuite.com/images/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt=" " />
+            <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
+            <small>Version 0.1 - Mi, 06 Jun 2007</small>
+        </div>
+      </div>
+    
+      <b style="clear:both;" class="rounded_header">
+      <b class="rounded_header5"></b>
+      <b class="rounded_header4"></b>
+      <b class="rounded_header3"></b>
+      <b class="rounded_header2"><b></b></b>
+      <b class="rounded_header1"><b></b></b></b>
+    </div>
+    
     <div>
         <p>
          <fieldset style="border-color: red; background:lightsalmon;">
@@ -1404,7 +1439,7 @@ function render($renderType, $args=array()) {
      </div>
      <?php endif; ?>
      <div>
-       <a href="<?php print $self; ?>">Go back to the overview</a>
+       <a href="<?php print $self; ?>">Retry!</a>
      </div>
      <?php endif; ?>
 
@@ -1527,6 +1562,52 @@ function printHtmlStyle() {
 	pre {
 		font-size: 1.2em;
 	}
+	.rounded_header { 
+	  display:block	  
+	}
+    .rounded_header *{
+      display:block;
+      height:0.5px;
+      overflow:hidden;
+      font-size:.01em;
+      background:#00
+      
+    }
+    .rounded_header1 {
+      margin-left:2px;
+      margin-right:2px;
+      padding-left:1px;
+      padding-right:1px;
+      border-left:1px solid #f00800;
+      border-right:1px solid #f00800;
+      background:#000300
+    }
+    .rounded_header2 {
+      margin-left:1px;
+      margin-right:1px;
+      padding-right:1px;
+      padding-left:1px;
+      border-left:1px solid #000d00;
+      border-right:1px solid #000d00;
+      background:#000200
+    }
+    .rounded_header3 {
+      margin-left:1px;
+      margin-right:1px;
+      border-left:1px solid #000200;
+      border-right:1px solid #000200;}
+    .rounded_header4 {
+      border-left:1px solid #000800;
+      border-right:1px solid #000800
+    }
+    .rounded_header5 {
+      border-left:1px solid #000300;
+      border-right:1px solid #000300
+    }
+    .rounded_headerfg {
+      margin-left: 1px;
+      background:#fff    
+    }	
 	</style>
 <?php
 }
