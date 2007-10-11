@@ -13,10 +13,7 @@
 
 	<link rel="shortcut icon" href="http://www.clansuite.com/favicon.ico" />
 	
-	<link rel="stylesheet" type="text/css" href="standard.css" />
-    <link rel="stylesheet" type="text/css" href="kubrick.css" />
     <link rel="stylesheet" type="text/css" href="installation.css" />
-    <link rel="stylesheet" type="text/css" href="error.css" />
 
 	<title>Clansuite.com - just an eSport CMS :: Installer</title>
 
