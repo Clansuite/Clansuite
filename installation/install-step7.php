@@ -13,7 +13,7 @@
 
     <div id="content" class="narrowcolumn">
 
-        <div id="content_footer">
+         <div id="content_middle">
 
             <div class="accordion">
         	   <h2 class="headerstyle">
@@ -29,7 +29,9 @@
         	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
         	   <br />
 
+            <div id="content_footer">
             <div class="navigation">
+
 
                         <span style="font-size:10px;">
                         <?=$language['CLICK_BACK_TO_RETURN']?>
@@ -48,11 +50,12 @@
                             <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward"/>
                             <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">                           
             			 </form>
-            			</div>-->
-            </div><!-- div navigation end -->
-
+            			</div>-->                        
+                    </div><!-- div navigation end -->
+			</div> <!-- div content_footer end -->
+             
         	</div> <!-- div accordion end -->
 
-        </div> <!-- div content_footer end -->
+        </div> <!-- div content_middle end -->
 
     </div> <!-- div content end -->

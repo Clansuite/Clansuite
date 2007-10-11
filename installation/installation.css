@@ -250,7 +250,7 @@ dl dt
   font-size:10px;
   font-weight:700;
   margin:3px;
-  padding:.25em;
+  padding:.1em;
   white-space:nowrap;
 }
 
@@ -397,16 +397,36 @@ dl dt
   z-index:0;
 }
 
-#content_footer
+#content_middle
 {
-  background:url(images/kubrickcontentfooter.png) no-repeat bottom left;
   border:0;
   font-size:12px;
-  margin-bottom:-30px;
   margin-left:-10px;
-  min-height:450px;
   width:100%;
   z-index:0;
+}
+
+#content_footer
+{
+  background:url(images/kubrickcontentfooter.png) no-repeat scroll left bottom;
+  border:0;
+  font-size:12px;
+  margin-bottom:-20px;
+  margin-left:-15px;
+  min-height:85px;
+  width:450px;
+  z-index:0;
+}
+
+.navigation
+{
+  border-top:1px solid #ddd;
+  display:block;
+  margin-top: 1.5em;
+  margin-left: 30px; 
+  margin-right: 30px;
+  padding-top:5px;
+  text-align:center;
 }
 
 .widecolumn .entry p
@@ -645,7 +665,7 @@ a,h2 a:hover,h3 a:hover
 #footer p
 {
   margin:0;
-  padding:20px 0;
+  padding:19px 0;
   text-align:center;
 }
 
@@ -878,16 +898,6 @@ a img
   border:none;
 }
 
-.navigation
-{
-  border-top:1px solid #ddd;
-  display:block;
-  margin-bottom:60px;
-  margin-top:1.5em;
-  padding-top:5px;
-  text-align:center;
-}
-
 a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visited,#leftsidebar h2,#rightsidebar h2,#wp-calendar caption,cite
 {
   text-decoration:none;
@@ -952,6 +962,11 @@ a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visit
 {
 	border: 1px solid grey;
 	background-color: #ccc;
+}
+
+.tbhead
+{
+    background-color: #EEEEEE;
 }
 
 dd

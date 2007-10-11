@@ -13,7 +13,7 @@
 
     <div id="content" class="narrowcolumn">
 
-        <div id="content_footer">
+         <div id="content_middle">
 
             <div class="accordion">
         	   <h2 class="headerstyle">
@@ -33,7 +33,9 @@
 				    <label for="agreecheck"><?=$language['STEP3_CHECKBOX']?></label>
 			    </div>
 
-			     <div class="navigation">
+			      <div id="content_footer">
+                  <div class="navigation">
+
 			                <span style="font-size:10px;">
                             <?=$language['CLICK_NEXT_TO_PROCEED']?>
                             <br />
@@ -49,11 +51,12 @@
 	            			<div class="alignright">
 	                            <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" id="ButtonNext" disabled="disabled" />
 	                        </div>
-    			    </form>
-                </div><!-- div navigation end -->
-
+                         </form>
+                    </div><!-- div navigation end -->
+			</div> <!-- div content_footer end -->
+             
         	</div> <!-- div accordion end -->
 
-        </div> <!-- div content_footer end -->
+        </div> <!-- div content_middle end -->
 
     </div> <!-- div content end -->

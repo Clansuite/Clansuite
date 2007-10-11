@@ -13,7 +13,7 @@
 
     <div id="content" class="narrowcolumn">
 
-        <div id="content_footer">
+        <div id="content_middle">
 
             <div class="accordion">
         	   <h2 class="headerstyle">
@@ -158,7 +158,7 @@
 						 $recommended['safe_mode']['text'] 			= $language['SAFE_MODE'];
 						 $recommended['safe_mode']['expected']		= 'on';
 
-						 #Checking OpenBaseDire
+						 #Checking OpenBaseDir
 						 $recommended['open_basedir']['status'] 	= get_php_setting('open_basedir');
 						 $recommended['open_basedir']['text'] 		= $language['OPEN_BASEDIR'];
 						 $recommended['open_basedir']['expected']	= 'on';
@@ -174,27 +174,22 @@
 										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>
 									</tr>
 								</thead>
-							<tbody>
-									<?php setting_rows($required); ?>
-							</tbody>
-						</table>
-
-						<br />
-
-						 <table class="settings" border="0">
-						 <caption class="tbcaption"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></caption>
-								<thead class="tbhead">
-									<tr>
+							<tbody> 
+							        <?php setting_rows($required); ?>
+							
+                            
+						            <tr><td class="tbcaption" colspan="3"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td></tr>
+								    <tr class="tbhead">
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
 										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>
-									</tr>
-								</thead>
-							<tbody>
+    								</tr>
+    								
 									<?php setting_rows($recommended); ?>
 							</tbody>
 						</table>
 
+            <div id="content_footer">
             <div class="navigation">
 
                         <span style="font-size:10px;">
@@ -212,11 +207,12 @@
 	                            <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
 	                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
 	                        </div>
+                         </form>
                     </div><!-- div navigation end -->
-			    </form>
-
+			</div> <!-- div content_footer end -->
+             
         	</div> <!-- div accordion end -->
 
-        </div> <!-- div content_footer end -->
+        </div> <!-- div content_middle end -->
 
     </div> <!-- div content end -->

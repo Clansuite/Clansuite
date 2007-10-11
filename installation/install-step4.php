@@ -13,7 +13,7 @@
 
     <div id="content" class="narrowcolumn">
 
-        <div id="content_footer">
+        <div id="content_middle">
 
             <div class="accordion">
         	   <h2 class="headerstyle">
@@ -51,7 +51,9 @@
 
 			<p><?=$language['STEP4_SENTENCE3']; ?></p>
 
+            <div id="content_footer">
             <div class="navigation">
+
 
                         <span style="font-size:10px;">
                         <?=$language['CLICK_NEXT_TO_PROCEED']?>
@@ -67,11 +69,12 @@
                             <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
                             <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
                         </div>
+                         </form>
                     </div><!-- div navigation end -->
-			    </form>
-
+			</div> <!-- div content_footer end -->
+             
         	</div> <!-- div accordion end -->
 
-        </div> <!-- div content_footer end -->
+        </div> <!-- div content_middle end -->
 
     </div> <!-- div content end -->
