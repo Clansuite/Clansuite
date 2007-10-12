@@ -137,16 +137,17 @@ catch (Exception $e)
  */
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
-	$db = @mysql_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass']);
-	if( !$db )
+	$sqlfile = 'clansuite.sql';
+	$db = @mysql_connect();
+	if( !loadSQL( $sqlfile ,$_POST['db_host'], $_POST['db_user'], $_POST['db_pass']) )
 	{
 		$step = 4;
-		$error = $language['ERROR_NO_DB_CONNECT'];
+		$error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
 	}
 	else
 	{
-		#splitten und einfügen
-
+	    // AlertBox?
+		//echo "SQL Data correctly inserted into Database!";
 	}
 }
 
@@ -270,5 +271,37 @@ function installstep_6($language)
 // STEP 7 - System Check
 function installstep_7($language){    require 'install-step7.php' ;}
 
-session_write_close()
+
+/**
+* Load an SQL stream into the database one command at a time
+*
+* @author     Stuart Prescott
+* @copyright  Copyright Stuart Prescott
+* @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+* @version    sqlload.php,v 1.1 2006/06/02 14:51:09 stuart
+*/
+function loadSQL($sql, $host, $username, $passwd) {
+  #echo "Loading SQL";
+  if ($connection = @ mysql_pconnect($host, $username, $passwd)) {
+    // then we successfully logged on to the database
+    $sqllist = preg_split('/;/', $sql);
+    foreach ($sqllist as $q) {
+      #echo "$q\n";
+      if (preg_match('/^\s*$/', $q)) continue;
+      $handle = mysql_query($q);
+      if (! $handle) {
+        return "ERROR: I had trouble executing SQL statement:"
+              ."<blockquote>$q</blockquote>"
+              ."MySQL said:<blockquote>"
+              .mysql_error()
+              ."</blockquote>";
+      }
+    }
+    return true; //"SQL file loaded correctly";
+  } else {
+    return false; //"ERROR: Could not log on to database to load SQL file: ".mysql_error() ;
+  }
+}
+
+session_write_close();
 ?>
