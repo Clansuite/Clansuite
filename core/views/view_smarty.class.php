@@ -228,7 +228,7 @@ class view_smarty extends renderer_base
         #$this->smarty->display($this->module->template);
 
         #var_dump($this->smarty);
-
+        
         #var_dump($this->module_view->template);
         $modulcontent =  $this->smarty->fetch($templatename);
         #var_dump($modulcontent);
@@ -236,7 +236,9 @@ class view_smarty extends renderer_base
         #DEBUG ? $debug->show_console() : '';
         #var_dump($this->config['tpl_wrapper_file']);
         #var_dump($this->smarty->template_dir);
-        $this->smarty->displayDOC($this->config['tpl_wrapper_file']);
+                
+        return $this->smarty->fetchDOC($this->config['tpl_wrapper_file']); 
+        // error if wrapper could not be found "Main Layout for Themeset: xy not found. Searched for: filename."
     }
 }
 ?>
