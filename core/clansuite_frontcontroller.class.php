@@ -172,7 +172,7 @@ class clansuite_frontcontroller implements ControllerCommandInterface
      * 2. get the modulecontroller via clansuite_controllerresolver
      * 3. execute modulecontroller
      * 4. execute postFilters
-     * 5. fetch view
+     * 5. fetches view / renderer
      * 6. render view
      *
      */
@@ -183,9 +183,8 @@ class clansuite_frontcontroller implements ControllerCommandInterface
 
         # 2)
         $moduleController = $this->resolver->getController($request);
-        #var_dump($moduleController);
         $moduleController->setInjector($this->injector);
-        #var_dump($moduleController);
+
         
             $trail = $this->injector->instantiate('trail');
             $trail->trail_stop(true);
@@ -203,14 +202,18 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         $this->post_filtermanager->processFilters($request, $response);
         
         # 5)
-        $view = $moduleController->getView();
-        #$view = view_factory::getRenderer($moduleController->view_type, $this->injector);
-        #var_dump($moduleController->view_type);
-		#var_dump($view);
-        
+        $view = $moduleController->getRenderEngine();
         # 6)
         # pushes RenderEngine generated Output to the response and calls $response->flush!
-        $view->render($moduleController->template);
+                
+        /**
+        $response->setRenderer($template);
+        $response->setContentType();
+        $response->setContent($this->output);
+        $response->flush();
+        */
+        $response->setContent($view->render($moduleController->template));
+        $response->flush();
     }
 }
 ?>

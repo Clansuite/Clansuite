@@ -52,6 +52,8 @@ abstract class controller_base
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
     
+    public $renderEngine = null;
+    
     function __construct()
     {
        
@@ -89,13 +91,26 @@ abstract class controller_base
      * @access public
      * @return renderengine object, smarty as default
      */
-    public function getRenderEngine()
+    public function getRenderEngineName()
     {
         if(empty($this->renderEngine)) 
         { 
             $this->setRenderEngine('smarty');
         }
         return $this->renderEngine;
+    }
+    
+    /**
+     * Returns the Rendering Engine
+     * param1 getRenderEngineName looks up the Renderer-Name
+     * param2 pass injector to renderer 
+     *
+     * @access public
+     * @return renderengine object
+     */
+    public function getRenderEngine()
+    {
+        return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
     
     /**
@@ -110,13 +125,13 @@ abstract class controller_base
      */    
     public function getView()
     {                   
-        $renderEngine = view_factory::getRenderer($this->getRenderEngine(), $this->injector);
+        
         #$response = $this->injector->instantiate('response');    
         #$response->setRenderer($template);
         #$response->setContentType();
         #$response->setContent($this->output);
         #$response->flush();
-        return $renderEngine;
+        
     }
     
     public function display($template)
