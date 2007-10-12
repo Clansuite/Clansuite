@@ -24,6 +24,8 @@
         	    <p>Das Entwicklerteam w&#252;nscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.
         	      <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
         	       <br />Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.
+        	       <br />
+        	       <br /> Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus SicherheitsgrÅnden umzubenennen bzw. zu lîschen.
         	      </p>
 
         	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
