@@ -17,7 +17,8 @@
     		    <li><h2><?=$language['SHORTCUTS']?></h2></li>
     		  	<li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
     		  	<li><strong><a href="http://www.clansuite.com/smf/">Forum</a></strong></li>
-    		  	<li><strong><a href="http://www.clansuite.com/smf/">Installsupport</a></strong></li>
+    		  	<li><strong><a href="http://www.clansuite.com/smf/index.php?board=22.0">Installsupport</a></strong></li>
+    		  	<li><strong><a href="teamspeak://team-n1.com:8767?channel=Clansuite%20Admins?subchannel=Clansuite%20Support">Teamspeak</a></strong></li>
     		  	<!--<li><strong><a href="http://www.clansuite.com/wiki/">Help</a></strong></li>-->
 
     		    <!-- Change Language -->
