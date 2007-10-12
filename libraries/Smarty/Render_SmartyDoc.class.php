@@ -547,7 +547,7 @@ class Render_SmartyDoc extends Smarty
         $doc_source = null;
         $xsl        = null;
         
-		$this->setContentType();
+		#$this->setContentType();
 
         if (!empty($smarty->doc_info) || !empty($smarty->doc_raw)) {
             $indent     = $smarty->getIndent();
@@ -578,12 +578,12 @@ class Render_SmartyDoc extends Smarty
             }
 
 
-            header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
+            #header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
 
             // Send javascript header
-            if (isset($_doc_info['code']) || isset($_doc_info['script']) || isset($this->doc_raw['script'])) {
-                header('Content-Script-Type: text/javascript');
-            }
+            #if (isset($_doc_info['code']) || isset($_doc_info['script']) || isset($this->doc_raw['script'])) {
+            #    header('Content-Script-Type: text/javascript');
+            #}
 
             // process 'xml' (XML Declaration) doc info
             if (isset($_doc_info['xml'])) {
