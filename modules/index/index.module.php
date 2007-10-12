@@ -104,9 +104,39 @@ class module_index extends controller_base //implements clansuite_module
         #$injector = $this->injector;
         #$config = $injector->getComponentInstance('configuration');
 
-        $this->view_type = 'smarty';
+        /***
+         * $this->view_type
+         * 
+         * 1. Set specific view_type (smarty, json, rss, php)
+         *    -- or leave it away, then smarty is used as fallback!
+         *    Example: $this->view_type = 'smarty';
+         *
+         */
 
         $this->output   .= 'action show called';
+        
+        /**
+         * $this->template
+         *
+         *
+         */
+        // 1. you can specify a template
+        //    the lookup of this template would then take place
+        //    in the layout theme folder which is displayed to the user
+        //    example: usertheme = standard and $this->template = 'modulename/filename.tpl';
+        //    then lookup of template in /standard/modulename/filename.tpl
+        //
+        // 2. when you not set a template name
+        //    we try to automatically detect it by using module and action as templatename
+        //    this means $this->template = "modulename/actionname.tpl"
+        //    then (after assembling the templatefilename) we search through the following paths
+        //    a. the activated theme , if not found
+        //    b. the modul-directory/templatefolder/rendererfolder/actionname.tpl
+        //    As a result of this direct connection of URL to TPL, it's possible to 
+        //    code in a very straightforward way:  index.php?mod=something&action=any 
+        //    would result in a template-search in /modules/something/templates/any.tpl
+        //    even an empty module function would result in an rendering - a good starting point i guess!
+        
         $this->template = 'index/show.tpl';
     }
 }
