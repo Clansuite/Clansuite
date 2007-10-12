@@ -112,7 +112,8 @@ define('NL', "<br />\r\n");
  *  ================================================
  * @note: in php6 zend.ze1 compatbility will be removed
  */
-#ini_set('zend.ze1_compatibility_mode'   , false);
+#ini_set('zend.ze1_compatibility_mode'  , false);
+ini_set('short_open_tag'                , 'off');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
@@ -134,8 +135,25 @@ if(!ini_get('zlib.output_compression') === true)
   define('OB_GZIP', true); 
 }
 
-// PHP 5.1 strftime fix by setting the timezone
-// more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
-// @todo make this configurable by user or autodetected from user
-date_default_timezone_set('Europe/Berlin');
+/**
+ * Set Timezone 
+ *
+ * with (1) ini_set() 
+ *      (2) date_default_timezone_set() 
+ *      (3) putenv(TZ=)
+ *
+ * PHP 5.1 strftime fix by setting the timezone
+ * Lot more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
+ * @todo make $timezone configurable by user (small dropdown) or autodetected from user
+ */
+$timezone = 'Europe/Berlin';
+ini_set('date.timezone', $timezone);
+if(function_exists('date_default_timezone_set')) 
+{
+    date_default_timezone_set($timezone);
+} 
+else 
+{
+    putenv('TZ=' . $timezone);
+} 
 ?>
