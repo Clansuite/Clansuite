@@ -12,7 +12,7 @@ function smarty_function_gzipcheck($params, &$smarty)
 {
     if (ini_get('zlib.output_compression') == 1) 
     {
-		echo 'Enabled';
+		echo 'Enabled (zlib)';
     } 
     else 
     {
