@@ -112,6 +112,6 @@ $clansuite->processRequest($request, $response);
 # Stop debugging and show debugging infos.
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
 
-# Flush Compressed Buffer
-if(defined('OB_GZIP')){ new gzip_encode(7); }
+benchmark::timemarker('end', 'Exectime:');
+echo benchmark::timemarker('list');
 ?>
