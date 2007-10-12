@@ -5,3 +5,7 @@ php_value magic_quotes_runtime  "0"
 php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
+
+#3. If you use an Apache2 Webserver with "LoadModule mod_deflate"
+#   uncomment the following line, it enables output compression for the specific file-content-types:
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript

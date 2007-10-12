@@ -119,7 +119,7 @@ class httpresponse implements response_interface
                             ,'404'    => 'Not Found'
                             ,'500'    => 'Internal Server Error'
                             );
-        return $statusDescr($status);
+        return $statusDescr[$status];
     }
 
      /**
@@ -140,7 +140,7 @@ class httpresponse implements response_interface
      * @param  string  $content    Content to store in the buffer
      */
     public function setContent($content)
-    {
+    {   
         $this->body .= $content;
     }
 
@@ -154,26 +154,29 @@ class httpresponse implements response_interface
         $config['version'] = '0.1 alpha - dev';
 
         // Send the status line
-        header('HTTP/1.1 '.$this->status.' '.$this->statusDescr($this->status), true);
+        header('HTTP/1.1 '.$this->status.' '.$this->statusDescr($this->status));
 
         // Send X-Powered-By Header to Clansuite Signature
-        header('X-Powered-By: [ Clansuite - just an eSport CMS ] [ Version : '. $config['version'] .' ] [ www.clansuite.com ]' , false);
-
-        // Send our Content-Type with UTF-8 encoding
-        header('Content-Type: text/html; charset=UTF-8');
+        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $config['version'] .' ][ www.clansuite.com ]');
+        
+         // Send our Content-Type with UTF-8 encoding
+        $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
 
         // Send user specificed headers from $this->headers array
         foreach ($this->headers as $name => $value)
         {
-            header("{$name}: {$value}");
+            header("{$name}: {$value}", false);
         }
 
         // Finally PRINT the response body
         print $this->body;
+        
+        // Flush Compressed Buffer
+        if(defined('OB_GZIP')){ new gzip_encode(7); }
 
         // reset headers and data
         $this->headers = array();
-        $this->data = null;
+        $this->data = null;       
     }
 
     /**
