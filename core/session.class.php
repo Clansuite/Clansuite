@@ -519,15 +519,15 @@ class session implements ISessionHandler, ArrayAccess
          *  Delete not activated users after 3 days
          */
 
-        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = 0 AND joined < ' . ( time() - 60*60*24*3 ) );
-        $stmt->execute();
+        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = ? AND joined < ?');
+        $stmt->execute( array( 0, ( time() - (60*60*24*3) ) ) );
 
         /**
          *  Delete all out-timed Sessions
          */
 
-        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ' . time() );
-        $stmt->execute();
+        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ?' );
+        $stmt->execute( array( time() ) );
 
         /**
          *  Check if session expired
