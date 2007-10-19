@@ -767,7 +767,7 @@ html>body .entry li
 
 ol li,#leftsidebar ul ol li,#rightsidebar ul ol li
 {
-  list-style:decimal outside;
+  list-style: none;
 }
 
 #leftsidebar ul ul li,#leftsidebar ul ol li,#rightsidebar ul ul li,#rightsidebar ul ol li
@@ -958,10 +958,11 @@ a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visit
 	width: 100%;
 }
 
-.tbcaption
+.tdcaption
 {
 	border: 1px solid grey;
 	background-color: #ccc;
+	text-align:center;
 }
 
 .tbhead
@@ -973,4 +974,44 @@ dd
 {
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+fieldset 
+{
+    background:#FFFFFF none repeat scroll 0% 50%;
+    border:1px solid #EFEFEF;
+    margin:0pt 0pt 5px;
+    padding:10px 0px 10px 10px;
+}
+
+fieldset li, ol
+{
+  padding-bottom: 3px;
+}
+
+fieldset legend
+{   
+    font-weight:bold;
+    
+}
+
+.formular
+{
+  list-style-image:none;
+  list-style-type:none;
+  margin-bottom:5px;  
+}
+
+.formularleft 
+{
+ float: left;
+ text-align: right;
+ width: 40%;
+ margin-right: 2%;
+ padding-top: 2px;
+}
+
+.formularright 
+{
+ margin-left : 2%;
 }
