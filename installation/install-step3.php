@@ -22,12 +22,14 @@
         	   </h2>
 
                 <p><?=$language['STEP3_SENTENCE1']; ?></p>
+                <p><?=$language['STEP3_REVIEW']; ?></p>
 
                 <!-- IFRAME WITH LICENCE -->
                 <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
 
 			    <!-- CHECKBOX -> READ LICENCE -->
 			    <div class="">
+			        <p><?=$language['STEP3_MUST_AGREE']; ?></p>			
 			        <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
 				           onclick="if(this.checked==true) { document.getElementById('ButtonNext').disabled=false; } else { document.getElementById('ButtonNext').disabled=true;}" />
 				    <label for="agreecheck"><?=$language['STEP3_CHECKBOX']?></label>
