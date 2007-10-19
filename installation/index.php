@@ -241,6 +241,7 @@ function installstep_4($language, $error)
 {
 	$values['db_host'] 		= isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
 	$values['db_name'] 		= isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
+	$values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
 	$values['db_username'] 	= isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
 	$values['db_password'] 	= isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
 	$values['db_prefix'] 	= isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
