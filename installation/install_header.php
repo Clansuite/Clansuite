@@ -15,7 +15,7 @@
 	
     <link rel="stylesheet" type="text/css" href="installation.css" />
 
-	<title>Clansuite.com - just an eSport CMS :: Installer</title>
+	<title>Clansuite.com - just an eSport CMS :: Installation</title>
 
 </head>
 <body>
