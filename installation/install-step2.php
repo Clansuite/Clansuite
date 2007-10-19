@@ -20,7 +20,7 @@
         	       <img src="images/64px-Utilities-system-monitor.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
         	       <?=$language['STEP2_SYSTEMCHECK']?>
         	   </h2>
-
+               <p><?=$language['STEP2_IN_GENERAL']?></p>
         	   <p><?=$language['STEP2_SYSTEMSETTINGS_REQUIRED']?></p>
         	   <p><?=$language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
 						 <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
@@ -166,9 +166,9 @@
 						 ?>
 
 						 <table class="settings" border="0">
-						 <caption class="tbcaption"><?=$language['STEP2_SYSTEMSETTING_REQUIRED']?></caption>
-								<thead class="tbhead">
-									<tr>
+						 		<thead class="tbhead">
+									<tr><td class="tdcaption" colspan="3"><?=$language['STEP2_SYSTEMSETTING_REQUIRED']?></td></tr>
+						            <tr>
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
 										<th><?=$language['STEP2_SETTING_ACTUAL']?></th>
@@ -178,7 +178,7 @@
 							        <?php setting_rows($required); ?>
 							
                             
-						            <tr><td class="tbcaption" colspan="3"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td></tr>
+						            <tr><td class="tdcaption" colspan="3"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td></tr>
 								    <tr class="tbhead">
 										<th><?=$language['STEP2_SETTING']?></th>
 										<th><?=$language['STEP2_SETTING_EXPECTED']?></th>
