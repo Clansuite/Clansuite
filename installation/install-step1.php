@@ -18,6 +18,7 @@
         	        <?=$language['STEP1_LANGUAGE_SELECTION']?>
         	    </h2>
         	    <p><strong><?=$language['STEP1_WELCOME']?></strong></p>
+        	    <p><?=$language['STEP1_THANKS_CHOOSING']?></p>
         	    <p><?=$language['STEP1_APPINSTALL_STEPWISE']?></p>
         	    <p><?=$language['STEP1_CHOOSELANGUAGE']?></p>
         	    <form action="index.php" name="lang" method="post">
