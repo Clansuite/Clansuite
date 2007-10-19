@@ -15,13 +15,16 @@ class language implements ArrayAccess
     // STEP 1 - Language Selection
     $this->language['STEP1_LANGUAGE_SELECTION'] = 'Schritt [1] Sprachauswahl';
 
-    $this->language['STEP1_WELCOME'] = 'Willkommen zum Installer von Clansuite.';
+    $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich f&#252;r Clansuite entschieden haben!';
+    $this->language['STEP1_WELCOME'] = 'Willkommen zur Installation von Clansuite.';
     $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung f&#252;hrt Sie schrittweise durch die Installation.';
     $this->language['STEP1_CHOOSELANGUAGE'] = 'W&#228;hlen Sie bitte die Sprache aus.';
 
     // STEP 2 - System Check
     $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systempr&#252;fung';
 
+    $this->language['STEP2_IN_GENERAL'] = 'In Schritt [2] pr&#252;fen wir, ob Ihr Webserver die Installationsanforderungen von Clansuite erf&#252;llt.';
+	
 	$this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgem&#228;&szlig; funktioniert.';
 	$this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegr&#252;nden.';
 	$this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
@@ -55,32 +58,38 @@ class language implements ArrayAccess
     // STEP 3 - Licence
     $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
 
-    $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass Clansuite unter der GNU/GPL Lizenz ver&#248;ffentlicht wurde! Sie finden die Lizenz nachfolgend.';
-    $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen, dass Clansuite unter der GNU/GPL Lizenz steht!';
-
+    $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz ver&#246;ffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
+    $this->language['STEP3_REVIEW'] = 'Bitte &#252;berpr&#252;fen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
+    $this->language['STEP3_MUST_AGREE'] = 'Sie m&#252;ssen der GNU/GPL Lizenz zustimmen um Clansuite zu installieren.';
+    $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen und stimme zu, dass Clansuite unter der GNU/GPL Lizenz steht!';
+    
     // STEP 4 - Database
 	$this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
 
-	$this->language['STEP4_SENTENCE1'] = 'Bitte geben Sie Ihre MySQL Verbindungsdaten ein.';
-	$this->language['STEP4_SENTENCE2'] = 'Tabellen und Eintr&#228;ge werden angelegt.';
-	$this->language['STEP4_SENTENCE3'] = 'Datenbanktabellen eines anderen CMS importieren.';
+    $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbingdungsdaten an und wir werden bei erfolgreicher Verbingung einige grundlegende Tabellen und Inhalte fr Clansuite in der Datenbank abzulegen.';
+	$this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh”rige Passwort an.';
+	$this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewnschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
+       
+	$this->language['STEP4_SENTENCE4'] = 'Tabellen und Eintr&#228;ge werden angelegt.';
+	$this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
-	$this->language['DB_HOST'] = 'Datenbank Host';
+	$this->language['DB_HOST'] = 'Datenbank Hostname';
 	$this->language['DB_NAME'] = 'Datenbank Name';
+	$this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen?';
 	$this->language['DB_USER'] = 'Datenbank Benutzer';
 	$this->language['DB_PASS'] = 'Datenbank Passwort';
-	$this->language['DB_PREFIX'] = 'Datenbank Pr&#228;fix';
+	$this->language['DB_PREFIX'] = 'Tabellen Pr&#228;fix';
 
 	$this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
 
 	// STEP 5 - Konfiguration
     $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
 
-    $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen f&#252;r Ihre Clansuite-Internetpr&#228;senz vor.';
+    $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen f&#252;r Ihre Internetpr&#228;senz mit Clansuite vor.';
 
     $this->language['STEP5_CONFIG_SITENAME'] 	= 'Name der Website';
     $this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Systemmail';
-    $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Verschl&#252;sselungsart der Benutzer-Passw&#248;rter';
+    $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Verschl&#252;sselungsart der Benutzer-Passw&#246;rter';
     $this->language['STEP5_CONFIG_SALTING'] = 'Salting';
 	$this->language['STEP5_CONFIG_TIMEZONE'] = 'Zeitzone';
 
