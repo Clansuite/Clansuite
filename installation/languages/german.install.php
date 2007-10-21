@@ -2,14 +2,17 @@
 /**
 * @ Package: Clansuite
 * @ Subpackage: Clansuite Installation
-* @ License: http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @ Description: German installation language
+* @ License: http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
+* @ Description: German Installation Language
+*
+* Encoding: UTF-8
 */
 
 class language implements ArrayAccess
 {
     private $language = array();
 
+    // table of strings
     function __construct()
     {
     // STEP 1 - Language Selection
