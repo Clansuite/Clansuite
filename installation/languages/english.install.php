@@ -1,15 +1,18 @@
 <?php
 /**
-* @ Package: Clansuite
-* @ Subpackage: Clansuite Installation
-* @ License: http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @ Description: English installation language
-*/
+ * @ Package: Clansuite
+ * @ Subpackage: Clansuite Installation
+ * @ License: http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
+ * @ Description: English Installation Language
+ *
+ * Encoding: UTF-8
+ */
 
 class language implements ArrayAccess
 {
     private $language = array();
 
+    // table of strings
     function __construct()
     {
         // STEP 1 - Language Selection
@@ -135,7 +138,7 @@ class language implements ArrayAccess
         $this->language['LICENSE'] = 'License';
         }
 
-   /**
+    /**
      * Implementation of SPL ArrayAccess
      */
     public function offsetExists($offset)
