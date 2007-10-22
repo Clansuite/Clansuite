@@ -168,7 +168,7 @@ class language
                 try
                 {
                     // extract xml data from file
-                    $xml = new SimpleXMLElement(file_get_contents(($file)));
+                    $xml = simplexml_load_file($file);
                 }
                 catch (Exception $e)
                 {
