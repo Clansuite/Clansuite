@@ -102,8 +102,9 @@ class language implements ArrayAccess
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Step [6] Create Administrator';
 
-        $this->language['STEP6_SENTENCE1'] = 'In Step [6] we create a User-Account with the Userdata you\'ll provide. We\'ll give this account Administrator-Permissions, which means that you\'ll be able to login and set all configurations with it.';
-		$this->language['STEP6_SENTENCE2'] = 'Please enter Name and Password as well as E-Mail and Language of the Administrator Account.';
+        $this->language['STEP6_SENTENCE1'] = 'In Step [6] we create a User-Account with the Userdata you\'ll provide.';
+        $this->language['STEP6_SENTENCE2'] = 'We\'ll give this account Administrator-Permissions, which means that you\'ll be able to login and set all configurations with it.';
+		$this->language['STEP6_SENTENCE3'] = 'Please enter Name and Password as well as E-Mail and Language of the Administrator Account.';
 
 		$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
 		$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Password';

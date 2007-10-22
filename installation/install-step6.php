@@ -22,6 +22,8 @@
         	   </h2>
 
         	   <p><?=$language['STEP6_SENTENCE1']?></p>
+        	   <p><?=$language['STEP6_SENTENCE2']?></p>
+        	   <p><?=$language['STEP6_SENTENCE3']?></p>
 
 				<form action="index.php" method="post">
 				<dl>
