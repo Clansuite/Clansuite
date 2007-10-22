@@ -102,8 +102,9 @@ class language implements ArrayAccess
     	// STEP 6 - Create Administrator
     	$this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
     
-        $this->language['STEP6_SENTENCE1'] = 'In Schritt [6] legen wir ein Benutzerkonto mit den von Ihnen eingegebenen Nutzerdaten an. Diesem Konto werden wir Administratoren-Rechte geben, d.h. sie werden in der Lage sein, sich mit diesem Konto anzumelden und alle wesentlichen Systemeinstellungen vorzunehmen.';
-        $this->language['STEP6_SENTENCE2'] = 'Bitte geben Sie Name und Passwort, sowie E-Mail und Sprache des Administrator-Benutzerkontos ein.';
+        $this->language['STEP6_SENTENCE1'] = 'In Schritt [6] legen wir ein Benutzerkonto mit den von Ihnen eingegebenen Nutzerdaten an.';
+        $this->language['STEP6_SENTENCE2'] = 'Diesem Konto werden wir Administratoren-Rechte geben, d.h. sie werden in der Lage sein, sich mit diesem Konto anzumelden und alle wesentlichen Systemeinstellungen vorzunehmen.';
+        $this->language['STEP6_SENTENCE3'] = 'Bitte geben Sie Name und Passwort, sowie E-Mail und Sprache des Administrator-Benutzerkontos ein.';
     
     	$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
     	$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Passwort';
@@ -118,7 +119,7 @@ class language implements ArrayAccess
         $this->language['STEP7_SENTENCE1'] = 'Geschafft! Gratulation - Sie haben Clansuite erfolgreich installiert.';
         $this->language['STEP7_SENTENCE2'] = 'Das Entwicklerteam w&#252;nscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.';
         $this->language['STEP7_SENTENCE3'] = 'Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.';
-        $this->language['STEP7_SENTENCE4'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus Sicherheitsgrnden umzubenennen bzw. zu l”schen.';
+        $this->language['STEP7_SENTENCE4'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus Sicherheitsgr&#252;nden umzubenennen bzw. zu l&#246;schen.';
     
     	// GLOBAL
         # Buttons
