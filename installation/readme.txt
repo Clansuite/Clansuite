@@ -1,4 +1,4 @@
-Clansuite Installation - Version 0.2
+Clansuite Installation - Version 0.2 
 
 Thanks for downloading Clansuite.
 

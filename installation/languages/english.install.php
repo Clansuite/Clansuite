@@ -1,11 +1,15 @@
 <?php
 /**
- * @ Package: Clansuite
- * @ Subpackage: Clansuite Installation
- * @ License: http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
- * @ Description: English Installation Language
+ * @ Package:        Clansuite
+ * @ Subpackage:     Clansuite Installation
+ * @ Author:         Jens-Andre Koch <vain@clansuite.com>
+ * @ Copyright:      Jens-Andre Koch & Clansuite Development Team
+ * @ License:        http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
+ * @ Description:    English Installation Language
+ * @ Version         SVN: $Id$
  *
  * Encoding: UTF-8
+ * Contributors: vain
  */
 
 class language implements ArrayAccess
@@ -22,7 +26,6 @@ class language implements ArrayAccess
         $this->language['STEP1_WELCOME'] = 'Welcome to the Clansuite Installation.';
         $this->language['STEP1_APPINSTALL_STEPWISE'] = 'This application will guide you in several steps through the installation.';
         $this->language['STEP1_CHOOSELANGUAGE'] = 'Please select your language.';
-
 
         // STEP 2 - System Check
 	    $this->language['STEP2_SYSTEMCHECK'] = 'Step [2] Systemcheck';
@@ -84,7 +87,7 @@ class language implements ArrayAccess
 
 		$this->language['ERROR_NO_DB_CONNECT'] = 'Database-Connection could not be established.';
 
-		// STEP 5 - Confioguration
+		// STEP 5 - Configuration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
 
 		$this->language['STEP5_SENTENCE1'] = 'Please enter the basic configurations of your Clansuite-Website.';
@@ -142,11 +145,9 @@ class language implements ArrayAccess
 
         ###
 
-        //GLOBAL
-
         $this->language['HELP'] = 'Help';
         $this->language['LICENSE'] = 'License';
-        }
+    }
 
     /**
      * Implementation of SPL ArrayAccess
