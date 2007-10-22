@@ -37,6 +37,7 @@
 {* Inserts from index.php *}
 <link rel="stylesheet" type="text/css" href="{$css}" />
 <script src="{$javascript}" type="application/javascript"></script>
+
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
@@ -66,9 +67,9 @@
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
 <div id="box">
 	<div id="header">
-		<h1 id="clansuite_title">Clansuite - Just an eSport CMS</h1>
+		<h1 id="clansuite_title">Clansuite - just an eSport CMS</h1>
 		<div id="login_right">
-		{include file="account/login_right.tpl"}
+		{* {include file="account/login_right.tpl"} *}
 		</div>
 		<ul id="navigation">
 			<li><a href="index.php?mod=news">News</a></li>
@@ -86,7 +87,8 @@
 		{include file='tools/breadcrumbs.tpl'}
 	</div>
 	<div id="right">
-		{mod name="shoutbox" func="show"}
+	    {* {mod name="account" func="login"} *}
+		{* {mod name="shoutbox" func="show"} *}
 		<h3>{translate}Statistics{/translate}</h3>
 		<ul id="counter">
 			<li>
