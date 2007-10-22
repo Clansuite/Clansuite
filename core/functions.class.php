@@ -23,7 +23,7 @@
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @license    see COPYING.txt
-* @version    SVN: $Id: functions.class.php 129 2006-06-09 12:09:03Z vain $
+* @version    SVN: $Id$
 * @link       http://gna.org/projects/clansuite
 * @since      File available since Release 0.1
 */

@@ -87,7 +87,7 @@ class benchmark
     # array for db timers
     public static $db_timer_blocks = array();
     # array for normal timers   
-    public static $_timer_blocks = array();
+    public $timer_blocks = array();
     
     # history array
     public static $db_timer_histroy = array();
@@ -96,18 +96,18 @@ class benchmark
     public static function returnDbexectime()
     {
         return self::$db_exectime;   
-    }    
-        
+    }
+         
     public static function timemarker($mode='begin', $msg='')
     { 
         switch ($mode)
         {
             /**
-             *  Db - db_begin, db_end, db_list
+             *  Database Timemarkers - db_begin, db_end, db_list
              */
              
             case 'db_begin':
-                            $time = (time() + microtime());
+                            $time = time()+microtime();
                             $db_timer_blocks[] = array( $time , $msg);
                             ++self::$timers_counter;
                             #var_dump($db_timer_blocks);
@@ -156,15 +156,17 @@ class benchmark
                             break;
 
             /**
-             *  Standard - begin, end, list, stop
+             *  Standard Timemarkers - begin, end, list, stop
              */
             default:
             case 'begin':
-                            $_timer_blocks[] = array(microtime(), $msg);
+                            $timer_blocks[] = array(time()+microtime(), $msg);
+                            var_dump($timer_blocks);
                             break;
 
             case 'end':    
-                            $last = array_pop(self::$_timer_blocks);
+                            var_dump($timer_blocks);
+                            $last = array_pop(self::$timer_blocks);
                             $_starttime = $last[0];
                             $_msg = $last[1];                            
 
@@ -181,8 +183,8 @@ class benchmark
                              *
                              * :) - Strange but true - So... What's the Frequency, Kenneth?
                              */
-
-                            $_timer_history[] = array($elapsed, $_msg, "$_msg [". $elapsed ."s ".(round(1/$elapsed, 2))."/s]");
+                            var_dump($timer_history);
+                            $timer_history[] = array($elapsed, $_msg, "$_msg [". $elapsed ."s ".(round(1/$elapsed, 2))."/s]");
 
 
                             if ($msg) 
@@ -195,21 +197,21 @@ class benchmark
 
             case 'list':
                             $o = '<strong>Timemarkers History:</strong> <br />';
-                            if(isset($_timer_history) && !empty($_timer_history))
+                            if(isset($timer_history) && !empty($timer_history))
                             {
-                                foreach ($_timer_history as $mark)
+                                foreach ($timer_history as $mark)
                                 {
                                     $o .= $mark[2] . "\n <br />";
                                 }
                                 echo $o;
                             }
 
-                            #var_dump($_timer_history);
+                            var_dump($timer_history);
                             break;
 
             case 'stop':
                             $result = '';
-                            while(!empty($_timer_blocks))
+                            while(!empty($timer_blocks))
                             {
                                 $result .= benchmark::timemarker('end', $msg);
                             }
