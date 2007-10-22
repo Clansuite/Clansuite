@@ -34,6 +34,8 @@ function smarty_function_memusage($params, &$smarty)
                //Tested on Mac OS X 10.4.6 and Linux Red Hat Enterprise 4
                //This should work on most UNIX systems
                $pid = getmypid();
+               // Alternative:
+               // exec("ps -o rss -p $pid", $output);
                exec("ps -eo%mem,rss,pid | grep $pid", $output);
                $output = explode("  ", $output[0]);
                //rss is given in 1024 byte units
