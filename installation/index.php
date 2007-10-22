@@ -137,18 +137,20 @@ catch (Exception $e)
  */
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
-	$sqlfile = 'clansuite.sql';
-	$db = @mysql_connect();
-	if( !loadSQL( $sqlfile ,$_POST['db_host'], $_POST['db_user'], $_POST['db_pass']) )
-	{
-		$step = 4;
-		$error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
-	}
-	else
-	{
-	    // AlertBox?
-		//echo "SQL Data correctly inserted into Database!";
-	}
+	if (isset($_POST['db_host']) AND isset($_POST['db_user']) AND isset($_POST['db_pass']))
+	{   $sqlfile = 'clansuite.sql';
+	    $db = @mysql_connect();
+    	if( !loadSQL( $sqlfile ,$_POST['db_host'], $_POST['db_user'], $_POST['db_pass']) )
+    	{
+    		$step = 4;
+    		$error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
+    	}
+    	else
+    	{
+    	    // AlertBox?
+    		//echo "SQL Data correctly inserted into Database!";
+    	}
+    }
 }
 
 
