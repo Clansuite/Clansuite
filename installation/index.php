@@ -1,7 +1,7 @@
 <?php
     /**
      * Clansuite Installer
-     * v0.2dev 10-august-2007 by vain
+     * v0.3dev 22-oktober-2007 by vain
      *
      * LICENSE:
      *
