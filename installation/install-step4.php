@@ -69,9 +69,9 @@
         	   </ol>
         	</fieldset>
 
-			<p><?=$language['STEP4_SENTENCE4']; ?></p>
+			<!--<p><?=$language['STEP4_SENTENCE4']; ?></p> -->
 
-			<p><?=$language['STEP4_SENTENCE5']; ?></p>
+			<!--<p><?=$language['STEP4_SENTENCE5']; ?></p> -->
 
             <div id="content_footer">
             <div class="navigation">
