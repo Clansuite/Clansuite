@@ -89,6 +89,7 @@ class language implements ArrayAccess
     $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
 
     $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen f&#252;r Ihre Internetpr&#228;senz mit Clansuite vor.';
+    $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, kînnnen sie umfangreiche Einstellungen Åber das Admin-Control-Panel (ACP) vornehmen.';
 
     $this->language['STEP5_CONFIG_SITENAME'] 	= 'Name der Website';
     $this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Systemmail';
@@ -99,7 +100,8 @@ class language implements ArrayAccess
 	// STEP 6
 	$this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
 
-	$this->language['STEP6_SENTENCE1'] = 'Bitte geben Sie Name und Passwort des Administrator-Benutzerkontos ein.';
+    $this->language['STEP6_SENTENCE1'] = 'In Schritt [6] legen wir ein Benutzerkonto mit den von Ihnen eingegebenen Nutzerdaten an. Diesem Konto werden wir Administratoren-Rechte geben, d.h. sie werden in der Lage sein, sich mit diesem Konto anzumelden und alle wesentlichen Systemeinstellungen vorzunehmen.';
+    $this->language['STEP6_SENTENCE2'] = 'Bitte geben Sie Name und Passwort, sowie E-Mail und Sprache des Administrator-Benutzerkontos ein.';
 
 	$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
 	$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Passwort';
@@ -110,6 +112,11 @@ class language implements ArrayAccess
 
 	// STEP 7 - Abschluss
     $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';
+    
+    $this->language['STEP7_SENTENCE1'] = 'Geschafft! Gratulation - Sie haben Clansuite erfolgreich installiert.';
+    $this->language['STEP7_SENTENCE2'] = 'Das Entwicklerteam w&#252;nscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.';
+    $this->language['STEP7_SENTENCE3'] = 'Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.';
+    $this->language['STEP7_SENTENCE4'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus SicherheitsgrÅnden umzubenennen bzw. zu lîschen.';
 
 	// GLOBAL
     # Buttons

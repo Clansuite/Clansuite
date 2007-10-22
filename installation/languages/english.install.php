@@ -72,6 +72,9 @@ class language implements ArrayAccess
 	    $this->language['STEP4_SENTENCE2'] = 'Please provide the username and password to connect to the server here.';
 		$this->language['STEP4_SENTENCE3'] = 'If this account has permission to create databases, then we will create the database for you; otherwise, you must give the name of a database that already exists.';
 
+        $this->language['STEP4_SENTENCE4'] = 'Tables und Entries created.';
+	    $this->language['STEP4_SENTENCE5'] = 'Import Databasetables of another CMS?';
+
 		$this->language['DB_HOST'] = 'Database Hostname';
 		$this->language['DB_NAME'] = 'Database Name';
 		$this->language['DB_CREATE_DATABASE'] = 'Create Database?';
@@ -85,6 +88,7 @@ class language implements ArrayAccess
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
 
 		$this->language['STEP5_SENTENCE1'] = 'Please enter the basic configurations of your Clansuite-Website.';
+        $this->language['STEP5_SENTENCE2'] = 'When the installation is done, you\'ll be able to configure more details from the administrative control panel (ACP).';
 
     	$this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
     	$this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Email Adress of Website';
@@ -95,7 +99,8 @@ class language implements ArrayAccess
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Step [6] Create Administrator';
 
-		$this->language['STEP6_SENTENCE1'] = 'Please enter Name and Password of the Administrator Account.';
+        $this->language['STEP6_SENTENCE1'] = 'In Step [6] we create a User-Account with the Userdata you\'ll provide. We\'ll give this account Administrator-Permissions, which means that you\'ll be able to login and set all configurations with it.';
+		$this->language['STEP6_SENTENCE2'] = 'Please enter Name and Password as well as E-Mail and Language of the Administrator Account.';
 
 		$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
 		$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Password';
@@ -106,6 +111,11 @@ class language implements ArrayAccess
 
         // STEP 7 - Finish
         $this->language['STEP7_FINISH'] = 'Step [7] Finish';
+
+        $this->language['STEP7_SENTENCE1'] = 'Done! Congratulation - You successfully installed Clansuite.';
+        $this->language['STEP7_SENTENCE2'] = 'The Developer-Team hopes that you take pleasure in exploring and using Clansuite.';
+        $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the Links to the Frontend-Website, to the AdminControlPanel (ACP) and your Accounts Logindata.';
+        $this->language['STEP7_SENTENCE4'] = 'Please don\'t forget to remove or rename this "/Installation" directory for security reasons.';
 
         //GLOBAL
         # Buttons

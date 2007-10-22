@@ -23,9 +23,8 @@
                <p><?=$language['STEP2_IN_GENERAL']?></p>
         	   <p><?=$language['STEP2_SYSTEMSETTINGS_REQUIRED']?></p>
         	   <p><?=$language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
-						 <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
-
-						 <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
+			   <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
+               <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
 
 						 <?php
 						 # Case-Images, to determine if a certain Setting is OK or NOT
@@ -77,16 +76,19 @@
 						 # REQUIRED CHECKS
 						 # Check 1
 						 # Setting: PHP-Version
-						 $compare_result = version_compare(phpversion(),'5.2.0','>=');
-						 $required['php_version']['status'] = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
-						 $required['php_version']['text'] = $language['PHP_VERSION'];
-						 $required['php_version']['expected'] = '>= 5.2.0';
-
+						 $php_version    = phpversion();
+						 $compare_result = version_compare($php_version,'5.2.0','>=');
+						 $required['php_version']['status']     = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
+						 $required['php_version']['text']       = $language['PHP_VERSION'];
+						 $required['php_version']['expected']   = '>= 5.2.0';
+                         $required['php_version']['status']    .= $php_version;
+                         
 						 # Check 2
 						 # Setting: Session Functions
-						 $required['session_functions']['status'] = function_exists('session_start') ? SETTING_TRUE : SETTING_FALSE;
-						 $required['session_functions']['text'] = $language['SESSION_FUNCTIONS'];
+						 $required['session_functions']['status']   = function_exists('session_start') ? SETTING_TRUE : SETTING_FALSE;
+						 $required['session_functions']['text']     = $language['SESSION_FUNCTIONS'];
 						 $required['session_functions']['expected'] = 'on';
+						 
 
 						 #Checking if session.save_path is writable
 
@@ -108,8 +110,10 @@
 						 # Setting: PHP memory limit
 						 $memory_limit = ini_get('memory_limit');
 						 $recommended['php_memory_limit']['status'] 	= ($memory_limit >= 16 ) ? SETTING_TRUE : SETTING_FALSE;
-						 $recommended['php_memory_limit']['text'] 		= $language['PHP_MEMORY_LIMIT'] .'('. $memory_limit .')';
-						 $recommended['php_memory_limit']['expected'] 	= 'min 8MB';
+						 $recommended['php_memory_limit']['text'] 		= $language['PHP_MEMORY_LIMIT'];
+						 $recommended['php_memory_limit']['expected'] 	= 'min 16MB';
+                         //add found value to status 
+                         $recommended['php_memory_limit']['status'] .= '('. $memory_limit .')';
 
 						 #Checking file uploads
 						 $recommended['file_uploads']['status'] 	= get_php_setting('file_uploads');
