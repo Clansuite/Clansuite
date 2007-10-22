@@ -43,13 +43,18 @@ class language implements ArrayAccess
     	$this->language['STEP2_SETTING'] = 'Einstellung';
     	$this->language['STEP2_SETTING_ACTUAL'] = 'Tats&#228;chlich';
     	$this->language['STEP2_SETTING_EXPECTED'] = 'Erwartet';
+    	$this->language['STEP2_SETTING_STATUS'] = 'Status';
     
         # REQUIRED SETTINGS (in order)
+        # 1
         $this->language['PHP_VERSION'] = 'Pr&#252;fe auf PHP Version 5.2+';
+        # 2
         $this->language['SESSION_FUNCTIONS'] = 'Pr&#252;fe auf Session Funktionen';
-        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Pr&#252;fe, ob Magic Quotes Runtime';
-        $this->language['TOKENIZER'] = 'Pr&#252;fe, ob Tokenizer exists';
-    
+        # 3
+        $this->language['PDO_LIBRARY'] = 'Pr&#252;fe auf PDO - Bibilothek';
+        # 4
+        $this->language['PDO_MYSQL_LIBRARY'] = 'Pr&#252;fe auf PDO - MySQL - Bibilothek';
+     
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Pr&#252;fe auf PHP memory limit (Minimum 8M, recommend 16M)';
         $this->language['FILE_UPLOADS'] = 'Pr&#252;fe, ob Dateiuploads erlaubt sind';
@@ -59,6 +64,8 @@ class language implements ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
         $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
         $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
+        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Pr&#252;fe, ob Magic Quotes Runtime';
+        $this->language['TOKENIZER'] = 'Pr&#252;fe, ob Tokenizer exists';
     
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';

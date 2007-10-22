@@ -43,12 +43,18 @@ class language implements ArrayAccess
 		$this->language['STEP2_SETTING'] = 'Settings';
 		$this->language['STEP2_SETTING_ACTUAL'] = 'Actual';
 	    $this->language['STEP2_SETTING_EXPECTED'] = 'Expected';
+	    $this->language['STEP2_SETTING_STATUS'] = 'Status';
 
 	    # REQUIRED SETTINGS (in order)
+	    # 1
 	    $this->language['PHP_VERSION'] = 'Checking for PHP version 5.2+';
+	    # 2
 	    $this->language['SESSION_FUNCTIONS'] = 'Checking for Session Functions';
-	    $this->language['MAGIC_QUOTES_RUNTIME'] = 'Checking Magic Quotes Runtime';
-	    $this->language['TOKENIZER'] = 'Checking if Tokenizer exists';
+	    # 3
+	    $this->language['PDO_LIBRARY'] = 'Checking for PDO - Library';
+        # 4
+        $this->language['PDO_MYSQL_LIBRARY'] = 'Checking for PDO - MySQL - Library';
+	    
 
 	    # RECOMMENDED SETTINGS (in order)
 	    $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
@@ -58,7 +64,9 @@ class language implements ArrayAccess
 	    $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
 	    $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
 	    $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
-	    $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
+	    $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';	    
+	    $this->language['MAGIC_QUOTES_RUNTIME'] = 'Checking Magic Quotes Runtime';
+	    $this->language['TOKENIZER'] = 'Checking if Tokenizer exists';
 
 		// STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
