@@ -133,15 +133,7 @@ abstract class controller_base
         #$response->flush();
         
     }
-    
-    public function display($template)
-    {
-    	if($this->get('layout') == 'rss'){
-    		header('Content-Type: application/rss+xml');
-    	}
-    	$this->smarty->display($template);
-    }
-    
+       
     /**
      * Force Extending classes to define this methods
      */
