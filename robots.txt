@@ -1,3 +1,9 @@
+# robots.txt for Clansuite
+#
+# For further informations review: 
+# http://de.selfhtml.org/diverses/robots.htm
+# http://de.wikipedia.org/wiki/Robots_Exclusion_Standard
+
 User-agent: *
 Disallow: /core/
 Disallow: /doc/
@@ -5,3 +11,4 @@ Disallow: /languages/
 Disallow: /modules/
 Disallow: /templates/
 Disallow: /uploads/
+Disallow: /libraries/
