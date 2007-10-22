@@ -20,12 +20,12 @@
         	       <img src="images/64px-Face-smile-big.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
         	       <?=$language['STEP7_FINISH']?>
         	   </h2>
-        	   <p style="color:darkgreen"><strong>Geschafft! Sie haben Clansuite erfolgreich installiert.</strong></p>
-        	    <p>Das Entwicklerteam w&#252;nscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.
+        	   <p style="color:darkgreen"><strong><?=$language['STEP7_SENTENCE1']?></strong></p>
+        	    <p><?=$language['STEP7_SENTENCE2']?>
         	      <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
-        	       <br />Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.
+        	       <br /><?=$language['STEP7_SENTENCE3']?>
         	       <br />
-        	       <br /> Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus SicherheitsgrÅnden umzubenennen bzw. zu lîschen.
+        	       <br /> <?=$language['STEP7_SENTENCE4']?>
         	      </p>
 
         	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
