@@ -187,6 +187,15 @@ class view_smarty extends renderer_base
         $this->smarty->display($template, $data = null);
     }
 
+    /**
+     * view_smarty->render
+     *
+     * 1. common assings to smarty
+     * 2. fetch the modultemplate and assign as $content
+     * 3. return mainframe tpl
+     *
+     * returns mainframe.tpl layout
+     */
     function render($templatename)
     {
         #echo 'Rendering via Smarty:<br />';
@@ -228,16 +237,32 @@ class view_smarty extends renderer_base
         #$this->smarty->display($this->module->template);
 
         #var_dump($this->smarty);
-        
         #var_dump($this->module_view->template);
+
+        /**
+         * Fetch the Template of the module
+         *
+         * Debugging Hint:
+         * Change Fetch to DisplayDOC to get an echo of the pure ModuleContent
+         * else var_dump the fetch!
+         *
+         */
         $modulcontent =  $this->smarty->fetch($templatename);
         #var_dump($modulcontent);
+
+        /**
+         * Assign Content
+         *
+         * Content of the Modul is assigned to Smarty as variable "content"
+         * this is $content in the mainframe index.tpl
+         */
         $this->smarty->assign('content',  $modulcontent );
+
         #DEBUG ? $debug->show_console() : '';
         #var_dump($this->config['tpl_wrapper_file']);
         #var_dump($this->smarty->template_dir);
-                
-        return $this->smarty->fetchDOC($this->config['tpl_wrapper_file']); 
+
+        return $this->smarty->fetchDOC($this->config['tpl_wrapper_file']);
         // error if wrapper could not be found "Main Layout for Themeset: xy not found. Searched for: filename."
     }
 }
