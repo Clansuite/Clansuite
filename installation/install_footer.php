@@ -54,9 +54,10 @@
     <div id="footer">
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
        	    <br />
-            &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch &amp; Clansuite Development Team<br />
-            <span style="font-size:9px;">Installer Version :  0.3dev - SVN: $Id$</span>            
-         </p>
+       	    Installer Version :  0.3dev - SVN: $Rev$ $Author$
+       	     <br />      
+            &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch &amp; Clansuite Development Team
+        </p>
     </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->
 
