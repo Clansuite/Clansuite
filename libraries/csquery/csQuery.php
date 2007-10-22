@@ -1,7 +1,7 @@
 <?php
 /*
  *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
-* *  It's also inspired by gameq, squery, phgstats
+ *  It's also inspired by gameq, squery, phgstats
  *  and several other projectes like kquery and hlsw. 
  *
  *  csQuery - gameserver query class
