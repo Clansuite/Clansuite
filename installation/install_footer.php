@@ -55,6 +55,7 @@
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
        	    <br />
             &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch &amp; Clansuite Development Team<br />
+            <!-- SVN: $Id$ -->
          </p>
     </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->

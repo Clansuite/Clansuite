@@ -27,7 +27,7 @@
            <!--
            <h1><a style="margin-left: 220px;" href=""></a></h1>
            -->
-    	   <div style="font-size:20px; margin-left: 190px; padding-top: 100px;" class="description">Installation<span style="font-size:9px;">&nbsp; $Date$</span></div>
+    	   <div style="font-size:20px; margin-left: 190px; padding-top: 100px;" class="description">Installation<span style="font-size:9px;">&nbsp; $Revision$</span></div>
     	   <span>
     	       <!-- note by vain: when using h1 text in headerimg correct frist margin value !! -->
     	       <img style="margin: -86px 38px 0pt; position:relative;" src="images/clansuite-joker.gif"  alt="Clansuite Joker Logo" />
