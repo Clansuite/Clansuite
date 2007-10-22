@@ -54,7 +54,7 @@
     <div id="footer">
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
        	    <br />
-            &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch, Florian Wolf &amp; Clansuite Development Team<br />
+            &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch &amp; Clansuite Development Team<br />
          </p>
     </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->
