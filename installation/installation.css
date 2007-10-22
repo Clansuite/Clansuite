@@ -1,4 +1,4 @@
-/* $Id:$ */
+/* $Id$ */
 
 .install
 {
@@ -667,7 +667,7 @@ a,h2 a:hover,h3 a:hover
 #footer p
 {
   margin:0;
-  padding:19px 0;
+  padding:10px 0;
   text-align:center;
 }
 
