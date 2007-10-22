@@ -32,12 +32,13 @@
  *  59 Temple Place, Suite 330, Boston,
  *  MA  02111-1307  USA
  *
+ *  SVN: $Id$
  */
 
 /**
  * @brief Makes hexdumps out of given data
  * @author Jeremias Reith (jr@gsquery.org)
- * @version $Revision: 1.9 $
+ * @version $Revision$
  *
  * Non ASCII bytes will be colored blue in html dumps
  */
