@@ -60,22 +60,22 @@ $config = new configuration;
 # initialize constants / errorhandling / ini_sets / paths
 require 'clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
-require 'clansuite.loader.php'; 
+require 'clansuite.loader.php';
 clansuite_loader::register_autoload();
 
 /**
  *  ============================================
- *     Dependency Injector + Register Classes 
+ *     Dependency Injector + Register Classes
  *  ============================================
  */
 require ROOT_LIBRARIES.'/phemto/phemto.php';
 $injector = new Phemto();
-$classes = array(     
+$classes = array(
 # Core
-'configuration', 'httprequest', 'httpresponse', 'filtermanager', 'db', 
+'configuration', 'httprequest', 'httpresponse', 'filtermanager', 'db',
 'language', 'errorhandler', 'trail', 'security', 'input', 'functions', 'statistic',
 #Filters
-'language_via_get', 'theme_via_get', 'get_user'                       
+'language_via_get', 'theme_via_get', 'get_user'
 );
 foreach($classes as $class) { $injector->register(new Singleton($class)); }
 
