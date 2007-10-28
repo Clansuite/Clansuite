@@ -21,11 +21,16 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 class view_smarty extends renderer_base
 {
+    /**
+	 * holds instance of Smarty Template Engine (object)
+	 * @access private
+	 * @var Smarty $smarty
+	 */
     private $smarty     = null;
 
-    protected $injector   = null;
+    protected $injector   = null;   # holds instance of Dependency Injector Phemto (object)
 
-    private $config     = null;
+    private $config     = null;     
     private $db         = null;
     private $trail      = null;
     private $functions  = null;
@@ -80,7 +85,7 @@ class view_smarty extends renderer_base
 
         #### SMARTY FILTERS
         # $this->autoload_filters = "";                   # loading filters used for every template
-        $this->smarty->autoload_filters    = array(    'pre' => array('inserttplnames')
+        $this->smarty->autoload_filters    = array(    'pre' => array('inserttplnames') # indicates which filters will be auto-loaded
                                           #,'output' => array('tidyrepairhtml')
                                             );
 
@@ -128,21 +133,21 @@ class view_smarty extends renderer_base
         $this->smarty->request_use_auto_globals   = false;  # for templates using $smarty.get.*, $smarty.request.*, etc...
         $this->smarty->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
-        # Directories
+        # Smarty Directories
         /**
         * This sets multiple template dirs
         * First  is "/templates_path/user_session_theme"
         * Second is "/templates_path/core/"
         */
-
-        # template_dir set to CORE / fallback for errors
-        $this->smarty->template_dir = array( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/',
-                                             ROOT_TPL . '/core/' ) ;
+        $this->smarty->template_dir[] = ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
+        $this->smarty->template_dir[] = ROOT_TPL . '/core/' ) ;                            # /templates/core
         #var_dump($this->smarty->template_dir);
-        $this->smarty->compile_dir  = ROOT_LIBRARIES .'/smarty/templates_c/';  # directory for compiled files
-        $this->smarty->config_dir   = ROOT_LIBRARIES .'/smarty/configs/';      # directory for config files (example.conf)
-        $this->smarty->cache_dir    = ROOT_LIBRARIES .'/smarty/cache/';        # directory for cached files
-        $this->smarty->plugins_dir  = ROOT_LIBRARIES .'/smarty/plugins/';
+        
+        $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
+        $this->smarty->config_dir     = ROOT_LIBRARIES .'/smarty/configs/';             # directory for config files (example.conf)
+        $this->smarty->cache_dir      = ROOT_LIBRARIES .'/smarty/cache/';               # directory for cached files
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/clansuite-plugins/';   # directory for clansuite smarty plugins
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/plugins/';             # direcotry for original smarty plugins
 
         # Modifiers
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
