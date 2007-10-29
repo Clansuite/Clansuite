@@ -76,6 +76,8 @@ ini_set("upload_max_filesize","64M");
 #ini_set("safe_mode_exec_dir","/usr/bin/");
 #ini_set("safe_mode", "off");
 
+$webinstaller_version = 'Version 0.2 - Mo, 29 Okt 2007';
+
 /*****************************************************************
  * C O N F I G U R A T I O N
  *****************************************************************/
@@ -1013,7 +1015,7 @@ class PhpUnzipExtractor extends ExtractMethod {
 }
 
 function render($renderType, $args=array()) {
-    global $archiveBaseName, $folderPermissionList;
+    global $archiveBaseName, $folderPermissionList, $webinstaller_version;
     $self = basename(__FILE__);
 ?>
 <?php print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
@@ -1037,7 +1039,7 @@ function render($renderType, $args=array()) {
         <div>
             <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://www.clansuite.com/images/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt=" " />
             <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
-            <small>Version 0.1 - Mi, 06 Jun 2007</small>
+            <small><?php echo $webinstaller_version; ?></small>
         </div>
       </div>
     
