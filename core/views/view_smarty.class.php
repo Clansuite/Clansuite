@@ -139,8 +139,9 @@ class view_smarty extends renderer_base
         * First  is "/templates_path/user_session_theme"
         * Second is "/templates_path/core/"
         */
+        $this->smarty->template_dir   = array();
         $this->smarty->template_dir[] = ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
-        $this->smarty->template_dir[] = ROOT_TPL . '/core/' ) ;                            # /templates/core
+        $this->smarty->template_dir[] = ROOT_TPL . '/core/';                               # /templates/core
         #var_dump($this->smarty->template_dir);
         
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
