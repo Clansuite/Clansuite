@@ -118,6 +118,13 @@ ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
+// Set Charset
+if(function_exists('mb_http_output')) 
+{
+	mb_http_output($config['outputcharset']);
+	mb_internal_encoding($config['outputcharset']);
+}
+
 /**
  *  ================================================
  *     Compress output if the browser supports it
@@ -134,6 +141,8 @@ if(!ini_get('zlib.output_compression') === true)
   require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php'; 
   define('OB_GZIP', true); 
 }
+
+
 
 /**
  * Set Timezone 
