@@ -147,7 +147,7 @@ class view_smarty extends renderer_base
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
         $this->smarty->config_dir     = ROOT_LIBRARIES .'/smarty/configs/';             # directory for config files (example.conf)
         $this->smarty->cache_dir      = ROOT_LIBRARIES .'/smarty/cache/';               # directory for cached files
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/clansuite-plugins/';   # directory for clansuite smarty plugins
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/clansuite_plugins/';   # directory for clansuite smarty plugins
         $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/plugins/';             # direcotry for original smarty plugins
 
         # Modifiers
