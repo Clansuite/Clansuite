@@ -142,6 +142,7 @@ class configuration implements ArrayAccess
         // Default Language / Locale Setting
 
         $this->config['language'] = 'de';
+        $this->config['outputcharset'] = 'UTF-8';
 
         // Time Zone
         // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
