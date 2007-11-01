@@ -18,3 +18,14 @@ In der Language-Datei existiert eine &Uuml;bersetzung f&uuml;r "Hello":
 <br /><br />
 In der Language-Datei existiert eine &Uuml;bersetzung f&uuml;r "You are redirected":
 {php} print(language::t("You are redirected")); {/php}
+
+<p>
+<br />
+<strong>This demonstrates gettext-Support with Locales</strong>
+<br />
+{t}Hello World{/t}
+<br />
+{t name=`$smarty.session.user.nick`}How are you, %1 ?{/t}
+<br />
+{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3rd %3.{/t}
+</p>
