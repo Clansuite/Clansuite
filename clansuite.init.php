@@ -52,6 +52,8 @@ if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <
 if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
 # PDO mysql driver Check
 if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); } 
+# Gettext Check
+if (!function_exists("gettext")) { die('<i>gettext</i> is not installed\n'); }
 
 /**
  *  ================================================
@@ -118,12 +120,20 @@ ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
-// Set Charset
+// Set Charset and Character Encoding
 if(function_exists('mb_http_output')) 
 {
 	mb_http_output($config['outputcharset']);
 	mb_internal_encoding($config['outputcharset']);
 }
+/*
+if (function_exists('iconv')
+{
+    iconv_set_encoding('input_encoding',   'UTF-8');
+    iconv_set_encoding('internal_encoding','UTF-8');
+    iconv_set_encoding('output_encoding',  $config['outputcharset']);
+}*/
+
 
 /**
  *  ================================================
