@@ -52,8 +52,8 @@ if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <
 if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
 # PDO mysql driver Check
 if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); } 
-# Gettext Check
-if (!function_exists("gettext")) { die('<i>gettext</i> is not installed\n'); }
+# Gettext Check, if gettext is not built into PHP, we are emulating it via php-gettext 
+if (!function_exists("gettext")) { require ROOT_LIBRARIES.'php-gettext/gettext.inc'; }
 
 /**
  *  ================================================
@@ -133,7 +133,6 @@ if (function_exists('iconv')
     iconv_set_encoding('internal_encoding','UTF-8');
     iconv_set_encoding('output_encoding',  $config['outputcharset']);
 }*/
-
 
 /**
  *  ================================================
