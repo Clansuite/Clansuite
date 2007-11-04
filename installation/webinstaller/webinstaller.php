@@ -1037,7 +1037,7 @@ function render($renderType, $args=array()) {
     
       <div class="rounded_headerfg">   
         <div>
-            <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://www.clansuite.com/images/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt=" " />
+            <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Webinstaller Logo" />
             <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
             <small><?php echo $webinstaller_version; ?></small>
         </div>
@@ -1441,7 +1441,7 @@ function render($renderType, $args=array()) {
      </div>
      <?php endif; ?>
      <div>
-       <a href="<?php print $self; ?>">Retry!</a>
+       <a href="<?php print $self; ?>">Next Step!</a>
      </div>
      <?php endif; ?>
 
