@@ -126,11 +126,14 @@ class configuration implements ArrayAccess
         #$this->config['theme'] = 'accessible';        
         $this->config['tpl_wrapper_file'] = 'index.tpl';
 		
-	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
-	$this->config['themeswitch_via_url'] = 1;
+    	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
+    	$this->config['themeswitch_via_url'] = 1;
+    	
+    	// Activate Prefilterplugin for Languageswitching via GET Parameter ?lang=
+        $this->config['languageswitch_via_url'] = 1;
         
-	// Controller Resolver : Default Module and Default Action
-	$this->config['default_module'] = 'index';
+    	// Controller Resolver : Default Module and Default Action
+    	$this->config['default_module'] = 'index';
         $this->config['default_action'] = 'show';
 
         // Default Page Title + CSS + Javascript
