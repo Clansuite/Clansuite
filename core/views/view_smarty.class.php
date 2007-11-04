@@ -30,7 +30,7 @@ class view_smarty extends renderer_base
 
     protected $injector   = null;   # holds instance of Dependency Injector Phemto (object)
 
-    private $config     = null;     
+    private $config     = null;
     private $db         = null;
     private $trail      = null;
     private $functions  = null;
@@ -85,9 +85,11 @@ class view_smarty extends renderer_base
 
         #### SMARTY FILTERS
         # $this->autoload_filters = "";                   # loading filters used for every template
-        $this->smarty->autoload_filters    = array(    'pre' => array('inserttplnames') # indicates which filters will be auto-loaded
-                                          #,'output' => array('tidyrepairhtml')
-                                            );
+        $this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
+                                                      'pre'    => array('inserttplnames')
+                                                    #,'post'   => array(),
+                                                    #,'output' => array('tidyrepairhtml')
+                                                   );
 
         #### COMPILER OPTIONS
         # $this->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
@@ -143,7 +145,7 @@ class view_smarty extends renderer_base
         $this->smarty->template_dir[] = ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
         $this->smarty->template_dir[] = ROOT_TPL . '/core/';                               # /templates/core
         #var_dump($this->smarty->template_dir);
-        
+
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
         $this->smarty->config_dir     = ROOT_LIBRARIES .'/smarty/configs/';             # directory for config files (example.conf)
         $this->smarty->cache_dir      = ROOT_LIBRARIES .'/smarty/cache/';               # directory for cached files
