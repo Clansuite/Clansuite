@@ -1,5 +1,5 @@
 # htaccess.txt .htacces-template for Clansuite
-# SVN: $Id:
+# SVN: $Id$
 
 # 1. Rename "htaccess.txt" to ".htaccess"
 # 2. If you don't need htaccess, then DELETE IT. Slow's down Webserver Processing.
