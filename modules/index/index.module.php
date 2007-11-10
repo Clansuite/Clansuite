@@ -106,6 +106,8 @@ class module_index extends controller_base //implements clansuite_module
 
         /***
          * $this->view_type
+         * use method
+         * $this->setRenderEngine('smarty')
          * 
          * 1. Set specific view_type (smarty, json, rss, php)
          *    -- or leave it away, then smarty is used as fallback!
@@ -117,8 +119,8 @@ class module_index extends controller_base //implements clansuite_module
         
         /**
          * $this->template
-         *
-         *
+         * use method
+         * $this->setTemplate('index/show.tpl');
          */
         // 1. you can specify a template
         //    the lookup of this template would then take place
@@ -138,6 +140,7 @@ class module_index extends controller_base //implements clansuite_module
         //    even an empty module function would result in an rendering - a good starting point i guess!
         
         $this->template = 'index/show.tpl';
+        
     }
 }
 
