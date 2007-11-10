@@ -1,8 +1,8 @@
-# htaccess.txt .htacces-template for Clansuite
+# htaccess.txt .htaccess-template for Clansuite
 # SVN: $Id$
 
 # 1. Rename "htaccess.txt" to ".htaccess"
-# 2. If you don't need htaccess, then DELETE IT. Slow's down Webserver Processing.
+# 2. If you don't need htaccess, then DELETE IT. It just slow's down Webserver processing.
 
 DirectoryIndex index.php
 php_value magic_quotes_runtime  "0"
@@ -13,3 +13,6 @@ php_value output_buffering      "1"
 # 3. If you use an Apache2 Webserver with "LoadModule mod_deflate"
 #    uncomment the following line, it enables output compression for the specific file-content-types:
 #AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript
+
+# 4. For safety reasons you should disable the following php functions:
+#php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
