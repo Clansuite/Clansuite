@@ -36,28 +36,10 @@
 
 {* Inserts from index.php *}
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script src="{$javascript}" type="application/javascript"></script>
-
+<script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.js"></script>
+<script type="application/javascript" src="{$www_root_tpl}/javascript/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
-
-{dhtml_calendar_init src="`$www_root_tpl_core`/javascript/jscalendar/calendar.js"
-					 setup_src="`$www_root_tpl_core`/javascript/jscalendar/calendar-setup.js"
-					 lang="`$www_root_tpl_core`/javascript/jscalendar/lang/calendar-de.js"
-					 css="`$www_root_tpl_core`/javascript/jscalendar/calendar-accessible.css"}
-<script type="application/javascript" src="{$www_root_tpl_core}/javascript/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
-{literal}
-    <style type="text/css">
-        .special { background-color: #000; color: #fff; }
-        .calendar .inf { font-size: 80%; color: #444; }
-        .calendar .wn { font-weight: bold; vertical-align: top; }
-        table { width: 99%; }
-    </style>
-{/literal}
-
-<script type="application/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"></script>
-<script type="application/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js"></script>
-<script type="application/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
 
 {* set title - and apply -breadcrumb title="1"- to it *}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
@@ -97,7 +79,7 @@
 					<li><strong>Users:</strong> {$stats.authed_users}</li>
 					<li><strong>Guests:</strong> {$stats.guest_users}</li>
 				</ul>
-				<strong>Who's online?</strong>
+				<strong>Who is online?</strong>
 				{if $stats.authed_users > 1}
 				<ul>
 					{foreach item=who from=$stats.whoisonline}
