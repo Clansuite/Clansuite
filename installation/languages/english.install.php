@@ -105,7 +105,7 @@ class language implements ArrayAccess
     	$this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
     	$this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Email Adress of Website';
     	$this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Encryption of Useraccount-Passwords';
-    	$this->language['STEP5_CONFIG_SALTING'] = 'Salting (Use Randomizer to generate!)';
+    	$this->language['STEP5_CONFIG_SALTING'] = 'Salting (Random-Char Strength-Enrichment of Passwords)';
 		$this->language['STEP5_CONFIG_TIMEZONE'] = 'Timezone';
 
         // STEP 6 - Create Administrator
