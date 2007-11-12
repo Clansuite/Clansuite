@@ -54,7 +54,7 @@ define('IN_CS', true);
  *     Configuration, Initalization, Loader
  *  ==========================================
  */
-# Check if config.class.php is found, else redirect to installation page
+# Check if clansuite.class.php is found, else redirect to installation page
 if ( !is_file( 'clansuite.config.php' ) ) { header( 'Location: installation/index.php' ); exit; }
 # requires configuration & gets a config to work with
 require 'clansuite.config.php';
