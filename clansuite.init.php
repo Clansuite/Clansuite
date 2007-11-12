@@ -37,9 +37,6 @@
  */
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-# Check if config.class.php is found, else redirect to installation page
-if ( !is_file( 'config.class.php' ) ) { header( 'Location: installation/index.php' ); exit; }
-
 /**
  *  ================================================
  *     Startup Checks
@@ -51,7 +48,7 @@ if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <
 # PDO Check
 if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
 # PDO mysql driver Check
-if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); } 
+if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); }
 
 
 /**
@@ -120,7 +117,7 @@ ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
 // Set Charset and Character Encoding
-if(function_exists('mb_http_output')) 
+if(function_exists('mb_http_output'))
 {
 	mb_http_output($config['outputcharset']);
 	mb_internal_encoding($config['outputcharset']);
@@ -143,20 +140,20 @@ if (function_exists('iconv')
 ini_set('zlib.output_compression'       , true);
 ini_set('zlib.output_compression_level' , '7');
 # Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
-if(!ini_get('zlib.output_compression') === true) 
-{ 
+if(!ini_get('zlib.output_compression') === true)
+{
   ob_start('ob_gzhandler');
-  require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php'; 
-  define('OB_GZIP', true); 
+  require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php';
+  define('OB_GZIP', true);
 }
 
 
 
 /**
- * Set Timezone 
+ * Set Timezone
  *
- * with (1) ini_set() 
- *      (2) date_default_timezone_set() 
+ * with (1) ini_set()
+ *      (2) date_default_timezone_set()
  *      (3) putenv(TZ=)
  *
  * PHP 5.1 strftime fix by setting the timezone
@@ -165,12 +162,12 @@ if(!ini_get('zlib.output_compression') === true)
  */
 $timezone = 'Europe/Berlin';
 ini_set('date.timezone', $timezone);
-if(function_exists('date_default_timezone_set')) 
+if(function_exists('date_default_timezone_set'))
 {
     date_default_timezone_set($timezone);
-} 
-else 
+}
+else
 {
     putenv('TZ=' . $timezone);
-} 
+}
 ?>
