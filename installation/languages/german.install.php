@@ -78,8 +78,8 @@ class language implements ArrayAccess
         // STEP 4 - Database
     	$this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
     
-        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbingdungsdaten an und wir werden bei erfolgreicher Verbingung einige grundlegende Tabellen und Inhalte fr Clansuite in der Datenbank abzulegen.';
-    	$this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh”rige Passwort an.';
+        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbingdungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte f&#252;r Clansuite darin abzulegen.';
+    	$this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh&#246rige Passwort an.';
     	$this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewnschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
            
     	$this->language['STEP4_SENTENCE4'] = 'Tabellen und Eintr&#228;ge werden angelegt.';
@@ -93,12 +93,14 @@ class language implements ArrayAccess
     	$this->language['DB_PREFIX'] = 'Tabellen Pr&#228;fix';
     
     	$this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
+    	$this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';   	
+    	
     
     	// STEP 5 - Konfiguration
         $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
     
         $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen f&#252;r Ihre Internetpr&#228;senz mit Clansuite vor.';
-        $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, k”nnnen sie umfangreiche Einstellungen ber das Admin-Control-Panel (ACP) vornehmen.';
+        $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, k&#246;nnen sie umfangreiche Einstellungen ber das Admin-Control-Panel (ACP) vornehmen.';
     
         $this->language['STEP5_CONFIG_SITENAME'] 	= 'Name der Website';
         $this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Systemmail';
@@ -118,7 +120,7 @@ class language implements ArrayAccess
     	$this->language['STEP6_ADMIN_LANGUAGE'] = 'Sprache';
     	$this->language['STEP6_ADMIN_EMAIL']	= 'E-Mail Adresse';
     
-    	$this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'FEHLER -  Admin konnte nicht erstellt werden.';
+    	$this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto f&#252;r den Administrator konnte nicht erstellt werden.';
     
     	// STEP 7 - Abschluss
         $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';
