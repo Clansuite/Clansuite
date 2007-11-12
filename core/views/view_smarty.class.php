@@ -143,6 +143,7 @@ class view_smarty extends renderer_base
         */
         $this->smarty->template_dir   = array();
         $this->smarty->template_dir[] = ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
+        $this->smarty->template_dir[] = ROOT_MOD . '/templates/';
         $this->smarty->template_dir[] = ROOT_TPL . '/core/';                               # /templates/core
         #var_dump($this->smarty->template_dir);
 
