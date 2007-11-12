@@ -42,13 +42,12 @@ $cs_version = '0.1';
 // Define $error
 $error = '';
 
-// In Case config.class.php exists, exit
-/* @todo: other solution pls - 'cause the webinstaller currently leeches from the svn snapshot!!!
-if (file_exists(CS_ROOT.'config.class.php'))
+// in case clansuite.config.php exists, exit -> can be configured from backend then
+/*if (is_file('../clansuite.config.php'))
 {
-	exit('The file \'config.class.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed. You should go <a href="../index.php">here</a> instead.');
+	exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
+	      <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
 }*/
-
 
 /**
  * @desc Suppress Errors
@@ -137,10 +136,27 @@ catch (Exception $e)
  */
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
-	if (isset($_POST['db_host']) AND isset($_POST['db_user']) AND isset($_POST['db_pass']))
-	{   $sqlfile = 'clansuite.sql';
-	    $db = @mysql_connect();
-    	if( !loadSQL( $sqlfile ,$_POST['db_host'], $_POST['db_user'], $_POST['db_pass']) )
+    # check if input-fields are filled
+	if (isset($_POST['db_hostname']) AND isset($_POST['db_username']) AND isset($_POST['db_password']))
+	{
+	    # B) Write SQL-Data into Database
+	    
+	    # Should we create the database?
+        if (isset($_POST['db_create_database']) && $_POST['db_create_database'] == 'on')
+        {
+            # establish connection to database
+            $db = mysql_pconnect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
+            #or die ("Konnte keine Verbindung zur Datenbank herstellen");
+
+            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $db))
+            {
+                $step = 4;
+                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
+            }
+        }
+
+	    $sqlfile = CS_ROOT . '/sql/clansuite.sql';
+    	if( !loadSQL( $sqlfile ,$_POST['db_hostname'], $_POST['db_name'], $_POST['db_username'], $_POST['db_password']) )
     	{
     		$step = 4;
     		$error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
@@ -150,9 +166,25 @@ if( isset($_POST['step_forward']) AND $step == 5 )
     	    // AlertBox?
     		//echo "SQL Data correctly inserted into Database!";
     	}
+
+    	# A)  Write Settings to clansuite.config.php
+	    if( !write_config_settings($_POST))
+	    {
+	        $step = 4;
+	        $error = 'Config not written <br />';
+
+	    }
+	    else
+	    {
+	        // Config written
+	    }
+    }
+    else # input fields empty
+    {
+        $step = 4;
+        $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
     }
 }
-
 
 /**
  * Handling of STEP 6 - Create Administrator
@@ -276,34 +308,90 @@ function installstep_7($language){    require 'install-step7.php' ;}
 
 
 /**
-* Load an SQL stream into the database one command at a time
-*
-* @author     Stuart Prescott
-* @copyright  Copyright Stuart Prescott
-* @license    http://opensource.org/licenses/gpl-license.php GNU Public License
-* @version    sqlload.php,v 1.1 2006/06/02 14:51:09 stuart
-*/
-function loadSQL($sql, $host, $username, $passwd) {
-  #echo "Loading SQL";
-  if ($connection = @ mysql_pconnect($host, $username, $passwd)) {
-    // then we successfully logged on to the database
-    $sqllist = preg_split('/;/', $sql);
-    foreach ($sqllist as $q) {
-      #echo "$q\n";
-      if (preg_match('/^\s*$/', $q)) continue;
-      $handle = mysql_query($q);
-      if (! $handle) {
-        return "ERROR: I had trouble executing SQL statement:"
-              ."<blockquote>$q</blockquote>"
-              ."MySQL said:<blockquote>"
-              .mysql_error()
-              ."</blockquote>";
-      }
+ * Load an SQL stream into the database one command at a time
+ */
+function loadSQL($sqlfile, $host, $database, $username, $passwd)
+{
+    #echo "Loading SQL";
+    if ($connection = @ mysql_pconnect($host, $username, $passwd))
+    {  
+        # select database
+        mysql_select_db($database,$connection);
+        
+        if (!is_readable($sqlfile)) {
+          die("$sqlfile does not exist or is not readable");
+        }
+        $queries = getQueriesFromSQLFile($sqlfile);
+        for ($i = 0, $ix = count($queries); $i < $ix; ++$i) {
+          $sql = $queries[$i];
+          if (!mysql_query($sql, $connection)) {
+            die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
+          }
+        }
+        #echo "$ix queries imported"; 
+        return true; //"SQL file loaded correctly";
     }
-    return true; //"SQL file loaded correctly";
-  } else {
-    return false; //"ERROR: Could not log on to database to load SQL file: ".mysql_error() ;
-  }
+    else
+    {
+        return false; //"ERROR: Could not log on to database to load SQL file: ".mysql_error() ;
+    }
+}
+
+function getQueriesFromSQLFile($file)
+{
+    // import file line by line
+    // and filter (remove) those lines, beginning with an sql comment token
+    $file = array_filter(file($file),
+                         create_function('$line',
+                                         'return strpos(ltrim($line), "--") !== 0;'));
+    
+     // and filter (remove) those lines, beginning with an sql notes token
+    $file = array_filter($file,
+                         create_function('$line',
+                                         'return strpos(ltrim($line), "/*") !== 0;'));
+                                         
+    // this is a list of SQL commands, which are allowed to follow a semicolon
+    $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
+                      'TRUNCATE', 'UPDATE', 'USE');
+    // create the regular expression
+    $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
+    // split there
+    $splitter = preg_split($regexp, implode("\r\n", $file));
+    // remove trailing semicolon or whitespaces
+    $splitter = array_map(create_function('$line',
+                                          'return preg_replace("/[\s;]*$/", "", $line);'),
+                          $splitter);
+    // remove empty lines
+    return array_filter($splitter, create_function('$line', 'return !empty($line);'));
+} 
+
+/**
+ * Writes the Database-Settings into the clansuite.config.php
+ */
+function write_config_settings($data_array)
+{
+    # throw non-setting vars out
+    # not needed
+    unset($data_array['step_forward']);
+    unset($data_array['lang']);
+    # handled in step 4 - section b
+    unset($data_array['db_create_database']);
+
+    # Read Config File
+    $config_file = file_get_contents( CS_ROOT . '/clansuite.config.installer');
+
+    # Loop over Config File Data
+    foreach($data_array as $key => $value)
+    {
+       $config_file = preg_replace( '#\$this->config\[\''. $key . '\'\][\s]*\=.*\;#', '$this->config[\''. $key . '\'] = \''. $value . '\';', $config_file );
+    }
+
+    # Write Config File
+    if (!file_put_contents('../clansuite.config.php', $config_file ))
+    {
+        return false;
+    }
+    return true;
 }
 
 session_write_close();

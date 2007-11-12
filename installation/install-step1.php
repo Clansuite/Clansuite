@@ -58,7 +58,7 @@
                          </form>
                     </div><!-- div navigation end -->
 			</div> <!-- div content_footer end -->
-             
+
         	</div> <!-- div accordion end -->
 
         </div> <!-- div content_middle end -->
