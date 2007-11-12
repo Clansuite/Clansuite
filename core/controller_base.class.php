@@ -52,7 +52,14 @@ abstract class controller_base
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
     
+    // Variable contains the name of the rendering engine
     public $renderEngine = null;
+    
+    // Variable contains the name of the template
+    public $templateName = null;
+    
+    // Variable contains the Dependecy Injector
+    public $injector = null;
     
     function __construct()
     {
@@ -61,8 +68,9 @@ abstract class controller_base
     
     /**
      * Set dependency injector (SetterInjection)
+     * Type Hint set to only accept Phemto
      */
-    public function setInjector($injector) 
+    public function setInjector(Phemto $injector) 
     {
     	$this->injector = $injector;
     }
@@ -111,6 +119,42 @@ abstract class controller_base
     public function getRenderEngine()
     {
         return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
+    }
+    
+    /**
+     * Set the template name
+     *
+     * @param $templateName
+     */
+    public function setTemplate($templateName)
+    {
+        $this->templateName = $templateName;
+    }
+    
+    /**
+     * Returns the Template Name
+     */
+    public function getTemplateName()
+    {
+        if(empty($this->templateName))
+        {
+            # construct templatename with partial path from module name and action
+            # $tplname = getModuleName getActionName
+            $tplname = 'modulename/actionname.tpl';
+            
+            # check if template exists in 
+            # modules/modulename/templates/renderer/actioname.tpl
+            if(is_file( ROOT_MODULES . getModuleNAme .'templates/'.$tplname))
+            {
+                
+                $this->setTemplate($tplname);
+            }
+            else
+            {
+                
+            }            
+        }
+        return $this->templateName;
     }
     
     /**
