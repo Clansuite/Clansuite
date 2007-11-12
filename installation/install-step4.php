@@ -31,39 +31,40 @@
 			} ?>
 
 			<p><?=$language['STEP4_SENTENCE1']; ?></p>
-			
+
 			<p><?=$language['STEP4_SENTENCE2']; ?></p>
 			<p><?=$language['STEP4_SENTENCE3']; ?></p>
-			
+
 			<form action="index.php" method="post">
-			
+
 			<input type="hidden" name="db_type" value="mysql" />
-			
+
 			<fieldset>
                <legend> Database Access Informations </legend>
                <ol class="formular">
-                   <li>   
-            	        <label class="formularleft"><?=$language['DB_HOST']?></label>     	       
-    			   		<input class="formularright" type="text" name="db_host" value="<?=$values['db_host']?>" />
+                   <li>
+            	        <label class="formularleft"><?=$language['DB_HOST']?></label>
+    			   		<input class="formularright" type="text" name="db_hostname" value="<?=$values['db_host']?>" />
     			   	</li>
-            	    <li>   
-            	        <label class="formularleft"><?=$language['DB_USER']?></label>     	        
-    			   		<input class="formularright" type="text" name="db_user" value="<?=$values['db_username']?>" />
+            	    <li>
+            	        <label class="formularleft"><?=$language['DB_USER']?></label>
+    			   		<input class="formularright" type="text" name="db_username" value="<?=$values['db_username']?>" />
     			   	</li>
-            	    <li>  
-            	        <label class="formularleft"><?=$language['DB_PASS']?></label>      	        
-            	        <input class="formularright" type="text" name="db_pass" value="<?=$values['db_password']?>" />
+            	    <li>
+            	        <label class="formularleft"><?=$language['DB_PASS']?></label>
+            	        <input class="formularright" type="text" name="db_password" value="<?=$values['db_password']?>" />
     			   	</li>
     			   	 <li>
-                        <label class="formularleft"><?=$language['DB_NAME']?></label>        	       
-            	        <input class="formularright" type="text" name="db_name" value="<?=$values['db_name']?>" />    			   		
+                        <label class="formularleft"><?=$language['DB_NAME']?></label>
+            	        <input class="formularright" type="text" name="db_name" value="<?=$values['db_name']?>" />
             	    </li>
-            	    <li> 
-            	        <label class="formularleft"><?=$language['DB_CREATE_DATABASE']?></label>       	        
-            	        <input class="formularright" type="checkbox" name="db_create_database" value="<?=$values['db_create_database']?>" />
+            	    <li>
+            	        <label class="formularleft"><?=$language['DB_CREATE_DATABASE']?></label>
+            	        <input class="formularright" type="checkbox" name="db_create_database" 
+            	        <? if($values['db_create_database'] == '1') { ?> checked="checked" <? } ?> />
     			   	</li>
-            	    <li> 
-            	        <label class="formularleft"><?=$language['DB_PREFIX']?></label>       	        
+            	    <li>
+            	        <label class="formularleft"><?=$language['DB_PREFIX']?></label>
             	        <input class="formularright" type="text" name="db_prefix" value="<?=$values['db_prefix']?>" />
     			   	</li>
         	   </ol>
@@ -94,7 +95,7 @@
                          </form>
                     </div><!-- div navigation end -->
 			</div> <!-- div content_footer end -->
-             
+
         	</div> <!-- div accordion end -->
 
         </div> <!-- div content_middle end -->

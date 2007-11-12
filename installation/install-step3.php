@@ -29,7 +29,7 @@
 
 			    <!-- CHECKBOX -> READ LICENCE -->
 			    <div class="">
-			        <p><?=$language['STEP3_MUST_AGREE']; ?></p>			
+			        <p><?=$language['STEP3_MUST_AGREE']; ?></p>
 			        <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
 				           onclick="if(this.checked==true) { document.getElementById('ButtonNext').disabled=false; } else { document.getElementById('ButtonNext').disabled=true;}" />
 				    <label for="agreecheck"><?=$language['STEP3_CHECKBOX']?></label>
@@ -56,7 +56,7 @@
                          </form>
                     </div><!-- div navigation end -->
 			</div> <!-- div content_footer end -->
-             
+
         	</div> <!-- div accordion end -->
 
         </div> <!-- div content_middle end -->
