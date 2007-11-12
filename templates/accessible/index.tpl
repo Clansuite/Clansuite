@@ -10,7 +10,7 @@
 {* Dublin Core Metatags *}
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
 <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
-<meta name="DC.Creator" content="Jens-Andre Koch, Florian Wolf" />
+<meta name="DC.Creator" content="Tino Goratsch" />
 <meta name="DC.Date" content="20070101" />
 <meta name="DC.Identifier" content="http://www.clansuite.com/" />
 <meta name="DC.Subject" content="Subject" />
@@ -35,8 +35,10 @@
 <link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
 
 {* Inserts from index.php *}
-<link rel="stylesheet" type="text/css" href="{$css}" />
+<link rel="stylesheet" type="text/css" href="{$www_root_tpl}/accessible.css" />
 <script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.js"></script>
+<script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.dimensions.js"></script>
+<script type="application/javascript" src="{$www_root_tpl}/javascript/ui.accordion.js"></script>
 <script type="application/javascript" src="{$www_root_tpl}/javascript/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
@@ -68,36 +70,42 @@
 		{* Breadcrumbs Navigation *}
 		{include file='tools/breadcrumbs.tpl'}
 	</div>
-	<div id="right">
+	<div id="sidebar">
 	    {* {mod name="account" func="login"} *}
 		{* {mod name="shoutbox" func="show"} *}
+		<h3>Lorem</h3>
+		<div class="content">
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent pede quam, viverra ac, egestas eu, fringilla at, est. Curabitur ligula nunc, tempus adipiscing, posuere eget, posuere vitae, sem. Nam sed tellus ac sem tempor scelerisque. Nulla nec felis ut arcu porta adipiscing. Duis non mi id purus porttitor cursus. Etiam ac augue. Donec fermentum, elit non ultrices rhoncus, erat justo viverra velit, id facilisis nisl risus vel elit. Nullam posuere. Fusce pulvinar. Suspendisse tortor quam, vestibulum eget, dignissim a, elementum at, orci. Nunc placerat purus in nisi. Quisque placerat nunc a risus. Nullam imperdiet neque vitae arcu. Quisque imperdiet ullamcorper arcu. Phasellus vitae urna. In vehicula ultrices nunc.
+		</div>
 		<h3>{translate}Statistics{/translate}</h3>
-		<ul id="counter">
-			<li>
-				<strong>Online:</strong>{* {$stats|@var_dump}  *} {$stats.online}
-				<ul>
-					<li><strong>Users:</strong> {$stats.authed_users}</li>
-					<li><strong>Guests:</strong> {$stats.guest_users}</li>
-				</ul>
-				<strong>Who is online?</strong>
-				{if $stats.authed_users > 1}
-				<ul>
-					{foreach item=who from=$stats.whoisonline}
-					<li><a href="index.php?={$who.user_id}">{$who.nick} @ {$who.session_where}</a></li>
-					{/foreach}
-				</ul>
-				{elseif $stats.authed_users == 1}
-				<ul>
-					<li><a href="index.php?={$stats.whoisonline.0.user_id}">{$stats.whoisonline.0.nick}</a> @ {$stats.whoisonline.0.session_where}</li>
-				</ul>
-				{/if}
-			</li>
-			<li><strong>Today:</strong> {$stats.today_impressions}</li>
-			<li><strong>Yesterday:</strong> {$stats.yesterday_impressions}</li>
-			<li><strong>Month:</strong> {$stats.month_impressions}</li>
-			<li><strong>This Page:</strong> {$stats.page_impressions}</li>
-			<li><strong>Total Impressions:</strong> {$stats.all_impressions}</li>
-		</ul>
+		<div class="content">
+    		<ul id="counter">
+    			<li>
+    				<strong>Online:</strong>{* {$stats|@var_dump}  *} {$stats.online}
+    				<ul>
+    					<li><strong>Users:</strong> {$stats.authed_users}</li>
+    					<li><strong>Guests:</strong> {$stats.guest_users}</li>
+    				</ul>
+    				<strong>Who is online?</strong>
+    				{if $stats.authed_users > 1}
+    				<ul>
+    					{foreach item=who from=$stats.whoisonline}
+    					<li><a href="index.php?={$who.user_id}">{$who.nick} @ {$who.session_where}</a></li>
+    					{/foreach}
+    				</ul>
+    				{elseif $stats.authed_users == 1}
+    				<ul>
+    					<li><a href="index.php?={$stats.whoisonline.0.user_id}">{$stats.whoisonline.0.nick}</a> @ {$stats.whoisonline.0.session_where}</li>
+    				</ul>
+    				{/if}
+    			</li>
+    			<li><strong>Today:</strong> {$stats.today_impressions}</li>
+    			<li><strong>Yesterday:</strong> {$stats.yesterday_impressions}</li>
+    			<li><strong>Month:</strong> {$stats.month_impressions}</li>
+    			<li><strong>This Page:</strong> {$stats.page_impressions}</li>
+    			<li><strong>Total Impressions:</strong> {$stats.all_impressions}</li>
+    		</ul>
+		</div>
 	</div>
 	<div id="content">
 		{$content}
