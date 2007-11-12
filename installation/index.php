@@ -35,12 +35,16 @@ define('IN_CS', true);
 
 // Get site path
 define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
+define ('WWW_ROOT', realpath(dirname(__FILE__)."/../")."/");
 
 // The Clansuite version this script installs
 $cs_version = '0.1';
 
 // Define $error
 $error = '';
+
+#var_dump($_SESSION);
+#var_dUMP($_POST);
 
 // in case clansuite.config.php exists, exit -> can be configured from backend then
 /*if (is_file('../clansuite.config.php'))
@@ -140,7 +144,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
 	if (isset($_POST['db_hostname']) AND isset($_POST['db_username']) AND isset($_POST['db_password']))
 	{
 	    # B) Write SQL-Data into Database
-	    
+
 	    # Should we create the database?
         if (isset($_POST['db_create_database']) && $_POST['db_create_database'] == 'on')
         {
@@ -314,10 +318,10 @@ function loadSQL($sqlfile, $host, $database, $username, $passwd)
 {
     #echo "Loading SQL";
     if ($connection = @ mysql_pconnect($host, $username, $passwd))
-    {  
+    {
         # select database
         mysql_select_db($database,$connection);
-        
+
         if (!is_readable($sqlfile)) {
           die("$sqlfile does not exist or is not readable");
         }
@@ -328,7 +332,7 @@ function loadSQL($sqlfile, $host, $database, $username, $passwd)
             die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
           }
         }
-        #echo "$ix queries imported"; 
+        #echo "$ix queries imported";
         return true; //"SQL file loaded correctly";
     }
     else
@@ -339,31 +343,39 @@ function loadSQL($sqlfile, $host, $database, $username, $passwd)
 
 function getQueriesFromSQLFile($file)
 {
-    // import file line by line
-    // and filter (remove) those lines, beginning with an sql comment token
+    # import file line by line
+    # and filter (remove) those lines, beginning with an sql comment token
     $file = array_filter(file($file),
                          create_function('$line',
                                          'return strpos(ltrim($line), "--") !== 0;'));
-    
-     // and filter (remove) those lines, beginning with an sql notes token
+
+    # and filter (remove) those lines, beginning with an sql notes token
     $file = array_filter($file,
                          create_function('$line',
                                          'return strpos(ltrim($line), "/*") !== 0;'));
-                                         
-    // this is a list of SQL commands, which are allowed to follow a semicolon
+
+    # this is a list of SQL commands, which are allowed to follow a semicolon
     $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
                       'TRUNCATE', 'UPDATE', 'USE');
-    // create the regular expression
+    
+    # create the regular expression
     $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
-    // split there
+    
+    # split there
     $splitter = preg_split($regexp, implode("\r\n", $file));
-    // remove trailing semicolon or whitespaces
+    
+    # remove trailing semicolon or whitespaces
     $splitter = array_map(create_function('$line',
                                           'return preg_replace("/[\s;]*$/", "", $line);'),
                           $splitter);
-    // remove empty lines
+
+    # replace the database prefix
+    $table_prefix = $_SESSION['db_prefix'];
+    $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
+
+    # remove empty lines
     return array_filter($splitter, create_function('$line', 'return !empty($line);'));
-} 
+}
 
 /**
  * Writes the Database-Settings into the clansuite.config.php
