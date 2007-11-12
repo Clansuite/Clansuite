@@ -94,6 +94,7 @@ class language implements ArrayAccess
 		$this->language['DB_PREFIX'] = 'Table Prefix';
 
 		$this->language['ERROR_NO_DB_CONNECT'] = 'Database-Connection could not be established.';
+		$this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Database database could not be created.';   	
 
 		// STEP 5 - Configuration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
