@@ -172,8 +172,9 @@ class clansuite_frontcontroller implements ControllerCommandInterface
      * 2. get the modulecontroller via clansuite_controllerresolver
      * 3. execute modulecontroller
      * 4. execute postFilters
-     * 5. fetches view / renderer
-     * 6. render view
+     * 5. fetches view / getRendererEngine
+     * 6. assign view to response / getTemplate
+     * 7. flush response
      *
      */
     public function processRequest(httprequest $request, httpresponse $response)
@@ -203,6 +204,7 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         
         # 5)
         $view = $moduleController->getRenderEngine();
+        
         # 6)
         # pushes RenderEngine generated Output to the response and calls $response->flush!
                 
@@ -210,9 +212,9 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         $response->setRenderer($template);
         $response->setContentType();
         $response->setContent($this->output);
-        $response->flush();
+
         */
-        $response->setContent($view->render($moduleController->template));
+        $response->setContent($view->render($moduleController->getTemplateName));
         $response->flush();
     }
 }
