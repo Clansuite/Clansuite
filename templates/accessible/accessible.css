@@ -12,7 +12,7 @@ img {
 	border: 0;
 }
 p {
-	margin: 5px 0;
+	padding: 5px 0;
 }
 /* Tables */
 
@@ -58,7 +58,6 @@ dl {
 /* Headings */
 h1 {
 	font-size: 1.6em;
-	margin-bottom: 10px;
 }
 h2 {
 	font-size: 1.5em;
@@ -86,7 +85,7 @@ h6 {
 #header {
 	height: 100px;
 	padding: 0 8px;
-	background: url('images/layout/head_bg.png') repeat-x 0 70px;
+	background: url('images/layout/header.png') repeat-x 0 70px;
 	position: relative;
 }
 #clansuite_title, #date_right {
@@ -95,15 +94,6 @@ h6 {
 }
 #clansuite_title {
 	font-size: 2em;
-}
-#login_right {
-	font-size: 1.2em;
-	position: absolute;
-	top: 5px;
-	right: 8px;
-}
-#login_right input {
-	margin: 0 2px 0 0;
 }
 #navigation {
 	margin: 0;
@@ -151,14 +141,33 @@ h6 {
 }
 #content {
 	margin: 10px 21% 10px 0;
-	padding: 0 8px;
 	font-size: 1.2em;
 }
-#right {
+#sidebar {
 	width: 20%;
-	margin: 10px 8px 0 0;
+	margin-bottom: 10px;
 	float: right;
 	font-size: 1.2em;
+}
+#sidebar h3 {
+    padding-left: 5px;
+    background: url('images/layout/sidebar.png') repeat-x;
+    font-weight: normal;
+    font-size: 1.2em;
+    line-height: 26px;
+    color: #fff;
+    cursor: pointer;
+}
+#sidebar div.content {
+    padding: 5px;
+    background: url('images/layout/sidebar.png') repeat-x 0 -26px;
+    font-size: 1.1em;
+}
+#counter {
+    margin: 0;
+}
+#counter li {
+    list-style: none;
 }
 #footer {
 	padding: 10px 8px;

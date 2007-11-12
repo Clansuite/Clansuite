@@ -29,7 +29,7 @@
  * @link       http://gna.org/projects/clansuite
  * @since      File available since Release 0.2
  *
- * @version    SVN: $Id: accessible.js 1498 2007-11-12 18:53:20Z vyper $
+ * @version    SVN: $Id: accessible.js 1508 2007-11-12 20:25:20Z vyper $
  */
 
 function passTest()
@@ -88,3 +88,9 @@ function mailTest()
         jQuery('#email2').css({ background: '#fff' });
     }
 }
+
+// jQuery
+$(document).ready(function() {
+    // Transform the sidebar into an accordion menu
+    $('#sidebar').accordion({ header: 'h3' });
+});
