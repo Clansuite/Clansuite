@@ -1,18 +1,19 @@
 /* General Settings */
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 body {
-	background: #333;
-	font: 62.5% Arial, sans-serif;
-	color: #000;
+    background: #333;
+    font: 62.5% Arial, sans-serif;
+    color: #000;
 }
 img {
-	border: 0;
+    border: 0;
 }
 p {
-	padding: 5px 0;
+    padding: 5px 0;
+    text-align: justify;
 }
 /* Tables */
 
@@ -20,134 +21,134 @@ p {
 .forum tr,
 .forum th,
 .forum td {
-	border: 1px solid #333;
-	border-collapse: collapse;
+    border: 1px solid #333;
+    border-collapse: collapse;
 }
 
 .forum table {
-	width: 100%;
+    width: 100%;
 }
 .forum th {
-	padding: 1px 2px;
-	background: #f00;
-	font-size: 1.1em;
-	color: #fff;
+    padding: 1px 2px;
+    background: #f00;
+    font-size: 1.1em;
+    color: #fff;
 }
 .forum td {
-	text-align: center;
+    text-align: center;
 }
 
 /* Hyperlinks */
 a, a:link, a:hover {
-	color: #000;
-	text-decoration: underline;
+    color: #000;
+    text-decoration: underline;
 }
 a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 /* Lists */
 ul, ol {
-	margin: 10px 20px;
+    margin: 10px 20px;
 }
 ul ul, ol ol {
-	margin: 0 20px;
+    margin: 0 20px;
 }
 dl {
-	text-align: left;
+    text-align: left;
 }
 /* Headings */
 h1 {
-	font-size: 1.6em;
+    font-size: 1.6em;
 }
 h2 {
-	font-size: 1.5em;
+    font-size: 1.5em;
 }
 h3 {
-	font-size: 1.4em;
+    font-size: 1.4em;
 }
 h4 {
-	font-size: 1.3em;
+    font-size: 1.3em;
 }
 h5 {
-	font-size: 1.2em;
+    font-size: 1.2em;
 }
 h6 {
-	font-size: 1.1em;
+    font-size: 1.1em;
 }
 /* Layout */
 #box {
-	width: 95%;
-	margin: 1% auto;
-	padding: 0 1%;
-	background: #fff;
-	border: 2px solid #ccc;
+    width: 95%;
+    margin: 1% auto;
+    padding: 0 1%;
+    background: #fff;
+    border: 2px solid #ccc;
 }
 #header {
-	height: 100px;
-	padding: 0 8px;
-	background: url('images/layout/header.png') repeat-x 0 70px;
-	position: relative;
+    height: 100px;
+    padding: 0 8px;
+    background: url('images/layout/header.png') repeat-x 0 70px;
+    position: relative;
 }
 #clansuite_title, #date_right {
-	height: 70px;
-	line-height: 70px;
+    height: 70px;
+    line-height: 70px;
 }
 #clansuite_title {
-	font-size: 2em;
+    font-size: 2em;
 }
 #navigation {
-	margin: 0;
-	list-style: none;
-	position: absolute;
-	top: 73px;
-	left: 8px;
+    margin: 0;
+    list-style: none;
+    position: absolute;
+    top: 73px;
+    left: 8px;
 }
 #navigation li {
-	margin-right: 4px;
-	float: left;
+    margin-right: 4px;
+    float: left;
 }
 #navigation li a {
-	height: 25px;
-	margin: 1px 1px 0 1px;
-	padding: 0 8px;
-	font: 1.4em/25px 'Trebuchet MS', Arial, sans-serif;
-	color: #fff;
-	text-decoration: none;
-	display: block;
+    height: 25px;
+    margin: 1px 1px 0 1px;
+    padding: 0 8px;
+    font: 1.4em/25px 'Trebuchet MS', Arial, sans-serif;
+    color: #fff;
+    text-decoration: none;
+    display: block;
 }
 #navigation li a:hover {
-	margin: 0;
-	background: #eab2b2;
-	border: 1px solid #000;
-	color: #000;
+    margin: 0;
+    background: #eab2b2;
+    border: 1px solid #000;
+    color: #000;
 }
 #navigation li a:active, #navigation li a.selected {
-	margin: 0;
-	background: #fff;
-	border: 1px solid #000;
-	border-bottom: 1px solid #fff;
-	color: #000;
+    margin: 0;
+    background: #fff;
+    border: 1px solid #000;
+    border-bottom: 1px solid #fff;
+    color: #000;
 }
 #breadcrumb {
-	height: 25px;
-	margin: 10px 0 0;
-	padding: 1px 8px 0;
-	background: #fff url('images/layout/breadcrumb.png') repeat-x;
-	font: bold 1.3em/25px 'Trebuchet MS', Arial, sans-serif;
-	clear: both;
+    height: 25px;
+    margin: 10px 0 0;
+    padding: 1px 8px 0;
+    background: #fff url('images/layout/breadcrumb.png') repeat-x;
+    font: bold 1.3em/25px 'Trebuchet MS', Arial, sans-serif;
+    clear: both;
 }
 #breadcrumb span {
-	color: #f00;
+    color: #f00;
 }
 #content {
-	margin: 10px 21% 10px 0;
-	font-size: 1.2em;
+    margin: 10px 21% 10px 0;
+    font-size: 1.2em;
 }
 #sidebar {
-	width: 20%;
-	margin-bottom: 10px;
-	float: right;
-	font-size: 1.2em;
+    width: 20%;
+    margin-bottom: 10px;
+    float: right;
+    font-size: 1.2em;
 }
 #sidebar h3 {
     padding-left: 5px;
@@ -155,177 +156,178 @@ h6 {
     font-weight: normal;
     font-size: 1.2em;
     line-height: 26px;
-    color: #fff;
     cursor: pointer;
+}
+#sidebar h3 a, #sidebar h3 a:hover {
+    color: #fff;
+    text-decoration: none;
 }
 #sidebar div.content {
     padding: 5px;
     background: url('images/layout/sidebar.png') repeat-x 0 -26px;
     font-size: 1.1em;
 }
-#counter {
+#counter ul {
     margin: 0;
-}
-#counter li {
     list-style: none;
 }
+#counter ul ul {
+    margin: 0 10px;
+}
 #footer {
-	padding: 10px 8px;
-	background: url('images/layout/footer.png') repeat-x;
-	font: bold 1em 'Trebuchet MS', Arial, sans-serif;
-	color: #f00;
-	text-align: center;
-	letter-spacing: 0.1em;
-	clear: both;
+    padding: 10px 8px;
+    background: url('images/layout/footer.png') repeat-x;
+    font: bold 1em 'Trebuchet MS', Arial, sans-serif;
+    color: #f00;
+    text-align: center;
+    letter-spacing: 0.1em;
+    clear: both;
 }
 /* AJAX Progress Indicator */
-#notification {
-	width: 100%;
-	margin: 0;
-	height: 20px;
-	background: #ff9;
-	font: bold 1.3em/20px Verdana, Arial, Helvetica, sans-serif;
-	text-align: center;
-	display: block;
-	position: fixed;
-	left: 0;
-	bottom: 0;
+#ajax-bar {
+    width: 100%;
+    height: 20px;
+    margin: 0;
+    background: #ff9;
+    font: bold 1.3em/20px Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    display: none;
+    z-index: 99;
+    vertical-align: middle;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 /* Forms */
 /*
 form {
-	text-align: center;
+    text-align: center;
 }
 */
 label {
-	cursor: pointer;
+    cursor: pointer;
 }
 dt label, dt span {
-	font-weight: bold;
+    font-weight: bold;
 }
 dt label:hover {
-	color: #f00;
+    color: #f00;
 }
 fieldset {
-	width: 70%;
-	margin: 0 auto;
-	padding: 10px;
-	border: 0;
-	text-align: left;
+    width: 70%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 0;
+    text-align: left;
 }
 legend {
-	padding: 1px 5px;
-	background: #fff;
-	border: 1px solid #333;
-	font-weight: bold;
+    padding: 1px 5px;
+    background: #fff;
+    border: 1px solid #333;
+    font-weight: bold;
 }
 fieldset dd input, fieldset dd textarea {
-	width: 100%;
+    width: 100%;
 }
 fieldset dd textarea {
-	overflow: auto;
+    overflow: auto;
 }
 .button {
-	padding: 1px 7px;
-	background: #e5e5e5;
-	border: 1px solid #ccc;
-	color: #333;
-	cursor: pointer;
+    padding: 1px 7px;
+    background: #e5e5e5;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: pointer;
 }
 .button:hover {
-	background: #eee;
-	color: #f00;
-	text-decoration: none;
+    background: #eee;
+    color: #f00;
+    text-decoration: none;
 }
 .form_bottom {
-	margin-top: 5px;
-	text-align: center;
+    margin-top: 5px;
+    text-align: center;
 }
 /* Usercenter */
 .usercenter {
-	margin-top: 10px;
-	text-align: center;
+    text-align: center;
 }
 .usercenter ul {
-	list-style: none;
+    list-style: none;
 }
 /* Shoutbox */
 .shoutbox {
-	width: 90%;
-	margin: 0 auto 10px auto;
-	border: 1px solid #333;
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid #333;
 }
 
-.shoutbox_form
-{
-    margin: auto;
+.shoutbox-form {
     text-align: center;
 }
 
-.shoutbox .shout_header
-{
-	padding: 2px;
-	background: #f00;
-	border-bottom: 1px solid #333;
-	color: #fff;
+.shoutbox .shout-header {
+    padding: 2px;
+    background: #f00;
+    border-bottom: 1px solid #333;
+    color: #fff;
 }
 
-.shoutbox .shout_content
-{
-	padding: 2px;
+.shoutbox .shout-content {
+    padding: 2px;
 }
 
 /* Redirect */
 .redirect_message
 {
     background-color: #e3e3e3;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding: 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
 }
 
 #redirect_heading
 {
     position:absolute;
-	top: 50%;
-	left: 50%;
-	width:30em;
-	margin-top: -9em; /*set to a negative number 1/2 of your height*/
-	margin-left: -15em; /*set to a negative number 1/2 of your width*/
-	background-color: #ccc;
-	border: 1px solid #000;
-	text-align: center;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    background-color: #ccc;
+    border: 1px solid #000;
+    text-align: center;
 }
 
 /* News */
 .newsbox {
-	margin-bottom: 10px;
-	border: 1px solid #333;
+    margin-bottom: 10px;
+    border: 1px solid #333;
 }
 .news-cat-img {
-	width: 125px;
-	border-left: 1px solid #333;
-	float: right;
+    width: 125px;
+    border-left: 1px solid #333;
+    float: right;
 }
 .news-head {
-	margin-right: 125px;
-	padding: 0 5px;
-	background: #f00;
-	border: 1px solid #333;
-	border-width: 0 1px 1px 0;
-	color: #fff;
-	line-height: 20px;
+    margin-right: 125px;
+    padding: 0 5px;
+    background: #f00;
+    border: 1px solid #333;
+    border-width: 0 1px 1px 0;
+    color: #fff;
+    line-height: 20px;
 }
 .news-author-comments {
-	margin-right: 125px;
-	padding: 0 5px;
-	border: 1px solid #333;
-	border-width: 0 1px 1px 0;
+    margin-right: 125px;
+    padding: 0 5px;
+    border: 1px solid #333;
+    border-width: 0 1px 1px 0;
 }
 .news-content {
-	margin-right: 125px;
-	padding: 5px;
-	border-right: 1px solid #333;
+    margin-right: 125px;
+    padding: 5px;
+    border-right: 1px solid #333;
 }
 
 /* Messenger */
@@ -356,15 +358,15 @@ fieldset dd textarea {
 .ButtonGrey,
 .ButtonOrange
 {
-	background-color: #FFFFFF;
-	border: 1px solid #999999;
-	border-top-color: #CCCCCC;
-	border-left-color: #CCCCCC;
-	color: #333333;
-	font-size: 9px;
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    border-top-color: #CCCCCC;
+    border-left-color: #CCCCCC;
+    color: #333333;
+    font-size: 9px;
     font-family: tahoma, sans-serif;
     font-weight: bold;
-	padding: .25em;
+    padding: .25em;
     margin: 3px;
     white-space: nowrap;
 }
@@ -372,27 +374,27 @@ fieldset dd textarea {
 .Button,
 .ButtonGrey
 {
-	background: url(../core/images/background_form_element_grey.gif) repeat-x;
+    background: url(../core/images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-	background: url(../core/images/background_form_element_yellow.gif) repeat-x;
+    background: url(../core/images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-	background: url(../core/images/background_form_element_orange.gif) repeat-x;
+    background: url(../core/images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-	background: url(../core/images/background_form_element_red.gif) repeat-x;
+    background: url(../core/images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-	background: url(../core/images/background_form_element_green.gif) repeat-x;
+    background: url(../core/images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -402,9 +404,9 @@ fieldset dd textarea {
 .ButtonGrey:active,
 .ButtonOrange:active
 {
-	border: 1px solid #CCCCCC;
-	border-top-color: #999999;
-	border-left-color: #999999;
+    border: 1px solid #CCCCCC;
+    border-top-color: #999999;
+    border-left-color: #999999;
 }
 
 .input_text
@@ -462,7 +464,7 @@ form select.input_text
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-	background: url(images/td_header.gif) repeat-x;
+    background: url(images/td_header.gif) repeat-x;
 }
 
 .tr_header td,
@@ -475,7 +477,7 @@ form select.input_text
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-	background: url(images/td_header.gif) repeat-x;
+    background: url(images/td_header.gif) repeat-x;
 }
 
 .tr_header_small td
@@ -648,8 +650,8 @@ form select.input_text
 }
 
 .guestbook {
-	width: 100%; /* Workaround für Bug im IE6 */
-	float: left;
+    width: 100%; /* Workaround für Bug im IE6 */
+    float: left;
 }
 .guestbook .paginate {
     background-color: #f00;
@@ -675,70 +677,70 @@ form select.input_text
     vertical-align: middle;
 }
 .guestbook .options-top {
-	border: 1px solid #000;
-	border-width: 0 1px 1px 1px;
+    border: 1px solid #000;
+    border-width: 0 1px 1px 1px;
 }
 .guestbook .options-bottom {
-	border: 1px solid #000;
-	border-width: 1px 1px 0 1px;
+    border: 1px solid #000;
+    border-width: 1px 1px 0 1px;
 }
 .gb {
-	width: 80%;
-	margin: 10px auto;
-	border: 1px solid #333;
-	background: #eee;
+    width: 80%;
+    margin: 10px auto;
+    border: 1px solid #333;
+    background: #eee;
 }
 .gbhead {
-	background: #f00;
-	font-size: 1.1em;
-	font-weight: bold;
-	color: #fff;
-	line-height: 25px;
-	border-bottom: 1px solid #333;
+    background: #f00;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    line-height: 25px;
+    border-bottom: 1px solid #333;
 }
 .author {
-	width: 200px;
-	float: left;
-	text-align: center;
+    width: 200px;
+    float: left;
+    text-align: center;
 }
 .message {
-	margin-left: 200px;
-	text-align: center;
+    margin-left: 200px;
+    text-align: center;
 }
 .gbleft {
-	max-width: 200px;
-	width: 190px;
-	padding: 5px;
-	border-right: 1px solid #333;
-	float: left;
+    max-width: 200px;
+    width: 190px;
+    padding: 5px;
+    border-right: 1px solid #333;
+    float: left;
 }
 .gbleft span {
-	font-weight: bold;
+    font-weight: bold;
 }
 .gbleft span.user-info {
-	font-weight: normal;
-	cursor: help;
+    font-weight: normal;
+    cursor: help;
 }
 .gbleft span.user-info:hover {
-	color: #f00;
+    color: #f00;
 }
 .gbright {
-	margin-left: 200px;
-	padding: 5px;
-	border-left: 1px solid #333;
+    margin-left: 200px;
+    padding: 5px;
+    border-left: 1px solid #333;
 }
 .gbright fieldset {
-	width: 90%;
-	margin-top: 10px;
-	border: 1px dotted #333;
+    width: 90%;
+    margin-top: 10px;
+    border: 1px dotted #333;
 }
 .gbfooter {
-	height: 25px;
-	background: #e5e5e5;
-	line-height: 25px;
-	border-top: 1px solid #333;
-	text-align: right;
-	clear: both;
+    height: 25px;
+    background: #e5e5e5;
+    line-height: 25px;
+    border-top: 1px solid #333;
+    text-align: right;
+    clear: both;
 }
 
 .user_gb
