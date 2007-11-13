@@ -1,5 +1,5 @@
 <h3>{translate}Usercenter{/translate}</h3>
-<div class="usercenter">
+<div class="content usercenter">
 	{translate}You're logged in as {/translate}<strong>{$smarty.session.user.nick}</strong>
 	<ul>
 {if $smarty.session.user.rights.cc_access==1}
@@ -12,25 +12,25 @@
 	</ul>
 	SessionCountdown:
     <div id="countdown"></div>
-
+{doc_raw}
 {literal}
     <script type="text/javascript">
     var ServerCurrentTime        = {/literal}{$SessionCurrentTime}{literal};	    // Current
     var ServerSessionLogoutTime  = {/literal}{$SessionExpireTime}{literal};	        // Logout
 
     function count() {
-        var theCountdown = new Date((ServerSessionLogoutTime - ++ServerCurrentTime)*1000);
-		//var dateString = theCountdown.toGMTString();
+        var theCountdown = new Date((ServerSessionLogoutTime - ++ServerCurrentTime) * 1000);
+		// var dateString = theCountdown.toGMTString();
 		if( theCountdown.getSeconds() < 10 )
-		  addNull = "0";
+		  addNull = '0';
 		else
-		  addNull = "";
-		document.getElementById("countdown").innerHTML = theCountdown.getMinutes() + ":" + addNull + theCountdown.getSeconds();
+		  addNull = '';
+		jQuery('#countdown').text(theCountdown.getMinutes() + ':' + addNull + theCountdown.getSeconds());
     	setTimeout('count()', 1000);
     }
     setTimeout('count()', 1000);
     </script>
 {/literal}
-
-{$SessionCurrentTime|date_format:"%H:%M:%S"}  {$SessionExpireTime|date_format:"%H:%M:%S"}
+{/doc_raw}
+{$SessionCurrentTime|date_format:"%H:%M:%S"} {$SessionExpireTime|date_format:"%H:%M:%S"}
 </div>

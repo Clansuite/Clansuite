@@ -38,7 +38,6 @@
 <link rel="stylesheet" type="text/css" href="{$www_root_tpl}/accessible.css" />
 <script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.js"></script>
 <script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.dimensions.js"></script>
-<script type="application/javascript" src="{$www_root_tpl}/javascript/ui.accordion.js"></script>
 <script type="application/javascript" src="{$www_root_tpl}/javascript/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
@@ -52,9 +51,6 @@
 <div id="box">
 	<div id="header">
 		<h1 id="clansuite_title">Clansuite - just an eSport CMS</h1>
-		<div id="login_right">
-		{* {include file="account/login_right.tpl"} *}
-		</div>
 		<ul id="navigation">
 			<li><a href="index.php?mod=news">News</a></li>
 			<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
@@ -71,15 +67,15 @@
 		{include file='tools/breadcrumbs.tpl'}
 	</div>
 	<div id="sidebar">
-	    {* {mod name="account" func="login"} *}
-		{* {mod name="shoutbox" func="show"} *}
-		<h3>Lorem</h3>
+	    {mod name="account" func="login"}
+		{mod name="shoutbox" func="show"}
+		<h3>Lorem Ipsum</h3>
 		<div class="content">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent pede quam, viverra ac, egestas eu, fringilla at, est. Curabitur ligula nunc, tempus adipiscing, posuere eget, posuere vitae, sem. Nam sed tellus ac sem tempor scelerisque. Nulla nec felis ut arcu porta adipiscing. Duis non mi id purus porttitor cursus. Etiam ac augue. Donec fermentum, elit non ultrices rhoncus, erat justo viverra velit, id facilisis nisl risus vel elit. Nullam posuere. Fusce pulvinar. Suspendisse tortor quam, vestibulum eget, dignissim a, elementum at, orci. Nunc placerat purus in nisi. Quisque placerat nunc a risus. Nullam imperdiet neque vitae arcu. Quisque imperdiet ullamcorper arcu. Phasellus vitae urna. In vehicula ultrices nunc.
 		</div>
 		<h3>{translate}Statistics{/translate}</h3>
-		<div class="content">
-    		<ul id="counter">
+		<div id="counter" class="content">
+    		<ul>
     			<li>
     				<strong>Online:</strong>{* {$stats|@var_dump}  *} {$stats.online}
     				<ul>
@@ -119,7 +115,7 @@
 	</div>
 </div>
 {* Ajax Notification *}
-<div id="notification" style="vertical-align:middle;display:none;z-index:99;">
+<div id="ajax-bar">
     <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>
