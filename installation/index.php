@@ -33,7 +33,7 @@ set_time_limit(0);
 // Security Handler
 define('IN_CS', true);
 
-// Get site path
+// Get site paths
 define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
 define ('WWW_ROOT', realpath(dirname(__FILE__)."/../")."/");
 
@@ -44,10 +44,10 @@ $cs_version = '0.1';
 $error = '';
 
 #var_dump($_SESSION);
-#var_dUMP($_POST);
+#var_dump($_POST);
 
 // in case clansuite.config.php exists, exit -> can be configured from backend then
-/*if (is_file('../clansuite.config.php'))
+/*if (is_file( WWW_ROOT . 'clansuite.config.php'))
 {
 	exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
 	      <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
@@ -72,12 +72,12 @@ include ('install_header.php');
  *    STEP HANDLING + PROGRESS
  * ==============================
  */
- # Get Total Steps and if we are at max_steps, set step to max
+# Get Total Steps and if we are at max_steps, set step to max
 $total_steps = get_total_steps();
 
 /**
-* Update the session with the given variables!
-*/
+ * Update the session with the given variables!
+ */
 $_SESSION = array_merge($_SESSION, $_POST);
 
 # STEP HANDLING
@@ -191,6 +191,29 @@ if( isset($_POST['step_forward']) AND $step == 5 )
 }
 
 /**
+ * Handling of STEP 5 - Configuration
+ * if STEP 5 successful, proceed to 6 - else return STEP 5, display error
+ */
+if( isset($_POST['step_forward']) AND $step == 6 )
+{
+	# check if input-fields are filled
+	if( isset($_POST['site_name']) AND isset($_POST['system_email'])
+	                               AND isset($_POST['encryption'])
+	                               AND isset($_POST['salt'])
+	                               AND isset($_POST['time_zone']) )
+	# A)  Write Settings to clansuite.config.php
+    if( !write_config_settings($_POST, true))
+    {
+        $step = 6;
+        $error = 'Config not written <br />';
+    }
+    else
+    {
+        // Config written
+    }
+}
+
+/**
  * Handling of STEP 6 - Create Administrator
  * if STEP 6 successful, proceed to 7 - else return STEP 6, display error
  */
@@ -241,16 +264,19 @@ function get_total_steps()
 /**
 * Generates a random String (with divider default because needed for SALT)
 *
+* @params $length Length of Random String, Default = 6
+* @params $with_divider default = true
 * @return string
+* @todo $with_divider functionality is not implemented yet (true => a-b-c  / false => abc)
 */
 function generate_random_string($length = 6, $with_divider = true)
 {
 	$chars = "ABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
 	$code = "";
-	$clen = strlen($chars) - 1;  //a variable with the fixed length of chars correct for the fence post issue
+	$clen = strlen($chars) - 1;  # variable with the fixed length of chars correct for the fence post issue
 	while (strlen($code) < $length)
 	{
-	    $code .= $chars[mt_rand(0,$clen)] . '-';  //mt_rand's range is inclusive - this is why we need 0 to n-1
+	    $code .= $chars[mt_rand(0,$clen)] . '-';  # mt_rand's range is inclusive - this is why we need 0 to n-1
 	}
 	$code = substr_replace($code, '', -1);
 	return $code;
@@ -260,6 +286,8 @@ function generate_random_string($length = 6, $with_divider = true)
  * Calculate Progress
  * is used to display install-progress in percentages
  *
+ * @params $this_is_step Current Step
+ * @params $of_total_steps Total Number of Steps
  * @return float progress-value
  */
 function calc_progress($this_is_step,$of_total_steps)
@@ -291,7 +319,7 @@ function installstep_5($language)
 {
 	$values['site_name']  			= isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
 	$values['system_email'] 		= isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
-	$values['user_account_enc']  	= isset($_SESSION['user_account_enc']) ? $_SESSION['user_account_enc'] : 'SHA1';
+	$values['encryption']  	        = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
 	$values['salt']  				= isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_random_string(12);
 	$values['time_zone']  			= isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
 
@@ -313,11 +341,18 @@ function installstep_7($language){    require 'install-step7.php' ;}
 
 /**
  * Load an SQL stream into the database one command at a time
+ *
+ * @params $sqlfile The file containing the mysql-dump data
+ * @params $hostname Database Hostname
+ * @params $database Database Name
+ * @params $username Database Username
+ * @params $password Database Password
+ * @return BOOLEAN Returns true, if SQL was injected successfully
  */
-function loadSQL($sqlfile, $host, $database, $username, $passwd)
+function loadSQL($sqlfile, $hostname, $database, $username, $password)
 {
     #echo "Loading SQL";
-    if ($connection = @ mysql_pconnect($host, $username, $passwd))
+    if ($connection = @ mysql_pconnect($hostname, $username, $password))
     {
         # select database
         mysql_select_db($database,$connection);
@@ -341,6 +376,16 @@ function loadSQL($sqlfile, $host, $database, $username, $passwd)
     }
 }
 
+/**
+ * getQueriesFromSQLFile 
+ * - strips off all comments, sql notes, empty lines from an sql file
+ * - trims white-spaces
+ * - filters the sql-string for sql-keywords 
+ * - replaces the db_prefix
+ *
+ * @param $file sqlfile
+ * @return trimmed array of sql queries
+ */
 function getQueriesFromSQLFile($file)
 {
     # import file line by line
@@ -379,8 +424,11 @@ function getQueriesFromSQLFile($file)
 
 /**
  * Writes the Database-Settings into the clansuite.config.php
+ *
+ * @param $data_array
+ * @return BOOLEAN true, if clansuite.config.php could be written to the ROOT
  */
-function write_config_settings($data_array)
+function write_config_settings($data_array, $update = false)
 {
     # throw non-setting vars out
     # not needed
@@ -389,17 +437,28 @@ function write_config_settings($data_array)
     # handled in step 4 - section b
     unset($data_array['db_create_database']);
 
-    # Read Config File
-    $config_file = file_get_contents( CS_ROOT . '/clansuite.config.installer');
-
+    # Read Config File 
+    if ( $update == true )
+    {
+        # the original one, from the root dir
+        $config_file = file_get_contents( WWW_ROOT . 'clansuite.config.php');
+    }
+    else
+    {
+        # the template one, from the installtion dir
+        $config_file = file_get_contents( CS_ROOT . '/clansuite.config.installer');
+    }
+    
     # Loop over Config File Data
     foreach($data_array as $key => $value)
     {
-       $config_file = preg_replace( '#\$this->config\[\''. $key . '\'\][\s]*\=.*\;#', '$this->config[\''. $key . '\'] = \''. $value . '\';', $config_file );
+       if ($key == 'system_email') { $key = 'from'; }
+       if ($key == 'site_name')    { $key = 'std_page_title'; }
+       $config_file = preg_replace( '#\$this->config\[\''. $key . '\'\][\s]*\=.*\;#', '$this->config[\''. $key . '\'] = \''. $value . '\'; # inserted by installation', $config_file );
     }
 
-    # Write Config File
-    if (!file_put_contents('../clansuite.config.php', $config_file ))
+    # Write Config File to ROOT Directory
+    if (!file_put_contents( WWW_ROOT . 'clansuite.config.php', $config_file ))
     {
         return false;
     }
