@@ -35,9 +35,9 @@
 			   		<? # festes dropdown ?>
 			   		<dt><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></dt>
 			   		<dd>
-						<select name="user_account_enc">
-							<option value="md5"<?php echo ($values['user_account_enc']=='md5') ? ' selected="selected"' : ''; ?>>MD5</option>
-							<option value="sha1"<?php echo ($values['user_account_enc']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
+						<select name="encryption">
+							<option value="md5"<?php echo ($values['encryption']=='md5') ? ' selected="selected"' : ''; ?>>MD5</option>
+							<option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
 						</select>
 					</dd>
 

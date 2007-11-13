@@ -93,7 +93,7 @@ class configuration implements ArrayAccess
         $this->config['db_username']  = '';
         $this->config['db_password']  = '';
         $this->config['db_name']      = 'clansuite';
-        $this->config['db_host']      = 'localhost';
+        $this->config['db_hostname']      = 'localhost';
         $this->config['db_prefix']    = 'cs_';
         $this->config['db_abs_layer'] = 'pdo';
 
