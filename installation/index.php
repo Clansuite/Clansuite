@@ -152,7 +152,9 @@ if( isset($_POST['step_forward']) AND $step == 5 )
             $db = mysql_pconnect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
             #or die ("Konnte keine Verbindung zur Datenbank herstellen");
 
-            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $db))
+            # http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
+            # so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
+            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
             {
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
@@ -356,13 +358,16 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
     {
         # select database
         mysql_select_db($database,$connection);
-
+        # ensure database entries are written as UTF8
+        mysql_query("SET NAMES 'utf8'");
+        
         if (!is_readable($sqlfile)) {
           die("$sqlfile does not exist or is not readable");
         }
         $queries = getQueriesFromSQLFile($sqlfile);
         for ($i = 0, $ix = count($queries); $i < $ix; ++$i) {
           $sql = $queries[$i];
+          
           if (!mysql_query($sql, $connection)) {
             die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
           }
