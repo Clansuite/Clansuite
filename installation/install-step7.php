@@ -24,11 +24,18 @@
         	    <p><?=$language['STEP7_SENTENCE2']?>
         	      <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
         	       <br /><?=$language['STEP7_SENTENCE3']?>
-        	       <br />
+        	       <p>
+                	    <b>Visit the </b><a href="../index.php">Frontend</a>
+                	    or 
+                	    <a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>
+                	    <br/>
+                	    <br/>
+                	    Ihre Logindaten: Name / Password
+                	    </p>
         	       <br /> <?=$language['STEP7_SENTENCE4']?>
-        	      </p>
-
-        	   <p>Paths Home/Admin - Links - Useraccount mit Logindata </p>
+        	       <br />
+        	       Klick here to delete it now.
+        	    </p>        	   
         	   <br />
 
             <div id="content_footer">
