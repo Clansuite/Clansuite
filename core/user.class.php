@@ -161,7 +161,7 @@ class user
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id'])) 
         {
-            if ( isset($session_result) AND $session_result['user_id'] == $_SESSION['user']['user_id'] )
+            if ( isset($session_result) and $session_result['user_id'] == $_SESSION['user']['user_id'] )
             {
                 $stmt = $this->db->prepare( $query_string . 'WHERE u.user_id = ?' );
                 $stmt->execute( array( $session_result['user_id'] ) );
