@@ -116,6 +116,24 @@ ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
+/**
+ * Unicode Settings
+ *
+ * @link    http://www.php.net/manual/en/ref.unicode.php
+ */
+#declare(encoding=$config['outputcharset']);
+/**
+unicode.fallback_encoding       =
+unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
+unicode.from_error_subst_char	=
+unicode.http_input_encoding	    = $config['outputcharset'];
+unicode.output_encoding	        = $config['outputcharset'];
+unicode.runtime_encoding        =
+unicode.script_encoding         = $config['outputcharset'];
+# this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
+#unicode.semantics               = 1
+*/
+
 // Set Charset and Character Encoding
 if(function_exists('mb_http_output'))
 {
