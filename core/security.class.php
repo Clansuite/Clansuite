@@ -58,9 +58,8 @@ class security
 {
     /**
      * This functions takes a clear (password) string and prefixes a random string called 
-     * "salt" to it. The new combined "salt+passord" string is then passed to the hashing 
-     * method to get an hash return value.
-     * For the users authentication, we store random salt and hashed password in users table
+     * "salt" to it. The new combined "salt+password" string is then passed to the hashing 
+     * method to get an hash return value. 
      *
      * @param string A clear-text string, like a password "JohnDoe$123"
      * @return $hash is an array, containing ['salt'] and ['hash'] 
