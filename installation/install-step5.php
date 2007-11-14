@@ -49,29 +49,29 @@
 			   		<dt><?=$language['STEP5_CONFIG_TIMEZONE']?></dt>
 			   		<dd>
 						<select name="time_zone" class="form">
-							<option value="-36000">UTC -10</option>
-							<option value="-32400">UTC -9</option>
-							<option value="-28800">UTC -8</option>
-							<option value="-25200">UTC -7</option>
-							<option value="-21600">UTC -6</option>
-							<option value="-18000">UTC -5</option>
-							<option value="-14400">UTC -4</option>
-							<option value="-10800">UTC -3</option>
-							<option value="-7200">UTC -2</option>
-							<option value="-3600">UTC -1</option>
-							<option value="0">UTC +0</option>
-							<option value="3600" selected="selected">UTC +1</option>
-							<option value="7200">UTC +2</option>
-							<option value="10800">UTC +3</option>
-							<option value="14400">UTC +4</option>
-							<option value="18000">UTC +5</option>
-							<option value="21600">UTC +6</option>
-							<option value="25200">UTC +7</option>
-							<option value="28800">UTC +8</option>
-							<option value="32400">UTC +9</option>
-							<option value="36000">UTC +10</option>
-							<option value="39600">UTC +11</option>
-							<option value="43200">UTC +12</option>
+							<option value="-36000">UTC -10 Hawaii</option>
+							<option value="-32400">UTC -9 Alaska</option>
+							<option value="-28800">UTC -8 Pacific (USA, Canada)</option>
+							<option value="-25200">UTC -7 Arizona, Salt Lake City</option>
+							<option value="-21600">UTC -6 Chicago, Mexico City</option>
+							<option value="-18000">UTC -5 New York, Miami, Toronto</option>
+							<option value="-14400">UTC -4 Santiago de Chile, Quebec, La Paz</option>
+							<option value="-10800">UTC -3 Brasilien, Groenland</option>
+							<option value="-7200">UTC -2 Mittelatlantik</option>
+							<option value="-3600">UTC -1 Azoren</option>
+							<option value="0">UTC +0 London GMT</option>
+							<option value="3600" selected="selected">UTC +1 Amsterdam, Berlin, Bern, Rom, Stockholm, Wien</option>
+							<option value="7200">UTC +2 Athen, Helsinki, Kairo</option>
+							<option value="10800">UTC +3 Moskau, Bagdad, Teheran</option>
+							<option value="14400">UTC +4 Abu Dhabi, Kaukasus</option>
+							<option value="18000">UTC +5 Islamabad, Karatschi, Taschkent</option>
+							<option value="21600">UTC +6 Nowosibirsk, Dhaka</option>
+							<option value="25200">UTC +7 Bangkok, Hanoi, Jakarta</option>
+							<option value="28800">UTC +8 Peking, Hongkong</option>
+							<option value="32400">UTC +9 Ossaka, Sapporo, Tokyo</option>
+							<option value="36000">UTC +10 Brisbane, Wladiwostok</option>
+							<option value="39600">UTC +11 Magadan, Salomonen</option>
+							<option value="43200">UTC +12 Fidschi, Wellingtion, Marshall-Islands</option>
 						</select>
 					</dd>
 
