@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf ? 2005-2007
+    * Clansuite - just an esports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * File:         input.class.php
@@ -301,6 +301,31 @@ class input
             $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
         return $r_bool;
+    }
+    
+    /**
+     * Intrusion Alert
+     *
+     * This will display the security_breach.tpl with assigned userdata of a possible intruder.
+     *
+     * @global $tpl
+     * @global $lang
+     * @todo 1) add logging! 
+     * @todo 2) should the intrusion alert be combined with session::session_security()?
+     */
+
+    function intruder_alert()
+    {
+        global $tpl, $lang;
+
+        $tpl->assign('hacking_attempt'  , $lang->t('Possible Intrusion detected - The logging is active. A report will be generated.'));
+        $tpl->assign('user_ip'          , $_SERVER['REMOTE_ADDR']);
+        $tpl->assign('hostname'         , isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '*** not supported by your apache ***' );
+        $tpl->assign('user_agent'       , $_SERVER['HTTP_USER_AGENT']);
+
+        $tpl->display('security_breach.tpl' );
+
+        die();
     }
 }
 ?>
