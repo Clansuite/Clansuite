@@ -212,7 +212,7 @@ class httprequest implements RequestInterface, ArrayAccess
             $secure = array ( 'id', 'action', 'mod', 'sub', $cfg->session_name, 'user_id' );
             foreach( $secure as $s_value )
             {
-                 if ( isset($value[$s_value]) AND $this->check($value[$s_value] , 'is_violent' ) )
+                 if ( isset($value[$s_value]) and $this->check($value[$s_value] , 'is_violent' ) )
                 {
                     $security->intruder_alert();
                 }

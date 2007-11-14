@@ -285,7 +285,7 @@ class input
 
             $r_bool = preg_match($reg_exp, $string) ? true : false;
 
-            if ($length != 0 AND strlen($string ) > $length )
+            if ($length != 0 and strlen($string ) > $length )
             {
                 $r_bool = false;
             }
@@ -296,7 +296,7 @@ class input
             }
         }
 
-        if ($r_bool == false AND $a_types[0] != 'is_violent')
+        if ($r_bool == false and $a_types[0] != 'is_violent')
         {
             $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
         }

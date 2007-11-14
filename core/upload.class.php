@@ -89,7 +89,7 @@ class upload
         // max filesize in bytes
         $this->max_filesize = ( $max_filesize != 0 ) ? $max_filesize : $cfg->max_upload_filesize;
 
-        if( $this->_check_extension() AND $this->_check_filesize() )
+        if( $this->_check_extension() and $this->_check_filesize() )
         {
             $this->filename = $this->new_filename . '.' . $this->extension;
             $this->done = move_uploaded_file($this->file['tmp_name'], $this->upload_folder . $this->filename );
