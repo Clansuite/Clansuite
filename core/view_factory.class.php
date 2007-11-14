@@ -44,7 +44,8 @@ class view_factory
     /**
      * getRenderer
      *
-     * @params $view_type, $view,  $injector
+     * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
+     * @param $injector Dependency Injector Phemto
      * @access public
      * @return Renderer Object
      */
@@ -59,9 +60,9 @@ class view_factory
 	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
 	            {
-	                //instantiate and return the renderer and pass $injector into
+	                # instantiate and return the renderer and pass $injector into
 	                $view = new $class($injector);
-	                #var_dump($view);
+	                # var_dump($view);
 	                return $view;
 	            }
 	            else
