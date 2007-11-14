@@ -1,11 +1,11 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Clansuite - just an esports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * File:         security.class.php
-    * Requires:     PHP 5.1.4+
+    * Requires:     PHP 5.2
     *
     * Purpose:      Clansuite Core Class for Security Handling
     *
@@ -28,28 +28,27 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * This Clansuite Core Class for Security Handling
+ * This is the Clansuite Core Class for Security Handling
+ * 
+ * It contains helper functions for encrypting and salting strings/passwords.
+ * The file itself and all functions got rewritten entirely for Release 0.2.
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
- * @since      Class available since Release 0.1
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
+ * @since      Class available since Release 0.2
  *
  * @package     clansuite
  * @category    core
@@ -58,117 +57,90 @@ if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbi
 class security
 {
     /**
-     * This generates a salt, a random combination of numbers like this "4-5-6-7-8-9"
+     * This functions takes a clear (password) string and prefixes a random string called 
+     * "salt" to it. The new combined "salt+passord" string is then passed to the hashing 
+     * method to get an hash return value.
+     * For the users authentication, we store random salt and hashed password in users table
      *
-     * @return $salt
+     * @param string A clear-text string, like a password "JohnDoe$123"
+     * @return $hash is an array, containing ['salt'] and ['hash'] 
      */
-
-    function generate_salt()
+    function build_salted_hash( $hash_algo, $string = '' )
     {
-        $salt = rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
-        $salt .= '-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9).'-'.rnd(0,9);
-        return $salt;
-    }
-
-    /**
-     * This generates a double MD5 encoded string (Hash)
-     *
-     * @param string
-     * @return doubled md5 string
-     * @todo note by vain: fmpov the double encoding is somehow security by obscurity ?
-     *       is there an alternative?
-     *       note by xsign: well - it does help to NOT gain the password. You habe to decrypt
-     *       to an 32 digit password first, to get to the real password. So: no way to gain the real password.
-     *       Anyway: The SALT will the all the job to crash every hacking attempt.
-     */
-
-    function generate_md5( $string = '' )
-    {
-        return md5(md5($string ) );
-    }
-
-    /**
-     * This generates a double SHA1 encoded string (Hash)
-     *
-     * @param string
-     * @return doubled sha1 string
-     */
-
-    function generate_sha1( $string = '' )
-    {
-        return sha1(sha1($string ) );
-    }
-
-    /**
-     * This builds a salted Hash string (Cookie Hash)
-     *
-     * @global $cfg
-     * @param string
-     * @return $hash
-     */
-
-    function build_salted_hash( $string = '' )
-    {
-        global $cfg;
-
-        $salt = split('-', $cfg->salt);
-
-        switch ( $cfg->encryption )
-        {
-            case 'sha1':
-                $hash = $this->generate_sha1( $string );
-                break;
-
-            case 'md5':
-                $hash = $this->generate_md5( $string );
-                break;
-        }
-
-
-        for ($x=0; $x<6; $x++)
-        {
-            $hash = str_replace( $salt[$x], $salt[$x+6], $hash );
-        }
-
-        return $hash;
-    }
-
-    /**
-     * Build the DB salted Hash
-     *
-     * @param string
-     * @return hash
-     */
-
-    function db_salted_hash( $string = '' )
-    {
-        return $this->build_salted_hash( $this->build_salted_hash( $string ) );
-    }
-
+        # set up the array
+        $salted_hash_array = array();
+        # generate the salt with fixed length 6 and place it into the array 
+        $salted_hash_array['salt'] = $this->generate_salt(6);
+        # combine salt and string
+        $salted_string =  $salted_hash_array['salt'] . $string
+        # generate hash from "salt+string" and place it into the array
+        $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
+        # return array with elements ['salt'], ['hash']
+        return $salted_hash_array;
+    }    
     
     /**
-     * Intruder Alert
+     * This function generates a HASH of a given string using the requested hash_algorithm.
+     * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
+     * To get a complete list of avaiable hash encodings use: print_r(hash_algos());
+     * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
      *
-     * This will assign and report the userdata of the intruder and exit,
-     * in case the intruder alert is triggered.
-     *
-     * @global $tpl
-     * @global $lang
-     * @todo 1) add logging! 2) should the intrusion alert be combined with session::session_security()?
+     * @param $string String to build a HASH from
+     * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
+     * @return hashed string
+     * @link http://www.php.net/manual/en/ref.hash.php
      */
-
-    function intruder_alert()
+    function generate_hash($hash_algo = 'SHA1', $string = '')
     {
-        global $tpl, $lang;
-
-        $tpl->assign('hacking_attempt'  , $lang->t('Possible Intrusion detected - The logging is active. A report will be generated.'));
-        $tpl->assign('user_ip'          , $_SERVER['REMOTE_ADDR']);
-        $tpl->assign('hostname'         , isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '*** not supported by your apache ***' );
-        $tpl->assign('user_agent'       , $_SERVER['HTTP_USER_AGENT']);
-
-        $tpl->display('security_breach.tpl' );
-
-        die();
-    }
+        # check, if we can use hash()
+        if (function_exists('hash')) 
+        {
+            return hash($hash_algo,$string);
+        } 
+        else 
+        {   # when hash() not avaiable, do hashing the old way
+            switch($hash_algo)
+            {
+                case 'MD5':     return md5($string);
+                                break;
+                default:
+                case 'SHA1':    return sha1($string);
+                                break;
+            }  
+        }       
+    }    
+      
+    /**
+	 * Get random salt of size $length
+ 	 * mt_srand() and mt_rand() are used to generate even better 
+ 	 * randoms, because of mersenne-twisting.
+ 	 *
+	 * @param integer $length Length of random string to return
+	 * @return string Returns a string with random generated characters and numbers
+	 */
+	function generate_salt($length)
+	{
+	    # set salt to empty
+		$salt = '';
+		# seed the randoms generator with microseconds since last "whole" second
+        mt_srand((double)microtime()*1000000);
+		# set up the random chars to choose from
+		$chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        # count the number of random_chars
+        $number_of_random_chars = strlen($chars);
+        # add a char from the random_chars to the salt, until we got the wanted $length
+        for ($i=0; $i<$length; ++$i)
+		{
+		    # get a random char of $chars
+		    $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+		    # ensure that a random_char is not used twice in the salt
+		    if(!strstr($salt, $char_to_add))
+		    {
+		        # finally => add char to salt
+			    $salt .= $char_to_add;
+		    }			    
+		}
+		return $salt;
+	}   
 }
 ?>
