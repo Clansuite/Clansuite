@@ -61,6 +61,13 @@ class security
      * "salt" to it. The new combined "salt+password" string is then passed to the hashing 
      * method to get an hash return value. 
      *
+     * Why salting? 2 Reasons:
+     * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
+     *    The dictionary has to be recalculated for every account.
+     * 2) Using a salt fixes the issue of multiple user-accounts having the same password 
+     *    revealing themselves by identical hashes. So in case two passwords would be the 
+     *    same, the random salt makes the difference while creating the hash.
+     *
      * @param string A clear-text string, like a password "JohnDoe$123"
      * @return $hash is an array, containing ['salt'] and ['hash'] 
      */
