@@ -11,7 +11,7 @@
 	<meta http-equiv="content-language" content="en,de" />
 	<meta http-equiv="reply-to" content="system@clansuite.com" />
 
-	<link rel="shortcut icon" href="http://www.clansuite.com/favicon.ico" />
+	<link rel="shortcut icon" href="images/Clansuite-Favicon-16.ico" />
 	
     <link rel="stylesheet" type="text/css" href="installation.css" />
 
