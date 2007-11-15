@@ -362,8 +362,10 @@ class user
          * 2. Remember-Me ( set Logindata via Cookie )
          */
         if ( $remember_me == 1 )
-        {
+        {   
             setcookie('user_id', $user_id, time() + round($this->config['remember_me_time']*24*60*60));
+            # @todo: note by vain:
+            # build_salted_hash deprecated check security.class.php
             setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->config['remember_me_time']*24*60*60));
         }
 
