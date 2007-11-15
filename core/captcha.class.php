@@ -120,36 +120,6 @@ class captcha
     }
 
     /**
-     * Get a random captcha string by size (@link $strlength)
-     */
-
-    function randomString($str_length)
-    {
-        /**
-         * Exclusion of characters
-         * Excluded-Chars: 0, 1, 7, I, O
-         */
-
-        $excludeChars = array(48, 49, 55, 73, 79);
-
-        $captcha_str = '';
-        while (strlen($captcha_str) < $str_length)
-        {
-            $random=rand(48,122);
-            if (!in_array($random, $excludeChars) &&
-            ( ($random >= 50 && $random <= 57)   // ASCII 48->57: numbers 0-9
-            | ($random >= 65 && $random <= 90))  // ASCII 65->90: A-Z
-            | ($random >= 97 && $random <= 122)  // ASCII 97->122: a-z
-            )
-            {
-                $captcha_str.=chr($random);
-            }
-        }
-        return $captcha_str;
-    }
-
-
-    /**
      * Generate the image
      */
 
