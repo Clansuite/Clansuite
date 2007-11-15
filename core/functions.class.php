@@ -123,7 +123,7 @@ class functions
                 }
                 $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
                 $tpl->assign( 'redirect', $redirect );
-                
+
                 $tpl->assign( 'message', $message );
                 session_write_close();
                 if ( $use_tpl == 'admin' )
@@ -171,7 +171,7 @@ class functions
                     $tpl->display( 'admin/tools/confirm.tpl' );
                 }
                 else
-                {   
+                {
                     $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css);
                     $tpl->display( 'tools/confirm.tpl' );
                 }
@@ -202,28 +202,6 @@ class functions
                 }
                 break;
         }
-    }
-
-    /**
-    * @desc Get a random string by length and excluded chars
-    */
-
-    function random_string($str_length, $excluded_chars = array())
-    {
-        $string = '';
-        while (strlen($string) < $str_length)
-        {
-            $random=rand(48,122);
-            if (!in_array($random, $excluded_chars) &&
-            ( ($random >= 50 && $random <= 57)   // ASCII 48->57: numbers 0-9
-            | ($random >= 65 && $random <= 90))  // ASCII 65->90: A-Z
-            | ($random >= 97 && $random <= 122)  // ASCII 97->122: a-z
-            )
-            {
-                $string.=chr($random);
-            }
-        }
-        return $string;
     }
 
     /**
@@ -325,7 +303,7 @@ class functions
 						    if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
 						    	$this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
 						}
-                        
+
                         $old = ini_set("error_reporting", 0);
                         if(!copy($path, $dest . $file))
                         {
@@ -357,7 +335,7 @@ class functions
     	{
     		$directory = substr($directory,0,-1);
     	}
-    	
+
     	if(!is_file($directory) || !is_dir($directory))
     	{
     		return false;
