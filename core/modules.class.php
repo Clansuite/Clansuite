@@ -23,7 +23,7 @@
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @license    see COPYING.txt
-* @version    SVN: $Id: modules.class.php 129 2006-06-09 12:09:03Z vain $
+* @version    SVN: $Id$
 * @link       http://gna.org/projects/clansuite
 * @since      File available since Release 0.1
 */
@@ -108,7 +108,7 @@ class modules
     * Get Instant Content
     * Fetches the content of a module for {mod} handler function.
     *
-    * @params $params
+    * @param $params
     */
     static function get_instant_content($params)
     {
@@ -133,7 +133,7 @@ class modules
             if ( $sub != '' )
             {
                  // does submodules exits in array
-                if (isset($sub_files) AND array_key_exists($sub, $sub_files ) )
+                if (isset($sub_files) and array_key_exists($sub, $sub_files ) )
                 {
                     $folder_name = $cfg->modules[$mod]['folder_name'];
                     $file_name   = $sub_files[$sub]['file_name'];
@@ -219,7 +219,7 @@ class modules
 
             if ( $sub != '' )
             {
-                if ( isset($sub_files) AND is_array($sub_files) AND array_key_exists($sub, $sub_files ) )
+                if ( isset($sub_files) and is_array($sub_files) and array_key_exists($sub, $sub_files ) )
                 {
                     $folder_name = $cfg->modules[$mod]['folder_name'];
                     $file_name   = $sub_files[$sub]['file_name'];
