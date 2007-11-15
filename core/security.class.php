@@ -42,7 +42,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * This is the Clansuite Core Class for Security Handling
- * 
+ *
  * It contains helper functions for encrypting and salting strings/passwords.
  * The file itself and all functions got rewritten entirely for Release 0.2.
  *
@@ -57,34 +57,34 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 class security
 {
     /**
-     * This functions takes a clear (password) string and prefixes a random string called 
-     * "salt" to it. The new combined "salt+password" string is then passed to the hashing 
-     * method to get an hash return value. 
+     * This functions takes a clear (password) string and prefixes a random string called
+     * "salt" to it. The new combined "salt+password" string is then passed to the hashing
+     * method to get an hash return value.
      *
      * Why salting? 2 Reasons:
      * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
      *    The dictionary has to be recalculated for every account.
-     * 2) Using a salt fixes the issue of multiple user-accounts having the same password 
-     *    revealing themselves by identical hashes. So in case two passwords would be the 
+     * 2) Using a salt fixes the issue of multiple user-accounts having the same password
+     *    revealing themselves by identical hashes. So in case two passwords would be the
      *    same, the random salt makes the difference while creating the hash.
      *
      * @param string A clear-text string, like a password "JohnDoe$123"
-     * @return $hash is an array, containing ['salt'] and ['hash'] 
+     * @return $hash is an array, containing ['salt'] and ['hash']
      */
     function build_salted_hash( $hash_algo, $string = '' )
     {
         # set up the array
         $salted_hash_array = array();
-        # generate the salt with fixed length 6 and place it into the array 
+        # generate the salt with fixed length 6 and place it into the array
         $salted_hash_array['salt'] = $this->generate_salt(6);
         # combine salt and string
-        $salted_string =  $salted_hash_array['salt'] . $string
+        $salted_string =  $salted_hash_array['salt'] . $string;
         # generate hash from "salt+string" and place it into the array
         $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
         # return array with elements ['salt'], ['hash']
         return $salted_hash_array;
-    }    
-    
+    }
+
     /**
      * This function generates a HASH of a given string using the requested hash_algorithm.
      * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
@@ -99,11 +99,11 @@ class security
     function generate_hash($hash_algo = 'SHA1', $string = '')
     {
         # check, if we can use hash()
-        if (function_exists('hash')) 
+        if (function_exists('hash'))
         {
             return hash($hash_algo,$string);
-        } 
-        else 
+        }
+        else
         {   # when hash() not avaiable, do hashing the old way
             switch($hash_algo)
             {
@@ -113,12 +113,12 @@ class security
                 case 'SHA1':    return sha1($string);
                                 break;
             }  
-        }       
-    }    
-      
+        }
+    }
+
     /**
-	 * Get random salt of size $length
- 	 * mt_srand() and mt_rand() are used to generate even better 
+	 * Get random string/salt of size $length
+ 	 * mt_srand() and mt_rand() are used to generate even better
  	 * randoms, because of mersenne-twisting.
  	 *
 	 * @param integer $length Length of random string to return
@@ -144,9 +144,9 @@ class security
 		    {
 		        # finally => add char to salt
 			    $salt .= $char_to_add;
-		    }			    
+		    }
 		}
 		return $salt;
-	}   
+	}
 }
 ?>
