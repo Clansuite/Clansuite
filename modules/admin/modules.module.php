@@ -188,7 +188,7 @@ class module_admin_modules
                         $container['not_in_whitelist'][$x]['folder'] = '/' . $cfg->mod_folder . '/' . $content;
                         $container['not_in_whitelist'][$x]['folder_name'] = $content;
 
-                        if ( !file_exists( ROOT_MOD . '/' . $content . '/' . $content . '.config.php' ) )
+                        if ( !is_file( ROOT_MOD . '/' . $content . '/' . $content . '.config.php' ) )
                         {
                             $container['not_in_whitelist'][$x]['no_module_config'] = 1;
                         }
@@ -557,7 +557,7 @@ class module_admin_modules
                 * @desc Create as submodule
                 */
 
-                if ( file_exists( ROOT_MOD . '/' . $name . '.module.php' ) )
+                if ( is_file( ROOT_MOD . '/' . $name . '.module.php' ) )
                 {
                     // - todo -
                     // sicherstellen das hauptmodul f�r submodul als file besteht.
@@ -627,7 +627,7 @@ class module_admin_modules
                 $stmt->execute( array( $name ) );
                 $res = $stmt->fetch();
 
-                if ( file_exists( ROOT_MOD . '/' . $name ) OR is_array($res) )
+                if ( is_file( ROOT_MOD . '/' . $name ) OR is_array($res) )
                 {
                     $err['mod_already_exist'] = 1;
                 }
@@ -1068,7 +1068,7 @@ class module_admin_modules
                             $functions->dir_copy( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/', ROOT_MOD . '/' . $container['folder_name'] . '/', true, 'index.php?mod=admin&sub=admin_modules&action=import' );
                         }
 
-                        if ( file_exists ( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' ) )
+                        if ( is_file ( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' ) )
                         {
                             require( ROOT_UPLOAD . '/modules/temp/' . $container['folder_name'] . '/'. $container['name'] . '.config.php' );
                         }
