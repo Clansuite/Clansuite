@@ -124,7 +124,6 @@ class session implements ISessionHandler, ArrayAccess
     private $config     = null;
     private $db         = null;
     private $request    = null;
-    private $lang       = null;
     private $error      = null;
     private $functions  = null;
     private $input      = null;
@@ -134,7 +133,7 @@ class session implements ISessionHandler, ArrayAccess
      *
      * Overwrite php.ini settings
      * Start the session
-     * @global $this->config, $this->lang, $this->error, $this->functions, $input
+     * @global $this->config, $this->error, $this->functions, $input
      * @param object
      */
 
@@ -147,7 +146,6 @@ class session implements ISessionHandler, ArrayAccess
         $this->config       = $injector->instantiate('configuration');
         $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
-        $this->lang         = $injector->instantiate('language');
         $this->error        = $injector->instantiate('errorhandler');
         $this->functions    = $injector->instantiate('functions');
         $this->input        = $injector->instantiate('input');
@@ -510,7 +508,6 @@ class session implements ISessionHandler, ArrayAccess
      * 3.
      *
      * @global object $function
-     * @global array  $lang
      */
 
     function session_control()
@@ -541,7 +538,7 @@ class session implements ISessionHandler, ArrayAccess
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                #$this->functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $this->lang->t('Your session has expired. Please login again.') );
+                #$this->functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
             }
         }
 
