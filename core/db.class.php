@@ -162,11 +162,18 @@ class db //extends PDO
              *  Set attributes on the database handle
              */
 
-            // Set the Error Attribute
+            # Set the Error Attribute
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // Keep Database Connection persistent
-            $this->db->setAttribute(PDO::ATTR_PERSISTENT, true);
-            // Force table-column names to lower case
+            
+            /**
+             * Keep Database Connection persistent
+             * BUG: Error in my_thread_global_end()
+             * @link: http://bugs.php.net/bug.php?id=41350
+             * @todo note by vain: if problem is fixed, reenable for performance reasons
+             */            
+            #$this->db->setAttribute(PDO::ATTR_PERSISTENT, true);
+            
+            # Force table-column names to lower case
             $this->db->setAttribute(PDO::ATTR_CASE,PDO::CASE_LOWER);
 
             /**
