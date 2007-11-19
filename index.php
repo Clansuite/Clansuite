@@ -74,7 +74,7 @@ $injector = new Phemto();
 $classes = array(
 # Core
 'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db',
-'language', 'trail', 'security', 'input', 'functions', 'statistic',
+'localization', 'trail', 'security', 'input', 'functions', 'statistic',
 #Filters
 'language_via_get', 'theme_via_get', 'get_user'
 );
