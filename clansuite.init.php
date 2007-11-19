@@ -57,14 +57,23 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
  *  ================================================
  *
  *  @note: in php6 e_strict will be moved into e_all
- *  @todo in live-environment => give no information to possible attackers
- *                               set (display_errors = false) if (DEBUG = false)
  */
-ini_set('display_errors',   true);
-ini_set('track_errors',     true);
 
+# Debug-Mode is set via config
 define('DEBUG', $config['debug']);
-if ( defined('DEBUG') && DEBUG===1 ) { error_reporting(E_ALL | E_STRICT); } else { error_reporting(E_ALL ^ E_NOTICE); };
+# If Debug is enabled, set FULL error_reporting, else DISABLE it completely
+if ( defined('DEBUG') && DEBUG===1 ) 
+{ 
+    ini_set('display_errors',   true); 
+    ini_set('track_errors',     true); 
+    error_reporting(E_ALL | E_STRICT); 
+} 
+else 
+{   
+    ini_set('display_errors',   false);
+    ini_set('track_errors',     false);
+    error_reporting(0);                                 
+};
 
 /**
  *  ================================================
