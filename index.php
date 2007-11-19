@@ -1,9 +1,8 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
-    * All rights reserved
     *
     * LICENSE:
     *
@@ -24,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -74,8 +73,8 @@ require ROOT_LIBRARIES.'/phemto/phemto.php';
 $injector = new Phemto();
 $classes = array(
 # Core
-'configuration', 'httprequest', 'httpresponse', 'filtermanager', 'db',
-'language', 'errorhandler', 'trail', 'security', 'input', 'functions', 'statistic',
+'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db',
+'language', 'trail', 'security', 'input', 'functions', 'statistic',
 #Filters
 'language_via_get', 'theme_via_get', 'get_user'
 );
