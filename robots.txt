@@ -13,3 +13,4 @@ Disallow: /modules/
 Disallow: /templates/
 Disallow: /uploads/
 Disallow: /libraries/
+Disallow: /logs/
