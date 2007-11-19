@@ -127,7 +127,6 @@ class db //extends PDO
     public $last_sql;
 
     private $config     = null;
-    private $lang       = null;
     private $error      = null;
 
     /**
@@ -140,17 +139,15 @@ class db //extends PDO
      * @param string
      * @param string
      * @param string
-     * @global $lang
      * @global $tpl
      * @global $error
      * @global $config
      * @todo correct var types
      */
 
-   public function __construct(configuration $config, language $lang, errorhandler $error)
+   public function __construct(configuration $config, errorhandler $error)
    {
         $this->config = $config;
-        $this->lang   = $lang;
         $this->error  = $error;
         
         /**
