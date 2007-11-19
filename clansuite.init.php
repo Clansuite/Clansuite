@@ -146,6 +146,8 @@ if(function_exists('mb_http_output'))
 {
 	mb_http_output($config['outputcharset']);
 	mb_internal_encoding($config['outputcharset']);
+	# replace mail(), str*(), ereg*() by mbstring functions
+    ini_set('mbstring.func_overload','7');
 }
 /*
 if (function_exists('iconv')
