@@ -202,6 +202,7 @@ class db //extends PDO
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
                 # SET CHARACTER Collation to UTF-8 / Unicode (mysql)
+                # @link http://dev.mysql.com/doc/refman/5.0/en/charset-syntax.html
                 # @todo change to config value?
                 $this->exec('SET CHARACTER SET utf8');
             }
