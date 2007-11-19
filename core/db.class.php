@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf � 2005-2007
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * File:         db.class.php
@@ -158,10 +158,7 @@ class db //extends PDO
          */
         try
         {
-            /**
-             * Create PDO object
-             */
-
+            # Create PDO object
             $this->db = new PDO("$config->db_type:dbname=$config->db_name;host=$config->db_host", $config->db_username, $config->db_password, array ());
 
             /**
@@ -182,12 +179,12 @@ class db //extends PDO
              */
             if(defined('PDO::ATTR_EMULATE_PREPARES'))
             {
-                // these pdo settings require atleast PHP >= 5.1.3
+                # these pdo settings require atleast PHP >= 5.1.3
                 $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             }
             else
             {
-                // fallback for earlier versions
+                # fallback for earlier versions
                 $this->db->setAttribute(PDO::MYSQL_ATTR_DIRECT_QUERY, true);
             }
 
@@ -201,22 +198,21 @@ class db //extends PDO
 
             if ( $config['db_type'] == 'mysql' )
             {
-                // Use buffered queries
+                # Use buffered queries
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
-                // Unicode (mysql)
+                # SET CHARACTER Collation to UTF-8 / Unicode (mysql)
+                # @todo change to config value?
                 $this->exec('SET CHARACTER SET utf8');
             }
         }
-
-        // In case Database Error occurs catch exception and show Error
-        catch (PDOException $e)
+        # In case a PDOException occurs, catch the exception and show Error
+        catch (PDOException $exception)
         {
-            $this->error->show( $this->lang->t('DB Connection Failure'), $this->lang->t('The Database Connection could not be established.') . '<br/> Error : ' . $e->getMessage() . '<br/>');
-            die();
+            $this->error->ysod( $exception, _('DB Connection Failure'), _('The Database Connection could not be established.'));
+            exit();
         }
-    }
-
+    } 
     /**
      * CALL magic-method -> function-forward to $db
      *
