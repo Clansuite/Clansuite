@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * File:         errorhandling.class.php
@@ -28,8 +28,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -44,10 +43,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This Clansuite Core Class for Error Handling
  *
+ * Version 0.1
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
- * @since      Class available since Release 0.1
+ *
+ * Version 0.2
+ * File was rewritten for Release 0.2.
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
  *
  * @package     clansuite
  * @category    core
@@ -55,42 +59,40 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class errorhandler
 {
-    private $lang;
+    # holds configuration instance
     private $config;
-    private $db;
 
-    function __construct(language $lang, configuration $config)
+    /**
+     * errorhandler Constructor
+     *
+     * - Sets up the ErrorHandler and ExceptionHandler
+     * # loads the languagefile error.xml
+     * # registers the {error} block which calls smarty_error function
+     */
+    function __construct(configuration $config)
     {
-
-        $this->lang     = $lang;
+        # set instance of configuration to this class
         $this->config   = $config;
-        #$this->db       = $db;
 
-        /*
-         * This sets up the error callbacks
-         *
-         * - sets up error handlers
-         * - sets up exception handlers
-         * - loads the languagefile error.xml
-         * - registers the {error} block which calls smarty_error function
-         */
-        // set error handling language to default language
-        $this->lang->load_lang('error', $this->config->language);
+        # set error handling language to default language
+        #$this->lang->load_lang('error', $this->config->language);
 
         #if(!DEBUG)
         #{
         if( function_exists('set_error_handler') )
         {
-            set_error_handler(array($this, 'clansuite_error_handler') );
+            set_error_handler(array($this, 'clansuite_error_handler'), error_reporting());
         }
         #trigger_error('bla');
 
         # register own exception handler
         if( function_exists('set_exception_handler') )
         {
-            set_exception_handler(array($this, 'clansuite_exception_handler' ) );
+            set_exception_handler(array($this, 'clansuite_exception_handler' ));
         }
 
+        # register own shutdown function
+        register_shutdown_function('shutdown_and_exit');
 		#}
 
         # turn smarty error into php+html with defines
@@ -120,119 +122,169 @@ class errorhandler
 
         if ( !empty($string) )
         {
-            $error->show( $lang->t($params['title']), $lang->t($string), $params['level'] );
+            $this->ysod( $params['title'], $string, $params['level'] );
         }
     }
 
     /**
-     * clansuite error_handler callback function
+     * Clansuite Error callback.
      *
      * This is basically a switch defining the actions taken,
      * in case of serveral PHP Error States
      *
-     * @param integer $errno contains the error as integer
-     * @param string $errstr contains error string info
-     * @param string $errfile contains the filename with occuring error
-     * @param string $errline contains the line of error
+     * @param integer $errornumber contains the error as integer
+     * @param string $errorstring contains error string info
+     * @param string $errorfile contains the filename with occuring error
+     * @param string $errorline contains the line of error
      * @global $tpl
      * @global $config
+     * @link http://www.usegroup.de/software/phptutorial/debugging.html
+     * @link http://www.php.net/manual/de/function.set-error-handler.php
      */
-    public function clansuite_error_handler( $errno, $errstr, $errfile, $errline )
+    public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline )
     {
-        /**
-         * Error Reporting is silenced
-         * So this is also the place to handle @ operator
-         */
+        # just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
         if(($this->config->suppress_errors == 0) OR (error_reporting() == 0))
         {
             return;
         }
 
-        // set error details to class
+        # set the error time
+        $errortime=date($CONF[date_format].' '.$CONF[time_format]);
+
+        # define errorTypes array - with names for all the php error codes
+        $errorTypes = array (    1      => 'E_ERROR',
+                                 2      => 'E_WARNING',
+                                 4      => 'E_PARSE',
+                                 8      => 'E_NOTICE',
+                                 16     => 'E_CORE_ERROR',
+                                 32     => 'E_CORE_WARNING',
+                                 64     => 'E_COMPILE_ERROR',
+                                 128    => 'E_COMPILE_WARNING',
+                                 256    => 'E_USER_ERROR',
+                                 512    => 'E_USER_WARNING',
+                                 1024   => 'E_USER_NOTICE',
+                                 2047   => 'E_ALL',
+                                 2048   => 'E_STRICT',
+                                 4096   => 'E_RECOVERABLE_ERROR',
+                                 6143   => 'E_ALL'); # PHP 6 -> 8191
 
 
-		echo 'Fehlernummer: '. $errno;
-        switch ($errno)
+        # check if the error number exists in the errortypes array
+        if (array_key_exists($errornumber, $errorTypes))
         {
-            case E_STRICT:
-            case E_COMPILE_ERROR:
-            case E_CORE_ERROR:
-            case E_USER_ERROR:
-            case E_ERROR:
-                echo "<div style='width:50%; border-style: solid; border-width:1px; border-color: red; margin-top:10px;'>\n";
-                echo "<br /><b>BLA ERROR</b> [$errno] $errstr<br />\n";
-                #print_my_backtrace($errno,debug_backtrace());
-                echo "</div>\n";
-               die();
-                /*$this->tpl->assign('error_type'       , 1 );
-                $this->tpl->assign('error_head'       , 'FATAL ERROR' );
-                $this->tpl->assign('code'             , $errno );
-                $this->tpl->assign('debug_info'       , $errstr );
-                $this->tpl->assign('file'             , $errfile );
-                $this->tpl->assign('line'             , $errline );
-                die(  $this->tpl->display('error.tpl' ) );   */
-            case E_PARSE:
-            case E_COMPILE_WARNING:
-            case E_CORE_WARNING:
-            case E_RECOVERABLE_ERROR:
-            case E_USER_WARNING:
-            case E_WARNING:
-            	echo "<div style='width:50%; border-style: solid; border-width:1px; border-color: red; margin-top:10px;'>\n";
-                echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
-                #print_my_backtrace($errno,debug_backtrace());
-                echo "</div>\n";
-              	die();
+            # get the errorname from the array via $errornumber
+            $errorname = $errorTypes[$errornumber];
+        }
+        else
+        {
+            # when it's not in there, it has to be an exception
+            $errorname = 'CAUGHT EXCEPTION';
+        }
 
-                if ($this->config->suppress_errors == 0 )
-                {
-                    echo "<b>Warning:</b> $errno: $errstr | File: $errfile | Line: $errline<br />";
-                }
-                if ( defined('DEBUG') && DEBUG===1 )
-                {
-                    $this->error_log['warning'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-                }
-                break;
-            case E_USER_NOTICE:
-                if ( defined('DEBUG') && DEBUG===1 )
-                {
-                    $this->error_log['user_notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-                }
-            case E_NOTICE:
-                echo "OWN: $errno: $errstr | File: $errfile | Line: $errline";
-                if ( defined('DEBUG') && DEBUG===1 )
-                {
-                    $this->error_log['notice'][] = "$errno: $errstr | File: $errfile | Line: $errline";
-                }
-                break;
+        # set error details to class
+		echo 'Fehlernummer: '. $errornumber;
 
+        # Handling the ErrorType via Switch
+        switch ($errornumber)
+        {
+            # the first few errortypes simply for clearification
+            # not could not be handled by a user-defined errorhandler
+            case E_ERROR:               # fatal run-time errors, like php is failing memory allocation
+            case E_PARSE:               # compile-time parse errors - generated by the parser
+            case E_CORE_ERROR:          # PHP Core reports errors in PHP's initial startup
+            case E_CORE_WARNING:        # PHP Core reports warning (non-fatal errors)
+            case E_COMPILE_ERROR:       # Zend Script Engine reports fatal compile-time errors
+            case E_COMPILE_WARNING:     # Zend Script Engine reports compile-time warnings (non-fatal errors)
+                            
+                                        $error = 'Errors not handled by user-defined errorhandler';
+			                            break;
+
+            case E_STRICT:              # Run-time notices
+                                        echo 'Hello to the Strict Error';
+            case E_USER_ERROR:          # trigger_error() reports error
+            case E_USER_WARNING:        # trigger_error() reports warning
+            case E_USER_NOTICE:         # trigger_error() reports notice            
+            case E_RECOVERABLE_ERROR:   # catchable fatal error, if not catched it's an e_error            
+            case E_WARNING:             # Run-time warnings (non-fatal errors)            
+            case E_NOTICE:              # Run-time notices
+            #case E_ALL:                # ALL 
             default:
+                # if DEBUG is set, display the error, else log the error
                 if ( defined('DEBUG') && DEBUG===1 )
                 {
-                    $this->error_log['unknown'][] = "$errno: $errstr | File: $errfile | Line: $errline";
+                    echo "<b>$errorname:</b> $errornumber: $errorstring | File: $errorfile | Line: $errorline";
+                }
+                else
+                {
+
+                    # error logging: log the error with the logging_type according to config file
+                    switch ($config['logging_type'])
+                    {
+                        default:
+                        case 'php':
+                                            $this->error_log['unknown'][] = "<b>$errorname:</b> $errornumber: $errorstring | File: $errorfile | Line: $errorline";
+                                            break;
+                        case 'file':
+                                            $logfile = WWW_ROOT . $config['logging_folder'] . $config['log_filename'];
+                                            $file = fopen($logfile,"a");
+                                            fwrite ($file,"\r\n--[ ".$errortime." ] => ".$errorstring .' - '. $errornumber."\r\n");
+                                            fwrite ($file,"$errorname: $errornumber: $errorstring | File: $errorfile | Line: $errorline \r\n");
+                                            fwrite ($file,"~~~~\r\n");
+                                            fclose($file);
+
+                                            break;
+                        case 'database':
+                                            break;
+                    }
+
+                    # mail error
+                    # @todo mail via swiftmailer 
+                    if ($config['mail_on_errors'])
+                    {
+                        mail($config['mail_on_errors'],"Clansuite Error report","\r\n--[ ".$errortime." ] => ".$errorstring .' - '. $errornumber."\r\n $errorname: $errornumber: $errorstring | File: $errorfile | Line: $errorline \r\n ~~~~\r\n");
+                    }
                 }
                 break;
         }
 
-        // Skip PHP internal error handler */
-        return true; 
+        # Skip PHP internal error handler
+        return true;
     }
 
     /**
-     * Exception Handler callback function
+     * Exception Handler Callback
      *
+     * Uncaught Exception will bubble up and trigger an ERROR?
      * This is used to trigger the output via errorhandler::show,
-     * when suppress_errors is not enabled
+     * when suppress_errors is not enabled.
      *
-     * @param $e
-     * @global $config
-     * @global $lang
-     * @global $db
+     * @param $exception
      *
      * @see error::show()
+     * @todo
      */
-
-    public function clansuite_exception_handler( $e )
+    public function clansuite_exception_handler( Exception $exception )
     {
+        # @todo: Logger
+        /*
+        if()
+        {
+
+        }
+        */
+
+        # @todo: Email Errors
+        /*
+        if($email_on_error == 1)
+        {
+
+        }
+        */
+        
+        # timestamp of the error
+        $timestamp = date("d-m-Y H:i:s");
+
         if ($this->config->suppress_errors == 0 )
         {
             $this->show('Uncaught exception : ' . $e->getCode(), $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last DB-Query:&nbsp;</b>' . $this->db->last_sql, 1 );
@@ -240,11 +292,7 @@ class errorhandler
     }
 
     /**
-     * This method is used to show errors
-     *
-     * It a switch on different error level
-     * it assings the error strings
-     * outputs the error.tpl
+     * Yellow Screen of Death (YSOD) is used to display errors
      *
      * @param string $error_head contains the Name of the Error
      * @param string $string contains errorstring
@@ -252,39 +300,54 @@ class errorhandler
      * @param string $redirect contains redirect url
      * @global $tpl
      */
-
-    public function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
+    public function ysod( $ErrorObject, $error_head = 'Unknown Error', $string = '', $error_level = 3, $redirect = '' )
     {
-		echo '<br />errorhead '. $error_head;
-		echo '<br />string '. $string;
-
-
-
-
-        #$this->tpl->assign('error_head'    , $error_head );
-        #$this->tpl->assign('debug_info'    , $string );
-		/**
-        switch ( $level )
-        {
-            case '1':
-                $this->tpl->assign('error_type', 1 );
-                $redirect!='' ? $this->tpl->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
-                $content = $this->tpl->fetch( 'error.tpl' );
-                die( $content );
-                break;
-
-            case '2':
-                $this->tpl->assign('error_type', 2 );
-                return( $this->tpl->fetch( 'error.tpl' ) );
-                break;
-
-            case '3':
-                $this->tpl->assign('error_type', 3 );
-                echo( $this->tpl->fetch( 'error.tpl' ) );
-                break;
+        # Header
+        echo '<html><head>';
+        echo '<title>Clansuite Error Page -'. $error_head .' Errortype '. $error_level .'</title>';
+        echo '<body>';
+        echo '<link rel="stylesheet" href="'. WWW_ROOT .'/templates/core/css/error.css" type="text/css" />';
+        echo '</head>';
+        # Body
+        echo '<body>';
+        # Fieldset with colours
+        if ($error_level == 1)     { echo '<fieldset class="error_red">'; }
+        elseif ($error_level == 2) { echo '<fieldset class="error_orange">'; }
+        elseif ($error_level == 3) { echo '<fieldset class="error_beige">'; }
+        # Fieldset Legend
+        echo "<legend>$error_head</legend>";
+        # Error String (passed Error Description)
+        echo '<strong>'.$string.'</strong>';
+        # Error Messages from the ErrorObject
+        echo "<div style='border-style: solid; border-width:1px; border-color: red; margin-top:10px;'>\n";
+        echo '<p><table>';
+        echo '<tr><td><strong>ErrorCode:</strong></td><td>'.$ErrorObject -> getCode().'</td></tr>';
+        echo '<tr><td><strong>Message:</strong></td><td>'.$ErrorObject -> getMessage().'</td></tr>';
+        echo '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject -> getFile()).'</td></tr>';
+        echo '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject -> getFile()).'</td></tr>';
+        echo '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject -> getLine().'</td></tr>';
+        echo '</table>';
+        echo "</div>\n";
+    	# If Debug is enabled, display extended Error Information (tracing etc.)
+    	if(DEBUG===1)
+    	{
+    	    /*
+            $trace = array();
+            if (function_exists('debug_backtrace')) {
+                $trace = array_shift(debug_backtrace());
+            }
+            echo '<br> '.var_dump($trace);
+            */
+    	    echo '<br>';
+            #echo $ErrorObject->getTraceAsString();
         }
-		*/
+        echo '</fieldset>';
+        echo '</body></html>';
+    }
 
+    function shutdown_and_exit()
+    {
+        echo '<p><b>Clansuite execution stopped.</b></p>';
     }
 }
 ?>
