@@ -105,6 +105,7 @@ class configuration implements ArrayAccess
         $this->config['tpl_folder']         = 'templates';
         $this->config['mod_folder']         = 'modules';
         $this->config['upload_folder']      = 'uploads';
+        %this->config['logging_folder']     = 'logs';    
 
         // SwiftMail configuration
 
@@ -184,11 +185,14 @@ class configuration implements ArrayAccess
         $this->config['use_cookies_only'] = 0;
         $this->config['session_name'] = 'suiteSID';
 
-        // Error Handling
+        // Error Handling & Logging
 
         $this->config['suppress_errors'] = 0;
         $this->config['debug'] = 1;
         $this->config['debug_popup'] = 0;
+        $this->config['mail_on_errors'] = 0;
+        $this->config['log_filename'] = 'clansuite_errors.log';
+        $this->config['logging_type'] = 'php';      # Error Logging Type: php, file, database
 
         // Developers configuration
 
