@@ -64,15 +64,13 @@ class user
     
     private $config     = null;
     private $db         = null;  
-    private $lang       = null; 
     private $security   = null;
     
     // forward -> create user and check for login cookie
-    function __construct(configuration $config, db $db, language $lang, security $security )
+    function __construct(configuration $config, db $db, security $security )
     {   
         $this->config       = $config;
         $this->db           = $db;       
-        $this->lang         = $lang;
         $this->security     = $security;  
     }
     /**
@@ -116,7 +114,6 @@ class user
      * @param $nick
      * @global $db
      * @global $this->session
-     * @global $lang
      * @global $function
      */
 
@@ -175,7 +172,7 @@ class user
             setcookie('user_id', false);
             setcookie('password', false);
             session::_session_destroy(session_id());
-            $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, $lang->t('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
+            $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
 
         /**
@@ -187,15 +184,15 @@ class user
              * User infos
              */
 
-            $_SESSION['user']['authed']     = 1;
-            $_SESSION['user']['user_id']    = $user['user_id'];
+            $_SESSION['user']['authed']         = 1;
+            $_SESSION['user']['user_id']        = $user['user_id'];
 
-            $_SESSION['user']['password']   = $user['password'];
-            $_SESSION['user']['email']      = $user['email'];
-            $_SESSION['user']['nick']       = $user['nick'];
+            $_SESSION['user']['passwordhash']   = $user['passwordhash'];
+            $_SESSION['user']['email']          = $user['email'];
+            $_SESSION['user']['nick']           = $user['nick'];
 
-            $_SESSION['user']['disabled']   = $user['disabled'];
-            $_SESSION['user']['activated']  = $user['activated'];
+            $_SESSION['user']['disabled']       = $user['disabled'];
+            $_SESSION['user']['activated']      = $user['activated'];
 
             // Fallback: first take user['language'], else standard language as defined by $this->config['->language
             if ( $_SESSION['user']['language_via_url'] == '0' )
@@ -244,15 +241,15 @@ class user
             /***/
              #echo 'Fill $_SESSION[user] with Guest-User-infos';
                         
-            $_SESSION['user']['authed']     = 0;
-            $_SESSION['user']['user_id']    = 0;
-            $_SESSION['user']['nick']       = $this->lang->t('Guest');
+            $_SESSION['user']['authed']         = 0;
+            $_SESSION['user']['user_id']        = 0;
+            $_SESSION['user']['nick']           = $this->lang->t('Guest');
 
-            $_SESSION['user']['password']   = '';
-            $_SESSION['user']['email']      = '';
+            $_SESSION['user']['passwordhash']   = '';
+            $_SESSION['user']['email']          = '';
 
-            $_SESSION['user']['disabled']   = 0;
-            $_SESSION['user']['activated']  = 0;
+            $_SESSION['user']['disabled']       = 0;
+            $_SESSION['user']['activated']      = 0;
             
             // Fallback: standard language as defined by $this->config['->language
             if (empty($_SESSION['user']['language']))
@@ -313,7 +310,7 @@ class user
         if( $login_method == 'nick' )
         {
             // get user_id and password with the nick
-            $stmt = $this->db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE nick = ? LIMIT 1' );
+            $stmt = $this->db->prepare( 'SELECT user_id, passwordhash FROM ' . DB_PREFIX . 'users WHERE nick = ? LIMIT 1' );
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         }
@@ -321,13 +318,14 @@ class user
         if( $login_method == 'email' )
         {
             // get user_id and password with the email
-            $stmt = $this->db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
+            $stmt = $this->db->prepare( 'SELECT user_id, passwordhash FROM ' . DB_PREFIX . 'users WHERE email = ? LIMIT 1' );
             $stmt->execute( array( $value ) );
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         // if user was found, check if passwords match each other
-        if ( is_array($user) && $user['password'] == $this->security->db_salted_hash( $password ) )
+        // @todo: note by vain: db_salted_hash is deprecated!
+        if ( is_array($user) && $user['passwordhast'] == $this->security->db_salted_hash( $password ) )
         {
             // ok, user with nick or email exists and passwords matched
             // return the user_id
