@@ -1,7 +1,7 @@
 <?php
   /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+    * Clansuite - just an esports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -62,15 +62,15 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
 # Debug-Mode is set via config
 define('DEBUG', $config['debug']);
 # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-if ( defined('DEBUG') && DEBUG===1 ) 
-{ 
-    ini_set('display_errors',   true);  # display errors in the browser 
+if ( defined('DEBUG') && DEBUG===1 )
+{
+    ini_set('display_errors',   true);  # display errors in the browser
     error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
-} 
-else 
-{   
+}
+else
+{
     ini_set('display_errors',   false); # do not display errors in the browser
-    error_reporting(0);                 # do not report errors                
+    error_reporting(0);                 # do not report errors
 };
 
 /**
@@ -174,8 +174,6 @@ if(!ini_get('zlib.output_compression') === true)
   define('OB_GZIP', true);
 }
 
-
-
 /**
  * Set Timezone
  *
@@ -183,8 +181,9 @@ if(!ini_get('zlib.output_compression') === true)
  *      (2) date_default_timezone_set()
  *      (3) putenv(TZ=)
  *
- * PHP 5.1 strftime fix by setting the timezone
- * Lot more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
+ * PHP 5.1 strftime() and date-calculation bugfix by setting the timezone
+ * For a lot more timezones look in the Appendix H of the PHP Manual
+ * @link http://php.net/manual/en/timezones.php
  * @todo make $timezone configurable by user (small dropdown) or autodetected from user
  */
 $timezone = 'Europe/Berlin';
