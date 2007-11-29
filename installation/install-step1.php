@@ -29,23 +29,24 @@
                         <select name="lang" style="width: 160px"
                             onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php
-                echo '<option value="">- Select Language -</option>';
-                foreach (new DirectoryIterator('./languages/') as $file) {
-                   // get each file not starting with dots ('.','..')
-                   // or containing ".install.php"
-                   if ((!$file->isDot()) && preg_match("/.install.php$/",$file->getFilename()))
-                   {
-                      $file = substr($file->getFilename(), 0, -12);
-                      // the shortest way to show a selected item by vain :D
-                      echo '<option';
-                      if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
-                      echo '>';
-                      echo $file;
-                      echo "</option>\n";
-                   }
-                }
-                echo "</select>\n";
-                ?>
+                    echo '<option value="">- Select Language -</option>';
+                    foreach (new DirectoryIterator('./languages/') as $file) {
+                       // get each file not starting with dots ('.','..')
+                       // or containing ".install.php"
+                       if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
+                       {
+                          // the shortest way to show a selected item by vain :D
+                          echo '<option style="padding-left: 40px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                          $file = substr($file->getFilename(), 0, -4);
+                          if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
+                          echo '>';
+                          echo $file;
+                          echo "</option>\n";
+                       }
+                    }
+                    echo "</select>\n";
+                    ?>
+                
                     </p>
         	         <div id="content_footer" style="min-height:185px;">
                     <div class="navigation">
