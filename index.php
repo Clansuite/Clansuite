@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
+    * Clansuite - just an esports CMS
     * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
@@ -116,4 +116,6 @@ if(XDBUG){ clansuite_xdebug::end_xdebug(); }
 
 #benchmark::timemarker('end', 'Exectime:');
 #echo benchmark::timemarker('list');
+
+var_dump($text_domains);
 ?>

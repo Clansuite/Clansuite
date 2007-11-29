@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf  
+    * Clansuite - just an esports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -45,16 +45,16 @@
  * Sorry, but include_path is not my favorite choice when it comes to path assignments.
  * Any ideas or help on that topic? Report to board or contact me.
  *
- * TODO by vain: 
+ * TODO by vain:
  * 1. Check about default implementation and support of ini_set paths while autoloading!
- * 2. Check about specific file-extension and their support while autoloading, 
+ * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
  */
 class clansuite_loader
 {
     /**
      * clansuite_loader:setup();
-     * 
+     *
      * Overwrites Zend Engines _autoload Cache with our own loader-functions
      * by registering Single File Loaders via spl_autoload_register($load_function)
      *
@@ -64,23 +64,23 @@ class clansuite_loader
     {
         spl_autoload_register(array ('clansuite_loader','loadCoreClass'));
         spl_autoload_register(array ('clansuite_loader','loadClass'));
-        spl_autoload_register(array ('clansuite_loader','loadFilter')); 
+        spl_autoload_register(array ('clansuite_loader','loadFilter'));
     }
-    
+
     /**
-     * Require File 
+     * Require File
      * if file found
      *
      * @return bool
      */
     private static function requireFile($filename)
-    {   
+    {
         if (is_file($filename))
         {
             require ($filename);
             return true;
-        }       
-        return false;        
+        }
+        return false;
     }
 
     /**
@@ -112,7 +112,7 @@ class clansuite_loader
         #echo '<br>loaded Core-Class => '. $filename;
         return self::requireFile($filename);
     }
-    
+
     /**
      * loadModul
      *
@@ -134,12 +134,12 @@ class clansuite_loader
         #echo '<br>loaded Module => '. $filename;
         return self::requireFile($filename);
     }
-    
+
     /**
      * loadFilter
      * requires: clansuite/core/filters/classname.filter.php
-     * require if found 
-     *    
+     * require if found
+     *
      * @param classname
      * @return boolean
      */
