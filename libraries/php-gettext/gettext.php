@@ -20,7 +20,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
- 
+
 /**
  * Provides a simple gettext replacement that works independently from
  * the system's gettext abilities.
@@ -35,57 +35,21 @@
  */
 class gettext_reader {
   //public:
-   var $error = 0; // public variable that holds error code (0 if no error)
+  public $error                 = 0;     // public variable that holds error code (0 if no error)
    
-   //private:
-  var $BYTEORDER = 0;        // 0: low endian, 1: big endian
-  var $STREAM = NULL;
-  var $short_circuit = false;
-  var $enable_cache = false;
-  var $originals = NULL;      // offset of original table
-  var $translations = NULL;    // offset of translation table
-  var $pluralheader = NULL;    // cache header field for plural forms
-  var $total = 0;          // total string count
-  var $table_originals = NULL;  // table for original strings (offsets)
-  var $table_translations = NULL;  // table for translated strings (offsets)
-  var $cache_translations = NULL;  // original -> translation mapping
+  //private:
+  private $BYTEORDER            = 0;     // 0: low endian, 1: big endian
+  private $STREAM               = NULL;
+  private $short_circuit        = false;
+  private $enable_cache         = false;
+  private $originals            = NULL;  // offset of original table
+  private $translations         = NULL;  // offset of translation table
+  private $pluralheader         = NULL;  // cache header field for plural forms
+  private $total                = 0;     // total string count
+  private $table_originals      = NULL;  // table for original strings (offsets)
+  private $table_translations   = NULL;  // table for translated strings (offsets)
+  private $cache_translations   = NULL;  // original -> translation mapping
 
-
-  /* Methods */
-  
-    
-  /**
-   * Reads a 32bit Integer from the Stream
-   * 
-   * @access private
-   * @return Integer from the Stream
-   */
-  function readint() {
-      if ($this->BYTEORDER == 0) {
-        // low endian
-        return array_shift(unpack('V', $this->STREAM->read(4)));
-      } else {
-        // big endian
-        return array_shift(unpack('N', $this->STREAM->read(4)));
-      }
-    }
-
-  /**
-   * Reads an array of Integers from the Stream
-   * 
-   * @param int count How many elements should be read
-   * @return Array of Integers
-   */
-  function readintarray($count) {
-    if ($this->BYTEORDER == 0) {
-        // low endian
-        return unpack('V'.$count, $this->STREAM->read(4 * $count));
-      } else {
-        // big endian
-        return unpack('N'.$count, $this->STREAM->read(4 * $count));
-      }
-  }
-  
   /**
    * Constructor
    * 
@@ -125,6 +89,44 @@ class gettext_reader {
     $this->originals = $this->readint();
     $this->translations = $this->readint();
   }
+
+  /* Methods */
+  
+    
+  /**
+   * Reads a 32bit Integer from the Stream
+   * 
+   * @access private
+   * @return Integer from the Stream
+   */
+  function readint() {
+      $return_string = null;
+      if ($this->BYTEORDER == 0) {
+        // low endian
+        $return_string = unpack('V', $this->STREAM->read(4));
+        return array_shift($return_string); 
+      } else {
+        // big endian
+        $return_string = unpack('N', $this->STREAM->read(4));
+        return array_shift($return_string); 
+      }
+    }
+
+  /**
+   * Reads an array of Integers from the Stream
+   * 
+   * @param int count How many elements should be read
+   * @return Array of Integers
+   */
+  function readintarray($count) {
+    if ($this->BYTEORDER == 0) {
+        // low endian
+        return unpack('V'.$count, @$this->STREAM->read(4 * $count));
+      } else {
+        // big endian
+        return unpack('N'.$count, @$this->STREAM->read(4 * $count));
+      }
+  } 
   
   /**
    * Loads the translation tables from the MO file into the cache
