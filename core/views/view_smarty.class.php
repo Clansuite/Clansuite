@@ -34,7 +34,7 @@ class view_smarty extends renderer_base
     private $db         = null;
     private $trail      = null;
     private $functions  = null;
-    private $language   = null;
+    private $localization   = null;
 
     /**
      * 1) Initialize Smarty via class constructor
@@ -50,7 +50,7 @@ class view_smarty extends renderer_base
       $this->db             = $this->injector->instantiate('db');
       $this->trail          = $this->injector->instantiate('trail');
       $this->functions      = $this->injector->instantiate('functions');
-      $this->language       = $this->injector->instantiate('language');
+      $this->localization   = $this->injector->instantiate('localization');
 
       /**
        * Sets up Smarty Template Engine (Smarty Object)
@@ -156,18 +156,18 @@ class view_smarty extends renderer_base
         # Modifiers
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # @todo: check functionality
-        $this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+        #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
 
         /**
          * Sets up {translate} block in SMARTY Template Engine
          *
          * This makes {translate}{/translate} avaiable in templates.
-         * It's callback to language::smarty_translate()
+         * It's callback to localization::smarty_translate()
          *
          * @see language::smarty_translate()
          * {@link function smarty_translate}
          */
-        $this->smarty->register_block("translate", array('language','smarty_translate'), false);
+        $this->smarty->register_block("translate", array('localization','smarty_translate'), false);
 
         /**
          * Assign Paths, which were defined as Constants (for general use in tpl)
@@ -232,7 +232,7 @@ class view_smarty extends renderer_base
         $statistic = $this->injector->instantiate('statistic');
         $this->smarty->assign('stats', $statistic->get_statistic_array());
         # Assign Benchmarks
-        $this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
+        #$this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
 
         /**
          * Check for our Copyright-Sign {$copyright} and assign it
