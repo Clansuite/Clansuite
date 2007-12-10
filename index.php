@@ -43,11 +43,6 @@ define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug
 # Define security constant
 define('IN_CS', true);
 
-# Benchmarking
-# todo: error-detection within benchmarkarrays
-#require 'core/benchmark.class.php';
-#benchmark::timemarker('begin', 'Exectime:');
-
 /**
  *  ==========================================
  *     Configuration, Initalization, Loader
@@ -113,9 +108,4 @@ $clansuite->processRequest($request, $response);
 
 # Stop debugging and show debugging infos.
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
-
-#benchmark::timemarker('end', 'Exectime:');
-#echo benchmark::timemarker('list');
-
-var_dump($text_domains);
 ?>
