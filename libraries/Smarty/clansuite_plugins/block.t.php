@@ -69,6 +69,8 @@ function smarty_gettext_strarg($str)
  *       - 'no'/'off'/0 - turns off escaping
  *   - plural - The plural version of the text (2nd parameter of ngettext())
  *   - count - The item count for plural mode (3rd parameter of ngettext())
+ *
+ * Modifed for use with php-gettext by Jens-Andre Koch.
  */
 function smarty_block_t($params, $text, &$smarty)
 {
@@ -94,9 +96,9 @@ function smarty_block_t($params, $text, &$smarty)
 	
 	// use plural if required parameters are set
 	if (isset($count) && isset($plural)) {
-		$text = ngettext($text, $plural, $count);
+		$text = T_ngettext($text, $plural, $count); # vain: prefixed "T_" for usage of php-gettext
 	} else { // use normal
-		$text = gettext($text);
+		$text = T_gettext($text);                   # vain: prefixed "T_" for usage of php-gettext
 	}
 
 	// run strarg if there are parameters
