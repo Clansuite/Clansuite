@@ -1,7 +1,7 @@
 <?php
-    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+   /**
+    * Clansuite - just an esports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -32,6 +32,16 @@
     * @version    SVN: $Id$
     */
 
+/**
+ * Clansuite_XDEBUG
+ *
+ * This class initializes xdebug at system start-up and displays debug 
+ * and runtime-informations at application shutdown.
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  xdebug
+ */
 class clansuite_xdebug
 {
     # Total Page Parsing Time

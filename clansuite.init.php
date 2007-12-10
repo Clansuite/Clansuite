@@ -124,8 +124,9 @@ ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
 /**
- * Unicode Settings
- *
+ *  ================================================
+ *     Unicode & Charset Settings
+ *  ================================================
  * @link    http://www.php.net/manual/en/ref.unicode.php
  */
 #declare(encoding=$config['outputcharset']);
@@ -175,8 +176,9 @@ if(!ini_get('zlib.output_compression') === true)
 }
 
 /**
- * Set Timezone
- *
+ *  ================================================
+ *     Set Timezone Settings
+ *  ================================================
  * with (1) ini_set()
  *      (2) date_default_timezone_set()
  *      (3) putenv(TZ=)
