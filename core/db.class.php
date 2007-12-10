@@ -277,9 +277,9 @@ class db //extends PDO
 
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
-        benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
+        #benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->execute( $args );
-        benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
+        #benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->closeCursor();
         $res = NULL;
 
@@ -300,9 +300,9 @@ class db //extends PDO
         $this->last_sql = $sql;
         $this->queries[] = $sql;
           
-        benchmark::timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
+        #benchmark::timemarker('db_begin', 'Database Query | Query No.'. $this->query_counter);
         $res = $this->db->query($sql);
-        benchmark::timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
+        #benchmark::timemarker('db_end', 'Database Query | Query No.'. $this->query_counter);
        
         return $res;
     }
@@ -396,9 +396,9 @@ class db //extends PDO
         $this->last_sql = $sql;
         $this->execs[] = $sql;
 
-        benchmark::timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
+        #benchmark::timemarker('db_begin', 'Database Exec | No.'. $this->exec_counter);
         $res = $this->db->exec($sql );
-        benchmark::timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
+        #benchmark::timemarker('db_end', 'Database Exec | No.'. $this->exec_counter);
 
         return $res;
     }
@@ -494,9 +494,9 @@ class db_statements //extends PDOStatement
         $this->db->stmt_counter++;
         $this->db->queries[] = $this->db_statement->queryString;
   
-        benchmark::timemarker('db_begin', 'Database Statement | No.'. $this->db->stmt_counter);
+        #benchmark::timemarker('db_begin', 'Database Statement | No.'. $this->db->stmt_counter);
         $res = $this->db_statement->execute($args);
-        benchmark::timemarker('db_end', 'Database Statement | No.'. $this->db->stmt_counter);
+        #benchmark::timemarker('db_end', 'Database Statement | No.'. $this->db->stmt_counter);
      
         return $res;
     }        
