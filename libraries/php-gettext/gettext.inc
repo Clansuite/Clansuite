@@ -53,20 +53,22 @@ $CURRENTLOCALE = '';
 function _get_reader($domain=null, $category=5, $enable_cache=true) {
 	global $text_domains, $default_domain, $LC_CATEGORIES;
 	if (!isset($domain)) $domain = $default_domain;
-	if (!isset($text_domains[$domain]->l10n)) {
+	if (!isset($text_domains[$domain]['l10n'])) {
 		// get the current locale
 		$locale = _setlocale(LC_MESSAGES, 0);
-		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
+		$p = isset($text_domains[$domain]['path']) ? $text_domains[$domain]['path'] : './';
 		$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+		# path debugging
+		# var_dump($path);
 		if (file_exists($path)) {
 			$input = new FileReader($path);
 		}
 		else {
 			$input = null;
 		}
-		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);
+		$text_domains[$domain]['l10n'] = new gettext_reader($input, $enable_cache);
 	}
-	return $text_domains[$domain]->l10n;
+	return $text_domains[$domain]['l10n'];
 }
 
 /**
@@ -91,7 +93,7 @@ function _check_locale() {
 function _get_codeset($domain=null) {
 	global $text_domains, $default_domain, $LC_CATEGORIES;
 	if (!isset($domain)) $domain = $default_domain;
-	return (isset($text_domains[$domain]->codeset))? $text_domains[$domain]->codeset : ini_get('mbstring.internal_encoding');
+	return (isset($text_domains[$domain]['codeset']))? $text_domains[$domain]['codeset'] : ini_get('mbstring.internal_encoding');
 }
 
 /**
@@ -127,7 +129,7 @@ function _setlocale($category, $locale) {
             return _setlocale($category, $CURRENTLOCALE);
     } else {
         $ret = 0;
-        if (function_exists('setlocale')) // I don't know if this ever happens ;)
+        #if (function_exists('setlocale')) // I don't know if this ever happens ;)
            $ret = setlocale($category, $locale);
         if (($ret and $locale == '') or ($ret == $locale)) {
             $EMULATEGETTEXT = 0;
@@ -151,7 +153,7 @@ function _bindtextdomain($domain, $path) {
 	// ensure $path ends with a slash
 	if ($path[strlen($path) - 1] != '/') $path .= '/';
 	elseif ($path[strlen($path) - 1] != '\\') $path .= '\\';
-	$text_domains[$domain]->path = $path;
+	$text_domains[$domain]['path'] = $path;
 }
 
 /**
@@ -159,7 +161,7 @@ function _bindtextdomain($domain, $path) {
  */
 function _bind_textdomain_codeset($domain, $codeset) {
 	global $text_domains;
-	$text_domains[$domain]->codeset = $codeset;
+	$text_domains[$domain]['codeset'] = $codeset;
 }
 
 /**
