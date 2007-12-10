@@ -49,14 +49,18 @@
  * 1. Check about default implementation and support of ini_set paths while autoloading!
  * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  loader
  */
 class clansuite_loader
 {
     /**
-     * clansuite_loader:setup();
+     * clansuite_loader:register_autoload();
      *
-     * Overwrites Zend Engines _autoload Cache with our own loader-functions
-     * by registering Single File Loaders via spl_autoload_register($load_function)
+     * Overwrites Zend Engines _autoload cache with our own loader-functions
+     * by registering single file loaders via spl_autoload_register($load_function)
      *
      * @access static
      */
