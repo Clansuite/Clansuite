@@ -1,11 +1,15 @@
-CREDITS and THANKS to the following projects:
+CREDITS and THANKS to the following projects and persons:
 
  - PROJECTNAME          WWW                                         LICENCE
 
  - Smarty               http://smarty.php.net                       LGPL
-   - especially Jay Boots, Brett Zamir
+   - especially Jay Boots
+
+ - SmartyDocB		http://sourceforge.net/projects/smartydocb/ LGPL
+   - especially Brett Zamir
    
- - Flyspray             http://flyspray.rocks.cc/                   GNU Lesser General Public Licence Version 2.1
+ - Flyspray             http://www.flyspray.org/                   GNU Lesser General Public Licence Version 2.
+   - especially Florian 'Floele' Schmitz
  
  - Scriptaculous        http://script.aculo.us                      MIT License
  
@@ -18,3 +22,8 @@ CREDITS and THANKS to the following projects:
  - Phemto               http://sourceforge.net/projects/phemto/     Public Domain
  
  - GsQuery              http://jr.terragate.net/gsQuery/docs/       LGPL
+
+ - SwiftMailer		http://www.swiftmailer.org		    
+   - especially Chris 'd11wtq'Corbyn
+
+ - Geshi		http://qbnz.com/highlighter/		    GPL
