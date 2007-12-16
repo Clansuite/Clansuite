@@ -1,4 +1,4 @@
 <?php
-$clansuite_version       = '0.1.0';
+$clansuite_version       = '0.2';
 $clansuute_version_state = 'alpha-dev';
 ?>
