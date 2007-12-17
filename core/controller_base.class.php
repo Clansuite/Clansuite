@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -33,7 +33,12 @@
     */
 
 /**
- * Abstract class is parent class for all (Page)Controllers
+ * Controller_Base
+ *
+ * Is an abstract class (parent class) to share some common features
+ * for all (Module/Page)-Controllers. You could call it ActionController.
+ * It`s abstract because it should only extended, not instantiated.
+ *
  * 1. saves a copy of the cfg class
  * 2. makes sure that controllers have an index() and execute() method
  * 3. provide access to create_global_view
@@ -46,72 +51,73 @@ abstract class controller_base
      * @access protected
      */
     protected $output = null;
-    
+
     // note by vain: check if these are still needed -> from v0.1 now deprecated?
     // positional check: this is view-related!
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
-    
+
     // Variable contains the name of the rendering engine
     public $renderEngine = null;
-    
+
     // Variable contains the name of the template
     public $templateName = null;
-    
+
     // Variable contains the Dependecy Injector
     public $injector = null;
-    
+
     function __construct()
     {
-       
-    }  
-    
+
+    }
+
     /**
      * Set dependency injector (SetterInjection)
      * Type Hint set to only accept Phemto
      */
-    public function setInjector(Phemto $injector) 
+    public function setInjector(Phemto $injector)
     {
     	$this->injector = $injector;
     }
-    
-    /** 
+
+    /**
      * Set view
      */
     public function setView($view)
     {
         $this->view = $view;
     }
-    
+
     /**
      * sets the Rendering Engine
-     * 
-     * 
-     */    
+     *
+     *
+     */
     public function setRenderEngine($renderer)
     {
         $this->renderEngine = $renderer;
     }
-    
+
     /**
-     * returns the Rendering Engine, if empty Smarty is set and returned
+     * Returns the Name of the Rendering Engine.
+     * Returns Smarty if no rendering engine is set
      *
      * @access public
      * @return renderengine object, smarty as default
      */
     public function getRenderEngineName()
     {
-        if(empty($this->renderEngine)) 
-        { 
+        if(empty($this->renderEngine))
+        {
             $this->setRenderEngine('smarty');
         }
         return $this->renderEngine;
     }
-    
+
     /**
-     * Returns the Rendering Engine
+     * Returns the Rendering Engine Object
      * param1 getRenderEngineName looks up the Renderer-Name
-     * param2 pass injector to renderer 
+     * param2 pass injector to renderer
      *
      * @access public
      * @return renderengine object
@@ -120,7 +126,7 @@ abstract class controller_base
     {
         return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
-    
+
     /**
      * Set the template name
      *
@@ -130,33 +136,34 @@ abstract class controller_base
     {
         $this->templateName = $templateName;
     }
-    
+
     /**
      * Returns the Template Name
      */
     public function getTemplateName()
     {
+        # if the templateName was not set, we try several paths to find an tpl
         if(empty($this->templateName))
         {
             # construct templatename with partial path from module name and action
             # $tplname = getModuleName getActionName
             $tplname = 'modulename/actionname.tpl';
-            
-            # check if template exists in 
+
+            # check if template exists in
             # modules/modulename/templates/renderer/actioname.tpl
-            if(is_file( ROOT_MODULES . getModuleNAme .'templates/'.$tplname))
+            if(is_file( ROOT_MOD . getModuleName .'templates/'.$tplname))
             {
-                
+
                 $this->setTemplate($tplname);
             }
             else
             {
-                
-            }            
+
+            }
         }
         return $this->templateName;
     }
-    
+
     /**
      * controller_base::getView();
      * returns an instance of the render engine object and prepares it for rendering the output
@@ -166,22 +173,53 @@ abstract class controller_base
      * 3. return VIEW
      *
      * @access public
-     */    
+     */
     public function getView()
-    {                   
-        
-        #$response = $this->injector->instantiate('response');    
+    {
+
+        #$response = $this->injector->instantiate('response');
         #$response->setRenderer($template);
         #$response->setContentType();
         #$response->setContent($this->output);
         #$response->flush();
-        
+
     }
-       
+
     /**
-     * Force Extending classes to define this methods
+     * controller_base::forward();
+     *
+     * This forwards from one controller function to
+     * another function of the same controller
+     * an functions of an different controller.
+     *
+     * @access public
+     */
+    public function forward($functionName, $controllerName)
+    {
+        # forward to controller-name + controller-action
+        
+        # event log 
+
+    }
+
+    /**
+     * controller_base::redirect();
+     *
+     *
+     * @access public
+     */
+    public function redirect()
+    {
+        # redirect to ...
+
+        # event log
+
+    }
+
+    /**
+     * Force Extending classes to define this methods:
      */
     abstract function index();
-    abstract function execute($request, $response);
+    abstract function execute($request,$response);
 }
 ?>
