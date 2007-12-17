@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -86,11 +86,11 @@ class clansuite_controllerresolver implements ControllerResolverInterface
 
             // Construct Classname
             $class = 'module_' . strtolower($this->defaultModule);
-        }   
-        
+        }
+
         # Return Module Object
         $controller = new $class();
-        return $controller;       
+        return $controller;
     }
 
 }
@@ -186,35 +186,23 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         $moduleController = $this->resolver->getController($request);
         $moduleController->setInjector($this->injector);
 
-        
-            $trail = $this->injector->instantiate('trail');
-            $trail->trail_stop(true);
-            
-            // Set Locale and Language for requested module
-            #$locale = $this->LocaleResolver()->resolveLocale($request);
-            $lang = $this->injector->instantiate('language'); 
-            $lang->load_lang(substr(get_class($moduleController), 7), $_SESSION['user']['language'] );
+        // Set Locale and Language for requested module
+        #$locale = $this->LocaleResolver()->resolveLocale($request);
+        $this->injector->instantiate('localization');
         
         # 3)
         $moduleController->execute($request, $response);
-        $trail->trail_stop(false);
-        
+
         # 4)
         $this->post_filtermanager->processFilters($request, $response);
-        
+
         # 5)
         $view = $moduleController->getRenderEngine();
-        
+
         # 6)
         # pushes RenderEngine generated Output to the response and calls $response->flush!
-                
-        /**
-        $response->setRenderer($template);
-        $response->setContentType();
-        $response->setContent($this->output);
 
-        */
-        $response->setContent($view->render($moduleController->getTemplateName));
+        $response->setContent($view->render($moduleController->getTemplateName()));
         $response->flush();
     }
 }
