@@ -243,7 +243,7 @@ class user
                         
             $_SESSION['user']['authed']         = 0;
             $_SESSION['user']['user_id']        = 0;
-            $_SESSION['user']['nick']           = $this->lang->t('Guest');
+            $_SESSION['user']['nick']           = 'Guest'; #T_('Guest');
 
             $_SESSION['user']['passwordhash']   = '';
             $_SESSION['user']['email']          = '';
