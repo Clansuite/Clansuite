@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -36,8 +36,18 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
     
 /**
- * View Factory 
- * includes and instantiates the Renderer Object
+ * View Factory
+ *
+ * The static method getRenderer() returns the included and instantiated 
+ * Rendering Engine Object - which is the View in MVC!
+ *
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$Date$)
+ * @since      Class available since Release 0.2
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  view
  */
 class view_factory
 {
