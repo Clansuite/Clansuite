@@ -1,6 +1,6 @@
 <?php
-  /**
-    * Clansuite - just an esports CMS
+   /**
+    * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005-2007
     * http://www.clansuite.com/
     *
