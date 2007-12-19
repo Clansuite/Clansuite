@@ -76,18 +76,33 @@ else
 /**
  *  ================================================
  *     Define Constants
- *   - Path Assignments, - *_ROOT, - *_NAME
- *   - DB_PREFIX
  *  ================================================
+ *   - Path Assignments
+ *   - ROOT & *_ROOT
+ *   - WWW_ROOT & WWW_ROOT_*
+ *   - DB_PREFIX
+ *   - NL
  */
-# DEFINE -> ROOT (get absolute path of current working dir)
+# DEFINE -> ROOT
+# Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
 define('ROOT',  getcwd() . '/');
 #define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
 
+# DEFINE -> Directories related to ROOT
+define('ROOT_MOD'           , ROOT . $config['mod_folder']);
+define('ROOT_TPL'           , ROOT . $config['tpl_folder']);
+define('ROOT_LANGUAGES'     , ROOT . $config['language_folder']);
+define('ROOT_CORE'          , ROOT . $config['core_folder']);
+define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder']);
+define('ROOT_UPLOAD'        , ROOT . $config['upload_folder']);
+
 # DEFINE -> Webpaths for Templates
+
 # 1. SERVER_URL
 define('SERVER_URL'    , 'http://'.$_SERVER['SERVER_NAME']);
 # 2. Build WWW_ROOT = complete www-path with server from SERVER_URL, depending on os-system
+# Purpose of WWW_ROOT is to provide the complete www-path for later use in templates
+# Example: WWW_ROOT = 'http://www.yourdomain.com/clansuite_root_directory/';
 if (dirname($_SERVER['PHP_SELF']) == "\\" )
 {
     define('WWW_ROOT', SERVER_URL );
@@ -96,17 +111,12 @@ else
 {
     define('WWW_ROOT', SERVER_URL.dirname($_SERVER['PHP_SELF']) );
 }
+
+# DEFINE -> Directories related to WWW_ROOT
 define('WWW_ROOT_TPL'       , WWW_ROOT . '/' . $config['tpl_folder']);
 define('WWW_ROOT_TPL_CORE'  , WWW_ROOT . '/' . $config['tpl_folder'] .  '/core');
 
-# DEFINE -> Directories
-define('ROOT_MOD'           , ROOT . $config['mod_folder']);
-define('ROOT_TPL'           , ROOT . $config['tpl_folder']);
-define('ROOT_LANGUAGES'     , ROOT . $config['language_folder']);
-define('ROOT_CORE'          , ROOT . $config['core_folder']);
-define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder']);
-define('ROOT_UPLOAD'        , ROOT . $config['upload_folder']);
-# DEFINE -> Database
+# DEFINE -> Database Prefix
 define('DB_PREFIX'          , $config['db_prefix']);
 # DEFINE -> HTML Break + Carriage Return
 define('NL', "<br />\r\n");
