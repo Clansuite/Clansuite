@@ -52,7 +52,7 @@ interface response_interface
 }
 
 /**
- * response represents the response object
+ * httpresponse represents the response object
  * on a request processed by clansuite.
  */
 class httpresponse implements response_interface
@@ -140,7 +140,7 @@ class httpresponse implements response_interface
      * @param  string  $content    Content to store in the buffer
      */
     public function setContent($content)
-    {   
+    {
         $this->body .= $content;
     }
 
@@ -158,7 +158,7 @@ class httpresponse implements response_interface
 
         // Send X-Powered-By Header to Clansuite Signature
         $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $config['version'] .' ][ www.clansuite.com ]');
-        
+
          // Send our Content-Type with UTF-8 encoding
         $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
 
@@ -170,13 +170,13 @@ class httpresponse implements response_interface
 
         // Finally PRINT the response body
         print $this->body;
-        
+
         // Flush Compressed Buffer
         if(defined('OB_GZIP')){ new gzip_encode(7); }
 
         // reset headers and data
         $this->headers = array();
-        $this->data = null;       
+        $this->data = null;
     }
 
     /**
@@ -191,6 +191,7 @@ class httpresponse implements response_interface
         // safe session data
         session_write_close();
         // set status and header location to redirect url
+        // and flush it to the client!
         $this->setStatus($status);
         $this->addHeader('Location', $url)->flush();
     }

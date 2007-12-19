@@ -55,11 +55,14 @@ interface RequestInterface
 }
 
 /**
- * Request class for encapsulating access to superglobal $_REQUEST
- * two ways of access: via methods and via arrayaccess array handling
+ * httprequest
+ *
+ * Request class for encapsulating access to the superglobal $_REQUEST.
+ * There are two ways of access: 
+ * (1) via methods and (2) via spl arrayaccess array handling.
  * 
  * @todo: split $_REQUEST into GET and POST with each seperate access methods
- *
+ * 
  */
 class httprequest implements RequestInterface, ArrayAccess
 {
@@ -164,13 +167,14 @@ class httprequest implements RequestInterface, ArrayAccess
                         '_FILES'
                       /**
                        * Notice by vain:
-                       * argc+argv are php commandline stuff
-                       * on an webserver-environment they are found in _SERVER
-                       * thats why they are commented off
+                       * argc+argv are php commandline (CLI) stuff
+                       * on an webserver-environment they are found in _SERVER.
+                       * hats why they are commented off
                        *
-                       * Watch out for the comma on the start of the next line
+                       * If you need them, remove commenting. 
+                       * and watch out to keep the comma on the start of the next line
                        */
-                       //,'argc','argv'
+                       #,'argc','argv'
                      );
     
      	// Create a list of all of the keys from the super-global values.
