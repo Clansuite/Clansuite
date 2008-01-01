@@ -16,3 +16,8 @@ php_value output_buffering      "1"
 
 # 4. For safety reasons you should disable the following php functions:
 #php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
+
+# 5. Rewrite Engine and Rewrite Rules (for Apache)
+# Turn Rewrite Engine on and route all non-ressource requests to index.php
+RewriteEngine on
+RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
