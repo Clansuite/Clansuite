@@ -167,14 +167,20 @@ class clansuite_frontcontroller implements ControllerCommandInterface
     /**
      * clansuite_frontcontroller::processRequest()
      *
+     * Speaking in very basic concepts: this is a RequestHandler.
+     * It handles the dispatching of the request.
+     * Calls/executes the apropriate controller
+     * and returns a response.
+     *
      * Processing:
      * 1. execute preFilters
      * 2. get the modulecontroller via clansuite_controllerresolver
-     * 3. execute modulecontroller
-     * 4. execute postFilters
-     * 5. fetches view / getRendererEngine
-     * 6. assign view to response / getTemplate
-     * 7. flush response
+     * 3. set Injector to modulecontroller
+     * 4. execute modulecontroller
+     * 5. execute postFilters
+     * 6. fetches view / getRendererEngine
+     * 7. assign view to response / getTemplate
+     * 8. flush response
      *
      */
     public function processRequest(httprequest $request, httpresponse $response)
@@ -184,25 +190,23 @@ class clansuite_frontcontroller implements ControllerCommandInterface
 
         # 2)
         $moduleController = $this->resolver->getController($request);
+
+        # 3)
         $moduleController->setInjector($this->injector);
 
-        // Set Locale and Language for requested module
-        #$locale = $this->LocaleResolver()->resolveLocale($request);
-        $this->injector->instantiate('localization');
-        
-        # 3)
+        # 4)
         $moduleController->execute($request, $response);
 
-        # 4)
+        # 5)
         $this->post_filtermanager->processFilters($request, $response);
 
-        # 5)
+        # 6)
         $view = $moduleController->getRenderEngine();
 
-        # 6)
-        # pushes RenderEngine generated Output to the response and calls $response->flush!
-
+        # 7) pushes RenderEngine generated Output to the response
         $response->setContent($view->render($moduleController->getTemplateName()));
+
+        # 8)
         $response->flush();
     }
 }
