@@ -49,6 +49,8 @@ interface response_interface
     public function addHeader($name, $value);
     public function setContent($data);
     public function flush();
+    public function newCookie($name, $value);
+    public function redirect($url, $status = null);
 }
 
 /**
@@ -177,6 +179,21 @@ class httpresponse implements response_interface
         // reset headers and data
         $this->headers = array();
         $this->data = null;
+    }
+
+    /**
+     * Sets a Cookie
+     *
+     * @todo: until php6 namespaces, function name can not be setCookie
+     *        because this would conflict with the php function
+     *
+     * @param string name
+     * @param string value
+     * @access public
+     */
+    public function newCookie($name, $value)
+    {
+        
     }
 
     /**
