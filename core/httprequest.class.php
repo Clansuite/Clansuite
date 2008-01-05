@@ -50,6 +50,10 @@ interface RequestInterface
     public function getParameter($name);
     public function getHeader($name);
 
+    public function getRequestMethod();
+    public function getCookie($name);
+    public function isSecure();
+
     #public function getAuthData();
     public function getRemoteAddress();
 }
@@ -58,11 +62,11 @@ interface RequestInterface
  * httprequest
  *
  * Request class for encapsulating access to the superglobal $_REQUEST.
- * There are two ways of access: 
+ * There are two ways of access:
  * (1) via methods and (2) via spl arrayaccess array handling.
- * 
+ *
  * @todo: split $_REQUEST into GET and POST with each seperate access methods
- * 
+ *
  */
 class httprequest implements RequestInterface, ArrayAccess
 {
@@ -82,7 +86,7 @@ class httprequest implements RequestInterface, ArrayAccess
         }
         #$this->cleanup_request();
         $this->fix_magic_quotes();
-        
+
         # 2) Clear Array and Assign the $_REQUEST Global to it
         $this->parameters = array();
         $this->parameters = $_REQUEST;
@@ -123,7 +127,7 @@ class httprequest implements RequestInterface, ArrayAccess
 
     /**
      * Get Value of a specific http-header
-     * 
+     *
      * @todo: docblock
      * @param
      */
@@ -144,9 +148,61 @@ class httprequest implements RequestInterface, ArrayAccess
     {
         return $_SERVER['REMOTE_ADDR'];
     }
-    
+
     /**
-     * Cleans the global scope of all variables that are found 
+     * Get $_SERVER REMOTE_ADDRESS
+     */
+    public function getRequestMethod()
+    {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    /**
+     * Gets a Cookie
+     */
+    public function getCookie($name)
+    {
+
+    }
+
+    /**
+     * Check if https is used
+     *
+     * @todo by vain: check HTTP_X_FORWARD_PROTO?
+     */
+    public function isSecure()
+    {
+        if(isset($_SERVER['HTTPS']) && ( $_SERVER['HTTPS'] = '1' or $_SERVER['HTTPS'] = 'on'))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    /**
+     * Checks if a ajax-request is given, by checking
+     * X-Requested-With Header for xmlhttprequest.
+     *
+     * @return bool
+     */
+    public function isXhr()
+    {
+       if(strtolower($_SERVER['X-Requested-With']) == 'xmlhttprequest')
+       {
+           return true;
+       }
+       else
+       {
+           return false;
+       }
+    }
+
+    /**
+     * Cleans the global scope of all variables that are found
      * in other super-globals.
      *
      * This code originally from Richard Heyes and Stefan Esser.
@@ -171,12 +227,12 @@ class httprequest implements RequestInterface, ArrayAccess
                        * on an webserver-environment they are found in _SERVER.
                        * hats why they are commented off
                        *
-                       * If you need them, remove commenting. 
+                       * If you need them, remove commenting.
                        * and watch out to keep the comma on the start of the next line
                        */
                        #,'argc','argv'
                      );
-    
+
      	// Create a list of all of the keys from the super-global values.
         // Use array_keys() here to preserve key integrity.
         $keys = array_merge(
@@ -190,7 +246,7 @@ class httprequest implements RequestInterface, ArrayAccess
                     // This insures that a check is performed regardless.
                     isset($_SESSION) && is_array($_SESSION) ? array_keys($_SESSION) : array()
                 );
-    
+
          // Unset the globals.
          foreach ($keys as $key)
          {
@@ -200,11 +256,11 @@ class httprequest implements RequestInterface, ArrayAccess
             }
          }
     }
-    
-    
+
+
     /**
      * Essential clean-up of $_REQUEST
-     * Handles possible Injections 
+     * Handles possible Injections
      */
     private function cleanup_request()
     {
@@ -249,8 +305,8 @@ class httprequest implements RequestInterface, ArrayAccess
                     break;
             }
         }
-    }   
-    
+    }
+
      /**
      * Revert magic_quotes() if still enabled
      * @access public static
@@ -323,7 +379,7 @@ class httprequest implements RequestInterface, ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->parameters[$offset]);        
+        return isset($this->parameters[$offset]);
     }
 
     public function offsetGet($offset)
@@ -339,6 +395,6 @@ class httprequest implements RequestInterface, ArrayAccess
     {
         //unset($this->parameter[$offset]);
         //return true;
-    }    
+    }
 }
 ?>
