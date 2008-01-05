@@ -74,9 +74,14 @@ class clansuite_xdebug
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
-        #xdebug_start_trace();
-        #xdebug_get_code_coverage();
-        #ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
+        #ini_set('xdebug.auto_trace', 'On');
+        ini_set('xdebug.show_mem_delta', 'On');
+        ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
+        ini_set('xdebug.xdebug.collect_return', 'On');
+        
+        xdebug_start_trace(XDEBUG_TRACE_HTML);
+        xdebug_get_code_coverage();
+        
         }
     }
 
