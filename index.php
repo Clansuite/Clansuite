@@ -38,7 +38,7 @@
     *  =====================================================================
     */
 # Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 1); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 # Define security constant
 define('IN_CS', true);
