@@ -41,7 +41,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Start of Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
+ * Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
@@ -61,13 +61,13 @@ class localization
     {
        $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
        $this->encoding = 'UTF-8';      # sets encoding -> @todo: get charset encoding from config
-      
+
        /**
         * Set Locale
         *
-        * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config) 
+        * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
     	*/
-    	
+
     	/*
     	if ($_SESSION['user']['language_via_url'] == '1')
         {
@@ -94,7 +94,7 @@ class localization
          * Require PHP-gettext's emulative functions, if PHP gettext extension is off
          *
          * The library provides a simple gettext replacement that works independently from
-         * the system's gettext abilities. 
+         * the system's gettext abilities.
          * It can read the MO files and use them for the translation of strings.
          *
          * Review the following articles/manual to understand how this works:
@@ -103,7 +103,7 @@ class localization
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
         require ROOT_LIBRARIES.'/php-gettext/gettext.inc';
-        
+
         # Load Clansuite Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $this->locale);
     }
@@ -226,6 +226,6 @@ class localization
 
         # remove the duplicates and return the browser languages
         return array_values( array_unique( $browserLanguages ) );
-	}	
+	}
 }
 ?>
