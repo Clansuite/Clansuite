@@ -31,14 +31,14 @@
     *
     * @version    SVN: $Id$
     */
-    
+
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Clansuite Core Class - clansuite_view_smarty
  *
- * Smarty Template System
+ * This is a wrapper/adapter for the Smarty Template Engine.
  *
  * {@link http://smarty.php.net/ smarty.php.net}
  * {@link http://smarty.incutio.com/ smarty wiki}
@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @package     clansuite
  * @category    core
- * @subpackage  template
+ * @subpackage  view
  */
 
 class view_smarty extends renderer_base
@@ -61,8 +61,6 @@ class view_smarty extends renderer_base
 	 */
     private $smarty     = null;
 
-    protected $injector   = null;   # holds instance of Dependency Injector Phemto (object)
-
     private $config     = null;
     private $db         = null;
     private $trail      = null;
@@ -73,7 +71,7 @@ class view_smarty extends renderer_base
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
      */
-    function __construct(Phemto $injector=null)
+    function __construct(Phemto $injector = null)
     {
       # apply instances to class
       $this->injector = $injector;
@@ -86,9 +84,11 @@ class view_smarty extends renderer_base
       $this->localization   = $this->injector->instantiate('localization');
 
       /**
+       * ==============================================
        * Sets up Smarty Template Engine (Smarty Object)
        *    by initializing Render_SmartyDoc as
        *    custom-made Smarty Document Processor
+       * ==============================================
        *
        * @note by vain: Please leave the following commented lines,
        *                i need them for SmartyDOC development!
@@ -100,12 +100,17 @@ class view_smarty extends renderer_base
       $this->smarty = new Render_SmartyDoc();
 
       /**
+       * ===================================
        * Set Configurations to Smarty Object
+       * ===================================
        */
       self::smarty_configuration();
     }
 
-    function smarty_configuration()
+    /**
+     * Smarty Configurations
+     */
+    private function smarty_configuration()
     {
         #### SMARTY DEBUGGING
         $this->smarty->debugging           = DEBUG ? true : false;
@@ -214,31 +219,117 @@ class view_smarty extends renderer_base
 
     /**
      * Returns Smarty Object
+     *
+     * @return Smarty
      */
-    function getEngine()
+    public function getEngine()
     {
         return $this->smarty;
     }
 
     /**
+     * Adds a Template Path
      *
+     * @param string $templatepath Template-Directory to have Smarty search in
+     * @return void
      */
-    function display($template, $data = null)
+    public function setTemplatePath($templatepath)
     {
-        echo 'view_smarty->display() called!';
-        $this->smarty->display($template, $data = null);
+        if (is_dir($templatepath) && is_readable($templatepath))
+        {
+            $this->smarty->template_dir[] = $templatepath;
+        }
+        else
+        {
+            throw new Exception('Invalid template path provided');
+        }
+    }
+
+    /**
+     * Get the TemplatePaths from Smarty
+     *
+     * @return string
+     */
+    public function getTemplatePaths()
+    {
+        return $this->smarty->template_dir;
+    }
+
+    /**
+     * Set/Assign a Variable to Smarty
+     *
+     * 1. Set a single Key-Variable ($tpl_parameter) with it's value ($value)
+     * 2. Set a array with multiple Keys and Values
+     *
+     * @see __set()
+     * @param string|array $tpl_parameter Is a Key or an Array.
+     * @param mixed $value (optional) In case a key-value pair is used, $value is the value.
+     * @return void
+     */
+    public function assign($tpl_parameter, $value = null)
+    {
+        # if array
+        if (is_array($tpl_parameter)) {
+            $this->smarty->assign($tpl_parameter);
+            return;
+        }
+
+        # if single key-value pair
+        $this->smarty->assign($tpl_parameter, $value);
+    }
+
+    /**
+     * Magic Method to set/assign Variable to Smarty
+     *
+     * @param string $key der Variablenname
+     * @param mixed $val der Variablenwert
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        $this->smarty->assign($key, $value);
+    }
+
+    /**
+     * Magic Method to get a already set/assigned Variable from Smarty
+     *
+     * @param string $key Name of Variable
+     * @return mixed Value of key
+     */
+    public function __get($key)
+    {
+        return $this->smarty->get_template_vars($key);
+    }
+
+    /**
+     * Executes the template rendering and returns the result.
+     */
+    public function fetch($template, $data = null)
+    {
+        return $this->smarty->fetch($template, $data = null);
+    }
+
+    /**
+     * Executes the template rendering and displays the result.
+     */
+    public function display($template, $data = null)
+    {
+       $this->smarty->display($template, $data = null);
     }
 
     /**
      * view_smarty->render
      *
-     * 1. common assings to smarty
-     * 2. fetch the modultemplate and assign as $content
-     * 3. return mainframe tpl
+     * Returns the mainframe layout with inserted modulcontent.
      *
-     * returns mainframe.tpl layout
+     * 1. common assings to smarty
+     * 2. fetch the modultemplate and assigns it as $content
+     * 3. return the mainframe tpl
+     *
+     * @param string $templatename Template Filename
+     * @return mainframe.tpl layout
      */
-    function render($templatename)
+    public function render($templatename)
     {
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
