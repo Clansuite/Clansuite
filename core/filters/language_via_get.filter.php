@@ -53,11 +53,13 @@
  */
 class language_via_get implements FilterInterface
 {
-    private $config     = null;
+    private $config     = null;     # holds instance of config
+    private $locale     = null;     # holds instance of localization
 
-    function __construct(configuration $config)
+    function __construct(configuration $config, localization $locale)
     {
-       $this->config    = $config;
+       $this->config    = $config;      # set instance of config to class
+       $this->locale    = $locale;      # set instance of localization to class
     }
 
     public function execute(httprequest $request, httpresponse $response)
