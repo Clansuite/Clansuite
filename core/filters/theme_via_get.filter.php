@@ -29,19 +29,16 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id$
+    * @version    SVN: $id$
     */
 /**
- * Clansuite Filter
+ * Clansuite Filter - Theme via URL
+ *
  * @package Clansuite
  * @subpackage filters
- */
-
-/**
- * theme_via_url Filter Function
  *
  * Purpose: Sets Theme via URL by appendix $_GET['theme']
- * Example: index.php?theme=themename
+ * Usage example: index.php?theme=themename
  * When request parameter 'theme' is set, the user session value for theme will be updated
  *
  * @implements IFilter
