@@ -76,7 +76,7 @@ $classes = array(
 foreach($classes as $class) { $injector->register(new Singleton($class)); }
 
 # Initialize Session, then register the session-depending User-Object manually
-new session($injector);
+new clansuite_session($injector);
 $injector->register('user');
 
 /**
