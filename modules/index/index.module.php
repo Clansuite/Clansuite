@@ -20,13 +20,12 @@
  *
  * @license    GNU/GPL, see COPYING.txt
  *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$Date$), Florian Wolf (2006-2007)
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$Date$)
  *
  * @link       http://www.clansuite.com
  * @link       http://gna.org/projects/clansuite
- * @since      File available since Release 0.1
+ * @since      File available since Release 0.2
  *
  * @version    SVN: $Id$
  */
@@ -36,6 +35,9 @@
  */
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+/**
+ * Interface for all modules
+ */ 
 interface clansuite_module
 {
     function execute(httprequest $request, httpresponse $response);
@@ -44,12 +46,14 @@ interface clansuite_module
 /**
  * module INDEX controller
  * Purpose: A PageController which has many pages to deal with for the current Module.
+ *
+ * Class was rewritten for Version 0.2
  */
-class module_index extends controller_base //implements clansuite_module
+class module_index extends controller_base #implements clansuite_module
 {
-    function __construct($injector=null)
+    function __construct(Phemto $injector=null)
     {
-        parent::__construct();
+        parent::__construct(); # run constructor on controller_base  
     }
 
     /**
@@ -57,14 +61,12 @@ class module_index extends controller_base //implements clansuite_module
      *
      * switches between $_REQUEST['action'] Vars to the functions
      */
-
     public function execute($request, $response)
     {
-        $lang = $this->injector->instantiate('language');
         $trail = $this->injector->instantiate('trail');
        
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Index'), '/index.php?mod=index');
+        $trail->addStep(T_('Index'), '/index.php?mod=index');
         
         switch ($request->getParameter('action'))
         {
@@ -89,8 +91,30 @@ class module_index extends controller_base //implements clansuite_module
 
     function index()
     {
-        $this->output = 'action index called';
-        $this->show();
+        // Laden 
+        Clansuite_Doctrine::doctrine_bootstrap();
+        
+        require ROOT . '/myrecords/generated/BaseCsNews.php';
+        require ROOT . '/myrecords/CsNews.php'; 
+        
+        // Creating pager object
+	    $pager = new Doctrine_Pager(
+     	    Doctrine_Query::create()
+     	    	->from( 'csnews n' )
+     	        #->leftJoin( 'n.cat_id c' )
+     	        ->orderby( 'n.news_id DESC' ),
+     	    $currentPage, // Current page of request
+     	    $resultsPerPage // (Optional) Number of results per page. Default is 25
+ 	    );
+ 	    #var_dump($pager);
+ 	    
+ 	    echo 'Total of items found: ' . $pager->getNumResults();
+ 	    
+ 	    #$output[
+ 	    
+ 	    
+        #$this->show();
+        $this->setTemplate('index/show.tpl'); 
     }
 
 
@@ -120,7 +144,7 @@ class module_index extends controller_base //implements clansuite_module
         /**
          * $this->template
          * use method
-         * $this->setTemplate('index/show.tpl');
+         * 
          */
         // 1. you can specify a template
         //    the lookup of this template would then take place
@@ -139,8 +163,36 @@ class module_index extends controller_base //implements clansuite_module
         //    would result in a template-search in /modules/something/templates/any.tpl
         //    even an empty module function would result in an rendering - a good starting point i guess!
         
-        $this->template = 'index/show.tpl';
         
+        // Laden 
+        Clansuite_Doctrine::doctrine_bootstrap();
+        
+        require ROOT . '/myrecords/generated/BaseCsNews.php';
+        require ROOT . '/myrecords/CsNews.php';        
+        
+        # Show Loaded Models
+        #print_r(Doctrine::getLoadedModels());
+        
+        
+        // Speichern        
+        #$news = new CsNews();
+        #var_dump($news); 
+           
+        #$news['news_title'] = 'testingDoctrine'; # same as
+        #$news->title = 'x';
+            
+        #$news->save();
+        
+        // Lesen        
+        
+        // The normal find by primary key method
+        $newsTable = Doctrine::getTable('CsNews');
+        $news = $newsTable->findOneBynews_id(1);
+        #var_dump($news);
+        #print_r($news['news_title']);
+        #print_r($news['title']);       
+        
+        $this->setTemplate('index/show.tpl');        
     }
 }
 
@@ -161,7 +213,14 @@ class module_index_view
  *          Like return $user;
  */
 class module_index_model
-{
-    
+{   
+    /**
+    public function findUserById($id)
+    {
+        //sql logic to get User for certain id
+        
+        //returns User-ROW!
+    }
+    */
 }
 ?>
