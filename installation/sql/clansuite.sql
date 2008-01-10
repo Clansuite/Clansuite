@@ -871,7 +871,7 @@ CREATE TABLE `cs_user_rights` (
 DROP TABLE IF EXISTS `cs_users`;
 CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
-  `email` varchar(150) NOT NULL,
+  `email` varchar(150) default NULL,
   `nick` varchar(25) NOT NULL,
   `password` varchar(40) NOT NULL,
   `new_password` varchar(40) NOT NULL,
@@ -880,6 +880,11 @@ CREATE TABLE `cs_users` (
   `timestamp` int(11) NOT NULL default '0',
   `disabled` tinyint(1) NOT NULL default '0',
   `activated` tinyint(1) NOT NULL default '0',
+  `status` tinyint(4) NOT NULL default '0',
+  `country` varchar(5) NOT NULL,
+  `language` varchar(12) NOT NULL,
+  `timezone` varchar(8) default NULL,
+  `theme` varchar(255) NOT NULL,
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
@@ -890,7 +895,7 @@ CREATE TABLE `cs_users` (
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,0,1),(2,'test@test.de','test','974c2e9429ade22627f12ecb4b400f224474dfd0','','',1158144934,0,0,1),(3,'bla@bla.de','bla','01e72d01b1fc40aaf42cc12b144e064f2b962a22','','',1170292934,0,0,1);
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 
 --
@@ -924,4 +929,4 @@ INSERT INTO `guestbook` VALUES (1,'flo',123514535,'satsasfsdfsadasdfs',''),(2,'a
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-11-12  1:29:10
+-- Dump completed on 2007-11-14 17:13:44
