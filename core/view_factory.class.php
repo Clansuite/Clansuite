@@ -34,11 +34,11 @@
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-    
+
 /**
  * View Factory
  *
- * The static method getRenderer() returns the included and instantiated 
+ * The static method getRenderer() returns the included and instantiated
  * Rendering Engine Object - which is the View in MVC!
  *
  * @author     Jens-Andre Koch <vain@clansuite.com>
@@ -60,12 +60,12 @@ class view_factory
      * @return Renderer Object
      */
     public static function getRenderer($view_type, Phemto $injector)
-    {        
+    {
         try
-        {	
+        {
 			$file = ROOT_CORE .'/views/view_'. strtolower($view_type) .'.class.php';
         	if (is_file($file) != 0)
-			{	
+			{
 				require_once($file);
 	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
@@ -77,19 +77,19 @@ class view_factory
 	            }
 	            else
 	            {
-	            	 throw new ViewFactoryClassNotFoundException($class);	                
+	            	 throw new ViewFactoryClassNotFoundException($class);
 	            }
 	        }
-			else 
+			else
 			{
-				throw new ViewFactoryFileNotFoundException($file);			
+				throw new ViewFactoryFileNotFoundException($file);
 	        }
 	    }
 		catch(Exception $e) {}
     }
 }
 
-class ViewFactoryClassNotFoundException extends Exception 
+class ViewFactoryClassNotFoundException extends Exception
 {
 	function __construct($class)
 	{
@@ -99,10 +99,10 @@ class ViewFactoryClassNotFoundException extends Exception
 	}
 }
 
-class ViewFactoryFileNotFoundException extends Exception 
+class ViewFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
-	{ 
+	{
 		parent::__construct();
 		echo 'View_Factory -> File not found: ' . $file;
 		die();
