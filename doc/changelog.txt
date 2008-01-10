@@ -1,3 +1,7 @@
+﻿                         _________________________
+                         C  L  A  N  S  U  I  T  E
+
+
 ÄNDERUNGSHISTORIE | CHANGELOG
 
 ------------  ----------------------------------------------------------------
@@ -5,9 +9,12 @@ Legende:      NEW:    Neues Feature            |    New Feature
               CHG:    Änderung                 |    Change
               FIX:    Fehler behoben           |    Bugfix
               LNG:    Sprachdatei aktualisiert |    Languagefile updated
+              RQM:    Neue Systemanforderung   |    New Requirement
+              MOD:    Neues Module             |    New Modul
+              REL:    Neues Release            |    New Release
 ------------  ----------------------------------------------------------------
 
-VORLAGE FÜR NEUE EINTRÄGE:
+VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 ------------  ----------------------------------------------------------------
 [x.x.2007]    REL:    VERSION 0.x
 ------------  ----------------------------------------------------------------
