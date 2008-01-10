@@ -39,6 +39,19 @@
  * for all (Module/Page)-Controllers. You could call it ActionController.
  * It`s abstract because it should only extended, not instantiated.
  *
+<<<<<<< .mine
+}
+*/
+
+/**
+ * Abstract class is parent class for all (Page)Controllers
+=======
+
+
+
+
+
+>>>>>>> .theirs
  * 1. saves a copy of the cfg class
  * 2. makes sure that controllers have an index() and execute() method
  * 3. provide access to create_global_view
