@@ -46,20 +46,27 @@ interface ControllerResolverInterface
 /**
  * Class Controller Resolving ( Request to Command )
  *
- * 1. extracts infos about mod (and action) from REQUEST
- * 2. returns the appropriate $modulecontroller Modul Object (and Command)
+ * This Class
+ * 1. extracts infos about the module (and action) from REQUEST
+ * 2. and returns the appropriate $module_controller Modul Object (and Command)
  *
  * @implements ControllerResolverInterface
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  controller
  */
 class clansuite_controllerresolver implements ControllerResolverInterface
 {
-    private $defaultModule;
-    private $defaultAction;
+    private $defaultModule;     # holds the name of the defaultModule
+    private $defaultAction;     # holds the name of the defaultAction
+
+    public $moduleName;         # holds the name of the Module
 
     public function __construct($defaultModule, $defaultAction)
     {
-        $this->defaultModule    = $defaultModule;
-        $this->defaultAction    = $defaultAction;
+        $this->defaultModule    = (string) strtolower($defaultModule);   # set defaultModule
+        $this->defaultAction    = (string) strtolower($defaultAction);   # set defaultAction
     }
 
     /**
@@ -67,32 +74,57 @@ class clansuite_controllerresolver implements ControllerResolverInterface
      *
      * @param $requet input REQUEST-Object
      * @return object controller (module)
-     * deprecated-> load modul -> instantiate modul -> modul::auto_run();
+     * deprecated v0.1 -> load modul -> instantiate modul -> modul::auto_run();
      */
     public function getController(httprequest $request)
     {
         $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request['mod'] : $this->defaultModule;
 
-        // Load Modul
+        # Load Modul (require)
         if(clansuite_loader::loadModul($module_name) == true)
         {
-            // Construct Classname
-            $class = 'module_' . strtolower($module_name);
+            # Set the module name
+            $required_modulname = $module_name;
         }
         else
         {
-            // Load Default Module as Fallback
+            # Load Default Module as Fallback (require)
             clansuite_loader::loadModul($this->defaultModule);
-
-            // Construct Classname
-            $class = 'module_' . strtolower($this->defaultModule);
+            # Set the module name
+            $required_modulname = $this->defaultModule;
         }
 
-        # Return Module Object
+        # Set the modulename as a public Class Variable
+        $this->setModuleName($required_modulname);
+
+        # Construct Classname to instantiate the required Module
+        $class = 'module_' . strtolower($required_modulname);
+
+        # Instantiate and Return the Module Object
         $controller = new $class();
         return $controller;
     }
 
+    /**
+     * Method to set the ModuleName
+     *
+     * @access private
+     */
+    private function setModuleName($moduleName)
+    {
+        $this->moduleName = (string) $moduleName;
+    }
+
+    /**
+     * Method to get the ModuleName
+     *
+     * @access public
+     * @return $string
+     */
+    public function getModuleName()
+    {
+        return $this->moduleName;
+    }
 }
 
 /**
@@ -114,10 +146,15 @@ interface ControllerCommandInterface
  *
  * 1. Intercepts all requests made by the client to the web server made through central "index.php"
  * 2. gets all needed things like Auth, Sessions, Logging, whatever... pluggable or not.
- * 4. decides then which PageController (which module) must be called to process the request: via a path in directory structure.
- *    that means we are dynamically invoking the pagecontroller of the module.
+ * 3. decides then which PageController (which module) must be called to process the request:
+ *    via a path in directory structure.
+ * That means: we are dynamically invoking the pagecontroller of the module.
  *
  * @implements ControllerCommandInterface
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  controller
  */
 class clansuite_frontcontroller implements ControllerCommandInterface
 {
@@ -138,7 +175,7 @@ class clansuite_frontcontroller implements ControllerCommandInterface
      * 2  assign the injector
      * 3. instantiate pre/post-filter objects
      */
-    public function __construct(ControllerResolverInterface $resolver, $injector)
+    public function __construct(ControllerResolverInterface $resolver, Phemto $injector)
     {
            $this->resolver = $resolver;
            $this->injector = $injector;
@@ -173,24 +210,24 @@ class clansuite_frontcontroller implements ControllerCommandInterface
      * and returns a response.
      *
      * Processing:
-     * 1. execute preFilters
-     * 2. get the modulecontroller via clansuite_controllerresolver
+     * 1. get the modulecontroller via clansuite_controllerresolver
+     * 2. execute preFilters
      * 3. set Injector to modulecontroller
      * 4. execute modulecontroller
      * 5. execute postFilters
-     * 6. fetches view / getRendererEngine
-     * 7. assign view to response / getTemplate
+     * 6. fetches view / implicit getRenderEngine
+     * 7. assign view to response / implicit getTemplate
      * 8. flush response
      *
      */
     public function processRequest(httprequest $request, httpresponse $response)
     {
         # 1)
-    	$this->pre_filtermanager->processFilters($request, $response);
-
-        # 2)
         $moduleController = $this->resolver->getController($request);
-
+        
+        # 2)
+        $this->pre_filtermanager->processFilters($request, $response);
+        
         # 3)
         $moduleController->setInjector($this->injector);
 
