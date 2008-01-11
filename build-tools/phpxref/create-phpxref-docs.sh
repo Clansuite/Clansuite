@@ -1,5 +1,13 @@
-# Clansuite - just an esports CMS
-# 
+# Clansuite - just an eSports CMS
+#
+# -- Create PHPXRef Documentation --
+# Author:   Jens-Andre Koch
+# Version:  0.1 
+# Date:     29.11.2007
+# Licence:  GPL
+#
+# SVN: $Id$
+#
 # -- Create phpxref Documentation --
 
 # Define Variables

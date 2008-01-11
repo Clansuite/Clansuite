@@ -1,10 +1,12 @@
-# Clansuite - just an esports CMS
+# Clansuite - just an eSports CMS
 # 
 # -- SVN Checkout and Export --
 # Author:   Jens-Andre Koch
 # Version:  0.1 
 # Date:     28.11.2007
 # Licence:  GPL
+#
+# SVN: $Id$
 #
 # Working Procedure
 # -----------------
