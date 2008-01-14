@@ -1,7 +1,7 @@
 <?php
 /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch, Florian Wolf © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         users.class.php
@@ -153,7 +153,7 @@ class user
         }
 
         // set a new session id
-        session::regenerate_session_id();        
+        clansuite_session::regenerate_session_id();        
 
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id'])) 
@@ -171,7 +171,7 @@ class user
         {
             setcookie('user_id', false);
             setcookie('password', false);
-            session::_session_destroy(session_id());
+            #session::_session_destroy(session_id());
             $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
 
@@ -213,7 +213,8 @@ class user
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
 
-            $stmt = $this->db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_groups WHERE user_id = ?' );
+            $stmt = $this->db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_groups 
+                                         WHERE user_id = ?' );
             $stmt->execute( array( $user['user_id'] ) );
             $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( is_array( $groups ) )
@@ -222,7 +223,10 @@ class user
                 {
                     $_SESSION['user']['groups'][] = $group_id['group_id'];
 
-                    $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
+                    $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg 
+                                                 JOIN ' . DB_PREFIX . 'rights AS ri 
+                                                 ON ri.right_id = rg.right_id 
+                                                 WHERE rg.group_id = ?' );
                     $stmt->execute( array( $group_id['group_id'] ) );
                     $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -272,7 +276,10 @@ class user
 
             $_SESSION['user']['groups'][] = 1;
             
-            $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg JOIN ' . DB_PREFIX . 'rights AS ri ON ri.right_id = rg.right_id WHERE rg.group_id = ?' );
+            $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg 
+                                         JOIN ' . DB_PREFIX . 'rights AS ri 
+                                         ON ri.right_id = rg.right_id 
+                                         WHERE rg.group_id = ?' );
             $stmt->execute( array( 1 ) );
             $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -324,7 +331,7 @@ class user
         }
 
         // if user was found, check if passwords match each other
-        // @todo: note by vain: db_salted_hash is deprecated!
+        // @todo note by vain: db_salted_hash is deprecated!
         if ( is_array($user) && $user['passwordhast'] == $this->security->db_salted_hash( $password ) )
         {
             // ok, user with nick or email exists and passwords matched
@@ -362,7 +369,7 @@ class user
         if ( $remember_me == 1 )
         {   
             setcookie('user_id', $user_id, time() + round($this->config['remember_me_time']*24*60*60));
-            # @todo: note by vain:
+            # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
             setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->config['remember_me_time']*24*60*60));
         }

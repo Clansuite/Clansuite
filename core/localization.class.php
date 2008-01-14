@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         language.class.php
@@ -60,7 +60,7 @@ class localization
     public function __construct()
     {
        $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
-       $this->encoding = 'UTF-8';      # sets encoding -> @todo: get charset encoding from config
+       $this->encoding = 'UTF-8';      # sets encoding -> @todo get charset encoding from config
 
        /**
         * Set Locale
@@ -87,7 +87,7 @@ class localization
     	else
         {
         */
-            $this->locale = 'de_DE';      # sets locale @todo: get $cfg->language from config
+            $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
         #}
 
         /**
@@ -199,7 +199,7 @@ class localization
      *
      * @access public
      * @return Array containing the list of supported languages
-     * @todo: $_SERVER is an httprequest object...
+     * @todo $_SERVER is an httprequest object...
      *        the method should be placed there and data fetch from the httprequest->method
      */
     public function getBrowserLanguages()

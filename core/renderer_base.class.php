@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -31,36 +31,35 @@
     *
     * @version    SVN: $Id$
     */
-    
+
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- 
- * A abstract base class for all our view renderers. 
+ * A abstract base class for all our view rendering engines.
  * All renderers must extend from this class.
  *
- * @access     public
- * @package    Clansuite Core
- * @subpackage View
+ * @package    clansuite
+ * @category   core
+ * @subpackage view
  */
-abstract class renderer_base 
+abstract class renderer_base
 {
-    protected $view;
-    protected $injector;
+    #protected $view;     # holds instance of the Rendering Engine
+    protected $injector; # holds instance of Dependency Injector Phemto (object)
 
     /**
      * Construct View from Module.
      * @param Module_Name_View $view module_name_view
      */
-    public function __construct($view, $injector)
-    { 
-        $this->view = $view; 
-        $this->injector = $injector;       
+    public function __construct($view, Phemto $injector)
+    {
+       #$this->view     = $view;        # set Rendering Engine
+        $this->injector = $injector;    # set Injector
     }
-    
-    
-    
+
+
+
     /**
      * Assigns a value to a template parameter.
      *
@@ -68,8 +67,8 @@ abstract class renderer_base
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
-    #abstract public function assign($tpl_parameter, $value);
-    
+    abstract public function assign($tpl_parameter, $value = null);
+
     /**
      * Executes the template rendering and returns the result.
      *
@@ -78,8 +77,8 @@ abstract class renderer_base
      * @param mixed $data Additional data to process
      * @return string
      */
-    #abstract public function fetch($template, $data = null);
-    
+    abstract public function fetch($template, $data = null);
+
     /**
      * Executes the template rendering and displays the result.
      *
@@ -88,6 +87,6 @@ abstract class renderer_base
      * @param mixed $data Additional data to process
      * @return string
      */
-    abstract public function display($template, $data = null);   
+    abstract public function display($template, $data = null);
 }
 ?>

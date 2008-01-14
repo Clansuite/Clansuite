@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -68,8 +68,8 @@ class language_via_get implements FilterInterface
         // or pass through (do nothing) if disabled
         if($this->config['languageswitch_via_url'] == 1)
         {
-            # @todo: change $request to $request['get']
-            # @todo: security check of the incomming lang parameter, if not already handled by $httprequest class
+            # @todo change $request to $request['get']
+            # @todo security check of the incomming lang parameter, if not already handled by $httprequest class
             if(isset($request['lang']) && !empty($request['lang']) )
             {
             	/* Security Handler

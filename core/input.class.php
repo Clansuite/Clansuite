@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         input.class.php
@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * the $_REQUEST, reverses magic quotes and gives the check method for several filter checks.
  * 
  * @note by vain: check PHP 5 >= 5.2.0 FilterFunctions 
- * @todo: implement PHP5.2 Filterfunctions 
+ * @todo implement PHP5.2 Filterfunctions 
  * @link http://www.php.net/manual/de/ref.filter.php
  *
  */
@@ -111,7 +111,7 @@ class input
     /**
      * Check a string
      *
-     * @todo: docblock comment
+     * @todo docblock comment
      * @param
      * USAGE:
      */
@@ -189,7 +189,7 @@ class input
                         // Normal RegExp Cases
 
                         // Is integer?
-                        # @todo: preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
+                        # @todo preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
                     case 'is_int':
                         $reg_exp .= '0-9';
                         break;

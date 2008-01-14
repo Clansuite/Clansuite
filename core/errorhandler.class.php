@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         errorhandling.class.php
@@ -267,7 +267,7 @@ class errorhandler
      */
     public function clansuite_exception_handler( Exception $exception )
     {
-        # @todo: Logger
+        # @todo Logger
         /*
         if()
         {
@@ -275,7 +275,7 @@ class errorhandler
         }
         */
 
-        # @todo: Email Errors
+        # @todo Email Errors
         /*
         if($email_on_error == 1)
         {
@@ -305,7 +305,7 @@ class errorhandler
     {
         # Header
         echo '<html><head>';
-        echo '<title>Clansuite Error Page -'. $error_head .' Errortype '. $error_level .'</title>';
+        echo '<title>Clansuite Error - '. $error_head .' - Errortype '. $error_level .'</title>';
         echo '<body>';
         echo '<link rel="stylesheet" href="'. WWW_ROOT .'/templates/core/css/error.css" type="text/css" />';
         echo '</head>';
@@ -316,7 +316,7 @@ class errorhandler
         elseif ($error_level == 2) { echo '<fieldset class="error_orange">'; }
         elseif ($error_level == 3) { echo '<fieldset class="error_beige">'; }
         # Fieldset Legend
-        echo "<legend>$error_head</legend>";
+        echo "<legend>Clansuite Error: $error_head</legend>";
         # Error String (passed Error Description)
         echo '<strong>'.$string.'</strong>';
         # Error Messages from the ErrorObject

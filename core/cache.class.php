@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -33,10 +33,15 @@
     */
 
 /**
- * Interfaces 
+ * Interfaces
  * for all Cache Classes to implement
+ *
+ * @package clansuite
+ * @subpackage session
+ * @category interfaces
  */
-interface ClansuiteCacheInterface
+ */
+interface Clansuite_CacheInterface
 {
         function fetch($key);
         function store($key, $data, $time_to_live);
@@ -44,33 +49,32 @@ interface ClansuiteCacheInterface
 }
 
 /**
- * Cache Handler
+ * Clansuite Cache Handler for APC (Alternative PHP Cache)
  *
+ * 
+ *
+ * @package clansuite
+ * @subpackage cache
+ * @category caches
  */
-class cache
-{ 
+class Clansuite_Cache_APC implements Clansuite_CacheInterface
+{
     function __construct()
     {
         // Check if APC extension is loaded
         if( !defined('GID_EXTENSION_LOADED_APC') )
             define( 'GID_EXTENSION_LOADED_APC', extension_loaded('apc') );
-        
+
         // only get the data off the text file if we can't get it from
         // APC i.e. from memory
         if( !(GID_EXTENSION_LOADED_APC && ($this->_keywords=apc_fetch('highlighter_keywords'))) );
 
-    
-        // if APC is loaded, store the data in memory        
-        if( GID_EXTENSION_LOADED_APC )
-            apc_store( 'highlighter_keywords', $this->_keywords );    
-    }    
-}
 
-/**
- * APC = Alternative PHP Cache
- */
-class clansuite_cache_apc implements ClansuiteCacheInterface
-{
+        // if APC is loaded, store the data in memory
+        if( GID_EXTENSION_LOADED_APC )
+            apc_store( 'highlighter_keywords', $this->_keywords );
+    }
+    
     // apc_fetch
     function fetch($key)
     {
@@ -81,58 +85,65 @@ class clansuite_cache_apc implements ClansuiteCacheInterface
     {
         return apc_store($key,$data,$time_to_live);
     }
-    
+
     // apc_delete
     function delete($key)
     {
         return apc_delete($key);
     }
-} 
+}
 
 /**
- * memcached
+ * Clansuite Cache Handler for Memcached
+ *
+ * @link http://www.danga.com/memcached/
+ *
+ * @package clansuite
+ * @subpackage cache
+ * @category caches
  */
-class clansuite_cache_memcached implements ClansuiteCacheInterface
+class Clansuite_Cache_Memcached implements Clansuite_CacheInterface
 {
     $cache = NULL;
-    
+
     function __construct()
-    {   
+    {
         // Objekt instanzieren und intern zuweisen
         $this->cache = new Memcache;
-        
+
         // Verbindung zum memcached Server herstellen
         $config = clansuite_registry::getConfigurationStatic();
         $this->cache->connect($config['cache']['memcached_host'], $config['cache']['memcache_port']);
     }
-    
+
     // Daten in den Cache schreiben
     function __set($key, $value)
     {
         $this->cache->set($key, $value);
     }
-    
+
     // Daten aus dem Cache lesen
     function __get($key)
     {
         return $cache->get($key);
     }
-    
+
     // memcache_delete
     function delete($key)
     {
         return $this->cache->delete($key);
     }
-    
+
     // memcache_delete_all
     function delete_all($key)
     {
         return $this->cache->flush;
-    } 
-    
+    }
+
     function info()
     {
         // Momentanen Speicherverbrauch in Bytes ausgeben
         $memcache->getStats()['bytes'];
     }
 }
+?>

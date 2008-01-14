@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -37,8 +37,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * abstract interface for Controller Resolving ( Request to Command )
+ *
+ * @package clansuite
+ * @subpackage controller
+ * @category interfaces
  */
-interface ControllerResolverInterface
+interface Clansuite_ControllerResolver_Interface
 {
     public function getController(httprequest $request);
 }
@@ -53,10 +57,10 @@ interface ControllerResolverInterface
  * @implements ControllerResolverInterface
  *
  * @package     clansuite
- * @category    core
  * @subpackage  controller
+ * @category    core
  */
-class clansuite_controllerresolver implements ControllerResolverInterface
+class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Interface
 {
     private $defaultModule;     # holds the name of the defaultModule
     private $defaultAction;     # holds the name of the defaultAction
@@ -132,14 +136,17 @@ class clansuite_controllerresolver implements ControllerResolverInterface
  * Modules must have an execute function
  * (this was auto_run in Clansuite v0.1 , it's now deprecated)
  *
+ * @package     clansuite
+ * @subpackage  controller
+ * @category    interfaces
  */
-interface ControllerCommandInterface
+interface Clansuite_ControllerCommand_Interface
 {
     public function processRequest(httprequest $request, httpresponse $response);
 }
 
 /**
- * clansuite_frontcontroller
+ * Clansuite FrontController
  *
  * Is basically a FrontController (which should better be named RequestController)
  * with fassade (addPreFilter, addPostFilter) to both filtermanagers / filterchains on top
@@ -150,13 +157,12 @@ interface ControllerCommandInterface
  *    via a path in directory structure.
  * That means: we are dynamically invoking the pagecontroller of the module.
  *
- * @implements ControllerCommandInterface
- *
+ * @implements ControllerCommandInterface *
  * @package     clansuite
  * @category    core
  * @subpackage  controller
  */
-class clansuite_frontcontroller implements ControllerCommandInterface
+class Clansuite_FrontController implements Clansuite_ControllerCommand_Interface
 {
     /**
      * Private Variables containing
@@ -175,7 +181,7 @@ class clansuite_frontcontroller implements ControllerCommandInterface
      * 2  assign the injector
      * 3. instantiate pre/post-filter objects
      */
-    public function __construct(ControllerResolverInterface $resolver, Phemto $injector)
+    public function __construct(Clansuite_ControllerResolver_Interface $resolver, Phemto $injector)
     {
            $this->resolver = $resolver;
            $this->injector = $injector;
@@ -224,10 +230,10 @@ class clansuite_frontcontroller implements ControllerCommandInterface
     {
         # 1)
         $moduleController = $this->resolver->getController($request);
-        
+
         # 2)
         $this->pre_filtermanager->processFilters($request, $response);
-        
+
         # 3)
         $moduleController->setInjector($this->injector);
 
@@ -237,11 +243,11 @@ class clansuite_frontcontroller implements ControllerCommandInterface
         # 5)
         $this->post_filtermanager->processFilters($request, $response);
 
-        # 6)
-        $view = $moduleController->getRenderEngine();
+            # 6)
+            $view = $moduleController->getRenderEngine();
 
-        # 7) pushes RenderEngine generated Output to the response
-        $response->setContent($view->render($moduleController->getTemplateName()));
+            # 7) pushes RenderEngine generated Output to the response
+            $response->setContent($view->render($moduleController->getTemplateName()));
 
         # 8)
         $response->flush();

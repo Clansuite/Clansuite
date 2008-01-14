@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         captcha.class.php
@@ -66,8 +66,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
- * @category    core
  * @subpackage  captcha
+ * @category    core
  */
 class captcha
 {
@@ -271,7 +271,7 @@ class captcha
 
 /**
  *
- * @todo: init class at the end! find a better way?
+ * @todo init class at the end! find a better way?
  */
 $captcha = new captcha;
 

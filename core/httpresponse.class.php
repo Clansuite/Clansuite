@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         httpresponse.class.php
@@ -42,8 +42,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Interface for the Response Object
+ *
+ * @package clansuite
+ * @subpackage core
+ * @category interfaces
  */
-interface response_interface
+interface Clansuite_ResponseInterface
 {
     public function setStatus($status);
     public function addHeader($name, $value);
@@ -56,8 +60,12 @@ interface response_interface
 /**
  * httpresponse represents the response object
  * on a request processed by clansuite.
+ *
+ * @package clansuite
+ * @subpackage core
+ * @category response
  */
-class httpresponse implements response_interface
+class HTTPResponse implements Clansuite_ResponseInterface
 {
     /**
      * Status of the response as integer value.
@@ -149,7 +157,7 @@ class httpresponse implements response_interface
     /**
      * This flushes the headers and bodydata to the client.
      *
-     * @todo: implement version into header: a. from $config or b. define
+     * @todo implement version into header: a. from $config or b. define
      */
     public function flush()
     {
@@ -184,7 +192,7 @@ class httpresponse implements response_interface
     /**
      * Sets a Cookie
      *
-     * @todo: until php6 namespaces, function name can not be setCookie
+     * @todo until php6 namespaces, function name can not be setCookie
      *        because this would conflict with the php function
      *
      * @param string name

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         session.class.php
@@ -69,11 +69,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
- * @category    core
  * @subpackage  session
+ * @category    core
  */
 
-class Clansuite_Session implements ISessionHandler, ArrayAccess
+class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 {
     /**
      * Set common session vars
@@ -136,7 +136,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
         if ( ! isset($instance)) {
             $instance = new Clansuite_Session();
         }
-        
+
         return $instance;
     }
 
@@ -154,7 +154,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
         /**
          * Setup References
          */
-         
+
         $this->config       = $injector->instantiate('configuration');
         $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
@@ -163,7 +163,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
         /**
          * Set the session configuration Parameters accordingly to Config Class Values
          */
-         
+
         #$this->session_name                 = $this->config['session_name'];
         $this->session_cookies              = $this->config['use_cookies'];
         $this->session_cookies_only         = $this->config['use_cookies_only'];
@@ -344,7 +344,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
     /**
      * Destroy a session
      */
-    
+
     public static function _session_destroy( $id )
     {
         /**
@@ -485,10 +485,10 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
         return true;
     }
 
-    /** 
+    /**
      * set()
      */
-     
+
     public function set($key, $value)
     {
         $_SESSION[$key] = $value;
@@ -497,7 +497,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
     /**
      * get()
      */
-     
+
     public function get($key)
     {
         if (isset($_SESSION[$key]))
@@ -513,7 +513,7 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
     /**
      * Sets a new SESSION_ID into SESSION['NAME']
      */
-     
+
     public static function regenerate_session_id()
     {
         $_SESSION[self::session_name] = session_id();
@@ -607,7 +607,14 @@ class Clansuite_Session implements ISessionHandler, ArrayAccess
 
 }
 
-interface ISessionHandler
+/**
+ * Interface for Clansuite_Session
+ *
+ * @package clansuite
+ * @subpackage session
+ * @category interfaces
+ */
+interface Clansuite_SessionInterface
 {
     public function _session_open();
     public function _session_close();
@@ -616,5 +623,4 @@ interface ISessionHandler
     public static function _session_destroy($id);
     public function _session_gc($max_lifetime);
 }
-
 ?>

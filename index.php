@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2007)
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -38,7 +38,7 @@
     *  =====================================================================
     */
 # Setup XDebug
-define ('XDBUG', 1); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 # Define security constant
 define('IN_CS', true);
@@ -76,7 +76,7 @@ $classes = array(
 foreach($classes as $class) { $injector->register(new Singleton($class)); }
 
 # Initialize Session, then register the session-depending User-Object manually
-new clansuite_session($injector);
+new Clansuite_Session($injector);
 $injector->register('user');
 
 /**
@@ -85,7 +85,7 @@ $injector->register('user');
  *  ================================================
  */
 # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
-$clansuite = new clansuite_frontcontroller(new clansuite_controllerresolver($config['default_module'],$config['default_action']),$injector);
+$clansuite = new Clansuite_FrontController(new Clansuite_ControllerResolver($config['default_module'],$config['default_action']),$injector);
 
 # Get request and response objects for Filters and RequestProcessing
 $request  = $injector->instantiate('httprequest');

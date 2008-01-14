@@ -22,7 +22,7 @@ class Clansuite_Doctrine
      */
     public static function doctrine_bootstrap() 
     {   
-        // Require compiled Library or normal 
+        // Require compiled or normal Library
         if (is_file( ROOT_LIBRARIES . '/doctrine/Doctrine.compiled.php'))
         {
             require_once ROOT_LIBRARIES .'/doctrine/Doctrine.compiled.php';
@@ -48,22 +48,34 @@ class Clansuite_Doctrine
      */
     public static function prepareDbConnection()
     {
-        // construct the Data Source Name (DNS)
+        // construct the Data Source Name (DSN)
         $dsn = 'mysql://clansuite:toop@localhost/clansuite';
+        
+        // check connection
+        /*
+        try
+        {
+            $pdo = new PDO($dsn);
+        } 
+        catch (PDOException $e) 
+        {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
+        */
     
         // initalize a new Doctrine_Connection
         $db = Doctrine_Manager::connection($dsn);
         // !! no actual database connection yet !!
     
-        // Set Database Prefix
+        // Changing the database naming convention by adding DB_PREFIX
         $db->setAttribute(Doctrine::ATTR_DBNAME_FORMAT, DB_PREFIX.'_%s');
-        
         
         /**
          * Aggressive - It finds all .php files in a given path recursively and
            performs a require_once() on each file. Your files can be in subfolders, and
            the files can include multiple models. It is very flexible but the downside
            is that it will require_once() all files.
+           
            Conservative - It finds all .php files in a given path recursively and
            builds an array of className => /path/to/file. The className is parsed from
            the name of the file, so each file must contain only one class and the file
@@ -134,14 +146,7 @@ $groups = $q->from('Group g')->where('g.id IN (1,2,3)')->execute();
 $q->delete()->from($modelname)->execute(); 
 
 
-
-
-
 $users = Doctrine_Query::create()->select('u.name, u.password')->from('User u')->execute();
-###
-
-$pdo = new PDO('mysql:host=localhost;dbname=developpez', 'Yogui', 'motdepasse');
-$db = Doctrine_Manager::connection($pdo);
 
 ###
 

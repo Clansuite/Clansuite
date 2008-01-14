@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * Modules Handler Class
@@ -37,7 +37,7 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.' ); }
 
 /**
  * Start of Core - Modules Class
- * @package Clansuite Core
+* @package clansuite Core
  * @subpackage Modules
  */
 class modules
@@ -70,7 +70,7 @@ class modules
      *
      * @global $db
      * @global $cfg
-     * @todo: is this whitelisting required to ensure security matters? are there other options avaiable?
+     * @todo is this whitelisting required to ensure security matters? are there other options avaiable?
      */
     function load_whitelist()
     {

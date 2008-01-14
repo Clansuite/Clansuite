@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -34,7 +34,7 @@
 /**
  * Clansuite Filter - Theme via URL
  *
- * @package Clansuite
+* @package clansuite
  * @subpackage filters
  *
  * Purpose: Sets Theme via URL by appendix $_GET['theme']
@@ -64,13 +64,13 @@ class theme_via_get implements FilterInterface
         {              
             if(isset($request['theme']) && !empty($request['theme']))
             {   
-                #@todo: debug traceing message           
+                #@todo debug traceing message           
                 #echo 'processing themefilter';
             	
             	// Security Handler for $_GET['theme']
             	if( !$this->input->check( $request['theme'], 'is_abc|is_custom', '_' ) )
                 {   
-                    // @todo: umstellen auf thrown Exception
+                    // @todo umstellen auf thrown Exception
                     $this->security->intruder_alert();
                 }
                 
