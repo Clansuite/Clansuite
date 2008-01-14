@@ -3,7 +3,7 @@
 <thead>
     <tr>
         <td class="td_header" style="text-align: center">
-            {translate}Choose a module/submodule to export{/translate}
+            {t}Choose a module/submodule to export{/t}
         </td>
     </tr>
 </thead>

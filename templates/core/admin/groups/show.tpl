@@ -1,15 +1,15 @@
 <form action="index.php?mod=admin&amp;sub=groups&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" style="width:700px;margin:0 auto;text-align:center">
       	<tr class="tr_header">
-       		<td>{translate}ID{/translate}</td>
-       		<td>{translate}Name{/translate}</td>
-       		<td>{translate}Sortorder{/translate}</td>
-       		<td>{translate}Icon{/translate}</td>
-       		<td>{translate}Image{/translate}</td>
-       		<td>{translate}Description{/translate}</td>
-       		<td>{translate}Members{/translate}</td>
-       		<td>{translate}Options{/translate}</td>
-       		<td>{translate}Delete{/translate}</td>
+       		<td>{t}ID{/t}</td>
+       		<td>{t}Name{/t}</td>
+       		<td>{t}Sortorder{/t}</td>
+       		<td>{t}Icon{/t}</td>
+       		<td>{t}Image{/t}</td>
+       		<td>{t}Description{/t}</td>
+       		<td>{t}Members{/t}</td>
+       		<td>{t}Options{/t}</td>
+       		<td>{t}Delete{/t}</td>
        	</tr>
         {foreach key=key item=group from=$groups}
         <tr class="{cycle values="tr_row1,tr_row2"}">
@@ -41,17 +41,17 @@
                 {/foreach}
             </td>
             <td>
-                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=edit&amp;id={$group.group_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /><br />
-                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$group.group_id}'" type="button" value="{translate}Add Members{/translate}" class="ButtonGreen" />
+                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=edit&amp;id={$group.group_id}'" type="button" value="{t}Edit{/t}" class="ButtonGreen" /><br />
+                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$group.group_id}'" type="button" value="{t}Add Members{/t}" class="ButtonGreen" />
             </td>
             <td>{if $group.group_id gt 3}<input type="checkbox" name="delete[]" value="{$group.group_id}" />{else}Core Group{/if}</td>
         </tr>
         {/foreach}
         <tr>
             <td colspan="9" align="right" class="cell1">
-                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=create'" class="ButtonGreen" type="button" value="{translate}Create a new Group{/translate}" />
-                <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}" />
-                <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected groups{/translate}" />
+                <input onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=create'" class="ButtonGreen" type="button" value="{t}Create a new Group{/t}" />
+                <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}" />
+                <input class="ButtonRed" type="submit" name="submit" value="{t}Delete the selected groups{/t}" />
             </td>
         </tr>
     </table>

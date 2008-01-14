@@ -122,24 +122,24 @@ Loading...
                         tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
                     </script>
             	    <div class="tab-page" id="{$wert.name}_generals">
-            	       <h2 class="tab">{translate}General{/translate}</h2>
+            	       <h2 class="tab">{t}General{/t}</h2>
             	       <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
                         <table cellpadding="2" cellspacing="2" border="0">
-                            <tr><td><b>{translate}Description:{/translate}</b></td><td>{$wert.description}</td></tr>
-                            <tr><td><b>{translate}Foldername:{/translate}</b></td><td>{$wert.folder_name}</td></tr>
-                            <tr><td><b>{translate}Classname:{/translate}</b></td><td>{$wert.class_name}</td></tr>
-                            <tr><td><b>{translate}Filename:{/translate}</b></td><td>{$wert.file_name}</td></tr>
-                            <tr><td><b>{translate}URL:{/translate}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
+                            <tr><td><b>{t}Description:{/t}</b></td><td>{$wert.description}</td></tr>
+                            <tr><td><b>{t}Foldername:{/t}</b></td><td>{$wert.folder_name}</td></tr>
+                            <tr><td><b>{t}Classname:{/t}</b></td><td>{$wert.class_name}</td></tr>
+                            <tr><td><b>{t}Filename:{/t}</b></td><td>{$wert.file_name}</td></tr>
+                            <tr><td><b>{t}URL:{/t}</b></td><td><a href="index.php?mod={$wert.name}">index.php?mod={$wert.name}</a></td></tr>
                         </table>
                     </div>
 
                     <div class="tab-page" id="{$wert.name}_adminmenu">
-                        <h2 class="tab">{translate}Adminmenu{/translate}</h2>
+                        <h2 class="tab">{t}Adminmenu{/t}</h2>
                         <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_adminmenu" ) );</script>
                         <div id="menucontainer_{$wert.name}">
                             <div class="DynamicTree">
                                 <div class="wrap1">
-                                    <div class="top">{translate}Adminmenu{/translate}</div>
+                                    <div class="top">{t}Adminmenu{/t}</div>
                                     <div class="wrap2" id="tree">
                                         {assign var=name value=$wert.name}
                                         {mod name="admin" sub="menueditor" func="get_export_div" params=||$name}
@@ -149,17 +149,17 @@ Loading...
                         </div>
                     </div>
                     <div class="tab-page" id="{$wert.name}_files">
-                        <h2 class="tab">{translate}Files{/translate}</h2>
+                        <h2 class="tab">{t}Files{/t}</h2>
                         <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_files" ) );</script>
                         {assign var=filebrowsername value=$wert.name}
                         {mod name="filebrowser" func="instant_show" params="|admin/modules/filebrowser.tpl|admin/modules/filebrowser_sections.tpl|$filebrowsername"}
                     </div>
                     <div class="tab-page" id="{$wert.name}_language">
-                        <h2 class="tab">{translate}SQL{/translate}</h2>
+                        <h2 class="tab">{t}SQL{/t}</h2>
                         <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_language" ) );</script>
                         <div class="DynamicTree">
                             <div class="wrap1">
-                                <div class="top">{translate}SQL Tables{/translate}</div>
+                                <div class="top">{t}SQL Tables{/t}</div>
                                 <div class="wrap2" id="tree">
                                     {foreach key=key item=item from=$sql_tables}
                                         <div class='doc'>
@@ -181,7 +181,7 @@ Loading...
                 		                <input type="checkbox" value="true" name="use_sql_textarea">
                 		       		</td>
                 		       		<td style="padding-top: 3px;">
-                                		{translate}I want to use own SQL commands (textarea below){/translate}
+                                		{t}I want to use own SQL commands (textarea below){/t}
                          			</td>
                      			</tr>
                      		</tbody>
@@ -197,7 +197,7 @@ Loading...
             <td class="cell1" align="center" width="15%">
                 <input type="hidden" name="name" value="{$wert.name}">
                 <p>
-                    <input class="ButtonGreen" type="submit" value="{translate}Export{/translate}" name="submit">
+                    <input class="ButtonGreen" type="submit" value="{t}Export{/t}" name="submit">
                 </p>
             </td>
         </tr>

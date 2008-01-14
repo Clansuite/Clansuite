@@ -9,7 +9,7 @@
 
 {if empty($messages)}
 
-    <div align="center">{translate}There are no messages{/translate}</div>
+    <div align="center">{t}There are no messages{/t}</div>
 
 {else}
 
@@ -18,9 +18,9 @@
         <td class="cell2" colspan="2">
             <div class="message_selections">
                 <select name="action" class="input_text">
-                    <option value="get_back">{translate}Undo the sending of a messages (if still unread){/translate}</option>
+                    <option value="get_back">{t}Undo the sending of a messages (if still unread){/t}</option>
                 </select>
-                <input type="submit" name="submit" value="{translate}Go!{/translate}" class="ButtonGreen" />
+                <input type="submit" name="submit" value="{t}Go!{/t}" class="ButtonGreen" />
             </div>
         </td>
     </tr>
@@ -41,10 +41,10 @@
                     <hr width="100%" size="1" class="hrcolor" />
                      
                     <div class="message_headline">
-                        {if $item.read==0}<strong>{translate}New{/translate}:&nbsp;</strong>{/if}<a href="index.php?mod=messaging&action=read&id={$item.message_id}">{$item.headline}</a>
+                        {if $item.read==0}<strong>{t}New{/t}:&nbsp;</strong>{/if}<a href="index.php?mod=messaging&action=read&id={$item.message_id}">{$item.headline}</a>
                     </div>
                     <div class="message_buttons">
-                        {if $item.read==0}<input type="button" class="ButtonRed" value="{translate}Get meesage back{/translate}" onclick="self.location.href='index.php?mod=messaging&action=get_back&id={$item.message_id}'" />{/if}
+                        {if $item.read==0}<input type="button" class="ButtonRed" value="{t}Get meesage back{/t}" onclick="self.location.href='index.php?mod=messaging&action=get_back&id={$item.message_id}'" />{/if}
                     </div>
 
                     <div class="message_message">

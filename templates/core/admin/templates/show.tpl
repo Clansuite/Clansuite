@@ -67,7 +67,7 @@
     <td valign="top" width="250">
         <div class="DynamicTree">
             <div class="wrap1">
-                <div class="top">{translate}Template Folder{/translate}</div>
+                <div class="top">{t}Template Folder{/t}</div>
                 <div class="wrap2" id="tree">
                     {$folder_tree}
                 </div>
@@ -75,14 +75,14 @@
         </div>
     </td>
     <td valign="top" width="100%">
-        <strong>{translate}Current Template:{/translate}</strong>&nbsp;
+        <strong>{t}Current Template:{/t}</strong>&nbsp;
         <div id="filename">&nbsp; Select Filename ... </div>
         <textarea class="input_textarea" wrap="off" rows="30" style="width: 100%;" id="template_textarea"></textarea>
     </td>
 </tr>
 <tr>
 <td align="center" colspan="2">
-    <input class="ButtonGrey" value="{translate}Update{/translate}"
+    <input class="ButtonGrey" value="{t}Update{/t}"
     onclick="saveTemplateFile()" />
     <br />
     <div id="ajax-success"></div>

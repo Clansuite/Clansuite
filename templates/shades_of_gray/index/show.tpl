@@ -1,9 +1,9 @@
 {* Demo-Assignment von XML-Sprachdaten *}
-<strong>{translate}Hello{/translate}</strong><br />
-<strong>{translate}Welcome{/translate}</strong><br />
+<strong>{t}Hello{/t}</strong><br />
+<strong>{t}Welcome{/t}</strong><br />
 <br />
 
-<em> {translate u=`$smarty.session.user.nick`}How are you, %u ?{/translate}</em>
+<em> {translate u=`$smarty.session.user.nick`}How are you, %u ?{/t}</em>
 
 <br />
 {* direktes Ansprechen der Sprachzuweisung *}

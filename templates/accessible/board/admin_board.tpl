@@ -62,13 +62,13 @@
       <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
             <tr>
                 <td class="td_header_small"  colspan="2">
-                    {translate}Name, Description and Position of the new Forum{/translate}
+                    {t}Name, Description and Position of the new Forum{/t}
                 </td>
             </tr>
             {*
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Category{/translate}
+                    {t}Category{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="newboard[category]" class="input_text">
@@ -80,7 +80,7 @@
             *}
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Name{/translate}
+                    {t}Name{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="name" name="newboard[name]" />
@@ -88,7 +88,7 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Description{/translate}
+                    {t}Description{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="desc" name="newboard[description]" />
@@ -96,13 +96,13 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Position{/translate}
+                    {t}Position{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     
-                    <input type="radio" value="before" name="newboard[positiontype]" /> {translate}before{/translate}
-                    <input type="radio" value="child" name="newboard[positiontype]"  /> {translate}child{/translate}
-                    <input type="radio" value="after" name="newboard[positiontype]" checked="checked"  /> {translate}after{/translate}
+                    <input type="radio" value="before" name="newboard[positiontype]" /> {t}before{/t}
+                    <input type="radio" value="child" name="newboard[positiontype]"  /> {t}child{/t}
+                    <input type="radio" value="after" name="newboard[positiontype]" checked="checked"  /> {t}after{/t}
                     
                     <select name="newboard[parentid]" class="input_text">
                     
@@ -139,12 +139,12 @@
             
             <tr>
                 <td class="td_header_small"  colspan="2">
-                    {translate}Access related Settings{/translate}
+                    {t}Access related Settings{/t}
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Access Groups{/translate}
+                    {t}Access Groups{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                    Permissionssystem Groups
@@ -156,18 +156,18 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Restrict Actions{/translate}
+                    {t}Restrict Actions{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="normal" name="newboard[permissiontype]" checked="checked" /> {translate}normal{/translate}
-                    <input type="radio" value="readonly" name="newboard[permissiontype]"  /> {translate}read only{/translate}
-                    <input type="radio" value="onlyanswer" name="newboard[permissiontype]"  /> {translate}only answer{/translate}
-                    <input type="radio" value="nopolls" name="newboard[permissiontype]"  /> {translate}no polls{/translate}
+                    <input type="radio" value="normal" name="newboard[permissiontype]" checked="checked" /> {t}normal{/t}
+                    <input type="radio" value="readonly" name="newboard[permissiontype]"  /> {t}read only{/t}
+                    <input type="radio" value="onlyanswer" name="newboard[permissiontype]"  /> {t}only answer{/t}
+                    <input type="radio" value="nopolls" name="newboard[permissiontype]"  /> {t}no polls{/t}
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {translate}Moderators{/translate}
+                    {t}Moderators{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
                     modlist ... username, userid
@@ -175,7 +175,7 @@
             </tr>
             <tr class="tr_row1">
                 <td align="right" colspan="9">
-                    <input type="submit" class="ButtonGreen" value="{translate}Add Board{/translate}" name="submit" />
+                    <input type="submit" class="ButtonGreen" value="{t}Add Board{/t}" name="submit" />
                 </td>
             </tr>            
        </table>

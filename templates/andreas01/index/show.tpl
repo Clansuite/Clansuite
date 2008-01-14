@@ -1,7 +1,7 @@
 {* Demo-Assignment von XML-Sprachdaten *}
-<b>{translate}Hello{/translate}</b><br />
-<b>{translate}Welcome{/translate}</b><br />
-<i>{translate u="Benutzernamen_variable"}How are you, %u ?{/translate}</i>
+<b>{t}Hello{/t}</b><br />
+<b>{t}Welcome{/t}</b><br />
+<i>{translate u="Benutzernamen_variable"}How are you, %u ?{/t}</i>
 {$base_url}
 {* direktes Ansprechen der Sprachzuweisung *}
 {* class language :: function t t(); *} 

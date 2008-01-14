@@ -1,62 +1,62 @@
 <from action="index.php?mod=account&amp;sub=general&amp;action=edit" method="post" accept-charset="UTF-8">
 <table cellpadding="0" cellspacing="0" border="0">
         <tr class="tr_row1">
-            <td>{translate}General{/translate}</td>
+            <td>{t}General{/t}</td>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 {foreach item=item key=key from=$profile}
                     <tr class="tr_row1">
                         <td width="80px">
                             {if $key == custom_text}
-                                {translate}Custom Text{/translate}
+                                {t}Custom Text{/t}
                             {/if}
                             {if $key == mobile}
-                                {translate}Mobile{/translate}
+                                {t}Mobile{/t}
                             {/if}
                             {if $key == phone}
-                                {translate}Phone{/translate}
+                                {t}Phone{/t}
                             {/if}
                             {if $key == icq}
-                                {translate}ICQ{/translate}
+                                {t}ICQ{/t}
                             {/if}
                             {if $key == msn}
-                                {translate}MSN{/translate}
+                                {t}MSN{/t}
                             {/if}
                             {if $key == homepage}
-                                {translate}Homepage{/translate}
+                                {t}Homepage{/t}
                             {/if}
                             {if $key == skype}
-                                {translate}Skype{/translate}
+                                {t}Skype{/t}
                             {/if}
                             {if $key == country}
-                                {translate}Country{/translate}
+                                {t}Country{/t}
                             {/if}
                             {if $key == city}
-                                {translate}City{/translate}
+                                {t}City{/t}
                             {/if}
                             {if $key == zipcode}
-                                {translate}ZIP Code{/translate}
+                                {t}ZIP Code{/t}
                             {/if}
                             {if $key == address}
-                                {translate}Address{/translate}
+                                {t}Address{/t}
                             {/if}
                             {if $key == height}
-                                {translate}Height{/translate}
+                                {t}Height{/t}
                             {/if}
                             {if $key == gender}
-                                {translate}Gender{/translate}
+                                {t}Gender{/t}
                             {/if}
                             {if $key == birthday}
-                                {translate}Birthday{/translate}
+                                {t}Birthday{/t}
                             {/if}
                             {if $key == last_name}
-                                {translate}Last name{/translate}
+                                {t}Last name{/t}
                             {/if}
                             {if $key == first_name}
-                                {translate}First name{/translate}
+                                {t}First name{/t}
                             {/if}
                             {if $key == timestamp}
-                                {translate}Last changed{/translate}
+                                {t}Last changed{/t}
                             {/if}
                         </td>
                         <td>
@@ -77,9 +77,9 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2" align="right">
-                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=users'" />
-                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=users'" />
+                <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit the user{/t}" />
+                <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>
         </tr>
     </table>

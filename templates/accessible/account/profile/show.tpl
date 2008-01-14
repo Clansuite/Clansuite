@@ -30,21 +30,21 @@
 
         {* #### GENERALS #### *}
         <div class="tab-page" id="general">
-           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}"*}>{translate}General{/translate}</h2>
+           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_general" url="index.php?mod=account&amp;sub=general&amp;action=show" method="get"}"*}>{t}General{/t}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "general" ) );</script>
             <div id="ajax_general">{mod name="account" sub="general"}</div>
         </div>
 
         {* #### Computer #### *}
         <div class="tab-page" id="computer">
-           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_computer" url="index.php?mod=account&amp;sub=computer&amp;action=show" method="get"}"*}>{translate}Computer{/translate}</h2>
+           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_computer" url="index.php?mod=account&amp;sub=computer&amp;action=show" method="get"}"*}>{t}Computer{/t}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "computer" ) );</script>
             <div id="ajax_computer">{mod name="account" sub="computer"}</div>
         </div>
 
         {* #### Computer #### *}
         <div class="tab-page" id="guestbook">
-           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_guestbook" url="index.php?mod=account&amp;sub=guestbook&amp;action=show" method="get"}"*}>{translate}Guestbook{/translate}</h2>
+           <h2 class="tab" {*style="height: 15px" onclick="{ajax_update update_id="ajax_guestbook" url="index.php?mod=account&amp;sub=guestbook&amp;action=show" method="get"}"*}>{t}Guestbook{/t}</h2>
            <script type="text/javascript">tp1.addTabPage( document.getElementById( "guestbook" ) );</script>
             <div id="ajax_guestbook">{mod name="account" sub="guestbook"}</div>
         </div>

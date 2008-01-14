@@ -1,4 +1,4 @@
-<h1>{translate}Guestbook{/translate}</h1>
+<h1>{t}Guestbook{/t}</h1>
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
 {doc_raw}
@@ -15,15 +15,15 @@
 <div class="user_gb">
 {if $err.gb_empty == "1"}
     <div class="gb_empty">
-        <span class="the_text">{translate}We are sorry, but the guestbook is empty.{/translate}</span>
+        <span class="the_text">{t}We are sorry, but the guestbook is empty.{/t}</span>
         <div class="options">
-            <input class="ButtonGreen" type="button" value="{translate}Add a guestbook entry{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
         </div>
     </div>
 {else}
     {include file="tools/paginate.tpl"}
     <div class="options">
-        <input class="ButtonGreen" type="button" value="{translate}Add a guestbook entry{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
 
     {foreach from=$guestbook item=entry key=key}
@@ -36,28 +36,28 @@
                     {elseif $entry.type == upload}
                         <a href="index.php?mod=account&sub=profile&action=show&id={$entry.user_id.1}"><img src="index.php?mod=guestbook&action=show_avatar&id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
                     {else}
-                        <img src="{$www_root_tpl}/images/no_avatar_small.jpg" alt="{translate}No avatar{/translate}: {$entry.nick}"  class="the_pic" />
+                        <img src="{$www_root_tpl}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
                     {/if}
                 </div>
             </div>
             <div class="personal_infos">
-                <div class="box_heading">{translate}Personal infos{/translate}</div>
+                <div class="box_heading">{t}Personal infos{/t}</div>
                 <dl>
-                    <dt>{translate}Date{/translate}: </dt>
-                        <dd>{translate}{$entry.gb_added|date_format:"%A"}{/translate}, {translate}{$entry.gb_added|date_format:"%B"}{/translate}{$entry.gb_added|date_format:" %e, %Y"}</dd>
-                    <dt>{translate}eMail{/translate}: </dt>
+                    <dt>{t}Date{/t}: </dt>
+                        <dd>{t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}</dd>
+                    <dt>{t}eMail{/t}: </dt>
                         <dd><a href="mailto:{$entry.gb_email}">{$entry.gb_email}</a></dd>
                     <dt>ICQ: </dt>
                         <dd>{$entry.gb_icq}</dd>
-                    <dt>{translate}Website{/translate}: </dt>
+                    <dt>{t}Website{/t}: </dt>
                         <dd>
                             {if empty($entry.gb_website)}
-                                <a href="http://www.clansuite.com" target="_blank">{translate}no website{/translate} | powered by clansuite.com - free clan cms</a>
+                                <a href="http://www.clansuite.com" target="_blank">{t}no website{/t} | powered by clansuite.com - free clan cms</a>
                             {else}
                                 <a href="{$entry.gb_website}" target="_blank">{$entry.gb_website}</a>
                             {/if}
                         </dd>
-                    <dt>{translate}City{/translate}: </dt>
+                    <dt>{t}City{/t}: </dt>
                         <dd>{$entry.gb_town}</dd>
                     {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
                     <dt>IP: </dt>
@@ -66,11 +66,11 @@
                 </dl>
             </div>
             <div class="message">
-                <div class="box_heading">{translate}The message{/translate}</div>
+                <div class="box_heading">{t}The message{/t}</div>
                 <div class="the_text">{$entry.gb_text}</div>
                 {if !empty($entry.gb_comment)}
                 <dl class="comment">
-                    <dt>{translate}Comment{/translate}: </dt>
+                    <dt>{t}Comment{/t}: </dt>
                         <dd>{$entry.gb_comment}</dd>
                 </dl>
                 {/if}
@@ -81,10 +81,10 @@
             <div class="options">
                 <div class="edit_button">
                     {if $smarty.session.user.user_id == $entry.user_id.1}
-                        <input class="ButtonGreen" type="button" value="{translate}Edit my entry{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
                     {/if}
                     {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
-                        <input class="ButtonGreen" type="button" value="{translate}Edit or add comment{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
                     {/if}
                 </div>
             </div>
@@ -93,7 +93,7 @@
         <div class="divider"><hr></div>
     {/foreach}
     <div class="options">
-        <input class="ButtonGreen" type="button" value="{translate}Add a guestbook entry{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
     {include file="tools/paginate.tpl"}
 {/if}

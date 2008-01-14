@@ -1,6 +1,6 @@
 <div align="center">
 <h3>
-{translate}Welcome.{/translate}<br />
-{translate}This is the Control Center (CC) of Clansuite.{/translate}
+{t}Welcome.{/t}<br />
+{t}This is the Control Center (CC) of Clansuite.{/t}
 </h3>
 </div>

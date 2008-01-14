@@ -4,15 +4,15 @@
 <form action="index.php?mod=admin&amp;sub=categories&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
       	<tr class="tr_header">
-       		<td align="center">{translate}ID{/translate}</td>
-       		<td align="center">{translate}Name{/translate}</td>
-       		<td align="center">{translate}Pos{/translate}</td>
-       		<td align="center">{translate}Modul{/translate}</td>
-       		<td align="center">{translate}Icon{/translate}</td>
-       		<td align="center">{translate}Image{/translate}</td>
-       		<td align="center">{translate}Description{/translate}</td>
-       		<td align="center">{translate}Edit{/translate}</td>
-       		<td align="center">{translate}Delete{/translate}</td>
+       		<td align="center">{t}ID{/t}</td>
+       		<td align="center">{t}Name{/t}</td>
+       		<td align="center">{t}Pos{/t}</td>
+       		<td align="center">{t}Modul{/t}</td>
+       		<td align="center">{t}Icon{/t}</td>
+       		<td align="center">{t}Image{/t}</td>
+       		<td align="center">{t}Description{/t}</td>
+       		<td align="center">{t}Edit{/t}</td>
+       		<td align="center">{t}Delete{/t}</td>
        	</tr>
         {foreach key=key item=categories from=$categories}
         <tr class="{cycle values="tr_row1,tr_row2"}">
@@ -40,7 +40,7 @@
             <td>{$category.description}</td>
             <td align="center">
                 <a href="index.php?mod=admin&amp;sub=categories&amp;action=edit&amp;id={$categories.cat_id}">
-                    <input type="button" value="{translate}Edit{/translate}" class="ButtonGreen" />
+                    <input type="button" value="{t}Edit{/t}" class="ButtonGreen" />
                 </a>
             </td>
             <td align="center"><input type="checkbox" name="delete[]" value="{$categories.cat_id}" /></td>
@@ -48,9 +48,9 @@
         {/foreach}
         <tr>
             <td colspan="9" align="right" class="cell1">
-                <input class="ButtonGreen" type="button" onclick="location.href='index.php?mod=admin&amp;sub=categories&amp;action=create'" value="{translate}Create a new Category{/translate}" />
-                <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}" />
-                <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected Category(ies){/translate}" />
+                <input class="ButtonGreen" type="button" onclick="location.href='index.php?mod=admin&amp;sub=categories&amp;action=create'" value="{t}Create a new Category{/t}" />
+                <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}" />
+                <input class="ButtonRed" type="submit" name="submit" value="{t}Delete the selected Category(ies){/t}" />
             </td>
         </tr>
     </table>

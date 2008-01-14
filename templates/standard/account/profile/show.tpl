@@ -11,13 +11,13 @@
 <table cellpadding="0" cellspacing="0" border="0" id="profile" width="100%">
     <tr>
         <td class="td_header" width="20px">
-            {translate}Icon{/translate}
+            {t}Icon{/t}
         </td>
         <td class="td_header" width="100px">
-            {translate}Fields{/translate}
+            {t}Fields{/t}
         </td>
         <td class="td_header" id="zipcode">
-            {translate}Values{/translate}
+            {t}Values{/t}
         </td>
     </tr>
     <tr>
@@ -25,7 +25,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}First name{/translate}
+            {t}First name{/t}
         </td>
         <td class="profile_editcell" id="first_name">
             {$info.first_name}
@@ -36,7 +36,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Last name{/translate}
+            {t}Last name{/t}
         </td>
         <td class="profile_editcell" id="last_name">
             {$info.last_name}
@@ -47,7 +47,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/cake.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Birthday{/translate}
+            {t}Birthday{/t}
         </td>
         <td class="profile_editcell" id="birthday">
             {$info.birthday|date_format:"%d.%m.%Y"}
@@ -58,7 +58,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/male.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Gender{/translate}
+            {t}Gender{/t}
         </td>
         <td class="profile_editcell" id="gender">
             {$info.gender}
@@ -69,7 +69,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/text_linespacing.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Height{/translate}
+            {t}Height{/t}
         </td>
         <td class="profile_editcell" id="height">
             {$info.height}
@@ -80,7 +80,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/book.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Address{/translate}
+            {t}Address{/t}
         </td>
         <td class="profile_editcell" id="address">
             {$info.address}
@@ -91,7 +91,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/vcard.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}ZIP code{/translate}
+            {t}ZIP code{/t}
         </td>
         <td class="profile_editcell" id="zipcode">
             {$info.zipcode}
@@ -102,7 +102,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/house.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}City{/translate}
+            {t}City{/t}
         </td>
         <td class="profile_editcell" id="city">
             {$info.city}
@@ -113,7 +113,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/world.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Country{/translate}
+            {t}Country{/t}
         </td>
         <td class="profile_editcell" id="country">
             {$info.country}
@@ -124,7 +124,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/html.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Homepage{/translate}
+            {t}Homepage{/t}
         </td>
         <td class="profile_editcell" id="homepage">
             {$info.homepage}
@@ -135,7 +135,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/icq.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}ICQ{/translate}
+            {t}ICQ{/t}
         </td>
         <td class="profile_editcell" id="icq">
             {$info.icq}
@@ -146,7 +146,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/msn.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}MSN{/translate}
+            {t}MSN{/t}
         </td>
         <td class="profile_editcell" id="msn">
             {$info.msn}
@@ -157,7 +157,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/skype.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Skype{/translate}
+            {t}Skype{/t}
         </td>
         <td class="profile_editcell" id="skype">
             {$info.skype}
@@ -168,7 +168,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/telephone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Phone{/translate}
+            {t}Phone{/t}
         </td>
         <td class="profile_editcell" id="phone">
             {$info.phone}
@@ -179,7 +179,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/phone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Mobile{/translate}
+            {t}Mobile{/t}
         </td>
         <td class="profile_editcell" id="mobile">
             {$info.mobile}
@@ -190,7 +190,7 @@
             <div class="profile_icon"><img src="{$www_root_tpl}/images/icons/application_view_list.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
-            {translate}Custom Text{/translate}
+            {t}Custom Text{/t}
         </td>
         <td class="cell1">
             <div id="custom_text">
@@ -210,258 +210,258 @@
 {* AJAX Needed *}
 <div style="visibility: hidden">
 <select id="gender_container" class="input_text">
-    <option value="-">{translate}-{/translate}</option>
-    <option value="male">{translate}Male{/translate}</option>
-    <option value="female">{translate}Female{/translate}</option>
+    <option value="-">{t}-{/t}</option>
+    <option value="male">{t}Male{/t}</option>
+    <option value="female">{t}Female{/t}</option>
 </select>
 
 <select size="1" id="country_container">
-<option value="">{translate}Select One{/translate}</option>
-<option value="US">{translate}United States{/translate}</option>
-<option value="CA">{translate}Canada{/translate}</option>
-<option value="">{translate}----------{/translate}</option>
-<option value="AF">{translate}Afghanistan{/translate}</option>
-<option value="AL">{translate}Albania{/translate}</option>
-<option value="DZ">{translate}Algeria{/translate}</option>
-<option value="AS">{translate}American Samoa{/translate}</option>
-<option value="AD">{translate}Andorra{/translate}</option>
-<option value="AO">{translate}Angola{/translate}</option>
-<option value="AI">{translate}Anguilla{/translate}</option>
-<option value="AQ">{translate}Antarctica{/translate}</option>
-<option value="AG">{translate}Antigua and Barbuda{/translate}</option>
-<option value="AR">{translate}Argentina{/translate}</option>
-<option value="AM">{translate}Armenia{/translate}</option>
-<option value="AW">{translate}Aruba{/translate}</option>
-<option value="AU">{translate}Australia{/translate}</option>
-<option value="AT">{translate}Austria{/translate}</option>
-<option value="AZ">{translate}Azerbaidjan{/translate}</option>
-<option value="BS">{translate}Bahamas{/translate}</option>
-<option value="BH">{translate}Bahrain{/translate}</option>
-<option value="BD">{translate}Bangladesh{/translate}</option>
-<option value="BB">{translate}Barbados{/translate}</option>
-<option value="BY">{translate}Belarus{/translate}</option>
-<option value="BE">{translate}Belgium{/translate}</option>
-<option value="BZ">{translate}Belize{/translate}</option>
-<option value="BJ">{translate}Benin{/translate}</option>
-<option value="BM">{translate}Bermuda{/translate}</option>
-<option value="BT">{translate}Bhutan{/translate}</option>
-<option value="BO">{translate}Bolivia{/translate}</option>
-<option value="BA">{translate}Bosnia-Herzegovina{/translate}</option>
-<option value="BW">{translate}Botswana{/translate}</option>
-<option value="BV">{translate}Bouvet Island{/translate}</option>
-<option value="BR">{translate}Brazil{/translate}</option>
-<option value="IO">{translate}British Indian Ocean Territory{/translate}</option>
-<option value="BN">{translate}Brunei Darussalam{/translate}</option>
-<option value="BG">{translate}Bulgaria{/translate}</option>
-<option value="BF">{translate}Burkina Faso{/translate}</option>
-<option value="BI">{translate}Burundi{/translate}</option>
-<option value="KH">{translate}Cambodia{/translate}</option>
-<option value="CM">{translate}Cameroon{/translate}</option>
-<option value="CV">{translate}Cape Verde{/translate}</option>
-<option value="KY">{translate}Cayman Islands{/translate}</option>
-<option value="CF">{translate}Central African Republic{/translate}</option>
-<option value="TD">{translate}Chad{/translate}</option>
-<option value="CL">{translate}Chile{/translate}</option>
-<option value="CN">{translate}China{/translate}</option>
-<option value="CX">{translate}Christmas Island{/translate}</option>
-<option value="CC">{translate}Cocos (Keeling) Islands{/translate}</option>
-<option value="CO">{translate}Colombia{/translate}</option>
-<option value="KM">{translate}Comoros{/translate}</option>
-<option value="CG">{translate}Congo{/translate}</option>
-<option value="CK">{translate}Cook Islands{/translate}</option>
-<option value="CR">{translate}Costa Rica{/translate}</option>
-<option value="HR">{translate}Croatia{/translate}</option>
-<option value="CU">{translate}Cuba{/translate}</option>
-<option value="CY">{translate}Cyprus{/translate}</option>
-<option value="CZ">{translate}Czech Republic{/translate}</option>
-<option value="DK">{translate}Denmark{/translate}</option>
-<option value="DJ">{translate}Djibouti{/translate}</option>
-<option value="DM">{translate}Dominica{/translate}</option>
-<option value="DO">{translate}Dominican Republic{/translate}</option>
-<option value="TP">{translate}East Timor{/translate}</option>
-<option value="EC">{translate}Ecuador{/translate}</option>
-<option value="EG">{translate}Egypt{/translate}</option>
-<option value="SV">{translate}El Salvador{/translate}</option>
-<option value="GQ">{translate}Equatorial Guinea{/translate}</option>
-<option value="ER">{translate}Eritrea{/translate}</option>
-<option value="EE">{translate}Estonia{/translate}</option>
-<option value="ET">{translate}Ethiopia{/translate}</option>
-<option value="FK">{translate}Falkland Islands{/translate}</option>
-<option value="FO">{translate}Faroe Islands{/translate}</option>
-<option value="FJ">{translate}Fiji{/translate}</option>
-<option value="FI">{translate}Finland{/translate}</option>
-<option value="CS">{translate}Former Czechoslovakia{/translate}</option>
-<option value="SU">{translate}Former USSR{/translate}</option>
-<option value="FR">{translate}France{/translate}</option>
-<option value="FX">{translate}France (European Territory){/translate}</option>
-<option value="GF">{translate}French Guyana{/translate}</option>
-<option value="TF">{translate}French Southern Territories{/translate}</option>
-<option value="GA">{translate}Gabon{/translate}</option>
-<option value="GM">{translate}Gambia{/translate}</option>
-<option value="GE">{translate}Georgia{/translate}</option>
-<option value="DE">{translate}Germany{/translate}</option>
-<option value="GH">{translate}Ghana{/translate}</option>
-<option value="GI">{translate}Gibraltar{/translate}</option>
-<option value="GB">{translate}Great Britain{/translate}</option>
-<option value="GR">{translate}Greece{/translate}</option>
-<option value="GL">{translate}Greenland{/translate}</option>
-<option value="GD">{translate}Grenada{/translate}</option>
-<option value="GP">{translate}Guadeloupe (French){/translate}</option>
-<option value="GU">{translate}Guam (USA){/translate}</option>
-<option value="GT">{translate}Guatemala{/translate}</option>
-<option value="GN">{translate}Guinea{/translate}</option>
-<option value="GW">{translate}Guinea Bissau{/translate}</option>
-<option value="GY">{translate}Guyana{/translate}</option>
-<option value="HT">{translate}Haiti{/translate}</option>
-<option value="HM">{translate}Heard and McDonald Islands{/translate}</option>
-<option value="HN">{translate}Honduras{/translate}</option>
-<option value="HK">{translate}Hong Kong{/translate}</option>
-<option value="HU">{translate}Hungary{/translate}</option>
-<option value="IS">{translate}Iceland{/translate}</option>
-<option value="IN">{translate}India{/translate}</option>
-<option value="ID">{translate}Indonesia{/translate}</option>
-<option value="INT">{translate}International{/translate}</option>
-<option value="IR">{translate}Iran{/translate}</option>
-<option value="IQ">{translate}Iraq{/translate}</option>
-<option value="IE">{translate}Ireland{/translate}</option>
-<option value="IL">{translate}Israel{/translate}</option>
-<option value="IT">{translate}Italy{/translate}</option>
-<option value="CI">{translate}Ivory Coast (Cote D&#39;Ivoire){/translate}</option>
-<option value="JM">{translate}Jamaica{/translate}</option>
-<option value="JP">{translate}Japan{/translate}</option>
-<option value="JO">{translate}Jordan{/translate}</option>
-<option value="KZ">{translate}Kazakhstan{/translate}</option>
-<option value="KE">{translate}Kenya{/translate}</option>
-<option value="KI">{translate}Kiribati{/translate}</option>
-<option value="KW">{translate}Kuwait{/translate}</option>
-<option value="KG">{translate}Kyrgyzstan{/translate}</option>
-<option value="LA">{translate}Laos{/translate}</option>
-<option value="LV">{translate}Latvia{/translate}</option>
-<option value="LB">{translate}Lebanon{/translate}</option>
-<option value="LS">{translate}Lesotho{/translate}</option>
-<option value="LR">{translate}Liberia{/translate}</option>
-<option value="LY">{translate}Libya{/translate}</option>
-<option value="LI">{translate}Liechtenstein{/translate}</option>
-<option value="LT">{translate}Lithuania{/translate}</option>
-<option value="LU">{translate}Luxembourg{/translate}</option>
-<option value="MO">{translate}Macau{/translate}</option>
-<option value="MK">{translate}Macedonia{/translate}</option>
-<option value="MG">{translate}Madagascar{/translate}</option>
-<option value="MW">{translate}Malawi{/translate}</option>
-<option value="MY">{translate}Malaysia{/translate}</option>
-<option value="MV">{translate}Maldives{/translate}</option>
-<option value="ML">{translate}Mali{/translate}</option>
-<option value="MT">{translate}Malta{/translate}</option>
-<option value="MH">{translate}Marshall Islands{/translate}</option>
-<option value="MQ">{translate}Martinique (French){/translate}</option>
-<option value="MR">{translate}Mauritania{/translate}</option>
-<option value="MU">{translate}Mauritius{/translate}</option>
-<option value="YT">{translate}Mayotte{/translate}</option>
-<option value="MX">{translate}Mexico{/translate}</option>
-<option value="FM">{translate}Micronesia{/translate}</option>
-<option value="MD">{translate}Moldavia{/translate}</option>
-<option value="MC">{translate}Monaco{/translate}</option>
-<option value="MN">{translate}Mongolia{/translate}</option>
-<option value="MS">{translate}Montserrat{/translate}</option>
-<option value="MA">{translate}Morocco{/translate}</option>
-<option value="MZ">{translate}Mozambique{/translate}</option>
-<option value="MM">{translate}Myanmar{/translate}</option>
-<option value="NA">{translate}Namibia{/translate}</option>
-<option value="NR">{translate}Nauru{/translate}</option>
-<option value="NP">{translate}Nepal{/translate}</option>
-<option value="NL">{translate}Netherlands{/translate}</option>
-<option value="AN">{translate}Netherlands Antilles{/translate}</option>
-<option value="NT">{translate}Neutral Zone{/translate}</option>
-<option value="NC">{translate}New Caledonia (French){/translate}</option>
-<option value="NZ">{translate}New Zealand{/translate}</option>
-<option value="NI">{translate}Nicaragua{/translate}</option>
-<option value="NE">{translate}Niger{/translate}</option>
-<option value="NG">{translate}Nigeria{/translate}</option>
-<option value="NU">{translate}Niue{/translate}</option>
-<option value="NF">{translate}Norfolk Island{/translate}</option>
-<option value="KP">{translate}North Korea{/translate}</option>
-<option value="MP">{translate}Northern Mariana Islands{/translate}</option>
-<option value="NO">{translate}Norway{/translate}</option>
-<option value="OM">{translate}Oman{/translate}</option>
-<option value="PK">{translate}Pakistan{/translate}</option>
-<option value="PW">{translate}Palau{/translate}</option>
-<option value="PA">{translate}Panama{/translate}</option>
-<option value="PG">{translate}Papua New Guinea{/translate}</option>
-<option value="PY">{translate}Paraguay{/translate}</option>
-<option value="PE">{translate}Peru{/translate}</option>
-<option value="PH">{translate}Philippines{/translate}</option>
-<option value="PN">{translate}Pitcairn Island{/translate}</option>
-<option value="PL">{translate}Poland{/translate}</option>
-<option value="PF">{translate}Polynesia (French){/translate}</option>
-<option value="PT">{translate}Portugal{/translate}</option>
-<option value="PR">{translate}Puerto Rico{/translate}</option>
-<option value="QA">{translate}Qatar{/translate}</option>
-<option value="RE">{translate}Reunion (French){/translate}</option>
-<option value="RO">{translate}Romania{/translate}</option>
-<option value="RU">{translate}Russian Federation{/translate}</option>
-<option value="RW">{translate}Rwanda{/translate}</option>
-<option value="GS">{translate}S. Georgia & S. Sandwich Isls.{/translate}</option>
-<option value="SH">{translate}Saint Helena{/translate}</option>
-<option value="KN">{translate}Saint Kitts & Nevis Anguilla{/translate}</option>
-<option value="LC">{translate}Saint Lucia{/translate}</option>
-<option value="PM">{translate}Saint Pierre and Miquelon{/translate}</option>
-<option value="ST">{translate}Saint Tome (Sao Tome) and Principe{/translate}</option>
-<option value="VC">{translate}Saint Vincent & Grenadines{/translate}</option>
-<option value="WS">{translate}Samoa{/translate}</option>
-<option value="SM">{translate}San Marino{/translate}</option>
-<option value="SA">{translate}Saudi Arabia{/translate}</option>
-<option value="SN">{translate}Senegal{/translate}</option>
-<option value="SC">{translate}Seychelles{/translate}</option>
-<option value="SL">{translate}Sierra Leone{/translate}</option>
-<option value="SG">{translate}Singapore{/translate}</option>
-<option value="SK">{translate}Slovak Republic{/translate}</option>
-<option value="SI">{translate}Slovenia{/translate}</option>
-<option value="SB">{translate}Solomon Islands{/translate}</option>
-<option value="SO">{translate}Somalia{/translate}</option>
-<option value="ZA">{translate}South Africa{/translate}</option>
-<option value="KR">{translate}South Korea{/translate}</option>
-<option value="ES">{translate}Spain{/translate}</option>
-<option value="LK">{translate}Sri Lanka{/translate}</option>
-<option value="SD">{translate}Sudan{/translate}</option>
-<option value="SR">{translate}Suriname{/translate}</option>
-<option value="SJ">{translate}Svalbard and Jan Mayen Islands{/translate}</option>
-<option value="SZ">{translate}Swaziland{/translate}</option>
-<option value="SE">{translate}Sweden{/translate}</option>
-<option value="CH">{translate}Switzerland{/translate}</option>
-<option value="SY">{translate}Syria{/translate}</option>
-<option value="TJ">{translate}Tadjikistan{/translate}</option>
-<option value="TW">{translate}Taiwan{/translate}</option>
-<option value="TZ">{translate}Tanzania{/translate}</option>
-<option value="TH">{translate}Thailand{/translate}</option>
-<option value="TG">{translate}Togo{/translate}</option>
-<option value="TK">{translate}Tokelau{/translate}</option>
-<option value="TO">{translate}Tonga{/translate}</option>
-<option value="TT">{translate}Trinidad and Tobago{/translate}</option>
-<option value="TN">{translate}Tunisia{/translate}</option>
-<option value="TR">{translate}Turkey{/translate}</option>
-<option value="TM">{translate}Turkmenistan{/translate}</option>
-<option value="TC">{translate}Turks and Caicos Islands{/translate}</option>
-<option value="TV">{translate}Tuvalu{/translate}</option>
-<option value="UG">{translate}Uganda{/translate}</option>
-<option value="UA">{translate}Ukraine{/translate}</option>
-<option value="AE">{translate}United Arab Emirates{/translate}</option>
-<option value="GB">{translate}United Kingdom{/translate}</option>
-<option value="UY">{translate}Uruguay{/translate}</option>
-<option value="MIL">{translate}USA Military{/translate}</option>
-<option value="UM">{translate}USA Minor Outlying Islands{/translate}</option>
-<option value="UZ">{translate}Uzbekistan{/translate}</option>
-<option value="VU">{translate}Vanuatu{/translate}</option>
-<option value="VA">{translate}Vatican City State{/translate}</option>
-<option value="VE">{translate}Venezuela{/translate}</option>
-<option value="VN">{translate}Vietnam{/translate}</option>
-<option value="VG">{translate}Virgin Islands (British){/translate}</option>
-<option value="VI">{translate}Virgin Islands (USA){/translate}</option>
-<option value="WF">{translate}Wallis and Futuna Islands{/translate}</option>
-<option value="EH">{translate}Western Sahara{/translate}</option>
-<option value="YE">{translate}Yemen{/translate}</option>
-<option value="YU">{translate}Yugoslavia{/translate}</option>
-<option value="ZR">{translate}Zaire{/translate}</option>
-<option value="ZM">{translate}Zambia{/translate}</option>
-<option value="ZW">{translate}Zimbabwe{/translate}</option>
+<option value="">{t}Select One{/t}</option>
+<option value="US">{t}United States{/t}</option>
+<option value="CA">{t}Canada{/t}</option>
+<option value="">{t}----------{/t}</option>
+<option value="AF">{t}Afghanistan{/t}</option>
+<option value="AL">{t}Albania{/t}</option>
+<option value="DZ">{t}Algeria{/t}</option>
+<option value="AS">{t}American Samoa{/t}</option>
+<option value="AD">{t}Andorra{/t}</option>
+<option value="AO">{t}Angola{/t}</option>
+<option value="AI">{t}Anguilla{/t}</option>
+<option value="AQ">{t}Antarctica{/t}</option>
+<option value="AG">{t}Antigua and Barbuda{/t}</option>
+<option value="AR">{t}Argentina{/t}</option>
+<option value="AM">{t}Armenia{/t}</option>
+<option value="AW">{t}Aruba{/t}</option>
+<option value="AU">{t}Australia{/t}</option>
+<option value="AT">{t}Austria{/t}</option>
+<option value="AZ">{t}Azerbaidjan{/t}</option>
+<option value="BS">{t}Bahamas{/t}</option>
+<option value="BH">{t}Bahrain{/t}</option>
+<option value="BD">{t}Bangladesh{/t}</option>
+<option value="BB">{t}Barbados{/t}</option>
+<option value="BY">{t}Belarus{/t}</option>
+<option value="BE">{t}Belgium{/t}</option>
+<option value="BZ">{t}Belize{/t}</option>
+<option value="BJ">{t}Benin{/t}</option>
+<option value="BM">{t}Bermuda{/t}</option>
+<option value="BT">{t}Bhutan{/t}</option>
+<option value="BO">{t}Bolivia{/t}</option>
+<option value="BA">{t}Bosnia-Herzegovina{/t}</option>
+<option value="BW">{t}Botswana{/t}</option>
+<option value="BV">{t}Bouvet Island{/t}</option>
+<option value="BR">{t}Brazil{/t}</option>
+<option value="IO">{t}British Indian Ocean Territory{/t}</option>
+<option value="BN">{t}Brunei Darussalam{/t}</option>
+<option value="BG">{t}Bulgaria{/t}</option>
+<option value="BF">{t}Burkina Faso{/t}</option>
+<option value="BI">{t}Burundi{/t}</option>
+<option value="KH">{t}Cambodia{/t}</option>
+<option value="CM">{t}Cameroon{/t}</option>
+<option value="CV">{t}Cape Verde{/t}</option>
+<option value="KY">{t}Cayman Islands{/t}</option>
+<option value="CF">{t}Central African Republic{/t}</option>
+<option value="TD">{t}Chad{/t}</option>
+<option value="CL">{t}Chile{/t}</option>
+<option value="CN">{t}China{/t}</option>
+<option value="CX">{t}Christmas Island{/t}</option>
+<option value="CC">{t}Cocos (Keeling) Islands{/t}</option>
+<option value="CO">{t}Colombia{/t}</option>
+<option value="KM">{t}Comoros{/t}</option>
+<option value="CG">{t}Congo{/t}</option>
+<option value="CK">{t}Cook Islands{/t}</option>
+<option value="CR">{t}Costa Rica{/t}</option>
+<option value="HR">{t}Croatia{/t}</option>
+<option value="CU">{t}Cuba{/t}</option>
+<option value="CY">{t}Cyprus{/t}</option>
+<option value="CZ">{t}Czech Republic{/t}</option>
+<option value="DK">{t}Denmark{/t}</option>
+<option value="DJ">{t}Djibouti{/t}</option>
+<option value="DM">{t}Dominica{/t}</option>
+<option value="DO">{t}Dominican Republic{/t}</option>
+<option value="TP">{t}East Timor{/t}</option>
+<option value="EC">{t}Ecuador{/t}</option>
+<option value="EG">{t}Egypt{/t}</option>
+<option value="SV">{t}El Salvador{/t}</option>
+<option value="GQ">{t}Equatorial Guinea{/t}</option>
+<option value="ER">{t}Eritrea{/t}</option>
+<option value="EE">{t}Estonia{/t}</option>
+<option value="ET">{t}Ethiopia{/t}</option>
+<option value="FK">{t}Falkland Islands{/t}</option>
+<option value="FO">{t}Faroe Islands{/t}</option>
+<option value="FJ">{t}Fiji{/t}</option>
+<option value="FI">{t}Finland{/t}</option>
+<option value="CS">{t}Former Czechoslovakia{/t}</option>
+<option value="SU">{t}Former USSR{/t}</option>
+<option value="FR">{t}France{/t}</option>
+<option value="FX">{t}France (European Territory){/t}</option>
+<option value="GF">{t}French Guyana{/t}</option>
+<option value="TF">{t}French Southern Territories{/t}</option>
+<option value="GA">{t}Gabon{/t}</option>
+<option value="GM">{t}Gambia{/t}</option>
+<option value="GE">{t}Georgia{/t}</option>
+<option value="DE">{t}Germany{/t}</option>
+<option value="GH">{t}Ghana{/t}</option>
+<option value="GI">{t}Gibraltar{/t}</option>
+<option value="GB">{t}Great Britain{/t}</option>
+<option value="GR">{t}Greece{/t}</option>
+<option value="GL">{t}Greenland{/t}</option>
+<option value="GD">{t}Grenada{/t}</option>
+<option value="GP">{t}Guadeloupe (French){/t}</option>
+<option value="GU">{t}Guam (USA){/t}</option>
+<option value="GT">{t}Guatemala{/t}</option>
+<option value="GN">{t}Guinea{/t}</option>
+<option value="GW">{t}Guinea Bissau{/t}</option>
+<option value="GY">{t}Guyana{/t}</option>
+<option value="HT">{t}Haiti{/t}</option>
+<option value="HM">{t}Heard and McDonald Islands{/t}</option>
+<option value="HN">{t}Honduras{/t}</option>
+<option value="HK">{t}Hong Kong{/t}</option>
+<option value="HU">{t}Hungary{/t}</option>
+<option value="IS">{t}Iceland{/t}</option>
+<option value="IN">{t}India{/t}</option>
+<option value="ID">{t}Indonesia{/t}</option>
+<option value="INT">{t}International{/t}</option>
+<option value="IR">{t}Iran{/t}</option>
+<option value="IQ">{t}Iraq{/t}</option>
+<option value="IE">{t}Ireland{/t}</option>
+<option value="IL">{t}Israel{/t}</option>
+<option value="IT">{t}Italy{/t}</option>
+<option value="CI">{t}Ivory Coast (Cote D&#39;Ivoire){/t}</option>
+<option value="JM">{t}Jamaica{/t}</option>
+<option value="JP">{t}Japan{/t}</option>
+<option value="JO">{t}Jordan{/t}</option>
+<option value="KZ">{t}Kazakhstan{/t}</option>
+<option value="KE">{t}Kenya{/t}</option>
+<option value="KI">{t}Kiribati{/t}</option>
+<option value="KW">{t}Kuwait{/t}</option>
+<option value="KG">{t}Kyrgyzstan{/t}</option>
+<option value="LA">{t}Laos{/t}</option>
+<option value="LV">{t}Latvia{/t}</option>
+<option value="LB">{t}Lebanon{/t}</option>
+<option value="LS">{t}Lesotho{/t}</option>
+<option value="LR">{t}Liberia{/t}</option>
+<option value="LY">{t}Libya{/t}</option>
+<option value="LI">{t}Liechtenstein{/t}</option>
+<option value="LT">{t}Lithuania{/t}</option>
+<option value="LU">{t}Luxembourg{/t}</option>
+<option value="MO">{t}Macau{/t}</option>
+<option value="MK">{t}Macedonia{/t}</option>
+<option value="MG">{t}Madagascar{/t}</option>
+<option value="MW">{t}Malawi{/t}</option>
+<option value="MY">{t}Malaysia{/t}</option>
+<option value="MV">{t}Maldives{/t}</option>
+<option value="ML">{t}Mali{/t}</option>
+<option value="MT">{t}Malta{/t}</option>
+<option value="MH">{t}Marshall Islands{/t}</option>
+<option value="MQ">{t}Martinique (French){/t}</option>
+<option value="MR">{t}Mauritania{/t}</option>
+<option value="MU">{t}Mauritius{/t}</option>
+<option value="YT">{t}Mayotte{/t}</option>
+<option value="MX">{t}Mexico{/t}</option>
+<option value="FM">{t}Micronesia{/t}</option>
+<option value="MD">{t}Moldavia{/t}</option>
+<option value="MC">{t}Monaco{/t}</option>
+<option value="MN">{t}Mongolia{/t}</option>
+<option value="MS">{t}Montserrat{/t}</option>
+<option value="MA">{t}Morocco{/t}</option>
+<option value="MZ">{t}Mozambique{/t}</option>
+<option value="MM">{t}Myanmar{/t}</option>
+<option value="NA">{t}Namibia{/t}</option>
+<option value="NR">{t}Nauru{/t}</option>
+<option value="NP">{t}Nepal{/t}</option>
+<option value="NL">{t}Netherlands{/t}</option>
+<option value="AN">{t}Netherlands Antilles{/t}</option>
+<option value="NT">{t}Neutral Zone{/t}</option>
+<option value="NC">{t}New Caledonia (French){/t}</option>
+<option value="NZ">{t}New Zealand{/t}</option>
+<option value="NI">{t}Nicaragua{/t}</option>
+<option value="NE">{t}Niger{/t}</option>
+<option value="NG">{t}Nigeria{/t}</option>
+<option value="NU">{t}Niue{/t}</option>
+<option value="NF">{t}Norfolk Island{/t}</option>
+<option value="KP">{t}North Korea{/t}</option>
+<option value="MP">{t}Northern Mariana Islands{/t}</option>
+<option value="NO">{t}Norway{/t}</option>
+<option value="OM">{t}Oman{/t}</option>
+<option value="PK">{t}Pakistan{/t}</option>
+<option value="PW">{t}Palau{/t}</option>
+<option value="PA">{t}Panama{/t}</option>
+<option value="PG">{t}Papua New Guinea{/t}</option>
+<option value="PY">{t}Paraguay{/t}</option>
+<option value="PE">{t}Peru{/t}</option>
+<option value="PH">{t}Philippines{/t}</option>
+<option value="PN">{t}Pitcairn Island{/t}</option>
+<option value="PL">{t}Poland{/t}</option>
+<option value="PF">{t}Polynesia (French){/t}</option>
+<option value="PT">{t}Portugal{/t}</option>
+<option value="PR">{t}Puerto Rico{/t}</option>
+<option value="QA">{t}Qatar{/t}</option>
+<option value="RE">{t}Reunion (French){/t}</option>
+<option value="RO">{t}Romania{/t}</option>
+<option value="RU">{t}Russian Federation{/t}</option>
+<option value="RW">{t}Rwanda{/t}</option>
+<option value="GS">{t}S. Georgia & S. Sandwich Isls.{/t}</option>
+<option value="SH">{t}Saint Helena{/t}</option>
+<option value="KN">{t}Saint Kitts & Nevis Anguilla{/t}</option>
+<option value="LC">{t}Saint Lucia{/t}</option>
+<option value="PM">{t}Saint Pierre and Miquelon{/t}</option>
+<option value="ST">{t}Saint Tome (Sao Tome) and Principe{/t}</option>
+<option value="VC">{t}Saint Vincent & Grenadines{/t}</option>
+<option value="WS">{t}Samoa{/t}</option>
+<option value="SM">{t}San Marino{/t}</option>
+<option value="SA">{t}Saudi Arabia{/t}</option>
+<option value="SN">{t}Senegal{/t}</option>
+<option value="SC">{t}Seychelles{/t}</option>
+<option value="SL">{t}Sierra Leone{/t}</option>
+<option value="SG">{t}Singapore{/t}</option>
+<option value="SK">{t}Slovak Republic{/t}</option>
+<option value="SI">{t}Slovenia{/t}</option>
+<option value="SB">{t}Solomon Islands{/t}</option>
+<option value="SO">{t}Somalia{/t}</option>
+<option value="ZA">{t}South Africa{/t}</option>
+<option value="KR">{t}South Korea{/t}</option>
+<option value="ES">{t}Spain{/t}</option>
+<option value="LK">{t}Sri Lanka{/t}</option>
+<option value="SD">{t}Sudan{/t}</option>
+<option value="SR">{t}Suriname{/t}</option>
+<option value="SJ">{t}Svalbard and Jan Mayen Islands{/t}</option>
+<option value="SZ">{t}Swaziland{/t}</option>
+<option value="SE">{t}Sweden{/t}</option>
+<option value="CH">{t}Switzerland{/t}</option>
+<option value="SY">{t}Syria{/t}</option>
+<option value="TJ">{t}Tadjikistan{/t}</option>
+<option value="TW">{t}Taiwan{/t}</option>
+<option value="TZ">{t}Tanzania{/t}</option>
+<option value="TH">{t}Thailand{/t}</option>
+<option value="TG">{t}Togo{/t}</option>
+<option value="TK">{t}Tokelau{/t}</option>
+<option value="TO">{t}Tonga{/t}</option>
+<option value="TT">{t}Trinidad and Tobago{/t}</option>
+<option value="TN">{t}Tunisia{/t}</option>
+<option value="TR">{t}Turkey{/t}</option>
+<option value="TM">{t}Turkmenistan{/t}</option>
+<option value="TC">{t}Turks and Caicos Islands{/t}</option>
+<option value="TV">{t}Tuvalu{/t}</option>
+<option value="UG">{t}Uganda{/t}</option>
+<option value="UA">{t}Ukraine{/t}</option>
+<option value="AE">{t}United Arab Emirates{/t}</option>
+<option value="GB">{t}United Kingdom{/t}</option>
+<option value="UY">{t}Uruguay{/t}</option>
+<option value="MIL">{t}USA Military{/t}</option>
+<option value="UM">{t}USA Minor Outlying Islands{/t}</option>
+<option value="UZ">{t}Uzbekistan{/t}</option>
+<option value="VU">{t}Vanuatu{/t}</option>
+<option value="VA">{t}Vatican City State{/t}</option>
+<option value="VE">{t}Venezuela{/t}</option>
+<option value="VN">{t}Vietnam{/t}</option>
+<option value="VG">{t}Virgin Islands (British){/t}</option>
+<option value="VI">{t}Virgin Islands (USA){/t}</option>
+<option value="WF">{t}Wallis and Futuna Islands{/t}</option>
+<option value="EH">{t}Western Sahara{/t}</option>
+<option value="YE">{t}Yemen{/t}</option>
+<option value="YU">{t}Yugoslavia{/t}</option>
+<option value="ZR">{t}Zaire{/t}</option>
+<option value="ZM">{t}Zambia{/t}</option>
+<option value="ZW">{t}Zimbabwe{/t}</option>
 </select>
 </div>

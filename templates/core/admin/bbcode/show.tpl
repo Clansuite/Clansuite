@@ -40,12 +40,12 @@
 <form action="index.php?mod=admin&sub=bbcode&action=create" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="90%" align="center">
     <tr class="tr_header">
-        <td align="center">{translate}Tag Name{/translate}</td>
-        <td align="center">{translate}Start Tag{/translate}</td>
-        <td align="center">{translate}End Tag{/translate}</td>
-        <td align="center">{translate}Content Type{/translate}</td>
-        <td align="center">{translate}Allowed in{/translate}</td>
-        <td align="center">{translate}Not allowed in{/translate}</td>
+        <td align="center">{t}Tag Name{/t}</td>
+        <td align="center">{t}Start Tag{/t}</td>
+        <td align="center">{t}End Tag{/t}</td>
+        <td align="center">{t}Content Type{/t}</td>
+        <td align="center">{t}Allowed in{/t}</td>
+        <td align="center">{t}Not allowed in{/t}</td>
     </tr>
     <tr>
         <td class="cell2" align="center">
@@ -69,7 +69,7 @@
     </tr>
     <tr>
         <td class="cell1" align="center" colspan="6">
-            <input type="submit" class="ButtonGreen" value="{translate}Create new BB Code{/translate}" />
+            <input type="submit" class="ButtonGreen" value="{t}Create new BB Code{/t}" />
         </td>
     </tr>
 </table>
@@ -77,13 +77,13 @@
 
 <table class="tableedit" cellspacing="0" cellpadding="0" border="0" width="90%" align="center" id="table_bbcode">
     <tr class="tr_header">
-        <td width="70px">{translate}Tag Name{/translate}</td>
-        <td width="100px">{translate}Start Tag{/translate}</td>
-        <td width="100px">{translate}End Tag{/translate}</td>
-        <td width="100px">{translate}Content Type{/translate}</td>
-        <td width="100px">{translate}Allowed in{/translate}</td>
-        <td width="100px">{translate}Not allowed in{/translate}</td>
-        <td>{translate}Preview{/translate}</td>
+        <td width="70px">{t}Tag Name{/t}</td>
+        <td width="100px">{t}Start Tag{/t}</td>
+        <td width="100px">{t}End Tag{/t}</td>
+        <td width="100px">{t}Content Type{/t}</td>
+        <td width="100px">{t}Allowed in{/t}</td>
+        <td width="100px">{t}Not allowed in{/t}</td>
+        <td>{t}Preview{/t}</td>
     </tr>
 {foreach key=schluessel item=wert from=$bb_codes}
     <tr>

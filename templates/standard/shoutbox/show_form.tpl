@@ -5,22 +5,22 @@ Loading...
 	<form action="{$request}" method="post" onsubmit="return sendAjaxRequest('name,mail,msg', 'index.php?mod=shoutbox&amp;action=check&amp;check=true', 'request_return');">
         <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
             <tr>
-                <td class="td_header" colspan="2">{translate}Shoutbox{/translate}</td>
+                <td class="td_header" colspan="2">{t}Shoutbox{/t}</td>
             </tr>
             <tr class="tr_row1">
-                <td align="center">{translate}Name{/translate}</td>
+                <td align="center">{t}Name{/t}</td>
                 <td align="center" width="1%">
 		            <input class="input_text" id="name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" style="text-align: center;" />
                 </td>
             </tr>
             <tr class="tr_row1">
-                <td align="center">{translate}Mail{/translate}</td>
+                <td align="center">{t}Mail{/t}</td>
                 <td align="center">        
 		            <input class="input_text" id="mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" style="text-align: center;" />
                 </td>
             </tr>
             <tr class="tr_row1">
-                <td align="center">{translate}Message{/translate}</td>
+                <td align="center">{t}Message{/t}</td>
                 <td align="center">
 		            <textarea class="input_textarea" id="msg" name="msg" cols="17" rows="3"></textarea>
                 </td>
@@ -155,7 +155,7 @@ Loading...
                     {
 					    // Error ...
 					    var errors = response.split('---error---');
-                        response_text = '\<b>{/literal}{translate}Error:{/translate}{literal}\<\/b>';
+                        response_text = '\<b>{/literal}{t}Error:{/t}{literal}\<\/b>';
 				        for(i = 0; i < errors.length; i++)
 				        {
 					        if ( errors[ i ] != '' )
@@ -167,7 +167,7 @@ Loading...
                     }
                     else
                     {
-                        response_text = '\<span class="shoutbox_success">{/literal}{translate}...saved...{/translate}{literal}\<\/span>';
+                        response_text = '\<span class="shoutbox_success">{/literal}{t}...saved...{/t}{literal}\<\/span>';
                         document.getElementById('entries_box').innerHTML = response;
                         document.getElementById('msg').value='';
                         document.getElementById(id).innerHTML = response_text;
@@ -175,7 +175,7 @@ Loading...
 				}
 				else
                 {
-					response_text = '\<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}\<\/span>';
+					response_text = '\<span class="shoutbox_success">{/literal}{t}Database Error!{/t}{literal}\<\/span>';
                     document.getElementById(id).innerHTML = response_text;
 				}
 				

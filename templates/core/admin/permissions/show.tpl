@@ -54,8 +54,8 @@
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$permissions_data} {/if}*}
 <table align="center" cellpadding="0" cellspacing="0" border="0">
     <tr class="tr_header">
-        <td align="center" width="100">{translate}Areas{/translate}</td>
-        <td>{translate}Rights{/translate}</td>
+        <td align="center" width="100">{t}Areas{/t}</td>
+        <td>{t}Rights{/t}</td>
     </tr>
     <tr class="tr_row1">
         <td align="center">
@@ -64,24 +64,24 @@
                 <input type="button" value="{$area_array.name}" onclick="clip_area('area_{$area_array.area_id}')" class="ButtonYellow" style="width: 80px;" /><br />
             {/foreach}
             {if count($unassigned) > 0}
-                <input type="button" value="{translate}Unassigned{/translate}" onclick="clip_area('area_unassigned')" class="ButtonRed" style="width: 80px;" />
+                <input type="button" value="{t}Unassigned{/t}" onclick="clip_area('area_unassigned')" class="ButtonRed" style="width: 80px;" />
             {/if}
             </div>
         </td>
         <td align="center" width="700" style="height: 100%; padding: 0px;">
             <div style="height: 100%" id="select_text">
-            {translate}Select the area on the left side{/translate}
+            {t}Select the area on the left side{/t}
             </div>
             {foreach key=area_id item=area_array from=$areas}
             <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <div style="height: 1px; display: none; overflow: hidden" id="area_{$area_array.area_id}">
                 <table cellpadding="0" cellspacing="0" border="0" id="table_area_{$area_array.area_id}">
                     <tr class="tr_header_small">
-                        <td width="10">{translate}ID{/translate}</td>
-                        <td>{translate}Right Name{/translate}</td>
-                        <td width="40%">{translate}Description{/translate}</td>
-                        <td width="200">{translate}Actions{/translate}</td>
-                        <td width="1%"> {translate}Del{/translate}</td>
+                        <td width="10">{t}ID{/t}</td>
+                        <td>{t}Right Name{/t}</td>
+                        <td width="40%">{t}Description{/t}</td>
+                        <td width="200">{t}Actions{/t}</td>
+                        <td width="1%"> {t}Del{/t}</td>
                     </tr>
                     {foreach key=right_name item=right_array from=$rights.$area_id}
                     <tr class="{cycle values="tr_row1, tr_row2"}">
@@ -89,8 +89,8 @@
                         <td style="vertical-align: middle" align="left"><b>{if substr($right_array.name, 0, 3) == 'cc_'}<span style="color: red">{$right_array.name}</span>{else}{$right_array.name}{/if}</b></td>
                         <td style="vertical-align: middle">{$right_array.description}</td>
                         <td align="center">
-                            <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{translate}Edit{/translate}" />
-                            <input type="button" class="ButtonYellow" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" value="{translate}Lookup users{/translate}" />
+                            <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{t}Edit{/t}" />
+                            <input type="button" class="ButtonYellow" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center" style="vertical-align: middle">
                             <input type="hidden" name="ids[]" value="{$right_array.right_id}" />
@@ -100,11 +100,11 @@
                     {/foreach}
                     <tr class="tr_row1">
                         <td align="right" colspan="5">
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{translate}Create right{/translate}" />
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_area&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{translate}Edit area{/translate}" />
-                            <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=delete_area&amp;area_id={$area_id}'" class="ButtonRed" value="{translate}Delete area{/translate}" />
-                            <input type="submit" name="submit" class="ButtonRed" value="{translate}Delete selected Permissions{/translate}" />
-                            <input type="reset" name="submit" class="ButtonGrey" value="{translate}Reset{/translate}" />
+                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Create right{/t}" />
+                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_area&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Edit area{/t}" />
+                            <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=delete_area&amp;area_id={$area_id}'" class="ButtonRed" value="{t}Delete area{/t}" />
+                            <input type="submit" name="submit" class="ButtonRed" value="{t}Delete selected Permissions{/t}" />
+                            <input type="reset" name="submit" class="ButtonGrey" value="{t}Reset{/t}" />
                         </td>
                     </tr>
                 </table>
@@ -114,11 +114,11 @@
             <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <table style="display: none;" id="area_unassigned" cellpadding="0" cellspacing="0" border="0">
                     <tr class="tr_header_small">
-                        <td width="100">{translate}Right ID{/translate}</td>
-                        <td width="100">{translate}Right Name{/translate}</td>
-                        <td width="200">{translate}Description{/translate}</td>
-                        <td width="200">{translate}Actions{/translate}</td>
-                        <td width="5%"> {translate}Delete{/translate}</td>
+                        <td width="100">{t}Right ID{/t}</td>
+                        <td width="100">{t}Right Name{/t}</td>
+                        <td width="200">{t}Description{/t}</td>
+                        <td width="200">{t}Actions{/t}</td>
+                        <td width="5%"> {t}Delete{/t}</td>
                     </tr>
                     {foreach key=right_name item=right_array from=$unassigned}
                     <tr class="{cycle values="tr_row1, tr_row2"}">
@@ -126,8 +126,8 @@
                         <td>{$right_array.name}</td>
                         <td>{$right_array.description}</td>
                         <td align="center">
-                            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{translate}Edit{/translate}" />
-                            <input onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{translate}Lookup users{/translate}" />
+                            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{t}Edit{/t}" />
+                            <input onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center">
                             <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -137,8 +137,8 @@
                     {/foreach}
                     <tr class="tr_row1">
                         <td align="right" colspan="5">
-                            <input type="submit" name="submit" class="ButtonRed" value="{translate}Delete selected right(s){/translate}" />
-                            <input type="reset" name="submit" class="ButtonGrey" value="{translate}Reset{/translate}" />
+                            <input type="submit" name="submit" class="ButtonRed" value="{t}Delete selected right(s){/t}" />
+                            <input type="reset" name="submit" class="ButtonGrey" value="{t}Reset{/t}" />
                         </td>
                     </tr>
                 </table>
@@ -147,8 +147,8 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{translate}Create new area{/translate}" />
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{translate}Create new right{/translate}" />
+            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new area{/t}" />
+            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new right{/t}" />
         </td>
     </tr>
 </table>

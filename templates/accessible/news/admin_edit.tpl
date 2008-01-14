@@ -8,21 +8,21 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>
         <td class="td_header" width="100%" height="100%" colspan="2">
-        {translate}Edit news{/translate}    </td>
+        {t}Edit news{/t}    </td>
 
     </tr>
     <tr>
 
         <td class="td_header_small" width="60">
-        {translate}Title{/translate}    </td>
+        {t}Title{/t}    </td>
 
         <td class="td_header_small">
-        {translate}Information{/translate}    </td>
+        {t}Information{/t}    </td>
 
     </tr>
     <tr>
         <td class="cell1">
-            <strong>{translate}Title{/translate}:</strong>
+            <strong>{t}Title{/t}:</strong>
         </td>
         <td class="cell2">
             <input name="infos[title]" type="text" value="{$infos.news_title|escape:html}" class="input_text" />
@@ -30,11 +30,11 @@
     </tr>
     <tr>
         <td class="cell1">
-            <strong>{translate}Category{/translate}:</strong>
+            <strong>{t}Category{/t}:</strong>
         </td>
         <td class="cell2">
             <select name="infos[cat_id]" class="input_text">
-                <option value="0">-- {translate}none{/translate} --</option>
+                <option value="0">-- {t}none{/t} --</option>
 
                 {foreach item=cats from=$newscategories}
                     <option value="{$cats.cat_id}" {if $infos.cat_id == $cats.cat_id} selected='selected'{/if}>{$cats.name|escape:html}</option>
@@ -46,7 +46,7 @@
     {*
     <tr>
         <td class="cell1">
-            <strong>{translate}Visible to groups{/translate}:</strong>
+            <strong>{t}Visible to groups{/t}:</strong>
         </td>
         <td class="cell2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -66,11 +66,11 @@
     *}
     <tr>
         <td class="cell1">
-            <strong>{translate}Draft{/translate}:</strong>
+            <strong>{t}Draft{/t}:</strong>
         </td>
         <td class="cell2">
-            <input type="radio" name="infos[draft]" value="0" {if $infos.draft==0}checked="checked"{/if} />{translate}unpublished{/translate}
-            <input type="radio" name="infos[draft]" value="1" {if $infos.draft==1}checked="checked"{/if} />{translate}published{/translate}
+            <input type="radio" name="infos[draft]" value="0" {if $infos.draft==0}checked="checked"{/if} />{t}unpublished{/t}
+            <input type="radio" name="infos[draft]" value="1" {if $infos.draft==1}checked="checked"{/if} />{t}published{/t}
         </td>
     </tr>
     <tr>
@@ -91,8 +91,8 @@
     </tr>
     <tr>
         <td colspan="2" class="cell2" align="center">
-            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{translate}Abort{/translate}"/>
-            <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit news{/translate}" />
+            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{t}Abort{/t}"/>
+            <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit news{/t}" />
         </td>
     </tr>
 </table>

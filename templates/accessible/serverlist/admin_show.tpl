@@ -25,14 +25,14 @@ var Serverform = {
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
         <thead>
         	<tr class="tr_header">
-        		<td align="center">{translate}ID{/translate}</td>
-        		<td align="center">{translate}IP{/translate}</td>                
-        		<td align="center">{translate}Port{/translate}</td>
-        		<td align="center">{translate}Name{/translate}</td>
-        		<td align="center">{translate}Gametype{/translate}</td>
-        		<td align="center">{translate}Country{/translate}</td>
-        		<td align="center">{translate}Edit{/translate}</td>
-        		<td align="center">{translate}Delete{/translate}</td>
+        		<td align="center">{t}ID{/t}</td>
+        		<td align="center">{t}IP{/t}</td>                
+        		<td align="center">{t}Port{/t}</td>
+        		<td align="center">{t}Name{/t}</td>
+        		<td align="center">{t}Gametype{/t}</td>
+        		<td align="center">{t}Country{/t}</td>
+        		<td align="center">{t}Edit{/t}</td>
+        		<td align="center">{t}Delete{/t}</td>
         	</tr>
             
             {foreach key=key item=server from=$servers}
@@ -50,16 +50,16 @@ var Serverform = {
                             <img src="{$www_root_tpl_core}/images/countries/{$server.image_country}" class="border3d">
                         {/if}
                     </td>
-                    <td align="center"><input onclick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{translate}Edit{/translate}" class="ButtonGreen" /></td>
+                    <td align="center"><input onclick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{t}Edit{/t}" class="ButtonGreen" /></td>
                     <td align="center"><input type="checkbox" name="delete[]" value="{$server.group_id}"></td>
                 
                 </tr>
             {/foreach}
             <tr>
                 <td colspan="9" align="right" class="cell1">
-                    <input onclick="javascript:clip_span('add_{$server.server_id}')" class="ButtonGreen" type="button" value="{translate}Enter new Server{/translate}" />
-                    <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
-                    <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected servers{/translate}" />
+                    <input onclick="javascript:clip_span('add_{$server.server_id}')" class="ButtonGreen" type="button" value="{t}Enter new Server{/t}" />
+                    <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}"/>
+                    <input class="ButtonRed" type="submit" name="submit" value="{t}Delete the selected servers{/t}" />
                 </td>
             </tr>
         </table>
@@ -75,8 +75,8 @@ var Serverform = {
 <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">      
         <thead>
         	<tr class="tr_header">
-        		<td align="center">{translate}Server Engine / Gametype{/translate}</td>
-        		<td align="center">{translate}IP{/translate} {translate}Port{/translate}</td>
+        		<td align="center">{t}Server Engine / Gametype{/t}</td>
+        		<td align="center">{t}IP{/t} {t}Port{/t}</td>
         	</tr>
     <tr class="tr_row1">
         <td>
@@ -102,13 +102,13 @@ var Serverform = {
     </tr>
     <tr>
         <td colspan="9" align="right" class="cell1">
-            <input class="ButtonOrange" value="{translate}Lookup Server{/translate}" id="send" 
+            <input class="ButtonOrange" value="{t}Lookup Server{/t}" id="send" 
                    onclick="{* {ajax_call url="index.php?mod=serverlist&amp;sub=admin&amp;action=lookup_server"
                                        method="post" 
                                        params="Serverform.params" 
                                        } *}">
-            <input class="ButtonGreen" type="button" value="{translate}Add a new Server{/translate}" />
-            <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}"/>
+            <input class="ButtonGreen" type="button" value="{t}Add a new Server{/t}" />
+            <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}"/>
         </td>
     </tr>
 </table>

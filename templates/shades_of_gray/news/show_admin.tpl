@@ -14,7 +14,7 @@
   <caption class="td_header">News</caption>
     <tr class="tr_header_small">
         <td>
-                {translate}Write News{/translate}            
+                {t}Write News{/t}            
          </td>
         <td>        
             {* display pagination info *}

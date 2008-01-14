@@ -73,7 +73,7 @@
 		<div class="content">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent pede quam, viverra ac, egestas eu, fringilla at, est. Curabitur ligula nunc, tempus adipiscing, posuere eget, posuere vitae, sem. Nam sed tellus ac sem tempor scelerisque. Nulla nec felis ut arcu porta adipiscing. Duis non mi id purus porttitor cursus. Etiam ac augue. Donec fermentum, elit non ultrices rhoncus, erat justo viverra velit, id facilisis nisl risus vel elit. Nullam posuere. Fusce pulvinar. Suspendisse tortor quam, vestibulum eget, dignissim a, elementum at, orci. Nunc placerat purus in nisi. Quisque placerat nunc a risus. Nullam imperdiet neque vitae arcu. Quisque imperdiet ullamcorper arcu. Phasellus vitae urna. In vehicula ultrices nunc.
 		</div>
-		<h3>{translate}Statistics{/translate}</h3>
+		<h3>{t}Statistics{/t}</h3>
 		<div id="counter" class="content">
     		<ul>
     			<li>

@@ -33,16 +33,16 @@
     
         <tr class="tr_header">
             <td>
-                {translate}Description{/translate}
+                {t}Description{/t}
             </td>
             <td colspan="2">
-                {translate}Input{/translate}
+                {t}Input{/t}
             </td>
         </tr>
         
         <tr class="tr_row1">
             <td>
-                {translate}IP{/translate}
+                {t}IP{/t}
             </td>
             <td colspan="2">
                 <input name="info[ip]" type="text" value="{$smarty.post.info.ip|escape:"htmlall"}" size="40" class="input_text"/>
@@ -51,7 +51,7 @@
         
         <tr class="tr_row1">
             <td>
-                {translate}PORT{/translate}
+                {t}PORT{/t}
             </td>
             <td colspan="2">
                 <input name="info[port]" type="text" value="{$smarty.post.info.port|escape:"htmlall"}" size="10" class="input_text"/>
@@ -60,7 +60,7 @@
                 
         <tr class="tr_row2">
             <td>
-                {translate}Servername{/translate}
+                {t}Servername{/t}
             </td>
             <td colspan="2">
                 <input name="info[name]" type="text" value="{$smarty.post.info.name|escape:"htmlall"}" size="200" class="input_text"/>
@@ -69,8 +69,8 @@
      
         <tr class="tr_row2">
             <td colspan="3" align="right">
-                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Add Server{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />        
+                <input class="ButtonGreen" type="submit" name="submit" value="{t}Add Server{/t}" />
+                <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />        
             </td>
         </tr>
     </table>

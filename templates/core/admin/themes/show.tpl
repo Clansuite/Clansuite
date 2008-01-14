@@ -24,9 +24,9 @@
             {$item.description}
         </td>
         <td class="cell1" align="center">
-            <input class="ButtonOrange" type="submit" name="submit" value="{translate}Set as Default{/translate}" />
-            <input class="ButtonOrange" type="submit" name="submit" value="{translate}Set as Personal{/translate}" />
-            <input class="ButtonOrange" type="submit" name="submit" value="{translate}Edit{/translate}" />
+            <input class="ButtonOrange" type="submit" name="submit" value="{t}Set as Default{/t}" />
+            <input class="ButtonOrange" type="submit" name="submit" value="{t}Set as Personal{/t}" />
+            <input class="ButtonOrange" type="submit" name="submit" value="{t}Edit{/t}" />
         </td>
     </tr>
 </form>

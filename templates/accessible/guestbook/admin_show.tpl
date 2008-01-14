@@ -25,8 +25,8 @@
        		<td>{columnsort html='Website'}</td>
        		<td>{columnsort html='Town'}</td>
        		<td>{columnsort html='IP'}</td>
-       		<td align="center" width="1%">{translate}Edit{/translate}</td>
-       		<td align="center" width="1%">{translate}Delete{/translate}</td>
+       		<td align="center" width="1%">{t}Edit{/t}</td>
+       		<td align="center" width="1%">{t}Delete{/t}</td>
        	</tr>
 
         {foreach item=entry from=$guestbook}
@@ -39,7 +39,7 @@
                 <td><a href="{$entry.gb_website}" target="_blank">{$entry.gb_website|truncate:15:"...":true}</a></td>
                 <td>{$entry.gb_town}</td>
                 <td>{$entry.gb_ip}</td>
-                <td align="center" rowspan="2"><input class="ButtonGreen" type="button" value="{translate}Edit{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' /></td>
+                <td align="center" rowspan="2"><input class="ButtonGreen" type="button" value="{t}Edit{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' /></td>
 
                 <td align="center">
                             <input type="hidden" name="ids[]" value="{$entry.gb_id}" />
@@ -47,13 +47,13 @@
                 </td>
             </tr>
             <tr class="tr_row1">
-                <td colspan="1"><b>{translate}Message:{/translate}</b></td>
+                <td colspan="1"><b>{t}Message:{/t}</b></td>
                 <td colspan="6">
                     {$entry.gb_text}
                 </td>
             </tr>
             <tr class="tr_row1">
-                <td colspan="1"><b>{translate}Comment:{/translate}</b></td>
+                <td colspan="1"><b>{t}Comment:{/t}</b></td>
                 <td colspan="6">
                     <div id="gb_comment" height="1%">{if !empty($entry.gb_comment)}{$entry.gb_comment}{else}&nbsp;{/if}</div>
                 </td>
@@ -74,8 +74,8 @@
 
         <tr>
             <td colspan="11" align="right" class="cell1">
-                <input class="ButtonGrey" type="reset" name="reset" value="{translate}Reset{/translate}" />
-                <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete the selected entries{/translate}" />
+                <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}" />
+                <input class="ButtonRed" type="submit" name="submit" value="{t}Delete the selected entries{/t}" />
             </td>
         </tr>
 </table>

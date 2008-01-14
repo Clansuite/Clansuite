@@ -13,13 +13,13 @@
         
         <thead>
             <tr>
-                <td width=50>{translate}Status{/translate}</td>
-                <td>{translate}ID{/translate}</td>
-                <td>{translate}Gametype{/translate}</td>
-                <td>{translate}Country{/translate}</td>
-                <td>{translate}Name{/translate}</td>
-                <td>{translate}IP : Port{/translate}</td>
-                <td>{translate}Connect{/translate}</td>
+                <td width=50>{t}Status{/t}</td>
+                <td>{t}ID{/t}</td>
+                <td>{t}Gametype{/t}</td>
+                <td>{t}Country{/t}</td>
+                <td>{t}Name{/t}</td>
+                <td>{t}IP : Port{/t}</td>
+                <td>{t}Connect{/t}</td>
             </tr>
           </thead>
           

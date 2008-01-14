@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <link rel="stylesheet" type="text/css" href="{$css}">
-<title>{translate}Please confirm!{/translate}</title>
+<title>{t}Please confirm!{/t}</title>
 </head>
 <body>
 <form action="{$link}" method="post" accept-charset="UTF-8">
@@ -14,9 +14,9 @@
             {$message}    
         </div>    
         <p>
-            <input type="submit" class="ButtonRed" name="confirm" value="{translate}Confirm{/translate}">
+            <input type="submit" class="ButtonRed" name="confirm" value="{t}Confirm{/t}">
             &nbsp;
-            <input type="submit" class="ButtonGreen" name="abort" value="{translate}Abort{/translate}" />
+            <input type="submit" class="ButtonGreen" name="abort" value="{t}Abort{/t}" />
         </p>
     </div>    
 </form>

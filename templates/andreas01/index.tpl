@@ -24,7 +24,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <body>
 
 <!-- BrowserCheck //-->
- <h2 class="oops">{translate}
+ <h2 class="oops">{t}
 	You shouldn't be able to read this, because this site uses complex stylesheets to 
 	display the information - your browser doesn't support these new standards. However, all 
 	is not lost, you can upgrade your browser absolutely free, so please 
@@ -33,7 +33,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 	title="Download a browser that complies with Web standards.">
 	standards-compliant browser</a>. If you decide against doing so, then 
 	this and other similar sites will be lost to you. Remember...upgrading is free, and it 
-	enhances your view of the Web.{/translate}
+	enhances your view of the Web.{/t}
 </h2>
 
 <div id="wrap">
