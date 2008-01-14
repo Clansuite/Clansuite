@@ -197,17 +197,6 @@ class view_smarty extends renderer_base
         #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
 
         /**
-         * Sets up {translate} block in SMARTY Template Engine
-         *
-         * This makes {translate}{/translate} avaiable in templates.
-         * It's callback to localization::smarty_translate()
-         *
-         * @see language::smarty_translate()
-         * {@link function smarty_translate}
-         */
-        $this->smarty->register_block("translate", array('localization','smarty_translate'), false);
-
-        /**
          * Assign Paths, which were defined as Constants (for general use in tpl)
          * @see config.class
          */
