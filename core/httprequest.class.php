@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         httprequest.class.php
@@ -65,7 +65,7 @@ interface RequestInterface
  * There are two ways of access:
  * (1) via methods and (2) via spl arrayaccess array handling.
  *
- * @todo: split $_REQUEST into GET and POST with each seperate access methods
+ * @todo split $_REQUEST into GET and POST with each seperate access methods
  *
  */
 class httprequest implements RequestInterface, ArrayAccess
@@ -103,7 +103,7 @@ class httprequest implements RequestInterface, ArrayAccess
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
-     * @todo: docblock
+     * @todo docblock
      * @param
      */
     public function issetParameter($name)
@@ -114,7 +114,7 @@ class httprequest implements RequestInterface, ArrayAccess
     /**
      * get, returns a certain parameter if existing
      *
-     * @todo: docblock
+     * @todo docblock
      * @param
      */
     public function getParameter($name)
@@ -128,7 +128,7 @@ class httprequest implements RequestInterface, ArrayAccess
     /**
      * Get Value of a specific http-header
      *
-     * @todo: docblock
+     * @todo docblock
      * @param
      */
     public function getHeader($name)

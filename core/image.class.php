@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         image.class.php
@@ -49,9 +49,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-$LastChangedDate$)
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
  * @category    core
  * @subpackage  image
+ * @package     clansuite
  */
 class image
 {

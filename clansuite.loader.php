@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-2008)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -50,11 +50,11 @@
  * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
  *
- * @package     clansuite
  * @category    core
  * @subpackage  loader
+ * @package     clansuite
  */
-class clansuite_loader
+class Clansuite_Loader
 {
     /**
      * clansuite_loader:register_autoload();

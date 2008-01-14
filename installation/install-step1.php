@@ -25,7 +25,7 @@
         	        <p>
         	            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
 
-                <?php # @todo: nur reloaden, wenn eine neue sprache ausgewaehlt ?>
+                <?php # @todo nur reloaden, wenn eine neue sprache ausgewaehlt ?>
                         <select name="lang" style="width: 160px"
                             onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php

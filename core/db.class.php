@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         db.class.php
@@ -253,7 +253,7 @@ class db //extends PDO
         }
         else
         {
-            // @todo: instead die -> try/catch or throw
+            // @todo instead die -> try/catch or throw
             $this->error->show( $this->lang->t('DB Prepare Error'), $this->lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1);
             die();
         } 
