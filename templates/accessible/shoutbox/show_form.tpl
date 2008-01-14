@@ -1,15 +1,15 @@
-<h3>{translate}Shoutbox{/translate}</h3>
+<h3>{t}Shoutbox{/t}</h3>
 <div class="content">
 {if $show_form === true}
     <div class="shoutbox-form">
         <form action="{$request}" method="post" accept-charset="UTF-8">
         	<fieldset>
         		<dl>
-        			<dt><label for="shout_name">{translate}Name{/translate}:</label></dt>
+        			<dt><label for="shout_name">{t}Name{/t}:</label></dt>
         			<dd><input class="input_text" id="shout_name" type="text" name="name" value="{$smarty.session.user.nick|escape:"html"}" /></dd>
-        			<dt><label for="shout_mail">{translate}E-Mail{/translate}:</label></dt>
+        			<dt><label for="shout_mail">{t}E-Mail{/t}:</label></dt>
         			<dd><input class="input_text" id="shout_mail" type="text" name="mail" value="{$smarty.session.user.email|escape:"html"}" /></dd>
-        			<dt><label for="shout_msg">{translate}Message{/translate}:</label></dt>
+        			<dt><label for="shout_msg">{t}Message{/t}:</label></dt>
         			<dd><textarea class="input_textarea" id="shout_msg" name="msg" cols="17" rows="3"></textarea></dd>
         		</dl>
         	</fieldset>

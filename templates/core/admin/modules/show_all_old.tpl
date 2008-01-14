@@ -150,7 +150,7 @@
 
 <div id="enter_sub_name" style="position:absolute; border: 1px solid orange; background-color: white; width: 300px; padding: 8px; display:none">
     <center>
-    <strong>{/literal}{translate}{literal}Name:{/literal}{/translate}{literal}</strong>&nbsp;<input class="input_text" type="text" value="" id="subs_name" size="40"><br />
+    <strong>{/literal}{t}{literal}Name:{/literal}{/t}{literal}</strong>&nbsp;<input class="input_text" type="text" value="" id="subs_name" size="40"><br />
     <input type="checkbox" value="1" name="create_sub_file" id="create_sub_file">Create the submodule file?<br />
     <a href="javascript:sub_add('{$table}', '{$mod_id}', 'check_text_field')">Confirm</a>&nbsp;|&nbsp;<a href="javascript:void(document.getElementById('enter_sub_name').style.display = 'none');">Abort</a><br />
     </center>
@@ -161,7 +161,7 @@
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
         <td width="40" height="20">
             <a name="{$wert.module_id}_{$key}">
-            <strong>{/literal}{translate}Name:{/translate}{literal}</strong>
+            <strong>{/literal}{t}Name:{/t}{literal}</strong>
         </td>
         <td width="165">
             <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text" style="display: none;"></span>
@@ -169,7 +169,7 @@
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr2">
         <td height="20">
-            <strong>{/literal}{translate}File:{/translate}{literal}</strong>
+            <strong>{/literal}{t}File:{/t}{literal}</strong>
         </td>
         <td>
             <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text" style="display: none;"></span>
@@ -185,7 +185,7 @@
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr4">
         <td colspan="2" height="20">
-        <a href="javascript:sub_delete('{$wert.module_id}_subtest1_{$key}');">{/literal}{translate}Delete submodule{/translate}{literal} '{$key}' {/literal}{translate}from whitelist{/translate}{literal}</a>
+        <a href="javascript:sub_delete('{$wert.module_id}_subtest1_{$key}');">{/literal}{t}Delete submodule{/t}{literal} '{$key}' {/literal}{t}from whitelist{/t}{literal}</a>
         </td>
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr5">
@@ -202,16 +202,16 @@
     <form action="index.php?mod=admin&sub=modules&action=add_to_whitelist" method="post" accept-charset="UTF-8">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
-        <td class="td_header" width="150">    {translate}Module folder problem{/translate}     </td>
-        <td class="td_header" width="100">    {translate}Folder{/translate}                    </td>
-        <td class="td_header">                {translate}Additional information{/translate}    </td>
+        <td class="td_header" width="150">    {t}Module folder problem{/t}     </td>
+        <td class="td_header" width="100">    {t}Folder{/t}                    </td>
+        <td class="td_header">                {t}Additional information{/t}    </td>
     </tr>
 
 {foreach key=schluessel item=wert from=$content.not_in_whitelist}
 <tr>
 
     <td class="cell1">
-        <strong>{translate}There is a module folder that is not stored in the databases whitelist.{/translate}</strong>
+        <strong>{t}There is a module folder that is not stored in the databases whitelist.{/t}</strong>
     </td>
     
     <td class="cell2">
@@ -220,45 +220,45 @@
     
     <td class="cell1">
         {if $wert.no_module_config == 1}
-            <font color="red">{translate}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/translate}</font>
-            <font color="red">{translate}Those values are EXAMPLES! They do not represent the current file settings in any way!{/translate}</font>
+            <font color="red">{t}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/t}</font>
+            <font color="red">{t}Those values are EXAMPLES! They do not represent the current file settings in any way!{/t}</font>
         {/if}
         <table border="0" cellpadding="2" cellspacing="2">
         {if $wert.no_module_config == 1}
-            <tr><td><strong>{translate}Title:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][title]" value="{$wert.folder_name|ucfirst}"></td></tr>
-            <tr><td><strong>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][name]" value="{$wert.folder_name}"></td></tr>
-            <tr><td><strong>{translate}Author:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][author]" value="{translate}Your Name{/translate}"></td></tr>
-            <tr><td><strong>{translate}Homepage:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][homepage]" value="http://www.{$wert.folder_name}.com"></td></tr>
-            <tr><td><strong>{translate}License:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][license]" value="GPL v2"></td></tr>
-            <tr><td><strong>{translate}Copyright:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][copyright]" value="{translate}Your Name{/translate}"></td></tr>
-            <tr><td><strong>{translate}Description:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][description]" value="{$wert.folder_name|ucfirst} module - your description"></td></tr>
-            <tr><td><strong>{translate}Filename:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][file_name]" value="{$wert.folder_name}.module.php"></td></tr>
-            <tr><td><strong>{translate}Foldername:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][folder_name]" value="{$wert.folder_name}"></td></tr>
-            <tr><td><strong>{translate}Classname:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][class_name]" value="module_{$wert.folder_name}"></td></tr>
-            <tr><td><strong>{translate}Imagename:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
-            <tr><td><strong>{translate}Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
+            <tr><td><strong>{t}Title:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][title]" value="{$wert.folder_name|ucfirst}"></td></tr>
+            <tr><td><strong>{t}Name:<br /><div class="font_mini">?mod=name</div>{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][name]" value="{$wert.folder_name}"></td></tr>
+            <tr><td><strong>{t}Author:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][author]" value="{t}Your Name{/t}"></td></tr>
+            <tr><td><strong>{t}Homepage:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][homepage]" value="http://www.{$wert.folder_name}.com"></td></tr>
+            <tr><td><strong>{t}License:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][license]" value="GPL v2"></td></tr>
+            <tr><td><strong>{t}Copyright:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][copyright]" value="{t}Your Name{/t}"></td></tr>
+            <tr><td><strong>{t}Description:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][description]" value="{$wert.folder_name|ucfirst} module - your description"></td></tr>
+            <tr><td><strong>{t}Filename:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][file_name]" value="{$wert.folder_name}.module.php"></td></tr>
+            <tr><td><strong>{t}Foldername:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][folder_name]" value="{$wert.folder_name}"></td></tr>
+            <tr><td><strong>{t}Classname:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][class_name]" value="module_{$wert.folder_name}"></td></tr>
+            <tr><td><strong>{t}Imagename:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][image_name]" value="module_{$wert.folder_name}.jpg"></td></tr>
+            <tr><td><strong>{t}Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.folder_name}][version]" value="0.1"></td></tr>
             <input type="hidden" name="info[{$wert.folder_name}][subs]" value=""></td></tr>
-            <tr><td><strong>{translate}Enabled?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"></td></tr>
-            <tr><td><strong>{translate}Core?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][core]" value="1"></td></tr>
-            <tr><td><strong>{translate}Add?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][add]" value="1" checked></td></tr>
+            <tr><td><strong>{t}Enabled?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][enabled]" value="1"></td></tr>
+            <tr><td><strong>{t}Core?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][core]" value="1"></td></tr>
+            <tr><td><strong>{t}Add?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.folder_name}][add]" value="1" checked></td></tr>
         {else}
-            <tr><td><strong>{translate}Title:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][title]" value="{$wert.title|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Name:<br /><div class="font_mini">?mod=name</div>{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][name]" value="{$wert.name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Author:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][author]" value="{$wert.author|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Homepage:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][homepage]" value="{$wert.homepage|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}License:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][license]" value="{$wert.license|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Copyright:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][copyright]" value="{$wert.copyright|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Description:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][description]" value="{$wert.description|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Filename:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][file_name]" value="{$wert.file_name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Foldername:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][folder_name]" value="{$wert.folder_name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Classname:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][class_name]" value="{$wert.class_name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Imagename:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][image_name]" value="{$wert.image_name|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Module Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][module_version]" value="{$wert.module_version|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Subs:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][subs]" value="{$wert.subs|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Clansuite Version:{/translate}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][clansuite_version]" value="{$wert.clansuite_version|escape:"html"}"></td></tr>
-            <tr><td><strong>{translate}Enabled?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][enabled]" value="1"></td></tr>
-            <tr><td><strong>{translate}Core?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][core]" value="1"></td></tr>
-            <tr><td><strong>{translate}Add?{/translate}</strong></td><td><input type="checkbox" name="info[{$wert.name}][add]" value="1" checked></td></tr>
+            <tr><td><strong>{t}Title:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][title]" value="{$wert.title|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Name:<br /><div class="font_mini">?mod=name</div>{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][name]" value="{$wert.name|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Author:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][author]" value="{$wert.author|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Homepage:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][homepage]" value="{$wert.homepage|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}License:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][license]" value="{$wert.license|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Copyright:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][copyright]" value="{$wert.copyright|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Description:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][description]" value="{$wert.description|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Filename:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][file_name]" value="{$wert.file_name|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Foldername:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][folder_name]" value="{$wert.folder_name|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Classname:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][class_name]" value="{$wert.class_name|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Imagename:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][image_name]" value="{$wert.image_name|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Module Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][module_version]" value="{$wert.module_version|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Subs:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][subs]" value="{$wert.subs|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Clansuite Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][clansuite_version]" value="{$wert.clansuite_version|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Enabled?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][enabled]" value="1"></td></tr>
+            <tr><td><strong>{t}Core?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][core]" value="1"></td></tr>
+            <tr><td><strong>{t}Add?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][add]" value="1" checked></td></tr>
         {/if}
         </table>
     </td>
@@ -266,7 +266,7 @@
 {/foreach}
 </table>
 <p align="center">
-    <input class="ButtonGrey" type="submit" value="{translate}Add the module(s) into the whitelist.{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{t}Add the module(s) into the whitelist.{/t}" name="submit">
 </p>
 </form>
 {/if}       {* END if isset ($content.not_in_whitelist) *}
@@ -279,13 +279,13 @@
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-    <td class="td_header" width="100%" colspan="4">    {translate}Normal modules{/translate}    </td>
+    <td class="td_header" width="100%" colspan="4">    {t}Normal modules{/t}    </td>
 </tr>
 <tr>
-    <td class="td_header_small" width="120px">              {translate}Title{/translate}        </td>
-    <td class="td_header_small" width="80%">                {translate}Information{/translate}  </td>
-    <td class="td_header_small" width="5%" align="center">  {translate}Enabled{/translate}      </td>
-    <td class="td_header_small" width="5%" align="center">  {translate}Delete{/translate}       </td>    
+    <td class="td_header_small" width="120px">              {t}Title{/t}        </td>
+    <td class="td_header_small" width="80%">                {t}Information{/t}  </td>
+    <td class="td_header_small" width="5%" align="center">  {t}Enabled{/t}      </td>
+    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>    
 </tr>
 
 {foreach key=schluessel item=wert from=$content.whitelisted.normal}
@@ -299,7 +299,7 @@
     
     <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;">
-            <strong><font color="red">{translate}Remember to press the "Update" Button below, to save your changes!{/translate}</font></strong>
+            <strong><font color="red">{t}Remember to press the "Update" Button below, to save your changes!{/t}</font></strong>
         </div>
         
         <div class="tab-pane" id="{$wert.name}_tabs">
@@ -309,14 +309,14 @@
         </script>
     	
     	<div class="tab-page" id="{$wert.name}_generals">
-    	   <h2 class="tab">{translate}General{/translate}</h2>
+    	   <h2 class="tab">{t}General{/t}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
             <table cellpadding="2" cellspacing="2" border="0">
             
             {* Content of $content.generals = Title, Author, Description, Homepage *}
             {foreach key=key item=item from=$content.generals}
                 <tr>
-                <td width="90"><strong>{translate}{$key}:{/translate}</strong></td>
+                <td width="90"><strong>{t}{$key}:{/t}</strong></td>
                 <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
@@ -326,14 +326,14 @@
         </div>
     
     	<div class="tab-page" id="{$wert.name}_more">
-    	   <h2 class="tab"{translate}>Moduledetails{/translate}</h2>
+    	   <h2 class="tab"{t}>Moduledetails{/t}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
     
             <table cellpadding="2" cellspacing="2" border="0">
     
             {foreach key=key item=item from=$content.more}
                 <tr>
-                <td width="90"><strong>{translate}{$key}:{/translate}</strong></td>
+                <td width="90"><strong>{t}{$key}:{/t}</strong></td>
                 <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
@@ -343,12 +343,12 @@
         </div>
     
     	<div class="tab-page" id="{$wert.name}_subs">
-    	   <h2 class="tab">{translate}Submodules{/translate}</h2>
+    	   <h2 class="tab">{t}Submodules{/t}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_subs" ) );</script>
            
            <table cellpadding="2" cellspacing="2" border="0">    
             <tr>
-                <td><strong>{translate}Submodules:{/translate}</strong>
+                <td><strong>{t}Submodules:{/t}</strong>
                 {if is_array($wert.subs)}
                 <br />
                 <a href="javascript:void(0)" onclick="return sub_add('{$wert.module_id}_subs', '{$wert.module_id}', '', this);">Add a submodule</a>
@@ -397,7 +397,7 @@
                     
                     <tr id="{$wert.module_id}_no_subs">
                     
-                        <td>{translate}No submodules{/translate}</td>
+                        <td>{t}No submodules{/t}</td>
                     
                     </tr>
                     
@@ -436,11 +436,11 @@
 </table>
 
 <p align="center">
-    <input class="ButtonGreen" type="submit" value="{translate}Update modules{/translate}" name="submit" />
+    <input class="ButtonGreen" type="submit" value="{t}Update modules{/t}" name="submit" />
 </p>
 </form>
 <br /><br />
-<center><a href="javascript:clip_core_mods('1')">{translate}Show core modules{/translate}</a></center>
+<center><a href="javascript:clip_core_mods('1')">{t}Show core modules{/t}</a></center>
 <br /><br />
 
 {* ########################################################################################### *}
@@ -450,14 +450,14 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
     <td class="td_header" width="100%" colspan="4">
-    {translate}Core modules{/translate}
+    {t}Core modules{/t}
     </td>
 </tr>
 <tr>
-    <td class="td_header_small" width="120px">              {translate}Title{/translate}        </td>
-    <td class="td_header_small" width="80%">                {translate}Information{/translate}  </td>
-    <td class="td_header_small" width="5%" align="center">  {translate}Enabled{/translate}      </td>
-    <td class="td_header_small" width="5%" align="center">  {translate}Delete{/translate}       </td>    
+    <td class="td_header_small" width="120px">              {t}Title{/t}        </td>
+    <td class="td_header_small" width="80%">                {t}Information{/t}  </td>
+    <td class="td_header_small" width="5%" align="center">  {t}Enabled{/t}      </td>
+    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>    
 </tr>
 {foreach key=schluessel item=wert from=$content.whitelisted.core}
 <tr>
@@ -468,7 +468,7 @@
     </td>
     
     <td class="cell2">
-        <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><strong><font color="red">{translate}Remember to press the update button below!{/translate}</font></strong></div>
+        <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><strong><font color="red">{t}Remember to press the update button below!{/t}</font></strong></div>
         <div class="tab-pane" id="{$wert.name}_tabs">
     
         <script type="text/javascript">
@@ -481,7 +481,7 @@
             
             {foreach key=key item=item from=$content.generals}
                 <tr>
-                <td width="90"><strong>{translate}{$key}:{/translate}</strong></td>
+                <td width="90"><strong>{t}{$key}:{/t}</strong></td>
                 <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
@@ -498,7 +498,7 @@
     
             {foreach key=key item=item from=$content.more}
                 <tr>
-                <td width="90"><strong>{translate}{$key}:{/translate}</strong></td>
+                <td width="90"><strong>{t}{$key}:{/t}</strong></td>
                 <td width="250" height="25"><span onDblClick="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" id="{$wert.module_id}_{$wert.name}_{$item}_text">{$wert.$item}</span>
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
@@ -513,7 +513,7 @@
            
            <table cellpadding="2" cellspacing="2" border="0">    
             <tr>
-                <td><strong>{translate}Submodules:{/translate}</strong>{if is_array($wert.subs)}<br /><a href="javascript:void(0)" onclick="return sub_add('{$wert.module_id}_subs', '{$wert.module_id}', '', this);">Add a submodule</a>{/if}</td>
+                <td><strong>{t}Submodules:{/t}</strong>{if is_array($wert.subs)}<br /><a href="javascript:void(0)" onclick="return sub_add('{$wert.module_id}_subs', '{$wert.module_id}', '', this);">Add a submodule</a>{/if}</td>
                 <td>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%" id="{$wert.module_id}_subs">
                     
@@ -555,7 +555,7 @@
                     {else}
                     <tr id="{$wert.module_id}_no_subs">
                     <td>
-                    {translate}No submodules{/translate}
+                    {t}No submodules{/t}
                     </td>
                     </tr>
                     {/if}
@@ -591,7 +591,7 @@
 {/foreach}
 </table>
 <p align="center">
-    <input class="ButtonGreen" type="submit" value="{translate}Update core modules{/translate}" name="submit" />
+    <input class="ButtonGreen" type="submit" value="{t}Update core modules{/t}" name="submit" />
 </p>
 </form>
 </span>

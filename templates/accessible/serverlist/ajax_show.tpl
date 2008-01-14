@@ -11,13 +11,13 @@
 
 <table>
 	<tr>
-		<th style="width:50px">{translate}Status{/translate}</th>
-		<th style="width:20px">{translate}ID{/translate}</th>
-		<th>{translate}Gametype{/translate}</th>
-		<th>{translate}Country{/translate}</th>
-		<th>{translate}Name{/translate}</th>
-		<th>{translate}IP : Port{/translate}</th>
-		<th>{translate}Connect{/translate}</th>
+		<th style="width:50px">{t}Status{/t}</th>
+		<th style="width:20px">{t}ID{/t}</th>
+		<th>{t}Gametype{/t}</th>
+		<th>{t}Country{/t}</th>
+		<th>{t}Name{/t}</th>
+		<th>{t}IP : Port{/t}</th>
+		<th>{t}Connect{/t}</th>
 	</tr>
 {foreach key=key item=server from=$servers}
 	<tr>

@@ -1,4 +1,4 @@
-<h2>{translate}Shoutbox{/translate}</h2>
+<h2>{t}Shoutbox{/t}</h2>
 <div id="show_shoutbox">
 	
 	{* Falls Einträge vorhanden sind *}

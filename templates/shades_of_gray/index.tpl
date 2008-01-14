@@ -97,7 +97,7 @@
                 <div style="margin-top: 10px"> {mod name="account" func="login"} </div>
                 <div style="margin-top: 10px">{* {mod name="shoutbox" func="show"} *}</div>
 				<div style="margin-top: 10px">
-                        <h2>{translate}Statistics{/translate}</h2>
+                        <h2>{t}Statistics{/t}</h2>
                             {* {$stats|@var_dump} *}
                           Online: {$stats.online} <br/>
                           - Users : {$stats.authed_users}

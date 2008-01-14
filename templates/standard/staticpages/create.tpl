@@ -64,13 +64,13 @@
         <td class="cell2">
             <input name="url" type="text" value="{$url|escape:html}" class="input_text"><br />
             <span id="font_mini">
-            {translate}If you enter an URL the content below will not be recognized.{/translate}<br />
-            {translate}Instead the content of the URL will be taken as static page.{/translate}<br />
-            {translate}This is no redirection! The content will be taken "as is".{/translate}
+            {t}If you enter an URL the content below will not be recognized.{/t}<br />
+            {t}Instead the content of the URL will be taken as static page.{/t}<br />
+            {t}This is no redirection! The content will be taken "as is".{/t}
             </span><br />
-            <input type="radio" name="iframe" value="1" checked>{translate}Use the URL in an iFrame{/translate}<br />
-            {translate}Height of the iframe:{/translate} <input type="text" name="iframe_height" value="300" size="5"><br />
-            <input type="radio" name="iframe" value="0">{translate}Use the URL by file_get_contents();{/translate}
+            <input type="radio" name="iframe" value="1" checked>{t}Use the URL in an iFrame{/t}<br />
+            {t}Height of the iframe:{/t} <input type="text" name="iframe_height" value="300" size="5"><br />
+            <input type="radio" name="iframe" value="0">{t}Use the URL by file_get_contents();{/t}
         </td>
     </tr>
     <tr>
@@ -89,7 +89,7 @@
     </tr>
     <tr>
         <td colspan="2" class="cell2" align="center">
-            <input class="ButtonGrey" type="submit" name="submit" value="{translate}Create static page{/translate}" />
+            <input class="ButtonGrey" type="submit" name="submit" value="{t}Create static page{/t}" />
         </td>
     </tr>
 </table>

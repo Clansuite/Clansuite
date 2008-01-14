@@ -5,8 +5,8 @@
 {* Dublin Core Metatags *}
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
 <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
-<meta name="DC.Creator" content="Florian Wolf, Jens-Andre Koch" />
-<meta name="DC.Date" content="20070101" />
+<meta name="DC.Creator" content="Jens-Andre Koch" />
+<meta name="DC.Date" content="20080101" />
 <meta name="DC.Identifier" content="http://www.clansuite.com/" />
 <meta name="DC.Subject" content="Subject" />
 <meta name="DC.Subject.Keyword " content="Subject.Keyword" />
@@ -45,7 +45,7 @@
 {/doc_raw}
 
 <!-- BrowserCheck // -->
- <h2 class="oops">{translate}
+ <h2 class="oops">{t}
 	You shouldn't be able to read this, because this site uses complex stylesheets to
 	display the information - your browser doesn't support these new standards. However, all
 	is not lost, you can upgrade your browser absolutely free, so please
@@ -54,7 +54,7 @@
 	title="Download a browser that complies with Web standards.">
 	standards-compliant browser</a>. If you decide against doing so, then
 	this and other similar sites will be lost to you. Remember...upgrading is free, and it
-	enhances your view of the Web.{/translate}
+	enhances your view of the Web.{/t}
 </h2>
 
 <table cellspacing="0" cellpadding="0" width="100%">
@@ -133,7 +133,7 @@
         <div style="margin-top: 10px">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
                 <tr>
-                    <td class="td_header" colspan="2">{translate}Statistics{/translate}</td>
+                    <td class="td_header" colspan="2">{t}Statistics{/t}</td>
                 </tr>
                 <tr> {* {$stats|@var_dump} *}
                     <td class="cell1">Online: {$stats.online} <br/>

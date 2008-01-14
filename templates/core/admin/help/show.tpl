@@ -28,7 +28,7 @@
                          {/foreach}
 
                         {else}
-                            {translate}There is no helptext assigned.{/translate}<br />
+                            {t}There is no helptext assigned.{/t}<br />
                         {/if}
             </div>
 
@@ -48,7 +48,7 @@
     </tr>
     <tr>
         <td style="border-bottom: 1px solid #ACA899; border-top: 1px solid #FFFFFF; padding: 5px">
-            <strong>&raquo; {translate}Related Links{/translate}</strong>
+            <strong>&raquo; {t}Related Links{/t}</strong>
         </td>
     </tr>
     <tr>
@@ -63,7 +63,7 @@
                                 {/if}
                          {/foreach}
             {else}
-                {translate}There are no links assigned.{/translate}
+                {t}There are no links assigned.{/t}
                 <br />
             {/if}
          </div>

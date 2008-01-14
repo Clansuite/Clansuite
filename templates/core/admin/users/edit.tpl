@@ -5,34 +5,34 @@
         <input type="hidden" name="info[user_id]" value="{$user.user_id}" />
         <table cellspacing="0" border="0" align="center" width="400">
             <tr class="tr_header">
-                <td align="center" width="30%">{translate}Description{/translate}</td>
-                <td align="center" width="70%">{translate}Input{/translate}</td>
+                <td align="center" width="30%">{t}Description{/t}</td>
+                <td align="center" width="70%">{t}Input{/t}</td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}Nick{/translate}</td>
+                <td>{t}Nick{/t}</td>
                 <td><input type="text" value="{$user.nick|escape:"html"}" class="input_text" name="info[nick]" /></td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}eMail{/translate}</td>
+                <td>{t}eMail{/t}</td>
                 <td><input type="text" value="{$user.email|escape:"html"}" class="input_text" name="info[email]" /></td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}Password{/translate}</td>
+                <td>{t}Password{/t}</td>
                 <td>
                     <input type="text" value="" class="input_text" name="info[password]" /><br />
-                    {translate}Leave it blank if you do not want to change the password!{/translate}
+                    {t}Leave it blank if you do not want to change the password!{/t}
                 </td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}Activated{/translate}</td>
+                <td>{t}Activated{/t}</td>
                 <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $user.activated==1}checked="checked"{/if} /></td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}Disabled/Banned{/translate}</td>
+                <td>{t}Disabled/Banned{/t}</td>
                 <td><input type="checkbox" value="1" class="input_text" name="info[disabled]" {if $user.disabled==1}checked="checked"{/if} /></td>
             </tr>
             <tr class="tr_row1">
-                <td>{translate}Groups{/translate}</td>
+                <td>{t}Groups{/t}</td>
                 <td>
                     <table cellspacing="0" border="0" width="100%">
                     {foreach item=item key=key from=$all_groups}
@@ -50,9 +50,9 @@
             </tr>
             <tr class="tr_row1">
                 <td colspan="2" align="right">
-                    <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{translate}Abort{/translate}"/>
-                    <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the user{/translate}" />
-                    <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+                    <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{t}Abort{/t}"/>
+                    <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit the user{/t}" />
+                    <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
                 </td>
             </tr>
         </table>

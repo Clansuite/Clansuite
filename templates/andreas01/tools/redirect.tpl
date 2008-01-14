@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="{$css}">
 {$redirect}
-<title>{translate}Redirect - Please wait...{/translate}</title>
+<title>{t}Redirect - Please wait...{/t}</title>
 </head>
 <body>
 

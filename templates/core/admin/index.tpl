@@ -68,11 +68,11 @@
                 {/literal}
                 <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
                     <img style="margin-bottom: -3px;" src="{$www_root_tpl_core}/images/icons/help.png" alt="Help Toggle" />
-                    {translate}Help{/translate}
+                    {t}Help{/t}
                 </div>
                 </td>
                 <td id="help_td" class="admin_header_help" style="width: 1px; display: none;">
-                   <div id="help_toggle" style="height: 18px; width: 0px; overflow: hidden;">&raquo; {translate}Help{/translate}</div>
+                   <div id="help_toggle" style="height: 18px; width: 0px; overflow: hidden;">&raquo; {t}Help{/t}</div>
                 </td>
             </tr>
         </thead>

@@ -3,12 +3,12 @@
         <tr>
             <td colspan="2" align="center">
                 <p>
-                    {translate}Do you really want to logout?{/translate}
+                    {t}Do you really want to logout?{/t}
                 </p>
                 <p>
                     <input type="hidden" name="confirm" value="1" />
-                    <input class="ButtonRed" type="submit" name="submit" value="{translate}Confirm{/translate}" />
-                    <input class="ButtonGreen" type="button" value="{translate}Abort{/translate}" onclick="self.location.href='index.php'" />
+                    <input class="ButtonRed" type="submit" name="submit" value="{t}Confirm{/t}" />
+                    <input class="ButtonGreen" type="button" value="{t}Abort{/t}" onclick="self.location.href='index.php'" />
                 </p>
             </td>
         </tr>

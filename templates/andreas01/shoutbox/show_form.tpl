@@ -167,7 +167,7 @@
                     {
 					    // Error ...
 					    var errors = response.split('\%\%\%');
-                        response_text = '<span class="shoutbox_error">{/literal}{translate}Several Errors occured while saving:{/translate}{literal}</span>';
+                        response_text = '<span class="shoutbox_error">{/literal}{t}Several Errors occured while saving:{/t}{literal}</span>';
 				        for(i = 0; i < errors.length; i++)
 				        {
 					        response_text += '<br />- ' + errors[ i ];
@@ -175,12 +175,12 @@
                     }
                     else
                     {
-                        response_text = '<span class="shoutbox_success">{/literal}{translate}Your entry was saved successfuly!{/translate}{literal}</span>';
+                        response_text = '<span class="shoutbox_success">{/literal}{t}Your entry was saved successfuly!{/t}{literal}</span>';
                         document.getElementById('entries_box').innerHTML = response;
                     }
 				}
 				else {
-					response_text = '<span class="shoutbox_success">{/literal}{translate}Database Error!{/translate}{literal}</span>';
+					response_text = '<span class="shoutbox_success">{/literal}{t}Database Error!{/t}{literal}</span>';
 				}
 				
 				document.getElementById(id).innerHTML = response_text;

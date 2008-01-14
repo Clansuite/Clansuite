@@ -1,4 +1,4 @@
-<h1>{translate}Userlist{/translate}</h1>
+<h1>{t}Userlist{/t}</h1>
 {* Debugausgabe des Arrays: {$userslist|@var_dump} {html_alt_table loop=$userslist} *}
 
 {* display pagination header *}

@@ -1,4 +1,4 @@
-<h1>{translate}News{/translate}</h1>
+<h1>{t}News{/t}</h1>
 {* DEBUG OUTPUT of assigned Arrays:
 	{$news|@var_dump}
 	{$paginate|@var_dump}
@@ -39,7 +39,7 @@
 	</div>
 	<h4 class="news-head">{$news.news_title} - {$news.cat_name}</h4>
 	<div class="news-author-comments">
-		{translate}written by{/translate} <a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a> {translate}am{/translate} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments} {translate}comments{/translate}</a>
+		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments} {t}comments{/t}</a>
 	</div>
 	<div class="news-content">
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
@@ -49,7 +49,7 @@
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post" accept-charset="UTF-8">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.news_id}" name="ids[]" />
-                <input class="ButtonGreen" type="button" value="{translate}Edit news{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{translate}Delete{/translate}" />
+                <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
             </form>
         {/if}
 	</div>

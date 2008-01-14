@@ -2,10 +2,10 @@
 <table cellpadding="5" cellspacing="0" border="0" width="400" style="margin: auto">
     <tr class="tr_header">
             <td>
-                {translate}Infos{/translate}
+                {t}Infos{/t}
             </td>
             <td>
-                {translate}Results{/translate}
+                {t}Results{/t}
             </td>
     </tr>
             {*
@@ -14,19 +14,19 @@
                 <tr>
                     <td class="red_cell">
                         {if $message_errors.no_message == 1}
-                            {translate}No message given.{/translate}<br />
+                            {t}No message given.{/t}<br />
                         {/if}
                         {if $message_errors.no_users == 1}
-                            {translate}No users given.{/translate}<br />
+                            {t}No users given.{/t}<br />
                         {/if}
                         {if $message_errors.no_headline == 1}
-                            {translate}No headline given.{/translate}<br />
+                            {t}No headline given.{/t}<br />
                         {/if}
                         {if $message_errors.no_infos == 1}
-                            {translate}You haven't supplied any informations at all.{/translate}<br />
+                            {t}You haven't supplied any informations at all.{/t}<br />
                         {/if}
                         {if $message_errors.users_not_found == 1}
-                            {translate}The following users couldn't be found in the database:{/translate}<br />
+                            {t}The following users couldn't be found in the database:{/t}<br />
                             <strong>{$message_errors.users}</strong>
                         {/if}
                     </td>
@@ -36,7 +36,7 @@
             *}
     <tr>
         <td class="cell2">
-            {translate}To{/translate}:
+            {t}To{/t}:
         </td>
         <td class="cell1">
             <input type="text" value="{if isset($message_infos.from_user)}{$message_infos.from_user}{else}{$smarty.post.info.to|escape:"html"}{/if}" class="input_text" name="info[to]" />
@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            {translate}Headline{/translate}:
+            {t}Headline{/t}:
         </td>
         <td class="cell1">
             <input type="text" value="{if isset($message_infos.headline)}Re: {$message_infos.headline}{else}{$smarty.post.info.headline|escape:"html"}{/if}" class="input_text" name="info[headline]" />
@@ -52,7 +52,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            {translate}Message{/translate}:
+            {t}Message{/t}:
         </td>
         <td class="cell1">
             {if isset($message_infos.message) }
@@ -69,8 +69,8 @@
     </tr>
     <tr>
         <td align="right" colspan="2" class="cell2">
-            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{translate}Abort{/translate}"/>
-            <input type="submit" name="submit" class="ButtonGreen" value="{translate}Send message{/translate}" />
+            <input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="{t}Abort{/t}"/>
+            <input type="submit" name="submit" class="ButtonGreen" value="{t}Send message{/t}" />
         </td>
     </tr>
 </table>

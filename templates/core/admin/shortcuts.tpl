@@ -7,7 +7,7 @@
             <a href="{$data.href}">
                 <img alt="Shortcut Icon" src="{$www_root_tpl_core}/images/symbols/{$data.file_name}" />
                 <br />
-                <span style="margin-top: 10px; display: block">{translate}{$data.title}{/translate}</span>
+                <span style="margin-top: 10px; display: block">{t}{$data.title}{/t}</span>
             </a>
         </td>
     {/foreach}

@@ -16,9 +16,9 @@
             <td colspan="3" style="text-align: center;"><img src="{$info.group.icon}" alt="Icon" /><font color="{$info.group.color}">{$info.group.name}</font> - <small>{$info.group.description}</small></td>
         </tr>
         <tr class="tr_header_small">
-            <td>{translate}Members not in the group{/translate}</td>
-            <td>{translate}Opt.{/translate}</td>
-            <td>{translate}Members in the group{/translate}</td>
+            <td>{t}Members not in the group{/t}</td>
+            <td>{t}Opt.{/t}</td>
+            <td>{t}Members in the group{/t}</td>
         </tr>
         <tr>
             <td class="cell1">
@@ -42,9 +42,9 @@
         </tr>
         <tr>
             <td class="cell2" align="right" colspan="3">
-                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=groups'" />
-                <input type="button" value="{translate}Reset{/translate}" class="ButtonGrey" onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}'" />
-                <input type="submit" name="submit" value="{translate}Set Members{/translate}" class="ButtonGreen" />
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=groups'" />
+                <input type="button" value="{t}Reset{/t}" class="ButtonGrey" onclick="self.location.href='index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}'" />
+                <input type="submit" name="submit" value="{t}Set Members{/t}" class="ButtonGreen" />
             </td>
         </tr>
     </table>

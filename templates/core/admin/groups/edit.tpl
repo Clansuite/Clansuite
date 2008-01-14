@@ -31,15 +31,15 @@
     <table cellpadding="0" cellspacing="0" border="0" style="width:500px;margin:0 auto;text-align:center">
         <tr class="tr_header">
             <td>
-                {translate}Description{/translate}
+                {t}Description{/t}
             </td>
             <td colspan="2">
-                {translate}Input{/translate}
+                {t}Input{/t}
             </td>
         </tr>
         <tr class="tr_row1">
             <td>
-                {translate}Name{/translate}
+                {t}Name{/t}
             </td>
             <td colspan="2">
                 <input name="info[group_id]" type="hidden" value="{$info.group_id}" />
@@ -48,7 +48,7 @@
         </tr>
         <tr class="tr_row1">
             <td>
-                {translate}Description{/translate}
+                {t}Description{/t}
             </td>
             <td colspan="2">
                 <input name="info[description]" type="text" value="{$info.description|escape:"html"}" size="30" class="input_text" />
@@ -56,7 +56,7 @@
         </tr>
         <tr class="tr_row2">
             <td>
-                {translate}Position{/translate}
+                {t}Position{/t}
             </td>
             <td colspan="2">
                 <input name="info[sortorder]" type="text" value="{$info.sortorder|escape:"html"}" size="3" class="input_text" />
@@ -64,7 +64,7 @@
         </tr>
         <tr class="tr_row2">
             <td>
-                {translate}Hex-Code{/translate} ( <a id="color_href" href="javascript: showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{translate}pick{/translate}</a> )
+                {t}Hex-Code{/t} ( <a id="color_href" href="javascript: showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{t}pick{/t}</a> )
             </td>
             <td>
                 {if $info.color==''}
@@ -83,7 +83,7 @@
         </tr>
         <tr class="tr_row1">
             <td>
-                {translate}Icon{/translate}
+                {t}Icon{/t}
             </td>
             <td width="1">
                <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" id="icon">
@@ -104,7 +104,7 @@
         </tr>
         <tr class="tr_row2">
             <td>
-                {translate}Image{/translate}
+                {t}Image{/t}
             </td>
             <td width="1">
                <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_tpl_core}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" id="image">
@@ -124,8 +124,8 @@
         </tr>
         <tr class="tr_row1">
             <td>
-                {translate}Available Rights{/translate}<br />
-                ( {translate}Areas{/translate} )
+                {t}Available Rights{/t}<br />
+                ( {t}Areas{/t} )
             </td>
             <td>
                 {foreach key=area_name item=area_array from=$info.areas}
@@ -152,7 +152,7 @@
         </tr>
         <tr class="tr_row1">
             <td>
-                {translate}Assigned Rights{/translate}
+                {t}Assigned Rights{/t}
             </td>
             <td colspan="2">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -171,9 +171,9 @@
         </tr>
         <tr class="tr_row2">
             <td colspan="3" align="right">
-                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=groups'"/>
-                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Edit the group{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=groups'"/>
+                <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit the group{/t}" />
+                <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>
         </tr>
     </table>

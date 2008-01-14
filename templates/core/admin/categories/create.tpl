@@ -10,23 +10,23 @@
 <form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=categories&amp;action=create">
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
         <tr class="tr_header">
-            <td>{translate}Description{/translate}</td>
-            <td colspan="2">{translate}Input{/translate}</td>
+            <td>{t}Description{/t}</td>
+            <td colspan="2">{t}Input{/t}</td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Name{/translate}</td>
+            <td>{t}Name{/t}</td>
             <td colspan="2"><input name="info[name]" type="text" value="{$smarty.post.info.name|escape:"html"}" size="30" class="input_text" /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Description{/translate}</td>
+            <td>{t}Description{/t}</td>
             <td colspan="2"><input name="info[description]" type="text" value="{$smarty.post.info.description|escape:"html"}" size="30" class="input_text" /></td>
         </tr>
         <tr class="tr_row2">
-            <td>{translate}Position{/translate}</td>
+            <td>{t}Position{/t}</td>
             <td colspan="2"><input name="info[sortorder]" type="text" value="{$smarty.post.info.sortorder|escape:"html"}" size="3" class="input_text" /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Area{/translate}</td>
+            <td>{t}Area{/t}</td>
             <td colspan="2"> {* BUG CHECK THIS: name, id and vars*}
                 <select name="info[area_id]" onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
                     <option value=""></option>
@@ -38,8 +38,8 @@
         </tr>
         <tr class="tr_row2">
             <td>
-                {translate}Hex-Code{/translate}
-                (<a id="color_href" href="javascript:showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{translate}pick{/translate}</a>)
+                {t}Hex-Code{/t}
+                (<a id="color_href" href="javascript:showColorPicker(document.getElementById('color_href'),document.getElementById('color'), document.getElementById('color_preview'));">{t}pick{/t}</a>)
             </td>
             <td align="center">
                 {if $smarty.post.info.color==''}
@@ -53,7 +53,7 @@
             </td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Icon{/translate}</td>
+            <td>{t}Icon{/t}</td>
             <td width="1">
                 <select name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
                     <option value=""></option>
@@ -71,7 +71,7 @@
             </td>
         </tr>
         <tr class="tr_row2">
-            <td>{translate}Image{/translate}</td>
+            <td>{t}Image{/t}</td>
             <td width="1">
                 <select name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_tpl_core}/images/categories/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input_text" id="image">
                     <option value=""></option>
@@ -90,8 +90,8 @@
         </tr>
         <tr class="tr_row2">
             <td colspan="3" align="right">
-                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Create the category{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+                <input class="ButtonGreen" type="submit" name="submit" value="{t}Create the category{/t}" />
+                <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>
         </tr>
     </table>

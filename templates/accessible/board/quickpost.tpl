@@ -6,8 +6,8 @@ QuickReply (toggle the following to a Full Post via FCKedit)
       <td><textarea rows="10" cols="50">
             Default text can be defined within the tags.
           </textarea>
-          <input type="button" class="ButtonGreen" value="{translate}Post{/translate}"/>
-          <input type="button" class="ButtonYellow" value="{translate}Preview{/translate}"/>
+          <input type="button" class="ButtonGreen" value="{t}Post{/t}"/>
+          <input type="button" class="ButtonYellow" value="{t}Preview{/t}"/>
 
       </td>
     </tr>

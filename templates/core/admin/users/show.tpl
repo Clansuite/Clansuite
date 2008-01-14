@@ -32,8 +32,8 @@
                 <td align="center">             {columnsort html="eMail"}           </td>
                 <td align="center">             {columnsort html="Nick"}            </td>
                 <td align="center">             {columnsort html="Joined"}          </td>
-                <td align="center">             {translate}Edit Action{/translate}          </td>
-                <td align="center">             {translate}Del{/translate}          </td>
+                <td align="center">             {t}Edit Action{/t}          </td>
+                <td align="center">             {t}Del{/t}          </td>
             </tr>
 
             {foreach key=schluessel item=wert from=$users}
@@ -46,16 +46,16 @@
                     <td align="center">
 
                         {if $smarty.session.user.rights.cc_edit_users == 1}
-                            <input class="ButtonGreen" type="button" value="{translate}User settings{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                            <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                         {if $smarty.session.user.rights.cc_edit_generals == 1}
-                            <input class="ButtonGreen" type="button" value="{translate}General{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                            <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                         {if $smarty.session.user.rights.cc_edit_computers == 1}
-                            <input class="ButtonGreen" type="button" value="{translate}Computers{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                            <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                         {if $smarty.session.user.rights.cc_edit_users == 1}
-                            <input class="ButtonGreen" type="button" value="{translate}Guestbook{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                            <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                     </td>
                     <td align="center" width="1%">
@@ -69,9 +69,9 @@
             <tr class="tr_row1">
                <td height="20" colspan="8" align="right">
 
-                    <input class="ButtonGreen" type="button" value="{translate}Create new user{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
-                    <input class="Button" name="reset" type="reset" value="{translate}Reset{/translate}" />
-                    <input class="ButtonRed" type="submit" name="delete_text" value="{translate}Delete Selected Users{/translate}" />
+                    <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
+                    <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
+                    <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Users{/t}" />
 
                 </td>
             </tr>

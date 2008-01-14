@@ -66,13 +66,13 @@
         <td class="cell2">
             <input name="url" type="text" value="{$info.url|escape:html}" class="input_text"><br />
             <span id="font_mini">
-            {translate}If you enter an URL the content below will not be recognized.{/translate}<br />
-            {translate}Instead the content of the URL will be taken as static page.{/translate}<br />
-            {translate}This is no redirection! The content will be taken "as is".{/translate}
+            {t}If you enter an URL the content below will not be recognized.{/t}<br />
+            {t}Instead the content of the URL will be taken as static page.{/t}<br />
+            {t}This is no redirection! The content will be taken "as is".{/t}
             </span><br />
-            <input type="radio" name="iframe" value="1" {if $info.iframe == '1'}checked="checked"{/if}>{translate}Use the URL in an iFrame{/translate}<br />
-            {translate}Height of the iframe:{/translate} <input class="input_text" type="text" name="iframe_height" value="{$info.iframe_height}" size="5"><br />
-            <input type="radio" name="iframe" value="0" {if $info.iframe == '0'}checked="checked"{/if}>{translate}Use the URL by file_get_contents();{/translate}
+            <input type="radio" name="iframe" value="1" {if $info.iframe == '1'}checked="checked"{/if}>{t}Use the URL in an iFrame{/t}<br />
+            {t}Height of the iframe:{/t} <input class="input_text" type="text" name="iframe_height" value="{$info.iframe_height}" size="5"><br />
+            <input type="radio" name="iframe" value="0" {if $info.iframe == '0'}checked="checked"{/if}>{t}Use the URL by file_get_contents();{/t}
         </td>
     </tr>
     <tr>
@@ -91,7 +91,7 @@
     </tr>
     <tr>
         <td colspan="2" class="cell2" align="center">
-            <input class="ButtonGrey" type="submit" name="submit" value="{translate}Edit the static page{/translate}" />
+            <input class="ButtonGrey" type="submit" name="submit" value="{t}Edit the static page{/t}" />
         </td>
     </tr>
 </table>

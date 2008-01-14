@@ -2,13 +2,13 @@
 
 {if $err.wrong_filetype == 1}
 <div class="cell1" align="center">
-    <strong>{translate}That file has the wrong filetype.{/translate}</strong>
+    <strong>{t}That file has the wrong filetype.{/t}</strong>
 </div>
 {/if}
 
 {if $err.no_correct_upload == 1}
 <div class="cell1" align="center">
-    <strong>{translate}The upload failed. Please try again.{/translate}</strong>
+    <strong>{t}The upload failed. Please try again.{/t}</strong>
 </div>
 {/if}
 
@@ -17,17 +17,17 @@
 <tr>
     
     <td class="td_header" width="20%">
-    {translate}Information{/translate}
+    {t}Information{/t}
     </td>
     
     <td class="td_header" width="80%">
-    {translate}File{/translate}
+    {t}File{/t}
     </td>
 </tr>
 <tr>
 
     <td class="cell1">
-        {translate}Only tar files are allowed which were exported by this CMS{/translate}
+        {t}Only tar files are allowed which were exported by this CMS{/t}
     </td>
     
     <td class="cell2">
@@ -37,6 +37,6 @@
 </tr>
 </table>
 <p align="center">
-    <input class="ButtonGrey" type="submit" value="{translate}Import module{/translate}" name="submit">
+    <input class="ButtonGrey" type="submit" value="{t}Import module{/t}" name="submit">
 </p>
 </form>

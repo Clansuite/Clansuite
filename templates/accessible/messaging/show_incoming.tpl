@@ -19,7 +19,7 @@
 
 {if empty($messages)}   
 
-    <div align="center">{translate}There are no messages{/translate}</div>
+    <div align="center">{t}There are no messages{/t}</div>
 
 {else}
 
@@ -28,11 +28,11 @@
         <td class="cell2" colspan="3">
             <div class="message_selections">
                 <select name="action" class="input_text">
-                    <option value="delete">{translate}Delete selected messages{/translate}</option>
-                    <option value="multiple_mark_read">{translate}Mark messages as read{/translate}</option>
-                    <option value="multiple_mark_unread">{translate}Mark messages as unread{/translate}</option>
+                    <option value="delete">{t}Delete selected messages{/t}</option>
+                    <option value="multiple_mark_read">{t}Mark messages as read{/t}</option>
+                    <option value="multiple_mark_unread">{t}Mark messages as unread{/t}</option>
                 </select>
-                <input type="submit" name="submit" value="{translate}Go!{/translate}" class="ButtonGreen" />
+                <input type="submit" name="submit" value="{t}Go!{/t}" class="ButtonGreen" />
             </div>
         </td>
      </tr>
@@ -48,7 +48,7 @@
                 <div class="{if $item.read==0}message_new{else}message_old{/if}">
                     
                     {if $item.read==0}
-                        <strong>{translate}New{/translate}:&nbsp;</strong>
+                        <strong>{t}New{/t}:&nbsp;</strong>
                     {/if}
                     From: {$item.from} on {$item.timestamp|date_format:"%A, %B %e, %Y - %H:%M:%S"}
                     
@@ -67,11 +67,11 @@
             
             <td class="cell2">
                 <div class="message_buttons">
-                    <input class="ButtonGreen" type="button" value="{translate}Reply{/translate}" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create&reply_id={/literal}{$item.message_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}' />
+                    <input class="ButtonGreen" type="button" value="{t}Reply{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create&reply_id={/literal}{$item.message_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}' />
                     <br />
-                    <input type="button" class="ButtonYellow" value="{if $item.read==0}{translate}Mark as read{/translate}{else}{translate}Mark as unread{/translate}{/if}" onclick="self.location.href='index.php?mod=messaging&action=mark&id={$item.message_id}&read={if $item.read==0}1{else}0{/if}'" />
+                    <input type="button" class="ButtonYellow" value="{if $item.read==0}{t}Mark as read{/t}{else}{t}Mark as unread{/t}{/if}" onclick="self.location.href='index.php?mod=messaging&action=mark&id={$item.message_id}&read={if $item.read==0}1{else}0{/if}'" />
                     <br />
-                    <input type="button" class="ButtonRed" value="{translate}Delete{/translate}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$item.message_id}'" />
+                    <input type="button" class="ButtonRed" value="{t}Delete{/t}" onclick="self.location.href='index.php?mod=messaging&action=delete&id={$item.message_id}'" />
                 </div>
             </td>
         

@@ -24,7 +24,7 @@
 
             <div class="DynamicTree">
                 <div class="wrap1">
-                    <div class="top">{translate}Adminmenu{/translate}</div>
+                    <div class="top">{t}Adminmenu{/t}</div>
                     <div class="wrap2" id="tree">
                         {mod name="admin" sub="menueditor" func="get_adminmenu_div"}
                     </div>
@@ -67,11 +67,11 @@
                             <td><input class="input_text" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Right to view{/translate}</td>
+                            <td class="label">{t}Right to view{/t}</td>
                             <td><input class="input_text" size="20" id="tree-insert-right_to_view" name="tree-insert-right_to_view" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Icon{/translate}</td>
+                            <td class="label">{t}Icon{/t}</td>
                             <td>
                                 <select onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
                                     <option value=""></option>
@@ -95,27 +95,27 @@
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
                         <tr>
-                            <td class="label">{translate}Name{/translate}</td>
+                            <td class="label">{t}Name{/t}</td>
                             <td><input class="input_text" size="20" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Href{/translate}</td>
+                            <td class="label">{t}Href{/t}</td>
                             <td><input class="input_text" size="20" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Title{/translate}</td>
+                            <td class="label">{t}Title{/t}</td>
                             <td><input class="input_text" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Target{/translate}</td>
+                            <td class="label">{t}Target{/t}</td>
                             <td><input class="input_text" size="20" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Right to view{/translate}</td>
+                            <td class="label">{t}Right to view{/t}</td>
                             <td><input class="input_text" size="20" id="tree-info-right_to_view" name="tree-info-right_to_view" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{translate}Icon{/translate}</td>
+                            <td class="label">{t}Icon{/t}</td>
                             <td>
                                 <select onchange="document.getElementById('update_icon').src='{$www_root_tpl_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
                                     <option value=""></option>
@@ -141,13 +141,13 @@
         <td valign="top">
 
             <p>
-                <input type="button" class="ButtonYellow" onclick="window.open('{$www_root_tpl_core}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{translate}Help{/translate}" />
+                <input type="button" class="ButtonYellow" onclick="window.open('{$www_root_tpl_core}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{t}Help{/t}" />
             </p>
             <p>
-                <input type="button" class="ButtonGreen" value="{translate}Generate Menu{/translate}" onclick="treePluginGenerateMenu();" />
+                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
             <p>
-                <input type="button" onclick="self.location.href='index.php?mod=admin&sub=menueditor&amp;action=restore'"class="ButtonRed" value="{translate}Restore last menu{/translate}" />
+                <input type="button" onclick="self.location.href='index.php?mod=admin&sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last menu{/t}" />
             </p>
         </td>
         <td valign="top">
@@ -155,10 +155,10 @@
             <div id="tree-plugin">
                 <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
                 <div id="tree-plugin-content"></div>
-                <strong>{translate}The menu has been generated.{/translate}</strong> <br />
-                {translate}Click the button below, to save the menu into the Database.{/translate} <br />
+                <strong>{t}The menu has been generated.{/t}</strong> <br />
+                {t}Click the button below, to save the menu into the Database.{/t} <br />
                 <p>
-                    <input class="ButtonGreen" type="submit" name="submit" value="{translate}Update the menu{/translate}" />
+                    <input class="ButtonGreen" type="submit" name="submit" value="{t}Update the menu{/t}" />
                 </p>
                 </form>
             </div>

@@ -32,33 +32,33 @@
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="350">
         <tr class="tr_header">
-            <td align="center" width="20%">{translate}Description{/translate}</td>
-            <td align="center" width="80%">{translate}Input{/translate}</td>
+            <td align="center" width="20%">{t}Description{/t}</td>
+            <td align="center" width="80%">{t}Input{/t}</td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Nick{/translate}</td>
+            <td>{t}Nick{/t}</td>
             <td><input type="text" value="{$smarty.post.info.nick|escape:"html"}" class="input_text" name="info[nick]" /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}eMail{/translate}</td>
+            <td>{t}eMail{/t}</td>
             <td><input type="text" value="{$smarty.post.info.email|escape:"html"}" class="input_text" name="info[email]" /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Password{/translate}</td>
+            <td>{t}Password{/t}</td>
             <td>
                 <input type="text" value="{$smarty.post.info.password|escape:"html"}" class="input_text" name="info[password]" />
             </td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Activated{/translate}</td>
+            <td>{t}Activated{/t}</td>
             <td><input type="checkbox" value="1" class="input_text" name="info[activated]" {if $smarty.post.info.activated==1}checked="checked"{/if} /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Disabled/Banned{/translate}</td>
+            <td>{t}Disabled/Banned{/t}</td>
             <td><input type="checkbox" value="1" class="input_text" name="info[disabled]" {if $smarty.post.info.disabled==1}checked="checked"{/if} /></td>
         </tr>
         <tr class="tr_row1">
-            <td>{translate}Groups{/translate}</td>
+            <td>{t}Groups{/t}</td>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 {foreach item=item key=key from=$all_groups}
@@ -76,9 +76,9 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2" align="right">
-                <input type="button" value="{translate}Abort{/translate}" class="ButtonRed" onclick="Dialog.okCallback()" />
-                <input class="ButtonGreen" type="submit" name="submit" value="{translate}Create the user{/translate}" />
-                <input class="ButtonGrey" type="reset" value="{translate}Reset{/translate}" />
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="Dialog.okCallback()" />
+                <input class="ButtonGreen" type="submit" name="submit" value="{t}Create the user{/t}" />
+                <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>
     </table>
 </form>
