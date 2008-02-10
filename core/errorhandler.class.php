@@ -318,17 +318,15 @@ class errorhandler
         # Fieldset Legend
         echo "<legend>Clansuite Error: $error_head</legend>";
         # Error String (passed Error Description)
-        echo '<strong>'.$string.'</strong>';
+        echo '<p><strong>'.$string.'</strong>';
         # Error Messages from the ErrorObject
-        echo "<div style='border-style: solid; border-width:1px; border-color: red; margin-top:10px;'>\n";
-        echo '<p><table>';
+        echo '<hr><table>';
         echo '<tr><td><strong>ErrorCode:</strong></td><td>'.$ErrorObject -> getCode().'</td></tr>';
         echo '<tr><td><strong>Message:</strong></td><td>'.$ErrorObject -> getMessage().'</td></tr>';
         echo '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject -> getFile()).'</td></tr>';
         echo '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject -> getFile()).'</td></tr>';
         echo '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject -> getLine().'</td></tr>';
         echo '</table>';
-        echo "</div>\n";
     	# If Debug is enabled, display extended Error Information (tracing etc.)
     	if(DEBUG===1)
     	{
