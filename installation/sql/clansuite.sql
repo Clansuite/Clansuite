@@ -898,29 +898,6 @@ CREATE TABLE `cs_users` (
 INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 
---
--- Table structure for table `guestbook`
---
-
-DROP TABLE IF EXISTS `guestbook`;
-CREATE TABLE `guestbook` (
-  `id` int(11) NOT NULL auto_increment,
-  `nick` varchar(255) NOT NULL,
-  `added` int(11) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `ip` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `guestbook`
---
-
-/*!40000 ALTER TABLE `guestbook` DISABLE KEYS */;
-INSERT INTO `guestbook` VALUES (1,'flo',123514535,'satsasfsdfsadasdfs',''),(2,'asdfas',2147483647,'sasdfsffffff','129.12.12..12'),(3,'test',1176181554,'sasdfsadfsf','127.0.0.1'),(4,'test',1176181638,'sasdfsadfsf','127.0.0.1'),(5,'test',1176181673,'sasdfsadfsf','127.0.0.1'),(6,'test',1176181679,'sasdfsadfsf','127.0.0.1'),(7,'test',1176181705,'sasdfsadfsf','127.0.0.1'),(8,'test',1176181714,'sasdfsadfsf','127.0.0.1'),(9,'test',1176181752,'sasdfsadfsf','127.0.0.1'),(10,'test',1176181761,'sasdfsadfsf','127.0.0.1'),(11,'test',1176181815,'sasdfsadfsf','127.0.0.1'),(12,'test',1176181840,'sasdfsadfsf','127.0.0.1'),(13,'asdf',1176182014,'affffff','127.0.0.1'),(14,'asdf',1176182024,'affffff','127.0.0.1'),(15,'asdfffff',1176182036,'affffffffffffffffff','127.0.0.1'),(16,'asdfffff',1176182064,'affffffffffffffffff','127.0.0.1'),(17,'asdfffff',1176182091,'affffffffffffffffff','127.0.0.1'),(18,'asdfffff',1176182158,'affffffffffffffffff','127.0.0.1'),(19,'asdfffff',1176182195,'affffffffffffffffff','127.0.0.1'),(20,'asdfffff',1176182202,'affffffffffffffffff','127.0.0.1'),(21,'asdfffff',1176182206,'affffffffffffffffff','127.0.0.1'),(22,'asdfffff',1176182330,'affffffffffffffffff','127.0.0.1'),(23,'asdfffff',1176182401,'affffffffffffffffff','127.0.0.1'),(24,'asdfffff',1176182419,'affffffffffffffffff','127.0.0.1'),(25,'asdfffff',1176182502,'affffffffffffffffff','127.0.0.1'),(26,'asdfffff',1176182601,'affffffffffffffffff','127.0.0.1'),(27,'asdfffff',1176182609,'affffffffffffffffff','127.0.0.1'),(28,'asdfffff',1176182717,'affffffffffffffffff','127.0.0.1'),(29,'asdfffff',1176182747,'affffffffffffffffff','127.0.0.1'),(30,'asdfffff',1176182832,'affffffffffffffffff','127.0.0.1'),(31,'asdfffff',1176182847,'affffffffffffffffff','127.0.0.1'),(32,'asdfffff',1176182876,'affffffffffffffffff','127.0.0.1'),(33,'asdfasdfa',1176182956,'asdfsafsadfsadfsaf','127.0.0.1'),(34,'asdfasdfa',1176182981,'asdfsafsadfsadfsaf','127.0.0.1'),(35,'asdfasdfa',1176183023,'asdfsafsadfsadfsaf','127.0.0.1'),(36,'asdfasdfa',1176183094,'asdfsafsadfsadfsaf','127.0.0.1'),(37,'asdfasdfasdfsdfsdf',1176183105,'asdfsafsadfsadfsaf','127.0.0.1'),(38,'x!sign.dll< ! >',1176183293,'hi','127.0.0.1'),(39,'x!sign.dll< ! >',1176183311,'hi','127.0.0.1'),(40,'hi',1176183422,'test','127.0.0.1'),(41,'hi',1176183558,'test','127.0.0.1'),(42,'hi',1176183567,'test','127.0.0.1'),(43,'asdfasf',1176184134,'asfasf','127.0.0.1');
-/*!40000 ALTER TABLE `guestbook` ENABLE KEYS */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
