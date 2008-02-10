@@ -194,7 +194,10 @@ class configuration implements ArrayAccess
         // Developers configuration
 
         $this->config['help_edit_mode'] = 0;
-        $this->config['version']  = (float) 0.1;
+        include 'core/clansuite.version.php';
+        $this->config['clansuite_version']  = $clansuite_version;
+        $this->config['clansuite_version_state']  = $clansuite_version_state;
+        $this->config['clansuite_version_name']  = $clansuite_version_name;
 
         // Cache
 

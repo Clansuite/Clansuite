@@ -329,7 +329,10 @@ class view_smarty extends renderer_base
         # Meta Inforamtions about the website
         $this->smarty->assign('meta', $this->config['meta']);
         # ClanSuite Version from config.class.php
-        $this->smarty->assign('clansuite_version'    , $this->config['version']);
+        $this->smarty->assign('clansuite_version'           , $this->config['clansuite_version']);
+        $this->smarty->assign('clansuite_version_state'     , $this->config['clansuite_version_state']);
+        $this->smarty->assign('clansuite_version_name'      , $this->config['clansuite_version_name']);        
+        # Assign DB Counters
         $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
         # Redirects, if necessary
         $this->smarty->assign('redirect'      , $this->functions->redirect );
