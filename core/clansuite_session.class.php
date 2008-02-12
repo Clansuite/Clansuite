@@ -52,7 +52,7 @@
     PRIMARY KEY  (`session_id`),
     UNIQUE KEY `session_id` (`session_id`),
     KEY `user_id` (`user_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  *
  */
 
@@ -129,12 +129,12 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
     /**
      * Clansuite_Session is a Singleton
      */
-    public static function getInstance()
+    public static function getInstance($injector)
     {
     	static $instance;
 
         if ( ! isset($instance)) {
-            $instance = new Clansuite_Session();
+            $instance = new Clansuite_Session($injector);
         }
 
         return $instance;
@@ -149,7 +149,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @param object
      */
 
-    function __construct($injector)
+    function __construct(Phemto $injector)
     {
         /**
          * Setup References
@@ -163,11 +163,19 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         /**
          * Set the session configuration Parameters accordingly to Config Class Values
          */
-
-        #$this->session_name                 = $this->config['session_name'];
         $this->session_cookies              = $this->config['use_cookies'];
         $this->session_cookies_only         = $this->config['use_cookies_only'];
-        ini_set('session.save_handler'      , 'user' );
+        
+        /**
+             * Configure Session
+              * @todo: http://bugs.php.net/bug.php?id=32330 
+              * PHPBUG -> session_set_save_handler() session_destroy())
+              */
+        session_module_name("files");
+        ini_set('session.save_handler', 'files');                   # workaround for save_handler user is causing a strange bug
+        #ini_set('session.save_handler'      , 'user' );
+        ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory 
+        #ini_set("session.save_path", ROOT . 'tmp');                                        # Session Temp Path inside the Clansuite Directory
         ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
         ini_set('session.gc_probability'    , $this->session_probability );
         ini_set('session.name'              , self::session_name );
@@ -181,12 +189,12 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
          * Setup the custom session handler
          */
 
-        session_set_save_handler(   array($this, "_session_open"   ),
-                                    array($this, "_session_close"  ),
-                                    array($this, "_session_read"   ),
-                                    array($this, "_session_write"  ),
-                                    array($this, "_session_destroy"),
-                                    array($this, "_session_gc"     ));
+        session_set_save_handler(   array($this, "session_open"   ),
+                                    array($this, "session_close"  ),
+                                    array($this, "session_read"   ),
+                                    array($this, "session_write"  ),
+                                    array($this, "session_destroy"),
+                                    array($this, "session_gc"     ));
 
         /**
          * Start Session and throw Error on failure
@@ -200,18 +208,21 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         }
 
         /**
-         * Create new ID if session is not in DB or string-lenght corrupted
-         */
-
-        #if ($this->_session_read(session_id() ) === false OR strlen(session_id() ) != 32)
-        #{
-        #    session_regenerate_id();
-        #}
-
+                 * Create new ID if session is not in DB or string-lenght corrupted
+                 */
+        
+        if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
+        {
+            session_regenerate_id(true);
+            $_SESSION['initiated'] = true;  #session fixation
+            
+            $token = md5(uniqid(rand(), true)); #session token
+            $_SESSION['token'] = $token;
+        }
+        
         /**
-        * Perform Security Check
-        *
-        * If Session doesn't pass this, redirect to login.
+        * Perform a Security Check on the Session,
+        * and if it doesn't pass this, redirect to login.
         */
 
         if (!$this->_session_check_security() )
@@ -220,7 +231,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         }
 
         /**
-         * Control the session
+         * Control the session (3day registrations, old sessions)
          */
 
         $this->session_control();
@@ -238,7 +249,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @return true
      */
 
-    function _session_open()
+    public function session_open()
     {
         return true;
     }
@@ -249,10 +260,10 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @return true
      */
 
-    function _session_close()
+    public function session_close()
     {
-        clansuite_session::_session_gc(0);
-        session_write_close();
+        clansuite_session::session_gc(1);
+        #session_write_close();
         return true;
     }
 
@@ -260,9 +271,10 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * Reads a session
      *
      * @param integer $id contains the session_id
+     * @return mixed (boolean false or data)
      */
 
-    function _session_read( $id )
+    public function session_read( $id )
     {
         #echo 'session id =>'. $id;
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
@@ -284,9 +296,9 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      *
      * @param integer $id contains session_id
      * @param array $data contains session_data
+     * @return bool
      */
-
-    function _session_write( $id, $data )
+    public function session_write( $id, $data )
     {
         /**
          * Determine Expiretime of Session
@@ -341,22 +353,20 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         return true;
     }
 
-    /**
-     * Destroy a session
-     */
-
-    public static function _session_destroy( $id )
+   /**
+	 * Destroy the current session.
+	 *
+	 * @param  string $session_id
+	 * @return void
+	 */
+    public static function session_destroy( $session_id )
     {
-        /**
-         * Unset Session
-         */
-
-        unset($_SESSION);
+        // Unset all of the session variables.
+        $_SESSION = array();
 
         /**
          *  Unset Cookie Vars
          */
-
         if (isset($_COOKIE[self::session_name]))
         {
             setcookie(self::session_name, false );
@@ -364,10 +374,9 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 
         /**
          * Delete session from DB
-         */
-    /*
+         */    
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute(array(self::session_name, $id ) );
+        $stmt->execute(array(self::session_name, $session_id ) );
 
         /**
          *  Optimize DB
@@ -376,8 +385,11 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         if ($stmt->rowCount() > 0)
         {
             $this->_session_optimize();
-        }*/
-
+        }
+        */
+       // Sestroy the session.
+        session_destroy(); 
+        #session_set_save_handler();
     }
 
     /**
@@ -389,7 +401,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @todo by vain: wtf? $max_lifetime as parameter does nothing? we compare to the time ?
      */
 
-    function _session_gc($max_lifetime)
+    function session_gc($max_lifetime)
     {
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array(self::session_name, time() ) );
@@ -408,7 +420,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 
     function _session_optimize()
     {
-        /* NON WORKING WITH PDO
+        /* NOT WORKING WITH PDO
         $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
         $stmt->closeCursor();
         */
@@ -439,7 +451,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             }
             else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
-                clansuite_session::_session_destroy(session_id());
+                clansuite_session::session_destroy(session_id());
                 return false;
             }
         }
@@ -456,7 +468,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             }
             else if ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
             {
-                clansuite_session::_session_destroy(session_id());
+                clansuite_session::session_destroy(session_id());
                 return false;
             }
         }
@@ -572,7 +584,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         #$tpl->assign('SessionExpireTime', $expiretime);
     }
 
-
+    /**/
     public function __set($offset,$data) {
 		#echo("Name: {$offset}<br/>\nData: {$value}<br/>\n");
 		$this->session[$offset] = $value;
@@ -616,11 +628,11 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
  */
 interface Clansuite_SessionInterface
 {
-    public function _session_open();
-    public function _session_close();
-    public function _session_read($id);
-    public function _session_write($id, $data);
-    public static function _session_destroy($id);
-    public function _session_gc($max_lifetime);
+    public function session_open();
+    public function session_close();
+    public function session_read($id);
+    public function session_write($id, $data);
+    public static function session_destroy($id);
+    public function session_gc($max_lifetime);
 }
 ?>
