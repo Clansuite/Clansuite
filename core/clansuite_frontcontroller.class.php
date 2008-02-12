@@ -48,7 +48,7 @@ interface Clansuite_ControllerResolver_Interface
 }
 
 /**
- * Class Controller Resolving ( Request to Command )
+ * Clansuite Controller Resolver ( Request to Command )
  *
  * This Class
  * 1. extracts infos about the module (and action) from REQUEST
@@ -65,7 +65,8 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
     private $defaultModule;     # holds the name of the defaultModule
     private $defaultAction;     # holds the name of the defaultAction
 
-    public $moduleName;         # holds the name of the Module
+    public static $moduleName = null;         # holds the Name of the Module
+    public static $actionName = null;         # holds the Action of the Module
 
     public function __construct($defaultModule, $defaultAction)
     {
@@ -74,7 +75,7 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
     }
 
     /**
-     * clansuite_core::get_controller()
+     * Clansuite_ControllerResolver->getController()
      *
      * @param $requet input REQUEST-Object
      * @return object controller (module)
@@ -82,9 +83,14 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      */
     public function getController(httprequest $request)
     {
-        $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request['mod'] : $this->defaultModule;
+        # Set Action
+        $action = (isset($request['action']) && !empty($request['action'])) ? $request->getParameter('action') : $this->defaultAction;
+        $this->setModuleAction($action);
 
-        # Load Modul (require)
+        # ModulName is either the requested modulename or the defaultModule
+        $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->defaultModule;
+
+        # Load Modul (require) based on requested module_name
         if(clansuite_loader::loadModul($module_name) == true)
         {
             # Set the module name
@@ -92,13 +98,13 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
         }
         else
         {
-            # Load Default Module as Fallback (require)
+            # Load Default Module as Fallback (require), because the requested module may not exist!
             clansuite_loader::loadModul($this->defaultModule);
             # Set the module name
             $required_modulname = $this->defaultModule;
         }
 
-        # Set the modulename as a public Class Variable
+        # Set the modulename and moduleaction as public static class variables
         $this->setModuleName($required_modulname);
 
         # Construct Classname to instantiate the required Module
@@ -114,9 +120,9 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      *
      * @access private
      */
-    private function setModuleName($moduleName)
+    public static function setModuleName($moduleName)
     {
-        $this->moduleName = (string) $moduleName;
+        self::$moduleName = (string) $moduleName;
     }
 
     /**
@@ -125,9 +131,19 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      * @access public
      * @return $string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
-        return $this->moduleName;
+        return self::$moduleName;
+    }
+
+    public static function setModuleAction($actionName)
+    {
+        self::$actionName = (string) $actionName;
+    }
+
+    public static function getModuleAction()
+    {
+        return self::$actionName;
     }
 }
 
@@ -243,11 +259,12 @@ class Clansuite_FrontController implements Clansuite_ControllerCommand_Interface
         # 5)
         $this->post_filtermanager->processFilters($request, $response);
 
-            # 6)
-            $view = $moduleController->getRenderEngine();
+        // moved to controller_base::prepareOutput
+        # 6)
+        #$view = $moduleController->getRenderEngine();
 
-            # 7) pushes RenderEngine generated Output to the response
-            $response->setContent($view->render($moduleController->getTemplateName()));
+        # 7) pushes RenderEngine generated Output to the response
+        #$response->setContent($view->render($moduleController->getTemplateName()));
 
         # 8)
         $response->flush();
