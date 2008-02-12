@@ -161,6 +161,8 @@ class HTTPResponse implements Clansuite_ResponseInterface
      */
     public function flush()
     {
+        session_write_close();
+        
         $config['version'] = '0.1 alpha - dev';
 
         // Send the status line
