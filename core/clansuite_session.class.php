@@ -359,7 +359,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 	 * @param  string $session_id
 	 * @return void
 	 */
-    public static function session_destroy( $session_id )
+    public function session_destroy( $session_id )
     {
         // Unset all of the session variables.
         $_SESSION = array();
@@ -632,7 +632,7 @@ interface Clansuite_SessionInterface
     public function session_close();
     public function session_read($id);
     public function session_write($id, $data);
-    public static function session_destroy($id);
+    public function session_destroy($id);
     public function session_gc($max_lifetime);
 }
 ?>
