@@ -34,7 +34,7 @@
 
 /**
  * Interface for all modules
- */ 
+ */
 interface clansuite_module
 {
     function execute(httprequest $request, httpresponse $response);
@@ -147,50 +147,63 @@ abstract class controller_base
 
     /**
      * Returns the Template Name
+     *
+     * @return string templateName
      */
     public function getTemplateName()
     {
         # if the templateName was not set, we try several paths to find an tpl
         if(empty($this->templateName))
         {
-            # construct templatename with partial path from module name and action
-            # $tplname = getModuleName getActionName
-            $tplname = 'modulename/actionname.tpl';
+            # get modulName and actionName
+            $moduleName = Clansuite_ControllerResolver::getModuleName();
+            $actionName = Clansuite_ControllerResolver::getModuleAction();
 
-            # check if template exists in
+            # construct a partial path from moduleName and actionName
+            $tplname = $moduleName.'/'.$actionName.'.tpl';
+
+            # check, if a template-file with $tplname exists in
+            # 1. Standard Theme - Template
+            # 2. Modul Template
+
+            # 1. modules/modulename/templates/actioname.tpl
+            # @todo: for renderer related templates we have to add "renderer/", like
             # modules/modulename/templates/renderer/actioname.tpl
-            if(is_file( ROOT_MOD . getModuleName .'templates/'.$tplname))
-            {
 
-                $this->setTemplate($tplname);
+            if(is_file( ROOT_TPL . '/standard/' . $tplname))
+            {
+                # 2. Check, if template exists in standard theme
+                $this->setTemplate( ROOT_TPL . '/standard/' . $tplname );
             }
-            else
+            elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
             {
-
+                $this->setTemplate(ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
             }
         }
         return $this->templateName;
     }
 
     /**
-     * controller_base::getView();
+     * controller_base::prepareRendering();
      * returns an instance of the render engine object and prepares it for rendering the output
      *
      * 1. initialize proper viewfactory('smarty, json, rss'); as VIEW
      * 2. assign model data to that view object
-     * 3. return VIEW
+     * 3. set data to response object
      *
      * @access public
      */
-    public function getView()
+    public function prepareOutput()
     {
+        # get Response Object
+        $response = $this->injector->instantiate('httpresponse');
 
-        #$response = $this->injector->instantiate('response');
-        #$response->setRenderer($template);
-        #$response->setContentType();
+        # get RenderEngine
+        $view = $this->getRenderEngine();
+
+        # set Output of the RenderEngine to the Response Object
         #$response->setContent($this->output);
-        #$response->flush();
-
+        $response->setContent($view->render($this->getTemplateName()));
     }
 
     /**
@@ -205,8 +218,8 @@ abstract class controller_base
     public function forward($functionName, $controllerName)
     {
         # forward to controller-name + controller-action
-        
-        # event log 
+
+        # event log
 
     }
 
