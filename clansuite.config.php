@@ -183,7 +183,6 @@ class configuration implements ArrayAccess
 
         $this->config['use_cookies'] = 1;
         $this->config['use_cookies_only'] = 0;
-        $this->config['session_name'] = 'suiteSID';
 
         // Error Handling
 
