@@ -179,6 +179,10 @@ abstract class controller_base
             {
                 $this->setTemplate(ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
             }
+            else
+            {
+                $this->setTemplate( ROOT_TPL . '/core/notfound.tpl' );            
+            }
         }
         return $this->templateName;
     }
