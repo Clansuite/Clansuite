@@ -36,14 +36,6 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Interface for all modules
- */ 
-interface clansuite_module
-{
-    function execute(httprequest $request, httpresponse $response);
-}
-
-/**
  * module INDEX controller
  * Purpose: A PageController which has many pages to deal with for the current Module.
  *
@@ -53,7 +45,7 @@ class module_index extends controller_base #implements clansuite_module
 {
     function __construct(Phemto $injector=null)
     {
-        parent::__construct(); # run constructor on controller_base  
+        parent::__construct(); # run constructor on controller_base
     }
 
     /**
@@ -64,12 +56,15 @@ class module_index extends controller_base #implements clansuite_module
     public function execute($request, $response)
     {
         $trail = $this->injector->instantiate('trail');
-       
+
         // Set Pagetitle and Breadcrumbs
         $trail->addStep(T_('Index'), '/index.php?mod=index');
-        
+
         switch ($request->getParameter('action'))
         {
+            case 'mvc':
+                $this->mvc();
+                break;
             case 'show':
                 $this->show();
                 break;
@@ -80,9 +75,15 @@ class module_index extends controller_base #implements clansuite_module
                 $this->show();
                 break;
         }
+    }
 
-        #return array( 'OUTPUT'             => $this->output,
-        #              'ADDITIONAL_HEAD'    => $this->additional_head );
+    /**
+     *  Test the MVC Framework by calling "index.php?mod=index&action=mvc"
+     */
+    function mvc()
+    {
+        echo 'Clansuite Framework - MVC is working!';
+        exit;
     }
 
     /**
@@ -91,13 +92,14 @@ class module_index extends controller_base #implements clansuite_module
 
     function index()
     {
-        // Laden 
+        # Load DBAL
         Clansuite_Doctrine::doctrine_bootstrap();
-        
+
+        # Load Models
         require ROOT . '/myrecords/generated/BaseCsNews.php';
-        require ROOT . '/myrecords/CsNews.php'; 
-        
-        // Creating pager object
+        require ROOT . '/myrecords/CsNews.php';
+
+        // Creating Pager Object with a Query Object inside
 	    $pager = new Doctrine_Pager(
      	    Doctrine_Query::create()
      	    	->from( 'csnews n' )
@@ -106,15 +108,11 @@ class module_index extends controller_base #implements clansuite_module
      	    $currentPage, // Current page of request
      	    $resultsPerPage // (Optional) Number of results per page. Default is 25
  	    );
- 	    #var_dump($pager);
- 	    
+ 	    var_dump($pager);
+
  	    echo 'Total of items found: ' . $pager->getNumResults();
- 	    
- 	    #$output[
- 	    
- 	    
-        #$this->show();
-        $this->setTemplate('index/show.tpl'); 
+
+        $this->setTemplate('index/show.tpl');
     }
 
 
@@ -124,88 +122,111 @@ class module_index extends controller_base #implements clansuite_module
 
     function show()
     {
-        // Example Usage of Dependency Injector
-        #$injector = $this->injector;
-        #$config = $injector->getComponentInstance('configuration');
+        // Example Usage of Dependency Injector as Registry
+        #$config = $this->injector->getComponentInstance('configuration');
 
         /***
-         * $this->view_type
-         * use method
-         * $this->setRenderEngine('smarty')
-         * 
-         * 1. Set specific view_type (smarty, json, rss, php)
+         * To set a Render Engine use the following method:
+         * $this->setRenderEngine('smarty');
+         *
+         * You can define specific view_types linke (smarty, json, rss, php)
          *    -- or leave it away, then smarty is used as fallback!
-         *    Example: $this->view_type = 'smarty';
          *
          */
+        #$this->setRenderEngine('smarty');
 
         $this->output   .= 'action show called';
-        
+
         /**
-         * $this->template
-         * use method
-         * 
-         */
-        // 1. you can specify a template
-        //    the lookup of this template would then take place
-        //    in the layout theme folder which is displayed to the user
-        //    example: usertheme = standard and $this->template = 'modulename/filename.tpl';
-        //    then lookup of template in /standard/modulename/filename.tpl
-        //
-        // 2. when you not set a template name
-        //    we try to automatically detect it by using module and action as templatename
-        //    this means $this->template = "modulename/actionname.tpl"
-        //    then (after assembling the templatefilename) we search through the following paths
-        //    a. the activated theme , if not found
-        //    b. the modul-directory/templatefolder/rendererfolder/actionname.tpl
-        //    As a result of this direct connection of URL to TPL, it's possible to 
-        //    code in a very straightforward way:  index.php?mod=something&action=any 
-        //    would result in a template-search in /modules/something/templates/any.tpl
-        //    even an empty module function would result in an rendering - a good starting point i guess!
-        
-        
-        // Laden 
+               * Usage of method: setTemplate($templatename)
+               *
+               * 1. you can specify a complete template-filename (including its path)
+               * 2. if you NOT use this method, 
+               * we try to automatically detect the template-file by using module and action as templatename.
+               *
+               * the template lookup will take place in the following paths:
+               *    a) in the activated "layout theme" folder (according to the user-session) 
+               *        example: usertheme = "standard" and $this->template = 'modulename/filename.tpl';
+               *         then lookup of template in /standard/modulename/filename.tpl
+               *    b) the modul-directory/templatefolder/rendererfolder/actionname.tpl
+               *
+               * As a result of this direct connection of URL to TPL, it's possible to
+               * code in a very straightforward way:  index.php?mod=something&action=any
+               * would result in a template-search in /modules/something/templates/any.tpl
+               *
+               * Even an empty module function would result in an rendering - a good starting point i guess!  
+               *
+               */
+        #$this->setTemplate('index/show1.tpl');
+
+        // Laden
         Clansuite_Doctrine::doctrine_bootstrap();
-        
+
         require ROOT . '/myrecords/generated/BaseCsNews.php';
-        require ROOT . '/myrecords/CsNews.php';        
-        
+        require ROOT . '/myrecords/CsNews.php';
+
         # Show Loaded Models
         #print_r(Doctrine::getLoadedModels());
-        
-        
-        // Speichern        
+
+
+        // Speichern
         #$news = new CsNews();
-        #var_dump($news); 
-           
+        #var_dump($news);
+
         #$news['news_title'] = 'testingDoctrine'; # same as
         #$news->title = 'x';
-            
+
         #$news->save();
-        
-        // Lesen        
-        
+
+        // Lesen
+
         // The normal find by primary key method
         $newsTable = Doctrine::getTable('CsNews');
         $news = $newsTable->findOneBynews_id(1);
         #var_dump($news);
         #print_r($news['news_title']);
-        #print_r($news['title']);       
+        #print_r($news['title']);
+
         
-        $this->setTemplate('index/show.tpl');        
+        # Starting the View
+        $this->setView($this->getRenderEngine());
+        
+        # Assign Stuff to the View
+        # Get the Engine from the adapter
+        $smarty = $this->view->getEngine();
+        # assign directly to the engine
+        $smarty->assign('news_title',$news['news_title']);
+        
+        $smarty->assign('news_object',$news->getData());
+        
+        # OR
+        # use the adapter methods to assign indirectly to the view engine
+        $this->view->assign('test', 'Hello test!');  
+
+        # Prepare the Output
+        $this->prepareOutput();
+        #$response->setContent($view->render(parent::getTemplateName()));
     }
 }
 
+
+/** 
+ * We don't need the following classes. 
+ * They are here for understanding the MVC Pattern.
+ */
+ 
 /**
  * Purpose: View selects the Model for the choosen view(action)
  *          and assembles/prepares that view(action) with Model-Informations for Output
  *          When a Model-Object is fetched, the View calls a certain method on it to extract the data.
- *          Like $users = $userobject->findUser($email);
+ *          Like $users = $userobject->findUserByID($id);
  *
  */
 class module_index_view
 {
-    
+     // instantiate the module_index_model
+     // fetch data-object from the model via function
+     // assign data-object to view        
 }
 
 /**
@@ -213,12 +234,12 @@ class module_index_view
  *          Like return $user;
  */
 class module_index_model
-{   
-    /**
+{
+  /**
     public function findUserById($id)
     {
-        //sql logic to get User for certain id
-        
+        //SQL logic to get User for certain id
+
         //returns User-ROW!
     }
     */
