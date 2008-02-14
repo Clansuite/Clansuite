@@ -9,8 +9,11 @@
 @REM Asciidoc Configuration File "asciidoc-options.ini" is used for the generation.
 @REM For the original AsciiDoc Configuration File use "--conf-file=c:/asciidoc/xhtml11.conf"
 
-SET ASCIIDOCOPTIONS="--conf-file=asciidoc-options.ini" "--backend=xhtml11" "--attribute=linkcss=1" 
+DEL *.html
 
+SET ASCIIDOCOPTIONS="--conf-file=asciidoc-options.ini" "--backend=xhtml11" "--attribute=linkcss=1"
+
+@REM Asciidoc resides in c:/asciidoc
 FOR %%F IN (*.asc) DO CALL c:/asciidoc/asciidoc.py %ASCIIDOCOPTIONS% %%F
 
 pause
