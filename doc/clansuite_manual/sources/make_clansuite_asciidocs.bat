@@ -11,7 +11,7 @@
 
 DEL *.html
 
-SET ASCIIDOCOPTIONS="--conf-file=asciidoc-options.ini" "--backend=xhtml11" "--attribute=linkcss=1"
+SET ASCIIDOCOPTIONS="--conf-file=asciidoc-options.ini" "-a toc" "-a numbered" "-a toclevel 3" "--backend=xhtml11" "--attribute=linkcss=1"
 
 @REM Asciidoc resides in c:/asciidoc
 FOR %%F IN (*.asc) DO CALL c:/asciidoc/asciidoc.py %ASCIIDOCOPTIONS% %%F
