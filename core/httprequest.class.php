@@ -121,7 +121,7 @@ class httprequest implements RequestInterface, ArrayAccess
     {
         if (isset($this->parameters[$name]))
         {
-            return $this->parameters[$name];
+            return strtolower($this->parameters[$name]);
         }
     }
 
