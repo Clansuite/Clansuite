@@ -62,7 +62,7 @@ class language_via_get implements FilterInterface
        $this->locale    = $locale;      # set instance of localization to class
     }
 
-    public function execute(httprequest $request, httpresponse $response)
+    public function executeFilter(httprequest $request, httpresponse $response)
     {
         // take the initiative of filtering, if language switching is enabled in CONFIG
         // or pass through (do nothing) if disabled

@@ -56,7 +56,7 @@ class theme_via_get implements FilterInterface
        $this->security  = $security;
     }   
     
-    public function execute(httprequest $request, httpresponse $response)
+    public function executeFilter(httprequest $request, httpresponse $response)
     { 
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)
