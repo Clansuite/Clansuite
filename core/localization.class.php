@@ -62,33 +62,7 @@ class localization
        $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
        $this->encoding = 'UTF-8';      # sets encoding -> @todo get charset encoding from config
 
-       /**
-        * Set Locale
-        *
-        * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
-    	*/
-
-    	/*
-    	if ($_SESSION['user']['language_via_url'] == '1')
-        {
-            $this->locale = $_SESSION['user']['language_via_url'];
-        }
-        elseif (isset($_SESSION['user']['language']))
-    	{
-    		# use language setting from session
-    		$this->locale = $_SESSION['user']['language'];
-    	}
-    	elseif
-    	{
-            # get language from the browser or
-            # get the default language as fallback
-            $this->locale = $this->getLanguage();
-    	}
-    	else
-        {
-        */
-            $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
-        #}
+       $locale = $this->getLocale();
 
         /**
          * Require PHP-gettext's emulative functions, if PHP gettext extension is off
@@ -105,9 +79,40 @@ class localization
         require ROOT_LIBRARIES.'/php-gettext/gettext.inc';
 
         # Load Clansuite Domain
-        $this->loadTextDomain('LC_ALL', $this->domain, $this->locale);
+        $this->loadTextDomain('LC_ALL', $this->domain, $locale);
     }
 
+    /**
+        * Get Locale
+        *
+        * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
+    	*/
+    public function getLocale()
+    {
+        /*
+        	if ($_SESSION['user']['language_via_url'] == '1')
+            {
+                $this->locale = $_SESSION['user']['language_via_url'];
+            }
+            elseif (isset($_SESSION['user']['language']))
+        	{
+        		# use language setting from session
+        		$this->locale = $_SESSION['user']['language'];
+        	}
+        	elseif
+        	{
+                # get language from the browser or
+                # get the default language as fallback
+                $this->locale = $this->getLanguage();
+        	}
+        	else
+            {
+            */
+                $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
+            #}
+            return $this->locale;
+    }
+    
     /**
      * loadTextDomain
      *
@@ -123,23 +128,28 @@ class localization
      * @link http://www.php.net/function.bindtextdomain
      * @access public
      */
-    public function loadTextDomain($category, $domain, $locale, $baseDir = null)
+    public function loadTextDomain($category, $domain, $locale, $moduleBaseDir = null)
     {
          # Environment Variable LANGUAGE has priority above any local setting
         putenv("LANGUAGE=$locale");
-        if (!defined('LC_MESSAGES')) { define('LC_MESSAGES', 5); }; # workaround for php on windows, to make LC_MESSAGES avaiable
+        if (!defined('LC_MESSAGES')) { define('LC_MESSAGES', 5); }; # workaround for php on windows, to make LC_MESSAGES available
 		T_setlocale(LC_MESSAGES, $locale);
 		#T_setlocale(LC_ALL, $language);                          # LC_ALL disabled, because possible damage of sql queries
 		#T_setlocale(LC_TIME, $locale . '.UTF8', $locale);        # LC_TIME not figured out yet
-		if($baseDir == NULL)
+		
+        # Set the domain_directory 
+        # a) general 'clansuite' domain directory 
+        # b) a specific module directory
+        if($moduleBaseDir == null)
 		{
 		  $domain_directory = ROOT_LANGUAGES;                     # set ROOT_LANGUAGES
 		}
 		else
 		{
-		  $domain_directory = ROOT_MOD .'/'. $baseDir . '/languages'; # set baseDir/languages
+		  $domain_directory = ROOT_MOD .'/'. $moduleBaseDir . '/languages'; # set baseDir/languages
 		}
-		T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
+        # Set the Domain
+        T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
 		T_bind_textdomain_codeset($domain, $this->encoding);
 		T_textdomain($domain);
         return true;
