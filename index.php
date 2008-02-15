@@ -64,16 +64,27 @@ clansuite_loader::register_autoload();
  *     Dependency Injector + Register Classes
  *  ============================================
  */
+# Setup Phemto
 require ROOT_LIBRARIES.'/phemto/phemto.php';
 $injector = new Phemto();
-$classes = array(
-# Core
+
+# core classes to load
+$core_classes = array(
 'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db',
-'localization', 'trail', 'security', 'input', 'functions', 'statistic',
-#Filters
-'language_via_get', 'theme_via_get', 'get_user'
+'localization', 'trail', 'security', 'input', 'functions', 'statistic'
 );
-foreach($classes as $class) { $injector->register(new Singleton($class)); }
+foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
+
+# filters to load
+$prefilter_classes = array(
+'language_via_get', 'theme_via_get', 'get_user', 'set_module_language', 'set_breadcrumbs'
+);
+foreach($prefilter_classes as $class) { $injector->register($class); } # register the filters
+
+$postfilter_classes = array( 
+#empty-at-this-time 
+);
+foreach($postfilter_classes as $class) { $injector->register($class); } # register the filters
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
@@ -98,10 +109,14 @@ $response = $injector->instantiate('httpresponse');
  * - POST-Filters are executed afterwards, but before view rendering
  *   Examples: output compression, character set modifications, breadcrumbs
  */
-$clansuite->addPrefilter($injector->instantiate('get_user'));
-$clansuite->addPrefilter($injector->instantiate('language_via_get'));
-$clansuite->addPrefilter($injector->instantiate('theme_via_get'));
-#$clansuite->addPostfilter($injector->instantiate('build_breadcrumb'));
+foreach($prefilter_classes as $class) 
+{ 
+    $clansuite->addPrefilter($injector->instantiate($class)); 
+}
+foreach($postfilter_classes as $class) 
+{ 
+    $clansuite->addPostfilter($injector->instantiate($class)); 
+}
 
 # Take off.
 $clansuite->processRequest($request, $response);
