@@ -374,9 +374,9 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 
         /**
          * Delete session from DB
-         */    
+         */    /*
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute(array(self::session_name, $session_id ) );
+        $stmt->execute(array(self::session_name, $session_id ) );*/
 
         /**
          *  Optimize DB
@@ -387,9 +387,6 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             $this->_session_optimize();
         }
         */
-       // Sestroy the session.
-        session_destroy(); 
-        #session_set_save_handler();
     }
 
     /**
