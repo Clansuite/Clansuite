@@ -64,6 +64,9 @@ abstract class controller_base
     // positional check: this is view-related!
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
+    
+    // Variable contains the view
+    public $view = null;
 
     // Variable contains the name of the rendering engine
     public $renderEngine = null;
@@ -94,6 +97,25 @@ abstract class controller_base
     public function setView($view)
     {
         $this->view = $view;
+    }
+    
+     /**
+     * Get view
+     * @return view object
+     */
+    public function getView()
+    {   
+        // if already set, get the rendering engine from the view variable
+        if (isset($this->view))
+        { 
+            return $this->view; 
+        }
+        else
+        {   
+            # else, set the RenderEngine to the view variable and return it
+            $this->view = $this->getRenderEngine();
+            return $this->view;            
+        }        
     }
 
     /**
@@ -202,11 +224,11 @@ abstract class controller_base
         # get Response Object
         $response = $this->injector->instantiate('httpresponse');
 
-        # get RenderEngine
-        $view = $this->getRenderEngine();
+        # get the view
+        $view = $this->getview();
 
         # set Output of the RenderEngine to the Response Object
-        #$response->setContent($this->output);
+        $response->setContent($this->output);
         $response->setContent($view->render($this->getTemplateName()));
     }
 
@@ -244,7 +266,7 @@ abstract class controller_base
     /**
      * Force Extending classes to define this methods:
      */
-    abstract function index();
+    abstract function show();
     abstract function execute($request,$response);
 }
 ?>
