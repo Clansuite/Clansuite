@@ -30,9 +30,7 @@
  * @version    SVN: $Id$
  */
 
-/**
- * Security Handler
- */
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -55,11 +53,6 @@ class module_index extends controller_base #implements clansuite_module
      */
     public function execute($request, $response)
     {
-        $trail = $this->injector->instantiate('trail');
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep(T_('Index'), '/index.php?mod=index');
-
         switch ($request->getParameter('action'))
         {
             case 'mvc':
@@ -98,21 +91,61 @@ class module_index extends controller_base #implements clansuite_module
         # Load Models
         require ROOT . '/myrecords/generated/BaseCsNews.php';
         require ROOT . '/myrecords/CsNews.php';
+        
+        // Defining initial variables
+        $currentPage = 1;
+        $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
-	    $pager = new Doctrine_Pager(
+	    $pager_layout = new Doctrine_Pager_Layout( 
+        new Doctrine_Pager(
      	    Doctrine_Query::create()
      	    	->from( 'csnews n' )
      	        #->leftJoin( 'n.cat_id c' )
      	        ->orderby( 'n.news_id DESC' ),
      	    $currentPage, // Current page of request
      	    $resultsPerPage // (Optional) Number of results per page. Default is 25
- 	    );
- 	    var_dump($pager);
+ 	    ),
+        new Doctrine_Pager_Range_Sliding(array(
+            'chunk' => 5
+        )),
+        '?mod=index&action=index&page={%page}'
+        );
+
+        // Assigning templates for page links creation
+        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+        $pager_layout->setSelectedTemplate('[{%page}]');
+
+        // Retrieving Doctrine_Pager instance
+        $pager = $pager_layout->getPager();
+
+        // Fetching users
+        $news = $pager->execute();
+
+        // Displaying page links
+        // Displays: [1][2][3][4][5]
+        // With links in all pages, except the $currentPage (our example, page 1)
+        $pager_layout->display();
+
+ 	    #var_dump($news);
+        
+        $pager->execute();
 
  	    echo 'Total of items found: ' . $pager->getNumResults();
+        
+        echo '<p>|';
+        
+        $array = array('test' => array('key' => 'value'), 'test2' => 'test');
 
-        $this->setTemplate('index/show.tpl');
+        // Dump the array to yml and return, set to $yml(does not write to file). Replace null with a path to a yml file if you wish to write to disk
+        $yml = Doctrine_Parser::dump($array, 'yml');
+
+        print_r($yml);
+        
+        
+        exit;
+        
+        #$this->setTemplate('index/show.tpl');
     }
 
 
