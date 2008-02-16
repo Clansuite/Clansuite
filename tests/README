@@ -1,0 +1,16 @@
+                         _________________________
+                         C  L  A  N  S  U  I  T  E
+
+Tests Overview
+--------------
+
+We use Simpletest for running automated tests on the Clansuite Core.
+
+WARNING: Don't use this in public environment. 
+         The "/tests" directory is removed on build.
+
+Simpletest Project
+------------------
+You can find it at 
+http://sourceforge.net/projects/simpletest/
+https://sourceforge.net/project/showfiles.php?group_id=76550
