@@ -1,3 +1,5 @@
+Modul Template File
+
 <strong>{t}Hello{/t}</strong><br />
 <strong>{t}Welcome{/t}</strong><br />
 <br />
