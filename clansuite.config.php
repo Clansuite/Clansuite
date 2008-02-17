@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * File:         config.class.php
@@ -68,8 +68,8 @@ if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbi
  *
  * @package clansuite
  * @subpackage config
- * @TODO COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
- * @TODO COMMENT by vain: add set/get via database if not found in mainarray! save changes on destruct?
+ * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
+ * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
  **/
 class configuration implements ArrayAccess
 {
@@ -78,13 +78,15 @@ class configuration implements ArrayAccess
      * protected-> only visible to childs
      *
      * @var array
+     * @access protected
      */
     protected $config = array();
 
     /**
      * CONSTRUCTOR
      * sets up all variables
-     * todo by vain: automatic read of ini-files / or from db -> to set up cf arrray 
+     *
+     * @todo by vain: automatic read of ini-files / or from db -> to set up cf arrray
      */
     public function __construct()
     {
@@ -123,15 +125,15 @@ class configuration implements ArrayAccess
 
         // Global Template Configurations
         $this->config['theme'] = 'standard';
-        #$this->config['theme'] = 'accessible';        
+        #$this->config['theme'] = 'accessible';
         $this->config['tpl_wrapper_file'] = 'index.tpl';
-		
+
     	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
     	$this->config['themeswitch_via_url'] = 1;
-    	
+
     	// Activate Prefilterplugin for Languageswitching via GET Parameter ?lang=
         $this->config['languageswitch_via_url'] = 1;
-        
+
     	// Controller Resolver : Default Module and Default Action
     	$this->config['default_module'] = 'index';
         $this->config['default_action'] = 'show';
@@ -219,7 +221,7 @@ class configuration implements ArrayAccess
      * @return    void
      */
     public function __get($configkey)
-    {        
+    {
         return isset($this->config[$configkey]) ? $this->config[$configkey] : null;
     }
 
@@ -230,6 +232,7 @@ class configuration implements ArrayAccess
      * @param    string    the config item key
      * @param    string    the config item value
      * @return    void
+     *
      */
     public function __set($configkey, $configvalue)
     {

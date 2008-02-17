@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -75,6 +75,7 @@ class Clansuite_Loader
      * Require File
      * if file found
      *
+     * @param string $filename The file to be required
      * @return bool
      */
     private static function requireFile($filename)
@@ -91,8 +92,8 @@ class Clansuite_Loader
      * Load a Class with name and dir
      * Extensions .class.php
      *
-     * @param classname
-     * @param directory without start/end slashes
+     * @param string $classname The class, which should be loaded
+     * @param string $directory without start/end slashes
      * @return boolean
      */
     public static function loadClass($classname, $directory = NULL)
@@ -107,7 +108,7 @@ class Clansuite_Loader
      * requires: clansuite/core/class_name.class.php
      * require if found
      *
-     * @param classname
+     * @param string $classname
      * @return boolean
      */
     public static function loadCoreClass($classname)
@@ -127,7 +128,7 @@ class Clansuite_Loader
      * classname for modules is fixed 'module_' . $modname
      * absolute filename: e.g. 'clansuite/modules/'. $modname .'.module.php''
      *
-     * @param modname
+     * @param string $modulename The name of the module, which should be loaded
      * @return boolean
      */
     public static function loadModul($modulename)
@@ -144,7 +145,7 @@ class Clansuite_Loader
      * requires: clansuite/core/filters/classname.filter.php
      * require if found
      *
-     * @param classname
+     * @param string $classname The name of the filter class
      * @return boolean
      */
     public static function loadFilter($classname)

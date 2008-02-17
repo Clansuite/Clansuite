@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -34,7 +34,7 @@
 /**
  * Clansuite Filter - Set_Module_Language
  *
-* @package clansuite
+ * @package clansuite
  * @subpackage filters
  *
  * Purpose: Sets Text Domain for a specific Module

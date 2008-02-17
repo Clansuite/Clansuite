@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -41,7 +41,7 @@
  *    At system startup the default language is defined by the config.
  *    Up to this point this language is used for any output, like system and error messages.
  *
- * 2) When languageswitch_via_url is enabled in config, the user is able to  
+ * 2) When languageswitch_via_url is enabled in config, the user is able to
  *    override the default language (by adding the URL appendix 'lang').
  *    When request parameter 'lang' is set, the user session value for language will be updated.
  *    Example: index.php?lang=langname

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -35,7 +35,7 @@
 /**
  * Clansuite_XDEBUG
  *
- * This class initializes xdebug at system start-up and displays debug 
+ * This class initializes xdebug at system start-up and displays debug
  * and runtime-informations at application shutdown.
  *
  * @package     clansuite
@@ -44,9 +44,19 @@
  */
 class clansuite_xdebug
 {
-    # Total Page Parsing Time
+    /**
+     * Total Page Parsing Time
+     * @var float
+     * @access protected
+     * @static
+     */
     protected static $time = 0;
-    # Memory Usage Before Application Run
+    /**
+     * Memory Usage Before Application Run
+     * @var float
+     * @access protected
+     * @static
+     */
     protected static $mem_usage_before = 0;
 
     /**
@@ -78,10 +88,10 @@ class clansuite_xdebug
         ini_set('xdebug.show_mem_delta', 'On');
         ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
         ini_set('xdebug.xdebug.collect_return', 'On');
-        
+
         xdebug_start_trace(XDEBUG_TRACE_HTML);
         xdebug_get_code_coverage();
-        
+
         }
     }
 
