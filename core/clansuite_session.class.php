@@ -262,8 +262,8 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 
     public function session_close()
     {
-        clansuite_session::session_gc(1);
-        #session_write_close();
+        $this->session_gc(1);
+        session_write_close();
         return true;
     }
 
@@ -273,13 +273,12 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @param integer $id contains the session_id
      * @return mixed (boolean false or data)
      */
-
     public function session_read( $id )
     {
         #echo 'session id =>'. $id;
+        #echo self::session_name;
         $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
         $stmt->execute( array(self::session_name, $id ) );
-
 
         if ($result = $stmt->fetch())
         {
@@ -398,7 +397,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @todo by vain: wtf? $max_lifetime as parameter does nothing? we compare to the time ?
      */
 
-    function session_gc($max_lifetime)
+    public function session_gc($max_lifetime)
     {
         $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
         $stmt->execute(array(self::session_name, time() ) );
@@ -415,7 +414,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @todo function is deactivated - Check how session table can be optimized while using pdo
      */
 
-    function _session_optimize()
+    public function _session_optimize()
     {
         /* NOT WORKING WITH PDO
         $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
@@ -434,7 +433,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @return boolean
      */
 
-    function _session_check_security()
+    public function _session_check_security()
     {
         /**
          * 1. Check for IP
@@ -448,7 +447,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             }
             else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
-                clansuite_session::session_destroy(session_id());
+                $this->session_destroy(session_id());
                 return false;
             }
         }
@@ -465,7 +464,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             }
             else if ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
             {
-                clansuite_session::session_destroy(session_id());
+                $this->session_destroy(session_id());
                 return false;
             }
         }
@@ -482,7 +481,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             }
             else if ( gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'] )
             {
-                clansuite_session::_session_destroy(session_id());
+                $this->session_destroy(session_id());
                 return false;
             }
         }
@@ -494,30 +493,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         return true;
     }
 
-    /**
-     * set()
-     */
-
-    public function set($key, $value)
-    {
-        $_SESSION[$key] = $value;
-    }
-
-    /**
-     * get()
-     */
-
-    public function get($key)
-    {
-        if (isset($_SESSION[$key]))
-        {
-            return $_SESSION[$key];
-        }
-        else
-        {
-            return false;
-        }
-    }
+   
 
     /**
      * Sets a new SESSION_ID into SESSION['NAME']
@@ -537,7 +513,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      * @global object $function
      */
 
-    function session_control()
+    public function session_control()
     {
         /**
          *  Delete not activated users after 3 days
@@ -581,11 +557,29 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         #$tpl->assign('SessionExpireTime', $expiretime);
     }
 
-    /**/
-    public function __set($offset,$data) {
-		#echo("Name: {$offset}<br/>\nData: {$value}<br/>\n");
-		$this->session[$offset] = $value;
-	}
+      
+    /**
+     * set()
+     */
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * get()
+     */
+    public function get($key)
+    {
+        if (isset($_SESSION[$key]))
+        {
+            return $_SESSION[$key];
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     /**
      * Implementation of SPL ArrayAccess
@@ -603,7 +597,6 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
-        $this->__set($offset, $value);
     }
 
     // @todo
