@@ -1,4 +1,4 @@
-{* Debugausgabe des Arrays: {$news|@var_dump}*}
+{* Debugausgabe des Arrays: *} {$news|@var_dump} 
 
 <h2> Comments for News {$news.news_id} </h2>
  
