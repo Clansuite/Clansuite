@@ -3,7 +3,7 @@ This readme itself describes the way, on how to recreate the Documentation.
 
 The current Clansuite Documentation was created on a Windows Machine. 
 But as PHPDocumentor itself is a PHP Script, you should be able to create a Doc 
-on every System with a PHP Interpreter avaiable.
+on every System with a PHP Interpreter available.
 
 How to do it? 
 -------------
