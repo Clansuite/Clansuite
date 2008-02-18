@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * It's an data-access abstraction layer, regardless which database you're using,
  * you use the same functions to issue queries and fetch data.
  * This means that you have to watch out and take care, which functions are
- * avaiable on all db-systems or only on some.
+ * available on all db-systems or only on some.
  *
  * PDO gives data-access to the following Databases:
  *
