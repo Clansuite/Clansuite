@@ -90,7 +90,7 @@ define('ROOT',  getcwd() . '/');
 
 # DEFINE -> Directories related to ROOT
 define('ROOT_MOD'           , ROOT . $config['mod_folder']);
-define('ROOT_TPL'           , ROOT . $config['tpl_folder']);
+define('ROOT_THEMES'        , ROOT . $config['themes_folder']);
 define('ROOT_LANGUAGES'     , ROOT . $config['language_folder']);
 define('ROOT_CORE'          , ROOT . $config['core_folder']);
 define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder']);
@@ -113,8 +113,8 @@ else
 }
 
 # DEFINE -> Directories related to WWW_ROOT
-define('WWW_ROOT_TPL'       , WWW_ROOT . '/' . $config['tpl_folder']);
-define('WWW_ROOT_TPL_CORE'  , WWW_ROOT . '/' . $config['tpl_folder'] .  '/core');
+define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['themes_folder']);
+define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['themes_folder'] .  '/core');
 
 # DEFINE -> Database Prefix
 define('DB_PREFIX'          , $config['db_prefix']);

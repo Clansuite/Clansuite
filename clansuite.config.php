@@ -105,7 +105,7 @@ class configuration implements ArrayAccess
         $this->config['core_folder']        = 'core';
         $this->config['libraries_folder']   = 'libraries';
         $this->config['language_folder']    = 'languages';
-        $this->config['tpl_folder']         = 'templates';
+        $this->config['theme_folder']       = 'themes';
         $this->config['mod_folder']         = 'modules';
         $this->config['upload_folder']      = 'uploads';
 
