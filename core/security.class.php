@@ -89,7 +89,7 @@ class security
     /**
      * This function generates a HASH of a given string using the requested hash_algorithm.
      * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
-     * To get a complete list of avaiable hash encodings use: print_r(hash_algos());
+     * To get a complete list of available hash encodings use: print_r(hash_algos());
      * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
      *
      * @param $string String to build a HASH from
@@ -106,7 +106,7 @@ class security
             return hash($hash_algo,$string);
         }
         else
-        {   # when hash() not avaiable, do hashing the old way
+        {   # when hash() not available, do hashing the old way
             switch($hash_algo)
             {
                 case 'MD5':     return md5($string);
@@ -114,7 +114,7 @@ class security
                 default:
                 case 'SHA1':    return sha1($string);
                                 break;
-            }  
+            }
         }
     }
 
