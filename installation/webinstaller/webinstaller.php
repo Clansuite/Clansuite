@@ -331,7 +331,7 @@ class PreInstaller {
 
 		$capabilities['statusMessage'] = $statusMessage;
 
-		/* Is there a ReleaseCandidate avaiable?*/
+		/* Is there a ReleaseCandidate available?*/
 		if (!empty($capabilities['downloadMethods'])) {
 		    foreach ($capabilities['downloadMethods'] as $dMethod) {
 			if ($dMethod['isSupported']) {
