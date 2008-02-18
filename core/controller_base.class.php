@@ -192,10 +192,10 @@ abstract class controller_base
             # @todo: for renderer related templates we have to add "renderer/", like
             # modules/modulename/templates/renderer/actioname.tpl
 
-            if(is_file( ROOT_TPL . '/standard/' . $tplname))
+            if(is_file( ROOT_THEMES . '/standard/' . $tplname))
             {
                 # 2. Check, if template exists in standard theme
-                $this->setTemplate( ROOT_TPL . '/standard/' . $tplname );
+                $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
             }
             elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
             {
@@ -203,7 +203,7 @@ abstract class controller_base
             }
             else
             {
-                $this->setTemplate( ROOT_TPL . '/core/notfound.tpl' );            
+                $this->setTemplate( ROOT_THEMES . '/core/notfound.tpl' );            
             }
         }
         return $this->templateName;
