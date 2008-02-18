@@ -1,4 +1,6 @@
-Modul Template File
+Standard Theme - Module Index - Show
+
+<br />
 
 <strong>{t}Hello{/t}</strong><br />
 <strong>{t}Welcome{/t}</strong><br />
