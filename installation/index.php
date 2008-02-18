@@ -255,7 +255,7 @@ require ('install_footer.php');
 ##### FUNCTIONS #####
 
 /**
- * Gets the total number of installations steps avaiable
+ * Gets the total number of installations steps available
  * by checking how many functions with name "installstep_x" exist
  *
  * @return $_SESSION['total_steps']
