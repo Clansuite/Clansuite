@@ -110,13 +110,13 @@ $availableVersions = array('stable', 'rc', 'daily');
  * M A I N
  *****************************************************************/
 compatiblityFunctions();
-$preInstaller = new PreInstaller();
-$preInstaller->main();
+$webInstaller = new WebInstaller();
+$webInstaller->main();
 
 /*****************************************************************
  * C L A S S E S
  *****************************************************************/
-class PreInstaller {
+class WebInstaller {
 
     function main() {
 
