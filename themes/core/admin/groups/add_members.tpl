@@ -7,7 +7,7 @@
 
 
 {doc_raw}
-<script src="{$www_root_tpl_core}/javascript/picklist.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/picklist.js" type="text/javascript"></script>
 {/doc_raw}
 
 <form action="index.php?mod=admin&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}" method="post" accept-charset="UTF-8" onsubmit="return selIt();">

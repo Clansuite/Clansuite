@@ -1,7 +1,7 @@
 {doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/adminmenu/DynamicTree.css" />
-<script type="text/javascript" src="{$www_root_tpl_core}/admin/adminmenu/DynamicTreeBuilder.js"></script>
-<script type="text/javascript" src="{$www_root_tpl_core}/admin/adminmenu/plugins.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+<script type="text/javascript" src="{$www_root_themes_core}/admin/adminmenu/DynamicTreeBuilder.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/admin/adminmenu/plugins.js"></script>
 {literal}
 <style type="text/css">
     body { background: #F1EFE2; }
@@ -30,13 +30,13 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
-                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
-                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" /></a>
-                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" /></a>
-                    <a id="tree-insert" class="insert" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" /></a>
-                    <a id="tree-info" class="info" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" /></a>
-                    <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_root_tpl_core}/admin/adminmenu/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" /></a>
+                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
+                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
+                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" /></a>
+                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" /></a>
+                    <a id="tree-insert" class="insert" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" /></a>
+                    <a id="tree-info" class="info" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" /></a>
+                    <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" /></a>
                     <div class="tooltip" id="tree-tooltip"></div>
                 </div>
                 <div id="tree-insert-form">
@@ -73,10 +73,10 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('insert_icon').src='{$www_root_tpl_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
+                                <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
                                     <option value=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_root_tpl_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img alt="insert icon" src="" id="insert_icon" width="16" height="16" border="1" />
@@ -117,10 +117,10 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('update_icon').src='{$www_root_tpl_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
+                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
                                     <option value=""></option>
                                     {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_root_tpl_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img alt="update icon" src="" name="update_icon" id="update_icon" width="16" height="16" border="1" />
@@ -141,7 +141,7 @@
         <td valign="top">
 
             <p>
-                <input type="button" class="ButtonYellow" onclick="window.open('{$www_root_tpl_core}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{t}Help{/t}" />
+                <input type="button" class="ButtonYellow" onclick="window.open('{$www_root_themes_core}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{t}Help{/t}" />
             </p>
             <p>
                 <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
@@ -168,8 +168,8 @@
     </table>
 
     <script type="text/javascript">
-        var tree = new DynamicTreeBuilder("tree", "{$www_root_tpl_core}/admin/adminmenu/images/", "{$www_root_tpl_core}/images/icons/");
+        var tree = new DynamicTreeBuilder("tree", "{$www_root_themes_core}/admin/adminmenu/images/", "{$www_root_themes_core}/images/icons/");
         tree.init();
         DynamicTreePlugins.call(tree);
     </script>
-    <script type="text/javascript" src="{$www_root_tpl_core}/admin/adminmenu/actions.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/admin/adminmenu/actions.js"></script>

@@ -16,7 +16,7 @@
     <tr>
         <td class="cell1" align="center">
          <img src="{$www_root}/{$item.themename}/preview_thumb.png"> 
-         Constructed filename: {$www_root_tpl}/{$item.themename}/preview_thumb.png
+         Constructed filename: {$www_root_themes}/{$item.themename}/preview_thumb.png
             <input type="hidden" name="id" value="{$item.id}">
             <b><a href="index.php?mod=admin&sub=themes&page={$item.title}" target="_blank">{$item.title}</a></b>
         </td>

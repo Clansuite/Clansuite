@@ -6,7 +6,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <div align="center">
-<img src="{$www_root_tpl_core}/images/security_breach.jpg" border="0">
+<img src="{$www_root_themes_core}/images/security_breach.jpg" border="0">
 <br>
 <font face="Verdana" size="2" color="red">
 <strong>{t}SECURITY BREACH!{/t}</strong>

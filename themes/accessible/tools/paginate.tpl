@@ -1,6 +1,6 @@
 <div class="paginate">
         <div class="description">
-            <img class="img" src="{$www_root_tpl_core}/images/icons/page_edit.png" alt="" />
+            <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
             {if $paginate.size gt 0}
               <span class="inline_text">Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.</span>
             {else}

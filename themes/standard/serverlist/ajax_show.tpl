@@ -1,9 +1,9 @@
 {doc_raw}
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"></script>
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js"></script>
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/smarty_ajax.js"></script>
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/clip.js"></script>
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl}/coffee-with-milk.css" />
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/coffee-with-milk.css" />
 {/doc_raw}
 
 {* Debuganzeige, wenn DEBUG = 1 |   {$servers|@var_dump}
@@ -32,31 +32,31 @@
                                                   params="server_id=`$server.server_id`"
                                                   callback="new Effect.SlideDown(\'serverdata_`$server.server_id`\')"
                                      }"
-                            src="{$www_root_tpl}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
+                            src="{$www_root_themes}/images/serverlist/reload_{if $server.response == true}green{else}grey{/if}.png" 
                             alt="Refresh Server {$server.server_id}" />
                        
                         <img onclick="new Effect.toggle('serverdata_{$server.server_id}', 'slide'); return false;"
                              id="ClipDownImage_{$server.server_id}"
                              style="display: none;"
-                             src="{$www_root_tpl}/images/serverlist/dn.gif" 
+                             src="{$www_root_themes}/images/serverlist/dn.gif" 
                              alt="Refresh Server {$server.server_id}" />
                         
                    </td>
                    <td>{$server.server_id}</td>
-                   <td><img alt="Gametype Icon" src="{$www_root_tpl}/images/serverlist/gametype/{$server.gametype}.ico" /></td>
+                   <td><img alt="Gametype Icon" src="{$www_root_themes}/images/serverlist/gametype/{$server.gametype}.ico" /></td>
                    <td>
                         {if $server.image_country==''}
-                            <img alt="Country as Empty Icon" src="{$www_root_tpl_core}/images/empty.png" width="16" height="16" />
+                            <img alt="Country as Empty Icon" src="{$www_root_themes_core}/images/empty.png" width="16" height="16" />
                         {else}
-                            <img alt="Country Icon" src="{$www_root_tpl_core}/images/countries/{$server.image_country}" />
+                            <img alt="Country Icon" src="{$www_root_themes_core}/images/countries/{$server.image_country}" />
                         {/if}
                     </td>
                     <td>{$server.name}</td>
                     <td>{$server.ip}:{$server.port}</td>
                     <td>
-                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_root_tpl}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect" /></a>
+                        <a href="hlsw://{$server.ip}:{$server.port}"><img src="{$www_root_themes}/images/serverlist/hlsw.ico" class="border3d" alt="HLSW Connect" /></a>
                         {if $server.csquery_engine == 'steam'}
-                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_root_tpl}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect" /></a>
+                        <a href='steam: "-applaunch 10 -game cstrike +connect {$server.ip}:{$server.port}"'><img src="{$www_root_themes}/images/serverlist/steam2.ico" class="border3d" alt="Steam Connect" /></a>
                         {/if}
                     </td>
                 </tr>

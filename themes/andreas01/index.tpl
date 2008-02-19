@@ -10,8 +10,8 @@
 <meta http-equiv="reply-to" content="{$meta.email}">
 <meta name="description" content="{$meta.description}">
 <meta name="keywords" content="{$meta.keywords}">
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl}/andreas01.css" media="screen,projection" />
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl}/print.css" media="print" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/andreas01.css" media="screen,projection" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/print.css" media="print" />
 <link rel="stylesheet" type="text/css" href="{$css}">
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
 {$additional_head}
@@ -43,7 +43,7 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <p><strong>"I can see you fly. You are an angel with wings, high above the ground!"</strong><br />(traditional haiku poem)</p>
 </div>
 
-<img id="frontphoto" src="{$www_root_tpl}/images/front.jpg" width="760" height="175" alt="" />
+<img id="frontphoto" src="{$www_root_themes}/images/front.jpg" width="760" height="175" alt="" />
 
 <div id="avmenu">
 <h2 class="hide">Menu:</h2>
