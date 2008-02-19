@@ -35,9 +35,7 @@
 /**
  * get_user Filter Function
  *
- * Purpose: Set Theme via URL by appendix $_GET['theme']
- * Example: index.php?theme=themename
- * When request parameter 'theme' is set, the user session value for theme will be updated
+ * Purpose: Setup the user object
  *
  * @implements IFilter
  */
@@ -56,5 +54,4 @@ class get_user implements FilterInterface
        $this->user->check_login_cookie();	# Check for login cookie - Guest/Member
     }
 }
-
 ?>
