@@ -1,6 +1,6 @@
     <div id="sidebar">
         <div id="stepbar">
-            <?=$language['MENU_HEADING']?>
+            <p><?=$language['MENU_HEADING']?></p>
             <div class="step-on"><?=$language['MENUSTEP1']?> </div>
             <div class="step-off"><?=$language['MENUSTEP2']?></div>
             <div class="step-off"><?=$language['MENUSTEP3']?></div>
