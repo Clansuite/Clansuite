@@ -92,7 +92,7 @@ class localization
         # fallback to config language!
         $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
     
-        if ( ($_SESSION['user']['language_via_url'] == '1') AND isset($_SESSION['user']['language']) )
+        if(isset($_SESSION['user']['language_via_url']) AND ($_SESSION['user']['language_via_url'] == '1'))
         {
             # use language setting from session
             $this->locale = $_SESSION['user']['language'];
