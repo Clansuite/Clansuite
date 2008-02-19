@@ -69,7 +69,7 @@ error_reporting(E_ALL);
 #================
 
 # INCLUDE THE HEADER!
-include ('install_header.php');
+include 'install_header.php';
 
 /**
  * ==============================
@@ -87,7 +87,7 @@ $_SESSION = array_merge($_SESSION, $_POST);
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
-	$step = $_SESSION['step'];
+	$step = (int) $_SESSION['step'];
 	if(isset($_POST['step_forward']))  { $step++; }
 	if(isset($_POST['step_backward'])) { $step--; }
 	if($step >= $total_steps) { $step = $total_steps; }
@@ -95,7 +95,7 @@ if(isset($_SESSION['step']))
 else { $step = 1; }
 
 # Calculate Progress
-$_SESSION['progress'] = calc_progress($step, $total_steps);
+$_SESSION['progress'] = (float) calc_progress($step, $total_steps);
 
 /**
  * ==============================
@@ -124,7 +124,7 @@ try
 {
 	if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
 	{
-		require_once (CS_ROOT . '/languages/'. $lang .'.install.php');
+		require_once CS_ROOT . '/languages/'. $lang .'.install.php';
 		$language = new language;
 		$_SESSION['lang'] = $lang;
 	}
@@ -250,7 +250,7 @@ if(function_exists($installfunction))  # check if exists
 }
 
 # INCLUDE THE FOOTER !!
-require ('install_footer.php');
+require 'install_footer.php';
 
 ##### FUNCTIONS #####
 
@@ -364,14 +364,14 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
         mysql_select_db($database,$connection);
         # ensure database entries are written as UTF8
         mysql_query("SET NAMES 'utf8'");
-        
+
         if (!is_readable($sqlfile)) {
           die("$sqlfile does not exist or is not readable");
         }
         $queries = getQueriesFromSQLFile($sqlfile);
         for ($i = 0, $ix = count($queries); $i < $ix; ++$i) {
           $sql = $queries[$i];
-          
+
           if (!mysql_query($sql, $connection)) {
             die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
           }
@@ -386,10 +386,10 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
 }
 
 /**
- * getQueriesFromSQLFile 
+ * getQueriesFromSQLFile
  * - strips off all comments, sql notes, empty lines from an sql file
  * - trims white-spaces
- * - filters the sql-string for sql-keywords 
+ * - filters the sql-string for sql-keywords
  * - replaces the db_prefix
  *
  * @param $file sqlfile
@@ -411,13 +411,13 @@ function getQueriesFromSQLFile($file)
     # this is a list of SQL commands, which are allowed to follow a semicolon
     $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
                       'TRUNCATE', 'UPDATE', 'USE');
-    
+
     # create the regular expression
     $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
-    
+
     # split there
     $splitter = preg_split($regexp, implode("\r\n", $file));
-    
+
     # remove trailing semicolon or whitespaces
     $splitter = array_map(create_function('$line',
                                           'return preg_replace("/[\s;]*$/", "", $line);'),
@@ -446,7 +446,7 @@ function write_config_settings($data_array, $update = false)
     # handled in step 4 - section b
     unset($data_array['db_create_database']);
 
-    # Read Config File 
+    # Read Config File
     if ( $update == true )
     {
         # the original one, from the root dir
@@ -457,7 +457,7 @@ function write_config_settings($data_array, $update = false)
         # the template one, from the installtion dir
         $config_file = file_get_contents( CS_ROOT . '/clansuite.config.installer');
     }
-    
+
     # Loop over Config File Data
     foreach($data_array as $key => $value)
     {
