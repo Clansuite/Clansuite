@@ -49,7 +49,7 @@
  * Note: The check if a certain language exists is not important,
  *       because there are 1) english hardcoded values and 2) the default language as fallback.
  *
- * @implements IFilter
+ * @implements FilterInterface
  */
 class language_via_get implements FilterInterface
 {
