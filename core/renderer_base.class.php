@@ -45,20 +45,40 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 abstract class renderer_base
 {
-    #protected $view;     # holds instance of the Rendering Engine
+    public $view = null;     # holds instance of the Rendering Engine
     protected $injector; # holds instance of Dependency Injector Phemto (object)
 
     /**
      * Construct View from Module.
      * @param Module_Name_View $view module_name_view
      */
-    public function __construct($view, Phemto $injector)
+    public function __construct(Phemto $injector)
     {
-       #$this->view     = $view;        # set Rendering Engine
         $this->injector = $injector;    # set Injector
     }
 
+    /**
+         * Magic Method __call / Overloading
+         * This is basically a simple passthrough (aggregation)
+         * of a method and its arguments to the renderingEngine!
+         * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
+         * or pull out the renderEngine Object itself. We just pass things to it.
+         */
+    public function __call($method, $arguments)
+    {
+        #echo 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
+        if(method_exists($this->view, $method))
+        {
+            return call_user_func_array(array($this->view, $method), $arguments);
+        }
+        else
+        {
+            throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->view) .'"!', 1);
+        }
+    }
 
+    #abstract public function setTemplatePath($templatepath);
+    #abstract public function getTemplatePaths();
 
     /**
      * Assigns a value to a template parameter.
