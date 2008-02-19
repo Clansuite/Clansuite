@@ -56,6 +56,7 @@ abstract class controller_base
 {
     /**
      * Variable $output contains the output (view-data) of the module
+     * @todo output should be in response object or in a composite structured output class.
      * @access protected
      */
     protected $output = null;
@@ -65,11 +66,11 @@ abstract class controller_base
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
     
-    // Variable contains the view
+    // Variable contains the rendering engine (view object)
     public $view = null;
 
     // Variable contains the name of the rendering engine
-    public $renderEngine = null;
+    public $renderEngineName = null;
 
     // Variable contains the name of the template
     public $templateName = null;
@@ -123,9 +124,9 @@ abstract class controller_base
      *
      *
      */
-    public function setRenderEngine($renderer)
+    public function setRenderEngine($renderEngineName)
     {
-        $this->renderEngine = $renderer;
+        $this->renderEngineName = $renderEngineName;
     }
 
     /**
@@ -137,11 +138,11 @@ abstract class controller_base
      */
     public function getRenderEngineName()
     {
-        if(empty($this->renderEngine))
+        if(empty($this->renderEngineName))
         {
             $this->setRenderEngine('smarty');
         }
-        return $this->renderEngine;
+        return $this->renderEngineName;
     }
 
     /**
@@ -228,9 +229,11 @@ abstract class controller_base
         $view = $this->getview();
 
         # set Output of the RenderEngine to the Response Object
-        $response->setContent($this->output);
-        $response->setContent($view->render($this->getTemplateName()));
-    }
+        $response->setContent($this->output);   # output directly
+        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template        
+        $response->setContent($view->render($this->getTemplateName())); # complete layout / rendered mainframe
+        
+    }  
 
     /**
      * controller_base::forward();
