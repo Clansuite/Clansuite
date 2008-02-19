@@ -80,14 +80,14 @@
                 <dl>    
                     <dd><a href="index.php">Home</a></dd>
                     <dt>Modules</dt>
-                    <dd><a href="index.php?mod=news"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
-                    <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
-                    <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_root_tpl}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
-                    <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
-                    <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
+                    <dd><a href="index.php?mod=news"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
+                    <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
+                    <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
+                    <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
+                    <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
                     <dt>Users</dt>
                     <dd><a class="item" href="index.php?mod=account">Login</a></dd>
-                    <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_tpl}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
+                    <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
                     <dt>ACP</dt> 
                     <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
                 </dl>                

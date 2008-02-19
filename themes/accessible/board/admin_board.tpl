@@ -5,8 +5,8 @@
 
 {doc_raw}
  {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/luna.css" />
-    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
 {/doc_raw}
 
 

@@ -3,9 +3,9 @@
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
     {* Prototype + Scriptaculous + Smarty_Ajax *}
-    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js" ></script>
-    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/scriptaculous.js"></script>
-    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/smarty_ajax.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -17,8 +17,8 @@
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
 
-    <link rel="shortcut icon" href="{$www_root_tpl_core}/images/icons/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/admin.css" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}/images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/admin.css" />
 
     {if isset($additional_head)}{$additional_head}{/if}
     {$redirect}
@@ -30,7 +30,7 @@
 
 {/doc_raw}
     <div class="header">
-        <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_tpl_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
+        <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
     {include file="admin/adminmenu/adminmenu.tpl"}
@@ -67,7 +67,7 @@
                     </script>
                 {/literal}
                 <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_tpl_core}/images/icons/help.png" alt="Help Toggle" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
                 </div>
                 </td>
@@ -96,6 +96,6 @@
 </div>
 {* Ajax Notification *}
 <div id="notification" style="vertical-align:middle;display:none;z-index:99;">
-    <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
+    <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>

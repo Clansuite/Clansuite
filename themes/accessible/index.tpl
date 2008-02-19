@@ -31,14 +31,14 @@
 <meta name="keywords" content="{$meta.keywords}" />
 
 {* Favicon Include *}
-<link rel="shortcut icon" href="{$www_root_tpl}/images/favicon.ico" />
-<link rel="icon" href="{$www_root_tpl}/images/animated_favicon.gif" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_themes}/images/favicon.ico" />
+<link rel="icon" href="{$www_root_themes}/images/animated_favicon.gif" type="image/gif" />
 
 {* Inserts from index.php *}
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl}/accessible.css" />
-<script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.js"></script>
-<script type="application/javascript" src="{$www_root_tpl}/javascript/jquery.dimensions.js"></script>
-<script type="application/javascript" src="{$www_root_tpl}/javascript/accessible.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/accessible.css" />
+<script type="application/javascript" src="{$www_root_themes}/javascript/jquery.js"></script>
+<script type="application/javascript" src="{$www_root_themes}/javascript/jquery.dimensions.js"></script>
+<script type="application/javascript" src="{$www_root_themes}/javascript/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
@@ -116,6 +116,6 @@
 </div>
 {* Ajax Notification *}
 <div id="ajax-bar">
-    <img src="{$www_root_tpl_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
+    <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>

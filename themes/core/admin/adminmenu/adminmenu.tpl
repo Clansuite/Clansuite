@@ -1,7 +1,7 @@
 {doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/admin/adminmenu/menu.css" />
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/XulMenu.js"></script>
-<script type="text/javascript" src="{$www_root_tpl_core}/javascript/ie5.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/menu.css" />
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/XulMenu.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/ie5.js"></script>
 {/doc_raw}
 
 <!-- start: AdminMenu - Header 2 //-->
@@ -9,9 +9,9 @@
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$www_root_tpl_core}/images/adminmenu/arrow1.gif";
+arrow1.src =  "{$www_root_themes_core}/images/adminmenu/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$www_root_tpl_core}/images/adminmenu/arrow2.gif";
+arrow2.src =  "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
 </script>
 
 <div class="menugradient">
@@ -27,19 +27,19 @@ arrow2.src =  "{$www_root_tpl_core}/images/adminmenu/arrow2.gif";
 
                 <td align="right" width="100%">
                         <a class="itembtn" href="index.php?mod=admin&amp;sub=users&amp;action=usercenter">
-                            <img style="position:relative; top: 4px" src="{$www_root_tpl_core}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
+                            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
                             &nbsp;{$smarty.session.user.nick}
                         </a>
                         &nbsp;
 
                         <a href="index.php" class="itembtn">
-                            <img style="position:relative; top: 4px" src="{$www_root_tpl_core}/images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
+                            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
                             &nbsp;{t}Show Frontpage{/t}
                         </a>
                         &nbsp;
 
                         <a href="index.php?mod=account&amp;action=logout" class="itembtn">
-                            <img style="position:relative; top: 4px" src="{$www_root_tpl_core}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
+                            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
                             &nbsp;{t}Logout{/t}
                         </a>
                 </td>
@@ -48,8 +48,8 @@ arrow2.src =  "{$www_root_tpl_core}/images/adminmenu/arrow2.gif";
 
         <script type="text/javascript">
             var menu1 = new XulMenu("menu1");
-            menu1.arrow1 = "{$www_root_tpl_core}/images/adminmenu/arrow1.gif";
-            menu1.arrow2 = "{$www_root_tpl_core}/images/adminmenu/arrow2.gif";
+            menu1.arrow1 = "{$www_root_themes_core}/images/adminmenu/arrow1.gif";
+            menu1.arrow2 = "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
             menu1.init();
         </script>
 

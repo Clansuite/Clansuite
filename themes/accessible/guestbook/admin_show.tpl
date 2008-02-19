@@ -1,13 +1,13 @@
 {* Debugausgabe des Arrays:  {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
-    {*<script type="text/javascript" src="{$www_root_tpl_core}/javascript/ajax_inplace_fader.js"></script>*}
+    {*<script type="text/javascript" src="{$www_root_themes_core}/javascript/ajax_inplace_fader.js"></script>*}
 {doc_raw}
-    <script type="text/javascript" src="{$www_root_tpl_core}/javascript/prototype/prototype.js"> </script>
-  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_root_tpl_core}/javascript/xilinus/window_effects.js"> </script>
-  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alphacube.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/alert.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_tpl_core}/javascript/xilinus/themes/default.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
 <div class="admin_guestbook">

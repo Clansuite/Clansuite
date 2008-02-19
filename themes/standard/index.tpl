@@ -25,16 +25,16 @@
 <meta name="description" content="{$meta.description}" />
 <meta name="keywords" content="{$meta.keywords}" />
 
-<link rel="shortcut icon" href="{$www_root_tpl}/images/Clansuite-Favicon-16.ico" />
-<link rel="icon" href="{$www_root_tpl}/images/Clansuite-Favicon-16.ico" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" />
+<link rel="icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script  src="{$www_root_tpl_core}/javascript/XulMenu.js" type="application/javascript"></script>
+<script  src="{$www_root_themes_core}/javascript/XulMenu.js" type="application/javascript"></script>
 <script src="{$javascript}" language="javascript" type="application/javascript"></script>
-<script src="{$www_root_tpl_core}/javascript/clip.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 
 <!--[if IE]>
-<link rel="stylesheet" href="{$www_root_tpl_core}/css/IEhack.css" type="text/css" />
-<script type="application/javascript" src="{$www_root_tpl_core}/javascript/catfish.js">
+<link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
+<script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
 <![endif]-->
 
 {if isset($additional_head)} {$additional_head} {/if}
@@ -60,16 +60,16 @@
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_root_tpl}/images/clansuite-header.png" />
+        <img alt="Clansuite Header" src="{$www_root_themes}/images/clansuite-header.png" />
     </td>
 </tr>
 </table>
 <script type="application/javscript">
 //<![CDATA[
     var arrow1 = new Image(4, 7);
-    arrow1.src = "{$www_root_tpl}/images/arrow1.gif";
+    arrow1.src = "{$www_root_themes}/images/arrow1.gif";
     var arrow2 = new Image(4, 7);
-    arrow2.src = "{$www_root_tpl}/images/arrow2.gif";
+    arrow2.src = "{$www_root_themes}/images/arrow2.gif";
 //]]>
 </script>
 
@@ -88,25 +88,25 @@
             <tr>
                 <td>
 
-                    <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_root_tpl}/images/arrow1.gif" width="4" height="7" alt="" /></a>
+                    <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_root_themes}/images/arrow1.gif" width="4" height="7" alt="" /></a>
 
                     <div class="section">
-                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_root_tpl}/images/icons/modules.png" border="0" width="16" height="16" alt="" />Modules<img class="arrow" src="{$www_root_tpl}/images/arrow1.gif" width="4" height="7" alt="" /></a>
+                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_root_themes}/images/icons/modules.png" border="0" width="16" height="16" alt="" />Modules<img class="arrow" src="{$www_root_themes}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
                               <a class="item" href="index.php">Main</a>
-                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
-                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
-                              <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_tpl}/images/icons/guestbook.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
-                              <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_tpl}/images/icons/board.png" border="0" width="16" height="16" alt=""/>Board</a> 
-                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_tpl}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_tpl}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
+                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
+                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
+                              <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_themes}/images/icons/guestbook.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
+                              <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_themes}/images/icons/board.png" border="0" width="16" height="16" alt=""/>Board</a> 
+                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
+                              <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
+                              <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
                            </div>
 
-                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_root_tpl}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_root_tpl}/images/arrow1.gif" width="4" height="7" alt="" /></a>
+                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_root_themes}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_root_themes}/images/arrow1.gif" width="4" height="7" alt="" /></a>
                           <div class="section">
                               <a class="item" href="index.php?mod=account">Login</a>
-                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_tpl}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a>
+                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a>
                           </div>
                     </div>
 
@@ -165,14 +165,14 @@
     var menu1 = new XulMenu("menu1");
     menu1.type = "vertical";
     menu1.position.level1.top = 0;
-    menu1.arrow1 = "{$www_root_tpl}/images/arrow1.gif";
-    menu1.arrow2 = "{$www_root_tpl}/images/arrow2.gif";
+    menu1.arrow1 = "{$www_root_themes}/images/arrow1.gif";
+    menu1.arrow2 = "{$www_root_themes}/images/arrow2.gif";
     menu1.init();
 //]]>
 </script>
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_root_tpl_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
+    <img src="{$www_root_themes_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
