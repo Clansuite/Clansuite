@@ -41,7 +41,7 @@
  * Usage example: index.php?theme=themename
  * When request parameter 'theme' is set, the user session value for theme will be updated
  *
- * @implements IFilter
+ * @implements FilterInterface
  */
 class theme_via_get implements FilterInterface
 {

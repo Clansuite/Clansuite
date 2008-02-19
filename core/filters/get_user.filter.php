@@ -37,7 +37,7 @@
  *
  * Purpose: Setup the user object
  *
- * @implements IFilter
+ * @implements FilterInterface
  */
 class get_user implements FilterInterface
 {

@@ -39,7 +39,7 @@
  *
  * Purpose: Sets Text Domain for a specific Module
  *
- * @implements IFilter
+ * @implements FilterInterface
  */
 class set_module_language implements FilterInterface
 {
@@ -54,7 +54,9 @@ class set_module_language implements FilterInterface
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-        $moduleName = $request->getParameter('mod');
+        # get moduleName
+        $moduleName = Clansuite_ControllerResolver::getModuleName();
+        # load the Textdomain for that module
         $this->locale->loadTextDomain('LC_ALL', $moduleName, $this->locale->getLocale(), $moduleName);
     }
 }

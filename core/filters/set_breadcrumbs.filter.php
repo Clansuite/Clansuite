@@ -39,7 +39,7 @@
  *
  * Purpose: Sets the Breadcrumbs
  *
- * @implements IFilter
+ * @implements FilterInterface
  */
 class set_breadcrumbs implements FilterInterface
 {
