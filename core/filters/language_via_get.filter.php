@@ -79,9 +79,11 @@ class language_via_get implements FilterInterface
                 }
                  Update Session
                 else
-                {*/
+                {*/ 
             	   $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
             	   $_SESSION['user']['language_via_url']   = 1;
+                   
+                   #echo $_SESSION['user']['language'];
             	#}
             }
         }

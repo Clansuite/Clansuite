@@ -88,29 +88,22 @@ class localization
         * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
     	*/
     public function getLocale()
-    {
-        /*
-        	if ($_SESSION['user']['language_via_url'] == '1')
-            {
-                $this->locale = $_SESSION['user']['language_via_url'];
-            }
-            elseif (isset($_SESSION['user']['language']))
-        	{
-        		# use language setting from session
-        		$this->locale = $_SESSION['user']['language'];
-        	}
-        	elseif
-        	{
-                # get language from the browser or
-                # get the default language as fallback
-                $this->locale = $this->getLanguage();
-        	}
-        	else
-            {
-            */
-                $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
-            #}
-            return $this->locale;
+    {   
+        # fallback to config language!
+        $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
+    
+        if ( ($_SESSION['user']['language_via_url'] == '1') AND isset($_SESSION['user']['language']) )
+        {
+            # use language setting from session
+            $this->locale = $_SESSION['user']['language'];
+        }
+        else
+        {
+            # get language from the browser or
+            # get the default language as fallback
+            $this->locale = $this->getLanguage();
+        }
+        return $this->locale;
     }
     
     /**
@@ -152,6 +145,7 @@ class localization
         T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
 		T_bind_textdomain_codeset($domain, $this->encoding);
 		T_textdomain($domain);
+        #echo 'Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'"'; 
         return true;
     }
 
