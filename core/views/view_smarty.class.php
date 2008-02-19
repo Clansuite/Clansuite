@@ -65,7 +65,6 @@ class view_smarty extends renderer_base
     private $db         = null;
     private $trail      = null;
     private $functions  = null;
-    private $localization   = null;
 
     /**
      * 1) Initialize Smarty via class constructor
@@ -81,7 +80,6 @@ class view_smarty extends renderer_base
       $this->db             = $this->injector->instantiate('db');
       $this->trail          = $this->injector->instantiate('trail');
       $this->functions      = $this->injector->instantiate('functions');
-      $this->localization   = $this->injector->instantiate('localization');
 
       /**
        * ==============================================
@@ -97,14 +95,15 @@ class view_smarty extends renderer_base
       #$this->smarty = new Smarty();
       require(ROOT_LIBRARIES . '/Smarty/Render_SmartyDoc.class.php');
       #require(ROOT_LIBRARIES . '/smarty/SmartyDoc2.class.php');
-      $this->smarty = new Render_SmartyDoc();
+      # Set view and smarty to the smarty object
+      $this->view = $this->smarty = new Render_SmartyDoc();
 
       /**
        * ===================================
        * Set Configurations to Smarty Object
        * ===================================
        */
-      self::smarty_configuration();
+      self::smarty_configuration(); 
     }
 
     /**
@@ -114,8 +113,11 @@ class view_smarty extends renderer_base
     {
         #### SMARTY DEBUGGING
         $this->smarty->debugging           = DEBUG ? true : false;
-        $this->smarty->debug_tpl           = ROOT_TPL . '/core/debug.tpl';
-        DEBUG ? $this->smarty->clear_compiled_tpl() : ''; # clear compiled tpls in case of debug
+        $this->smarty->debug_tpl           = ROOT_THEMES . '/core/debug.tpl';
+        if ( defined('DEBUG') && DEBUG===1 )
+        {
+            $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
+        }
         # $this->debug_tpl        = SMARTY_DIR."libs/";   # define path to debug_tpl file only if not found with std path or moved
         # $this->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in quey string
         # $this->global_assign    = "";                   # list of vars assign to all template files
@@ -180,9 +182,9 @@ class view_smarty extends renderer_base
         * Second is "/templates_path/core/"
         */
         $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
+        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
         $this->smarty->template_dir[] = ROOT_MOD;
-        $this->smarty->template_dir[] = ROOT_TPL . '/core/';                               # /templates/core
+        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                           # /themes/core
         #var_dump($this->smarty->template_dir);
 
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
@@ -197,13 +199,17 @@ class view_smarty extends renderer_base
         #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
 
         /**
-         * Assign Paths, which were defined as Constants (for general use in tpl)
+         * Assign Web Paths to Smarty
+         *
+         * The following variables are usable like constants in the templates.
+         * They are based on the relative www_root, not the absoulte path.
+         *
          * @see config.class
          */
-        $this->smarty->assign('www_root'         , WWW_ROOT );
-        $this->smarty->assign('www_root_upload'  , WWW_ROOT . '/' . $this->config['upload_folder'] );
-        $this->smarty->assign('www_root_tpl'     , WWW_ROOT . '/' . $this->config['tpl_folder'] . '/' . $_SESSION['user']['theme'] );
-        $this->smarty->assign('www_root_tpl_core', WWW_ROOT_TPL_CORE );
+        $this->smarty->assign('www_root'            , WWW_ROOT );
+        $this->smarty->assign('www_root_upload'     , WWW_ROOT . '/' . $this->config['upload_folder'] );
+        $this->smarty->assign('www_root_themes'     , WWW_ROOT_THEMES . '/' . $_SESSION['user']['theme'] );
+        $this->smarty->assign('www_root_themes_core', WWW_ROOT_THEMES_CORE );
      }
 
     /**
@@ -258,7 +264,8 @@ class view_smarty extends renderer_base
     public function assign($tpl_parameter, $value = null)
     {
         # if array
-        if (is_array($tpl_parameter)) {
+        if (is_array($tpl_parameter))
+        {
             $this->smarty->assign($tpl_parameter);
             return;
         }
@@ -266,20 +273,8 @@ class view_smarty extends renderer_base
         # if single key-value pair
         $this->smarty->assign($tpl_parameter, $value);
     }
-
-    /**
-     * Magic Method to set/assign Variable to Smarty
-     *
-     * @param string $key der Variablenname
-     * @param mixed $val der Variablenwert
-     * @return void
-     */
-    public function __set($key, $value)
-    {
-        $this->smarty->assign($key, $value);
-    }
-
-    /**
+    
+     /**
      * Magic Method to get a already set/assigned Variable from Smarty
      *
      * @param string $key Name of Variable
@@ -289,6 +284,18 @@ class view_smarty extends renderer_base
     {
         return $this->smarty->get_template_vars($key);
     }
+       
+   /**
+     * Magic Method to set/assign Variable to Smarty
+     *
+     * @param string $key der Variablenname
+     * @param mixed $val der Variablenwert
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        $this->smarty->assign($key, $value);
+    }  
 
     /**
      * Executes the template rendering and returns the result.
@@ -331,15 +338,15 @@ class view_smarty extends renderer_base
         # ClanSuite Version from config.class.php
         $this->smarty->assign('clansuite_version'           , $this->config['clansuite_version']);
         $this->smarty->assign('clansuite_version_state'     , $this->config['clansuite_version_state']);
-        $this->smarty->assign('clansuite_version_name'      , $this->config['clansuite_version_name']);        
+        $this->smarty->assign('clansuite_version_name'      , $this->config['clansuite_version_name']);
         # Assign DB Counters
         $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
         # Redirects, if necessary
         $this->smarty->assign('redirect'      , $this->functions->redirect );
         # Normal CSS (global)
-        $this->smarty->assign('css'           , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']);
+        $this->smarty->assign('css'           , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']);
         # Normal Javascript (global)
-        $this->smarty->assign('javascript'    , WWW_ROOT_TPL .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
+        $this->smarty->assign('javascript'    , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
         # Page Title
         $this->smarty->assign('std_page_title', $this->config['std_page_title']);
         # Breadcrumb
@@ -355,8 +362,8 @@ class view_smarty extends renderer_base
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
-        #self::check_copyright( ROOT_TPL . '/' . $_SESSION['user']['theme'] . '/' . $this->config->tpl_wrapper_file );
-        $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_TPL . '/core/copyright.tpl'));
+        #self::check_copyright( ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/' . $this->config->tpl_wrapper_file );
+        $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl'));
 
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
         #$this->smarty->display($this->module->template);
