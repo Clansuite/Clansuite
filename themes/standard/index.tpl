@@ -156,7 +156,7 @@
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
 <p style="text-align:center;clear:both;margin-top:20px;" class="copyright">
                 {$copyright}
-                <br/> Theme: {* {$theme-copyright} *}
+                <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
                 <br/> {include file='server_stats.tpl'}
     </p>
 
