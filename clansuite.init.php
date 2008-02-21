@@ -71,7 +71,7 @@ else
 {
     ini_set('display_errors',   false); # do not display errors in the browser
     error_reporting(0);                 # do not report errors
-};
+}
 
 /**
  *  ================================================
