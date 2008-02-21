@@ -45,21 +45,6 @@
 class clansuite_xdebug
 {
     /**
-     * Total Page Parsing Time
-     * @var float
-     * @access protected
-     * @static
-     */
-    protected static $time = 0;
-    /**
-     * Memory Usage Before Application Run
-     * @var float
-     * @access protected
-     * @static
-     */
-    protected static $mem_usage_before = 0;
-
-    /**
      * XDebug Helper Functions
      */
     public static function is_xdebug_active()
@@ -74,39 +59,31 @@ class clansuite_xdebug
 
     public static function start_xdebug()
     {
-        # Total Page Parsing Time
-        self::$time = (time() + microtime());
-
-        # Memory
-        self::$mem_usage_before = memory_get_usage();
-        echo 'Memory Usage (before): ' . self::roundMB(self::$mem_usage_before) . ' MB.</strong>';
-
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
         #ini_set('xdebug.auto_trace', 'On');
+        #ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
+        #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
         ini_set('xdebug.show_mem_delta', 'On');
         ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
         ini_set('xdebug.xdebug.collect_return', 'On');
+        ini_set('xdebug.var_display_max_children', 10 );
 
-        xdebug_start_trace(XDEBUG_TRACE_HTML);
+        echo 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
+
+        xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
         xdebug_get_code_coverage();
-
         }
     }
 
     public static function end_xdebug()
     {
-        # calculate page parsing time
-        echo '<br />Time to execute: '.(round((time() + microtime()) - self::$time, 4)). ' seconds.';
-
-        # calculate memory usages: afterwards, total memory usage, peak
-        $mem_usage_after = memory_get_usage();
-        echo '<br />Memory Usage (afterwards): ' . self::roundMB($mem_usage_after) . ' MB.</strong>';
-        $diffmem = $mem_usage_after - self::$mem_usage_before;
-        echo '<br />Total Memory used by Clansuite: <strong>' . self::roundMB($diffmem) . ' MB.</strong>';
-        echo '<br />Memory Peak: ' . self::roundMB(memory_get_peak_usage()) . ' MB.</strong>';
-
+        # get page parsing time from xdebug
+        echo '<hr>';
+        echo 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
+        echo '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
+        echo '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
         # stop tracings and var_dump
         var_dump(xdebug_stop_trace());
         var_dump(xdebug_get_code_coverage());
