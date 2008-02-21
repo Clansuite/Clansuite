@@ -1,23 +1,55 @@
 # htaccess.txt .htaccess-template for Clansuite
 # SVN: $Id$
 
-# 1. Rename "htaccess.txt" to ".htaccess"
-# 2. If you don't need htaccess, then DELETE IT. It just slow's down Webserver processing.
+# (1) Rename "htaccess.txt" to ".htaccess"
+# (2) If you don't need htaccess, then DELETE IT. It just slow's down Webserver processing.
+# (3) Redirect all Requests to the domain (http://www.domain.xy) to index.php
 
 DirectoryIndex index.php
+
+# (4) General and PHP.ini Settings
+
+SetEnv    TZ                    Europe/Berlin
 php_value magic_quotes_runtime  "0"
 php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
 
-# 3. If you use an Apache2 Webserver with "LoadModule mod_deflate"
-#    uncomment the following line, it enables output compression for the specific file-content-types:
-#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript
+# (5) For safety reasons you should disable the following php functions:
 
-# 4. For safety reasons you should disable the following php functions:
-#php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
+# php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
 
-# 5. Rewrite Engine and Rewrite Rules (for Apache)
-# Turn Rewrite Engine on and route all non-ressource requests to index.php
-RewriteEngine on
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+# (6) Apache2 with "LoadModule mod_deflate"
+#     for output compression of the following specific file-content-types:
+
+<IfModule mod_rewrite.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript
+</IfModule>
+
+# (7) Apache2 with "LoadModule mod_rewrite"
+#     for Rewrite Engine and Rewrite Rules (for Apache)
+
+<IfModule mod_rewrite.c>
+
+# (7a) Turn Rewrite Engine on
+
+       #RewriteEngine on
+
+# (7b) Set the Base for the Rewrite Engine (which is the path to your /Clansuite Directory)
+#      Examples:
+#      RewriteBase /YourClansuiteDirectory
+#      RewriteBase /
+
+        #RewriteBase /
+
+#  (7c) Rewrite Rules
+
+        #RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+        #RewriteCond %{REQUEST_FILENAME} !-f
+        #RewriteCond %{REQUEST_FILENAME} !-d
+
+# route all non-ressource/file/dir requests to index.php
+
+        #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
+
+</IfModule>
