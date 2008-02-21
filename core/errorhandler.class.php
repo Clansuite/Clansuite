@@ -100,8 +100,7 @@ class errorhandler
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline )
     {
         # do just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
-        $errornumber = $errornumber & error_reporting();
-        if(($this->config['suppress_errors'] == 1) AND ($errornumber == 0))
+        if(($this->config['suppress_errors'] == 1) OR (error_reporting() == 0))
         {
             return;
         }
@@ -167,7 +166,7 @@ class errorhandler
             if(strpos($errorfile,"Smarty") !== false)
             {
                 # Print shorter Version of ErrorReport
-                echo "Smarty Template Error";
+                echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
                 echo '<pre/>';
             }
             else
