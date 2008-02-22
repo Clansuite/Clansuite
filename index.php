@@ -70,7 +70,7 @@ $injector = new Phemto();
 
 # core classes to load
 $core_classes = array(
-'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db',
+'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db', 'clansuite_doctrine',
 'localization', 'trail', 'security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
