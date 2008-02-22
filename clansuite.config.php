@@ -98,7 +98,6 @@ class configuration implements ArrayAccess
         $this->config['db_name']      = 'clansuite';
         $this->config['db_host']      = 'localhost';
         $this->config['db_prefix']    = 'cs_';
-        $this->config['db_abs_layer'] = 'pdo';
 
         // Standard Path Configuration
 
@@ -157,9 +156,9 @@ class configuration implements ArrayAccess
 
         $this->config['meta']['description'] = 'Clansuite - just an e-sport content management system.';
         $this->config['meta']['language'] = 'de';
-        $this->config['meta']['author'] = 'Jens-Andre Koch, Florian Wolf';
+        $this->config['meta']['author'] = 'Jens-Andre Koch &amp; Clansuite Development Team';
         $this->config['meta']['email'] = 'system@clansuite.com';
-        $this->config['meta']['keywords'] = 'cms, content management system, portal, e-sport';
+        $this->config['meta']['keywords'] = 'Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming';
 
         // Login Configuration & Password Encryption
 
