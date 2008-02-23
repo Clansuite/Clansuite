@@ -8,16 +8,16 @@
 DirectoryIndex index.php
 
 # (4) General and PHP.ini Settings
-
 SetEnv    TZ                    Europe/Berlin
+<IfModule mod_php5.c>
 php_value magic_quotes_runtime  "0"
 php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
-
 # (5) For safety reasons you should disable the following php functions:
 
 # php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
+</IfModule>
 
 # (6) Apache2 with "LoadModule mod_deflate"
 #     for output compression of the following specific file-content-types:
