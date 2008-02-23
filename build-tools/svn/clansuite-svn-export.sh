@@ -26,14 +26,19 @@ EXPORT_DIR=/home/clansuite/svn-export
 if [ -d $CHECKOUT_DIR/.svn ]; then
     # SVN UPDATE (incremental)
     svn update $CHECKOUT_DIR
+    echo "SVN UPDATE -- done --"
 else
     # if directory exists, remove
     rm -rf $CHECKOUT_DIR
     # SVN CHECKOUT 
     svn checkout $SVN_DIR_TRUNK $CHECKOUT_DIR
+    echo "SVN CHECKOUT -- done --"
 fi
 
 # EXPORT
 # export the /trunk from SVN to the export directory  
 rm -rf $EXPORT_DIR
-svn export $SVN_DIR_TRUNK $EXPORT_DIR
+#svn export $SVN_DIR_TRUNK $EXPORT_DIR
+#echo "SVN EXPORT from GNA -- done --"
+svn export $CHECKOUT_DIR $EXPORT_DIR
+echo "SVN EXPORT from local SVN -- done --"
