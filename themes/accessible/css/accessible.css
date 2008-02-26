@@ -86,7 +86,7 @@ h6 {
 #header {
     height: 100px;
     padding: 0 8px;
-    background: url('images/layout/header.png') repeat-x 0 70px;
+    background: url('../images/layout/header.png') repeat-x 0 70px;
     position: relative;
 }
 #clansuite_title, #date_right {
@@ -133,7 +133,7 @@ h6 {
     height: 25px;
     margin: 10px 0 0;
     padding: 1px 8px 0;
-    background: #fff url('images/layout/breadcrumb.png') repeat-x;
+    background: #fff url('../images/layout/breadcrumb.png') repeat-x;
     font: bold 1.3em/25px 'Trebuchet MS', Arial, sans-serif;
     clear: both;
 }
@@ -141,18 +141,18 @@ h6 {
     color: #f00;
 }
 #content {
-    margin: 10px 21% 10px 0;
+    margin: 10px 300px 10px 0;
     font-size: 1.2em;
 }
 #sidebar {
-    width: 20%;
+    width: 290px;
     margin-bottom: 10px;
     float: right;
     font-size: 1.2em;
 }
 #sidebar h3 {
     padding-left: 5px;
-    background: url('images/layout/sidebar.png') repeat-x;
+    background: url('../images/layout/sidebar.png') repeat-x;
     font-weight: normal;
     font-size: 1.2em;
     line-height: 26px;
@@ -165,8 +165,11 @@ h6 {
 }
 #sidebar div.content {
     padding: 5px;
-    background: url('images/layout/sidebar.png') repeat-x 0 -26px;
+    background: url('../images/layout/sidebar.png') repeat-x 0 -26px;
     font-size: 1.1em;
+}
+#sidebar .content .datepicker_inline {
+	margin: 0 47.5px;
 }
 #counter ul {
     margin: 0;
@@ -177,7 +180,7 @@ h6 {
 }
 #footer {
     padding: 10px 8px;
-    background: url('images/layout/footer.png') repeat-x;
+    background: url('../images/layout/footer.png') repeat-x;
     font: bold 1em 'Trebuchet MS', Arial, sans-serif;
     color: #f00;
     text-align: center;
