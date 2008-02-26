@@ -89,8 +89,15 @@ function mailTest()
     }
 }
 
+function clip(id)
+{
+	jQuery(id).toggle();
+}
+
 $(document).ready(function() {
 	$('#sidebar').accordion({
-		header: 'h3'
+		header: 'h3',
+		autoheight: false
 	});
+	$('#sidebar #calendar').attachDatepicker();
 })
