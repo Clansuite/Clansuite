@@ -1,6 +1,3 @@
-{* New timemarker for Rendering this Template is set *}
-{"begin"|timemarker:"Rendertime:"}
-
 {* Document-Type and Level is set *}
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 
@@ -36,9 +33,10 @@
 
 {* Inserts from index.php *}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes}/accessible.css" />
-<script type="application/javascript" src="{$www_root_themes}/javascript/jquery.js"></script>
-<script type="application/javascript" src="{$www_root_themes}/javascript/jquery.dimensions.js"></script>
-<script type="application/javascript" src="{$www_root_themes}/javascript/accessible.js"></script>
+<script type="text/javascript" src="{$www_root_themes}/javascript/jquery.js"></script>
+<script type="text/javascript" src="{$www_root_themes}/javascript/jquery.dimensions.js"></script>
+<script type="text/javascript" src="{$www_root_themes}/javascript/ui.accordion.js"></script>
+<script type="text/javascript" src="{$www_root_themes}/javascript/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
@@ -67,8 +65,8 @@
 		{include file='tools/breadcrumbs.tpl'}
 	</div>
 	<div id="sidebar">
-	    {mod name="account" func="login"}
-		{mod name="shoutbox" func="show"}
+		{* {mod name="account" func="login"} *}
+		{* {mod name="shoutbox" func="show"} *}
 		<h3>Lorem Ipsum</h3>
 		<div class="content">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent pede quam, viverra ac, egestas eu, fringilla at, est. Curabitur ligula nunc, tempus adipiscing, posuere eget, posuere vitae, sem. Nam sed tellus ac sem tempor scelerisque. Nulla nec felis ut arcu porta adipiscing. Duis non mi id purus porttitor cursus. Etiam ac augue. Donec fermentum, elit non ultrices rhoncus, erat justo viverra velit, id facilisis nisl risus vel elit. Nullam posuere. Fusce pulvinar. Suspendisse tortor quam, vestibulum eget, dignissim a, elementum at, orci. Nunc placerat purus in nisi. Quisque placerat nunc a risus. Nullam imperdiet neque vitae arcu. Quisque imperdiet ullamcorper arcu. Phasellus vitae urna. In vehicula ultrices nunc.

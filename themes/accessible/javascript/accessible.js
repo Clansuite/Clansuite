@@ -89,21 +89,8 @@ function mailTest()
     }
 }
 
-// jQuery
 $(document).ready(function() {
-	$('#sidebar .content:not(:first)').hide();
-
-	$('#sidebar h3').each(function() {
-		var head = $(this).text();
-		$(this).empty().append($('<a href="#">'+ head +'</a>'));
-	});
-	$('#sidebar h3 a').click(function() {
-		var item = $(this).parent();
-
-		if (!item.next().is(':visible') && !$('#sidebar .content').is(':animated')) {
-			$('#sidebar .content:visible').slideUp();
-			item.next().slideDown();
-		}
-		return false;
+	$('#sidebar').accordion({
+		header: 'h3'
 	});
 })

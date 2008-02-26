@@ -2,8 +2,8 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * $LastChangedDate: 2007-10-06 18:11:15 +0000 (Sat, 06 Oct 2007) $
- * $Rev: 3581 $
+ * $LastChangedDate: 2007-12-20 15:43:48 +0100 (Do, 20 Dez 2007) $
+ * $Rev: 4257 $
  *
  * Version: @VERSION
  *
@@ -11,37 +11,40 @@
  */
 
 (function($){
-
+	
 $.dimensions = {
 	version: '@VERSION'
 };
 
 // Create innerHeight, innerWidth, outerHeight and outerWidth methods
 $.each( [ 'Height', 'Width' ], function(i, name){
-
+	
 	// innerHeight and innerWidth
 	$.fn[ 'inner' + name ] = function() {
 		if (!this[0]) return;
-
+		
 		var torl = name == 'Height' ? 'Top'    : 'Left',  // top or left
 		    borr = name == 'Height' ? 'Bottom' : 'Right'; // bottom or right
-
-		return num( this, name.toLowerCase() ) + num(this, 'padding' + torl) + num(this, 'padding' + borr);
+		
+		return this.is(':visible') ? this[0]['client' + name] : num( this, name.toLowerCase() ) + num(this, 'padding' + torl) + num(this, 'padding' + borr);
 	};
-
+	
 	// outerHeight and outerWidth
 	$.fn[ 'outer' + name ] = function(options) {
 		if (!this[0]) return;
-
+		
 		var torl = name == 'Height' ? 'Top'    : 'Left',  // top or left
 		    borr = name == 'Height' ? 'Bottom' : 'Right'; // bottom or right
-
+		
 		options = $.extend({ margin: false }, options || {});
-
-		return num( this, name.toLowerCase() )
-				+ num(this, 'border' + torl + 'Width') + num(this, 'border' + borr + 'Width')
-				+ num(this, 'padding' + torl) + num(this, 'padding' + borr)
-				+ (options.margin ? (num(this, 'margin' + torl) + num(this, 'margin' + borr)) : 0);
+		
+		var val = this.is(':visible') ? 
+				this[0]['offset' + name] : 
+				num( this, name.toLowerCase() )
+					+ num(this, 'border' + torl + 'Width') + num(this, 'border' + borr + 'Width')
+					+ num(this, 'padding' + torl) + num(this, 'padding' + borr);
+		
+		return val + (options.margin ? (num(this, 'margin' + torl) + num(this, 'margin' + borr)) : 0);
 	};
 });
 
@@ -49,19 +52,19 @@ $.each( [ 'Height', 'Width' ], function(i, name){
 $.each( ['Left', 'Top'], function(i, name) {
 	$.fn[ 'scroll' + name ] = function(val) {
 		if (!this[0]) return;
-
+		
 		return val != undefined ?
-
+		
 			// Set the scroll offset
 			this.each(function() {
 				this == window || this == document ?
-					window.scrollTo(
+					window.scrollTo( 
 						name == 'Left' ? val : $(window)[ 'scrollLeft' ](),
 						name == 'Top'  ? val : $(window)[ 'scrollTop'  ]()
 					) :
 					this[ 'scroll' + name ] = val;
 			}) :
-
+			
 			// Return the scroll offset
 			this[0] == window || this[0] == document ?
 				self[ (name == 'Left' ? 'pageXOffset' : 'pageYOffset') ] ||
@@ -74,33 +77,33 @@ $.each( ['Left', 'Top'], function(i, name) {
 $.fn.extend({
 	position: function() {
 		var left = 0, top = 0, elem = this[0], offset, parentOffset, offsetParent, results;
-
+		
 		if (elem) {
 			// Get *real* offsetParent
 			offsetParent = this.offsetParent();
-
+			
 			// Get correct offsets
 			offset       = this.offset();
 			parentOffset = offsetParent.offset();
-
+			
 			// Subtract element margins
 			offset.top  -= num(elem, 'marginTop');
 			offset.left -= num(elem, 'marginLeft');
-
+			
 			// Add offsetParent borders
 			parentOffset.top  += num(offsetParent, 'borderTopWidth');
 			parentOffset.left += num(offsetParent, 'borderLeftWidth');
-
+			
 			// Subtract the two offsets
 			results = {
 				top:  offset.top  - parentOffset.top,
 				left: offset.left - parentOffset.left
 			};
 		}
-
+		
 		return results;
 	},
-
+	
 	offsetParent: function() {
 		var offsetParent = this[0].offsetParent;
 		while ( offsetParent && (!/^body|html$/i.test(offsetParent.tagName) && $.css(offsetParent, 'position') == 'static') )
@@ -110,7 +113,7 @@ $.fn.extend({
 });
 
 function num(el, prop) {
-	return parseInt($.css(el.jquery?el[0]:el,prop))||0;
+	return parseInt($.curCSS(el.jquery?el[0]:el,prop,true))||0;
 };
 
 })(jQuery);
