@@ -75,7 +75,7 @@ class theme_via_get implements FilterInterface
                 }
 
                 // If $_GET['theme'] dir exists, set it as session-user-theme
-                if(is_dir(ROOT_TPL . '/' . $request['theme'] . '/'))
+                if(is_dir(ROOT_THEMES . '/' . $request['theme'] . '/'))
                 {
                     $_SESSION['user']['theme']          = $request['theme'];
                     $_SESSION['user']['theme_via_url']  = 1;
