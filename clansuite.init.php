@@ -175,7 +175,7 @@ if (function_exists('iconv')
  * @note by vain: problems reported with cached smarty templates... we'll see how that works out
  */
 # Method 1 zlib
-if(!XDBUG) 
+if((!XDBUG) && extension_loaded('zlib'))
 {
     ini_set('zlib.output_compression'       , true);
     ini_set('zlib.output_compression_level' , '7');
