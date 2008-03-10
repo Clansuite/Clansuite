@@ -36,19 +36,40 @@ set_time_limit(0);
 
 // Security Handler
 define('IN_CS', true);
+// Debugging Handler
+define('DEBUG', false);
 
 /**
  *  ================================================
  *     Startup Checks
  *  ================================================
  */
-# PHP Version Check
-define('REQUIRED_PHP_VERSION', '5.2');
-if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <b>' . PHP_VERSION . '</b>! Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>'); }
-# PDO Check
-if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
-# PDO mysql driver Check
-if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); }
+try
+{
+    # PHP Version Check
+    define('REQUIRED_PHP_VERSION', '5.2');
+    if (version_compare(PHP_VERSION, '5.2', '<') == true)
+    {
+        throw new Clansuite_Installation_Startup_Exception('Your PHP Version: <b>' . PHP_VERSION . '</b>! |
+                                                            Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b> .', 1);
+    }
+
+    # PDO Check
+    if(!class_exists('PDO'))
+    {
+        throw new Clansuite_Installation_Startup_Exception('<i>PHP_PDO</i> extension not enabled! | The Extension is needed for Database Access!', 2);
+    }
+
+    # PDO mysql driver Check
+    if (!in_array('mysql', PDO::getAvailableDrivers() ))
+    {
+        throw new Clansuite_Installation_Startup_Exception('<i>php_pdo_mysql</i> driver not enabled. | The Extension is needed for Database Access!', 3);
+    }
+}
+catch (Exception $e)
+{
+    exit($e);
+}
 
 // Get site paths
 define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
@@ -487,5 +508,70 @@ function write_config_settings($data_array, $update = false)
     return true;
 }
 
+// Save+Close the Session
 session_write_close();
+
+/**
+ * Clansuite_Installation_Exception
+ */
+class Clansuite_Installation_Startup_Exception extends Exception
+{
+    /**
+            *    Define Exceptionmessage and Code via constructor
+            */
+    public function __construct($message, $code = 0)
+    {
+        // hand it over to the Exception Class, which is parent
+        parent::__construct($message, $code);
+    }
+
+    /**
+        * Transform the Object to String
+        */
+    public function __toString()
+    {
+        # Header
+        $errormessage    = '<p><html><head>';
+        $errormessage   .= '<title>Clansuite Installation Error</title>';
+        $errormessage   .= '<body>';
+        $errormessage   .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
+        $errormessage   .= '</head>';
+        # Body
+        $errormessage   .= '<body>';
+        # Fieldset with colours (error_red, error_orange, error_beige)
+        $errormessage   .= '<fieldset class="error_red">';
+        $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage   .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
+        # Fieldset Legend for ERRORBOX
+        $errormessage   .= '<legend>Clansuite Installation Error</legend>';
+        # Error String (passed Error Description)
+        $errormessage   .= '<p><strong>'.$this->message.'</strong>';
+        # Error Messages from the ErrorObject
+        $errormessage   .= '<hr><table>';
+        $errormessage   .= '<tr><td><strong>Errorcode:</strong></td><td>'.$this->getCode().'</td></tr>';
+        # More Error Messages from the ErrorObj only on Debug
+        if(DEBUG != false)
+        {
+            $errormessage   .= '<tr><td><strong>Message:</strong></td><td>'.$this->getMessage().'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($this->getFile()).'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($this->getFile()).'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$this->getLine().'</td></tr>';
+        }
+        $errormessage   .= '</table>';
+        $errormessage   .= '</fieldset><br />';
+        # Fieldset Legend for HELPBOX
+        $errormessage   .= '<fieldset class="error_beige">';
+        $errormessage   .= '<legend>Help</legend>';
+        $errormessage   .= "<br /> 1st Tip: Please use <a href=\"phpinfo.php\">phpinfo()</a> to check your Serversettings! ";
+        $errormessage   .= "<br /> 2nd Tip: Check your php.ini and ensure all needed extensions/libraries are loaded!";
+        $errormessage   .= "<br />3td Tip: Check the Webservers Error Log.<br/>";
+        $errormessage   .= "<br />If you can't solve the error yourself. Contact us at our Websites <a href=\"http://www.clansuite.com/smf/index.php?board=22.0\">Installation - Support Forum</a>.<br/>";
+        $errormessage   .= '</fieldset>';
+        # FOOTER
+        $errormessage   .= '</body></html>';
+
+        #return __CLASS__ . " {$errormessage}";
+        return $errormessage;
+    }
+}
 ?>
