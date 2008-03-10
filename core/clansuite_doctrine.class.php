@@ -82,6 +82,11 @@ class Clansuite_Doctrine
         }
         // Register autoloader
         spl_autoload_register(array('Doctrine', 'autoload'));
+        // Debug Modus
+        if ( defined('DEBUG') && DEBUG===1 )
+        {
+            Doctrine::debug(true);
+        }
         // db connection
         $this->prepareDbConnection();
     }
