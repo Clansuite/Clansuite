@@ -180,7 +180,7 @@ class httprequest implements RequestInterface, ArrayAccess
         {
             return false;
         }
-        
+
     }
 
     /**
@@ -205,13 +205,19 @@ class httprequest implements RequestInterface, ArrayAccess
      * Cleans the global scope of all variables that are found
      * in other super-globals.
      *
-     * This code originally from Richard Heyes and Stefan Esser.
+     * This code originally from Richard Heyes and Stefan Esser
      *
      * @access private
      * @return void
      */
      private function cleanGlobals()
      {
+        // @todo: change this to a nicer error
+        if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) {
+            die('GLOBALS overwrite attempt detected');
+        }
+
+        # List of Variables which shouldn't be unset
         $list = array(
                         'GLOBALS',
                         '_POST',
@@ -253,10 +259,18 @@ class httprequest implements RequestInterface, ArrayAccess
             if (isset($GLOBALS[$key]) && ! in_array($key, $list))
             {
                 unset($GLOBALS[$key]);
+                unset($GLOBALS[$key]); # no, this is not a bug, we use double unset() .. it is to circunvent
+              /* *
+                                    * @todo: check if this is still a vulnerability !
+                                    *this PHP critical vulnerability
+                                    * http://www.hardened-php.net/hphp/zend_hash_del_key_or_index_vulnerability.html
+                                    * this is intended to minimize the catastrophic effects that has on systems with
+                                    * register_globals on.. users with register_globals off are still vulnerable but
+                                    * afaik,there is nothing we can do for them.
+                                    */
             }
          }
     }
-
 
     /**
      * Essential clean-up of $_REQUEST
