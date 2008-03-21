@@ -105,7 +105,7 @@ class configuration implements ArrayAccess
         $this->config['tpl_folder']         = 'templates';
         $this->config['mod_folder']         = 'modules';
         $this->config['upload_folder']      = 'uploads';
-        %this->config['logging_folder']     = 'logs';    
+        $this->config['logging_folder']     = 'logs';    
 
         // SwiftMail configuration
 
