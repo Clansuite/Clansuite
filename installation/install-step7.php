@@ -1,3 +1,10 @@
+<?php
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+?>
+
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -26,7 +33,7 @@
         	       <br /><?=$language['STEP7_SENTENCE3']?>
         	       <p>
                 	    <b>Visit the </b><a href="../index.php">Frontend</a>
-                	    or 
+                	    or
                 	    <a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>
                 	    <br/>
                 	    <br/>
@@ -35,7 +42,7 @@
         	       <br /> <?=$language['STEP7_SENTENCE4']?>
         	       <br />
         	       Klick here to delete it now.
-        	    </p>        	   
+        	    </p>
         	   <br />
 
             <div id="content_footer">
@@ -57,12 +64,12 @@
             			<div class="alignright">
             			 <form action="index.php" name="lang" method="post">
                             <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward"/>
-                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">                           
+                            <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>">
             			 </form>
-            			</div>-->                        
+            			</div>-->
                     </div><!-- div navigation end -->
 			</div> <!-- div content_footer end -->
-             
+
         	</div> <!-- div accordion end -->
 
         </div> <!-- div content_middle end -->
