@@ -1,3 +1,10 @@
+<?php
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+?>
+
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -46,7 +53,7 @@
                     }
                     echo "</select>\n";
                     ?>
-                
+
                     </p>
         	         <div id="content_footer" style="min-height:185px;">
                     <div class="navigation">

@@ -1,3 +1,10 @@
+<?php
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+?>
+
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
