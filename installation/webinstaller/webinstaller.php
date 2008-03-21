@@ -3,7 +3,7 @@
 $passPhrase = "yeahbabyyeah";
 
  /**
-    * Clansuite - just an E-Sport CMS
+    * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
@@ -94,7 +94,7 @@ $downloadUrls['daily']= 'http://svn.gna.org/daily/clansuite-snapshot.tar.gz';
 
 /* This page on www.clansuite.com lists the latest versions
 /* So we scan gna.org/downloads for archives and add the daily-svn archiv.  */
-$versionCheckUrl = 'http://www.clansuite.com/versions/versions_check.php';
+#$versionCheckUrl = 'http://www.clansuite.com/versions/versions_check.php';
 
 /* Local name of the clansuite archive (without extension ) [clansuite].zip */
 $archiveBaseName = 'clansuite';
