@@ -44,7 +44,7 @@
 if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
 
 /**
- * This Clansuite Core Class for Trail / Breadcrumb Handling
+ *  Clansuite Core Class for Trail / Breadcrumb Handling
  *
  * - Headings: Entrance >> News
  * - You are here : Entrance >> News (with links)
