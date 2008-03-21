@@ -155,9 +155,9 @@ class configuration implements ArrayAccess
 
         $this->config['meta']['description'] = 'Clansuite - just an e-sport content management system.';
         $this->config['meta']['language'] = 'de';
-        $this->config['meta']['author'] = 'Jens-Andre Koch, Florian Wolf';
+        $this->config['meta']['author'] = 'Jens-Andre Koch &amp; Clansuite Development Team';
         $this->config['meta']['email'] = 'system@clansuite.com';
-        $this->config['meta']['keywords'] = 'cms, content management system, portal, e-sport';
+        $this->config['meta']['keywords'] = 'Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming';
 
         // Login Configuration & Password Encryption
 
@@ -197,7 +197,10 @@ class configuration implements ArrayAccess
         // Developers configuration
 
         $this->config['help_edit_mode'] = 0;
-        $this->config['version']  = (float) 0.1;
+        include 'core/clansuite.version.php';
+        $this->config['clansuite_version']  = $clansuite_version;
+        $this->config['clansuite_version_state']  = $clansuite_version_state;
+        $this->config['clansuite_version_name']  = $clansuite_version_name;
 
         // Cache
 
