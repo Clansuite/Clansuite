@@ -352,8 +352,8 @@ class view_smarty extends renderer_base
         # Breadcrumb
         $this->smarty->assign_by_ref('trail'  , $this->trail->path);
         # Assign Statistic Variables
-        $statistic = $this->injector->instantiate('statistic');
-        $this->smarty->assign('stats', $statistic->get_statistic_array());
+        #$statistic = $this->injector->instantiate('statistic');
+        #$this->smarty->assign('stats', $statistic->get_statistic_array());
         # Assign Benchmarks
         #$this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
 
