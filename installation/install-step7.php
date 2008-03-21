@@ -31,17 +31,25 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
         	    <p><?=$language['STEP7_SENTENCE2']?>
         	      <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
         	       <br /><?=$language['STEP7_SENTENCE3']?>
-        	       <p>
-                	    <b>Visit the </b><a href="../index.php">Frontend</a>
-                	    or
-                	    <a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>
-                	    <br/>
-                	    <br/>
-                	    Ihre Logindaten: Name / Password
-                	    </p>
-        	       <br /> <?=$language['STEP7_SENTENCE4']?>
-        	       <br />
-        	       Klick here to delete it now.
+        	       <p><b><?=$language['STEP7_SENTENCE4']?> 
+        	            <ul>
+        	                <li><a href="../index.php"><?=$language['STEP7_SENTENCE5']?></a><br/></li> 
+        	                <?=$language['STEP7_SENTENCE6']?>
+        	                <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>
+        	                <?=$language['STEP7_SENTENCE7']?> Name / Password
+        	            </ul>
+        	          </b>
+                	  <br />  
+                	  <?=$language['STEP7_SENTENCE8']?><a href="http://www.clansuite.com/documentation/user/manual"><?=$language['STEP7_SENTENCE9']?></a>.
+                	  <br/>             	    
+                   </p>
+                   <fieldset style="border-color: red; background:lightsalmon;">
+                	    <legend>
+                		<strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
+                		               filter:alpha(opacity=75);'>&nbsp;<?=$language['STEP7_SENTENCE10']?>&nbsp;</strong>
+                	    </legend>                	               
+                		<i><?=$language['STEP7_SENTENCE11']?></i>
+                    </fieldset>    	       
         	    </p>
         	   <br />
 

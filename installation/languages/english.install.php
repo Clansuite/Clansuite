@@ -54,7 +54,7 @@ class language implements ArrayAccess
 	    $this->language['PDO_LIBRARY'] = 'Checking for PDO - Library';
         # 4
         $this->language['PDO_MYSQL_LIBRARY'] = 'Checking for PDO - MySQL - Library';
-	    
+
 
 	    # RECOMMENDED SETTINGS (in order)
 	    $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
@@ -64,7 +64,7 @@ class language implements ArrayAccess
 	    $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
 	    $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
 	    $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
-	    $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';	    
+	    $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
 	    $this->language['MAGIC_QUOTES_RUNTIME'] = 'Checking Magic Quotes Runtime';
 	    $this->language['TOKENIZER'] = 'Checking if Tokenizer exists';
 
@@ -94,7 +94,7 @@ class language implements ArrayAccess
 		$this->language['DB_PREFIX'] = 'Table Prefix';
 
 		$this->language['ERROR_NO_DB_CONNECT'] = 'Database-Connection could not be established.';
-		$this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Database database could not be created.';   	
+		$this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Database database could not be created.';
 
 		// STEP 5 - Configuration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
@@ -127,10 +127,17 @@ class language implements ArrayAccess
 
         $this->language['STEP7_SENTENCE1'] = 'Done! Congratulation - You successfully installed Clansuite.';
         $this->language['STEP7_SENTENCE2'] = 'The Developer-Team hopes that you take pleasure in exploring and using Clansuite.';
-        $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the Links to the Frontend-Website, to the AdminControlPanel (ACP) and your Accounts Logindata.';
-        $this->language['STEP7_SENTENCE4'] = 'Please don\'t forget to remove or rename this "/Installation" directory for security reasons.';
+        $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the Links to the Frontend-Website, to the Admin Control Panel (ACP) and your Accounts Logindata.';
+        $this->language['STEP7_SENTENCE4'] = 'Visit your new';
+        $this->language['STEP7_SENTENCE5'] = 'Clansuite Website';
+        $this->language['STEP7_SENTENCE6'] = 'or the';
+        $this->language['STEP7_SENTENCE7'] = 'Your Login credentials are :';
+        $this->language['STEP7_SENTENCE8'] = 'For help and informations about the usage and configuration of the clansuite-software feel free to visit the ';
+        $this->language['STEP7_SENTENCE9'] = 'User-Manual';
+        $this->language['STEP7_SENTENCE10'] = 'Security Advise';
+        $this->language['STEP7_SENTENCE11'] = 'Please don\'t forget to rename or remove the "/installation" directory for security reasons.';
 
-        //GLOBAL
+        // GLOBAL
         # Buttons
         $this->language['NEXTSTEP'] = 'Next >>';
         $this->language['BACKSTEP'] = '<< Back';

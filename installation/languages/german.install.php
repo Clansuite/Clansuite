@@ -128,7 +128,14 @@ class language implements ArrayAccess
         $this->language['STEP7_SENTENCE1'] = 'Geschafft! Gratulation - Sie haben Clansuite erfolgreich installiert.';
         $this->language['STEP7_SENTENCE2'] = 'Das Entwicklerteam wnscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.';
         $this->language['STEP7_SENTENCE3'] = 'Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.';
-        $this->language['STEP7_SENTENCE4'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/Installation" aus Sicherheitsgrnden umzubenennen bzw. zu l”schen.';
+        $this->language['STEP7_SENTENCE4'] = 'Besuchen Sie Ihre neue';
+        $this->language['STEP7_SENTENCE5'] = 'Clansuite Webseite';
+        $this->language['STEP7_SENTENCE6'] = 'oder das';
+        $this->language['STEP7_SENTENCE7'] = 'Ihre Logindaten sind :';
+        $this->language['STEP7_SENTENCE8'] = 'Hilfe zur Benutzung und Konfiguration der Clansuite-Software finden Sie im ';
+        $this->language['STEP7_SENTENCE9'] = 'Benutzerhandbuch';
+        $this->language['STEP7_SENTENCE10'] = 'Sicherheitshinweis';
+        $this->language['STEP7_SENTENCE11'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/installation" aus Sicherheitsgrnden umzubenennen bzw. zu l”schen.';
 
     	// GLOBAL
         # Buttons
@@ -143,7 +150,7 @@ class language implements ArrayAccess
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
         $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
 
-        # Left Menu
+        # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsschritte';
         $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
         $this->language['MENUSTEP2'] = '[2] Systemprfung';
