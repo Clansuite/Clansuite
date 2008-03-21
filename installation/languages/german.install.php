@@ -146,7 +146,7 @@ class language implements ArrayAccess
         # Left Menu
         $this->language['MENU_HEADING'] = 'Installationsschritte';
         $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
-        $this->language['MENUSTEP2'] = '[2] Systemprfung';
+        $this->language['MENUSTEP2'] = '[2] Systemprfung';
         $this->language['MENUSTEP3'] = '[3] GPL Lizenz';
         $this->language['MENUSTEP4'] = '[4] Datenbank';
         $this->language['MENUSTEP5'] = '[5] Konfiguration';
