@@ -1,4 +1,11 @@
-<?php date_default_timezone_set('Europe/Berlin'); ?>
+<?php
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+# Set Timezone for date functions
+date_default_timezone_set('Europe/Berlin');
+?>
    <div id="rightsidebar">
     		<ul>
     		    <!-- Installation Progress BAR -->
@@ -55,7 +62,7 @@
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
        	    <br />
        	    Installer Version :  0.3dev - SVN: $Rev$ $Author$
-       	     <br />      
+       	     <br />
             &copy; 2005-<?=date("Y"); ?> by Jens-Andr&#x00E9; Koch &amp; Clansuite Development Team
         </p>
     </div><!-- Fusszeile ENDE -->

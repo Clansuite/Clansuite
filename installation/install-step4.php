@@ -1,3 +1,10 @@
+<?php
+/**
+ * Security Handler
+ */
+if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+?>
+
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -60,7 +67,7 @@
             	    </li>
             	    <li>
             	        <label class="formularleft"><?=$language['DB_CREATE_DATABASE']?></label>
-            	        <input class="formularright" type="checkbox" name="db_create_database" 
+            	        <input class="formularright" type="checkbox" name="db_create_database"
             	        <? if($values['db_create_database'] == '1') { ?> checked="checked" <? } ?> />
     			   	</li>
             	    <li>
