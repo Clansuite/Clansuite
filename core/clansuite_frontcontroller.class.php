@@ -83,10 +83,6 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      */
     public function getController(httprequest $request)
     {
-        # Set Action
-        $action = (isset($request['action']) && !empty($request['action'])) ? $request->getParameter('action') : $this->defaultAction;
-        $this->setModuleAction($action);
-
         # ModulName is either the requested modulename or the defaultModule
         $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->defaultModule;
 
@@ -109,6 +105,20 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
 
         # Construct Classname to instantiate the required Module
         $class = 'module_' . strtolower($required_modulname);
+        
+        # Check if action is set and exists as module_class->action
+        # if positive, set the action as ModuleAction, else set the standard action
+        # @todo: filter this? (only chars+undescore: like action_names) !
+        # @todo: wrong position?
+        $action =  $request->getParameter('action');
+        if(isset($action) && !empty($action) && method_exists($class,$action))
+        {
+            $this->setModuleAction($action);
+        }
+        else
+        {
+            $this->setModuleAction($this->defaultAction);
+        }
 
         # Instantiate and Return the Module Object
         $controller = new $class();
@@ -120,7 +130,7 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      *
      * @access private
      */
-    public static function setModuleName($moduleName)
+    private static function setModuleName($moduleName)
     {
         self::$moduleName = (string) $moduleName;
     }
@@ -135,12 +145,23 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
     {
         return self::$moduleName;
     }
-
-    public static function setModuleAction($actionName)
+    
+    /**
+     * Method to set the Action
+     *
+     * @access private
+     */
+    private static function setModuleAction($actionName)
     {
         self::$actionName = (string) $actionName;
-    }
-
+    }    
+    
+    /**
+     * Method to get the Action
+     *
+     * @access public
+     * @return $string
+     */
     public static function getModuleAction()
     {
         return self::$actionName;
