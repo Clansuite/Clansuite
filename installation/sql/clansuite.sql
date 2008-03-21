@@ -502,7 +502,7 @@ CREATE TABLE `cs_news` (
 --
 
 /*!40000 ALTER TABLE `cs_news` DISABLE KEYS */;
-INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,1168260056,0),(2,'1243','21341234',0,1,1168260056,0),(3,'2345','asdvgfas',0,1,1168260056,0),(4,'3451','dfas',0,1,1168260056,0),(5,'234512','df',0,1,1168260056,0),(6,'51','dfaas',0,1,1168260056,0),(7,'3512','sdf',0,1,1168260056,0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n				<p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n				\r\n				<blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n				\r\n				<code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n					<li>Tristique</li>\r\n					<li>Aenean</li>\r\n					<li>Pretium</li>\r\n				</ul>\r\n\r\n				<p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',0,1,1168260056,0),(17,'asdfasdf','<p>asdfasdfasdf</p>',0,1,1175294049,1);
+INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,1168260056,0),(2,'1243','21341234',0,1,1168260056,0),(3,'2345','asdvgfas',1,1,1168260056,0),(4,'3451','dfas',2,1,1168260056,0),(5,'234512','df',3,1,1168260056,0),(6,'51','dfaas',4,1,1168260056,0),(7,'3512','sdf',2,1,1168260056,0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n				<p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n				\r\n				<blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n				\r\n				<code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n					<li>Tristique</li>\r\n					<li>Aenean</li>\r\n					<li>Pretium</li>\r\n				</ul>\r\n\r\n				<p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,1168260056,0),(17,'asdfasdf','<p>asdfasdfasdf</p>',0,1,1175294049,1);
 /*!40000 ALTER TABLE `cs_news` ENABLE KEYS */;
 
 --
@@ -526,7 +526,7 @@ CREATE TABLE `cs_news_comments` (
 --
 
 /*!40000 ALTER TABLE `cs_news_comments` DISABLE KEYS */;
-INSERT INTO `cs_news_comments` VALUES (1,1,1,'123','2005-07-29 13:04:07','','127.0.0.1','localhost'),(1,2,0,'1234567','2005-07-29 16:50:08','blub','127.0.0.1','localhost'),(2,0,0,'testeee','2006-03-04 02:25:42','test','127.0.0.1','localhost'),(2,0,0,'eee','2006-03-04 02:25:57','tester','127.0.0.1','localhost'),(3,0,1,'[center]test[/center]','2006-05-11 18:30:57','test','127.0.0.1','localhost');
+INSERT INTO `cs_news_comments` VALUES (1,1,1,'123','2005-07-29 13:04:07','','127.0.0.1','localhost'),(1,2,2,'1234567','2005-07-29 16:50:08','blub','127.0.0.1','localhost'),(2,0,0,'testeee','2006-03-04 02:25:42','test','127.0.0.1','localhost'),(2,0,0,'eee','2006-03-04 02:25:57','tester','127.0.0.1','localhost'),(3,0,1,'[center]test[/center]','2006-05-11 18:30:57','test','127.0.0.1','localhost');
 /*!40000 ALTER TABLE `cs_news_comments` ENABLE KEYS */;
 
 --
@@ -734,7 +734,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'45b0aa4a0250909146c8d81e717f4fa2','client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3\";client_host|s:9:\"localhost\";suiteSID|s:32:\"45b0aa4a0250909146c8d81e717f4fa2\";user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:8:\"password\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:10:\"accessible\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1178484638,1,'calendar');
+INSERT INTO `cs_session` VALUES (0,'e0e4d66b7202602315146017f5ee56aa','initiated|b:1;token|s:32:\"e6d52ce2be8435a333f31bec2f012904\";client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.12) Gecko/20080201 Firefox/2.0.0.12\";client_host|s:9:\"localhost\";suiteSID|s:32:\"e0e4d66b7202602315146017f5ee56aa\";user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1206109765,1,'index');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -873,8 +873,9 @@ CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `email` varchar(150) default NULL,
   `nick` varchar(25) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `new_password` varchar(40) NOT NULL,
+  `passwordhash` varchar(40) NOT NULL,
+  `new_passwordhash` varchar(40) NOT NULL,
+  `salt` varchar(20) NOT NULL,
   `code` varchar(255) NOT NULL,
   `joined` int(11) NOT NULL default '0',
   `timestamp` int(11) NOT NULL default '0',
@@ -895,8 +896,9 @@ CREATE TABLE `cs_users` (
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -906,4 +908,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-11-14 17:13:44
+-- Dump completed on 2008-03-21 16:45:46
