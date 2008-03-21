@@ -1,67 +1,76 @@
 <?php
 /**
-* Module: news
-* Description: The website news
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2005-2007 Clansuite Group
-* @link       http://gna.org/projects/clansuite
-*
-* @author     Jens-Andre Koch, Florian Wolf
-* @copyright  2005-2007 Clansuite Group
-* @license    LGPL
-* @version    SVN: $Id$
-* @link       http://www.clansuite.com
-*/
+ *  News Module
+ *
+ *
+ * LICENSE:
+ *
+ *    This program is free software; you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation; either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program; if not, write to the Free Software
+ *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @license    GNU/GPL, see COPYING.txt
+ *
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005-$Date$)
+ *
+ * @link       http://www.clansuite.com
+ * @link       http://gna.org/projects/clansuite
+ * @since      File available since Release 0.1
+ *
+ * @version    SVN: $Id$
+ */
 
 // Security Handler
-if (!defined('IN_CS')) { die('You are not allowed to view this page statically.' ); }
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
 * @desc Start module index class
 */
-class module_news
+class module_news extends controller_base
 {
+    function __construct(Phemto $injector=null)
+    {
+        parent::__construct(); # run constructor on controller_base
+    }
+
     public $output          = '';
     public $additional_head = '';
     public $suppress_wrapper= '';
+    
+    public $executed        = false;
 
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-    function auto_run()
+    public function execute($request, $response)
     {
-        global $lang, $trail;
-
+        # Set executed to false! 
+        $this->executed = false;
+        
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('News'), '/index.php?mod=news');
+        $this->injector->instantiate('trail')->addStep(T_('News'), '/index.php?mod=news');
 
-        switch ($_REQUEST['action'])
+        switch ($request->getParameter('action'))
         {
             default:
             case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=news&amp;action=show');
+                $trail->addStep(T_('Show'), '/index.php?mod=news&amp;action=show');
                 $this->show();
                 break;
 
             case 'archiv':
-                $trail->addStep($lang->t('Newsarchiv'), '/index.php?mod=news&amp;action=archiv');
+                $trail->addStep(T_('Newsarchiv'), '/index.php?mod=news&amp;action=archiv');
                 $this->archiv();
                 break;
         }
@@ -69,6 +78,9 @@ class module_news
         return array( 'OUTPUT'          => $this->output,
                       'ADDITIONAL_HEAD' => $this->additional_head,
                       'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
+        
+        # Ensure execute finished! 
+        $this->executed = true;
     }
 
     /**
@@ -87,9 +99,12 @@ class module_news
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */
-        $this->output .= $lang->t($my_text);
+        $this->output .= T_($my_text);
     }
 
+  
+    
+    
     /**
     * @desc Show news
     *
@@ -104,7 +119,11 @@ class module_news
         global $cfg, $db, $tpl, $error, $lang, $functions, $security;
 
         // Smarty Pagination load and init
-        require(ROOT . 'core/smarty/SmartyPaginate.class.php');
+        require( ROOT_LIBRARIES . '/smarty/SmartyPaginate.class.php');
+        
+        echo ROOT_LIBRARIES . '/smarty/SmartyPaginate.class.php';
+        
+        $SmartyPaginate = new SmartyPaginate();
 
         // set URL
         $SmartyPaginate->setUrl('index.php?mod=news');
@@ -112,7 +131,7 @@ class module_news
         // set items per page
         $SmartyPaginate->setLimit(5);
 
-        // $newslist = newsentries mit nick und category
+        // $stmt = newslist with newsentries, left joined by nick from users table und category image and name from categories table
         $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
                                 FROM ' . DB_PREFIX .'news n
                                 LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
@@ -122,7 +141,7 @@ class module_news
                                 WHERE n.draft = ?
                                 ORDER BY news_id DESC LIMIT ?,?');
 
-        /* TODO: news with status: draft, published, private, private+protected*/
+        /* TODO: news with status: draft=0, published=1, private=2, private+protected=3*/
         $draft = '0';
         $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
         $stmt->bindParam(2, $draft, PDO::PARAM_INT );
@@ -199,7 +218,7 @@ class module_news
 
         // add cat_id to select statement if set, else empty
         $sql_cat = $cat == 0 ? '' : 'AND n.cat_id = ' . $cat;
-       
+
         // $newsarchiv = newsentries mit nick und category
         $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added,
                                      n.user_id, u.nick,
