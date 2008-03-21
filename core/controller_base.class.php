@@ -204,12 +204,12 @@ abstract class controller_base
             }
             else
             {
-                $this->setTemplate( ROOT_THEMES . '/core/notfound.tpl' );            
+                $this->setTemplate( ROOT_THEMES . '/core/tplnotfound.tpl' );            
             }
         }
         return $this->templateName;
     }
-
+   
     /**
      * controller_base::prepareRendering();
      * returns an instance of the render engine object and prepares it for rendering the output
