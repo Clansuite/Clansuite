@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
-    * File:         config.class.php
+    * File:         clansuite.config.php
     * Requires:     PHP5.2+
     *
     * Purpose:      Variable Configuration and Settings Class
