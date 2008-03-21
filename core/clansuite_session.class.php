@@ -124,7 +124,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
     private $config     = null;
     private $db         = null;
     private $request    = null;
-    private $functions  = null;
+    private $response   = null;
 
     /**
      * Clansuite_Session is a Singleton
@@ -145,8 +145,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
      *
      * Overwrite php.ini settings
      * Start the session
-     * @global $this->config, $this->functions
-     * @param object
+     * @param object $injector Contains the Dependency Injector Phemto.
      */
 
     function __construct(Phemto $injector)
@@ -158,7 +157,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
         $this->config       = $injector->instantiate('configuration');
         $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
-        $this->functions    = $injector->instantiate('functions');
+        $this->response     = $injector->instantiate('httpresponse');
 
         /**
          * Set the session configuration Parameters accordingly to Config Class Values
@@ -227,7 +226,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
 
         if (!$this->_session_check_security() )
         {
-            die($this->functions->redirect('index.php?mod=login') );
+            die($this->response->redirect('index.php?mod=login') );
         }
 
         /**
@@ -541,7 +540,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
             $res = $stmt->fetch();
             if ( !is_array($res) )
             {
-                #$this->functions->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
+                #$this->response->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
             }
         }
 
