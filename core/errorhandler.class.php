@@ -147,15 +147,15 @@ class errorhandler
         switch ($errornumber)
         {
             # What are the errortypes that can be handled by a user-defined errorhandler?
-            case E_WARNING:        $errorname   .= ' [php warning]'; break;
-            case E_NOTICE:         $errorname   .= ' [php notice]'; break;
-            case E_USER_ERROR:    $errorname    .= ' [Clansuite Internal Error]'; break;
-            case E_USER_WARNING:  $errorname    .= ' [Clansuite Internal Error]'; break;
-            case E_USER_NOTICE:   $errorname    .= ' [Clansuite Internal Error]'; break;
+            case E_WARNING:                 $errorname .= ' [php warning]'; break;
+            case E_NOTICE:                  $errorname .= ' [php notice]'; break;
+            case E_USER_ERROR:              $errorname .= ' [Clansuite Internal Error]'; break;
+            case E_USER_WARNING:            $errorname .= ' [Clansuite Internal Error]'; break;
+            case E_USER_NOTICE:             $errorname .= ' [Clansuite Internal Error]'; break;
             #case E_ALL:
-            case E_STRICT:                 $errorname   .= ' [php strict]'; break;
+            case E_STRICT:                  $errorname .= ' [php strict]'; break;
             #case E_RECOVERABLE_ERROR:
-            default:               $errorname .= 'Unknown ErrorCode ['. $errornumber .']: ';
+            default:                        $errorname .= 'Unknown ErrorCode ['. $errornumber .']: ';
         }
 
         # if DEBUG is set, display the error, else log the error
@@ -221,11 +221,11 @@ class errorhandler
     /**
      * Yellow Screen of Death (YSOD) is used to display errors
      *
+     * @param string $ErrorObject contains ErrorObject
      * @param string $error_head contains the Name of the Error
      * @param string $string contains errorstring
-     * @param integer $level contains errorlvl
+     * @param integer $error_level contains errorlvl
      * @param string $redirect contains redirect url
-     * @global $tpl
      */
     public function ysod( $ErrorObject, $error_head = 'Unknown Error', $string = '', $error_level = 3, $redirect = '' )
     {
@@ -249,13 +249,20 @@ class errorhandler
         # Error String (passed Error Description)
         $errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
         # Error Messages from the ErrorObject
-        $errormessage   .= '<hr><table>';
-        $errormessage   .= '<tr><td><strong>Errorcode:</strong></td><td>'.$ErrorObject->getCode().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message:</strong></td><td>'.$ErrorObject->getMessage().'</td></tr>';
+        $errormessage   .= '<hr style="width=80%">';
+        $errormessage   .= '<table>';
+        $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$ErrorObject->getCode().'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$ErrorObject->getMessage().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject->getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject->getLine().'</td></tr>';
-        $errormessage   .= '</table>';
+        $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
+        # Environmental Informations at Errortime
+        $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Request :</strong></td><td>'.$_SERVER['QUERY_STRING'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
         $errormessage   .= '</table>';
         # @todo tracing here?
         $errormessage   .= '</fieldset>';
@@ -266,8 +273,9 @@ class errorhandler
     }
 
     /**
-    * register_shutdown_function (needed?))
-    */
+     * register_shutdown_function
+     * @todo: needed?
+     */
     public function shutdown_and_exit()
     {
         echo '<p><b>Clansuite execution stopped.</b></p>';
