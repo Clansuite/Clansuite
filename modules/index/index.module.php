@@ -40,7 +40,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Class was rewritten for Version 0.2
  */
-class module_index extends controller_base #implements clansuite_module
+class module_index extends controller_base implements clansuite_module
 {
     function __construct(Phemto $injector=null)
     {
@@ -48,34 +48,22 @@ class module_index extends controller_base #implements clansuite_module
     }
 
     /**
-     * Controller of Modul
-     *
-     * switches between $_REQUEST['action'] Vars to the functions
+     * Main Method of Index Module
+     * 
+     * Sets up module specific stuff, needed by all actions of the module
+     * - Calls the requested Action $_REQUEST['action'] Vars to the functions
      */
-    public function execute($request, $response)
+    public function execute(httprequest $request, httpresponse $response)
     {
-        switch ($request->getParameter('action'))
-        {
-            case 'mvc':
-                $this->mvc();
-                break;
-            case 'show':
-                $this->show();
-                break;
-            case 'index':
-                $this->index();
-                break;
-            default:
-                $this->show();
-                break;
-        }
+        # - try proceed to the requested action or display action not found!
+        $this->getActionController($request);
     }
 
     /**
      *  Test the MVC Framework
      *  by calling the URL "index.php?mod=index&action=mvc"
      */
-    function mvc()
+    function action_mvc()
     {
         $index_view = new module_index_view;            # initialize the view
         $index_view->showUserData('1');                 # call view function for output
@@ -84,7 +72,7 @@ class module_index extends controller_base #implements clansuite_module
         exit;
     }
 
-      /**
+    /**
      * index() redirects to show()
      */
     function index()
@@ -174,7 +162,7 @@ class module_index extends controller_base #implements clansuite_module
             {
                 # nothing was returned, so we set 0
                 $news[$k]['CsNewsComments'] = array('nr_news_comments' => 0);
-            }      
+            }
         }
         #var_dump($news);
 
@@ -214,16 +202,10 @@ class module_index extends controller_base #implements clansuite_module
         $this->prepareOutput();
     }
 
-    function index2()
-    {
-       # class internal redirect to another function
-       $this->show();
-    }
-
     /**
      * Show the Index / Entrance -> welcome message etc.
      */
-    function show()
+    function action_show()
     {
         /***
          * To set a Render Engine use the following method:
@@ -327,7 +309,7 @@ class module_index_model
     public function findUserById($user_id)
     {
         // SQL logic to get User Infos for a certain $user_id
-        $user_data = array('name' => 'john wayne', 'town' => 'berlin');
+        $user_data = array('name' => 'John Wayne', 'town' => 'Berlin');
         //returns User-ROW!
         return $user_data;
     }
