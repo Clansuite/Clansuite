@@ -11,13 +11,32 @@
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
 {/doc_raw}
 
+This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!
 
 <!-- Main Content Table -->
 <table cellspacing="0" cellpadding="0" width="100%" border="1">
 <tr>
-    <td>    </td>
+    <td><strong>Menuitems</strong>
+        <ul>
+            <li><a href="?mod=index">Index</a></li>
+            <li><a href="?mod=index&action=mvc">Index MVC Test</a></li>
+             <li><a href="?mod=index&action=smarty_error_example">Index smarty_error_example</a></li>
+            <li><a href="?mod=news">News</a></li>
+        </ul> 
+    </td>
     <td>{$content}</td>
     <td>    </td>
+</tr>
+<tr>
+    <td width=12%><strong>Themes</strong>
+        <ul>
+            <li><a href="?theme=accessible">Accessible</a></li>
+            <li><a href="?theme=andreas01">Andreas01</a></li>
+            <li><a href="?theme=shades_of_gray">Shades of Gray</a></li>
+            <li><a href="?theme=standard">standard</a></li>
+        </ul>        
+        <br />        
+    </td>
 </tr>
 </table>
 
