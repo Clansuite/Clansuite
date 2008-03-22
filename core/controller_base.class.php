@@ -34,10 +34,23 @@
 
 /**
  * Interface for all modules
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @package     clansuite
+ * @subpackage  controller
+ * @category    interfaces
  */
 interface clansuite_module
 {
+    # always needed is the main execute() method
     function execute(httprequest $request, httpresponse $response);
+
+    /**
+     * A minimum functionality of every module is the action for displaying content,
+     * so the the existance of a method action_show() is a must!
+     */
+    function action_show();
 }
 
 /**
@@ -52,7 +65,7 @@ interface clansuite_module
  * 3. provide access to create_global_view
  *
  */
-abstract class controller_base
+abstract class controller_base extends Clansuite_ModuleControllerResolver
 {
     /**
      * Variable $output contains the output (view-data) of the module
@@ -65,7 +78,7 @@ abstract class controller_base
     // positional check: this is view-related!
     protected $additional_head  = null;
     protected $suppress_wrapper = null;
-    
+
     // Variable contains the rendering engine (view object)
     public $view = null;
 
@@ -77,52 +90,102 @@ abstract class controller_base
 
     // Variable contains the Dependecy Injector
     public $injector = null;
+    
+    public $config = null;
+    
+    public $action_name = null;
 
     function __construct()
     {
-
+        
     }
 
     /**
      * Set dependency injector (SetterInjection)
      * Type Hint set to only accept Phemto
+     *
+     * @param object $injector Dependency Injector (Phemto)
      */
     public function setInjector(Phemto $injector)
     {
     	$this->injector = $injector;
+    	$this->config = $this->injector->instantiate('configuration');    	
+    }
+
+    /**
+     * Fire Action !
+     *
+     * @param string $requested_action the requested action as string
+     */
+    public function getActionController($request)
+    {  
+        # get action parameter from URL
+        $action = $request->getParameter('action');
+       
+        # the pseudo-namesspace prefix 'action_' is used for all actions.
+        # this is also a way to ensure some kind of whitelisting via namespacing.
+        $method = 'action_'.$action; 
+       
+        # check if action (a) set and (b) not empty and (c) check if the action_$actionxxx
+        # method exists in the main module class (the one extending this class)
+        if(isset($action) && !empty($action) && method_exists($this,$method))
+        {
+            # set the used action name
+            $this->action_name = $action;
+            # call the method !
+            $this->{$method}();            
+        }
+        # check if the method exists as a drop in action in the module directory
+        /*elseif
+        {
+            if is_file() ....
+    
+        }*/  
+        else
+        {   
+            # set the used action name
+            $this->action_name = $this->config['default_action'];
+            # set the method name
+            $method = 'action_'.$this->config['default_action'];            
+            # call the method !
+            $this->{$method}();
+        } 
     }
 
     /**
      * Set view
+     *
+     * @param object $view RenderEngine Object
      */
     public function setView($view)
     {
         $this->view = $view;
     }
-    
+
      /**
      * Get view
+     *
      * @return view object
      */
     public function getView()
-    {   
+    {
         // if already set, get the rendering engine from the view variable
         if (isset($this->view))
-        { 
-            return $this->view; 
+        {
+            return $this->view;
         }
         else
-        {   
+        {
             # else, set the RenderEngine to the view variable and return it
             $this->view = $this->getRenderEngine();
-            return $this->view;            
-        }        
+            return $this->view;
+        }
     }
 
     /**
      * sets the Rendering Engine
      *
-     *
+     * @param string $renderEngineName Name of the RenderEngine
      */
     public function setRenderEngine($renderEngineName)
     {
@@ -161,7 +224,7 @@ abstract class controller_base
     /**
      * Set the template name
      *
-     * @param $templateName
+     * @param string $templateName Name of the Template
      */
     public function setTemplate($templateName)
     {
@@ -179,12 +242,14 @@ abstract class controller_base
         if(empty($this->templateName))
         {
             # get modulName and actionName
-            $moduleName = Clansuite_ControllerResolver::getModuleName();
-            $actionName = Clansuite_ControllerResolver::getModuleAction();
+            $moduleName = Clansuite_ModuleControllerResolver::getModuleName();
+            # @todo?
+            #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
+            $actionName = $this->action_name;
 
             # construct a partial path from moduleName and actionName
             $tplname = $moduleName.'/'.$actionName.'.tpl';
-
+ 
             # check, if a template-file with $tplname exists in
             # 1. Standard Theme - Template
             # 2. Modul Template
@@ -204,12 +269,12 @@ abstract class controller_base
             }
             else
             {
-                $this->setTemplate( ROOT_THEMES . '/core/tplnotfound.tpl' );            
+                $this->setTemplate( ROOT_THEMES . '/core/tplnotfound.tpl' );
             }
         }
         return $this->templateName;
     }
-   
+
     /**
      * controller_base::prepareRendering();
      * returns an instance of the render engine object and prepares it for rendering the output
@@ -230,17 +295,18 @@ abstract class controller_base
 
         # set Output of the RenderEngine to the Response Object
         $response->setContent($this->output);   # output directly
-        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template        
+        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
         $response->setContent($view->render($this->getTemplateName())); # complete layout / rendered mainframe
-        
-    }  
+
+    }
 
     /**
      * controller_base::forward();
+     * is as substitute for getAction
      *
      * This forwards from one controller function to
      * another function of the same controller
-     * an functions of an different controller.
+     * or to functions of an different controller.
      *
      * @access public
      */
@@ -249,7 +315,6 @@ abstract class controller_base
         # forward to controller-name + controller-action
 
         # event log
-
     }
 
     /**
@@ -265,11 +330,5 @@ abstract class controller_base
         # event log
 
     }
-
-    /**
-     * Force Extending classes to define this methods:
-     */
-    abstract function show();
-    abstract function execute($request,$response);
 }
 ?>

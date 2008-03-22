@@ -36,15 +36,75 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * abstract interface for Controller Resolving ( Request to Command )
+ * Interface for Action/Command Controller Resolving ( Request to Command/Action )
+ *
+ * @package clansuite
+ * @subpackage controller
+ * @category interfaces
+ *//*
+interface Clansuite_ActionControllerResolver_Interface
+{
+    public function getActionController(httprequest $request);
+}
+
+class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerResolver_Interface
+{
+    private $defaultAction;     # holds the name of the defaultAction
+    public static $actionName = null;         # holds the Action of the Module
+
+    public function __construct($defaultAction)
+    {
+        $this->defaultAction    = (string) strtolower($defaultAction);   # set defaultAction
+    }
+
+    public function getActionController(httprequest $request)
+    {
+        # Check if action is set and exists as module_class->action
+        # if positive, set the action as ModuleAction, else set the standard action
+        # @todo: filter this? (only chars+undescore: like action_names) !
+        $action = $request->getParameter('action');
+        if(isset($action) && !empty($action) && method_exists($class,$action))
+        {
+            self::setModuleAction($action);
+        }
+        else
+        {
+            self::setModuleAction($this->defaultAction);
+        } 
+    }
+
+    /**
+     * Method to set the Action
+     *
+     * @access private
+     *//*
+    public static function setModuleAction($actionName)
+    {
+        self::$actionName = (string) $actionName;
+    }
+
+    /**
+     * Method to get the Action
+     *
+     * @access public
+     * @return $string
+     *//*
+    public static function getModuleAction()
+    {
+        return self::$actionName;
+    }
+}*/
+
+/**
+ * Interface for Module Controller Resolving ( Request to Module )
  *
  * @package clansuite
  * @subpackage controller
  * @category interfaces
  */
-interface Clansuite_ControllerResolver_Interface
+interface Clansuite_ModuleControllerResolver_Interface
 {
-    public function getController(httprequest $request);
+    public function getModuleController(httprequest $request);
 }
 
 /**
@@ -60,18 +120,14 @@ interface Clansuite_ControllerResolver_Interface
  * @subpackage  controller
  * @category    core
  */
-class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Interface
+class Clansuite_ModuleControllerResolver implements Clansuite_ModuleControllerResolver_Interface
 {
     private $defaultModule;     # holds the name of the defaultModule
-    private $defaultAction;     # holds the name of the defaultAction
-
     public static $moduleName = null;         # holds the Name of the Module
-    public static $actionName = null;         # holds the Action of the Module
 
-    public function __construct($defaultModule, $defaultAction)
+    public function __construct($defaultModule)
     {
         $this->defaultModule    = (string) strtolower($defaultModule);   # set defaultModule
-        $this->defaultAction    = (string) strtolower($defaultAction);   # set defaultAction
     }
 
     /**
@@ -81,7 +137,7 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
      * @return object controller (module)
      * deprecated v0.1 -> load modul -> instantiate modul -> modul::auto_run();
      */
-    public function getController(httprequest $request)
+    public function getModuleController(httprequest $request)
     {
         # ModulName is either the requested modulename or the defaultModule
         $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->defaultModule;
@@ -105,20 +161,6 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
 
         # Construct Classname to instantiate the required Module
         $class = 'module_' . strtolower($required_modulname);
-        
-        # Check if action is set and exists as module_class->action
-        # if positive, set the action as ModuleAction, else set the standard action
-        # @todo: filter this? (only chars+undescore: like action_names) !
-        # @todo: wrong position?
-        $action =  $request->getParameter('action');
-        if(isset($action) && !empty($action) && method_exists($class,$action))
-        {
-            $this->setModuleAction($action);
-        }
-        else
-        {
-            $this->setModuleAction($this->defaultAction);
-        }
 
         # Instantiate and Return the Module Object
         $controller = new $class();
@@ -145,41 +187,22 @@ class Clansuite_ControllerResolver implements Clansuite_ControllerResolver_Inter
     {
         return self::$moduleName;
     }
-    
-    /**
-     * Method to set the Action
-     *
-     * @access private
-     */
-    private static function setModuleAction($actionName)
-    {
-        self::$actionName = (string) $actionName;
-    }    
-    
-    /**
-     * Method to get the Action
-     *
-     * @access public
-     * @return $string
-     */
-    public static function getModuleAction()
-    {
-        return self::$actionName;
-    }
 }
 
 /**
- * abstract interface for ControllerCommands
- * Modules must have an execute function
- * (this was auto_run in Clansuite v0.1 , it's now deprecated)
+ * Interface for FrontController
+ *
+ * Frontcontroller has to define processRequest()
  *
  * @package     clansuite
  * @subpackage  controller
  * @category    interfaces
  */
-interface Clansuite_ControllerCommand_Interface
+interface Clansuite_FrontController_Interface
 {
     public function processRequest(httprequest $request, httpresponse $response);
+    public function addPreFilter(FilterInterface $filter);
+    public function addPostFilter(FilterInterface $filter);
 }
 
 /**
@@ -194,12 +217,12 @@ interface Clansuite_ControllerCommand_Interface
  *    via a path in directory structure.
  * That means: we are dynamically invoking the pagecontroller of the module.
  *
- * @implements ControllerCommandInterface *
+ * @implements ControllerCommandInterface
  * @package     clansuite
  * @category    core
  * @subpackage  controller
  */
-class Clansuite_FrontController implements Clansuite_ControllerCommand_Interface
+class Clansuite_FrontController implements Clansuite_FrontController_Interface
 {
     /**
      * Private Variables containing
@@ -218,7 +241,7 @@ class Clansuite_FrontController implements Clansuite_ControllerCommand_Interface
      * 2  assign the injector
      * 3. instantiate pre/post-filter objects
      */
-    public function __construct(Clansuite_ControllerResolver_Interface $resolver, Phemto $injector)
+    public function __construct(Clansuite_ModuleControllerResolver_Interface $resolver, Phemto $injector)
     {
            $this->resolver = $resolver;
            $this->injector = $injector;
@@ -266,7 +289,7 @@ class Clansuite_FrontController implements Clansuite_ControllerCommand_Interface
     public function processRequest(httprequest $request, httpresponse $response)
     {
         # 1)
-        $moduleController = $this->resolver->getController($request);
+        $moduleController = $this->resolver->getModuleController($request);
 
         # 2)
         $this->pre_filtermanager->processFilters($request, $response);
