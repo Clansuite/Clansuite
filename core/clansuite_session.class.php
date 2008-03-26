@@ -73,7 +73,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @category    core
  */
 
-class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
+class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 {
     /**
      * Set common session vars
@@ -615,7 +615,7 @@ class Clansuite_Session implements Clansuite_SessionInterface, ArrayAccess
  * @subpackage session
  * @category interfaces
  */
-interface Clansuite_SessionInterface
+interface Clansuite_Session_Interface
 {
     public function session_open();
     public function session_close();

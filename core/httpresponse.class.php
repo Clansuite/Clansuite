@@ -47,7 +47,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage core
  * @category interfaces
  */
-interface Clansuite_ResponseInterface
+interface Clansuite_Response_Interface
 {
     public function setStatus($status);
     public function addHeader($name, $value);
@@ -65,7 +65,7 @@ interface Clansuite_ResponseInterface
  * @subpackage core
  * @category response
  */
-class HTTPResponse implements Clansuite_ResponseInterface
+class HTTPResponse implements Clansuite_Response_Interface
 {
     /**
      * Status of the response as integer value.

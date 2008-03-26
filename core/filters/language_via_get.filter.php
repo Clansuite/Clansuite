@@ -51,7 +51,7 @@
  *
  * @implements FilterInterface
  */
-class language_via_get implements FilterInterface
+class language_via_get implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
     private $locale     = null;     # holds instance of localization

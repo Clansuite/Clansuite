@@ -37,10 +37,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite Module: Index
  *
  * Purpose: This class is the PageController which has many pages to deal with.
- *
- * Class was rewritten for Version 0.2
  */
-class module_index extends controller_base implements clansuite_module
+class module_index extends ModuleController implements Clansuite_Module_Interface
 {
     function __construct(Phemto $injector=null)
     {

@@ -102,7 +102,7 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
  * @subpackage controller
  * @category interfaces
  */
-interface Clansuite_ModuleControllerResolver_Interface
+interface Clansuite_ModuleController_Resolver_Interface
 {
     public function getModuleController(httprequest $request);
 }
@@ -120,7 +120,7 @@ interface Clansuite_ModuleControllerResolver_Interface
  * @subpackage  controller
  * @category    core
  */
-class Clansuite_ModuleControllerResolver implements Clansuite_ModuleControllerResolver_Interface
+class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
 {
     private $defaultModule;     # holds the name of the defaultModule
     public static $moduleName = null;         # holds the Name of the Module
@@ -201,8 +201,8 @@ class Clansuite_ModuleControllerResolver implements Clansuite_ModuleControllerRe
 interface Clansuite_FrontController_Interface
 {
     public function processRequest(httprequest $request, httpresponse $response);
-    public function addPreFilter(FilterInterface $filter);
-    public function addPostFilter(FilterInterface $filter);
+    public function addPreFilter(Filter_Interface $filter);
+    public function addPostFilter(Filter_Interface $filter);
 }
 
 /**
@@ -241,7 +241,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * 2  assign the injector
      * 3. instantiate pre/post-filter objects
      */
-    public function __construct(Clansuite_ModuleControllerResolver_Interface $resolver, Phemto $injector)
+    public function __construct(Clansuite_ModuleController_Resolver_Interface $resolver, Phemto $injector)
     {
            $this->resolver = $resolver;
            $this->injector = $injector;
@@ -253,7 +253,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * Method to add a Prefilter
      * Filter is processed before Controller->Action is executed
      */
-    public function addPreFilter(FilterInterface $filter)
+    public function addPreFilter(Filter_Interface $filter)
     {
         $this->pre_filtermanager->addFilter($filter);
     }
@@ -262,7 +262,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * Method to add a Postfilter
      * Filter is processed after Controller->Action was executed
      */
-    public function addPostFilter(FilterInterface $filter)
+    public function addPostFilter(Filter_Interface $filter)
     {
         $this->post_filtermanager->addFilter($filter);
     }
