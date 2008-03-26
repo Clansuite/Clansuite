@@ -96,7 +96,7 @@ $injector->register('user');
  *  ================================================
  */
 # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
-$clansuite = new Clansuite_FrontController(new Clansuite_ModuleControllerResolver($config['default_module'],$config['default_action']),$injector);
+$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['default_module'],$config['default_action']),$injector);
 
 # Get request and response objects for Filters and RequestProcessing
 $request  = $injector->instantiate('httprequest');

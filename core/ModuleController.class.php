@@ -41,11 +41,11 @@
  * @subpackage  controller
  * @category    interfaces
  */
-interface Clansuite_ModuleInterface
+interface Clansuite_Module_Interface
 {
     # always needed is the main execute() method
     function execute(httprequest $request, httpresponse $response);
-
+    
     /**
      * A minimum functionality of every module is the action for displaying content,
      * so the the existance of a method action_show() is a must!
@@ -65,7 +65,7 @@ interface Clansuite_ModuleInterface
  * 3. provide access to create_global_view
  *
  */
-abstract class ModuleController extends Clansuite_ModuleControllerResolver
+abstract class ModuleController extends Clansuite_ModuleController_Resolver
 {
     /**
      * Variable $output contains the output (view-data) of the module
@@ -242,7 +242,7 @@ abstract class ModuleController extends Clansuite_ModuleControllerResolver
         if(empty($this->templateName))
         {
             # get modulName and actionName
-            $moduleName = Clansuite_ModuleControllerResolver::getModuleName();
+            $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
             # @todo?
             #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
             $actionName = $this->action_name;

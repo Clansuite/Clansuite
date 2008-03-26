@@ -38,7 +38,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * interface FilterInterface
  */
-interface FilterInterface
+interface Filter_Interface
 {
     public function executeFilter(httprequest $request, httpresponse $response);
 }
@@ -61,7 +61,7 @@ class FilterManager
      * @param object $filter
      * @access public
      */    
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(Filter_Interface $filter)
     {
         $this->filters[] = $filter;
     }

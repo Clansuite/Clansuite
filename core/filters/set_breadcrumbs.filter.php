@@ -41,7 +41,7 @@
  *
  * @implements FilterInterface
  */
-class set_breadcrumbs implements FilterInterface
+class set_breadcrumbs implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
     private $trail      = null;     # holds instance of trail

@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Abstraction for $_REQUEST access with methods
  */
-interface RequestInterface
+interface Clansuite_Request_Interface
 {
     public function getParameterNames();
     public function issetParameter($name);
@@ -68,7 +68,7 @@ interface RequestInterface
  * @todo split $_REQUEST into GET and POST with each seperate access methods
  *
  */
-class httprequest implements RequestInterface, ArrayAccess
+class httprequest implements Clansuite_Request_Interface, ArrayAccess
 {
     #
     private $parameters;

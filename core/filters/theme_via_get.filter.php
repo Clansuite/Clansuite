@@ -43,7 +43,7 @@
  *
  * @implements FilterInterface
  */
-class theme_via_get implements FilterInterface
+class theme_via_get implements Filter_Interface
 {
     private $config     = null;
     private $input      = null;

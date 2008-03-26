@@ -41,7 +41,7 @@
  *
  * @implements FilterInterface
  */
-class set_module_language implements FilterInterface
+class set_module_language implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
     private $locale     = null;     # holds instance of localization
@@ -55,7 +55,7 @@ class set_module_language implements FilterInterface
     public function executeFilter(httprequest $request, httpresponse $response)
     {
         # get moduleName
-        $moduleName = Clansuite_ModuleControllerResolver::getModuleName();
+        $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
         # load the Textdomain for that module
         $this->locale->loadTextDomain('LC_ALL', $moduleName, $this->locale->getLocale(), $moduleName);
     }

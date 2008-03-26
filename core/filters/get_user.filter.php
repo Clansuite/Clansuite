@@ -39,7 +39,7 @@
  *
  * @implements FilterInterface
  */
-class get_user implements FilterInterface
+class get_user implements Filter_Interface
 {
     private $user    = null;
 
