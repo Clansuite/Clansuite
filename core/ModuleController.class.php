@@ -41,7 +41,7 @@
  * @subpackage  controller
  * @category    interfaces
  */
-interface clansuite_module
+interface Clansuite_ModuleInterface
 {
     # always needed is the main execute() method
     function execute(httprequest $request, httpresponse $response);
@@ -65,7 +65,7 @@ interface clansuite_module
  * 3. provide access to create_global_view
  *
  */
-abstract class controller_base extends Clansuite_ModuleControllerResolver
+abstract class ModuleController extends Clansuite_ModuleControllerResolver
 {
     /**
      * Variable $output contains the output (view-data) of the module
