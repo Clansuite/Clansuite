@@ -38,23 +38,23 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Purpose: This class is the PageController which has many pages to deal with.
  */
-class module_index extends ModuleController implements Clansuite_Module_Interface
+class Module_Index extends ModuleController implements Clansuite_Module_Interface
 {
     function __construct(Phemto $injector=null)
     {
         parent::__construct(); # run constructor on controller_base
     }
-
+    
     /**
      * Main Method of Index Module
      * 
      * Sets up module specific stuff, needed by all actions of the module
-     * - Calls the requested Action $_REQUEST['action'] Vars to the functions
+     * Calls the requested Action $_REQUEST['action']
      */
     public function execute(httprequest $request, httpresponse $response)
     {
-        # - try proceed to the requested action or display action not found!
-        $this->getActionController($request);
+        # proceed to the requested action
+        $this->processActionController($request);
     }
 
     /**
@@ -70,129 +70,8 @@ class module_index extends ModuleController implements Clansuite_Module_Interfac
         exit;
     }
 
-    /**
-     * index() redirects to show()
-     */
-    function index()
+    function action_smarty_error_example()
     {
-        # Load DBAL
-        $db = $this->injector->instantiate('clansuite_doctrine');
-        $db->doctrine_bootstrap();
-
-        # Load Models
-        require ROOT . '/myrecords/generated/BaseCsNews.php';
-        require ROOT . '/myrecords/CsNews.php';
-        require ROOT . '/myrecords/generated/BaseCsNewsComments.php';
-        require ROOT . '/myrecords/CsNewsComments.php';
-        require ROOT . '/myrecords/generated/BaseCsCategories.php';
-        require ROOT . '/myrecords/CsCategories.php';
-        require ROOT . '/myrecords/generated/BaseCsUsers.php';
-        require ROOT . '/myrecords/CsUsers.php';
-        #require ROOT . '/myrecords/generated/BaseCsModules.php';
-        #require ROOT . '/myrecords/CsModules.php';
-
-        #$models = Doctrine::getLoadedModels();
-        #print_r($models);
-
-        // Defining initial variables
-        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
-        $resultsPerPage = 3;
-
-        // Creating Pager Object with a Query Object inside
-        $pager_layout = new Doctrine_Pager_Layout(
-                        new Doctrine_Pager(
-                            Doctrine_Query::create()
-                                    ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                                    ->from('CsNews n')
-                                    ->leftJoin('n.CsUsers u')
-                                    ->leftJoin('n.CsCategories c')
-                                    #->where('c.module_id = 7')
-                                    #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->orderby('n.news_id DESC'),
-                                 # The following is Limit  ?,? =
-                                 $currentPage, // Current page of request
-                                 $resultsPerPage // (Optional) Number of results per page Default is 25
-                             ),
-                             new Doctrine_Pager_Range_Sliding(array(
-                                 'chunk' => 5
-                             )),
-                             '?mod=index&action=index&page={%page}'
-                             );
-
-        # Get Render Engine
-        $smarty = $this->getView();
-
-        // Assigning templates for page links creation
-        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-        $pager_layout->setSelectedTemplate('[{%page}]');
-        #var_dump($pager_layout);
-
-        // Retrieving Doctrine_Pager instance
-        $pager = $pager_layout->getPager();
-
-        // Fetching news
-        #var_dump($pager->getExecuted());
-        $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
-
-        // Fetch the related COUNT on news_comments and the author of the latest!
-        // a) Count all newst
-        // b) get the nickname of the last comment for certain news_id
-        $stmt1 = Doctrine_Query::create()
-                         ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
-                         ->from('CsNewsComments nc')
-                         ->leftJoin('nc.CsUsers u')
-                         ->groupby('nc.news_id')
-                         ->setHydrationMode(Doctrine::HYDRATE_NONE)
-                         ->where('nc.news_id = ?');
-
-        foreach ($news as $k => $v)
-        {
-            // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
-            # check if something was returned
-            if(isset($cs_news_comments_array[0]))
-            {
-                # strip the [0] array off
-                $news[$k]['CsNewsComments'] = $cs_news_comments_array[0];
-            }
-            else
-            {
-                # nothing was returned, so we set 0
-                $news[$k]['CsNewsComments'] = array('nr_news_comments' => 0);
-            }
-        }
-        #var_dump($news);
-
-        #$smarty->assign('news', $news->toArray());
-        $smarty->assign('news', $news);
-
-        // Return true if it's necessary to paginate or false if not
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());
-
-        // Displaying page links
-        // Displays: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-
-        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsperpage',$pager->getResultsInPage()); #  current Page
-
-        // Return the total number of pages
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());
-        // Return the current page
-        $smarty->assign('paginate_currentpage',$pager->getPage());
-
-        # specifiy the template manually
-        $this->setTemplate('index/newsshow.tpl');
-        # Prepare the Output
-        $this->prepareOutput();
-    }
-
-    function smarty_error_example()
-    {
-        $this->output .= 'test';
         $this->setTemplate('smarty_error_example.tpl');
         # Starting the View
         $this->setView($this->getRenderEngine());
@@ -259,7 +138,7 @@ class module_index extends ModuleController implements Clansuite_Module_Interfac
 /**
  * We don't need the following classes.
  * They are here for understanding the MVC Pattern.
- * Demonstration is done via function $module_index->mvc();
+ * Demonstration is done via function $module_index->action_mvc();
  */
 
 /**
