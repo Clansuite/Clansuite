@@ -45,19 +45,14 @@ interface Clansuite_Module_Interface
 {
     # always needed is the main execute() method
     function execute(httprequest $request, httpresponse $response);
-    
-    /**
-     * A minimum functionality of every module is the action for displaying content,
-     * so the the existance of a method action_show() is a must!
-     */
-    function action_show();
 }
 
 /**
- * Controller_Base
+ * ModuleController
  *
  * Is an abstract class (parent class) to share some common features
- * for all (Module/Page)-Controllers. You could call it ActionController.
+ * for all (Module/Action)-Controllers. 
+ * You could call it ModuleController and ActionController.
  * It`s abstract because it should only extended, not instantiated.
  *
  * 1. saves a copy of the cfg class
@@ -117,7 +112,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @param string $requested_action the requested action as string
      */
-    public function getActionController($request)
+    public function processActionController($request)
     {  
         # get action parameter from URL
         $action = $request->getParameter('action');
