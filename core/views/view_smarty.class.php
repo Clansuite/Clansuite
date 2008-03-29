@@ -103,7 +103,7 @@ class view_smarty extends renderer_base
        * Set Configurations to Smarty Object
        * ===================================
        */
-      self::smarty_configuration(); 
+      self::smarty_configuration();
     }
 
     /**
@@ -112,8 +112,8 @@ class view_smarty extends renderer_base
     private function smarty_configuration()
     {
         #### SMARTY DEBUGGING
-        $this->smarty->debugging           = DEBUG ? true : false;
-        $this->smarty->debug_tpl           = ROOT_THEMES . '/core/debug.tpl';
+        $this->smarty->debugging           = DEBUG ? true : false;              # set smarty debugging, when debug on
+        $this->smarty->debug_tpl           = ROOT_THEMES . '/core/debug.tpl';   # set debugging template for smarty
         if ( defined('DEBUG') && DEBUG===1 )
         {
             $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
@@ -273,7 +273,7 @@ class view_smarty extends renderer_base
         # if single key-value pair
         $this->smarty->assign($tpl_parameter, $value);
     }
-    
+
      /**
      * Magic Method to get a already set/assigned Variable from Smarty
      *
@@ -284,7 +284,7 @@ class view_smarty extends renderer_base
     {
         return $this->smarty->get_template_vars($key);
     }
-       
+
    /**
      * Magic Method to set/assign Variable to Smarty
      *
@@ -295,7 +295,7 @@ class view_smarty extends renderer_base
     public function __set($key, $value)
     {
         $this->smarty->assign($key, $value);
-    }  
+    }
 
     /**
      * Executes the template rendering and returns the result.
@@ -314,31 +314,33 @@ class view_smarty extends renderer_base
     }
 
     /**
-     * view_smarty->render
+     * view_smarty->assignConstants
      *
-     * Returns the mainframe layout with inserted modulcontent.
+     * Assign the common template values and Clansuite constants to the templates.
+     * a) meta
+     * b) clansuite version
+     * c)
      *
-     * 1. common assings to smarty
-     * 2. fetch the modultemplate and assigns it as $content
-     * 3. return the mainframe tpl
-     *
-     * @param string $templatename Template Filename
-     * @return mainframe.tpl layout
+     * @access protected
      */
-    public function render($templatename)
+    public function assignConstants()
     {
-        #echo 'Rendering via Smarty:<br />';
-        #var_dump($this->smarty);
-        #var_dump($_SESSION);
         /**
          * Assign Config Values (for use in header of tpl)
          */
-        # Meta Inforamtions about the website
+        # a) Meta Inforamtions about the website
         $this->smarty->assign('meta', $this->config['meta']);
-        # ClanSuite Version from config.class.php
+
+        # b) ClanSuite Version from config.class.php
         $this->smarty->assign('clansuite_version'           , $this->config['clansuite_version']);
         $this->smarty->assign('clansuite_version_state'     , $this->config['clansuite_version_state']);
         $this->smarty->assign('clansuite_version_name'      , $this->config['clansuite_version_name']);
+
+        # c)
+        # Page Title
+        $this->smarty->assign('std_page_title', $this->config['std_page_title']);
+
+
         # Assign DB Counters
         $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
         # Redirects, if necessary
@@ -347,8 +349,7 @@ class view_smarty extends renderer_base
         $this->smarty->assign('css'           , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']);
         # Normal Javascript (global)
         $this->smarty->assign('javascript'    , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
-        # Page Title
-        $this->smarty->assign('std_page_title', $this->config['std_page_title']);
+
         # Breadcrumb
         $this->smarty->assign_by_ref('trail'  , $this->trail->path);
         # Assign Statistic Variables
@@ -357,7 +358,7 @@ class view_smarty extends renderer_base
         # Assign Benchmarks
         #$this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
 
-        /**
+         /**
          * Check for our Copyright-Sign {$copyright} and assign it
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
@@ -365,11 +366,32 @@ class view_smarty extends renderer_base
         #self::check_copyright( ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/' . $this->config->tpl_wrapper_file );
         $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl'));
 
+        # leave this for debugging purposes
+        #var_dump($this->smarty);
+    }
+
+    /**
+     * view_smarty->render
+     *
+     * Returns the mainframe layout with inserted modulcontent (templatename).
+     *
+     * 1. assign common values and constants
+     * 2. fetch the modultemplate and assigns it as $content
+     * 3. return the mainframe tpl
+     *
+     * @param string $templatename Template Filename
+     * @return mainframe.tpl layout
+     */
+    public function renderLayout($templatename)
+    {
+        #echo 'Rendering via Smarty:<br />';
+        #var_dump($this->smarty);
+        #var_dump($_SESSION);
+
+        $this->assignConstants();
+
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
         #$this->smarty->display($this->module->template);
-
-        #var_dump($this->smarty);
-        #var_dump($this->module_view->template);
 
         /**
          * Fetch the Template of the module
