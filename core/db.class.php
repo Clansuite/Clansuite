@@ -214,7 +214,7 @@ class db //extends PDO
         # In case a PDOException occurs, catch the exception and show Error
         catch (PDOException $exception)
         {
-            $this->error->ysod( $exception, _('DB Connection Failure'), _('The Database Connection could not be established.'));
+            $this->error->ysod( $exception, _('DB Connection Failure'), _('The Database Connection could not be established.'), 3);
             exit();
         }
     } 
