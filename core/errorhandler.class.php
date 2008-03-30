@@ -72,10 +72,10 @@ class errorhandler
         $this->config   = $config; # set instance of configuration
 
         # register own exception handler
-        set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
+        #set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
 
         # register own error handler
-        set_error_handler(array(&$this,'clansuite_error_handler'));
+        #set_error_handler(array(&$this,'clansuite_error_handler'));
 
         # DEBUG Test the errorhandler with the following function
         #trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
@@ -225,15 +225,14 @@ class errorhandler
      * @param string $error_head contains the Name of the Error
      * @param string $string contains errorstring
      * @param integer $error_level contains errorlvl
-     * @param string $redirect contains redirect url
      */
-    public function ysod( $ErrorObject, $error_head = 'Unknown Error', $string = '', $error_level = 3, $redirect = '' )
+    public function ysod( $ErrorObject, $error_head = 'Unknown Error', $string = '', $error_level = 3 )
     {
         # Header
         $errormessage    = '<html><head>';
         $errormessage   .= '<title>Clansuite Error - '. $error_head .' | Errorcode: '. $error_level .'</title>';
         $errormessage   .= '<body>';
-        $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'css/error.css" type="text/css" />';
+        $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
         # Body
         $errormessage   .= '<body>';
@@ -245,9 +244,9 @@ class errorhandler
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
         # Fieldset Legend
-        $errormessage   .= '<legend>Clansuite Error: $error_head</legend>';
+        $errormessage   .= '<legend>Clansuite Error: '. $error_head .'</legend>';
         # Error String (passed Error Description)
-        $errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
+        #$errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
         # Error Messages from the ErrorObject
         $errormessage   .= '<hr style="width=80%">';
         $errormessage   .= '<table>';
@@ -256,6 +255,7 @@ class errorhandler
         $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject->getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject->getLine().'</td></tr>';
+        # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Environmental Informations at Errortime
         $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
@@ -263,13 +263,66 @@ class errorhandler
         $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
+        # HR Split
+        $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
+        # Tracing
+        #$errormessage   .= $this->getDebugBacktrace();
+        # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
-        # @todo tracing here?
         $errormessage   .= '</fieldset>';
         $errormessage   .= '</body></html>';
-
         # Output the errormessage
         echo $errormessage;
+        
+    }
+  
+    function getDebugBacktrace()
+    {
+        $backtrace_string = '';
+        $dbg_backtrace = debug_backtrace();
+   
+        $backtrace_string = "<br /><br />Backtrace (most recent call last):<br /><br />\n";  
+         
+        for($i = 0; $i <= count($dbg_backtrace) - 1; $i++)
+        {
+            if(!isset($dbg_backtrace[$i]["file"]))
+            {
+                $backtrace_string .= "[PHP core called function]<br />";
+            }
+            else
+            {
+                $backtrace_string .= "File: ".$dbg_backtrace[$i]["file"]."<br />";
+            }
+           
+            if(isset($dbg_backtrace[$i]["line"]))
+            {
+                $backtrace_string .= "&nbsp;&nbsp;&nbsp;&nbsp;line ".$dbg_backtrace[$i]["line"]."<br />";
+                $backtrace_string .= "&nbsp;&nbsp;&nbsp;&nbsp;function called: ".$dbg_backtrace[$i]["function"];
+            }
+           
+            if($dbg_backtrace[$i]["args"])
+            {
+                $backtrace_string .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;args: ';
+                for($j = 0; $j <= count($dbg_backtrace[$i]["args"]) - 1; $j++)
+                {
+                    if(is_array($dbg_backtrace[$i]["args"][$j]))
+                    {
+                        $backtrace_string .= print_r($dbg_backtrace[$i]["args"][$j]);
+                    }
+                    # @todo: if object, convert via toString 
+                    else
+                    {
+                        $backtrace_string .= $dbg_backtrace[$i]["args"][$j];  
+                    }
+                                                   
+                    if($j != count($dbg_backtrace[$i]["args"]) - 1)
+                    {
+                        $backtrace_string .= ', ';
+                    }
+                }
+            }
+            $backtrace_string .= '<br /><br />';
+        }
     }
 
     /**
