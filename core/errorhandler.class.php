@@ -266,7 +266,7 @@ class errorhandler
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Tracing
-        #$errormessage   .= $this->getDebugBacktrace();
+        $errormessage   .= $this->getDebugBacktrace();
         # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
         $errormessage   .= '</fieldset>';
@@ -305,11 +305,22 @@ class errorhandler
                 $backtrace_string .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;args: ';
                 for($j = 0; $j <= count($dbg_backtrace[$i]["args"]) - 1; $j++)
                 {
+                    # if array, print_r
                     if(is_array($dbg_backtrace[$i]["args"][$j]))
                     {
                         $backtrace_string .= print_r($dbg_backtrace[$i]["args"][$j]);
                     }
-                    # @todo: if object, convert via toString 
+                    # if object, convert via toString 
+                    elseif (is_object($dbg_backtrace[$i]["args"][$j]) && method_exists($dbg_backtrace[$i]["args"][$j], 'tostring'))
+                    {
+        			     return new $dbg_backtrace[$i]["args"][$j]->toString();
+        			}
+        			# if object, without toString method return NULL
+        			elseif (is_object($dbg_backtrace[$i]["args"][$j]))
+        			{
+        			     return NULL;
+        			}
+        			# when string, simple add it
                     else
                     {
                         $backtrace_string .= $dbg_backtrace[$i]["args"][$j];  
@@ -317,12 +328,17 @@ class errorhandler
                                                    
                     if($j != count($dbg_backtrace[$i]["args"]) - 1)
                     {
+                        # split
                         $backtrace_string .= ', ';
                     }
                 }
             }
+            # spacer
             $backtrace_string .= '<br /><br />';
         }
+        
+        # Returns the Backtrace String
+        return $backtrace_string;
     }
 
     /**
