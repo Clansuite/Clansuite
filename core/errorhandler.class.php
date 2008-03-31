@@ -72,10 +72,10 @@ class errorhandler
         $this->config   = $config; # set instance of configuration
 
         # register own exception handler
-        #set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
+        set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
 
         # register own error handler
-        #set_error_handler(array(&$this,'clansuite_error_handler'));
+        set_error_handler(array(&$this,'clansuite_error_handler'));
 
         # DEBUG Test the errorhandler with the following function
         #trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
@@ -268,7 +268,10 @@ class errorhandler
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Tracing
-        $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
+        if ( defined('DEBUG') && DEBUG===1 )
+        { 
+            $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
+        }
         # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
         $errormessage   .= '</fieldset>';
