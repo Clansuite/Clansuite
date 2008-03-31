@@ -163,7 +163,7 @@ class errorhandler
         {
             # smarty errors are trigger_errors - so they bubble up as e_user_errors
             # so we need to detect if an e_user_errors is coming from smarty
-            if(strpos($errorfile,"Smarty") !== false)
+            if(strpos($errorfile,'Smarty') !== false)
             {
                 # Print shorter Version of ErrorReport
                 echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
@@ -250,6 +250,7 @@ class errorhandler
         # Error Messages from the ErrorObject
         $errormessage   .= '<hr style="width=80%">';
         $errormessage   .= '<table>';
+        $errormessage  .= '<tr><td><h3>Error</h3></td></tr>';
         $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$ErrorObject->getCode().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$ErrorObject->getMessage().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
@@ -258,6 +259,7 @@ class errorhandler
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Environmental Informations at Errortime
+        $errormessage  .= '<tr><td><h3>Server Environment</h3></td></tr>';
         $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
         $errormessage   .= '<tr><td><strong>Request :</strong></td><td>'.$_SERVER['QUERY_STRING'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
@@ -266,67 +268,68 @@ class errorhandler
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Tracing
-        $errormessage   .= $this->getDebugBacktrace();
+        $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
         # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
         $errormessage   .= '</fieldset>';
         $errormessage   .= '</body></html>';
         # Output the errormessage
         echo $errormessage;
-        
+
     }
-  
+
     function getDebugBacktrace()
     {
         $backtrace_string = '';
         $dbg_backtrace = debug_backtrace();
-   
-        $backtrace_string = "<br /><br />Backtrace (most recent call last):<br /><br />\n";  
-         
+
+        $backtrace_string  .= '<tr><td><h3>Backtrace</h3>(Recent function calls last)</td></tr>';
+
         for($i = 0; $i <= count($dbg_backtrace) - 1; $i++)
         {
-            if(!isset($dbg_backtrace[$i]["file"]))
+            if(!isset($dbg_backtrace[$i]['file']))
             {
-                $backtrace_string .= "[PHP core called function]<br />";
+                $backtrace_string .= '<tr><td><strong>[PHP core called function]</strong></td>';
             }
             else
             {
-                $backtrace_string .= "File: ".$dbg_backtrace[$i]["file"]."<br />";
+                $backtrace_string .= '<tr><td><strong>Datei :</strong></td><td>' . $dbg_backtrace[$i]['file'] . '</td>';
             }
-           
-            if(isset($dbg_backtrace[$i]["line"]))
+
+            if(isset($dbg_backtrace[$i]['line']))
             {
-                $backtrace_string .= "&nbsp;&nbsp;&nbsp;&nbsp;line ".$dbg_backtrace[$i]["line"]."<br />";
-                $backtrace_string .= "&nbsp;&nbsp;&nbsp;&nbsp;function called: ".$dbg_backtrace[$i]["function"];
+                $backtrace_string .= '</tr><tr><td><strong>Zeile</strong></td><td>' . $dbg_backtrace[$i]['line'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Function called :</strong></td><td>' . $dbg_backtrace[$i]['function'] . '</td></tr>';
             }
-           
-            if($dbg_backtrace[$i]["args"])
+
+            if($dbg_backtrace[$i]['args'] && !is_object($dbg_backtrace[$i]['args']))
             {
-                $backtrace_string .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;args: ';
-                for($j = 0; $j <= count($dbg_backtrace[$i]["args"]) - 1; $j++)
+                $backtrace_string .= '<tr><td>Arguments: ';
+                for($j = 0; $j <= count($dbg_backtrace[$i]['args']) - 1; $j++)
                 {
                     # if array, print_r
-                    if(is_array($dbg_backtrace[$i]["args"][$j]))
+                    if(is_array($dbg_backtrace[$i]['args'][$j]))
                     {
-                        $backtrace_string .= print_r($dbg_backtrace[$i]["args"][$j]);
+                        #$backtrace_string .= print_r($dbg_backtrace[$i]['args'][$j]);
                     }
-                    # if object, convert via toString 
-                    elseif (is_object($dbg_backtrace[$i]["args"][$j]) && method_exists($dbg_backtrace[$i]["args"][$j], 'tostring'))
+                    # if object, convert via toString
+                    elseif (is_object($dbg_backtrace[$i]['args'][$j]) && method_exists($dbg_backtrace[$i]['args'][$j], 'tostring'))
                     {
-        			     return new $dbg_backtrace[$i]["args"][$j]->toString();
+                         # @todo: this is buggy!
+        			     $backtrace_string .= new $dbg_backtrace[$i]['args'][$j]->toString();
         			}
         			# if object, without toString method return NULL
-        			elseif (is_object($dbg_backtrace[$i]["args"][$j]))
+        			elseif (is_object($dbg_backtrace[$i]['args'][$j]))
         			{
-        			     return NULL;
+        			     $backtrace_string .= 'Object';
         			}
         			# when string, simple add it
                     else
                     {
-                        $backtrace_string .= $dbg_backtrace[$i]["args"][$j];  
+                        $backtrace_string .= $dbg_backtrace[$i]['args'][$j];
                     }
-                                                   
-                    if($j != count($dbg_backtrace[$i]["args"]) - 1)
+
+                    if($j != count($dbg_backtrace[$i]['args']) - 1)
                     {
                         # split
                         $backtrace_string .= ', ';
@@ -334,9 +337,9 @@ class errorhandler
                 }
             }
             # spacer
-            $backtrace_string .= '<br /><br />';
+            $backtrace_string .= '</td></tr>';
         }
-        
+
         # Returns the Backtrace String
         return $backtrace_string;
     }
