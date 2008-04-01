@@ -47,7 +47,7 @@
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
 <div id="box">
 	<div id="header">
-		<h1 id="clansuite_title">Clansuite - just an eSport CMS</h1>
+		<h1 id="clansuite_title">Clansuite - just an eSports CMS</h1>
 		<ul id="navigation">
 			<li><a href="index.php?mod=news">News</a></li>
 			<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
