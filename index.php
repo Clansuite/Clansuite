@@ -77,7 +77,7 @@ foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
 # filters to load
 $prefilter_classes = array(
-'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs'
+'maintenance', 'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs'
 );
 foreach($prefilter_classes as $class) { $injector->register($class); } # register the filters
 
