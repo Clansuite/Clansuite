@@ -57,9 +57,13 @@ class maintenance implements Filter_Interface
         // or pass through (do nothing)
         if($this->config['maintenance'] == 1)
         {
-            # @todo: create template
-            echo $this->config['maintenance_reason'];
-        }// else => bypass
+            # @todo: a) create template? 
+            # @todo: b) create override of maintenance mode, in case it's an admin user?
+            $response->setContent($this->config['maintenance_reason']);
+            $response->flush();
+            exit();
+        }
+        // else => bypass
     }
 }
 ?>
