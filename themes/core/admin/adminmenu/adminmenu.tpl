@@ -22,8 +22,8 @@ arrow2.src =  "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
             <tr>
                 <td>&nbsp;</td>
 
-                <!-- mod-include: admin menueditor get_html_div //-->
-                {mod name="admin" sub="menueditor" func="get_html_div"}
+                <!-- module-include: admin menueditor get_html_div //-->
+                {load_module name="admin" sub="menueditor" action="get_html_div"}
 
                 <td align="right" width="100%">
                         <a class="itembtn" href="index.php?mod=admin&amp;sub=users&amp;action=usercenter">
