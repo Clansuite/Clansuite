@@ -61,6 +61,8 @@ class view_smarty extends renderer_base
 	 */
     private $smarty     = null;
 
+    public $layoutTemplate = null;
+
     private $config     = null;
     private $db         = null;
     private $trail      = null;
@@ -177,14 +179,17 @@ class view_smarty extends renderer_base
 
         # Smarty Directories
         /**
-        * This sets multiple template dirs
-        * First  is "/templates_path/user_session_theme"
-        * Second is "/templates_path/core/"
-        */
+         * This sets multiple template dirs
+         *
+         * with in the following detection order:
+         * 1) "/themes/theme_of_user_session/"
+         * 2) "/modules/"
+         * 3) "/themes/core/"
+         */
         $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/'; # user-session theme
-        $this->smarty->template_dir[] = ROOT_MOD;
-        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                           # /themes/core
+        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';   # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_MOD;                                               # /modules
+        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                                  # /themes/core
         #var_dump($this->smarty->template_dir);
 
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
@@ -236,7 +241,7 @@ class view_smarty extends renderer_base
         }
         else
         {
-            throw new Exception('Invalid template path provided');
+            throw new Exception('Invalid Smarty template path provided');
         }
     }
 
@@ -340,7 +345,6 @@ class view_smarty extends renderer_base
         # Page Title
         $this->smarty->assign('std_page_title', $this->config['std_page_title']);
 
-
         # Assign DB Counters
         $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
         # Redirects, if necessary
@@ -358,16 +362,80 @@ class view_smarty extends renderer_base
         # Assign Benchmarks
         #$this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
 
-         /**
+        /**
          * Check for our Copyright-Sign {$copyright} and assign it
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
-        #self::check_copyright( ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/' . $this->config->tpl_wrapper_file );
         $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl'));
 
         # leave this for debugging purposes
         #var_dump($this->smarty);
+    }
+
+    /**
+     * Smarty Register Function
+     *
+     * 1) load_module
+     *
+     * @access public
+     */
+    public function assignModuleLoading()
+    {
+        $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
+    }
+
+    /**
+     * view_smarty::loadModule
+     *
+     * Static Function to Call variable Methods from templates via
+     * {load_module name= sub= params=}
+     *
+     * [deprecated] :
+     * This was formlerly {mod} inside templates.
+     * Calling a function named get_instant_content() on core/modules.class.php.
+     *
+     * @access static
+     */
+    public static function loadModule($params)
+    {
+        # Debug: Show Parameters for requested Module
+        #var_dump($params);
+
+        /**
+         *  Init incomming Variables
+         *  @todo: find an easier way to do this..
+         */
+        $params['name']     = isset( $params['name'] ) ? $params['name'] : '';
+        $params['sub']      = isset( $params['sub'] ) ? $params['sub'] : '';
+        $params['params']   = isset( $params['params'] ) ? $params['params'] : '';
+        $mod                = (string) $params['name'];
+        $sub                = (string) $params['sub'];
+        $action             = (string) $params['action'];
+
+        # Construct the variable module_name
+        $module_name = 'module_' . strtolower($mod);
+
+        # Load class, if not already existing
+        if(!class_exists($module_name))
+        {
+            clansuite_loader::loadModul($mod);
+        }
+
+        # Instantiate Class
+        $controller = new $module_name();
+
+        # Parameter Array
+        $param_array = split('\|', $params['params']);
+
+        # Get the Ouptut of the Object->Method Call
+        $output = call_user_func_array( array($controller, $action), $param_array );
+
+        # ! ECHO
+        # @todo: Fix this?! , because it breaks MVC.
+        # a) we're pulling php from templates (there is no other way!)
+        # b) we're directly writing the output (maybe a composite tree for the view??)
+        echo $output;
     }
 
     /**
@@ -382,42 +450,69 @@ class view_smarty extends renderer_base
      * @param string $templatename Template Filename
      * @return mainframe.tpl layout
      */
-    public function renderLayout($templatename)
+    public function render($templatename)
     {
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
         #var_dump($_SESSION);
 
         $this->assignConstants();
+        $this->assignModuleLoading();
 
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
         #$this->smarty->display($this->module->template);
 
         /**
-         * Fetch the Template of the module
+         * Fetch the Template of the module and
+         * Assign it to the Layout Template as $content
          *
          * Debugging Hint:
          * Change Fetch to DisplayDOC to get an echo of the pure ModuleContent
          * else var_dump the fetch!
-         *
          */
         $modulcontent =  $this->smarty->fetch($templatename);
         #var_dump($modulcontent);
-
-        /**
-         * Assign Content
-         *
-         * Content of the Modul is assigned to Smarty as variable "content"
-         * this is $content in the mainframe index.tpl
-         */
         $this->smarty->assign('content',  $modulcontent );
 
         #DEBUG ? $debug->show_console() : '';
         #var_dump($this->config['tpl_wrapper_file']);
+        #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
 
-        return $this->smarty->fetchDOC($this->config['tpl_wrapper_file']);
-        // error if wrapper could not be found "Main Layout for Themeset: xy not found. Searched for: filename."
+        return $this->smarty->fetchDOC($this->getLayoutTemplate());
+    }
+
+    /**
+     * Sets the name of the layout template.
+     *
+     * @param string $template Name of the Layout Template.
+     */
+    public function setLayoutTemplate($template)
+    {
+        #if (is_file($template) && is_readable($template))
+        #{
+            $this->layoutTemplate = $template;
+        #}
+        #else
+        #{
+            #throw new Exception('Invalid Smarty Layout Template provided. Check Name and Path.');
+        #}
+    }
+
+     /**
+     * Returns the Name of the Layout Template.
+     * Returns the config value if no layout template is set
+     *
+     * @access public
+     * @return string layout name, config tpl_wrapper_file as default
+     */
+    public function getLayoutTemplate()
+    {
+        if(empty($this->layoutTemplate))
+        {
+            $this->setLayoutTemplate($this->config['tpl_wrapper_file']);
+        }
+        return $this->layoutTemplate;
     }
 }
 ?>
