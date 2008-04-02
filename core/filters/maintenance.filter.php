@@ -46,24 +46,26 @@ class maintenance implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
 
-    function __construct(configuration $config, trail $trail)
+    function __construct(configuration $config)
     {
         $this->config    = $config;      # set instance of config to class
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-        // take the initiative, if maintenance is enabled in CONFIG
-        // or pass through (do nothing)
+        /**
+         * take the initiative,
+         * if maintenance is enabled in CONFIG
+         * or pass through (do nothing)
+         */
         if($this->config['maintenance'] == 1)
         {
-            # @todo: a) create template? 
+            # @todo: a) create template?
             # @todo: b) create override of maintenance mode, in case it's an admin user?
             $response->setContent($this->config['maintenance_reason']);
             $response->flush();
             exit();
         }
-        // else => bypass
-    }
+    } // else => bypass
 }
 ?>
