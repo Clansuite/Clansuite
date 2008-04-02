@@ -49,6 +49,7 @@
 	<div id="header">
 		<h1 id="clansuite_title">Clansuite - just an eSports CMS</h1>
 		<ul id="navigation">
+		    <li><a href="index.php?mod=index">Index</a></li>
 			<li><a href="index.php?mod=news">News</a></li>
 			<li><a href="index.php?mod=news&amp;action=archiv">Newsarchiv</a></li>
 			<li><a href="index.php?mod=board">Board</a></li>
@@ -57,6 +58,7 @@
 			<li><a href="index.php?mod=userslist">Userslist</a></li>
 			<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
 			<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
+			<li><a href="index.php?mod=admin">Admin Control Panel</a></li>
 		</ul>
 	</div>
 	<div id="breadcrumb">
