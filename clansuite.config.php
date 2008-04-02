@@ -208,8 +208,103 @@ class configuration implements ArrayAccess
 
         $this->config['maintenance'] = 0;
         $this->config['maintenance_reason'] = 'SITE is currently undergoing scheduled maintenance.
-                                     <br />Please try back in 60 minutes. Sorry for the inconvenience.';
+                                     <br />Sorry for the inconvenience. Please try back in 60 minutes.';
 
+    }
+
+    /**
+     * Reads a '.ini' Configfile
+     * This method read configuration values from a .ini file.
+     *
+     * @param string $ini_filename Filename of .ini to read
+     * @param boolean $structured_array if true, the data is returned as a structured array
+     * @access public
+     *
+     * @return array An associative array with the configuration
+     */
+    public function readConfig($ini_filename, $structured_array = 1)
+    {
+        var_dump($this->config);
+        $this->config['module'] = parse_ini_file($ini_filename, $structured_array);
+        var_dump($this->config);
+    }
+
+    /**
+     * Writes a .ini Configfile
+     * This method writes the configuration values specified to the filename.
+     *
+     * @param string $ini_filename Filename of .ini to write
+     * @param array $assoc_array Associative Array with Ini-Values
+     * @access public
+     *
+     * @return bool Returns true on success, false otherwise
+     */
+    public function writeConfig($ini_filename, $assoc_array)
+    {
+       # attach an security header at the top of the ini file
+       $content  = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
+       $content .= ";;;;;;;;;;\n";
+       $content .= ";; $ini_filename - Clansuite Configuration File.\n";
+       $content .= ";;-----| \n\n";
+
+        # loop over every array element
+        foreach($assoc_array as $key => $item)
+        {
+            # checking if it's an array
+            if(is_array($item))
+            {
+                # then write an [array_header] block
+                $content .= "\n[{$key}]\n";
+
+                # for every element after that
+                foreach ($item as $key2 => $item2)
+                {
+                    if(is_numeric($item2) || is_bool($item2))
+                    {
+                        # write numeric and boolean values without quotes
+                        $content .= "{$key2} = {$item2}\n";
+                    }
+                    else
+                    {
+                        # write value with quotes
+                        $content .= "{$key2} = \"{$item2}\"\n";
+                    }
+                }
+            }
+            # if it's not an array
+            else
+            {
+                if(is_numeric($item) || is_bool($item))
+                {
+                    # write numeric and boolean values without quotes
+                    $content .= "{$key} = {$item}\n";
+                }
+                else
+                {
+                    # write value with quotes
+                    $content .= "{$key} = \"{$item}\"\n";
+                }
+            }
+        }
+
+        # add php closing tag
+        $content .= "; DO NOT REMOVE THIS LINE */ ?>";
+
+        # open file
+        if (!$handle = fopen($path, 'w'))
+        {
+            return false;
+        }
+
+        # write to file
+        if (!fwrite($handle, $content))
+        {
+            return false;
+        }
+
+        # close file
+        fclose($handle);
+        return true;
     }
 
     /**
