@@ -143,13 +143,53 @@ class Clansuite_Loader
      * @access public
      *
      * @return boolean
+     *
+     * @todo: this 'module_" prefixing is complete bullshit, but we have to get going!
+     *
+     * String Variants to consider:
+     * 1) admin
+     * 2) module_admin
+     * 3) module_admin_menueditor
+     *
      */
     public static function loadModul($modulename)
     {
-        #$class_prefix = 'module_';
-        #$classname = $class_prefix . strtolower($modname);
-        $filename = ROOT_MOD . DIRECTORY_SEPARATOR . $modulename . DIRECTORY_SEPARATOR . strtolower($modulename) . '.module.php';
-        #echo '<br>loaded Module => '. $filename;
+        # check for prefix 'module_'
+        $spos=strpos($modulename, 'module_');
+      	if (is_int($spos) && ($spos==0)) 
+      	{
+    	    # ok, 'module_' is prefixed
+    	    #echo $spos; exit;
+      	}
+      	else
+      	{
+      	    # add it
+      	    $modulename = 'module_'. $modulename;
+      	}
+        
+        /**
+         * now we have a common string like 'module_admin_menueditor'
+         * which we split at underscore, via explode
+         * like: Array ( [0] => module [1] => admin [2] => menueditor ) 
+         */
+        $modulinfos = explode("_", $modulename);
+        
+        # construct first part of filename
+        $filename = ROOT_MOD . DIRECTORY_SEPARATOR . $modulinfos['1'] . DIRECTORY_SEPARATOR;
+        
+        # if there is a part [2], we have to require a submodule filename
+        if(isset($modulinfos['2'])) 
+        { 
+            # submodule filename
+            $filename .= strtolower($modulinfos['2']) . '.module.php';
+            #echo '<br>loaded SubModule => '. $filename;
+        }
+        else
+        {
+            # module filename
+            $filename .= strtolower($modulinfos['1']) . '.module.php';
+            #echo '<br>loaded Module => '. $filename;
+        }
         return self::requireFile($filename);
     }
 
