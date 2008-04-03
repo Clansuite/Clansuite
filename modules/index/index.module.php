@@ -40,10 +40,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Module_Index extends ModuleController implements Clansuite_Module_Interface
 {
+    /*
     function __construct(Phemto $injector=null)
     {
-        parent::__construct(); # run constructor on controller_base
-    }
+        #parent::__construct(); # run constructor on controller_base
+    }*/
     
     /**
      * Main Method of Index Module
@@ -128,7 +129,10 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         #$this->setTemplate( ROOT_MOD . '/index/templates/show.tpl' );
 
         # Starting the View
-        $this->setView($this->getRenderEngine());
+        #$this->setView($this->getRenderEngine());
+        
+        # Applying a Layout Template
+        #$this->getView()->setLayoutTemplate('admin/index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
