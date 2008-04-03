@@ -36,7 +36,10 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Interface for Action/Command Controller Resolving ( Request to Command/Action )
+ * Interface for Action/Command Controller Resolving
+ *
+ * The ModuleController_Resolver has to implement the following methods,
+ * to resolve the Request to a Action/Command.
  *
  * @package clansuite
  * @subpackage controller
@@ -70,7 +73,7 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
         else
         {
             self::setModuleAction($this->defaultAction);
-        } 
+        }
     }
 
     /**
@@ -98,6 +101,8 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
 /**
  * Interface for Module Controller Resolving ( Request to Module )
  *
+ * The ModuleController_Resolver has to implement the following methods.
+ *
  * @package clansuite
  * @subpackage controller
  * @category interfaces
@@ -108,11 +113,12 @@ interface Clansuite_ModuleController_Resolver_Interface
 }
 
 /**
- * Clansuite Controller Resolver ( Request to Command )
+ * Clansuite Controller Resolver
  *
- * This Class
- * 1. extracts infos about the module (and action) from REQUEST
- * 2. and returns the appropriate $module_controller Modul Object (and Command)
+ * This Class is a Resolver Class for Modules and their Actions.
+ * 1. extracts infos about the module and action from the REQUEST object
+ * 2. via method getModuleController() it returns the appropriate $module_controller module object
+ * 3. via method getActionCommand() it returns the appropriate $action_command action object
  *
  * @implements ControllerResolverInterface
  *
@@ -168,6 +174,49 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     }
 
     /**
+     * Fire Action !
+     *
+     * @param string $requested_action the requested action as string
+     */
+    /*
+    public function getActionController($request)
+    {
+        # get action parameter from URL
+        $action = $request->getParameter('action');
+
+        # the pseudo-namesspace prefix 'action_' is used for all actions.
+        # this is also a way to ensure some kind of whitelisting via namespacing.
+        $method = 'action_'.$action;
+
+        # ensure action is (a) set and (b) not empty and (c) check if method action_$actionxxx
+        # exists in the main module class (the one extending this class)
+        if(isset($action) && !empty($action) && method_exists($this,$method))
+        {
+            # set the used action name
+            $this->action_name = $action;
+            # call the method !
+            $this->{$method}();
+        }
+        # check if the method exists as a drop in action in the module directory
+        /*elseif
+        {
+            if is_file() ....
+
+        }*/
+        /*
+        else
+        {
+            # set the used action name
+            $this->action_name = $this->config['default_action'];
+            # set the method name
+            $method = 'action_'.$this->config['default_action'];
+            # call the method !
+            $this->{$method}();
+        }
+    }
+    */
+
+    /**
      * Method to set the ModuleName
      *
      * @access private
@@ -192,7 +241,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
 /**
  * Interface for FrontController
  *
- * Frontcontroller has to define processRequest()
+ * The Frontcontroller has to implement the following methods.
  *
  * @package     clansuite
  * @subpackage  controller
@@ -208,14 +257,16 @@ interface Clansuite_FrontController_Interface
 /**
  * Clansuite FrontController
  *
- * Is basically a FrontController (which should better be named RequestController)
- * with fassade (addPreFilter, addPostFilter) to both filtermanagers / filterchains on top
+ * It's basically a FrontController (which should better be named RequestController)
+ * with fassade (addPreFilter, addPostFilter) to both filtermanagers / filterchains on top.
  *
- * 1. Intercepts all requests made by the client to the web server made through central "index.php"
- * 2. gets all needed things like Auth, Sessions, Logging, whatever... pluggable or not.
- * 3. decides then which PageController (which module) must be called to process the request:
- *    via a path in directory structure.
- * That means: we are dynamically invoking the pagecontroller of the module.
+ * It's tasks are:
+ * 1. intercepts all requests made by the client to the web server through central "index.php"
+ * 2. gets all needed "pre action processing" things like Auth, Sessions, Logging, whatever... pluggable or not.
+ * 3. decides then, which ModuleController we must dynamically invoking to process the request
+ *
+ * The constructor takes the Controller_Resolver_Interface (so it's an implementation against an interface)
+ * and the Dependency Injector.
  *
  * @implements ControllerCommandInterface
  * @package     clansuite
