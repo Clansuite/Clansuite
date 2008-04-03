@@ -70,26 +70,64 @@ interface Clansuite_Request_Interface
  */
 class httprequest implements Clansuite_Request_Interface, ArrayAccess
 {
-    #
+    # contains the cleaned $_REQUEST Parameters
     private $parameters;
 
     /**
+     * Construct the Request Object
+     *
      * 1) Filter Globals and Request
-     * 2) Import SUPERGLOBAL $_REQUEST into $parameters
+     * 2) Run $_REQUEST through Filterset of Intrusion Detection System
+     * 3) Import SUPERGLOBAL $_REQUEST into $parameters
      */
     public function __construct()
     {
+        # 1) Filter Globals and Request
+        
         // Reverse the effect of register_globals
         if (ini_get('register_globals'))
         {
             $this->cleanGlobals();
         }
+        
+        # disabled this method by xsign
         #$this->cleanup_request();
+        
+        # handle the magic quotes thing
         $this->fix_magic_quotes();
+        
+        # run IDS
+        #$this->runIDS();
 
         # 2) Clear Array and Assign the $_REQUEST Global to it
         $this->parameters = array();
         $this->parameters = $_REQUEST;
+    }
+    
+    /**
+     * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays 
+     *
+     * Smoke Example: Apply to URL "index.php?theme=drahtgitter%3insert%00%00.'AND%XOR%XOR%.'DROP WHERE user_id='1';"
+     */
+    public function runIDS()
+    {
+        # Set Path and Require IDS
+        set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_LIBRARIES );
+        require_once ROOT_LIBRARIES . '/IDS/Init.php';
+        # Setup the $_GLOBALS to monitor
+        $request = array('GET' => $_GET, 'POST' => $_POST, 'COOKIE' => $_COOKIE);
+        $init = IDS_Init::init( ROOT_LIBRARIES . '/IDS/Config/Config.ini');
+        $ids = new IDS_Monitor($request, $init);
+        $monitoring_result = $ids->run();
+        
+        #var_dump($monitoring_result);
+        
+        if (!$monitoring_result->isEmpty()) 
+        {
+           // Take a look at the result object
+           echo $monitoring_result;
+           exit();
+        }
     }
 
     /**
@@ -104,7 +142,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @todo docblock
-     * @param
+     * @param string $name Name of the Parameter
      */
     public function issetParameter($name)
     {
@@ -115,7 +153,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
      * get, returns a certain parameter if existing
      *
      * @todo docblock
-     * @param
+     * @param string $name Name of the Parameter
      */
     public function getParameter($name)
     {
@@ -129,7 +167,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
      * Get Value of a specific http-header
      *
      * @todo docblock
-     * @param
+     * @param string $name Name of the Parameter
      */
     public function getHeader($name)
     {
@@ -159,6 +197,8 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Gets a Cookie
+     *
+     * @param string $name Name of the Cookie
      */
     public function getCookie($name)
     {
