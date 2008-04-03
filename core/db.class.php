@@ -135,16 +135,9 @@ class db //extends PDO
      * Create the DB Object
      * Set db related counters to zero
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @global $tpl
-     * @global $error
-     * @global $config
      * @todo correct var types
      */
-
+     
    public function __construct(configuration $config, errorhandler $error)
    {
         $this->config = $config;
@@ -218,26 +211,25 @@ class db //extends PDO
             exit();
         }
     } 
+    
     /**
      * CALL magic-method -> function-forward to $db
      *
-     * @param $func
-     * @param $args
+     * @param $func The Function to Call
+     * @param $args The Parameter Array to assign to this Function
      */
-
-    public function __call( $func, $args )
+     
+    public function __call( $function, $assoc_array )
     {
-        return call_user_func_array(array($this->db, $func), $args);
+        return call_user_func_array(array($this->db, $function), $assoc_array);
     }
 
     /**
      * Prepare a statement
      *
-     * @param string
-     * @global $error
-     * @global $lang
+     * @param string $sql The SQL Statement to Prepare
      */
-    
+         
     public function prepare($sql) 
     {
         $this->stmt_counter++;
@@ -258,6 +250,7 @@ class db //extends PDO
             die();
         } 
     }
+    
     /**
      * This method is a Simple Query with closeCursor() !
      *
@@ -267,11 +260,11 @@ class db //extends PDO
      * - and closescursor finally
      * - return result
      *
-     * @param string
-     * @param array
+     * @param string $sql SQL Statement, Default empty
+     * @param array $args Array Default empty
      * @return $res
      */
-
+     
     public function simple_query($sql='', $args = array() )
     {
 
@@ -292,7 +285,7 @@ class db //extends PDO
      *
      * @param string
      */
-
+     
     public function query( $sql='' )
     {   $this->exec_counter++;
         $this->stmt_counter++;
@@ -330,14 +323,12 @@ class db //extends PDO
      * @param string
      * @param integer
      * @param integer
-     * @global $error
-     * @global $lang
      * @return $res
      * @todo note by vain: is this still needed or deprecated?
      *       i think the limit was placed here because of the need for limiting the pagination,
      *       but as far as i know it's handled there.
      */
-
+     
     public function select( $sql='', &$count = NULL, $limit = NULL)
     {
         $lang   = $this->injector->instantiate('language');
@@ -389,7 +380,7 @@ class db //extends PDO
      *
      * @param string
      */
-
+     
     public function exec( $sql='' )
     {
         $this->exec_counter++;
@@ -408,6 +399,7 @@ class db //extends PDO
      * - mysql specific command 
      * - SHOW COLUMNS displays information about the columns in a given table
      */
+     
     public function tabledescription($tablename)
     {
         $result = $this->query('SHOW COLUMNS FROM ' . $tablename);
@@ -451,6 +443,7 @@ class db //extends PDO
  * @subpackage  db_statements
  *
  */
+ 
 class db_statements //extends PDOStatement
 {
     protected $db;
@@ -461,7 +454,7 @@ class db_statements //extends PDOStatement
      *
      * $param object
      */
-
+     
     function __construct($db, $db_pre_s)
     {
         $this->db           = $db;
@@ -486,9 +479,9 @@ class db_statements //extends PDOStatement
      * $stmt->execute
      *
      * @param array
-     * @global $db
      * @return $res
      */
+     
     function execute( $args = array() )
     {
         $this->db->stmt_counter++;
