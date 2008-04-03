@@ -46,6 +46,9 @@ class clansuite_xdebug
 {
     /**
      * XDebug Helper Functions
+     *
+     * @static
+     * @access public
      */
     public static function is_xdebug_active()
     {
@@ -57,6 +60,12 @@ class clansuite_xdebug
         echo 'Xdebug OFF'; return false;
     }
 
+    /**
+     * Initializes XDEBUG
+     *
+     * @static
+     * @access public
+     */
     public static function start_xdebug()
     {
         # Start XDEBUG Tracing and Coverage
@@ -77,6 +86,12 @@ class clansuite_xdebug
         }
     }
 
+    /**
+     * Shutdown XDEBUG and give some Debugging Reports
+     *
+     * @static
+     * @access public
+     */
     public static function end_xdebug()
     {
         # get page parsing time from xdebug
@@ -89,6 +104,14 @@ class clansuite_xdebug
         var_dump(xdebug_get_code_coverage());
     }
 
+    /**
+     * Rounds a $value to MegaBytes
+     *
+     * @param integer $value The Value to round to megabytes.
+     * @static
+     * @access public
+     * @return Returns the $value rounded to megabytes, like: 1,44MB.
+     */
     public static function roundMB($value)
     {
         return round(($value/1048576),2);

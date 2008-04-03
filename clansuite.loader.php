@@ -62,7 +62,8 @@ class Clansuite_Loader
      * Overwrites Zend Engines _autoload cache with our own loader-functions
      * by registering single file loaders via spl_autoload_register($load_function)
      *
-     * @access static
+     * @static
+     * @access public
      */
     public static function register_autoload()
     {
@@ -76,6 +77,9 @@ class Clansuite_Loader
      * if file found
      *
      * @param string $filename The file to be required
+     * @static
+     * @access private
+     *
      * @return bool
      */
     private static function requireFile($filename)
@@ -94,6 +98,9 @@ class Clansuite_Loader
      *
      * @param string $classname The class, which should be loaded
      * @param string $directory without start/end slashes
+     * @static
+     * @access public
+     *
      * @return boolean
      */
     public static function loadClass($classname, $directory = NULL)
@@ -109,6 +116,9 @@ class Clansuite_Loader
      * require if found
      *
      * @param string $classname
+     * @static
+     * @access public
+     *
      * @return boolean
      */
     public static function loadCoreClass($classname)
@@ -129,6 +139,9 @@ class Clansuite_Loader
      * absolute filename: e.g. 'clansuite/modules/'. $modname .'.module.php''
      *
      * @param string $modulename The name of the module, which should be loaded
+     * @static
+     * @access public
+     *
      * @return boolean
      */
     public static function loadModul($modulename)
@@ -146,6 +159,9 @@ class Clansuite_Loader
      * require if found
      *
      * @param string $classname The name of the filter class
+     * @static
+     * @access public
+     *
      * @return boolean
      */
     public static function loadFilter($classname)
@@ -161,7 +177,10 @@ class Clansuite_Loader
      *
      * requires: clansuite/modules/ $modulename /models/ *.php
      *
-     * @param string $classname The name of the filter class
+     * @param string $modulename The name of the filter class
+     * @static
+     * @access public
+     *
      * @return boolean
      */
     public static function loadDoctrineModels($modulename)
