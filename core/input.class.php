@@ -44,23 +44,24 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Inputfilter Class
  *
- * This class provides some kind of inputblocker, which filters and cleans up 
+ * This class provides some kind of inputblocker, which filters and cleans up
  * the $_REQUEST, reverses magic quotes and gives the check method for several filter checks.
- * 
- * @note by vain: check PHP 5 >= 5.2.0 FilterFunctions 
- * @todo implement PHP5.2 Filterfunctions 
+ *
+ * @note by vain: check PHP 5 >= 5.2.0 FilterFunctions
+ * @todo implement PHP5.2 Filterfunctions
  * @link http://www.php.net/manual/de/ref.filter.php
  *
  */
 class input
 {
     /**
-     * Modify a given String
+     * Modifies a given String
      *
-     * @param $string
-     * @param $modificators
+     * @param string $string String to modify
+     * @param string $modificators One OR Multiple Modificators to use on the String
+     * @access public
      */
-    function modify($string='', $modificators='' )
+    public function modify($string='', $modificators='' )
     {
         $mods = array();
         $mods = split('[|]' ,$modificators);
@@ -111,56 +112,65 @@ class input
     /**
      * Check a string
      *
-     * @todo docblock comment
-     * @param
      * USAGE:
+     *
+     * -----------------------------------------------------------------------------
+     * | Possible single checks:
+     * | $input->check('thisisastring...asdf', 'is_int', 'optional reg.exp pattern', 'optional length')
+     * -----------------------------------------------------------------------------
+     *
+     *  is_int: 0-9
+     *  is_abc: a-z,A-Z
+     *  is_pattern: Given pattern... $input->check('abasdfdf_', 'is_pattern', '/^[a-zA-Z_]$/');
+     *
+     * Will give true
+     *
+     * is_pass_length: $cfg->min_pass_length
+     * is_icq: 123-123-123 or 123123123
+     * is_sessionid: a-z, A-Z, 0-9
+     * is_hostname: http://www.hostname.de
+     * is_url: http://www.thisurlwithpath.de/folder1/folder2
+     * is_steamid: 00:0:1231451
+     * is_email: test@test.de
+     * is_ip: 122.122.123.123
+     * is_violent: "SELECT%20", "%00", "chr(", "eval(" is declared as violent
+     *
+     * Examples:
+     * ---------
+     * $input->check('2344vsladkf', 'is_int' );
+     * Will return bool(false)
+     * $input->check('2344vsladkf', 'is_pattern', '/^[a-z0-9]+$/' );
+     * Will return bool(true)
+     *
+     * -----------------------------------------------------------------------------
+     * | Possible multiple checks:
+     * | $input->check('thisisastring...asdf', 'is_int|is_abc|is_custom', 'optional custom chars')
+     * -----------------------------------------------------------------------------
+     * is_int: 0-9
+     * is_abc: a-z,A-Z
+     * is_custom: all avaible chars
+     *
+     * Examples:
+     * ---------
+     * $input->check('2344avsdffs', 'is_int|is_abc' );
+     * Will return bool(true)
+     * $input->check('235432asdlfkj_;', 'is_int|is_abc|is_custom', '_;' );
+     * Will return bool(true)
+     *
+     * ----------------------------------------
+     *
+     * @param string $string The String to perform the check or checks on, Default empty
+     * @param string $types Check for a specific type, Default empty
+     * @param string $pattern Check for a specific pattern, Default empty
+     * @param int $length Check for a specific string length, Default (int) 0
+     * @access public
+     *
+     * @return Returns boolean TRUE or FALSE.
+     * @todo search for globals and replace!
      */
-
-    //
-    // -----------------------------------------------------------------------------
-    // | Possible single checks:
-    // | $input->check('thisisastring...asdf', 'is_int', 'optional reg.exp pattern', 'optional length')
-    // -----------------------------------------------------------------------------
-    //
-    // is_int: 0-9
-    // is_abc: a-z,A-Z
-    // is_pattern: Given pattern... $input->check('abasdfdf_', 'is_pattern', '/^[a-zA-Z_]$/');
-    // Will give true
-    // is_pass_length: $cfg->min_pass_length
-    // is_icq: 123-123-123 or 123123123
-    // is_sessionid: a-z, A-Z, 0-9
-    // is_hostname: http://www.hostname.de
-    // is_url: http://www.thisurlwithpath.de/folder1/folder2
-    // is_steamid: 00:0:1231451
-    // is_email: test@test.de
-    // is_ip: 122.122.123.123
-    // is_violent: "SELECT%20", "%00", "chr(", "eval(" is declared as violent
-    //
-    // Examples:
-    // ---------
-    // $input->check('2344vsladkf', 'is_int' );
-    // Will return bool(false)
-    // $input->check('2344vsladkf', 'is_pattern', '/^[a-z0-9]+$/' );
-    // Will return bool(true)
-    //
-    // -----------------------------------------------------------------------------
-    // | Possible multiple checks:
-    // | $input->check('thisisastring...asdf', 'is_int|is_abc|is_custom', 'optional custom chars')
-    // -----------------------------------------------------------------------------
-    // is_int: 0-9
-    // is_abc: a-z,A-Z
-    // is_custom: all avaible chars
-    //
-    // Examples:
-    // ---------
-    // $input->check('2344avsdffs', 'is_int|is_abc' );
-    // Will return bool(true)
-    // $input->check('235432asdlfkj_;', 'is_int|is_abc|is_custom', '_;' );
-    // Will return bool(true)
-    //----------------------------------------------------------------
-    function check( $string = '', $types = '', $pattern = '', $length = 0 )
+    public function check( $string = '', $types = '', $pattern = '', $length = 0 )
     {
-        global $error, $lang, $cfg;
+        global $error, $cfg;
 
         $r_bool  = false;
         $bools   = array();
@@ -285,7 +295,7 @@ class input
 
             $r_bool = preg_match($reg_exp, $string) ? true : false;
 
-            if ($length != 0 and strlen($string ) > $length )
+            if ($length != 0 and strlen($string ) > (int) $length )
             {
                 $r_bool = false;
             }
@@ -298,34 +308,27 @@ class input
 
         if ($r_bool == false and $a_types[0] != 'is_violent')
         {
-            $error->error_log['security']['checked_false'] = $lang->t('A variable is checked as "false":').'Type: ' . $a_types[0];
+            $error->error_log['security']['checked_false'] = _('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
         return $r_bool;
     }
-    
+
     /**
-     * Intrusion Alert
+     * Intrusion Warning
      *
-     * This will display the security_breach.tpl with assigned userdata of a possible intruder.
+     * This method displayes a Intrusion Detection Warning
+     * via the security_breach.php template
      *
-     * @global $tpl
-     * @global $lang
-     * @todo 1) add logging! 
-     * @todo 2) should the intrusion alert be combined with session::session_security()?
+     * @todo 1) this breaks MVC, by direct output! do output over response class!
+     * @todo 2) add logging!
+     * @todo 3) should the intrusion warning be combined with session::session_security()?
+     * @access public
      */
-
-    function intruder_alert()
+    public function display_intrusion_warning()
     {
-        global $tpl, $lang;
-
-        $tpl->assign('hacking_attempt'  , $lang->t('Possible Intrusion detected - The logging is active. A report will be generated.'));
-        $tpl->assign('user_ip'          , $_SERVER['REMOTE_ADDR']);
-        $tpl->assign('hostname'         , isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '*** not supported by your apache ***' );
-        $tpl->assign('user_agent'       , $_SERVER['HTTP_USER_AGENT']);
-
-        $tpl->display('security_breach.tpl' );
-
-        die();
+        # Require the Security Breach Template
+        require ROOT_THEMES . '/core/security_breach.php';
+        exit();
     }
 }
 ?>
