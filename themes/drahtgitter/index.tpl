@@ -20,8 +20,10 @@ This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!
         <ul>
             <li><a href="?mod=index">Index</a></li>
             <li><a href="?mod=index&action=mvc">Index MVC Test</a></li>
-             <li><a href="?mod=index&action=smarty_error_example">Index smarty_error_example</a></li>
+            <li><a href="?mod=index&action=smarty_error_example">Index smarty_error_example</a></li>
             <li><a href="?mod=news">News</a></li>
+            <hr style="width:80%">
+            <li><a href="?mod=admin">--ACP--</a></li>            
         </ul> 
     </td>
     <td>{$content}</td>
