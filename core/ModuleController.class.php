@@ -51,7 +51,7 @@ interface Clansuite_Module_Interface
  * ModuleController
  *
  * Is an abstract class (parent class) to share some common features
- * for all (Module/Action)-Controllers. 
+ * for all (Module/Action)-Controllers.
  * You could call it ModuleController and ActionController.
  * It`s abstract because it should only extended, not instantiated.
  *
@@ -84,15 +84,23 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public $templateName = null;
 
     // Variable contains the Dependecy Injector
-    public $injector = null;
-    
+    public $injector = null;                    # dynamic
+    static $static_injector = null;             # static
+
+    // Variable contains the Configuration Object
     public $config = null;
-    
+
+    // Variable contains the Name of the Action
     public $action_name = null;
 
-    function __construct()
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct()
     {
-        
+
     }
 
     /**
@@ -100,27 +108,46 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * Type Hint set to only accept Phemto
      *
      * @param object $injector Dependency Injector (Phemto)
+     * @access public
      */
     public function setInjector(Phemto $injector)
     {
+        # set Injector (dynamic)
     	$this->injector = $injector;
-    	$this->config = $this->injector->instantiate('configuration');    	
+    	# set Injector (static)
+    	self::$static_injector = $injector;
+
+    	# fetch config from dependency injector
+    	$this->config = $this->injector->instantiate('configuration');
+    }
+
+    /**
+     * Get the dependency injector
+     *
+     * @access public
+     *
+     * @return Returns a static reference to the Dependency Injector
+     */
+    public static function getInjector()
+    {
+        return self::$static_injector;
     }
 
     /**
      * Fire Action !
      *
+     * @access public
      * @param string $requested_action the requested action as string
      */
     public function processActionController($request)
-    {  
+    {
         # get action parameter from URL
         $action = $request->getParameter('action');
-       
+
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
-        $method = 'action_'.$action; 
-       
+        $method = 'action_'.$action;
+
         # check if action (a) set and (b) not empty and (c) check if the action_$actionxxx
         # method exists in the main module class (the one extending this class)
         if(isset($action) && !empty($action) && method_exists($this,$method))
@@ -128,27 +155,29 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # set the used action name
             $this->action_name = $action;
             # call the method !
-            $this->{$method}();            
+            $this->{$method}();
         }
         # check if the method exists as a drop in action in the module directory
         /*elseif
         {
             if is_file() ....
-    
-        }*/  
+
+        }*/
         else
-        {   
+        {
             # set the used action name
             $this->action_name = $this->config['default_action'];
             # set the method name
-            $method = 'action_'.$this->config['default_action'];            
+            $method = 'action_'.$this->config['default_action'];
             # call the method !
             $this->{$method}();
-        } 
+        }
     }
 
     /**
      * Set view
+     *
+     * @access public
      *
      * @param object $view RenderEngine Object
      */
@@ -157,21 +186,23 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $this->view = $view;
     }
 
-     /**
+    /**
      * Get view
      *
-     * @return view object
+     * @access public
+     *
+     * @return Returns the View Object (Rendering Engine)
      */
     public function getView()
     {
-        // if already set, get the rendering engine from the view variable
+        # if already set, get the rendering engine from the view variable
         if (isset($this->view))
         {
             return $this->view;
         }
+        # else, set the RenderEngine to the view variable and return it
         else
         {
-            # else, set the RenderEngine to the view variable and return it
             $this->view = $this->getRenderEngine();
             return $this->view;
         }
@@ -180,6 +211,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     /**
      * sets the Rendering Engine
      *
+     * @access public
      * @param string $renderEngineName Name of the RenderEngine
      */
     public function setRenderEngine($renderEngineName)
@@ -192,6 +224,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * Returns Smarty if no rendering engine is set
      *
      * @access public
+     *
      * @return renderengine object, smarty as default
      */
     public function getRenderEngineName()
@@ -219,6 +252,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     /**
      * Set the template name
      *
+     * @access public
      * @param string $templateName Name of the Template
      */
     public function setTemplate($templateName)
@@ -229,7 +263,8 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     /**
      * Returns the Template Name
      *
-     * @return string templateName
+     * @access public
+     * @return Returns the templateName as String
      */
     public function getTemplateName()
     {
@@ -244,7 +279,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
             # construct a partial path from moduleName and actionName
             $tplname = $moduleName.'/'.$actionName.'.tpl';
- 
+
             # check, if a template-file with $tplname exists in
             # 1. Standard Theme - Template
             # 2. Modul Template
@@ -287,6 +322,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         # get the view
         $view = $this->getview();
+
+        # get the layout
+        $view->getLayoutTemplate();
 
         # set Output of the RenderEngine to the Response Object
         $response->setContent($this->output);   # output directly
