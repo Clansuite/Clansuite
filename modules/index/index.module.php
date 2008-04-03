@@ -73,7 +73,7 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
 
     function action_smarty_error_example()
     {
-        $this->setTemplate('smarty_error_example.tpl');
+        $this->setTemplate( ROOT_MOD . '/index/templates/smarty_error_example.tpl');
         # Starting the View
         $this->setView($this->getRenderEngine());
         # Prepare the Output
