@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch Â© 2005-2008
     * http://www.clansuite.com/
     *
     * File:         config.class.php
@@ -290,21 +290,8 @@ class configuration implements ArrayAccess
         # add php closing tag
         $content .= "; DO NOT REMOVE THIS LINE */ ?>";
 
-        # open file
-        if (!$handle = fopen($path, 'w'))
-        {
-            return false;
-        }
-
-        # write to file
-        if (!fwrite($handle, $content))
-        {
-            return false;
-        }
-
-        # close file
-        fclose($handle);
-        return true;
+        # Write data to config file
+        return @file_put_contents($ini_filename, $content);
     }
 
     /**
