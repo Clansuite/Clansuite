@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch Â© 2005-2008
+    * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
     *
     * File:         config.class.php
