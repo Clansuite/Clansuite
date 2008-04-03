@@ -237,7 +237,7 @@ class configuration implements ArrayAccess
      * @param array $assoc_array Associative Array with Ini-Values
      * @access public
      *
-     * @return bool Returns true on success, false otherwise
+     * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
     public function writeConfig($ini_filename, $assoc_array)
     {
