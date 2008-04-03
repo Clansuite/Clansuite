@@ -208,6 +208,9 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Check if https is used
      *
+     * @access private
+     *
+     * @return bool
      * @todo by vain: check HTTP_X_FORWARD_PROTO?
      */
     public function isSecure()
@@ -226,6 +229,8 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Checks if a ajax-request is given, by checking
      * X-Requested-With Header for xmlhttprequest.
+     *
+     * @access public
      *
      * @return bool
      */
@@ -248,6 +253,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
      * This code originally from Richard Heyes and Stefan Esser
      *
      * @access private
+     *
      * @return void
      */
      private function cleanGlobals()
@@ -315,6 +321,10 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Essential clean-up of $_REQUEST
      * Handles possible Injections
+     *
+     * @access private
+     *
+     * @return void
      */
     private function cleanup_request()
     {
@@ -361,9 +371,14 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
         }
     }
 
-     /**
+    /**
      * Revert magic_quotes() if still enabled
-     * @access public static
+     *
+     * @param array $var Array to apply the magic quotes fix on 
+     * @param boolean $sybase Boolean Value TRUE for magic_quotes_sybase
+     * @access private
+     *
+     * @return Returns the magic quotes fixed $var
      */
     private function fix_magic_quotes($var = NULL, $sybase = NULL )
     {
