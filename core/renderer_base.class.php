@@ -42,6 +42,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package    clansuite
  * @category   core
  * @subpackage view
+ * @abstract
  */
 abstract class renderer_base
 {
@@ -50,7 +51,8 @@ abstract class renderer_base
 
     /**
      * Construct View from Module.
-     * @param Module_Name_View $view module_name_view
+     *
+     * @param Phemto $injector Dependency Injector
      */
     public function __construct(Phemto $injector)
     {
@@ -58,12 +60,19 @@ abstract class renderer_base
     }
 
     /**
-         * Magic Method __call / Overloading
-         * This is basically a simple passthrough (aggregation)
-         * of a method and its arguments to the renderingEngine!
-         * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
-         * or pull out the renderEngine Object itself. We just pass things to it.
-         */
+     * Magic Method __call / Overloading.
+     *
+     * This is basically a simple passthrough (aggregation)
+     * of a method and its arguments to the renderingEngine!
+     * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
+     * or pull out the renderEngine Object itself. We just pass things to it.
+     *
+     * @param string $method Name of the Method
+     * @param array $arguments Array with Arguments
+     * @access public
+     * 
+     * @return Function Call to Method
+     */
     public function __call($method, $arguments)
     {
         #echo 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
@@ -77,12 +86,10 @@ abstract class renderer_base
         }
     }
 
-    #abstract public function setTemplatePath($templatepath);
-    #abstract public function getTemplatePaths();
-
     /**
      * Assigns a value to a template parameter.
      *
+     * @abstract
      * @access public
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
@@ -92,6 +99,7 @@ abstract class renderer_base
     /**
      * Executes the template rendering and returns the result.
      *
+     * @abstract
      * @access public
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
@@ -102,11 +110,26 @@ abstract class renderer_base
     /**
      * Executes the template rendering and displays the result.
      *
+     * @abstract
      * @access public
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
      * @return string
      */
     abstract public function display($template, $data = null);
+
+    /**
+     * Sets a so called Wrapper-Template = Layout.
+     * The Content of a Module is rendered at variable $content inside this layout!
+     *
+     * @abstract
+     * @access public
+     * @param string $template Template Filename for the wrapper Layout
+     * @return string
+     */
+    abstract public function setLayoutTemplate($template);
+
+    #abstract public function setTemplatePath($templatepath);
+    #abstract public function getTemplatePaths();
 }
 ?>
