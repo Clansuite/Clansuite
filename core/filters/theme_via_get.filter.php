@@ -47,13 +47,11 @@ class theme_via_get implements Filter_Interface
 {
     private $config     = null;
     private $input      = null;
-    private $security   = null;
-
-    function __construct(configuration $config, input $input, security $security)
+  
+    function __construct(configuration $config, input $input)
     {
        $this->config    = $config;
-       $this->input     = $input;
-       $this->security  = $security;
+       $this->input     = $input;       
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)
