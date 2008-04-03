@@ -90,7 +90,7 @@
                 {$content}
             </td>
             <td id="help_td_2" class="admin_help" style="padding: 0px; display: none;">
-                <div id="help_toggle_2" style="height: 100%; padding: 0px; width: 0px; overflow: hidden;">{mod name="admin" sub="help" func="instant_show"}</div>
+                <div id="help_toggle_2" style="height: 100%; padding: 0px; width: 0px; overflow: hidden;">{* {load_module name="admin" sub="help" func="instant_show"} *}</div>
 
             </td>
         </tr>
