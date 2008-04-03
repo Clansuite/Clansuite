@@ -1,87 +1,187 @@
 <?php
-/**
- *  News Module
- *
- *
- * LICENSE:
- *
- *    This program is free software; you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation; either version 2 of the License, or
- *    (at your option) any later version.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *    You should have received a copy of the GNU General Public License
- *    along with this program; if not, write to the Free Software
- *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @license    GNU/GPL, see COPYING.txt
- *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$Date$)
- *
- * @link       http://www.clansuite.com
- * @link       http://gna.org/projects/clansuite
- * @since      File available since Release 0.1
- *
- * @version    SVN: $Id$
- */
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2008
+    * http://www.clansuite.com/
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2008)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
+    *
+    * @version    SVN: $Id: index.php 1821 2008-03-26 16:29:54Z vain $
+    */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* @desc Start module index class
-*/
-class module_news extends controller_base
+ * Module News
+ */
+class Module_News extends ModuleController implements Clansuite_Module_Interface
 {
-    function __construct(Phemto $injector=null)
+
+    public function __construct(Phemto $injector=null)
     {
         parent::__construct(); # run constructor on controller_base
     }
-
-    public $output          = '';
-    public $additional_head = '';
-    public $suppress_wrapper= '';
-    
-    public $executed        = false;
 
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
     */
-    public function execute($request, $response)
+    public function execute(httprequest $request, httpresponse $response)
     {
-        # Set executed to false! 
-        $this->executed = false;
-        
-        // Set Pagetitle and Breadcrumbs
-        $this->injector->instantiate('trail')->addStep(T_('News'), '/index.php?mod=news');
-
-        switch ($request->getParameter('action'))
-        {
-            default:
-            case 'show':
-                $trail->addStep(T_('Show'), '/index.php?mod=news&amp;action=show');
-                $this->show();
-                break;
-
-            case 'archiv':
-                $trail->addStep(T_('Newsarchiv'), '/index.php?mod=news&amp;action=archiv');
-                $this->archiv();
-                break;
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
-        
-        # Ensure execute finished! 
-        $this->executed = true;
+        # proceed to the requested action
+        $this->processActionController($request);
     }
+
+    /**
+     * module news action_show()
+     *
+     * 1. get news with nick of author and category
+     * 2. add general data of comments for each news
+     *
+     * @output: $newslist ( array for smarty template output )
+     */
+    function action_show()
+    {
+        # Load DBAL
+        $db = $this->injector->instantiate('clansuite_doctrine');
+        $db->doctrine_bootstrap();
+
+        # Load Models
+        require ROOT . '/myrecords/generated/BaseCsNews.php';
+        require ROOT . '/myrecords/CsNews.php';
+        require ROOT . '/myrecords/generated/BaseCsNewsComments.php';
+        require ROOT . '/myrecords/CsNewsComments.php';
+        require ROOT . '/myrecords/generated/BaseCsCategories.php';
+        require ROOT . '/myrecords/CsCategories.php';
+        require ROOT . '/myrecords/generated/BaseCsUsers.php';
+        require ROOT . '/myrecords/CsUsers.php';
+        #require ROOT . '/myrecords/generated/BaseCsModules.php';
+        #require ROOT . '/myrecords/CsModules.php';
+
+        #$models = Doctrine::getLoadedModels();
+        #print_r($models);
+
+        // Defining initial variables
+        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
+        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $resultsPerPage = 3;
+
+        // Creating Pager Object with a Query Object inside
+        $pager_layout = new Doctrine_Pager_Layout(
+                        new Doctrine_Pager(
+                            Doctrine_Query::create()
+                                    ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                                    ->from('CsNews n')
+                                    ->leftJoin('n.CsUsers u')
+                                    ->leftJoin('n.CsCategories c')
+                                    #->where('c.module_id = 7')
+                                    #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->orderby('n.news_id DESC'),
+                                 # The following is Limit  ?,? =
+                                 $currentPage, // Current page of request
+                                 $resultsPerPage // (Optional) Number of results per page Default is 25
+                             ),
+                             new Doctrine_Pager_Range_Sliding(array(
+                                 'chunk' => 5
+                             )),
+                             '?mod=news&action=index&page={%page}'
+                             );
+
+        # Get Render Engine
+        $smarty = $this->getView();
+
+        // Assigning templates for page links creation
+        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+        $pager_layout->setSelectedTemplate('[{%page}]');
+        #var_dump($pager_layout);
+
+        // Retrieving Doctrine_Pager instance
+        $pager = $pager_layout->getPager();
+
+        // Fetching news
+        #var_dump($pager->getExecuted());
+        $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+
+        // Fetch the related COUNT on news_comments and the author of the latest!
+        // a) Count all newst
+        // b) get the nickname of the last comment for certain news_id
+        $stmt1 = Doctrine_Query::create()
+                         ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
+                         ->from('CsNewsComments nc')
+                         ->leftJoin('nc.CsUsers u')
+                         ->groupby('nc.news_id')
+                         ->setHydrationMode(Doctrine::HYDRATE_NONE)
+                         ->where('nc.news_id = ?');
+
+        foreach ($news as $k => $v)
+        {
+            // add to $newslist array, the numbers of news_comments for each news_id
+            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
+            # check if something was returned
+            if(isset($cs_news_comments_array[0]))
+            {
+                # strip the [0] array off
+                $news[$k]['CsNewsComments'] = $cs_news_comments_array[0];
+            }
+            else
+            {
+                # nothing was returned, so we set 0
+                $news[$k]['CsNewsComments'] = array('nr_news_comments' => 0);
+            }
+        }
+        #var_dump($news);
+
+        #$smarty->assign('news', $news->toArray());
+        $smarty->assign('news', $news);
+
+        // Return true if it's necessary to paginate or false if not
+        $smarty->assign('pagination_needed',$pager->haveToPaginate());
+
+        // Displaying page links
+        // Displays: [1][2][3][4][5]
+        // With links in all pages, except the $currentPage (our example, page 1)
+        // display 2 parameter = true = only return, not echo the pager template.
+        $smarty->assign('pagination_links',$pager_layout->display('',true));
+
+        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
+        $smarty->assign('paginate_resultsperpage',$pager->getResultsInPage()); #  current Page
+
+        // Return the total number of pages
+        $smarty->assign('paginate_lastpage',$pager->getLastPage());
+        // Return the current page
+        $smarty->assign('paginate_currentpage',$pager->getPage());
+
+        # specifiy the template manually
+        #$this->setTemplate('news/show.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+    # @todo ... #
 
     /**
     * @desc Function: instant_show
@@ -100,104 +200,6 @@ class module_news extends controller_base
         * @desc Handle the output - $lang-t() translates the text.
         */
         $this->output .= T_($my_text);
-    }
-
-  
-    
-    
-    /**
-    * @desc Show news
-    *
-    * 1. get news with nick of author and category
-    * 2. add general data of comments for each news
-    *
-    * @output: $newslist ( array for smarty template output )
-    */
-
-    function show()
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security;
-
-        // Smarty Pagination load and init
-        require( ROOT_LIBRARIES . '/smarty/SmartyPaginate.class.php');
-        
-        echo ROOT_LIBRARIES . '/smarty/SmartyPaginate.class.php';
-        
-        $SmartyPaginate = new SmartyPaginate();
-
-        // set URL
-        $SmartyPaginate->setUrl('index.php?mod=news');
-        $SmartyPaginate->setUrlVar('page');
-        // set items per page
-        $SmartyPaginate->setLimit(5);
-
-        // $stmt = newslist with newsentries, left joined by nick from users table und category image and name from categories table
-        $stmt = $db->prepare('SELECT n.*, u.nick, c.name as cat_name, c.image as cat_image
-                                FROM ' . DB_PREFIX .'news n
-                                LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                LEFT JOIN '. DB_PREFIX .'categories c
-                                ON ( n.cat_id = c.cat_id AND
-                                     c.module_id = ? )
-                                WHERE n.draft = ?
-                                ORDER BY news_id DESC LIMIT ?,?');
-
-        /* TODO: news with status: draft=0, published=1, private=2, private+protected=3*/
-        $draft = '0';
-        $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
-        $stmt->bindParam(2, $draft, PDO::PARAM_INT );
-        $stmt->bindParam(3, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(4, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
-        $stmt->execute();
-        $newslist = $stmt->fetchAll(PDO::FETCH_NAMED);
-
-        // Get Number of Rows
-        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news');
-        $rows->execute();
-        $count = count($rows->fetch(PDO::FETCH_NUM));
-        // DEBUG - show total numbers of last Select
-        // echo 'Found Rows: ' . $count;
-
-        // Finally: assign total number of rows to SmartyPaginate
-        $SmartyPaginate->setTotal($count);
-        // assign the {$paginate} to $tpl (smarty var)
-        $SmartyPaginate->assign($tpl);
-
-        // ---------  Prepared Statements: One time defined, often used!
-
-        // Prepare Statement 1: Count all newst
-        $stmt1 = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news_comments WHERE news_id = ?');
-
-        // Prepare Statement 2: get the nickname of the last comment for certain news_id
-        $stmt2 = $db->prepare('SELECT u.nick, c.pseudo
-                                   FROM '. DB_PREFIX .'news_comments c
-                                   LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                   WHERE c.news_id = ?
-                                   ORDER BY c.comment_id DESC');
-
-        // --------- Database Loops over prepared Statements
-
-        // add the general news_comments data to the array of fetched news
-        foreach ($newslist as $k => $v)
-        {
-            // Execute prepared Statement 1
-            // add to $newslist array, the numbers of news_comments for each news_id
-            $stmt1->execute( array( $v['news_id'] ) );
-            $newslist[$k]['nr_news_comments'] = $stmt1->fetch(PDO::FETCH_COLUMN);
-
-            // if news_comments exist for that news
-            if ($newslist[$k]['nr_news_comments'] > 0 )
-            {
-                 // Execute prepared Statement 2
-                 // add to $newslist array, the nickname of the author of the last comment for each news_id
-                 $stmt2->execute( array( $v['news_id'] ) );
-                 $newslist[$k]['lastcomment_by'] = $stmt2->fetch(PDO::FETCH_COLUMN);
-            }
-        }
-
-        // give $newslist array to Smarty for template output
-        $tpl->assign('news', $newslist);
-
-        $this->output = $tpl->fetch('news/show.tpl');
     }
 
     function archiv()
@@ -262,6 +264,5 @@ class module_news extends controller_base
         $this->output = $tpl->fetch('news/news_archiv.tpl');
 
     }
-
 }
 ?>
