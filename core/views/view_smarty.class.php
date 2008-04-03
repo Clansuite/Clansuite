@@ -414,12 +414,21 @@ class view_smarty extends renderer_base
         $action             = (string) $params['action'];
 
         # Construct the variable module_name
-        $module_name = 'module_' . strtolower($mod);
+        if (isset($params['sub']))
+        {
+            # like "module_admin_menueditor"
+            $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
+        }
+        else
+        {
+            # like "module_admin"
+            $module_name = 'module_' . strtolower($mod);
+        }
 
         # Load class, if not already existing
         if(!class_exists($module_name))
         {
-            clansuite_loader::loadModul($mod);
+            clansuite_loader::loadModul($module_name);
         }
 
         # Instantiate Class
@@ -434,7 +443,7 @@ class view_smarty extends renderer_base
         # ! ECHO
         # @todo: Fix this?! , because it breaks MVC.
         # a) we're pulling php from templates (there is no other way!)
-        # b) we're directly writing the output (maybe a composite tree for the view??)
+        # b) we're directly writing the output (maybe consider a composite tree for the view??)
         echo $output;
     }
 
