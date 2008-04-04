@@ -207,8 +207,8 @@ class db //extends PDO
         # In case a PDOException occurs, catch the exception and show Error
         catch (PDOException $exception)
         {
-            $this->error->ysod( $exception, _('DB Connection Failure'), _('The Database Connection could not be established.'), 3);
-            exit();
+            $this->error->ysod( $exception, 'DB Connection Failure', 'The Database Connection could not be established.', 3);
+            exit;
         }
     } 
     
@@ -246,8 +246,8 @@ class db //extends PDO
         else
         {
             // @todo instead die -> try/catch or throw
-            $this->error->show( $this->lang->t('DB Prepare Error'), $this->lang->t('Could not prepare the following statement:') . '<br/>' . $sql, 1);
-            die();
+            $this->error->ysod( null , 'DB Prepare Error', 'Could not prepare the following statement:' . '<br/>' . $sql, 1);
+            exit;
         } 
     }
     
@@ -271,7 +271,14 @@ class db //extends PDO
         $this->last_sql = $sql;
         $res = $this->prepare( $sql );
         #benchmark::timemarker('db_begin', 'Database Simple_Query | Query No.'. $this->query_counter);
-        $res->execute( $args );
+        try
+        {
+            $res->execute( $args );
+        }
+        catch (Exception $e)
+        {
+            throw new clansuite_exception( $e , '[ DB Execute failed] : Could not execute the statement.', 1);
+        }
         #benchmark::timemarker('db_end', 'Database Simple_Query | Query No.'. $this->query_counter);
         $res->closeCursor();
         $res = NULL;
@@ -487,7 +494,15 @@ class db_statements //extends PDOStatement
         $this->db->queries[] = $this->db_statement->queryString;
   
         #benchmark::timemarker('db_begin', 'Database Statement | No.'. $this->db->stmt_counter);
-        $res = $this->db_statement->execute($args);
+        try
+        {        
+            $res = $this->db_statement->execute($args);
+        }
+        catch (Exception $e)
+        {
+            throw new clansuite_exception( $e, '[ DB Execute failed ] : Could not execute the statement.', 1);           
+        }
+        
         #benchmark::timemarker('db_end', 'Database Statement | No.'. $this->db->stmt_counter);
      
         return $res;
