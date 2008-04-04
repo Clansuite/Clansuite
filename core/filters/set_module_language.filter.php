@@ -32,13 +32,12 @@
     * @version    SVN: $id$
     */
 /**
- * Clansuite Filter - Set_Module_Language
- *
- * @package clansuite
- * @subpackage filters
+ * Clansuite Filter - Set Module Language
  *
  * Purpose: Sets Text Domain for a specific Module
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class set_module_language implements Filter_Interface

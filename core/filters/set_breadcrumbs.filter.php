@@ -34,11 +34,10 @@
 /**
  * Clansuite Filter - Set Breadcrumbs
  *
- * @package clansuite
- * @subpackage filters
- *
  * Purpose: Sets the Breadcrumbs
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class set_breadcrumbs implements Filter_Interface
