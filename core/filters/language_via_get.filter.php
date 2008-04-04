@@ -31,9 +31,9 @@
     *
     * @version    SVN: $Id$
     */
-
 /**
- * language_via_url Filter Function
+ * Clansuite Filter - Language via URL
+ *
  * I10N/I18N Localization and Internationalization
  * Purpose: Set Language via URL by appendix $_GET['lang']
  *
@@ -49,6 +49,8 @@
  * Note: The check if a certain language exists is not important,
  *       because there are 1) english hardcoded values and 2) the default language as fallback.
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class language_via_get implements Filter_Interface

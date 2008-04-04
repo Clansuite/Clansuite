@@ -34,24 +34,23 @@
 /**
  * Clansuite Filter - Theme via URL
  *
-* @package clansuite
- * @subpackage filters
- *
  * Purpose: Sets Theme via URL by appendix $_GET['theme']
  * Usage example: index.php?theme=themename
  * When request parameter 'theme' is set, the user session value for theme will be updated
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class theme_via_get implements Filter_Interface
 {
     private $config     = null;
     private $input      = null;
-  
+
     function __construct(configuration $config, input $input)
     {
        $this->config    = $config;
-       $this->input     = $input;       
+       $this->input     = $input;
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)

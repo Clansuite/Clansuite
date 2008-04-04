@@ -34,12 +34,11 @@
 /**
  * Clansuite Filter - Maintenace Mode
  *
- * @package clansuite
- * @subpackage filters
- *
  * Purpose: Display Maintenace Template
  * When config parameter 'maintenance' is set, the maintenance template will be displayed
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class maintenance implements Filter_Interface

@@ -31,12 +31,13 @@
     *
     * @version    SVN: $Id$
     */
-
 /**
- * get_user Filter Function
+ * Clansuite Filter - Get User
  *
  * Purpose: Setup the user object
  *
+ * @package clansuite
+ * @subpackage filters
  * @implements FilterInterface
  */
 class get_user implements Filter_Interface
