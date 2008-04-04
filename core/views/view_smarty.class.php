@@ -36,7 +36,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite Core Class - clansuite_view_smarty
+ * Clansuite View Class - View for Smarty Templates
  *
  * This is a wrapper/adapter for the Smarty Template Engine.
  *
@@ -48,8 +48,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @since      Class available since Release 0.2
  *
  * @package     clansuite
- * @category    core
- * @subpackage  view
+ * @category    view
+ * @subpackage  view_smarty
  */
 
 class view_smarty extends renderer_base
@@ -395,7 +395,9 @@ class view_smarty extends renderer_base
      * This was formlerly {mod} inside templates.
      * Calling a function named get_instant_content() on core/modules.class.php.
      *
-     * @access static
+     * @param array $params Parameters
+     * @static
+     * @access public
      */
     public static function loadModule($params)
     {

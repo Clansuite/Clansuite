@@ -41,7 +41,11 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Abstraction for $_REQUEST access with methods
+ * Interface for the Request Object
+ *
+ * @package clansuite
+ * @subpackage core
+ * @category interfaces
  */
 interface Clansuite_Request_Interface
 {
@@ -67,6 +71,9 @@ interface Clansuite_Request_Interface
  *
  * @todo split $_REQUEST into GET and POST with each seperate access methods
  *
+ * @package clansuite
+ * @subpackage core
+ * @category httprequest
  */
 class httprequest implements Clansuite_Request_Interface, ArrayAccess
 {

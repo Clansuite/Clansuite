@@ -63,7 +63,7 @@ interface Clansuite_Response_Interface
  *
  * @package clansuite
  * @subpackage core
- * @category response
+ * @category httpresponse
  */
 class HTTPResponse implements Clansuite_Response_Interface
 {

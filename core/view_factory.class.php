@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @since      Class available since Release 0.2
  *
  * @package     clansuite
- * @category    core
+ * @category    view
  * @subpackage  view
  */
 class view_factory
@@ -56,6 +56,7 @@ class view_factory
      *
      * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
      * @param $injector Dependency Injector Phemto
+     * @static
      * @access public
      * @return Renderer Object
      */
@@ -89,6 +90,13 @@ class view_factory
     }
 }
 
+/**
+ * Clansuit Exception - ViewFactoryClassNotFoundException
+ *
+ * @package clansuite
+ * @category    core
+ * @subpackage exceptions
+ */
 class ViewFactoryClassNotFoundException extends Exception
 {
 	function __construct($class)
@@ -99,6 +107,13 @@ class ViewFactoryClassNotFoundException extends Exception
 	}
 }
 
+/**
+ * Clansuit Exception - ViewFactoryFileNotFoundException
+ *
+ * @package clansuite
+ * @category    core
+ * @subpackage exceptions
+ */
 class ViewFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
