@@ -150,26 +150,24 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     function __construct(Phemto $injector)
     {
-        /**
-         * Setup References
-         */
+        # Setup References
 
         $this->config       = $injector->instantiate('configuration');
         $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
         $this->response     = $injector->instantiate('httpresponse');
 
-        /**
-         * Set the session configuration Parameters accordingly to Config Class Values
-         */
+        # Set the session configuration Parameters accordingly to Config Class Values
+        
         $this->session_cookies              = $this->config['use_cookies'];
         $this->session_cookies_only         = $this->config['use_cookies_only'];
         
         /**
-             * Configure Session
-              * @todo: http://bugs.php.net/bug.php?id=32330 
-              * PHPBUG -> session_set_save_handler() session_destroy())
-              */
+         * Configure Session
+         *
+         * @todo: http://bugs.php.net/bug.php?id=32330 
+         * PHPBUG -> session_set_save_handler() session_destroy())
+         */
         session_module_name("files");
         ini_set('session.save_handler', 'files');                   # workaround for save_handler user is causing a strange bug
         #ini_set('session.save_handler'      , 'user' );
@@ -184,9 +182,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set('session.use_cookies'       , $this->config['use_cookies'] );
         ini_set('session.use_only_cookies'  , $this->config['use_cookies_only'] );
 
-        /**
-         * Setup the custom session handler
-         */
+        # Setup the custom session handler
 
         session_set_save_handler(   array($this, "session_open"   ),
                                     array($this, "session_close"  ),
@@ -195,12 +191,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_destroy"),
                                     array($this, "session_gc"     ));
 
-        /**
-         * Start Session and throw Error on failure
-         */
+        
+        # Start Session and throw Error on failure
+        
         try
         {
             session_start();
+           
         }
         catch (Exception $exception) 
         {
@@ -208,40 +205,31 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             exit;
         }
 
-        /**
-                 * Create new ID if session is not in DB or string-lenght corrupted
-                 */
-        
+        # Create new ID if session is not in DB or string-lenght corrupted
+
         if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
-            session_regenerate_id(true);
-            $_SESSION['initiated'] = true;  #session fixation
+            session_regenerate_id(true);    # @todo check below, if we need still need $this->regenerate_session_id()
+            $_SESSION['initiated'] = true;  # session fixation
             
-            $token = md5(uniqid(rand(), true)); #session token
+            $token = md5(uniqid(rand(), true)); # session token
             $_SESSION['token'] = $token;
         }
         
-        /**
-        * Perform a Security Check on the Session,
-        * and if it doesn't pass this, redirect to login.
-        */
-
+        # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
+        
         if (!$this->_session_check_security() )
         {
             die($this->response->redirect('index.php?mod=login') );
         }
 
-        /**
-         * Control the session (3day registrations, old sessions)
-         */
-
+        # Control the session ( Clean up: 3day registrations, old sessions)
+        
         $this->session_control();
 
-        /**
-         *  Register shutdown
-         */
-
-        register_shutdown_function('session_close');
+        # Register shutdown
+        
+        register_shutdown_function(array($this,'session_close'));
     }
 
     /**
@@ -263,7 +251,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     public function session_close()
     {
-        $this->session_gc(1);
         session_write_close();
         return true;
     }
@@ -516,6 +503,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     public function session_control()
     {
+        # Perform Garbage Control        
+        $this->session_gc(1);
+                
         /**
          *  Delete not activated users after 3 days
          */
