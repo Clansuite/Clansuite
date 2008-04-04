@@ -51,7 +51,10 @@ $passPhrase = "yeahbabyyeah";
     * @license    see COPYING.txt
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
-    * @package    Webinstaller
+    *
+    * @package    clansuite
+    * @category   installer
+    * @subpackage webinstaller
     *
     * HTML Written = Version 0.2 - 06 June 2007
     * HTML Document begins near Line #1000
