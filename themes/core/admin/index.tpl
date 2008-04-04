@@ -21,6 +21,8 @@
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/icons/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/admin.css" />
 
+    <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
+
     {if isset($additional_head)}{$additional_head}{/if}
     {if isset($redirect)}{$redirect}{/if}
     <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
@@ -102,8 +104,9 @@
 
 <div id="footer" class="admin_content">
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-    {$copyright}<br />
-    Theme: {* {$theme-copyright} *} | &nbsp; Queries: {$query_counter}
+     {$copyright}
+    <br/> Frontpage-Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
+    <br/> {include file='server_stats.tpl'}
 </div>
 
 {* Ajax Notification *}
