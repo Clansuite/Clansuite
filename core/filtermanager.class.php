@@ -37,6 +37,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * interface FilterInterface
+ *
+ * @package clansuite
+ * @subpackage core
+ * @category interfaces
  */
 interface Filter_Interface
 {
@@ -49,6 +53,10 @@ interface Filter_Interface
  *
  * - $filters is an array containing the filters to be processed
  * - addFilter method, adds them to the array
+ *
+ * @package clansuite
+ * @subpackage core
+ * @category filters
  */
 class FilterManager
 {

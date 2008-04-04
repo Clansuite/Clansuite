@@ -76,7 +76,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @package     clansuite
  * @category    core
- * @subpackage  db
+ * @subpackage  database
  */
 class db //extends PDO
 {
@@ -440,8 +440,7 @@ class db //extends PDO
  *
  * @package     clansuite
  * @category    core
- * @subpackage  db_statements
- *
+ * @subpackage  database
  */
  
 class db_statements //extends PDOStatement
