@@ -63,14 +63,12 @@ if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbi
  * get data, using get() : echo $cfg->get ('name');
  * get data, using array access: echo $cfg['name'];
  *
- * @author Jens-Andre Koch
- * @copyright Jens-Andre Koch (2005-$Date$)
- *
- * @package clansuite
- * @subpackage config
+ * @package     clansuite
+ * @category    core
+ * @subpackage  config
  * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
  * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
- **/
+ */
 class configuration implements ArrayAccess
 {
      /**

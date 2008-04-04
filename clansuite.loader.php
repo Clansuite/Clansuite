@@ -50,9 +50,9 @@
  * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
  *
+ * @package     clansuite
  * @category    core
  * @subpackage  loader
- * @package     clansuite
  */
 class Clansuite_Loader
 {
