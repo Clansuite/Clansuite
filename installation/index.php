@@ -46,16 +46,17 @@ define('DEBUG', false);
  *     Startup Checks
  *  ================================================
  */
+# PHP Version Check
+define('REQUIRED_PHP_VERSION', '5.2');
+if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
+{
+    $e = new Clansuite_Installation_Startup_Exception('Your PHP Version: <b>' . PHP_VERSION . '</b>! |
+                                                        Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b> .', 1);
+    exit($e);
+}
+
 try
 {
-    # PHP Version Check
-    define('REQUIRED_PHP_VERSION', '5.2');
-    if (version_compare(PHP_VERSION, '5.2', '<') == true)
-    {
-        throw new Clansuite_Installation_Startup_Exception('Your PHP Version: <b>' . PHP_VERSION . '</b>! |
-                                                            Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b> .', 1);
-    }
-
     # PDO Check
     if(!class_exists('PDO'))
     {
