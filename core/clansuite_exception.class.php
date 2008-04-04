@@ -35,8 +35,14 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-class clansuite_exception extends exceptions
+class clansuite_exception extends exception
 {
-
+    # hmm??
+    public function __construct( $errorstring, $code )
+    {
+        echo $errorstring;
+        echo $code;
+        exit;
+    }
 }
 ?>
