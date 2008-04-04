@@ -116,5 +116,43 @@ class clansuite_xdebug
     {
         return round(($value/1048576),2);
     }
+    
+    /**
+     * This is an replacement for the native php function print_r() with an upgraded display  
+     *
+     * @author  Cagret @ pl.gosu.php/debug/printR.php
+     * @version created 2005-06-18 modified 2006-06-04
+     * @param   mixed/array/object $var Array or Object as Variable to display
+     * @static
+     * @access  public
+     *
+     * @returns Returns a better structured display of an array/object as native print_r
+     */
+    public static function printR($var)
+    {
+        while (ob_get_level()) { ob_end_clean(); }
+        if (func_num_args() > 1) $var = func_get_args();
+    
+        echo '<pre>';
+        $trace = array_shift((debug_backtrace()));
+        echo "<b>Debugging <font color=red>".basename($trace['file'])."</font> on line <font color=red>{$trace['line']}</font></b>:\r\n";
+        $file = file($trace['file']);
+        echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
+        echo '<b>Type</b>: '.gettype($var)."\r\n";
+        if (is_string($var)) echo "<b>Length</b>: ".strlen($var)."\r\n";
+        if (is_array($var)) echo "<b>Length</b>: ".count($var)."\r\n";
+        echo '<b>Value</b>: ';
+        if (is_string($var)) echo htmlspecialchars($var);
+        else {
+            $print_r = print_r($var, true);
+            // str_contains < or >
+            if ((strstr($print_r, '<') !== false) || (strstr($print_r, '>') !== false)) {
+                $print_r = htmlspecialchars($print_r);
+            }
+            echo $print_r;
+        }
+        echo '</pre>';
+        exit;
+    }
 }
 ?>
