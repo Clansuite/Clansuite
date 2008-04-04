@@ -202,8 +202,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             session_start();
         }
-        catch (Exception $e) {
-            throw new clansuite_exception('The session start failed!', 500);
+        catch (Exception $exception) 
+        {
+            throw new clansuite_exception($exception, 'The session start failed!', 500);
         }
 
         /**

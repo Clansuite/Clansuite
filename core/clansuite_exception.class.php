@@ -38,10 +38,13 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class clansuite_exception extends exception
 {
     # hmm??
-    public function __construct( $errorstring, $code )
+    public function __construct( $e, $errorstring, $code )
     {
         echo $errorstring;
         echo $code;
+        echo '<br><hr><br>';
+        echo $e->getMessage();
+        echo $e->getTrace();
         exit;
     }
 }
