@@ -37,6 +37,7 @@ set_time_limit(0);
 
 // Security Handler
 define('IN_CS', true);
+
 // Debugging Handler
 define('DEBUG', false);
 
@@ -513,7 +514,11 @@ function write_config_settings($data_array, $update = false)
 session_write_close();
 
 /**
- * Clansuite_Installation_Exception
+ * Clansuit Exception - Installation Startup Exception
+ *
+ * @package clansuite
+ * @category installer
+ * @subpackage exceptions
  */
 class Clansuite_Installation_Startup_Exception extends Exception
 {

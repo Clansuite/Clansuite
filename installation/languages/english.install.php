@@ -1,12 +1,14 @@
 <?php
 /**
- * @ Package:        Clansuite
- * @ Subpackage:     Clansuite Installation
- * @ Author:         Jens-Andre Koch <vain@clansuite.com>
- * @ Copyright:      Jens-Andre Koch & Clansuite Development Team
- * @ License:        http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
- * @ Description:    English Installation Language
- * @ Version         SVN: $Id$
+ * @package         Clansuite
+ * @subpackage      Clansuite Installation
+ * @category        Installer
+ * @author          Jens-Andre Koch <vain@clansuite.com>
+ * @copyright       Jens-Andre Koch & Clansuite Development Team
+ * @license         http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
+ * @description     English Installation Language
+ * @version         SVN: $Id$
+ * @implements      ArrayAccess
  *
  * Encoding: UTF-8
  * Contributors: vain

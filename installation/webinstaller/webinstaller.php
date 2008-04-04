@@ -1,8 +1,7 @@
 <?php
-/* Password: Make the pass phrase at least 6 characters long */
+# Enter your Password here - make it at least 6 characters long !
 $passPhrase = "yeahbabyyeah";
-
- /**
+   /**
     * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005-2008
     * http://www.clansuite.com/
@@ -26,16 +25,15 @@ $passPhrase = "yeahbabyyeah";
     *
     */
 
-    /** =====================================================================
+   /** =====================================================================
     *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.
     *           READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
     *  =====================================================================
     */
 
-    /**
-    *
-    * webinstaller.php
-    * installs clansuite from downloaded archive
+   /**
+    * Clansuite Webinstaller
+    * Installs Clansuite from a downloaded archive
     *
     * Script performs mainly 3 actions:
     *    a. download the clansuite archive [.zip] / [tar.gz]
@@ -43,10 +41,9 @@ $passPhrase = "yeahbabyyeah";
     *    b. extract all files and folders
     *    c. forwards the user to the installation wizard of clansuite
     *
-    * As this Webinstaller is a modified version of the pre-installer v2.2 for Gallery
+    * As this Webinstaller is a modified version of the pre-installer v2.2 for Gallery,
     * we like to thank for it and give credit to both developers
-    * Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
-    *
+    * Bharat Mediratta and Andy Staudacher <ast@gmx.ch>. Thank You!
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
     * @author     Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
@@ -61,7 +58,7 @@ $passPhrase = "yeahbabyyeah";
     * @version    SVN: $Id$
     */
 
-if(ini_get("safe_mode") == true && ini_get("open_basedir") == true) 
+if(ini_get("safe_mode") == true && ini_get("open_basedir") == true)
 {
    die('<i>ERROR</i> : <b>Clansuite Webinstaller is not able to perform a curl/wget/fopen/fsockopen command, <br> because \'Safe Mode\' and \'Open_BaseDir Restriction\' are enabled! <br> Shutting Down!</b>');
 }
@@ -116,6 +113,14 @@ $webInstaller->main();
 /*****************************************************************
  * C L A S S E S
  *****************************************************************/
+
+/**
+ * WebInstaller Main Class
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
 class WebInstaller {
 
     function main() {
@@ -512,7 +517,15 @@ class WebInstaller {
     }
 }
 
-class Platform {
+/**
+ * Plattform
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+class Platform
+{
     /* Check if a specific php function is available */
     function isPhpFunctionSupported($functionName) {
 	if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName)) {
@@ -598,21 +611,42 @@ class Platform {
     }
 }
 
-class DownloadMethod {
-    function download($url, $outputFile) {
-	return false;
+/**
+ * DownloadMethod
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class DownloadMethod
+{
+    function download($url, $outputFile)
+    {
+	    return false;
     }
 
-    function isSupported() {
-	return false;
+    function isSupported()
+    {
+	    return false;
     }
 
-    function getName() {
-	return '';
+    function getName()
+    {
+	    return '';
     }
 }
 
-class WgetDownloader extends DownloadMethod {
+/**
+ * WgetDownloader
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class WgetDownloader extends DownloadMethod
+{
     function download($url, $outputFile) {
 	$status = 0;
 	$output = array();
@@ -635,7 +669,16 @@ class WgetDownloader extends DownloadMethod {
     }
 }
 
-class FopenDownloader extends DownloadMethod {
+/**
+ * FopenDownloader
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class FopenDownloader extends DownloadMethod
+{
     function download($url, $outputFile) {
 	if (!Platform::isDirectoryWritable()) {
 	    return 'Unable to write to current working directory';
@@ -699,7 +742,16 @@ class FopenDownloader extends DownloadMethod {
     }
 }
 
-class FsockopenDownloader extends DownloadMethod {
+/**
+ * FsockopenDownloader
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class FsockopenDownloader extends DownloadMethod
+{
     function download($url, $outputFile, $maxRedirects=10) {
 	/* Code from WebHelper_simple.class */
 
@@ -802,7 +854,16 @@ class FsockopenDownloader extends DownloadMethod {
     }
 }
 
-class CurlDownloader extends DownloadMethod {
+/**
+ * CurlDownloader
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class CurlDownloader extends DownloadMethod
+{
     function download($url, $outputFile) {
 	$ch = curl_init();
 	$ofh = fopen($outputFile, 'wb');
@@ -852,28 +913,50 @@ class CurlDownloader extends DownloadMethod {
     }
 }
 
-class ExtractMethod {
-    /* Extract the archive, add the is_file() in the calling function */
-    function extract() {
-	return false;
+/**
+ * ExtractMethod
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class ExtractMethod
+{
+    # Extract the archive, add the is_file() in the calling function
+    function extract()
+    {
+	    return false;
     }
 
-    /* What archive types can we extract */
-    function getSupportedExtension() {
-	return null;
+    # What archive types can we extract
+    function getSupportedExtension()
+    {
+	    return null;
     }
 
-    /* Check if we can use this method (e.g. if exec is available) */
-    function isSupported() {
-	return false;
+    # Check if we can use this method (e.g. if exec is available)
+    function isSupported()
+    {
+	    return false;
     }
 
-    function getName() {
-	return '';
+    function getName()
+    {
+	    return '';
     }
 }
 
-class UnzipExtractor extends ExtractMethod {
+/**
+ * UnzipExtractor
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class UnzipExtractor extends ExtractMethod
+{
     function extract($fileName) {
 	$output = array();
 	$status = 0;
@@ -900,7 +983,16 @@ class UnzipExtractor extends ExtractMethod {
     }
 }
 
-class TargzExtractor extends ExtractMethod {
+/**
+ * TargzExtractor
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class TargzExtractor extends ExtractMethod
+{
     function extract($fileName) {
 	$output = array();
 	$status = 0;
@@ -927,7 +1019,16 @@ class TargzExtractor extends ExtractMethod {
     }
 }
 
-class PhpTargzExtractor extends ExtractMethod {
+/**
+ * PhpTargzExtractor
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class PhpTargzExtractor extends ExtractMethod
+{
     function extract($fileName) {
 	return PclTarExtract($fileName);
     }
@@ -952,7 +1053,16 @@ class PhpTargzExtractor extends ExtractMethod {
     }
 }
 
-class PhpUnzipExtractor extends ExtractMethod {
+/**
+ * PhpUnzipExtractor
+ *
+ * @package     clansuite
+ * @category    installer
+ * @subpackage  webinstaller
+ */
+
+class PhpUnzipExtractor extends ExtractMethod
+{
     function extract($fileName) {
 	$baseFolder = dirname($fileName);
 	if (!($zip = zip_open($fileName))) {
@@ -1034,15 +1144,15 @@ function render($renderType, $args=array()) {
       <b class="rounded_header3"></b>
       <b class="rounded_header4"></b>
       <b class="rounded_header5"></b></b>
-    
-      <div class="rounded_headerfg">   
+
+      <div class="rounded_headerfg">
         <div>
             <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Webinstaller Logo" />
             <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
             <small><?php echo $webinstaller_version; ?></small>
         </div>
       </div>
-    
+
       <b style="clear:both;" class="rounded_header">
       <b class="rounded_header5"></b>
       <b class="rounded_header4"></b>
@@ -1050,7 +1160,7 @@ function render($renderType, $args=array()) {
       <b class="rounded_header2"><b></b></b>
       <b class="rounded_header1"><b></b></b></b>
     </div>
-    
+
     <div>
         <p>
          <fieldset style="border-color: red; background:lightsalmon;">
@@ -1340,7 +1450,7 @@ function render($renderType, $args=array()) {
 	    <?php print $label .  'link to installation wizard'; ?>
        </span>
        <div id="install" <?php print $display; ?>>
-       
+
        <!-- PATH TO CLANSUITE INSTALLER -->
        <?php if (!empty($args['clansuiteFolderName'])): ?>
 	 <span>
@@ -1564,8 +1674,8 @@ function printHtmlStyle() {
 	pre {
 		font-size: 1.2em;
 	}
-	.rounded_header { 
-	  display:block	  
+	.rounded_header {
+	  display:block
 	}
     .rounded_header *{
       display:block;
@@ -1573,7 +1683,7 @@ function printHtmlStyle() {
       overflow:hidden;
       font-size:.01em;
       background:#00
-      
+
     }
     .rounded_header1 {
       margin-left:2px;
@@ -1608,8 +1718,8 @@ function printHtmlStyle() {
     }
     .rounded_headerfg {
       margin-left: 1px;
-      background:#fff    
-    }	
+      background:#fff
+    }
 	</style>
 <?php
 }
