@@ -204,7 +204,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         catch (Exception $exception) 
         {
-            throw new clansuite_exception($exception, 'The session start failed!', 500);
+            throw new clansuite_exception( $exception, 'The session start failed!', 200);
+            exit;
         }
 
         /**
@@ -240,7 +241,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          *  Register shutdown
          */
 
-        register_shutdown_function('session_write_close');
+        register_shutdown_function('session_close');
     }
 
     /**

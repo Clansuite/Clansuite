@@ -43,20 +43,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This Clansuite Core Class for Error Handling
  *
- * Version 0.1
- * Notes: Initial Version
- * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
- *
  * Version 0.2
  * Notes: File was rewritten for Release 0.2.
- * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
  *
  * @package     clansuite
  * @category    core
- * @subpackage  error
+ * @subpackage  errorhandler
  */
 class errorhandler
 {
@@ -75,7 +67,7 @@ class errorhandler
         set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
 
         # register own error handler
-        set_error_handler(array(&$this,'clansuite_error_handler'));
+        #set_error_handler(array(&$this,'clansuite_error_handler'));
 
         # DEBUG Test the errorhandler with the following function
         #trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
@@ -207,15 +199,11 @@ class errorhandler
      */
     public function clansuite_exception_handler( Exception $exception )
     {
-        # timestamp of the error
-        $timestamp = date("d-m-Y H:i:s");
-
-       /*if ($this->config['suppress_errors'] == 0 )
-        {
-            $this->ysod($exception,
-                        'Uncaught exception : ' . $e->getCode(),
-                        $e->getFile() . ' | Line: ' . $e->getLine() . '<br />' . $e->getMessage() .'<br /><b>Last DB-Query:&nbsp;</b>' . $this->db->last_sql, 1 );
-        }*/
+       if ($this->config['suppress_errors'] == 0 )
+       {
+            $error_head = 'Clansuite Exception';            
+            $this->ysod($exception, $error_head, 'Exception:', 1000);
+       }
     }
 
     /**
@@ -226,11 +214,11 @@ class errorhandler
      * @param string $string contains errorstring
      * @param integer $error_level contains errorlvl
      */
-    public function ysod( $ErrorObject, $error_head = 'Unknown Error', $string = '', $error_level = 3 )
+    public function ysod( $ErrorObject, $error_head = 'Clansuite Error', $string = '', $error_level = 3 )
     {
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Error - '. $error_head .' | Errorcode: '. $error_level .'</title>';
+        $errormessage   .= '<title>'. $error_head .' | Code: '. $error_level .'</title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
@@ -244,13 +232,13 @@ class errorhandler
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
         # Fieldset Legend
-        $errormessage   .= '<legend>Clansuite Error: '. $error_head .'</legend>';
+        $errormessage   .= '<legend>'. $error_head .'</legend>';
         # Error String (passed Error Description)
         #$errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
         # Error Messages from the ErrorObject
-        $errormessage   .= '<hr style="width=80%">';
+        #$errormessage   .= '<hr style="width=80%">';
         $errormessage   .= '<table>';
-        $errormessage  .= '<tr><td><h3>Error</h3></td></tr>';
+        $errormessage  .= '<tr><td><h3>'. $error_head .'</h3></td></tr>';
         $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$ErrorObject->getCode().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$ErrorObject->getMessage().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
@@ -269,7 +257,7 @@ class errorhandler
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Tracing
         if ( defined('DEBUG') && DEBUG===1 )
-        { 
+        {
             $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
         }
         # close all html elements: table, fieldset, body+page
