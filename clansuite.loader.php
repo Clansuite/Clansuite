@@ -209,35 +209,6 @@ class Clansuite_Loader
         $filename = ROOT . DIRECTORY_SEPARATOR . '/core/filters/' . strtolower($classname) . '.filter.php';
         #echo '<br>loaded Filter-Class => '. $filename;
         return self::requireFile($filename);
-    }
-
-    /**
-     * loadDoctrineModels
-     * require all model files of a module
-     *
-     * requires: clansuite/modules/ $modulename /models/ *.php
-     *
-     * @param string $modulename The name of the filter class
-     * @static
-     * @access public
-     *
-     * @return boolean
-     */
-    public static function loadDoctrineModels($modulename)
-    {
-        # construct path to the module models
-        $path = ROOT_MOD . DIRECTORY_SEPARATOR . $modulename . DIRECTORY_SEPARATOR .'/models/';
-
-        # iterate over all elements in this path
-        foreach(new DirectoryIterator($path) as $filename)
-        {
-            # and if it's a file, require it!
-            if( $filename->isFile() )
-            {
-               require($filename);
-               #echo '<br>loaded Doctrine-Models => '. $filename;
-            }
-        }
-    }
+    }   
 }
 ?>
