@@ -31,6 +31,10 @@
     *
     * @version    SVN: $Id$
     */
+
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
 /**
  * Clansuite Filter - Language via URL
  *
@@ -81,10 +85,10 @@ class language_via_get implements Filter_Interface
                 }
                  Update Session
                 else
-                {*/ 
+                {*/
             	   $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
             	   $_SESSION['user']['language_via_url']   = 1;
-                   
+
                    #echo $_SESSION['user']['language'];
             	#}
             }
