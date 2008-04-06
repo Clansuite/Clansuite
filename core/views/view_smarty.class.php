@@ -355,7 +355,7 @@ class view_smarty extends renderer_base
         $this->smarty->assign('javascript'    , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
 
         # Breadcrumb
-        $this->smarty->assign_by_ref('trail'  , $this->trail->path);
+        $this->smarty->assign('trail'  , $this->trail->getTrail());
         # Assign Statistic Variables
         $statistic = $this->injector->instantiate('statistic');
         $this->smarty->assign('stats', $statistic->get_statistic_array());

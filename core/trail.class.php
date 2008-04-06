@@ -66,19 +66,7 @@ class trail
          * @var array $path contains the complete path structured as array
          */
 
-        public $path = array();
-
-        /**
-         * Control Variable for the adding of trails
-         * if not set to '0' trail adding is stopped
-         * This is used for instant loading of modules via {mod}.
-         * @see modules::get_instant_content()
-         *
-         * @access public
-         * @var string $trail_stop trail adding can be stopped if false
-         */
-
-        public $trail_stop = false;
+        private $path = array();
 
         /**
          * CONSTRUCTOR
@@ -108,32 +96,19 @@ class trail
 
         public function addstep($title, $link = '')
         {
-           /**
-            * Add step procedure is controlled by class variable $trail_stop
-            * if not set to '0' the adding of trails is stopped
-            * This used for instant loading of modules via {mod}
-            */
-           if ($this->trail_stop == true) 
-           {
-                $item = array('title' => $title);
+            $item = array('title' => $title);
 
-                if (strlen($link) > 0)
-                {
-                    $item['link'] = WWW_ROOT . $link;
-                }
+            if (strlen($link) > 0)
+            {
+                $item['link'] = WWW_ROOT . $link;
+            }
 
-                $this->path[] = $item;                
-           }
+            $this->path[] = $item;
         }
         
-        /**
-         * trail_stop toggle         
-         * default false
-         * @param $condition boolean
-         */
-        public function trail_stop($condition = false)
+        public function getTrail()
         {
-          $this->trail_stop = ($condition == true) ? true : false;  
-        }       
-    }
+            return $this->path;
+        }
+}
 ?>
