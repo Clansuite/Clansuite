@@ -31,6 +31,10 @@
     *
     * @version    SVN: $Id$
     */
+
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
 /**
  * Clansuite Filter - Get User
  *
