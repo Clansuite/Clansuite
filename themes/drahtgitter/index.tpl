@@ -26,7 +26,11 @@ This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!
             <li><a href="?mod=admin">--ACP--</a></li>            
         </ul> 
     </td>
-    <td>{$content}</td>
+    <td>
+        <div id="breadcrumbs">{breadcrumbs trail=$trail separator=" &raquo; " length=30}</div>
+        <br />
+        {$content}
+    </td>
     <td>    </td>
 </tr>
 <tr>
