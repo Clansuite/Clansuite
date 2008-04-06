@@ -1456,10 +1456,11 @@ function render($renderType, $args=array()) {
 
        <!-- PATH TO CLANSUITE INSTALLER -->
        <?php if (!empty($args['clansuiteFolderName'])): ?>
-	 <span>
-	   Follow this link to start the <a href="<?php print $args['clansuiteFolderName'] .
-								'/installation/index.php'; ?>">
-	   Clansuite installation wizard</a>!
+	 <span style="font-size: 14px; font-weight:bold; color:green;">
+	   <br />
+	   Follow this link to start the 
+	   <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+	   Clansuite Installation Wizard</a>!
 	 </span>
        <?php else: ?>
 	 <div class="warning">
