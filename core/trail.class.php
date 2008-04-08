@@ -38,10 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *  Clansuite Core Class for Trail / Breadcrumb Handling
