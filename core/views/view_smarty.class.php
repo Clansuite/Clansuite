@@ -93,9 +93,9 @@ class view_smarty extends renderer_base
        * @note by vain: Please leave the following commented lines,
        *                i need them for SmartyDOC development!
        */
-      require(ROOT_LIBRARIES . '/Smarty/Smarty.class.php');
+      require(ROOT_LIBRARIES . '/smarty/Smarty.class.php');
       #$this->smarty = new Smarty();
-      require(ROOT_LIBRARIES . '/Smarty/Render_SmartyDoc.class.php');
+      require(ROOT_LIBRARIES . '/smarty/Render_SmartyDoc.class.php');
       #require(ROOT_LIBRARIES . '/smarty/SmartyDoc2.class.php');
       # Set view and smarty to the smarty object
       $this->view = $this->smarty = new Render_SmartyDoc();
