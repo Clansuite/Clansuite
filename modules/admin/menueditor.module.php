@@ -1,43 +1,50 @@
 <?php
-/**
-* Menueditor Admin Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    ???
-* @version    SVN: $Id$
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005-2008
+    * http://www.clansuite.com/
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2008)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
+    *
+    * @version    SVN: $Id$
+    */
+
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
- * Submodule Admin Menueditor
+ * Module:       Admin
+ * Submodule:    Menueditor
+ *
+ * @author     Florian Wolf <xsign.dll@clansuite.com>
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ *
+ * @package clansuite
+ * @subpackage module_admin
+ * @category modules
  */
 class module_admin_menueditor extends ModuleController implements Clansuite_Module_Interface
 {
@@ -47,17 +54,13 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         parent::__construct(); # run constructor on ModuleController
     }
 
-    /**
-     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-     * @desc Loads necessary language files
-     */
     public function execute(httprequest $request, httpresponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
     }
-    
-    
+
+
     public $output     = '';
 
     public $additional_head = '';
@@ -249,7 +252,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         if ( empty( $menu ) )
         {
-            $menu = $this->build_editormenu(true);
+            $menu = $this->fetch_adminmenu(true);
         }
 
         foreach($menu as $entry)
@@ -356,7 +359,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         if ( empty( $menu ) )
         {
-            $menu = $this->build_editormenu(false);
+            $menu = $this->fetch_adminmenu(false);
         }
 
         foreach($menu as $entry)
@@ -434,7 +437,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         if ( !is_array($menu) )
         {
-            $menu = $this->build_editormenu(false);
+            $menu = $this->fetch_adminmenu(false);
         }
 
         foreach($menu as $entry)
@@ -555,7 +558,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
      *
      * @todo Permissions
      */
-    public function build_editormenu( $perm_check = true, &$result = '', $parent = 0, $level = 0 )
+    public function fetch_adminmenu( $perm_check = true, &$result = '', $parent = 0, $level = 0 )
     {
        if ( empty($result) )
         {
@@ -603,7 +606,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
                                                         'right_to_view' => $result[$i]['right_to_view']
                                                     );
 
-                    $output[$result[$i]['id']]['content'] = $this->build_editormenu($perm_check, $result, $result[$i]['id'], $level + 1);
+                    $output[$result[$i]['id']]['content'] = $this->fetch_adminmenu($perm_check, $result, $result[$i]['id'], $level + 1);
 
                     if( count($output[$result[$i]['id']]['content']) == 0)
                         unset($output[$result[$i]['id']]['content']);
