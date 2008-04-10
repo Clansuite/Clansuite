@@ -9,153 +9,21 @@ abstract class BaseCsAdminmenuBackup extends Doctrine_Record
   public function setTableDefinition()
   {
     $this->setTableName('cs_adminmenu_backup');
-    $this->hasColumn('id', 'integer', 1, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-    1 => 'boolean',
-  ),
-  'ntype' => 'tinyint(3) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('parent', 'integer', 1, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-    1 => 'boolean',
-  ),
-  'ntype' => 'tinyint(3) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('type', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('text', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('href', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('title', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('target', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('order', 'integer', 1, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-    1 => 'boolean',
-  ),
-  'ntype' => 'tinyint(4)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('icon', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('right_to_view', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->hasColumn('id', 'integer', 1, array('alltypes' =>  array(  0 => 'integer',   1 => 'boolean', ), 'ntype' => 'tinyint(3) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('parent', 'integer', 1, array('alltypes' =>  array(  0 => 'integer',   1 => 'boolean', ), 'ntype' => 'tinyint(3) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('type', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('text', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('href', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('title', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('target', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('order', 'integer', 1, array('alltypes' =>  array(  0 => 'integer',   1 => 'boolean', ), 'ntype' => 'tinyint(4)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('icon', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('right_to_view', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
+  public function setUp()
+  {
+    parent::setUp();
+  }
 
 }
-?>
