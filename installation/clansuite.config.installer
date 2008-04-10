@@ -83,7 +83,7 @@ class configuration implements ArrayAccess
     /**
      * CONSTRUCTOR
      * sets up all variables
-     * todo by vain: automatic read of ini-files / or from db -> to set up cf arrray 
+     * todo by vain: automatic read of ini-files / or from db -> to set up cf arrray
      */
     public function __construct()
     {
@@ -93,7 +93,7 @@ class configuration implements ArrayAccess
         $this->config['db_username']  = '';
         $this->config['db_password']  = '';
         $this->config['db_name']      = 'clansuite';
-        $this->config['db_hostname']      = 'localhost';
+        $this->config['db_host']      = 'localhost';
         $this->config['db_prefix']    = 'cs_';
         $this->config['db_abs_layer'] = 'pdo';
 
@@ -105,7 +105,7 @@ class configuration implements ArrayAccess
         $this->config['themes_folder']      = 'themes';
         $this->config['mod_folder']         = 'modules';
         $this->config['upload_folder']      = 'uploads';
-        $this->config['logging_folder']     = 'logs';    
+        $this->config['logging_folder']     = 'logs';
 
         // SwiftMail configuration
 
@@ -123,15 +123,15 @@ class configuration implements ArrayAccess
 
         // Global Template Configurations
         $this->config['theme'] = 'standard';
-        #$this->config['theme'] = 'accessible';        
+        #$this->config['theme'] = 'accessible';
         $this->config['tpl_wrapper_file'] = 'index.tpl';
-		
+
     	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
     	$this->config['themeswitch_via_url'] = 1;
-    	
+
     	// Activate Prefilterplugin for Languageswitching via GET Parameter ?lang=
         $this->config['languageswitch_via_url'] = 1;
-        
+
     	// Controller Resolver : Default Module and Default Action
     	$this->config['default_module'] = 'index';
         $this->config['default_action'] = 'show';
@@ -211,7 +211,7 @@ class configuration implements ArrayAccess
 
         $this->config['maintenance'] = 0;
         $this->config['maintenance_reason'] = 'SITE is currently undergoing scheduled maintenance.
-                                     <br />Please try back in 60 minutes. Sorry for the inconvenience.';
+                                     <br />Sorry for the inconvenience. Please try back in 60 minutes.';
 
     }
 
@@ -223,7 +223,7 @@ class configuration implements ArrayAccess
      * @return    void
      */
     public function __get($configkey)
-    {        
+    {
         return isset($this->config[$configkey]) ? $this->config[$configkey] : null;
     }
 
