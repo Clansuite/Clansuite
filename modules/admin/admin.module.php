@@ -32,16 +32,15 @@
     * @version    SVN: $Id$
     */
 
-/**
- *  Security Handler
- */
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Module Admin
+ * Module:       Admin
+ *
+ * @package clansuite
+ * @subpackage module_admin
+ * @category modules
  */
 class module_admin extends ModuleController implements Clansuite_Module_Interface
 {
@@ -93,7 +92,7 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
      * Show the welcome to adminmenu and shortcuts
      */
 
-    function action_show()
+    public function action_show()
     {
         #$user->hasAccess('admin','show');
 
