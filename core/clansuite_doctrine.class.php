@@ -105,7 +105,11 @@ class Clansuite_Doctrine
 
         // construct the Data Source Name (DSN)
         #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
-        $dsn = $this->config['db_type'].'://'.$this->config['db_username'].':'.$this->config['db_password'].'@'.$this->config['db_host'].'/'.$this->config['db_name'];
+        $dsn  = $this->config['db_type'] . '://';
+        $dsn .= $this->config['db_username'] .  ':';
+        $dsn .= $this->config['db_password'] . '@';
+        $dsn .= $this->config['db_host'] . '/';
+        $dsn .= $this->config['db_name'];
 
         // initalize a new Doctrine_Connection
         $db = Doctrine_Manager::connection($dsn);
