@@ -145,8 +145,14 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public function getModuleController(httprequest $request)
     {
-        # ModulName is either the requested modulename or the defaultModule
+        # ModuleName is either the requested modulename or the defaultModule
         $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->defaultModule;
+        # SubModulName is attached to the ModuleName
+        if(isset($request['sub']) && !empty($request['sub']))
+        {
+            $module_name .= '_'.$request->getParameter('sub');
+            #echo "Module + Submodule => ModuleController => $module_name <br>";
+        }
 
         # Load Modul (require) based on requested module_name
         if(clansuite_loader::loadModul($module_name) == true)

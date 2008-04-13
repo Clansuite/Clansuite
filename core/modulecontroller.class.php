@@ -31,6 +31,9 @@
     *
     * @version    SVN: $Id$
     */
+    
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Interface for all modules
@@ -144,18 +147,48 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         # get action parameter from URL
         $action = $request->getParameter('action');
 
+        # get subaction parameter from URL
+        $subaction = $request->getParameter('sub');
+        
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
-        $method = 'action_'.$action;
+        $methodname = 'action_';
 
         # check if action (a) set and (b) not empty and (c) check if the action_$actionxxx
         # method exists in the main module class (the one extending this class)
-        if(isset($action) && !empty($action) && method_exists($this,$method))
+        if(isset($action) && !empty($action))
         {
-            # set the used action name
-            $this->action_name = $action;
-            # call the method !
-            $this->{$method}();
+            # if subaction is found, combine it with action: sub+action = admin_create
+            if(isset($subaction) && !empty($subaction))
+            { 
+                # add actionname to the methodname: action_"show"
+                $methodname .= $subaction . '_'. $action;
+                #echo '1 Subaction was set: '. $methodname;
+            }
+            else
+            {
+                $methodname .= $action; 
+                #echo '2 No Subaction was set. '. $methodname;  
+            }
+            
+            if(method_exists($this,$methodname))
+            {
+                #echo " Method called : $methodname";
+                # set the used action name
+                $this->action_name = $action;
+                # call the method !
+                $this->{$methodname}();
+            }
+             # check if the method exists as a drop in action in the module directory
+            /*elseif
+            {
+                if is_file() ....
+    
+            }*/
+            else
+            {
+                #echo ' Not existing in Class: '. get_class($this) .' - Methodname: '.$methodname;
+            }
         }
         # check if the method exists as a drop in action in the module directory
         /*elseif
@@ -168,9 +201,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # set the used action name
             $this->action_name = $this->config['default_action'];
             # set the method name
-            $method = 'action_'.$this->config['default_action'];
+            $methodname .= $this->config['default_action'];
+            #echo " No Action was set in the URL, using DefaultAction. Method called : $methodname";
             # call the method !
-            $this->{$method}();
+            $this->{$methodname}();
         }
     }
 
