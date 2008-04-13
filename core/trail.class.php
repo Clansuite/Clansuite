@@ -64,24 +64,22 @@ class trail
          * @var array $path contains the complete path structured as array
          */
 
-        private $path = array();
+        private static $path = array();
 
         /**
-         * CONSTRUCTOR
+         * Executed by addstep and assigns "Home >>"
          *
-         * This is auto-executed at the initialization of the class trail
-         * and assigns "Home >>"
-         *
-         * @param bool $homeArea if true, adds the home-level at first
          * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
          * @param string $homeLink contains the link as url, standard is '/' refering to base_url
          */
 
-        function trail($homeArea = true, $homeLabel = 'Home', $homeLink = '/')
+        public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
         {
-            if ($homeArea == true )
+            # check if it's the first trail step, then let it be >> HOME
+            if(count(self::$path) == 0)
             {
-                $this->addStep($homeLabel, $homeLink);
+                self::$path[] = array(  'title' => $homeLabel,
+                                        'link'  => WWW_ROOT . $homeLink);
             }
         }
 
@@ -92,8 +90,11 @@ class trail
          * @param string $link contains the link as url
          */
 
-        public function addstep($title, $link = '')
+        public static function addstep($title, $link = '')
         {
+            # let the first Trail, be ">> HOME"
+            self::addHomeTrail();
+
             $item = array('title' => $title);
 
             if (strlen($link) > 0)
@@ -101,12 +102,15 @@ class trail
                 $item['link'] = WWW_ROOT . $link;
             }
 
-            $this->path[] = $item;
+            self::$path[] = $item;
         }
-        
-        public function getTrail()
+
+        /**
+         * Get Method for the Trail
+         */
+        public static function getTrail()
         {
-            return $this->path;
+            return self::$path;
         }
 }
 ?>

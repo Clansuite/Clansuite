@@ -47,21 +47,53 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class set_breadcrumbs implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
-    private $trail      = null;     # holds instance of trail
 
-    function __construct(configuration $config, trail $trail)
+    function __construct(configuration $config)
     {
        $this->config    = $config;      # set instance of config to class
-       $this->trail     = $trail;      # set instance of trail to class
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-        $moduleName = $request->getParameter('mod');
-        $actionName = $request->getParameter('action');
+        $moduleName     = $request->getParameter('mod');
+        $submoduleName  = $request->getParameter('sub');
+        $actionName     = $request->getParameter('action');
 
-        // Set Pagetitle and Breadcrumbs
-        $this->trail->addStep( T_( ucfirst($moduleName) ), '/index.php?mod='. $moduleName .'&action'. $actionName );
+        # add module Part
+        if(strlen($moduleName) > 0)
+        {
+            # BASE
+            $URL  = '/index.php';
+            $URL .= '?mod=' . $moduleName;
+            $trailName = $moduleName;
+
+            # Add action Part only, if not no submodule following
+            if( (strlen($actionName) > 0) && (strlen($submoduleName) == 0))
+            {
+                $URL .= '&amp;action=' . $actionName;
+            }
+
+            # Set Pagetitle and Breadcrumbs for that Module
+            # >> MODULNAME
+            trail::addStep( T_( ucfirst($trailName) ), $URL );
+        }
+
+        # add submodule part
+        if(strlen($submoduleName) > 0)
+        {
+            $URL .= '&amp;sub=' . $submoduleName;
+            $trailName = $submoduleName;
+
+            # Add action Part now
+            if(strlen($actionName) > 0)
+            {
+                $URL .= '&amp;action=' . $actionName;
+            }
+
+            # Set Pagetitle and Breadcrumbs for that Module
+            # >> SUBMODULNAME
+            trail::addStep( T_( ucfirst($trailName) ), $URL );
+        }
     }
 }
 ?>
