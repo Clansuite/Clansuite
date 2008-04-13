@@ -65,7 +65,6 @@ class view_smarty extends renderer_base
 
     private $config     = null;
     private $db         = null;
-    private $trail      = null;
     private $functions  = null;
 
     /**
@@ -79,8 +78,7 @@ class view_smarty extends renderer_base
 
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('configuration');
-      $this->db             = $this->injector->instantiate('db');
-      $this->trail          = $this->injector->instantiate('trail');
+      $this->db             = $this->injector->instantiate('db');     
       $this->functions      = $this->injector->instantiate('functions');
 
       /**
@@ -355,7 +353,7 @@ class view_smarty extends renderer_base
         $this->smarty->assign('javascript'    , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
 
         # Breadcrumb
-        $this->smarty->assign('trail'  , $this->trail->getTrail());
+        $this->smarty->assign('trail'  , trail::getTrail());
         # Assign Statistic Variables
         $statistic = $this->injector->instantiate('statistic');
         $this->smarty->assign('stats', $statistic->get_statistic_array());
@@ -438,6 +436,9 @@ class view_smarty extends renderer_base
 
         # Parameter Array
         $param_array = split('\|', $params['params']);
+
+        #echo "View_Smarty => LoadModule => $module_name | Action $action";
+        #exit;
 
         # Get the Ouptut of the Object->Method Call
         $output = call_user_func_array( array($controller, $action), $param_array );
