@@ -32,6 +32,9 @@
     * @version    SVN: $Id$
     */
 
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
+
 /**
  * Clansuite_Loader
  *
@@ -156,33 +159,46 @@ class Clansuite_Loader
     {
         # check for prefix 'module_'
         $spos=strpos($modulename, 'module_');
-      	if (is_int($spos) && ($spos==0)) 
+      	if (is_int($spos) && ($spos==0))
       	{
-    	    # ok, 'module_' is prefixed
+    	    # ok, 'module_' is prefixed, do nothing
     	    #echo $spos; exit;
       	}
       	else
       	{
-      	    # add it
+      	    # add the prefix
       	    $modulename = 'module_'. $modulename;
       	}
-        
+
         /**
-         * now we have a common string like 'module_admin_menueditor'
+         * now we have a common string like 'module_admin_menueditor' or 'module_news'
          * which we split at underscore, via explode
-         * like: Array ( [0] => module [1] => admin [2] => menueditor ) 
+         * like: Array ( [0] => module [1] => admin [2] => menueditor )
+         * or  : Array ( [0] => module [1] => news )
          */
         $modulinfos = explode("_", $modulename);
-        
+        #var_dump($modulinfos);
+
         # construct first part of filename
         $filename = ROOT_MOD . DIRECTORY_SEPARATOR . $modulinfos['1'] . DIRECTORY_SEPARATOR;
-        
+
         # if there is a part [2], we have to require a submodule filename
-        if(isset($modulinfos['2'])) 
-        { 
-            # submodule filename
-            $filename .= strtolower($modulinfos['2']) . '.module.php';
-            #echo '<br>loaded SubModule => '. $filename;
+        if(isset($modulinfos['2']))
+        {
+            # and if part [1] is "admin", we have to require a admin submodule filename
+            if($modulinfos['2'] == 'admin')
+            {
+                # admin submodule filename, like news.admin.php
+                $filename .= strtolower($modulinfos['1']) . '.admin.php';
+                #echo '<br>loaded Admin SubModule => '. $filename;
+
+            }
+            else
+            {
+                # normal submodule filename, like menueditor.module.php
+                $filename .= strtolower($modulinfos['2']) . '.module.php';
+                #echo '<br>loaded SubModule => '. $filename;
+            }
         }
         else
         {
@@ -209,6 +225,6 @@ class Clansuite_Loader
         $filename = ROOT . DIRECTORY_SEPARATOR . '/core/filters/' . strtolower($classname) . '.filter.php';
         #echo '<br>loaded Filter-Class => '. $filename;
         return self::requireFile($filename);
-    }   
+    }
 }
 ?>

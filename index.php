@@ -37,11 +37,12 @@
     *             READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
     *  =====================================================================
     */
-# Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 # Define security constant
 define('IN_CS', true);
+
+# Setup XDebug
+define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
@@ -81,8 +82,8 @@ $prefilter_classes = array(
 );
 foreach($prefilter_classes as $class) { $injector->register($class); } # register the filters
 
-$postfilter_classes = array( 
-#empty-at-this-time 
+$postfilter_classes = array(
+#empty-at-this-time
 );
 foreach($postfilter_classes as $class) { $injector->register($class); } # register the filters
 
@@ -109,13 +110,13 @@ $response = $injector->instantiate('httpresponse');
  * - POST-Filters are executed afterwards, but before view rendering
  *   Examples: output compression, character set modifications, breadcrumbs
  */
-foreach($prefilter_classes as $class) 
-{ 
-    $clansuite->addPrefilter($injector->instantiate($class)); 
+foreach($prefilter_classes as $class)
+{
+    $clansuite->addPrefilter($injector->instantiate($class));
 }
-foreach($postfilter_classes as $class) 
-{ 
-    $clansuite->addPostfilter($injector->instantiate($class)); 
+foreach($postfilter_classes as $class)
+{
+    $clansuite->addPostfilter($injector->instantiate($class));
 }
 
 # Take off.
