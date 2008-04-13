@@ -60,12 +60,6 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         $this->processActionController($request);
     }
 
-
-    public $output     = '';
-
-    public $additional_head = '';
-    public $suppress_wrapper= '';
-
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loading necessary language files
@@ -79,16 +73,6 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         switch ($_REQUEST['action'])
         {
-
-            default:
-            case 'show':
-                // Set Pagetitle and Breadcrumbs
-                $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-                $trail->addStep($lang->t('Menueditor'), '/index.php?mod=admin&amp;sub=menueditor');
-                $trail->addStep($lang->t('Show Menu'), '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
-                $this->show();
-                break;
-
             case 'update':
                 $this->update();
                 break;
@@ -117,18 +101,22 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     }
 
     /**
-    * @desc Show the entrance - welcome message etc.
-    */
-
-    function show()
+     * Shows the Admin Menu Editor
+     */
+    public function action_show()
     {
-        global $tpl, $error, $lang;
-
-        $this->additional_head = '';
-
+        # Set Pagetitle and Breadcrumbs
+        $trail = $this->injector->instantiate('trail');
+        $trail->addStep( _('Menueditor'),   '/index.php?mod=admin&amp;sub=menueditor');
+        $trail->addStep( _('Show'),         '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
+        
+        # Get Render Engine
+        $smarty = $this->getView();
+        
+        # Get ICONS
         $icons = array();
 
-        $dir_handler = opendir( ROOT_TPL . '/core/images/icons/' );
+        $dir_handler = opendir( ROOT_THEMES . '/core/images/icons/' );
 
         while( false !== ($file = readdir($dir_handler)) )
         {
@@ -137,11 +125,18 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
                 $icons[] = $file;
             }
         }
+        
         closedir($dir_handler);
 
-        $tpl->assign( 'icons', $icons );
-
-        $this->output .= $tpl->fetch('admin/adminmenu/menueditor.tpl');
+        # Assign ICONS to View
+        $smarty->assign( 'icons', $icons );        
+        
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        # specifiy the template manually
+        $this->setTemplate('admin/adminmenu/menueditor.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
     /**
@@ -349,12 +344,14 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     }
 
     /**
-    * @desc This function generates html-div based menu lists - for menu editor
-    */
+     * This function generates html-div based menu lists - for menu editor
+     *
+     * @param $menu String
+     */
     public function get_adminmenu_div( $menu = '' )
     {
-        global $lang, $cfg;
-
+        #echo 'get adminmenu div called'; exit;
+        
         $result = '';
 
         if ( empty( $menu ) )
@@ -365,8 +362,8 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         foreach($menu as $entry)
         {
             /**
-            * @desc Init Vars
-            */
+             * Init Variables
+             */
             $entry['type']              = isset($entry['type'])             ? $entry['type']            : '';
             $entry['content']           = isset($entry['content'])          ? $entry['content']         : '';
             $entry['href']              = isset($entry['href'])             ? $entry['href']            : '';
@@ -377,40 +374,46 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             $entry['right_to_view']     = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
 
             /**
-            * @desc Build Menu
-            */
+             *  Build Menu
+             */
             if ( $entry['type'] == 'folder')
             {
                 $result .= "<div class=\"folder\">";
                 $result .= '<a href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
-                $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
+                $result .= htmlspecialchars( _($entry['name'])) . '</a>';
             }
 
+            # it's an item
             if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
             }
 
+            # it's an content array, call recursive !!
         	if ( is_array($entry['content']) )
         	{
         	   $result .= $this->get_adminmenu_div($entry['content']);
         	}
         	else
         	{
+        	    # it's not an content array, it's an folder
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
-                    $result .= htmlspecialchars($lang->t($entry['name'])) . '</a>';
+                    $result .= htmlspecialchars( _($entry['name'])) . '</a>';
                 }
         	}
 
+            # it was an item, close it
         	if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
 
+            # it was an folder, close it
+            # @todo: combine both if's with OR?
             if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
@@ -567,8 +570,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             $db->doctrine_bootstrap();
 
             # Load Models
-            require ROOT . '/myrecords/generated/BaseCsAdminmenu.php';
-            require ROOT . '/myrecords/CsAdminmenu.php';
+            Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE); 
 
             # Issue Doctrine_Query
             $result = Doctrine_Query::create()

@@ -26,7 +26,7 @@
                 <div class="wrap1">
                     <div class="top">{t}Adminmenu{/t}</div>
                     <div class="wrap2" id="tree">
-                        {mod name="admin" sub="menueditor" func="get_adminmenu_div"}
+                        {load_module name="admin" sub="menueditor" action="get_adminmenu_div"}
                     </div>
                 </div>
                 <div class="actions">
