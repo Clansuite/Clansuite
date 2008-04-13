@@ -32,10 +32,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  *  ================================================
@@ -65,7 +63,7 @@ define('DEBUG', $config['debug']);
 if ( defined('DEBUG') && DEBUG===1 )
 {
     ini_set('display_startup_errors', true);
-    ini_set('display_errors', true);    # display errors in the browser    
+    ini_set('display_errors', true);    # display errors in the browser
     error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
 }
 else
