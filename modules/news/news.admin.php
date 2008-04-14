@@ -41,23 +41,33 @@ if (!defined('IN_CS'))
 
 
 /**
- * This Clansuite News Module
+ * Clansuite
+ *
+ * Module:      News 
+ * Submodule:   Admin
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-$LastChangedDate$)
+ * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006 - 2007)
  * @since      Class available since Release 1.0alpha
  *
  * @package     clansuite
  * @category    module
  * @subpackage  news
  */
-class module_news_admin
+class Module_News_Admin extends ModuleController implements Clansuite_Module_Interface
 {
-    public $output          = '';
-    public $additional_head = '';
-    public $suppress_wrapper= '';
+    public function __construct(Phemto $injector=null)
+    {
+        parent::__construct(); # run constructor on controller_base
+    }
 
+    public function execute(httprequest $request, httpresponse $response)
+    {
+        # proceed to the requested action
+        $this->processActionController($request);
+    }
+    
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
@@ -72,7 +82,6 @@ class module_news_admin
         $perms->check('cc_access');
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
         $trail->addStep($lang->t('News'), '/index.php?mod=news&amp;sub=admin');
 
         switch ($_REQUEST['action'])
@@ -113,92 +122,153 @@ class module_news_admin
     }
 
     /**
-    * Show all news entries and give the possibility to edit/delete
-    *
-    * @global $cfg
-    * @global $db
-    * @global $tpl
-    * @global $error
-    * @global $lang
-    * @global $functions
-    * @global $security
-    * @global $input
-    * @global $perms
-    */
-    function show()
+     * Module_News_Admin - action_admin_show
+     *
+     * Show all news entries and give the possibility to edit/delete
+     * Show DropDown with possibility to select the news category
+     */
+    public function action_admin_show()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-
-        // Permission check
-        $perms->check('cc_view_news');
-
-        // Incoming Vars
-        $cat = isset($_POST['cat_id']) ? (int) $_POST['cat_id'] : 0;
-
-        // Smarty Pagination load and init
-        require( ROOT_CORE . '/smarty/SmartyPaginate.class.php');
-
-        // set URL
-        $SmartyPaginate->setUrl('index.php?mod=news&amp;sub=admin');
-        $SmartyPaginate->setUrlVar('page');
-        // set items per page
-        $SmartyPaginate->setLimit(10);
-
+        # Permission check
+        #$perms->check('cc_view_news');
+        
+        # Set Pagetitle and Breadcrumbs
+        trail::addstep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
+        
+        # Incoming Variables
+        $cat_id      = (int) $this->injector->instantiate('httprequest')->getParameter('cat_id');
+        // add cat_id to select statement if set, else empty
+        #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
+        $currentPage = (int) $this->injector->instantiate('httprequest')->getParameter('page');
+        $resultsPerPage = 10;  
+                
+        # Load DBAL
+        $db = $this->injector->instantiate('clansuite_doctrine');
+        $db->doctrine_bootstrap();
+        
+        # Load Models (automatic + lazy loading)
+        Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
+        
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_CORE . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick', 'n.draft');
         // Create the columnsort object
-        $columnsort = &new SmartyColumnSort($columns);
+        $columnsort = new SmartyColumnSort($columns);
         // And set the the default sort column and order.
         $columnsort->setDefault('n.news_added', 'desc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+        
+        # Display ALL NEWS
+        if($cat_id == 0)
+        {
+            # Creating Pager Object with a Query Object inside
+            $pager_layout = new Doctrine_Pager_Layout(
+                            new Doctrine_Pager(
+                                Doctrine_Query::create()
+                                        ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                                        ->from('CsNews n')
+                                        ->leftJoin('n.CsUsers u')
+                                        ->leftJoin('n.CsCategories c')
+                                       #->where('c.module_id = 7')
+                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)                                      
+                                        ->orderby($sortorder),
+                                         # The following is Limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                 ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                 )),
+                                 '?mod=news&sub=admin&action=show&page={%page}'
+                                 );
+            
+            # Assigning templates for page links creation
+            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+            $pager_layout->setSelectedTemplate('[{%page}]');
+            # Retrieving Doctrine_Pager instance
+            $pager = $pager_layout->getPager();                    
+                                 
+            // Fetching news
+            #var_dump($pager->getExecuted());
+            $newsarchiv = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        }
+        # Display News ordered by Category
+        else
+        {
+            # Creating Pager Object with a Query Object inside
+            $pager_layout = new Doctrine_Pager_Layout(
+                            new Doctrine_Pager(
+                                Doctrine_Query::create()
+                                        ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                                        ->from('CsNews n')
+                                        ->leftJoin('n.CsUsers u')
+                                        ->leftJoin('n.CsCategories c')
+                                       #->where('c.module_id = 7')
+                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                        ->where('n.cat_id = ?')
+                                        ->orderby($sortorder),
+                                         # The following is Limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                 ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                 )),
+                                 '?mod=news&sub=admin&action=show&page={%page}'
+                                 );
+                                 
+            # Assigning templates for page links creation
+            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+            $pager_layout->setSelectedTemplate('[{%page}]');
+            # Retrieving Doctrine_Pager instance
+            $pager = $pager_layout->getPager();  
+                               
+             // Fetching news
+            #var_dump($pager->getExecuted());
+            $newsarchiv = $pager->execute(array($cat_id), Doctrine::FETCH_ARRAY);
+        }
 
-        // add cat_id to select statement if set, else empty
-        $sql_cat = $cat == 0 ? '' : 'WHERE n.cat_id = ' . $cat;
+        // Get all $categories for module_news
+        $newscategories = Doctrine_Query::create()
+                               ->select('cat_id, name')
+                               ->from('CsCategories c')
+                               ->where('c.module_id = 7')
+                              #->where('c.module_id = ?);
+                         #$stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
+                               ->execute(array(), Doctrine::HYDRATE_ARRAY);
+        
+        # Get Render Engine
+        $smarty = $this->getView();        
+        
+        #$smarty->assign('news', $news->toArray());
+        $smarty->assign('newsarchiv', $newsarchiv);
+        $smarty->assign('newscategories', $newscategories);
 
-        // $newsarchiv = newsentries mit nick und category
-        $stmt = $db->prepare('SELECT n.news_id,  n.news_title, n.news_added, n.draft,
-                                     n.user_id, u.nick,
-                                     n.cat_id, c.name as cat_name, c.image as cat_image
-                                FROM ' . DB_PREFIX .'news n
-                                LEFT JOIN '. DB_PREFIX .'users u USING(user_id)
-                                LEFT JOIN '. DB_PREFIX .'categories c
-                                ON ( n.cat_id = c.cat_id AND
-                                     c.module_id = ? )
-                                ' . $sql_cat . '
-                                ORDER BY '. $sortorder .' LIMIT ?,?');
+        // Return true if it's necessary to paginate or false if not
+        $smarty->assign('pagination_needed',$pager->haveToPaginate());
 
-        // TODO: news with status: draft, published, private, private+protected
-        $stmt->bindParam(1, $cfg->modules['news']['module_id'], PDO::PARAM_INT);
-        $stmt->bindParam(2, $SmartyPaginate->getCurrentIndex(), PDO::PARAM_INT );
-        $stmt->bindParam(3, $SmartyPaginate->getLimit(), PDO::PARAM_INT );
-        $stmt->execute();
-        $newsarchiv = $stmt->fetchAll(PDO::FETCH_NAMED);
+        // Displaying page links
+        // Displays: [1][2][3][4][5]
+        // With links in all pages, except the $currentPage (our example, page 1)
+        // display 2 parameter = true = only return, not echo the pager template.
+        $smarty->assign('pagination_links',$pager_layout->display('',true));
 
-        // Get Number of Rows
-        $rows = $db->prepare('SELECT COUNT(*) FROM '. DB_PREFIX .'news n '. $sql_cat);
-        $rows->execute( );
-        $count = $rows->fetch(PDO::FETCH_NUM);
-        // DEBUG - show total numbers of last Select
-        // echo 'Found Rows: ' . $count;
+        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
+        $smarty->assign('paginate_resultsperpage',$pager->getResultsInPage()); #  current Page
 
-        // Finally: assign total number of rows to SmartyPaginate
-        $SmartyPaginate->setTotal($count[0]);
-        // assign the {$paginate} to $tpl (smarty var)
-        $SmartyPaginate->assign($tpl);
-
-        // $categories for module_news
-        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
-        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
-
-        // give $newslist array to Smarty for template output
-        $tpl->assign('newsarchiv', $newsarchiv);
-        $tpl->assign('newscategories', $newscategories);
-
-        $this->output = $tpl->fetch('news/admin_show.tpl');
+        // Return the total number of pages
+        $smarty->assign('paginate_lastpage',$pager->getLastPage());
+        // Return the current page
+        $smarty->assign('paginate_currentpage',$pager->getPage());
+        
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        # specifiy the template manually
+        #$this->setTemplate('news/admin_show.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
     /**
