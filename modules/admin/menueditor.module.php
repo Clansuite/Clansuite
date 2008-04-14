@@ -103,12 +103,10 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     /**
      * Shows the Admin Menu Editor
      */
-    public function action_show()
+    public function action_menueditor_show()
     {
-        # Set Pagetitle and Breadcrumbs
-        $trail = $this->injector->instantiate('trail');
-        $trail->addStep( _('Menueditor'),   '/index.php?mod=admin&amp;sub=menueditor');
-        $trail->addStep( _('Show'),         '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
+        # Set Pagetitle and Breadcrumbs        
+        trail::addStep( _('Show'),         '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
         
         # Get Render Engine
         $smarty = $this->getView();
