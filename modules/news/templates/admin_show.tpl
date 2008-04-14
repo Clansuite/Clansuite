@@ -1,26 +1,38 @@
-{* Debugoutout of Arrays:*}
-{if $smarty.const.DEBUG eq "1"} Debug of Newsarchiv {html_alt_table loop=$newsarchiv}   {/if}
-{$newscategories|@var_dump}
-{$paginate|@var_dump}
+{* DEBUG OUTPUT of assigned Arrays:
+    {$smarty.session|@var_dump}
+    {if $smarty.const.DEBUG eq "1"} Debug of Newsarchiv {html_alt_table loop=$newsarchiv}   {/if}
+    {$pagination_links|@var_dump}
+    <hr>
+    {$newsarchiv|@var_dump}
+    <hr>
+    {$newscategories|@var_dump}
+*}
 
 
 <style type="text/css">
-    {literal}
+{literal}
     .selected { color:green; }
-    {/literal}
-    </style>
+{/literal}
+</style>
 
 <table class="admintable" summary="Administration of News - Show" border="1" cellpadding="0" cellspacing="0" style="width:99%">
-  <caption class="td_header">News</caption>
+
+    <caption class="td_header">News</caption>
+
     <tr class="tr_header_small">
         <td>
                 {t}Write News{/t}
-         </td>
+        </td>
         <td>
-            {* display pagination info *}
-            {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+            {* Pagination needed: {$pagination_needed} *}
+            <br />
+            {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
+
+            {* display pagination header *}
+            Items {$paginate_currentpage} to {$paginate_resultsperpage} displayed.
         </td>
     </tr>
+
     <tr>
          <td colspan="2">Kategorie-Auswahl:
 
@@ -37,11 +49,14 @@
              <input type="submit" name="submit" value="Anzeigen" class="form"/></form>
         </td>
     </tr>
+
 </table>
+
 <br/>
+
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
+
     <tr class="tr_header_small">
-        <th>test</th>
         <th>{columnsort html="Datum"}</th>
         <th>{columnsort selected_class="selected"
                         html='Title'}</th>
@@ -55,8 +70,8 @@
     <tr>
             <td>{$news.news_added}</td>
             <td>{$news.news_title}</td>
-            <td>{$news.cat_name}</td>
-            <td><a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a></td>
+            <td>{$news.CsCategories.name}</td>
+            <td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
             <td>published</td>
             <td>add edit</td>
     </tr>

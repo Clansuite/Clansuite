@@ -36,6 +36,8 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
+ * Clansuite
+ *
  * Module:       Admin
  *
  * @package clansuite
