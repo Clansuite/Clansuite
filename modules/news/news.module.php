@@ -36,7 +36,10 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Module News
+ * Clansuite
+ *
+ * Module:      News
+ *
  */
 class Module_News extends ModuleController implements Clansuite_Module_Interface
 {
@@ -66,11 +69,20 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      */
     function action_show()
     {
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
+
+        # Defining initial variables
+        # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
+        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $resultsPerPage = 3;
+
         # Load DBAL
         $db = $this->injector->instantiate('clansuite_doctrine');
         $db->doctrine_bootstrap();
 
-        # Load Models
+        # Load Models (manually)
+        /*
         require ROOT . '/myrecords/generated/BaseCsNews.php';
         require ROOT . '/myrecords/CsNews.php';
         require ROOT . '/myrecords/generated/BaseCsNewsComments.php';
@@ -81,14 +93,14 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         require ROOT . '/myrecords/CsUsers.php';
         #require ROOT . '/myrecords/generated/BaseCsModules.php';
         #require ROOT . '/myrecords/CsModules.php';
+        */
 
+        # Load Models (automatic + lazy loading)
+        Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
+
+        # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();
         #print_r($models);
-
-        // Defining initial variables
-        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
-        $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
@@ -110,15 +122,10 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                              )),
                              '?mod=news&action=index&page={%page}'
                              );
-
-        # Get Render Engine
-        $smarty = $this->getView();
-
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
         #var_dump($pager_layout);
-
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
@@ -155,6 +162,8 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         }
         #var_dump($news);
 
+        # Get Render Engine
+        $smarty = $this->getView();
         #$smarty->assign('news', $news->toArray());
         $smarty->assign('news', $news);
 
