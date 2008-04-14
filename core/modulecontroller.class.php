@@ -31,7 +31,7 @@
     *
     * @version    SVN: $Id$
     */
-    
+
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
@@ -147,9 +147,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         # get action parameter from URL
         $action = $request->getParameter('action');
 
-        # get subaction parameter from URL
-        $subaction = $request->getParameter('sub');
-        
+        # get submodule parameter from URL
+        $submodule = $request->getParameter('sub');
+
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
         $methodname = 'action_';
@@ -158,19 +158,19 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         # method exists in the main module class (the one extending this class)
         if(isset($action) && !empty($action))
         {
-            # if subaction is found, combine it with action: sub+action = admin_create
-            if(isset($subaction) && !empty($subaction))
-            { 
+            # if submodule is found, combine it with action: sub+action = admin_create
+            if(isset($submodule) && !empty($submodule))
+            {
                 # add actionname to the methodname: action_"show"
-                $methodname .= $subaction . '_'. $action;
-                #echo '1 Subaction was set: '. $methodname;
+                $methodname .= $submodule . '_'. $action;
+                #echo '1 Submodule was set: '. $methodname;
             }
             else
             {
-                $methodname .= $action; 
-                #echo '2 No Subaction was set. '. $methodname;  
+                $methodname .= $action;
+                #echo '2 No Submodule was set. '. $methodname;
             }
-            
+
             if(method_exists($this,$methodname))
             {
                 #echo " Method called : $methodname";
@@ -183,7 +183,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             /*elseif
             {
                 if is_file() ....
-    
+
             }*/
             else
             {
@@ -198,6 +198,21 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }*/
         else
         {
+            # if submodule is found, combine it with action: sub+action = admin_create
+            if(isset($submodule) && !empty($submodule))
+            {
+                # add actionname to the methodname: action_"show"
+                $methodname .= $submodule . '_'. $action;
+                #echo '1 Submodule was set: '. $methodname;
+            }
+            else
+            {
+                $methodname .= $action;
+                #echo '2 No Submodule was set. '. $methodname;
+            }
+
+            #echo Clansuite_ModuleController_Resolver::getModuleName();
+            #echo Clansuite_ModuleController_Resolver::getSubModuleName();
             # set the used action name
             $this->action_name = $this->config['default_action'];
             # set the method name
@@ -302,17 +317,35 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function getTemplateName()
     {
-        # if the templateName was not set, we try several paths to find an tpl
+        # if the templateName was not set, we try to autodetect it
+        # by searching through several paths to find the tpl
         if(empty($this->templateName))
         {
             # get modulName and actionName
             $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
+
+            $moduleName = explode("_", $moduleName);
+            #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
+
             # @todo?
             #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
             $actionName = $this->action_name;
+            #echo 'ActionName : '.$actionName.'<br>';
 
-            # construct a partial path from moduleName and actionName
-            $tplname = $moduleName.'/'.$actionName.'.tpl';
+            $SubModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
+            #echo 'SubModuleName : '.$SubModuleName.'<br>';
+
+            if(strlen($SubModuleName) > 0)
+            {
+                $tplname = $moduleName['0'].'/'.$SubModuleName.'_'.$actionName.'.tpl';
+                #echo 'TPL Name : '.$tplname.'<br>';
+            }
+            else
+            {
+                # construct a partial path from moduleName and actionName
+                $tplname = $moduleName['0'].'/'.$actionName.'.tpl';
+                #echo 'TPL Name : '.$tplname.'<br>';
+            }
 
             # check, if a template-file with $tplname exists in
             # 1. Standard Theme - Template
@@ -340,8 +373,8 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         else
         {
             # check if is_file
-            
-            # walk through smarty paths 
+
+            # walk through smarty paths
             # @todo: wrong position -> move this to view
         }
         return $this->templateName;
