@@ -45,10 +45,10 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
     {
         #parent::__construct(); # run constructor on controller_base
     }*/
-    
+
     /**
      * Main Method of Index Module
-     * 
+     *
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
      */
@@ -86,6 +86,9 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
      */
     function action_show()
     {
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');
+
         /***
          * To set a Render Engine use the following method:
          * $this->setRenderEngine('smarty');
@@ -131,7 +134,7 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
 
         # Starting the View
         #$this->setView($this->getRenderEngine());
-        
+
         # Applying a Layout Template
         #$this->getView()->setLayoutTemplate('admin/index.tpl');
 
