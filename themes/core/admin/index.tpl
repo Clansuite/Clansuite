@@ -7,6 +7,8 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery.tabs.js"></script>
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -89,6 +91,17 @@
         <tbody>
         <tr>
             <td class="admin_content" width="100%">
+                <div id="vertical-tabs">
+                    <fieldset>
+                        <legend>Tab 1</legend>
+                        Lorem
+                    </fieldset>
+                    <fieldset>
+                        <legend>Tab 2</legend>
+                        Ipsum
+                    </fieldset>
+                    <div style="clear:both"></div>
+                </div>
                 {$content}
             </td>
             <td id="help_td_2" class="admin_help" style="padding: 0px; display: none;">

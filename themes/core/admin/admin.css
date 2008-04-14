@@ -533,3 +533,10 @@ table.admintable tr#cell3
 {
     padding: 3px;
 }
+
+/* Vertical Tabs */
+#vertical-tabs ul {
+    width: 200px;
+    margin: 0 20px 0 0;
+    float: left;
+}
