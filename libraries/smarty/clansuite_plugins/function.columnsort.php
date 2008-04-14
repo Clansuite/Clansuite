@@ -24,17 +24,16 @@
 *   and
 *   line 76-84: asc_image and desc_image parameterdetection disabled
 */
-function smarty_function_columnsort($params, &$smarty) {
-    global $lang;
-
+function smarty_function_columnsort($params, &$smarty)
+{
 	static $selected_class = NULL;
 	static $current_id = 0;
 
     //static $sort_asc_image = null;
     //static $sort_desc_image = null;
 
-    $sort_asc_image = WWW_ROOT . "/templates/core/images/icons/asc.png";
-	$sort_desc_image = WWW_ROOT . "/templates/core/images/icons/desc.png";
+    $sort_asc_image  = WWW_ROOT_THEMES_CORE . "/images/icons/asc.png";
+	$sort_desc_image = WWW_ROOT_THEMES_CORE . "/images/icons/desc.png";
 
 	static $SMCS_id = 'default';
 
@@ -58,12 +57,14 @@ function smarty_function_columnsort($params, &$smarty) {
 		$smarty->trigger_error("columnsort: missing 'html' parameter.");
 		return;
 	}
-
+    
+    /*
 	if($params['translate'] != 0)
 	{
-	   $params['html'] = $lang->t($params['html']);
-	}
+	   $params['html'] = _($params['html']);
+	}*/
 	$html = $params['html'];
+    
 
 	// selected_class
 	if(isset($params['selected_class'])) {
