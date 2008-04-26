@@ -69,7 +69,8 @@ class theme_via_get implements Filter_Interface
                 #echo 'processing themefilter';
 
             	// Security Handler for $_GET['theme']
-            	if( !$this->input->check( $request['theme'], 'is_abc|is_custom', '_' ) )
+            	// Allowed Chars: abc, 0-9, underscore
+            	if( !$this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
                 {
                     // @todo umstellen auf thrown Exception
                     $this->input->display_intrusion_warning();
