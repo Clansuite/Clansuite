@@ -53,6 +53,24 @@ class set_breadcrumbs implements Filter_Interface
        $this->config    = $config;      # set instance of config to class
     }
 
+    public function strstr($haystack, $needle, $before_needle = false) 
+    {
+        //Find position of $needle or abort
+        if(($pos=strpos($haystack,$needle)) === false) 
+        { 
+            return false;
+        }
+         
+        if($before_needle)
+        {
+            return substr($haystack,0,$pos+strlen($needle)-1);
+        }
+        else
+        {
+            return substr($haystack,$pos);
+        }
+    }
+
     public function executeFilter(httprequest $request, httpresponse $response)
     {
         $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();     # $request->getParameter('mod');
@@ -62,6 +80,10 @@ class set_breadcrumbs implements Filter_Interface
         # add module Part
         if(strlen($moduleName) > 0)
         {
+            # Strip String ModuleName at "_Admin"
+            #$moduleName = strstr($moduleName, '_Admin', true);     # php6  
+            $moduleName = $this->strstr($moduleName, '_', true);     
+            
             # BASE
             $URL  = '/index.php';
             $URL .= '?mod=' . $moduleName;
