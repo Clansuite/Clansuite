@@ -55,8 +55,8 @@ class set_breadcrumbs implements Filter_Interface
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-        $moduleName     = $request->getParameter('mod');
-        $submoduleName  = $request->getParameter('sub');
+        $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();     # $request->getParameter('mod');
+        $submoduleName  = Clansuite_ModuleController_Resolver::getSubModuleName();  # $request->getParameter('sub');
         $actionName     = $request->getParameter('action');
 
         # add module Part
