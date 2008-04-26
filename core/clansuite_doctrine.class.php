@@ -58,18 +58,21 @@ class Clansuite_Doctrine
 
     function __construct(configuration $config)
     {
-
         $this->config = $config; # set config instance
+        
+        # Load DBAL
+        #$db = $this->injector->instantiate('clansuite_doctrine');
+        $this->doctrine_initialize();
     }
 
     /**
-     * Doctrine Bootstrap
+     * Doctrine Initialize
      *
      * 1. Loads the compiled (if exists) or normal Doctrine Base Class
      * 2. registers autoload
      * 3. Prepares a connection to the Database
      */
-    public function doctrine_bootstrap()
+    public function doctrine_initialize()
     {
         // Require compiled or normal Library
         if (is_file( ROOT_LIBRARIES . '/doctrine/Doctrine.compiled.php'))
@@ -80,13 +83,16 @@ class Clansuite_Doctrine
         {
             require_once ROOT_LIBRARIES .'/doctrine/Doctrine.php';
         }
+        
         // Register autoloader
         spl_autoload_register(array('Doctrine', 'autoload'));
+        
         // Debug Modus
         if ( defined('DEBUG') && DEBUG===1 )
         {
             Doctrine::debug(true);
         }
+        
         // db connection
         $this->prepareDbConnection();
     }
@@ -104,6 +110,7 @@ class Clansuite_Doctrine
     {
 
         // construct the Data Source Name (DSN)
+        // Example: 
         #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
         $dsn  = $this->config['db_type'] . '://';
         $dsn .= $this->config['db_username'] .  ':';
@@ -119,30 +126,36 @@ class Clansuite_Doctrine
         # var_dump($db);
 
         /**
-                    * Setup phpDoctrine Attributes for that later Connection
-                    */
+         * Setup phpDoctrine Attributes for that later Connection
+         */
 
         // Changing the database naming convention by adding DB_PREFIX
         $db->setAttribute(Doctrine::ATTR_DBNAME_FORMAT, DB_PREFIX.'_%s');
 
         /**
-                     * Aggressive - It finds all .php files in a given path recursively and
-                       performs a require_once() on each file. Your files can be in subfolders, and
-                       the files can include multiple models. It is very flexible but the downside
-                       is that it will require_once() all files.
+         * 
+         * Aggressive - It finds all .php files in a given path recursively and
+           performs a require_once() on each file. Your files can be in subfolders, and
+           the files can include multiple models. It is very flexible but the downside
+           is that it will require_once() all files.
 
-                       Conservative - It finds all .php files in a given path recursively and
-                       builds an array of className => /path/to/file. The className is parsed from
-                       the name of the file, so each file must contain only one class and the file
-                       must be named after the class inside of it. This array is then referenced in
-                       Doctrine::autoload() and used to load models when they are asked for.
-                       Johnatan Wage on http://groups.google.com/group/doctrine-user
-                     */
+           Conservative - It finds all .php files in a given path recursively and
+           builds an array of className => /path/to/file. The className is parsed from
+           the name of the file, so each file must contain only one class and the file
+           must be named after the class inside of it. This array is then referenced in
+           Doctrine::autoload() and used to load models when they are asked for.
+           
+           Johnatan Wage on http://groups.google.com/group/doctrine-user
+         */
+        
         $db->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
 
-        // case-sensitive:
-        // array('ModelName' => '/path/to/ModelName.php');
-        #$db->loadModels($this->get_path('model'));
+        # Load Models (automatic + lazy loading)
+        Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
+        
+        # Debug Listing of all loaded Doctrine Models
+        #$models = Doctrine::getLoadedModels();
+        #print_r($models);     
 
         // Validate All
         #$db->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
@@ -156,14 +169,14 @@ class Clansuite_Doctrine
 
         // Set Cache Driver
         /**
-                     * Doctrine_Cache_Exception: The apc extension must be loaded for using this backend !
-                    $cacheDriver = new Doctrine_Cache_Apc();
-                    $db->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cacheDriver);
-                    // set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
-                    $db->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
-                    */
+         * Doctrine_Cache_Exception: The apc extension must be loaded for using this backend !
+        $cacheDriver = new Doctrine_Cache_Apc();
+        $db->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cacheDriver);
+        // set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
+        $db->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+        */
         # set character set
-        #$db->execute("SET CHARACTER SET utf8");
+        $db->execute("SET CHARACTER SET utf8");
     }
 }
 ?>
