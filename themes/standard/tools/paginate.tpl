@@ -1,14 +1,17 @@
 <div class="paginate">
-        <div class="description">
+    
+    <div class="description">
             <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
-            {if $paginate.size gt 0}
-              <span class="inline_text">Items {$paginate.first}-{$paginate.last} of {$paginate.total} displayed.</span>
+            {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
+            
+            {* todo else *}
+            {if $pagination_needed gt 0}
+             <span class="inline_text">Items {$paginate_currentpage} to {$paginate_resultsperpage} of {$paginate_totalitems} displayed.</span>
             {else}
-              Item {$paginate.first} of {$paginate.total} displayed.
+              Item {$paginate.first} of {$paginate_totalitems} displayed.
             {/if}
-        </div>
-        <div class="size">
-            {* display pagination info *}
-            <span class="inline_text">{paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}</span>
-        </div>
+    </div>    
+    <div class="size">
+        
+    </div>
 </div>
