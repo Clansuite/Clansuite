@@ -158,7 +158,7 @@ class Clansuite_Loader
     public static function loadModul($modulename)
     {
         # check for prefix 'module_'
-        $spos=strpos($modulename, 'module_');
+        $spos=strpos(strtolower($modulename), 'module_');
       	if (is_int($spos) && ($spos==0))
       	{
     	    # ok, 'module_' is prefixed, do nothing
@@ -167,7 +167,7 @@ class Clansuite_Loader
       	else
       	{
       	    # add the prefix
-      	    $modulename = 'module_'. $modulename;
+      	    $modulename = 'module_'. strtolower($modulename);
       	}
 
         /**
