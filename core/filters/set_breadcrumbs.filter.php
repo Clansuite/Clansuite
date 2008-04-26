@@ -53,22 +53,15 @@ class set_breadcrumbs implements Filter_Interface
        $this->config    = $config;      # set instance of config to class
     }
 
-    public function strstr($haystack, $needle, $before_needle = false) 
+    function cut_string($haystack, $needle)
     {
-        //Find position of $needle or abort
-        if(($pos=strpos($haystack,$needle)) === false) 
-        { 
-            return false;
-        }
-         
-        if($before_needle)
+        $needle_length = strlen($needle);
+        
+        if(($i = strpos($haystack,$needle) !== false))
         {
-            return substr($haystack,0,$pos+strlen($needle)-1);
+            return substr($haystack, 0, -$needle_length);
         }
-        else
-        {
-            return substr($haystack,$pos);
-        }
+        return $haystack;
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)
@@ -82,17 +75,17 @@ class set_breadcrumbs implements Filter_Interface
         {
             # Strip String ModuleName at "_Admin"
             #$moduleName = strstr($moduleName, '_Admin', true);     # php6  
-            $moduleName = $this->strstr($moduleName, '_', true);     
+            $moduleName = $this->cut_string($moduleName, '_Admin');           
             
             # BASE
             $URL  = '/index.php';
-            $URL .= '?mod=' . $moduleName;
+            $URL .= '?mod=' . strtolower($moduleName);
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
             if( (strlen($actionName) > 0) && (strlen($submoduleName) == 0))
             {
-                $URL .= '&amp;action=' . $actionName;
+                $URL .= '&amp;action=' . strtolower($actionName);
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
@@ -103,13 +96,13 @@ class set_breadcrumbs implements Filter_Interface
         # add submodule part
         if(strlen($submoduleName) > 0)
         {
-            $URL .= '&amp;sub=' . $submoduleName;
+            $URL .= '&amp;sub=' . strtolower($submoduleName);
             $trailName = $submoduleName;
 
             # Add action Part now
             if(strlen($actionName) > 0)
             {
-                $URL .= '&amp;action=' . $actionName;
+                $URL .= '&amp;action=' . strtolower($actionName);
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
