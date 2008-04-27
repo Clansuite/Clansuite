@@ -534,8 +534,42 @@ table.admintable tr#cell3
 }
 
 /* Vertical Tabs */
-#vertical-tabs ul {
-    width: 200px;
-    margin: 0 20px 0 0;
-    float: left;
+#vertical-tabs
+{ 
+   border: 1px solid;
+   margin: auto;
+   padding: 0px;
+   width: 60%;   
+}
+
+#vertical-tabs ul 
+{
+    float:left;
+	text-indent: 1em;
+	list-style: none;
+	display: inline;
+	margin-top: 20px;
+	padding-right: 10px;
+}
+
+#vertical-tabs li
+{
+    width: 110px;
+    border: 1px solid;
+    border-color: #000;
+	padding: 5px;
+	margin-left: 30px;
+	margin-top: 15px;
+}
+
+#vertical-tabs ul li:before 
+{
+	content: "\00BB \0020";
+}
+
+#vertical-tabs fieldset
+{
+    border: none;
+    float: right;
+    width: 480px;
 }
