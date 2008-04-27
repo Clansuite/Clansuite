@@ -94,8 +94,9 @@
                               <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
                               <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
                               <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
-                              <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Board</a> 
+                              <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Board</a>
                               <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
+                              <a class="item" href="index.php?mod=userslist">Userslist</a>
                               <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
                               <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
                            </div>

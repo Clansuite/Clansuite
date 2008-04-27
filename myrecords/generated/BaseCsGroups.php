@@ -9,106 +9,20 @@ abstract class BaseCsGroups extends Doctrine_Record
   public function setTableDefinition()
   {
     $this->setTableName('cs_groups');
-    $this->hasColumn('group_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(5) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-    $this->hasColumn('sortorder', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(4) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('name', 'string', 80, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(80)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('description', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('icon', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => false,
-  'autoincrement' => false,
-));
-    $this->hasColumn('image', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => false,
-  'autoincrement' => false,
-));
-    $this->hasColumn('color', 'string', 7, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(7)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => false,
-  'autoincrement' => false,
-));
+    $this->hasColumn('group_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(5) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('sortorder', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(4) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('name', 'string', 80, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(80)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('description', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('icon', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('image', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('color', 'string', 7, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(7)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
   }
 
+  public function setUp()
+  {
+    parent::setUp();
+    
+    $this->index('group_id', array('fields' => 'group_id'));
+  }
 }
 ?>

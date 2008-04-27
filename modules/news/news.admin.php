@@ -130,7 +130,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
     public function action_admin_show()
     {
         # Permission check
-        #$perms->check('cc_view_news');
+        #$perms::check('cc_view_news');
         
         # Set Pagetitle and Breadcrumbs
         trail::addstep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
@@ -140,11 +140,11 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         // add cat_id to select statement if set, else empty
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
         $currentPage = (int) $this->injector->instantiate('httprequest')->getParameter('page');
-        $resultsPerPage = 10;  
+        $resultsPerPage = (int) 10;  
                 
         # Load DBAL
         $db = $this->injector->instantiate('clansuite_doctrine');
-        $db->doctrine_bootstrap();
+        $db->doctrine_initialize();
         
         # Load Models (automatic + lazy loading)
         Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
@@ -152,7 +152,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'n.news_added', 'n.news_title', 'cat_name','u.nick', 'n.draft');
+        $columns = array( 'n.news_added', 'n.news_title', 'c.name','u.nick', 'n.draft');
         // Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         // And set the the default sort column and order.

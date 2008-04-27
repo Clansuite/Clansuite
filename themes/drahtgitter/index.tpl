@@ -22,9 +22,11 @@ This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!
             <li><a href="?mod=index&action=mvc">Index MVC Test</a></li>
             <li><a href="?mod=index&action=smarty_error_example">Index smarty_error_example</a></li>
             <li><a href="?mod=news">News</a></li>
+            <li><a href="?mod=guestbook">Guestbook</a></li>
+            <li><a href="?mod=userslist">Userslist</a></li>
             <hr style="width:80%">
-            <li><a href="?mod=admin">--ACP--</a></li>            
-        </ul> 
+            <li><a href="?mod=admin">--ACP--</a></li>
+        </ul>
     </td>
     <td>
         <div id="breadcrumbs">{breadcrumbs trail=$trail separator=" &raquo; " length=30}</div>
@@ -40,8 +42,8 @@ This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!
             <li><a href="?theme=andreas01">Andreas01</a></li>
             <li><a href="?theme=shades_of_gray">Shades of Gray</a></li>
             <li><a href="?theme=standard">standard</a></li>
-        </ul>        
-        <br />        
+        </ul>
+        <br />
     </td>
 </tr>
 </table>

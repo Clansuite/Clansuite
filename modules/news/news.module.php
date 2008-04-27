@@ -43,12 +43,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Module_News extends ModuleController implements Clansuite_Module_Interface
 {
-
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
@@ -69,38 +63,16 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      */
     function action_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
 
-        # Defining initial variables
-        # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
+        // Defining initial variables
+        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
 
-        # Load DBAL
-        $db = $this->injector->instantiate('clansuite_doctrine');
-        $db->doctrine_bootstrap();
-
-        # Load Models (manually)
-        /*
-        require ROOT . '/myrecords/generated/BaseCsNews.php';
-        require ROOT . '/myrecords/CsNews.php';
-        require ROOT . '/myrecords/generated/BaseCsNewsComments.php';
-        require ROOT . '/myrecords/CsNewsComments.php';
-        require ROOT . '/myrecords/generated/BaseCsCategories.php';
-        require ROOT . '/myrecords/CsCategories.php';
-        require ROOT . '/myrecords/generated/BaseCsUsers.php';
-        require ROOT . '/myrecords/CsUsers.php';
-        #require ROOT . '/myrecords/generated/BaseCsModules.php';
-        #require ROOT . '/myrecords/CsModules.php';
-        */
-
-        # Load Models (automatic + lazy loading)
-        Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
-
-        # Debug Listing of all loaded Doctrine Models
-        #$models = Doctrine::getLoadedModels();
-        #print_r($models);
+        // Load DBAL
+        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
 
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
@@ -120,17 +92,18 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5
                              )),
-                             '?mod=news&action=index&page={%page}'
+                             '?mod=news&action=show&page={%page}'
                              );
+
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
         #var_dump($pager_layout);
+
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
         // Fetching news
-        #var_dump($pager->getExecuted());
         $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
 
         // Fetch the related COUNT on news_comments and the author of the latest!
@@ -201,10 +174,8 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     * You have to add the lines as shown above into the case block:
     * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
     */
-    function instant_show_news($my_text)
+    function widget_news($numberNews)
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-
         /**
         * @desc Handle the output - $lang-t() translates the text.
         */

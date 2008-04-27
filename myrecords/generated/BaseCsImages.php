@@ -67,6 +67,25 @@ abstract class BaseCsImages extends Doctrine_Record
 ));
   }
 
+ public function setUp()
+  {
+    parent::setUp();
+    
+    $this->index('user_id', array('fields' => 'user_id'));
+    $this->hasOne('CsUsers', array('local' => 'user_id',
+                                   'foreign' => 'user_id'
+                                   #,
+                                   #'onDelete' => 'CASCADE')
+                                   ));
+    
+    $this->index('image_id', array('fields' => 'image_id'));
+    $this->hasOne('CsGuestbook', array('local' => 'image_id',
+                                   'foreign' => 'image_id'
+                                   #,
+                                   #'onDelete' => 'CASCADE')
+                                   ));
+    
+  }
 
 }
 ?>

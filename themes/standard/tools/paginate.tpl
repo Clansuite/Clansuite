@@ -4,7 +4,7 @@
             <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
             {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
             
-            {* todo else *}
+            {* todo else .... multiply the pagenumber with resultsperpage??? *}
             {if $pagination_needed gt 0}
              <span class="inline_text">Items {$paginate_currentpage} to {$paginate_resultsperpage} of {$paginate_totalitems} displayed.</span>
             {else}
