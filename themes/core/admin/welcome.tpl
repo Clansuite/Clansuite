@@ -8,7 +8,7 @@
 <div id="vertical-tabs">
     <fieldset>
         <legend>Module</legend>
-        Lorem
+        {include file="admin/shortcuts.tpl"}
     </fieldset>
     <fieldset>
         <legend>Administration</legend>
