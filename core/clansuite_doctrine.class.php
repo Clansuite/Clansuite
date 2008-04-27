@@ -84,16 +84,16 @@ class Clansuite_Doctrine
             require_once ROOT_LIBRARIES .'/doctrine/Doctrine.php';
         }
         
-        // Register autoloader
+        // Register Doctrine autoloader
         spl_autoload_register(array('Doctrine', 'autoload'));
-        
+       
         // Debug Modus
         if ( defined('DEBUG') && DEBUG===1 )
         {
             Doctrine::debug(true);
         }
         
-        // db connection
+        // Db Connection
         $this->prepareDbConnection();
     }
 
@@ -108,7 +108,9 @@ class Clansuite_Doctrine
      */
     public function prepareDbConnection()
     {
-
+        Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
+        Doctrine::loadModels( ROOT . '/myrecords/' ); // This call will not require the found .php files
+        
         // construct the Data Source Name (DSN)
         // Example: 
         #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
@@ -148,10 +150,10 @@ class Clansuite_Doctrine
            Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
         
-        $db->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
+        #$db->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
 
         # Load Models (automatic + lazy loading)
-        Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
+        #Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
         
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();

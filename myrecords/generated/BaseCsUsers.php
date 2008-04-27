@@ -33,9 +33,10 @@ abstract class BaseCsUsers extends Doctrine_Record
     
     $this->index('user_id', array('fields' => 'user_id'));
     $this->hasMany('CsUserGroups', array('local' => 'user_id',
-                                         'foreign' => 'user_id'
+                                         'foreign' => 'user_id',
+                                         'refClass' => 'GroupUser'
                                          #,
-                                         #'onDelete' => 'CASCADE')
+                                         #'onDelete' => 'CASCADE')                                         
                                          ));
   }
 }
