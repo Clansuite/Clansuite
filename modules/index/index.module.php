@@ -34,17 +34,26 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite Module: Index
+ * Clansuite
+ *
+ * Module:      Index
  *
  * Purpose: This class is the PageController which has many pages to deal with.
  */
 class Module_Index extends ModuleController implements Clansuite_Module_Interface
 {
-    /*
+    /**
+     * __Constructor:
+     *
+     * Calls the Parent Constructor.
+     * This is not needed, because it's automatically done by PHP.
+     * So you can leave it away, when building modules.
+     * It's just for understanding and clarification.
+     */
     function __construct(Phemto $injector=null)
     {
-        #parent::__construct(); # run constructor on controller_base
-    }*/
+        parent::__construct(); # run constructor on controller_base
+    }
 
     /**
      * Main Method of Index Module
@@ -90,12 +99,13 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');
 
         /***
-         * To set a Render Engine use the following method:
-         * $this->setRenderEngine('smarty');
+         * You can set a Render Engine:
          *
-         * You can define a specific view_type like (smarty, json, rss, php)
-         *    -- or leave it away, then smarty is used as fallback!
+         * Therefore you can choose a specific Render Engine (view_type) like
+         * 1) Smarty 2) json 3) rss 4) php.
          *
+         * If you don't set a Rendering Engine via this method,
+         * then 'Smarty' is used as fallback!
          */
         #$this->setRenderEngine('smarty');
 

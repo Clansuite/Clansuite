@@ -149,12 +149,14 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     {
         # ModuleName is either the requested modulename or the defaultModule
         $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->_defaultModule;
+       
         # When SubModulName exists, attached to the ModuleName
         if(isset($request['sub']) && !empty($request['sub']))
         {
             # get SubModuleName from Request
             $submodule_name = $request->getParameter('sub');
-
+            $submodule_name = ucfirst($submodule_name);
+            
             # Set the modulename as public static class variables
             $this->setSubModuleName($submodule_name);
 

@@ -91,18 +91,7 @@
         <tbody>
         <tr>
             <td class="admin_content" width="100%">
-                <div id="vertical-tabs">
-                    <fieldset>
-                        <legend>Tab 1</legend>
-                        Lorem
-                    </fieldset>
-                    <fieldset>
-                        <legend>Tab 2</legend>
-                        Ipsum
-                    </fieldset>
-                    <div style="clear:both"></div>
-                </div>
-                {$content}
+                 {$content}
             </td>
             <td id="help_td_2" class="admin_help" style="padding: 0px; display: none;">
                 <div id="help_toggle_2" style="height: 100%; padding: 0px; width: 0px; overflow: hidden;">{* {load_module name="admin" sub="help" func="instant_show"} *}</div>

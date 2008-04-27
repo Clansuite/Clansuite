@@ -26,6 +26,27 @@ abstract class BaseCsGuestbook extends Doctrine_Record
   public function setUp()
   {
     parent::setUp();
+    
+    /*
+    $this->index('gb_id', array('fields' => 'gb_id'));
+    $this->hasOne('CsUsers', array('local' => 'gb_id',
+                                    'foreign' => 'gb_id'
+                                    #,
+                                    #'onDelete' => 'CASCADE')
+                                    ));*/
+                                    
+    $this->index('user_id', array('fields' => 'user_id'));
+    $this->hasOne('CsUsers', array('local' => 'user_id',
+                                    'foreign' => 'user_id'
+                                    #,
+                                    #'onDelete' => 'CASCADE')
+                                    ));
+    $this->index('image_id', array('fields' => 'image_id'));
+    $this->hasOne('CsImages', array('local' => 'image_id',
+                                    'foreign' => 'image_id'
+                                    #,
+                                    #'onDelete' => 'CASCADE')
+                                    ));
   }
-
 }
+?>

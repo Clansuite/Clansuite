@@ -565,7 +565,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         {
             # Load DBAL
             $db = parent::getInjector()->instantiate('clansuite_doctrine');
-            $db->doctrine_bootstrap();
+            $db->doctrine_initialize();
 
             # Load Models
             Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE); 

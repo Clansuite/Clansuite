@@ -56,7 +56,7 @@ class set_breadcrumbs implements Filter_Interface
     function cut_string($haystack, $needle)
     {
         $needle_length = strlen($needle);
-        
+
         if(($i = strpos($haystack,$needle) !== false))
         {
             return substr($haystack, 0, -$needle_length);
@@ -74,9 +74,9 @@ class set_breadcrumbs implements Filter_Interface
         if(strlen($moduleName) > 0)
         {
             # Strip String ModuleName at "_Admin"
-            #$moduleName = strstr($moduleName, '_Admin', true);     # php6  
-            $moduleName = $this->cut_string($moduleName, '_Admin');           
-            
+            #$moduleName = strstr($moduleName, '_Admin', true);     # php6
+            $moduleName = $this->cut_string($moduleName, '_Admin');
+
             # BASE
             $URL  = '/index.php';
             $URL .= '?mod=' . strtolower($moduleName);
