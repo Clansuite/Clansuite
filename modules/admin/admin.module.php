@@ -107,9 +107,7 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
             $stmt->execute( array( 'index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );
         }*/
 
-        $smarty->assign( 'shortcuts', $images );
-        #$this->output .= $smarty->fetch('admin/welcome.tpl');
-        $this->output .= $smarty->fetch('admin/shortcuts.tpl');
+        $smarty->assign( 'shortcuts', $images );       
         $this->getView()->setLayoutTemplate('admin/index.tpl');
         $this->setTemplate('admin/welcome.tpl');
         # Prepare the Output
