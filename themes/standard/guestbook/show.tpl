@@ -29,20 +29,15 @@
 *}
 
 <div class="guestbook">
-    
     {include file="tools/paginate.tpl"}
-    
     <div class="options-top">
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" 
                onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", 
                                               options: {method: "get"}}, 
                                                        {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
-    
     {foreach from=$guestbook item=entry key=key}
-    
 	<div class="gb">
-        
         <div class="gbhead">
             <div class="author">
                 {t}Autor{/t}
@@ -51,7 +46,6 @@
                 {t}Message{/t}
             </div>
         </div>
-        
         <div class="gbleft">
             <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span><br />
             
@@ -68,7 +62,6 @@
             <br />
             <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />
         </div>
-        
         <div class="gbright">
             {$entry.gb_text}
             {if !empty($entry.gb_comment)}
@@ -78,7 +71,6 @@
             </fieldset>
             {/if}
         </div>
-        
         <div class="gbfooter">
         {* AJAX Needed *}
         {if ($smarty.session.user.rights.cc_edit_gb == '1' AND $smarty.session.user.rights.cc_access == '1')
@@ -91,7 +83,6 @@
             {/if}
         {/if}
         </div>
-        
     </div>
 {*
                 <dl>
@@ -118,11 +109,8 @@
                 </dl>
 *}
     {/foreach}
-    
     <div class="options-bottom">
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
-    
     {include file="tools/paginate.tpl"}
-    
 </div>
