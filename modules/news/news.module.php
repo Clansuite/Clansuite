@@ -150,13 +150,14 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $smarty->assign('pagination_links',$pager_layout->display('',true));
 
         $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsperpage',$pager->getResultsInPage()); #  current Page
+        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
         $smarty->assign('paginate_maxperpage',$pager->getMaxPerPage()); #  current Page
 
         // Return the total number of pages
         $smarty->assign('paginate_lastpage',$pager->getLastPage());
         // Return the current page
         $smarty->assign('paginate_currentpage',$pager->getPage());
+
 
         # specifiy the template manually
         #$this->setTemplate('news/show.tpl');
