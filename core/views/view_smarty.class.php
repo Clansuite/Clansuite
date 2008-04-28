@@ -385,7 +385,7 @@ class view_smarty extends renderer_base
 
         if ( !empty($string) )
         {
-            $error->show( $params['title'], $string, $params['level'] );
+            $this->show( $params['title'], $string, $params['level'] );
         }
     }
 
@@ -396,29 +396,26 @@ class view_smarty extends renderer_base
      */
     public static function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
+        $this->smarty->assign('error_head'    , $error_head );
+        $this->smarty->assign('debug_info'    , $string );
+
         switch ( $level )
         {
             # watch out: die() on error!
             case '1':
-                $this->smarty->assign('error_type'    , 1 );
-                $this->smarty->assign('error_head'    , $error_head );
-                $this->smarty->assign('debug_info'    , $string );
+                $this->smarty->assign('error_type', 1);
                 $redirect!='' ? $this->smarty->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
                 $content = $this->smarty->fetch( 'error.tpl' );
                 die( $content );
                 break;
 
             case '2':
-                $this->smarty->assign('error_type'    , 2 );
-                $this->smarty->assign('error_head'    , $error_head );
-                $this->smarty->assign('debug_info'    , $string );
+                $this->smarty->assign('error_type', 2);
                 return( $this->smarty->fetch( 'error.tpl' ) );
                 break;
 
             case '3':
-                $this->smarty->assign('error_type'    , 3 );
-                $this->smarty->assign('error_head'    , $error_head );
-                $this->smarty->assign('debug_info'    , $string );
+                $this->smarty->assign('error_type', 3);
                 echo( $this->smarty->fetch( 'error.tpl' ) );
                 break;
         }
