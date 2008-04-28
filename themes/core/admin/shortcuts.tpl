@@ -7,11 +7,11 @@
         <legend>Module <img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" /></legend>
         {* Table for Administration Symbols/Shortcuts *}
         <center>
-            <table cellspacing="20" cellpadding="10" {* border="1" *} >
+        <table cellspacing="15" cellpadding="5" {* border="1" *}>
             {foreach key=row item=image from=$shortcuts}
-                <tr>
+                <tr class="tr_row2">
                 {foreach key=col item=data from=$image}
-                    <td align="center">
+                    <td align="center" style="width:70px; padding: 14px;">
                         <a href="{$data.href}">
                             <img alt="Shortcut Icon" src="{$www_root_themes_core}/images/symbols/{$data.file_name}" />
                             <br />
@@ -26,7 +26,7 @@
                     </td>
                 </tr>
             {/foreach}
-            </table>
+        </table>
         </center>
     </fieldset>
     <fieldset>
