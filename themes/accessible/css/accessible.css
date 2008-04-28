@@ -17,24 +17,26 @@ p {
 }
 /* Tables */
 
-.forum table,
+.forum,
 .forum tr,
 .forum th,
 .forum td {
     border: 1px solid #333;
     border-collapse: collapse;
 }
-
-.forum table {
+.forum {
     width: 100%;
+    background: url('../images/layout/sidebar.png') repeat-x;
 }
 .forum th {
-    padding: 1px 2px;
-    background: #f00;
+	height: 25px;
+    padding: 0 2px;
     font-size: 1.1em;
+    line-height: 25px;
     color: #fff;
 }
 .forum td {
+	padding: 1px 2px;
     text-align: center;
 }
 
@@ -301,6 +303,13 @@ fieldset dd textarea {
     background-color: #ccc;
     border: 1px solid #000;
     text-align: center;
+}
+/* Userslist */
+#userslist .nick-rank {
+	text-align: left;
+}
+#userslist .nick-rank span, #userslist .nick-rank span {
+	float: right;
 }
 
 /* News */

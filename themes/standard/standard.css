@@ -612,6 +612,23 @@ table.admintable tr#cell3
 	background-color: #ff9933;
 }
 
+/* Userslist */
+#userslist {
+	width: 100%;
+	text-align: center;
+}
+#userslist, #userslist tr, #userslist th, #userslist td {
+	padding: 0 2px;
+	border: 1px solid #333;
+	border-collapse: collapse;
+}
+#userslist .nick-rank {
+	text-align: left;
+}
+#userslist .nick-rank span, #userslist .nick-rank span {
+	float: right;
+}
+
 /*
 ** -------------------------------------------------
 **
