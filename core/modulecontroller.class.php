@@ -348,24 +348,33 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             }
 
             # check, if a template-file with $tplname exists in
-            # 1. Standard Theme - Template
-            # 2. Modul Template
+            # 1. Check, if template exists in current THEME/templates
+            # 2. Check, if template exists in standard theme
+            # 3. Check, if template exists in module folder / templates
+            # 4. Not Existant
 
             # 1. modules/modulename/templates/actioname.tpl
             # @todo: for renderer related templates we have to add "renderer/", like
             # modules/modulename/templates/renderer/actioname.tpl
 
-            if(is_file( ROOT_THEMES . '/standard/' . $tplname))
-            {
-                # 2. Check, if template exists in standard theme
-                $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
+            if(is_file( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname) && isset($_SESSION['user']['theme']) > 0)
+            {                
+                # 1. Check, if template exists in current THEME/templates
+                $this->setTemplate( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname);
             }
+            elseif(is_file( ROOT_THEMES . '/standard/' . $tplname))
+            {
+                # 3. Check, if template exists in standard theme
+                $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
+            } 
             elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
             {
-                $this->setTemplate(ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
-            }
+                # 2. Check, if template exists in module folder / templates
+                $this->setTemplate( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
+            }         
             else
             {
+                # 4. NOT EXISTANT
                 $this->setTemplate( ROOT_THEMES . '/core/tplnotfound.tpl' );
             }
         }
