@@ -2,9 +2,9 @@
 <div style="text-align:center"><div style="margin:auto;text-align:left;">
 
 {* JQuery used for Vertical Tabs *}
-<div id="vertical-tabs" >
+<div id="vertical-tabs">
     <fieldset>
-        <legend>Module <img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" /></legend>
+        <legend><img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" />Module</legend>
         {* Table for Administration Symbols/Shortcuts *}
         <center>
         <table cellspacing="15" cellpadding="5" {* border="1" *}>
@@ -30,19 +30,19 @@
         </center>
     </fieldset>
     <fieldset>
-        <legend>Administration <img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" /></legend>
+        <legend><img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" />Administration</legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>System <img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" /></legend>
+        <legend><img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" />System</legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>Benutzer <img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" /></legend>
+        <legend><img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" />Benutzer</legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>Layout <img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" /></legend>
+        <legend><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" />Layout</legend>
         Ipsum
     </fieldset>
     <div style="clear:both"></div>
