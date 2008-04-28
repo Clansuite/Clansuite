@@ -4,7 +4,7 @@
 {* JQuery used for Vertical Tabs *}
 <div id="vertical-tabs" >
     <fieldset>
-        <legend>Module</legend>
+        <legend>Module <img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" /></legend>
         {* Table for Administration Symbols/Shortcuts *}
 
         <center>
@@ -38,19 +38,19 @@
 
     </fieldset>
     <fieldset>
-        <legend>Administration</legend>
+        <legend>Administration <img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" /></legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>System <img alt="Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" /></legend>
+        <legend>System <img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" /></legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>Nutzer</legend>
+        <legend>Benutzer <img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" /></legend>
         Ipsum
     </fieldset>
     <fieldset>
-        <legend>Layout</legend>
+        <legend>Layout <img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" /></legend>
         Ipsum
     </fieldset>
     <div style="clear:both"></div>
