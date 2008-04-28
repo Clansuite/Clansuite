@@ -21,15 +21,15 @@
 <!-- Anker-Sprungmarke für {$news.news_id}-->
 <a id="news-{$news.news_id}"></a>
 <div class="newsbox">
-	<div class="news-cat-img">
-		<img src="{$news.image}" alt="Category-Image: {$news.cat_name}" />
-	</div>
-	<h4 class="news-head">{$news.news_title} - {$news.cat_name}</h4>
+	<h4 class="news-head">{$news.news_title} - {$news.CsCategories.name}</h4>
 	<div class="news-author-comments">
-		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.user_id}'>{$news.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments} {t}comments{/t}</a>
+		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} {t}comments{/t}</a>
 	</div>
 	<div class="news-content">
-		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.cat_image_url}" alt="{$news.cat_image_url}" />{/if}
+		<div class="news-cat-img">
+			<img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name}" />
+		</div>
+		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}" />{/if}
 		{$news.news_body}<br />
         {if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
 

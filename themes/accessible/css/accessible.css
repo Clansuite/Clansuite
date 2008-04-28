@@ -316,31 +316,24 @@ fieldset dd textarea {
 .newsbox {
     margin-bottom: 10px;
     border: 1px solid #333;
+    background: url('../images/layout/sidebar.png') repeat-x;
 }
 .news-cat-img {
-    width: 125px;
-    border-left: 1px solid #333;
-    float: right;
+    float: left;
 }
 .news-head {
-    margin-right: 125px;
+	height: 25px;
     padding: 0 5px;
-    background: #f00;
-    border: 1px solid #333;
-    border-width: 0 1px 1px 0;
+    border-bottom: 1px solid #333;
     color: #fff;
-    line-height: 20px;
+    line-height: 25px;
 }
 .news-author-comments {
-    margin-right: 125px;
     padding: 0 5px;
-    border: 1px solid #333;
-    border-width: 0 1px 1px 0;
+    border-bottom: 1px solid #333;
 }
 .news-content {
-    margin-right: 125px;
     padding: 5px;
-    border-right: 1px solid #333;
 }
 
 /* Messenger */
@@ -667,10 +660,11 @@ form select.input_text
     float: left;
 }
 .guestbook .paginate {
-    background-color: #f00;
+    height: 25px;
+    padding: 0 3px;
+    background: url('../images/layout/sidebar.png') repeat-x;
     border: 1px solid #000;
-    padding: 3px;
-    height: 20px;
+    line-height: 25px;
 }
 .guestbook .paginate .description {
     text-align: left;
@@ -700,11 +694,11 @@ form select.input_text
 .gb {
     width: 80%;
     margin: 10px auto;
+    background: url('../images/layout/sidebar.png') repeat-x;
     border: 1px solid #333;
-    background: #eee;
 }
 .gbhead {
-    background: #f00;
+	height: 25px;
     font-size: 1.1em;
     font-weight: bold;
     color: #fff;
