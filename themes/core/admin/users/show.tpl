@@ -16,8 +16,8 @@
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-
-{if $err.no_users == 1}
+{if isset($additional_head)} {$additional_head} {/if}
+{if $error.no_users == 1}
    {error title="No users found."}
         Users with ID not found!
     {/error}
@@ -77,8 +77,7 @@
             </tr>
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
-                    {* display pagination info *}
-                    {paginate_prev text="&lt;&lt;"} {paginate_middle format="page"}  {paginate_next text="&gt;&gt;"}
+                    {include file="tools/paginate.tpl"}
                 </td>
             </tr>
     </table>

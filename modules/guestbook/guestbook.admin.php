@@ -202,7 +202,7 @@ class Module_Guestbook_Admin extends ModuleController implements Clansuite_Modul
         $smarty->assign('pagination_links',$pager_layout->display('',true));
 
         $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsperpage',$pager->getResultsInPage()); #  current Page
+        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
 
         // Return the total number of pages
         $smarty->assign('paginate_lastpage',$pager->getLastPage());

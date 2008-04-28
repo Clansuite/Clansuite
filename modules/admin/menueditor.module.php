@@ -48,12 +48,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class module_admin_menueditor extends ModuleController implements Clansuite_Module_Interface
 {
-
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on ModuleController
-    }
-
     public function execute(httprequest $request, httpresponse $response)
     {
         # proceed to the requested action

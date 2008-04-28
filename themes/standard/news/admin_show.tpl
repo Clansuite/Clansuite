@@ -24,12 +24,7 @@
                 {t}Write News{/t}
         </td>
         <td>
-            {* Pagination needed: {$pagination_needed} *}
-            <br />
-            {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
-
-            {* display pagination header *}
-            Items {$paginate_currentpage} to {$paginate_resultsperpage} displayed.
+            {include file="tools/paginate.tpl"}
         </td>
     </tr>
 
