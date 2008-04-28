@@ -36,6 +36,7 @@
 <script type="text/javascript" src="{$www_root_themes}/javascript/ui.accordion.js"></script>
 <script type="text/javascript" src="{$www_root_themes}/javascript/ui.datepicker.js"></script>
 <script type="text/javascript" src="{$www_root_themes}/javascript/accessible.js"></script>
+<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
@@ -111,7 +112,7 @@
 	<div id="footer">
 		<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
 		{$copyright}<br />
-		Theme: {* {$theme-copyright} *}
+		Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
 		<br/>
 		{include file='server_stats.tpl'}
 	</div>
