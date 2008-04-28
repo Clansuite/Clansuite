@@ -16,13 +16,16 @@ $jQ(function() {
 		}
 	});
 	$jQ('#vertical-tabs > fieldset > legend').remove();
+	$jQ('#vertical-tabs #wrapper li a img').after('<br />');
 	$jQ('#vertical-tabs > fieldset:not(:eq(' + match + '))').hide();
 	
 	$jQ('#vertical-tabs #wrapper li a').click(function() {
-		$jQ('#vertical-tabs #wrapper li a').removeClass('selected');
-		$jQ(this).addClass('selected');
-		$jQ('#vertical-tabs > fieldset:visible').hide();
-		$jQ('#vertical-tabs fieldset').filter(this.hash).show();
+		if (!$jQ(this).is('.selected')) {
+			$jQ('#vertical-tabs #wrapper li a').removeClass('selected');
+			$jQ(this).addClass('selected');
+			$jQ('#vertical-tabs > fieldset:visible').animate({ height: 'hide', opacity: 'hide' }, 'fast');
+			$jQ('#vertical-tabs fieldset').filter(this.hash).animate({ height: 'show', opacity: 'show' }, 'slow');
+		}
 		return false;
 	}).filter(':eq(' + match + ')').click();
 })
