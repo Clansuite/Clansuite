@@ -5,7 +5,7 @@
             {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
             
            {if $pagination_needed gt 0}
-            {assign var=itemsOnPage value=`$paginate_currentpage*$paginate_maxperpage`} 
+            {assign var=itemsOnPage value=`$paginate_currentpage*$paginate_resultsperpage`} 
              <span class="inline_text">Items {$itemsOnPage}-{$paginate_totalitems} (with {$paginate_resultsperpage} per page).</span>
             {else}
               Item {$paginate_first} of {$paginate_totalitems} displayed.
