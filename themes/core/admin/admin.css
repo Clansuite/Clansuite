@@ -535,14 +535,16 @@ table.admintable tr#cell3
 
 /* Vertical Tabs */
 #vertical-tabs
-{ 
-	width: 60%;   
+{
+	width: 60%;
 	margin: auto;
 	padding: 0px;
-	border: 1px solid;
+	border-color:rgb(172, 168, 153) rgb(255, 255, 255) #FFFFFF rgb(172, 168, 153) ;
+    border-style:solid;
+    border-width:1px;
 }
 
-#vertical-tabs ul 
+#vertical-tabs ul
 {
 	margin-top: 20px;
 	padding-right: 10px;
@@ -554,12 +556,14 @@ table.admintable tr#cell3
 
 #vertical-tabs li
 {
+    background:#ECE9D8 none repeat scroll 0%;
+    border-color:#FFFFFF rgb(172, 168, 153) rgb(172, 168, 153) rgb(255, 255, 255);
+    border-style:solid;
+    border-width:1px;
     width: 110px;
 	margin-top: 15px;
     margin-left: 30px;
 	padding: 5px;
-    border: 1px solid;
-    border-color: #000;
     text-align: center;
 }
 
