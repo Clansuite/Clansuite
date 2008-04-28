@@ -78,7 +78,7 @@ class view_smarty extends renderer_base
 
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('configuration');
-      $this->db             = $this->injector->instantiate('db');     
+      $this->db             = $this->injector->instantiate('db');
       $this->functions      = $this->injector->instantiate('functions');
 
       /**
@@ -371,16 +371,57 @@ class view_smarty extends renderer_base
         #var_dump($this->smarty);
     }
 
+
     /**
-     * Smarty Register Function
+     * view_smarty::smartyBlockError
      *
-     * 1) load_module
-     *
-     * @access public
+     * ErrorTemplate {error level="1" title="Error"}
      */
-    public function assignModuleLoading()
+    public static function smartyBlockError($params, $string, &$smarty)
     {
-        $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
+        // Init Vars
+        $params['level']   = !isset( $params['level'] ) ? 3 : $params['level'];
+        $params['title']   = !isset( $params['level'] ) ? 'Unkown Error' : $params['title'];
+
+        if ( !empty($string) )
+        {
+            $error->show( $params['title'], $string, $params['level'] );
+        }
+    }
+
+    /**
+     * Show Error in Smarty Templates
+     *
+     * uses /themes/core/error.tpl
+     */
+    public static function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
+    {
+        switch ( $level )
+        {
+            # watch out: die() on error!
+            case '1':
+                $this->smarty->assign('error_type'    , 1 );
+                $this->smarty->assign('error_head'    , $error_head );
+                $this->smarty->assign('debug_info'    , $string );
+                $redirect!='' ? $this->smarty->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
+                $content = $this->smarty->fetch( 'error.tpl' );
+                die( $content );
+                break;
+
+            case '2':
+                $this->smarty->assign('error_type'    , 2 );
+                $this->smarty->assign('error_head'    , $error_head );
+                $this->smarty->assign('debug_info'    , $string );
+                return( $this->smarty->fetch( 'error.tpl' ) );
+                break;
+
+            case '3':
+                $this->smarty->assign('error_type'    , 3 );
+                $this->smarty->assign('error_head'    , $error_head );
+                $this->smarty->assign('debug_info'    , $string );
+                echo( $this->smarty->fetch( 'error.tpl' ) );
+                break;
+        }
     }
 
     /**
@@ -469,7 +510,11 @@ class view_smarty extends renderer_base
         #var_dump($_SESSION);
 
         $this->assignConstants();
-        $this->assignModuleLoading();
+
+        # Module Loading {loadModule }
+        $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
+        # Error Block {error level="1" title="Error"}
+        $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
         #$this->smarty->display($this->module->template);
@@ -490,6 +535,7 @@ class view_smarty extends renderer_base
         #var_dump($this->config['tpl_wrapper_file']);
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
+        #exit;
 
         return $this->smarty->fetchDOC($this->getLayoutTemplate());
     }
