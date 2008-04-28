@@ -27,13 +27,13 @@
             </div>
         </div>
         <div class="gbleft">
-            <span>{t}Name{/t}</span>: <span class="user-info">{$entry.nick}</span><br />
-            {if $entry.type == url}
-            <img src="{$entry.location}" alt="{$entry.nick}" class="the_pic" />
-            {elseif $entry.type == upload}
-            <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
+            <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span><br />
+            {if $entry.CsImages.type == 'url'}
+            <img src="{$entry.location}" alt="{$entry.gb_nick}" class="the_pic" />
+            {elseif $entry.CsImages.type == 'upload'}
+            <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.gb_nick}"  class="the_pic" /></a>
             {else}
-            <img src="{$www_root_themes}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
+            <img src="{$www_root_themes}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.gb_nick}"  class="the_pic" />
             {/if}
             <br />
             <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />
