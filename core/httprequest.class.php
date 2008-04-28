@@ -90,19 +90,19 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
     public function __construct()
     {
         # 1) Filter Globals and Request
-        
+
         // Reverse the effect of register_globals
-        if (ini_get('register_globals'))
+        if ((bool)ini_get('register_globals') && strtolower(ini_get('register_globals')) != 'off')
         {
             $this->cleanGlobals();
         }
-        
+
         # disabled this method by xsign
         #$this->cleanup_request();
-        
+
         # handle the magic quotes thing
         $this->fix_magic_quotes();
-        
+
         # run IDS
         #$this->runIDS();
 
@@ -110,9 +110,9 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
         $this->parameters = array();
         $this->parameters = $_REQUEST;
     }
-    
+
     /**
-     * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays 
+     * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays
      *
      * Smoke Example: Apply to URL "index.php?theme=drahtgitter%3insert%00%00.'AND%XOR%XOR%.'DROP WHERE user_id='1';"
      */
@@ -126,10 +126,10 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
         $init = IDS_Init::init( ROOT_LIBRARIES . '/IDS/Config/Config.ini');
         $ids = new IDS_Monitor($request, $init);
         $monitoring_result = $ids->run();
-        
+
         #var_dump($monitoring_result);
-        
-        if (!$monitoring_result->isEmpty()) 
+
+        if (!$monitoring_result->isEmpty())
         {
            // Take a look at the result object
            echo $monitoring_result;
@@ -381,7 +381,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Revert magic_quotes() if still enabled
      *
-     * @param array $var Array to apply the magic quotes fix on 
+     * @param array $var Array to apply the magic quotes fix on
      * @param boolean $sybase Boolean Value TRUE for magic_quotes_sybase
      * @access private
      *

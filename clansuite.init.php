@@ -179,7 +179,7 @@ if((!XDBUG) && extension_loaded('zlib'))
     ini_set('zlib.output_compression'       , true);
     ini_set('zlib.output_compression_level' , '7');
     # Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
-    if(!ini_get('zlib.output_compression') === true)
+    if(!(bool)ini_get('zlib.output_compression') === true)
     {
       ob_start('ob_gzhandler');
       require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php';
