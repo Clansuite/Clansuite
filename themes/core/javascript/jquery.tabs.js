@@ -7,7 +7,7 @@ $jQ(function() {
 	var match = 0;
 	$jQ('#vertical-tabs').prepend('<ul id="wrapper"></ul>');
 	$jQ('#vertical-tabs > fieldset').each(function(i) {
-		var header = $jQ(this).children('legend').text();
+		var header = $jQ(this).children('legend').html();
 		var index = 'tab-' + i;
 		$jQ('#vertical-tabs #wrapper').append($jQ('<li><a href="#' + index + '">' + header + '</a></li>'));
 		$jQ(this).attr('id', index);
