@@ -74,7 +74,7 @@
                             <td class="label">{t}Icon{/t}</td>
                             <td>
                                 <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
-                                    <option value=""></option>
+                                    <option value="">{t}No icon{/t}</option>
                                     {foreach key=key item=item from=$icons}
                                         <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
@@ -118,7 +118,7 @@
                             <td class="label">{t}Icon{/t}</td>
                             <td>
                                 <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
-                                    <option value=""></option>
+                                    <option value="">{t}No icon{/t}</option>
                                     {foreach key=key item=item from=$icons}
                                         <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
@@ -147,13 +147,13 @@
                 <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
             <p>
-                <input type="button" onclick="self.location.href='index.php?mod=admin&sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last menu{/t}" />
+                <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last menu{/t}" />
             </p>
         </td>
         <td valign="top">
 
             <div id="tree-plugin">
-                <form action="index.php?mod=admin&sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
+                <form action="index.php?mod=admin&amp;sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
                 <div id="tree-plugin-content"></div>
                 <strong>{t}The menu has been generated.{/t}</strong> <br />
                 {t}Click the button below, to save the menu into the Database.{/t} <br />
