@@ -295,7 +295,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function getRenderEngine()
     {
-        return view_factory::getRenderer($this->getRenderEngineName(), $this->getInjector);
+        return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
 
     /**
