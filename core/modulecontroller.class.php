@@ -295,7 +295,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function getRenderEngine()
     {
-        return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
+        return view_factory::getRenderer($this->getRenderEngineName(), $this->getInjector);
     }
 
     /**
@@ -362,11 +362,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
                 # 1. Check, if template exists in current THEME/templates
                 $this->setTemplate( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname);
             }
-            elseif(is_file( ROOT_THEMES . '/standard/' . $tplname))
+            /*elseif(is_file( ROOT_THEMES . '/standard/' . $tplname))
             {
                 # 3. Check, if template exists in standard theme
                 $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
-            } 
+            }*/
             elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
             {
                 # 2. Check, if template exists in module folder / templates
@@ -405,7 +405,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $response = $this->injector->instantiate('httpresponse');
 
         # get the view
-        $view = $this->getview();
+        $view = $this->getView();
 
         # get the layout
         $view->getLayoutTemplate();
