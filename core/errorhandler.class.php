@@ -67,7 +67,7 @@ class errorhandler
         set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
 
         # register own error handler
-        #set_error_handler(array(&$this,'clansuite_error_handler'));
+        set_error_handler(array(&$this,'clansuite_error_handler'));
 
         # DEBUG Test the errorhandler with the following function
         #trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
@@ -155,7 +155,7 @@ class errorhandler
         {
             # smarty errors are trigger_errors - so they bubble up as e_user_errors
             # so we need to detect if an e_user_errors is coming from smarty
-            if(strpos($errorfile,'Smarty') !== false)
+            if(strpos(strtolower($errorfile),'smarty') !== false)
             {
                 # Print shorter Version of ErrorReport
                 echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";

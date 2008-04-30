@@ -127,7 +127,7 @@
         </div>
         <div style="margin-top: 10px">
 		   {* {mod name="shoutbox" func="show"} *}
-		   {load_module name="news" action="widget_news" params="2"}
+		   {* {load_module name="news" action="widget_news" params="2"} *}
 		</div>
         <div style="margin-top: 10px">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
