@@ -17,12 +17,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-{* Pagination needed: {$pagination_needed} *}
-<br />
-{$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
-
-{* display pagination header *}
-Items {$paginate_currentpage} to {$paginate_resultsperpage} displayed.
+{include file="tools/paginate.tpl"}
 
 {foreach item=news from=$news}
 
