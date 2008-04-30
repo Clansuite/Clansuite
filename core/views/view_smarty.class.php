@@ -102,8 +102,8 @@ class view_smarty extends renderer_base
        * ===================================
        * Set Configurations to Smarty Object
        * ===================================
-       */
-      self::smarty_configuration();
+       */       
+        self::smarty_configuration();        
     }
 
     /**
@@ -452,7 +452,7 @@ class view_smarty extends renderer_base
         $action             = (string) $params['action'];
 
         # Construct the variable module_name
-        if (isset($params['sub']))
+        if (isset($params['sub']) && strlen($params['sub']) > 0)
         {
             # like "module_admin_menueditor"
             $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
@@ -462,6 +462,9 @@ class view_smarty extends renderer_base
             # like "module_admin"
             $module_name = 'module_' . strtolower($mod);
         }
+       
+        // Debug: Display the Modulename
+        #echo $module_name;
 
         # Load class, if not already existing
         if(!class_exists($module_name))

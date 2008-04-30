@@ -29,7 +29,7 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -50,7 +50,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @author     Quentin Zervaas
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @copyright  Jens-Andre Koch (2005-onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
@@ -63,7 +63,6 @@ class trail
          * @access private
          * @var array $path contains the complete path structured as array
          */
-
         private static $path = array();
 
         /**
@@ -72,7 +71,6 @@ class trail
          * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
          * @param string $homeLink contains the link as url, standard is '/' refering to base_url
          */
-
         public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
         {
             # check if it's the first trail step, then let it be >> HOME
@@ -89,10 +87,9 @@ class trail
          * @param string $title contains the Name shown at the trail
          * @param string $link contains the link as url
          */
-
         public static function addstep($title, $link = '')
         {
-            # let the first Trail, be ">> HOME"
+            # let the first Trail, be "HOME >>"
             self::addHomeTrail();
 
             $item = array('title' => $title);

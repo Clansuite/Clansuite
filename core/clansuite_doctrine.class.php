@@ -96,7 +96,7 @@ class Clansuite_Doctrine
         // Db Connection
         $this->prepareDbConnection();
     }
-
+  
     /**
      * prepareDbConnection
      *

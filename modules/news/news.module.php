@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2008)
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -44,9 +44,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Module_News extends ModuleController implements Clansuite_Module_Interface
 {
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
-    */
+     * Module_News -> Execute
+     */
     public function execute(httprequest $request, httpresponse $response)
     {
         # proceed to the requested action
@@ -61,7 +60,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      *
      * @output: $newslist ( array for smarty template output )
      */
-    function action_show()
+    public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
@@ -138,26 +137,19 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         # Get Render Engine
         $smarty = $this->getView();
         #$smarty->assign('news', $news->toArray());
+        
+        // Assign $news array to Smarty for template output
         $smarty->assign('news', $news);
 
-        // Return true if it's necessary to paginate or false if not
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());
-
-        // Displaying page links
-        // Displays: [1][2][3][4][5]
+        // Displaying page links: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-
-        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
-        $smarty->assign('paginate_maxperpage',$pager->getMaxPerPage()); #  current Page
-
-        // Return the total number of pages
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());
-        // Return the current page
-        $smarty->assign('paginate_currentpage',$pager->getPage());
-
+        $smarty->assign('pagination_links',$pager_layout->display('',true));       
+        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
+        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
+        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
+        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
+        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
 
         # specifiy the template manually
         #$this->setTemplate('news/show.tpl');
@@ -165,23 +157,40 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $this->prepareOutput();
     }
 
-    # @todo ... #
-
     /**
-    * @desc Function: instant_show
-    *
-    * This content can be instantly displayed by adding this into a template:
-    * {mod name="newscomments" func="instant_show" params="mytext"}
-    *
-    * You have to add the lines as shown above into the case block:
-    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */
-    function widget_news($numberNews)
+     * widget_news
+     *
+     * Displayes specified number of News-Headlines.
+     * Call this widget from Template-Side - by adding this to a template: 
+     * {widget mod="news" params="5"}
+     *
+     *  // register with smarty
+     *  $smarty->register_block('translate', 'do_translation');
+     *
+     * http://www.smarty.net/manual/en/tips.componentized.templates.php
+     */
+    public function widget_news($numberNews)
     {
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= T_($my_text);
+        // Load DBAL
+        $this->getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
+        
+        $news_headlines = Doctrine_Query::create()
+                          ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                          ->from('CsNews n')
+                          ->leftJoin('n.CsUsers u')
+                          ->leftJoin('n.CsCategories c')
+                         #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                          ->orderby('n.news_id DESC')
+                          ->execute();
+        
+        $smarty = $this->getView();
+        
+       
+        // Assign $news array to Smarty for template output
+        #$smarty->assign('news', $news_headlines);
+        
+        return $this->view()->fetch('news/news_widget.tpl');
+        
     }
 
     function archiv()
