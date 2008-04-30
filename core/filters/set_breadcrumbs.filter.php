@@ -72,41 +72,49 @@ class set_breadcrumbs implements Filter_Interface
 
         # add module Part
         if(strlen($moduleName) > 0)
-        {
-            # Strip String ModuleName at "_Admin"
+        {   
+            # Strip String ModuleName at "_admin", example: guestbook_admin
             #$moduleName = strstr($moduleName, '_Admin', true);     # php6
-            $moduleName = $this->cut_string($moduleName, '_Admin');
+            $moduleName = $this->cut_string($moduleName, '_admin');
+            
+            # Strip String ModuleName at "admin_", example: admin_menueditor
+            if(strpos($moduleName,'admin_')!==false) 
+            {
+                #$moduleName = substr($moduleName, 6);
+                $moduleName_exploded = explode("_", $moduleName);
+                $moduleName = $moduleName_exploded[0];
+            }
 
             # BASE
             $URL  = '/index.php';
-            $URL .= '?mod=' . strtolower($moduleName);
+            $URL .= '?mod=' . $moduleName;
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
             if( (strlen($actionName) > 0) && (strlen($submoduleName) == 0))
             {
-                $URL .= '&amp;action=' . strtolower($actionName);
+                $URL .= '&amp;action=' . $actionName;
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
-            # >> MODULNAME
-            trail::addStep( T_( ucfirst($trailName) ), $URL );
+            # >> MODULENAME
+            trail::addStep( T_( ucfirst($trailName) ), $URL );            
         }
 
         # add submodule part
         if(strlen($submoduleName) > 0)
         {
-            $URL .= '&amp;sub=' . strtolower($submoduleName);
+            $URL .= '&amp;sub=' . $submoduleName;
             $trailName = $submoduleName;
 
             # Add action Part now
             if(strlen($actionName) > 0)
             {
-                $URL .= '&amp;action=' . strtolower($actionName);
+                $URL .= '&amp;action=' . $actionName;
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
-            # >> SUBMODULNAME
+            # >> SUBMODULENAME
             trail::addStep( T_( ucfirst($trailName) ), $URL );
         }
     }

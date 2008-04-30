@@ -65,20 +65,7 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
     {
         # proceed to the requested action
         $this->processActionController($request);
-    }
-
-    /**
-     *  Test the MVC Framework
-     *  by calling the URL "index.php?mod=index&action=mvc"
-     */
-    function action_mvc()
-    {
-        $index_view = new module_index_view;            # initialize the view
-        $index_view->showUserData('1');                 # call view function for output
-        # the requested user_id would be a get or post input variable
-        echo 'Clansuite Framework - MVC is working!';   # give status and exit
-        exit;
-    }
+    }   
 
     function action_smarty_error_example()
     {
@@ -151,13 +138,28 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         # Prepare the Output
         $this->prepareOutput();
     }
+    
+    /**
+     * We don't need the following classes.
+     * They are here for understanding the MVC Pattern.
+     * Demonstration is done via function $module_index->action_mvc();
+     */
+
+     /**
+      *  Test the MVC Framework
+      *  by calling the URL "index.php?mod=index&action=mvc"
+      */
+    function action_mvc()
+    {
+        $index_view = new module_index_view;            # initialize the view
+        $index_view->showUserData('1');                 # call view function for output
+        # the requested user_id would be a get or post input variable
+        echo 'Clansuite Framework - MVC is working!';   # give status and exit
+        exit;
+    }
 }
 
-/**
- * We don't need the following classes.
- * They are here for understanding the MVC Pattern.
- * Demonstration is done via function $module_index->action_mvc();
- */
+
 
 /**
  * Module Index - View Class

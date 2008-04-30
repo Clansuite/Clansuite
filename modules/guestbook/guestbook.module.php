@@ -50,8 +50,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class module_guestbook extends ModuleController implements Clansuite_Module_Interface
 {
     /**
-     *
-     *
+     * Module_Guestbook -> Execute
      */
     public function execute(httprequest $request, httpresponse $response)
     {
@@ -77,7 +76,6 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
     {
         switch ($_REQUEST['action'])
         {
-
             case 'show_avatar':
                 $this->show_avatar();
                 break;
@@ -114,20 +112,20 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
         # Load Models (manually)
         /*
         require ROOT . '/myrecords/generated/BaseCsGuestbook.php';
-        require ROOT . '/myrecords/CsGuestbook.php'; 
-        require ROOT . '/myrecords/generated/BaseCsUsers.php';      
+        require ROOT . '/myrecords/CsGuestbook.php';
+        require ROOT . '/myrecords/generated/BaseCsUsers.php';
         require ROOT . '/myrecords/CsUsers.php';
         */
 
         # Load Models (automatic + lazy loading)
         #Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
-        
+
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();
         #print_r($models);
-        
+
         // get all guestbook entries
-        #$stmt = $db->prepare( ' LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id 
+        #$stmt = $db->prepare( ' LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id
         #                       LEFT JOIN ' . DB_PREFIX . 'users u ON g.user_id = u.user_id ORDER BY g.gb_added DESC' );
 
         // Creating Pager Object with a Query Object inside
@@ -153,10 +151,10 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
-        #var_dump($pager_layout);
+
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
-        
+
         // Fetching guestbook entries
         #var_dump($pager->getExecuted());
         $guestbook = $pager->execute(array(), Doctrine::FETCH_ARRAY);
@@ -205,31 +203,24 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
                 }
             }
         }
-        
-         # Get Render Engine
-        $smarty = $this->getView();
-        
-        $smarty->assign( 'guestbook', $guestbook);
-        if(isset($error)){$smarty->assign( 'error' , $error );}
-        
-         // Return true if it's necessary to paginate or false if not
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());
 
-        // Displaying page links
-        // Displays: [1][2][3][4][5]
+        # Get Render Engine
+        $smarty = $this->getView();
+        // Assign $guestbook array to Smarty for template output
+        $smarty->assign( 'guestbook', $guestbook);
+        // if error was set, assign it to smarty
+        if(isset($error)){$smarty->assign( 'error' , $error );}
+
+        // Displaying page links: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
         $smarty->assign('pagination_links',$pager_layout->display('',true));
+        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
+        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
+        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
+        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
+        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
 
-        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
-        $smarty->assign('paginate_maxperpage',$pager->getMaxPerPage()); #  current Page
-        
-        // Return the total number of pages
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());
-        // Return the current page
-        $smarty->assign('paginate_currentpage',$pager->getPage());        
-        
         # Prepare the Output
         $this->prepareOutput();
     }

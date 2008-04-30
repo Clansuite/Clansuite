@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-2008)
+    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,6 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @author     Florian Wolf <xsign.dll@clansuite.com>
  * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
  *
  * @package clansuite
  * @subpackage module_admin
@@ -48,6 +49,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class module_admin_menueditor extends ModuleController implements Clansuite_Module_Interface
 {
+    /**
+     * Module_Admin_Menueditor -> Execute
+     */
     public function execute(httprequest $request, httpresponse $response)
     {
         # proceed to the requested action
@@ -99,54 +103,53 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
      */
     public function action_menueditor_show()
     {
-        # Set Pagetitle and Breadcrumbs        
-        trail::addStep( _('Show'),         '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
-        
-        # Get Render Engine
-        $smarty = $this->getView();
-        
-        # Get ICONS
+        // Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
+
+        // Setup Icons Array
         $icons = array();
 
+        // Get Icons from Directory
         $dir_handler = opendir( ROOT_THEMES . '/core/images/icons/' );
 
         while( false !== ($file = readdir($dir_handler)) )
         {
-            if ( $file != '.' && $file != '..' && $file != '.svn' )
+            if (substr($file,0,1) != '.')
             {
                 $icons[] = $file;
             }
         }
-        
+
         closedir($dir_handler);
 
-        # Assign ICONS to View
-        $smarty->assign( 'icons', $icons );        
-        
-        # Set Layout Template
+        // Assign ICONS to View
+        $this->getView()->assign('icons', $icons );
+        // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        # specifiy the template manually
+        // specifiy the template manually
         $this->setTemplate('admin/adminmenu/menueditor.tpl');
-        # Prepare the Output
+        // Prepare the Output
         $this->prepareOutput();
     }
 
     /**
-    * @desc Update the menu in DB and create a backup
-    */
-
-    function update()
+     * Update the menu in DB and create a backup
+     */
+    public function action_menueditor_update()
     {
-        global $db, $tpl, $error, $lang, $functions;
-
+        // Incoming Variables
         $menu = $_POST['container'];
 
+        // Clear Backup Table
+        // @todo: REPLACE ??
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
         $stmt->execute();
 
+        // Insert Into Backup Table
         $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu' );
         $stmt->execute();
 
+        // Clear Original Adminmenu Table
         $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
         $stmt->execute();
 
@@ -168,7 +171,6 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     /**
     * @desc Restore the old menu
     */
-
     function restore()
     {
         global $db, $tpl, $error, $lang, $functions;
@@ -343,7 +345,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     public function get_adminmenu_div( $menu = '' )
     {
         #echo 'get adminmenu div called'; exit;
-        
+
         $result = '';
 
         if ( empty( $menu ) )
@@ -562,7 +564,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             $db->doctrine_initialize();
 
             # Load Models
-            Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE); 
+            Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
 
             # Issue Doctrine_Query
             $result = Doctrine_Query::create()

@@ -323,8 +323,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         {
             # get modulName and actionName
             $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
+            #echo $moduleName;
 
-            $moduleName = explode("_", $moduleName);
+            #$moduleName = explode("_", $moduleName);
             #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
 
             # @todo?
@@ -337,13 +338,13 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
             if(strlen($SubModuleName) > 0)
             {
-                $tplname = $moduleName['0'].'/'.$SubModuleName.'_'.$actionName.'.tpl';
+                $tplname = $moduleName.'/'.$SubModuleName.'_'.$actionName.'.tpl';
                 #echo 'TPL Name : '.$tplname.'<br>';
             }
             else
             {
                 # construct a partial path from moduleName and actionName
-                $tplname = $moduleName['0'].'/'.$actionName.'.tpl';
+                $tplname = $moduleName.'/'.$actionName.'.tpl';
                 #echo 'TPL Name : '.$tplname.'<br>';
             }
 
@@ -356,9 +357,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # 1. modules/modulename/templates/actioname.tpl
             # @todo: for renderer related templates we have to add "renderer/", like
             # modules/modulename/templates/renderer/actioname.tpl
-          
+
             if(is_file( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname) && isset($_SESSION['user']['theme']) > 0)
-            {                
+            {
                 # 1. Check, if template exists in current THEME/templates
                 $this->setTemplate( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname);
             }
@@ -367,12 +368,12 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
                 # 3. Check, if template exists in standard theme
                 $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
             }*/
-            
-            elseif(is_file( ROOT_MOD .'/'. $moduleName['0'] .'/templates/'. $actionName .'.tpl'))
+
+            elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
             {
                 # 2. Check, if template exists in module folder / templates
-                $this->setTemplate( ROOT_MOD .'/'. $moduleName['0'] .'/templates/'. $actionName .'.tpl');
-            }         
+                $this->setTemplate( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
+            }
             else
             {
                 # 4. NOT EXISTANT

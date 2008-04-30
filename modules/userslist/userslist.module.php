@@ -69,10 +69,13 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
 
     /**
      * Action -> Show
-     * URL = index.php?mod=userslist&action=show
+     * Displayes Overview of all registered Users
      *
+     * URL = /index.php?mod=userslist&action=show
+     *
+     * @access public
      */
-    function action_show()
+    public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=userlist&amp;action=show');
@@ -92,7 +95,7 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
                                     ->select('u.user_id, u.nick, u.email, u.joined,, ug.*, g.name, g.color')
                                     ->from('CsUsers u')
                                     ->leftJoin('u.CsUserGroups ug')
-                                   ->leftJoin('ug.CsGroups g')                                    
+                                   ->leftJoin('ug.CsGroups g')
                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                    ->orderby('u.user_id ASC'),
                                  # The following is Limit  ?,? =
@@ -108,41 +111,32 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
-        #var_dump($pager_layout);
 
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
-        // Fetching news
+        // Fetching userslist
         $userslist = $pager->execute(array(), Doctrine::FETCH_ARRAY);
 
         // Get Number of Rows
         $count = count($userslist);
-        // DEBUG - show total numbers of last Select
-        // echo 'Found Rows: ' . $count;
 
         # Get Render Engine
         $smarty = $this->getView();
-
-        // Return true if it's necessary to paginate or false if not
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());
+        
+        // Assign $userslist array to Smarty for template output
+        $smarty->assign('userslist', $userslist);
 
         // Displaying page links
         // Displays: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
         $smarty->assign('pagination_links',$pager_layout->display('',true));
-
-        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
-
-        // Return the total number of pages
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());
-        // Return the current page
-        $smarty->assign('paginate_currentpage',$pager->getPage());
-
-         // give $newslist array to Smarty for template output
-        $smarty->assign('userslist', $userslist);
+        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
+        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
+        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
+        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
+        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
 
         # specifiy the template manually
         #$this->setTemplate('userslist/show.tpl');

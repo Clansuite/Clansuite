@@ -49,8 +49,10 @@ define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug
  *     Configuration, Initalization, Loader
  *  ==========================================
  */
-# Check if clansuite.class.php is found, else redirect to installation page
-if ( !is_file( 'clansuite.config.php' ) ) { header( 'Location: installation/index.php' ); exit; }
+# Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
+if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
+# Check if install.php is found, so we are installed but without security steps performed
+#if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'clansuite.config.php';
 $config = new configuration;

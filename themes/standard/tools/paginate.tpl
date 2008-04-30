@@ -10,7 +10,7 @@ Anzahl Elemente Total: {$paginate_totalitems}
 <br/>
 Anzahl Elemente Seite: {$paginate_resultsinpage}
 <br/>
-Anzahl Elemente max: {$paginate_maxperpage}
+Anzahl Elemente max: {$paginate_maxperpage} (not assigned)
 *}
 
 <div class="paginate">
@@ -32,7 +32,7 @@ Anzahl Elemente max: {$paginate_maxperpage}
             {elseif $paginate_totalitems eq 1}
               1 Item displayed.
             {else}
-              Item 1 to {$paginate_totalitems} displayed.
+              Items 1 to {$paginate_totalitems} displayed.
             {/if}
     </div>
     <div class="size">
