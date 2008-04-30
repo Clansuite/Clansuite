@@ -148,14 +148,18 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $action = $request->getParameter('action');
 
         # get submodule parameter from URL
-        $submodule = $request->getParameter('sub');
+        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
 
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
         $methodname = 'action_';
 
-        # check if action (a) set and (b) not empty and (c) check if the action_$actionxxx
-        # method exists in the main module class (the one extending this class)
+        /**  
+         * Construct the Methodname
+         *
+         * check if action (a) is set and (b) not empty and (c) check if the action_$actionxxx
+         * method exists in the main module class (the one extending this class)
+         */
         if(isset($action) && !empty($action))
         {
             # if submodule is found, combine it with action: sub+action = admin_create
@@ -170,33 +174,8 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
                 $methodname .= $action;
                 #echo '2 No Submodule was set. '. $methodname;
             }
-
-            if(method_exists($this,$methodname))
-            {
-                #echo " Method called : $methodname";
-                # set the used action name
-                $this->action_name = $action;
-                # call the method !
-                $this->{$methodname}();
-            }
-             # check if the method exists as a drop in action in the module directory
-            /*elseif
-            {
-                if is_file() ....
-
-            }*/
-            else
-            {
-                #echo ' Not existing in Class: '. get_class($this) .' - Methodname: '.$methodname;
-            }
-        }
-        # check if the method exists as a drop in action in the module directory
-        /*elseif
-        {
-            if is_file() ....
-
-        }*/
-        else
+        }        
+        else // action not set
         {
             # if submodule is found, combine it with action: sub+action = admin_create
             if(isset($submodule) && !empty($submodule))
@@ -210,9 +189,27 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
                 $methodname .= $action;
                 #echo '2 No Submodule was set. '. $methodname;
             }
+            #echo $methodname;
+        }
+        
+        # handle method!
+        
+        if(method_exists($this,$methodname))
+        {
+            #echo " Method called : $methodname";
+            # set the used action name
+            $this->action_name = $action;
+            # call the method !
+            $this->{$methodname}();
+        }
+        # check if the method exists as a drop in action in the module directory
+        /*elseif
+        {
+            if is_file() ....
 
-            #echo Clansuite_ModuleController_Resolver::getModuleName();
-            #echo Clansuite_ModuleController_Resolver::getSubModuleName();
+        }*/
+        else
+        {
             # set the used action name
             $this->action_name = $this->config['default_action'];
             # set the method name
@@ -220,7 +217,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             #echo " No Action was set in the URL, using DefaultAction. Method called : $methodname";
             # call the method !
             $this->{$methodname}();
-        }
+        }        
     }
 
     /**
