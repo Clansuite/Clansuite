@@ -195,9 +195,6 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         
         if(method_exists($this,$methodname))
         {
-            #echo " Method called : $methodname";
-            # set the used action name
-            $this->action_name = $action;
             # call the method !
             $this->{$methodname}();
         }
