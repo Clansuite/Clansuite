@@ -115,4 +115,5 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         # Prepare the Output
         $this->prepareOutput();
     }
+}
 ?>
