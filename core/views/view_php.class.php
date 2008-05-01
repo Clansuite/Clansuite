@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *
  * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$Date: 2008-01-14 02:41:36 +0100 (Mo, 14 Jan 2008) $)
+ * @copyright  Jens-Andre Koch (2005-$Date$)
  * @since      Class available since Release 0.2
  *
  * @package     clansuite
