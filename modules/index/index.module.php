@@ -43,19 +43,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Module_Index extends ModuleController implements Clansuite_Module_Interface
 {
     /**
-     * __Constructor:
-     *
-     * Calls the Parent Constructor.
-     * This is not needed, because it's automatically done by PHP.
-     * So you can leave it away, when building modules.
-     * It's just for understanding and clarification.
-     */
-    function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    /**
      * Main Method of Index Module
      *
      * Sets up module specific stuff, needed by all actions of the module
@@ -66,14 +53,6 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         # proceed to the requested action
         $this->processActionController($request);
     }   
-
-    function action_smarty_error_example()
-    {
-        # Manually set the Template, you could even comment it out!
-        $this->setTemplate( ROOT_MOD . '/index/templates/smarty_error_example.tpl');
-        # Prepare the Output
-        $this->prepareOutput();
-    }
 
     /**
      * Show the Index / Entrance -> welcome message etc.
@@ -136,77 +115,4 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         # Prepare the Output
         $this->prepareOutput();
     }
-    
-    /**
-     * We don't need the following classes.
-     * They are here for understanding the MVC Pattern.
-     * Demonstration is done via function $module_index->action_mvc();
-     */
-
-     /**
-      *  Test the MVC Framework
-      *  by calling the URL "index.php?mod=index&action=mvc"
-      */
-    function action_mvc()
-    {
-        $index_view = new module_index_view;            # initialize the view
-        $index_view->showUserData('1');                 # call view function for output
-        # the requested user_id would be a get or post input variable
-        echo 'Clansuite Framework - MVC is working!';   # give status and exit
-        exit;
-    }
-}
-
-
-
-/**
- * Module Index - View Class
- * V = View in MVC
- *
- * Purpose: View selects the Model for the choosen view(action)
- *          and assembles/prepares that view(action) with Model-Informations for Output
- *          When a Model-Object is fetched, the View calls a certain method on it to extract the data.
- *          Like $users = $userobject->findUserByID($id);
- *
- */
-class module_index_view
-{
-     public function showUserData($user_id)
-     {
-        // instantiate the module_index_model
-        $index_model = new module_index_model;
-        // fetch data-object from the model
-        $user_object = $index_model->findUserbyID($user_id);
-        // perform actions on the fetched data
-        #ucfirst($user_object);
-        // assign data-object to view and output
-        foreach ($user_object as $user_object_data)
-        {
-            echo '<br /><strong>'. $user_object_data .'</strong><br />';
-        }
-     }
-}
-
-/**
- * Module Index - Model Class
- * M = Model in MVC
- *
- * Purpose: Select Data from Database and return Model-Informations (complete objects) to the View-Layer
- *          Like return $user;
- */
-class module_index_model
-{
-    /**
-     * test function for demonstrating the mvc approach
-     * this would normally execute a sql query to fetch something from database
-     * here we just cheat a little and pass data along as a return value
-     */
-    public function findUserById($user_id)
-    {
-        // SQL logic to get User Infos for a certain $user_id
-        $user_data = array('name' => 'John Wayne', 'town' => 'Berlin');
-        //returns User-ROW!
-        return $user_data;
-    }
-}
 ?>
