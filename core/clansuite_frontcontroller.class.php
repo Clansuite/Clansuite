@@ -168,21 +168,25 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         if(clansuite_loader::loadModul($module_name) == true)
         {
             # Set the module name
-            $required_modulname = $module_name;
+            $required_modulename = $module_name;
         }
         else
         {
+            # Trigger a error to show, that the required module does not exist
+            trigger_error('Module does not exist: ' . $module_name);
+            exit();
+            
             # Load Default Module as Fallback (require), because the requested module may not exist!
             clansuite_loader::loadModul($this->_defaultModule);
             # Set the module name
-            $required_modulname = $this->_defaultModule;
+            $required_modulename = $this->_defaultModule;
         }
 
         # Set the modulename as public static class variables
-        $this->setModuleName($required_modulname);
+        $this->setModuleName($required_modulename);
 
         # Construct Classname to instantiate the required Module
-        $class = 'module_' . strtolower($required_modulname);
+        $class = 'module_' . $required_modulename;
 
         # Instantiate and Return the Module Object
         $controller = new $class();

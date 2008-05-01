@@ -162,28 +162,14 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             $methodname .= '_' . $submodule;
         }    
         
-        /**  
-         * Construct the Methodname
-         *
-         * check if action (a) is set and (b) not empty and (c) check if the action_$actionxxx
-         * method exists in the main module class (the one extending this class)
-         */
-        if(isset($action) && !empty($action))
+        /**
+        * @desc Check for a action
+        */
+        if(isset($action) && !empty($action) && method_exists($this,$methodname . '_' . $action))
         {
-            if(method_exists($this,$methodname . '_' . $action))
-            {
-                $methodname .= '_' . $action;
-            }
-            else
-            {
-                # set the used action name
-                $this->action_name = $this->config['default_action'];
-                # set the method name
-                $methodname .= '_' . $this->config['default_action'];                
-            }
-            
+            $methodname .= '_' . $action;            
         }
-        else // action not set
+        else // action not set or method not existing
         {
             # set the used action name
             $this->action_name = $this->config['default_action'];
@@ -200,7 +186,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
         else
         {
-            trigger_error('action not existing: ' . $methodname);
+            trigger_error('Action does not exist: ' . $methodname);
             exit();
         }        
     }
