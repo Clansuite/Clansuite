@@ -20,7 +20,7 @@
  *
  * @license    GNU/GPL, see COPYING.txt
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @author     Jens-Andre Koch <vain@clansuite.com>  $Author§
  * @copyright  Jens-Andre Koch (2005-$Date$)
  *
  * @link       http://www.clansuite.com
