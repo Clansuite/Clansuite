@@ -185,9 +185,9 @@ class view_smarty extends renderer_base
          * 3) "/themes/core/"
          */
         $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';   # /themes/user-session_theme
-        $this->smarty->template_dir[] = ROOT_MOD;                                               # /modules
-        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                                  # /themes/core
+        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';                                       # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_MOD    . '/' . Clansuite_ModuleController_Resolver::getModuleName() . '/templates';    # /modules
+        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                                                                      # /themes/core
         #var_dump($this->smarty->template_dir);
 
         $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files

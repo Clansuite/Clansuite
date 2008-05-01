@@ -21,7 +21,7 @@
 
 {foreach item=news from=$news}
 
-<!-- Anker-Sprungmarke fr {$news.news_id}--> <a name="news-{$news.news_id}"></a>
+<!-- Anker-Sprungmarke für {$news.news_id}--> <a name="news-{$news.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr>
         <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
