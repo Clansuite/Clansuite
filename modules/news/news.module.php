@@ -29,7 +29,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: index.php 1821 2008-03-26 16:29:54Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

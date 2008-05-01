@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Id: makedoc.sh,v 1.9.2.1 2003/06/02 21:43:25 CelloG Exp $
+# $Id$
 
 #/**
 #  * makedoc - PHPDocumentor script to save your settings

@@ -28,13 +28,13 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - $Date: 2007-11-04 19:43:59 +0100 (So, 04 Nov 2007) $)
+    * @copyright  Jens-Andre Koch (2005 - $Date$)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: clansuite.config.php 1484 2007-11-04 18:43:59Z vain $
+    * @version    SVN: $Id$
     */
 
    /**  =====================================================================
@@ -63,7 +63,7 @@ if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbi
  * get data, using array access: echo $cfg['name'];
  *
  * @author Jens-Andre Koch
- * @copyright Jens-Andre Koch (2005-$Date: 2007-11-04 19:43:59 +0100 (So, 04 Nov 2007) $)
+ * @copyright Jens-Andre Koch (2005-$Date$)
  *
  * @package clansuite
  * @subpackage config

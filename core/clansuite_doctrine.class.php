@@ -24,7 +24,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate: 2008-02-18 23:18:47 +0100 (Mo, 18 Feb 2008) $)
+    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
