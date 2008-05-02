@@ -21,27 +21,24 @@
     <col width="20%"/>
 </colgroup>
 <tr>
-    <td><strong>Menuitems</strong>
+    <td valign="top"><strong>Menuitems</strong>
         <ul>
             <li><a href="?mod=index">Index</a></li>
-            <li><a href="?mod=index&action=mvc">Index MVC Test</a></li>
-            <li><a href="?mod=index&action=smarty_error_example">Index smarty_error_example</a></li>
             <li><a href="?mod=news">News</a></li>
             <li><a href="?mod=guestbook">Guestbook</a></li>
             <li><a href="?mod=userslist">Userslist</a></li>
-            <hr style="width:80%">
-            <li><a href="?mod=admin">--ACP--</a></li>
+            <li><a href="?mod=admin">Clansuite Controlpanel</a></li>
         </ul>
     </td>
-    <td>
+    <td valign="top">
         <div id="breadcrumbs">{breadcrumbs trail=$trail separator=" &raquo; " length=30}</div>
         <br />
         {$content}
     </td>
-    <td>&nbsp;</td>
+    <td valign="top">&nbsp;</td>
 </tr>
 <tr>
-    <td><strong>Themes</strong>
+    <td valign="top"><strong>Themes</strong>
         <ul>
             <li><a href="?theme=accessible">Accessible</a></li>
             <li><a href="?theme=andreas01">Andreas01</a></li>
@@ -50,7 +47,7 @@
         </ul>
         <br />
     </td>
-    <td>&nbsp;</td>
+    <td valign="top">&nbsp;</td>
     <td>&nbsp;</td>
 </tr>
 </table>
