@@ -65,5 +65,5 @@
 
     {/foreach}
 {else}
-There is no news available.
+{t}There is no news available.{/t}
 {/if}
