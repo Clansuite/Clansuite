@@ -15,7 +15,7 @@ abstract class BaseCsNews extends Doctrine_Record
     $this->hasColumn('cat_id', 'integer', 1, array('alltypes' =>  array(  0 => 'integer',   1 => 'boolean', ), 'ntype' => 'tinyint(4)', 'unsigned' => 0, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('user_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('news_added', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('draft', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('news_status', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()

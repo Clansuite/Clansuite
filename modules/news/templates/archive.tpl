@@ -46,8 +46,8 @@
                 <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.nr_news_comments} Comments</a>
                 {if isset($news.CsNewsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
             </td>
-            <td>
-            {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
+    	    <td>
+    	    {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
 
                 <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                     <input type="hidden" value="{$news.news_id}" name="delete[]" />
@@ -55,7 +55,7 @@
                     <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
                 </form>
             {/if}
-            </td>
+    	    </td>
         </tr>
     </table>
     <br />
@@ -65,5 +65,5 @@
 
     {/foreach}
 {else}
-There is no news available.
+{t}There is no news archived.{/t}
 {/if}
