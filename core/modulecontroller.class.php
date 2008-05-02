@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2007
+    * Jens-Andre Koch © 2005-$Date$
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2007)
+    * @copyright  Jens-Andre Koch (2005-$Date$)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -167,6 +167,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         */
         if(isset($action) && !empty($action) && method_exists($this,$methodname . '_' . $action))
         {
+            # set the used action name
+            $this->action_name = $action;
+            # set the method name
             $methodname .= '_' . $action;            
         }
         else // action not set or method not existing

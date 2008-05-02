@@ -21,7 +21,10 @@
 
 {foreach item=news from=$news}
 
-<!-- Anker-Sprungmarke für {$news.news_id}--> <a name="news-{$news.news_id}"></a>
+<!-- Anker-Sprungmarke für {$news.news_id}-->
+<a name="news-{$news.news_id}"></a>
+
+<!-- News Wrap -->
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr>
         <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
@@ -43,7 +46,7 @@
             {if isset($news.CsNewsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
         </td>
     	<td>
-    	{if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
+    	{if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
@@ -56,7 +59,7 @@
 </table>
 <br />
 
-  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+<div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
 
 
 {/foreach}

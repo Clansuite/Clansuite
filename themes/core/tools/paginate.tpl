@@ -1,41 +1,68 @@
 {* Pagination Placeholders
 
-Links: {$pagination_links}
-<br/>
-Aktuelle Seite: {$paginate_currentpage}
-<br/>
-Letzte Seite: {$paginate_lastpage}
-<br/>
-Anzahl Elemente Total: {$paginate_totalitems}
-<br/>
-Anzahl Elemente Seite: {$paginate_resultsinpage}
-<br/>
-Anzahl Elemente max: {$paginate_maxperpage} (not assigned)
+// Returns the check if Pager was already executed
+$pager->getExecuted();
+
+// Return the total number of itens found on query search
+$pager->getNumResults();
+
+// Return the first page (always 1)
+$pager->getFirstPage();
+
+// Return the total number of pages
+$pager->getLastPage();
+
+// Return the current page
+$pager->getPage();
+
+// Defines a new current page (need to call execute again to adjust offsets and values)
+$pager->setPage($page);
+
+// Return the next page
+$pager->getNextPage();
+
+// Return the previous page
+$pager->getPreviousPage();
+
+// Return true if it's necessary to paginate or false if not
+$pager->haveToPaginate();
+
+// Return the maximum number of records per page
+$pager->getMaxPerPage();
+
+// Defined a new maximum number of records per page (need to call execute again to adjust offset and values)
+$pager->setMaxPerPage($maxPerPage);
+
+// Returns the number of itens in current page
+$pager->getResultsInPage();
+
+// Returns the Doctrine_Query object that is used to make the count results to pager
+$pager->getCountQuery();
+
+// Defines the counter query to be used by pager
+$pager->setCountQuery($query, $params = null);
+
+// Returns the params to be used by counter Doctrine_Query (return $defaultParams if no param is defined)
+$pager->getCountQueryParams($defaultParams = array());
+
+// Defines the params to be used by counter Doctrine_Query
+$pager->setCountQueryParams($params = array(), $append = false);
+
+// Return the Doctrine_Query object
+$pager->getQuery();
+
 *}
-
 <div class="paginate">
-
     <div class="description">
             <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
-            {$pagination_links} - Seite {$paginate_currentpage}/{$paginate_lastpage}.
+            {$pager_layout->display('',true)} - Seite {$pager->getPage()}/{$pager->getLastPage()}.
 
-            {if $paginate_currentpage eq $paginate_lastpage}
-             {assign var=itemsOnPage value=`$paginate_totalitems`}
-             {assign var=itemsFrom value=`$paginate_totalitems+1-$paginate_resultsinpage`}
-            {else}
-             {assign var=itemsOnPage value=`$paginate_currentpage*$paginate_resultsinpage`}
-             {assign var=itemsFrom value=`$itemsOnPage+1-$paginate_resultsinpage`}
-            {/if}
-
-            {if $pagination_needed gt 0}
-             <span class="inline_text">Displaying Items {$itemsFrom} to {$itemsOnPage} of {$paginate_totalitems} total (with {$paginate_resultsinpage} per page).</span>
-            {elseif $paginate_totalitems eq 1}
+            {if $pager->haveToPaginate() gt 0}
+             <span class="inline_text">{$pager->getNumResults()} total (with {$pager->getMaxPerPage()} per page).</span>
+            {elseif $pager->getResultsInPage() eq 1}
               1 Item displayed.
             {else}
-              Items 1 to {$paginate_totalitems} displayed.
+              Items 1 to {$pager->getResultsInPage()} displayed.
             {/if}
-    </div>
-    <div class="size">
-
     </div>
 </div>

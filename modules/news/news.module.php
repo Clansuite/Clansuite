@@ -55,10 +55,11 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     /**
      * module news action_show()
      *
-     * 1. get news with nick of author and category
-     * 2. add general data of comments for each news
-     *
-     * @output: $newslist ( array for smarty template output )
+     * 1. Get news with nick of author and category
+     * 2. Add general data of comments for each news
+     * 3. Paginate
+     * 
+     * @output: $news ( array for smarty template output )
      */
     public function action_show()
     {
@@ -91,23 +92,23 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5
                              )),
-                             '?mod=news&action=show&page={%page}'
+                             '?mod=news&amp;action=show&amp;page={%page}'
                              );
 
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
-        #var_dump($pager_layout);
 
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
-
+        
         // Fetch the related COUNT on news_comments and the author of the latest!
-        // a) Count all newst
-        // b) get the nickname of the last comment for certain news_id
+        // a) Count all news
+        // b) Get the nickname of the last comment for certain news_id
+        // TODO: One query possible with some joins ?
         $stmt1 = Doctrine_Query::create()
                          ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
                          ->from('CsNewsComments nc')
@@ -132,15 +133,20 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                 $news[$k]['CsNewsComments'] = array('nr_news_comments' => 0);
             }
         }
-        #var_dump($news);
 
         # Get Render Engine
         $smarty = $this->getView();
-        #$smarty->assign('news', $news->toArray());
         
         // Assign $news array to Smarty for template output
+        // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
+        // Another way (and much more flexible one) is via register_object()
+        // SEE: http://www.smarty.net/manual/en/advanced.features.php
+        // TODO: Can we get the news object by reference into smarty too ? register_object() should be essential
         $smarty->assign('news', $news);
-
+        $smarty->assign_by_ref('pager', $pager);
+        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        
+        /*
         // Displaying page links: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
@@ -150,9 +156,13 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
         $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
         $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
+        */
+        
+        // Specifiy the template manually
+        // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
+        //$this->setTemplate('news/show.tpl');
 
-        # specifiy the template manually
-        #$this->setTemplate('news/show.tpl');
+        
         # Prepare the Output
         $this->prepareOutput();
     }
