@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.45-community-nt
+-- Server version	5.0.51a
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,6 +20,8 @@
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -33,6 +35,7 @@ CREATE TABLE `cs_adminmenu` (
   `right_to_view` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_adminmenu`
@@ -47,6 +50,8 @@ INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Modules','','Modules','_self',0
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu_backup`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu_backup` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `parent` tinyint(3) unsigned NOT NULL default '0',
@@ -60,6 +65,7 @@ CREATE TABLE `cs_adminmenu_backup` (
   `right_to_view` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_adminmenu_backup`
@@ -74,6 +80,8 @@ INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Modules','','Modules','_
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu_shortcuts` (
   `id` tinyint(4) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -83,6 +91,7 @@ CREATE TABLE `cs_adminmenu_shortcuts` (
   `cat` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_adminmenu_shortcuts`
@@ -97,12 +106,15 @@ INSERT INTO `cs_adminmenu_shortcuts` VALUES (1,'Console','index.php?mod=admin&am
 --
 
 DROP TABLE IF EXISTS `cs_areas`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_areas` (
   `area_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default 'New Area',
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_areas`
@@ -117,6 +129,8 @@ INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'Contr
 --
 
 DROP TABLE IF EXISTS `cs_bb_code`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_bb_code` (
   `bb_code_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -128,6 +142,7 @@ CREATE TABLE `cs_bb_code` (
   PRIMARY KEY  (`bb_code_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_bb_code`
@@ -142,6 +157,8 @@ INSERT INTO `cs_bb_code` VALUES (1,'b','<b>','</b>','block','listitem,block,inli
 --
 
 DROP TABLE IF EXISTS `cs_board_forums`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_board_forums` (
   `forumid` int(11) NOT NULL auto_increment,
   `forumparent` int(11) NOT NULL default '0',
@@ -158,6 +175,7 @@ CREATE TABLE `cs_board_forums` (
   `type` varchar(15) NOT NULL,
   PRIMARY KEY  (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_board_forums`
@@ -172,6 +190,8 @@ INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1,NULL,0,0,NULL,
 --
 
 DROP TABLE IF EXISTS `cs_board_posts`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_board_posts` (
   `forumid` int(11) NOT NULL default '0',
   `threadid` int(11) NOT NULL default '0',
@@ -192,6 +212,7 @@ CREATE TABLE `cs_board_posts` (
   KEY `dateline` (`date`),
   KEY `author` (`author`(8))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_board_posts`
@@ -205,6 +226,8 @@ CREATE TABLE `cs_board_posts` (
 --
 
 DROP TABLE IF EXISTS `cs_board_threads`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_board_threads` (
   `threadid` int(11) NOT NULL auto_increment,
   `forumid` int(11) NOT NULL default '0',
@@ -224,6 +247,7 @@ CREATE TABLE `cs_board_threads` (
   KEY `author` (`author`(8)),
   KEY `closed` (`closed`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_board_threads`
@@ -238,6 +262,8 @@ INSERT INTO `cs_board_threads` VALUES (1,1,'Apfelernte','','',0,0,'','',0,'');
 --
 
 DROP TABLE IF EXISTS `cs_calendar`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_calendar` (
   `event_id` int(11) NOT NULL auto_increment,
   `cat_id` smallint(2) NOT NULL,
@@ -249,6 +275,7 @@ CREATE TABLE `cs_calendar` (
   `description` text NOT NULL,
   PRIMARY KEY  (`event_id`,`cat_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_calendar`
@@ -263,6 +290,8 @@ INSERT INTO `cs_calendar` VALUES (1,1,'19','4','2007','badday','badday','lalal')
 --
 
 DROP TABLE IF EXISTS `cs_categories`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_categories` (
   `cat_id` tinyint(4) NOT NULL auto_increment,
   `module_id` tinyint(4) default NULL,
@@ -276,6 +305,7 @@ CREATE TABLE `cs_categories` (
   UNIQUE KEY `cat_id` (`cat_id`),
   KEY `modul_id` (`module_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_categories`
@@ -290,11 +320,14 @@ INSERT INTO `cs_categories` VALUES (1,7,1,'-keine-','Diese News sind keiner Kate
 --
 
 DROP TABLE IF EXISTS `cs_group_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_group_rights` (
   `group_id` int(11) NOT NULL default '0',
   `right_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_group_rights`
@@ -309,6 +342,8 @@ INSERT INTO `cs_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(
 --
 
 DROP TABLE IF EXISTS `cs_groups`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_groups` (
   `group_id` int(5) unsigned NOT NULL auto_increment,
   `sortorder` int(4) unsigned NOT NULL default '0',
@@ -319,6 +354,7 @@ CREATE TABLE `cs_groups` (
   `color` varchar(7) default NULL,
   PRIMARY KEY  (`group_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_groups`
@@ -333,6 +369,8 @@ INSERT INTO `cs_groups` VALUES (1,1,'Guest','The non-registered users.','','','#
 --
 
 DROP TABLE IF EXISTS `cs_guestbook`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_guestbook` (
   `gb_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL default '0',
@@ -348,6 +386,7 @@ CREATE TABLE `cs_guestbook` (
   `image_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_guestbook`
@@ -362,6 +401,8 @@ INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','email','123124','www.s
 --
 
 DROP TABLE IF EXISTS `cs_help`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_help` (
   `help_id` int(11) NOT NULL auto_increment,
   `mod` varchar(255) NOT NULL,
@@ -372,6 +413,7 @@ CREATE TABLE `cs_help` (
   PRIMARY KEY  (`help_id`),
   UNIQUE KEY `help_id` (`help_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_help`
@@ -386,6 +428,8 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[
 --
 
 DROP TABLE IF EXISTS `cs_images`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_images` (
   `image_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
@@ -394,6 +438,7 @@ CREATE TABLE `cs_images` (
   PRIMARY KEY  (`image_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_images`
@@ -408,6 +453,8 @@ INSERT INTO `cs_images` VALUES (3,1,'upload','images/avatars/1.jpg');
 --
 
 DROP TABLE IF EXISTS `cs_messages`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_messages` (
   `message_id` int(11) NOT NULL auto_increment,
   `from` int(11) NOT NULL,
@@ -419,6 +466,7 @@ CREATE TABLE `cs_messages` (
   PRIMARY KEY  (`message_id`),
   KEY `from` (`from`,`to`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_messages`
@@ -433,11 +481,14 @@ INSERT INTO `cs_messages` VALUES (10,1,1,'uschi','furuzzz',1171204602,1),(11,1,1
 --
 
 DROP TABLE IF EXISTS `cs_mod_rel_sub`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_mod_rel_sub` (
   `module_id` int(11) NOT NULL,
   `submodule_id` int(11) NOT NULL,
   PRIMARY KEY  (`module_id`,`submodule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_mod_rel_sub`
@@ -452,6 +503,8 @@ INSERT INTO `cs_mod_rel_sub` VALUES (1,70),(1,124),(1,125),(1,126),(2,1),(2,2),(
 --
 
 DROP TABLE IF EXISTS `cs_modules`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_modules` (
   `module_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -472,6 +525,7 @@ CREATE TABLE `cs_modules` (
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_modules`
@@ -486,6 +540,8 @@ INSERT INTO `cs_modules` VALUES (1,'account','Jens-AndrÃ© Koch, Florian Wolf',
 --
 
 DROP TABLE IF EXISTS `cs_news`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_news` (
   `news_id` int(11) NOT NULL auto_increment,
   `news_title` varchar(255) NOT NULL,
@@ -493,9 +549,10 @@ CREATE TABLE `cs_news` (
   `cat_id` tinyint(4) NOT NULL default '0',
   `user_id` int(11) unsigned NOT NULL default '0',
   `news_added` int(11) default NULL,
-  `draft` int(11) NOT NULL,
+  `news_status` int(11) NOT NULL,
   PRIMARY KEY  (`news_id`,`cat_id`,`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_news`
@@ -510,6 +567,8 @@ INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\
 --
 
 DROP TABLE IF EXISTS `cs_news_comments`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_news_comments` (
   `news_id` int(11) NOT NULL default '0',
   `comment_id` int(10) unsigned NOT NULL default '0',
@@ -520,6 +579,7 @@ CREATE TABLE `cs_news_comments` (
   `ip` varchar(15) NOT NULL,
   `host` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_news_comments`
@@ -534,6 +594,8 @@ INSERT INTO `cs_news_comments` VALUES (1,1,1,'123','2005-07-29 13:04:07','','127
 --
 
 DROP TABLE IF EXISTS `cs_profiles`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_profiles` (
   `profile_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
@@ -557,6 +619,7 @@ CREATE TABLE `cs_profiles` (
   PRIMARY KEY  (`profile_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_profiles`
@@ -571,6 +634,8 @@ INSERT INTO `cs_profiles` VALUES (1,1,1175369474,'Florian','Wolf',496274400,'mal
 --
 
 DROP TABLE IF EXISTS `cs_profiles_computer`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_profiles_computer` (
   `computer_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -590,6 +655,7 @@ CREATE TABLE `cs_profiles_computer` (
   PRIMARY KEY  (`computer_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_profiles_computer`
@@ -603,6 +669,8 @@ CREATE TABLE `cs_profiles_computer` (
 --
 
 DROP TABLE IF EXISTS `cs_profiles_general`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_profiles_general` (
   `general_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
@@ -628,6 +696,7 @@ CREATE TABLE `cs_profiles_general` (
   PRIMARY KEY  (`general_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_profiles_general`
@@ -642,6 +711,8 @@ INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274
 --
 
 DROP TABLE IF EXISTS `cs_profiles_guestbook`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_profiles_guestbook` (
   `gb_id` int(11) NOT NULL auto_increment,
   `from` int(11) NOT NULL default '0',
@@ -658,6 +729,7 @@ CREATE TABLE `cs_profiles_guestbook` (
   `image_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_profiles_guestbook`
@@ -672,6 +744,8 @@ INSERT INTO `cs_profiles_guestbook` VALUES (1,0,0,1003200322,'nick','email','123
 --
 
 DROP TABLE IF EXISTS `cs_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_rights` (
   `right_id` int(11) unsigned NOT NULL auto_increment,
   `area_id` int(11) NOT NULL default '0',
@@ -679,6 +753,7 @@ CREATE TABLE `cs_rights` (
   `description` varchar(255) NOT NULL,
   PRIMARY KEY  (`right_id`,`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_rights`
@@ -693,6 +768,8 @@ INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the
 --
 
 DROP TABLE IF EXISTS `cs_serverlist`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_serverlist` (
   `server_id` int(5) default NULL,
   `ip` varchar(15) default NULL,
@@ -703,6 +780,7 @@ CREATE TABLE `cs_serverlist` (
   `image_country` varchar(20) default NULL,
   UNIQUE KEY `server_id` (`server_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_serverlist`
@@ -717,6 +795,8 @@ INSERT INTO `cs_serverlist` VALUES (1,'team-n1.com','27339','knd-squad DEATHMATC
 --
 
 DROP TABLE IF EXISTS `cs_session`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_session` (
   `user_id` int(11) NOT NULL default '0',
   `session_id` varchar(32) NOT NULL,
@@ -728,13 +808,14 @@ CREATE TABLE `cs_session` (
   UNIQUE KEY `session_id` (`session_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_session`
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'e0e4d66b7202602315146017f5ee56aa','initiated|b:1;token|s:32:\"e6d52ce2be8435a333f31bec2f012904\";client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.12) Gecko/20080201 Firefox/2.0.0.12\";client_host|s:9:\"localhost\";suiteSID|s:32:\"e0e4d66b7202602315146017f5ee56aa\";user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1206109765,1,'index');
+INSERT INTO `cs_session` VALUES (0,'9ad735ba4276399e76e1bcee1cc04483','initiated|b:1;token|s:32:\"df3eb02cd271b2a87df4abfb37143238\";client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14\";client_host|s:10:\"powertower\";suiteSID|s:32:\"9ad735ba4276399e76e1bcee1cc04483\";user|a:12:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}s:13:\"theme_via_url\";i:1;}','suiteSID',1209718264,1,'admin');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -742,6 +823,8 @@ INSERT INTO `cs_session` VALUES (0,'e0e4d66b7202602315146017f5ee56aa','initiated
 --
 
 DROP TABLE IF EXISTS `cs_shoutbox`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_shoutbox` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
@@ -751,6 +834,7 @@ CREATE TABLE `cs_shoutbox` (
   `ip` varchar(15) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_shoutbox`
@@ -765,6 +849,8 @@ INSERT INTO `cs_shoutbox` VALUES (1,'12345','123test@test.com','texttext',115589
 --
 
 DROP TABLE IF EXISTS `cs_static_pages`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_static_pages` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -775,6 +861,7 @@ CREATE TABLE `cs_static_pages` (
   `iframe_height` int(11) NOT NULL default '300',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_static_pages`
@@ -789,6 +876,8 @@ INSERT INTO `cs_static_pages` VALUES (1,'Credits','Without their brains Clansuit
 --
 
 DROP TABLE IF EXISTS `cs_submodules`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_submodules` (
   `submodule_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -796,6 +885,7 @@ CREATE TABLE `cs_submodules` (
   `class_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`submodule_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_submodules`
@@ -810,11 +900,14 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 --
 
 DROP TABLE IF EXISTS `cs_user_groups`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_user_groups` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `group_id` int(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_user_groups`
@@ -829,6 +922,8 @@ INSERT INTO `cs_user_groups` VALUES (1,3);
 --
 
 DROP TABLE IF EXISTS `cs_user_options`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_user_options` (
   `option_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -837,6 +932,7 @@ CREATE TABLE `cs_user_options` (
   PRIMARY KEY  (`option_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_user_options`
@@ -851,11 +947,14 @@ INSERT INTO `cs_user_options` VALUES (0,1,'en','accessible');
 --
 
 DROP TABLE IF EXISTS `cs_user_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_user_rights` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `right_id` int(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_user_rights`
@@ -869,6 +968,8 @@ CREATE TABLE `cs_user_rights` (
 --
 
 DROP TABLE IF EXISTS `cs_users`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `cs_users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `email` varchar(150) default NULL,
@@ -890,6 +991,7 @@ CREATE TABLE `cs_users` (
   KEY `email` (`email`),
   KEY `nick` (`nick`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `cs_users`
@@ -908,4 +1010,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-03-21 16:45:46
+-- Dump completed on 2008-05-02  8:24:40
