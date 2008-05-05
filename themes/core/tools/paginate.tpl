@@ -57,8 +57,19 @@ $pager->getQuery();
             <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
             {$pager_layout->display('',true)} - Seite {$pager->getPage()}/{$pager->getLastPage()}.
 
+            {assign var=resultsInPage value=$pager->getResultsInPage()}
+            {assign var=paginate_currentpage value=$pager->getPage()} 
+
+            {if $pager->getPage() eq $pager->getLastPage()}     
+             {assign var=itemsOnPage value=$pager->getNumResults()}
+            {else}                        
+             {assign var=itemsOnPage value=`$paginate_currentpage*$resultsInPage`}             
+            {/if}
+            
+            {assign var=itemsFrom value=`$itemsOnPage+1-$resultsInPage`}
+
             {if $pager->haveToPaginate() gt 0}
-             <span class="inline_text">{$pager->getNumResults()} total (with {$pager->getMaxPerPage()} per page).</span>
+             <span class="inline_text">Displaying Items {$itemsFrom} to {$itemsOnPage} of {$pager->getNumResults()} total (with {$pager->getResultsInPage()} per page).</span>
             {elseif $pager->getResultsInPage() eq 1}
               1 Item displayed.
             {else}
