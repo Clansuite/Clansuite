@@ -30,7 +30,7 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -127,16 +127,9 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
         // Assign $userslist array to Smarty for template output
         $smarty->assign('userslist', $userslist);
 
-        // Displaying page links
-        // Displays: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
-        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
-        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
+        // Pagination
+        $smarty->assign_by_ref('pager', $pager);
+        $smarty->assign_by_ref('pager_layout', $pager_layout);
 
         # specifiy the template manually
         #$this->setTemplate('userslist/show.tpl');
