@@ -249,19 +249,9 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         // Return true if it's necessary to paginate or false if not
         $smarty->assign('pagination_needed',$pager->haveToPaginate());
 
-        // Displaying page links
-        // Displays: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-
-        $smarty->assign('paginate_totalitems',$pager->getNumResults()); #  total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage()); #  current Page
-
-        // Return the total number of pages
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());
-        // Return the current page
-        $smarty->assign('paginate_currentpage',$pager->getPage());
+        // Pagination
+        $smarty->assign_by_ref('pager', $pager);
+        $smarty->assign_by_ref('pager_layout', $pager_layout);
         
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
