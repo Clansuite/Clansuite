@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * File:         session.class.php
@@ -29,7 +29,7 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -65,7 +65,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+ * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
