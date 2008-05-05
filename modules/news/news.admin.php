@@ -48,7 +48,7 @@ if (!defined('IN_CS'))
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006 - 2007)
+ * @copyright  Jens-Andre Koch, Florian Wolf (2005 - $Date$)
  * @since      Class available since Release 1.0alpha
  *
  * @package     clansuite

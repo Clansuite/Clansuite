@@ -183,17 +183,18 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      */
     public function action_archive()
     {
+        // Init DB & HTTP Request Classes
+        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
+        $incVars = $this->injector->instantiate('httprequest');
+        
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
-        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = $incVars->getParameter('page');
         $resultsPerPage = 3;
 
-        // Load DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
+        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
