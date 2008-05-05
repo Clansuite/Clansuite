@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * File:         language.class.php
@@ -27,8 +27,8 @@
     *
     * @license    GNU/GPL, see COPYING.txt
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
+    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -44,7 +44,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
  *
  * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$LastChangedDate$)
+ * @copyright  Jens-Andre Koch (2005 - onwards)
  *
  * @package     clansuite
  * @category    core

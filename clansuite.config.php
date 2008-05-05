@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005-onwards
     * http://www.clansuite.com/
     *
     * File:         config.class.php
@@ -29,7 +29,7 @@
     *
     * @author     Jens-Andre Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$Date$), Florian Wolf (2006-2007)
+    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite

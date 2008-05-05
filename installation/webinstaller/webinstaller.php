@@ -3,7 +3,7 @@
 $passPhrase = "yeahbabyyeah";
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     *

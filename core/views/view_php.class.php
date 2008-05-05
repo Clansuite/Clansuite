@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,7 +23,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-2008)
+    * @copyright  Jens-Andre Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *
  * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-$Date$)
+ * @copyright  Jens-Andre Koch (2005-onwards)
  * @since      Class available since Release 0.2
  *
  * @package     clansuite

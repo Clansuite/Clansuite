@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005-2008
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * Clansuite Installer
@@ -24,7 +24,7 @@
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
     * @author     Florian Wolf <xsign.dll@clansuite.com> 2005-2006
-    * @copyright  Jens-Andre Koch (2005 - $Date$)
+    * @copyright  Jens-Andre Koch (2005 - onwards)
     * @license    see COPYING.txt
     *
     * @link       http://gna.org/projects/clansuite
