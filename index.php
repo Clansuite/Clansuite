@@ -42,7 +42,7 @@
 define('IN_CS', true);
 
 # Setup XDebug
-define ('XDBUG', 1); if(XDBUG){ require 'clansuite.xdebug.php'; }
+define ('XDBUG', 1); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
@@ -88,6 +88,9 @@ $postfilter_classes = array(
 #empty-at-this-time
 );
 foreach($postfilter_classes as $class) { $injector->register($class); } # register the filters
+
+# Connect DB, that is needed for session & user rights management
+$injector->instantiate('clansuite_doctrine')->doctrine_initialize();
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);

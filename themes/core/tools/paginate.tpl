@@ -52,9 +52,9 @@ $pager->setCountQueryParams($params = array(), $append = false);
 $pager->getQuery();
 
 *}
-<div class="paginate">
-    <div class="description">
-            <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
+<div>
+    <div>
+            <img src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
             {$pager_layout->display('',true)} - Seite {$pager->getPage()}/{$pager->getLastPage()}.
 
             {assign var=resultsInPage value=$pager->getResultsInPage()}
@@ -69,7 +69,7 @@ $pager->getQuery();
             {assign var=itemsFrom value=`$itemsOnPage+1-$resultsInPage`}
 
             {if $pager->haveToPaginate() gt 0}
-             <span class="inline_text">Displaying Items {$itemsFrom} to {$itemsOnPage} of {$pager->getNumResults()} total (with {$pager->getResultsInPage()} per page).</span>
+             <span>Displaying Items {$itemsFrom} to {$itemsOnPage} of {$pager->getNumResults()} total (with {$pager->getResultsInPage()} per page).</span>
             {elseif $pager->getResultsInPage() eq 1}
               1 Item displayed.
             {else}

@@ -48,17 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class clansuite_xdebug
 {
 
-    private static $_xdebug_memory_before = '';
-
-    /**
-     * Constructor
-     *
-     * Start XDebug
-     */
-    public function __construct()
-    {
-       self::start_xdebug();
-    }
+    public static $_xdebug_memory_before = '';
 
     /**
      * XDebug Helper Functions
@@ -94,7 +84,7 @@ class clansuite_xdebug
             ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
             ini_set('xdebug.xdebug.collect_return', 'On');
             ini_set('xdebug.var_display_max_children', 10 );
-            
+
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
             xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
@@ -111,12 +101,11 @@ class clansuite_xdebug
     public static function end_xdebug()
     {
         # get page parsing time from xdebug
-        $xdebug_output .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
-        $xdebug_output .= self::$_xdebug_memory_before;
-        $xdebug_output .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
-        $xdebug_output .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
+        self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
+        self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
+        self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
 
-        echo $xdebug_output;
+        echo self::$_xdebug_memory_before;
 
         # stop tracings and var_dump
         var_dump(xdebug_stop_trace());
