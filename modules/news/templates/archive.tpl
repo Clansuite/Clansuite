@@ -12,9 +12,6 @@
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
 {if !empty($news)}
@@ -33,7 +30,7 @@
         </tr>
 
         <tr>
-            <td valign="top" class="dunkler"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}at{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
+            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}at{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
         </tr>
 
         <tr>
@@ -52,7 +49,7 @@
                 <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                     <input type="hidden" value="{$news.news_id}" name="delete[]" />
                     <input type="hidden" value="{$news.news_id}" name="ids[]" />
-                    <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
+                    <input type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input type="submit" name="submit" value="{t}Delete{/t}" />
                 </form>
             {/if}
     	    </td>
@@ -60,7 +57,7 @@
     </table>
     <br />
 
-    <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
 
 
     {/foreach}
