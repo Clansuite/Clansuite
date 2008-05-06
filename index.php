@@ -42,7 +42,7 @@
 define('IN_CS', true);
 
 # Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; $xdebug_output =''; clansuite_xdebug::start_xdebug($xdebug_output); }
 
 /**
  *  ==========================================
@@ -125,5 +125,5 @@ foreach($postfilter_classes as $class)
 $clansuite->processRequest($request, $response);
 
 # Stop debugging and show debugging infos.
-if(XDBUG){ clansuite_xdebug::end_xdebug(); }
+if(XDBUG){ clansuite_xdebug::end_xdebug($xdebug_output); }
 ?>

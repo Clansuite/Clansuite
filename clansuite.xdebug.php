@@ -69,23 +69,23 @@ class clansuite_xdebug
      * @static
      * @access public
      */
-    public static function start_xdebug()
+    public static function start_xdebug(&$xdebug_output)
     {
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
-        #ini_set('xdebug.auto_trace', 'On');
-        #ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
-        #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
-        ini_set('xdebug.show_mem_delta', 'On');
-        ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
-        ini_set('xdebug.xdebug.collect_return', 'On');
-        ini_set('xdebug.var_display_max_children', 10 );
+            #ini_set('xdebug.auto_trace', 'On');
+            #ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
+            #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
+            ini_set('xdebug.show_mem_delta', 'On');
+            ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
+            ini_set('xdebug.xdebug.collect_return', 'On');
+            ini_set('xdebug.var_display_max_children', 10 );
+            
+            $xdebug_output = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
-        echo 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
-
-        xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
-        xdebug_get_code_coverage();
+            xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
+            xdebug_get_code_coverage();
         }
     }
 
@@ -95,13 +95,14 @@ class clansuite_xdebug
      * @static
      * @access public
      */
-    public static function end_xdebug()
+    public static function end_xdebug(&$xdebug_output)
     {
         # get page parsing time from xdebug
-        echo '<hr>';
-        echo 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
-        echo '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
-        echo '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
+        $xdebug_output .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
+        $xdebug_output .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
+        $xdebug_output .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
+        echo $xdebug_output;
+        
         # stop tracings and var_dump
         var_dump(xdebug_stop_trace());
         var_dump(xdebug_get_code_coverage());
