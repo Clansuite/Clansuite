@@ -55,7 +55,7 @@ if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installat
 #if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'clansuite.config.php';
-$config = new configuration;
+$config = configuration::readConfig('config.ini.php');
 # initialize constants / errorhandling / ini_sets / paths
 require 'clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
@@ -77,7 +77,7 @@ $core_classes = array(
 'localization', 'security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
-
+ 
 # filters to load
 $prefilter_classes = array(
 'maintenance', 'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs'

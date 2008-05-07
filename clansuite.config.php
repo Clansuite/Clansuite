@@ -84,147 +84,12 @@ class configuration implements ArrayAccess
      * CONSTRUCTOR
      * sets up all variables
      *
-     * @todo by vain: automatic read of ini-files / or from db -> to set up cf arrray
+     * @todo by vain: automatic read of ini-files / or from db -> to set up cf array
+     * @todo by xsign: __constructor called twice!! has to be unlink from index somewhere...
      */
     public function __construct()
     {
-        // Database related configurations
-
-        $this->config['db_type']      = 'mysql';
-        $this->config['db_username']  = 'clansuite';
-        $this->config['db_password']  = 'toop';
-        $this->config['db_name']      = 'clansuite';
-        $this->config['db_host']      = 'localhost';
-        $this->config['db_prefix']    = 'cs_';
-
-        // Standard Path Configuration
-
-        $this->config['core_folder']        = 'core';
-        $this->config['libraries_folder']   = 'libraries';
-        $this->config['language_folder']    = 'languages';
-        $this->config['themes_folder']      = 'themes';
-        $this->config['mod_folder']         = 'modules';
-        $this->config['upload_folder']      = 'uploads';
-
-        // SwiftMail configuration
-
-        // methods: smtp, sendmail, exim, mail
-        $this->config['mailmethod'] = 'mail';
-        $this->config['mailerhost'] = 'localhost';
-        // if no port is given: ports 25 & 465 are used
-        $this->config['mailerport'] = 21;
-        $this->config['smtp_username'] = 'clansuite';
-        $this->config['smtp_password'] = 'toop';
-        // encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
-        $this->config['mailencryption'] = 'SWIFT_OPEN';
-        $this->config['from'] = 'system@clansuite.com';
-        $this->config['from_name'] = 'ClanSuite Group';
-
-        // Global Template Configurations
-        $this->config['theme'] = 'standard';
-        #$this->config['theme'] = 'accessible';
-        $this->config['tpl_wrapper_file'] = 'index.tpl';
-
-    	// Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
-    	$this->config['themeswitch_via_url'] = 1;
-
-    	// Activate Prefilterplugin for Languageswitching via GET Parameter ?lang=
-        $this->config['languageswitch_via_url'] = 1;
-
-    	// Controller Resolver : Default Module and Default Action
-    	$this->config['default_module'] = 'index';
-        $this->config['default_action'] = 'show';
-
-        // Default Page Title + CSS + Javascript
-
-        $this->config['std_page_title'] = 'clansuite.com';
-        $this->config['std_css'] = 'standard.css';
-        $this->config['std_javascript'] = 'standard.js';
-
-        // Default Language / Locale Setting
-
-        $this->config['language'] = 'de';
-        $this->config['outputcharset'] = 'UTF-8';
-
-        // Time Zone
-        // more timezones in Appendix H of PHP Manual -> http://us2.php.net/manual/en/timezones.php
-        $this->config['timezone'] = 'Europe/Berlin';
-
-        // Meta Tag Informations
-
-        $this->config['meta']['description'] = 'Clansuite - just an e-sport content management system.';
-        $this->config['meta']['language'] = 'de';
-        $this->config['meta']['author'] = 'Jens-Andre Koch &amp; Clansuite Development Team';
-        $this->config['meta']['email'] = 'system@clansuite.com';
-        $this->config['meta']['keywords'] = 'Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming';
-
-        // Login Configuration & Password Encryption
-
-        $this->config['login_method'] = 'nick'; # email or nick
-        $this->config['remember_me_time'] = 90; # days
-        $this->config['session_expire_time'] = 30; # minutes
-        $this->config['max_login_attempts'] = 5;
-        $this->config['login_ban_minutes'] = 30; # minutes
-
-        $this->config['min_pass_length'] = 6;
-        $this->config['encryption'] = 'sha1';
-        $this->config['salt'] = '1-3-5-8-4-1-7-2-4-1-4-1';
-
-        // OpenID
-        $this->config['openid_trustroot'] = 'http://www.clansuite.com/openid/';
-        $this->config['openid_showcommentsbox'] = 1;
-        $this->config['openid_showloginbox'] = 1;
-
-        // File/Upload configuration
-        $this->config['max_upload_filesize'] = 1048576;
-
-        // Session configuration
-
-        $this->config['use_cookies'] = 1;
-        $this->config['use_cookies_only'] = 0;
-
-        // Error Handling
-
-        $this->config['suppress_errors'] = 0;
-        $this->config['debug'] = 1;
-        $this->config['debug_popup'] = 0;
-
-        // Developers configuration
-
-        $this->config['help_edit_mode'] = 0;
-        include 'core/clansuite.version.php';
-        $this->config['clansuite_version']  = $clansuite_version;
-        $this->config['clansuite_version_state']  = $clansuite_version_state;
-        $this->config['clansuite_version_name']  = $clansuite_version_name;
-
-        // Cache
-
-        $this->config['caching'] = 0;
-        $this->config['cache_lifetime'] = '90';
-
-        // Maintenance Mode
-
-        $this->config['maintenance'] = 0;
-        $this->config['maintenance_reason'] = 'SITE is currently undergoing scheduled maintenance.
-                                     <br />Sorry for the inconvenience. Please try back in 60 minutes.';
-
-    }
-
-    /**
-     * Reads a '.ini' Configfile
-     * This method read configuration values from a .ini file.
-     *
-     * @param string $ini_filename Filename of .ini to read
-     * @param boolean $structured_array if true, the data is returned as a structured array
-     * @access public
-     *
-     * @return array An associative array with the configuration
-     */
-    public function readConfig($ini_filename, $structured_array = 1)
-    {
-        var_dump($this->config);
-        $this->config['module'] = parse_ini_file($ini_filename, $structured_array);
-        var_dump($this->config);
+        $this->config = self::readConfig('config.ini.php');
     }
 
     /**
@@ -293,11 +158,87 @@ class configuration implements ArrayAccess
     }
 
     /**
+     *  Read the complete config file *.ini.php
+     * 
+     * @access  public
+     * @param   string  The filename
+     * @return  array
+     */
+    public static function readConfig($filename)
+    {
+        return self::manageKeys(parse_ini_file($filename, true));
+    }
+    
+    /**
+     * Manage keys with SPL Iterator to minimize memory consumption of large arrays
+     * 
+     * @access  public
+     * @param   array   The ini array
+     * @return  array
+     */
+    private static function manageKeys($ini)
+    {
+        try
+        {
+            $object = new ArrayIterator($ini);
+            foreach($object as $key=>$value)
+            {
+                if( is_array($value) )
+                {
+                    self::manageKeys($value);
+                }
+                else
+                {
+                    $ini[self::getKey($key)] = self::getValue($value);
+                }
+            }
+        }
+        catch (Exception $e)
+        {
+            throw new clansuite_exception( $e, 'The ArrayIterator failed!', 200);
+            exit;
+        }
+        
+        return $ini;
+    }
+    
+    /**
+     * Get a safe/single value and convert values to bool,int,float
+     * 
+     * @access  private
+     * @param   string  The value that should be converted
+     * @return  mixed
+     */
+    private static function getValue($value)
+    {
+        if (preg_match('/^-?[0-9]+$/i', $value)) { return (int)$value; }
+        else if (strtolower($value) === 'true') { return true; }
+        else if (strtolower($value) === 'false') { return false; }
+        else if ( ((string)(float)$value) == $value ) { return (float)$value; }
+        else if (preg_match('/^"(.*)"$/i', $value, $m)) { return $m[1]; }
+        else if (preg_match('/^\'(.*)\'$/i', $value, $m)) { return $m[1]; }
+        return $value;
+    }
+    
+    /**
+     *  Get a single Key
+     * 
+     * @access  private
+     * @param   string  The single key
+     * @return  string  The key (int when available)
+     */
+    private static function getKey($key)
+    {
+        if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
+        return $key;
+    }
+
+    /**
      * Gets a config file item based on keyname
      *
-     * @access    public
+     * @access   public
      * @param    string    the config item key
-     * @return    void
+     * @return   void
      */
     public function __get($configkey)
     {
@@ -307,10 +248,10 @@ class configuration implements ArrayAccess
     /**
      * Set a config file item based on key:value
      *
-     * @access    public
+     * @access   public
      * @param    string    the config item key
      * @param    string    the config item value
-     * @return    void
+     * @return   void
      *
      */
     public function __set($configkey, $configvalue)

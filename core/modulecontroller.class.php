@@ -112,6 +112,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @param object $injector Dependency Injector (Phemto)
      * @access public
+     * @TODO: move config injection somewhere else
      */
     public function setInjector(Phemto $injector)
     {
