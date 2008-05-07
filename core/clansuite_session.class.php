@@ -174,9 +174,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory 
         #ini_set("session.save_path", ROOT . 'tmp');                                        # Session Temp Path inside the Clansuite Directory
         // Garbage Collector not needed, because it's gettin called everytime in session_control()
-        #ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
-        #ini_set('session.gc_probability'    , 10 ); // 10% of the requests will call the gc
-        #ini_set('session.gc_divisor'        , 100 );
+        ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
+        ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
+        ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
         # use_trans_sid off -> because spiders will index with PHPSESSID
         ini_set('session.use_trans_sid'     , 0 );
@@ -212,8 +212,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
-            $this->session_close();
-            session_start();
             $_SESSION['initiated'] = true;  # session fixation
             
             // The token prevents PHP from generating a fresh session_id correctly
@@ -291,10 +289,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                          ->fetchOne(array(self::session_name, $id ), Doctrine::FETCH_ARRAY);
         if( $result )
         {
-            if( $result['session_expire'] < time() )
-            {
-                return false;
-            }
             return $result['session_data'];
         }
         else
@@ -583,7 +577,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @TODO: Move user prune to users class
      */
-
+    
     public function session_control()
     {
         # NOT NEEDED - gc_ probabilites are set by php itself ( see ini_set in __construct() )
