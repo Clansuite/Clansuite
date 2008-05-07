@@ -166,7 +166,7 @@ class configuration implements ArrayAccess
      */
     public static function readConfig($filename)
     {
-        return self::manageKeys(parse_ini_file($filename, true));
+        return self::_manageKeys(parse_ini_file($filename, true));
     }
     
     /**
@@ -176,7 +176,7 @@ class configuration implements ArrayAccess
      * @param   array   The ini array
      * @return  array
      */
-    private static function manageKeys($ini)
+    private static function _manageKeys($ini)
     {
         try
         {
@@ -185,11 +185,11 @@ class configuration implements ArrayAccess
             {
                 if( is_array($value) )
                 {
-                    self::manageKeys($value);
+                    self::_manageKeys($value);
                 }
                 else
                 {
-                    $ini[self::getKey($key)] = self::getValue($value);
+                    $ini[self::_getKey($key)] = self::_getValue($value);
                 }
             }
         }
@@ -209,7 +209,7 @@ class configuration implements ArrayAccess
      * @param   string  The value that should be converted
      * @return  mixed
      */
-    private static function getValue($value)
+    private static function _getValue($value)
     {
         if (preg_match('/^-?[0-9]+$/i', $value)) { return (int)$value; }
         else if (strtolower($value) === 'true') { return true; }
@@ -227,7 +227,7 @@ class configuration implements ArrayAccess
      * @param   string  The single key
      * @return  string  The key (int when available)
      */
-    private static function getKey($key)
+    private static function _getKey($key)
     {
         if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
         return $key;
