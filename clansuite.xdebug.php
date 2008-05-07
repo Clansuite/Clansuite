@@ -83,7 +83,7 @@ class clansuite_xdebug
             ini_set('xdebug.show_mem_delta', 'On');
             ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
             ini_set('xdebug.xdebug.collect_return', 'On');
-            ini_set('xdebug.var_display_max_children', 50 );
+            ini_set('xdebug.var_display_max_children', 100 );
             ini_set('xdebug.var_display_max_depth', 10 );
 
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
