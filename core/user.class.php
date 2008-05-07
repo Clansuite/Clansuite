@@ -153,8 +153,19 @@ class user
         }
 
         // set a new session id
-        clansuite_session::regenerate_session_id();        
-
+        # clansuite_session::regenerate_session_id();        
+        //$old_session = $_SESSION;
+        //$old_session_id = session_id();
+        
+        #session_regenerate_id(true);
+        
+        //$new_session = session_id();
+        //var_dump($old_session);
+        //var_dump($old_session_id);
+        //var_dump($new_session);
+        var_dump($_SESSION);
+        var_dump($_COOKIE);
+        
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id'])) 
         {

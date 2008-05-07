@@ -185,13 +185,12 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     {
         // Init DB & HTTP Request Classes
         $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-        $incVars = $this->injector->instantiate('httprequest');
         
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
-        $currentPage = $incVars->getParameter('page');
+        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
 
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
