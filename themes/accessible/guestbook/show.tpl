@@ -6,15 +6,12 @@
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
 <div class="guestbook">
     {include file="tools/paginate.tpl"}
     <div class="options-top">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
     {foreach from=$guestbook item=entry key=key}
 	<div class="gb">
@@ -49,12 +46,12 @@
         </div>
         <div class="gbfooter">
         {* AJAX Needed *}
-        {if ($smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1) OR ($smarty.session.user.user_id == $entry.user_id) }
+        {if (isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access)) OR ($smarty.session.user.user_id == $entry.user_id)}
             {if $smarty.session.user.user_id == $entry.user_id.1}
-            <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
             {/if}
-            {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
-            <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            {if isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access)}
+            <input type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
             {/if}
         {/if}
         </div>
@@ -77,7 +74,7 @@
                         </dd>
                     <dt>{t}City{/t}: </dt>
                         <dd>{$entry.gb_town}</dd>
-                    {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
+                    {if $smarty.session.user.rights.cc_edit_gb == '1' AND $smarty.session.user.rights.cc_access == '1'}
                     <dt>IP: </dt>
                         <dd>{$entry.gb_ip}</dd>
                     {/if}
@@ -85,7 +82,7 @@
 *}
     {/foreach}
     <div class="options-bottom">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
     {include file="tools/paginate.tpl"}
 </div>

@@ -1,9 +1,11 @@
-<h1>{t}News{/t}</h1>
-{* DEBUG OUTPUT of assigned Arrays:
-	{$news|@var_dump}
-	{$paginate|@var_dump}
+{* DEBUG OUTPUT of assigned Arrays: 
+   {$smarty.session|@var_dump}
+   <hr>
+   {$news|@var_dump}
+   <hr>
+   {$pagination_links|@var_dump} 
 *}
-    <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
+
 {doc_raw}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
@@ -37,5 +39,5 @@
 </div>
 {/foreach}
 {else}
-{t}There is no news available.{/t}
+{t}There is no news archived.{/t}
 {/if}
