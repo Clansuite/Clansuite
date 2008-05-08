@@ -124,6 +124,27 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     	# fetch config from dependency injector
     	$this->config = $this->injector->instantiate('Clansuite_Config');
     }
+    
+    /**
+     * Get the Module Config
+     *
+     * If a config filename is specified read that,
+     * else get the config for the requested module.
+     *
+     * @param string $filename ini filename of configuration
+     * @access public
+     */
+    public function getModuleConfig($filename = null)
+    {
+        if(isset($filename))
+        {
+            return $this->config::readConfig($filename);
+        }
+        else
+        {
+            return $this->config::readConfig(Clansuite_ModuleController_Resolver::getModuleName());
+        }
+    }
 
     /**
      * Get the dependency injector
