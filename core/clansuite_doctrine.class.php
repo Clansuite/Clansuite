@@ -56,7 +56,7 @@ class Clansuite_Doctrine
 {
     public $db = null; # holds a db instance
 
-    function __construct(configuration $config)
+    function __construct(Clansuite_Config $config)
     {
         $this->config = $config; # set config instance
         

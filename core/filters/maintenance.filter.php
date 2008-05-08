@@ -49,7 +49,7 @@ class maintenance implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
 
-    function __construct(configuration $config)
+    function __construct(Clansuite_Config $config)
     {
         $this->config    = $config;      # set instance of config to class
     }

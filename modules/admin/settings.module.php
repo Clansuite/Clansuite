@@ -92,7 +92,7 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         $smarty = $this->getView();
         
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('configuration');
+        $config = $this->injector->instantiate('Clansuite_Config');
         
         # Assign Config to Smarty
         $smarty->view->assign('cfg', $config);

@@ -51,7 +51,7 @@ class theme_via_get implements Filter_Interface
     private $config     = null;
     private $input      = null;
 
-    function __construct(configuration $config, input $input)
+    function __construct(Clansuite_Config $config, input $input)
     {
        $this->config    = $config;
        $this->input     = $input;

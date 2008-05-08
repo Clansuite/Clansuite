@@ -67,7 +67,7 @@ class user
     private $security   = null;
     
     // forward -> create user and check for login cookie
-    function __construct(configuration $config, db $db, security $security )
+    function __construct(Clansuite_Config $config, db $db, security $security )
     {   
         $this->config       = $config;
         $this->db           = $db;       
