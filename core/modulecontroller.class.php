@@ -138,11 +138,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     {
         if(isset($filename))
         {
-            return $this->config::readConfig($filename);
+            return $this->config->readConfig($filename);
         }
         else
         {
-            return $this->config::readConfig(Clansuite_ModuleController_Resolver::getModuleName());
+            return $this->config->readConfig(Clansuite_ModuleController_Resolver::getModuleName());
         }
     }
 
