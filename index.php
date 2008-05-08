@@ -54,8 +54,8 @@ if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installat
 # Check if install.php is found, so we are installed but without security steps performed
 #if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
-require 'clansuite.config.php';
-$config = configuration::readConfig('config.ini.php');
+require 'core/clansuite_config.class.php';
+$config = Clansuite_Config::readConfig('config.ini.php');
 # initialize constants / errorhandling / ini_sets / paths
 require 'clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
@@ -73,7 +73,7 @@ $injector = new Phemto();
 
 # core classes to load
 $core_classes = array(
-'configuration', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db', 'clansuite_doctrine',
+'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db', 'clansuite_doctrine',
 'localization', 'security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }

@@ -129,7 +129,6 @@ interface Clansuite_ModuleController_Resolver_Interface
 class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
 {
     private $_defaultModule;             # holds the name of the defaultModule
-
     private static $_ModuleName = null;   # holds the Name of the Module
     private static $_SubModuleName = null;   # holds the Name of the SubModule
 

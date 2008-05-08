@@ -62,7 +62,7 @@ class language_via_get implements Filter_Interface
     private $config     = null;     # holds instance of config
     private $locale     = null;     # holds instance of localization
 
-    function __construct(configuration $config, localization $locale)
+    function __construct(Clansuite_Config $config, localization $locale)
     {
        $this->config    = $config;      # set instance of config to class
        $this->locale    = $locale;      # set instance of localization to class

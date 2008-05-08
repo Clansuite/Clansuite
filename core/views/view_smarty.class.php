@@ -77,7 +77,7 @@ class view_smarty extends renderer_base
       $this->injector = $injector;
 
 	  # get instances from injector
-      $this->config         = $this->injector->instantiate('configuration');
+      $this->config         = $this->injector->instantiate('Clansuite_Config');
       $this->db             = $this->injector->instantiate('db');
       $this->functions      = $this->injector->instantiate('functions');
 

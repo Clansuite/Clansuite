@@ -122,7 +122,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     	self::$static_injector = $injector;
 
     	# fetch config from dependency injector
-    	$this->config = $this->injector->instantiate('configuration');
+    	$this->config = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**

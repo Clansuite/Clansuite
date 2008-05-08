@@ -59,7 +59,7 @@ class errorhandler
      *
      * Sets up the ErrorHandler and ExceptionHandler
      */
-    function __construct(configuration $config)
+    function __construct(Clansuite_Config $config)
     {
         $this->config   = $config; # set instance of configuration
 

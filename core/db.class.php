@@ -138,7 +138,7 @@ class db //extends PDO
      * @todo correct var types
      */
      
-   public function __construct(configuration $config, errorhandler $error)
+   public function __construct(Clansuite_Config $config, errorhandler $error)
    {
         $this->config = $config;
         $this->error  = $error;

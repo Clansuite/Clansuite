@@ -152,7 +152,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         # Setup References
 
-        $this->config       = $injector->instantiate('configuration');
+        $this->config       = $injector->instantiate('Clansuite_Config');
         $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
         $this->response     = $injector->instantiate('httpresponse');

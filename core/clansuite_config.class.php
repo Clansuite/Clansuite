@@ -35,7 +35,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
-    * @version    SVN: $Id$
+    * @version    SVN: $Id: clansuite.config.php 2009 2008-05-07 15:34:26Z xsign $
     */
 
    /**  =====================================================================
@@ -69,7 +69,7 @@ if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbi
  * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
  * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
  */
-class configuration implements ArrayAccess
+class Clansuite_Config implements ArrayAccess
 {
      /**
      * Configuration Array
@@ -87,9 +87,9 @@ class configuration implements ArrayAccess
      * @todo by vain: automatic read of ini-files / or from db -> to set up cf array
      * @todo by xsign: __constructor called twice!! has to be unlink from index somewhere...
      */
-    public function __construct()
+    public function __construct($filename = 'config.ini.php')
     {
-        $this->config = self::readConfig('config.ini.php');
+        $this->config = self::readConfig($filename);
     }
 
     /**
