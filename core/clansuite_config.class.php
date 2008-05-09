@@ -83,11 +83,8 @@ class Clansuite_Config implements ArrayAccess
     /**
      * CONSTRUCTOR
      * sets up all variables
-     *
-     * @todo by vain: automatic read of ini-files / or from db -> to set up cf array
-     * @todo by xsign: __constructor called twice!! has to be unlink from index somewhere...
      */
-    public function __construct($filename = 'config.ini.php')
+    public function __construct($filename = 'clansuite.config.php')
     {
         $this->config = self::readConfig($filename);
     }
