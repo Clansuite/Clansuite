@@ -42,7 +42,7 @@
 define('IN_CS', true);
 
 # Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 0); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
@@ -50,16 +50,16 @@ define ('XDBUG', 0); if(XDBUG){ require 'clansuite.xdebug.php'; clansuite_xdebug
  *  ==========================================
  */
 # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-if ( is_file( 'config.ini.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
+if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
 # Check if install.php is found, so we are installed but without security steps performed
 #if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'core/clansuite_config.class.php';
-$config = Clansuite_Config::readConfig('config.ini.php');
+$config = Clansuite_Config::readConfig('clansuite.config.php');
 # initialize constants / errorhandling / ini_sets / paths
-require 'clansuite.init.php';
+require 'core/clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
-require 'clansuite.loader.php';
+require 'core/clansuite.loader.php';
 clansuite_loader::register_autoload();
 
 /**
