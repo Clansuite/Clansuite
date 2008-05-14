@@ -133,10 +133,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
     	static $instance;
 
-        if ( ! isset($instance)) {
+        if ( ! isset($instance))
+        {
             $instance = new Clansuite_Session($injector);
         }
-
+        
         return $instance;
     }
 
@@ -172,11 +173,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set('session.save_handler', 'files');                   # workaround for save_handler user is causing a strange bug
         #ini_set('session.save_handler'      , 'user' );
         ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory 
-        #ini_set("session.save_path", ROOT . 'tmp');                                        # Session Temp Path inside the Clansuite Directory
+        #ini_set("session.save_path", ROOT . 'tmp');                # Session Temp Path inside the Clansuite Directory
         // Garbage Collector not needed, because it's gettin called everytime in session_control()
         ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
-        ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
-        ini_set('session.gc_divisor'        , 100 );
+        #ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
+        #ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
         # use_trans_sid off -> because spiders will index with PHPSESSID
         ini_set('session.use_trans_sid'     , 0 );
@@ -207,7 +208,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             exit;
         }
 
-        # Create new ID if session is not in DB or string-lenght corrupted
+        # Create new ID, if session is not in DB OR string-lenght corrupted
 
         if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
