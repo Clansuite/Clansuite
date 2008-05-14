@@ -123,10 +123,10 @@
 
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
-           {* {mod name="account" func="login"} *}
+           {* {load_module name="account" action="login"} *}
         </div>
         <div style="margin-top: 10px">
-		   {* {mod name="shoutbox" func="show"} *}
+		   {* {load_module name="shoutbox" action="show"} *}
 		   {* {load_module name="news" action="widget_news" params="2"} *}
 		</div>
         <div style="margin-top: 10px">

@@ -466,7 +466,7 @@ class view_smarty extends renderer_base
         // Debug: Display the Modulename
         #echo $module_name;
 
-        # Load class, if not already existing
+        # Load class, if not already loaded
         if(!class_exists($module_name))
         {
             clansuite_loader::loadModul($module_name);
@@ -478,7 +478,7 @@ class view_smarty extends renderer_base
         # Parameter Array
         $param_array = split('\|', $params['params']);
 
-        #echo "View_Smarty => LoadModule => $module_name | Action $action";
+        #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
         #exit;
 
         # Get the Ouptut of the Object->Method Call
