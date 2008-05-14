@@ -151,10 +151,7 @@ class user
             $stmt->execute( array( session_id() ) );
             $session_result = $stmt->fetch(PDO::FETCH_NAMED);
         }
-
-        // regenerate session
-        session_regenerate_id(true);
-      
+     
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id'])) 
         {
@@ -172,7 +169,9 @@ class user
             setcookie('user_id', false);
             setcookie('password', false);
             #session::_session_destroy(session_id());
-            $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
+            
+            // @todo: call redirect in modulecontroller
+            $this->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
 
         /**
@@ -311,7 +310,7 @@ class user
      * @todo has $user array to be resetted at the start of this function to get fresh values from db?
      */
 
-    public function check_user($login_method = 'nick', $value, $password)
+    public static function check_user($login_method = 'nick', $value, $password)
     {
         $user = null;
         
@@ -357,7 +356,7 @@ class user
      * @global $this->config['
      */
 
-    public function login($user_id, $remember_me, $password)
+    public static function login($user_id, $remember_me, $password)
     {       
         /**
          * 1. Create the User Data Array and the Session via $user_id
