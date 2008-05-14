@@ -547,8 +547,6 @@ table.admintable tr#cell3
 #vertical-tabs ul
 {
 	margin-top: 20px;
-	padding-right: 10px;
-	text-indent: 1em;
 	list-style: none;
     float:left;
 	display: inline;
@@ -559,10 +557,8 @@ table.admintable tr#cell3
     background:#ECE9D8 none repeat scroll 0%;
     border-color:#FFFFFF rgb(172, 168, 153) rgb(172, 168, 153) rgb(255, 255, 255);
     border-style:double;
-    /*border-width:1px;*/
     width: 110px;
 	margin-top: 15px;
-    margin-left: 30px;
 	padding: 5px;
     text-align: center;
 }
