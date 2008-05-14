@@ -147,7 +147,7 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
         if ( is_array($result) )
         {
             $smarty->assign('overview', $result);
-            $this->setTemplate('staticpages/overview.tpl');
+            $this->setTemplate('overview.tpl');
         }
         else
         {
