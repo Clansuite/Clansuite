@@ -137,7 +137,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             $instance = new Clansuite_Session($injector);
         }
-        
+
         return $instance;
     }
 
@@ -159,20 +159,20 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $this->response     = $injector->instantiate('httpresponse');
 
         # Set the session configuration Parameters accordingly to Config Class Values
-        
+
         $this->session_cookies              = $this->config['use_cookies'];
         $this->session_cookies_only         = $this->config['use_cookies_only'];
-        
+
         /**
          * Configure Session
          *
-         * @todo: http://bugs.php.net/bug.php?id=32330 
+         * @todo: http://bugs.php.net/bug.php?id=32330
          * PHPBUG -> session_set_save_handler() session_destroy())
          */
         session_module_name("files");
         ini_set('session.save_handler', 'files');                   # workaround for save_handler user is causing a strange bug
         #ini_set('session.save_handler'      , 'user' );
-        ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory 
+        ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory
         #ini_set("session.save_path", ROOT . 'tmp');                # Session Temp Path inside the Clansuite Directory
         // Garbage Collector not needed, because it's gettin called everytime in session_control()
         ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
@@ -194,46 +194,46 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_destroy"),
                                     array($this, "session_gc"     ));
 
-        
+
         # Start Session and throw Error on failure
-        
+
         try
         {
             session_start();
-           
+
         }
-        catch (Exception $exception) 
+        catch (Exception $exception)
         {
             throw new clansuite_exception( $exception, 'The session start failed!', 200);
             exit;
         }
 
-        # Create new ID, if session is not in DB OR string-lenght corrupted
+        # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
 
         if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
             $_SESSION['initiated'] = true;  # session fixation
-            
+
             // The token prevents PHP from generating a fresh session_id correctly
             # var_dump(strlen(session_id()));
-            # $token = md5(uniqid(rand(), true)); # session token
-            # $_SESSION['token'] = $token;
+            $token = md5(uniqid(rand(), true)); # session token
+            $_SESSION['token'] = $token;
         }
-        
+
         # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
-        
+
         if (!$this->_session_check_security() )
         {
             die($this->response->redirect('index.php?mod=login') );
         }
 
         # Control the session ( Clean up: 3day registrations, old sessions)
-        
-        //$this->session_control();
+
+        $this->session_control();
 
         # Register shutdown
-        
+
         register_shutdown_function(array($this,'session_close'));
     }
 
@@ -270,19 +270,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         #echo 'session id =>'. $id;
         #echo self::session_name;
-        /* OLD PDO Style
-        $stmt = $this->db->prepare('SELECT session_data FROM ' . DB_PREFIX .'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute( array(self::session_name, $id ) );
 
-        if ($result = $stmt->fetch())
-        {
-            return $result['session_data'];
-        }
-        else
-        {
-            return false;
-        }
-        */
         $result = Doctrine_Query::create()
                          ->select('session_data, session_expire')
                          ->from('CsSession')
@@ -294,9 +282,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         else
         {
-            return false;   
+            return false;
         }
-        
     }
 
     /**
@@ -330,21 +317,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Check if session_id exists in DB
          */
-
         $result = Doctrine_Query::create()
                          #->select('*') // automatically set when left out
                          ->from('CsSession')
                          ->where('session_name = ? AND session_id = ?')
                          ->fetchOne(array(self::session_name, $id ));
-        
-        /* OLD PDO Style
-        $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-        $stmt->execute( array( $id ) );
-        $session_result = $stmt->fetch();
-        $stmt->closeCursor();
-        $stmt = NULL;
-        */
-
 
         if ( $result )
         {
@@ -355,23 +332,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $result->session_data = $data;
             $result->session_where = $userlocation;
             $result->save();
-
-            #var_dump($result);
-            /* OLD PDO Style
-            $stmt = $this->db->prepare('UPDATE ' . DB_PREFIX . 'session SET session_expire = ? , session_data = ?, session_where = ? WHERE session_id = ?' );
-            $stmt->execute(array($expires, $data, $userlocation, $id ) );
-            $stmt->closeCursor();
-
-            $rows = Doctrine_Query::create()
-                             ->update('CsSession')
-                             ->set('session_expire', $expires)
-                             ->set('session_data', $data)
-                             ->set('session_where', $userlocation)
-                             ->where('session_name = ? AND session_id = ?')
-                             ->execute(array(self::session_name, $id ));
-            var_dump($rows);
-            */
-            
         }
         else
         {
@@ -387,14 +347,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $newSession->session_where = $userlocation;
             $newSession->user_id = 0;
             $newSession->save();
-            
-            #var_dump($newSession);
-            /* OLD PDO Style
-            $stmt = $this->db->prepare('INSERT INTO ' . DB_PREFIX . 'session (session_id, session_name, session_expire, session_data, session_visibility, user_id, session_where) VALUES(?,?,?,?,?,?,?)' );
-            $stmt->execute(array($id, self::session_name, $expires, $data, 1, 0, $userlocation ) );
-            $stmt->closeCursor();
-            */
         }
+
         return true;
     }
 
@@ -409,9 +363,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         // Unset all of the session variables.
         $_SESSION = array();
 
-        /**
-         *  Unset Cookie Vars
-         */
+        //  Unset Cookie Vars
         if (isset($_COOKIE[self::session_name]))
         {
             setcookie(self::session_name, false );
@@ -426,13 +378,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  ->where('session_name = ? AND session_id = ?')
                                  ->execute(array( self::session_name, $session_id ));
         #var_dump($rows);
-        /*
-        $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_id = ?' );
-        $stmt->execute(array(self::session_name, $session_id ) );*/
 
-        /**
-         *  Optimize DB
-         */
+        // Optimize DB
         if ($rows > 0)
         {
             $this->_session_optimize();
@@ -455,12 +402,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  ->from('CsSession')
                                  ->where('session_name = ? AND session_expire < ?')
                                  ->execute(array( self::session_name, time() ));
-        /* OLD PDO Style
-        $stmt = $this->db->prepare('DELETE FROM ' . DB_PREFIX . 'session WHERE session_name = ? AND session_expire < ?' );
-        $stmt->execute(array(self::session_name, time() ) );
-        */
         #var_dump($rows);
-        
+
         if ($rows > 0)
         {
             $this->_session_optimize();
@@ -472,14 +415,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @todo function is deactivated - Check how session table can be optimized while using pdo
      */
-
     public function _session_optimize()
     {
         /* NOT WORKING WITH PDO
         $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
         $stmt->closeCursor();
         */
-
     }
 
     /**
@@ -552,69 +493,39 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         return true;
     }
 
-   
-
-    
-    /**
-     * Sets a new SESSION_ID into SESSION['NAME']
-     */
-    /*
-    * NOT NEEDED ANYMORE - replaced by built-in php function session_regenerate_id(true) with destroy ability
-    
-    public static function regenerate_session_id()
-    {
-        echo xdebug_call_function();
-        var_dump('WTF');
-        $_SESSION[self::session_name] = session_id();
-    }
-    
-    */
-
     /**
      * Session control
-     * 1. [ Prune no activated users ]
+     * 1. Prune no activated users
      * 2. Prune timed out Sessions (just call gc)
-     * 3. 
+     * 3.
      *
      * @TODO: Move user prune to users class
      */
-    
     public function session_control()
     {
         # NOT NEEDED - gc_ probabilites are set by php itself ( see ini_set in __construct() )
         # Perform Garbage Control
         # $this->session_gc(1);
-                
+
         /**
-         *  Delete not activated users after 3 days
-         * @TODO: move to users class!
+         * DELETE : USERS which are not activated after 3 days.
+         *
+         * @todo: move to users class!
          */
         $rows = Doctrine_Query::create()
                                  ->delete('CsUsers')
                                  ->from('CsUsers')
                                  ->where('activated = ? AND joined < ?')
                                  ->execute( array( 0, ( time() - (60*60*24*3) ) ) );
-        
-        /* OLD PDO Style
-        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'users WHERE activated = ? AND joined < ?');
-        $stmt->execute( array( 0, ( time() - (60*60*24*3) ) ) );
-        */
 
         /**
-         *  Delete all timed out Sessions
+         *  DELETE: Timed out Sessions!
          */
-
         $this->session_gc();
-        
-        /* OLD PDO Style
-        $stmt = $this->db->prepare( 'DELETE FROM ' . DB_PREFIX . 'session WHERE session_expire < ?' );
-        $stmt->execute( array( time() ) );
-        */
 
         /**
-         *  Check whether session is expired
+         *  CHECK whether session is EXPIRED
          */
-
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) )
         #AND $_SESSION['user']['user_id'] != 0 )
         {
@@ -623,11 +534,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                 ->from('CsSession')
                                 ->where('session_id = ?')
                                 ->fetchOne(array( $this->request[self::session_name] ), Doctrine::FETCH_ARRAY);
-            /*
-            $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-            $stmt->execute( array( $this->request[self::session_name] ) );
-            $res = $stmt->fetch();
-            */
+
             if ( $result && $result['session_expire'] < time() )
             {
                 //session_regenerate_id(true);
@@ -643,12 +550,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $time = time();
         $expiretime = $time + $expire_seconds;
 
-        //@note by vain: assigns for Session Countdown
+        //@todo: session countdown / ajax
         #$tpl->assign('SessionCurrentTime', $time);
         #$tpl->assign('SessionExpireTime', $expiretime);
     }
 
-      
+
     /**
      * set()
      */
