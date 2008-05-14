@@ -141,6 +141,7 @@
     cursor: default;
     white-space: nowrap;
     position: relative;
+    margin-right: 2px;
 }
 .XulMenu .itembtn:hover,
 .XulMenu .itembtn-active,
