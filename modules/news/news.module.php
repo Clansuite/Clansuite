@@ -58,7 +58,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      * 1. Get news with nick of author and category
      * 2. Add general data of comments for each news
      * 3. Paginate
-     * 
+     *
      * @output: $news ( array for smarty template output )
      */
     public function action_show()
@@ -104,7 +104,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
-        
+
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
         // b) Get the nickname of the last comment for certain news_id
@@ -136,7 +136,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         # Get Render Engine
         $smarty = $this->getView();
-        
+
         // Assign $news array to Smarty for template output
         // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
         // Another way (and much more flexible one) is via register_object()
@@ -145,24 +145,24 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $smarty->assign('news', $news);
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-        
+
         /*
         // Displaying page links: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));       
+        $smarty->assign('pagination_links',$pager_layout->display('',true));
         $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
         $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
         $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
         $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
         $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
         */
-        
+
         // Specifiy the template manually
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
 
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -178,14 +178,14 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      *      2: published
      *      3: unpublished
      *      4: archive
-     * 
+     *
      * @output: $news ( array for smarty template output )
      */
     public function action_archive()
     {
-        // Init DB & HTTP Request Classes
+        // Init DBAL
         $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-        
+
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
@@ -224,7 +224,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
-        
+
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
         // b) Get the nickname of the last comment for certain news_id
@@ -256,7 +256,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         # Get Render Engine
         $smarty = $this->getView();
-        
+
         // Assign $news array to Smarty for template output
         // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
         // Another way (and much more flexible one) is via register_object()
@@ -265,33 +265,33 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $smarty->assign('news', $news);
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-        
+
         /*
         // Displaying page links: [1][2][3][4][5]
         // With links in all pages, except the $currentPage (our example, page 1)
         // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));       
+        $smarty->assign('pagination_links',$pager_layout->display('',true));
         $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
         $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
         $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
         $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
         $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
         */
-        
+
         // Specifiy the template manually
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
 
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     /**
      * widget_news
      *
      * Displayes specified number of News-Headlines.
-     * Call this widget from Template-Side - by adding this to a template: 
+     * Call this widget from Template-Side - by adding this to a template:
      * {widget mod="news" params="5"}
      *
      *  // register with smarty
@@ -303,7 +303,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     {
         // Load DBAL
         $this->getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
-        
+
         $news_headlines = Doctrine_Query::create()
                           ->select('n.*, u.nick, u.user_id, c.name, c.image')
                           ->from('CsNews n')
@@ -312,15 +312,15 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                          #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->orderby('n.news_id DESC')
                           ->execute();
-        
+
         $smarty = $this->getView();
-        
-       
+
+
         // Assign $news array to Smarty for template output
         #$smarty->assign('news', $news_headlines);
-        
+
         return $this->view()->fetch('news/news_widget.tpl');
-        
+
     }
 }
 ?>
