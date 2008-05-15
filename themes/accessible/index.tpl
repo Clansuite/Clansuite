@@ -67,7 +67,7 @@
 		{include file='tools/breadcrumbs.tpl'}
 	</div>
 	<div id="sidebar">
-		{* {mod name="account" func="login"} *}
+		{load_module name="account" action="login"} 
 		{* {mod name="shoutbox" func="show"} *}
 		<h3>Lorem Ipsum</h3>
 		<div class="content">
