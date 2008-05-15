@@ -130,7 +130,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
      * Login
      */
-   public function login($param_array, $smarty)
+    public function login($param_array, $smarty = null)
     {
         #var_dump($smarty);
 
@@ -215,10 +215,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             { $error['not_filled'] = 1; }
         }
 
-        # Get Render Engine
-        # => already loaded ...
-        #$this->smarty = $this->getView();
-
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
@@ -226,53 +222,57 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('cfg', $config);
             $smarty->assign('err', $error);
             $smarty->assign('referer', $referer);
-            echo $smarty->fetch('account/login.tpl');
+            return $smarty->fetch('account/templates/login.tpl');
         }
         else
         {
             //  Show usercenter
-           echo $smarty->fetch('account/usercenter.tpl');
+            #var_dump($smarty);
+            return $smarty->fetch('account/templates/usercenter.tpl');
         }
     }
 
     /**
-    * @desc Logout
-    *
-    * @input: $confirm
-    *
-    * If logout is confirmed:
-    *
-    * Destroy Session
-    * Delete Cookie
-    * Redirect to index.php
-    *
-    * else:
-    * @output: $tpl->fetch( 'account/logout.tpl' )
-    *
-    */
-
-    function logout()
+     * @desc Logout
+     * 
+     * @input: $confirm
+     *
+     * If logout is confirmed:
+     *
+     * Destroy Session
+     * Delete Cookie
+     * Redirect to index.php
+     *
+     * else:
+     * @output: $tpl->fetch( 'account/logout.tpl' )
+     *
+     */
+    public function action_logout()
     {
-        global $session, $functions, $tpl, $lang;
-
-        // Get Inputvariables from $_POST
-        $confirm = $_POST['confirm'];
+        // Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=lougout');
+        
+        // Get Inputvariables
+        $request = parent::getInjector()->instantiate('httprequest');
+        // $_POST
+        $confirm = (int) $request->getParameter('confirm');
 
         if( $confirm == '1' )
         {
             // Destroy the session
-            $session->_session_destroy(session_id());
+            session_destroy(session_id());
 
             // Delete cookies
             setcookie('user_id', false );
         	setcookie('password', false );
 
             // Redirect
-            $this->redirect( 'index.php', 'metatag|newsite', 3, $lang->t( 'You have successfully logged out...') );
+            $this->redirect( 'index.php', 'metatag|newsite', 3, _( 'You have successfully logged out...') );
         }
         else
-        {
-            $this->output .= $tpl->fetch( 'account/logout.tpl' );
+        {           
+            # Prepare the Output
+            $this->prepareOutput();
         }
     }
 

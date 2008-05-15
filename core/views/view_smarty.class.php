@@ -189,17 +189,21 @@ class view_smarty extends renderer_base
         $this->smarty->request_use_auto_globals   = false;  # for templates using $smarty.get.*, $smarty.request.*, etc...
         $this->smarty->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
-        # Smarty Directories
         /**
-         * This sets multiple template dirs
+         * Smarty Template Directories
          *
-         * with in the following detection order:
+         * This sets multiple template dirs, with the following detection order:
+         *
          * 1) "/themes/theme_of_user_session/"
-         * 2) "/modules/"
-         * 3) "/themes/core/"
+         * 2) "/themes/theme_of_user_session/modulename/"
+         * 3) "/modules/"
+         * 4) "/modules/modulename/templates/"
+         * 5) "/themes/core/"
          */
         $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';                                       # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';
+        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/' . Clansuite_ModuleController_Resolver::getModuleName() . '/';                                           # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_MOD    . '/';
         $this->smarty->template_dir[] = ROOT_MOD    . '/' . Clansuite_ModuleController_Resolver::getModuleName() . '/templates';    # /modules
         $this->smarty->template_dir[] = ROOT_THEMES . '/core';                                                                      # /themes/core
         #var_dump($this->smarty->template_dir);
@@ -318,7 +322,7 @@ class view_smarty extends renderer_base
      * Executes the template rendering and returns the result.
      */
     public function fetch($template, $data = null)
-    {
+    {        
         return $this->smarty->fetch($template, $data = null);
     }
 
