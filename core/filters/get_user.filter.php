@@ -55,8 +55,8 @@ class get_user implements Filter_Interface
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-       $this->user->create_user();		    # Create a user (empty)
-       $this->user->check_login_cookie();	# Check for login cookie - Guest/Member
+       $this->user->createUser();		    # Create a user (empty)
+       $this->user->checkLoginCookie();	# Check for login cookie - Guest/Member
     }
 }
 ?>

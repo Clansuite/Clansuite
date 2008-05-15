@@ -92,6 +92,22 @@ foreach($postfilter_classes as $class) { $injector->register($class); } # regist
 # Connect DB, that is needed for session & user rights management
 $injector->instantiate('clansuite_doctrine')->doctrine_initialize();
 
+
+/*// Array of options and the default values
+$options = array('packagesPrefix'        =>  'Package',
+                                'packagesPath'          =>  '',
+                                'packagesFolderName'    =>  'packages',
+                                'suffix'                =>  '.php',
+                                'generateBaseClasses'   =>  true,
+                                'generateTableClasses'  =>  true,
+                                'generateAccessors'     =>  false,
+                                'baseClassesPrefix'     =>  'Base',
+                                'baseClassesDirectory'  =>  'generated',
+                                'baseClassName'         =>  'Doctrine_Record');
+                                
+// Generate your models from an existing database
+Doctrine::generateModelsFromDb('myrecords2', array(), $options);*/
+                 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
 $injector->register('Clansuite_User');

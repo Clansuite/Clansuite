@@ -60,31 +60,28 @@ class Clansuite_User
     /**
      * References to session and general user object
      */ 
-    private $user       = null;
+    private $_user       = null;
     
-    private $config     = null;
-    private $db         = null;  
-    private $security   = null;
+    private $_config     = null;
+    private $_db         = null;  
+    private $_security   = null;
     
     // forward -> create user and check for login cookie
     function __construct(Clansuite_Config $config, db $db, security $security )
     {   
-        $this->config       = $config;
-        $this->db           = $db;
-        $this->security     = $security;  
+        $this->_config       = $config;
+        $this->_db           = $db;
+        $this->_security     = $security;  
     }
     /**
-     * Get a user by any type of DB field information
+     * Get a user by any field in the users and profiles table
+     * Seperate the fields by commata
      * Hint: Is joined with profiles
      *
+     * @param integer     * 
      * @param string
-     * @param integer
-     * @global $db
-     * @global $this->security
-     * @global $input
-     * @return $result
      */
-    public function getUser( $user_id = null, $type = '*')
+    public function getUser( $user_id = null, $fields = '*')
     {
         /*
         if( !$input->check( $type       , 'is_abc|is_int|is_custom', '_,' ) OR
@@ -98,22 +95,12 @@ class Clansuite_User
             $user_id = empty($user_id) ? $_SESSION['user']['user_id'] : (int)$user_id;
             
             $result = Doctrine_Query::create()
-                            ->select($type)
+                            ->select($fields)
                             ->from('CsUsers')
                             ->leftJoin('CsProfiles')
                             ->where('CsUsers.user_id = ?')
                             ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
                          
-            
-
-            /*
-            $stmt = $this->db->prepare('SELECT `' . $type . '` FROM ' . DB_PREFIX . 'users
-                                  LEFT JOIN ' . DB_PREFIX . 'profiles
-                                  ON ' . DB_PREFIX . 'users.user_id = ' . DB_PREFIX . 'profiles.user_id
-                                  WHERE ' . DB_PREFIX . 'users.user_id = ?');
-            $stmt->execute( array( $user_id ) );
-            $result = $stmt->fetch(PDO::FETCH_NAMED);
-            */
             if( $result )
                 return $result;
             else
@@ -130,131 +117,119 @@ class Clansuite_User
      * @param $nick
      */
 
-    public function create_user($user_id = '', $email = '', $nick = '')
+    public function createUser($user_id = '', $email = '', $nick = '')
     {
-        $this->user = null;
-        #var_dump($user_id);
-        //echo xdebug_call_function();
+        $this->_user = null;
+
         /**
          *  DB User Queries
          */
-
-        /*$query_string = 'SELECT u.*, o.language, o.theme FROM ' . DB_PREFIX . 'users u LEFT JOIN ' . DB_PREFIX . 'user_options o ON u.user_id = o.user_id ';*/
-        //var_dump(Clansuite_User::getUser(1));
         if ( !empty($user_id) )
         {
-            $this->user = Doctrine_Query::create()
+            // Get the user from the user_id
+            $this->_user = Doctrine_Query::create()
                          ->select('u.*')
                          ->from('CsUser u')
                          ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsGroups g')
                          ->where('u.user_id = ?')
                          ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
-            /*
-            $stmt = $this->db->prepare( $query_string . 'WHERE u.user_id = ?' );
-            $stmt->execute( array( $user_id ) );
-            $user = $stmt->fetch(PDO::FETCH_NAMED);
-            */
         }
         else if ( !empty($email) )
         {
-            $stmt = $this->db->prepare( $query_string . 'WHERE u.email = ?');
-            $stmt->execute( array( $email ) );
-            $user = $stmt->fetch(PDO::FETCH_NAMED);
-
+            // Get the user from the email
+            $this->_user = Doctrine_Query::create()
+                         ->select('u.*')
+                         ->from('CsUser u')
+                         ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsGroups g')
+                         ->where('u.email = ?')
+                         ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
         }
         else if ( !empty($nick) )
         {
-            $stmt = $this->db->prepare( $query_string . 'WHERE u.nick = ?' );
-            $stmt->execute( array( $nick ) );
-            $user = $stmt->fetch(PDO::FETCH_NAMED);
+            // Get the user from the nick
+            $this->_user = Doctrine_Query::create()
+                         ->select('u.*')
+                         ->from('CsUser u')
+                         ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsGroups g')
+                         ->where('u.nick = ?')
+                         ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
         }
         else
         {
+            // Get the user from the session_id
             $session_result = Doctrine_Query::create()
                                 ->select('user_id')
                                 ->from('CsSession')
                                 ->where('session_id = ?')
                                 ->fetchOne(array(session_id()), Doctrine::FETCH_ARRAY);
-            /* ODL PDO Style
-            $stmt = $this->db->prepare( 'SELECT user_id FROM ' . DB_PREFIX . 'session WHERE session_id = ?' );
-            $stmt->execute( array( session_id() ) );
-            $session_result = $stmt->fetch(PDO::FETCH_NAMED);
-            */
         }
-
-        // regenerate session
-        // BUG: session_regenerate_id(true);
-
 
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id'])) 
         {
             if ( isset($session_result) and $session_result['user_id'] == $_SESSION['user']['user_id'] )
             {
-                $this->user = Doctrine_Query::create()
+                $this->_user = Doctrine_Query::create()
                              ->from('CsUsers u')
                              ->leftJoin('u.CsUserOptions o')
                              ->leftJoin('u.CsGroups g')
                              ->where('u.user_id = ?')
                              ->fetchOne(array($session_result['user_id']), Doctrine::FETCH_ARRAY);
                 
-                /* OLD PDO Style
-                $stmt = $this->db->prepare( $query_string . 'WHERE u.user_id = ?' );
-                $stmt->execute( array( $session_result['user_id'] ) );
-                $user = $stmt->fetch(PDO::FETCH_NAMED);
-                */
             }
             else
             {
                 session_regenerate_id(true);
             }
         }
-                #var_dump($session_result);
+
         // check if this user is activated, else reset cookie, session and redirect
-        if ( is_array($this->user) AND $this->user['activated'] == 0 )
+        if ( is_array($this->_user) AND $this->_user['activated'] == 0 )
         {
             setcookie('user_id', false);
             setcookie('password', false);
-            #session::_session_destroy(session_id());
             $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
-                $this->user = Doctrine_Query::create()
+                $this->_user = Doctrine_Query::create()
                              ->select('u.*,g.*,o.*')
                              ->from('CsUsers u')
                              ->leftJoin('u.CsOptions o')
                              ->leftJoin('u.CsGroups g')
                              ->where('u.user_id = ?')
                              ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
-                             #var_dump($this->user);
+                             #var_dump($this->_user);
         /**
          * Create $_SESSION['user'] array, containing user data
          */        
-        if ( is_array($this->user) )
+        if ( is_array($this->_user) )
         {
             /**
              * User infos
              */
 
             $_SESSION['user']['authed']         = 1;
-            $_SESSION['user']['user_id']        = $this->user['user_id'];
+            $_SESSION['user']['user_id']        = $this->_user['user_id'];
 
-            $_SESSION['user']['passwordhash']   = $this->user['passwordhash'];
-            $_SESSION['user']['email']          = $this->user['email'];
-            $_SESSION['user']['nick']           = $this->user['nick'];
+            $_SESSION['user']['passwordhash']   = $this->_user['passwordhash'];
+            $_SESSION['user']['email']          = $this->_user['email'];
+            $_SESSION['user']['nick']           = $this->_user['nick'];
 
-            $_SESSION['user']['disabled']       = $this->user['disabled'];
-            $_SESSION['user']['activated']      = $this->user['activated'];
+            $_SESSION['user']['disabled']       = $this->_user['disabled'];
+            $_SESSION['user']['activated']      = $this->_user['activated'];
 
-            // Fallback: first take user['language'], else standard language as defined by $this->config['->language
+            // Fallback: first take user['language'], else standard language as defined by $this->_config['->language
             if ( !isset($_SESSION['user']['language_via_url']) )
             {
-                $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']);
+                $_SESSION['user']['language'] = (!empty($this->_user['language']) ? $this->_user['language'] : $this->_config['language']);
             }
                       
             // Fallback: first take standard theme as defined by $config->theme
             if ( !isset($_SESSION['user']['theme_via_url']) )
             {
-                $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['theme']);
+                $_SESSION['user']['theme'] = (!empty($this->_user['theme']) ? $this->_user['theme'] : $this->_config['theme']);
             }
             
             /**
@@ -271,16 +246,11 @@ class Clansuite_User
                          ->leftJoin('g.CsRights r')
                          ->where('g.group_id = ?')
                          ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
-            /* OLD PDO Style
-            $stmt = $this->db->prepare( 'SELECT group_id FROM ' . DB_PREFIX . 'user_groups 
-                                         WHERE user_id = ?' );
-            $stmt->execute( array( $this->user['user_id'] ) );
-            $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            */
-            #var_dump($this->user['CsGroups']);
-            if ( is_array( $this->user['CsGroups'] ) )
+
+            #var_dump($this->_user['CsGroups']);
+            if ( is_array( $this->_user['CsGroups'] ) )
             {
-                foreach( $this->user['CsGroups'] as $key => $group )
+                foreach( $this->_user['CsGroups'] as $key => $group )
                 {
                     $_SESSION['user']['groups'][] = $group['group_id'];
 
@@ -334,16 +304,16 @@ class Clansuite_User
             $_SESSION['user']['disabled']       = 0;
             $_SESSION['user']['activated']      = 0;
             
-            // Fallback: standard language as defined by $this->config['->language
+            // Fallback: standard language as defined by $this->_config['->language
             if (empty($_SESSION['user']['language']))
             {
-                $_SESSION['user']['language']   = $this->config['language'];
+                $_SESSION['user']['language']   = $this->_config['language'];
             }
             
-            // Fallback: standard theme as defined by $this->config theme
+            // Fallback: standard theme as defined by $this->_config theme
             if (empty($_SESSION['user']['theme']))
             {
-                $_SESSION['user']['theme']      = $this->config['theme'];
+                $_SESSION['user']['theme']      = $this->_config['theme'];
             }
             
             /**
@@ -424,11 +394,11 @@ class Clansuite_User
 
         // if user was found, check if passwords match each other
         // @todo note by vain: db_salted_hash is deprecated!
-        if ( is_array($user) && $this->user['passwordhast'] == $this->security->db_salted_hash( $password ) )
+        if ( is_array($user) && $this->_user['passwordhast'] == $this->security->db_salted_hash( $password ) )
         {
             // ok, user with nick or email exists and passwords matched
             // return the user_id
-            return $this->user['user_id'];
+            return $this->_user['user_id'];
         }
         else
         {
@@ -445,7 +415,7 @@ class Clansuite_User
      * @param string $password contains password string
      * @global $db
      * @global $this->security
-     * @global $this->config['
+     * @global $this->_config['
      */
 
     public function login($user_id, $remember_me, $password)
@@ -453,24 +423,24 @@ class Clansuite_User
         /**
          * 1. Create the User Data Array and the Session via $user_id
          */
-        $this->create_user($user_id);
+        $this->createUser($user_id);
 
         /**
          * 2. Remember-Me ( set Logindata via Cookie )
          */
         if ( $remember_me == 1 )
         {   
-            setcookie('user_id', $user_id, time() + round($this->config['remember_me_time']*24*60*60));
+            setcookie('user_id', $user_id, time() + round($this->_config['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->config['remember_me_time']*24*60*60));
+            setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->_config['remember_me_time']*24*60*60));
         }
 
         /**
          * 3. user_id is now inserted into the session without user_id
          * This transforms the so called Guest-Session to a User-Session
          */
-        $this->session_set_user_id();
+        $this->sessionSetUserId();
 
         /**
          * 4. Delete Login attempts
@@ -486,12 +456,9 @@ class Clansuite_User
     /**
      * Checks if a login cookie is set
      *
-     * @global $db
-     * @global $this->security
-     * @global $this->config['
      */
 
-    public function check_login_cookie()
+    public function checkLoginCookie()
     {
         /**
          * Check for login cookie
@@ -499,36 +466,38 @@ class Clansuite_User
 
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
-            $stmt = $this->db->prepare( 'SELECT user_id, password FROM ' . DB_PREFIX . 'users WHERE user_id = ? LIMIT 1' );
-            $stmt->execute( array( (int) $_COOKIE['user_id'] ) );
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->_user = Doctrine_Query::create()
+                                ->select('user_id,password')
+                                ->from('CsUsers')
+                                ->where('user_id = ?')
+                                ->fetchOne(array((int)$_COOKIE['user_id']), Doctrine::FETCH_ARRAY);
 
             /**
              * Proceed if match
              */
 
-	        if ( is_array($this->user) &&
-                 $this->security->build_salted_hash( $_COOKIE['password'] ) == $this->user['password'] &&
-                 $_COOKIE['user_id'] == $this->user['user_id'] )
+	        if ( is_array($this->_user) &&
+                 $this->_security->build_salted_hash( $_COOKIE['password'] ) == $this->_user['password'] &&
+                 $_COOKIE['user_id'] == $this->_user['user_id'] )
 		    {
                 /**
                  * Update the cookie
                  */
 
-                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->config['remember_me_time']*24*60*60));
-                setcookie('password',$_COOKIE['password'], time() + round($this->config['remember_me_time']*24*60*60));
+                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->_config['remember_me_time']*24*60*60));
+                setcookie('password',$_COOKIE['password'], time() + round($this->_config['remember_me_time']*24*60*60));
 
                 /**
                  * Create $this->session['user']
                  */
 
-                $this->create_user($this->user['user_id']);
+                $this->createUser($this->_user['user_id']);
 
 	       	    /**
                  * Update Session in DB
                  */
 
-			    $this->session_set_user_id();
+			    $this->sessionSetUserId();
 	        }
             else
             {
@@ -546,23 +515,26 @@ class Clansuite_User
     /**
      * Sets user_id to a session
      *
-     * @global $db
-     * @global $this->session
+     * @todo: maybe param user_id?
      */
-
-    function session_set_user_id()
+    public function sessionSetUserId()
     {
-	    $stmt = $this->db->prepare( 'SELECT session_id FROM ' . DB_PREFIX . 'session WHERE session_id = ? LIMIT 1' );
-        $stmt->execute( array( session_id() ) );
-        $session_result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = Doctrine_Query::create()
+                         #->select('*') // automatically set when left out
+                         ->from('CsSession')
+                         ->where('session_id = ?')
+                         ->fetchOne(array( session_id() ));
 
-        if ($session_result['session_id'] == $_SESSION[$session_name] )
+        if ( $result )
         {
-            // fügt der jeweiligen Session die user_id hinzu
-            $stmt = $this->db->prepare('UPDATE '. DB_PREFIX .'session SET user_id = ? WHERE session_id = ?');
-            $stmt->execute( array(  $_SESSION['user']['user_id'],
-                                    $_SESSION[$session_name] ) );
+            /**
+             * Update Session, because we know that session_id already exists
+             */
+            $result->user_id = $this->_user['user_id'];
+            $result->save();
+            return true;
         }
+        return false;
 	}
 }
 ?>
