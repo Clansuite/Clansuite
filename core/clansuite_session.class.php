@@ -169,10 +169,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * @todo: http://bugs.php.net/bug.php?id=32330
          * PHPBUG -> session_set_save_handler() session_destroy())
          */
-        session_module_name("files");
+        #session_module_name("files");
         ini_set('session.save_handler', 'user');                    # workaround for save_handler user is causing a strange bug
         #ini_set('session.save_handler'      , 'user' );
-        ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory
+        #ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory
         #ini_set("session.save_path", ROOT . 'tmp');                # Session Temp Path inside the Clansuite Directory
         // Garbage Collector not needed, because it's gettin called everytime in session_control()
         ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
@@ -210,7 +210,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
 
-        if ($this->session_read(session_id()) === false OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
+        if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
             $_SESSION['initiated'] = true;  # session fixation
@@ -281,12 +281,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                          ->fetchOne(array(self::session_name, $id ), Doctrine::FETCH_ARRAY);
         if( $result )
         {
-            return $result['session_data'];
+            //$_SESSION = unserialize($result['session_data']);
+            return (string) $result['session_data'];
         }
-        else
-        {
-            return false;
-        }
+        return '';
     }
 
     /**
@@ -304,6 +302,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * $this->session_expire_time is a minute time value, we get this from config settings
          * $sessionLifetime is seconds
          */
+        //die($this->session_expire_time);
         $sessionlifetime = $this->session_expire_time * 60;
         $expires = time() + $sessionlifetime;
 

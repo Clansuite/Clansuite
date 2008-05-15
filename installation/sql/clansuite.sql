@@ -590,6 +590,29 @@ INSERT INTO `cs_news_comments` VALUES (1,1,1,'123','2005-07-29 13:04:07','','127
 /*!40000 ALTER TABLE `cs_news_comments` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_options`
+--
+
+DROP TABLE IF EXISTS `cs_options`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_options` (
+  `option_id` int(10) unsigned NOT NULL auto_increment,
+  `name_id` int(10) unsigned NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`option_id`,`name_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_options`
+--
+
+/*!40000 ALTER TABLE `cs_options` DISABLE KEYS */;
+INSERT INTO `cs_options` VALUES (1,1,'drahtgitter'),(2,2,'en');
+/*!40000 ALTER TABLE `cs_options` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_profiles`
 --
 
@@ -740,6 +763,176 @@ INSERT INTO `cs_profiles_guestbook` VALUES (1,0,0,1003200322,'nick','email','123
 /*!40000 ALTER TABLE `cs_profiles_guestbook` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_rel_category_module`
+--
+
+DROP TABLE IF EXISTS `cs_rel_category_module`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_category_module` (
+  `category_id` int(10) unsigned NOT NULL,
+  `module_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`category_id`,`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_category_module`
+--
+
+/*!40000 ALTER TABLE `cs_rel_category_module` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_category_module` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_category_name`
+--
+
+DROP TABLE IF EXISTS `cs_rel_category_name`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_category_name` (
+  `category_id` int(10) unsigned NOT NULL,
+  `name_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`category_id`,`name_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_category_name`
+--
+
+/*!40000 ALTER TABLE `cs_rel_category_name` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_category_name` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_news_comments`
+--
+
+DROP TABLE IF EXISTS `cs_rel_news_comments`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_news_comments` (
+  `news_id` int(10) unsigned NOT NULL,
+  `comment_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`news_id`,`comment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_news_comments`
+--
+
+/*!40000 ALTER TABLE `cs_rel_news_comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_news_comments` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_option_name`
+--
+
+DROP TABLE IF EXISTS `cs_rel_option_name`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_option_name` (
+  `option_id` int(10) unsigned NOT NULL,
+  `name_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`option_id`,`name_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_option_name`
+--
+
+/*!40000 ALTER TABLE `cs_rel_option_name` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_option_name` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_user_groups`
+--
+
+DROP TABLE IF EXISTS `cs_rel_user_groups`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_user_groups` (
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `group_id` int(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_user_groups`
+--
+
+/*!40000 ALTER TABLE `cs_rel_user_groups` DISABLE KEYS */;
+INSERT INTO `cs_rel_user_groups` VALUES (1,3);
+/*!40000 ALTER TABLE `cs_rel_user_groups` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_user_options`
+--
+
+DROP TABLE IF EXISTS `cs_rel_user_options`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_user_options` (
+  `option_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`option_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_user_options`
+--
+
+/*!40000 ALTER TABLE `cs_rel_user_options` DISABLE KEYS */;
+INSERT INTO `cs_rel_user_options` VALUES (1,1),(2,1);
+/*!40000 ALTER TABLE `cs_rel_user_options` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_user_profile`
+--
+
+DROP TABLE IF EXISTS `cs_rel_user_profile`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_user_profile` (
+  `user_id` int(10) unsigned NOT NULL,
+  `profile_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`user_id`,`profile_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_user_profile`
+--
+
+/*!40000 ALTER TABLE `cs_rel_user_profile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_user_profile` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_rel_user_rights`
+--
+
+DROP TABLE IF EXISTS `cs_rel_user_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_user_rights` (
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `right_id` int(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`right_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_user_rights`
+--
+
+/*!40000 ALTER TABLE `cs_rel_user_rights` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_rel_user_rights` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_rights`
 --
 
@@ -815,7 +1008,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'9ad735ba4276399e76e1bcee1cc04483','initiated|b:1;token|s:32:\"df3eb02cd271b2a87df4abfb37143238\";client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14\";client_host|s:10:\"powertower\";suiteSID|s:32:\"9ad735ba4276399e76e1bcee1cc04483\";user|a:12:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}s:13:\"theme_via_url\";i:1;}','suiteSID',1209718264,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'eb24252e8d45a0fa87187cd6eb2652b2','user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:12:\"passwordhash\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:4:\"nick\";s:5:\"admin\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;s:1:\"3\";}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1210859973,1,'sessionstart');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1010,4 +1203,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-05-02  8:24:40
+-- Dump completed on 2008-05-15 13:29:47

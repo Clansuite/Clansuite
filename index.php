@@ -42,7 +42,7 @@
 define('IN_CS', true);
 
 # Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 1); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
@@ -94,7 +94,7 @@ $injector->instantiate('clansuite_doctrine')->doctrine_initialize();
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
-$injector->register('user');
+$injector->register('Clansuite_User');
 
 /**
  *  ================================================

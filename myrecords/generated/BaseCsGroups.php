@@ -25,8 +25,12 @@ abstract class BaseCsGroups extends Doctrine_Record
     $this->index('group_id', array('fields' => 'group_id'));
     
     $this->hasMany('CsUsers', array('local' => 'group_id',  
-                                    'foreign' => 'user_id',            #????
+                                    'foreign' => 'user_id',            
                                     'refClass' => 'CsUserGroups'));
+                                    
+    $this->hasMany('CsRights', array('local' => 'group_id',
+                                    'foreign' => 'right_id',
+                                    'refClass' => 'CsGroupRights'));
   }
 }
 ?>

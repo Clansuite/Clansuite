@@ -24,7 +24,6 @@ abstract class BaseCsUsers extends Doctrine_Record
     $this->hasColumn('country', 'string', 5, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(5)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('language', 'string', 12, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(12)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('timezone', 'string', 8, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(8)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('theme', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()
@@ -32,11 +31,31 @@ abstract class BaseCsUsers extends Doctrine_Record
     parent::setUp();
     
     $this->index('user_id', array('fields' => 'user_id'));
-    $this->hasMany('CsUserGroups', array('local' => 'user_id',
+    
+    $this->hasMany('CsGroups', array(   'local' => 'user_id',
+                                        'foreign' => 'group_id',
+                                        'refClass' => 'CsUserGroups'
+                                         ));
+
+    $this->hasMany('CsOptions', array(   'local' => 'user_id',
+                                         'foreign' => 'option_id',
+                                         'refClass' => 'CsUserOptions'
+                                         ));
+
+    $this->hasOne('CsProfiles', array('local' => 'user_id',
                                          'foreign' => 'user_id',
-                                         'refClass' => 'CSUserGroups'
-                                         #,
-                                         #'onDelete' => 'CASCADE')                                         
+                                         ));
+
+    $this->hasMany('CsProfilesGuestbook', array('local' => 'user_id',
+                                         'foreign' => 'user_id',
+                                         ));
+
+    $this->hasMany('CsProfilesGeneral', array('local' => 'user_id',
+                                         'foreign' => 'user_id',
+                                         ));
+
+    $this->hasMany('CsProfilesComputer', array('local' => 'user_id',
+                                         'foreign' => 'user_id',
                                          ));
   }
 }

@@ -48,7 +48,7 @@ class get_user implements Filter_Interface
 {
     private $user    = null;
 
-    function __construct(user $user)
+    function __construct(Clansuite_User $user)
     {
         $this->user = $user;
     }
