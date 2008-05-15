@@ -162,7 +162,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         }
 
         // get user class
-        $user = parent::getInjector()->instantiate('user');
+        $user = parent::getInjector()->instantiate('Clansuite_User');
 
         // Perform checks on Inputvariables & Form filled?
         if ( isset($value) && !empty($value) && !empty($password) )
