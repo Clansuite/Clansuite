@@ -116,10 +116,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function setInjector(Phemto $injector)
     {
-        # set Injector (dynamic)
-    	$this->injector = $injector;
-    	# set Injector (static)
-    	self::$static_injector = $injector;
+        # Set the incomming $injector 
+        # a) as a static var
+        # b) as a dynamic var
+    	self::$static_injector = $this->injector = $injector;
 
     	# fetch config from dependency injector
     	$this->config = $this->injector->instantiate('Clansuite_Config');
