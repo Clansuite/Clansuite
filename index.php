@@ -42,7 +42,7 @@
 define('IN_CS', true);
 
 # Setup XDebug
-define ('XDBUG', 1); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define ('XDBUG', 0); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
