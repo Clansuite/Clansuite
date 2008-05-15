@@ -2,14 +2,14 @@
 <div class="content usercenter">
 	{t}You're logged in as {/t}<strong>{$smarty.session.user.nick}</strong>
 	<ul>
-{if $smarty.session.user.rights.cc_access==1}
+{if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
 		<li><a href="index.php?mod=admin">{t}Control Center{/t}</a></li>
 {/if}
 		<li><a href="index.php?mod=account&amp;sub=options">{t}Options{/t}</a></li>
 		<li><a href="index.php?mod=account&amp;sub=profile">{t}Profile{/t}</a></li>
-		<li><a href="index.php?mod=messaging&amp;action=show">{if $smarty.session.user.rights.use_messaging_system == 1}{t}Messages{/t} ({mod name="messaging" func="get_new_messages_count"}){/if}</a></li>
+		<li><a href="index.php?mod=messaging&amp;action=show">{if isset($smarty.session.user.rights.use_messaging_system) && $smarty.session.user.rights.use_messaging_system == 1}{t}Messages{/t} ({load_module name="messaging" func="get_new_messages_count"}){/if}</a></li>
 		<li><a href="index.php?mod=account&amp;action=logout">{t}Logout{/t}</a></li>
-	</ul>
+	</ul>{*
 	SessionCountdown:
     <div id="countdown"></div>
 {doc_raw}
@@ -32,5 +32,5 @@
     </script>
 {/literal}
 {/doc_raw}
-{$SessionCurrentTime|date_format:"%H:%M:%S"} {$SessionExpireTime|date_format:"%H:%M:%S"}
+{$SessionCurrentTime|date_format:"%H:%M:%S"} {$SessionExpireTime|date_format:"%H:%M:%S"} *}
 </div>
