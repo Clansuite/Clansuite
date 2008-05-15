@@ -61,7 +61,7 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
         $page = (string) $this->injector->instantiate('httprequest')->getParameter('page');
 
         // if no page is requested, show overview
-        if(empty($page)) { $this->action_overview(); }
+        if(empty($page)) { return $this->action_overview(); }
 
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
@@ -147,16 +147,15 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
         if ( is_array($result) )
         {
             $smarty->assign('overview', $result);
-            $this->setTemplate('overview.tpl');
+            $this->setTemplate('staticpages/templates/overview.tpl');            
         }
         else
         {
-            $this->output .= _('No static pages found.');
+            echo _('No static pages found.');
         }
-
+        
         # Prepare the Output
         $this->prepareOutput();
     }
-
 }
 ?>
