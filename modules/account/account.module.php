@@ -137,13 +137,16 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
 
-        // Get Inputvariables from $_POST
-        $nick        = $_POST['nickname'];
-        $email       = $_POST['email'];
-        $password    = $_POST['password'];
-        $remember_me = $_POST['remember_me'];
-        $submit      = $_POST['submit'];
-        $referer	 = $_GET['referer'];
+        // Get Inputvariables
+        $request = parent::getInjector()->instantiate('httprequest');
+        # from $_POST
+        $nick        = $request->getParameter('nickname');
+        $email       = $request->getParameter('email');
+        $password    = $request->getParameter('password');
+        $remember_me = $request->getParameter('remember_me');
+        $submit      = $request->getParameter('submit');
+        # from $_GET
+        $referer	 = $request->getParameter('referer');
 
         // Set Error Array
         $error = array();

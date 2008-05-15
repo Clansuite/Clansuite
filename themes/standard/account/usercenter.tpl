@@ -1,10 +1,13 @@
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr class="tr_header">
+            <td colspan="2">{t}User Panel{/t}</td>
+    </tr>
     <tr>
         <td align="center">
             {t}You're logged in as {/t}<b>{$smarty.session.user.nick}</b>
         </td>
     </tr>
-    {if $smarty.session.user.rights.cc_access==1}
+    {if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
     <tr>
         <td align="center">
             <a href="index.php?mod=admin">{t}Control Center{/t}</a>
@@ -23,7 +26,8 @@
     </tr>
     <tr>
         <td align="center">
-            <a href="index.php?mod=messaging&amp;action=show">{if $smarty.session.user.rights.use_messaging_system == 1}{t}Messages{/t} ({load_module name="messaging" action="get_new_messages_count"}){/if}</a>
+       {* {$smarty.session.user.rights|@var_dump} *}
+            <a href="index.php?mod=messaging&amp;action=show">{if isset($smarty.session.user.rights.use_messaging_system) && $smarty.session.user.rights.use_messaging_system == 1}{t}Messages{/t} ({load_module name="messaging" action="get_new_messages_count"}){/if}</a>
         </td>
     </tr>
     <tr>
