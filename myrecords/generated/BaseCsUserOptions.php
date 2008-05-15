@@ -8,63 +8,9 @@ abstract class BaseCsUserOptions extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_user_options');
-    $this->hasColumn('option_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('user_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('language', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('theme', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('cs_user_options');   
+    $this->hasColumn('option_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('user_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }
 
 

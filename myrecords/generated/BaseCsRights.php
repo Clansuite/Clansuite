@@ -67,7 +67,14 @@ abstract class BaseCsRights extends Doctrine_Record
   'autoincrement' => false,
 ));
   }
-
+  public function setUp()
+  {
+    parent::setUp();
+    
+    $this->hasMany('CsGroups', array('local' => 'right_id',
+                                    'foreign' => 'group_id',
+                                    'refClass' => 'CsGroupRights'));
+  }
 
 }
 ?>

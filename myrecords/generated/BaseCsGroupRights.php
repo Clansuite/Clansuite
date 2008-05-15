@@ -40,7 +40,5 @@ abstract class BaseCsGroupRights extends Doctrine_Record
   'autoincrement' => false,
 ));
   }
-
-
 }
 ?>

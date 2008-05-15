@@ -13,23 +13,6 @@ abstract class BaseCsUserGroups extends Doctrine_Record
     $this->hasColumn('group_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(5) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }
 
-  public function setUp()
-  {
-    parent::setUp();
-    
-    $this->index('user_id', array('fields' => 'user_id'));
-    $this->hasOne('CsUsers', array('local' => 'user_id',
-                                   'foreign' => 'user_id'
-                                   #,
-                                   #'onDelete' => 'CASCADE')
-                                   ));
-    
-    $this->index('group_id', array('fields' => 'group_id'));
-    $this->hasOne('CsGroups', array('local' => 'group_id',
-                                   'foreign' => 'group_id'
-                                   #,
-                                   #'onDelete' => 'CASCADE')
-                                   ));
-  }
+
 }
 ?>
