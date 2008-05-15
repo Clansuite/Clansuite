@@ -133,10 +133,10 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
    public function login($param_array, $smarty)
     {
         #var_dump($smarty);
-        
+
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
-       
+
         // Get Inputvariables from $_POST
         $nick        = $_POST['nickname'];
         $email       = $_POST['email'];
@@ -174,9 +174,9 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             if ($user_id != false)
             {
                 // perform login for user_id and redirect
-                
+
                 $user->login( $user_id, $remember_me, $password );
-                
+
                 #$this->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
             else
@@ -215,11 +215,11 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         # Get Render Engine
         # => already loaded ...
         #$this->smarty = $this->getView();
-        
+
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
-            // Assing vars & output template            
+            // Assing vars & output template
             $smarty->assign('cfg', $config);
             $smarty->assign('err', $error);
             $smarty->assign('referer', $referer);
