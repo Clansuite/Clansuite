@@ -132,7 +132,7 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
         $smarty->assign_by_ref('pager_layout', $pager_layout);
 
         # specifiy the template manually
-        #$this->setTemplate('userslist/show.tpl');
+        #$this->setTemplate('userslist/templates/show.tpl');
         # Prepare the Output
         $this->prepareOutput();
     }
