@@ -36,7 +36,11 @@
         <br />
         {$content}
     </td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top">
+        <div style="margin-top: 10px">
+           {load_module name="account" action="login"}        
+        </div>
+        </td>
 </tr>
 <tr>
     <td valign="top"><strong>Themes</strong>
@@ -57,7 +61,7 @@
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
 <p style="text-align:center;clear:both;margin-top:20px;" class="copyright">
     {$copyright}
-    <br/> Theme: {* {$theme-copyright} *}
+    <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
     <br/> {include file='server_stats.tpl'}
 </p>
 

@@ -165,9 +165,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         /**
          * Configure Session
-         *
-         * @todo: http://bugs.php.net/bug.php?id=32330
-         * PHPBUG -> session_set_save_handler() session_destroy())
          */
         #session_module_name("files");
         ini_set('session.save_handler', 'user');                    # workaround for save_handler user is causing a strange bug
@@ -218,7 +215,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
-             */            
+             */
             $token = md5(uniqid(rand(), true)); # session token
             $_SESSION['token'] = $token;
             $_SESSION['token_time'] = time();
