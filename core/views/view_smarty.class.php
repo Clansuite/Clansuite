@@ -494,7 +494,10 @@ class view_smarty extends renderer_base
         $controller = new $module_name();
 
         # Parameter Array
-        $param_array = split('\|', $params['params']);
+        if( empty($params['params']) )
+            $param_array = null;
+        else
+            $param_array = split('\|', $params['params']);
 
         #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
         #exit;
@@ -509,6 +512,7 @@ class view_smarty extends renderer_base
         # a) return this via response object
         # b) we're pulling php from templates (there is no other way!)
         # c) we're directly writing the output (maybe consider a composite tree for the view??)
+        # var_dump($inner_html);
         echo $inner_html;
     }
 

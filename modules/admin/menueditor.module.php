@@ -239,7 +239,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         # $result is relevant to the recursion
         $result = !isset( $result ) ? '' : $result;
 
-        if ( empty( $menu ) )
+        if ( $menu == '' )
         {
             $menu = $this->fetch_adminmenu(true);
         }
@@ -328,7 +328,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
            	}
 
 
-            if ( $entry['parent'] == 0)
+            if ( isset($entry['parent']) && $entry['parent'] == 0 )
             {
                 $result .= "\n\t</td>";
             }
@@ -387,7 +387,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             # it's an content array, call recursive !!
         	if ( is_array($entry['content']) )
         	{
-        	   $result .= $this->get_adminmenu_div($entry['content']);
+                $result .= $this->get_adminmenu_div($entry['content']);
         	}
         	else
         	{
@@ -560,10 +560,10 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
        if ( empty($result) )
         {
             # Load DBAL
-            parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
+            # parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
 
             # Load Models
-            Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
+            # octrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
 
             # Issue Doctrine_Query
             $result = Doctrine_Query::create()
