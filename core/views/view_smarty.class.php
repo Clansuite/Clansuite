@@ -66,7 +66,7 @@ class view_smarty extends renderer_base
     private $config     = null;
     private $db         = null;
     private $functions  = null;
-
+    
     /**
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
@@ -91,19 +91,33 @@ class view_smarty extends renderer_base
        * @note by vain: Please leave the following commented lines,
        *                i need them for SmartyDOC development!
        */
-      require(ROOT_LIBRARIES . '/smarty/Smarty.class.php');
-      #$this->smarty = new Smarty();
-      require(ROOT_LIBRARIES . '/smarty/Render_SmartyDoc.class.php');
-      #require(ROOT_LIBRARIES . '/smarty/SmartyDoc2.class.php');
-      # Set view and smarty to the smarty object
-      $this->view = $this->smarty = new Render_SmartyDoc();
+       if (!class_exists('Smarty')) // prevent redeclaration
+       {
+          if (is_file(ROOT_LIBRARIES . '/smarty/Smarty.class.php')) // check if library exists
+          {
+              require(ROOT_LIBRARIES . '/smarty/Smarty.class.php');
+              #$this->smarty = new Smarty();
+              require(ROOT_LIBRARIES . '/smarty/Render_SmartyDoc.class.php');
+              #require(ROOT_LIBRARIES . '/smarty/SmartyDoc2.class.php');
+              # Set view and smarty to the smarty object
+              $this->view = $this->smarty = new Render_SmartyDoc();
+          }
+          else // throw error in case smarty library is missing
+          {                  
+              die('Smarty Template Library missing!');
+          }
+       }
+       else // throw error in case smarty was already loaded
+       {
+          die('Smarty already loaded!');          
+       }
 
       /**
        * ===================================
        * Set Configurations to Smarty Object
        * ===================================
-       */       
-        self::smarty_configuration();        
+       */
+        self::smarty_configuration();
     }
 
     /**
@@ -385,7 +399,7 @@ class view_smarty extends renderer_base
 
         if ( !empty($string) )
         {
-            $this->show( $params['title'], $string, $params['level'] );
+            $this->showError( $params['title'], $string, $params['level'] );
         }
     }
 
@@ -394,7 +408,7 @@ class view_smarty extends renderer_base
      *
      * uses /themes/core/error.tpl
      */
-    public static function show( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
+    public static function showError( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
     {
         $this->smarty->assign('error_head'    , $error_head );
         $this->smarty->assign('debug_info'    , $string );
@@ -420,7 +434,7 @@ class view_smarty extends renderer_base
                 break;
         }
     }
-
+    
     /**
      * view_smarty::loadModule
      *
@@ -462,12 +476,12 @@ class view_smarty extends renderer_base
             # like "module_admin"
             $module_name = 'module_' . strtolower($mod);
         }
-       
+
         // Debug: Display the Modulename
         #echo $module_name;
 
         # Load class, if not already loaded
-        if(!class_exists($module_name))
+        if (!class_exists($module_name))
         {
             clansuite_loader::loadModul($module_name);
         }
@@ -482,13 +496,16 @@ class view_smarty extends renderer_base
         #exit;
 
         # Get the Ouptut of the Object->Method Call
-        $output = call_user_func_array( array($controller, $action), $param_array );
+        # slow
+        #$inner_html = call_user_func_array( array($controller, $action), $param_array );
+        # fast      
+        $inner_html = $controller->$action($param_array, $this->smarty);
 
-        # ! ECHO
-        # @todo: Fix this?! , because it breaks MVC.
-        # a) we're pulling php from templates (there is no other way!)
-        # b) we're directly writing the output (maybe consider a composite tree for the view??)
-        echo $output;
+        # @todo: Fix this ECHO?! , because it breaks MVC.
+        # a) return this via response object
+        # b) we're pulling php from templates (there is no other way!)
+        # c) we're directly writing the output (maybe consider a composite tree for the view??)
+        echo $inner_html;
     }
 
     /**
@@ -566,7 +583,7 @@ class view_smarty extends renderer_base
      */
     public function getLayoutTemplate()
     {
-        if(empty($this->layoutTemplate))
+        if (empty($this->layoutTemplate))
         {
             $this->setLayoutTemplate($this->config['tpl_wrapper_file']);
         }
