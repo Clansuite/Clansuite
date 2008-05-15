@@ -66,7 +66,7 @@ class view_smarty extends renderer_base
     private $config     = null;
     private $db         = null;
     private $functions  = null;
-    
+
     /**
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
@@ -103,13 +103,13 @@ class view_smarty extends renderer_base
               $this->view = $this->smarty = new Render_SmartyDoc();
           }
           else // throw error in case smarty library is missing
-          {                  
+          {
               die('Smarty Template Library missing!');
           }
        }
        else // throw error in case smarty was already loaded
        {
-          die('Smarty already loaded!');          
+          die('Smarty already loaded!');
        }
 
       /**
@@ -434,7 +434,7 @@ class view_smarty extends renderer_base
                 break;
         }
     }
-    
+
     /**
      * view_smarty::loadModule
      *
@@ -449,7 +449,7 @@ class view_smarty extends renderer_base
      * @static
      * @access public
      */
-    public static function loadModule($params)
+    public static function loadModule($params, $smarty)
     {
         # Debug: Show Parameters for requested Module
         #var_dump($params);
@@ -498,8 +498,8 @@ class view_smarty extends renderer_base
         # Get the Ouptut of the Object->Method Call
         # slow
         #$inner_html = call_user_func_array( array($controller, $action), $param_array );
-        # fast      
-        $inner_html = $controller->$action($param_array, $this->smarty);
+        # fast
+        $inner_html = $controller->$action($param_array, $smarty);
 
         # @todo: Fix this ECHO?! , because it breaks MVC.
         # a) return this via response object
