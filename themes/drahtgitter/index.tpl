@@ -46,8 +46,6 @@
     <td valign="top"><strong>Themes</strong>
         <ul>
             <li><a href="?theme=accessible">Accessible</a></li>
-            <li><a href="?theme=andreas01">Andreas01</a></li>
-            <li><a href="?theme=shades_of_gray">Shades of Gray</a></li>
             <li><a href="?theme=standard">standard</a></li>
         </ul>
         <br />
