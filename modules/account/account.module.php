@@ -222,13 +222,13 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('cfg', $config);
             $smarty->assign('err', $error);
             $smarty->assign('referer', $referer);
-            return $smarty->fetch('account/templates/login.tpl');
+            return $smarty->fetch('account/login.tpl');
         }
         else
         {
             //  Show usercenter
             #var_dump($smarty);
-            return $smarty->fetch('account/templates/usercenter.tpl');
+            return $smarty->fetch('account/usercenter.tpl');
         }
     }
 
