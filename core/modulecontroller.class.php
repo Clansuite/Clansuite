@@ -116,7 +116,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function setInjector(Phemto $injector)
     {
-        # Set the incomming $injector 
+        # Set the incomming $injector
         # a) as a static var
         # b) as a dynamic var
     	self::$static_injector = $this->injector = $injector;
@@ -124,7 +124,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     	# fetch config from dependency injector
     	$this->config = $this->injector->instantiate('Clansuite_Config');
     }
-    
+
     /**
      * Get the Module Config
      *
@@ -182,8 +182,8 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         if(isset($submodule) && !empty($submodule))
         {
             $methodname .= '_' . $submodule;
-        }    
-        
+        }
+
         /**
         * @desc Check for a action
         */
@@ -192,7 +192,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # set the used action name
             $this->action_name = $action;
             # set the method name
-            $methodname .= '_' . $action;            
+            $methodname .= '_' . $action;
         }
         else // action not set or method not existing
         {
@@ -201,9 +201,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # set the method name
             $methodname .= '_' . $this->config['default_action'];
         }
-        
+
         # handle method!
-        
+
         if(method_exists($this,$methodname))
         {
             # call the method !
@@ -213,7 +213,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         {
             trigger_error('Action does not exist: ' . $methodname);
             exit();
-        }        
+        }
     }
 
     /**
@@ -310,106 +310,93 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function getTemplateName()
     {
-        # if the templateName was not set, we try to autodetect it
-        # by searching through several paths to find the tpl
+        # if the templateName was not set manually, we construct it from module/action infos
         if(empty($this->templateName))
         {
-            # get modulName and actionName
-            $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
-            #echo $moduleName;
-
-            #$moduleName = explode("_", $moduleName);
-            #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
-
-            # @todo?
-            #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
-            $actionName = $this->action_name;
-            #echo 'ActionName : '.$actionName.'<br>';
-
-            $SubModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
-            #echo 'SubModuleName : '.$SubModuleName.'<br>';
-
-            if(strlen($SubModuleName) > 0)
-            {
-                $tplname = $moduleName.'/'.$SubModuleName.'_'.$actionName.'.tpl';
-                #echo 'TPL Name : '.$tplname.'<br>';
-            }
-            else
-            {
-                # construct a partial path from moduleName and actionName
-                $tplname = $moduleName.'/'.$actionName.'.tpl';
-                #echo 'TPL Name : '.$tplname.'<br>';
-            }
-
-            # check, if a template-file with $tplname exists in
-            # 1. Check, if template exists in current THEME/templates
-            # 2. Check, if template exists in standard theme
-            # 3. Check, if template exists in module folder / templates
-            # 4. Not Existant
-
-            # 1. modules/modulename/templates/actioname.tpl
-            # @todo: for renderer related templates we have to add "renderer/", like
-            # modules/modulename/templates/renderer/actioname.tpl
-
-            if(is_file( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname) && isset($_SESSION['user']['theme']) > 0)
-            {
-                # 1. Check, if template exists in current THEME/templates
-                $this->setTemplate( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $tplname);
-            }
-            /*elseif(is_file( ROOT_THEMES . '/standard/' . $tplname))
-            {
-                # 3. Check, if template exists in standard theme
-                $this->setTemplate( ROOT_THEMES . '/standard/' . $tplname );
-            }*/
-
-            elseif(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
-            {
-                # 2. Check, if template exists in module folder / templates
-                $this->setTemplate( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl');
-            }
-            else
-            {
-                # 4. NOT EXISTANT
-                $this->setTemplate( ROOT_THEMES . '/core/tplnotfound.tpl' );
-            }
-        }
-        # templateName was set
-        else
-        {
-            # check if is_file
-
-            # walk through smarty paths
-            # @todo: wrong position -> move this to view
+            $this->constructTemplateName();
         }
         return $this->templateName;
     }
 
     /**
-     * controller_base::prepareRendering();
-     * returns an instance of the render engine object and prepares it for rendering the output
+     * constructTemplateName
      *
-     * 1. initialize proper viewfactory('smarty, json, rss'); as VIEW
-     * 2. assign model data to that view object
-     * 3. set data to response object
+     * When this method is called, the templateName was not set manually!
+     * We construct the template name with the informations we got about the module and action
+     * and assign it via setTemplate!
+     */
+    private function constructTemplateName()
+    {
+        # get modulName,  actionName, subModuleName
+        $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
+        #echo $moduleName;
+
+        #$moduleName = explode("_", $moduleName);
+        #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
+
+        # @todo?
+        #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
+        $actionName = $this->action_name;
+        #echo 'ActionName : '.$actionName.'<br>';
+
+        $subModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
+        #echo 'SubModuleName : '.$subModuleName.'<br>';
+
+        if(strlen($subModuleName) > 0)
+        {
+            $template = $moduleName.'/'.$subModuleName.'_'.$actionName.'.tpl';
+        }
+        else
+        {
+            $template = $moduleName.'/'.$actionName.'.tpl';
+        }
+        #echo 'TPL Name : '.$template.'<br>';
+
+        $this->setTemplate($template);
+    }
+
+    /**
+     * controller_base::prepareRendering();
+     *
+     * All Output is done via the Response Object.
+     * ModelData -> View -> Response Object
+     *
+     * 1. This method gets an instance of the Response Object first.
+     * 2. Then gets an instance of the render engine.
+     *    (if not already instantiated in the module,
+     *     initializes proper viewfactory('smarty, json, rss'); as VIEW)
+     * 3. getLayoutTemplate
+     * 4. assign model data to that view object (a,b,c)
+     * 5. set data to response object
      *
      * @access public
      */
     public function prepareOutput()
     {
-        # get Response Object
+        # 1) get the Response Object
         $response = $this->injector->instantiate('httpresponse');
 
-        # get the view
+        # 2) get the view
         $view = $this->getView();
 
-        # get the layout
+        # 3) get the layout
         $view->getLayoutTemplate();
 
-        # set Output of the RenderEngine to the Response Object
-        $response->setContent($this->output);   # output directly
-        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
-        $response->setContent($view->render($this->getTemplateName())); # complete layout / rendered mainframe
-
+        /**
+         * 4+5) Set Content on the Response Object
+         *
+         * Content comes from:
+         *
+         * a) directly assigned output via string-variable $this->output
+         * b) Render Engine -> method fetch() which returns a fetch template (without layout/mainframe)
+         * c) Render Engine -> method render() which returns a complete layout (rendered mainframe)
+         */
+        # a)
+        $response->setContent($this->output);
+        # b)
+        //$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
+        # c)
+        $response->setContent($view->render($this->getTemplateName()));
     }
 
     /**
