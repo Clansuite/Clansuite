@@ -226,5 +226,35 @@ class Clansuite_Loader
         #echo '<br>loaded Filter-Class => '. $filename;
         return self::requireFile($filename);
     }
+
+    /**
+     * callMethod
+     *
+     * This method is some kind of performance tweak.
+     * It's thought as a functional replacement of call_user_func_array,
+     * because it's too slow calling stuff.
+     * So instead we call the class->method directly with up to 3 parameters.
+     * After that we use call_user_func_array.
+     * Looks stupid, but may result in an speedup while calling!
+     *
+     * @return object / method response
+     * @todo: we have to profile this!
+     */
+    public static function callMethod($class, $method, array $arguments = array())
+    {
+        switch (count($arguments))
+        {
+            case 0:
+                return new $class->method();
+            case 1:
+                return new $class->$method($arguments[0]);
+            case 2:
+                return new $class->$method($arguments[0], $arguments[1]);
+            case 3:
+                return new $class->$method($arguments[0], $arguments[1], $arguments[2]);
+            default:
+                return call_user_func_array( array($class, $method), $arguments );
+        }
+    }
 }
 ?>
