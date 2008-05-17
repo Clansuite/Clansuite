@@ -344,11 +344,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         if(strlen($subModuleName) > 0)
         {
-            $template = $moduleName.'/'.$subModuleName.'_'.$actionName.'.tpl';
+            $template = $moduleName.DS.$subModuleName.'_'.$actionName.'.tpl';
         }
         else
         {
-            $template = $moduleName.'/'.$actionName.'.tpl';
+            $template = $moduleName.DS.$actionName.'.tpl';
         }
         #echo 'TPL Name : '.$template.'<br>';
 

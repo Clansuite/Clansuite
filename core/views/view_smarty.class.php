@@ -127,7 +127,7 @@ class view_smarty extends renderer_base
     {
         #### SMARTY DEBUGGING
         $this->smarty->debugging           = DEBUG ? true : false;              # set smarty debugging, when debug on
-        $this->smarty->debug_tpl           = ROOT_THEMES . '/core/debug.tpl';   # set debugging template for smarty
+        $this->smarty->debug_tpl           = ROOT_THEMES . 'core/debug.tpl';   # set debugging template for smarty
         if ( defined('DEBUG') && DEBUG===1 )
         {
             $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
@@ -201,23 +201,33 @@ class view_smarty extends renderer_base
          * 5) "/themes/core/"
          */
         $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/';
-        $this->smarty->template_dir[] = ROOT_THEMES . '/' . $_SESSION['user']['theme'] . '/' . Clansuite_ModuleController_Resolver::getModuleName() . '/';                                           # /themes/user-session_theme
-        $this->smarty->template_dir[] = ROOT_MOD    . '/';
-        $this->smarty->template_dir[] = ROOT_MOD    . '/' . Clansuite_ModuleController_Resolver::getModuleName() . '/templates';    # /modules
-        $this->smarty->template_dir[] = ROOT_THEMES . '/core';                                                                      # /themes/core
+        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
+        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;                                           # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_MOD;
+        $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;    # /modules
+        $this->smarty->template_dir[] = ROOT_THEMES . 'core' .DS;                                                                      # /themes/core
         #var_dump($this->smarty->template_dir);
 
-        $this->smarty->compile_dir    = ROOT_LIBRARIES .'/smarty/templates_c/';         # directory for compiled files
-        $this->smarty->config_dir     = ROOT_LIBRARIES .'/smarty/configs/';             # directory for config files (example.conf)
-        $this->smarty->cache_dir      = ROOT_LIBRARIES .'/smarty/cache/';               # directory for cached files
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/clansuite_plugins/';   # directory for clansuite smarty plugins
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'/smarty/plugins/';             # direcotry for original smarty plugins
+        $this->smarty->compile_dir    = ROOT_LIBRARIES .'smarty/templates_c/';         # directory for compiled files
+        $this->smarty->config_dir     = ROOT_LIBRARIES .'smarty/configs/';             # directory for config files (example.conf)
+        $this->smarty->cache_dir      = ROOT_LIBRARIES .'smarty/cache/';               # directory for cached files
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';   # directory for clansuite smarty plugins
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';             # direcotry for original smarty plugins
 
         # Modifiers
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # @todo check functionality
         #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+
+        ## Smarty Template Handler Functions
+
+        # Additional Resource Handler: to fetch TPLs in "modules/templates" too
+        require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
+        $this->smarty->default_template_handler_func = 'smarty_fetch_module_templates';
+
+        # Additional Resource Handler: to autogenerate "not found" templates
+        #require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
+        #$this->smarty->default_template_handler_func = 'make_template';
      }
 
     /**
@@ -299,11 +309,11 @@ class view_smarty extends renderer_base
      * @param string $key der Variablenname
      * @param mixed $val der Variablenwert
      * @return void
-     *//*
+     */
     public function __set($key, $value)
     {
-        $this->smarty->assign($key, $value);
-    }*/
+        $this->assign($key, $value);
+    }
 
     /**
      * Executes the template fetching and returns the result.
@@ -312,7 +322,7 @@ class view_smarty extends renderer_base
     {
         $template = $this->getTemplatePath($template);
 
-        #echo $template; exit;
+        #echo 'Template in view_smarty->fetch() : '.$template . '<br>';
 
         return $this->smarty->fetch($template, $data = null);
     }
@@ -339,7 +349,7 @@ class view_smarty extends renderer_base
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
-        $template_constants['copyright'] = $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl');
+        $template_constants['copyright'] = $this->smarty->fetch(ROOT_THEMES . 'core/copyright.tpl');
 
         return $template_constants;
     }
@@ -501,7 +511,7 @@ class view_smarty extends renderer_base
      * @param string $templatename Template Filename
      * @return mainframe.tpl layout
      */
-    public function render($templatename)
+    public function render($template)
     {
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
@@ -525,7 +535,9 @@ class view_smarty extends renderer_base
          * Change Fetch to DisplayDOC to get an echo of the pure ModuleContent
          * else var_dump the fetch!
          */
-        $modulcontent =  $this->smarty->fetch($templatename);
+        #echo $template; exit;
+
+        $modulcontent =  $this->fetch($template);
         #var_dump($modulcontent);
         $this->smarty->assign('content',  $modulcontent );
 
