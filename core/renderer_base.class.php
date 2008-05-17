@@ -49,6 +49,10 @@ abstract class renderer_base
     public $view = null;     # holds instance of the Rendering Engine
     protected $injector; # holds instance of Dependency Injector Phemto (object)
 
+    public $config = null;
+
+    public $layoutTemplate = null;
+
     /**
      * Construct View from Module.
      *
@@ -57,6 +61,8 @@ abstract class renderer_base
     public function __construct(Phemto $injector)
     {
         $this->injector = $injector;    # set Injector
+
+        $this->config   = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**
@@ -70,7 +76,7 @@ abstract class renderer_base
      * @param string $method Name of the Method
      * @param array $arguments Array with Arguments
      * @access public
-     * 
+     *
      * @return Function Call to Method
      */
     public function __call($method, $arguments)
@@ -78,6 +84,12 @@ abstract class renderer_base
         #echo 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->view, $method))
         {
+            /**
+             * @todo: Speedup the Method Calling
+             * maybe Clansuite_Loader::callMethodwithArguments()
+             * count arguments, build a switch based on count, assign directly up to 4 arguments
+             * default/ last one call_user_func_array
+             */
             return call_user_func_array(array($this->view, $method), $arguments);
         }
         else
@@ -118,18 +130,196 @@ abstract class renderer_base
      */
     abstract public function display($template, $data = null);
 
+
     /**
+     * Returns the Template Path
+     *
+     * Path Priority
+     * 1) Themes
+     * 2) modulename/templates
+     *
+     * @return $templatepath
+     */
+    public function getTemplatePath($template)
+    {
+        # default is Theme Template Path
+        $template = $this->getThemeTemplatePath($template);
+
+        # return THEME path, if this is more than empty ( != not found)
+        if($template > 0)
+        {
+            return $template;
+        }
+        else
+        {
+             # try a lookup in the Module Template Path
+             return $this->getModuleTemplatePath($template);
+        }
+    }
+
+    /**
+     * Return the Themes Template-Path
+     *
+     * @param string $template Template Filename
+     * @return string
+     *
+     * @todo: for renderer related templates we have to add "renderer/", like
+     *        modules/modulename/templates/renderer/actioname.tpl
+     */
+    public function getThemeTemplatePath($template)
+    {
+        # init var
+        $themepath = '';
+
+        # 1. Check, if template exists in current Session THEME/templates
+        if(is_file( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $template) && isset($_SESSION['user']['theme']) > 0)
+        {
+            $themepath =  ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $template;
+        }
+
+        # 2. Check, if template exists in standard theme
+        /*
+        elseif(is_file( ROOT_THEMES . '/standard/' . $template))
+        {
+
+            $themepath = ROOT_THEMES . '/standard/' . $template;
+        }*/
+
+        return $themepath;
+    }
+
+    /**
+     * Return the Modules Template-Path
+     *
+     * @param string $template Template Filename
+     * @return string
+     */
+    public function getModuleTemplatePath($template)
+    {
+        # init var
+        $modulepath = '';
+
+        # Method 1: get module/action names (we dont have action controller resolver yet)
+        # Leave this!
+        # $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
+        # $actionName = Clansuite_ActionController_Resolver::getActionName(); ???
+        /*
+         if(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
+        {
+            $modulepath = ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl';
+        }*/
+
+        # Method 2: detect it via $template string
+        # Given is a string like "news/show.tpl"
+        # we insert "/templates" at the last slash
+        $template = substr_replace($template, '/templates/', strpos($template,'/'), 0);
+
+        # Check, if template exists in module folder / templates
+        if(is_file( $template ))
+        {
+            $modulepath = $template;
+        }
+        else
+        {
+            # NOT EXISTANT
+            $modulepath = ROOT_THEMES . '/core/tplnotfound.tpl';
+        }
+
+        return $modulepath;
+    }
+
+    /**
+     * Constants for overall usage in all templates of all render engines
+     *
+     * a) Assign Web Paths
+     * b) Meta
+     * c) Clansuite version
+     * d) Page related
+     *
+     * @return array $template_constants
+     */
+    public function getConstants()
+    {
+        /**
+         * a) Assign Web Paths
+         *
+         * Watch it! These Paths are relative (based on WWW_ROOT), not absolute!
+         *
+         * @see config.class
+         */
+        $template_constants['www_root']             = WWW_ROOT;
+        $template_constants['www_root_upload']      = WWW_ROOT . '/' . $this->config['upload_folder'];
+        $template_constants['www_root_themes']      = WWW_ROOT_THEMES . '/' . $_SESSION['user']['theme'];
+        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
+
+        # b) Meta Informations
+        $tpl_constants['meta'] = $this->config['meta'];
+
+        # c) Clansuite Version from config.class.php
+        $template_constants['clansuite_version']       = $this->config['clansuite_version'];
+        $template_constants['clansuite_version_state'] = $this->config['clansuite_version_state'];
+        $template_constants['clansuite_version_name']  = $this->config['clansuite_version_name'];
+
+        # d) Page related
+
+        # Page Title
+        $template_constants['std_page_title'] = $this->config['std_page_title'];
+
+        # Normal CSS (global)
+        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css'];
+        # Normal Javascript (global)
+        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript'];
+
+        # Breadcrumb
+        $template_constants['trail'] = trail::getTrail();
+
+        # Assign Benchmarks
+        #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
+
+        # Assign Statistic Variables
+        # @todo: WRONG POS -> should be assigned by load_module statistics ...
+        # no general assign of stats
+        $statistic = $this->injector->instantiate('statistic');
+        $template_constants['stats'] = $statistic->get_statistic_array();
+
+        return $template_constants;
+    }
+
+     /**
      * Sets a so called Wrapper-Template = Layout.
      * The Content of a Module is rendered at variable $content inside this layout!
      *
-     * @abstract
      * @access public
      * @param string $template Template Filename for the wrapper Layout
      * @return string
      */
-    abstract public function setLayoutTemplate($template);
+    public function setLayoutTemplate($template)
+    {
+        #if (is_file($template) && is_readable($template))
+        #{
+            $this->layoutTemplate = $template;
+        #}
+        #else
+        #{
+            #throw new Exception('Invalid Smarty Layout Template provided. Check Name and Path.');
+        #}
+    }
 
-    #abstract public function setTemplatePath($templatepath);
-    #abstract public function getTemplatePaths();
+     /**
+     * Returns the Name of the Layout Template.
+     * Returns the config value if no layout template is set
+     *
+     * @access public
+     * @return string layout name, config tpl_wrapper_file as default
+     */
+    public function getLayoutTemplate()
+    {
+        if (empty($this->layoutTemplate))
+        {
+            $this->setLayoutTemplate($this->config['tpl_wrapper_file']);
+        }
+
+        return $this->layoutTemplate;
+    }
 }
 ?>

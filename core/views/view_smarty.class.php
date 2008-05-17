@@ -61,11 +61,10 @@ class view_smarty extends renderer_base
 	 */
     private $smarty     = null;
 
-    public $layoutTemplate = null;
-
-    private $config     = null;
     private $db         = null;
     private $functions  = null;
+
+    protected $injector   = null;
 
     /**
      * 1) Initialize Smarty via class constructor
@@ -75,6 +74,7 @@ class view_smarty extends renderer_base
     {
       # apply instances to class
       $this->injector = $injector;
+      #var_dump($injector);
 
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('Clansuite_Config');
@@ -218,19 +218,6 @@ class view_smarty extends renderer_base
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # @todo check functionality
         #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
-
-        /**
-         * Assign Web Paths to Smarty
-         *
-         * The following variables are usable like constants in the templates.
-         * They are based on the relative www_root, not the absoulte path.
-         *
-         * @see config.class
-         */
-        $this->smarty->assign('www_root'            , WWW_ROOT );
-        $this->smarty->assign('www_root_upload'     , WWW_ROOT . '/' . $this->config['upload_folder'] );
-        $this->smarty->assign('www_root_themes'     , WWW_ROOT_THEMES . '/' . $_SESSION['user']['theme'] );
-        $this->smarty->assign('www_root_themes_core', WWW_ROOT_THEMES_CORE );
      }
 
     /**
@@ -257,14 +244,14 @@ class view_smarty extends renderer_base
         }
         else
         {
-            throw new Exception('Invalid Smarty template path provided');
+            throw new Exception('Invalid Smarty Template path provided: Path not existing or not readable. Path: ' . $templatepath );
         }
     }
 
     /**
-     * Get the TemplatePaths from Smarty
+     * Get the TemplatePaths Array from Smarty
      *
-     * @return string
+     * @return array, string
      */
     public function getTemplatePaths()
     {
@@ -312,17 +299,21 @@ class view_smarty extends renderer_base
      * @param string $key der Variablenname
      * @param mixed $val der Variablenwert
      * @return void
-     */
+     *//*
     public function __set($key, $value)
     {
         $this->smarty->assign($key, $value);
-    }
+    }*/
 
     /**
-     * Executes the template rendering and returns the result.
+     * Executes the template fetching and returns the result.
      */
     public function fetch($template, $data = null)
-    {        
+    {
+        $template = $this->getTemplatePath($template);
+
+        #echo $template; exit;
+
         return $this->smarty->fetch($template, $data = null);
     }
 
@@ -331,64 +322,46 @@ class view_smarty extends renderer_base
      */
     public function display($template, $data = null)
     {
+       $template = $this->getTemplatePath($template);
+
        $this->smarty->display($template, $data = null);
     }
 
-    /**
-     * view_smarty->assignConstants
-     *
-     * Assign the common template values and Clansuite constants to the templates.
-     * a) meta
-     * b) clansuite version
-     * c)
-     *
-     * @access protected
-     */
-    public function assignConstants()
+    public function getSmartyConstants()
     {
-        /**
-         * Assign Config Values (for use in header of tpl)
-         */
-        # a) Meta Inforamtions about the website
-        $this->smarty->assign('meta', $this->config['meta']);
-
-        # b) ClanSuite Version from config.class.php
-        $this->smarty->assign('clansuite_version'           , $this->config['clansuite_version']);
-        $this->smarty->assign('clansuite_version_state'     , $this->config['clansuite_version_state']);
-        $this->smarty->assign('clansuite_version_name'      , $this->config['clansuite_version_name']);
-
-        # c)
-        # Page Title
-        $this->smarty->assign('std_page_title', $this->config['std_page_title']);
-
         # Assign DB Counters
-        $this->smarty->assign('db_counter'    , $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter );     # Query counters (DB)
+        $template_constants['db_counter']= $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter;
         # Redirects, if necessary
-        $this->smarty->assign('redirect'      , $this->functions->redirect );
-        # Normal CSS (global)
-        $this->smarty->assign('css'           , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css']);
-        # Normal Javascript (global)
-        $this->smarty->assign('javascript'    , WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript']);
-
-        # Breadcrumb
-        $this->smarty->assign('trail'  , trail::getTrail());
-        # Assign Statistic Variables
-        $statistic = $this->injector->instantiate('statistic');
-        $this->smarty->assign('stats', $statistic->get_statistic_array());
-        # Assign Benchmarks
-        #$this->smarty->assign('db_exectime', benchmark::returnDbexectime() );
+        $template_constants['redirect'] = $this->functions->redirect;
 
         /**
-         * Check for our Copyright-Sign {$copyright} and assign it
+         * Copyright-Sign
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
-        $this->smarty->assign('copyright', $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl'));
+        $template_constants['copyright'] = $this->smarty->fetch(ROOT_THEMES . '/core/copyright.tpl');
+
+        return $template_constants;
+    }
+
+    /**
+     * Assign the common template values and Clansuite constants as Smarty Template Variables.
+     *
+     * @access protected
+     */
+    protected function assignConstants()
+    {
+        # fetch the general clansuite constants from renderer_base->getConstants()
+        $this->smarty->assign($this->getConstants());
+        #var_dump($this->getConstants());
+
+        # fetch the specific smarty constants from view_smarty->getSmartyConstants()
+        $this->smarty->assign($this->getSmartyConstants());
+        ##var_dump($this->getSmartyConstants());
 
         # leave this for debugging purposes
         #var_dump($this->smarty);
     }
-
 
     /**
      * view_smarty::smartyBlockError
@@ -563,39 +536,6 @@ class view_smarty extends renderer_base
         #exit;
 
         return $this->smarty->fetchDOC($this->getLayoutTemplate());
-    }
-
-    /**
-     * Sets the name of the layout template.
-     *
-     * @param string $template Name of the Layout Template.
-     */
-    public function setLayoutTemplate($template)
-    {
-        #if (is_file($template) && is_readable($template))
-        #{
-            $this->layoutTemplate = $template;
-        #}
-        #else
-        #{
-            #throw new Exception('Invalid Smarty Layout Template provided. Check Name and Path.');
-        #}
-    }
-
-     /**
-     * Returns the Name of the Layout Template.
-     * Returns the config value if no layout template is set
-     *
-     * @access public
-     * @return string layout name, config tpl_wrapper_file as default
-     */
-    public function getLayoutTemplate()
-    {
-        if (empty($this->layoutTemplate))
-        {
-            $this->setLayoutTemplate($this->config['tpl_wrapper_file']);
-        }
-        return $this->layoutTemplate;
     }
 }
 ?>
