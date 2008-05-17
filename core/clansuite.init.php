@@ -82,18 +82,21 @@ else
  *   - DB_PREFIX
  *   - NL
  */
+# DEFINE_SHORTHAND -> DIRECTORY_SEPARATOR
+define('DS', DIRECTORY_SEPARATOR);
+
 # DEFINE -> ROOT
 # Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
-define('ROOT',  getcwd() . '/');
+define('ROOT',  getcwd() . DS);
 #define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
 
 # DEFINE -> Directories related to ROOT
-define('ROOT_MOD'           , ROOT . $config['mod_folder']);
-define('ROOT_THEMES'        , ROOT . $config['themes_folder']);
-define('ROOT_LANGUAGES'     , ROOT . $config['language_folder']);
-define('ROOT_CORE'          , ROOT . $config['core_folder']);
-define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder']);
-define('ROOT_UPLOAD'        , ROOT . $config['upload_folder']);
+define('ROOT_MOD'           , ROOT . $config['mod_folder'].DS);
+define('ROOT_THEMES'        , ROOT . $config['themes_folder'].DS);
+define('ROOT_LANGUAGES'     , ROOT . $config['language_folder'].DS);
+define('ROOT_CORE'          , ROOT . $config['core_folder'].DS);
+define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder'].DS);
+define('ROOT_UPLOAD'        , ROOT . $config['upload_folder'].DS);
 
 # DEFINE -> Webpaths for Templates
 

@@ -143,12 +143,12 @@ abstract class renderer_base
     public function getTemplatePath($template)
     {
         # default is Theme Template Path
-        $template = $this->getThemeTemplatePath($template);
+        $theme_template = $this->getThemeTemplatePath($template);
 
         # return THEME path, if this is more than empty ( != not found)
-        if($template > 0)
+        if(strlen($theme_template) > 0)
         {
-            return $template;
+            return $theme_template;
         }
         else
         {
@@ -172,9 +172,9 @@ abstract class renderer_base
         $themepath = '';
 
         # 1. Check, if template exists in current Session THEME/templates
-        if(is_file( ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $template) && isset($_SESSION['user']['theme']) > 0)
+        if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
         {
-            $themepath =  ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $template;
+            $themepath =  ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
         }
 
         # 2. Check, if template exists in standard theme
@@ -184,6 +184,14 @@ abstract class renderer_base
 
             $themepath = ROOT_THEMES . '/standard/' . $template;
         }*/
+
+        # ADMIN
+        elseif(is_file( ROOT_THEMES . 'core' .DS. $template))
+        {
+            $themepath = ROOT_THEMES . 'core' .DS. $template;
+        }
+
+        echo 'getThemeTemplatePath: '. $themepath . '<br>';
 
         return $themepath;
     }
@@ -204,26 +212,29 @@ abstract class renderer_base
         # $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
         # $actionName = Clansuite_ActionController_Resolver::getActionName(); ???
         /*
-         if(is_file( ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl'))
+         if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
         {
-            $modulepath = ROOT_MOD .'/'. $moduleName .'/templates/'. $actionName .'.tpl';
+            $modulepath = ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
         }*/
 
         # Method 2: detect it via $template string
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
-        $template = substr_replace($template, '/templates/', strpos($template,'/'), 0);
+        
+        $template = substr_replace($template, DS. 'templates', strpos($template,DS), 0);
 
         # Check, if template exists in module folder / templates
-        if(is_file( $template ))
+        if(is_file( ROOT_MOD . $template ))
         {
-            $modulepath = $template;
+            $modulepath = ROOT_MOD . $template;
         }
         else
         {
             # NOT EXISTANT
-            $modulepath = ROOT_THEMES . '/core/tplnotfound.tpl';
+            $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
         }
+
+        echo 'getModuleTemplatePath: '.$modulepath . '<br>';
 
         return $modulepath;
     }
@@ -248,8 +259,8 @@ abstract class renderer_base
          * @see config.class
          */
         $template_constants['www_root']             = WWW_ROOT;
-        $template_constants['www_root_upload']      = WWW_ROOT . '/' . $this->config['upload_folder'];
-        $template_constants['www_root_themes']      = WWW_ROOT_THEMES . '/' . $_SESSION['user']['theme'];
+        $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['upload_folder'];
+        $template_constants['www_root_themes']      = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
 
         # b) Meta Informations
