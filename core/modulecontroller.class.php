@@ -84,7 +84,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public $renderEngineName = null;
 
     // Variable contains the name of the template
-    public $templateName = null;
+    public $template = null;
 
     // Variable contains the Dependecy Injector
     public $injector = null;                    # dynamic
@@ -126,23 +126,23 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * Get the Module Config
+     * Gets the Module Config
      *
-     * If a config filename is specified read that,
-     * else get the config for the requested module.
+     * Reads the config for the requested module as default
+     * or the config file specified by $filename.
      *
-     * @param string $filename ini filename of configuration
+     * @param string $filename configuration ini-filename to read
      * @access public
      */
     public function getModuleConfig($filename = null)
     {
-        if(isset($filename))
+        if(is_null($filename))
         {
-            return $this->config->readConfig($filename);
+            return $this->config->readConfig(Clansuite_ModuleController_Resolver::getModuleName());
         }
         else
         {
-            return $this->config->readConfig(Clansuite_ModuleController_Resolver::getModuleName());
+            return $this->config->readConfig($filename);
         }
     }
 
@@ -279,7 +279,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * Returns the Rendering Engine Object
+     * Returns the Rendering Engine Object via view_factory
+     *
+     * view_factory::getRenderer() has following parameters:
      * param1 getRenderEngineName looks up the Renderer-Name
      * param2 pass injector to renderer
      *
@@ -295,11 +297,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * Set the template name
      *
      * @access public
-     * @param string $templateName Name of the Template with full Path
+     * @param string $template Name of the Template with full Path
      */
-    public function setTemplate($templateName)
+    public function setTemplate($template)
     {
-        $this->templateName = $templateName;
+        $this->template = $template;
     }
 
     /**
@@ -311,11 +313,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public function getTemplateName()
     {
         # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->templateName))
+        if(empty($this->template))
         {
             $this->constructTemplateName();
         }
-        return $this->templateName;
+        return $this->template;
     }
 
     /**
@@ -417,17 +419,29 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * controller_base::redirect();
+     * Redirect
      *
-     *
+     * @param string Redirect to this URL
+     * @param int    seconds before redirecting (for the html tag "meta refresh")
+     * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect()
+    public function redirect($url, $time = 3, $statusCode = 302)
     {
+        # redirect html content
+        $redirect_html  = '';
+        $redirect_html  = '<html><head>';
+        $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
+        $redirect_html .= '</head></html>';
+
         # redirect to ...
+        $response = $this->injector->instantiate('httpresponse');
+        $response->setStatusCode($statusCode);
+        $response->addHeader('Location', $url);
+        $response->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+        $response->flush();
 
         # event log
-
     }
 }
 ?>

@@ -81,7 +81,7 @@ abstract class renderer_base
      */
     public function __call($method, $arguments)
     {
-        #echo 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
+        #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->view, $method))
         {
             /**
@@ -150,9 +150,8 @@ abstract class renderer_base
         {
             return $theme_template;
         }
-        else
+        else # try a lookup in the Module Template Path
         {
-             # try a lookup in the Module Template Path
              return $this->getModuleTemplatePath($template);
         }
     }
@@ -191,7 +190,7 @@ abstract class renderer_base
             $themepath = ROOT_THEMES . 'core' .DS. $template;
         }
 
-        echo 'getThemeTemplatePath: '. $themepath . '<br>';
+        #print 'getThemeTemplatePath: '. $themepath . '<br>';
 
         return $themepath;
     }
@@ -220,7 +219,7 @@ abstract class renderer_base
         # Method 2: detect it via $template string
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
-        
+
         $template = substr_replace($template, DS. 'templates', strpos($template,DS), 0);
 
         # Check, if template exists in module folder / templates
@@ -234,7 +233,7 @@ abstract class renderer_base
             $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
         }
 
-        echo 'getModuleTemplatePath: '.$modulepath . '<br>';
+        #print 'getModuleTemplatePath: '.$modulepath . '<br>';
 
         return $modulepath;
     }

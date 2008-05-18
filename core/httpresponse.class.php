@@ -49,17 +49,17 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 interface Clansuite_Response_Interface
 {
-    public function setStatus($status);
+    public function setStatusCode($statusCode);
     public function addHeader($name, $value);
     public function setContent($data);
     public function flush();
     public function newCookie($name, $value);
-    public function redirect($url, $status = null);
 }
 
 /**
- * httpresponse represents the response object
- * on a request processed by clansuite.
+ * HTTPResponse represents the web response object on a request processed by Clansuite.
+ *
+ * @todo: headers, cookies
  *
  * @package clansuite
  * @subpackage core
@@ -69,30 +69,35 @@ class HTTPResponse implements Clansuite_Response_Interface
 {
     /**
      * Status of the response as integer value.
-     * $status = '200' => 'OK'
-     * $status = '404' => 'Not Found'
+     * $statusCode = '200' => 'OK'
      *
      * @var       integer
-     * @access    private
+     * @access    protected
      */
-    private $status = '200';
+    protected $statusCode = '200';
 
     /**
      * Array holding the response headers.
      *
      * @var       array
-     * @access    private
-     * todo note by vain: better protected?
+     * @access    protected
      */
-    private $headers = array();
+    protected $headers = array();
 
     /**
      * String holding the response body.
      *
-     * @var        string
-     * @access    private
+     * @var       string
+     * @access    protected
      */
-    private $body = null;
+    protected $body = null;
+
+    protected $config; # holds instance of Clansuite_Config
+
+    public function __construct(Clansuite_Config $config)
+    {
+        $this->config = $config; # set instance
+    }
 
     /**
      * Sets the HTTP Status Code for this response.
@@ -100,36 +105,45 @@ class HTTPResponse implements Clansuite_Response_Interface
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
      *
      * @access   public
-     * @param    integer    $status        The status code to set
+     * @param    integer    $statusCode        The status code to set
      */
-    public function setStatus($status)
+    public function setStatusCode($statusCode)
     {
-        $this->status = (string) $status;
+        $this->statusCode = (string) $statusCode;
     }
 
     /**
+     * Get-Method for HTTP 1.1 status code and its meaning.
      *
-     * todo: check functionality
      * used in (@link $this->flush )
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
-    public function statusDescr($status)
+    public function getStatusCodeDescription($statusCode)
     {
         /**
          * Array holding some often occuring status descriptions.
          * @var       array
          */
-        $statusDescr = array('200'    => 'OK'
-                            ,'202'    => 'Accepted'
-                            ,'301'    => 'Moved Permanently'
-                            ,'302'    => 'Moved Temporarily'
-                            ,'304'    => 'Not Modified'
-                            ,'400'    => 'Bad Request'
-                            ,'401'    => 'Unauthorized'
-                            ,'403'    => 'Forbidden'
-                            ,'404'    => 'Not Found'
-                            ,'500'    => 'Internal Server Error'
-                            );
-        return $statusDescr[$status];
+        $statusCodeDescription = array(
+                                       # Successful
+                                       '200'    => 'OK',
+                                       '201'    => 'Created',
+                                       '202'    => 'Accepted',
+                                       # Redirection
+                                       '301'    => 'Moved Permanently',
+                                       '302'    => 'Found',
+                                       '304'    => 'Not Modified',
+                                       '307'    => 'Temporary Redirect',
+                                       # Client Error
+                                       '400'    => 'Bad Request',
+                                       '401'    => 'Unauthorized',
+                                       '403'    => 'Forbidden',
+                                       '404'    => 'Not Found',
+                                       # Server Error
+                                       '500'    => 'Internal Server Error'
+                                      );
+
+        return $statusCodeDescription[$statusCode];
     }
 
      /**
@@ -161,15 +175,14 @@ class HTTPResponse implements Clansuite_Response_Interface
      */
     public function flush()
     {
+        // Guess what?
         session_write_close();
-        
-        $config['version'] = '0.1 alpha - dev';
 
         // Send the status line
-        header('HTTP/1.1 '.$this->status.' '.$this->statusDescr($this->status));
+        header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
 
         // Send X-Powered-By Header to Clansuite Signature
-        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $config['version'] .' ][ www.clansuite.com ]');
+        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $this->config['clansuite_version'] .' ][ www.clansuite.com ]');
 
          // Send our Content-Type with UTF-8 encoding
         $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
@@ -186,9 +199,17 @@ class HTTPResponse implements Clansuite_Response_Interface
         // Flush Compressed Buffer
         if(defined('OB_GZIP')){ new gzip_encode(7); }
 
-        // reset headers and data
-        $this->headers = array();
-        $this->data = null;
+        // OK, Reset -> Package delivered! Return to Base!
+        $this->clearHeaders();
+    }
+
+    /**
+     * Resets the Headers and the Data
+     */
+    public function clearHeaders()
+    {
+        $this->headers  = array();
+        $this->data     = null;
     }
 
     /**
@@ -203,24 +224,7 @@ class HTTPResponse implements Clansuite_Response_Interface
      */
     public function newCookie($name, $value)
     {
-        
-    }
 
-    /**
-     * Redirect to URL
-     *
-     * @param string $url
-     * @param integer $status
-     * @access public
-     */
-    public function redirect($url, $status = null)
-    {
-        // safe session data
-        session_write_close();
-        // set status and header location to redirect url
-        // and flush it to the client!
-        $this->setStatus($status);
-        $this->addHeader('Location', $url)->flush();
     }
 }
 ?>
