@@ -127,68 +127,12 @@ define('NL', "<br />\r\n");
  *  ================================================
  *     Alter php.ini settings
  *  ================================================
- * @note: in php6 zend.ze1 compatbility will be removed
  */
-#ini_set('zend.ze1_compatibility_mode'  , false);
 ini_set('short_open_tag'                , 'off');
 ini_set('arg_separator.input'           , '&amp;');
 ini_set('arg_separator.output'          , '&amp;');
 ini_set('memory_limit'                  , '20M' );
 
-/**
- *  ================================================
- *     Unicode & Charset Settings
- *  ================================================
- * @link    http://www.php.net/manual/en/ref.unicode.php
- */
-#declare(encoding=$config['outputcharset']);
-/**
-unicode.fallback_encoding       =
-unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
-unicode.from_error_subst_char	=
-unicode.http_input_encoding	    = $config['outputcharset'];
-unicode.output_encoding	        = $config['outputcharset'];
-unicode.runtime_encoding        =
-unicode.script_encoding         = $config['outputcharset'];
-# this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
-#unicode.semantics               = 1
-*/
-
-// Set Charset and Character Encoding
-if(function_exists('mb_http_output'))
-{
-	mb_http_output($config['outputcharset']);
-	mb_internal_encoding($config['outputcharset']);
-	# replace mail(), str*(), ereg*() by mbstring functions
-    ini_set('mbstring.func_overload','7');
-}
-/*
-if (function_exists('iconv')
-{
-    iconv_set_encoding('input_encoding',   'UTF-8');
-    iconv_set_encoding('internal_encoding','UTF-8');
-    iconv_set_encoding('output_encoding',  $config['outputcharset']);
-}*/
-
-/**
- *  ================================================
- *     Compress output if the browser supports it
- *  ================================================
- * @note by vain: problems reported with cached smarty templates... we'll see how that works out
- */
-# Method 1 zlib
-if((!XDBUG) && extension_loaded('zlib'))
-{
-    ini_set('zlib.output_compression'       , true);
-    ini_set('zlib.output_compression_level' , '7');
-    # Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
-    if(!(bool)ini_get('zlib.output_compression') === true)
-    {
-      ob_start('ob_gzhandler');
-      require ROOT_LIBRARIES.'/gzip_encode/class.gzip_encode.php';
-      define('OB_GZIP', true);
-    }
-}
 /**
  *  ================================================
  *     Set Timezone Settings

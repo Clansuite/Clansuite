@@ -419,29 +419,16 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * Redirect
+     * Redirect (shortcut for usage in modules)
      *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect($url, $time = 3, $statusCode = 302)
+    public function redirect($url, $time = 0, $statusCode = 302)
     {
-        # redirect html content
-        $redirect_html  = '';
-        $redirect_html  = '<html><head>';
-        $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-        $redirect_html .= '</head></html>';
-
-        # redirect to ...
-        $response = $this->injector->instantiate('httpresponse');
-        $response->setStatusCode($statusCode);
-        $response->addHeader('Location', $url);
-        $response->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
-        $response->flush();
-
-        # event log
+        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode);       
     }
 }
 ?>

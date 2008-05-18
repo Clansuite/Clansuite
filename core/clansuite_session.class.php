@@ -38,27 +38,8 @@
     * @version    SVN: $Id$
     */
 
-/**
- *  Database Table Structure for cs_session
- *
-    CREATE TABLE `cs_session` (
-    `user_id` int(11) NOT NULL default '0',
-    `session_id` varchar(32) NOT NULL default '',
-    `session_data` text NOT NULL,
-    `session_name` text  NOT NULL,
-    `session_expire` int(11) NOT NULL default '0',
-    `session_visibility` tinyint(4) NOT NULL default '0',
-    `session_where` text NOT NULL,
-    PRIMARY KEY  (`session_id`),
-    UNIQUE KEY `session_id` (`session_id`),
-    KEY `user_id` (`user_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- *
- */
-
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-
 
 /**
  * This is the Clansuite Core Class for Session Handling
@@ -72,36 +53,18 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  session
  * @category    core
  */
-
 class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 {
-    /**
-     * Set common session vars
-     */
-    #protected $session = null;
+    #protected $session = null; # Set common session vars
 
-    /**
-     * @access public
-     * @var string $session_name contains the session name
-     */
-
-    const session_name = 'suiteSID';
+    const session_name = 'suiteSID'; # session_name contains the session name
 
     /**#@+
      * @access public
      * @var integer
      */
-    /**
-     * Session Expire time in minutes
-     */
-
-    public $session_expire_time     = 30;
-
-    /**
-     * Probabliity of trashing the Session as percentage
-     */
-
-    public $session_probability     = 30;
+    public $session_expire_time     = 30; # Session Expire time in minutes
+    public $session_probability     = 30; # Probabliity of trashing the Session as percentage
     public $session_cookies         = 1;
     public $session_cookies_only    = 0;
 
@@ -113,21 +76,22 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @access public
      */
-
     public $session_security    = array('check_ip', 'check_browser', 'check_host');
 
     /**
      * @access public
-     * @var object $db is the Reference to PDO
+     * @var object
      */
-
-    private $config     = null;
-    private $db         = null;
-    private $request    = null;
-    private $response   = null;
+    private  $config     = null;
+    private  $request    = null;
+    private  $response   = null;
 
     /**
      * Clansuite_Session is a Singleton
+     *
+     * @param object $injector DependencyInjector
+     *
+     * @return instance of session class
      */
     public static function getInstance($injector)
     {
@@ -154,7 +118,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # Setup References
 
         $this->config       = $injector->instantiate('Clansuite_Config');
-        $this->db           = $injector->instantiate('db');
         $this->request      = $injector->instantiate('httprequest');
         $this->response     = $injector->instantiate('httpresponse');
 
@@ -225,7 +188,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         if (!$this->_session_check_security() )
         {
-            die($this->response->redirect('index.php?mod=login') );
+            $this->response->redirect('index.php?mod=login');
         }
 
         # Control the session ( Clean up: 3day registrations, old sessions)
@@ -233,6 +196,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $this->session_control();
 
         # Register shutdown
+        # @todo: is this needed? session_write_close is called in response->flush()
 
         register_shutdown_function(array($this,'session_close'));
     }
@@ -264,6 +228,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * Reads a session
      *
      * @param integer $id contains the session_id
+     *
      * @return mixed (boolean false or data)
      */
     public function session_read( $id )
@@ -289,6 +254,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @param integer $id contains session_id
      * @param array $data contains session_data
+     *
      * @return bool
      */
     public function session_write( $id, $data )
@@ -328,8 +294,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
              * Update Session, because we know that session_id already exists
              */
             $result->session_expire = $expires;
-            $result->session_data = $data;
-            $result->session_where = $userlocation;
+            $result->session_data   = $data;
+            $result->session_where  = $userlocation;
             $result->save();
         }
         else
@@ -338,13 +304,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
              * Insert Session, because we got no session_result for that session_id
              */
             $newSession = new CsSession();
-            $newSession->session_id = $id;
-            $newSession->session_name = self::session_name;
-            $newSession->session_expire = $expires;
-            $newSession->session_data = $data;
+            $newSession->session_id         = $id;
+            $newSession->session_name       = self::session_name;
+            $newSession->session_expire     = $expires;
+            $newSession->session_data       = $data;
             $newSession->session_visibility = 1;
-            $newSession->session_where = $userlocation;
-            $newSession->user_id = 0;
+            $newSession->session_where      = $userlocation;
+            $newSession->user_id            = 0;
             $newSession->save();
         }
 
@@ -355,6 +321,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 	 * Destroy the current session.
 	 *
 	 * @param  string $session_id
+	 *
 	 * @return void
 	 */
     public function session_destroy( $session_id )
@@ -376,13 +343,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  ->from('CsSession')
                                  ->where('session_name = ? AND session_id = ?')
                                  ->execute(array( self::session_name, $session_id ));
-        #var_dump($rows);
-
-        // Optimize DB
-        if ($rows > 0)
-        {
-            $this->_session_optimize();
-        }
     }
 
     /**
@@ -401,25 +361,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  ->from('CsSession')
                                  ->where('session_name = ? AND session_expire < ?')
                                  ->execute(array( self::session_name, time() ));
-        #var_dump($rows);
-
-        if ($rows > 0)
-        {
-            $this->_session_optimize();
-        }
-    }
-
-    /**
-     * Optimize the session table
-     *
-     * @todo function is deactivated - Check how session table can be optimized while using pdo
-     */
-    public function _session_optimize()
-    {
-        /* NOT WORKING WITH PDO
-        $stmt = $this->exec->query('OPTIMIZE TABLE ' . DB_PREFIX . 'session');
-        $stmt->closeCursor();
-        */
     }
 
     /**
@@ -538,7 +479,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             {
                 //session_regenerate_id(true);
                 //var_dump($result);
-                #$this->response->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
+
+                // deprecated redirect with message
+                #$this->response->redirect('index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
+
+                $this->response->redirect('index.php?mod=account&action=login', 0, '302' );
             }
         }
 
@@ -556,7 +501,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
 
     /**
-     * set()
+     * Sets Data into the Session.
+     *
+     * @param string key
+     * @param mixed  value
      */
     public function set($key, $value)
     {
@@ -564,7 +512,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     }
 
     /**
-     * get()
+     * Gets Data from the Session.
+     *
+     * @param string key
+     *
+     * @return mixed value/boolean false
      */
     public function get($key)
     {
@@ -596,14 +548,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $this->set($offset, $value);
     }
 
-    // @todo
-    // @note by vain: check if this works on single arrays of session?
+    // @todo: note by vain: check if this works on single array of session?
     public function offsetUnset($offset)
     {
         unset($_SESSION[$offset]);
         return true;
     }
-
 }
 
 /**
