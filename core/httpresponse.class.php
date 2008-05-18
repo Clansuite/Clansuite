@@ -104,8 +104,8 @@ class HTTPResponse implements Clansuite_Response_Interface
      * This method is also used to set the return status code when there
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
      *
-     * @access   public
-     * @param    integer    $statusCode        The status code to set
+     * @access public
+     * @param  integer $statusCode The status code to set
      */
     public function setStatusCode($statusCode)
     {
@@ -149,8 +149,8 @@ class HTTPResponse implements Clansuite_Response_Interface
      /**
       * add a header to the response array, which is send to the browser
       *
-      * @param  string    $name     the name of the header
-      * @param  string    $value    the value of the header
+      * @param  string $name the name of the header
+      * @param  string $value the value of the header
       */
     public function addHeader($name, $value)
     {
@@ -161,7 +161,7 @@ class HTTPResponse implements Clansuite_Response_Interface
      * append content to body
      *
      * @access public
-     * @param  string  $content    Content to store in the buffer
+     * @param string $content Content to store in the buffer
      */
     public function setContent($content)
     {
@@ -177,6 +177,9 @@ class HTTPResponse implements Clansuite_Response_Interface
     {
         // Guess what?
         session_write_close();
+
+        // activateOutputCompression
+        $this->activateOutputCompression();
 
         // Send the status line
         header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
@@ -204,6 +207,74 @@ class HTTPResponse implements Clansuite_Response_Interface
     }
 
     /**
+     *  ================================================
+     *     Compress output if the browser supports it
+     *  ================================================
+     *
+     * Method 1: zlib
+     * Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
+     *
+     * @todo: note by vain: problems reported with cached smarty templates... we'll see how that works out
+     */
+    public function activateOutputCompression()
+    {
+        # Method 1 zlib
+        if((!XDBUG) && extension_loaded('zlib'))
+        {
+            ini_set('zlib.output_compression'       , true);
+            ini_set('zlib.output_compression_level' , '7');
+
+            # Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
+            if(!(bool)ini_get('zlib.output_compression') === true)
+            {
+              ob_start('ob_gzhandler');
+              require ROOT_LIBRARIES . 'gzip_encode/class.gzip_encode.php';
+              define('OB_GZIP', true);
+            }
+        }
+    }
+
+    /**
+     *  ================================================
+     *     Unicode & Charset Settings
+     *  ================================================
+     * @link    http://www.php.net/manual/en/ref.unicode.php
+     */
+    public function applyOutputCharset()
+    {
+        #declare(encoding=$config['outputcharset']);
+        /**
+        unicode.fallback_encoding       =
+        unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
+        unicode.from_error_subst_char	=
+        unicode.http_input_encoding	    = $config['outputcharset'];
+        unicode.output_encoding	        = $config['outputcharset'];
+        unicode.runtime_encoding        =
+        unicode.script_encoding         = $config['outputcharset'];
+        # this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
+        #unicode.semantics               = 1
+        */
+
+        // Set Charset and Character Encoding
+        if(function_exists('mb_http_output'))
+        {
+        	mb_http_output($this->config['outputcharset']);
+        	mb_internal_encoding($this->config['outputcharset']);
+        	# replace mail(), str*(), ereg*() by mbstring functions
+            ini_set('mbstring.func_overload','7');
+        }
+
+        /*
+        // iconv
+        if (function_exists('iconv')
+        {
+            iconv_set_encoding('input_encoding',   'UTF-8');
+            iconv_set_encoding('internal_encoding','UTF-8');
+            iconv_set_encoding('output_encoding',  $config['outputcharset']);
+        }*/
+    }
+
+    /**
      * Resets the Headers and the Data
      */
     public function clearHeaders()
@@ -225,6 +296,31 @@ class HTTPResponse implements Clansuite_Response_Interface
     public function newCookie($name, $value)
     {
 
+    }
+
+    /**
+     * Redirect
+     *
+     * @param string Redirect to this URL
+     * @param int    seconds before redirecting (for the html tag "meta refresh")
+     * @param int    http status code, default: '302' => 'Not Found'
+     * @access public
+     */
+    public function redirect($url, $time = 0, $statusCode = 302)
+    {
+        # redirect html content
+        $redirect_html  = '';
+        $redirect_html  = '<html><head>';
+        $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
+        $redirect_html .= '</head></html>';
+
+        # redirect to ...
+        $this->setStatusCode($statusCode);
+        $this->addHeader('Location', $url);
+        $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+        $this->flush();
+
+        # event log
     }
 }
 ?>
