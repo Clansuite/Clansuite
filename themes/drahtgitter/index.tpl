@@ -45,8 +45,8 @@
 <tr>
     <td valign="top"><strong>Themes</strong>
         <ul>
-            <li><a href="?theme=accessible">Accessible</a></li>
-            <li><a href="?theme=standard">standard</a></li>
+            <li><a href="{$smarty.server.SCRIPT_NAME}{$smarty.server.REQUEST_URI}&theme=accessible">Accessible</a></li>
+            <li><a href="{$smarty.server.SCRIPT_NAME}{$smarty.server.REQUEST_URI}&theme=standard">standard</a></li>
         </ul>
         <br />
     </td>
