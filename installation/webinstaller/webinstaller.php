@@ -1068,43 +1068,55 @@ class PhpUnzipExtractor extends ExtractMethod
 {
     function extract($fileName) {
 	$baseFolder = dirname($fileName);
-	if (!($zip = zip_open($fileName))) {
+	echo $baseFolder;
+	if (!($zip = zip_open($fileName)))
+	{
 	    return "Could not open the zip archive $fileName";
 	}
 	$start = time();
-	while ($zip_entry = zip_read($zip)) {
-	    if (zip_entry_open($zip, $zip_entry, 'r')) {
-		$buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
-		$dir_name = dirname(zip_entry_name($zip_entry));
-		if ($dir_name != ".") {
-		    $dir = $baseFolder . '/';
-		    foreach ( explode('/', $dir_name) as $folderName) {
-			$dir .= $folderName;
-			if (is_file($dir)) unlink($dir);
-			if (!is_dir($dir)) mkdir($dir);
-			$dir .=  '/';
+	while ($zip_entry = zip_read($zip)) 
+	{
+		if (zip_entry_filesize($zip_entry))
+		{
+			$complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
+			$complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
+			if(!file_exists($complete_path)) {
+				$tmp = '';
+				foreach(explode('/',$complete_path) AS $k) 
+				{
+					$tmp .= $k.'/';
+					if(!file_exists($tmp)) 
+					{
+						@mkdir($tmp, 0777);
+					}
+				}
+			}
+			if (zip_entry_open($zip, $zip_entry, "r")) 
+			{
+				if ($fd = fopen($complete_name, 'w'))
+				{
+					fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
+					fclose($fd);
+				} 
+				else echo "fopen($dir_atual.$complete_name) error<br>";
+				zip_entry_close($zip_entry);
+			} 
+			else
+			{ 
+				echo "zip_entry_open($zip,$zip_entry) error<br>";
+			    return false;
 		    }
-		}
-		$fp = fopen($baseFolder . '/' . zip_entry_name($zip_entry), 'w');
-		if (!$fp) {
-		    return 'Error during php unzip: trying to open a file for writing';
-		}
-		if (fwrite($fp,$buf) != strlen($buf)) {
-		    return 'Error during php unzip: could not write the whole buffer length';
-		}
-		zip_entry_close($zip_entry);
-
-		if (time() - $start > 55) {
+		}			
+				
+		if (time() - $start > 55) 
+		{
 		    Platform::extendTimeLimit();
 		    $start = time();
 		}
-	    } else {
-		return false;
-	    }
-       }
-       zip_close($zip);
+	}
+	zip_close($zip);	
 
-       return true;
+    return true;
     }
 
     function getSupportedExtension() {
