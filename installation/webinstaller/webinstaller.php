@@ -85,12 +85,12 @@ $webinstaller_version = 'Version 0.2 - Mo, 29 Okt 2007';
 $downloadUrls = array();
 /* Hardcoded defaults / fallbacks (we try to find out these URLs during runtime) */
 /*   Latest Release Candidate */
-$downloadUrls['rc'] = 'http://svn.gna.org/daily/clansuite-snapshot';
+$downloadUrls['rc'] = 'http://download.gna.org/clansuite/clansuite';
 /*   Latest stable release */
-$downloadUrls['stable'] = 'http://svn.gna.org/daily/clansuite-snapshot';
+$downloadUrls['stable'] = 'http://download.gna.org/clansuite/clansuite';
 
 /*   Latest Daily Snapshot */
-$downloadUrls['daily']= 'http://svn.gna.org/daily/clansuite-snapshot.tar.gz';
+$downloadUrls['daily']= 'http://download.gna.org/clansuite/clansuite.tar.gz';
 
 /* This page on www.clansuite.com lists the latest versions
 /* So we scan gna.org/downloads for archives and add the daily-svn archiv.  */
