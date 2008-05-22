@@ -53,22 +53,26 @@ svn export $CHECKOUT_DIR $EXPORT_DIR
 echo "SVN EXPORT from local SVN -- done --"
 
 #--------
+# FOLDER COPY because of NAMING (/clansuite) inside the Archives
+cp -r /home/clansuite/svn-export/ /home/clansuite/clansuite
+echo "Copy SVN-EXPORT -> CLANSUITE DIR done!"
+#--------
 
 # ARCHIVE 
 # ZIP 
 # a new, mx=compresslevel7, t = zip, r recurse
-7z a -mx7 -tzip /home/clansuite/downloads/clansuite.zip -r /home/clansuite/svn-export
+7z a -mx7 -tzip /home/clansuite/downloads/clansuite.zip -r /home/clansuite/clansuite/
 echo "ZIP created!"
 
 # TAR.GZ
 # c=create new archive, v=verbose on, f=write to file, z=zip
-tar cvzf /home/clansuite/downloads/clansuite.tar.gz /home/clansuite/svn-export
+tar cvzf /home/clansuite/downloads/clansuite.tar.gz ../clansuite/
 echo "TAR.GZ created!"
 
 #--------
 
-# Copy Webinstaller into /home/clansuite/downloads
-cp /home/clansuite/svn-export/installation/webinstaller/* /home/clansuite/downloads/
+# Fetch Webinstaller into /home/clansuite/downloads
+cp /home/clansuite/clansuite/installation/webinstaller/* /home/clansuite/downloads/
 
 #--------
 
