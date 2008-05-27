@@ -84,13 +84,15 @@ $webinstaller_version = 'Version 0.2 - Mo, 29 Okt 2007';
 /* Download Location */
 $downloadUrls = array();
 /* Hardcoded defaults / fallbacks (we try to find out these URLs during runtime) */
-/*   Latest Release Candidate */
-$downloadUrls['rc'] = 'http://download.gna.org/clansuite/clansuite';
-/*   Latest stable release */
-$downloadUrls['stable'] = 'http://download.gna.org/clansuite/clansuite';
 
-/*   Latest Daily Snapshot */
+# Release Candidate
+$downloadUrls['rc'] = 'http://download.gna.org/clansuite/clansuite';
+# Stable Release */
+$downloadUrls['stable'] = 'http://download.gna.org/clansuite/clansuite';
+# Latest GNA Daily Snapshot without EXTERNALS
 $downloadUrls['daily']= 'http://download.gna.org/clansuite/clansuite.tar.gz';
+# Development Version
+$downloadUrls['dev']= 'http://download.gna.org/clansuite/clansuite';
 
 /* This page on www.clansuite.com lists the latest versions
 /* So we scan gna.org/downloads for archives and add the daily-svn archiv.  */
@@ -104,7 +106,7 @@ $folderPermissionList = array('777', '755', '555');
 // $availableExtensions = array('zip', 'tar.gz');
 $availableExtensions = array('tar.gz');
 /* Available versions of G2 */
-$availableVersions = array('stable', 'rc', 'daily');
+$availableVersions = array('dev');
 
 /*****************************************************************
  * M A I N
@@ -1348,11 +1350,14 @@ function render($renderType, $args=array()) {
 	 <span class="subtitle">Select the Clansuite version:</span>
 	 <table class="choice">
 	   <tr><td><select name="version">
-	     <option value="stable" selected="selected">Latest stable version (recommended)</option>
+	     <?php /*
+	     <option value="stable" selected="selected">Latest stable version (recommended)</option>	     
 	     <?php if (!empty($args['showRcVersion'])): ?>
 	     <option value="rc">Latest release candidate for the next stable version</option>
 	     <?php endif; ?>
 	     <option value="nightly">Latest daily SVN snapshot (bleeding edge and dev)</option>
+	     */ ?>
+	     <option value="dev">Development Version 0.2-alpha1</option>
 	   </select></td></tr>
 	 </table>
 	 <span class="subtitle">Select a download method:</span>
