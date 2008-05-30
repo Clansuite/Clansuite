@@ -95,7 +95,7 @@ $error = '';
 }*/
 
 /**
- * @desc Suppress Errors
+ * Suppress Errors
  * E_STRICT forbids the shortage of "<?php echo $language->XY ?>" to "<?=$language->XY ?>"
  * so we use e_all ... this is just an installer btw :)
  */
@@ -167,7 +167,7 @@ try
 	}
 	else
 	{
-	    throw new Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
+	    throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
 	}
 }
 catch (Exception $e)
@@ -473,6 +473,8 @@ function getQueriesFromSQLFile($file)
  *
  * @param $data_array
  * @return BOOLEAN true, if clansuite.config.php could be written to the ROOT
+ * @todo: -> write ini via /core/clansuite_config.class.php -> writeConfig()!!
+ * @todo: -> read ini via /core/clansuite_config.class.php -> readConfig()!!
  */
 function write_config_settings($data_array, $update = false)
 {
