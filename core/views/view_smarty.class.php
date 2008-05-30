@@ -478,9 +478,13 @@ class view_smarty extends renderer_base
 
         # Parameter Array
         if( empty($params['params']) )
+        {
             $param_array = null;
+        }
         else
+        {
             $param_array = split('\|', $params['params']);
+        }
 
         #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
         #exit;
