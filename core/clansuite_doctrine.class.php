@@ -75,13 +75,13 @@ class Clansuite_Doctrine
     public function doctrine_initialize()
     {
         // Require compiled or normal Library
-        if (is_file( ROOT_LIBRARIES . '/doctrine/Doctrine.compiled.php'))
+        if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
         {
-            require_once ROOT_LIBRARIES .'/doctrine/Doctrine.compiled.php';
+            require_once ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
         }
         else
         {
-            require_once ROOT_LIBRARIES .'/doctrine/Doctrine.php';
+            require_once ROOT_LIBRARIES .'doctrine/Doctrine.php';
         }
         
         // Register Doctrine autoloader
