@@ -91,13 +91,13 @@ function mailTest()
 
 function clip(id)
 {
-	jQuery(id).toggle();
+	jQuery('#' + id).toggle();
 }
 
 $(document).ready(function() {
 	$('#sidebar').accordion({
 		header: 'h3',
-		autoheight: false
+		autoHeight: false
 	});
-	$('#sidebar #calendar').attachDatepicker();
+	$('#sidebar #calendar').datepicker();
 })
