@@ -32,11 +32,10 @@
 <link rel="stylesheet" type="text/css" href="{$www_root_themes}/css/accessible.css" />
 <link rel="stylesheet" type="text/css" href="{$www_root_themes}/css/ui.datepicker.css" />
 <script type="text/javascript" src="{$www_root_themes}/javascript/jquery.js"></script>
-<script type="text/javascript" src="{$www_root_themes}/javascript/jquery.dimensions.js"></script>
+<script type="text/javascript" src="{$www_root_themes}/javascript/ui.core.js"></script>
 <script type="text/javascript" src="{$www_root_themes}/javascript/ui.accordion.js"></script>
 <script type="text/javascript" src="{$www_root_themes}/javascript/ui.datepicker.js"></script>
 <script type="text/javascript" src="{$www_root_themes}/javascript/accessible.js"></script>
-<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 
