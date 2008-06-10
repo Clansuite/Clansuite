@@ -90,8 +90,8 @@ $error = '';
 // in case clansuite.config.php exists, exit -> can be configured from backend then
 /*if (is_file( WWW_ROOT . 'clansuite.config.php'))
 {
-	exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
-	      <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
+    exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
+          <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
 }*/
 
 /**
@@ -124,10 +124,10 @@ $_SESSION = array_merge($_SESSION, $_POST);
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
-	$step = (int) $_SESSION['step'];
-	if(isset($_POST['step_forward']))  { $step++; }
-	if(isset($_POST['step_backward'])) { $step--; }
-	if($step >= $total_steps) { $step = $total_steps; }
+    $step = (int) $_SESSION['step'];
+    if(isset($_POST['step_forward']))  { $step++; }
+    if(isset($_POST['step_backward'])) { $step--; }
+    if($step >= $total_steps) { $step = $total_steps; }
 }
 else { $step = 1; }
 
@@ -159,20 +159,20 @@ else
 # Language Include
 try
 {
-	if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
-	{
-		require_once CS_ROOT . '/languages/'. $lang .'.install.php';
-		$language = new language;
-		$_SESSION['lang'] = $lang;
-	}
-	else
-	{
-	    throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
-	}
+    if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
+    {
+        require_once CS_ROOT . '/languages/'. $lang .'.install.php';
+        $language = new language;
+        $_SESSION['lang'] = $lang;
+    }
+    else
+    {
+        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
+    }
 }
 catch (Exception $e)
 {
-	echo $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
+    echo $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
 }
 
 /**
@@ -182,11 +182,11 @@ catch (Exception $e)
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
     # check if input-fields are filled
-	if (isset($_POST['db_hostname']) AND isset($_POST['db_username']) AND isset($_POST['db_password']))
-	{
-	    # B) Write SQL-Data into Database
+    if (isset($_POST['db_hostname']) AND isset($_POST['db_username']) AND isset($_POST['db_password']))
+    {
+        # B) Write SQL-Data into Database
 
-	    # Should we create the database?
+        # Should we create the database?
         if (isset($_POST['db_create_database']) && $_POST['db_create_database'] == 'on')
         {
             # establish connection to database
@@ -202,29 +202,29 @@ if( isset($_POST['step_forward']) AND $step == 5 )
             }
         }
 
-	    $sqlfile = CS_ROOT . '/sql/clansuite.sql';
-    	if( !loadSQL( $sqlfile ,$_POST['db_hostname'], $_POST['db_name'], $_POST['db_username'], $_POST['db_password']) )
-    	{
-    		$step = 4;
-    		$error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
-    	}
-    	else
-    	{
-    	    // AlertBox?
-    		//echo "SQL Data correctly inserted into Database!";
-    	}
+        $sqlfile = CS_ROOT . '/sql/clansuite.sql';
+        if( !loadSQL( $sqlfile ,$_POST['db_hostname'], $_POST['db_name'], $_POST['db_username'], $_POST['db_password']) )
+        {
+            $step = 4;
+            $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
+        }
+        else
+        {
+            // AlertBox?
+            //echo "SQL Data correctly inserted into Database!";
+        }
 
-    	# A)  Write Settings to clansuite.config.php
-	    if( !write_config_settings($_POST))
-	    {
-	        $step = 4;
-	        $error = 'Config not written <br />';
+        # A)  Write Settings to clansuite.config.php
+        if( !write_config_settings($_POST))
+        {
+            $step = 4;
+            $error = 'Config not written <br />';
 
-	    }
-	    else
-	    {
-	        // Config written
-	    }
+        }
+        else
+        {
+            // Config written
+        }
     }
     else # input fields empty
     {
@@ -239,12 +239,12 @@ if( isset($_POST['step_forward']) AND $step == 5 )
  */
 if( isset($_POST['step_forward']) AND $step == 6 )
 {
-	# check if input-fields are filled
-	if( isset($_POST['site_name']) AND isset($_POST['system_email'])
-	                               AND isset($_POST['encryption'])
-	                               AND isset($_POST['salt'])
-	                               AND isset($_POST['time_zone']) )
-	# A)  Write Settings to clansuite.config.php
+    # check if input-fields are filled
+    if( isset($_POST['site_name']) AND isset($_POST['system_email'])
+                                   AND isset($_POST['encryption'])
+                                   AND isset($_POST['salt'])
+                                   AND isset($_POST['time_zone']) )
+    # A)  Write Settings to clansuite.config.php
     if( !write_config_settings($_POST, true))
     {
         $step = 6;
@@ -262,17 +262,17 @@ if( isset($_POST['step_forward']) AND $step == 6 )
  */
 if( isset($_POST['step_forward']) AND $step == 7 )
 {
-	# checken, ob admin name und password vorhanden
-	# wenn nicht, fehler : zurück zu STEP6
-	if( !isset($_POST['admin_name']) and !isset($_POST['admin_password']) )
-	{
-		$step = 6;
-		$error = $language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
-	}
-	else
-	{
-		#create admin user
-	}
+    # checken, ob admin name und password vorhanden
+    # wenn nicht, fehler : zurück zu STEP6
+    if( !isset($_POST['admin_name']) and !isset($_POST['admin_password']) )
+    {
+        $step = 6;
+        $error = $language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
+    }
+    else
+    {
+        #create admin user
+    }
 }
 
 /**
@@ -281,8 +281,8 @@ if( isset($_POST['step_forward']) AND $step == 7 )
 $installfunction  = "installstep_$step"; # add step to function name
 if(function_exists($installfunction))  # check if exists
 {
-	# Set Step to Session
-	$_SESSION['step'] = $step;
+    # Set Step to Session
+    $_SESSION['step'] = $step;
     $installfunction($language,$error); # lets rock! :P
 }
 
@@ -315,33 +315,34 @@ function get_total_steps()
  * @return string Returns a string with random generated characters and numbers
  * @access public
  */
-public function generate_salt($length)
+function generate_salt($length)
 {
-	  # set salt to empty
-		$salt = '';
+    # set salt to empty
+    $salt = '';
 
-		# seed the randoms generator with microseconds since last "whole" second
+    # seed the randoms generator with microseconds since last "whole" second
     mt_srand((double)microtime()*1000000);
 
-		# set up the random chars to choose from
-		$chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    # set up the random chars to choose from
+    $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     # count the number of random_chars
     $number_of_random_chars = strlen($chars);
 
     # add a char from the random_chars to the salt, until we got the wanted $length
     for ($i=0; $i<$length; ++$i)
-		{
-		    # get a random char of $chars
-		    $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
-		    # ensure that a random_char is not used twice in the salt
-		    if(!strstr($salt, $char_to_add))
-		    {
-		      # finally => add char to salt
-			    $salt .= $char_to_add;
-		    }
-		}
-		return $salt;
+    {
+        # get a random char of $chars
+        $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+
+        # ensure that a random_char is not used twice in the salt
+        if(!strstr($salt, $char_to_add))
+        {
+            # finally => add char to salt
+            $salt .= $char_to_add;
+        }
+    }
+    return $salt;
 }
 
 /**
@@ -367,35 +368,35 @@ function installstep_3($language){    require 'install-step3.php' ;}
 // STEP 4 - System Check
 function installstep_4($language, $error)
 {
-	$values['db_host'] 		= isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
-	$values['db_name'] 		= isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
-	$values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
-	$values['db_username'] 	= isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
-	$values['db_password'] 	= isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
-	$values['db_prefix'] 	= isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
+    $values['db_host']      = isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
+    $values['db_name']      = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
+    $values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
+    $values['db_username']  = isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
+    $values['db_password']  = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
+    $values['db_prefix']    = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
 
-	require 'install-step4.php' ;
+    require 'install-step4.php' ;
 }
 // STEP 5 - System Check
 function installstep_5($language)
 {
-	$values['site_name']  			= isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
-	$values['system_email'] 		= isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
-	$values['encryption']  	        = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-	$values['salt']  				= isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
-	$values['time_zone']  			= isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
+    $values['site_name']            = isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
+    $values['system_email']         = isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
+    $values['encryption']           = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
+    $values['salt']                 = isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
+    $values['time_zone']            = isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
 
-	require 'install-step5.php';
+    require 'install-step5.php';
 }
 // STEP 6 - System Check
 function installstep_6($language)
 {
-	$values['admin_name'] 		= isset($_SESSION['admin_name']) ? $_SESSION['admin_name'] : 'admin';
-	$values['admin_password'] 	= isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
-	$values['admin_email'] 		= isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
-	$values['admin_language'] 	= isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
+    $values['admin_name']       = isset($_SESSION['admin_name']) ? $_SESSION['admin_name'] : 'admin';
+    $values['admin_password']   = isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
+    $values['admin_email']      = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
+    $values['admin_language']   = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
 
-	require 'install-step6.php';
+    require 'install-step6.php';
 }
 // STEP 7 - System Check
 function installstep_7($language){    require 'install-step7.php' ;}
