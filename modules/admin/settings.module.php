@@ -32,17 +32,18 @@
 * @link       http://www.clansuite.com
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* @desc Start module class
-*/
+ * Clansuite
+ *
+ * Module:       Admin Settings
+ *
+ * @package clansuite
+ * @subpackage module_admin_settings
+ * @category modules
+ */
 class module_admin_settings extends ModuleController implements Clansuite_Module_Interface
 {
     public function execute(httprequest $request, httpresponse $response)
@@ -50,36 +51,7 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         # proceed to the requested action
         $this->processActionController($request);
     }
-    
-    function auto_run()
-    {
-        global $lang, $trail;
-        $params = func_get_args();
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Settings'), '/index.php?mod=admin&amp;sub=settings');
-
-        switch ($_REQUEST['action'])
-        {
-            default:
-            case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
-                $this->show();
-                break;
-
-            case 'update':
-                $trail->addStep($lang->t('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
-                $this->update();
-                break;
-
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
-    }
-
+        
     /**
      * action_settings_show
      */
@@ -108,17 +80,25 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
     }
 
     /**
-    * @desc This content can be instantly displayed by adding {mod name="settings" func="instant_show" params="mytext"} into a template
-    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */
-    function update()
+     * action_settings_update
+     */
+    function action_settings_update()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input;
+        # Set Pagetitle and Breadcrumbs        
+        trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
 
+        # Incomming Data
+        # @todo get post via request object
         $data = $_POST['config'];
+        
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        $config->writeConfig( ROOT . 'clansuite.config.php',$data);
+        
         /**
         * @desc Handle the update
-        */
+        *//*
         $cfg_file = file_get_contents(ROOT . '/config.class.php');
         foreach($data as $key => $value)
         {
@@ -150,7 +130,10 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         }
 
         file_put_contents( ROOT . '/config.class.php', $cfg_file );
-        $functions->redirect( 'index.php?mod=admin&sub=settings', 'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
+        */
+        # Redirect 
+        
+        #$functions->redirect( 'index.php?mod=admin&sub=settings', 'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
     }
 }
 ?>
