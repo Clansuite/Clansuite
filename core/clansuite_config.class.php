@@ -107,7 +107,9 @@ class Clansuite_Config implements ArrayAccess
            $old_config_array = $this->readConfig($ini_filename);
 
            # + operator usage: overwrite the array to the left, with the array to the right, when keys identical
-           $assoc_array = $old_config_array + $assoc_array;
+           #$assoc_array = $old_config_array + $assoc_array;
+           
+           $assoc_array = array_merge($old_config_array, $assoc_array);
        }
 
        # attach an security header at the top of the ini file
