@@ -305,24 +305,43 @@ function get_total_steps()
 }
 
 /**
-* Generates a random String (with divider default because needed for SALT)
-*
-* @params $length Length of Random String, Default = 6
-* @params $with_divider default = true
-* @return string
-* @todo $with_divider functionality is not implemented yet (true => a-b-c  / false => abc)
-*/
-function generate_random_string($length = 6, $with_divider = true)
+ * This is security.class.php -> method generate_salt().
+ *
+ * Get random string/salt of size $length
+ * mt_srand() and mt_rand() are used to generate even better
+ * randoms, because of mersenne-twisting.
+ *
+ * @param integer $length Length of random string to return
+ * @return string Returns a string with random generated characters and numbers
+ * @access public
+ */
+public function generate_salt($length)
 {
-	$chars = "ABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
-	$code = "";
-	$clen = strlen($chars) - 1;  # variable with the fixed length of chars correct for the fence post issue
-	while (strlen($code) < $length)
-	{
-	    $code .= $chars[mt_rand(0,$clen)] . '-';  # mt_rand's range is inclusive - this is why we need 0 to n-1
-	}
-	$code = substr_replace($code, '', -1);
-	return $code;
+	  # set salt to empty
+		$salt = '';
+
+		# seed the randoms generator with microseconds since last "whole" second
+    mt_srand((double)microtime()*1000000);
+
+		# set up the random chars to choose from
+		$chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    # count the number of random_chars
+    $number_of_random_chars = strlen($chars);
+
+    # add a char from the random_chars to the salt, until we got the wanted $length
+    for ($i=0; $i<$length; ++$i)
+		{
+		    # get a random char of $chars
+		    $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+		    # ensure that a random_char is not used twice in the salt
+		    if(!strstr($salt, $char_to_add))
+		    {
+		      # finally => add char to salt
+			    $salt .= $char_to_add;
+		    }
+		}
+		return $salt;
 }
 
 /**
@@ -363,7 +382,7 @@ function installstep_5($language)
 	$values['site_name']  			= isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
 	$values['system_email'] 		= isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
 	$values['encryption']  	        = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-	$values['salt']  				= isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_random_string(12);
+	$values['salt']  				= isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
 	$values['time_zone']  			= isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
 
 	require 'install-step5.php';
