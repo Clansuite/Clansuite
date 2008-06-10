@@ -193,8 +193,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Apache Mod_rewrite URL's{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[mod_rewrite]" {if $cfg->mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[apache][mod_rewrite]" {if $cfg->mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[apache][mod_rewrite]" {if $cfg->mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
         </table>
@@ -213,7 +213,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Mail method{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <select name="config[mailmethod]" class="input_text">
+                    <select name="config[email][mailmethod]" class="input_text">
                         <option value="mail" {if $cfg->mailmethod == 'mail'}selected="selected"{/if}>{t}Normal{/t}</option>
                         <option value="smtp" {if $cfg->mailmethod == 'smtp'}selected="selected"{/if}>{t}SMTP{/t}</option>
                         <option value="sendmail" {if $cfg->mailmethod == 'sendmail'}selected="selected"{/if}>{t}Sendmail{/t}</option>
@@ -228,7 +228,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Mailerhost{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->mailerhost}" name="config[mailerhost]" />
+                    <input class="input_text" type="text" value="{$cfg->mailerhost}" name="config[email][mailerhost]" />
                 </td>
             </tr>
             <tr>
@@ -236,7 +236,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Mailerport{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->mailerport}" name="config[mailerport]" />
+                    <input class="input_text" type="text" value="{$cfg->mailerport}" name="config[email][mailerport]" />
                 </td>
             </tr>
             <tr>
@@ -244,7 +244,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Mail encryption{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <select name="config[mailencryption]" class="input_text">
+                    <select name="config[email][mailencryption]" class="input_text">
                         <option value="SWIFT_OPEN" {if $cfg->mailencryption == 'SWIFT_OPEN'}selected="selected"{/if}>{t}No encryption{/t}</option>
                         <option value="SWIFT_SSL" {if $cfg->mailencryption == 'SWIFT_SSL'}selected="selected"{/if}>{t}SSL encryption{/t}</option>
                         <option value="SWIFT_TLS" {if $cfg->mailencryption == 'SWIFT_TLS'}selected="selected"{/if}>{t}TLS/SSL encryption{/t}</option>
@@ -261,7 +261,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}SMTP username{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->smtp_username}" name="config[smtp_username]" />
+                    <input class="input_text" type="text" value="{$cfg->smtp_username}" name="config[email][smtp_username]" />
                 </td>
             </tr>
             <tr>
@@ -269,7 +269,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}SMTP password{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->smtp_password}" name="config[smtp_password]" />
+                    <input class="input_text" type="text" value="{$cfg->smtp_password}" name="config[email][smtp_password]" />
                 </td>
             </tr>
             <tr>
@@ -282,7 +282,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}From (eMail){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
+                    <input class="input_text" type="text" value="{$cfg->from}" name="config[email][from]" />
                 </td>
             </tr>
             <tr>
@@ -290,7 +290,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}From (name){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->from_name}" name="config[from_name]" />
+                    <input class="input_text" type="text" value="{$cfg->from_name}" name="config[email][from_name]" />
                 </td>
             </tr>
             <tr>
@@ -303,7 +303,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Recipient (email){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->from}" name="config[from]" />
+                    <input class="input_text" type="text" value="{$cfg->from}" name="config[email][from]" />
                     <input type="button" class="ButtonOrange" value="Send Mail" />
                 </td>
             </tr>
@@ -395,8 +395,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Use cookies{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies]" {if $cfg->use_cookies == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[use_cookies]" {if $cfg->use_cookies == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[session][use_cookies]" {if $cfg->use_cookies == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[session][use_cookies]" {if $cfg->use_cookies == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
             <tr>
@@ -404,8 +404,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Use only cookies{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[use_cookies_only]" {if $cfg->use_cookies_only == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[session][use_cookies_only]" {if $cfg->use_cookies_only == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[session][use_cookies_only]" {if $cfg->use_cookies_only == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
             <tr>
@@ -413,7 +413,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Session expire time{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->session_expire_time}" name="config[session_expire_time]" />&nbsp; minutes
+                    <input class="input_text" type="text" value="{$cfg->session_expire_time}" name="config[session][session_expire_time]" />&nbsp; minutes
                 </td>
             </tr>
             <tr>
@@ -421,7 +421,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Session name{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->session_name}" name="config[session_name]" />
+                    <input class="input_text" type="text" value="{$cfg->session_name}" name="config[session][session_name]" />
                 </td>
             </tr>   
             <tr>
@@ -434,7 +434,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Trust Root{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->openid_trustroot}" name="config[openid_trustroot]" />
+                    <input class="input_text" type="text" value="{$cfg->openid_trustroot}" name="config[open_id][openid_trustroot]" />
                 </td>                
             </tr>
             <tr>
@@ -442,8 +442,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Add to Login Box{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[openid_showloginbox]" {if $cfg->openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[openid_showloginbox]" {if $cfg->openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[open_id][openid_showloginbox]" {if $cfg->openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[open_id][openid_showloginbox]" {if $cfg->openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>                
             </tr>
             <tr>
@@ -451,8 +451,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Add to Comments{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[openid_showcommentsbox]" {if $cfg->showcommentsbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[openid_showcommentsbox]" {if $cfg->showcommentsbox == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[open_id][openid_showcommentsbox]" {if $cfg->showcommentsbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[open_id][openid_showcommentsbox]" {if $cfg->showcommentsbox == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>                
             </tr>
             
@@ -525,8 +525,8 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Cache On{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[caching]" {if $cfg->caching == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[caching]" {if $cfg->caching == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[cache][caching]" {if $cfg->caching == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[cache][caching]" {if $cfg->caching == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
             <tr>
@@ -534,7 +534,7 @@ Sorry for the inconvenience.{/t}</textarea>
                     {t}Cache Lifetime{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->cache_lifetime}" name="config[cache_lifetime]" />&nbsp; seconds
+                    <input class="input_text" type="text" value="{$cfg->cache_lifetime}" name="config[cache][cache_lifetime]" />&nbsp; seconds
                     <br /> <small>set to -1 if developers mode on</small>
                 </td>
             </tr>
