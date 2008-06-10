@@ -1,8 +1,11 @@
-<?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
-    * http://www.clansuite.com/
+<?php /*
+             _\|/_
+             (o o)
+    +-----oOO-{_}-OOo------------------+
+    | Clansuite - just an eSports CMS  |
+    | Jens-Andre Koch © 2005 - onwards |
+    | http://www.clansuite.com/        |
+    +----------------------------------+
     *
     * LICENSE:
     *
@@ -33,7 +36,7 @@
     */
 
    /** =====================================================================
-    *  	 WARNING: DO NOT MODIFY FILES, UNLESS YOU KNOW WHAT YOU ARE DOING.
+    *    WARNING: DO NOT MODIFY FILES, UNLESS YOU KNOW WHAT YOU ARE DOING.
     *             READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
     *  =====================================================================
     */
@@ -77,7 +80,7 @@ $core_classes = array(
 'localization', 'security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
- 
+
 # filters to load
 $prefilter_classes = array(
 'maintenance', 'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs'
@@ -91,7 +94,7 @@ foreach($postfilter_classes as $class) { $injector->register($class); } # regist
 
 # Connect DB, that is needed for session & user rights management
 $injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-             
+
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
 $injector->register('Clansuite_User');

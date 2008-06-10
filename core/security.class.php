@@ -119,37 +119,36 @@ class security
     }
 
     /**
-	 * Get random string/salt of size $length
- 	 * mt_srand() and mt_rand() are used to generate even better
- 	 * randoms, because of mersenne-twisting.
- 	 *
-	 * @param integer $length Length of random string to return
-	 * @return string Returns a string with random generated characters and numbers
-	 * @access public
-	 */
-	public function generate_salt($length)
-	{
-	    # set salt to empty
-		$salt = '';
-		# seed the randoms generator with microseconds since last "whole" second
+     * Get random string/salt of size $length
+     * mt_srand() and mt_rand() are used to generate even better
+     * randoms, because of mersenne-twisting.
+     *
+     * @param integer $length Length of random string to return
+     * @return string Returns a string with random generated characters and numbers
+     * @access public
+     */
+    public function generate_salt($length)
+    {
+        # set salt to empty
+        $salt = '';
+        # seed the randoms generator with microseconds since last "whole" second
         mt_srand((double)microtime()*1000000);
-		# set up the random chars to choose from
-		$chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        # set up the random chars to choose from
+        $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         # count the number of random_chars
         $number_of_random_chars = strlen($chars);
         # add a char from the random_chars to the salt, until we got the wanted $length
-        for ($i=0; $i<$length; ++$i)
-		{
-		    # get a random char of $chars
-		    $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
-		    # ensure that a random_char is not used twice in the salt
-		    if(!strstr($salt, $char_to_add))
-		    {
-		        # finally => add char to salt
-			    $salt .= $char_to_add;
-		    }
-		}
-		return $salt;
-	}
+        for ($i=0; $i<$length; ++$i)        {
+            # get a random char of $chars
+            $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+            # ensure that a random_char is not used twice in the salt
+            if(!strstr($salt, $char_to_add))
+            {
+                # finally => add char to salt
+                $salt .= $char_to_add;
+            }
+        }
+        return $salt;
+    }
 }
 ?>

@@ -101,11 +101,22 @@ class Clansuite_Config implements ArrayAccess
      */
     public function writeConfig($ini_filename, $assoc_array)
     {
+       # get old Config Array, when such a ini_filename exists
+       if(is_file($ini_filename))
+       {
+           $old_config_array = $this->readConfig($ini_filename);
+
+           # + operator usage: overwrite the array to the left, with the array to the right, when keys identical
+           $assoc_array = $old_config_array + $assoc_array;
+       }
+
        # attach an security header at the top of the ini file
-       $content  = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
-       $content .= ";;;;;;;;;;\n";
-       $content .= ";; $ini_filename - Clansuite Configuration File.\n";
-       $content .= ";;-----| \n\n";
+       $content = '';
+       $content = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
+       $content .= "; \n";
+       $content .= "; Clansuite Configuration File : \n";
+       $content .= "; $ini_filename \n";
+       $content .= ";\n\n";
 
         # loop over every array element
         foreach($assoc_array as $key => $item)
@@ -113,8 +124,17 @@ class Clansuite_Config implements ArrayAccess
             # checking if it's an array
             if(is_array($item))
             {
-                # then write an [array_header] block
-                $content .= "\n[{$key}]\n";
+                # if key not empty .. hmm? does this case occur?
+                if($key != '')
+                {
+                    # write an comment header block
+                    $content .= "\n;----------------------------------------\n";
+                    $content .= "; {$key}\n";
+                    $content .= ";----------------------------------------\n";
+
+                    # write an parseable [array_header] block
+                    $content .= "[{$key}]\n";
+                }
 
                 # for every element after that
                 foreach ($item as $key2 => $item2)
@@ -156,7 +176,7 @@ class Clansuite_Config implements ArrayAccess
 
     /**
      *  Read the complete config file *.ini.php
-     * 
+     *
      * @access  public
      * @param   string  The filename
      * @return  array
@@ -165,10 +185,10 @@ class Clansuite_Config implements ArrayAccess
     {
         return self::_manageKeys(parse_ini_file($filename, true));
     }
-    
+
     /**
      * Manage keys with SPL Iterator to minimize memory consumption of large arrays
-     * 
+     *
      * @access  public
      * @param   array   The ini array
      * @return  array
@@ -195,13 +215,13 @@ class Clansuite_Config implements ArrayAccess
             throw new clansuite_exception( $e, 'The ArrayIterator failed!', 200);
             exit;
         }
-        
+
         return $ini;
     }
-    
+
     /**
      * Get a safe/single value and convert values to bool,int,float
-     * 
+     *
      * @access  private
      * @param   string  The value that should be converted
      * @return  mixed
@@ -216,10 +236,10 @@ class Clansuite_Config implements ArrayAccess
         else if (preg_match('/^\'(.*)\'$/i', $value, $m)) { return $m[1]; }
         return $value;
     }
-    
+
     /**
      *  Get a single Key
-     * 
+     *
      * @access  private
      * @param   string  The single key
      * @return  string  The key (int when available)
