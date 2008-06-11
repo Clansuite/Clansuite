@@ -1,4 +1,6 @@
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
+<base href="{$meta.domain}" />
+
 {* everything in doc_raw is moved "as is" to header *}
 {doc_raw}
 
