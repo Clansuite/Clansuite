@@ -9,18 +9,18 @@ abstract class BaseCsGuestbook extends Doctrine_Record
   public function setTableDefinition()
   {
     $this->setTableName('cs_guestbook');
-    $this->hasColumn('gb_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('user_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('gb_added', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(12)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_nick', 'string', 25, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(25)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_email', 'string', 35, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(35)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_icq', 'string', 15, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(15)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_website', 'string', 35, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(35)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_town', 'string', 25, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(25)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_text', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_ip', 'string', 15, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(15)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gb_comment', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('image_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('gb_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('gb_added', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_nick', 'string', 25, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_email', 'string', 35, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_icq', 'string', 15, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_website', 'string', 35, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_town', 'string', 25, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_text', 'string', null, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_ip', 'string', 15, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('gb_comment', 'string', null, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
+    $this->hasColumn('image_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()
@@ -48,5 +48,6 @@ abstract class BaseCsGuestbook extends Doctrine_Record
                                     #'onDelete' => 'CASCADE')
                                     ));
   }
+
 }
 ?>
