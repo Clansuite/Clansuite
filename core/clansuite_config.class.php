@@ -101,15 +101,16 @@ class Clansuite_Config implements ArrayAccess
      */
     public function writeConfig($ini_filename, $assoc_array)
     {
-       # get old Config Array, when such a ini_filename exists
+       # debug incomming array
+       #clansuite_xdebug::printR($assoc_array);
+
+       # when ini_filename exists, get old config array,
        if(is_file($ini_filename))
        {
            $old_config_array = $this->readConfig($ini_filename);
 
-           # + operator usage: overwrite the array to the left, with the array to the right, when keys identical
-           #$assoc_array = $old_config_array + $assoc_array;
-
-           $assoc_array = array_merge($old_config_array, $assoc_array);
+           # array merge: overwrite the array to the left, with the array to the right, when keys identical
+           $config_array = array_merge($old_config_array, $assoc_array);
        }
 
        # attach an security header at the top of the ini file
@@ -121,7 +122,7 @@ class Clansuite_Config implements ArrayAccess
        $content .= ";\n\n";
 
         # loop over every array element
-        foreach($assoc_array as $key => $item)
+        foreach($config_array as $key => $item)
         {
             # checking if it's an array
             if(is_array($item))
@@ -170,7 +171,7 @@ class Clansuite_Config implements ArrayAccess
         }
 
         # add php closing tag
-        $content .= "; DO NOT REMOVE THIS LINE */ ?>";
+        $content .= "\n; DO NOT REMOVE THIS LINE */ ?>";
 
         # Write data to config file
         return @file_put_contents($ini_filename, $content);
