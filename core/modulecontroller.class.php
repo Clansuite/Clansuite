@@ -333,8 +333,11 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
         #echo $moduleName;
 
+        $moduleName = split('_', $moduleName);
         #$moduleName = explode("_", $moduleName);
         #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
+        $moduleName = $moduleName[0];
+        #echo 'ModuleName : '.$moduleName.'<br>';
 
         # @todo?
         #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
@@ -353,7 +356,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             $template = $moduleName.DS.$actionName.'.tpl';
         }
         #echo 'TPL Name : '.$template.'<br>';
-
+                
         $this->setTemplate($template);
     }
 
