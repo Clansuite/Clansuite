@@ -1,3 +1,5 @@
+@TODO $cfg values anpassen
+
 {doc_raw}
     {* Tabs *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
@@ -20,7 +22,7 @@
                     {t}Page Title{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" />
+                    <input class="input_text" type="text" value="{$cfg['template']['std_page_title']}" name="config[template][std_page_title]" />
                 </td>
             </tr>
             <tr>
@@ -28,7 +30,7 @@
                     {t}Favicon{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[std_page_title]" />
+                    <input class="input_text" type="text" value="{$cfg->std_page_title}" name="config[template][std_page_title]" />
                     <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
                 </td>
             </tr>
@@ -42,7 +44,7 @@
                     {t}Standard Template{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$cfg->theme}" name="config[theme]" />
+                    <input class="input_text" type="text" value="{$cfg[template][theme]}" name="config[template][theme]" />
                 </td>
             </tr>
             <tr>
