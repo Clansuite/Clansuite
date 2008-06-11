@@ -185,7 +185,7 @@ class HTTPResponse implements Clansuite_Response_Interface
         header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
 
         // Send X-Powered-By Header to Clansuite Signature
-        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $this->config['clansuite_version'] .' ][ www.clansuite.com ]');
+        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $this->config['version']['clansuite_version'] .' ][ www.clansuite.com ]');
 
          // Send our Content-Type with UTF-8 encoding
         $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
@@ -242,15 +242,15 @@ class HTTPResponse implements Clansuite_Response_Interface
      */
     public function applyOutputCharset()
     {
-        #declare(encoding=$config['outputcharset']);
+        #declare(encoding=$config['language']['outputcharset']);
         /**
         unicode.fallback_encoding       =
         unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
         unicode.from_error_subst_char	=
-        unicode.http_input_encoding	    = $config['outputcharset'];
-        unicode.output_encoding	        = $config['outputcharset'];
+        unicode.http_input_encoding	    = $config['language']['outputcharset'];
+        unicode.output_encoding	        = $config['language']['outputcharset'];
         unicode.runtime_encoding        =
-        unicode.script_encoding         = $config['outputcharset'];
+        unicode.script_encoding         = $config['language']['outputcharset'];
         # this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
         #unicode.semantics               = 1
         */
@@ -258,8 +258,8 @@ class HTTPResponse implements Clansuite_Response_Interface
         // Set Charset and Character Encoding
         if(function_exists('mb_http_output'))
         {
-        	mb_http_output($this->config['outputcharset']);
-        	mb_internal_encoding($this->config['outputcharset']);
+        	mb_http_output($this->config['language']['outputcharset']);
+        	mb_internal_encoding($this->config['language']['outputcharset']);
         	# replace mail(), str*(), ereg*() by mbstring functions
             ini_set('mbstring.func_overload','7');
         }
@@ -268,9 +268,9 @@ class HTTPResponse implements Clansuite_Response_Interface
         // iconv
         if (function_exists('iconv')
         {
-            iconv_set_encoding('input_encoding',   'UTF-8');
-            iconv_set_encoding('internal_encoding','UTF-8');
-            iconv_set_encoding('output_encoding',  $config['outputcharset']);
+            iconv_set_encoding('input_encoding',   $config['language']['outputcharset']);
+            iconv_set_encoding('internal_encoding',$config['language']['outputcharset']);
+            iconv_set_encoding('output_encoding',  $config['language']['outputcharset']);
         }*/
     }
 

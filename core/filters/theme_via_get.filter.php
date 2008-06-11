@@ -61,7 +61,7 @@ class theme_via_get implements Filter_Interface
     {
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)
-        if($this->config['themeswitch_via_url'] == 1)
+        if($this->config['switches']['themeswitch_via_url'] == 1)
         {
             if(isset($request['theme']) && !empty($request['theme']))
             {

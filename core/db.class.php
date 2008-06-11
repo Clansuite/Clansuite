@@ -142,14 +142,17 @@ class db //extends PDO
    {
         $this->config = $config;
         $this->error  = $error;
-        
+              
         /**
          * try, try, try to set up PDO :)
          */
         try
-        {
+        {   
+            $pdo_dsn  = $config['database']['db_type'] . ':dbname=' . $config['database']['db_name'] . ';';
+            $pdo_dsn .= 'host=' . $config['database']['db_host'];
+            
             # Create PDO object
-            $this->db = new PDO("$config->db_type:dbname=$config->db_name;host=$config->db_host", $config->db_username, $config->db_password, array ());
+            $this->db = new PDO($pdo_dsn, $config['database']['db_username'], $config['database']['db_password'], array ());
 
             /**
              *  Set attributes on the database handle
@@ -193,7 +196,7 @@ class db //extends PDO
                 $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
              }
 
-            if ( $config['db_type'] == 'mysql' )
+            if ( $config['database']['db_type'] == 'mysql' )
             {
                 # Use buffered queries
                 $this->db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);

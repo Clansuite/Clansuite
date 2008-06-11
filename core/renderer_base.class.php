@@ -258,7 +258,7 @@ abstract class renderer_base
          * @see config.class
          */
         $template_constants['www_root']             = WWW_ROOT;
-        $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['upload_folder'];
+        $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['paths']['upload_folder'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
 
@@ -266,19 +266,19 @@ abstract class renderer_base
         $tpl_constants['meta'] = $this->config['meta'];
 
         # c) Clansuite Version from config.class.php
-        $template_constants['clansuite_version']       = $this->config['clansuite_version'];
-        $template_constants['clansuite_version_state'] = $this->config['clansuite_version_state'];
-        $template_constants['clansuite_version_name']  = $this->config['clansuite_version_name'];
+        $template_constants['clansuite_version']       = $this->config['version']['clansuite_version'];
+        $template_constants['clansuite_version_state'] = $this->config['version']['clansuite_version_state'];
+        $template_constants['clansuite_version_name']  = $this->config['version']['clansuite_version_name'];
 
         # d) Page related
 
         # Page Title
-        $template_constants['std_page_title'] = $this->config['std_page_title'];
+        $template_constants['std_page_title'] = $this->config['template']['std_page_title'];
 
         # Normal CSS (global)
-        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_css'];
+        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_css'];
         # Normal Javascript (global)
-        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['std_javascript'];
+        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_javascript'];
 
         # Breadcrumb
         $template_constants['trail'] = trail::getTrail();
@@ -326,7 +326,7 @@ abstract class renderer_base
     {
         if (empty($this->layoutTemplate))
         {
-            $this->setLayoutTemplate($this->config['tpl_wrapper_file']);
+            $this->setLayoutTemplate($this->config['template']['tpl_wrapper_file']);
         }
 
         return $this->layoutTemplate;

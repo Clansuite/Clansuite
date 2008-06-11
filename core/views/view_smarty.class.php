@@ -153,8 +153,8 @@ class view_smarty extends renderer_base
 
 
         #### CACHING OPTIONS (set these options if caching is enabled)
-        $this->smarty->caching              = $this->config['caching'];
-        $this->smarty->cache_lifetime       = $this->config['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+        $this->smarty->caching              = $this->config['cache']['caching'];
+        $this->smarty->cache_lifetime       = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
         # $this->cache_handler_func         = "";            # Specify your own cache_handler function
         $this->smarty->cache_modified_check	= 0;             # set to 1 to activate
 
@@ -546,7 +546,7 @@ class view_smarty extends renderer_base
         $this->smarty->assign('content',  $modulcontent );
 
         #DEBUG ? $debug->show_console() : '';
-        #var_dump($this->config['tpl_wrapper_file']);
+        #var_dump($this->config['template']['tpl_wrapper_file']);
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
         #exit;

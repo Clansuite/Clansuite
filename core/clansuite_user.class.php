@@ -223,13 +223,13 @@ class Clansuite_User
             // Fallback: first take user['language'], else standard language as defined by $this->_config['->language
             if ( !isset($_SESSION['user']['language_via_url']) )
             {
-                $_SESSION['user']['language'] = (!empty($this->_user['language']) ? $this->_user['language'] : $this->_config['language']);
+                $_SESSION['user']['language'] = (!empty($this->_user['language']) ? $this->_user['language'] : $this->_config['language']['language']);
             }
                       
             // Fallback: first take standard theme as defined by $config->theme
             if ( !isset($_SESSION['user']['theme_via_url']) )
             {
-                $_SESSION['user']['theme'] = (!empty($this->_user['theme']) ? $this->_user['theme'] : $this->_config['theme']);
+                $_SESSION['user']['theme'] = (!empty($this->_user['theme']) ? $this->_user['theme'] : $this->_config['template']['theme']);
             }
             
             /**
@@ -307,13 +307,13 @@ class Clansuite_User
             // Fallback: standard language as defined by $this->_config['->language
             if (empty($_SESSION['user']['language']))
             {
-                $_SESSION['user']['language']   = $this->_config['language'];
+                $_SESSION['user']['language']   = $this->_config['language']['language'];
             }
             
             // Fallback: standard theme as defined by $this->_config theme
             if (empty($_SESSION['user']['theme']))
             {
-                $_SESSION['user']['theme']      = $this->_config['theme'];
+                $_SESSION['user']['theme']      = $this->_config['template']['theme'];
             }
             
             /**
@@ -430,10 +430,10 @@ class Clansuite_User
          */
         if ( $remember_me == 1 )
         {   
-            setcookie('user_id', $user_id, time() + round($this->_config['remember_me_time']*24*60*60));
+            setcookie('user_id', $user_id, time() + round($this->_config['login']['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->_config['remember_me_time']*24*60*60));
+            setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->_config['login']['remember_me_time']*24*60*60));
         }
 
         /**
@@ -484,8 +484,8 @@ class Clansuite_User
                  * Update the cookie
                  */
 
-                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->_config['remember_me_time']*24*60*60));
-                setcookie('password',$_COOKIE['password'], time() + round($this->_config['remember_me_time']*24*60*60));
+                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->_config['login']['remember_me_time']*24*60*60));
+                setcookie('password',$_COOKIE['password'], time() + round($this->_config['login']['remember_me_time']*24*60*60));
 
                 /**
                  * Create $this->session['user']

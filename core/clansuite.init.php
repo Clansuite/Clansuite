@@ -58,7 +58,7 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
  */
 
 # Debug-Mode is set via config
-define('DEBUG', $config['debug']);
+define('DEBUG', $config['error']['debug']);
 # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
 if ( defined('DEBUG') && DEBUG===1 )
 {
@@ -91,12 +91,12 @@ define('ROOT',  getcwd() . DS);
 #define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
 
 # DEFINE -> Directories related to ROOT
-define('ROOT_MOD'           , ROOT . $config['mod_folder'].DS);
-define('ROOT_THEMES'        , ROOT . $config['themes_folder'].DS);
-define('ROOT_LANGUAGES'     , ROOT . $config['language_folder'].DS);
-define('ROOT_CORE'          , ROOT . $config['core_folder'].DS);
-define('ROOT_LIBRARIES'     , ROOT . $config['libraries_folder'].DS);
-define('ROOT_UPLOAD'        , ROOT . $config['upload_folder'].DS);
+define('ROOT_MOD'           , ROOT . $config['paths']['mod_folder'].DS);
+define('ROOT_THEMES'        , ROOT . $config['paths']['themes_folder'].DS);
+define('ROOT_LANGUAGES'     , ROOT . $config['paths']['language_folder'].DS);
+define('ROOT_CORE'          , ROOT . $config['paths']['core_folder'].DS);
+define('ROOT_LIBRARIES'     , ROOT . $config['paths']['libraries_folder'].DS);
+define('ROOT_UPLOAD'        , ROOT . $config['paths']['upload_folder'].DS);
 
 # DEFINE -> Webpaths for Templates
 
@@ -115,11 +115,11 @@ else
 }
 
 # DEFINE -> Directories related to WWW_ROOT
-define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['themes_folder']);
-define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['themes_folder'] .  '/core');
+define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['paths']['themes_folder']);
+define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folder'] .  '/core');
 
 # DEFINE -> Database Prefix
-define('DB_PREFIX'          , $config['db_prefix']);
+define('DB_PREFIX'          , $config['database']['db_prefix']);
 # DEFINE -> HTML Break + Carriage Return
 define('NL', "<br />\r\n");
 
@@ -146,14 +146,13 @@ ini_set('memory_limit'                  , '20M' );
  * @link http://php.net/manual/en/timezones.php
  * @todo make $timezone configurable by user (small dropdown) or autodetected from user
  */
-$timezone = 'Europe/Berlin';
-ini_set('date.timezone', $timezone);
+ini_set('date.timezone', $config['language']['timezone']);
 if(function_exists('date_default_timezone_set'))
 {
-    date_default_timezone_set($timezone);
+    date_default_timezone_set($config['language']['timezone']);
 }
 else
 {
-    putenv('TZ=' . $timezone);
+    putenv('TZ=' . $config['language']['timezone']);
 }
 ?>

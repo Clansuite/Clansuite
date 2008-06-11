@@ -57,10 +57,10 @@ class localization
 	private $domain    = null;
 	private $encoding  = null;
 
-    public function __construct()
+    public function __construct(Clansuite_Config $config)
     {
        $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
-       $this->encoding = 'UTF-8';      # sets encoding -> @todo get charset encoding from config
+       $this->encoding = $config['language']['outputcharset'];      # sets encoding
 
        $locale = $this->getLocale();
 

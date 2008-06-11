@@ -92,7 +92,7 @@ class errorhandler
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline )
     {
         # do just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
-        if(($this->config['suppress_errors'] == 1) OR (error_reporting() == 0))
+        if(($this->config['error']['suppress_errors'] == 1) OR (error_reporting() == 0))
         {
             return;
         }
