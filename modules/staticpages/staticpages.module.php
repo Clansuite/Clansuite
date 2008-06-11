@@ -121,7 +121,6 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
         $this->prepareOutput();
     }
 
-
     /**
      * Static Pages
      * show all static pages
@@ -147,13 +146,13 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
         if ( is_array($result) )
         {
             $smarty->assign('overview', $result);
-            $this->setTemplate('staticpages/templates/overview.tpl');            
+            $this->setTemplate('staticpages/overview.tpl');
         }
         else
         {
             echo _('No static pages found.');
         }
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }
