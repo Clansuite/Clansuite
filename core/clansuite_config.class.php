@@ -108,7 +108,7 @@ class Clansuite_Config implements ArrayAccess
 
            # + operator usage: overwrite the array to the left, with the array to the right, when keys identical
            #$assoc_array = $old_config_array + $assoc_array;
-           
+
            $assoc_array = array_merge($old_config_array, $assoc_array);
        }
 
@@ -250,6 +250,19 @@ class Clansuite_Config implements ArrayAccess
     {
         if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
         return $key;
+    }
+
+    /**
+     * Returns $this->config Object as Array
+     *
+     * @access   public
+     * @return   config array
+     */
+    public function toArray()
+    {
+        $array = array();
+        $array = $this->config;
+        return $array;
     }
 
     /**
