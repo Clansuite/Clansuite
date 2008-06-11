@@ -65,8 +65,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public $session_expire_time     = 30; # Session Expire time in minutes
     public $session_probability     = 30; # Probabliity of trashing the Session as percentage
-    public $session_cookies         = 1;
-    public $session_cookies_only    = 0;
+
 
     /**#@-*/
 
@@ -121,11 +120,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $this->request      = $injector->instantiate('httprequest');
         $this->response     = $injector->instantiate('httpresponse');
 
-        # Set the session configuration Parameters accordingly to Config Class Values
-
-        $this->session_cookies              = $this->config['use_cookies'];
-        $this->session_cookies_only         = $this->config['use_cookies_only'];
-
         /**
          * Configure Session
          */
@@ -135,15 +129,15 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         #ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory
         #ini_set("session.save_path", ROOT . 'tmp');                # Session Temp Path inside the Clansuite Directory
         // Garbage Collector not needed, because it's gettin called everytime in session_control()
-        ini_set('session.gc_maxlifetime'    , $this->config['session_expire_time']);
+        ini_set('session.gc_maxlifetime'    , $this->config['session']['session_expire_time']);
         #ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
         #ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
         # use_trans_sid off -> because spiders will index with PHPSESSID
         ini_set('session.use_trans_sid'     , 0 );
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
-        ini_set('session.use_cookies'       , $this->config['use_cookies'] );
-        ini_set('session.use_only_cookies'  , $this->config['use_cookies_only'] );
+        ini_set('session.use_cookies'       , $this->config['session']['use_cookies'] );
+        ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
 
         # Setup the custom session handler
 

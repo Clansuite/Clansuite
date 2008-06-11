@@ -72,7 +72,7 @@ class language_via_get implements Filter_Interface
     {
         // take the initiative of filtering, if language switching is enabled in CONFIG
         // or pass through (do nothing) if disabled
-        if($this->config['languageswitch_via_url'] == 1)
+        if($this->config['switches']['languageswitch_via_url'] == 1)
         {
             # @todo change $request to $request['get']
             # @todo security check of the incomming lang parameter, if not already handled by $httprequest class

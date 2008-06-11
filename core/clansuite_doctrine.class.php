@@ -110,15 +110,16 @@ class Clansuite_Doctrine
     {
         Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
         Doctrine::loadModels( ROOT . '/myrecords/' ); // This call will not require the found .php files
-        
+       
         // construct the Data Source Name (DSN)
         // Example: 
         #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
-        $dsn  = $this->config['db_type'] . '://';
-        $dsn .= $this->config['db_username'] .  ':';
-        $dsn .= $this->config['db_password'] . '@';
-        $dsn .= $this->config['db_host'] . '/';
-        $dsn .= $this->config['db_name'];
+        $dsn  = $this->config['database']['db_type'] . '://';
+        $dsn .= $this->config['database']['db_username'] .  ':';
+        $dsn .= $this->config['database']['db_password'] . '@';
+        $dsn .= $this->config['database']['db_host'] . '/';
+        $dsn .= $this->config['database']['db_name'];
+        #echo $dsn;
 
         // initalize a new Doctrine_Connection
         $db = Doctrine_Manager::connection($dsn);

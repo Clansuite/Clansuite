@@ -58,7 +58,7 @@ if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installat
 #if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'core/clansuite_config.class.php';
-$config = Clansuite_Config::readConfig('clansuite.config.php');
+$config = Clansuite_Config::readConfig('clansuite.config.php'); #clansuite_xdebug::printR($config);
 # initialize constants / errorhandling / ini_sets / paths
 require 'core/clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
@@ -76,8 +76,8 @@ $injector = new Phemto();
 
 # core classes to load
 $core_classes = array(
-'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 'db', 'clansuite_doctrine',
-'localization', 'security', 'input', 'functions', 'statistic'
+'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager', 
+'db', 'clansuite_doctrine','localization', 'security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
@@ -105,7 +105,7 @@ $injector->register('Clansuite_User');
  *  ================================================
  */
 # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
-$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['default_module'],$config['default_action']),$injector);
+$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['defaults']['default_module'],$config['defaults']['default_action']),$injector);
 
 # Get request and response objects for Filters and RequestProcessing
 $request  = $injector->instantiate('httprequest');

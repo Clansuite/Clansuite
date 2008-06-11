@@ -197,9 +197,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         else // action not set or method not existing
         {
             # set the used action name
-            $this->action_name = $this->config['default_action'];
+            $this->action_name = $this->config['defaults']['default_action'];
             # set the method name
-            $methodname .= '_' . $this->config['default_action'];
+            $methodname .= '_' . $this->config['defaults']['default_action'];
         }
 
         # handle method!

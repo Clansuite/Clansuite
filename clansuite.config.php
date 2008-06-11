@@ -37,6 +37,7 @@
 ;----------------------------------------
 ; Database Settings
 ;----------------------------------------
+[database]
 db_type      = "mysql"
 db_username  = "clansuite"
 db_password  = "toop"
@@ -47,6 +48,7 @@ db_prefix    = "cs_"
 ;----------------------------------------
 ; Standard Path Configuration
 ;----------------------------------------
+[paths]
 core_folder        = "core"
 libraries_folder   = "libraries"
 language_folder    = "languages"
@@ -60,6 +62,7 @@ upload_folder      = "uploads"
 ; if no port is given: ports 25 & 465 are used
 ; encryption types: SWIFT_OPEN (no) / SWIFT_SSL (SSL) / SWIFT_TLS (TLS/SSL)
 ;----------------------------------------
+[email]
 mailmethod      = "mail"
 mailerhost      = "localhost"
 mailerport      = 21
@@ -72,29 +75,34 @@ from_name       = "ClanSuite Group"
 ;----------------------------------------
 ; Global Template Configurations
 ;----------------------------------------
+[template]
 theme               = "drahtgitter"
 tpl_wrapper_file    = "index.tpl"
+std_page_title      = "clansuite.com"
+std_css             = "standard.css"
+std_javascript      = "standard.js"
 
+;----------------------------------------
+; URL Switches
+;----------------------------------------
+[switches]
 ; Activate Prefilterplugin for Themeswitching via GET Parameter ?theme=
 themeswitch_via_url = 1
-
 ; Activate Prefilterplugin for Languageswitching via GET Parameter ?lang=
 languageswitch_via_url = 1
 
+;----------------------------------------
+; defaults
+;----------------------------------------
+[defaults]
 ; Controller Resolver : Default Module and Default Action
 default_module = "index"
 default_action = "show"
 
 ;----------------------------------------
-; Default Page Title + CSS + Javascript
-;----------------------------------------
-std_page_title  = "clansuite.com"
-std_css         = "standard.css"
-std_javascript  = "standard.js"
-
-;----------------------------------------
 ; Default Language / Locale Setting
 ;----------------------------------------
+[language]
 language        = "de"
 outputcharset   = "UTF-8"
 
@@ -105,12 +113,13 @@ timezone = "Europe/Berlin"
 ;----------------------------------------
 ; Login Configuration & Password Encryption
 ;----------------------------------------
+[login]
 ; email or nick
 login_method        = "nick"
 ; days
 remember_me_time    = 90
 ; minutes
-session_expire_time = 30
+
 max_login_attempts  = 5
 login_ban_minutes   = 30 
 
@@ -119,6 +128,7 @@ encryption      = "sha1"
 salt            = "1-3-5-8-4-1-7-2-4-1-4-1"
 
 ; OpenID
+[openid]
 openid_trustroot        = "http://www.clansuite.com/openid/"
 openid_showcommentsbox  = 1
 openid_showloginbox     = 1
@@ -131,20 +141,21 @@ max_upload_filesize = 1048576
 ;----------------------------------------
 ; Session configuration
 ;----------------------------------------
+[session]
 use_cookies         = 1
 use_cookies_only    = 0
+session_expire_time = 30
 
 ;----------------------------------------
 ; Error Handling
 ;----------------------------------------
+[error]
 suppress_errors = 0
 debug           = 1
 debug_popup     = 0
-
-;----------------------------------------
-; Developers configuration
-;----------------------------------------
 help_edit_mode              = 0
+
+[version]
 clansuite_version           = 0.2
 clansuite_version_state     = "alpha"
 clansuite_version_name      = "Trajan"
@@ -152,12 +163,14 @@ clansuite_version_name      = "Trajan"
 ;----------------------------------------
 ; Cache
 ;----------------------------------------
+[cache]
 caching         = 0
 cache_lifetime  = 90
 
 ;----------------------------------------
 ; Maintenance Mode
 ;----------------------------------------
+[maintenance]
 maintenance         = 0
 maintenance_reason  = "SITE is currently undergoing scheduled maintenance.<br />Sorry for the inconvenience. Please try back in 60 minutes."
 

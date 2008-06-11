@@ -228,9 +228,9 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         else
         {
             # set the used action name
-            $this->action_name = $this->config['default_action'];
+            $this->action_name = $this->config['defaults']['default_action'];
             # set the method name
-            $method = 'action_'.$this->config['default_action'];
+            $method = 'action_'.$this->config['defaults']['default_action'];
             # call the method !
             $this->{$method}();
         }
