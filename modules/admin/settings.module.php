@@ -64,13 +64,13 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         $smarty = $this->getView();
         
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $config = $this->injector->instantiate('Clansuite_Config')->toArray();
         
         # Assign Config to Smarty
-        $smarty->view->assign('cfg', $config);
+        $smarty->view->assign('config', $config);
                 
         # Set Admin Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $smarty->setLayoutTemplate('admin/index.tpl');
         
         # Specifiy the template manually
         $this->setTemplate('admin/settings/settings.tpl');
@@ -88,7 +88,7 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
 
         # Incomming Data
-        # @todo get post via request object
+        # @todo get post via request object, sanitize
         $data = $_POST['config'];
         
         # Get Configuration from Injector

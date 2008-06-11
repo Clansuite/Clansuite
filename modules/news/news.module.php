@@ -162,7 +162,6 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
 
-
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -282,7 +281,6 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
 
-
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -319,7 +317,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // Assign $news array to Smarty for template output
         #$smarty->assign('news', $news_headlines);
 
-        return $this->view()->fetch('news/news_widget.tpl');
+        return $this->view()->fetch('news/templates/news_widget.tpl');
 
     }
 }
