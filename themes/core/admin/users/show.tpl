@@ -26,9 +26,13 @@
 <form action="index.php?mod=admin&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 
     <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
-
+            <tr class="tr_row1">
+                <td height="20" colspan="8" align="right">
+                    {include file="admin/tools/paginate.tpl"}
+                </td>
+            </tr>
             <tr class="tr_header">
-                <td width="1%" align="center"> {columnsort html="ID"}         </td>
+                <td width="1%" align="center">  {columnsort html="ID"}         </td>
                 <td align="center">             {columnsort html="eMail"}           </td>
                 <td align="center">             {columnsort html="Nick"}            </td>
                 <td align="center">             {columnsort html="Joined"}          </td>
@@ -77,9 +81,9 @@
             </tr>
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
-                    {include file="tools/paginate.tpl"}
+                    {include file="admin/tools/paginate.tpl"}
                 </td>
             </tr>
     </table>
 
-</form>
+</form> 

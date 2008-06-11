@@ -324,6 +324,7 @@ abstract class renderer_base
      */
     public function getLayoutTemplate()
     {
+        #echo 'Layout Template: '.$this->layoutTemplate.'<br>';
         if (empty($this->layoutTemplate))
         {
             $this->setLayoutTemplate($this->config['template']['tpl_wrapper_file']);

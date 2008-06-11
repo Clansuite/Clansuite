@@ -190,11 +190,11 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {t}Apache Mod_rewrite URL's{/t}
+                    {t}Webserver mod_rewrite URL's{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[apache][mod_rewrite]" {if $config.apache.mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[apache][mod_rewrite]" {if $config.apache.mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
         </table>
@@ -323,7 +323,7 @@
                     {t}Login method{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <select name="config[login_method]" class="input_text">
+                    <select name="config[login][login_method]" class="input_text">
                         <option value="nick" {if $config.login.login_method == 'nick'}selected="selected"{/if}>{t}By nickname{/t}</option>
                         <option value="email" {if $config.login.login_method == 'email'}selected="selected"{/if}>{t}By eMail{/t}</option>
                     </select>

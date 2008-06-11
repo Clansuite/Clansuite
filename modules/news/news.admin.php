@@ -65,7 +65,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
     public function execute(httprequest $request, httpresponse $response)
     {
         # proceed to the requested action
-        $this->processActionController($request);
+        $this->processActionController($request);        
     }
     
     /**
