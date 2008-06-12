@@ -8,7 +8,7 @@
 
 {doc_raw}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}/javascript/lightbox/script/lightbox.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
