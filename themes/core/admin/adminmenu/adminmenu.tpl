@@ -1,7 +1,6 @@
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/menu.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/XulMenu.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/ie5.js"></script>
 {/doc_raw}
 
 <!-- start: AdminMenu - Header 2 //-->
