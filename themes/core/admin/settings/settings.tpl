@@ -19,9 +19,10 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {t}Page Title{/t}
+                    {t}Website Title{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>Name your website:<br/></small>
                     <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
                 </td>
             </tr>
@@ -30,6 +31,7 @@
                     {t}Favicon{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>You may provide an favicon for our website:<br/></small>
                     <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
                     <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
                 </td>
@@ -115,6 +117,7 @@
                     {t}Maintenance Mode{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>You may want to turn off your site while performing updates or other types of maintenance.<br/></small>
                     <input type="radio" value="1" name="config[maintenance][maintenance]" {if $config.maintenance.maintenance == 1}checked="checked"{/if} /> {t}activated{/t}
                     <input type="radio" value="0" name="config[maintenance][maintenance]" {if $config.maintenance.maintenance == 0}checked="checked"{/if} /> {t}deactivated{/t}
                 </td>
@@ -124,6 +127,7 @@
                     {t}Reason for maintenance{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>You may provide a short description to your members explaining why your site has been switched off:<br/></small>
                     <textarea name="config[maintenance][maintenance_reason]" cols="30" rows="10" class="input_textarea">{$config.maintenance.maintenance_reason}</textarea>
                 </td>
             </tr>
@@ -175,6 +179,7 @@
                     {t}Keywords{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>Provide some comma separated keywords which describe your website. This will help search engines:<br /></small>
                     <input class="input_text" type="text" value="{$config.meta.keywords}" name="config[meta][keywords]" />
                 </td>
             </tr>
@@ -193,6 +198,7 @@
                     {t}Webserver mod_rewrite URL's{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:<br /></small>
                     <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
                     <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
@@ -478,6 +484,16 @@
                 </td>
             </tr>
             <tr>
+                <td class="cell2" width="15%">
+                    {t}GZip Compression{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>When you turn this setting on, your pages are served compressed to your clients - making your site quicker:<br/></small>
+                    <input type="radio" value="1" name="config[error][compression]" {if $config.error.compression == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[error][compression]" {if $config.error.compression == 0}checked="checked"{/if} /> {t}no{/t}
+                </td>
+            </tr>
+            <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Error Reporting{/t}
                 </td>
@@ -511,6 +527,43 @@
             </tr>
         </table>
    </div>
+   {* #### TAB PAGE - DATE AND TIME  #### *}
+   <div class="tab-page">
+       <h2 class="tab">{t}Date & Time{/t}</h2>
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Date & Timezone Settings{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Dateformat{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                <small>Format in which the date is presented. Example: d-m-Y. For How-To Read: http://us2.php.net/manual/en/function.date.php<br /></small>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Default Timezone{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small><br /></small>
+                    <input class="input_text" type="text" value="{$config.cache.cache_lifetime}" name="config[cache][cache_lifetime]" />&nbsp; seconds
+                    <br /> <small>set to -1 if developers mode on</small>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Enable Daylight Savings{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                <small>If you enable this, the Daylight Savings Time corrects the time for the above {t}Default Timezone{/t}<br /></small>
+                </td>
+            </tr>
+        </table>
+   </div>   
    {* #### TAB PAGE - CACHE SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Cache{/t}</h2>
@@ -538,6 +591,28 @@
                     <br /> <small>set to -1 if developers mode on</small>
                 </td>
             </tr>
+        </table>
+   </div>
+   {* #### TAB PAGE - Auto-Updater #### *}
+   <div class="tab-page">
+       <h2 class="tab">{t}Updates{/t}</h2>
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Updates{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Check for Updates{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>Clansuite can check with [clansuite.com] whether you are running the latest version. Results will be shown on the admin control panel with links to download the updated versions.<br /></small>
+                    <small>When you enable this, Clansuite will automagically check for updates to the CMS and Modules?<br /></small>
+                    <input type="radio" value="1" name="config[cache][caching]" {if $config.cache.caching == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[cache][caching]" {if $config.cache.caching == 0}checked="checked"{/if} /> {t}no{/t}
+                </td>
+            </tr>    
         </table>
    </div>
 </div>
