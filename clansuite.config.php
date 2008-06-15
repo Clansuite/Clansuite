@@ -152,13 +152,4 @@ keywords = "Clansuite, open-source, eSport, cms, clan,content management system,
 [webserver]
 mod_rewrite = 0
 
-;----------------------------------------
-; open_id
-;----------------------------------------
-[open_id]
-openid_trustroot = ""
-openid_showloginbox = 0
-openid_showcommentsbox = 0
-
-
 ; DO NOT REMOVE THIS LINE */ ?>
