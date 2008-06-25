@@ -203,6 +203,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
             }
+            unset($_POST['config']['database']['db_create_database']);
         }
 
         $sqlfile = CS_ROOT . '/sql/clansuite.sql';
