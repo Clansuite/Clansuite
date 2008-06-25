@@ -565,7 +565,5 @@ table.admintable tr#cell3
 
 #vertical-tabs fieldset
 {
-	width: 480px;
     border: none;
-    float: right;
 }
