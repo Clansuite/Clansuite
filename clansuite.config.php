@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\clansuite.config.php 
+;
+; Clansuite Configuration File :
+; D:\xampplite\htdocs\work\clansuite\trunk\clansuite.config.php
 ;
 
 
@@ -9,11 +9,11 @@
 ; database
 ;----------------------------------------
 [database]
+db_host = "localhost"
 db_type = "mysql"
 db_username = "clansuite"
 db_password = "toop"
 db_name = "clansuite"
-db_host = "localhost"
 db_prefix = "cs_"
 
 ;----------------------------------------
@@ -69,6 +69,7 @@ default_action = "show"
 ;----------------------------------------
 [language]
 language = "de"
+charset = "UTF-8"
 
 ;----------------------------------------
 ; login
@@ -87,8 +88,8 @@ salt = "1-3-5-8-4-1-7-2-4-1-4-1"
 ;----------------------------------------
 [openid]
 openid_trustroot = "http://www.clansuite.com/openid/"
-openid_showcommentsbox = 1
 openid_showloginbox = 1
+openid_showcommentsbox = 0
 
 ;----------------------------------------
 ; upload
@@ -109,10 +110,11 @@ session_name = ""
 ; error
 ;----------------------------------------
 [error]
-help_edit_mode = 0
+help_edit_mode = 1
+compression = 1
 suppress_errors = 0
 debug = 1
-debug_popup = 0
+debug_popup = 1
 
 ;----------------------------------------
 ; version
