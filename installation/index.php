@@ -96,7 +96,7 @@ $error = '';
 
 /**
  * Suppress Errors
- * E_STRICT forbids the shortage of "<?php echo $language->XY ?>" to "<?=$language->XY ?>"
+ * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
  * so we use e_all ... this is just an installer btw :)
  */
 error_reporting(E_ALL);
@@ -172,7 +172,7 @@ try
 }
 catch (Exception $e)
 {
-    echo $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
+    print $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
 }
 
 /**
@@ -181,7 +181,7 @@ catch (Exception $e)
  */
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
-    var_dump($_POST);
+    #var_dump($_POST);
 
     # check if input-fields are filled
     if (isset($_POST['config']['database']['db_host']) AND isset($_POST['config']['database']['db_type']) AND
@@ -217,7 +217,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
         else
         {
             // AlertBox?
-            //echo "SQL Data correctly inserted into Database!";
+            //print "SQL Data correctly inserted into Database!";
         }
 
         # A)  Write Settings to clansuite.config.php
@@ -421,7 +421,7 @@ function installstep_7($language){    require 'install-step7.php' ;}
  */
 function loadSQL($sqlfile, $hostname, $database, $username, $password)
 {
-    #echo "Loading SQL";
+    #print "Loading SQL";
     if ($connection = @ mysql_pconnect($hostname, $username, $password))
     {
         # select database
@@ -440,7 +440,7 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
             die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
           }
         }
-        #echo "$ix queries imported";
+        #print "$ix queries imported";
         return true; //"SQL file loaded correctly";
     }
     else
@@ -521,7 +521,7 @@ function write_config_settings($data_array)
     }
 
     # Write Config File to ROOT Directory
-    print WWW_ROOT . 'clansuite.config.php';
+    #print WWW_ROOT . 'clansuite.config.php';
     if ( false == $config->writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
     {
         return false;
