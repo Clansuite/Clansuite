@@ -105,10 +105,8 @@ class language implements ArrayAccess
         $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen fr Ihre Internetpr„senz mit Clansuite vor.';
         $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, k”nnen sie umfangreiche Einstellungen ber das Admin-Control-Panel (ACP) vornehmen.';
 
-        $this->language['STEP5_CONFIG_SITENAME'] 	= 'Name der Website';
-        $this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Systemmail';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Verschlsselungsart der Benutzer-Passw”rter';
-        $this->language['STEP5_CONFIG_SALTING'] = 'Salting (Anreicherung des Passwortes mit Zufallswerten)';
+        $this->language['STEP5_CONFIG_SITENAME'] = 'Name der Website';
+        $this->language['STEP5_CONFIG_EMAILFROM'] = 'Systemmail';
     	$this->language['STEP5_CONFIG_TIMEZONE'] = 'Zeitzone';
 
     	// STEP 6 - Create Administrator
