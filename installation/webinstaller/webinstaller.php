@@ -76,7 +76,7 @@ ini_set("upload_max_filesize","64M");
 #ini_set("safe_mode_exec_dir","/usr/bin/");
 #ini_set("safe_mode", "off");
 
-$webinstaller_version = 'Version 0.2 - Mo, 29 Okt 2007';
+$webinstaller_version = 'Version 0.2 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME']));
 
 /*****************************************************************
  * C O N F I G U R A T I O N
@@ -1076,7 +1076,7 @@ class PhpUnzipExtractor extends ExtractMethod
 	    return "Could not open the zip archive $fileName";
 	}
 	$start = time();
-	while ($zip_entry = zip_read($zip)) 
+	while ($zip_entry = zip_read($zip))
 	{
 		if (zip_entry_filesize($zip_entry))
 		{
@@ -1084,39 +1084,39 @@ class PhpUnzipExtractor extends ExtractMethod
 			$complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
 			if(!file_exists($complete_path)) {
 				$tmp = '';
-				foreach(explode('/',$complete_path) AS $k) 
+				foreach(explode('/',$complete_path) AS $k)
 				{
 					$tmp .= $k.'/';
-					if(!file_exists($tmp)) 
+					if(!file_exists($tmp))
 					{
 						@mkdir($tmp, 0777);
 					}
 				}
 			}
-			if (zip_entry_open($zip, $zip_entry, "r")) 
+			if (zip_entry_open($zip, $zip_entry, "r"))
 			{
 				if ($fd = fopen($complete_name, 'w'))
 				{
 					fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
 					fclose($fd);
-				} 
+				}
 				else echo "fopen($dir_atual.$complete_name) error<br>";
 				zip_entry_close($zip_entry);
-			} 
+			}
 			else
-			{ 
+			{
 				echo "zip_entry_open($zip,$zip_entry) error<br>";
 			    return false;
 		    }
-		}			
-				
-		if (time() - $start > 55) 
+		}
+
+		if (time() - $start > 55)
 		{
 		    Platform::extendTimeLimit();
 		    $start = time();
 		}
 	}
-	zip_close($zip);	
+	zip_close($zip);
 
     return true;
     }
@@ -1351,7 +1351,7 @@ function render($renderType, $args=array()) {
 	 <table class="choice">
 	   <tr><td><select name="version">
 	     <?php /*
-	     <option value="stable" selected="selected">Latest stable version (recommended)</option>	     
+	     <option value="stable" selected="selected">Latest stable version (recommended)</option>
 	     <?php if (!empty($args['showRcVersion'])): ?>
 	     <option value="rc">Latest release candidate for the next stable version</option>
 	     <?php endif; ?>
@@ -1475,7 +1475,7 @@ function render($renderType, $args=array()) {
        <?php if (!empty($args['clansuiteFolderName'])): ?>
 	 <span style="font-size: 14px; font-weight:bold; color:green;">
 	   <br />
-	   Follow this link to start the 
+	   Follow this link to start the
 	   <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
 	   Clansuite Installation Wizard</a>!
 	 </span>
