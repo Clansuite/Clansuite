@@ -22,7 +22,7 @@
                     {t}Website Title{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>Name your website:<br/></small>
+                    <small>{t}Name your website:{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
                 </td>
             </tr>
@@ -31,7 +31,7 @@
                     {t}Favicon{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>You may provide an favicon for our website:<br/></small>
+                    <small>{t}You may provide an favicon for our website:{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
                     <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
                 </td>
@@ -43,17 +43,19 @@
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {t}Standard Template{/t}
+                    {t}Default Theme{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Theme to load, when a guest is visiting your site the first time.{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.template.theme}" name="config[template][theme]" />
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {t}Standard Template Wrapper File{/t}
+                    {t}Default Layout Filename{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Layout to load.{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.template.tpl_wrapper_file}" name="config[template][tpl_wrapper_file]" />
                 </td>
             </tr>
@@ -73,19 +75,7 @@
                     <input class="input_text" type="text" value="{$config.template.std_javascript}" name="config[template][std_javascript]" />
                 </td>
             </tr>
-            <tr>
-                <td class="td_header_small"  colspan="2">
-                    {t}Default Language{/t}
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
-                    {t}Standard Language{/t}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.language.language}" name="config[language][language]" />
-                </td>
-            </tr>
+           
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Default Module / Action{/t}
@@ -96,14 +86,16 @@
                     {t}Standard module{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Module to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.defaults.default_module}" name="config[defaults][default_module]" />
-                </td>
+                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {t}Standard module action{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Action to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
                 </td>
             </tr>
@@ -117,7 +109,7 @@
                     {t}Maintenance Mode{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>You may want to turn off your site while performing updates or other types of maintenance.<br/></small>
+                    <small>{t}You may want to turn off your site while performing updates or other types of maintenance.{/t}</small><br />
                     <input type="radio" value="1" name="config[maintenance][maintenance]" {if $config.maintenance.maintenance == 1}checked="checked"{/if} /> {t}activated{/t}
                     <input type="radio" value="0" name="config[maintenance][maintenance]" {if $config.maintenance.maintenance == 0}checked="checked"{/if} /> {t}deactivated{/t}
                 </td>
@@ -127,7 +119,7 @@
                     {t}Reason for maintenance{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>You may provide a short description to your members explaining why your site has been switched off:<br/></small>
+                    <small>{t}You may provide a short description to your members explaining why your site has been switched off:{/t}</small><br />
                     <textarea name="config[maintenance][maintenance_reason]" cols="30" rows="10" class="input_textarea">{$config.maintenance.maintenance_reason}</textarea>
                 </td>
             </tr>
@@ -179,7 +171,7 @@
                     {t}Keywords{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>Provide some comma separated keywords which describe your website. This will help search engines:<br /></small>
+                    <small>{t}Provide some comma separated keywords which describe your website. This will help search engines:{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.meta.keywords}" name="config[meta][keywords]" />
                 </td>
             </tr>
@@ -198,16 +190,45 @@
                     {t}Webserver mod_rewrite URL's{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:<br /></small>
+                    <small>{t}When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:{/t}</small><br />
                     <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
                     <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
         </table>
+    </div>    
+   {* #### TAB PAGE - Language SETTINGS #### *}
+   <div class="tab-page">
+       <h2 class="tab">{t}Language{/t}</h2>
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Default Language / Charset{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Standard Language{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}Language Selection is based on browser-detection, but you can specify a default language as fallback.{/t}</small><br />
+                    <input class="input_text" type="text" value="{$config.language.language}" name="config[language][language]" />
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Charset{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <input class="input_text" type="text" value="{$config.language.charset}" name="config[language][charset]" />
+                </td>
+            </tr>
+        </tr>
+    </table>
     </div>
    {* #### TAB PAGE - EMAIL SETTINGS #### *}
    <div class="tab-page">
-       <h2 class="tab">{t}eMailer{/t}</h2>
+       <h2 class="tab">{t}Email{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
             <tr>
                 <td class="td_header_small"  colspan="2">
@@ -288,6 +309,7 @@
                     {t}From (eMail){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Bitte geben Sie die Emailadresse des Systems bzw. des Systemadministrators ein;{/t}<br /></small>
                     <input class="input_text" type="text" value="{$config.email.from}" name="config[email][from]" />
                 </td>
             </tr>
@@ -296,6 +318,7 @@
                     {t}From (name){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Bitte geben Sie den vollen Namen des Absenders des Systems bzw. des Systemadministrators ein;{/t}<br /></small>
                     <input class="input_text" type="text" value="{$config.email.from_name}" name="config[email][from_name]" />
                 </td>
             </tr>
@@ -319,6 +342,7 @@
    <div class="tab-page">
        <h2 class="tab">{t}Login{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Login{/t}
@@ -329,6 +353,7 @@
                     {t}Login method{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Choose the login method: You may select Login by Nickname or Email.{/t}</small><br />
                     <select name="config[login][login_method]" class="input_text">
                         <option value="nick" {if $config.login.login_method == 'nick'}selected="selected"{/if}>{t}By nickname{/t}</option>
                         <option value="email" {if $config.login.login_method == 'email'}selected="selected"{/if}>{t}By eMail{/t}</option>
@@ -340,6 +365,7 @@
                     {t}Remember me time{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Set the Number of days for your login cookie to be stored on your computer.{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.login.remember_me_time}" name="config[login][remember_me_time]" />&nbsp; days
                 </td>
             </tr>
@@ -348,6 +374,7 @@
                     {t}Maximum login attempts{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Set the number of Login Attempts. The clients IP will get banned temporarily, when attempted to login in this number of times.{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.login.max_login_attempts}" name="config[login][max_login_attempts]" />
                 </td>
             </tr>
@@ -356,6 +383,7 @@
                     {t}Login ban minutes{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Choose Number of minutes to ban a certain ip, after too many login attempts.{/t}</small><br />
                     <input class="input_text" type="text" value="{$config.login.login_ban_minutes}" name="config[login][login_ban_minutes]" />
                 </td>
             </tr>
@@ -377,6 +405,7 @@
                     {t}Encryption method{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the password encryption method: md5 or sha1.{/t}</small><br />
                     <select name="config[login][encryption]" class="input_text">
                         <option value="md5" {if $config.login.encryption == 'md5'}selected="selected"{/if}>{t}MD5 (faster){/t}</option>
                         <option value="sha1" {if $config.login.encryption == 'sha1'}selected="selected"{/if}>{t}SHA1 (more secure){/t}</option>
@@ -429,7 +458,7 @@
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$config.session.session_name}" name="config[session][session_name]" />
                 </td>
-            </tr>   
+            </tr>
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}OpenID {/t}
@@ -440,29 +469,43 @@
                     {t}Trust Root{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.open_id.openid_trustroot}" name="config[open_id][openid_trustroot]" />
-                </td>                
+                    <input class="input_text" type="text" value="{$config.openid.openid_trustroot}" name="config[openid][openid_trustroot]" />
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {t}Add to Login Box{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[open_id][openid_showloginbox]" {if $config.open_id.openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[open_id][openid_showloginbox]" {if $config.open_id.openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
-                </td>                
+                    <small>{t}When you enable this setting, the OpenID login fields will be displayed in the login box:{/t}</small><br />
+                    <input type="radio" value="1" name="config[openid][openid_showloginbox]" {if $config.openid.openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[openid][openid_showloginbox]" {if $config.openid.openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
+                </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {t}Add to Comments{/t}
                 </td>
-                <td class="cell1" style="padding: 3px">
-                    <input type="radio" value="1" name="config[open_id][openid_showcommentsbox]" {if $config.open_id.showcommentsbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[open_id][openid_showcommentsbox]" {if $config.open_id.showcommentsbox == 0}checked="checked"{/if} /> {t}no{/t}
-                </td>                
+                <td class="cell1" style="padding: 3px"> 
+                   <small>{t}When you enable this setting, the OpenID login fields will be displayed in the comments area's:{/t}</small><br />
+                    <input type="radio" value="1" name="config[openid][openid_showcommentsbox]" {if $config.openid.showcommentsbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[openid][openid_showcommentsbox]" {if $config.openid.showcommentsbox == 0}checked="checked"{/if} /> {t}no{/t}
+                </td>
             </tr>
-            
-                     
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Registration{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Registration & Usage Terms{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}You may provide registration terms, which are displayed to your upcoming members during the registration process:{/t}</small><br />
+                    <textarea name="config[login][registration_term]" cols="30" rows="10" class="input_textarea">{$config.login.registration_term}</textarea>
+                </td>
+            </tr>
         </table>
    </div>
   {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
@@ -488,7 +531,7 @@
                     {t}GZip Compression{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>When you turn this setting on, your pages are served compressed to your clients - making your site quicker:<br/></small>
+                    <small>{t}When you turn this setting on, your pages are served compressed to your clients - making your site quicker:{/t}</small><br />
                     <input type="radio" value="1" name="config[error][compression]" {if $config.error.compression == 1}checked="checked"{/if} /> {t}yes{/t}
                     <input type="radio" value="0" name="config[error][compression]" {if $config.error.compression == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
@@ -507,6 +550,18 @@
                     <input type="radio" value="0" name="config[error][suppress_errors]" {if $config.error.suppress_errors == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
+            <!--
+             tr>
+                <td class="cell2" width="15%">
+                    {t}Report Errors{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}When you turn this setting on, your errors are reported back to the Clansuite Community for bug resolving:{/t}</small><br />
+                    <input type="radio" value="1" name="config[error][reporthome_errors]" {if $config.error.reporthome_errors == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[error][reporthome_errors]" {if $config.error.reporthome_errors == 0}checked="checked"{/if} /> {t}no{/t}
+                </td>
+            </tr>
+            -->
             <tr>
                 <td class="cell2" width="15%">
                     {t}Debugging{/t}
@@ -541,7 +596,8 @@
                     {t}Dateformat{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                <small>Format in which the date is presented. Example: d-m-Y. For How-To Read: http://us2.php.net/manual/en/function.date.php<br /></small>
+                    <small>{t}You may provide the format in which dates are displayed. Example: d-m-Y. For an How-To read: http://us2.php.net/manual/en/function.date.php{/t}</small><br />
+                    <input class="input_text" type="text" value="{$config.locale.dateformat}" name="config[locale][dateformat]" />
                 </td>
             </tr>
             <tr>
@@ -549,21 +605,25 @@
                     {t}Default Timezone{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small><br /></small>
-                    <input class="input_text" type="text" value="{$config.cache.cache_lifetime}" name="config[cache][cache_lifetime]" />&nbsp; seconds
-                    <br /> <small>set to -1 if developers mode on</small>
+                    <small>{t}Select the default timzone:{/t}</small><br />
+                    <select name="config[locale][timezone]" class="input_text">
+                        <option value="md5" {if $config.locale.timezone == 'Berlin'}selected="selected"{/if}>Berlin</option>
+                        <option value="sha1" {if $config.locale.timezone == '123'}selected="selected"{/if}>123</option>
+                    </select>
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
-                    {t}Enable Daylight Savings{/t}
+                    {t}Daylight Savings Time (Summertime){/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                <small>If you enable this, the Daylight Savings Time corrects the time for the above {t}Default Timezone{/t}<br /></small>
+                    <small>{t}If you enable this, the Daylight Savings Time (or Summertime) corrects the time for the above {t}Default Timezone{/t}. The clock is advanced an hour, so that afternoons have more daylight and mornings have less:{/t}</small><br />
+                    <input type="radio" value="1" name="config[locale][daylight_saving]" {if $config.locale.daylight_saving == 1}checked="checked"{/if} /> {t}yes [Summertime = Default Timezone + 1 hour]{/t}
+                    <input type="radio" value="0" name="config[locale][daylight_saving]" {if $config.locale.daylight_saving == 0}checked="checked"{/if} /> {t}no [Normal Time = Default Timezone - 1 hour]{/t}                
                 </td>
             </tr>
         </table>
-   </div>   
+   </div>
    {* #### TAB PAGE - CACHE SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Cache{/t}</h2>
@@ -588,7 +648,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <input class="input_text" type="text" value="{$config.cache.cache_lifetime}" name="config[cache][cache_lifetime]" />&nbsp; seconds
-                    <br /> <small>set to -1 if developers mode on</small>
+                    <br /> <small>{t}set to -1 if developers mode on{/t}</small>
                 </td>
             </tr>
         </table>
@@ -607,18 +667,18 @@
                     {t}Check for Updates{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <small>Clansuite can check with [clansuite.com] whether you are running the latest version. Results will be shown on the admin control panel with links to download the updated versions.<br /></small>
-                    <small>When you enable this, Clansuite will automagically check for updates to the CMS and Modules?<br /></small>
+                    <small>{t}Clansuite can check with [clansuite.com] whether you are running the latest version. Results will be shown on the admin control panel with links to download the updated versions.{/t}</small><br />
+                    <small>{t}When you enable this, Clansuite will automagically check for updates to the CMS and Modules?{/t}</small><br />
                     <input type="radio" value="1" name="config[cache][caching]" {if $config.cache.caching == 1}checked="checked"{/if} /> {t}yes{/t}
                     <input type="radio" value="0" name="config[cache][caching]" {if $config.cache.caching == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
-            </tr>    
+            </tr>
         </table>
-   </div>
+   </div>   
 </div>
 <br />
 <div style="text-align:center">
-    <input type="submit" class="ButtonGreen" value="{t}Change settings{/t}" name="submit" />
+    <input type="submit" class="ButtonGreen" value="{t}Save Settings{/t}" name="submit" />
 </div>
 </form>
 {* #### Init TabPane #### *}
