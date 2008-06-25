@@ -20,14 +20,13 @@
 *    along with this program; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-* @author     Florian Wolf <xsign.dll@clansuite.com>
 * @author     Jens-Andre Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
-* @author     Jens-André Koch, Florian Wolf
+* @author     Jens-André Koch
 * @copyright  Clansuite Group
-* @license    GPL v2
+* @license    GPL
 * @version    SVN: $Id$
 * @link       http://www.clansuite.com
 */
@@ -51,30 +50,30 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
         # proceed to the requested action
         $this->processActionController($request);
     }
-        
+
     /**
      * action_settings_show
      */
     function action_settings_show()
-    {   
-        # Set Pagetitle and Breadcrumbs        
+    {
+        # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
-        
+
         # Get Render Engine
         $smarty = $this->getView();
-        
+
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config')->toArray();
-        
+
         # Assign Config to Smarty
         $smarty->view->assign('config', $config);
-                
+
         # Set Admin Layout Template
         $smarty->setLayoutTemplate('admin/index.tpl');
-        
+
         # Specifiy the template manually
         $this->setTemplate('admin/settings/settings.tpl');
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -84,56 +83,20 @@ class module_admin_settings extends ModuleController implements Clansuite_Module
      */
     function action_settings_update()
     {
-        # Set Pagetitle and Breadcrumbs        
+        # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $_POST['config'];
-        
+
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
-        $config->writeConfig( ROOT . 'clansuite.config.php',$data);
-        
-        /**
-        * @desc Handle the update
-        *//*
-        $cfg_file = file_get_contents(ROOT . '/config.class.php');
-        foreach($data as $key => $value)
-        {
-            if( is_array($value) )
-            {
-                foreach( $value as $meta_key => $meta_value )
-                {
-                    if( preg_match('#^[0-9]+$#', $meta_value) )
-                	{
-                	    $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = ' . $meta_value . ';', $cfg_file );
-                	}
-                	else
-                	{
-                        $cfg_file = preg_replace( '#\$this->meta\[\''. $meta_key . '\'\][\s]*\=.*\;#', '$this->meta[\''. $meta_key . '\'] = \'' . $meta_value . '\';', $cfg_file );
-                	}
-                }
-            }
-            else
-            {
-                if( preg_match('#^[0-9]+$#', $value) )
-                {
-                    $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = ' . $value . ';', $cfg_file );
-                }
-                else
-                {
-                    $cfg_file = preg_replace( '#\$this->'. $key . '[\s]*\=.*\;#', '$this->'. $key . ' = \'' . $value . '\';', $cfg_file );
-                }
-            }
-        }
 
-        file_put_contents( ROOT . '/config.class.php', $cfg_file );
-        */
-        # Redirect 
-        
-        #$functions->redirect( 'index.php?mod=admin&sub=settings', 'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
+        $config->writeConfig( ROOT . 'clansuite.config.php',$data);
+
+        # Redirect
+        header('index.php?mod=admin&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
     }
 }
 ?>
