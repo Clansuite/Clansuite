@@ -107,9 +107,7 @@ class language implements ArrayAccess
         $this->language['STEP5_SENTENCE2'] = 'When the installation is done, you\'ll be able to configure more details from the administrative control panel (ACP).';
 
     	$this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
-    	$this->language['STEP5_CONFIG_SYSTEMEMAIL'] = 'Email Adress of Website';
-    	$this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] 	= 'Encryption of Useraccount-Passwords';
-    	$this->language['STEP5_CONFIG_SALTING'] = 'Salting (Random-Char Strength-Enrichment of Passwords)';
+    	$this->language['STEP5_CONFIG_EMAILFROM'] = 'Email Adress of Website';
 		$this->language['STEP5_CONFIG_TIMEZONE'] = 'Timezone';
 
         // STEP 6 - Create Administrator

@@ -34,28 +34,15 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
         	   <form action="index.php" method="post">
         	   <dl>
 			   		<dt><?=$language['STEP5_CONFIG_SITENAME']?></dt>
-			   		<dd><input type="text" name="site_name" value="<?=$values['site_name']?>" /></dd>
+			   		<dd><input type="text" name="config[template][std_page_title]" value="<?=$values['std_page_title']?>" /></dd>
 
-			   		<dt><?=$language['STEP5_CONFIG_SYSTEMEMAIL']?></dt>
-			   		<dd><input type="text" name="system_email" value="<?=$values['system_email']?>" /></dd>
-
-			   		<? # festes dropdown ?>
-			   		<dt><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></dt>
-			   		<dd>
-						<select name="encryption">
-							<option value="md5"<?php echo ($values['encryption']=='md5') ? ' selected="selected"' : ''; ?>>MD5</option>
-							<option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
-						</select>
-					</dd>
-
-			   		<? # random salting ?>
-			   		<dt><?=$language['STEP5_CONFIG_SALTING']?></dt>
-			   		<dd><input type="text" name="salt" value="<?=$values['salt']?>" /></dd>
+			   		<dt><?=$language['STEP5_CONFIG_EMAILFROM']?></dt>
+			   		<dd><input type="text" name="config[email][from]" value="<?=$values['from']?>" /></dd>
 
 			   		<? # timezone detection fucntion ?>
 			   		<dt><?=$language['STEP5_CONFIG_TIMEZONE']?></dt>
 			   		<dd>
-						<select name="time_zone" class="form">
+						<select name="config[language][timezone]" class="form">
 							<option value="-36000">UTC -10 Hawaii</option>
 							<option value="-32400">UTC -9 Alaska</option>
 							<option value="-28800">UTC -8 Pacific (USA, Canada)</option>
