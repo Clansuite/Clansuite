@@ -76,7 +76,7 @@ catch (Exception $e)
 
 // Get site paths
 define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
-define ('WWW_ROOT', realpath(dirname(__FILE__)."/../")."/");
+define ('WWW_ROOT', realpath(dirname(__FILE__)."/../"));
 
 // The Clansuite version this script installs
 $cs_version = '0.1';
@@ -181,21 +181,24 @@ catch (Exception $e)
  */
 if( isset($_POST['step_forward']) AND $step == 5 )
 {
+    var_dump($_POST);
+
     # check if input-fields are filled
-    if (isset($_POST['db_hostname']) AND isset($_POST['db_username']) AND isset($_POST['db_password']))
+    if (isset($_POST['config']['database']['db_host']) AND isset($_POST['config']['database']['db_type']) AND
+        isset($_POST['config']['database']['db_username']) AND isset($_POST['config']['database']['db_password']))
     {
         # B) Write SQL-Data into Database
 
         # Should we create the database?
-        if (isset($_POST['db_create_database']) && $_POST['db_create_database'] == 'on')
+        if (isset($_POST['config']['database']['db_create_database']) && $_POST['config']['database']['db_create_database'] == 'on')
         {
             # establish connection to database
-            $db = mysql_pconnect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
+            $db = mysql_pconnect($_POST['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
             #or die ("Konnte keine Verbindung zur Datenbank herstellen");
 
             # http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
             # so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
-            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
+            if (!mysql_query('CREATE DATABASE ' . $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
             {
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
@@ -203,7 +206,10 @@ if( isset($_POST['step_forward']) AND $step == 5 )
         }
 
         $sqlfile = CS_ROOT . '/sql/clansuite.sql';
-        if( !loadSQL( $sqlfile ,$_POST['db_hostname'], $_POST['db_name'], $_POST['db_username'], $_POST['db_password']) )
+        if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
+                                 $_POST['config']['database']['db_name'],
+                                 $_POST['config']['database']['db_username'],
+                                 $_POST['config']['database']['db_password']) )
         {
             $step = 4;
             $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
@@ -215,7 +221,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
         }
 
         # A)  Write Settings to clansuite.config.php
-        if( !write_config_settings($_POST))
+        if( !write_config_settings($_POST['config']))
         {
             $step = 4;
             $error = 'Config not written <br />';
@@ -369,6 +375,7 @@ function installstep_3($language){    require 'install-step3.php' ;}
 function installstep_4($language, $error)
 {
     $values['db_host']      = isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
+    $values['db_type']      = isset($_SESSION['db_type']) ? $_SESSION['db_type'] : 'mysql';
     $values['db_name']      = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
     $values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
     $values['db_username']  = isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
@@ -493,40 +500,29 @@ function getQueriesFromSQLFile($file)
  *
  * @param $data_array
  * @return BOOLEAN true, if clansuite.config.php could be written to the ROOT
- * @todo: -> write ini via /core/clansuite_config.class.php -> writeConfig()!!
- * @todo: -> read ini via /core/clansuite_config.class.php -> readConfig()!!
+ *
  */
-function write_config_settings($data_array, $update = false)
+function write_config_settings($data_array)
 {
-    # throw non-setting vars out
-    # not needed
+    require '../core/clansuite_config.class.php';
+    $config = new Clansuite_Config;
+
+    # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
     unset($data_array['lang']);
-    # handled in step 4 - section b
-    unset($data_array['db_create_database']);
+    unset($data_array['db_create_database']); # handled in step 4 - section b
 
-    # Read Config File
-    if ( $update == true )
-    {
-        # the original one, from the root dir
-        $config_file = file_get_contents( WWW_ROOT . 'clansuite.config.php');
-    }
-    else
-    {
-        # the template one, from the installtion dir
-        $config_file = file_get_contents( CS_ROOT . '/clansuite.config.installer');
-    }
-
-    # Loop over Config File Data
+    # rename some keys
+    # @todo: change keynames in html
     foreach($data_array as $key => $value)
     {
        if ($key == 'system_email') { $key = 'from'; }
        if ($key == 'site_name')    { $key = 'std_page_title'; }
-       $config_file = preg_replace( '#\$this->config\[\''. $key . '\'\][\s]*\=.*\;#', '$this->config[\''. $key . '\'] = \''. $value . '\'; # inserted by installation', $config_file );
     }
 
     # Write Config File to ROOT Directory
-    if (!file_put_contents( WWW_ROOT . 'clansuite.config.php', $config_file ))
+    print WWW_ROOT . 'clansuite.config.php';
+    if ( false == $config->writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
     {
         return false;
     }
@@ -546,8 +542,8 @@ session_write_close();
 class Clansuite_Installation_Startup_Exception extends Exception
 {
     /**
-            *    Define Exceptionmessage and Code via constructor
-            */
+     *    Define Exceptionmessage and Code via constructor
+     */
     public function __construct($message, $code = 0)
     {
         // hand it over to the Exception Class, which is parent
@@ -555,8 +551,8 @@ class Clansuite_Installation_Startup_Exception extends Exception
     }
 
     /**
-        * Transform the Object to String
-        */
+     * Transform the Object to String
+     */
     public function __toString()
     {
         # Header

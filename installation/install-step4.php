@@ -42,7 +42,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 			<p><?=$language['STEP4_SENTENCE2']; ?></p>
 			<p><?=$language['STEP4_SENTENCE3']; ?></p>
 
-			<form action="index.php" method="post">
+			<form action="index.php" method="post" accept-charset="UTF-8">
 
 			<input type="hidden" name="db_type" value="mysql" />
 
@@ -51,28 +51,32 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                <ol class="formular">
                    <li>
             	        <label class="formularleft"><?=$language['DB_HOST']?></label>
-    			   		<input class="formularright" type="text" name="db_hostname" value="<?=$values['db_host']?>" />
+    			   		<input class="formularright" type="text" name="config[database][db_host]" value="<?=$values['db_host']?>" />
+    			   	</li>
+    			   	<li>
+            	        <label class="formularleft"><?=$language['DB_TYPE']?></label>
+    			   		<input class="formularright" type="text" name="config[database][db_type]" value="<?=$values['db_type']?>" />
     			   	</li>
             	    <li>
-            	        <label class="formularleft"><?=$language['DB_USER']?></label>
-    			   		<input class="formularright" type="text" name="db_username" value="<?=$values['db_username']?>" />
+            	        <label class="formularleft"><?=$language['DB_USERNAME']?></label>
+    			   		<input class="formularright" type="text" name="config[database][db_username]" value="<?=$values['db_username']?>" />
     			   	</li>
             	    <li>
-            	        <label class="formularleft"><?=$language['DB_PASS']?></label>
-            	        <input class="formularright" type="text" name="db_password" value="<?=$values['db_password']?>" />
+            	        <label class="formularleft"><?=$language['DB_PASSWORD']?></label>
+            	        <input class="formularright" type="text" name="config[database][db_password]" value="<?=$values['db_password']?>" />
     			   	</li>
     			   	 <li>
                         <label class="formularleft"><?=$language['DB_NAME']?></label>
-            	        <input class="formularright" type="text" name="db_name" value="<?=$values['db_name']?>" />
+            	        <input class="formularright" type="text" name="config[database][db_name]" value="<?=$values['db_name']?>" />
             	    </li>
             	    <li>
             	        <label class="formularleft"><?=$language['DB_CREATE_DATABASE']?></label>
-            	        <input class="formularright" type="checkbox" name="db_create_database"
+            	        <input class="formularright" type="checkbox" name="config[database][db_create_database]"
             	        <? if($values['db_create_database'] == '1') { ?> checked="checked" <? } ?> />
     			   	</li>
             	    <li>
             	        <label class="formularleft"><?=$language['DB_PREFIX']?></label>
-            	        <input class="formularright" type="text" name="db_prefix" value="<?=$values['db_prefix']?>" />
+            	        <input class="formularright" type="text" name="config[database][db_prefix]" value="<?=$values['db_prefix']?>" />
     			   	</li>
         	   </ol>
         	</fieldset>
