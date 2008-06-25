@@ -193,7 +193,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
         if (isset($_POST['config']['database']['db_create_database']) && $_POST['config']['database']['db_create_database'] == 'on')
         {
             # establish connection to database
-            $db = mysql_pconnect($_POST['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
+            $db = mysql_pconnect($_POST['config']['database']['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
             #or die ("Konnte keine Verbindung zur Datenbank herstellen");
 
             # http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
@@ -246,19 +246,25 @@ if( isset($_POST['step_forward']) AND $step == 5 )
 if( isset($_POST['step_forward']) AND $step == 6 )
 {
     # check if input-fields are filled
-    if( isset($_POST['site_name']) AND isset($_POST['system_email'])
-                                   AND isset($_POST['encryption'])
-                                   AND isset($_POST['salt'])
-                                   AND isset($_POST['time_zone']) )
-    # A)  Write Settings to clansuite.config.php
-    if( !write_config_settings($_POST, true))
+    if( isset($_POST['config']['template']['std_page_title']) AND
+        isset($_POST['config']['email']['from']) AND
+        isset($_POST['config']['language']['timezone']) )
     {
-        $step = 6;
-        $error = 'Config not written <br />';
+        # A)  Write Settings to clansuite.config.php
+        if( !write_config_settings($_POST['config'], true))
+        {
+            $step = 5;
+            $error = 'Config not written <br />';
+        }
+        else
+        {
+            // Config written
+        }
     }
-    else
+    else # input fields empty
     {
-        // Config written
+        $step = 5;
+        $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
     }
 }
 
@@ -387,11 +393,9 @@ function installstep_4($language, $error)
 // STEP 5 - System Check
 function installstep_5($language)
 {
-    $values['site_name']            = isset($_SESSION['site_name']) ? $_SESSION['site_name'] : 'Team Clansuite';
-    $values['system_email']         = isset($_SESSION['system_email']) ? $_SESSION['system_email'] : 'system@website.com';
-    $values['encryption']           = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-    $values['salt']                 = isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
-    $values['time_zone']            = isset($_SESSION['time_zone']) ? $_SESSION['time_zone'] : '0';
+    $values['std_page_title']      = isset($_SESSION['std_page_title']) ? $_SESSION['std_page_title'] : 'Team Clansuite';
+    $values['from']                = isset($_SESSION['from']) ? $_SESSION['from'] : 'system@website.com';
+    $values['timezone']            = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : '0';
 
     require 'install-step5.php';
 }
@@ -402,6 +406,10 @@ function installstep_6($language)
     $values['admin_password']   = isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
     $values['admin_email']      = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
     $values['admin_language']   = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
+
+  /*$values['encryption']        = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
+    $values['salt']                = isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
+  */
 
     require 'install-step6.php';
 }
@@ -516,7 +524,6 @@ function write_config_settings($data_array)
     # @todo: change keynames in html
     foreach($data_array as $key => $value)
     {
-       if ($key == 'system_email') { $key = 'from'; }
        if ($key == 'site_name')    { $key = 'std_page_title'; }
     }
 
