@@ -35,6 +35,8 @@
 
 {/doc_raw}
 
+    <a accesskey="t" name="top"/>
+
     <div class="header">
         <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
@@ -109,6 +111,7 @@
      {$copyright}
     <br/> Frontpage-Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
     <br/> {include file='server_stats.tpl'}
+    <div style="text-align: right;"><a href="#top">{t}Nach oben{/t}</a> | <a href="index.php">{t}Show Frontpage{/t}</a></div>
 </div>
 
 {* Ajax Notification *}
