@@ -273,7 +273,7 @@ class WebInstaller {
     		    render('results', array('failure' => "Folder $folderName has invalid characters. Can only change the permissions of folders in the current working directory."));
     		    exit;
     		}
-    		$folderName = dirname(__FILE__) . '/' .  $folderName;
+    		$folderName = dirname(__FILE__) . DIRECTORY_SEPARATOR .  $folderName;
     		if (!is_file($folderName)) {
     		    render('results', array('failure' => "Folder $folderName does not exist!"));
     		    exit;
@@ -308,11 +308,11 @@ class WebInstaller {
     		}
     		$folderName = dirname(__FILE__) . '/' .  $folderName;
     		$oldFolderName = $this->findclansuiteFolder();
-    		if (empty($oldFolderName) || !is_file(dirname(__FILE__) . '/' . $oldFolderName)) {
+    		if (empty($oldFolderName) || !is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName)) {
     		    render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
     		    exit;
     		}
-    		$oldFolderName = dirname(__FILE__) . '/' . $oldFolderName;
+    		$oldFolderName = dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName;
     		$success = @rename($oldFolderName, $folderName);
     		if (!$success) {
     		    render('results', array('failure' => "Attempt to rename $oldFolderName to $folderName failed!"));
@@ -1473,23 +1473,18 @@ function render($renderType, $args=array()) {
 
        <!-- PATH TO CLANSUITE INSTALLER -->
        <?php if (!empty($args['clansuiteFolderName'])): ?>
-	 <span style="font-size: 14px; font-weight:bold; color:green;">
-	   <br />
-	   Follow this link to start the
-	   <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
-	   Clansuite Installation Wizard</a>!
-	 </span>
-       <?php else: ?>
-	 <div class="warning">
-	   <b>Installer was not found!</b>
-	   <br>Please perform steps 1 and 2 to get an extracted Clansuite archive.
-	 </div>
-       <?php endif; ?>
-       </div>
-       </div>
-
+    	 <span style="font-size: 14px; font-weight:bold; color:green;">
+    	   <br />
+    	   Follow this link to start the
+    	   <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+    	   Clansuite Installation Wizard</a>!
+    	 </span>
+    	 
        <!-- CHANGE PERMISSIONS -->
-       <?php $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
+       <?php 
+       $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
+       $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';       
+       $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
        <div class="box">
        <h2>Change the permissions of your Clansuite Folder</h2>
        <span id="chmod-toggle" class="blockToggle"
@@ -1529,9 +1524,9 @@ function render($renderType, $args=array()) {
 
        <!-- RENAME FOLDER-->
        <div class="box">
-       <h2>Rename the Clansuite folder</h2>
-       <span id="rename-toggle" class="blockToggle"
-	    onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
+        <h2>Rename the Clansuite folder</h2>
+        <span id="rename-toggle" class="blockToggle" 
+             onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
 	    <?php print $label .  'rename folder form'; ?>
        </span>
        <div id="rename" <?php print $display; ?>>
@@ -1552,7 +1547,17 @@ function render($renderType, $args=array()) {
        <?php endif; ?>
        </div>
        </div>
-
+       
+       </div>
+           	 
+       <?php else: ?>
+    	 <div class="warning">
+    	   <b>Installer was not found!</b>
+    	   <br>Please perform steps 1 and 2 to get an extracted Clansuite archive.
+    	 </div>
+       <?php endif; ?>
+       </div>
+       
      <?php elseif ($renderType == 'results'): ?>
      <h2> Results </h2>
      <?php if (!empty($args['failure'])): ?>
