@@ -308,19 +308,30 @@ class HTTPResponse implements Clansuite_Response_Interface
      */
     public function redirect($url, $time = 0, $statusCode = 302)
     {
-        # redirect html content
-        $redirect_html  = '';
-        $redirect_html  = '<html><head>';
-        $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-        $redirect_html .= '</head></html>';
+        # redirect only, if headers are NOT already send
+        if (!headers_sent($filename, $linenum))
+        {
+            # redirect html content
+            $redirect_html  = '';
+            $redirect_html  = '<html><head>';
+            $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
+            $redirect_html .= '</head></html>';
 
-        # redirect to ...
-        $this->setStatusCode($statusCode);
-        $this->addHeader('Location', $url);
-        $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
-        $this->flush();
+            # redirect to ...
+            $this->setStatusCode($statusCode);
+            $this->addHeader('Location', $url);
+            $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+            $this->flush();
 
-        # event log
+            # event log
+        }
+        else # headers already send!
+        {
+            print "Header bereits gesendet in $filename in Zeile $linenum\n" .
+                  "Redirect nicht moeglich, klicken Sie daher statt dessen <a " .
+                  "href=\"$url\">diesen Link</a> an\n";
+            exit;
+        }
     }
 }
 ?>
