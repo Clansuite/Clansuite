@@ -1,13 +1,24 @@
 {* Center Layer Divs Start*}
 <div style="text-align:center"><div style="margin:auto;text-align:left;">
-
-{* JQuery used for Vertical Tabs *}
+{literal}
+<script type="text/javascript">
+jQuery(function() {
+	jQuery('#vertical-tabs > ul').tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
+});
+</script>
+{/literal}
+{* jQuery used for Vertical Tabs *}
 <div id="vertical-tabs">
-    <fieldset>
-        <legend><img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" />Module</legend>
+    <ul>
+        <li><a href="#fragment-1"><span><img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" /><br />Module</span></a></li>
+        <li><a href="#fragment-2"><span><img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" /><br />Administration</span></a></li>
+        <li><a href="#fragment-3"><span><img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" /><br />System</span></a></li>
+        <li><a href="#fragment-4"><span><img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" /><br />Benutzer</span></a></li>
+        <li><a href="#fragment-5"><span><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" /><br />Layout</span></a></li>
+    </ul>
+    <div id="fragment-1">
         {* Table for Administration Symbols/Shortcuts *}
-        <center>
-        <table cellspacing="15" cellpadding="5" {* border="1" *}>
+        <table cellspacing="15" cellpadding="5" style="margin:0 auto">
             {foreach key=row item=image from=$shortcuts}
                 <tr class="tr_row2">
                 {foreach key=col item=data from=$image}
@@ -21,30 +32,25 @@
                 {/foreach}
                 </tr>
                 <tr>
-                    <td align="center" colspan="4">
+                    <td colspan="4">
                         <hr />
                     </td>
                 </tr>
             {/foreach}
         </table>
-        </center>
-    </fieldset>
-    <fieldset>
-        <legend><img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" />Administration</legend>
+    </div>
+    <div id="fragment-2">
         Ipsum
-    </fieldset>
-    <fieldset>
-        <legend><img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" />System</legend>
+    </div>
+    <div id="fragment-3">
         Ipsum
-    </fieldset>
-    <fieldset>
-        <legend><img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" />Benutzer</legend>
+    </div>
+    <div id="fragment-4">
         Ipsum
-    </fieldset>
-    <fieldset>
-        <legend><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" />Layout</legend>
+    </div>
+    <div id="fragment-5">
         Ipsum
-    </fieldset>
+    </div>
     <div style="clear:both"></div>
 </div>
 
