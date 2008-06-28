@@ -23,13 +23,15 @@
         <td valign="top">
 
             <div class="DynamicTree">
-                <div class="wrap1">
+            Dynamic Tree Builder for Adminmenu 
+                <div class="wrap1">               
                     <div class="top">{t}Adminmenu{/t}</div>
-                    <div class="wrap2" id="tree">
+                    <div class="wrap2" id="tree">                        
                         {load_module name="admin" sub="menueditor" action="get_adminmenu_div"}
                     </div>
-                </div>
+                </div>                
                 <div class="actions">
+                <b>Actions</b><br /><br />
                     <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
                     <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
                     <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" /></a>
@@ -39,6 +41,7 @@
                     <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_root_themes_core}/admin/adminmenu/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" /></a>
                     <div class="tooltip" id="tree-tooltip"></div>
                 </div>
+                <br /><br />
                 <div id="tree-insert-form">
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
@@ -92,27 +95,28 @@
                     </form>
                 </div>
                 <div id="tree-info-form">
+                    <div class="actions"><b>Edit the Element</b><br /><br /></div>
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
                         <tr>
                             <td class="label">{t}Name{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-info-name" name="tree-info-name" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{t}Href{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
+                            <td class="label">{t}URL (href){/t}</td>
+                            <td><input class="input_text" size="40" id="tree-info-href" name="tree-info-href" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{t}Title{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
+                            <td class="label">{t}Tooltip Title{/t}</td>
+                            <td><input class="input_text" size="40" id="tree-info-title" name="tree-info-title" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}Target{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}Right to view{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-info-right_to_view" name="tree-info-right_to_view" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-info-right_to_view" name="tree-info-right_to_view" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
@@ -128,29 +132,27 @@
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
-                                <input class="ButtonGreen" id="tree-info-button" type="button" value="Update" />
-                                <input class="ButtonGrey" id="tree-info-cancel" type="button" value="Cancel" />
+                                <input class="ButtonGreen" id="tree-info-button" type="button" value="Update Details" />
+                                <input class="ButtonGrey" id="tree-info-cancel" type="button" value="Cancel &amp; Leave Details" />
                             </td>
                         </tr>
                         </table>
-                    </form>
+                    </form>                    
                 </div>
             </div>
 
         </td>
         <td valign="top">
-
+            
+            {include file="admin/adminmenu/help.html"}
+            
             <p>
-                <input type="button" class="ButtonYellow" onclick="window.open('{$www_root_themes_core}/admin/adminmenu/help.html', 'Contents', 'width=400,height=400,scrollbars=yes')" value="{t}Help{/t}" />
+               <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
+            
             <p>
-                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
-            </p>
-            <p>
-                <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last menu{/t}" />
-            </p>
-        </td>
-        <td valign="top">
+               <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last Adminmenu{/t}" />
+            </p>        
 
             <div id="tree-plugin">
                 <form action="index.php?mod=admin&amp;sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
@@ -158,7 +160,7 @@
                 <strong>{t}The menu has been generated.{/t}</strong> <br />
                 {t}Click the button below, to save the menu into the Database.{/t} <br />
                 <p>
-                    <input class="ButtonGreen" type="submit" name="submit" value="{t}Update the menu{/t}" />
+                    <input class="ButtonGreen" type="submit" name="submit" value="{t}Update the Adminmenu{/t}" />
                 </p>
                 </form>
             </div>

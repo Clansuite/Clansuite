@@ -59,51 +59,14 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
     }
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loading necessary language files
-    */
-
-    function auto_run()
-    {
-        global $lang, $trail;
-
-        $params = func_get_args();
-
-        switch ($_REQUEST['action'])
-        {
-            case 'update':
-                $this->update();
-                break;
-
-            case 'restore':
-                $this->restore();
-                break;
-
-            case 'get_adminmenu_div':
-                $this->output .= call_user_func_array( array( $this, 'get_adminmenu_div' ), $params );
-                break;
-
-            case 'get_html_div':
-                $this->output .= call_user_func_array( array( $this, 'get_html_div' ), $params );
-                break;
-
-            case 'get_export_div':
-                $this->output .= call_user_func_array( array( $this, 'get_export_div' ), $params );
-                break;
-
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
-    }
-
-    /**
      * Shows the Admin Menu Editor
      */
     public function action_menueditor_show()
-    {
-        // Set Pagetitle and Breadcrumbs
+    {       
+        # Permission check
+        #$perms::check('cc_show_menueditor');
+
+        # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=menueditor&amp;action=show');
 
         // Setup Icons Array
@@ -124,103 +87,139 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         // Assign ICONS to View
         $this->getView()->assign('icons', $icons );
+
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
+
         // specifiy the template manually
         $this->setTemplate('admin/adminmenu/menueditor.tpl');
+
         // Prepare the Output
         $this->prepareOutput();
     }
 
     /**
-     * Update the menu in DB and create a backup
+     * Update the Adminmenu
+     *
+     * 1) clear adminmenu_backup
+     * 2) insert data from adminmenu table into the admin_backup table
+     * 3) clear adminmenu
+     * 4) insert menu into adminmenu table
      */
     public function action_menueditor_update()
     {
+        # Permission check
+        #$perms::check('cc_update_menueditor');
+
         // Incoming Variables
         $menu = $_POST['container'];
 
-        // Clear Backup Table
-        // @todo: REPLACE ??
-        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
-        $stmt->execute();
+        # Load DBAL
+        parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
 
-        // Insert Into Backup Table
-        $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu' );
-        $stmt->execute();
+        // Get PDO Object from Doctrine
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        // Clear Backup Table
+        $stmt1 = $pdo->prepare('TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup');
+        $stmt1->execute();
+
+        // Insert the adminmenu Into the Backup Table
+        $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt2->execute();
 
         // Clear Original Adminmenu Table
-        $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
-        $stmt->execute();
+        $stmt3 = $pdo->prepare('TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu');
+        $stmt3->execute();
 
         foreach ( $menu as $key => $value )
         {
             $id = str_replace( 'tree-', '', $key );
-            $id = (int) $id;
             $parent = str_replace( 'tree-', '', $value['parent'] );
-            $parent = (int) $parent;
-
             $value['href'] = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
 
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
-            $stmt->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['right_to_view'] ) );
+            $stmt4 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt4->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['right_to_view'] ) );
+
+            /*
+            $q = new CsAdminmenu();
+
+            $q['id']            = $id;
+            $q['parent']        = $parent;
+            $q['type']          = $value['type'];
+            $q['text']          = html_entity_decode($value['text']);
+            $q['href']          = $value['href'];
+            $q['title']         = html_entity_decode($value['title']);
+            $q['target']        = $value['target'];
+            $q['order']         = $value['order'];
+            $q['icon']          = $value['icon'];
+            $q['right_to_view'] = $value['right_to_view'];
+
+            $q->save();
+            */
         }
-        $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
+        
+        $this->redirect('index.php?mod=admin&sub=menueditor');
+
+        #'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
     }
 
     /**
-    * @desc Restore the old menu
-    */
+     * Restore the old menu
+     */
     function restore()
-    {
-        global $db, $tpl, $error, $lang, $functions;
-
+    {        
         $confirm = $_POST['confirm'];
         $abort   = $_POST['abort'];
 
         if ( !empty($abort) )
         {
-            $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Aborted. Nothing has been changed.' ), 'admin' );
+            $this->redirect('index.php?mod=admin&sub=menueditor');
+            #$functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3,
+            #                      _( 'Aborted. Nothing has been changed.' ), 'admin' );
         }
 
         if ( !empty($confirm) )
         {
             /**
-            * @desc Get content of current menu
-            */
+             *  Get content of current menu
+             */
 
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_NUM);
+            // Get PDO Object from Doctrine
+            $pdo = Doctrine_Manager::connection()->getDbh();
 
-            /**
-            * @desc Switch old menu to new table
-            */
+            # 1) get adminmenu table as variable $result
+            $stmt1 = $pdo->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
+            $stmt1->execute();
+            $result = $stmt1->fetchAll(PDO::FETCH_NUM);
 
-            $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
-            $stmt->execute();
+            # 2) empty adminmenu table
+            $stmt2 = $pdo->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
+            $stmt2->execute();
 
-            $stmt = $db->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu_backup' );
-            $stmt->execute();
+            # 3) insert into adminmenu the adminmenu_backup entries
+            $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu_backup' );
+            $stmt3->execute();
 
-            /**
-            * @desc Switch old menu to bck table
-            */
+            # 4) empty adminmenu_backup table
+            $stmt4 = $pdo->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
+            $stmt4->execute();
 
-            $stmt = $db->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
-            $stmt->execute();
-
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            # 5) insert the former adminmenu into the adminmenu_backup table
+            $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
-                $stmt->execute( $data );
+                $stmt5->execute( $data );
             }
 
-            $functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3, $lang->t( 'Last menu restored...' ), 'admin' );
+            $this->redirect('index.php?mod=admin&sub=menueditor');
+            #$functions->redirect( 'index.php?mod=admin&sub=menueditor', 
+            #'metatag|newsite', 3, _( 'Last menu restored...' ), 'admin' );
         }
         else
         {
-            $functions->redirect( 'index.php?mod=admin&sub=menueditor&action=restore', 'confirm', 3, $lang->t( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
+            $this->redirect('index.php?mod=admin&sub=menueditor&action=restore');
+            #$functions->redirect( 'index.php?mod=admin&sub=menueditor&action=restore', 
+            #'confirm', 3, _( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
         }
     }
 
@@ -319,13 +318,13 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             }
 
 
-         	if ( is_array($entry['content']) )
-        	{
+            if ( is_array($entry['content']) )
+            {
                 $result .= "\n\t<div class=\"section\">";
                 # recursion
-              	$result .= $this->get_html_div($entry['content']);
-              	$result .= "\t</div>\n";
-           	}
+                $result .= $this->get_html_div($entry['content']);
+                $result .= "\t</div>\n";
+            }
 
 
             if ( isset($entry['parent']) && $entry['parent'] == 0 )
@@ -385,23 +384,23 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
             }
 
             # it's an content array, call recursive !!
-        	if ( is_array($entry['content']) )
-        	{
+            if ( is_array($entry['content']) )
+            {
                 $result .= $this->get_adminmenu_div($entry['content']);
-        	}
-        	else
-        	{
-        	    # it's not an content array, it's an folder
+            }
+            else
+            {
+                # it's not an content array, it's an folder
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
                     $result .= htmlspecialchars( _($entry['name'])) . '</a>';
                 }
-        	}
+            }
 
             # it was an item, close it
-        	if ( $entry['type'] == 'item')
+            if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
@@ -416,7 +415,6 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
 
         return $result;
     }
-
 
     /**
      * This function generates html-div based menu lists - for menu editor
@@ -503,12 +501,12 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
                 }
             }
 
-        	if ( is_array($entry['content']) )
-        	{
+            if ( is_array($entry['content']) )
+            {
                $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
-        	}
-        	else
-        	{
+            }
+            else
+            {
                 if ( $entry['type'] != 'folder' )
                 {
                     $values = split( ',', $level );
@@ -525,9 +523,9 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
                     $result .= '<div class="section" style="display: block">';
                     $jscript = '';
                 }
-        	}
+            }
 
-        	if ( $entry['type'] == 'item')
+            if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
