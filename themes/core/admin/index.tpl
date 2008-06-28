@@ -31,49 +31,49 @@
     -->
 
 {/doc_raw}
-    <a accesskey="t" name="top"/>
-    <div class="header">
-        <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
-        <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
-    </div>
-    {include file="admin/adminmenu/adminmenu.tpl"}
-    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
-        <thead>
-            <tr>
-                <td class="admin_header">
-                    <div style="float: left">
-                        {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
-                    </div>
-                    {literal}
-                    <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('#help-toggler').click(function() {
-                        	$('#help-td, #help-td-2').animate({ width: 'toggle', opacity: 'toggle' }, 'slow');
-                        });
+<a accesskey="t" name="top"/>
+<div class="header">
+    <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
+    <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
+</div>
+{include file="admin/adminmenu/adminmenu.tpl"}
+<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
+    <thead>
+        <tr>
+            <td class="admin_header">
+                <div style="float: left">
+                    {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
+                </div>
+                {literal}
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#help-toggler').click(function() {
+                        $('#help-td, #help-td-2').animate({ width: 'toggle', opacity: 'toggle' }, 'slow');
                     });
-                    </script>
-                    {/literal}
-                    <div id="help-toggler" style="float: right; font-size: 10px;">
-                        <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
-                        {t}Help{/t}
-                    </div>
-                </td>
-                <td id="help-td" class="admin_header_help" style="display: none">
-                    <div id="help-toggle" style="height: 18px">&raquo; {t}Help{/t}</div>
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="admin_content" width="100%">
-                     {$content}
-                </td>
-                <td id="help-td-2" class="admin_help" style="height: 100%; display: none">
-                    {* {load_module name="admin" sub="help" func="instant_show"} *}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                });
+                </script>
+                {/literal}
+                <div id="help-toggler" style="float: right; font-size: 10px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
+                    {t}Help{/t}
+                </div>
+            </td>
+            <td id="help-td" class="admin_header_help" style="display: none">
+                <div id="help-toggle" style="height: 18px">&raquo; {t}Help{/t}</div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="admin_content" width="100%">
+                {$content}
+            </td>
+            <td id="help-td-2" class="admin_help" style="height: 100%; display: none">
+                {* {load_module name="admin" sub="help" func="instant_show"} *}
+            </td>
+        </tr>
+    </tbody>
+</table>
 <div id="footer" class="admin_content">
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
      {$copyright}
