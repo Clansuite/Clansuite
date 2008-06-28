@@ -223,8 +223,8 @@ table.admintable tbody
     cursor: default;
 }
 
-table.admintable td{
-
+table.admintable td
+{
     padding: 5px;
     vertical-align: middle;
     border-color: white;
@@ -370,10 +370,9 @@ table.admintable tr#cell3
     right: 38px;
 }
 
-.menugradient {
-
+.menugradient
+{
     height: 24px;
-
     background: #ECE9D8;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
@@ -473,24 +472,23 @@ table.admintable tr#cell3
 
 .admin_header_help
 {
-    font-family: georgia, tahoma, verdana;
-    background: #D5CCBB;
+	width: 350px;
+    padding: 8px;
+    background: #D5CCBB url(../images/admin_header_help.gif) repeat-x;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    padding: 8px;
-    cursor: default;
+	font: bold 16px georgia, tahoma, verdana;
     color: #333333;
-    font-size: 16px;
-    font-weight: bold;
-	background: url(../images/admin_header_help.gif) repeat-x;
+	cursor: default;
 }
 
 .admin_help
 {
-    background: #DDF3F7;
+	width: 350px;
+	padding: 8px;
+	background: #DDF3F7;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    padding: 5px;
     cursor: default;
 }
 
@@ -563,7 +561,12 @@ table.admintable tr#cell3
     text-align: center;
 }
 
-#vertical-tabs fieldset
+#vertical-tabs li.ui-tabs-selected a
 {
-    border: none;
+	color: #000;
+}
+
+#vertical-tabs .ui-tabs-hide
+{
+    display: none;
 }

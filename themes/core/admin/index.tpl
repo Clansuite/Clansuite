@@ -4,11 +4,8 @@
 
 {doc_raw}
     {* Prototype + Scriptaculous + Smarty_Ajax *}
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery.tabs.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -34,78 +31,49 @@
     -->
 
 {/doc_raw}
-
     <a accesskey="t" name="top"/>
-
     <div class="header">
         <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
         <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
     </div>
-
     {include file="admin/adminmenu/adminmenu.tpl"}
-
-    <p>&nbsp;</p>
-
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
         <thead>
             <tr>
                 <td class="admin_header">
-                <div style="float: left">
-                    {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
-                </div>
-
-                {literal}
+                    <div style="float: left">
+                        {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
+                    </div>
+                    {literal}
                     <script type="text/javascript">
-                        function help_toggler()
-                        {
-
-                            if ( $('help_td').style.display == 'none' )
-                            {
-                                // Show Stuff
-                                new Effect.Scale('help_toggle', 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalWidth: 350 }});
-                                new Effect.Scale('help_toggle_2', 100, {scaleContent: false, scaleFrom: 0, scaleMode: { originalWidth: 350 }});
-                                new Effect.Appear( 'help_td' );
-                                new Effect.Appear( 'help_td_2' );
-                            }
-                            else
-                            {
-                                // Hide Stuff
-                                new Effect.Scale('help_toggle', 0, {scaleContent: false, scaleFrom: 100, scaleMode: { originalWidth: 350 }});
-                                new Effect.Scale('help_toggle_2', 0, {scaleContent: false, scaleFrom: 100, scaleMode: { originalWidth: 350 }});
-                                new Effect.Fade( 'help_td' );
-                                new Effect.Fade( 'help_td_2' );
-                            }
-                        }
+                    $(document).ready(function() {
+                        $('#help-toggler').click(function() {
+                        	$('#help-td, #help-td-2').animate({ width: 'toggle', opacity: 'toggle' }, 'slow');
+                        });
+                    });
                     </script>
-                {/literal}
-
-                <div style="float: right; font-size: 10px;" onclick="help_toggler(); return false;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
-                    {t}Help{/t}
-                </div>
+                    {/literal}
+                    <div id="help-toggler" style="float: right; font-size: 10px;">
+                        <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
+                        {t}Help{/t}
+                    </div>
                 </td>
-                <td id="help_td" class="admin_header_help" style="width: 1px; display: none;">
-                   <div id="help_toggle" style="height: 18px; width: 0px; overflow: hidden;">&raquo; {t}Help{/t}</div>
+                <td id="help-td" class="admin_header_help" style="display: none">
+                    <div id="help-toggle" style="height: 18px">&raquo; {t}Help{/t}</div>
                 </td>
             </tr>
         </thead>
-
         <tbody>
-        <tr>
-            <td class="admin_content" width="100%">
-                 {$content}
-            </td>
-            <td id="help_td_2" class="admin_help" style="padding: 0px; display: none;">
-                <div id="help_toggle_2" style="height: 100%; padding: 0px; width: 0px; overflow: hidden;">{* {load_module name="admin" sub="help" func="instant_show"} *}</div>
-
-            </td>
-        </tr>
+            <tr>
+                <td class="admin_content" width="100%">
+                     {$content}
+                </td>
+                <td id="help-td-2" class="admin_help" style="height: 100%; display: none">
+                    {* {load_module name="admin" sub="help" func="instant_show"} *}
+                </td>
+            </tr>
         </tbody>
-
     </table>
-
-    <p>&nbsp;</p>
-
 <div id="footer" class="admin_content">
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
      {$copyright}
