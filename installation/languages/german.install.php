@@ -34,18 +34,18 @@ class language implements ArrayAccess
 
         $this->language['STEP2_IN_GENERAL'] = 'In Schritt [2] prfen wir, ob Ihr Webserver die Installationsanforderungen von Clansuite erfllt.';
 
-    	$this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgem„&szlig; funktioniert.';
-    	$this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegrnden.';
-    	$this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
-    	$this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemberprfung ergab folgendes:';
+        $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgem„&szlig; funktioniert.';
+        $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegrnden.';
+        $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
+        $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemberprfung ergab folgendes:';
 
-    	$this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Erforderliche Einstellungen';
-    	$this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Wnschenswerte Einstellungen';
+        $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Erforderliche Einstellungen';
+        $this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Wnschenswerte Einstellungen';
 
-    	$this->language['STEP2_SETTING'] = 'Einstellung';
-    	$this->language['STEP2_SETTING_ACTUAL'] = 'Tats„chlich';
-    	$this->language['STEP2_SETTING_EXPECTED'] = 'Erwartet';
-    	$this->language['STEP2_SETTING_STATUS'] = 'Status';
+        $this->language['STEP2_SETTING'] = 'Einstellung';
+        $this->language['STEP2_SETTING_ACTUAL'] = 'Tats„chlich';
+        $this->language['STEP2_SETTING_EXPECTED'] = 'Erwartet';
+        $this->language['STEP2_SETTING_STATUS'] = 'Status';
 
         # REQUIRED SETTINGS (in order)
         # 1
@@ -60,6 +60,7 @@ class language implements ArrayAccess
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Prfe auf PHP memory limit (Minimum 8M, recommend 16M)';
         $this->language['FILE_UPLOADS'] = 'Prfe, ob Dateiuploads erlaubt sind';
+        $this->language['GETTEXT_EXTENSION'] = 'Prfe, auf Gettext Extension';
         $this->language['REGISTER_GLOBALS'] = 'Prfe auf globale Registrierung';
         $this->language['ALLOW_URL_FOPEN'] = 'Checking for ALLOW_URL_FOPEN';
         $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
@@ -78,28 +79,28 @@ class language implements ArrayAccess
         $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen und stimme zu, dass Clansuite unter der GNU/GPL Lizenz steht!';
 
         // STEP 4 - Database
-    	$this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
+        $this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
 
         $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte fr Clansuite darin abzulegen.';
-    	$this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh”rige Passwort an.';
-    	$this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewnschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
+        $this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh”rige Passwort an.';
+        $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewnschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
 
-    	$this->language['STEP4_SENTENCE4'] = 'Tabellen und Eintr„ge werden angelegt.';
-    	$this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
+        $this->language['STEP4_SENTENCE4'] = 'Tabellen und Eintr„ge werden angelegt.';
+        $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
-    	$this->language['DB_HOST'] = 'Datenbank Hostname';
-    	$this->language['DB_TYPE'] = 'Databank Typ';
-    	$this->language['DB_NAME'] = 'Datenbank Name';
-    	$this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen?';
-    	$this->language['DB_USERNAME'] = 'Datenbank Benutzer';
-    	$this->language['DB_PASSWORD'] = 'Datenbank Passwort';
-    	$this->language['DB_PREFIX'] = 'Tabellen Pr„fix';
+        $this->language['DB_HOST'] = 'Datenbank Hostname';
+        $this->language['DB_TYPE'] = 'Databank Typ';
+        $this->language['DB_NAME'] = 'Datenbank Name';
+        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen?';
+        $this->language['DB_USERNAME'] = 'Datenbank Benutzer';
+        $this->language['DB_PASSWORD'] = 'Datenbank Passwort';
+        $this->language['DB_PREFIX'] = 'Tabellen Pr„fix';
 
-    	$this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
-    	$this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';
-    	$this->language['ERROR_FILL_OUT_ALL_FIELDS'] = 'Bitte füllen Sie alle Felder aus!';
+        $this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
+        $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';
+        $this->language['ERROR_FILL_OUT_ALL_FIELDS'] = 'Bitte füllen Sie alle Felder aus!';
 
-    	// STEP 5 - Konfiguration
+        // STEP 5 - Konfiguration
         $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
 
         $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen fr Ihre Internetpr„senz mit Clansuite vor.';
@@ -107,23 +108,23 @@ class language implements ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name der Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Systemmail';
-    	$this->language['STEP5_CONFIG_TIMEZONE'] = 'Zeitzone';
+        $this->language['STEP5_CONFIG_TIMEZONE'] = 'Zeitzone';
 
-    	// STEP 6 - Create Administrator
-    	$this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
+        // STEP 6 - Create Administrator
+        $this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
 
         $this->language['STEP6_SENTENCE1'] = 'In Schritt [6] legen wir ein Benutzerkonto mit den von Ihnen eingegebenen Nutzerdaten an.';
         $this->language['STEP6_SENTENCE2'] = 'Diesem Konto werden wir Administratoren-Rechte geben, d.h. sie werden in der Lage sein, sich mit diesem Konto anzumelden und alle wesentlichen Systemeinstellungen vorzunehmen.';
         $this->language['STEP6_SENTENCE3'] = 'Bitte geben Sie Name und Passwort, sowie E-Mail und Sprache des Administrator-Benutzerkontos ein.';
 
-    	$this->language['STEP6_ADMIN_NAME'] 	= 'Administrator Name';
-    	$this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Passwort';
-    	$this->language['STEP6_ADMIN_LANGUAGE'] = 'Sprache';
-    	$this->language['STEP6_ADMIN_EMAIL']	= 'E-Mail Adresse';
+        $this->language['STEP6_ADMIN_NAME']     = 'Administrator Name';
+        $this->language['STEP6_ADMIN_PASSWORD'] = 'Administrator Passwort';
+        $this->language['STEP6_ADMIN_LANGUAGE'] = 'Sprache';
+        $this->language['STEP6_ADMIN_EMAIL']    = 'E-Mail Adresse';
 
-    	$this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto fr den Administrator konnte nicht erstellt werden.';
+        $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto fr den Administrator konnte nicht erstellt werden.';
 
-    	// STEP 7 - Abschluss
+        // STEP 7 - Abschluss
         $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';
 
         $this->language['STEP7_SENTENCE1'] = 'Geschafft! Gratulation - Sie haben Clansuite erfolgreich installiert.';
@@ -138,7 +139,7 @@ class language implements ArrayAccess
         $this->language['STEP7_SENTENCE10'] = 'Sicherheitshinweis';
         $this->language['STEP7_SENTENCE11'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/installation" aus Sicherheitsgrnden umzubenennen bzw. zu l”schen.';
 
-    	// GLOBAL
+        // GLOBAL
         # Buttons
         $this->language['NEXTSTEP'] = 'Weiter &rsaquo;';
         $this->language['BACKSTEP'] = '&lsaquo; Zurck';
@@ -146,7 +147,7 @@ class language implements ArrayAccess
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Klicken Sie den Button ['. $this->language['NEXTSTEP'] .'] um fortzufahren.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zurckzukehren.';
         # Right Side Menu
-        $this->language['INSTALL_PROGRESS'] = 'Installations- Fortschritt';
+        $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
         $this->language['COMPLETED'] = 'Fertig';
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
         $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
