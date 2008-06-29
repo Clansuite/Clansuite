@@ -81,16 +81,12 @@ input
   border:1px solid grey;
 }
 
-body
-{
-  background:url(images/kubrickbgcolor.png);
-  background-color:#d5d6d7;
-  color:#333;
-  font-family:'Lucida Grande', Verdana, Arial, Sans-Serif;
-  font-size:62.5%;
-  margin:0;
-  padding:0;
-  text-align:center;
+body {
+	background: #d5d6d7 url("http://www.clansuite.com/website/images/kubrickbgcolor.png");
+	font-size: 62.5%; /* Resets 1em to 10px */
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	color: #333;
+	text-align: center;
 }
 
 .headerstyle
@@ -288,55 +284,12 @@ dl dt
   border-top-color:#999;
 }
 
-#gb_form
-{
-  background-color:#d3d3d3;
-  border:1px solid gray;
-  height:140px;
-  margin-left:145px;
-  margin-top:50px;
-  position:absolute;
-  text-align:center;
-  width:200px;
-}
-
-#gb_form dl
-{
-  margin-top:0;
-  padding:5px;
-}
-
-#gb_form dt
-{
-  clear:left;
-  float:left;
-  font-weight:700;
-  margin-bottom:6px;
-}
-
-#gb_form dl dt
-{
-  width:70px;
-}
-
-#gb_form dl dd
-{
-  padding-bottom:5px;
-  width:150px;
-}
-
 .input_text
 {
   border:1px solid #000;
   font-family:tahoma, verdana, arial, sans-serif;
   font-size:11px;
   height:13px;
-}
-
-#the_gb
-{
-  margin:30px auto auto;
-  width:60%;
 }
 
 .the_message
@@ -367,10 +320,10 @@ dl dt
   width:122px;
 }
 
+
 #page
 {
-  background:url(images/kubrickbg.png) repeat-y top;
-  background-color:#FFF;
+  background: #fff url(images/kubrickbg.png) repeat-y top;
   border:none;
   margin:auto;
   padding:0;
@@ -380,8 +333,7 @@ dl dt
 
 #header
 {
-  background:url(images/kubrickheader.png) no-repeat bottom center;
-  background-color:#73a0c5;
+  background: #73a0c5 url(images/kubrickheader.png) no-repeat bottom center;
   height:136px;
   margin:0!important;
   padding:0;
@@ -390,11 +342,11 @@ dl dt
 
 #content
 {
-  background:url(images/kubrickcontent.png) repeat-y left;
+  background:url(images/kubrickcontent.png) repeat-y;
   border:0;
-  margin:0 1px 0 0;
+  margin: 10px 1px 0px 0px;
+  padding-left: 10px;
   min-height:400px;
-  padding-left:10px;
   width:450px;
   z-index:0;
 }
@@ -466,8 +418,7 @@ dl dt
 
 #footer
 {
-  background:url(images/kubrickfooter.png) no-repeat bottom;
-  background-color:#eee;
+  background:url(images/kubrickfooter.png) no-repeat 0 100%;
   border:none;
   clear:both;
   margin:0 auto;
