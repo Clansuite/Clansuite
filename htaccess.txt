@@ -53,3 +53,14 @@ php_value output_buffering      "1"
         #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
 
 </IfModule>
+
+# (8) Apache2 with "LoadModule mod_expires"
+#     Removed Etag + Smaller Header for image, javascript, css files with cache lifetime 1 year+
+
+<IfModule mod_expires.c>
+    <filesmatch "\.(jpg|gif|png|css|js)$">
+    ExpiresActive on
+    ExpiresDefault "access plus 1 year"
+    </filesmatch>
+</IfModule>
+FileETag None
