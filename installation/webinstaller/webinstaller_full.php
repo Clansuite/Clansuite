@@ -1,6 +1,4 @@
 <?php
-# Enter your Password here - make it at least 6 characters long !
-$passPhrase = "yeahbabyyeah";
    /**
     * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005 - onwards
@@ -76,7 +74,7 @@ ini_set("upload_max_filesize","64M");
 #ini_set("safe_mode_exec_dir","/usr/bin/");
 #ini_set("safe_mode", "off");
 
-$webinstaller_version = 'Version 0.2 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME']));
+$webinstaller_version = 'Version : 0.3 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME']));
 
 /*****************************************************************
  * C O N F I G U R A T I O N
@@ -108,6 +106,10 @@ $availableExtensions = array('tar.gz');
 /* Available versions of G2 */
 $availableVersions = array('dev');
 
+var_dump($_REQUEST);
+var_dump($_POST);
+var_dump($_GET);
+
 /*****************************************************************
  * M A I N
  *****************************************************************/
@@ -129,9 +131,6 @@ $webInstaller->main();
 class WebInstaller {
 
     function main() {
-
-        /* Authentication */
-        //$this->authenticate();
 
         /* Register all extract / download methods */
         $this->_extractMethods =  array(new UnzipExtractor(),
@@ -329,14 +328,18 @@ class WebInstaller {
 
             $capabilities['clansuiteFolderName'] = $this->findClansuiteFolder();
 
-            if (!empty($capabilities['clansuiteFolderName'])) {
+            if (!empty($capabilities['clansuiteFolderName']))
+            {
                 $statusMessage  = "Ready for installation (Clansuite folder '" .
                 $capabilities['clansuiteFolderName'] . "' found)";
-            } else if (!empty($capabilities['anyArchiveExists'])) {
+            }
+            else if (!empty($capabilities['anyArchiveExists']))
+            {
                 $statusMessage = 'Archive ready for extraction';
-            } else {
-                $statusMessage =
-                'No archive in current working directory, please start with step 1';
+            }
+            else
+            {
+                $statusMessage = 'No archive in current working directory, please start with step 1';
             }
 
             $capabilities['statusMessage'] = $statusMessage;
@@ -352,35 +355,6 @@ class WebInstaller {
                 }
             }
             render('options', $capabilities);
-        }
-    }
-
-    function authenticate() {
-        global $passPhrase;
-
-        /* Check authentication */
-        if (empty($passPhrase)) {
-            render('missingPassword');
-            exit;
-        } else if (strlen($passPhrase) < 6) {
-            render('passwordTooShort');
-            exit;
-        } else if (!empty($_COOKIE['CLANSUITE_WEBINSTALLER']) &&
-                trim($_COOKIE['CLANSUITE_WEBINSTALLER']) == md5($passPhrase)) {
-            /* Already logged in, got a cookie */
-            return true;
-        } else if (!empty($_POST['cs_password'])) {
-            /* Login attempt */
-            if ($_POST['cs_password'] == $passPhrase) {
-            setcookie("CLANSUITE_WEBINSTALLER",md5($passPhrase),0);
-            return true;
-            } else {
-            render('passwordForm', array('incorrectPassword' => 1));
-            exit;
-            }
-        } else {
-            render('passwordForm');
-            exit;
         }
     }
 
@@ -1035,11 +1009,11 @@ class TargzExtractor extends ExtractMethod
 class PhpTargzExtractor extends ExtractMethod
 {
     function extract($fileName) {
-    	return PclTarExtract($fileName);
+        return PclTarExtract($fileName);
     }
 
     function getSupportedExtension() {
-    	return 'tar.gz';
+        return 'tar.gz';
     }
 
     function isSupported() {
@@ -1068,56 +1042,56 @@ class PhpTargzExtractor extends ExtractMethod
 class PhpUnzipExtractor extends ExtractMethod
 {
     function extract($fileName) {
-	    $baseFolder = dirname($fileName);
-	    echo $baseFolder;
-	    if (!($zip = zip_open($fileName)))
-	    {
-	        return "Could not open the zip archive $fileName";
-	    }
-	    $start = time();
-	    while ($zip_entry = zip_read($zip))
-	    {
-	        if (zip_entry_filesize($zip_entry))
-	        {
-	            $complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
-	            $complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
-	            if(!file_exists($complete_path)) {
-	                $tmp = '';
-	                foreach(explode('/',$complete_path) AS $k)
-	                {
-	                    $tmp .= $k.'/';
-	                    if(!file_exists($tmp))
-	                    {
-	                        @mkdir($tmp, 0777);
-	                    }
-	                }
-	            }
-	            if (zip_entry_open($zip, $zip_entry, "r"))
-	            {
-	                if ($fd = fopen($complete_name, 'w'))
-	                {
-	                    fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
-	                    fclose($fd);
-	                }
-	                else echo "fopen($dir_atual.$complete_name) error<br>";
-	                zip_entry_close($zip_entry);
-	            }
-	            else
-	            {
-	                echo "zip_entry_open($zip,$zip_entry) error<br>";
-	                return false;
-	            }
-	        }
+        $baseFolder = dirname($fileName);
+        echo $baseFolder;
+        if (!($zip = zip_open($fileName)))
+        {
+            return "Could not open the zip archive $fileName";
+        }
+        $start = time();
+        while ($zip_entry = zip_read($zip))
+        {
+            if (zip_entry_filesize($zip_entry))
+            {
+                $complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
+                $complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
+                if(!file_exists($complete_path)) {
+                    $tmp = '';
+                    foreach(explode('/',$complete_path) AS $k)
+                    {
+                        $tmp .= $k.'/';
+                        if(!file_exists($tmp))
+                        {
+                            @mkdir($tmp, 0777);
+                        }
+                    }
+                }
+                if (zip_entry_open($zip, $zip_entry, "r"))
+                {
+                    if ($fd = fopen($complete_name, 'w'))
+                    {
+                        fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
+                        fclose($fd);
+                    }
+                    else echo "fopen($dir_atual.$complete_name) error<br>";
+                    zip_entry_close($zip_entry);
+                }
+                else
+                {
+                    echo "zip_entry_open($zip,$zip_entry) error<br>";
+                    return false;
+                }
+            }
 
-	        if (time() - $start > 55)
-	        {
-	            Platform::extendTimeLimit();
-	            $start = time();
-	        }
-	    }
-	    zip_close($zip);
+            if (time() - $start > 55)
+            {
+                Platform::extendTimeLimit();
+                $start = time();
+            }
+        }
+        zip_close($zip);
 
-	    return true;
+        return true;
     }
 
     function getSupportedExtension() {
@@ -1125,14 +1099,14 @@ class PhpUnzipExtractor extends ExtractMethod
     }
 
     function isSupported() {
-	    foreach (array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
-	            'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
-	            as $functionName) {
-	        if (!Platform::isPhpFunctionSupported($functionName)) {
-	        return false;
-	        }
-	    }
-	    return true;
+        foreach (array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
+                'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
+                as $functionName) {
+            if (!Platform::isPhpFunctionSupported($functionName)) {
+            return false;
+            }
+        }
+        return true;
     }
 
     function getName() {
@@ -1148,23 +1122,28 @@ function render($renderType, $args=array()) {
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <title>Clansuite Webinstaller</title>
+     <title>Clansuite :: Webinstaller</title>
     <link rel="shortcut icon" href="http://www.clansuite.com/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/installation.css" />
     <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/standard.css" />
     <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/kubrick.css" />
     <style type="text/css">
     div.error, div.warning {
-		margin: 10px 10px 0;
-		padding: 5px;
-		background: #ffc;
-		border: 1px solid #f00;
-		text-align: center;
+        margin: 20px 10px 0;
+        padding: 5px;
+        background: #ffc;
+        border: 1px solid #f00;
+        text-align: center;
     }
     div.error {
-		background: #f90;
+        background: #f90;
     }
     span.warning {
-    	color: #f90;
+        color: #f90;
+    }
+    span.success {
+        color: green;
+        font-weight: bold;
     }
     </style>
     <script type="text/javascript">
@@ -1183,20 +1162,65 @@ function render($renderType, $args=array()) {
 <body>
 <center>
 <div id="page"> <!-- Page START -->
-    <div id="header">
-        <div id="headerimg" style="background-image: url('http://www.clansuite.com/website/images/HeaderRotDunkel.jpg');">
+    <div id="header">                                                                          <!--  HeaderRotDunkel.jpg -->
+        <div id="headerimg" style="background-image: url('http://www.clansuite.com/website/images/kubrickheader-installation.png');">
             <span>
-                <img style="margin: 50px 38px 0; position:relative;" src="http://www.clansuite.com/website/images/clansuite-joker.gif" alt="Clansuite Joker Logo" />
+                <img style="margin: 46px 38px 0pt; position:relative;" src="http://www.clansuite.com/website/images/clansuite-joker.gif"  alt="Clansuite Joker Logo" />
             </span>
-        </div>
+            <div class="description" style="font-size: 20px; margin-left: 190px; margin-top: -95px;">Webinstallation</div>
+          </div>
     </div>
     <hr />
-    <div id="sidebar"></div>
+     <div id="sidebar">
+        <div id="stepbar">
+            <?php # define strings for on and off toggle
+                  $on = 'on">&raquo; ';
+                  $off = 'off">';
+
+                  /* Step based on command for handling the request */
+                  if (empty($_POST['command']))
+                  {
+                    $step_cmd = '';
+                  }
+                  else
+                  {
+                    $step_cmd = trim($_POST['command']);
+                  }
+                  
+                  # if Archive was found, jump to Extract Step
+                  if(!empty($args['anyArchiveExists']))
+                  {
+                    $step_cmd = 'extract';
+                  }
+            ?>
+            <p>Webinstallation</p>
+            <div class="step-<?php if($step_cmd == 'intro'){ print $on; } else { print $off; } ?>Welcome</div>
+            <div class="step-<?php if($step_cmd == 'download'){ print $on; } else { print $off; } ?>Download</div>
+            <div class="step-<?php if($step_cmd == 'extract'){ print $on; } else { print $off; } ?>Extract</div>
+            <div class="step-<?php if($step_cmd == 'installation'){ print $on; } else { print $off; } ?>Installation</div>
+        </div>
+    </div>
+    <?php # var_dump($args); /** DEBUG */?>
     <div id="content" class="narrowcolumn">
-        <div id="content_footer">
-            <div class="warning">
-                Delete the file (<?php print $self; ?>) when you are done!
-            </div>
+        <div id="content_middle">
+
+            <!-- WARNING MESSAGE -->
+            <fieldset class="error_red">
+                <legend>Security Warning</legend>
+                <p><b>Delete the file (<?php print $self; ?>) when you are done!</b></p>
+            </fieldset>
+
+            <!-- Status Message -->
+            <?php if (!empty($args['statusMessage'])): ?>
+            <br />
+            <fieldset class="error_beige">
+                <legend>Status</legend>
+                <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
+            </fieldset>
+            <?php endif; ?>
+
+            <?php echo 'Debug Line 1221 - Step: '.$step_cmd; if($step_cmd == 'intro'): ?>
+            <!-- WELCOME AND INSTRUCTIONS -->
             <div id="page-instructions" style="margin: 0 15px">
                 <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Show Instructions</h2>
                 <div id="toggle-instructions" style="display: none">
@@ -1255,62 +1279,29 @@ function render($renderType, $args=array()) {
                         </li>
                     </ul>
                 </div>
-                <?php if (!empty($args['statusMessage'])): ?>
-                <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
-                <?php endif; ?>
-                <?php if ($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
-                <h2>
-                    You are attempting to access a secure section.  You can't
-                    proceed until you pass the security check.
-                </h2>
-                <?php endif; ?>
-                <?php if ($renderType == 'missingPassword'): ?>
-                <div class="error">
-                    You must enter a setup password in your <?php print $self; ?> file in order
-                    to be able to access this script.
-                </div>
-                <?php elseif ($renderType == 'passwordTooShort'): ?>
-                <div class="error">
-                    The setup password in your <?php print $self; ?> file is too short. It must be at least
-                    6 characters long.
-                </div>
-                <?php elseif ($renderType == 'passwordForm'): ?>
-                <div class="password_form">
-                    <div class="box">
-                        <span class="message">
-                            In order to verify you, we require you to enter your pre-install setup password.  This is
-                            the password that is stored in the config section at the top of this script.
+                <?php endif; # END intro + welcome ?>
+
+                <?php if ($renderType == 'options'): ?>
+                    <!-- Show available and unavailable options -->
+                    <?php if (empty($args['anyExtensionSupported'])): ?>
+                    <div class="error">
+                        <h2>This platform has not the ability to extract any of our archive types!</h2>
+                        <span>
+                        <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
+                        <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
+                        <?php if (!$first) print ', '; else $first = false; ?>
+                        <?php print $ext; ?>
+                        <?php if (!$supported): ?></span><?php endif; ?>
+                        <?php endforeach; ?>
                         </span>
-                        <form id="loginForm" method="post">
-                            Password:
-                            <input type="password" name="cs_password" />
-                            <script type="text/javascript">document.getElementById('loginForm')['cs_password'].focus();</script>
-                            <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();" />
-                        </form>
-                        <?php if (!empty($args['incorrectPassword'])): ?>
-                        <div class="error">
-                            Password incorrect!
-                        </div>
-                        <?php endif; ?>
                     </div>
-                </div>
-                <?php elseif ($renderType == 'options'): ?>
-                <!-- Show available and unavailable options -->
-                <?php if (empty($args['anyExtensionSupported'])): ?>
-                <div class="error">
-                    <h2>This platform has not the ability to extract any of our archive types!</h2>
-                    <span>
-                    <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
-                    <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
-                    <?php if (!$first) print ', '; else $first = false; ?>
-                    <?php print $ext; ?>
-                    <?php if (!$supported): ?></span><?php endif; ?>
-                    <?php endforeach; ?>
-                    </span>
+                    <?php #endif; ?>
                 </div>
                 <?php endif; ?>
-            </div>
-            <div id="page-1-download" class="accordion">
+
+            <?php if($step_cmd == 'download'): ?>
+            <!-- DOWNLOAD SECTION -->
+            <div id="page-1-download" style="margin: 0 15px">
                 <h2 class="headerstyle">Download of Clansuite Archive</h2>
                 <?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
                 <form id="downloadForm" action="" method="post">
@@ -1378,7 +1369,11 @@ function render($renderType, $args=array()) {
                 </div>
                 <?php endif; ?>
             </div>
-            <div id="page-2-extraction" class="accordion">
+            <?php endif; # end download ?>
+
+            <?php if($step_cmd == 'extract'): ?>
+            <!-- EXTRACTION METHODS -->
+            <div id="page-2-extraction" style="margin: 0 15px">
                 <h2 class="headerstyle">Extraction</h2>
                 <?php if (!empty($args['anyExtensionSupported'])): ?>
                 <form id="extractForm" action="" method="post">
@@ -1412,14 +1407,19 @@ function render($renderType, $args=array()) {
                     <h4>Steps:</h4>
                     <ol>
                        <li>Do it the old way - download archive, extract files and upload them manually!</li>
-                       <li>Ask your webhoster to extract the archive for you.</li>
+                       <li>Or ask your webhoster to extract the archive for you.</li>
                        <li>Ask on Clansuite Board for installation help.</li>
                     </ol>
                 </div>
                 <?php endif; ?>
             </div>
-            <div id="page-3-installation" class="accordion">
+            <?php endif; #  end extract ?>
+
+            <?php if($step_cmd == 'installation'): ?>
+            <!-- LINK TO INSTALLER -->
+            <div id="page-3-installation" style="margin: 0 15px">
                 <h2 class="headerstyle">Installation of Clansuite</h2>
+
                 <!-- PATH TO CLANSUITE INSTALLER -->
                 <?php if (!empty($args['clansuiteFolderName'])): ?>
                 <span style="font-size: 14px; font-weight:bold; color:green;">
@@ -1428,6 +1428,7 @@ function render($renderType, $args=array()) {
                     <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                     Clansuite Installation Wizard</a>!
                 </span>
+
                 <!-- CHANGE PERMISSIONS -->
                 <?php
                 $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
@@ -1455,11 +1456,12 @@ function render($renderType, $args=array()) {
                     <input type="hidden" name="command" value="chmod" />
                     <input type="submit" value="Change Permissions" onclick="this.disabled=true;this.form.submit();" />
                 </form>
-                <?php else: ?>
+                <?php else: # of change permissions folder ?>
                 <div class="warning">
                     There is no Clansuite folder in the current working directory.
                 </div>
-                <?php endif; ?>
+                <?php endif; # of change permissions folder ?>
+
                 <!-- RENAME FOLDER-->
                 <h2 class="headerstyle">Rename the Clansuite folder</h2>
                 <?php if (!empty($args['clansuiteFolderName'])): ?>
@@ -1472,11 +1474,11 @@ function render($renderType, $args=array()) {
                     <input type="hidden" name="command" value="rename" />
                     <input type="submit" value="Rename Folder" onclick="this.disabled=true;this.form.submit();" />
                 </form>
-                <?php else: ?>
+                <?php else: # of rename folder ?>
                 <div class="warning">
                     There is no Clansuite folder in the current working directory.
                 </div>
-                <?php endif; ?>
+                <?php endif; # of rename folder ?>
                 <?php else: ?>
                 <div class="warning">
                     <b>Installer was not found!</b><br />
@@ -1484,6 +1486,8 @@ function render($renderType, $args=array()) {
                 </div>
                 <?php endif; ?>
                 <?php elseif ($renderType == 'results'): ?>
+
+                <!-- Results -->
                 <h2 class="headerstyle">Results</h2>
                 <?php if (!empty($args['failure'])): ?>
                 <div class="error">
@@ -1505,12 +1509,55 @@ function render($renderType, $args=array()) {
                     <a href="<?php print $self; ?>">Next Step!</a>
                 </div>
                 <?php endif; ?>
-            </div>
-        </div>
-    </div>
+
+            <?php endif; /** END Installation */ ?>
+        </div> <!-- Close Content-Middle -->
+
+        <div id="content_footer">
+            <div class="navigation">
+                <span style="font-size:10px;">
+                    Click Next to proceed!
+                    <br />
+                    Click Back to return!
+                </span>
+
+                <div class="alignright">
+                    <form action="<?php print $self; ?>" method="post">
+                        <input type="submit" value="Next" class="ButtonGreen" name="step_forward" />
+                        <input type="hidden" name="command" value="download" />
+                    </form>
+                </div>
+
+                <div class="alignleft">
+                    <form action="<?php print $self; ?>" method="post">
+                        <input type="submit" value="Back" class="ButtonRed" name="step_backward" />
+                        <!-- <input type="hidden" name="command" value="intro" /> -->
+                    </form>
+                </div>
+           </div><!-- div navigation end -->
+        </div> <!-- div content_footer end -->
+
+    </div> <!-- Close Content -->
+
     <div id="rightsidebar">
         <ul>
-            <li style="margin: 10px 0 10px 10px"><img src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Clansuite Webinstaller Logo" /></li>
+            <!-- Clansuite Webinstaller Icon -->
+            <li style="margin: 0px 0 20px 10px">
+                <img src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png"
+                     alt="Clansuite Webinstaller Logo"
+                     style="border: 3px groove #333333;"
+                 />
+            </li>
+
+            <!-- Clansuite Shortcuts -->
+            <li><h2>Clansuite Shortcuts</h2></li>
+            <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
+            <li><strong><a href="http://www.clansuite.com/smf/">Forum</a></strong></li>
+            <li><strong><a href="http://www.clansuite.com/smf/index.php?board=4">Installsupport</a></strong></li>
+            <li><strong><a href="http://www.clansuite.com/trac/">Bugtracker</a></strong></li>
+            <li><strong><a href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support">Teamspeak</a></strong></li>
+            <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
+
             <!-- Donate -->
             <li><h2>Donate</h2></li>
               <li>
@@ -1521,66 +1568,26 @@ function render($renderType, $args=array()) {
                 <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----" />
                 </form>
             </li>
-            <li><h2>Shortcuts</h2></li>
-            <li>
-                <!-- ADDTHIS BUTTON BEGIN -->
-                <script type="application/javascript">
-                addthis_pub          = 'vain';
-                addthis_logo            = 'http://www.clansuite.com/website/images/Clansuite-Toolbar-Icon-64-cms.png';
-                addthis_logo_background = 'EFEFFF';
-                addthis_logo_color      = '666699';
-                addthis_brand           = 'clansuite.com';
-                addthis_options      = 'favorites, email, digg, delicious, google, facebook, live, more';
-                </script>
-                <a href="http://www.addthis.com/bookmark.php" onmouseover="return addthis_open(this, '', 'http://www.clansuite.com', 'Clansuite - just an eSports CMS')" onmouseout="addthis_close()" onclick="return addthis_to()"><img src="http://s9.addthis.com/button0-bm.gif" width="83" height="16" border="0" alt="" /></a>
-                <script type="text/javascript" src="http://s7.addthis.com/js/15/addthis_widget.js"></script>
-                <!-- ADDTHIS BUTTON END -->
-            </li>
-            <li><strong><a href="http://www.clansuite.com/smf/">Forum</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/trac/">Bugtracker</a></strong></li>
-            <li><strong><a href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support">Teamspeak</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/toolbar/clansuite_toolbar.xpi">Toolbar</a></strong></li>
-            <li><h2>@gna.org</h2></li>
-            <li><a href="https://gna.org/projects/clansuite/">Clansuite Project</a></li>
-            <li><a href="http://svn.gna.org/viewcvs/clansuite/">SVN-Viewer</a></li>
-            <li><a href="https://gna.org/projects/clansuite/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/hostedbygna.png" alt="GNA LOGO" /></a></li>
-            <li><a href="http://www.opensource.org//" target="_blank"><img src="http://www.clansuite.com/website/images/banners/opensource-75x65-t.png" alt="OpenSouce Logo" /></a></li>
             <li><h2>Link us</h2></li>
-            <li><a href="http://www.clansuite.com/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
-            <li><a href="http://www.clansuite.com/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/powered_by_clansuite.png" alt="Clansuite 80x32 LOGO" /></a></li>
+            <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
         </ul>
     </div>
     <hr />
     <!-- Fusszeile -->
     <div id="footer">
-        <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
-        <script type="text/javascript" src="http://www.ohloh.net/projects/5526/widgets/project_thin_badge"></script>
-        <a href="http://www.gnu.org/licenses/gpl.txt" rel="license" onclick="window.open('http://www.gnu.org/licenses/gpl.txt'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/antipixel-gpl.png" alt="GPL" title="GPL - General Public License" height="15" width="80" />
-        </a>
-        <a href="http://validator.w3.org/check/referer" onclick="window.open('http://validator.w3.org/check/referer'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/xhtml11.png" width="80" height="15" alt="XHTML 1.1" title="W3C Standard XHTML 1.1 Transitional" />
-        </a>
-        <a href="http://jigsaw.w3.org/css-validator/check/referer" onclick="window.open('http://jigsaw.w3.org/css-validator/check/referer'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/css.png" width="80" height="15" alt="Valid CSS" title="CSS - Cascading Style Sheets" />
-        </a>
-        <a href="http://www.mozilla-europe.org/de/products/firefox/" onclick="window.open('http://www.mozilla-europe.org/de/products/firefox/'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/firefox.png" width="80" height="15" alt="Get Mozilla Firefox" title="Mozilla FireFox - a fast and compatible browser. Simply the best." />
-        </a>
-        <a href="http://www.apache.org/" onclick="window.open('http://www.apache.org/'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/apache-small.gif" width="80" height="15" alt="Support Apache Webserver" title="Apache - the modular Webserver." />
-        </a>
-        <a href="http://www.seomoz.org/" onclick="window.open('http://www.seomoz.org/tools/page-strength.php?url=clansuite.com'); return false">
-            <img src="http://www.clansuite.com/website/images/banners/seo.gif" alt="Page Strength SEO Tool - SEOmoz.org" style="border: 0;" />
-        </a>
-        <br />
-        &copy; 2005-<?php echo date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a>.<br />
-        <strong>Clansuite Webinstaller:</strong> <?php echo $webinstaller_version; ?><br />
-        Clansuite - just an esports CMS! -  is a free content management system especially for esports teams.<br/>
-        Based on PHP5, PDO, Smarty, Ajax. - Easy, comfortable, fast, flexible.
-        </p>
-    </div><!-- Fusszeile ENDE -->
-</div>
+         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
+            <br />
+            Clansuite Webinstaller <?php echo $webinstaller_version; ?>
+            <br />
+            SVN: $Rev: 2115 $ $Author: vain $
+            <br />
+            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+         </p>
+       </div><!-- Fusszeile ENDE -->
+</div><!-- PAGE ENDE -->
+
+</body>
+</html>
 </center>
 </body>
 </html>
