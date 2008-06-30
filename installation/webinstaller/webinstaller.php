@@ -1149,7 +1149,7 @@ function render($renderType, $args=array()) {
 		'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
 <html>
   <head>
-    <title>Clansuite Webinstaller</title>
+    <title>Clansuite :: Webinstaller</title>
     <?php printHtmlStyle(); ?>
     <?php printJs(); ?>
   </head>
@@ -1479,11 +1479,11 @@ function render($renderType, $args=array()) {
     	   <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
     	   Clansuite Installation Wizard</a>!
     	 </span>
-    	 
+
        <!-- CHANGE PERMISSIONS -->
-       <?php 
+       <?php
        $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-       $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';       
+       $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
        $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
        <div class="box">
        <h2>Change the permissions of your Clansuite Folder</h2>
@@ -1525,7 +1525,7 @@ function render($renderType, $args=array()) {
        <!-- RENAME FOLDER-->
        <div class="box">
         <h2>Rename the Clansuite folder</h2>
-        <span id="rename-toggle" class="blockToggle" 
+        <span id="rename-toggle" class="blockToggle"
              onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
 	    <?php print $label .  'rename folder form'; ?>
        </span>
@@ -1547,9 +1547,9 @@ function render($renderType, $args=array()) {
        <?php endif; ?>
        </div>
        </div>
-       
+
        </div>
-           	 
+
        <?php else: ?>
     	 <div class="warning">
     	   <b>Installer was not found!</b>
@@ -1557,7 +1557,7 @@ function render($renderType, $args=array()) {
     	 </div>
        <?php endif; ?>
        </div>
-       
+
      <?php elseif ($renderType == 'results'): ?>
      <h2> Results </h2>
      <?php if (!empty($args['failure'])): ?>
