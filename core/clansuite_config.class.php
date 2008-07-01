@@ -99,18 +99,23 @@ class Clansuite_Config implements ArrayAccess
      *
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
-    public function writeConfig($ini_filename, $assoc_array)
+    public static function writeConfig($ini_filename, $assoc_array)
     {
        # debug incomming array
        #clansuite_xdebug::printR($assoc_array);
 
-       # when ini_filename exists, get old config array,
+       # when ini_filename exists, get old config array
        if(is_file($ini_filename))
        {
-           $old_config_array = $this->readConfig($ini_filename);
+           $old_config_array = self::readConfig($ini_filename);
 
            # array merge: overwrite the array to the left, with the array to the right, when keys identical
+           # array_merge_recursive ??
            $config_array = array_merge($old_config_array, $assoc_array);
+       }
+       else # the config array = the incoming assoc_array
+       {
+           $config_array = $assoc_array;
        }
 
        # attach an security header at the top of the ini file
