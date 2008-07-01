@@ -47,11 +47,10 @@ fi
 # EXPORT
 # export the /trunk from SVN to the export directory
 rm -rf $EXPORT_DIR
-#svn export $SVN_DIR_TRUNK $EXPORT_DIR
+#svn export -rHEAD $SVN_DIR_TRUNK $EXPORT_DIR
 #echo ">>> svn export (from GNA svn) [done]"
-svn export $CHECKOUT_DIR $EXPORT_DIR
+svn export -rHEAD $CHECKOUT_DIR $EXPORT_DIR
 echo ">>> svn export (from local svn) [done]"
-
 #--------
 
 # FOLDER COPY because of NAMING (/clansuite) inside the Archives
@@ -62,7 +61,9 @@ echo ">>> copied SVN-EXPORT to CLANSUITE DIR!"
 
 # Remove the Build-Tools Directory from an release version
 rm -rf /home/clansuite/clansuite/build-tools
-echo ">>> removed build-tools from CLANSUITE DIR!"
+rm -rf /home/clansuite/clansuite/tests
+rm /home/clansuite/clansuite/clansuite.config.php
+echo ">>> remove build-tools and stuff from CLANSUITE DIR!"
 
 #--------
 
