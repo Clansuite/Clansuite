@@ -497,7 +497,7 @@ function getQueriesFromSQLFile($file)
                           $splitter);
 
     # replace the database prefix
-    $table_prefix = $_SESSION['db_prefix'];
+    $table_prefix = $_SESSION['config']['database']['db_prefix'];
     $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
 
     # remove empty lines
