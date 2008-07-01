@@ -252,7 +252,7 @@ if( isset($_POST['step_forward']) AND $step == 6 )
         isset($_POST['config']['language']['timezone']) )
     {
         # A)  Write Settings to clansuite.config.php
-        if( !write_config_settings($_POST['config'], true))
+        if( !write_config_settings($_POST['config']))
         {
             $step = 5;
             $error = 'Config not written <br />';
@@ -514,7 +514,6 @@ function getQueriesFromSQLFile($file)
 function write_config_settings($data_array)
 {
     require '../core/clansuite_config.class.php';
-    $config = new Clansuite_Config;
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
@@ -527,10 +526,18 @@ function write_config_settings($data_array)
     {
        if ($key == 'site_name')    { $key = 'std_page_title'; }
     }
+    #var_dump($data_array);
+    # read skeleton settings = minimum settings for initial startup
+    # (not asked from user during installation, but required paths/defaultactions etc)
+    $installer_config = Clansuite_Config::readConfig('clansuite.config.installer');
+    #var_dump($installer_config);
+    # array merge: overwrite the array to the left, with the array to the right, when keys identical
+    $data_array = array_merge_recursive($data_array, $installer_config);
+    #var_dump($data_array);
 
     # Write Config File to ROOT Directory
     #print WWW_ROOT . 'clansuite.config.php';
-    if ( false == $config->writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
+    if ( false == Clansuite_Config::writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
     {
         return false;
     }
