@@ -8,7 +8,7 @@ abstract class BaseCsBoardPosts extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_board_posts');
+    $this->setTableName('board_posts');
     $this->hasColumn('forumid', 'integer', 4, array (
   'alltypes' => 
   array (

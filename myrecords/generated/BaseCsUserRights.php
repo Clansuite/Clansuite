@@ -8,39 +8,14 @@ abstract class BaseCsUserRights extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_user_rights');
-    $this->hasColumn('user_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(10) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('right_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(5) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('user_rights');
+    $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('right_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }
 
+  public function setUp()
+  {
+    parent::setUp();
+  }
 
 }
-?>

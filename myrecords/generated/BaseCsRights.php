@@ -8,65 +8,13 @@ abstract class BaseCsRights extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_rights');
-    $this->hasColumn('right_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11) unsigned',
-  'unsigned' => 1,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-    $this->hasColumn('area_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('name', 'string', 150, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(150)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('description', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('rights');
+    $this->hasColumn('right_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('area_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('name', 'string', 150, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('description', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
+
   public function setUp()
   {
     parent::setUp();
@@ -77,4 +25,3 @@ abstract class BaseCsRights extends Doctrine_Record
   }
 
 }
-?>

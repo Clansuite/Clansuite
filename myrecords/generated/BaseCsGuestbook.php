@@ -8,7 +8,7 @@ abstract class BaseCsGuestbook extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_guestbook');
+    $this->setTableName('guestbook');
     $this->hasColumn('gb_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
     $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('gb_added', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'notnull' => false, 'autoincrement' => false));

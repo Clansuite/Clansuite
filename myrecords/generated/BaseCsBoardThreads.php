@@ -8,7 +8,7 @@ abstract class BaseCsBoardThreads extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_board_threads');
+    $this->setTableName('board_threads');
     $this->hasColumn('threadid', 'integer', 4, array (
   'alltypes' => 
   array (

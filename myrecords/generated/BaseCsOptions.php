@@ -8,52 +8,10 @@ abstract class BaseCsOptions extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_options');
-    
-    $this->hasColumn('option_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(10)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-
-    $this->hasColumn('name_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(10)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-
-    $this->hasColumn('value', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('options');
+    $this->hasColumn('option_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('name_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('value', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()
@@ -69,6 +27,5 @@ abstract class BaseCsOptions extends Doctrine_Record
                                             'foreign' => 'name',            
                                             'refClass' => 'CsUserOptions'));
   }
-  
+
 }
-?>

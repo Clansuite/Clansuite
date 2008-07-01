@@ -8,7 +8,7 @@ abstract class BaseCsOptionsName extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_options_name');   
+    $this->setTableName('options_name');   
     $this->hasColumn('name_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(10) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('name', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(10) unsigned', 'unsigned' => 1, 'values' =>  array(), 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }

@@ -8,7 +8,7 @@ abstract class BaseCsRelGroupRight extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_rel_group_rights');
+    $this->setTableName('rel_group_rights');
     $this->hasColumn('group_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('right_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
   }

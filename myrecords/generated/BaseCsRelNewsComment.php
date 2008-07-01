@@ -8,7 +8,7 @@ abstract class BaseCsRelNewsComment extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_rel_news_comments');
+    $this->setTableName('rel_news_comments');
     $this->hasColumn('news_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('comment_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => false));
   }
