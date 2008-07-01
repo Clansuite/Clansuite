@@ -1,7 +1,7 @@
 # robots.txt for Clansuite
 # SVN: $Id$
 #
-# For further informations review: 
+# For further informations review:
 # http://de.selfhtml.org/diverses/robots.htm
 # http://de.wikipedia.org/wiki/Robots_Exclusion_Standard
 
@@ -9,8 +9,8 @@ User-agent: *
 Disallow: /core/
 Disallow: /doc/
 Disallow: /languages/
+Disallow: /libraries/
+Disallow: /logs/
 Disallow: /modules/
 Disallow: /templates/
 Disallow: /uploads/
-Disallow: /libraries/
-Disallow: /logs/
