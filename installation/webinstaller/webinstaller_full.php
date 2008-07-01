@@ -187,19 +187,19 @@ class WebInstaller {
                     if (is_file($archiveName)) {
                         $results = $extractor->extract($archiveName);
                         if ($results === true) {
-                            
+
                         /* Make sure the dirs and files were extracted successfully */
                         if (!$this->integrityCheck()) {
                             render('results', array('failure' => 'Extraction was successful, but integrity check failed'));
                         } else {
                             render('results', array('success' => 'Archive successfully extracted',
-                                                    'clansuiteFolderName' => $this->findClansuiteFolder()                                                                    
+                                                    'clansuiteFolderName' => $this->findClansuiteFolder()
                                                     ));
 
                             /**
                              * Set the permissions in the clansuite dir
                              */
-                            @chmod(dirname(__FILE__) . '/clansuite', 0777);                            
+                            @chmod(dirname(__FILE__) . '/clansuite', 0777);
                         }
                         } else {
                         render('results', array('failure' => $results));
@@ -322,8 +322,8 @@ class WebInstaller {
                 }
 
             break;
-           
-            default:            
+
+            default:
             case 'before-download':
 
             /* Discover the capabilities of this PHP installation / platform */
@@ -1188,19 +1188,19 @@ function render($renderType, $args=array()) {
                   {
                       $step_cmd = trim($_POST['command']);
                   }
-                    
+
                   if (!empty($args['anyArchiveExists']))
                   {
                      # if Archive was found, jump to Extract Step
                      $step_cmd = 'download';
-                  } 
-                  
+                  }
+
                   if (!empty($args['clansuiteFolderName']) AND !empty($args['anyArchiveExists']))
                   {
                      # if the Clansuite folder was found, the archive was extracted
                      # jump to installation area
                      $step_cmd = 'installation';
-                  }                   
+                  }
             ?>
             <p>Webinstallation</p>
             <?php #echo 'Debug Step: '.$step_cmd; ?>
@@ -1235,29 +1235,30 @@ function render($renderType, $args=array()) {
 
             <?php if ($renderType == 'results'): ?>
             <!-- Results -->
-            <h2 class="headerstyle" style="margin: 0 15px">Result</h2>
-
-            <?php if (!empty($args['failure'])): ?>
-            <div class="error">
-                <?php print $args['failure']; ?>
-                <?php if (!empty($args['fix'])): ?>
-                <div class="suggested_fix">
-                    <h2> Suggested fix: </h2>
-                    <?php print $args['fix']; ?>
+            <div style="margin: 0 15px">
+                <h2 class="headerstyle">Result</h2>
+                <?php if (!empty($args['failure'])): ?>
+                <div class="error">
+                    <?php print $args['failure']; ?>
+                    <?php if (!empty($args['fix'])): ?>
+                    <div class="suggested_fix">
+                        <h2> Suggested fix: </h2>
+                        <?php print $args['fix']; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
+                <?php if (!empty($args['success'])): ?>
+                <span class="success">
+                    <?php print $args['success']; ?>
+                </span>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
-            <?php endif; ?>
-            <?php if (!empty($args['success'])): ?>
-            <span class="success">
-                <?php print $args['success']; ?>
-            </span>
-            <?php endif; ?>
             <?php endif; ?>
 
             <?php /**-------------------------------------------------*/ ?>
 
-            <?php #echo $renderType; 
+            <?php #echo $renderType;
                   if ($renderType == 'options'): ?>
             <!-- Show available and unavailable options -->
             <?php if (empty($args['anyExtensionSupported'])): ?>
@@ -1471,9 +1472,9 @@ function render($renderType, $args=array()) {
                 <h2 class="headerstyle">Installation of Clansuite</h2>
 
                 <!-- PATH TO CLANSUITE INSTALLER -->
-                <?php if (!empty($args['clansuiteFolderName'])): ?>             
+                <?php if (!empty($args['clansuiteFolderName'])): ?>
                 <p>
-                    <span style="font-size: 12px; font-weight:bold;">                    
+                    <span style="font-size: 12px; font-weight:bold;">
                     Webinstaller finished. Start the
                     <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                     Clansuite Installation Wizard</a>!
@@ -1481,7 +1482,7 @@ function render($renderType, $args=array()) {
                 </p>
 
                 <!-- CHANGE PERMISSIONS -->
-                   <?php                   
+                   <?php
                    $display = !empty($args['clansuiteFolderName']) ? 'style="display: none;"' : '';
                    $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
                    <!-- <div class="box"> -->
@@ -1540,8 +1541,8 @@ function render($renderType, $args=array()) {
                 <div class="warning">
                     There is no Clansuite folder in the current working directory.
                 </div>
-                <?php endif; # of rename folder ?>                
-               
+                <?php endif; # of rename folder ?>
+
                 <?php endif; ?>
                 </div> <!-- Close page-3-installation -->
                 <?php printNavigationButtons('intro','installation'); ?>
