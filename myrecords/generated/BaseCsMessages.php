@@ -8,108 +8,19 @@ abstract class BaseCsMessages extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_messages');
-    $this->hasColumn('message_id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-    $this->hasColumn('from', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('to', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('headline', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('message', 'string', null, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-    1 => 'clob',
-  ),
-  'ntype' => 'text',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('timestamp', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('read', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(1)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('messages');
+    $this->hasColumn('message_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('from', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('to', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('headline', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('message', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('timestamp', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('read', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
+  public function setUp()
+  {
+    parent::setUp();
+  }
 
 }
-?>

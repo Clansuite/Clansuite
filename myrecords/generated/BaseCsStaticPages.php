@@ -8,111 +8,19 @@ abstract class BaseCsStaticPages extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_static_pages');
-    $this->hasColumn('id', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => true,
-  'notnull' => true,
-  'autoincrement' => true,
-));
-    $this->hasColumn('title', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('description', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('url', 'string', 255, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-  ),
-  'ntype' => 'varchar(255)',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('html', 'string', null, array (
-  'alltypes' => 
-  array (
-    0 => 'string',
-    1 => 'clob',
-  ),
-  'ntype' => 'text',
-  'fixed' => false,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('iframe', 'integer', 1, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-    1 => 'boolean',
-  ),
-  'ntype' => 'tinyint(1)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'default' => '0',
-  'notnull' => true,
-  'autoincrement' => false,
-));
-    $this->hasColumn('iframe_height', 'integer', 4, array (
-  'alltypes' => 
-  array (
-    0 => 'integer',
-  ),
-  'ntype' => 'int(11)',
-  'unsigned' => 0,
-  'values' => 
-  array (
-  ),
-  'primary' => false,
-  'default' => '300',
-  'notnull' => true,
-  'autoincrement' => false,
-));
+    $this->setTableName('static_pages');
+    $this->hasColumn('id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('title', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('description', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('url', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('html', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('iframe', 'integer', 1, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('iframe_height', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '300', 'notnull' => true, 'autoincrement' => false));
   }
 
+  public function setUp()
+  {
+    parent::setUp();
+  }
 
 }
-?>

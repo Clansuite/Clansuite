@@ -8,7 +8,7 @@ abstract class BaseCsImages extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_images');
+    $this->setTableName('images');
     $this->hasColumn('image_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
     $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('type', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));

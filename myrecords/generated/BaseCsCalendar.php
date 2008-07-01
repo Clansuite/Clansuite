@@ -8,15 +8,15 @@ abstract class BaseCsCalendar extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_calendar');
-    $this->hasColumn('event_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('cat_id', 'integer', 2, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'smallint(2)', 'unsigned' => 0, 'values' =>  array(), 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('day', 'string', 2, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(2)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('month', 'string', 2, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(2)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('year', 'string', 4, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(4)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('eventname', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('link', 'string', 255, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(255)', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('description', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->setTableName('calendar');
+    $this->hasColumn('event_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
+    $this->hasColumn('cat_id', 'integer', 2, array('unsigned' => 0, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('day', 'string', 2, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('month', 'string', 2, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('year', 'string', 4, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('eventname', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('link', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('description', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()

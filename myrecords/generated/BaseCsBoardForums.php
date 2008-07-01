@@ -8,15 +8,15 @@ abstract class BaseCsBoardForums extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_board_forums');
+    $this->setTableName('board_forums');
     $this->hasColumn('forumid', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => true,
@@ -24,13 +24,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => true,
 ));
     $this->hasColumn('forumparent', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => true,
@@ -39,13 +39,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('name', 'string', 128, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
   ),
   'ntype' => 'varchar(128)',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -53,14 +53,14 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('description', 'string', null, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
     1 => 'clob',
   ),
   'ntype' => 'text',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -68,13 +68,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('displayorder', 'integer', 2, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'smallint(6)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => true,
@@ -83,13 +83,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('moderator', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -97,13 +97,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('posts', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -111,13 +111,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('threads', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -125,13 +125,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('permissions', 'integer', 4, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'integer',
   ),
   'ntype' => 'int(11)',
   'unsigned' => 0,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -139,13 +139,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('password', 'string', 32, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
   ),
   'ntype' => 'varchar(32)',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -153,13 +153,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('lastpost', 'string', 54, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
   ),
   'ntype' => 'varchar(54)',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => false,
@@ -167,13 +167,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('status', 'string', 15, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
   ),
   'ntype' => 'varchar(15)',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => true,
@@ -181,13 +181,13 @@ abstract class BaseCsBoardForums extends Doctrine_Record
   'autoincrement' => false,
 ));
     $this->hasColumn('type', 'string', 15, array (
-  'alltypes' => 
+  'alltypes' =>
   array (
     0 => 'string',
   ),
   'ntype' => 'varchar(15)',
   'fixed' => false,
-  'values' => 
+  'values' =>
   array (
   ),
   'primary' => true,
@@ -196,6 +196,17 @@ abstract class BaseCsBoardForums extends Doctrine_Record
 ));
   }
 
+    public function setUp()
+    {
+        parent::setUp();
 
+        $this->index('forumid', array('fields' => 'forumid'));
+
+        $options = array('hasManyRoots'     => true,         // enable many roots
+                         'rootColumnName'   => 'forumid');  // set root column name, defaults to 'root_id'
+        $this->actAs('NestedSet', $options);
+        #$this->loadTemplate('Doctrine_Template_NestedSet');
+
+    }
 }
 ?>

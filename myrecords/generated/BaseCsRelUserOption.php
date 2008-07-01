@@ -8,7 +8,7 @@ abstract class BaseCsRelUserOption extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_rel_user_options');
+    $this->setTableName('rel_user_options');
     $this->hasColumn('option_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => false));
   }

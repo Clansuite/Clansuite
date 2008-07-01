@@ -8,14 +8,14 @@ abstract class BaseCsSession extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_session');
-    $this->hasColumn('user_id', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_id', 'string', 32, array('alltypes' =>  array(  0 => 'string', ), 'ntype' => 'varchar(32)', 'fixed' => false, 'values' =>  array(), 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_data', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_name', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_expire', 'integer', 4, array('alltypes' =>  array(  0 => 'integer', ), 'ntype' => 'int(11)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_visibility', 'integer', 1, array('alltypes' =>  array(  0 => 'integer',   1 => 'boolean', ), 'ntype' => 'tinyint(4)', 'unsigned' => 0, 'values' =>  array(), 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('session_where', 'string', null, array('alltypes' =>  array(  0 => 'string',   1 => 'clob', ), 'ntype' => 'text', 'fixed' => false, 'values' =>  array(), 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->setTableName('session');
+    $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_id', 'string', 32, array('fixed' => false, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_data', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_name', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_expire', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_visibility', 'integer', 1, array('unsigned' => 0, 'primary' => false, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('session_where', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
   }
 
   public function setUp()
