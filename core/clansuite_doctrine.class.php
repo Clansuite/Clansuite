@@ -54,7 +54,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 class Clansuite_Doctrine
 {
-    public $db = null; # holds a db instance
+    #public $db = null; # holds a db instance
 
     function __construct(Clansuite_Config $config)
     {
@@ -119,21 +119,21 @@ class Clansuite_Doctrine
         $dsn .= $this->config['database']['db_password'] . '@';
         $dsn .= $this->config['database']['db_host'] . '/';
         $dsn .= $this->config['database']['db_name'];
-        #echo $dsn;
+        #echo 'Doctrine DSN: '.$dsn;
 
         // initalize a new Doctrine_Connection
-        $db = Doctrine_Manager::connection($dsn);
+        $manager = Doctrine_Manager::connection($dsn);
 
         // !! no actual database connection yet !!
         # object(Doctrine_Connection_Mysql) -> 'isConnected' => false
-        # var_dump($db);
+        # var_dump($manager);
 
         /**
          * Setup phpDoctrine Attributes for that later Connection
          */
-
-        // Changing the database naming convention by adding DB_PREFIX
-        $db->setAttribute(Doctrine::ATTR_DBNAME_FORMAT, DB_PREFIX.'_%s');
+         
+        # Changing the database naming convention by adding DB_PREFIX
+        $manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s"); 
 
         /**
          * 
@@ -151,7 +151,7 @@ class Clansuite_Doctrine
            Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
         
-        #$db->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
+        #$manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
 
         # Load Models (automatic + lazy loading)
         #Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
@@ -161,25 +161,25 @@ class Clansuite_Doctrine
         #print_r($models);     
 
         // Validate All
-        #$db->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
+        #$manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
 
         // Set portability for all rdbms = default
-        #$db->setAttribute('portability', Doctrine::PORTABILITY_ALL);
+        #$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
 
         // identifier quoting
         // disabled for now, because we have no reserved words as a field names
-        #$db->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, true);
+        #$manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, true);
 
         // Set Cache Driver
         /**
          * Doctrine_Cache_Exception: The apc extension must be loaded for using this backend !
         $cacheDriver = new Doctrine_Cache_Apc();
-        $db->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cacheDriver);
+        $manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cacheDriver);
         // set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
-        $db->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+        $manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
         */
         # set character set
-        $db->execute("SET CHARACTER SET utf8");
+        $manager->execute("SET CHARACTER SET utf8");
     }
 }
 ?>
