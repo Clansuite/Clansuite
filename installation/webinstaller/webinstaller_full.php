@@ -106,9 +106,9 @@ $availableExtensions = array('tar.gz');
 /* Available versions of G2 */
 $availableVersions = array('dev');
 
-var_dump($_REQUEST);
-var_dump($_POST);
-var_dump($_GET);
+#var_dump($_REQUEST);
+#var_dump($_POST);
+#var_dump($_GET);
 
 /*****************************************************************
  * M A I N
@@ -187,17 +187,19 @@ class WebInstaller {
                     if (is_file($archiveName)) {
                         $results = $extractor->extract($archiveName);
                         if ($results === true) {
+                            
                         /* Make sure the dirs and files were extracted successfully */
                         if (!$this->integrityCheck()) {
                             render('results', array('failure' => 'Extraction was successful, but integrity check failed'));
                         } else {
-                            render('results', array('success' => 'Archive successfully extracted'));
+                            render('results', array('success' => 'Archive successfully extracted',
+                                                    'clansuiteFolderName' => $this->findClansuiteFolder()                                                                    
+                                                    ));
 
-                            /*
-                             * Set the permissions in the clansuite dir may be such that
-                             * the user can modify login.txt
+                            /**
+                             * Set the permissions in the clansuite dir
                              */
-                            @chmod(dirname(__FILE__) . '/clansuite', 0777);
+                            @chmod(dirname(__FILE__) . '/clansuite', 0777);                            
                         }
                         } else {
                         render('results', array('failure' => $results));
@@ -320,8 +322,9 @@ class WebInstaller {
                 }
 
             break;
-
-            default:
+           
+            default:            
+            case 'before-download':
 
             /* Discover the capabilities of this PHP installation / platform */
             $capabilities = $this->discoverCapabilities();
@@ -330,16 +333,16 @@ class WebInstaller {
 
             if (!empty($capabilities['clansuiteFolderName']))
             {
-                $statusMessage  = "Ready for installation (Clansuite folder '" .
-                $capabilities['clansuiteFolderName'] . "' found)";
+                $statusMessage  = "Ready for installation! Clansuite found in the folder '" .
+                $capabilities['clansuiteFolderName'] . "'.";
             }
             else if (!empty($capabilities['anyArchiveExists']))
             {
-                $statusMessage = 'Archive ready for extraction';
+                $statusMessage = 'Archive ready for extraction.';
             }
             else
             {
-                $statusMessage = 'No archive in current working directory, please start with step 1';
+                $statusMessage = 'No archive in current working directory, please start with step 1.';
             }
 
             $capabilities['statusMessage'] = $statusMessage;
@@ -1043,7 +1046,7 @@ class PhpUnzipExtractor extends ExtractMethod
 {
     function extract($fileName) {
         $baseFolder = dirname($fileName);
-        echo $baseFolder;
+        #echo $baseFolder;
         if (!($zip = zip_open($fileName)))
         {
             return "Could not open the zip archive $fileName";
@@ -1116,7 +1119,6 @@ class PhpUnzipExtractor extends ExtractMethod
 
 function render($renderType, $args=array()) {
     global $archiveBaseName, $folderPermissionList, $webinstaller_version;
-    $self = basename(__FILE__);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1151,10 +1153,10 @@ function render($renderType, $args=array()) {
         var o = document.getElementById(objId), t = document.getElementById(togId);
         if (o.style.display == 'none') {
             o.style.display = 'block';
-            t.innerHTML = 'Hide ' + text;
+            t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/up.gif' alt='UP' align='top' /></div>";
         } else {
             o.style.display = 'none';
-            t.innerHTML = 'Show ' + text;
+            t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/dn.gif' alt='DOWN' align='top' /></div>";
         }
     }
     </script>
@@ -1180,49 +1182,105 @@ function render($renderType, $args=array()) {
                   /* Step based on command for handling the request */
                   if (empty($_POST['command']))
                   {
-                    $step_cmd = '';
+                      $step_cmd = 'intro';
                   }
                   else
                   {
-                    $step_cmd = trim($_POST['command']);
+                      $step_cmd = trim($_POST['command']);
                   }
-                  
-                  # if Archive was found, jump to Extract Step
-                  if(!empty($args['anyArchiveExists']))
+                    
+                  if (!empty($args['anyArchiveExists']))
                   {
-                    $step_cmd = 'extract';
-                  }
+                     # if Archive was found, jump to Extract Step
+                     $step_cmd = 'download';
+                  } 
+                  
+                  if (!empty($args['clansuiteFolderName']) AND !empty($args['anyArchiveExists']))
+                  {
+                     # if the Clansuite folder was found, the archive was extracted
+                     # jump to installation area
+                     $step_cmd = 'installation';
+                  }                   
             ?>
             <p>Webinstallation</p>
-            <div class="step-<?php if($step_cmd == 'intro'){ print $on; } else { print $off; } ?>Welcome</div>
-            <div class="step-<?php if($step_cmd == 'download'){ print $on; } else { print $off; } ?>Download</div>
-            <div class="step-<?php if($step_cmd == 'extract'){ print $on; } else { print $off; } ?>Extract</div>
-            <div class="step-<?php if($step_cmd == 'installation'){ print $on; } else { print $off; } ?>Installation</div>
+            <?php #echo 'Debug Step: '.$step_cmd; ?>
+            <div class="step-<?php if($step_cmd == 'intro' OR $step_cmd == ''){ print $on; } else { print $off; } ?>Welcome</div>
+            <div class="step-<?php if($step_cmd == 'before-download'){ print $on; } else { print $off; } ?>Download</div>
+            <div class="step-<?php if($step_cmd == 'download'){ print $on; } else { print $off; } ?>Extract</div>
+            <div class="step-<?php if($step_cmd == 'extract' OR $step_cmd == 'installation'){ print $on; } else { print $off; } ?>Installation</div>
         </div>
     </div>
-    <?php # var_dump($args); /** DEBUG */?>
+    <?php #echo 'Arguments: ' . var_dump($args); /** DEBUG */?>
     <div id="content" class="narrowcolumn">
         <div id="content_middle">
 
             <!-- WARNING MESSAGE -->
             <fieldset class="error_red">
                 <legend>Security Warning</legend>
-                <p><b>Delete the file (<?php print $self; ?>) when you are done!</b></p>
+                <p><b>Delete the file (<?php print basename(__FILE__) ?>) when you are done!</b></p>
             </fieldset>
 
-            <!-- Status Message -->
+            <?php /**-------------------------------------------------*/ ?>
+
             <?php if (!empty($args['statusMessage'])): ?>
+            <!-- Status Message -->
             <br />
             <fieldset class="error_beige">
                 <legend>Status</legend>
-                <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
+                <div class="box"><?php print $args['statusMessage']; ?></div>
             </fieldset>
             <?php endif; ?>
 
-            <?php echo 'Debug Line 1221 - Step: '.$step_cmd; if($step_cmd == 'intro'): ?>
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if ($renderType == 'results'): ?>
+            <!-- Results -->
+            <h2 class="headerstyle" style="margin: 0 15px">Result</h2>
+
+            <?php if (!empty($args['failure'])): ?>
+            <div class="error">
+                <?php print $args['failure']; ?>
+                <?php if (!empty($args['fix'])): ?>
+                <div class="suggested_fix">
+                    <h2> Suggested fix: </h2>
+                    <?php print $args['fix']; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
+            <?php if (!empty($args['success'])): ?>
+            <span class="success">
+                <?php print $args['success']; ?>
+            </span>
+            <?php endif; ?>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php #echo $renderType; 
+                  if ($renderType == 'options'): ?>
+            <!-- Show available and unavailable options -->
+            <?php if (empty($args['anyExtensionSupported'])): ?>
+            <div class="error">
+                <h2>This platform has not the ability to extract any of our archive types!</h2>
+                <span>
+                <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
+                <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
+                <?php if (!$first) print ', '; else $first = false; ?>
+                <?php print $ext; ?>
+                <?php if (!$supported): ?></span><?php endif; ?>
+                <?php endforeach; ?>
+                </span>
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if($step_cmd == 'intro' OR $step_cmd == ''): ?>
             <!-- WELCOME AND INSTRUCTIONS -->
             <div id="page-instructions" style="margin: 0 15px">
-                <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Show Instructions</h2>
+                <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Instructions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
                 <div id="toggle-instructions" style="display: none">
                     <h3>This webinstaller gets the Clansuite web application on your server.</h3>
                     <p>
@@ -1278,28 +1336,14 @@ function render($renderType, $args=array()) {
                             <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
                         </li>
                     </ul>
-                </div>
-                <?php endif; # END intro + welcome ?>
+                </div> <!-- end toggle-instructions -->
+             </div> <!-- end instructions -->
+             <?php printNavigationButtons('intro','before-download'); ?>
+        <?php endif; # END intro + welcome ?>
 
-                <?php if ($renderType == 'options'): ?>
-                    <!-- Show available and unavailable options -->
-                    <?php if (empty($args['anyExtensionSupported'])): ?>
-                    <div class="error">
-                        <h2>This platform has not the ability to extract any of our archive types!</h2>
-                        <span>
-                        <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
-                        <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
-                        <?php if (!$first) print ', '; else $first = false; ?>
-                        <?php print $ext; ?>
-                        <?php if (!$supported): ?></span><?php endif; ?>
-                        <?php endforeach; ?>
-                        </span>
-                    </div>
-                    <?php #endif; ?>
-                </div>
-                <?php endif; ?>
+        <?php /**-------------------------------------------------*/ ?>
 
-            <?php if($step_cmd == 'download'): ?>
+        <?php if($step_cmd == 'before-download'):  ?>
             <!-- DOWNLOAD SECTION -->
             <div id="page-1-download" style="margin: 0 15px">
                 <h2 class="headerstyle">Download of Clansuite Archive</h2>
@@ -1353,8 +1397,8 @@ function render($renderType, $args=array()) {
                     </table>
                     <input type="hidden" name="command" value="download" />
                     <input type="submit" value="Download" onclick="this.disabled=true;this.form.submit();" />
-                </form>
-                <?php elseif (!empty($args['anyExtensionSupported'])): ?>
+                <!-- </form> -->
+                <?php  elseif (!empty($args['anyExtensionSupported'])): ?>
                 <div class="warning">
                     This platform does not support any of our download / transfer methods. You can upload
                     the clansuite archiv as [.tar.gz] or [.zip] via FTP and extract it then with this tool.
@@ -1369,9 +1413,12 @@ function render($renderType, $args=array()) {
                 </div>
                 <?php endif; ?>
             </div>
-            <?php endif; # end download ?>
+            <?php printNavigationButtons('before-download','download'); ?>
+            <?php endif; ?>
 
-            <?php if($step_cmd == 'extract'): ?>
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php  if($step_cmd == 'download'): ?>
             <!-- EXTRACTION METHODS -->
             <div id="page-2-extraction" style="margin: 0 15px">
                 <h2 class="headerstyle">Extraction</h2>
@@ -1400,7 +1447,7 @@ function render($renderType, $args=array()) {
                     </table>
                     <input type="hidden" name="command" value="extract" />
                     <input type="submit" value="Extract" onclick="this.disabled=true;this.form.submit();" />
-                </form>
+                <!-- </form> -->
                 <?php else: ?>
                 <div class="warning">
                     Oops! - This platform cannot extract archives.
@@ -1412,31 +1459,41 @@ function render($renderType, $args=array()) {
                     </ol>
                 </div>
                 <?php endif; ?>
-            </div>
+            </div> <!-- end page-2-extraction -->
+            <?php printNavigationButtons('before-download','extract'); ?>
             <?php endif; #  end extract ?>
 
-            <?php if($step_cmd == 'installation'): ?>
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if($step_cmd == 'extract' OR $step_cmd == 'installation'): ?>
             <!-- LINK TO INSTALLER -->
             <div id="page-3-installation" style="margin: 0 15px">
                 <h2 class="headerstyle">Installation of Clansuite</h2>
 
                 <!-- PATH TO CLANSUITE INSTALLER -->
-                <?php if (!empty($args['clansuiteFolderName'])): ?>
-                <span style="font-size: 14px; font-weight:bold; color:green;">
-                    <br />
-                    Follow this link to start the
+                <?php if (!empty($args['clansuiteFolderName'])): ?>             
+                <p>
+                    <span style="font-size: 12px; font-weight:bold;">                    
+                    Webinstaller finished. Start the
                     <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                     Clansuite Installation Wizard</a>!
-                </span>
+                    </span>
+                </p>
 
                 <!-- CHANGE PERMISSIONS -->
-                <?php
-                $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
-                <div id="chmod" <?php print $display; ?>>
-                <?php if (!empty($args['clansuiteFolderName'])): ?>
-                <p>
-                    777 makes the folder writeable for everybody. That is needed such that you can move
-                    clansuite or rename the directory with an FTP program. 555 makes it readable for
+                   <?php                   
+                   $display = !empty($args['clansuiteFolderName']) ? 'style="display: none;"' : '';
+                   $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
+                   <!-- <div class="box"> -->
+
+                   <h2 id="chmod-toggler" class="headerstyle" style="cursor: pointer"
+                       onclick="BlockToggle('chmod-toggle', 'chmod-toggler', 'Change folder permissions')">Change folder permissions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+                   <div id="chmod-toggle" <?php print $display; ?>>
+
+                   <?php if (!empty($args['clansuiteFolderName'])): ?>
+                 <p>
+                    Change the permissions of your Clansuite Folder: <b>777</b> makes the folder writeable for everybody. That is needed such that you can move
+                    clansuite or rename the directory with an FTP program. <b>555</b> makes it readable for
                     everybody, which is required to have an operational Clansuite installation.
                 </p>
                 <p>
@@ -1461,9 +1518,13 @@ function render($renderType, $args=array()) {
                     There is no Clansuite folder in the current working directory.
                 </div>
                 <?php endif; # of change permissions folder ?>
+                </div> <!-- end chmod-toggle div -->
 
                 <!-- RENAME FOLDER-->
-                <h2 class="headerstyle">Rename the Clansuite folder</h2>
+                <h2 id="rename-toggler" class="headerstyle" style="cursor: pointer"
+                    onclick="BlockToggle('rename-toggle', 'rename-toggler', 'Rename folder')">Rename folder <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+                <div id="rename-toggle" <?php print $display; ?>>
+
                 <?php if (!empty($args['clansuiteFolderName'])): ?>
                 <p>
                     Quickly rename the clansuite folder. You can do that with your FTP program as well.
@@ -1474,68 +1535,23 @@ function render($renderType, $args=array()) {
                     <input type="hidden" name="command" value="rename" />
                     <input type="submit" value="Rename Folder" onclick="this.disabled=true;this.form.submit();" />
                 </form>
+                </div> <!-- end rename-toggle div -->
                 <?php else: # of rename folder ?>
                 <div class="warning">
                     There is no Clansuite folder in the current working directory.
                 </div>
-                <?php endif; # of rename folder ?>
-                <?php else: ?>
-                <div class="warning">
-                    <b>Installer was not found!</b><br />
-                    Please perform steps 1 and 2 to get an extracted Clansuite archive.
-                </div>
+                <?php endif; # of rename folder ?>                
+               
                 <?php endif; ?>
-                <?php elseif ($renderType == 'results'): ?>
-
-                <!-- Results -->
-                <h2 class="headerstyle">Results</h2>
-                <?php if (!empty($args['failure'])): ?>
-                <div class="error">
-                    <?php print $args['failure']; ?>
-                    <?php if (!empty($args['fix'])): ?>
-                    <div class="suggested_fix">
-                        <h2> Suggested fix: </h2>
-                        <?php print $args['fix']; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-                <?php endif; ?>
-                <?php if (!empty($args['success'])): ?>
-                <div class="success">
-                    <?php print $args['success']; ?>
-                </div>
-                <?php endif; ?>
-                <div>
-                    <a href="<?php print $self; ?>">Next Step!</a>
-                </div>
+                </div> <!-- Close page-3-installation -->
+                <?php printNavigationButtons('intro','installation'); ?>
                 <?php endif; ?>
 
-            <?php endif; /** END Installation */ ?>
         </div> <!-- Close Content-Middle -->
 
-        <div id="content_footer">
-            <div class="navigation">
-                <span style="font-size:10px;">
-                    Click Next to proceed!
-                    <br />
-                    Click Back to return!
-                </span>
+        <!-- <div id="content_footer">
 
-                <div class="alignright">
-                    <form action="<?php print $self; ?>" method="post">
-                        <input type="submit" value="Next" class="ButtonGreen" name="step_forward" />
-                        <input type="hidden" name="command" value="download" />
-                    </form>
-                </div>
-
-                <div class="alignleft">
-                    <form action="<?php print $self; ?>" method="post">
-                        <input type="submit" value="Back" class="ButtonRed" name="step_backward" />
-                        <!-- <input type="hidden" name="command" value="intro" /> -->
-                    </form>
-                </div>
-           </div><!-- div navigation end -->
-        </div> <!-- div content_footer end -->
+        </div> --> <!-- div content_footer end -->
 
     </div> <!-- Close Content -->
 
@@ -1609,6 +1625,35 @@ function compatiblityFunctions() {
         return empty($stats['mode']) || $stats['mode'] & 0000100;
     }
     }
+}
+
+function printNavigationButtons($back_cmd, $forward_cmd)
+{
+?>
+    <div class="navigation">
+        <span style="font-size:10px;">
+            Click Next to proceed!
+            <br />
+            Click Back to return!
+        </span>
+
+        <div class="alignright">
+             <?php if ($back_cmd == 'intro'): ?>
+                <form action="<?php print basename(__FILE__); ?>" method="post">
+             <?php endif; ?>
+                <input type="submit" value="Next" class="ButtonGreen" name="step_forward" />
+                <input type="hidden" name="command" value="<?php print $forward_cmd; ?>" />
+            </form>
+        </div>
+
+        <div class="alignleft">
+            <form action="<?php print basename(__FILE__); ?>" method="post">
+                <input type="submit" value="Back" class="ButtonRed" name="step_backward" />
+                <input type="hidden" name="command" value="<?php print $back_cmd; ?>" />
+            </form>
+        </div>
+    </div><!-- div navigation end -->
+<?php
 }
 
 
