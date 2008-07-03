@@ -46,6 +46,7 @@ define('DEBUG', false);
  *     Startup Checks
  *  ================================================
  */
+ 
 # PHP Version Check
 define('REQUIRED_PHP_VERSION', '5.2');
 if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
@@ -74,12 +75,12 @@ catch (Exception $e)
     exit($e);
 }
 
-// Get site paths
-define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
-define ('WWW_ROOT', realpath(dirname(__FILE__)."/../"));
+// ROOT Path
+define ('DS', DIRECTORY_SEPARATOR);
+define ('ROOT', getcwd() . DIRECTORY_SEPARATOR);
 
 // The Clansuite version this script installs
-$cs_version = '0.1';
+require( ROOT . '../core/clansuite.version.php');
 
 // Define $error
 $error = '';
@@ -88,11 +89,13 @@ $error = '';
 #var_dump($_POST);
 
 // in case clansuite.config.php exists, exit -> can be configured from backend then
-/*if (is_file( WWW_ROOT . 'clansuite.config.php'))
+if (is_file( ROOT . '../clansuite.config.php' ))
 {
-    exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
-          <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
-}*/
+    exit('The file <strong>../clansuite.config.php</strong> already exists! This indicates that
+          <strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
+          <br /> You should visit your sites <a href="../index.php">Frontend</a> 
+          or it\'s admin-control-panel <a href="../index.php?mod=admin">ACP</a> instead.');
+}
 
 /**
  * Suppress Errors
@@ -158,16 +161,16 @@ else
 
 # Language Include
 try
-{
-    if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
+{ 
+    if (is_file (ROOT . 'languages'. DS . $lang .'.install.php'))
     {
-        require_once CS_ROOT . '/languages/'. $lang .'.install.php';
+        require_once ROOT . 'languages'. DS . $lang .'.install.php';
         $language = new language;
         $_SESSION['lang'] = $lang;
     }
     else
     {
-        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
+        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . ROOT . $lang . '.install.php</strong>.</span>');
     }
 }
 catch (Exception $e)
@@ -187,56 +190,71 @@ if( isset($_POST['step_forward']) AND $step == 5 )
     if (isset($_POST['config']['database']['db_host']) AND isset($_POST['config']['database']['db_type']) AND
         isset($_POST['config']['database']['db_username']) AND isset($_POST['config']['database']['db_password']))
     {
-        # B) Write SQL-Data into Database
-
         # Should we create the database?
         if (isset($_POST['config']['database']['db_create_database']) && $_POST['config']['database']['db_create_database'] == 'on')
         {
             # establish connection to database
-            $db = mysql_pconnect($_POST['config']['database']['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
-            #or die ("Konnte keine Verbindung zur Datenbank herstellen");
-
-            # http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
-            # so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
-            if (!mysql_query('CREATE DATABASE ' . $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
+            if(!@mysql_pconnect($_POST['config']['database']['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']))
             {
                 $step = 4;
-                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
+                $error .= $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();   
             }
-            unset($_POST['config']['database']['db_create_database']);
-        }
-
-        $sqlfile = CS_ROOT . '/sql/clansuite.sql';
-        if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
-                                 $_POST['config']['database']['db_name'],
-                                 $_POST['config']['database']['db_username'],
-                                 $_POST['config']['database']['db_password']) )
-        {
-            $step = 4;
-            $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
-        }
-        else
-        {
-            // AlertBox?
-            //print "SQL Data correctly inserted into Database!";
-        }
-
-        # A)  Write Settings to clansuite.config.php
-        if( !write_config_settings($_POST['config']))
-        {
-            $step = 4;
-            $error = 'Config not written <br />';
-
-        }
-        else
-        {
-            // Config written
+            else
+            {
+                /**
+                 * CONNECT - Verbindung hergestellt
+                 */
+                $db = mysql_pconnect($_POST['config']['database']['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
+                        
+                /** 
+                 * CREATE TABLE
+                 * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
+                 * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
+                 */
+                if (!mysql_query('CREATE DATABASE ' . (string) $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
+                {
+                    $step = 4;
+                    $error .= $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
+                }
+                unset($_POST['config']['database']['db_create_database']);
+        
+                /**
+                 * Write SQL-Data into Database
+                 */
+                $sqlfile = ROOT . 'sql'. DS .'clansuite.sql';
+                
+                if( !loadSQL( $sqlfile ,          $_POST['config']['database']['db_host'],
+                                         (string) $_POST['config']['database']['db_name'],
+                                                  $_POST['config']['database']['db_username'],
+                                                  $_POST['config']['database']['db_password']) )
+                {
+                    $step = 4;
+                    $error .= $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();            
+                }
+                else
+                {
+                    // AlertBox?
+                    // print "SQL Data correctly inserted into Database!";
+                
+                    # write Settings to clansuite.config.php
+                    if( !write_config_settings($_POST['config']))
+                    {
+                        $step = 4;
+                        $error = 'Config not written <br />';
+            
+                    }
+                    else
+                    {
+                        // Config written
+                    }
+                }            
+            }
         }
     }
     else # input fields empty
     {
         $step = 4;
-        $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
+        $error .= $language['ERROR_FILL_OUT_ALL_FIELDS'];
     }
 }
 
@@ -251,7 +269,7 @@ if( isset($_POST['step_forward']) AND $step == 6 )
         isset($_POST['config']['email']['from']) AND
         isset($_POST['config']['language']['timezone']) )
     {
-        # A)  Write Settings to clansuite.config.php
+        # write Settings to clansuite.config.php
         if( !write_config_settings($_POST['config']))
         {
             $step = 5;
@@ -295,10 +313,10 @@ $installfunction  = "installstep_$step"; # add step to function name
 if(function_exists($installfunction))  # check if exists
 {
     # Set Step to Session
-    $_SESSION['step'] = $step;
+    $_SESSION['step'] = $step;    
     $installfunction($language,$error); # lets rock! :P
 }
-
+    
 # INCLUDE THE FOOTER !!
 require 'install_footer.php';
 
@@ -434,7 +452,11 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
     if ($connection = @ mysql_pconnect($hostname, $username, $password))
     {
         # select database
-        mysql_select_db($database,$connection);
+        if(!mysql_select_db($database,$connection))
+        {
+            $error = 'Database Table could not be selected!';
+            return $error;
+        }
         # ensure database entries are written as UTF8
         mysql_query("SET NAMES 'utf8'");
 
@@ -536,8 +558,8 @@ function write_config_settings($data_array)
     #var_dump($data_array);
 
     # Write Config File to ROOT Directory
-    #print WWW_ROOT . 'clansuite.config.php';
-    if ( false == Clansuite_Config::writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
+    #print ROOT . '..'. DS .'clansuite.config.php';
+    if ( false == Clansuite_Config::writeConfig( ROOT . '..'. DS .'clansuite.config.php', $data_array) )
     {
         return false;
     }
