@@ -24,77 +24,77 @@ class language implements ArrayAccess
         // STEP 1 - Language Selection
         $this->language['STEP1_LANGUAGE_SELECTION'] = 'Schritt [1] Sprachauswahl';
 
-        $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich fr Clansuite entschieden haben!';
+        $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich für Clansuite entschieden haben!';
         $this->language['STEP1_WELCOME'] = 'Willkommen zur Installation von Clansuite.';
-        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung fhrt Sie schrittweise durch die Installation.';
-        $this->language['STEP1_CHOOSELANGUAGE'] = 'W„hlen Sie bitte die Sprache aus.';
+        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung führt Sie schrittweise durch die Installation.';
+        $this->language['STEP1_CHOOSELANGUAGE'] = 'Wählen Sie bitte die Sprache aus.';
 
         // STEP 2 - System Check
-        $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systemprfung';
+        $this->language['STEP2_SYSTEMCHECK'] = 'Schritt [2] Systemprüfung';
 
-        $this->language['STEP2_IN_GENERAL'] = 'In Schritt [2] prfen wir, ob Ihr Webserver die Installationsanforderungen von Clansuite erfllt.';
+        $this->language['STEP2_IN_GENERAL'] = 'In Schritt [2] prüfen wir, ob Ihr Webserver die Installationsanforderungen von Clansuite erfüllt.';
 
-        $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgem„&szlig; funktioniert.';
-        $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegrnden.';
+        $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgemäß funktioniert.';
+        $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegründen.';
         $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
-        $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemberprfung ergab folgendes:';
+        $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemüberprüfung ergab folgendes:';
 
         $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Erforderliche Einstellungen';
-        $this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Wnschenswerte Einstellungen';
+        $this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Wünschenswerte Einstellungen';
 
         $this->language['STEP2_SETTING'] = 'Einstellung';
-        $this->language['STEP2_SETTING_ACTUAL'] = 'Tats„chlich';
+        $this->language['STEP2_SETTING_ACTUAL'] = 'Tatsächlich';
         $this->language['STEP2_SETTING_EXPECTED'] = 'Erwartet';
         $this->language['STEP2_SETTING_STATUS'] = 'Status';
 
         # REQUIRED SETTINGS (in order)
         # 1
-        $this->language['PHP_VERSION'] = 'Prfe auf PHP Version 5.2+';
+        $this->language['PHP_VERSION'] = 'Prüfe auf PHP Version 5.2+';
         # 2
-        $this->language['SESSION_FUNCTIONS'] = 'Prfe auf Session Funktionen';
+        $this->language['SESSION_FUNCTIONS'] = 'Prüfe auf Session Funktionen';
         # 3
-        $this->language['PDO_LIBRARY'] = 'Prfe auf PDO - Bibilothek';
+        $this->language['PDO_LIBRARY'] = 'Prüfe auf PDO - Bibilothek';
         # 4
-        $this->language['PDO_MYSQL_LIBRARY'] = 'Prfe auf PDO - MySQL - Bibilothek';
+        $this->language['PDO_MYSQL_LIBRARY'] = 'Prüfe auf PDO - MySQL - Bibilothek';
 
         # RECOMMENDED SETTINGS (in order)
-        $this->language['PHP_MEMORY_LIMIT'] = 'Prfe auf PHP memory limit (Minimum 8M, recommend 16M)';
-        $this->language['FILE_UPLOADS'] = 'Prfe, ob Dateiuploads erlaubt sind';
-        $this->language['GETTEXT_EXTENSION'] = 'Prfe, auf Gettext Extension';
-        $this->language['REGISTER_GLOBALS'] = 'Prfe auf globale Registrierung';
+        $this->language['PHP_MEMORY_LIMIT'] = 'Prüfe auf PHP memory limit (Minimum 8M, recommend 16M)';
+        $this->language['FILE_UPLOADS'] = 'Prüfe, ob Dateiuploads erlaubt sind';
+        $this->language['GETTEXT_EXTENSION'] = 'Prüfe, auf Gettext Extension';
+        $this->language['REGISTER_GLOBALS'] = 'Prüfe auf globale Registrierung';
         $this->language['ALLOW_URL_FOPEN'] = 'Checking for ALLOW_URL_FOPEN';
         $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
         $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
         $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
         $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
-        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Prfe, ob Magic Quotes Runtime';
-        $this->language['TOKENIZER'] = 'Prfe, ob Tokenizer exists';
+        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Prüfe, ob Magic Quotes Runtime';
+        $this->language['TOKENIZER'] = 'Prüfe, ob Tokenizer exists';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
 
-        $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz ver”ffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
-        $this->language['STEP3_REVIEW'] = 'Bitte berprfen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
-        $this->language['STEP3_MUST_AGREE'] = 'Sie mssen der GNU/GPL Lizenz zustimmen um Clansuite zu installieren.';
+        $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz veröffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
+        $this->language['STEP3_REVIEW'] = 'Bitte überprüfen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
+        $this->language['STEP3_MUST_AGREE'] = 'Sie müssen der GNU/GPL Lizenz zustimmen um Clansuite zu installieren.';
         $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen und stimme zu, dass Clansuite unter der GNU/GPL Lizenz steht!';
 
         // STEP 4 - Database
         $this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
 
-        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte fr Clansuite darin abzulegen.';
-        $this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugeh”rige Passwort an.';
-        $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewnschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
+        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte für Clansuite darin abzulegen.';
+        $this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugehörige Passwort an.';
+        $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewünschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
 
-        $this->language['STEP4_SENTENCE4'] = 'Tabellen und Eintr„ge werden angelegt.';
+        $this->language['STEP4_SENTENCE4'] = 'Tabellen und Einträge werden angelegt.';
         $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
         $this->language['DB_HOST'] = 'Datenbank Hostname';
         $this->language['DB_TYPE'] = 'Databank Typ';
         $this->language['DB_NAME'] = 'Datenbank Name';
-        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen?';
+        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellenü';
         $this->language['DB_USERNAME'] = 'Datenbank Benutzer';
         $this->language['DB_PASSWORD'] = 'Datenbank Passwort';
-        $this->language['DB_PREFIX'] = 'Tabellen Pr„fix';
+        $this->language['DB_PREFIX'] = 'Tabellen Präfix';
 
         $this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
         $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';
@@ -103,8 +103,8 @@ class language implements ArrayAccess
         // STEP 5 - Konfiguration
         $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
 
-        $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen fr Ihre Internetpr„senz mit Clansuite vor.';
-        $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, k”nnen sie umfangreiche Einstellungen ber das Admin-Control-Panel (ACP) vornehmen.';
+        $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen für Ihre Internetpräsenz mit Clansuite vor.';
+        $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, können sie umfangreiche Einstellungen über das Admin-Control-Panel (ACP) vornehmen.';
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name der Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Systemmail';
@@ -122,13 +122,13 @@ class language implements ArrayAccess
         $this->language['STEP6_ADMIN_LANGUAGE'] = 'Sprache';
         $this->language['STEP6_ADMIN_EMAIL']    = 'E-Mail Adresse';
 
-        $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto fr den Administrator konnte nicht erstellt werden.';
+        $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto für den Administrator konnte nicht erstellt werden.';
 
         // STEP 7 - Abschluss
         $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';
 
         $this->language['STEP7_SENTENCE1'] = 'Geschafft! Gratulation - Sie haben Clansuite erfolgreich installiert.';
-        $this->language['STEP7_SENTENCE2'] = 'Das Entwicklerteam wnscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.';
+        $this->language['STEP7_SENTENCE2'] = 'Das Entwicklerteam wünscht Ihnen nun viel Freude beim Entdecken und Nutzen von Clansuite.';
         $this->language['STEP7_SENTENCE3'] = 'Sie finden nachfolgend die Links zur Hauptseite und zum Adminbereich, sowie ihre Logindaten als Administrator.';
         $this->language['STEP7_SENTENCE4'] = 'Besuchen Sie Ihre neue';
         $this->language['STEP7_SENTENCE5'] = 'Clansuite Webseite';
@@ -137,15 +137,15 @@ class language implements ArrayAccess
         $this->language['STEP7_SENTENCE8'] = 'Hilfe zur Benutzung und Konfiguration der Clansuite-Software finden Sie im ';
         $this->language['STEP7_SENTENCE9'] = 'Benutzerhandbuch';
         $this->language['STEP7_SENTENCE10'] = 'Sicherheitshinweis';
-        $this->language['STEP7_SENTENCE11'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/installation" aus Sicherheitsgrnden umzubenennen bzw. zu l”schen.';
+        $this->language['STEP7_SENTENCE11'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/installation" aus Sicherheitsgründen umzubenennen bzw. zu löschen.';
 
         // GLOBAL
         # Buttons
-        $this->language['NEXTSTEP'] = 'Weiter &rsaquo;';
-        $this->language['BACKSTEP'] = '&lsaquo; Zurck';
+        $this->language['NEXTSTEP'] = 'Weiter >>';
+        $this->language['BACKSTEP'] = '<< Zurück';
         # Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Klicken Sie den Button ['. $this->language['NEXTSTEP'] .'] um fortzufahren.';
-        $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zurckzukehren.';
+        $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zurückzukehren.';
         # Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
         $this->language['COMPLETED'] = 'Fertig';
@@ -155,7 +155,7 @@ class language implements ArrayAccess
         # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsschritte';
         $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
-        $this->language['MENUSTEP2'] = '[2] Systemprfung';
+        $this->language['MENUSTEP2'] = '[2] Systemprüfung';
         $this->language['MENUSTEP3'] = '[3] GPL Lizenz';
         $this->language['MENUSTEP4'] = '[4] Datenbank';
         $this->language['MENUSTEP5'] = '[5] Konfiguration';
@@ -187,7 +187,7 @@ class language implements ArrayAccess
         $this->__set($offset, $value);
     }
 
-    // hmm? why should configuration be unset?
+    // hmmü why should configuration be unsetü
     public function offsetUnset($offset)
     {
         unset($this->language[$offset]);
@@ -202,10 +202,12 @@ class language implements ArrayAccess
      */
     function unicode_converter($string, $to_unicode = true)
     {
+        return htmlentities($string);
+        /*
         $conversion_table = array(
-                                    "„" => "&#228;", "Ž" => "&#196;",
-                                    "”" => "&#246;", "™" => "&#214;",
-                                    "" => "&#252;", "š" => "&#220;",
+                                    "ä" => "&#228;", "Ž" => "&#196;",
+                                    "ö" => "&#246;", "™" => "&#214;",
+                                    "ü" => "&#252;", "š" => "&#220;",
                                     "‚" => "&#233;", "á" => "&#223;"
                                   );
 
@@ -224,6 +226,7 @@ class language implements ArrayAccess
             $string = strtr($string, $conversion_pool);
         }
         return $string;
+        */
     }
 }
 ?>
