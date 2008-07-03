@@ -98,11 +98,14 @@ if (is_file( ROOT . '../clansuite.config.php' ))
 }
 
 /**
- * Suppress Errors
+ * Suppress Errors and use E_STRICT when Debugging
+ *
  * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
- * so we use e_all ... this is just an installer btw :)
+ * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
-error_reporting(E_ALL);
+ini_set('display_startup_errors', false);
+ini_set('display_errors', false);
+error_reporting(0);
 
 #================
 #     OUTPUT
