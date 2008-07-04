@@ -95,14 +95,11 @@ $error = '';
 }*/
 
 /**
- * Suppress Errors and use E_STRICT when Debugging
- *
+ * Suppress Errors
  * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
- * so we use E_ALL when DEBUGING. This is just an installer btw :)
+ * so we use e_all ... this is just an installer btw :)
  */
-ini_set('display_startup_errors', false);
-ini_set('display_errors', false);
-error_reporting(0);
+error_reporting(E_ALL);
 
 #================
 #     OUTPUT
@@ -187,8 +184,8 @@ if( isset($_POST['step_forward']) AND $step == 5 )
     #var_dump($_POST);
 
     # check if input-fields are filled
-    if (empty($_POST['config']['database']['db_host']) AND empty($_POST['config']['database']['db_type']) AND
-        empty($_POST['config']['database']['db_username']) AND empty($_POST['config']['database']['db_password']))
+    if (!empty($_POST['config']['database']['db_host']) AND !empty($_POST['config']['database']['db_type']) AND
+        !empty($_POST['config']['database']['db_username']) AND !empty($_POST['config']['database']['db_password']))
     {
         # B) Write SQL-Data into Database
 
