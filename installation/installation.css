@@ -82,7 +82,7 @@ input
 }
 
 body {
-	background: #d5d6d7 url("http://www.clansuite.com/website/images/kubrickbgcolor.png");
+	background: #d5d6d7 url("images/kubrickbgcolor.png");
 	font-size: 62.5%; /* Resets 1em to 10px */
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	color: #333;
@@ -324,11 +324,13 @@ dl dt
 #page
 {
   background: #fff url(images/kubrickbg.png) repeat-y top;
-  border:none;
+  border:0;
+  background-color: #000;
   margin:auto;
   padding:0;
   text-align:left;
   width:820px;
+  z-index: auto;
 }
 
 #header
