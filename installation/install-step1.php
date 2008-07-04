@@ -4,7 +4,7 @@
  */
 if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 ?>
-
+    <hr>
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -18,7 +18,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
         </div>
     </div>
     <div id="content" class="narrowcolumn">
-         <div id="content_middle">
+        <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
         	        <img src="images/64px-Tango_Globe_of_Letters.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
@@ -55,20 +55,24 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                     ?>
 
                     </p>
-        	         <div id="content_footer" style="min-height:185px;">
-                    <div class="navigation">
+        	        <div id="content_footer" style="min-height:185px;">
+                        
+                        <div class="navigation">
 
-        	            <hr />
-        	            <span style="font-size:10px;"><?=$language['CLICK_NEXT_TO_PROCEED']?></span>
-                        <div class="alignright">
-                        	<input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
-                        </div>
-                         </form>
-                    </div><!-- div navigation end -->
-			</div> <!-- div content_footer end -->
-
-        	</div> <!-- div accordion end -->
+        	                <hr />
+        	                <span style="font-size:10px;"><?=$language['CLICK_NEXT_TO_PROCEED']?></span>
+                            
+                            <div class="alignright">
+                        	    <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
+                            </div>
+                             
+                        </div> <!-- div navigation end -->
+			
+                    </div> <!-- div content_footer end -->
+                </form>
+                
+            </div> <!-- div accordion end -->
 
         </div> <!-- div content_middle end -->
 
-    </div> <!-- div content end -->
+     </div> <!-- div content end -->
