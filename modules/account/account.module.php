@@ -130,7 +130,64 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
      * Login
      */
-    public function login($param_array, $smarty = null)
+    public function login($param_array, &$smarty = null)
+    {
+        #var_dump($smarty);
+
+        // Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
+
+        // Get Inputvariables
+        $request = parent::getInjector()->instantiate('httprequest');
+        # from $_POST
+        $nick        = $request->getParameter('nickname');
+        $email       = $request->getParameter('email');
+        $password    = $request->getParameter('password');
+        $remember_me = $request->getParameter('remember_me');
+        $submit      = $request->getParameter('submit');
+        # from $_GET
+        $referer     = $request->getParameter('referer');
+
+        // Set Error Array
+        $error = array();
+
+        $config = parent::getInjector()->instantiate('Clansuite_Config');
+
+        // Determine the Login method
+        if( $config['login']['login_method'] == 'nick' )
+        {
+            $value = $nick;
+        }
+        elseif( $config['login']['login_method'] == 'email' )
+        {
+            $value = $email;
+        }
+
+        // get user class
+        $user = parent::getInjector()->instantiate('Clansuite_User');
+
+        // Login Form / User Center
+        if ( $_SESSION['user']['user_id'] == 0 )
+        {
+            // Assing vars & output template
+            $smarty->assign('cfg', $config);
+            $smarty->assign('err', $error);
+            $smarty->assign('referer', $referer);
+            return $smarty->fetch('account/login.tpl');
+        }
+        else
+        {
+            //  Show usercenter
+            #var_dump($smarty);
+            $this->setTemplate('usercenter.tpl');
+            return $this->getTemplateName();//$smarty->fetch('account/usercenter.tpl');
+        }
+    }
+    
+    /**
+     * Login
+     */
+    public function action_login($param_array, $smarty = null)
     {
         #var_dump($smarty);
 
@@ -154,12 +211,11 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         $config = parent::getInjector()->instantiate('Clansuite_Config');
 
         // Determine the Login method
-        if( $config->login_method == 'nick' )
+        if( $config['login']['login_method'] == 'nick' )
         {
             $value = $nick;
         }
-
-        if( $config->login_method == 'email' )
+        elseif( $config['login']['login_method'] == 'email' )
         {
             $value = $email;
         }
@@ -170,15 +226,21 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Perform checks on Inputvariables & Form filled?
         if ( isset($value) && !empty($value) && !empty($password) )
         {
+            // ban ip
+            if ( $_SESSION['login_attempts'] > $config['login']['max_login_attempts'] )
+            {
+                $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
+            }
+                
             // check, if user_id exists
-            $user_id = $user->check_user($config->login_method, $value, $password);
+            $user_id = $user->checkUser($config['login']['login_method'], $value, $password);
 
             // proceed if true
             if ($user_id != false)
             {
                 // perform login for user_id and redirect
 
-                $user->login( $user_id, $remember_me, $password );
+                $user->loginUser( $user_id, $remember_me, $password );
 
                 #$this->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
             }
@@ -198,12 +260,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                     }
                 }
 
-                // ban ip
-                if ( $_SESSION['login_attempts'] > $config->max_login_attempts )
-                {
-                    die( $this->redirect('http://www.clansuite.com', 'metatag|newsite', 5 , $lang->t('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config->login_ban_minutes.'</b>' ) );
-                }
-
                 // Error Variables
                 $error['mismatch'] = 1;
                 $error['login_attempts'] = $_SESSION['login_attempts'];
@@ -215,6 +271,9 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             { $error['not_filled'] = 1; }
         }
 
+        # Get Render Engine
+        $smarty = $this->getView();
+        
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
@@ -222,14 +281,17 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('cfg', $config);
             $smarty->assign('err', $error);
             $smarty->assign('referer', $referer);
-            return $smarty->fetch('account/login.tpl');
+            //return $smarty->fetch('login.tpl');
         }
         else
         {
             //  Show usercenter
             #var_dump($smarty);
-            return $smarty->fetch('account/usercenter.tpl');
+            $this->setTemplate('usercenter.tpl');
         }
+
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
     /**
@@ -250,14 +312,14 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=lougout');
+        trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=logout');
         
         // Get Inputvariables
         $request = parent::getInjector()->instantiate('httprequest');
         // $_POST
         $confirm = (int) $request->getParameter('confirm');
 
-        if( $confirm == '1' )
+        if( $confirm == 1 )
         {
             // Destroy the session
             session_destroy(session_id());
@@ -267,7 +329,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         	setcookie('password', false );
 
             // Redirect
-            $this->redirect( 'index.php', 'metatag|newsite', 3, _( 'You have successfully logged out...') );
+            $this->redirect( 'index.php', 3, 200, _( 'You have successfully logged out...') );
         }
         else
         {           

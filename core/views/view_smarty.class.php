@@ -436,7 +436,7 @@ class view_smarty extends renderer_base
      * @static
      * @access public
      */
-    public static function loadModule($params, $smarty)
+    public static function loadModule($params, &$smarty)
     {
         # Debug: Show Parameters for requested Module
         #var_dump($params);
@@ -475,7 +475,7 @@ class view_smarty extends renderer_base
 
         # Instantiate Class
         $controller = new $module_name();
-
+        
         # Parameter Array
         if( empty($params['params']) )
         {
@@ -494,7 +494,7 @@ class view_smarty extends renderer_base
         #$inner_html = call_user_func_array( array($controller, $action), $param_array );
         # fast
         $inner_html = $controller->$action($param_array, $smarty);
-
+        var_dump($inner_html);
         # @todo: Fix this ECHO?! , because it breaks MVC.
         # a) return this via response object
         # b) we're pulling php from templates (there is no other way!)

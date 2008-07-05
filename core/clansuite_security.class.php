@@ -54,8 +54,17 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @category    core
  * @subpackage  security
  */
-class security
+class Clansuite_Security
 {
+    private $_config = null;
+    
+    /**
+    * @desc Init Class
+    */
+    function __construct( Clansuite_Config $config )
+    {
+        $this->_config = $config;
+    }
     /**
      * This functions takes a clear (password) string and prefixes a random string called
      * "salt" to it. The new combined "salt+password" string is then passed to the hashing
@@ -72,18 +81,29 @@ class security
      * @return $hash is an array, containing ['salt'] and ['hash']
      * @access public
      */
-    public function build_salted_hash( $hash_algo, $string = '' )
+    public function build_salted_hash( $string = '', $hash_algo = false)
     {
+        if( !$hash_algo )
+        {
+            $hash_algo = $this->_config['login']['encryption'];   
+        }
         # set up the array
         $salted_hash_array = array();
         # generate the salt with fixed length 6 and place it into the array
-        $salted_hash_array['salt'] = $this->generate_salt(6);
+        if( isset( $this->_config['login']['salt'] ) )
+        {
+            $salted_hash_array['salt'] = $config['login']['salt'];
+        }
+        else
+        {
+            $salted_hash_array['salt'] = $this->generate_salt(6);
+        }
         # combine salt and string
         $salted_string =  $salted_hash_array['salt'] . $string;
         # generate hash from "salt+string" and place it into the array
         $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
         # return array with elements ['salt'], ['hash']
-        return $salted_hash_array;
+        return $salted_hash_array['hash'];
     }
 
     /**

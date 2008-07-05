@@ -163,7 +163,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
-
+        #session_id();
         if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
@@ -177,7 +177,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $_SESSION['token'] = $token;
             $_SESSION['token_time'] = time();
         }
-
+        
         # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
 
         if (!$this->_session_check_security() )
@@ -460,6 +460,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          *  CHECK whether session is EXPIRED
          */
+
         if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) )
         #AND $_SESSION['user']['user_id'] != 0 )
         {
@@ -478,7 +479,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                 #$this->response->redirect('index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
 
                 $this->response->redirect('index.php?mod=account&action=login', 0, '302' );
+                
             }
+            
         }
 
         /**
