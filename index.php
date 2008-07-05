@@ -47,8 +47,6 @@
 # Define security constant
 define('IN_CS', true);
 
-# Setup XDebug
-define ('XDBUG', 0); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 /**
  *  ==========================================
@@ -62,6 +60,10 @@ if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installat
 # requires configuration & gets a config to work with
 require 'core/clansuite_config.class.php';
 $config = Clansuite_Config::readConfig('clansuite.config.php'); #clansuite_xdebug::printR($config);
+
+# Setup XDebug
+define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+
 # initialize constants / errorhandling / ini_sets / paths
 require 'core/clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
@@ -80,7 +82,7 @@ $injector = new Phemto();
 # core classes to load
 $core_classes = array(
 'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager',
-'db', 'clansuite_doctrine','localization', 'security', 'input', 'functions', 'statistic'
+'db', 'clansuite_doctrine','localization', 'Clansuite_Security', 'input', 'functions', 'statistic'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
@@ -135,4 +137,5 @@ $clansuite->processRequest($request, $response);
 
 # Stop debugging and show debugging infos.
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
+
 ?>

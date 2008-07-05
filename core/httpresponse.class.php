@@ -306,7 +306,7 @@ class HTTPResponse implements Clansuite_Response_Interface
      * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect($url, $time = 0, $statusCode = 302)
+    public function redirect($url, $time = 0, $statusCode = 302, $text='')
     {
         # redirect only, if headers are NOT already send
         if (!headers_sent($filename, $linenum))
@@ -315,14 +315,14 @@ class HTTPResponse implements Clansuite_Response_Interface
             $redirect_html  = '';
             $redirect_html  = '<html><head>';
             $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-            $redirect_html .= '</head></html>';
+            $redirect_html .= '</head><body>' . $text . '</body></html>';
 
             # redirect to ...
             $this->setStatusCode($statusCode);
-            $this->addHeader('Location', $url);
+            # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
             $this->flush();
-
+            exit;
             # event log
         }
         else # headers already send!

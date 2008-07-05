@@ -60,7 +60,7 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
 # Debug-Mode is set via config
 define('DEBUG', $config['error']['debug']);
 # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-if ( defined('DEBUG') && DEBUG===1 )
+if ( defined('DEBUG') && DEBUG==1 )
 {
     ini_set('display_startup_errors', true);
     ini_set('display_errors', true);    # display errors in the browser

@@ -1008,7 +1008,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'eb24252e8d45a0fa87187cd6eb2652b2','user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:12:\"passwordhash\";s:40:\"d1ca11799e222d429424d47b424047002ea72d44\";s:5:\"email\";s:21:\"support@clansuite.com\";s:4:\"nick\";s:5:\"admin\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;s:1:\"3\";}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1210859973,1,'sessionstart');
+INSERT INTO `cs_session` VALUES (1,'014f69215d8ffdd83c6a55ec262e00f0','initiated|b:1;token|s:32:\"a99ef312fa415586aff31dbbd0598770\";token_time|i:1215231494;client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9) Gecko/2008052906 Firefox/3.0\";client_host|s:10:\"powertower\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:12:\"passwordhash\";s:40:\"d033e22ae348aeb5660fc2140aec35850c4da997\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;s:1:\"3\";}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1215234959,1,'sessionstart');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1191,7 +1191,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1203,4 +1203,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d1ca11799e222d
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-05-15 13:29:47
+-- Dump completed on 2008-07-05  4:48:20

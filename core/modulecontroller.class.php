@@ -313,10 +313,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public function getTemplateName()
     {
         # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->template))
-        {
-            $this->constructTemplateName();
-        }
+        $this->constructTemplateName();
         return $this->template;
     }
 
@@ -346,14 +343,38 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         $subModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
         #echo 'SubModuleName : '.$subModuleName.'<br>';
-
-        if(strlen($subModuleName) > 0)
+        if( empty($this->template) )
         {
-            $template = $moduleName.DS.$subModuleName.'_'.$actionName.'.tpl';
+            if(strlen($subModuleName) > 0)
+            {
+                if( $actionName )
+                {
+                    $template = $moduleName.DS.$subModuleName.'_'.$actionName.'.tpl';
+                }
+                else
+                {
+                    $template = $moduleName.'.tpl';
+                }
+            }
+            else
+            {
+                if( $actionName )
+                {
+                    $template = $moduleName.DS.$actionName.'.tpl';
+                }
+                else
+                {
+                    $template = $moduleName.'.tpl';
+                }
+            }
+        }
+        elseif( !strpos($this->template, DS) )
+        {
+            $template = $moduleName.DS.$this->template;
         }
         else
         {
-            $template = $moduleName.DS.$actionName.'.tpl';
+            $template = $this->template;   
         }
         #echo 'TPL Name : '.$template.'<br>';
                 
@@ -429,9 +450,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect($url, $time = 0, $statusCode = 302)
+    public function redirect($url, $time = 0, $statusCode = 302, $msg)
     {
-        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode);       
+        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode, $msg);       
     }
 }
 ?>
