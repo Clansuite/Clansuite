@@ -146,17 +146,31 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public function getModuleController(httprequest $request)
     {
-        # ModuleName is either the requested modulename or the defaultModule
-        $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->_defaultModule;
+        # ModuleName is either the requested modulename or the defaultModule or a set module name
+        if( isset(self::$_ModuleName) )
+        {
+            $module_name = self::getModuleName();
+        }
+        else
+        {
+            $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->_defaultModule;
+        }
        
         # When SubModulName exists, attached to the ModuleName
         if(strlen($module_name) > 0 && isset($request['sub']) && !empty($request['sub']))
         {
             # get SubModuleName from Request
-            $submodule_name = $request->getParameter('sub');
+            if( isset(self::$_SubModuleName) )
+            {
+                $submodule_name = self::getSubModuleName();
+            }
+            else
+            {
+                $submodule_name = $request->getParameter('sub');
+            }
             
             # Set the modulename as public static class variables
-            $this->setSubModuleName($submodule_name);
+            self::setSubModuleName($submodule_name);
 
             # SubModulName is attached to the ModuleName
             $module_name .= '_'. $submodule_name;
@@ -168,6 +182,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         {
             # Set the module name
             $required_modulename = $module_name;
+            #var_dump($module_name);
         }
         else
         {
@@ -175,6 +190,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             
             # Trigger a error to show, that the required module does not exist
             trigger_error('Module does not exist: ' . $module_name);
+            #die(var_dump($module_name));
             exit();
             
             # Load Default Module as Fallback (require), because the requested module may not exist!
@@ -242,7 +258,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      *
      * @access private
      */
-    private static function setModuleName($moduleName)
+    public static function setModuleName($moduleName)
     {
         self::$_ModuleName = (string) $moduleName;
     }
@@ -390,10 +406,10 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
 
         # 3)
         $moduleController->setInjector($this->injector);
-
+            
         # 4)
         $moduleController->execute($request, $response);
-
+            
         # 5)
         $this->post_filtermanager->processFilters($request, $response);
 
