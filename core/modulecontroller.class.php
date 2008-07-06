@@ -120,7 +120,6 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         # a) as a static var
         # b) as a dynamic var
     	self::$static_injector = $this->injector = $injector;
-
     	# fetch config from dependency injector
     	$this->config = $this->injector->instantiate('Clansuite_Config');
     }
@@ -171,7 +170,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         # get submodule parameter from URL
         $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-
+        
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
         $methodname = 'action';
@@ -203,15 +202,15 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
 
         # handle method!
-
+        
         if(method_exists($this,$methodname))
         {
             # call the method !
-            $this->{$methodname}();
+            $this->{$methodname}(); 
         }
         else
         {
-            trigger_error('Action does not exist: ' . $methodname);
+            trigger_error('Action does not exist: ' . $methodname); 
             exit();
         }
     }
@@ -404,7 +403,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         # 2) get the view
         $view = $this->getView();
-
+        
         # 3) get the layout
         $view->getLayoutTemplate();
 

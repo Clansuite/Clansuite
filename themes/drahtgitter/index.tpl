@@ -38,7 +38,8 @@
     </td>
     <td valign="top">
         <div style="margin-top: 10px">
-           {load_module name="account" action="login"}        
+           {$cs->loadModule("account")}
+           {$account->login()}
         </div>
         </td>
 </tr>

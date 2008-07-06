@@ -436,7 +436,7 @@ class view_smarty extends renderer_base
      * @static
      * @access public
      */
-    public static function loadModule($params, &$smarty)
+    public function loadModule($module_name)
     {
         # Debug: Show Parameters for requested Module
         #var_dump($params);
@@ -445,6 +445,7 @@ class view_smarty extends renderer_base
          *  Init incomming Variables
          *  @todo: find an easier way to do this..
          */
+         /*
         $params['name']     = isset( $params['name'] ) ? $params['name'] : '';
         $params['sub']      = isset( $params['sub'] ) ? $params['sub'] : '';
         $params['params']   = isset( $params['params'] ) ? $params['params'] : '';
@@ -466,17 +467,35 @@ class view_smarty extends renderer_base
 
         // Debug: Display the Modulename
         #echo $module_name;
-
+        */
         # Load class, if not already loaded
-        if (!class_exists($module_name))
-        {
-            clansuite_loader::loadModul($module_name);
-        }
-
+        # if (!class_exists('Module_'.ucfirst($module_name)))
+        #{
+        
+            #clansuite_loader::loadModul($module_name);
+        #}
+        
+        $this->injector->register('HTTPRequest');
+        $this->injector->register('Clansuite_ModuleController_Resolver');
+        $request = $this->injector->instantiate('HTTPRequest');
+        $mcr = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
+        $mcr->setModuleName($module_name);
+        $mcr->getModuleName();
+        $mod = $mcr->getModuleController($request);
+        $mod->setRenderEngine('smarty_clean');
+        $mod->setInjector($this->injector);
+        $this->smarty->assign_by_ref($module_name, $mod);
+        
+        #$mod->execute($request);
+        #var_dump($mod);
         # Instantiate Class
-        $controller = new $module_name();
+        //$this->injector->register('Module_'.ucfirst($module_name));
+        //$controller = $this->injector->instantiate('Module_'.ucfirst($module_name));
+        //$controller->injector = $this->injector;
+        #$controller->setView('smarty_clean');
         
         # Parameter Array
+        /*
         if( empty($params['params']) )
         {
             $param_array = null;
@@ -485,6 +504,8 @@ class view_smarty extends renderer_base
         {
             $param_array = split('\|', $params['params']);
         }
+        */
+        
 
         #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
         #exit;
@@ -493,14 +514,14 @@ class view_smarty extends renderer_base
         # slow
         #$inner_html = call_user_func_array( array($controller, $action), $param_array );
         # fast
-        $inner_html = $controller->$action($param_array, $smarty);
-        var_dump($inner_html);
+        # $inner_html = $controller->$action($param_array, $smarty);
+        //var_dump($inner_html);
         # @todo: Fix this ECHO?! , because it breaks MVC.
         # a) return this via response object
         # b) we're pulling php from templates (there is no other way!)
         # c) we're directly writing the output (maybe consider a composite tree for the view??)
         # var_dump($inner_html);
-        echo $inner_html;
+        # echo $inner_html;
     }
 
     /**
@@ -520,11 +541,12 @@ class view_smarty extends renderer_base
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
         #var_dump($_SESSION);
-
+         
         $this->assignConstants();
-
+        
         # Module Loading {loadModule }
-        $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
+        $this->smarty->assign_by_ref('cs', $this);
+        # $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
         # Error Block {error level="1" title="Error"}
         $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
@@ -550,7 +572,7 @@ class view_smarty extends renderer_base
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
         #exit;
-
+        
         return $this->smarty->fetchDOC($this->getLayoutTemplate());
     }
 }

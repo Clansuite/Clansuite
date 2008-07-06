@@ -48,91 +48,27 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
      * Module_Admin -> Execute
      */
     public function execute(httprequest $request, httpresponse $response)
-    {
+    {    
         # proceed to the requested action
-        $this->processActionController($request);
+        $this->processActionController($request);   
         # read module config
         #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
     }
 
     /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
-    */
-
-    function auto_run()
-    {
-        global $lang, $trail;
-
-        switch ($_REQUEST['action'])
-        {
-            // Login
-            case 'login':
-                $trail->addStep($lang->t('Login'), '/index.php?mod=account&amp;action=login');
-                $this->login();
-                break;
-
-            // Logout
-            case 'logout':
-                $trail->addStep($lang->t('Logout'), '/index.php?mod=account&amp;action=logout');
-                $this->logout();
-                break;
-
-            // Registration
-            case 'register':
-                $trail->addStep($lang->t('Registration'), '/index.php?mod=account&amp;action=registration');
-                $this->register();
-                break;
-
-            // Activate Account
-            case 'activate_account':
-                $trail->addStep($lang->t('Activate account'), '/index.php?mod=account&amp;action=activate_account');
-                $this->activate_account();
-                break;
-
-            // Send Activation Email
-            case 'activation_email':
-                $trail->addStep($lang->t('Resend activation email'), '/index.php?mod=account&amp;action=activation_email');
-                $this->activation_email();
-                break;
-
-            // Forgot Password
-            case 'forgot_password':
-                $trail->addStep($lang->t('Forgot Password'), '/index.php?mod=account&amp;action=forgot_password');
-                $this->forgot_password();
-                break;
-
-            // Activate Password
-            case 'activate_password':
-                $trail->addStep($lang->t('Activate Password'), '/index.php?mod=account&amp;action=activate_password');
-                $this->activate_password();
-                break;
-
-            // Default Action: if authed present logout, else login
-            default:
-                if ( $_SESSION['user']['authed'] == 1 )
-                {
-                    $this->logout();
-                }
-                else
-                {
-                    $this->login();
-                }
-                break;
-        }
-
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
-    }
-
-    /**
      * Login
      */
-    public function login($param_array, &$smarty = null)
+    public function login()
     {
+        
+        #var_dump($this->getView());
+        #$this->setRenderEngine('smarty_clean');
+        
+        #var_dump($this->injector);
         #var_dump($smarty);
+        # var_dump($this->getView());
+        # Get Render Engine
+        $smarty = $this->getView();
 
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
@@ -173,14 +109,19 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('cfg', $config);
             $smarty->assign('err', $error);
             $smarty->assign('referer', $referer);
-            return $smarty->fetch('account/login.tpl');
+            $this->setTemplate('login.tpl');          
+            $this->prepareOutput();
         }
         else
         {
             //  Show usercenter
             #var_dump($smarty);
             $this->setTemplate('usercenter.tpl');
-            return $this->getTemplateName();//$smarty->fetch('account/usercenter.tpl');
+            #echo 'test';
+            //$view = $this->getView();
+            
+            $this->prepareOutput();#$this->prepareOutput();
+            //return $smarty->fetch('account/usercenter.tpl');
         }
     }
     
@@ -189,6 +130,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
      */
     public function action_login($param_array, $smarty = null)
     {
+         
         #var_dump($smarty);
 
         // Set Pagetitle and Breadcrumbs
