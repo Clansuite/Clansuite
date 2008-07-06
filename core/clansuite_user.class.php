@@ -494,7 +494,7 @@ class Clansuite_User
             setcookie('user_id', $user_id, time() + round($this->_config['login']['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password',$this->security->build_salted_hash( $password ), time() + round($this->_config['login']['remember_me_time']*24*60*60));
+            setcookie('password',$this->_security->build_salted_hash( $password ), time() + round($this->_config['login']['remember_me_time']*24*60*60));
         }
 
         /**
@@ -528,7 +528,7 @@ class Clansuite_User
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
             $this->_user = Doctrine_Query::create()
-                                ->select('user_id,password')
+                                ->select('user_id,passwordhash')
                                 ->from('CsUsers')
                                 ->where('user_id = ?')
                                 ->fetchOne(array((int)$_COOKIE['user_id']), Doctrine::FETCH_ARRAY);
