@@ -85,6 +85,10 @@ class clansuite_xdebug
             ini_set('xdebug.xdebug.collect_return', 'On');
             ini_set('xdebug.var_display_max_children', 100 );
             ini_set('xdebug.var_display_max_depth', 10 );
+            ini_set('xdebug.dump.GET', '*' );
+            ini_set('xdebug.dump.POST', '*' );
+            ini_set('xdebug.dump.COOKIE', '*' );
+            ini_set('xdebug.dump.SESSION', '*' );
 
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
@@ -102,15 +106,15 @@ class clansuite_xdebug
     public static function end_xdebug()
     {
         # get page parsing time from xdebug
-        self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds.';
-        self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB.';
-        self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB. <br /><br />';
-
+        self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
+        self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
+        self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
+        self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. xdebug_stop_trace();
         echo self::$_xdebug_memory_before;
 
-        # stop tracings and var_dump
-        var_dump(xdebug_stop_trace());
-        var_dump(xdebug_get_code_coverage());
+        # stop tracings and var_dump       
+        xdebug_dump_superglobals();
+        # var_dump(xdebug_get_code_coverage());
     }
 
     /**
