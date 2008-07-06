@@ -258,17 +258,18 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         
         // Get Inputvariables
         $request = parent::getInjector()->instantiate('httprequest');
+       
         // $_POST
         $confirm = (int) $request->getParameter('confirm');
 
+        // User instance
+        $user = $this->injector->instantiate('Clansuite_User');
+        
+        
         if( $confirm == 1 )
         {
-            // Destroy the session
-            session_destroy(session_id());
-
-            // Delete cookies
-            setcookie('user_id', false );
-        	setcookie('password', false );
+            // Logout the user
+            $user->logoutUser();
 
             // Redirect
             $this->redirect( 'index.php', 3, 200, _( 'You have successfully logged out...') );

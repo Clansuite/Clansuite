@@ -513,6 +513,20 @@ class Clansuite_User
          * @todo stats update after login?
          */
     }
+    
+    /**
+    * @desc Logout a user
+    * @return boolean
+    */
+    public function logoutUser()
+    {
+        // Destroy the session
+        session_regenerate_id(true);
+        
+        // Delete cookies
+        setcookie('user_id', false );
+        setcookie('password', false );
+    }
 
     /**
      * Checks if a login cookie is set
