@@ -598,12 +598,12 @@ class view_smarty extends renderer_base
 
         if( $this->getRenderMode() !== 'WRAPPED' ) # without wrapper
         {
-            #echo 'Smarty is rendering the following Template as NON WRAPPED : '.$template;
+            #echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
             echo $modulecontent;
         }
         else # with wrapper
         {
-            #echo 'Smarty is rendering the following Template as WRAPPED : '.$template;
+            #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
             $this->smarty->assign('content',  $modulecontent );
             return $this->smarty->fetchDOC($this->getLayoutTemplate());
         }
