@@ -139,7 +139,7 @@ class localization
 		}
 		else
 		{
-		  $domain_directory = ROOT_MOD .'/'. $moduleBaseDir . '/languages'; # set baseDir/languages
+		  $domain_directory = ROOT_MOD . $moduleBaseDir . '/languages'; # set baseDir/languages
 		}
         # Set the Domain
         T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
