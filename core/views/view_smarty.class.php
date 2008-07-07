@@ -66,6 +66,8 @@ class view_smarty extends renderer_base
 
     protected $injector   = null;
 
+    public $renderMode = null;
+
     /**
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
@@ -334,6 +336,8 @@ class view_smarty extends renderer_base
     {
        $template = $this->getTemplatePath($template);
 
+       #echo 'Template in view_smarty->display() : '.$template . '<br>';
+
        $this->smarty->display($template, $data = null);
     }
 
@@ -423,18 +427,26 @@ class view_smarty extends renderer_base
     }
 
     /**
+     * Instantiates Module and assigns_by_reference
      *
      */
     public function loadModule_xsign($module_name)
     {
-        $request = $this->injector->instantiate('HTTPRequest');
-        $mcr     = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
-        $mcr->setModuleName($module_name);
+        $this->injector->register('httprequest');
+        $this->injector->register('Clansuite_ModuleController_Resolver');
 
-        $mod = $mcr->getModuleController($request);
-        $mod->setRenderEngine('smarty_clean');
-        $mod->setInjector($this->injector);
-        $this->smarty->assign_by_ref($module_name, $mod);
+        $request              = $this->injector->instantiate('httprequest');
+        $modulecontroller_resolver    = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
+        $modulecontroller_resolver->setModuleName($module_name);
+
+        $module = $modulecontroller_resolver->getModuleController($request);
+
+        $module->setView($this);
+        $module->setRenderMode('NOT WRAPPED');
+
+        $module->setInjector($this->injector);
+
+        $this->smarty->assign_by_ref($module_name, $module);
     }
 
     /**
@@ -460,7 +472,7 @@ class view_smarty extends renderer_base
          *  Init incomming Variables
          *  @todo: find an easier way to do this..
          */
-        
+
         $params['name']     = isset( $params['name'] ) ? $params['name'] : '';
         $params['sub']      = isset( $params['sub'] ) ? $params['sub'] : '';
         $params['params']   = isset( $params['params'] ) ? $params['params'] : '';
@@ -482,26 +494,27 @@ class view_smarty extends renderer_base
 
         // Debug: Display the Modulename
         #echo $module_name;
-     
+
         # Load class, if not already loaded
         if (!class_exists(ucfirst($module_name)))
         {
-        
+
             clansuite_loader::loadModul($module_name);
-        }        
-                
+        }
+
         #$mod->execute($request);
         #var_dump($mod);
         # Instantiate Class
-        $controller = new $module_name;        
-        
+        $controller = new $module_name;
+        #$controller->setInjector($smarty->injector);
+
         //$this->injector->register('Module_'.ucfirst($module_name));
         //$controller = $this->injector->instantiate('Module_'.ucfirst($module_name));
-        //$controller->injector = $this->injector;
+        //
         #$controller->setView('smarty_clean');
-        
+
         # Parameter Array
-       
+
         if( empty($params['params']) )
         {
             $param_array = null;
@@ -510,7 +523,7 @@ class view_smarty extends renderer_base
         {
             $param_array = split('\|', $params['params']);
         }
-        
+
         #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
         #exit;
 
@@ -525,6 +538,20 @@ class view_smarty extends renderer_base
         # c) we're directly writing the output (maybe consider a composite tree for the view??)
         # var_dump($inner_html);
         echo $inner_html;
+    }
+
+    public function setRenderMode($mode)
+    {
+        $this->renderMode = $mode;
+    }
+
+    public function getRenderMode()
+    {
+        if(empty($this->renderMode))
+        {
+            $this->renderMode = 'WRAPPED';
+        }
+        return $this->renderMode;
     }
 
     /**
@@ -544,11 +571,11 @@ class view_smarty extends renderer_base
         #echo 'Rendering via Smarty:<br />';
         #var_dump($this->smarty);
         #var_dump($_SESSION);
-         
+
         $this->assignConstants();
-        
+
         # Module Loading {loadModule }
-        #$this->smarty->assign_by_ref('cs', $this);
+        $this->smarty->assign_by_ref('cs', $this);
         $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
         # Error Block {error level="1" title="Error"}
         $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
@@ -557,26 +584,39 @@ class view_smarty extends renderer_base
         #$this->smarty->display($this->module->template);
 
         /**
-         * Fetch the Template of the module and
-         * Assign it to the Layout Template as $content
+         * Fetch the Template of the module
+         * and
+         * 1) echo it directly
+         * 2) Assign it to the Layout Template as $content
          *
          * Debugging Hint:
          * Change Fetch to DisplayDOC to get an echo of the pure ModuleContent
          * else var_dump the fetch!
          */
-        #echo $template; exit;
 
-        $modulcontent =  $this->fetch($template);
+        $modulecontent =  $this->fetch($template);
+
+        if( $this->getRenderMode() !== 'WRAPPED' ) # without wrapper
+        {
+            #echo 'Smarty is rendering the following Template as NON WRAPPED : '.$template;
+            echo $modulecontent;
+        }
+        else # with wrapper
+        {
+            #echo 'Smarty is rendering the following Template as WRAPPED : '.$template;
+            $this->smarty->assign('content',  $modulecontent );
+            return $this->smarty->fetchDOC($this->getLayoutTemplate());
+        }
+
+        /**
+         * Often used Debugging Stuff - leave it :D
+         */
         #var_dump($modulcontent);
-        $this->smarty->assign('content',  $modulcontent );
-
         #DEBUG ? $debug->show_console() : '';
         #var_dump($this->config['template']['tpl_wrapper_file']);
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
         #exit;
-        
-        return $this->smarty->fetchDOC($this->getLayoutTemplate());
     }
 }
 ?>
