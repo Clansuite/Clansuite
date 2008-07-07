@@ -17,6 +17,6 @@
 */
 function smarty_prefilter_inserttplnames( $tpl_source, &$compiler )
 {
-    return "\n<!-- _________/  Start of {\$smarty.template}  \_________ -->\n".$tpl_source."\n<!--  ¯¯¯¯¯¯¯¯¯\  End of {\$smarty.template}  /¯¯¯¯¯¯¯¯¯ -->\n";
+    return "\n<!-- _________/  Start of {\$smarty.template}  \_________ -->\n".$tpl_source."\n<!--  \_________  End of {\$smarty.template}  _________/ -->\n";
 }
 ?>
