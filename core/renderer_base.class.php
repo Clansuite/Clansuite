@@ -208,7 +208,7 @@ abstract class renderer_base
 
         # Method 1: get module/action names (we dont have action controller resolver yet)
         # Leave this!
-        # $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
+        $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
         # $actionName = Clansuite_ActionController_Resolver::getActionName(); ???
         /*
          if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
@@ -220,16 +220,16 @@ abstract class renderer_base
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
-        $template = substr_replace($template, DS. 'templates', strpos($template,DS), 0);
+        $template = substr_replace($template, 'templates'.DS , strpos($template,DS), 0);
 
         # Check, if template exists in module folder / templates
         if(is_file( ROOT_MOD . $template ))
         {
             $modulepath = ROOT_MOD . $template;
         }
-        elseif (is_file( ROOT_MOD . $moduleName . $template))
+        elseif (is_file( ROOT_MOD . $moduleName .DS. $template))
         {
-            $modulepath = ROOT_MOD . $moduleName . $template;
+            $modulepath = ROOT_MOD . $moduleName .DS. $template;
         }
         else
         {
