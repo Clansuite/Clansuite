@@ -74,12 +74,12 @@ catch (Exception $e)
     exit($e);
 }
 
-// Get site paths
-define ('CS_ROOT', getcwd() . DIRECTORY_SEPARATOR);
-define ('WWW_ROOT', realpath(dirname(__FILE__)."/../"));
+// ROOT Path
+define ('DS', DIRECTORY_SEPARATOR);
+define ('ROOT', getcwd() . DIRECTORY_SEPARATOR);
 
 // The Clansuite version this script installs
-$cs_version = '0.1';
+require( ROOT . '../core/clansuite.version.php');
 
 // Define $error
 $error = '';
@@ -88,18 +88,22 @@ $error = '';
 #var_dump($_POST);
 
 // in case clansuite.config.php exists, exit -> can be configured from backend then
-/*if (is_file( WWW_ROOT . 'clansuite.config.php'))
+if (is_file( ROOT . '../clansuite.config.php' ))
 {
-    exit('The file \'clansuite.config.php\' already exists which would mean that <strong>Clansuite</strong> '. $cs_version . ' is already installed.
-          <br /> You should visit your <a href="../index.php">site (FRONTEND)</a> or it\'s <a href="../index.php?mod=admin">admin-control-panel (ACP)</a> instead.');
-}*/
+    exit('The file <strong>../clansuite.config.php</strong> already exists! This indicates that
+          <strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
+          <br /> You should visit your websites <a href="../index.php">frontend</a> 
+          or it\'s  <a href="../index.php?mod=admin">admin-control-panel</a> instead.');
+}
 
 /**
- * Suppress Errors
+ * Suppress Errors and use E_STRICT when Debugging
  * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
- * so we use e_all ... this is just an installer btw :)
+ * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
-error_reporting(E_ALL);
+ini_set('display_startup_errors', false);
+ini_set('display_errors', false);
+error_reporting(0);
 
 #================
 #     OUTPUT
@@ -158,16 +162,16 @@ else
 
 # Language Include
 try
-{
-    if (is_file (CS_ROOT . '/languages/'. $lang .'.install.php'))
+{ 
+    if (is_file (ROOT . 'languages'. DS . $lang .'.install.php'))
     {
-        require_once CS_ROOT . '/languages/'. $lang .'.install.php';
+        require_once ROOT . 'languages'. DS . $lang .'.install.php';
         $language = new language;
         $_SESSION['lang'] = $lang;
     }
     else
     {
-        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . CS_ROOT . $lang . '.install.php</strong>.</span>');
+        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . ROOT . $lang . '.install.php</strong>.</span>');
     }
 }
 catch (Exception $e)
@@ -251,7 +255,7 @@ if( isset($_POST['step_forward']) AND $step == 6 )
         isset($_POST['config']['email']['from']) AND
         isset($_POST['config']['language']['timezone']) )
     {
-        # A)  Write Settings to clansuite.config.php
+        # write Settings to clansuite.config.php
         if( !write_config_settings($_POST['config']))
         {
             $step = 5;
@@ -536,8 +540,8 @@ function write_config_settings($data_array)
     #var_dump($data_array);
 
     # Write Config File to ROOT Directory
-    #print WWW_ROOT . 'clansuite.config.php';
-    if ( false == Clansuite_Config::writeConfig( WWW_ROOT . 'clansuite.config.php', $data_array) )
+    #print ROOT . '..'. DS .'clansuite.config.php';
+    if ( false == Clansuite_Config::writeConfig( ROOT . '..'. DS .'clansuite.config.php', $data_array) )
     {
         return false;
     }
