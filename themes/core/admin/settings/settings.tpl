@@ -32,7 +32,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}You may provide an favicon for our website:{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
+                    <input class="input_text" type="text" value="{$config.template.favicon}" name="config[template][favicon]" />
                     <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
                 </td>
             </tr>
