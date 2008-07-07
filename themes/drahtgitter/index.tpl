@@ -3,7 +3,7 @@
 {doc_raw}
 {* everything in doc_raw is moved "as is" to header *}
 <!-- Clip -->
-<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>  
+<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 <!-- Favicon -->
 <link rel="shortcut icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" />
 <link rel="icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" type="image/gif" />
@@ -38,18 +38,18 @@
     </td>
     <td valign="top">
         <div style="margin-top: 10px">
-           {$cs->loadModule("account")}
+           {$cs->loadModule_xsign("account")}
            {$account->login()}
+        {*
+        {load_module name="account" action="login"}
+        {load_module name="shoutbox" action="show"}*}
         </div>
         </td>
 </tr>
 <tr>
     <td valign="top"><strong>Themes</strong>
-        <ul>{$smarty.server|@var_dump}
-            {php}
-                $url = strstr($_SERVER['REQUEST_URI'], '?theme', true);
-            {/php}
-        
+        <ul>
+            {php} $url = strstr($_SERVER['REQUEST_URI'], '?theme', true); {/php}
             <li><a href="{$www_root}{php} echo $url; {/php}?theme=accessible">Accessible</a></li>
             <li><a href="{$www_root}{php} echo $url; {/php}?theme=standard">standard</a></li>
         </ul>
