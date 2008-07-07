@@ -322,7 +322,7 @@ class HTTPResponse implements Clansuite_Response_Interface
             # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
             $this->flush();
-            exit;
+
             # event log
         }
         else # headers already send!
