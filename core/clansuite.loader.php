@@ -180,7 +180,7 @@ class Clansuite_Loader
         #var_dump($modulinfos);
 
         # construct first part of filename
-        $filename = ROOT_MOD . DIRECTORY_SEPARATOR . $modulinfos['1'] . DIRECTORY_SEPARATOR;
+        $filename = ROOT_MOD . $modulinfos['1'] . DS;
 
         # if there is a part [2], we have to require a submodule filename
         if(isset($modulinfos['2']))
@@ -222,7 +222,7 @@ class Clansuite_Loader
      */
     public static function loadFilter($classname)
     {
-        $filename = ROOT . DIRECTORY_SEPARATOR . '/core/filters/' . strtolower($classname) . '.filter.php';
+        $filename = ROOT . 'core/filters/' . strtolower($classname) . '.filter.php';
         #echo '<br>loaded Filter-Class => '. $filename;
         return self::requireFile($filename);
     }
