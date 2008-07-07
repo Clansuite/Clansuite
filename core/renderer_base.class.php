@@ -227,13 +227,13 @@ abstract class renderer_base
         $template = str_replace("\\\\", "\\",  $template);	        
         
         # Check, if template exists in module folder / templates
-        if(is_file( ROOT_MOD .DS. $template ))
+        if(is_file( ROOT_MOD . $template ))
         {
-            $modulepath = ROOT_MOD .DS. $template;
+            $modulepath = ROOT_MOD . $template;
         }
-        elseif (is_file( ROOT_MOD . $moduleName .DS. $template))
+        elseif (is_file( ROOT_MOD . $moduleName . $template))
         {
-            $modulepath = ROOT_MOD . $moduleName .DS. $template;
+            $modulepath = ROOT_MOD . $moduleName . $template;
         }
         else
         {
