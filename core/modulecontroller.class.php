@@ -385,6 +385,20 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $this->setTemplate($template);
     }
 
+    public function setRenderMode($mode)
+    {
+        $this->getView()->renderMode = $mode;
+    }
+
+    public function getRenderMode()
+    {
+        if(empty($this->getView()->renderMode))
+        {
+            $this->getView()->renderMode = 'WRAPPED';
+        }
+        return $this->getView()->renderMode;
+    }
+
     /**
      * controller_base::prepareRendering();
      *
@@ -410,7 +424,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $view = $this->getView();
 
         # 3) get the layout
-        $view->getLayoutTemplate();
+        #$view->getLayoutTemplate();
 
         /**
          * 4+5) Set Content on the Response Object
