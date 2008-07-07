@@ -33,7 +33,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
                <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
 
-               Verzeichnisse und +rw Rechte
+               <!-- @todo: Verzeichnisse und +rw Rechte -->
 
                          <?php
                          /**
