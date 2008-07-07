@@ -4,7 +4,7 @@
     <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <th colspan="2">{t}Login{/t}</th>
+             <td class="td_header" colspan="2">{t}Login{/t}</th>
         </tr>
         {if $cfg.login.login_method == 'email'}
         <tr>
