@@ -480,7 +480,7 @@ class view_smarty extends renderer_base
         $request = $this->injector->instantiate('HTTPRequest');
         $mcr = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
         $mcr->setModuleName($module_name);
-        $mcr->getModuleName();
+
         $mod = $mcr->getModuleController($request);
         $mod->setRenderEngine('smarty_clean');
         $mod->setInjector($this->injector);
