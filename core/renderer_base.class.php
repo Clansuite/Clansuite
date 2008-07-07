@@ -227,13 +227,17 @@ abstract class renderer_base
         {
             $modulepath = ROOT_MOD . $template;
         }
+        elseif (is_file( ROOT_MOD . $moduleName . $template))
+        {
+            $modulepath = ROOT_MOD . $moduleName . $template;
+        }
         else
         {
             # NOT EXISTANT
             $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
         }
 
-        #print 'getModuleTemplatePath: '.$modulepath . '<br>';
+        #print 'getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
 
         return $modulepath;
     }
