@@ -45,9 +45,13 @@
 </tr>
 <tr>
     <td valign="top"><strong>Themes</strong>
-        <ul>
-            <li><a href="{$smarty.server.SCRIPT_NAME}{$smarty.server.REQUEST_URI}&theme=accessible">Accessible</a></li>
-            <li><a href="{$smarty.server.SCRIPT_NAME}{$smarty.server.REQUEST_URI}&theme=standard">standard</a></li>
+        <ul>{$smarty.server|@var_dump}
+            {php}
+                $url = strstr($_SERVER['REQUEST_URI'], '?theme', true);
+            {/php}
+        
+            <li><a href="{$www_root}{php} echo $url; {/php}?theme=accessible">Accessible</a></li>
+            <li><a href="{$www_root}{php} echo $url; {/php}?theme=standard">standard</a></li>
         </ul>
         <br />
     </td>
