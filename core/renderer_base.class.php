@@ -221,11 +221,13 @@ abstract class renderer_base
         # we insert "/templates" at the last slash
 
         $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
-        
+
+        # single slash correction
+        $template = str_replace("\\", "/",  $template);
         # get rid of double slashes
-        $template = str_replace("//", "/",  $template);		    
-        $template = str_replace("\\\\", "\\",  $template);	        
-        
+        $template = str_replace("//", "/",  $template);
+        $template = str_replace("\\\\", "\\",  $template);
+
         # Check, if template exists in module folder / templates
         if(is_file( ROOT_MOD . $template ))
         {
@@ -241,7 +243,7 @@ abstract class renderer_base
             $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
         }
 
-        #print 'getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
+        #echo 'We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
 
         return $modulepath;
     }
