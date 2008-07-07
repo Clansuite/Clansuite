@@ -168,6 +168,10 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
         {
             return strtolower($this->parameters[$name]);
         }
+        else
+        {
+            return NULL;   
+        }
     }
 
     /**
@@ -330,7 +334,7 @@ class httprequest implements Clansuite_Request_Interface, ArrayAccess
      * Handles possible Injections
      *
      * @access private
-     *
+     * @todo: deprecated
      * @return void
      */
     private function cleanup_request()
