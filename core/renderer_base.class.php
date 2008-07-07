@@ -220,12 +220,16 @@ abstract class renderer_base
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
-        $template = substr_replace($template, 'templates'.DS , strpos($template,DS), 0);
-
+        $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
+        
+        # get rid of double slashes
+        $template = str_replace("//", "/",  $template);		    
+        $template = str_replace("\\\\", "\\",  $template);	        
+        
         # Check, if template exists in module folder / templates
-        if(is_file( ROOT_MOD . $template ))
+        if(is_file( ROOT_MOD .DS. $template ))
         {
-            $modulepath = ROOT_MOD . $template;
+            $modulepath = ROOT_MOD .DS. $template;
         }
         elseif (is_file( ROOT_MOD . $moduleName .DS. $template))
         {
