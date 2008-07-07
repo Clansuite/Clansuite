@@ -170,7 +170,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         # get submodule parameter from URL
         $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-        
+
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
         $methodname = 'action';
@@ -201,16 +201,18 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             $methodname .= '_' . $this->config['defaults']['default_action'];
         }
 
+        #print $methodname;
+
         # handle method!
-        
+
         if(method_exists($this,$methodname))
         {
             # call the method !
-            $this->{$methodname}(); 
+            $this->{$methodname}();
         }
         else
         {
-            trigger_error('Action does not exist: ' . $methodname); 
+            trigger_error('Action does not exist: ' . $methodname);
             exit();
         }
     }
@@ -312,7 +314,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public function getTemplateName()
     {
         # if the templateName was not set manually, we construct it from module/action infos
-        $this->constructTemplateName();
+        if(empty($this->template))
+        {
+            $this->constructTemplateName();
+        }
         return $this->template;
     }
 
@@ -373,10 +378,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
         else
         {
-            $template = $this->template;   
+            $template = $this->template;
         }
         #echo 'TPL Name : '.$template.'<br>';
-                
+
         $this->setTemplate($template);
     }
 
@@ -403,7 +408,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         # 2) get the view
         $view = $this->getView();
-        
+
         # 3) get the layout
         $view->getLayoutTemplate();
 
@@ -449,9 +454,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $msg)
+    public function redirect($url, $time = 0, $statusCode = 302, $text)
     {
-        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode, $msg);       
+        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode, $text);
     }
 }
 ?>
