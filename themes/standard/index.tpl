@@ -125,7 +125,8 @@
 
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
-           {load_module name="account" action="login"}        
+           {$cs->loadModule_xsign("account")}
+           {$account->login()}   
         </div>
         <div style="margin-top: 10px">
 		   {* {load_module name="shoutbox" action="show"} *}
