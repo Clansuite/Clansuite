@@ -81,23 +81,12 @@ class Clansuite_Security
      * @return $hash is an array, containing ['salt'] and ['hash']
      * @access public
      */
-    public function build_salted_hash( $string = '', $hash_algo = false)
-    {
-        if( !$hash_algo )
-        {
-            $hash_algo = $this->_config['login']['encryption'];   
-        }
+    public function build_salted_hash( $string = '')
+    {      
         # set up the array
         $salted_hash_array = array();
         # generate the salt with fixed length 6 and place it into the array
-        if( isset( $this->_config['login']['salt'] ) )
-        {
-            $salted_hash_array['salt'] = $config['login']['salt'];
-        }
-        else
-        {
-            $salted_hash_array['salt'] = $this->generate_salt(6);
-        }
+        $salted_hash_array['salt'] = $this->generate_salt(6);
         # combine salt and string
         $salted_string =  $salted_hash_array['salt'] . $string;
         # generate hash from "salt+string" and place it into the array
