@@ -220,6 +220,15 @@ abstract class renderer_base
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
+        # if template was found in session theme directory
+        # return it
+        if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template ))
+        {
+            $modulepath = ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
+            return $modulepath;
+        }
+
+        # attach "/template/" to the $template string
         $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
 
         # single slash correction
