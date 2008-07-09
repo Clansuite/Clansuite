@@ -117,7 +117,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          }
 
                          # REQUIRED CHECKS
-                         # Check 1
+   
                          # Setting: PHP-Version
                          $php_version    = phpversion();
                          $compare_result = version_compare($php_version,'5.2.0','>=');
@@ -126,30 +126,26 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $required['php_version']['actual']     = $php_version;
                          $required['php_version']['status']     = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
 
-                         # Check 2
                          # Setting: Session Functions
                          $required['session_functions']['text']     = $language['SESSION_FUNCTIONS'];
                          $required['session_functions']['expected'] = 'on';
                          $required['session_functions']['actual']   = function_exists('session_start') ? 'on' : 'off';
                          $required['session_functions']['status']   = function_exists('session_start') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Check 3
                          # Setting: PDO
                          $required['pdo_library']['text']     = $language['PDO_LIBRARY'];
                          $required['pdo_library']['expected'] = 'on';
                          $required['pdo_library']['actual']   = class_exists('pdo') ? 'on' : 'off';
                          $required['pdo_library']['status']   = class_exists('pdo') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Check 4
                          # Setting: PDO MySQL
                          $required['pdo_mysql_library']['text']     = $language['PDO_MYSQL_LIBRARY'];
                          $required['pdo_mysql_library']['expected'] = 'on';
                          $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? 'on' : 'off';
                          $required['pdo_mysql_library']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
 
-                         #Checking if session.save_path is writable
+                         # Checking if session.save_path is writable
 
-                         # Check 3
                          # Setting: Database
 
                          # Checking write permission on \smarty\templates_c
@@ -159,11 +155,10 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          # Checking write permission on CONFIG-FILE
 
 
-                         # Check 3
                          # Setting:
 
                          # RECOMMENDED CHECKS
-                         # Check 1
+
                          # Setting: PHP memory limit
                          $memory_limit = ini_get('memory_limit');
                          $recommended['php_memory_limit']['text']       = $language['PHP_MEMORY_LIMIT'];
@@ -171,76 +166,77 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
                          $recommended['php_memory_limit']['status']     = ($memory_limit >= 16 ) ? SETTING_TRUE : SETTING_FALSE;
 
-                         #Checking file uploads
+                         # Checking file uploads
                          $recommended['file_uploads']['text']       = $language['FILE_UPLOADS'];
                          $recommended['file_uploads']['expected']   = 'on';
                          $recommended['file_uploads']['actual']     = get_php_setting('file_uploads',true, 'string');
                          $recommended['file_uploads']['status']     = get_php_setting('file_uploads',true, 'img');
-
-                         # Check 5
-                         # Setting: gettext
-                         $recommended['gettext']['text']     = $language['GETTEXT_EXTENSION'];
-                         $recommended['gettext']['expected'] = 'on';
-                         $recommended['gettext']['actual']   = extension_loaded('gettext') ? 'on' : 'off';
-                         $recommended['gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
-
+    
 
                          #Checking max upload file size (min 2M, recommend 10M)
 
                          #Checking for basic XML (expat) support
 
-                         #Checking RegisterGlobals
+                         # Checking RegisterGlobals
                          $recommended['register_globals']['text']       = $language['REGISTER_GLOBALS'];
                          $recommended['register_globals']['expected']   = 'off';
                          $recommended['register_globals']['actual']     = ini_get('register_globals') ? 'on' : 'off';
                          $recommended['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
-
-                         #Checking
-                         $recommended['magic_quotes_gpc']['text']       = $language['MAGIC_QUOTES_GPC'];
-                         $recommended['magic_quotes_gpc']['expected']   = 'off';
-                         $recommended['magic_quotes_gpc']['actual']     = get_php_setting('magic_quotes_gpc',false,'string');
-                         $recommended['magic_quotes_gpc']['status']     = get_php_setting('magic_quotes_gpc',false,'img');
-
-                         $recommended['magic_quotes_runtime']['text']       = $language['MAGIC_QUOTES_RUNTIME'];
-                         $recommended['magic_quotes_runtime']['expected']   = 'off';
-                         $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
-                         $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
-
-                         #Checking for tokenizer functions
-                         #$recommended['']['']
-                         #$recommended['']['']
-
-                         #Checking for tokenizer functions
-                         $recommended['tokenizer']['text']      = $language['TOKENIZER'];
-                         $recommended['tokenizer']['expected']  = 'on';
-                         $recommended['tokenizer']['actual']    = function_exists('token_get_all') ? 'on' : 'off';
-                         $recommended['tokenizer']['status']    = function_exists('token_get_all') ? SETTING_TRUE : SETTING_FALSE;
-
-                         #Checking for GD
-                         $recommended['extension_gd']['text']       = $language['EXTENSION_GD'];
-                         $recommended['extension_gd']['expected']   = 'on';
-                         $recommended['extension_gd']['actual']     = extension_loaded('gd') ? 'on' : 'off';
-                         $recommended['extension_gd']['status']     = extension_loaded('gd') ? SETTING_TRUE : SETTING_FALSE;
-
-
-                         #Checking for allow_url_fopen
+                        
+                         # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['text']        = $language['ALLOW_URL_FOPEN'];
                          $recommended['allow_url_fopen']['expected']    = 'on';
                          $recommended['allow_url_fopen']['actual']      = get_php_setting('allow_url_fopen',true,'string');
                          $recommended['allow_url_fopen']['status']      = get_php_setting('allow_url_fopen',true,'img');
 
-
-                         #Checking for Safe mode
+                         # Checking for Safe mode
                          $recommended['safe_mode']['text']          = $language['SAFE_MODE'];
                          $recommended['safe_mode']['expected']      = 'off';
                          $recommended['safe_mode']['actual']        = get_php_setting('safe_mode',false,'string');
-                          $recommended['safe_mode']['status']       = get_php_setting('safe_mode',false,'img');
+                         $recommended['safe_mode']['status']        = get_php_setting('safe_mode',false,'img');
 
-                         #Checking OpenBaseDir
+                         # Checking OpenBaseDir
                          $recommended['open_basedir']['text']       = $language['OPEN_BASEDIR'];
                          $recommended['open_basedir']['expected']   = 'off';
                          $recommended['open_basedir']['actual']     = get_php_setting('open_basedir',false,'string');
                          $recommended['open_basedir']['status']     = get_php_setting('open_basedir',false,'img');
+                         
+                         # Checking magic_quotes_gpc
+                         $recommended['magic_quotes_gpc']['text']       = $language['MAGIC_QUOTES_GPC'];
+                         $recommended['magic_quotes_gpc']['expected']   = 'off';
+                         $recommended['magic_quotes_gpc']['actual']     = get_php_setting('magic_quotes_gpc',false,'string');
+                         $recommended['magic_quotes_gpc']['status']     = get_php_setting('magic_quotes_gpc',false,'img');
+                         
+                         # Checking magic_quotes_runtime
+                         $recommended['magic_quotes_runtime']['text']       = $language['MAGIC_QUOTES_RUNTIME'];
+                         $recommended['magic_quotes_runtime']['expected']   = 'off';
+                         $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
+                         $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
+                           
+                         # Checking for PHP Extension : HASH
+                         $recommended['extension_hash']['text']       = $language['EXTENSION_HASH'];
+                         $recommended['extension_hash']['expected']   = 'on';
+                         $recommended['extension_hash']['actual']     = extension_loaded('hash') ? 'on' : 'off';
+                         $recommended['extension_hash']['status']     = extension_loaded('hash') ? SETTING_TRUE : SETTING_FALSE;
+
+                         # Checking for PHP Extension : gettext
+                         $recommended['extension_gettext']['text']     = $language['EXTENSION_GETTEXT'];
+                         $recommended['extension_gettext']['expected'] = 'on';
+                         $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? 'on' : 'off';
+                         $recommended['extension_gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
+
+
+                         # Checking for PHP Extension : tokenizer 
+                         $recommended['extension_tokenizer']['text']      = $language['EXTENSION_TOKENIZER'];
+                         $recommended['extension_tokenizer']['expected']  = 'on';
+                         $recommended['extension_tokenizer']['actual']    = function_exists('token_get_all') ? 'on' : 'off';
+                         $recommended['extension_tokenizer']['status']    = function_exists('token_get_all') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : GD
+                         $recommended['extension_gd']['text']       = $language['EXTENSION_GD'];
+                         $recommended['extension_gd']['expected']   = 'on';
+                         $recommended['extension_gd']['actual']     = extension_loaded('gd') ? 'on' : 'off';
+                         $recommended['extension_gd']['status']     = extension_loaded('gd') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>
 

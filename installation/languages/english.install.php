@@ -48,28 +48,25 @@ class language implements ArrayAccess
         $this->language['STEP2_SETTING_STATUS'] = 'Status';
 
         # REQUIRED SETTINGS (in order)
-        # 1
-        $this->language['PHP_VERSION'] = 'Checking for PHP version 5.2+';
-        # 2
-        $this->language['SESSION_FUNCTIONS'] = 'Checking for Session Functions';
-        # 3
-        $this->language['PDO_LIBRARY'] = 'Checking for PDO - Library';
-        # 4
-        $this->language['PDO_MYSQL_LIBRARY'] = 'Checking for PDO - MySQL - Library';
+        $this->language['PHP_VERSION'] = 'PHP version 5.2+';
+        $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
+        $this->language['PDO_LIBRARY'] = 'PDO - Library';
+        $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Library';
 
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
-        $this->language['FILE_UPLOADS'] = 'Checking for File Uploads';
-        $this->language['GETTEXT_EXTENSION'] = 'Checking for Gettext Extension';
-        $this->language['REGISTER_GLOBALS'] = 'Checking if Register Globals';
-        $this->language['ALLOW_URL_FOPEN'] = 'Checking for ALLOW_URL_FOPEN';
-        $this->language['SAFE_MODE'] = 'Checking for SAFE_MODE';
-        $this->language['OPEN_BASEDIR'] = 'Checking for OPEN_BASEDIR';
-        $this->language['EXTENSION_GD'] = 'Checking for EXTENSION_GD';
-        $this->language['MAGIC_QUOTES_GPC'] = 'Checking for Magic Quotes GPC';
-        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Checking Magic Quotes Runtime';
-        $this->language['TOKENIZER'] = 'Checking if Tokenizer exists';
+        $this->language['FILE_UPLOADS'] = 'File Uploads enabled?';
+        $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
+        $this->language['ALLOW_URL_FOPEN'] = 'ALLOW_URL_FOPEN';
+        $this->language['SAFE_MODE'] = 'SAFE_MODE';
+        $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
+        $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
+        $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
+        $this->language['EXTENSION_HASH'] = 'PHP Extension: Hash';
+        $this->language['EXTENSION_GETTEXT'] = 'PHP Extension: Gettext';
+        $this->language['EXTENSION_TOKENIZER'] = 'PHP Extension: Tokenizer';
+        $this->language['EXTENSION_GD'] = 'PHP Extension: GD';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
@@ -109,6 +106,7 @@ class language implements ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Email Adress of Website';
+        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Encryption';
         $this->language['STEP5_CONFIG_TIMEZONE'] = 'Timezone';
 
         // STEP 6 - Create Administrator
