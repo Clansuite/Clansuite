@@ -61,6 +61,7 @@ default_action = "show"
 ; language
 ;----------------------------------------
 [language]
+language = "de_DE"
 timezone = "Europe/Berlin"
 outputcharset = "UTF-8"
 
