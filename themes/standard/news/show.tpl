@@ -17,12 +17,31 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-{include file="tools/paginate.tpl"}
+<table border="0" cellspacing="1" cellpadding="3" style="width:99%">
+<tr>
+    <td class="td_header">News</td>
+</tr>
+<tr>
+    <td class="td_header_small">
+        <div style="float:right;">
+        <a href="/index.php">
+            <img src="{$www_root_themes_core}/images/rss/16px-Feed-icon.png" 
+                 alt="Clansuite RSS News Feed" />
+        </a> 
+        </div>
+        {include file="tools/paginate.tpl"}
+    </td>
+</tr>
+</table>
+
+<br />
 
 {foreach item=news from=$news}
 
 <!-- Anker-Sprungmarke fr {$news.news_id}--> <a name="news-{$news.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
+
+
     <tr>
         <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
         <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
