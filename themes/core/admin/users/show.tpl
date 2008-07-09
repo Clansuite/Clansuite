@@ -1,4 +1,4 @@
-{* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump}
+{* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump} {$pager|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if} *}
 
 {doc_raw}
@@ -28,16 +28,16 @@
     <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
-                    {include file="admin/tools/paginate.tpl"}
+                    {include file="tools/paginate.tpl"}
                 </td>
             </tr>
             <tr class="tr_header">
-                <td width="1%" align="center">  {columnsort html="ID"}         </td>
-                <td align="center">             {columnsort html="eMail"}           </td>
-                <td align="center">             {columnsort html="Nick"}            </td>
-                <td align="center">             {columnsort html="Joined"}          </td>
-                <td align="center">             {t}Edit Action{/t}          </td>
-                <td align="center">             {t}Del{/t}          </td>
+                <td width="1%" align="center">  {columnsort html='ID'}         </td>
+                <td align="center">             {columnsort html='eMail'}           </td>
+                <td align="center">             {columnsort html='Nick'}            </td>
+                <td align="center">             {columnsort html='Joined'}          </td>
+                <td align="center">             {t}Action{/t}          </td>
+                <td align="center">             {t}Select{/t}          </td>
             </tr>
 
             {foreach key=schluessel item=wert from=$users}
@@ -52,12 +52,15 @@
                         {if $smarty.session.user.rights.cc_edit_users == 1}
                             <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
+                        
                         {if $smarty.session.user.rights.cc_edit_generals == 1}
                             <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
+                        
                         {if $smarty.session.user.rights.cc_edit_computers == 1}
                             <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
+                        
                         {if $smarty.session.user.rights.cc_edit_users == 1}
                             <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
@@ -81,7 +84,7 @@
             </tr>
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
-                    {include file="admin/tools/paginate.tpl"}
+                     {include file="tools/paginate.tpl"}
                 </td>
             </tr>
     </table>
