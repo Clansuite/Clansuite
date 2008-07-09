@@ -1,7 +1,7 @@
 <?php
 /**
 * new.admin.php
-* Modul - News - Admin Interface
+* Module - News - Admin Interface
 *
 *
 * LICENSE:
@@ -31,14 +31,8 @@
 * @link       http://www.clansuite.com
 */
 
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Clansuite
