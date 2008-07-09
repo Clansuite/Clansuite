@@ -88,13 +88,13 @@ $error = '';
 #var_dump($_POST);
 
 // in case clansuite.config.php exists, exit -> can be configured from backend then
-if (is_file( ROOT . '../clansuite.config.php' ))
+/*if (is_file( ROOT . '../clansuite.config.php' ))
 {
     exit('The file <strong>../clansuite.config.php</strong> already exists! This indicates that
           <strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
           <br /> You should visit your websites <a href="../index.php">frontend</a> 
           or it\'s  <a href="../index.php?mod=admin">admin-control-panel</a> instead.');
-}
+}*/
 
 /**
  * Suppress Errors and use E_STRICT when Debugging
@@ -210,7 +210,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
             unset($_POST['config']['database']['db_create_database']);
         }
 
-        $sqlfile = CS_ROOT . '/sql/clansuite.sql';
+        $sqlfile = ROOT . '/sql/clansuite.sql';
         if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
                                  $_POST['config']['database']['db_name'],
                                  $_POST['config']['database']['db_username'],

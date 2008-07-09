@@ -39,6 +39,28 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 			   		<dt><?=$language['STEP5_CONFIG_EMAILFROM']?></dt>
 			   		<dd><input type="text" name="config[email][from]" value="<?=$values['from']?>" /></dd>
 
+                    <dt><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></dt>
+                    <dd>
+						<select name="encryption">	
+						
+						<?php # SHA1 ?>
+						<option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
+				        
+				        <?php # HASH Options ?>
+    			   		<?php if(extension_loaded('hash'))
+    			   		      {
+    			   		        $hash_algos = hash_algos();
+    			   		        foreach ($hash_algos as $hash_algo)
+    			   		        {
+    			   		         echo "<option value='$hash_algo'";
+    			   		         if ($values['encryption'] == $hash_algo) { echo ' selected="selected"'; }
+    			   		         echo ">$hash_algo</option>";
+    			   		        }
+    			   		      }
+    			   		?>
+						</select>
+					</dd>
+
 			   		<? # timezone detection fucntion ?>
 			   		<dt><?=$language['STEP5_CONFIG_TIMEZONE']?></dt>
 			   		<dd>
