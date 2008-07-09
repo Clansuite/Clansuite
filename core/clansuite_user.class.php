@@ -182,8 +182,8 @@ class Clansuite_User
             {
                 $this->user = Doctrine_Query::create()
                              ->from('CsUsers u')
-                             #->leftJoin('u.CsUserOptions o')
-                             #->leftJoin('u.CsGroups g')
+                             ->leftJoin('u.CsUserOptions o')
+                             ->leftJoin('u.CsGroups g')
                              ->where('u.user_id = ?')
                              ->fetchOne(array($session_result['user_id']), Doctrine::FETCH_ARRAY);
 
@@ -377,10 +377,8 @@ class Clansuite_User
      * @todo has $user array to be resetted at the start of this function to get fresh values from db?
      */
 
-    public function checkUser($login_method = 'nick', $value, $password)
+    public function checkUser($login_method = 'nick', $value, $passwordhash)
     {
-        var_dump($value);
-
         $user = null;
 
         // check if a given nick or email exists
@@ -406,7 +404,7 @@ class Clansuite_User
         }
 
         // if user was found, check if passwords match each other
-        if ( $user && $this->security->check_salted_hash( $password, $user['passwordhash'], $salt ) )
+        if ( $user && $this->security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ) )
         {
 
             // ok, user with nick or email exists and passwords matched
