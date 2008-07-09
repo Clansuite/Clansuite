@@ -88,7 +88,7 @@ class language implements ArrayAccess
         $this->language['DB_HOST'] = 'Datenbank Hostname';
         $this->language['DB_TYPE'] = 'Databank Typ';
         $this->language['DB_NAME'] = 'Datenbank Name';
-        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellenü';
+        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen';
         $this->language['DB_USERNAME'] = 'Datenbank Benutzer';
         $this->language['DB_PASSWORD'] = 'Datenbank Passwort';
         $this->language['DB_PREFIX'] = 'Tabellen Präfix';
