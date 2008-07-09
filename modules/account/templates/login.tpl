@@ -1,18 +1,20 @@
-    {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
-    {if $err.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
-    {if $err.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$err.login_attempts}</p>{/if}
+    {* {$config|@var_dump} *}
+
+    {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
+    {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
+    {if $error.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$error.login_attempts}</p>{/if}
     <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-             <td class="td_header" colspan="2">{t}Login{/t}</th>
+             <td class="td_header">{t}Login{/t}</td>
         </tr>
-        {if $cfg.login.login_method == 'email'}
+        {if $config.login.login_method == 'email'}
         <tr>
             <td>{t}Email:{/t}</td>
             <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}" /></td>
         </tr>
         {/if}
-        {if $cfg.login.login_method == 'nick'}
+        {if $config.login.login_method == 'nick'}
         <tr>
             <td>{t}Nickname:{/t}</td>
             <td><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|escape:"html"}" /></td>
