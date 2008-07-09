@@ -54,40 +54,50 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @category    core
  * @subpackage  mailer
  */
-class mailer
+class Clansuite_Mailer
 {
+    public $mailer = NULL;
+    private $_config = NULL;
+    
+    
     /**
      * CONSTRUCTOR
      *
-     * @global $cfg
-     * @global $swiftmailer
      */
-    function __construct()
+    function __construct( Clansuite_Config $config )
     {
-        global $cfg;
-
+        $this->_config = $config;
+        $this->loadMailer();
+    }
+    
+    /**
+    * @desc Loads Swift Mailer
+    * 
+    */
+    private function loadMailer()
+    {
         /**
          *  Include the Swiftmailer Class
          */
 
-        require( ROOT_CORE . '/swiftmailer/Swift.php');
+        require( ROOT_LIBRARIES . '/swiftmailer/Swift.php');
 
         /**
          * Include the Swiftmailer Connection Class 
          * and Set $connection
          */
 
-        if ($cfg->mailmethod != 'smtp')
+        if ($this->_config->mailmethod != 'smtp')
         {
-            require( ROOT_CORE . '/swiftmailer/Swift/Connection/Sendmail.php');
+            require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php');
         }
 
 
-        switch ($cfg->mailmethod)
+        switch ($this->_config->mailmethod)
         {
             case 'smtp':
-                require( ROOT_CORE . '/swiftmailer/Swift/Connection/SMTP.php');
-                $connection = new Swift_Connection_SMTP( $cfg->mailerhost, $cfg->mailerport, $cfg->mailencryption );
+                require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php');
+                $connection = new Swift_Connection_SMTP( $this->_config['email']['mailerhost'], $this->_config['email']['mailerport'], $this->_config['email']['mailencryption'] );
                 break;
 
             case 'sendmail':
@@ -111,12 +121,9 @@ class mailer
         }
 
         /**
-         * This globalizes $swiftmailer and initialize the class
+         * This globalizes $this->mailer and initialize the class
          */
-
-        global $swiftmailer;
-
-        $swiftmailer = new Swift($connection, $cfg->mailerhost);
+        $this->mailer = new Swift($connection, $this->_config['email']['mailerhost']);
     }
 
     /**
@@ -133,34 +140,30 @@ class mailer
      * @return bool 
      */
 
-    function sendmail($to_address, $from_address, $subject, $body)
+    public function sendmail($to_address, $from_address, $subject, $body)
     {
-        global $error, $swiftmailer;
-
         /**
          * If anything goes wrong you can see what happened in the logs
          */
          
-        if ($swiftmailer->isConnected())
+        if ($this->mailer->isConnected())
         {
             /**
              * Sends a simple email
              */
              
-            $swiftmailer->send($to_address, $from_address, $subject, $body);
+            $this->mailer->send($to_address, $from_address, $subject, $body);
 
             /**
              * Closes cleanly... works without this but it's not as polite. :) 
              */
-            $swiftmailer->close();
+            $this->mailer->close();
             
             return true;
         }
         else
         {
-            $error->show( $lang->t( 'The mailer failed to connect. Errors:') .'<pre>' . print_r($swiftmailer->errors, 1) . '</pre>' . 'Log: <pre>' . print_r($swiftmailer->transactions, 1) .'</pre>' );
-            $error->error_log['mailer']['error'] = $lang->t('Mailer Error! Description: ') . print_r($swiftmailer->errors, 1);
-            
+            trigger_error('The mailer failed to connect. Errors: <br/>' .'<pre>' . print_r($this->mailer->errors, 1) . '</pre>' . 'Log: <pre>' . print_r($this->mailer->transactions, 1) .'</pre>' );            
             return false;
         }
     }

@@ -270,7 +270,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     *
     */
 
-    function action_register()
+    public function action_register()
     {
         // Request Controller
         $request = $this->injector->instantiate('httprequest');
@@ -334,7 +334,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             }
 
             // Check the password
-            if ($input->check($pass, 'is_pass_length') == false )
+            if (strlen($pass) < $config['login']['min_pass_length'])
             {
                 $err['pass_too_short'] = 1;
             }
@@ -359,7 +359,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             if( $result )
                 $err['nick_exists'] = 1;
 
-                
+            var_dump($err);    
             // No errors - then proceed
             // Register the user!
             if ( count($err) == 0  )
@@ -383,16 +383,18 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 
                 
                 // Insert user into DB
+                /* OLD PDO STYLE
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined, code) VALUES (:email, :nick, :password, :joined, :code)');
                 $stmt->execute( array(  ':code'         => $code,
                                         ':email'        => $email,
                                         ':nick'         => $nick,
                                         ':password'     => $hash,
                                         ':joined'       => time() ) );
+                */
 
                 // Load mailer & send mail
-                require ( ROOT_CORE . '/mail.class.php' );
-                $mailer = new mailer;
+                $this->injector->register('Clansuite_Mailer');
+                $mailer = $this->injector->instantiate('Clansuite_Mailer');
 
                 $to_address     = '"' . $nick . '" <' . $email . '>';
                 $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
@@ -422,7 +424,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Assign vars
         $smarty->assign( 'min_length', $config['login']['min_pass_length'] );
         $smarty->assign( 'err', $err );
-        $smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Get the template
         $this->setTemplate('register.tpl');

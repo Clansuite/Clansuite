@@ -2,12 +2,13 @@
 
     {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $err.nick_wrong == 1}<p class="error">{t}The nickname contains violating characters!{/t}</p>{/if}
-    {if $err.email_wrong == 1}<p class="error">{t}The email address is wrong!{/t}</p>{/if}
+    {if $err.email_wrong == 1}<p class="error">{t}Please enter a valid email!{/t}</p>{/if}
     {if $err.email_exists == 1}<p class="error">{t}The email address already exists in our database!{/t}</p>{/if}
     {if $err.nick_exists == 1}<p class="error">{t}The nickname already exists in our database!{/t}</p>{/if}
     {if $err.pass_too_short == 1}<p class="error">{t}The password is too short!{/t}</p>{/if}
     {if $err.passes_do_not_fit == 1}<p class="error">{t}The passwords aren't the same!{/t}</p>{/if}
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
+    {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
     
     <form action="index.php?mod=account&action=register" method="post">
     <table>
