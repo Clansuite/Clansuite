@@ -133,8 +133,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         #ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
         #ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
-        # use_trans_sid off -> because spiders will index with PHPSESSID
-        ini_set('session.use_trans_sid'     , 0 );
+        # use_trans_sid off -> because spiders will index with PHPSESSID 
+        # use_trans_sid on  -> considered evil
+        ini_set('session.use_trans_sid'     , 0 ); 
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
         ini_set('session.use_cookies'       , $this->config['session']['use_cookies'] );
         ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
