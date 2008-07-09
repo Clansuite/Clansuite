@@ -56,19 +56,40 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Security
 {
-    private $_config = null;
-    
+    private $config = null;
+
     /**
-    * @desc Init Class
-    */
+     * Init Class
+     */
     function __construct( Clansuite_Config $config )
     {
-        $this->_config = $config;
+        $this->config = $config;
     }
+
+    /**
+     * check_salted_hash()
+     *
+     * $passwordhash = password hashed from login formular
+     * $databasehash = hash from db
+     * $salt         = salt from db
+     */
+    public function check_salted_hash( $passwordhash, $databasehash, $salt )
+    {
+        # combine incomming $salt and $passwordhash (which is already sha1)
+        $salted_string =  $salt . $passwordhash;
+
+        # get hash_algo from config and generate hash from $salted_string
+        $hash = $this->generate_hash($this->config['login']['encryption'], $salted_string);
+
+        # then compare
+        return $databasehash === $hash;
+    }
+
     /**
      * This functions takes a clear (password) string and prefixes a random string called
      * "salt" to it. The new combined "salt+password" string is then passed to the hashing
      * method to get an hash return value.
+     * So what’s stored in the database is Hash(password, users_salt).
      *
      * Why salting? 2 Reasons:
      * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
@@ -82,7 +103,7 @@ class Clansuite_Security
      * @access public
      */
     public function build_salted_hash( $string = '', $hash_algo)
-    {      
+    {
         # set up the array
         $salted_hash_array = array();
         # generate the salt with fixed length 6 and place it into the array
@@ -92,7 +113,7 @@ class Clansuite_Security
         # generate hash from "salt+string" and place it into the array
         $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
         # return array with elements ['salt'], ['hash']
-        return $salted_hash_array['hash'];
+        return $salted_hash_array;
     }
 
     /**
@@ -107,8 +128,14 @@ class Clansuite_Security
      * @link http://www.php.net/manual/en/ref.hash.php
      * @access public
      */
-    public function generate_hash($hash_algo = 'SHA1', $string = '')
+    public function generate_hash($hash_algo = null, $string = '')
     {
+        # Get Config Value for Hash-Algo/Encryption
+        if($hash_algo == null)
+        {
+            $hash_algo = $this->config['login']['encryption'];
+        }
+
         # check, if we can use hash()
         if (function_exists('hash'))
         {
