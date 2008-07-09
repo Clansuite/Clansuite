@@ -58,57 +58,56 @@ if (!defined('IN_CS')){ die('You are not allowed to view this page.'); }
 class Clansuite_User
 {
     /**
-     * References to session and general user object
-     */ 
-    private $_user       = null;
-    
-    private $_config     = null;
-    private $_db         = null;  
-    private $_security   = null;
-    private $_input      = null;
-    
-    // forward -> create user and check for login cookie
-    function __construct(Clansuite_Config $config, db $db, Clansuite_Security $security, input $input )
-    {   
-        $this->_config       = $config;
-        $this->_db           = $db;
-        $this->_security     = $security;
-        $this->_input        = $input;
-    }
+     * References to user, session, security, input
+     */
+
+    private $user       = null;
+    private $config     = null;
+    private $security   = null;
+    private $input      = null;
+
     /**
-     * Get a user by any field in the users and profiles table
-     * Seperate the fields by commata
-     * Hint: Is joined with profiles
+     * Constructor
      *
-     * @param integer     * 
+     * Sets up the References
+     */
+
+    function __construct(Clansuite_Config $config, Clansuite_Security $security, input $input )
+    {
+        $this->config       = $config;
+        $this->security     = $security;
+        $this->input        = $input;
+    }
+
+    /**
+     * getUser
+     * - Get a user by any field of the users and profiles table
+     * - seperate the fields by commata
+     *
+     * @param integer
      * @param string
      */
+
     public function getUser( $user_id = null, $fields = '*')
     {
-        /*
-        if( !$input->check( $type       , 'is_abc|is_int|is_custom', '_,' ) OR
-            !$input->check( $user_id    , 'is_int' ) )
+        $user_id = empty($user_id) ? $_SESSION['user']['user_id'] : (int)$user_id;
+
+        $userdata = null;
+        $userdata = Doctrine_Query::create()
+                        ->select($fields)
+                        ->from('CsUsers')
+                        ->leftJoin('CsProfiles')
+                        ->where('CsUsers.user_id = ?')
+                        ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
+
+        if(is_array($userdata))
         {
-            $this->security->intruder_alert();
+            return $userdata;
         }
         else
         {
-        */
-            $user_id = empty($user_id) ? $_SESSION['user']['user_id'] : (int)$user_id;
-            
-            $result = Doctrine_Query::create()
-                            ->select($fields)
-                            ->from('CsUsers')
-                            ->leftJoin('CsProfiles')
-                            ->where('CsUsers.user_id = ?')
-                            ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
-                         
-            if( $result )
-                return $result;
-            else
-                return false;
-        
-        //}
+            return false;
+        }
     }
 
     /**
@@ -121,15 +120,22 @@ class Clansuite_User
 
     public function createUser($user_id = '', $email = '', $nick = '')
     {
-        $this->_user = null;
+        # Initialize the User Object
+        $this->user = null;
 
         /**
-         *  DB User Queries
+         * Get User via DB Queries
+         *
+         * 1) user_id
+         * 2) email
+         * 3) nick
+         * 4) session_id
          */
+
         if ( !empty($user_id) )
         {
             // Get the user from the user_id
-            $this->_user = Doctrine_Query::create()
+            $this->user = Doctrine_Query::create()
                          ->select('u.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
@@ -140,7 +146,7 @@ class Clansuite_User
         else if ( !empty($email) )
         {
             // Get the user from the email
-            $this->_user = Doctrine_Query::create()
+            $this->user = Doctrine_Query::create()
                          ->select('u.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
@@ -151,7 +157,7 @@ class Clansuite_User
         else if ( !empty($nick) )
         {
             // Get the user from the nick
-            $this->_user = Doctrine_Query::create()
+            $this->user = Doctrine_Query::create()
                          ->select('u.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
@@ -170,17 +176,17 @@ class Clansuite_User
         }
 
         // check if session-table[user_id] is a valid user-table[user_id]
-        if (!empty($_SESSION['user']['user_id'])) 
+        if (!empty($_SESSION['user']['user_id']))
         {
             if ( isset($session_result) and $session_result['user_id'] == $_SESSION['user']['user_id'] )
             {
-                $this->_user = Doctrine_Query::create()
+                $this->user = Doctrine_Query::create()
                              ->from('CsUsers u')
-                             ->leftJoin('u.CsUserOptions o')
-                             ->leftJoin('u.CsGroups g')
+                             #->leftJoin('u.CsUserOptions o')
+                             #->leftJoin('u.CsGroups g')
                              ->where('u.user_id = ?')
                              ->fetchOne(array($session_result['user_id']), Doctrine::FETCH_ARRAY);
-                
+
             }
             else
             {
@@ -189,117 +195,54 @@ class Clansuite_User
         }
 
         // check if this user is activated, else reset cookie, session and redirect
-        if ( is_array($this->_user) AND $this->_user['activated'] == 0 )
+        if ( is_array($this->user) AND $this->user['activated'] == 0 )
         {
-            setcookie('user_id', false);
-            setcookie('password', false);
+            $this->logoutUser();
             $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
         }
 
-                             #var_dump($this->_user);
         /**
          * Create $_SESSION['user'] array, containing user data
-         */        
-        if ( is_array($this->_user) )
+         */
+        if ( is_array($this->user) )
         {
-            
+
             /**
              * User infos
              */
             //var_dump($_SESSION);
-            //var_dump($this->_config);
+            //var_dump($this->config);
             $_SESSION['user']['authed']         = 1;
-            $_SESSION['user']['user_id']        = $this->_user['user_id'];
+            $_SESSION['user']['user_id']        = $this->user['user_id'];
 
-            $_SESSION['user']['passwordhash']   = $this->_user['passwordhash'];
-            $_SESSION['user']['email']          = $this->_user['email'];
-            $_SESSION['user']['nick']           = $this->_user['nick'];
+            $_SESSION['user']['passwordhash']   = $this->user['passwordhash'];
+            $_SESSION['user']['email']          = $this->user['email'];
+            $_SESSION['user']['nick']           = $this->user['nick'];
 
-            $_SESSION['user']['disabled']       = $this->_user['disabled'];
-            $_SESSION['user']['activated']      = $this->_user['activated'];
-            
-            if(isset($_REQUEST['theme']) && !empty($_REQUEST['theme']) && $this->_config['switches']['themeswitch_via_url'] == 1)
-            {
-                #@todo debug traceing message
-                #echo 'processing themefilter';
+            $_SESSION['user']['disabled']       = $this->user['disabled'];
+            $_SESSION['user']['activated']      = $this->user['activated'];
 
-                // Security Handler for $_GET['theme']
-                // Allowed Chars: abc, 0-9, underscore
-                if( !$this->_input->check( $_REQUEST['theme'], 'is_abc|is_int|is_custom', '_' ) )
-                {
-                    // @todo umstellen auf thrown Exception
-                    $this->_input->display_intrusion_warning();
-                }
-                
-                // If $_GET['theme'] dir exists, set it as session-user-theme
-                if(is_dir(ROOT_THEMES . '/' . $_REQUEST['theme'] . '/'))
-                {
-                    $_SESSION['user']['theme']          = $_REQUEST['theme'];
-                    $_SESSION['user']['theme_via_url']  = 1;
-                }
-                else
-                {
-                    $_SESSION['user']['theme_via_url']  = 0;
-                }
-            }
-            else
-            {
-                if( !isset( $_SESSION['user']['theme'] ) )
-                {
-                    $_SESSION['user']['theme'] = (!empty($this->_user['theme']) ? $this->_user['theme'] : $this->_config['template']['theme']);
-                }
-            }
-
-            # @todo change $_REQUEST to $_REQUEST['get']
-            # @todo security check of the incomming lang parameter, if not already handled by $httprequest class
-            if(isset($_REQUEST['lang']) && !empty($_REQUEST['lang']) && $this->_config['switches']['languageswitch_via_url'] == 1 )
-            {
-                /* Security Handler
-                  if( !$input->check( $_REQUEST['lang'], 'is_abc|is_custom', '_' ) )
-                  {
-                    $security->intruder_alert();
-                }
-                 Update Session
-                else
-                {*/
-                   $_SESSION['user']['language']           = strtolower($_REQUEST['lang']).'_'.strtoupper($_REQUEST['lang']);
-                   $_SESSION['user']['language_via_url']   = 1;
-
-                   #echo $_SESSION['user']['language'];
-                #}
-            }
-            else
-            {
-                if( !isset( $_SESSION['user']['language'] ) )
-                {
-                    $_SESSION['user']['language'] = (!empty($this->_user['language']) ? $this->_user['language'] : $this->_config['language']['language']);
-                }
-            }
-            
-            /*
-            // Fallback: first take user['language'], else standard language as defined by $this->_config['->language
+            // Fallback: first take user['language'], else standard language as defined by $this->config['->language
             if ( !isset($_SESSION['user']['language_via_url']) )
             {
-                $_SESSION['user']['language'] = (!empty($this->_user['language']) ? $this->_user['language'] : $this->_config['language']['language']);
+                $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']['language']);
             }
-                      
+
             // Fallback: first take standard theme as defined by $config->theme
-            var_dump($_SESSION);
-            var_dump($this->_user);
             if ( !isset($_REQUEST['theme']) )
             {
-                $_SESSION['user']['theme'] = (!empty($this->_user['theme']) ? $this->_user['theme'] : $this->_config['template']['theme']);
+                $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['template']['theme']);
             }
-            */
-            
+
             /**
              * Get Groups & Rights of user_id
              */
 
+            # Initialize User Session Arrays
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
 
-            
+
             $groups = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
                          ->from('CsGroups g')
@@ -307,10 +250,11 @@ class Clansuite_User
                          ->where('g.group_id = ?')
                          ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
 
-            #var_dump($this->_user['CsGroups']);
-            if ( is_array( $this->_user['CsGroups'] ) )
+            #var_dump($this->user['CsGroups']);
+
+            if ( is_array( $this->user['CsGroups'] ) )
             {
-                foreach( $this->_user['CsGroups'] as $key => $group )
+                foreach( $this->user['CsGroups'] as $key => $group )
                 {
                     $_SESSION['user']['groups'][] = $group['group_id'];
 
@@ -328,15 +272,15 @@ class Clansuite_User
                             $_SESSION['user']['rights'][$values['name']] = 1;
                         }
                     }
-            
+
                     /* OLD PDO Style
-                    $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg 
-                                                 JOIN ' . DB_PREFIX . 'rights AS ri 
-                                                 ON ri.right_id = rg.right_id 
+                    $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg
+                                                 JOIN ' . DB_PREFIX . 'rights AS ri
+                                                 ON ri.right_id = rg.right_id
                                                  WHERE rg.group_id = ?' );
                     $stmt->execute( array( $group_id['group_id'] ) );
                     $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
+
 
                     if( is_array( $rights ) )
                     {
@@ -351,9 +295,10 @@ class Clansuite_User
         }
         else // reset $_SESSION['user'] array
         {
-            /***/
-             #echo 'Fill $_SESSION[user] with Guest-User-infos';
-                        
+            /**
+             * Fill $_SESSION[user] with Guest-User-infos
+             */
+
             $_SESSION['user']['authed']         = 0;
             $_SESSION['user']['user_id']        = 0;
             $_SESSION['user']['nick']           = 'Guest'; #T_('Guest');
@@ -363,19 +308,19 @@ class Clansuite_User
 
             $_SESSION['user']['disabled']       = 0;
             $_SESSION['user']['activated']      = 0;
-            
-            // Fallback: standard language as defined by $this->_config['->language
+
+            // Fallback: standard language as defined by $this->config['->language
             if (empty($_SESSION['user']['language']))
             {
-                $_SESSION['user']['language']   = $this->_config['language']['language'];
+                $_SESSION['user']['language']   = $this->config['language']['language'];
             }
-            
-            // Fallback: standard theme as defined by $this->_config theme
+
+            // Fallback: standard theme as defined by $this->config theme
             if (empty($_SESSION['user']['theme']))
             {
-                $_SESSION['user']['theme']      = $this->_config['template']['theme'];
+                $_SESSION['user']['theme']      = $this->config['template']['theme'];
             }
-            
+
             /**
              * Groups & Rights (Guest Group id = 1)
              */
@@ -384,8 +329,8 @@ class Clansuite_User
             $_SESSION['user']['rights'] = array();
 
             $_SESSION['user']['groups'][] = 1;
-            
-            
+
+
             $rights = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
                          ->from('CsGroups g')
@@ -393,16 +338,17 @@ class Clansuite_User
                          ->where('g.group_id = ?')
                          ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
             #var_dump($rights);
-            
+
             /* OLD PDO Style
-            $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg 
-                                         JOIN ' . DB_PREFIX . 'rights AS ri 
-                                         ON ri.right_id = rg.right_id 
+            $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg
+                                         JOIN ' . DB_PREFIX . 'rights AS ri
+                                         ON ri.right_id = rg.right_id
                                          WHERE rg.group_id = ?' );
             $stmt->execute( array( 1 ) );
             $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
             */
-            //var_dump($rights);
+
+            #var_dump($rights);
 
             if( is_array( $rights['CsRights'] ) )
             {
@@ -411,7 +357,7 @@ class Clansuite_User
                     $_SESSION['user']['rights'][$values['name']] = 1;
                 }
             }
-            
+
             #var_dump($_SESSION);
         }
     }
@@ -433,28 +379,34 @@ class Clansuite_User
 
     public function checkUser($login_method = 'nick', $value, $password)
     {
+        var_dump($value);
+
         $user = null;
 
+        // check if a given nick or email exists
         if( $login_method == 'nick' )
         {
+            // get user_id and passwordhash with the nick
             $user = Doctrine_Query::create()
-                         ->select('user_id, passwordhash')
+                         ->select('user_id, passwordhash, salt')
                          ->from('CsUsers u')
                          ->where('nick = ?')
                          ->fetchOne(array($value), Doctrine::FETCH_ARRAY);
         }
 
+        // check if a given email exists
         if( $login_method == 'email' )
         {
+            // get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
-                         ->select('user_id, passwordhash')
+                         ->select('user_id, passwordhash, salt')
                          ->from('CsUsers u')
                          ->where('email = ?')
                          ->fetchOne(array($value), Doctrine::FETCH_ARRAY);
         }
 
         // if user was found, check if passwords match each other
-        if ( $user && $user['passwordhash'] == $this->_security->build_salted_hash( $password ) )
+        if ( $user && $this->security->check_salted_hash( $password, $user['passwordhash'], $salt ) )
         {
 
             // ok, user with nick or email exists and passwords matched
@@ -476,11 +428,11 @@ class Clansuite_User
      * @param string $password contains password string
      * @global $db
      * @global $this->security
-     * @global $this->_config['
+     * @global $this->config['
      */
 
     public function loginUser($user_id, $remember_me, $password)
-    {       
+    {
         /**
          * 1. Create the User Data Array and the Session via $user_id
          */
@@ -490,11 +442,11 @@ class Clansuite_User
          * 2. Remember-Me ( set Logindata via Cookie )
          */
         if ( $remember_me == 1 )
-        {   
-            setcookie('user_id', $user_id, time() + round($this->_config['login']['remember_me_time']*24*60*60));
+        {
+            setcookie('user_id', $user_id, time() + round($this->config['login']['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password',$this->_security->build_salted_hash( $password ), time() + round($this->_config['login']['remember_me_time']*24*60*60));
+            setcookie('password', $this->security->build_salted_hash( $password ), time() + round($this->config['login']['remember_me_time']*24*60*60));
         }
 
         /**
@@ -513,16 +465,17 @@ class Clansuite_User
          * @todo stats update after login?
          */
     }
-    
+
     /**
-    * @desc Logout a user
-    * @return boolean
-    */
+     * Logout a user
+     *
+     */
+
     public function logoutUser()
     {
         // Destroy the session
         session_regenerate_id(true);
-        
+
         // Delete cookies
         setcookie('user_id', false );
         setcookie('password', false );
@@ -541,7 +494,7 @@ class Clansuite_User
 
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
-            $this->_user = Doctrine_Query::create()
+            $this->user = Doctrine_Query::create()
                                 ->select('user_id,passwordhash')
                                 ->from('CsUsers')
                                 ->where('user_id = ?')
@@ -551,22 +504,22 @@ class Clansuite_User
              * Proceed if match
              */
 
-	        if ( is_array($this->_user) &&
-                 $this->_security->build_salted_hash( $_COOKIE['password'] ) == $this->_user['password'] &&
-                 $_COOKIE['user_id'] == $this->_user['user_id'] )
+	        if ( is_array($this->user) &&
+                 $this->security->build_salted_hash( $_COOKIE['password'] ) == $this->user['password'] &&
+                 $_COOKIE['user_id'] == $this->user['user_id'] )
 		    {
                 /**
                  * Update the cookie
                  */
 
-                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->_config['login']['remember_me_time']*24*60*60));
-                setcookie('password',$_COOKIE['password'], time() + round($this->_config['login']['remember_me_time']*24*60*60));
+                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->config['login']['remember_me_time']*24*60*60));
+                setcookie('password',$_COOKIE['password'], time() + round($this->config['login']['remember_me_time']*24*60*60));
 
                 /**
                  * Create $this->session['user']
                  */
 
-                $this->createUser($this->_user['user_id']);
+                $this->createUser($this->user['user_id']);
 
 	       	    /**
                  * Update Session in DB
@@ -605,7 +558,7 @@ class Clansuite_User
             /**
              * Update Session, because we know that session_id already exists
              */
-            $result->user_id = $this->_user['user_id'];
+            $result->user_id = $this->user['user_id'];
             $result->save();
             return true;
         }
