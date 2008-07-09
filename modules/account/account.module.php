@@ -79,8 +79,8 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             // Assing vars & output template
 
             // Assing vars & output template
-            $smarty->assign('cfg', $config);
-            $smarty->assign('err', $error);
+            $smarty->assign('config', $config);
+            $smarty->assign('error', $error);
 
             $this->setTemplate('login.tpl');
             $this->prepareOutput();
