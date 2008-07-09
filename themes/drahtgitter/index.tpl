@@ -38,11 +38,12 @@
     </td>
     <td valign="top">
         <div style="margin-top: 10px">
-           {$cs->loadModule_xsign("account")}
+           {$cs->loadModule("account")}
            {$account->login()}
         {*
-        {load_module name="account" action="login"}
-        {load_module name="shoutbox" action="show"}*}
+            {load_module name="account" action="login"}
+            {load_module name="shoutbox" action="show"}
+        *}
         </div>
         </td>
 </tr>

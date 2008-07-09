@@ -125,7 +125,7 @@
 
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
-           {$cs->loadModule_xsign("account")}
+           {$cs->loadModule("account")}
            {$account->login()}   
         </div>
         <div style="margin-top: 10px">
