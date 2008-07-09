@@ -63,7 +63,7 @@ interface Clansuite_Request_Interface
 }
 
 /**
- * httprequest
+ * HttpRequest
  *
  * Request class for encapsulating access to the superglobal $_REQUEST.
  * There are two ways of access:
@@ -75,7 +75,7 @@ interface Clansuite_Request_Interface
  * @subpackage core
  * @category httprequest
  */
-class httprequest implements Clansuite_Request_Interface, ArrayAccess
+class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
     # contains the cleaned $_REQUEST Parameters
     private $parameters;
