@@ -57,7 +57,7 @@ interface Clansuite_Response_Interface
 }
 
 /**
- * HTTPResponse represents the web response object on a request processed by Clansuite.
+ * HttpResponse represents the web response object on a request processed by Clansuite.
  *
  * @todo: headers, cookies
  *
@@ -65,7 +65,7 @@ interface Clansuite_Response_Interface
  * @subpackage core
  * @category httpresponse
  */
-class HTTPResponse implements Clansuite_Response_Interface
+class HttpResponse implements Clansuite_Response_Interface
 {
     /**
      * Status of the response as integer value.
