@@ -62,66 +62,38 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     }
 
     /**
-     * Login
+     * Login Block
      */
     public function login()
     {
         # Get Render Engine
         $smarty = $this->getView();
 
-        // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
-
-        // Get Inputvariables
-        $request = parent::getInjector()->instantiate('httprequest');
-        # from $_POST
-        $nick        = $request->getParameter('nickname');
-        $email       = $request->getParameter('email');
-        $password    = $request->getParameter('password');
-        $remember_me = $request->getParameter('remember_me');
-        $submit      = $request->getParameter('submit');
-        # from $_GET
-        $referer     = $request->getParameter('referer');
-
-        // Set Error Array
-        $error = array();
-
-        $config = parent::getInjector()->instantiate('Clansuite_Config');
-
-        // Determine the Login method
-        if( $config['login']['login_method'] == 'nick' )
-        {
-            $value = $nick;
-        }
-        elseif( $config['login']['login_method'] == 'email' )
-        {
-            $value = $email;
-        }
-
         // get user class
-        $user = parent::getInjector()->instantiate('Clansuite_User');
-
+        $user = $this->injector->instantiate('Clansuite_User');
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
             // Assing vars & output template
-            $smarty->assign('config', $config);
-            $smarty->assign('error', $error);
-            $smarty->assign('referer', $referer);
+
+            // Assing vars & output template
+            $smarty->assign('cfg', $config);
+            $smarty->assign('err', $error);
+
             $this->setTemplate('login.tpl');
             $this->prepareOutput();
         }
         else
         {
             //  Show usercenter
-            #var_dump($smarty);
             $this->setTemplate('usercenter.tpl');
-            #echo 'test';
-            //$view = $this->getView();
 
-            $this->prepareOutput();#$this->prepareOutput();
-            //return $smarty->fetch('account/usercenter.tpl');
+            $this->prepareOutput();
+
         }
+        
     }
 
     /**
@@ -133,7 +105,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
 
         // Get Inputvariables
-        $request = parent::getInjector()->instantiate('httprequest');
+        $request = $this->injector->instantiate('httprequest');
         # from $_POST
         $nick        = $request->getParameter('nickname');
         $email       = $request->getParameter('email');
@@ -146,7 +118,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Set Error Array
         $error = array();
 
-        $config = parent::getInjector()->instantiate('Clansuite_Config');
+        $config = $this->injector->instantiate('Clansuite_Config');
 
         // Determine the Login method
         if( $config['login']['login_method'] == 'nick' )
@@ -159,7 +131,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         }
 
         // get user class
-        $user = parent::getInjector()->instantiate('Clansuite_User');
+        $user = $this->injector->instantiate('Clansuite_User');
 
         // Perform checks on Inputvariables & Form filled?
         if ( isset($value) && !empty($value) && !empty($password) )
@@ -172,7 +144,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
             }
 
-            // check, if user_id exists
+            // check whether user_id + password match
             $user_id = $user->checkUser($config['login']['login_method'], $value, $password);
 
             // proceed if true
@@ -182,7 +154,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
                 $user->loginUser( $user_id, $remember_me, $password );
 
-                #$this->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , $lang->t('You successfully logged in...') );
+                #$this->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , _('You successfully logged in...') );
             }
             else
             {
@@ -256,7 +228,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=logout');
 
         // Get Inputvariables
-        $request = parent::getInjector()->instantiate('httprequest');
+        $request = $this->injector->instantiate('httprequest');
 
         // $_POST
         $confirm = (int) $request->getParameter('confirm');
@@ -298,18 +270,23 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     *
     */
 
-    function register()
+    function action_register()
     {
-        global $db, $tpl, $config, $input, $functions, $error, $security, $lang;
-
+        // Request Controller
+        $request = $this->injector->instantiate('httprequest');
+        $input = $this->injector->instantiate('input');
+        $security = $this->injector->instantiate('Clansuite_Security');
+        $config = $this->injector->instantiate('Clansuite_Config');
+        $smarty = $this->getView();
+        
         // Get Inputvariables from $_POST
-        $email      = $_POST['email'];
-        $email2     = $_POST['email2'];
-        $nick       = $_POST['nick'];
-        $pass       = $_POST['password'];
-        $pass2      = $_POST['password2'];
-        $submit     = $_POST['submit'];
-        $captcha    = $_POST['captcha'];
+        $email      = $request->getParameter('email');
+        $email2     = $request->getParameter('email2');
+        $nick       = $request->getParameter('nick');
+        $pass       = $request->getParameter('password');
+        $pass2      = $request->getParameter('password2');
+        $submit     = $request->getParameter('submit');
+        $captcha    = $request->getParameter('captcha');
 
         // Set Error Array
         $err = array();
@@ -363,21 +340,26 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             }
 
             // Check if email already exists
-            $stmt = $db->prepare('SELECT COUNT(email) FROM ' . DB_PREFIX .'users WHERE email = ?' );
-            $stmt->execute( array( $email ) );
-            if ($stmt->fetchColumn() > 0)
-            {
+            $result = Doctrine_Query::create()
+                            ->select('email')
+                            ->from('CsUsers')
+                            ->where('email = ?')
+                            ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
+                         
+            if( $result )
                 $err['email_exists'] = 1;
-            }
 
             // Check if nick already exists
-            $stmt = $db->prepare('SELECT COUNT(nick) FROM ' . DB_PREFIX .'users WHERE nick = ?' );
-            $stmt->execute( array( $nick ) );
-            if ($stmt->fetchColumn() > 0)
-            {
+            $result = Doctrine_Query::create()
+                            ->select('nick')
+                            ->from('CsUsers')
+                            ->where('nick = ?')
+                            ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
+                         
+            if( $result )
                 $err['nick_exists'] = 1;
-            }
 
+                
             // No errors - then proceed
             // Register the user!
             if ( count($err) == 0  )
@@ -385,8 +367,21 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 // Generate activation code & salted hash
 
                 $code = md5 ( microtime() );
-                $hash = $security->db_salted_hash($pass);
-
+                $hashArr = $security->build_salted_hash();
+                $hash = $hashArr['hash'];
+                $salt = $hashArr['salt'];
+                
+                $userIns = new CsSession();
+                $userIns->code = $code;
+                $userIns->email = $email;
+                $userIns->nick = $nick;
+                $userIns->passwordhash = $hash;
+                $userIns->salt = $salt;
+                $userIns->joined = time();
+                $userIns->save();
+                
+                
+                
                 // Insert user into DB
                 $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined, code) VALUES (:email, :nick, :password, :joined, :code)');
                 $stmt->execute( array(  ':code'         => $code,
@@ -395,60 +390,59 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                                         ':password'     => $hash,
                                         ':joined'       => time() ) );
 
-                // Get user id
-                $stmt = $db->prepare('SELECT user_id FROM ' . DB_PREFIX .'users WHERE email = ? AND nick = ?' );
-                $stmt->execute( array( $email, $nick ) );
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
                 // Load mailer & send mail
                 require ( ROOT_CORE . '/mail.class.php' );
                 $mailer = new mailer;
 
                 $to_address     = '"' . $nick . '" <' . $email . '>';
-                $from_address   = '"' . $config->fromname . '" <' . $config->from . '>';
-                $subject        = $lang->t('Account activation');
+                $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
+                $subject        = _('Account activation');
 
-                $body  = $lang->t("To activate your account click on the link below:\r\n");
+                $body  = _("To activate your account click on the link below:\r\n");
                 $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
                 $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                $body .= $lang->t('Username').": %s\r\n";
-                $body .= $lang->t('Password').": %s\r\n";
+                $body .= _('Username').": %s\r\n";
+                $body .= _('Password').": %s\r\n";
                 $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                $body  = sprintf($body, $user['user_id'], $code, $nick, $pass);
+                $body  = sprintf($body, $userIns->user_id, $code, $nick, $pass);
 
                 // Send mail
                 if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                 {
-                    $this->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully registered! Please check your mailbox...') );
+                    $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully registered! Please check your mailbox...') );
                 }
                 else
                 {
-                    $this->output .= $error->show( $lang->t( 'Mailer Error' ), $lang->t( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
+                    trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
                     return;
                 }
             }
         }
 
         // Assign vars
-        $tpl->assign( 'min_length', $config->min_pass_length );
-        $tpl->assign( 'err', $err );
-        $tpl->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        $smarty->assign( 'min_length', $config['login']['min_pass_length'] );
+        $smarty->assign( 'err', $err );
+        $smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Get the template
-        $this->output .= $tpl->fetch('account/register.tpl');
+        $this->setTemplate('register.tpl');
+        
+        // Output
+        $this->prepareOutput();
     }
 
     /**
     * @desc Re-Send Activation Email
     */
 
-    function activation_email()
+    function action_activation_email()
     {
-        global $db, $functions, $lang, $security, $tpl, $input;
+        // Request Controller
+        $request = $this->injector->instantiate('httprequest');        
 
         // Get Inputvariables from $_POST
-        $email  = $_POST['email'];
-        $submit = $_POST['submit'];
+        $email  = $request->getParameter('email');
+        $submit = $request->getParameter('submit');
 
         // Perform checks on Inputvariables & Form filled?
         if ( empty($email) )
@@ -505,23 +499,23 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
                         $to_address     = '"' . $nick . '" <' . $email . '>';
                         $from_address   = '"' . $config->fromname . '" <' . $config->from . '>';
-                        $subject        = $lang->t('Account activation (again)');
+                        $subject        = _('Account activation (again)');
 
-                        $body  = $lang->t("To activate your account click on the link below:\r\n");
+                        $body  = _("To activate your account click on the link below:\r\n");
                         $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body .= $lang->t('Username').": %s\r\n";
+                        $body .= _('Username').": %s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
                         $body  = sprintf($body, $user_id, $code, $nick);
 
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
-                            $this->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the activation mail! Please check your mailbox...') );
+                            $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully received the activation mail! Please check your mailbox...') );
                         }
                         else
                         {
-                            $this->output .= $error->show( $lang->t( 'Mailer Error' ), $lang->t( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
+                            $this->output .= $error->show( _( 'Mailer Error' ), _( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
                             return;
                         }
                     }
@@ -551,18 +545,19 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     *
     */
 
-    function activate_account()
+    function action_activate_account()
     {
-        global $input, $db, $error, $lang, $functions;
+        // Request Controller
+        $request = $this->injector->instantiate('httprequest');        
 
         // Get Inputvariables from $_GET
-        $user_id = (int) $_GET['user_id'];
-        $code    = $input->check($_GET['code'], 'is_int|is_abc') ? $_GET['code'] : false;
+        $user_id = (int) $request->getParameter('user_id');
+        $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
 
         // Activation code is wrong
         if ( !$code )
         {
-            $this->output .= $error->show( $lang->t( 'Code Failure' ), $lang->t('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
+            $this->output .= $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
             return;
         }
 
@@ -576,7 +571,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             // Account already activated
             if ( $res['activated'] == 1 )
             {
-                $this->output .= $error->show( $lang->t( 'Already' ), $lang->t('This account has been already activated.'), 2 );
+                $this->output .= $error->show( _( 'Already' ), _('This account has been already activated.'), 2 );
                 return;
             }
             else
@@ -584,12 +579,12 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 // UPDATE activated=1 WHERE user_id
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activated = ? WHERE user_id = ?' );
                 $stmt->execute( array ( 1, $user_id ) );
-                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your account has been activated successfully - please login.') );
+                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your account has been activated successfully - please login.') );
             }
         }
         else
         {   // Activation Code not matching user_id
-            $this->output .= $error->show( $lang->t( 'Code Failure' ), $lang->t('The activation code does not match to the given user id'), 2 );
+            $this->output .= $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
             return;
         }
     }
@@ -598,11 +593,13 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     * @desc Forgot Password
     */
 
-    function forgot_password()
+    function action_forgot_password()
     {
-        global $db, $functions, $lang, $security, $tpl, $input;
-
-        $email = $_POST['email'];
+        // Request Controller
+        $request = $this->injector->instantiate('httprequest');        
+        $input = $this->injector->instantiate('input');
+        
+        $email = $request->getParameter('email');
 
         if( empty($email) )
         {
@@ -617,6 +614,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
             if ( count($err) == 0 )
             {
+                
                 $stmt = $db->prepare( 'SELECT user_id,nick FROM ' . DB_PREFIX . 'users WHERE email = ?' );
                 $stmt->execute( array($email) );
                 $res = $stmt->fetch();
@@ -644,24 +642,24 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
                         $to_address     = '"' . $nick . '" <' . $email . '>';
                         $from_address   = '"' . $config->fromname . '" <' . $config->from . '>';
-                        $subject        = $lang->t('Password reset');
+                        $subject        = _('Password reset');
 
-                        $body  = $lang->t("Your password would be resetted by clicking on this link:\r\n");
+                        $body  = _("Your password would be resetted by clicking on this link:\r\n");
                         $body .= WWW_ROOT."/index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body .= $lang->t('Username').": %s\r\n";
-                        $body .= $lang->t('New Password').": %s\r\n";
+                        $body .= _('Username').": %s\r\n";
+                        $body .= _('New Password').": %s\r\n";
                         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
                         $body  = sprintf($body, $user_id, $code, $nick, $random);
 
                         // Send mail
                         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
                         {
-                            $this->redirect( 'index.php', 'metatag|newsite', 3, $lang->t('You have sucessfully received the password activation mail! Please check your mailbox...') );
+                            $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully received the password activation mail! Please check your mailbox...') );
                         }
                         else
                         {
-                            $this->output .= $error->show( $lang->t( 'Mailer Error' ), $lang->t( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
+                            $this->output .= $error->show( _( 'Mailer Error' ), _( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
                             return;
                         }
                     }
@@ -680,16 +678,18 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     * @desc Activate Password
     */
 
-    function activate_password()
+    function action_activate_password()
     {
-        global $input, $db, $error, $lang, $functions;
-
-        $user_id = (int) $_GET['user_id'];
-        $code    = $input->check($_GET['code'], 'is_int|is_abc') ? $_GET['code'] : false;
+        // Request Controller
+        $request = $this->injector->instantiate('httprequest');
+        $input = $this->injector->instantiate('input');
+        
+        $user_id = (int) $request->getParameter('user_id');
+        $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
 
         if ( !$code )
         {
-            $this->output .= $error->show( $lang->t( 'Code Failure' ), $lang->t('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
+            $this->output .= $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
             return;
         }
 
@@ -700,7 +700,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         {
             if ( empty($res['new_password']) )
             {
-                $this->output .= $error->show( $lang->t( 'Already' ), $lang->t('There has been no password reset request.'), 2 );
+                $this->output .= $error->show( _( 'Already' ), _('There has been no password reset request.'), 2 );
                 return;
             }
             else
@@ -711,12 +711,12 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 setcookie('user_id', false);
                 setcookie('password', false);
 
-                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, $lang->t('Your new password has been successfully activated. Please login...') );
+                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your new password has been successfully activated. Please login...') );
             }
         }
         else
         {
-            $this->output .= $error->show( $lang->t( 'Code Failure' ), $lang->t('The activation code does not match to the given user id'), 2 );
+            $this->output .= $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
             return;
         }
     }

@@ -13,24 +13,24 @@
     <table>
         <tr>
             <td>{t}Nick:{/t}</td>
-            <td><input class='input_text' type="text" name="nick" value="{$smarty.post.nick|escape:"html"}"></td>
+            <td><input type="text" name="nick" value="{$smarty.post.nick|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{t}Email:{/t}</td>
-            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"html"}"></td>
+            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{t}Confirm email:{/t}</td>
-            <td><input class='input_text' onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"html"}"></td>
+            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"html"}"></td>
         </tr>
 
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
-            <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
+            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
         </tr>
         <tr>
             <td>{t}Confirm Password:{/t}</td>
-            <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""><br /><span class='font_mini'>{t}Minimum: {/t}{$min_length}</span></td>
+            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""><br /><span class='font_mini'>{t}Minimum: {/t}{$min_length}</span></td>
         </tr>
         <tr>
             <td>{t}Password Security:{/t}</td>
@@ -38,10 +38,10 @@
         </tr>
         <tr>
             <td>{t}Enter Code:{/t}</td>
-            <td><img src="{$captcha_url}" style="border:thin solid black;"><br /><input class='input_text' type="text" name="captcha" value=""></td>
+            <td><img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value=""></td>
         </tr>
         <tr>
-            <td cospan='2'><input class='ButtonGrey' type="submit" name="submit" value="{t}Register{/t}"></td>
+            <td cospan='2'><input type="submit" name="submit" value="{t}Register{/t}"></td>
         </tr>
     </table>
     </form>

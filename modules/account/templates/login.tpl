@@ -1,20 +1,37 @@
-    {* {$config|@var_dump} *}
+{doc_raw}
+<script src="{$www_root_themes_core}/javascript/php.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="application/javascript"></script>
+{/doc_raw}
+{literal}
+<script>
+window.addEvent('domready', function() {
 
-    {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
-    {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
-    {if $error.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$error.login_attempts}</p>{/if}
-    <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" method="post">
+    $('login_form').addEvent('submit', function(){
+        $('password').value = sha1($('password').value);
+    });
+
+    /*
+    $('login_button').addEvent('click', function(){
+        alert('bla');
+    });*/
+}, 'javascript');
+</script>
+{/literal}
+    {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
+    {if $err.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
+    {if $err.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$err.login_attempts}</p>{/if}
+    <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" method="post" id="login_form">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
              <td class="td_header">{t}Login{/t}</td>
         </tr>
-        {if $config.login.login_method == 'email'}
+        {if $cfg.login.login_method == 'email'}
         <tr>
             <td>{t}Email:{/t}</td>
             <td><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}" /></td>
         </tr>
         {/if}
-        {if $config.login.login_method == 'nick'}
+        {if $cfg.login.login_method == 'nick'}
         <tr>
             <td>{t}Nickname:{/t}</td>
             <td><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|escape:"html"}" /></td>
@@ -22,7 +39,7 @@
         {/if}
         <tr>
             <td>{t}Password:{/t}</td>
-            <td><input class="input_text" type="password" name="password" value="" /></td>
+            <td><input class="input_text" type="password" name="password" id="password" value="" /></td>
         </tr>
         <tr>
             <td colspan="2">
@@ -32,7 +49,7 @@
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" name="submit" value="{t}Login{/t}" />
+                <input type="submit" name="submit" id="login_button" value="{t}Login{/t}" />
             </td>
         </tr>
         <tr>
