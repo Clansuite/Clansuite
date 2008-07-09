@@ -53,15 +53,23 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class localization
 {
     # Locale Variables
-	public  $locale    = null;
-	private $domain    = null;
-	private $encoding  = null;
+    public  $locale    = null;
+    private $domain    = null;
+    private $encoding  = null;
+
+    # References
+    private $config    = null;
 
     public function __construct(Clansuite_Config $config)
     {
+       # Set Reference to Config
+       $this->config = $config;
+
+       # Set Locale Defaults
        $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
        $this->encoding = $config['language']['outputcharset'];      # sets encoding
 
+       # Get Locale
        $locale = $this->getLocale();
 
         /**
@@ -83,15 +91,15 @@ class localization
     }
 
     /**
-        * Get Locale
-        *
-        * Order of Language-Detection: URL -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
-    	*/
+     * Get Locale
+     *
+     * Order of Language-Detection:
+     * URL (language filter) -> SESSION -> BROWSER -> DEFAULT LANGUAGE (from Config)
+     */
     public function getLocale()
-    {   
-        # fallback to config language!
-        $this->locale = 'de_DE';      # sets locale @todo get $cfg->language from config
-    
+    {
+        # 1) if language_via_url was used, the filter set the URL value to the session
+
         if(isset($_SESSION['user']['language_via_url']) AND ($_SESSION['user']['language_via_url'] == '1'))
         {
             # use language setting from session
@@ -99,13 +107,20 @@ class localization
         }
         else
         {
-            # get language from the browser or
-            # get the default language as fallback
+            # 2) get language from the browser or
+
             $this->locale = $this->getLanguage();
+
+            # 3) get the default language from config as fallback
+
+            if(empty($this->locale))
+            {
+                $this->locale = $this->config['language']['language'];
+            }
         }
         return $this->locale;
     }
-    
+
     /**
      * loadTextDomain
      *
@@ -123,65 +138,70 @@ class localization
      */
     public function loadTextDomain($category, $domain, $locale, $moduleBaseDir = null)
     {
-         # Environment Variable LANGUAGE has priority above any local setting
+        # if $locale = "en", build "en_EN"
+        if(strlen($locale) == 2){ $locale = strtolower($locale).'_'.strtoupper($locale); }
+
+        # Environment Variable LANGUAGE has priority above any local setting
         putenv("LANGUAGE=$locale");
         if (!defined('LC_MESSAGES')) { define('LC_MESSAGES', 5); }; # workaround for php on windows, to make LC_MESSAGES available
-		T_setlocale(LC_MESSAGES, $locale);
-		#T_setlocale(LC_ALL, $language);                          # LC_ALL disabled, because possible damage of sql queries
-		#T_setlocale(LC_TIME, $locale . '.UTF8', $locale);        # LC_TIME not figured out yet
-		
-        # Set the domain_directory 
-        # a) general 'clansuite' domain directory 
+        T_setlocale(LC_MESSAGES, $locale);
+        #T_setlocale(LC_ALL, $language);                          # LC_ALL disabled, because possible damage of sql queries
+        #T_setlocale(LC_TIME, $locale . '.UTF8', $locale);        # LC_TIME not figured out yet
+
+        # Set the domain_directory
+        # a) general 'clansuite' domain directory
         # b) a specific module directory
         if($moduleBaseDir == null)
-		{
-		  $domain_directory = ROOT_LANGUAGES;                     # set ROOT_LANGUAGES
-		}
-		else
-		{
-		  $domain_directory = ROOT_MOD . $moduleBaseDir . '/languages'; # set baseDir/languages
-		}
+        {
+          $domain_directory = ROOT_LANGUAGES;                     # set ROOT_LANGUAGES
+        }
+        else
+        {
+          $domain_directory = ROOT_MOD . $moduleBaseDir .DS. 'languages' .DS; # set baseDir/languages
+        }
+
         # Set the Domain
         T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
-		T_bind_textdomain_codeset($domain, $this->encoding);
-		T_textdomain($domain);
-        #echo 'Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'"'; 
+        T_bind_textdomain_codeset($domain, $this->encoding);
+        T_textdomain($domain);
+
+        #echo '<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'"</p>';
         return true;
     }
 
     /**
-	 *  getLanguage
-	 *
-	 *	This function will return a language, which is supported by both
-	 *  the browser and the clansuite language system.
-	 *
-	 *	@param $supported	(optional) An array with the list of supported languages.
-	 *                      Default Setting is 'en' for english.
-	 *  @return $language Returns a $language string, which is supported by browser and system.
-	 *  @access public
-	 */
-	public function getLanguage( $supported=array( 'en' ) )
-	{
-		# start with the default language
-		$language = $supported[0];
+     *  getLanguage
+     *
+     *  This function will return a language, which is supported by both
+     *  the browser and the clansuite language system.
+     *
+     *  @param $supported   (optional) An array with the list of supported languages.
+     *                      Default Setting is 'en' for english.
+     *  @return $language Returns a $language string, which is supported by browser and system.
+     *  @access public
+     */
+    public function getLanguage( $supported=array( 'en' ) )
+    {
+        # start with the default language
+        $language = $supported[0];
 
-		# get the list of languages supported by the browser
-		$browserLanguages = $this->getBrowserLanguages();
+        # get the list of languages supported by the browser
+        $browserLanguages = $this->getBrowserLanguages();
 
-		# look if the browser language is a supported language, by checking the array entries
-		foreach ( $browserLanguages as $browserLanguage )
-		{
-		    # if a supported language is found, set it and stop
-			if ( in_array( $browserLanguage, $supported ) )
-			{
-				$language = $browserLanguage;
-				break;
-			}
-		}
+        # look if the browser language is a supported language, by checking the array entries
+        foreach ( $browserLanguages as $browserLanguage )
+        {
+            # if a supported language is found, set it and stop
+            if ( in_array( $browserLanguage, $supported ) )
+            {
+                $language = $browserLanguage;
+                break;
+            }
+        }
 
-		# return the found language
-		return $language;
-	}
+        # return the found language
+        return $language;
+    }
 
     /**
      * Browser Locale Detection
@@ -212,7 +232,7 @@ class localization
         if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
         {
             # if not return an empty language array
-        	return array();
+            return array();
         }
 
         # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
@@ -222,14 +242,14 @@ class localization
         $browserLanguagesSize = sizeof( $browserLanguages );
         for ( $i = 0; $i < $browserLanguagesSize; $i++ )
         {
-        	# explode string at ;
-        	$browserLanguage = explode( ';', $browserLanguages[$i] );
-        	# cut string and place into array
-        	$browserLanguages[$i] = substr( $browserLanguage[0], 0, 2 );
+            # explode string at ;
+            $browserLanguage = explode( ';', $browserLanguages[$i] );
+            # cut string and place into array
+            $browserLanguages[$i] = substr( $browserLanguage[0], 0, 2 );
         }
 
         # remove the duplicates and return the browser languages
         return array_values( array_unique( $browserLanguages ) );
-	}
+    }
 }
 ?>

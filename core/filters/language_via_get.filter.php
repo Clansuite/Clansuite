@@ -60,40 +60,26 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class language_via_get implements Filter_Interface
 {
     private $config     = null;     # holds instance of config
-    private $locale     = null;     # holds instance of localization
 
-    function __construct(Clansuite_Config $config, localization $locale)
+    function __construct(Clansuite_Config $config)
     {
        $this->config    = $config;      # set instance of config to class
-       $this->locale    = $locale;      # set instance of localization to class
     }
 
     public function executeFilter(httprequest $request, httpresponse $response)
     {
-        // take the initiative of filtering, if language switching is enabled in CONFIG
-        // or pass through (do nothing) if disabled
+        /**
+         * take the initiative of filtering, if language switching is enabled in CONFIG
+         * or pass through (do nothing) if disabled
+         */
         if($this->config['switches']['languageswitch_via_url'] == 1)
         {
-            # @todo change $request to $request['get']
-            # @todo security check of the incomming lang parameter, if not already handled by $httprequest class
-            if(isset($request['lang']) && !empty($request['lang']) )
+            if(isset($request['lang']) && !empty($request['lang']) && (strlen($request['lang']) == 2))
             {
-            	/* Security Handler
-                  if( !$input->check( $request['lang'], 'is_abc|is_custom', '_' ) )
-                  {
-                    $security->intruder_alert();
-                }
-                 Update Session
-                else
-                {*/
-            	   $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
-            	   $_SESSION['user']['language_via_url']   = 1;
-
-                   #echo $_SESSION['user']['language'];
-            	#}
+               $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
+               $_SESSION['user']['language_via_url']   = 1;
             }
         }
     }
 }
-
 ?>
