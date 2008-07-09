@@ -430,7 +430,7 @@ class view_smarty extends renderer_base
      * Instantiates Module and assigns_by_reference
      *
      */
-    public function loadModule_xsign($module_name)
+    public function loadModule($module_name)
     {
         $this->injector->register('httprequest');
         $this->injector->register('Clansuite_ModuleController_Resolver');
@@ -463,7 +463,7 @@ class view_smarty extends renderer_base
      * @static
      * @access public
      */
-    public static function loadModule($params, $module_name, &$smarty)
+    public static function loadStaticModule($params, $module_name, &$smarty)
     {
         # Debug: Show Parameters for requested Module
         #var_dump($params);
@@ -576,7 +576,7 @@ class view_smarty extends renderer_base
 
         # Module Loading {loadModule }
         $this->smarty->assign_by_ref('cs', $this);
-        $this->smarty->register_function('load_module', array('view_smarty','loadModule'), false);
+        $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
         # Error Block {error level="1" title="Error"}
         $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
