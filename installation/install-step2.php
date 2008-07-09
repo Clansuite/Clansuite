@@ -4,7 +4,6 @@
  */
 if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 ?>
-
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -17,24 +16,19 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
             <div class="step-off"><?=$language['MENUSTEP7']?></div>
         </div>
     </div>
-
     <div id="content" class="narrowcolumn">
-
         <div id="content_middle">
-
             <div class="accordion">
-               <h2 class="headerstyle">
-                   <img src="images/64px-Utilities-system-monitor.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                   <?=$language['STEP2_SYSTEMCHECK']?>
-               </h2>
-               <p><?=$language['STEP2_IN_GENERAL']?></p>
-               <p><?=$language['STEP2_SYSTEMSETTINGS_REQUIRED']?></p>
-               <p><?=$language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
-               <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
-               <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
-
-               <!-- @todo: Verzeichnisse und +rw Rechte -->
-
+                <h2 class="headerstyle">
+                    <img src="images/64px-Utilities-system-monitor.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+                    <?=$language['STEP2_SYSTEMCHECK']?>
+                </h2>
+                <p><?=$language['STEP2_IN_GENERAL']?></p>
+                <p><?=$language['STEP2_SYSTEMSETTINGS_REQUIRED']?></p>
+                <p><?=$language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
+                <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
+                <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
+                <!-- @todo: Verzeichnisse und +rw Rechte -->
                          <?php
                          /**
                           * Print alternating Table-Rows
@@ -117,7 +111,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          }
 
                          # REQUIRED CHECKS
-   
+
                          # Setting: PHP-Version
                          $php_version    = phpversion();
                          $compare_result = version_compare($php_version,'5.2.0','>=');
@@ -171,7 +165,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['file_uploads']['expected']   = 'on';
                          $recommended['file_uploads']['actual']     = get_php_setting('file_uploads',true, 'string');
                          $recommended['file_uploads']['status']     = get_php_setting('file_uploads',true, 'img');
-    
+
 
                          #Checking max upload file size (min 2M, recommend 10M)
 
@@ -182,7 +176,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['register_globals']['expected']   = 'off';
                          $recommended['register_globals']['actual']     = ini_get('register_globals') ? 'on' : 'off';
                          $recommended['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
-                        
+
                          # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['text']        = $language['ALLOW_URL_FOPEN'];
                          $recommended['allow_url_fopen']['expected']    = 'on';
@@ -200,19 +194,19 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['open_basedir']['expected']   = 'off';
                          $recommended['open_basedir']['actual']     = get_php_setting('open_basedir',false,'string');
                          $recommended['open_basedir']['status']     = get_php_setting('open_basedir',false,'img');
-                         
+
                          # Checking magic_quotes_gpc
                          $recommended['magic_quotes_gpc']['text']       = $language['MAGIC_QUOTES_GPC'];
                          $recommended['magic_quotes_gpc']['expected']   = 'off';
                          $recommended['magic_quotes_gpc']['actual']     = get_php_setting('magic_quotes_gpc',false,'string');
                          $recommended['magic_quotes_gpc']['status']     = get_php_setting('magic_quotes_gpc',false,'img');
-                         
+
                          # Checking magic_quotes_runtime
                          $recommended['magic_quotes_runtime']['text']       = $language['MAGIC_QUOTES_RUNTIME'];
                          $recommended['magic_quotes_runtime']['expected']   = 'off';
                          $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
                          $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
-                           
+
                          # Checking for PHP Extension : HASH
                          $recommended['extension_hash']['text']       = $language['EXTENSION_HASH'];
                          $recommended['extension_hash']['expected']   = 'on';
@@ -226,7 +220,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
 
 
-                         # Checking for PHP Extension : tokenizer 
+                         # Checking for PHP Extension : tokenizer
                          $recommended['extension_tokenizer']['text']      = $language['EXTENSION_TOKENIZER'];
                          $recommended['extension_tokenizer']['expected']  = 'on';
                          $recommended['extension_tokenizer']['actual']    = function_exists('token_get_all') ? 'on' : 'off';
@@ -239,57 +233,49 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_gd']['status']     = extension_loaded('gd') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>
-
-                         <table class="settings" border="0">
-                                <thead class="tbhead">
-                                    <tr><td class="tdcaption" colspan="4"><?=$language['STEP2_SYSTEMSETTING_REQUIRED']?></td></tr>
-                                    <tr>
-                                        <th><?=$language['STEP2_SETTING']?></th>
-                                        <th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-                                        <th><?=$language['STEP2_SETTING_ACTUAL']?></th>
-                                        <th><?=$language['STEP2_SETTING_STATUS']?></th>
-                                    </tr>
-                                </thead>
-                            <tbody>
-                                    <?php setting_rows($required); ?>
-
-
-                                    <tr><td class="tdcaption" colspan="4"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td></tr>
-                                    <tr class="tbhead">
-                                        <th><?=$language['STEP2_SETTING']?></th>
-                                        <th><?=$language['STEP2_SETTING_EXPECTED']?></th>
-                                        <th><?=$language['STEP2_SETTING_ACTUAL']?></th>
-                                        <th><?=$language['STEP2_SETTING_STATUS']?></th>
-                                    </tr>
-
-                                    <?php setting_rows($recommended); ?>
-                            </tbody>
-                        </table>
-
-            <div id="content_footer">
-            <div class="navigation">
-
+                <table class="settings" border="0">
+                    <thead class="tbhead">
+                        <tr>
+                            <td class="tdcaption" colspan="4"><?=$language['STEP2_SYSTEMSETTING_REQUIRED']?></td>
+                        </tr>
+                        <tr>
+                            <th><?=$language['STEP2_SETTING']?></th>
+                            <th><?=$language['STEP2_SETTING_EXPECTED']?></th>
+                            <th><?=$language['STEP2_SETTING_ACTUAL']?></th>
+                            <th><?=$language['STEP2_SETTING_STATUS']?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php setting_rows($required); ?>
+                        <tr>
+                            <td class="tdcaption" colspan="4"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td>
+                        </tr>
+                        <tr>
+                            <td><?=$language['STEP2_SETTING']?></td>
+                            <td><?=$language['STEP2_SETTING_EXPECTED']?></td>
+                            <td><?=$language['STEP2_SETTING_ACTUAL']?></td>
+                            <td><?=$language['STEP2_SETTING_STATUS']?></td>
+                        </tr>
+                        <?php setting_rows($recommended); ?>
+                    </tbody>
+                </table>
+                <div id="content_footer">
+                    <div class="navigation">
                         <span style="font-size:10px;">
-                            <?=$language['CLICK_NEXT_TO_PROCEED']?>
-                            <br />
+                            <?=$language['CLICK_NEXT_TO_PROCEED']?><br />
                             <?=$language['CLICK_BACK_TO_RETURN']?>
                         </span>
-
                         <form action="index.php" method="post">
                             <div class="alignright">
                                 <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
                             </div>
-
                             <div class="alignleft">
                                 <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
                                 <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
                             </div>
-                         </form>
+                        </form>
                     </div><!-- div navigation end -->
-            </div> <!-- div content_footer end -->
-
+                </div> <!-- div content_footer end -->
             </div> <!-- div accordion end -->
-
         </div> <!-- div content_middle end -->
-
     </div> <!-- div content end -->
