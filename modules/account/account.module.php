@@ -48,11 +48,17 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
      * Module_Admin -> Execute
      */
     public function execute(httprequest $request, httpresponse $response)
-    {    
+    {
         # proceed to the requested action
-        $this->processActionController($request);   
+        $this->processActionController($request);
         # read module config
         #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
+    }
+
+    public function action_show()
+    {
+        $this->setTemplate('login.tpl');
+        $this->prepareOutput();
     }
 
     /**
@@ -60,13 +66,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
      */
     public function login()
     {
-        
-        #var_dump($this->getView());
-        #$this->setRenderEngine('smarty_clean');
-        
-        #var_dump($this->injector);
-        #var_dump($smarty);
-        # var_dump($this->getView());
         # Get Render Engine
         $smarty = $this->getView();
 
@@ -106,10 +105,10 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         if ( $_SESSION['user']['user_id'] == 0 )
         {
             // Assing vars & output template
-            $smarty->assign('cfg', $config);
-            $smarty->assign('err', $error);
+            $smarty->assign('config', $config);
+            $smarty->assign('error', $error);
             $smarty->assign('referer', $referer);
-            $this->setTemplate('login.tpl');          
+            $this->setTemplate('login.tpl');
             $this->prepareOutput();
         }
         else
@@ -119,20 +118,17 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $this->setTemplate('usercenter.tpl');
             #echo 'test';
             //$view = $this->getView();
-            
+
             $this->prepareOutput();#$this->prepareOutput();
             //return $smarty->fetch('account/usercenter.tpl');
         }
     }
-    
+
     /**
      * Login
      */
-    public function action_login($param_array, $smarty = null)
+    public function action_login()
     {
-         
-        #var_dump($smarty);
-
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
 
@@ -169,11 +165,13 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         if ( isset($value) && !empty($value) && !empty($password) )
         {
             // ban ip
-            if ( $_SESSION['login_attempts'] > $config['login']['max_login_attempts'] )
+            if ( !empty($_SESSION['login_attempts'])
+                 AND $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
             {
+                # @todo: ban action
                 $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
             }
-                
+
             // check, if user_id exists
             $user_id = $user->checkUser($config['login']['login_method'], $value, $password);
 
@@ -195,11 +193,12 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 }
                 else
                 {
-                    if( !defined('LOGIN_ALREADY') )
-                    {
-                        define('LOGIN_ALREADY', 1);
+                    # @todo: whats LOGIN_ALREADY??
+                    #if( !defined('LOGIN_ALREADY') )
+                    #{
+                        #define('LOGIN_ALREADY', 1);
                         $_SESSION['login_attempts']++;
-                    }
+                    #}
                 }
 
                 // Error Variables
@@ -215,13 +214,13 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
         # Get Render Engine
         $smarty = $this->getView();
-        
+
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
             // Assing vars & output template
-            $smarty->assign('cfg', $config);
-            $smarty->assign('err', $error);
+            $smarty->assign('config', $config);
+            $smarty->assign('error', $error);
             $smarty->assign('referer', $referer);
             //return $smarty->fetch('login.tpl');
         }
@@ -238,7 +237,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
     /**
      * @desc Logout
-     * 
+     *
      * @input: $confirm
      *
      * If logout is confirmed:
@@ -255,17 +254,17 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     {
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=logout');
-        
+
         // Get Inputvariables
         $request = parent::getInjector()->instantiate('httprequest');
-       
+
         // $_POST
         $confirm = (int) $request->getParameter('confirm');
 
         // User instance
         $user = $this->injector->instantiate('Clansuite_User');
-        
-        
+
+
         if( $confirm == 1 )
         {
             // Logout the user
@@ -275,7 +274,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $this->redirect( 'index.php', 3, 200, _( 'You have successfully logged out...') );
         }
         else
-        {           
+        {
             # Prepare the Output
             $this->prepareOutput();
         }
