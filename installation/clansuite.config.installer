@@ -34,6 +34,7 @@ default_action = "show"
 ; Default Locale Setting
 ;----------------------------------------
 [language]
+timezone = "Europe/Berlin"
 outputcharset   = "UTF-8"
 
 ; DO NOT REMOVE THIS LINE */ ?>
