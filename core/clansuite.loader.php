@@ -89,7 +89,7 @@ class Clansuite_Loader
     {
         if (is_file($filename))
         {
-            require_once($filename);
+            require $filename;
             return true;
         }
         return false;
