@@ -87,13 +87,13 @@ class Clansuite_Mailer
          * and Set $connection
          */
 
-        if ($this->_config->mailmethod != 'smtp')
+        if ($this->_config['email']['mailmethod'] != 'smtp')
         {
             require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php');
         }
 
 
-        switch ($this->_config->mailmethod)
+        switch ($this->_config['email']['mailmethod'])
         {
             case 'smtp':
                 require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php');

@@ -71,7 +71,7 @@ class Clansuite_Loader
     public static function register_autoload()
     {
         spl_autoload_register(array ('clansuite_loader','loadCoreClass'));
-        spl_autoload_register(array ('clansuite_loader','loadClass'));
+        #spl_autoload_register(array ('clansuite_loader','loadClass'));
         spl_autoload_register(array ('clansuite_loader','loadFilter'));
     }
 
