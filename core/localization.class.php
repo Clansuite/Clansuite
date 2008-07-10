@@ -146,8 +146,8 @@ class localization
      */
     public function loadTextDomain($category, $domain, $locale, $moduleBaseDir = null)
     {
-        # if $locale = "en", build "en_EN"
-        if(strlen($locale) == 2){ $locale = strtolower($locale).'_'.strtoupper($locale); }
+        # if, $locale string is not over 3 -> $locale = "en", build "en_EN"
+        if(!isset($locale{3})){ $locale = strtolower($locale).'_'.strtoupper($locale); }
 
         # Environment Variable LANGUAGE has priority above any local setting
         putenv("LANGUAGE=$locale");
