@@ -17,11 +17,6 @@
 #  * @version           Release-1.1.0
 #  */
 
-
-##############################
-# should be edited
-##############################
-
 #/**
 #  * title of generated documentation, default is 'Generated Documentation'
 #  *
@@ -87,8 +82,16 @@ TEMPLATE=phpedit
 #  *
 #  * @var               bool (on/off)           PRIVATE
 #  */
-PRIVATE=off
+PRIVATE=on
+
+# Delete, create output directory
+rm -rf $PATH_DOCS
+mkdir $PATH_DOCS
 
 # make documentation
-$PATH_PHPDOC -d $PATH_PROJECT -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
--o $OUTPUTFORMAT:$CONVERTER:$TEMPLATE -pp $PRIVATE
+$PATH_PHPDOC -d $PATH_PROJECT \
+             -t $PATH_DOCS \
+             -ti "$TITLE" \
+             -dn $PACKAGES \
+             -o $OUTPUTFORMAT:$CONVERTER:$TEMPLATE \
+             -pp $PRIVATE
