@@ -89,6 +89,8 @@ class clansuite_xdebug
             ini_set('xdebug.dump.POST', '*' );
             ini_set('xdebug.dump.COOKIE', '*' );
             ini_set('xdebug.dump.SESSION', '*' );
+            ini_set('xdebug.profiler_enable', 1);
+            ini_set('xdebug.profiler_output_dir', ROOT);
 
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
