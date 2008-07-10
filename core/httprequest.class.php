@@ -97,11 +97,26 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             $this->cleanGlobals();
         }
 
-        # disabled this method by xsign
-        #$this->cleanup_request();
+        // if sybase style quoting isn't specified, use ini setting
+        if (!isset($sybase) )
+        {
+            $sybase = ini_get('magic_quotes_sybase');
+        }
+        
+        // disable magic_quotes_sybase
+        if ($sybase )
+        {
+            ini_set('magic_quotes_sybase', 0);
+        }
 
-        # handle the magic quotes thing
-        $this->fix_magic_quotes();
+        // disable magic_quotes_runtime
+        set_magic_quotes_runtime(0);
+        
+        if (get_magic_quotes_gpc())
+        {
+            $this->fix_magic_quotes();
+            ini_set('magic_quotes_gpc', 0);
+        }
 
         # run IDS
         #$this->runIDS();
@@ -393,42 +408,21 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     private function fix_magic_quotes($var = NULL, $sybase = NULL )
     {
-        // if sybase style quoting isn't specified, use ini setting
-        if (!isset($sybase) )
-        {
-            $sybase = ini_get('magic_quotes_sybase');
-        }
 
         // if no var is specified, fix all affected superglobals
         if (!isset($var) )
         {
-            // if magic quotes is enabled
-            if (get_magic_quotes_gpc() )
+            // workaround because magic_quotes does not change $_SERVER['argv']
+            $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
+
+            // fix all affected arrays
+            foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
             {
-                // workaround because magic_quotes does not change $_SERVER['argv']
-                $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
-
-                // fix all affected arrays
-                foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
-                {
-                    $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
-                }
-
-                $_SERVER['argv'] = $argv;
-
-                // turn off magic quotes
-                // so scripts which require this setting will work correctly
-                ini_set('magic_quotes_gpc', 0);
+                $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
             }
 
-            // disable magic_quotes_sybase
-            if ($sybase )
-            {
-                ini_set('magic_quotes_sybase', 0);
-            }
-
-            // disable magic_quotes_runtime
-            set_magic_quotes_runtime(0);
+            $_SERVER['argv'] = $argv;
+            
             return true;
         }
 

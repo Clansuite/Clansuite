@@ -72,16 +72,17 @@ class Clansuite_Doctrine
      * 2. registers autoload
      * 3. Prepares a connection to the Database
      */
-    public function doctrine_initialize()
+    private function doctrine_initialize()
     {
+        #var_dump(class_exists("Doctrine"));
         // Require compiled or normal Library
         if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
         {
-            require_once ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
+            require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
         }
         else
         {
-            require_once ROOT_LIBRARIES .'doctrine/Doctrine.php';
+            require ROOT_LIBRARIES .'doctrine/Doctrine.php';
         }
         
         // Register Doctrine autoloader
@@ -106,7 +107,7 @@ class Clansuite_Doctrine
      *
      * @link DNS Types on Doctrine Chapter 4.1.
      */
-    public function prepareDbConnection()
+    private function prepareDbConnection()
     {
         Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
         Doctrine::loadModels( ROOT . '/myrecords/' ); // This call will not require the found .php files
