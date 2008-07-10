@@ -723,6 +723,7 @@ html>body .entry li
 ol li,#leftsidebar ul ol li,#rightsidebar ul ol li
 {
   list-style: none;
+  margin-top: 6px;
 }
 
 #leftsidebar ul ul li,#leftsidebar ul ol li,#rightsidebar ul ul li,#rightsidebar ul ol li
