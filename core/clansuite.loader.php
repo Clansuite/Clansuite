@@ -62,7 +62,7 @@ class Clansuite_Loader
     /**
      * clansuite_loader:register_autoload();
      *
-     * Overwrites Zend Engines _autoload cache with our own loader-functions
+     * Overwrites Zend Engines __autoload cache with our own loader-functions
      * by registering single file loaders via spl_autoload_register($load_function)
      *
      * @static
@@ -108,7 +108,7 @@ class Clansuite_Loader
      */
     public static function loadClass($classname, $directory = NULL)
     {
-        $filename = ROOT . $directory . DIRECTORY_SEPARATOR . strtolower($classname) . '.class.php';
+        $filename = ROOT . $directory . strtolower($classname) . '.class.php';
         #echo '<br>loaded Class => '. $filename;
         return self::requireFile($filename);
     }
@@ -126,7 +126,7 @@ class Clansuite_Loader
      */
     public static function loadCoreClass($classname)
     {
-        $filename = ROOT_CORE . DIRECTORY_SEPARATOR . strtolower($classname) . '.class.php';
+        $filename = ROOT_CORE . strtolower($classname) . '.class.php';
         #echo '<br>loaded Core-Class => '. $filename;
         return self::requireFile($filename);
     }
