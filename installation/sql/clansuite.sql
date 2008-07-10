@@ -1008,7 +1008,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (1,'014f69215d8ffdd83c6a55ec262e00f0','initiated|b:1;token|s:32:\"a99ef312fa415586aff31dbbd0598770\";token_time|i:1215231494;client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9) Gecko/2008052906 Firefox/3.0\";client_host|s:10:\"powertower\";user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:1:\"1\";s:4:\"nick\";s:5:\"admin\";s:12:\"passwordhash\";s:40:\"d033e22ae348aeb5660fc2140aec35850c4da997\";s:5:\"email\";s:21:\"support@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;s:1:\"3\";}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1215234959,1,'sessionstart');
+INSERT INTO `cs_session` VALUES (0,'fadbe606593d9a5f42586864e921eb78','initiated|b:1;token|s:32:\"0a32dd961aa3fdc50a5eba4ee8367f71\";token_time|i:1215667864;client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9) Gecko/2008052906 Firefox/3.0\";client_host|s:10:\"powertower\";user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1215679826,1,'account');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1170,7 +1170,7 @@ CREATE TABLE `cs_users` (
   `passwordhash` varchar(40) NOT NULL,
   `new_passwordhash` varchar(40) NOT NULL,
   `salt` varchar(20) NOT NULL,
-  `code` varchar(255) NOT NULL,
+  `activation_code` varchar(255) NOT NULL,
   `joined` int(11) NOT NULL default '0',
   `timestamp` int(11) NOT NULL default '0',
   `disabled` tinyint(1) NOT NULL default '0',
@@ -1183,7 +1183,7 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1191,7 +1191,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard');
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(4,'asdf@asdf.de','xsigndll','5e5992c80d2109e008a8bf8ff62c1d5619f1c31e','','3VIMJs','d50fc273185d807b1ad7edbdba03e08e',1215611546,0,0,0,0,'','',NULL,''),(5,'asdf@asdf.dea','xsigndlla','639eb7051584126e6aa8b22b1f3d624999aa3756','','F3wf72','6323e3a490b3291cb90ba6e99ced5a8b',1215611736,0,0,0,0,'','',NULL,''),(6,'asdf@asadf.de','xsigndllas','0ae490f1e4b3116080c220fff0e72814c9575878','','RkmlL','271a7f8ed0a58b55adbd71bc3149ee86',1215612201,0,0,0,0,'','',NULL,''),(7,'asdf@aasadf.de','xsigndllasa','861e4def1aaf9761dad5c8434e40dd15968c792a','','n72mZd','0135eb39a729a3a067878004c6ebf4bc',1215612295,0,0,0,0,'','',NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1203,4 +1203,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348ae
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-07-05  4:48:20
+-- Dump completed on 2008-07-10  8:28:13
