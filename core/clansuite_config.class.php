@@ -179,6 +179,7 @@ class Clansuite_Config implements ArrayAccess
         $content .= "\n; DO NOT REMOVE THIS LINE */ ?>";
 
         # Write data to config file
+        # @todo: Remove @ somehow
         return @file_put_contents($ini_filename, $content);
     }
 

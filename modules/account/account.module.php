@@ -691,7 +691,9 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     private function _send_activation_email($email, $nick, $user_id, $code)
     {
         $config = $this->injector->instantiate('Clansuite_Config');
-        $mailer = new Clansuite_Mailer;
+        $this->injector->register('Clansuite_Mailer');
+        $mailer = $this->injector->instantiate('Clansuite_Mailer');
+        #$mailer = new Clansuite_Mailer;
         
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
