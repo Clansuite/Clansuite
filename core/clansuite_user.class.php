@@ -310,7 +310,6 @@ class Clansuite_User
             // Fallback: Language for Guest Users as defined by $this->config['language']['language']
             if (empty($_SESSION['user']['language']))
             {
-                $this->injector
                 $_SESSION['user']['language']   = $this->config['language']['language'];
             }
 
