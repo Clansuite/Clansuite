@@ -92,7 +92,7 @@ $error = '';
 {
     exit('The file <strong>../clansuite.config.php</strong> already exists! This indicates that
           <strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
-          <br /> You should visit your websites <a href="../index.php">frontend</a> 
+          <br /> You should visit your websites <a href="../index.php">frontend</a>
           or it\'s  <a href="../index.php?mod=admin">admin-control-panel</a> instead.');
 }*/
 
@@ -162,7 +162,7 @@ else
 
 # Language Include
 try
-{ 
+{
     if (is_file (ROOT . 'languages'. DS . $lang .'.install.php'))
     {
         require_once ROOT . 'languages'. DS . $lang .'.install.php';
@@ -189,7 +189,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
 
     # check if input-fields are filled
     if (!empty($_POST['config']['database']['db_host']) AND !empty($_POST['config']['database']['db_type']) AND
-        !empty($_POST['config']['database']['db_username']) AND !empty($_POST['config']['database']['db_password']))
+        !empty($_POST['config']['database']['db_username']) AND isset($_POST['config']['database']['db_password']))
     {
         # B) Write SQL-Data into Database
 
@@ -255,8 +255,13 @@ if( isset($_POST['step_forward']) AND $step == 6 )
         isset($_POST['config']['email']['from']) AND
         isset($_POST['config']['language']['timezone']) )
     {
+        $array_to_write = array();
+        $array_to_write = $_POST['config'];
+        $array_to_write['language']['gmtoffset'] = (int) $_POST['config']['language']['timezone'];
+        $array_to_write['language']['timezone']  = (string) timezone_name_from_abbr('', $_POST['config']['language']['timezone'], 0);
+
         # write Settings to clansuite.config.php
-        if( !write_config_settings($_POST['config']))
+        if( !write_config_settings($array_to_write))
         {
             $step = 5;
             $error = 'Config not written <br />';
