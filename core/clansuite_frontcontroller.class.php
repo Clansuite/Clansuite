@@ -157,7 +157,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
        
         # When SubModulName exists, attached to the ModuleName
-        if(strlen($module_name) > 0 && isset($request['sub']) && !empty($request['sub']))
+        if(isset($module_name{1}) && isset($request['sub']) && !empty($request['sub']))
         {
             # get SubModuleName from Request
             if( isset(self::$_SubModuleName) )
