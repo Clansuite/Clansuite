@@ -15,7 +15,7 @@
     			<dd><input type="text" id="nickname" name="nickname" value="{$smarty.post.nickname|escape:"html"}" /></dd>
 {/if}
     			<dt><label for="password">{t}Password{/t}</label></dt>
-    			<dd><input type="password" id="password" name="password" value="" /></dd>
+    			<dd><input type="password" id="password" name="password" value="" autocomplete="off" /></dd>
     		</dl>
     	</fieldset>
     	<div class="form_bottom">
