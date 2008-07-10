@@ -39,7 +39,7 @@ window.addEvent('domready', function() {
         {/if}
         <tr>
             <td>{t}Password:{/t}</td>
-            <td><input class="input_text" type="password" name="password" id="password" value="" /></td>
+            <td><input class="input_text" type="password" name="password" id="password" value="" autocomplete="off" /></td>
         </tr>
         <tr>
             <td colspan="2">

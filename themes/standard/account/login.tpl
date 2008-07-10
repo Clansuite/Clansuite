@@ -22,7 +22,7 @@
         {/if}
         <tr class="tr_row1">
             <td>{t}Password:{/t}</td>
-            <td><input class="input_text" type="password" name="password" value="" /></td>
+            <td><input class="input_text" type="password" name="password" value="" autocomplete="off"/></td>
         </tr>
         <tr class="tr_row1">
             <td colspan="2">
