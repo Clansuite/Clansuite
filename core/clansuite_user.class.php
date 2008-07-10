@@ -206,7 +206,6 @@ class Clansuite_User
          */
         if ( is_array($this->user) )
         {
-
             /**
              * User infos
              */
@@ -241,7 +240,6 @@ class Clansuite_User
             # Initialize User Session Arrays
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
-
 
             $groups = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
@@ -309,13 +307,14 @@ class Clansuite_User
             $_SESSION['user']['disabled']       = 0;
             $_SESSION['user']['activated']      = 0;
 
-            // Fallback: standard language as defined by $this->config['->language
+            // Fallback: Language for Guest Users as defined by $this->config['language']['language']
             if (empty($_SESSION['user']['language']))
             {
+                $this->injector
                 $_SESSION['user']['language']   = $this->config['language']['language'];
             }
 
-            // Fallback: standard theme as defined by $this->config theme
+            // Fallback: Theme for Guest Users as defined by config['template']['theme']
             if (empty($_SESSION['user']['theme']))
             {
                 $_SESSION['user']['theme']      = $this->config['template']['theme'];
@@ -502,10 +501,10 @@ class Clansuite_User
              * Proceed if match
              */
 
-	        if ( is_array($this->user) &&
+            if ( is_array($this->user) &&
                  $this->security->build_salted_hash( $_COOKIE['password'] ) == $this->user['password'] &&
                  $_COOKIE['user_id'] == $this->user['user_id'] )
-		    {
+            {
                 /**
                  * Update the cookie
                  */
@@ -519,21 +518,21 @@ class Clansuite_User
 
                 $this->createUser($this->user['user_id']);
 
-	       	    /**
+                /**
                  * Update Session in DB
                  */
 
-			    $this->sessionSetUserId();
-	        }
+                $this->sessionSetUserId();
+            }
             else
             {
                 /**
                  * Delete cookies, if no match
                  */
 
-        	    setcookie('user_id', false );
-        		setcookie('password', false );
-	        }
+                setcookie('user_id', false );
+                setcookie('password', false );
+            }
         }
     }
 
@@ -561,6 +560,6 @@ class Clansuite_User
             return true;
         }
         return false;
-	}
+    }
 }
 ?>
