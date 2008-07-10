@@ -107,9 +107,10 @@ class localization
         }
         else
         {
-            # 2) get language from the browser or
+            # 2) get language from the browser AND set it to session
 
             $this->locale = $this->getLanguage();
+            $_SESSION['user']['language'] = $this->locale; 
 
             # 3) get the default language from config as fallback
 
