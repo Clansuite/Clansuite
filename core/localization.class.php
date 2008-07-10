@@ -71,6 +71,13 @@ class localization
 
        # Get Locale
        $locale = $this->getLocale();
+       
+       /**
+        * Important Notice:
+        *
+        * List new available languages in the method head of getLanguage( $supported=array( 'en', 'de' ))
+        * to make them a valid target for a browser detected language!
+        */
 
         /**
          * Require PHP-gettext's emulative functions, if PHP gettext extension is off
@@ -181,7 +188,7 @@ class localization
      *  @return $language Returns a $language string, which is supported by browser and system.
      *  @access public
      */
-    public function getLanguage( $supported=array( 'en' ) )
+    public function getLanguage( $supported=array( 'en', 'de' ) )
     {
         # start with the default language
         $language = $supported[0];
