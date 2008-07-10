@@ -348,7 +348,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                          
             if( $result )
                 $err['email_exists'] = 1;
-
+            
             // Check if nick already exists
             $result = Doctrine_Query::create()
                             ->select('nick')
@@ -359,7 +359,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             if( $result )
                 $err['nick_exists'] = 1;
 
-            var_dump($err);    
+            #var_dump($err);    
             // No errors - then proceed
             // Register the user!
             if ( count($err) == 0  )
@@ -371,8 +371,8 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 $hash = $hashArr['hash'];
                 $salt = $hashArr['salt'];
                 
-                $userIns = new CsSession();
-                $userIns->code = $code;
+                $userIns = new CsUsers();
+                $userIns->activation_code = $code;
                 $userIns->email = $email;
                 $userIns->nick = $nick;
                 $userIns->passwordhash = $hash;
@@ -380,43 +380,14 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 $userIns->joined = time();
                 $userIns->save();
                 
-                
-                
-                // Insert user into DB
-                /* OLD PDO STYLE
-                $stmt = $db->prepare('INSERT INTO '. DB_PREFIX .'users (email, nick, password, joined, code) VALUES (:email, :nick, :password, :joined, :code)');
-                $stmt->execute( array(  ':code'         => $code,
-                                        ':email'        => $email,
-                                        ':nick'         => $nick,
-                                        ':password'     => $hash,
-                                        ':joined'       => time() ) );
-                */
-
-                // Load mailer & send mail
-                $this->injector->register('Clansuite_Mailer');
-                $mailer = $this->injector->instantiate('Clansuite_Mailer');
-
-                $to_address     = '"' . $nick . '" <' . $email . '>';
-                $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
-                $subject        = _('Account activation');
-
-                $body  = _("To activate your account click on the link below:\r\n");
-                $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
-                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                $body .= _('Username').": %s\r\n";
-                $body .= _('Password').": %s\r\n";
-                $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                $body  = sprintf($body, $userIns->user_id, $code, $nick, $pass);
-
-                // Send mail
-                if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+                // Send activation mail                
+                if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
                 {
-                    $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully registered! Please check your mailbox...') );
+                    $this->redirect( 'index.php', 200, _('You have sucessfully registered! Please check your mailbox...') );   
                 }
                 else
                 {
-                    trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
-                    return;
+                    trigger_error( 'Sending of email activation failed.' );
                 }
             }
         }
@@ -436,12 +407,16 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
     * @desc Re-Send Activation Email
     */
-
-    function action_activation_email()
+    public function action_activation_email()
     {
+        $err = array();
+        
         // Request Controller
         $request = $this->injector->instantiate('httprequest');        
-
+        
+        // Input validation
+        $input = $this->injector->instantiate('input');
+        
         // Get Inputvariables from $_POST
         $email  = $request->getParameter('email');
         $submit = $request->getParameter('submit');
@@ -466,19 +441,21 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             if ( count($err) == 0 )
             {
                 // Select WHERE email
-                $stmt = $db->prepare( 'SELECT user_id,nick FROM ' . DB_PREFIX . 'users WHERE email = ?' );
-                $stmt->execute( array($email) );
-                $res = $stmt->fetch();
-
+                $result = Doctrine_Query::create()
+                                ->select('user_id,nick,activated')
+                                ->from('CsUsers')
+                                ->where('email = ?')
+                                ->fetchOne(array($email));
+                
                 // Email was not found
-                if ( !is_array($res) )
+                if ( !$result )
                 {
                     $err['no_such_mail'] = 1;
                 }
                 else
                 {
                     // Email already activated
-                    if ( $res['activated'] == 1 )
+                    if ( $result->activated == 1 )
                     {
                         $err['already_activated'];
                     }
@@ -487,49 +464,34 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                     if ( count($err) == 0 )
                     {
                         // Prepare user_id, nick, and activation code
-                        $user_id = $res['user_id'];
-                        $nick    = $res['nick'];
                         $code    = md5 ( microtime() );
 
                         // Insert Code into DB WHERE user_id
-                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET code = ? WHERE user_id = ?' );
-                        $stmt->execute( array ( $code, $user_id ) );
+                        $result->activation_code = $code;
+                        $result->save();
 
-                        // Load mailer & Prepare mail
-                        require ( ROOT_CORE . '/mail.class.php' );
-                        $mailer = new mailer;
-
-                        $to_address     = '"' . $nick . '" <' . $email . '>';
-                        $from_address   = '"' . $config->fromname . '" <' . $config->from . '>';
-                        $subject        = _('Account activation (again)');
-
-                        $body  = _("To activate your account click on the link below:\r\n");
-                        $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
-                        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body .= _('Username').": %s\r\n";
-                        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body  = sprintf($body, $user_id, $code, $nick);
-
-                        // Send mail
-                        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+                        if( $this->_send_activation_email($email, $result->nick, $result->user_id, $code) )
                         {
-                            $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully received the activation mail! Please check your mailbox...') );
+                            $this->redirect( 'index.php', 200, _('Activation mail has been resend to your mailbox.') );   
                         }
                         else
                         {
-                            $this->output .= $error->show( _( 'Mailer Error' ), _( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
-                            return;
+                            trigger_error( 'Re-Sending of email activation failed.' );
                         }
                     }
                 }
             }
         }
 
+        // get View Ctrl.
+        $smarty = $this->getView();
+        
         // Assign tpl vars
-        $tpl->assign( 'err', $err );
+        $smarty->assign( 'err', $err );
 
         // Output
-        $this->output .= $tpl->fetch('account/activation_email.tpl');
+        $this->setTemplate('activation_email.tpl');
+        $this->prepareOutput();
     }
 
     /**
@@ -547,7 +509,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     *
     */
 
-    function action_activate_account()
+    public function action_activate_account()
     {
         // Request Controller
         $request = $this->injector->instantiate('httprequest');        
@@ -595,7 +557,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     * @desc Forgot Password
     */
 
-    function action_forgot_password()
+    public function action_forgot_password()
     {
         // Request Controller
         $request = $this->injector->instantiate('httprequest');        
@@ -635,7 +597,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                         $code     = md5 ( microtime() );
                         $new_pass = $security->db_salted_hash($random);
 
-                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET code = ?, new_password = ? WHERE user_id = ?' );
+                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activation_code = ?, new_password = ? WHERE user_id = ?' );
                         $stmt->execute( array ( $code, $new_pass, $user_id ) );
 
                         // Load mailer
@@ -680,7 +642,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     * @desc Activate Password
     */
 
-    function action_activate_password()
+    public function action_activate_password()
     {
         // Request Controller
         $request = $this->injector->instantiate('httprequest');
@@ -720,6 +682,38 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         {
             $this->output .= $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
             return;
+        }
+    }
+    
+    /**
+    * @desc Private Function to send a activation email
+    */
+    private function _send_activation_email($email, $nick, $user_id, $code)
+    {
+        $config = $this->injector->instantiate('Clansuite_Config');
+        $mailer = new Clansuite_Mailer;
+        
+        $to_address     = '"' . $nick . '" <' . $email . '>';
+        $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
+        $subject        = _('Account activation');
+
+        $body  = _("To activate your account click on the link below:\r\n");
+        $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
+        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body .= _('Username').": %s\r\n";
+        $body .= _('Password').": *"._('hidden')."*";
+        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body  = sprintf($body, $user_id, $code, $nick);
+
+        // Send mail
+        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+        {
+            return true;
+        }
+        else
+        {
+            trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
+            return false;
         }
     }
 }
