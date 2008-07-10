@@ -1,13 +1,9 @@
 <?php
-
-require_once('path-to-doctrine/lib/Doctrine.php');
-
+require 'libraries/doctrine/Doctrine.php';
 spl_autoload_register(array('Doctrine', 'autoload'));
+Doctrine_Manager::connection('mysql://clansuite:toop@localhost/clansuite');
 
-Doctrine_Manager::connection('mgsql://user:pass@localhost/test');
-
-$queries = Doctrine::generateSqlFromModels('models');
+$queries = Doctrine::generateSqlFromModels('myrecords');
 
 echo $queries;
-
 ?>

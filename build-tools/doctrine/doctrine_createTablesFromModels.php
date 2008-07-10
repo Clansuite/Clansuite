@@ -1,12 +1,7 @@
 <?php
-
-require_once('path-to-doctrine/lib/Doctrine.php');
-
+require 'libraries/doctrine/Doctrine.php';
 spl_autoload_register(array('Doctrine', 'autoload'));
+Doctrine_Manager::connection('mysql://clansuite:toop@localhost/clansuite');
 
-//in order to export we need a database connection
-Doctrine_Manager::connection('mysql://user:pass@localhost/test');
-
-Doctrine::createTablesFromModels('models');
-
+Doctrine::createTablesFromModels('/myrecords/generated');
 ?>
