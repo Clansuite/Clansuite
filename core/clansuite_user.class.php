@@ -136,7 +136,7 @@ class Clansuite_User
         {
             // Get the user from the user_id
             $this->user = Doctrine_Query::create()
-                         ->select('u.*')
+                         #->select('u.*,g.*,o.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
                          ->leftJoin('u.CsGroups g')
@@ -147,7 +147,7 @@ class Clansuite_User
         {
             // Get the user from the email
             $this->user = Doctrine_Query::create()
-                         ->select('u.*')
+                         #->select('u.*,g.*,o.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
                          ->leftJoin('u.CsGroups g')
@@ -158,7 +158,7 @@ class Clansuite_User
         {
             // Get the user from the nick
             $this->user = Doctrine_Query::create()
-                         ->select('u.*')
+                         #->select('u.*,g.*,o.*')
                          ->from('CsUsers u')
                          ->leftJoin('u.CsUserOptions o')
                          ->leftJoin('u.CsGroups g')
@@ -174,7 +174,7 @@ class Clansuite_User
                                 ->where('session_id = ?')
                                 ->fetchOne(array(session_id()), Doctrine::FETCH_ARRAY);
         }
-
+        
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id']))
         {
@@ -241,16 +241,18 @@ class Clansuite_User
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
 
+            /*
             $groups = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
                          ->from('CsGroups g')
                          ->leftJoin('g.CsRights r')
                          ->where('g.group_id = ?')
                          ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
-
+            
             #var_dump($this->user['CsGroups']);
-
-            if ( is_array( $this->user['CsGroups'] ) )
+            */
+            #var_dump($this->user);
+            if ( isset($this->user['CsGroups']) && is_array( $this->user['CsGroups'] ) )
             {
                 foreach( $this->user['CsGroups'] as $key => $group )
                 {
@@ -422,12 +424,9 @@ class Clansuite_User
      * @param integer $user_id contains user_id
      * @param integer $remember_me contains remember_me setting
      * @param string $password contains password string
-     * @global $db
-     * @global $this->security
-     * @global $this->config['
      */
 
-    public function loginUser($user_id, $remember_me, $password)
+    public function loginUser($user_id, $remember_me, $passwordhash)
     {
         /**
          * 1. Create the User Data Array and the Session via $user_id
@@ -442,7 +441,7 @@ class Clansuite_User
             setcookie('user_id', $user_id, time() + round($this->config['login']['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password', $this->security->build_salted_hash( $password ), time() + round($this->config['login']['remember_me_time']*24*60*60));
+            setcookie('password', $passwordhash, time() + round($this->config['login']['remember_me_time']*24*60*60));
         }
 
         /**
@@ -491,7 +490,7 @@ class Clansuite_User
         if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
         {
             $this->user = Doctrine_Query::create()
-                                ->select('user_id,passwordhash')
+                                ->select('user_id,passwordhash,salt')
                                 ->from('CsUsers')
                                 ->where('user_id = ?')
                                 ->fetchOne(array((int)$_COOKIE['user_id']), Doctrine::FETCH_ARRAY);
@@ -501,7 +500,7 @@ class Clansuite_User
              */
 
             if ( is_array($this->user) &&
-                 $this->security->build_salted_hash( $_COOKIE['password'] ) == $this->user['password'] &&
+                 $this->security->check_salted_hash( $_COOKIE['password'], $this->user['passwordhash'], $this->user['salt'] ) &&
                  $_COOKIE['user_id'] == $this->user['user_id'] )
             {
                 /**

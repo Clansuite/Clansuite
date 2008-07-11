@@ -244,6 +244,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
             // Redirect
             $this->redirect( 'index.php', 3, 200, _( 'You have successfully logged out...') );
+            die();
         }
         else
         {
@@ -278,6 +279,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         $security = $this->injector->instantiate('Clansuite_Security');
         $config = $this->injector->instantiate('Clansuite_Config');
         $smarty = $this->getView();
+        $user = $this->injector->instantiate('Clansuite_User');
         
         // Get Inputvariables from $_POST
         $email      = $request->getParameter('email');
@@ -365,30 +367,43 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             if ( count($err) == 0  )
             {
                 // Generate activation code & salted hash
-
-                $code = md5 ( microtime() );
-                $hashArr = $security->build_salted_hash();
+                $hashArr = $security->build_salted_hash($pass);
                 $hash = $hashArr['hash'];
                 $salt = $hashArr['salt'];
                 
+                // Insert User to DB
                 $userIns = new CsUsers();
-                $userIns->activation_code = $code;
                 $userIns->email = $email;
                 $userIns->nick = $nick;
                 $userIns->passwordhash = $hash;
                 $userIns->salt = $salt;
                 $userIns->joined = time();
-                $userIns->save();
                 
-                // Send activation mail                
-                if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
+                if($config['login']['email_activation'] == 0)
                 {
-                    $this->redirect( 'index.php', 200, _('You have sucessfully registered! Please check your mailbox...') );   
+                    $userIns->activated = 1;
+                    $userIns->save();
+                    $user->loginUser($userIns->user_id, 1, $pass);
+                    $this->redirect( 'index.php', 3, 200, _('You have sucessfully registered and you are logged in.') );
+                    die();
                 }
                 else
                 {
-                    trigger_error( 'Sending of email activation failed.' );
+                    $code = md5 ( microtime() );
+                    $userIns->activation_code = $code;
+                    $userIns->save();
+                    // Send activation mail                
+                    if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
+                    {
+                        $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox...') );   
+                        die();
+                    }
+                    else
+                    {
+                        trigger_error( 'Sending of email activation failed.' );
+                    }
                 }
+                
             }
         }
 
