@@ -64,7 +64,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
      * Login Block
      */
-    public function login()
+    public function block_login()
     {
         # Get Render Engine
         $smarty = $this->getView();
@@ -82,13 +82,13 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('config', $config);
             $smarty->assign('error', $error);
 
-            $this->setTemplate('login.tpl');
+            $this->setTemplate('block_login.tpl');
             $this->prepareOutput();
         }
         else
         {
             //  Show usercenter
-            $this->setTemplate('usercenter.tpl');
+            $this->setTemplate('block_usercenter.tpl');
 
             $this->prepareOutput();
 
@@ -142,6 +142,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             {
                 # @todo: ban action
                 $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
+                die();
             }
 
             // check whether user_id + password match
@@ -255,19 +256,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
     /**
     * @desc Register a User
-    *
-    * Get $_POST INPUT
-    * @Input: email, email2, nick, password, password2, submit, captcha
-    *
-    * Perform checks on $_POST
-    * Generate Activation Code
-    * Insert User into DB -> VALUES (:email, :nick, :password, :joined, :code)');
-    * Get user id
-    * Load Mail & Send mail to User
-    * Assign Captcha to Template
-    * Show template
-    *
-    * @Output :  $tpl->fetch('account/register.tpl');
     *
     */
 
@@ -520,7 +508,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     * 2. code found, but already activated=1
     * 3. code found, SET activated=1
     *
-    * @output:
     *
     */
 
@@ -577,86 +564,91 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Request Controller
         $request = $this->injector->instantiate('httprequest');        
         $input = $this->injector->instantiate('input');
+        $config = $this->injector->instantiate('Clansuite_Config');
+        $security = $this->injector->instantiate('Clansuite_Security');
+        $err = array();
         
         $email = $request->getParameter('email');
-
-        if( empty($email) )
+        $pass = $request->getParameter('password');
+        $submit = $request->getParameter('submit');
+        if( !empty($submit) )
         {
-            $err['form_not_filled'] = 1;
-        }
-        else
-        {
-            if ( !$input->check( $email, 'is_email' ) )
+            if( empty($email) || empty($pass) )
             {
-                $err['email_wrong'] = 1;
+                $err['form_not_filled'] = 1;
             }
-
-            if ( count($err) == 0 )
+            elseif ( !isset($pass{$config['login']['min_pass_length']-1}) )
             {
-                
-                $stmt = $db->prepare( 'SELECT user_id,nick FROM ' . DB_PREFIX . 'users WHERE email = ?' );
-                $stmt->execute( array($email) );
-                $res = $stmt->fetch();
-
-                if ( !is_array($res) )
+                $err['pass_too_short'] = 1;
+            }
+            else
+            {
+                if ( !$input->check( $email, 'is_email' ) )
                 {
-                    $err['no_such_mail'] = 1;
+                    $err['email_wrong'] = 1;
                 }
-                else
+
+                if ( count($err) == 0 )
                 {
-                    if ( count($err) == 0 )
+                    // Select a DB Row
+                    $result = Doctrine_Query::create()
+                                    ->select('user_id, nick, activated')
+                                    ->from('CsUsers')
+                                    ->where('email = ?')
+                                    ->fetchOne(array($email));
+
+
+                    if ( !$result )
                     {
-                        $random   = $functions->random_string(7);
-                        $user_id  = $res['user_id'];
-                        $nick     = $res['nick'];
-                        $code     = md5 ( microtime() );
-                        $new_pass = $security->db_salted_hash($random);
-
-                        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activation_code = ?, new_password = ? WHERE user_id = ?' );
-                        $stmt->execute( array ( $code, $new_pass, $user_id ) );
-
-                        // Load mailer
-                        require ( ROOT_CORE . '/mail.class.php' );
-                        $mailer = new mailer;
-
-                        $to_address     = '"' . $nick . '" <' . $email . '>';
-                        $from_address   = '"' . $config->fromname . '" <' . $config->from . '>';
-                        $subject        = _('Password reset');
-
-                        $body  = _("Your password would be resetted by clicking on this link:\r\n");
-                        $body .= WWW_ROOT."/index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
-                        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body .= _('Username').": %s\r\n";
-                        $body .= _('New Password').": %s\r\n";
-                        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-                        $body  = sprintf($body, $user_id, $code, $nick, $random);
-
-                        // Send mail
-                        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+                        $err['no_such_mail'] = 1;
+                    }
+                    else if ( $result->activated != 1 )
+                    {
+                        $err['account_not_activated'] = 1;   
+                    }
+                    else
+                    {
+                        if ( count($err) == 0 )
                         {
-                            $this->redirect( 'index.php', 'metatag|newsite', 3, _('You have sucessfully received the password activation mail! Please check your mailbox...') );
-                        }
-                        else
-                        {
-                            $this->output .= $error->show( _( 'Mailer Error' ), _( 'There has been an error in the mailing system. Please inform the webmaster.' ), 2 );
-                            return;
+                            // Generate activation code & salted hash
+                            $hashArr = $security->build_salted_hash($pass);
+                            $hash = $hashArr['hash'];
+                            $salt = $hashArr['salt'];
+                            
+                            // Insert User to DB
+                            $result->new_passwordhash = $hash;
+                            $result->new_salt = $salt;
+                            
+                            $code = md5 ( microtime() );
+                            $result->activation_code = $code;
+                            $result->save();
+                            
+                            // Send activation mail                
+                            if( $this->_send_password_email($email, $result->nick, $result->user_id, $code) )
+                            {
+                                $this->redirect( 'index.php', 0, 200, _('Check your mailbox to activate your new password.') );   
+                                die();
+                            }
+                            else
+                            {
+                                trigger_error( 'Sending of email activation failed.' );
+                            }
+                            
                         }
                     }
                 }
             }
         }
 
-        // Assign tpl vars
-        $tpl->assign( 'err', $err );
-
-        // Output
-        $this->output .= $tpl->fetch('account/forgot_password.tpl');
+        $smarty = $this->getView();
+        $smarty->assign('err', $err);
+        $this->setTemplate('forgot_password.tpl');
+        $this->prepareOutput();
     }
 
     /**
     * @desc Activate Password
     */
-
     public function action_activate_password()
     {
         // Request Controller
@@ -668,34 +660,45 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
         if ( !$code )
         {
-            $this->output .= $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
+            $this->error( _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             return;
         }
 
-        $stmt = $db->prepare( 'SELECT user_id,activated,new_password FROM ' . DB_PREFIX . 'users WHERE user_id = ? AND code = ?' );
-        $stmt->execute( array( $user_id, $code ) );
-        $res = $stmt->fetch();
-        if ( is_array ( $res ) )
+        
+        
+        // Select a DB Row
+        $result = Doctrine_Query::create()
+                        ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
+                        ->from('CsUsers')
+                        ->where('user_id = ? AND activation_code = ?')
+                        ->fetchOne(array($user_id, $code));
+                                         
+        if ( $result )
         {
-            if ( empty($res['new_password']) )
+            if ( empty($result->new_passwordhash) )
             {
-                $this->output .= $error->show( _( 'Already' ), _('There has been no password reset request.'), 2 );
+                $this->error( _( 'Already: There has been no password reset requested.'));
                 return;
             }
             else
             {
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET password = new_password WHERE user_id = ?' );
-                $stmt->execute( array ( $user_id ) );
+                $result->passwordhash = $result->new_passwordhash;
+                $result->salt = $result->new_salt;
+                $result->activation_code = '';
+                $result->new_salt = '';
+                $result->new_passwordhash = '';
+                $result->save();
 
-                setcookie('user_id', false);
-                setcookie('password', false);
+                setcookie('cs_cookie_user_id', false);
+                setcookie('cs_cookie_password', false);
 
-                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your new password has been successfully activated. Please login...') );
+                $this->redirect( 'index.php?mod=account&action=login', 3, 200, _('Your new password has been successfully activated. Please login...') );
+                die();
             }
         }
         else
         {
-            $this->output .= $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
+            $this->error( _( 'Code Failure: The activation code does not match to the given user id') );
             return;
         }
     }
@@ -708,7 +711,6 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         $config = $this->injector->instantiate('Clansuite_Config');
         $this->injector->register('Clansuite_Mailer');
         $mailer = $this->injector->instantiate('Clansuite_Mailer');
-        #$mailer = new Clansuite_Mailer;
         
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
@@ -732,5 +734,39 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
             return false;
         }
+    }
+    
+    /**
+    * @desc Send a link to validate new password
+    */
+    private function _send_password_email($email, $nick, $user_id, $code)
+    {
+        $config = $this->injector->instantiate('Clansuite_Config');
+        $this->injector->register('Clansuite_Mailer');
+        return true;
+        $mailer = $this->injector->instantiate('Clansuite_Mailer');
+        
+        $to_address     = '"' . $nick . '" <' . $email . '>';
+        $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
+        $subject        = _('Account activation');
+
+        $body  = _("To reset your password, click the link below:\r\n");
+        $body .= WWW_ROOT."/index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
+        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body .= _('Username').": %s\r\n";
+        $body .= _('Password').": *"._('hidden')."*";
+        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body  = sprintf($body, $user_id, $code, $nick);
+        
+        // Send mail
+        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
+        {
+            return true;
+        }
+        else
+        {
+            trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
+            return false;
+        }  
     }
 }

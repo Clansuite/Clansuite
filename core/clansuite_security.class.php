@@ -102,7 +102,7 @@ class Clansuite_Security
      * @return $hash is an array, containing ['salt'] and ['hash']
      * @access public
      */
-    public function build_salted_hash( $string = '', $hash_algo)
+    public function build_salted_hash( $string = '', $hash_algo = '')
     {
         # set up the array
         $salted_hash_array = array();
