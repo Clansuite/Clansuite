@@ -108,6 +108,28 @@ class clansuite_xdebug
     public static function end_xdebug()
     {
         # get page parsing time from xdebug
+        echo "<script src='themes/core/javascript/mootools/mootools.js' type='application/javascript'></script>
+        <div id='debug' style='display:none;'>
+        <center>
+            <script>
+            window.addEvent('domready', function() {
+
+                window.addEvent('keydown', function(event){
+                    if (event.control && event.shift)
+                    {
+                        if( \$('debug').style.display == 'block' )
+                        {
+                            \$('debug').style.display = 'none'
+                        }
+                        else
+                        {
+                            \$('debug').style.display = 'block'
+                        }
+                    }
+                });
+            }, 'javascript');
+            </script>
+        ";
         self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
         self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
         self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
@@ -116,6 +138,7 @@ class clansuite_xdebug
 
         # stop tracings and var_dump       
         xdebug_dump_superglobals();
+        echo "</center></div>";
         # var_dump(xdebug_get_code_coverage());
     }
 
