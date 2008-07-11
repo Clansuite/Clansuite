@@ -77,6 +77,7 @@ login_ban_minutes = 30
 min_pass_length = 6
 encryption = "sha1"
 salt = "1-3-5-8-4-1-7-2-4-1-4-1"
+email_activation = 0
 
 ;----------------------------------------
 ; openid

@@ -865,7 +865,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_rel_user_groups` DISABLE KEYS */;
-INSERT INTO `cs_rel_user_groups` VALUES (1,3);
+INSERT INTO `cs_rel_user_groups` VALUES (1,3),(8,3);
 /*!40000 ALTER TABLE `cs_rel_user_groups` ENABLE KEYS */;
 
 --
@@ -1008,7 +1008,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'fadbe606593d9a5f42586864e921eb78','initiated|b:1;token|s:32:\"0a32dd961aa3fdc50a5eba4ee8367f71\";token_time|i:1215667864;client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9) Gecko/2008052906 Firefox/3.0\";client_host|s:10:\"powertower\";user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:5:\"de_DE\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1215679826,1,'account');
+INSERT INTO `cs_session` VALUES (0,'b5ae5a3394a9df1afd95519608476ff4','initiated|b:1;token|s:32:\"2585ac710a3379dcd775429be0fa374e\";token_time|i:1215766206;client_ip|s:9:\"127.0.0.1\";client_browser|s:81:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9) Gecko/2008052906 Firefox/3.0\";client_host|s:10:\"powertower\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}}','suiteSID',1215768007,1,'sessionstart');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1089,28 +1089,6 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 /*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_user_groups`
---
-
-DROP TABLE IF EXISTS `cs_user_groups`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_user_groups`
---
-
-/*!40000 ALTER TABLE `cs_user_groups` DISABLE KEYS */;
-INSERT INTO `cs_user_groups` VALUES (1,3);
-/*!40000 ALTER TABLE `cs_user_groups` ENABLE KEYS */;
-
---
 -- Table structure for table `cs_user_options`
 --
 
@@ -1183,7 +1161,7 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1191,7 +1169,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(4,'asdf@asdf.de','xsigndll','5e5992c80d2109e008a8bf8ff62c1d5619f1c31e','','3VIMJs','d50fc273185d807b1ad7edbdba03e08e',1215611546,0,0,0,0,'','',NULL,''),(5,'asdf@asdf.dea','xsigndlla','639eb7051584126e6aa8b22b1f3d624999aa3756','','F3wf72','6323e3a490b3291cb90ba6e99ced5a8b',1215611736,0,0,0,0,'','',NULL,''),(6,'asdf@asadf.de','xsigndllas','0ae490f1e4b3116080c220fff0e72814c9575878','','RkmlL','271a7f8ed0a58b55adbd71bc3149ee86',1215612201,0,0,0,0,'','',NULL,''),(7,'asdf@aasadf.de','xsigndllasa','861e4def1aaf9761dad5c8434e40dd15968c792a','','n72mZd','0135eb39a729a3a067878004c6ebf4bc',1215612295,0,0,0,0,'','',NULL,'');
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(4,'asdf@asdf.de','xsigndll','5e5992c80d2109e008a8bf8ff62c1d5619f1c31e','','3VIMJs','69765a8755aea934c6b774d377e62f5e',1215611546,0,0,0,0,'','',NULL,''),(5,'asdf@asdf.dea','xsigndlla','639eb7051584126e6aa8b22b1f3d624999aa3756','','F3wf72','6323e3a490b3291cb90ba6e99ced5a8b',1215611736,0,0,0,0,'','',NULL,''),(6,'asdf@asadf.de','xsigndllas','0ae490f1e4b3116080c220fff0e72814c9575878','','RkmlL','271a7f8ed0a58b55adbd71bc3149ee86',1215612201,0,0,0,0,'','',NULL,''),(7,'asdf@aasadf.de','xsigndllasa','861e4def1aaf9761dad5c8434e40dd15968c792a','','n72mZd','0135eb39a729a3a067878004c6ebf4bc',1215612295,0,0,0,0,'','',NULL,''),(8,'test@test.de','test','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','',1215764325,0,0,1,0,'','',NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1203,4 +1181,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348ae
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-07-10  8:28:13
+-- Dump completed on 2008-07-11  8:52:05
