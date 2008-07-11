@@ -39,7 +39,7 @@
     <td valign="top">
         <div style="margin-top: 10px">
            {$cs->loadModule("account")}
-           {$account->login()}
+           {$account->block_login()}
         {*
             {load_module name="account" action="login"}
             {load_module name="shoutbox" action="show"}

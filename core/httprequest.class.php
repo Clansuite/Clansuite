@@ -181,7 +181,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if (isset($this->parameters[$name]))
         {
-            return strtolower($this->parameters[$name]);
+            return $this->parameters[$name];
         }
         else
         {

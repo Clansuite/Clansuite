@@ -241,17 +241,6 @@ class Clansuite_User
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
 
-            /*
-            $groups = Doctrine_Query::create()
-                         ->select('g.group_id, r.right_id, r.name')
-                         ->from('CsGroups g')
-                         ->leftJoin('g.CsRights r')
-                         ->where('g.group_id = ?')
-                         ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
-            
-            #var_dump($this->user['CsGroups']);
-            */
-            #var_dump($this->user);
             if ( isset($this->user['CsGroups']) && is_array( $this->user['CsGroups'] ) )
             {
                 foreach( $this->user['CsGroups'] as $key => $group )
@@ -272,24 +261,6 @@ class Clansuite_User
                             $_SESSION['user']['rights'][$values['name']] = 1;
                         }
                     }
-
-                    /* OLD PDO Style
-                    $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg
-                                                 JOIN ' . DB_PREFIX . 'rights AS ri
-                                                 ON ri.right_id = rg.right_id
-                                                 WHERE rg.group_id = ?' );
-                    $stmt->execute( array( $group_id['group_id'] ) );
-                    $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-                    if( is_array( $rights ) )
-                    {
-                        foreach( $rights as $key => $values )
-                        {
-                            $_SESSION['user']['rights'][$values['name']] = 1;
-                        }
-                    }
-                    */
                 }
             }
         }
@@ -438,10 +409,10 @@ class Clansuite_User
          */
         if ( $remember_me == 1 )
         {
-            setcookie('user_id', $user_id, time() + round($this->config['login']['remember_me_time']*24*60*60));
+            setcookie('cs_cookie_user_id', $user_id, time() + round($this->config['login']['remember_me_time']*24*60*60));
             # @todo note by vain:
             # build_salted_hash deprecated check security.class.php
-            setcookie('password', $passwordhash, time() + round($this->config['login']['remember_me_time']*24*60*60));
+            setcookie('cs_cookie_password', $passwordhash, time() + round($this->config['login']['remember_me_time']*24*60*60));
         }
 
         /**
@@ -472,8 +443,8 @@ class Clansuite_User
         session_regenerate_id(true);
 
         // Delete cookies
-        setcookie('user_id', false );
-        setcookie('password', false );
+        setcookie('cs_cookie_user_id', false );
+        setcookie('cs_cookie_password', false );
     }
 
     /**
@@ -487,28 +458,28 @@ class Clansuite_User
          * Check for login cookie
          */
 
-        if ( !empty($_COOKIE['user_id']) && !empty($_COOKIE['password']) )
+        if ( !empty($_COOKIE['cs_cookie_user_id']) && !empty($_COOKIE['cs_cookie_password']) )
         {
             $this->user = Doctrine_Query::create()
                                 ->select('user_id,passwordhash,salt')
                                 ->from('CsUsers')
                                 ->where('user_id = ?')
-                                ->fetchOne(array((int)$_COOKIE['user_id']), Doctrine::FETCH_ARRAY);
+                                ->fetchOne(array((int)$_COOKIE['cs_cookie_user_id']), Doctrine::FETCH_ARRAY);
 
             /**
              * Proceed if match
              */
 
             if ( is_array($this->user) &&
-                 $this->security->check_salted_hash( $_COOKIE['password'], $this->user['passwordhash'], $this->user['salt'] ) &&
-                 $_COOKIE['user_id'] == $this->user['user_id'] )
+                 $this->security->check_salted_hash( $_COOKIE['cs_cookie_password'], $this->user['passwordhash'], $this->user['salt'] ) &&
+                 $_COOKIE['cs_cookie_user_id'] == $this->user['user_id'] )
             {
                 /**
                  * Update the cookie
                  */
 
-                setcookie('user_id', $_COOKIE['user_id'], time() + round($this->config['login']['remember_me_time']*24*60*60));
-                setcookie('password',$_COOKIE['password'], time() + round($this->config['login']['remember_me_time']*24*60*60));
+                setcookie('cs_cookie_user_id', $_COOKIE['cs_cookie_user_id'], time() + round($this->config['login']['remember_me_time']*24*60*60));
+                setcookie('cs_cookie_password',$_COOKIE['cs_cookie_password'], time() + round($this->config['login']['remember_me_time']*24*60*60));
 
                 /**
                  * Create $this->session['user']
@@ -528,8 +499,8 @@ class Clansuite_User
                  * Delete cookies, if no match
                  */
 
-                setcookie('user_id', false );
-                setcookie('password', false );
+                setcookie('cs_cookie_user_id', false );
+                setcookie('cs_cookie_password', false );
             }
         }
     }

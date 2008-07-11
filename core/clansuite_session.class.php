@@ -462,7 +462,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          *  CHECK whether session is EXPIRED
          */
 
-        if ( ( !isset($_COOKIE['user_id']) OR !isset($_COOKIE['password']) ) )
+        if ( ( !isset($_COOKIE['cs_cookie_user_id']) OR !isset($_COOKIE['cs_cookie_password']) ) )
         #AND $_SESSION['user']['user_id'] != 0 )
         {
             $result = Doctrine_Query::create()

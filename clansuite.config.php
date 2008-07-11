@@ -32,6 +32,7 @@ upload_folder = "uploads"
 ;----------------------------------------
 [email]
 mailmethod = "sendmail"
+mailerhost = ""
 from = "system@website.com"
 
 ;----------------------------------------
