@@ -10,10 +10,6 @@ window.addEvent('domready', function() {
         $('password').value = sha1($('password').value);
     });
 
-    /*
-    $('login_button').addEvent('click', function(){
-        alert('bla');
-    });*/
 }, 'javascript');
 </script>
 {/literal}
