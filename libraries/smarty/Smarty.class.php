@@ -1642,14 +1642,20 @@ class Smarty
                 foreach ((array)$params['resource_base_path'] as $_curr_path) {
                     $_fullpath = $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
                     if (file_exists($_fullpath) && is_file($_fullpath)) {
+                        
                         $params['resource_name'] = $_fullpath;
+                        $this->_current_tpl = $params['resource_name'];
+                        #var_dump($params['resource_name']);
                         return true;
                     }
                     // didn't find the file, try include_path
                     $_params = array('file_path' => $_fullpath);
                     require_once(SMARTY_CORE_DIR . 'core.get_include_path.php');
                     if(smarty_core_get_include_path($_params, $this)) {
+                        
                         $params['resource_name'] = $_params['new_file_path'];
+                        #var_dump($params['resource_name']);
+                        $this->_current_tpl = $params['resource_name'];
                         return true;
                     }
                 }
