@@ -151,11 +151,11 @@
             </p>
             
             <p>
-               <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=menueditor&amp;action=restore'"class="ButtonRed" value="{t}Restore last Adminmenu{/t}" />
+               <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"class="ButtonRed" value="{t}Restore last Adminmenu{/t}" />
             </p>        
 
             <div id="tree-plugin">
-                <form action="index.php?mod=admin&amp;sub=menueditor&amp;action=update" method="post" accept-charset="UTF-8">
+                <form action="index.php?mod=menu&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">
                 <div id="tree-plugin-content"></div>
                 <strong>{t}The menu has been generated.{/t}</strong> <br />
                 {t}Click the button below, to save the menu into the Database.{/t} <br />
