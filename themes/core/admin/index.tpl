@@ -10,7 +10,7 @@
     {* Mootools *}
     <script src='{$www_root_themes_core}/javascript/mootools/mootools.js' type='text/javascript'></script>
     <script src='{$www_root_themes_core}/javascript/mootools/mootools-more.js' type='text/javascript'></script>
-    
+
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -40,7 +40,7 @@
     <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
-{include file="admin/adminmenu/adminmenu.tpl"}
+{include file="menu/adminmenu.tpl"}
 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
     <thead>
         <tr>
@@ -63,7 +63,7 @@
                         mySlide.toggle('vertical');
                     });
                 }, 'javascript');
-                
+
                 </script>
                 {/literal}
                 <div id="help-toggler" style="float: right; font-size: 10px;cursor: pointer;">
@@ -72,7 +72,7 @@
 
 
                 </div>
-                
+
             </td>
         </tr>
     </thead>
@@ -84,16 +84,7 @@
                 </div>
                 <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
                     <div id="help" class="admin_help" style="float: right;">
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-                          bla  WTFFFFFFFF<p>&nbsp;</p>
-
+                          <p><bTest</b>&nbsp;Lorem Ipsum</p>
                     </div>
                 </div>
             </td>

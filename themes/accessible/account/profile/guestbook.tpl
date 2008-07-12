@@ -36,7 +36,7 @@
                     {elseif $entry.type == upload}
                         <a href="index.php?mod=account&sub=profile&action=show&id={$entry.user_id.1}"><img src="index.php?mod=guestbook&action=show_avatar&id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
                     {else}
-                        <img src="{$www_root_themes}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
+                        <img src="{$www_root_theme}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
                     {/if}
                 </div>
             </div>
