@@ -106,7 +106,7 @@
      {$copyright}
     <br/> Frontpage-Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
     <br/> {include file='server_stats.tpl'}
-    <div style="text-align: right;"><a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a></div>
+    <div style="text-align: right;"><a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php?mod=admin">&rArr; {t} Administration {/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a></div>
 </div>
 
 {* Ajax Notification *}
