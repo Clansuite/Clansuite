@@ -1,6 +1,6 @@
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$_current_path}/menu.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/XulMenu.js"></script>
+<script type="text/javascript" src="{$_current_path}/javascript/XulMenu.js"></script>
 {/doc_raw}
 
 {assign var=reduce value=$_current_path|strrpos:"/"} 
@@ -13,9 +13,9 @@
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$www_root_themes_core}/images/menu/arrow1.gif";
+arrow1.src =  "{$imgpath}/images/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$www_root_themes_core}/images/menu/arrow2.gif";
+arrow2.src =  "{$imgpath}/images/arrow2.gif";
 </script>
 
 <div class="menugradient">
