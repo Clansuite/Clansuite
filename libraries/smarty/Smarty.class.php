@@ -1676,12 +1676,23 @@ class Smarty
 
                         $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
                         $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
+                        
                         return true;
                     }
                 }
                 return false;
             } else {
                 /* absolute path */
+                $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
+                $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
+                # single slash correction
+                $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
+                # get rid of double slashes
+                $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
+                $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
+
+                $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
+                $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
                 return file_exists($params['resource_name']);
             }
         } elseif (empty($this->_plugins['resource'][$params['resource_type']])) {
