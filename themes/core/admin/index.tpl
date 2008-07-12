@@ -12,6 +12,9 @@
     <script src='{$www_root_themes_core}/javascript/mootools/mootools.js' type='text/javascript'></script>
     <script src='{$www_root_themes_core}/javascript/mootools/mootools-more.js' type='text/javascript'></script>
 
+    {* Clip *}
+    <script src='{$www_root_themes_core}/javascript/clip.js' type='text/javascript'></script>
+
 {literal}
     <script>
         typeof($chk)=="function"
