@@ -7,8 +7,8 @@
 
 {doc_raw}
     {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/css/luna.css" />
-    <script type="text/javascript" src="{$www_root_themes}/javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/luna.css" />
+    <script type="text/javascript" src="{$www_root_mod}/javascript/tabpane.js"></script>
 {/doc_raw}
 
 <form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
