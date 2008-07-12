@@ -8,7 +8,7 @@
 .DynamicTree .folder img { border: 0; vertical-align: -4px; }
 * html .DynamicTree .doc img,
 * html .DynamicTree .folder img { border: 0; vertical-align: middle; vertical-align: -4px; }
-.DynamicTree .section { background: url(images/tree-branch.gif) repeat-y; display: none; }
+.DynamicTree .section { background: url(../images/tree-branch.gif) repeat-y; display: none; }
 .DynamicTree .last { background: none; }
 .DynamicTree .folder .folder { margin-left: 18px; }
 .DynamicTree .doc .doc, .DynamicTree .folder .doc { margin-left: 18px; }
@@ -73,7 +73,7 @@
 .DynamicTree .remove { left: 150px; }
 
 .DynamicTree .wrap { margin-left: 2px; }
-.DynamicTree .top { background: url(images/tree.gif) no-repeat; padding-left: 25px; line-height: 20px; color: #333333; }
+.DynamicTree .top { background: url(../images/tree.gif) no-repeat; padding-left: 25px; line-height: 20px; color: #333333; }
 .DynamicTree .wrap1 { background: #ffffff; padding: 10px; border: 1px solid #919B9C; width: 250px; }
 .DynamicTree .wrap2 { margin-left: 2px; }
 

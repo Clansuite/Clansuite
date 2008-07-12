@@ -8,7 +8,7 @@
 
 function DynamicTree(id) {
     this.foldersAsLinks = false;
-    this.path = "/templates/core/admin/adminmenu/images/";
+    this.path = "/modules/menu/images/";
     this.img = {
         "branch": "tree-branch.gif",
         "doc": "tree-doc.gif",
