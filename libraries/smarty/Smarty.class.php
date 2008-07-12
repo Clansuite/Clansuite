@@ -1644,7 +1644,19 @@ class Smarty
                     if (file_exists($_fullpath) && is_file($_fullpath)) {
                         
                         $params['resource_name'] = $_fullpath;
-                        $this->_current_tpl = $params['resource_name'];
+                        
+                        #var_dump($params['resource_name']);
+                        
+                        $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
+                        $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
+                        # single slash correction
+                        $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
+                        # get rid of double slashes
+                        $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
+                        $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
+
+                        $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
+                        $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
                         #var_dump($params['resource_name']);
                         return true;
                     }
@@ -1654,8 +1666,16 @@ class Smarty
                     if(smarty_core_get_include_path($_params, $this)) {
                         
                         $params['resource_name'] = $_params['new_file_path'];
-                        #var_dump($params['resource_name']);
-                        $this->_current_tpl = $params['resource_name'];
+                        $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
+                        $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
+                        # single slash correction
+                        $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
+                        # get rid of double slashes
+                        $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
+                        $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
+
+                        $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
+                        $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
                         return true;
                     }
                 }
