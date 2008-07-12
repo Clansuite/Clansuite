@@ -1,6 +1,6 @@
 {doc_raw}
     {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/luna.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
 
     {* Prototype + Scriptaculous + Smarty_Ajax + Xilinus*}

@@ -16,7 +16,7 @@
             {elseif $info.type == upload}
                 <img src="index.php?mod=account&sub=general&action=show_avatar&id={$info.user_id.0}" alt="{$info.nick}"  class="the_pic"/>
             {else}
-                <img src="{$www_root_themes}/images/no_avatar.jpg" alt="{t}No avatar{/t}: {$info.nick}"  class="the_pic"/>
+                <img src="{$www_root_theme}/images/no_avatar.jpg" alt="{t}No avatar{/t}: {$info.nick}"  class="the_pic"/>
             {/if}
         </div>
     </div>

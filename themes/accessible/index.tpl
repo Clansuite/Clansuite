@@ -25,15 +25,15 @@
 <meta name="keywords" content="{$meta.keywords}" />
 
 {* Favicon Include *}
-<link rel="shortcut icon" href="{$www_root_themes}/images/favicon.ico" />
-<link rel="icon" href="{$www_root_themes}/images/animated_favicon.gif" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_theme}/images/favicon.ico" />
+<link rel="icon" href="{$www_root_theme}/images/animated_favicon.gif" type="image/gif" />
 
 {* Inserts from index.php *}
-<link rel="stylesheet" type="text/css" href="{$www_root_themes}/scripts/accessible.css" />
-<link rel="stylesheet" type="text/css" href="{$www_root_themes}/scripts/ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/accessible.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/ui.datepicker.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
-<script type="text/javascript" src="{$www_root_themes}/scripts/accessible.js"></script>
+<script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script>
 {if isset($additional_head)} {$additional_head} {/if}
 {if isset($redirect)} {$redirect} {/if}
 

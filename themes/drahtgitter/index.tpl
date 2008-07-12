@@ -5,8 +5,8 @@
 <!-- Clip -->
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 <!-- Favicon -->
-<link rel="shortcut icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" />
-<link rel="icon" href="{$www_root_themes}/images/Clansuite-Favicon-16.ico" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
+<link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
 {/doc_raw}
