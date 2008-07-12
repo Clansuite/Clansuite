@@ -59,7 +59,7 @@ class Clansuite_Doctrine
     function __construct(Clansuite_Config $config)
     {
         $this->config = $config; # set config instance
-        
+
         # Load DBAL
         #$db = $this->injector->instantiate('clansuite_doctrine');
         $this->doctrine_initialize();
@@ -74,30 +74,32 @@ class Clansuite_Doctrine
      */
     private function doctrine_initialize()
     {
-        #var_dump(class_exists("Doctrine"));
-        // Require compiled or normal Library
-        if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
+        if (!class_exists('Doctrine')) // prevent redeclaration
         {
-            require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
+            // Require compiled or normal Library
+            if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
+            {
+                require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
+            }
+            else
+            {
+                require ROOT_LIBRARIES .'doctrine/Doctrine.php';
+            }
+
+            // Register Doctrine autoloader
+            spl_autoload_register(array('Doctrine', 'autoload'));
+
+            // Debug Modus
+            if ( defined('DEBUG') && DEBUG===1 )
+            {
+                Doctrine::debug(true);
+            }
+
+            // Db Connection
+            $this->prepareDbConnection();
         }
-        else
-        {
-            require ROOT_LIBRARIES .'doctrine/Doctrine.php';
-        }
-        
-        // Register Doctrine autoloader
-        spl_autoload_register(array('Doctrine', 'autoload'));
-       
-        // Debug Modus
-        if ( defined('DEBUG') && DEBUG===1 )
-        {
-            Doctrine::debug(true);
-        }
-        
-        // Db Connection
-        $this->prepareDbConnection();
     }
-  
+
     /**
      * prepareDbConnection
      *
@@ -111,9 +113,9 @@ class Clansuite_Doctrine
     {
         Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
         Doctrine::loadModels( ROOT . '/myrecords/' ); // This call will not require the found .php files
-       
+
         // construct the Data Source Name (DSN)
-        // Example: 
+        // Example:
         #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
         $dsn  = $this->config['database']['db_type'] . '://';
         $dsn .= $this->config['database']['db_username'] .  ':';
@@ -132,12 +134,12 @@ class Clansuite_Doctrine
         /**
          * Setup phpDoctrine Attributes for that later Connection
          */
-         
+
         # Changing the database naming convention by adding DB_PREFIX
-        $manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s"); 
+        $manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
 
         /**
-         * 
+         *
          * Aggressive - It finds all .php files in a given path recursively and
            performs a require_once() on each file. Your files can be in subfolders, and
            the files can include multiple models. It is very flexible but the downside
@@ -148,18 +150,17 @@ class Clansuite_Doctrine
            the name of the file, so each file must contain only one class and the file
            must be named after the class inside of it. This array is then referenced in
            Doctrine::autoload() and used to load models when they are asked for.
-           
+
            Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
-        
-        #$manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
 
         # Load Models (automatic + lazy loading)
-        #Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
-        
+        $manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
+        #Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
+
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();
-        #print_r($models);     
+        #print_r($models);
 
         // Validate All
         #$manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
