@@ -1,3 +1,7 @@
+{php}
+echo $this->_current_tpl
+{/php}
+
 {doc_raw}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/menu.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/XulMenu.js"></script>
