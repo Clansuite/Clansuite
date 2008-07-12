@@ -126,7 +126,7 @@
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
            {$cs->loadModule("account")}
-           {$account->login()}   
+           {$account->block_login()}  
         </div>
         <div style="margin-top: 10px">
 		   {* {load_module name="shoutbox" action="show"} *}
