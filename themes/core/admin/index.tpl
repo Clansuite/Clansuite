@@ -3,10 +3,14 @@
 {* everything in doc_raw is moved "as is" to header *}
 
 {doc_raw}
-    {* Prototype + Scriptaculous + Smarty_Ajax *}
+    {* jQuery *}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 
+    {* Mootools *}
+    <script src='{$www_root_themes_core}/javascript/mootools/mootools.js' type='text/javascript'></script>
+    <script src='{$www_root_themes_core}/javascript/mootools/mootools-more.js' type='text/javascript'></script>
+    
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -20,7 +24,7 @@
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/icons/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/admin.css" />
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
+    {* <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script> *}
 
     {if isset($additional_head)}{$additional_head}{/if}
     {if isset($redirect)}{$redirect}{/if}
@@ -41,35 +45,57 @@
     <thead>
         <tr>
             <td class="admin_header">
+
                 <div style="float: left">
                     {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
                 </div>
                 {literal}
                 <script type="text/javascript">
-                $(document).ready(function() {
-                    $('#help-toggler').click(function() {
-                        $('#help-td, #help-td-2').animate({ width: 'toggle', opacity: 'toggle' }, 'slow');
+                window.addEvent('domready', function() {
+                    var mySlide = new Fx.Slide('help', {
+                        duration: 1000,
+                        transition: Fx.Transitions.Pow.easeOut
                     });
-                });
+                    mySlide.hide();
+                    //alert(mySlide.open);
+
+                    $('help-toggler').addEvent('click', function() {
+                        mySlide.toggle('vertical');
+                    });
+                }, 'javascript');
+                
                 </script>
                 {/literal}
-                <div id="help-toggler" style="float: right; font-size: 10px;">
+                <div id="help-toggler" style="float: right; font-size: 10px;cursor: pointer;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
+
+
                 </div>
-            </td>
-            <td id="help-td" class="admin_header_help" style="display: none">
-                <div id="help-toggle" style="height: 18px">&raquo; {t}Help{/t}</div>
+                
             </td>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td class="admin_content" width="100%">
-                {$content}
-            </td>
-            <td id="help-td-2" class="admin_help" style="height: 100%; display: none">
-                {* {load_module name="admin" sub="help" func="instant_show"} *}
+                <div style="float: left; width: 100%;">
+                    {$content}
+                </div>
+                <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
+                    <div id="help" class="admin_help" style="float: right;">
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+                          bla  WTFFFFFFFF<p>&nbsp;</p>
+
+                    </div>
+                </div>
             </td>
         </tr>
     </tbody>
