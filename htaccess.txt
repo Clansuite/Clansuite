@@ -22,7 +22,7 @@ php_value output_buffering      "1"
 # (6) Apache2 with "LoadModule mod_deflate"
 #     for output compression of the following specific file-content-types:
 
-<IfModule mod_rewrite.c>
+<IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript
 </IfModule>
 
