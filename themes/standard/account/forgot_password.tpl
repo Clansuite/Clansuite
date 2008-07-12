@@ -14,7 +14,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="submit" name="submit" value="{t}Send new password{/t}">
+            <input class="ButtonGrey" type="submit" name="submit" value="{t}Send new password{/t}">
         </td>
     </tr>
     </table>
