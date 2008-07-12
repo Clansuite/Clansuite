@@ -1,5 +1,4 @@
 {* {$config|@var_dump} *}
-
 {$_current_tpl}
 {assign var=reduce value=$_current_path|strrpos:"/"} 
 {assign var=imgpath value=$_current_path|@truncate:$reduce:"":true}

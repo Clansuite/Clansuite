@@ -23,6 +23,7 @@ function smarty_fetch_module_templates($resource_type, $resource_name, &$templat
 
         $smarty_obj->assign('_current_tpl',  str_replace(ROOT, '', $smarty_obj->_current_tpl));
         $smarty_obj->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $smarty_obj->_current_tpl ))));
+        
         $template_source    = file_get_contents($template);
         $template_timestamp = filemtime($template);
         return true;
