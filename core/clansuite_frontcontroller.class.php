@@ -146,6 +146,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public function getModuleController(httprequest $request)
     {
+        $required_modulename = '';
         # ModuleName is either the requested modulename or the defaultModule or a set module name
         if( isset(self::$_ModuleName) )
         {
@@ -171,17 +172,21 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             
             # Set the modulename as public static class variables
             self::setSubModuleName($submodule_name);
-
+        
             # SubModulName is attached to the ModuleName
-            $module_name .= '_'. $submodule_name;
+            $required_modulename = $module_name . '_'. $submodule_name;
             #echo "Module + Submodule => ModuleController => $module_name <br>";
+        }
+        else
+        {
+            $required_modulename = $module_name;
         }
 
         # Load Modul (require) based on requested module_name
-        if(clansuite_loader::loadModul($module_name) == true)
+        if(clansuite_loader::loadModul($required_modulename) == true)
         {
             # Set the module name
-            $required_modulename = $module_name;
+            #$required_modulename = $module_name;
             #var_dump($module_name);
         }
         else
@@ -200,7 +205,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
 
         # Set the modulename as public static class variables
-        $this->setModuleName($required_modulename);
+        $this->setModuleName($module_name);        
 
         # Construct Classname to instantiate the required Module
         $class = 'module_' . $required_modulename;
