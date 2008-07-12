@@ -468,7 +468,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * @param int    http status code, default: '302' => 'Not Found'
      * @access public
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $text)
+    public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
         $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode, $text);
     }
