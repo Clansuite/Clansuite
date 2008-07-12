@@ -1,10 +1,10 @@
-{doc_raw}
-<link rel="stylesheet" type="text/css" href="{$_current_path}/menu.css" />
-<script type="text/javascript" src="{$_current_path}/javascript/XulMenu.js"></script>
-{/doc_raw}
-
 {assign var=reduce value=$_current_path|strrpos:"/"} 
 {assign var=imgpath value=$_current_path|@truncate:$reduce:"":true}
+
+{doc_raw}
+<link rel="stylesheet" type="text/css" href="{$imgpath}/css/menu.css" />
+<script type="text/javascript" src="{$imgpath}/javascript/XulMenu.js"></script>
+{/doc_raw}
 
 {* If you create a Theme, use such Imagepaths : $www_root_theme/images/modulename/image.gif *}
 
