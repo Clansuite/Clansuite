@@ -3,6 +3,7 @@
 {* everything in doc_raw is moved "as is" to header *}
 
 {doc_raw}
+
     {* jQuery *}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
@@ -10,6 +11,12 @@
     {* Mootools *}
     <script src='{$www_root_themes_core}/javascript/mootools/mootools.js' type='text/javascript'></script>
     <script src='{$www_root_themes_core}/javascript/mootools/mootools-more.js' type='text/javascript'></script>
+
+{literal}
+    <script>
+        typeof($chk)=="function"
+    </script>
+{/literal}
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -24,7 +31,7 @@
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/icons/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/admin.css" />
 
-    {* <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script> *}
+
 
     {if isset($additional_head)}{$additional_head}{/if}
     {if isset($redirect)}{$redirect}{/if}
