@@ -108,7 +108,7 @@ class clansuite_xdebug
     public static function end_xdebug()
     {
         # get page parsing time from xdebug
-        echo "<script src='themes/core/javascript/mootools/mootools.js' type='application/javascript'></script>
+        echo "
         <div id='debug' style='display:none;'>
         <center>
             <script>
