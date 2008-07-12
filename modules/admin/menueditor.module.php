@@ -115,7 +115,7 @@ class module_admin_menueditor extends ModuleController implements Clansuite_Modu
         $menu = $_POST['container'];
 
         # Load DBAL
-        parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
+        #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
 
         // Get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();

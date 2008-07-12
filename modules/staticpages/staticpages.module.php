@@ -70,10 +70,7 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
 
         // check if page was set and is sanitized
         if ( !empty($page) AND $input->check( $page, 'is_abc|is_int|is_custom', '_\s' ) )
-        {
-            // Init DBAL
-            $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
+        { 
             $result = Doctrine_Query::create()
                                     ->select('*')
                                     ->from('CsStaticPages')
@@ -128,9 +125,6 @@ class Module_Staticpages extends ModuleController implements Clansuite_Module_In
     {
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Overview'), '/index.php?mod=staticpages&amp;action=overview');
-
-        // Load DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
 
         // get all static pages without page content
         $result = Doctrine_Query::create()

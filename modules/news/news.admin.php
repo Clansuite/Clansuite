@@ -135,13 +135,6 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
         $currentPage = (int) $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = (int) 10;  
-                
-        # Load DBAL
-        $db = $this->injector->instantiate('clansuite_doctrine');
-        $db->doctrine_initialize();
-        
-        # Load Models (automatic + lazy loading)
-        Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);  
         
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
