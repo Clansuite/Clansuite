@@ -70,10 +70,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
-
-        // Load DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
+      
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
@@ -182,9 +179,6 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      */
     public function action_archive()
     {
-        // Init DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 

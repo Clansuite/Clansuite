@@ -84,9 +84,6 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 25;
 
-        // Load DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
         /* @todo: news with status: draft, published, private, private+protected*/
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(

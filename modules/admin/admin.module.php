@@ -68,7 +68,7 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
         $smarty = $this->getView();
 
         # Load DBAL
-        parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
+        #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
 
         $row    = 0;
         $col    = 0;

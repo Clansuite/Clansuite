@@ -129,14 +129,7 @@ class Module_Guestbook_Admin extends ModuleController implements Clansuite_Modul
         # Incoming Variables
         $currentPage    = (int) $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = (int) 10;  
-        
-        # Load DBAL
-        $db = $this->injector->instantiate('clansuite_doctrine');
-        $db->doctrine_initialize();
-        
-        # Load Models (automatic + lazy loading)
-        Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE); 
-        
+      
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
@@ -202,8 +195,10 @@ class Module_Guestbook_Admin extends ModuleController implements Clansuite_Modul
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
         # specifiy the template manually
-        $this->setTemplate('guestbook/show_admin.tpl');
+        #$this->setTemplate('guestbook/admin_show.tpl');
+        
         # Prepare the Output
         $this->prepareOutput();
 

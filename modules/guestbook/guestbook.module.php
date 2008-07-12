@@ -106,24 +106,6 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
 
-        # Load DBAL
-        $this->injector->instantiate('clansuite_doctrine')->doctrine_initialize();
-
-        # Load Models (manually)
-        /*
-        require ROOT . '/myrecords/generated/BaseCsGuestbook.php';
-        require ROOT . '/myrecords/CsGuestbook.php';
-        require ROOT . '/myrecords/generated/BaseCsUsers.php';
-        require ROOT . '/myrecords/CsUsers.php';
-        */
-
-        # Load Models (automatic + lazy loading)
-        #Doctrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
-
-        # Debug Listing of all loaded Doctrine Models
-        #$models = Doctrine::getLoadedModels();
-        #print_r($models);
-
         // get all guestbook entries
         #$stmt = $db->prepare( ' LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id
         #                       LEFT JOIN ' . DB_PREFIX . 'users u ON g.user_id = u.user_id ORDER BY g.gb_added DESC' );
