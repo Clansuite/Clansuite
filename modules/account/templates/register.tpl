@@ -18,8 +18,42 @@ window.addEvent('domready', function() {
         }
         return true;
     });
-
 }, 'javascript');
+
+function randomPassword(length)
+{
+   chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+   pass = "";
+
+   for(x=0;x<length;x++)
+   {
+      i = Math.floor(Math.random() * 62);
+      pass += chars.charAt(i);
+   }
+
+   return pass;
+}
+
+function fillPasswordForm(length)
+{
+    document.getElementById("password").type = "text";
+    document.getElementById("password2").type = "text";
+    document.getElementById("password2").disabled = true;
+
+    document.register_form.password.value=randomPassword(length)
+    document.register_form.password2.value=document.register_form.password.value
+}
+
+function resetPasswordForm()
+{
+    document.getElementById("password").type = "password";
+    document.register_form.password.value = '';
+    document.register_form.password.value = '';
+
+    document.getElementById("password2").type = "password";
+    document.getElementById("password2").disabled = false;
+    document.register_form.password2.value = '';
+}
 </script>
 {/literal}
 <h2>{t}Register{/t}</h2>
@@ -33,8 +67,8 @@ window.addEvent('domready', function() {
     {if $err.passes_do_not_fit == 1}<p class="error">{t}The passwords aren't the same!{/t}</p>{/if}
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
     {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
-    
-    <form action="index.php?mod=account&action=register" method="post" id="register_form">
+
+    <form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form">
     <table>
         <tr>
             <td>{t}Nick:{/t}</td>
@@ -52,6 +86,14 @@ window.addEvent('domready', function() {
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
             <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
+            <td>
+                <form name="generatePassword">
+                <input type="button" value="Generate Password" onClick="fillPasswordForm(this.form.passwordlength.value)"><br />
+                <input type="button" value="Reset" onClick="resetPasswordForm()"><br />
+                <b>Password Length:</b>
+                <input type="text" name="passwordlength" size=3 value="7">
+                </form>
+            </td>
         </tr>
         <tr>
             <td>{t}Confirm Password:{/t}</td>
@@ -62,9 +104,17 @@ window.addEvent('domready', function() {
             <td>{t}Password Security:{/t}</td>
             <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
         </tr>
+
         <tr>
-            <td>{t}Enter Code:{/t}</td>
-            <td><img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value=""></td>
+            <td>{t}Captcha:{/t}</td>
+            <td>
+            {*{if $config.captcha.type == 'recaptcha'} *}
+             {$cs->loadModule("recaptcha")}
+             {$recaptcha->display_recaptcha()}
+            {* {else} *}
+             <img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value="">
+            {* {/if} *}
+            </td>
         </tr>
         -->
         <tr>
