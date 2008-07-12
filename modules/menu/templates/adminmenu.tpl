@@ -1,20 +1,21 @@
-{php}
-echo $this->_current_tpl
-{/php}
-
 {doc_raw}
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/menu.css" />
+<link rel="stylesheet" type="text/css" href="{$_current_path}/menu.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/XulMenu.js"></script>
 {/doc_raw}
+
+{assign var=reduce value=$_current_path|strrpos:"/"} 
+{assign var=imgpath value=$_current_path|@truncate:$reduce:"":true}
+
+{* If you create a Theme, use such Imagepaths : $www_root_theme/images/modulename/image.gif *}
 
 <!-- start: AdminMenu - Header 2 //-->
 
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$www_root_themes_core}/images/adminmenu/arrow1.gif";
+arrow1.src =  "{$www_root_themes_core}/images/menu/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
+arrow2.src =  "{$www_root_themes_core}/images/menu/arrow2.gif";
 </script>
 
 <div class="menugradient">
@@ -49,10 +50,12 @@ arrow2.src =  "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
             </tr>
         </table>
 
+       
+        
         <script type="text/javascript">
             var menu1 = new XulMenu("menu1");
-            menu1.arrow1 = "{$www_root_themes_core}/images/adminmenu/arrow1.gif";
-            menu1.arrow2 = "{$www_root_themes_core}/images/adminmenu/arrow2.gif";
+            menu1.arrow1 = "{$imgpath}/images/arrow1.gif";
+            menu1.arrow2 = "{$imgpath}/images/arrow2.gif";
             menu1.init();
         </script>
 
