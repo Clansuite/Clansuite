@@ -130,7 +130,6 @@ abstract class renderer_base
      */
     abstract public function display($template, $data = null);
 
-
     /**
      * Returns the Template Path
      *
@@ -278,7 +277,7 @@ abstract class renderer_base
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['paths']['upload_folder'];
-        $template_constants['www_root_themes']      = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
+        $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
 
         # b) Meta Informations
