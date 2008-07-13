@@ -59,28 +59,28 @@
                 <div style="float: left">
                     {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
                 </div>
+                
                 {literal}
-                <script type="text/javascript">
-                window.addEvent('domready', function() {
-                    var mySlide = new Fx.Slide('help', {
-                        duration: 1000,
-                        transition: Fx.Transitions.Pow.easeOut
-                    });
-                    mySlide.hide();
-                    //alert(mySlide.open);
-
-                    $('help-toggler').addEvent('click', function() {
-                        mySlide.toggle('vertical');
-                    });
-                }, 'javascript');
-
-                </script>
+                    <script type="text/javascript">
+                    window.addEvent('domready', function() {
+                        var mySlide = new Fx.Slide('help', {
+                            duration: 1000,
+                            transition: Fx.Transitions.Pow.easeOut
+                        });
+                        mySlide.hide();
+                        //alert(mySlide.open);
+    
+                        $('help-toggler').addEvent('click', function() {
+                            mySlide.toggle('vertical');
+                        });
+                    }, 'javascript');
+    
+                    </script>
                 {/literal}
-                <div id="help-toggler" style="float: right; font-size: 10px;cursor: pointer;">
+                
+                <div id="help-toggler" style="float: right; font-size: 10px; cursor: pointer;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
-
-
                 </div>
 
             </td>
@@ -93,7 +93,7 @@
                     {$content}
                 </div>
                 <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
-                    <div id="help" class="admin_help" style="float: right;">
+                    <div id="help" class="admin_help" style="float: right; z-index: 99;">
                           <p><bTest</b>&nbsp;Lorem Ipsum</p>
                     </div>
                 </div>
