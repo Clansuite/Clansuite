@@ -1,12 +1,12 @@
 {doc_raw}
-<script type="application/javascript" src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
 
 {literal}
     <script>
     function hashLoginPassword(theForm)
     {       
-        theForm.password.value = sha1(theForm.password.value);
+        theForm.password.value = SHA1(theForm.password.value);
     }
     </script>
 {/literal}

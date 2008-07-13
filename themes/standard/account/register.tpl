@@ -1,5 +1,5 @@
 {doc_raw}
-<script type="application/javascript" src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
 
 {literal}
@@ -18,8 +18,8 @@
             }
             else
             {
-                theForm.password.value  = sha1(theForm.password.value);  
-                theForm.password2.value = sha1(theForm.password2.value);                
+                theForm.password.value  = SHA1(theForm.password.value);  
+                theForm.password2.value = SHA1(theForm.password2.value);                
                 return true;
             }
     }
