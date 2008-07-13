@@ -1,34 +1,27 @@
 {doc_raw}
-    <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script type="application/javascript" src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
 
 {literal}
     <script>
-    addLoadEvent(submitForm);
-    
-    function submitForm(evt)
-    {
-        if (!document.getElementById) return true;
-        var theForm = document.getElementById ('register_form');
-        
-        theForm.onsubmit = function (evt)
-        {            
-            if( (document.register_form.password.value  != '') &&
-                (document.register_form.password2.value != '') &&
-                (document.register_form.password.value  != document.register_form.password2.value))
+
+    function hashLoginPassword(theForm)
+    {       
+        if( (theForm.password.value  != '') &&
+            (theForm.password2.value != '') &&
+            (theForm.password.value  != theForm.password2.value))
             {                
                 alert('Passwords do not match. Please Re-Enter');
-                document.register_form.password.value  = '';
-                document.register_form.password2.value = '';
+                theForm.password.value  = '';
+                theForm.password2.value = '';
                 return false;
             }
             else
             {
-                document.register_form.password.value  = sha1(document.register_form.password.value);
-                document.register_form.password2.value = sha1(document.register_form.password2.value);
+                theForm.password.value  = sha1(theForm.password.value);  
+                theForm.password2.value = sha1(theForm.password2.value);                
                 return true;
-            }     
-        }
+            }
     }
     
     function randomPassword(length)

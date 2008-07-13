@@ -30,6 +30,7 @@
 <script  src="{$www_root_themes_core}/javascript/XulMenu.js" type="application/javascript"></script>
 <script src="{$javascript}" language="javascript" type="application/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
+<script type="application/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
 
 <!--[if IE]>
 <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
