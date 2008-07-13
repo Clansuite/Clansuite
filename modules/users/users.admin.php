@@ -38,7 +38,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
 * Admin Module - Config Class
 */
-class module_admin_users extends ModuleController implements Clansuite_Module_Interface
+class Module_Users_Admin extends ModuleController implements Clansuite_Module_Interface
 {
     public function execute(httprequest $request, httpresponse $response)
     {
@@ -47,67 +47,10 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
     }
 
     /**
-    * First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * Loading necessary language files
-    */
-
-    function auto_run()
-    {
-        global $lang, $trail;
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Users'), '/index.php?mod=admin&amp;sub=users');
-
-        switch ($_REQUEST['action'])
-        {
-            default:
-            case 'usercenter':
-                $this->show_usercenter();
-                break;
-
-	        case 'create':
-                $trail->addStep($lang->t('Create New Useraccount'), '/index.php?mod=admin&amp;sub=users&amp;action=create');
-                $this->create();
-                break;
-
-            case 'edit_standard':
-                $this->edit_standard();
-                break;
-
-            case 'edit_general':
-                $this->edit_general();
-                break;
-
-            case 'edit_computer':
-                $this->edit_computer();
-                break;
-
-            case 'edit_guestbook':
-                $this->edit_guestbook();
-                break;
-
-            case 'search':
-                $trail->addStep($lang->t('Search'), '/index.php?mod=admin&amp;sub=users');
-                $this->search();
-                break;
-
-            case 'delete':
-               $this->delete();
-                break;
-
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
-    }
-
-    /**
     * Show all users
     *
     */
-    function action_users_show()
+    function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=users&amp;action=show');
@@ -182,7 +125,7 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
         $smarty->setLayoutTemplate('admin/index.tpl');
 
         # Specifiy the template manually
-        $this->setTemplate('admin/users/show.tpl');
+        #$this->setTemplate('admin/show.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -192,7 +135,7 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
      * Create a new user
      *   
      */
-    function action_create()
+    function action_admin_create()
     {
         # Permissions
         $perms->check( 'cc_create_users' );
@@ -322,7 +265,7 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
      * AJAX
      *
      */
-    function edit_standard()
+    function action_admin_edit_standard()
     {
 
         // Permissions
@@ -559,7 +502,7 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
      * Advanced User-Search
      *
      */
-    function action_search()
+    function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Search'), '/index.php?mod=admin&amp;sub=users&amp;action=search');
@@ -599,7 +542,7 @@ class module_admin_users extends ModuleController implements Clansuite_Module_In
     /**
      * Deletes a user
      */
-    function action_delete()
+    function action_admin_delete()
     {
         global $db, $functions, $input, $lang;
 
