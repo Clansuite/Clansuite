@@ -11,9 +11,9 @@
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$imgpath}/images/arrow1.gif";
+arrow1.src =  "{$tplpath}/images/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$imgpath}/images/arrow2.gif";
+arrow2.src =  "{$tplpath}/images/arrow2.gif";
 </script>
 
 <div class="menugradient">
@@ -52,8 +52,8 @@ arrow2.src =  "{$imgpath}/images/arrow2.gif";
         
         <script type="text/javascript">
             var menu1 = new XulMenu("menu1");
-            menu1.arrow1 = "{$imgpath}/images/arrow1.gif";
-            menu1.arrow2 = "{$imgpath}/images/arrow2.gif";
+            menu1.arrow1 = "{$tplpath}/images/arrow1.gif";
+            menu1.arrow2 = "{$tplpath}/images/arrow2.gif";
             menu1.init();
         </script>
 
