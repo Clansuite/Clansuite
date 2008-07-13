@@ -1,4 +1,23 @@
-    {* {$config|@var_dump} *}
+{doc_raw}
+    <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+{/doc_raw}
+
+{literal}
+    <script>
+    addLoadEvent(submitForm);
+    
+    function submitForm(evt)
+    {
+        if (!document.getElementById) return true;
+        var theForm = document.getElementById ('login_form');
+        
+        theForm.onsubmit = function (evt)
+        {
+            document.login_form.password.value = sha1(document.login_form.password.value);
+        }
+    }
+    </script>
+{/literal}
 
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
