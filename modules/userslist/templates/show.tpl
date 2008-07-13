@@ -9,6 +9,7 @@
 			<th><span>{t}Rank{/t}</span></th>
 			<th>{t}Nickname{/t}</th>
 			<th>{t}E-Mail{/t}</th>
+			<th>ICQ</th>
 			<th>{t}Registrationdate{/t}</th>
 			<th>{t}PM{/t}</th>
 		</tr>
@@ -35,6 +36,7 @@
     		<a href="#profile-link" title="{t}Go to the profile of $user.nick{/t}">{$user.nick}</a>
     	</td>
     	<td>{$user.email}</td>
+    	<td>{icq number=$user.email}</td>
     	<td>{$user.joined}</td>
     	<td><a href="">PM</a></td>
     </tr>
