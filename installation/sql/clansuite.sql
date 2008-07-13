@@ -1120,7 +1120,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'c2206bf66313195943089b3dad02236b','initiated|b:1;token|s:32:\"d80af29a92b0a9d9b854a1acf16d40f1\";token_time|i:1215888569;client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.15) Gecko/20080623 Firefox/2.0.0.15\";client_host|s:9:\"localhost\";user|a:12:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{s:17:\"create_gb_entries\";i:1;}s:13:\"theme_via_url\";i:1;}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:12:\"n.news_added\";i:1;s:12:\"n.news_title\";i:2;s:6:\"c.name\";i:3;s:6:\"u.nick\";i:4;s:7:\"n.draft\";}s:14:\"default_column\";i:0;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:0;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:29:\"/index.php?mod=news&sub=admin\";}}','suiteSID',1215918300,1,'admin');
+INSERT INTO `cs_session` VALUES (0,'cf9ae527c9009dea954b2d7b698e02c0','user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:2:\"10\";s:4:\"nick\";s:5:\"xsign\";s:12:\"passwordhash\";s:40:\"ff4e167734b0cc1c61fb9ca064a18d85045aea80\";s:5:\"email\";s:23:\"xsign.dll@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:11:\"drahtgitter\";s:6:\"groups\";a:0:{}s:6:\"rights\";a:0:{}}','suiteSID',1215986304,1,'sessionstart');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1282,6 +1282,7 @@ CREATE TABLE `cs_users` (
   `passwordhash` varchar(40) NOT NULL,
   `new_passwordhash` varchar(40) NOT NULL,
   `salt` varchar(20) NOT NULL,
+  `new_salt` varchar(40) NOT NULL,
   `activation_code` varchar(255) NOT NULL,
   `joined` int(11) NOT NULL default '0',
   `timestamp` int(11) NOT NULL default '0',
@@ -1295,7 +1296,7 @@ CREATE TABLE `cs_users` (
   PRIMARY KEY  (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1303,7 +1304,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'test@test.de','test','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','',1215764325,0,0,1,0,'','',NULL,''),(9,'chef@hotspot.com','chef','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','',1215768110,0,0,1,0,'','',NULL,'');
+INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'support@clansuite.com','admin2','d1ca11799e222d429424d47b424047002ea72d44','','','','',0,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'test@test.de','test','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','',NULL,''),(9,'chef@hotspot.com','chef','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','',NULL,''),(10,'xsign.dll@clansuite.com','xsign','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','',NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1315,4 +1316,4 @@ INSERT INTO `cs_users` VALUES (1,'support@clansuite.com','admin','d033e22ae348ae
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-07-13  2:39:29
+-- Dump completed on 2008-07-13 21:28:39
