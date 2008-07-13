@@ -25,9 +25,11 @@
         <ul>
             <li><a href="?mod=index">Index</a></li>
             <li><a href="?mod=news">News</a></li>
+            <li><a href="?mod=board">Board</a></li>
             <li><a href="?mod=guestbook">Guestbook</a></li>
-            <li><a href="?mod=userslist">Userslist</a></li>
+            <li><a href="?mod=users">Userslist</a></li>
             <li><a href="?mod=staticpages">Static Pages</a></li>
+            <li><a href="?mod=staticpages&amp;page=credits">Credits</a></li>
             <li><a href="?mod=admin">Control Center</a></li>
         </ul>
     </td>
