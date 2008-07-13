@@ -143,9 +143,6 @@
 
         </td>
         <td valign="top">
-            
-            {include file="admin/adminmenu/help.html"}
-            
             <p>
                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
@@ -166,6 +163,9 @@
             </div>
 
         </td>
+        <td>
+            {include file="help.html"}
+        </td>        
     </tr>
     </table>
 
