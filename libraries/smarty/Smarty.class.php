@@ -1060,7 +1060,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;   
+            return $_tmp;
         }
     }
 
@@ -1119,7 +1119,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-        
+
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
@@ -1545,6 +1545,19 @@ class Smarty
         if ($this->_parse_resource_name($_params)) {
             $_resource_type = $_params['resource_type'];
             $_resource_name = $_params['resource_name'];
+
+            $template = str_replace(ROOT, '', $_params['resource_name']);
+            $template = str_replace( '\\', '/',  $template );
+            # single slash correction
+            $template = str_replace("\\", "/",  $template);
+            # get rid of double slashes
+            $template = str_replace("//", "/",  $template);
+            $template = str_replace("\\\\", "\\",  $template);
+
+            # Assign {$templatename} and {$templatepath} 
+            $this->assign('templatename',  str_replace(ROOT, '', $template));
+            $this->assign('templatepath', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $template ))));
+
             switch ($_resource_type) {
                 case 'file':
                     if ($params['get_source']) {
@@ -1642,58 +1655,21 @@ class Smarty
                 foreach ((array)$params['resource_base_path'] as $_curr_path) {
                     $_fullpath = $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
                     if (file_exists($_fullpath) && is_file($_fullpath)) {
-                        
                         $params['resource_name'] = $_fullpath;
-                        
-                        #var_dump($params['resource_name']);
-                        
-                        $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
-                        $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
-                        # single slash correction
-                        $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
-                        # get rid of double slashes
-                        $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
-                        $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
-
-                        $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
-                        $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
-                        #var_dump($params['resource_name']);
                         return true;
                     }
                     // didn't find the file, try include_path
                     $_params = array('file_path' => $_fullpath);
                     require_once(SMARTY_CORE_DIR . 'core.get_include_path.php');
                     if(smarty_core_get_include_path($_params, $this)) {
-                        
                         $params['resource_name'] = $_params['new_file_path'];
-                        $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
-                        $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
-                        # single slash correction
-                        $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
-                        # get rid of double slashes
-                        $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
-                        $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
-
-                        $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
-                        $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
-                        
                         return true;
                     }
                 }
                 return false;
             } else {
                 /* absolute path */
-                $this->_current_tpl = str_replace(ROOT, '', $params['resource_name']);
-                $this->_current_tpl = str_replace( '\\', '/',  $this->_current_tpl );
-                # single slash correction
-                $this->_current_tpl = str_replace("\\", "/",  $this->_current_tpl);
-                # get rid of double slashes
-                $this->_current_tpl = str_replace("//", "/",  $this->_current_tpl);
-                $this->_current_tpl = str_replace("\\\\", "\\",  $this->_current_tpl);
-
-                $this->assign('_current_tpl',  str_replace(ROOT, '', $this->_current_tpl));
-                $this->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $this->_current_tpl ))));
-                return file_exists($params['resource_name']);
+               return file_exists($params['resource_name']);
             }
         } elseif (empty($this->_plugins['resource'][$params['resource_type']])) {
             $_params = array('type' => $params['resource_type']);

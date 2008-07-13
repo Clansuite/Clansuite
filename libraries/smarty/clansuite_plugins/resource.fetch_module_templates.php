@@ -1,28 +1,21 @@
 <?php
-function smarty_fetch_module_templates($resource_type, $resource_name, &$template_source, &$template_timestamp, &$smarty_obj)
+function smarty_fetch_module_templates($resource_type, $resource_name, &$template_source, &$template_timestamp, &$smarty)
 {
-    //var_dump($smarty_obj->template_dir);
     $resource_name = substr_replace($resource_name, '/templates', strpos($resource_name,'/'), 0);
     $template = ROOT_MOD.$resource_name;
     
-    #echo $template; exit;
-    
     if (is_readable($template))
-    {
-        #return false;
-        #var_dump($template);
-        #$smarty_obj->_current_tpl = $template;
-        #$smarty_obj->assign('_current_tpl', str_replace( ROOT, '', $template));
-        $smarty_obj->_current_tpl = str_replace(ROOT, '', $template);
-        $smarty_obj->_current_tpl = str_replace( '\\', '/',  $smarty_obj->_current_tpl );
+    {       
+        $tpl = str_replace(ROOT, '', $template);
+        $tpl = str_replace( '\\', '/',  $tpl );
         # single slash correction
-        $smarty_obj->_current_tpl = str_replace("\\", "/",  $smarty_obj->_current_tpl);
+        $tpl = str_replace("\\", "/",  $tpl);
         # get rid of double slashes
-        $smarty_obj->_current_tpl = str_replace("//", "/",  $smarty_obj->_current_tpl);
-        $smarty_obj->_current_tpl = str_replace("\\\\", "\\",  $smarty_obj->_current_tpl);
+        $tpl = str_replace("//", "/",  $tpl);
+        $tpl = str_replace("\\\\", "\\",  $tpl);
 
-        $smarty_obj->assign('_current_tpl',  str_replace(ROOT, '', $smarty_obj->_current_tpl));
-        $smarty_obj->assign('_current_path', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $smarty_obj->_current_tpl ))));
+        $smarty->assign('templatename',  str_replace(ROOT, '', $tpl));
+        $smarty->assign('templatepath', str_replace( '\\', '/', str_replace(ROOT, '', preg_replace('#^(.*)/([^/]+)$#',"\\1", $tpl ))));
         
         $template_source    = file_get_contents($template);
         $template_timestamp = filemtime($template);
