@@ -53,7 +53,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
     function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=users&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -141,7 +141,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         $perms->check( 'cc_create_users' );
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create New Useraccount'), '/index.php?mod=admin&amp;sub=users&amp;action=create');
+        trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
 
         /**
          * Init
@@ -240,7 +240,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
                                             $id ) );
                 }
             }
-            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been created.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been created.' ), 'admin' );
         }
 
         /**
@@ -251,7 +251,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         $smarty->assign( 'error'         , $error );
 
         // specifiy the template manually
-        $this->setTemplate('admin/users/create.tpl');
+        $this->setTemplate('admin_create.tpl');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -439,7 +439,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
                                             $id ) );
                 }
             }
-            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The user has been edited.' ), 'admin' );
         }
 
         /**
@@ -453,7 +453,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         $smarty->setLayoutTemplate('admin/index.tpl');
 
         # Specifiy the template manually
-        $this->setTemplate('admin/users/edit.tpl');
+        $this->setTemplate('admin_edit.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -467,7 +467,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
     function action_users_usercenter()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Usercenter'), '/index.php?mod=admin&amp;sub=users&amp;action=usercenter');
+        trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
         
         # Get Render Engine
         $smarty = $this->getView();
@@ -485,7 +485,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         #}
         #else
         #{
-           # $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
+           # $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
         #}
 
         # Set Admin Layout Template
@@ -505,7 +505,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
     function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Search'), '/index.php?mod=admin&amp;sub=users&amp;action=search');
+        trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -526,14 +526,14 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         }
         else
         {
-            $functions->redirect( 'index.php?mod=admin&sub=users&action=show', 'metatag|newsite', 3, $lang->t( 'No users could be found.' ), 'admin' );
+            $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'No users could be found.' ), 'admin' );
         }
 
         # Set Admin Layout Template
         $smarty->setLayoutTemplate('admin/index.tpl');
 
         # Specifiy the template manually
-        $this->setTemplate('admin/users/search.tpl');
+        $this->setTemplate('admin_search.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -562,7 +562,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
 
         if ( count($delete) < 1 )
         {
-            $functions->redirect( 'index.php?mod=admin&sub=users', 'metatag|newsite', 3, $lang->t( 'No users selected to delete! Aborted... ' ), 'admin' );
+            $functions->redirect( 'index.php?mod=users&sub=admin', 'metatag|newsite', 3, $lang->t( 'No users selected to delete! Aborted... ' ), 'admin' );
         }
 
         /**
@@ -570,7 +570,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
          */
         if ( !empty( $abort ) )
         {
-            $functions->redirect( 'index.php?mod=admin&sub=users' );
+            $functions->redirect( 'index.php?mod=users&sub=admin' );
         }
 
         /**
@@ -607,7 +607,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
                     $d = in_array( $value['user_id'], $delete  ) ? 1 : 0;
                     if ( !isset ( $_POST['confirm'] ) )
                     {
-                        $functions->redirect( 'index.php?mod=admin&sub=users&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
+                        $functions->redirect( 'index.php?mod=users&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
                     }
                     else
                     {
@@ -624,7 +624,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         /**
         * Redirect on finish
         */
-        $functions->redirect( 'index.php?mod=admin&sub=users&action=show_all', 'metatag|newsite', 3, $lang->t( 'The selected user(s) were deleted.' ), 'admin' );
+        $functions->redirect( 'index.php?mod=users&sub=admin&action=show_all', 'metatag|newsite', 3, $lang->t( 'The selected user(s) were deleted.' ), 'admin' );
 
     }
 
