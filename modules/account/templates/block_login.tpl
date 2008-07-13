@@ -1,18 +1,24 @@
 {doc_raw}
-<script src="{$www_root_themes_core}/javascript/php.js" type="application/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="application/javascript"></script>
+    <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
+
 {literal}
-<script>
-window.addEvent('domready', function() {
-
-    $('block_login_form').addEvent('submit', function(){
-        $('block_password').value = sha1($('block_password').value);
-    });
-
-}, 'javascript');
-</script>
+    <script>
+    addLoadEvent(submitForm);
+    
+    function submitForm(evt)
+    {
+        if (!document.getElementById) return true;
+        var theForm = document.getElementById ('login_form');
+        
+        theForm.onsubmit = function (evt)
+        {
+            document.login_form.password.value = sha1(document.login_form.password.value);
+        }
+    }
+    </script>
 {/literal}
+
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
     {if $error.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$error.login_attempts}</p>{/if}

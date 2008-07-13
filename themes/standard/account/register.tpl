@@ -1,64 +1,75 @@
 {doc_raw}
-<script src="{$www_root_themes_core}/javascript/php.js" type="application/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="application/javascript"></script>
+    <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
+
 {literal}
-<script>
-window.addEvent('domready', function() {
-
-    $('register_form').addEvent('submit', function(){
-        $('password').value = sha1($('password').value);
-        $('password2').value = sha1($('password2').value);
-        if( $('password').value != $('password2').value )
-        {
-            alert('Passwords do not match. Please Re-Enter');
-            $('password').value = '';
-            $('password2').value = '';
-            return false;
+    <script>
+    addLoadEvent(submitForm);
+    
+    function submitForm(evt)
+    {
+        if (!document.getElementById) return true;
+        var theForm = document.getElementById ('register_form');
+        
+        theForm.onsubmit = function (evt)
+        {            
+            if( (document.register_form.password.value  != '') &&
+                (document.register_form.password2.value != '') &&
+                (document.register_form.password.value  != document.register_form.password2.value))
+            {                
+                alert('Passwords do not match. Please Re-Enter');
+                document.register_form.password.value  = '';
+                document.register_form.password2.value = '';
+                return false;
+            }
+            else
+            {
+                document.register_form.password.value  = sha1(document.register_form.password.value);
+                document.register_form.password2.value = sha1(document.register_form.password2.value);
+                return true;
+            }     
         }
-        return true;
-    });
-}, 'javascript');
-
-function randomPassword(length)
-{
-   chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-   pass = "";
-
-   for(x=0;x<length;x++)
-   {
-      i = Math.floor(Math.random() * 62);
-      pass += chars.charAt(i);
-   }
-
-   return pass;
-}
-
-function fillPasswordForm(length)
-{
-    document.getElementById("password").type = "text";
-    document.getElementById("password2").type = "text";
-    document.getElementById("password2").disabled = true;
-
-    document.register_form.password.value=randomPassword(length)
-    document.register_form.password2.value=document.register_form.password.value
+    }
     
-    javascript:passTest();
-}
-
-function resetPasswordForm()
-{
-    document.getElementById("password").type = "password";
-    document.register_form.password.value = '';
-    document.register_form.password.value = '';
-
-    document.getElementById("password2").type = "password";
-    document.getElementById("password2").disabled = false;
-    document.register_form.password2.value = '';
+    function randomPassword(length)
+    {
+       chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+       pass = "";
     
-    javascript:passTest();
-}
-</script>
+       for(x=0;x<length;x++)
+       {
+          i = Math.floor(Math.random() * 62);
+          pass += chars.charAt(i);
+       }
+    
+       return pass;
+    }
+    
+    function fillPasswordForm(length)
+    {
+        document.getElementById("password").type = "text";
+        document.getElementById("password2").type = "text";
+        document.getElementById("password2").disabled = true;
+    
+        document.register_form.password.value=randomPassword(length)
+        document.register_form.password2.value=document.register_form.password.value
+        
+        javascript:passTest();
+    }
+    
+    function resetPasswordForm()
+    {
+        document.getElementById("password").type = "password";
+        document.register_form.password.value = '';
+        document.register_form.password.value = '';
+    
+        document.getElementById("password2").type = "password";
+        document.getElementById("password2").disabled = false;
+        document.register_form.password2.value = '';
+        
+        javascript:passTest();
+    }
+    </script>
 {/literal}
 <h2>{t}Register{/t}</h2>
 
