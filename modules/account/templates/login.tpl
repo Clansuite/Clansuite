@@ -1,20 +1,12 @@
 {doc_raw}
-    <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script type="application/javascript" src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
 
 {literal}
     <script>
-    addLoadEvent(submitForm);
-    
-    function submitForm(evt)
-    {
-        if (!document.getElementById) return true;
-        var theForm = document.getElementById ('login_form');
-        
-        theForm.onsubmit = function (evt)
-        {
-            document.login_form.password.value = sha1(document.login_form.password.value);
-        }
+    function hashLoginPassword(theForm)
+    {       
+        theForm.password.value = sha1(theForm.password.value);
     }
     </script>
 {/literal}
@@ -22,7 +14,8 @@
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
     {if $error.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$error.login_attempts}</p>{/if}
-    <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" method="post" id="login_form">
+    <form action="index.php?mod=account&action=login{if $referer|count_characters > 0}&referer={$referer}{/if}" 
+    method="post" id="login_form" accept-charset="UTF-8" onsubmit="hashLoginPassword(this);">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
              <td class="td_header">{t}Login{/t}</td>
