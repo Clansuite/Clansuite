@@ -62,7 +62,7 @@
 	clear:			left;
 	border:			1px solid rgb( 145, 155, 156 );
 	background:		rgb( 252, 252, 254 );
-	z-index:		3;
+	z-index:		auto;
 	position:		relative;
     top:			-2px;
 
