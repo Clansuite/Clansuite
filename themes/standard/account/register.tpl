@@ -1,3 +1,65 @@
+{doc_raw}
+<script src="{$www_root_themes_core}/javascript/php.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="application/javascript"></script>
+{/doc_raw}
+{literal}
+<script>
+window.addEvent('domready', function() {
+
+    $('register_form').addEvent('submit', function(){
+        $('password').value = sha1($('password').value);
+        $('password2').value = sha1($('password2').value);
+        if( $('password').value != $('password2').value )
+        {
+            alert('Passwords do not match. Please Re-Enter');
+            $('password').value = '';
+            $('password2').value = '';
+            return false;
+        }
+        return true;
+    });
+}, 'javascript');
+
+function randomPassword(length)
+{
+   chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+   pass = "";
+
+   for(x=0;x<length;x++)
+   {
+      i = Math.floor(Math.random() * 62);
+      pass += chars.charAt(i);
+   }
+
+   return pass;
+}
+
+function fillPasswordForm(length)
+{
+    document.getElementById("password").type = "text";
+    document.getElementById("password2").type = "text";
+    document.getElementById("password2").disabled = true;
+
+    document.register_form.password.value=randomPassword(length)
+    document.register_form.password2.value=document.register_form.password.value
+    
+    javascript:passTest();
+}
+
+function resetPasswordForm()
+{
+    document.getElementById("password").type = "password";
+    document.register_form.password.value = '';
+    document.register_form.password.value = '';
+
+    document.getElementById("password2").type = "password";
+    document.getElementById("password2").disabled = false;
+    document.register_form.password2.value = '';
+    
+    javascript:passTest();
+}
+</script>
+{/literal}
 <h2>{t}Register{/t}</h2>
 
     {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
@@ -9,7 +71,7 @@
     {if $err.passes_do_not_fit == 1}<p class="error">{t}The passwords aren't the same!{/t}</p>{/if}
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
     
-    <form action="index.php?mod=account&action=register" method="post">
+    <form action="index.php?mod=account&action=register" method="post" name="register_form">
     <table>
         <tr>
             <td>{t}Nick:{/t}</td>
@@ -26,7 +88,15 @@
 
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
-            <td><input class='input_text' onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
+            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
+            <td>
+                <form name="generatePassword">
+                <input type="button" value="Generate Password" onClick="fillPasswordForm(this.form.passwordlength.value)"><br />
+                <input type="button" value="Reset" onClick="resetPasswordForm()"><br />
+                <b>Password Length:</b>
+                <input type="text" name="passwordlength" size=3 value="10">
+                </form>
+            </td>
         </tr>
         <tr>
             <td>{t}Confirm Password:{/t}</td>
