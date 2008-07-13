@@ -56,7 +56,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @category    module
  * @subpackage  module_userslist
  */
-class Module_Userslist extends ModuleController implements Clansuite_Module_Interface
+class Module_Users extends ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Userslist -> Execute
@@ -78,7 +78,7 @@ class Module_Userslist extends ModuleController implements Clansuite_Module_Inte
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=userlist&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
