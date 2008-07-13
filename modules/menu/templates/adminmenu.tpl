@@ -1,18 +1,10 @@
-{$_current_tpl}
-{$_current_path}
-
-{assign var=reduce value=$_current_path|strrpos:"/"} 
-{assign var=imgpath value=$_current_path|@truncate:$reduce:"":true}
-
+{assign var=reduce value=$templatepath|strrpos:"/templates"}
+{assign var=tplpath value=$templatepath|@truncate:$reduce:"":true}
 
 {doc_raw}
-
-<link rel="stylesheet" type="text/css" href="{$imgpath}/css/menu.css" />
-<script type="text/javascript" src="{$imgpath}/javascript/XulMenu.js"></script>
-
+<link rel="stylesheet" type="text/css" href="{$tplpath}/css/menu.css" />
+<script type="text/javascript" src="{$tplpath}/javascript/XulMenu.js"></script>
 {/doc_raw}
-
-{* If you create a Theme, use such Imagepaths : $www_root_theme/images/modulename/image.gif *}
 
 <!-- start: AdminMenu - Header 2 //-->
 

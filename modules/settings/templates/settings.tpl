@@ -1,8 +1,7 @@
 {* {$config|@var_dump} *}
-{$_current_tpl}
-{assign var=reduce value=$_current_path|strrpos:"/"} 
-{assign var=imgpath value=$_current_path|@truncate:$reduce:"":true}
-{$imgpath}
+
+{assign var=reduce value=$templatepath|strrpos:"/templates"}
+{assign var=tplpath value=$templatepath|@truncate:$reduce:"":true}
 
 {doc_raw}
     {* Tabs *}
