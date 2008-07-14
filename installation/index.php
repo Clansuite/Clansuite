@@ -33,6 +33,7 @@
     * @version    SVN: $Id$
     */
 session_start();
+
 set_time_limit(0);
 
 // Security Handler
@@ -124,7 +125,7 @@ $total_steps = get_total_steps();
  * Update the session with the given variables!
  */
 $_SESSION = array_merge($_SESSION, $_POST);
-
+var_dump($_SESSION);
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
@@ -207,7 +208,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
             }
-            unset($_POST['config']['database']['db_create_database']);
+            $_POST['config']['database']['db_create_database'] = '';
         }
 
         $sqlfile = ROOT . '/sql/clansuite.sql';
@@ -250,6 +251,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
  */
 if( isset($_POST['step_forward']) AND $step == 6 )
 {
+    #var_dump($_SESSION);
     # check if input-fields are filled
     if( isset($_POST['config']['template']['std_page_title']) AND
         isset($_POST['config']['email']['from']) AND
@@ -293,7 +295,21 @@ if( isset($_POST['step_forward']) AND $step == 7 )
     }
     else
     {
-        #create admin user
+        var_dump($_SESSION);
+        $db = mysql_pconnect($_SESSION['config']['database']['db_host'], $_SESSION['config']['database']['db_username'], $_SESSION['config']['database']['db_password']);
+        // Generate activation code & salted hash
+        $hashArr = build_salted_hash($_POST['admin_password']);
+        $hash = $hashArr['hash'];
+        $salt = $hashArr['salt'];
+        
+        // Insert User to DB
+        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'_users SET 
+                                email=' . $_POST['admin_email'] . '
+                                nick= ' .$_POST['admin_name']. '
+                                passwordhash = ' .$hash. '
+                                salt = ' . $salt . '
+                                joined = ' . time() . '
+                                activated = 1');
     }
 }
 
@@ -326,6 +342,37 @@ function get_total_steps()
     return $_SESSION['total_steps'];
 }
 
+/**
+ * This functions takes a clear (password) string and prefixes a random string called
+ * "salt" to it. The new combined "salt+password" string is then passed to the hashing
+ * method to get an hash return value.
+ * So what’s stored in the database is Hash(password, users_salt).
+ *
+ * Why salting? 2 Reasons:
+ * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
+ *    The dictionary has to be recalculated for every account.
+ * 2) Using a salt fixes the issue of multiple user-accounts having the same password
+ *    revealing themselves by identical hashes. So in case two passwords would be the
+ *    same, the random salt makes the difference while creating the hash.
+ *
+ * @param string A clear-text string, like a password "JohnDoe$123"
+ * @return $hash is an array, containing ['salt'] and ['hash']
+ * @access public
+ */
+function build_salted_hash( $string = '', $hash_algo = '')
+{
+    # set up the array
+    $salted_hash_array = array();
+    # generate the salt with fixed length 6 and place it into the array
+    $salted_hash_array['salt'] = $this->generate_salt(6);
+    # combine salt and string
+    $salted_string =  $salted_hash_array['salt'] . $string;
+    # generate hash from "salt+string" and place it into the array
+    $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
+    # return array with elements ['salt'], ['hash']
+    return $salted_hash_array;
+}
+    
 /**
  * This is security.class.php -> method generate_salt().
  *

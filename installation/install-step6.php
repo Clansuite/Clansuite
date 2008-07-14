@@ -4,6 +4,17 @@
  */
 if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 ?>
+<script src="javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script>
+    function hashLoginPassword(theForm)
+    {       
+        if( (theForm.admin_password.value  != '') )
+        {
+                theForm.admin_password.value  = SHA1(theForm.admin_password.value);  
+                return true;
+        }
+    }
+</script>
     <div id="sidebar">
         <div id="stepbar">
             <p><?=$language['MENU_HEADING']?></p>
@@ -26,7 +37,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                 <p><?=$language['STEP6_SENTENCE1']?></p>
                 <p><?=$language['STEP6_SENTENCE2']?></p>
                 <p><?=$language['STEP6_SENTENCE3']?></p>
-                <form action="index.php" method="post">
+                <form action="index.php" method="post" name="admin_form" id="admin_form" onsubmit="return hashLoginPassword(this);">
                     <ol class="formular">
                         <li>
                             <label class="formularleft" for="admin_name"><?=$language['STEP6_ADMIN_NAME']?></label>
