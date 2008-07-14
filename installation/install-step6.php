@@ -7,10 +7,10 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 <script src="javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 <script>
     function hashLoginPassword(theForm)
-    {       
+    {
         if( (theForm.admin_password.value  != '') )
         {
-                theForm.admin_password.value  = SHA1(theForm.admin_password.value);  
+                theForm.admin_password.value  = SHA1(theForm.admin_password.value);
                 return true;
         }
     }
@@ -53,7 +53,29 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         </li>
                         <li>
                             <label class="formularleft" for="admin_language"><?=$language['STEP6_ADMIN_LANGUAGE']?></label>
-                            <input class="formularright" type="text" id="admin_language" name="admin_language" value="<?=$values['admin_language']?>" />
+                             <select class="formularright" id="admin_language" name="admin_language" style="width: 150px"
+                            <?php
+                                echo '<option value="">- Select Language -</option>';
+                                foreach (new DirectoryIterator('./languages/') as $file) {
+                                   // get each file not starting with dots ('.','..')
+                                   // or containing ".install.php"
+                                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
+                                   {
+                                      echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                                      $file = substr($file->getFilename(), 0, -4);
+                                      
+                                      # filename conversion to shorthand
+                                      if($file == 'german' ) { $language_shorthand = 'de_DE'; }
+                                      if($file == 'english') { $language_shorthand = 'en_EN'; }
+                                      
+                                      if ($_SESSION['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
+                                      echo '>';
+                                      echo $file;
+                                      echo "</option>\n";
+                                   }
+                                }
+                            ?>
+                            </select>
                         </li>
                     </ol>
                     <div id="content_footer">
