@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; C:\Users\xsign\Desktop\Development\clansuite\clansuite.config.php 
+; C:\Users\xsign\Desktop\Development\clansuite\installation\..\clansuite.config.php 
 ;
 
 
@@ -31,8 +31,6 @@ upload_folder = "uploads"
 ; email
 ;----------------------------------------
 [email]
-mailmethod = "sendmail"
-mailerhost = ""
 from = "system@website.com"
 
 ;----------------------------------------
@@ -40,7 +38,7 @@ from = "system@website.com"
 ;----------------------------------------
 [template]
 std_page_title = "Team Clansuite"
-theme = "drahtgitter"
+theme = "standard"
 tpl_wrapper_file = "index.tpl"
 std_css = "standard.css"
 std_javascript = "standard.js"
@@ -63,8 +61,8 @@ default_action = "show"
 ; language
 ;----------------------------------------
 [language]
-language = "de_DE"
-timezone = "Europe/Berlin"
+timezone = "Europe/Paris"
+gmtoffset = 3600
 outputcharset = "UTF-8"
 
 ;----------------------------------------
