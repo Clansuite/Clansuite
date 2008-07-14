@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         </li>
                         <li>
                             <label class="formularleft" for="admin_password"><?=$language['STEP6_ADMIN_PASSWORD']?></label>
-                            <input class="formularright" type="text" id="admin_password" name="admin_password" value="<?=$values['admin_password']?>" />
+                            <input class="formularright" type="password" id="admin_password" autocomplete="off" name="admin_password" value="<?=$values['admin_password']?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="admin_email"><?=$language['STEP6_ADMIN_EMAIL']?></label>
