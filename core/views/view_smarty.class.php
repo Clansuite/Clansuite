@@ -605,9 +605,17 @@ class view_smarty extends renderer_base
         {
             #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
             $this->smarty->assign('content',  $modulecontent );
-            return $this->smarty->fetchDOC($this->getLayoutTemplate());
-        }
 
+            if( $this->check_content_var() )
+            {
+                return $this->smarty->fetchDOC($this->getLayoutTemplate());    
+            }
+            else
+            {
+                die('The content variable {$content} must be within the wrapper template!');
+            }
+        }
+        
         /**
          * Often used Debugging Stuff - leave it :D
          */
@@ -617,6 +625,22 @@ class view_smarty extends renderer_base
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
         #exit;
+    }
+    
+    /**
+    * @desc Check for a content variable
+    * @return boolean
+    */
+    public function check_content_var()
+    {
+        foreach( $this->smarty->template_dir as $dir )
+        {
+            $thefile = $dir . DS . $this->getLayoutTemplate();
+            if( is_file($thefile) )
+            {
+                return (strpos(file_get_contents($thefile), '{$content}')!=FALSE);
+            }
+        }
     }
 }
 ?>
