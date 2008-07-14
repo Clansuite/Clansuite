@@ -124,8 +124,28 @@ $total_steps = get_total_steps();
 /**
  * Update the session with the given variables!
  */
-$_SESSION = array_merge($_SESSION, $_POST);
-var_dump($_SESSION);
+#var_dump($_SESSION);
+#var_dump($_POST);
+$_SESSION = array_merge_rec($_SESSION, $_POST);
+function array_merge_rec($arr1, $arr2)
+{
+    foreach($arr2 as $k=>$v)
+    {
+        if (!array_key_exists($k, $arr1))
+        {
+            $arr1[$k]=$v;
+        }
+        else
+        {
+            if (is_array($v))
+            {
+                $arr1[$k]=array_merge_rec($arr1[$k], $arr2[$k]);
+            }
+        }
+    }
+    return $arr1;
+}
+#var_dump($_SESSION);
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
@@ -295,20 +315,19 @@ if( isset($_POST['step_forward']) AND $step == 7 )
     }
     else
     {
-        var_dump($_SESSION);
         $db = mysql_pconnect($_SESSION['config']['database']['db_host'], $_SESSION['config']['database']['db_username'], $_SESSION['config']['database']['db_password']);
         // Generate activation code & salted hash
-        $hashArr = build_salted_hash($_POST['admin_password']);
+        $hashArr = build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
         $hash = $hashArr['hash'];
         $salt = $hashArr['salt'];
-        
+
         // Insert User to DB
-        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'_users SET 
-                                email=' . $_POST['admin_email'] . '
-                                nick= ' .$_POST['admin_name']. '
-                                passwordhash = ' .$hash. '
-                                salt = ' . $salt . '
-                                joined = ' . time() . '
+        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'users SET 
+                                email= \'' . $_POST['admin_email'] . '\',
+                                nick= \'' .$_POST['admin_name']. '\',
+                                passwordhash = \'' .$hash. '\',
+                                salt = \'' . $salt . '\',
+                                joined = \'' . time() . '\',
                                 activated = 1');
     }
 }
@@ -364,11 +383,11 @@ function build_salted_hash( $string = '', $hash_algo = '')
     # set up the array
     $salted_hash_array = array();
     # generate the salt with fixed length 6 and place it into the array
-    $salted_hash_array['salt'] = $this->generate_salt(6);
+    $salted_hash_array['salt'] = generate_salt(6);
     # combine salt and string
     $salted_string =  $salted_hash_array['salt'] . $string;
     # generate hash from "salt+string" and place it into the array
-    $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
+    $salted_hash_array['hash'] = generate_hash($hash_algo, $salted_string);
     # return array with elements ['salt'], ['hash']
     return $salted_hash_array;
 }
@@ -414,6 +433,44 @@ function generate_salt($length)
     return $salt;
 }
 
+/**
+ * This function generates a HASH of a given string using the requested hash_algorithm.
+ * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
+ * To get a complete list of available hash encodings use: print_r(hash_algos());
+ * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
+ *
+ * @param $string String to build a HASH from
+ * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
+ * @return hashed string
+ * @link http://www.php.net/manual/en/ref.hash.php
+ * @access public
+ */
+function generate_hash($hash_algo = null, $string = '')
+{
+    # Get Config Value for Hash-Algo/Encryption
+    if($hash_algo == null)
+    {
+        $hash_algo = $_SESSION['encryption'];
+    }
+
+    # check, if we can use hash()
+    if (function_exists('hash'))
+    {
+        return hash($hash_algo,$string);
+    }
+    else
+    {   # when hash() not available, do hashing the old way
+        switch($hash_algo)
+        {
+            case 'MD5':     return md5($string);
+                            break;
+            default:
+            case 'SHA1':    return sha1($string);
+                            break;
+        }
+    }
+}
+    
 /**
  * Calculate Progress
  * is used to display install-progress in percentages

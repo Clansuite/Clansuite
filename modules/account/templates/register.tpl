@@ -40,9 +40,9 @@
     
     function fillPasswordForm(length)
     {
-        document.getElementById("password").type = "text";
-        document.getElementById("password2").type = "text";
-        document.getElementById("password2").disabled = true;
+        document.register_form.password.type = "text";
+        document.register_form.password2.type = "text";
+        document.register_form.password2.disabled = true;
     
         document.register_form.password.value=randomPassword(length)
         document.register_form.password2.value=document.register_form.password.value
@@ -50,12 +50,11 @@
     
     function resetPasswordForm()
     {
-        document.getElementById("password").type = "password";
-        document.register_form.password.value = '';
+        document.register_form.password.type = "password";
         document.register_form.password.value = '';
     
-        document.getElementById("password2").type = "password";
-        document.getElementById("password2").disabled = false;
+        document.register_form.password2.type = "password";
+        document.register_form.password2.disabled = false;
         document.register_form.password2.value = '';
     }
     </script>
@@ -72,7 +71,7 @@
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
     {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
 
-    <form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form">
+    <form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
     <table>
         <tr>
             <td>{t}Nick:{/t}</td>
