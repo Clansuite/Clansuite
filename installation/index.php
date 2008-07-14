@@ -328,7 +328,7 @@ if( isset($_POST['step_forward']) AND $step == 7 )
                                 passwordhash = \'' .$hash. '\',
                                 salt = \'' . $salt . '\',
                                 joined = \'' . time() . '\',
-                                language = \'' . $_SESSION['config']['language']['language'] . '\',
+                                language = \'' . $_SESSION['admin_language'] . '\',
                                 activated = 1');
     }
 }

@@ -6,7 +6,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 # Set Timezone for date functions
 date_default_timezone_set('Europe/Berlin');
 ?>
-    
+
        <div id="rightsidebar">
                 <ul>
 
@@ -36,7 +36,6 @@ date_default_timezone_set('Europe/Berlin');
                            // or containing ".install.php"
                            if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
                            {
-                              // the shortest way to show a selected item by vain :D
                               echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                               $file = substr($file->getFilename(), 0, -4);
                               if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
@@ -45,8 +44,8 @@ date_default_timezone_set('Europe/Berlin');
                               echo "</option>\n";
                            }
                         }
-                        echo "</select>\n";
                         ?>
+                        </select>
                     </li>
 
                     <!-- Clansuite Shortcuts -->
@@ -61,7 +60,7 @@ date_default_timezone_set('Europe/Berlin');
                     <!-- Donate -->
                     <li><h2>Donate</h2></li>
                     <li>
-                        <!-- PayPal Direct Image Button                         
+                        <!-- PayPal Direct Image Button
                             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                             <input type="hidden" name="cmd" value="_s-xclick" />
                             <input type="image" src="https://www.paypal.com/de_DE/i/btn/x-click-but04.gif" name="submit" alt="Zahlen Sie mit PayPal - schnell, kostenlos und sicher!" />
