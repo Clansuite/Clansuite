@@ -89,8 +89,8 @@
 
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
-            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value=""></td>
-            <td>
+            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value="">
+                <br />
                 <form name="generatePassword">
                 <input type="button" value="Generate Password" onClick="fillPasswordForm(this.form.passwordlength.value)"><br />
                 <input type="button" value="Reset" onClick="resetPasswordForm()"><br />
@@ -100,7 +100,7 @@
             </td>
         </tr>
         <tr>
-            <td>{t}Confirm Password:{/t}</td>
+            <td valign="top">{t}Confirm Password:{/t}</td>
             <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""><br /><span class='font_mini'>{t}Minimum: {/t}{$min_length}</span></td>
         </tr>
         <!--
@@ -108,19 +108,18 @@
             <td>{t}Password Security:{/t}</td>
             <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
         </tr>
--->
         <tr>
             <td>{t}Captcha:{/t}</td>
             <td>
             {*{if $config.captcha.type == 'recaptcha'} *}
-             {$cs->loadModule("recaptcha")}
-             {$recaptcha->display_recaptcha()}
+            {* {$cs->loadModule("recaptcha")}
+             {$recaptcha->display_recaptcha()} *}
             {* {else} *}
              <img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value="">
             {* {/if} *}
             </td>
         </tr>
-        
+        -->
         <tr>
             <td cospan='2'><input type="submit" name="submit" value="{t}Register{/t}"></td>
         </tr>

@@ -401,7 +401,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Get the template
-        $this->setTemplate('register.tpl');
+        #$this->setTemplate('register.tpl');
         
         // Output
         $this->prepareOutput();
