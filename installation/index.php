@@ -634,17 +634,14 @@ function write_config_settings($data_array)
     unset($data_array['lang']);
     unset($data_array['db_create_database']); # handled in step 4 - section b
 
-    # rename some keys
-    # @todo: change keynames in html
-    foreach($data_array as $key => $value)
-    {
-       if ($key == 'site_name')    { $key = 'std_page_title'; }
-    }
     #var_dump($data_array);
+    
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
     $installer_config = Clansuite_Config::readConfig('clansuite.config.installer');
+    
     #var_dump($installer_config);
+    
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
     $data_array = array_merge_recursive($data_array, $installer_config);
     #var_dump($data_array);
