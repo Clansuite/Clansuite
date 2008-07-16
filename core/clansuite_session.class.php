@@ -164,7 +164,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
-        #session_id();
         if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
