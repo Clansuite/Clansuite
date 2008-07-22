@@ -104,7 +104,7 @@
         <svnexport svnpath="${svn.path}"
                    username="${username}"
                    password="${password}"
-                   nocache="true"         <!-- Connection credentials will not be cached -->
+                   nocache="true"    
                    repositoryurl="${repository}"
                    todir="${exportdir}" />
     </target>
@@ -182,10 +182,10 @@
     <!-- ======     4) Testing & Validation Tasks     ====== -->
     <!-- =================================================== -->
 
+    <!-- append to target: depends="lint" -->
     <target name="phplint" description="PhpLint validates the PHPSource">
-        <phplint>
+        <phplint haltonfailure="true">
             <!-- Stop if Syntax Error Detected -->
-            <phplint haltonfailure="true">
             <fileset dir="./${application.name}">
                 <exclude name="./${application.name}/library"/>
                 <include name="**/*.php"/>
@@ -224,14 +224,14 @@
     
     <!-- COMMAND = "doc_phpdoc2" -->
     <!-- Generates the API documentation using PHPDocumentor -->
+    <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="phpdoc2">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <phpdoc title="Clansuite API PHPDocumentation"
-                destdir="apidocs"
-                <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
+                destdir="apidocs"               
                 sourcepath="${build.base.directory}/"
                 sourcecode="yes"
-                output="HTML:Smarty:PHP" />
+                output="HTML:Smarty:PHP">
 
             <fileset dir="./classes">
               <include name="**/*.php" />
