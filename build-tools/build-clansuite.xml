@@ -23,7 +23,7 @@
 
     Version:  $Id$
 -->
-<project name="Clansuite" description="Clansuite Build File" basedir="." default="help">
+<project name="Clansuite" description="Clansuite Build File" basedir="/home/clansuite/svn" default="help">
 
     <!-- ==================================================== -->
     <!-- ======     0) Display HELP TEXT first, ok?    ====== -->
@@ -86,11 +86,11 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="exportdir"  value="WEB_ROOT" />                                 <!-- Local SVN Export Directory (todir) -->
+    <property name="exportdir"  value="svn-export" />                                 <!-- Local SVN Export Directory (todir) -->
 
     <!-- COMMAND = "svn-checkout" -->
     <!-- The SvnCheckoutTask checks out a Subversion repository to a local directory. -->
-    <target name="svn-checkout" description="Checks out Clansuite from SVN" depends="set-default-svn-path">
+    <target name="svn-checkout" description="Checks out Clansuite from SVN">
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
                      repositoryurl="${repository}"
@@ -114,7 +114,7 @@
     <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
         <echo>Fetching the Revision Number</echo>
         <svnlastrevision svnpath="${svn.path}"
-                         workingcopy="/home/user/svnwc"
+                         workingcopy="/home/clansuite/svn"
                          propertyname="svn.lastrevision"/>
      </target>
 
@@ -151,8 +151,8 @@
     <!-- is a combined task: -->
     <!-- 1) Copy all Clansuite Files defined as "clansuite_projectfiles" to the build dir -->
     <!-- 2) Then inserts the missing htaccess files -->
-    <target name="build_clansuite" description="Build Clansuite Package">
-        <copy todir="${build.base.directory}">
+    <target name="build-clansuite" description="Build Clansuite Package">
+        <copy todir="/build">
             <fileset refid="clansuite_projectfiles" />
         </copy>
         <!-- <phingcall target="create-htaccess-files" /> -->
