@@ -75,7 +75,7 @@ class Clansuite_EventManager
      * @static
      * @access public
      */
-    static public function()
+    static public function instantiate()
     {
         if (self::$instance === null)
         {
