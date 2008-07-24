@@ -228,7 +228,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
             }
-            $_POST['config']['database']['db_create_database'] = '';
+            unset($_POST['config']['database']['db_create_database']);
         }
 
         $sqlfile = ROOT . '/sql/clansuite.sql';
@@ -247,6 +247,7 @@ if( isset($_POST['step_forward']) AND $step == 5 )
         }
 
         # A)  Write Settings to clansuite.config.php
+        
         if( !write_config_settings($_POST['config']))
         {
             $step = 4;
@@ -595,7 +596,7 @@ function getQueriesFromSQLFile($file)
                          create_function('$line',
                                          'return strpos(ltrim($line), "/*") !== 0;'));
 
-    # this is a list of SQL commands, which are allowed to follow a semicolon
+    # this is a whitelist of SQL commands, which are allowed to follow a semicolon
     $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
                       'TRUNCATE', 'UPDATE', 'USE');
 
@@ -611,7 +612,7 @@ function getQueriesFromSQLFile($file)
                           $splitter);
 
     # replace the database prefix
-    $table_prefix = $_SESSION['config']['database']['db_prefix'];
+    $table_prefix = $_POST['config']['database']['db_prefix'];
     $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
 
     # remove empty lines
