@@ -35,7 +35,6 @@
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-
 /**
  * Clansuite
  *
@@ -195,12 +194,18 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('config', $config);
             $smarty->assign('error', $error);
             $smarty->assign('referer', $referer);
+
+                        
+            #$this->prepareOutput(); 
+            #return $smarty->fetch('account/login.tpl');
             //return $smarty->fetch('login.tpl');
+
         }
         else
         {
             //  Show usercenter
-            #var_dump($smarty);
+            #var_dump($smarty->template_dir);
+            #var_dump($smarty->plugins_dir);
             $this->setTemplate('usercenter.tpl');
         }
 
