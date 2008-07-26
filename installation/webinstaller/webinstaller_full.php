@@ -1569,9 +1569,9 @@ function render($renderType, $args=array()) {
             <!-- Clansuite Shortcuts -->
             <li><h2>Clansuite Shortcuts</h2></li>
             <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/smf/">Forum</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/smf/index.php?board=4">Installsupport</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/trac/">Bugtracker</a></strong></li>
+            <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
+            <li><strong><a href="http://forum.clansuite.com/index.php?board=4">Installsupport</a></strong></li>
+            <li><strong><a href="http://trac.clansuite.com/">Bugtracker</a></strong></li>
             <li><strong><a href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support">Teamspeak</a></strong></li>
             <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
 
