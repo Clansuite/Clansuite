@@ -717,7 +717,7 @@ class Clansuite_Installation_Startup_Exception extends Exception
         $errormessage   .= "<br />1) Please use <a href=\"phpinfo.php\">phpinfo()</a> to check your serversettings! ";
         $errormessage   .= "<br />2) Check your php.ini and ensure all needed extensions/libraries are loaded!";
         $errormessage   .= "<br />3) Check the webservers errorlog.<br/>";
-        $errormessage   .= "<br />If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://www.clansuite.com/smf/index.php?board=22.0\">Installation - Support Forum</a>.<br/>";
+        $errormessage   .= "<br />If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=22.0\">Installation - Support Forum</a>.<br/>";
         $errormessage   .= '</fieldset>';
         # FOOTER
         $errormessage   .= '</body></html>';
