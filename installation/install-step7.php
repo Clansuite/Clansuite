@@ -31,8 +31,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         <ul>
                             <li><a href="../index.php"><?=$language['STEP7_SENTENCE5']?></a><br/></li>
                             <?=$language['STEP7_SENTENCE6']?>
-                            <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>
-                            <?=$language['STEP7_SENTENCE7']?> Name / Password
+                            <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>                            
                         </ul>
                       </b>
                       <br />
@@ -45,6 +44,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                                        filter:alpha(opacity=75);'>&nbsp;<?=$language['STEP7_SENTENCE10']?>&nbsp;</strong>
                         </legend>
                         <i><?=$language['STEP7_SENTENCE11']?></i>
+                        <br /><a href="?delete_installation">Delete Installation</a>
                     </fieldset>
                 </p>
                <br />

@@ -75,9 +75,10 @@ catch (Exception $e)
     exit($e);
 }
 
-// ROOT Path
+// Define: DS; ROOT; BASE_ROOT
 define ('DS', DIRECTORY_SEPARATOR);
-define ('ROOT', getcwd() . DIRECTORY_SEPARATOR);
+define ('ROOT', getcwd() . DS); 
+chdir('..'); define ('BASE_ROOT', getcwd() . DS); chdir ('installation');
 
 // The Clansuite version this script installs
 require( ROOT . '../core/clansuite.version.php');
@@ -107,6 +108,11 @@ ini_set('display_errors', false);
 error_reporting(0);
 
 #================
+#     SELF DELETION
+#================
+if(isset($_GET['delete_installation'])) { rm_recursive(getcwd()); }
+
+#================
 #     OUTPUT
 #================
 
@@ -124,9 +130,8 @@ $total_steps = get_total_steps();
 /**
  * Update the session with the given variables!
  */
-#var_dump($_SESSION);
-#var_dump($_POST);
 $_SESSION = array_merge_rec($_SESSION, $_POST);
+ 
 function array_merge_rec($arr1, $arr2)
 {
     foreach($arr2 as $k=>$v)
@@ -145,7 +150,7 @@ function array_merge_rec($arr1, $arr2)
     }
     return $arr1;
 }
-#var_dump($_SESSION);
+
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
@@ -165,7 +170,7 @@ $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
  * ==============================
  */
 # Language Handling
-if (isset($_GET['lang']) and !empty($_GET['lang']))
+if (isset($_GET['lang']) && !empty($_GET['lang']))
 {
    $lang =  (string) htmlspecialchars($_GET['lang']);
 }
@@ -204,34 +209,69 @@ catch (Exception $e)
  * Handling of STEP 4 - Database
  * if STEP 4 successful, proceed to 5 - else return STEP 4, display error
  */
-if( isset($_POST['step_forward']) AND $step == 5 )
+if( isset($_POST['step_forward']) && $step == 5 )
 {
-    #var_dump($_POST);
-
     # check if input-fields are filled
-    if (!empty($_POST['config']['database']['db_host']) AND !empty($_POST['config']['database']['db_type']) AND
-        !empty($_POST['config']['database']['db_username']) AND isset($_POST['config']['database']['db_password']))
+    if (!empty($_POST['config']['database']['db_name']) &&
+        !ctype_digit($_POST['config']['database']['db_name']) &&
+        preg_match('#^[a-zA-Z]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) &&      
+        !empty($_POST['config']['database']['db_host']) &&
+        !empty($_POST['config']['database']['db_type']) &&
+        !empty($_POST['config']['database']['db_username']) &&
+         isset($_POST['config']['database']['db_password'])
+       )
     {
-        # B) Write SQL-Data into Database
 
-        # Should we create the database?
-        if (isset($_POST['config']['database']['db_create_database']) && $_POST['config']['database']['db_create_database'] == 'on')
+        /**
+         * 1. Check if Connection Data is valid (establish db connection)
+         */
+         
+        $db_connection = '';
+        $db_connection = mysql_pconnect($_POST['config']['database']['db_host'],
+                                         $_POST['config']['database']['db_username'],
+                                         $_POST['config']['database']['db_password']);
+        if ($db_connection == false)
         {
-            # establish connection to database
-            $db = mysql_pconnect($_POST['config']['database']['db_host'], $_POST['config']['database']['db_username'], $_POST['config']['database']['db_password']);
-            #or die ("Konnte keine Verbindung zur Datenbank herstellen");
+            $step = 4;
+            $error = 'Konnte keine Verbindung zur Datenbank herstellen. Host, User+PW prüfen.' . '<br />' . mysql_error();
+        }
 
-            # http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
-            # so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
-            if (!mysql_query('CREATE DATABASE ' . $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db))
+	    /**
+	     * 2. create the database?
+	     *
+	     * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
+         * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
+         */
+         
+        if (isset($_POST['config']['database']['db_create_database']) &&
+            $_POST['config']['database']['db_create_database'] == 'on')
+        {
+            if (!mysql_query('CREATE DATABASE ' . $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db_connection))
             {
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
             }
+
+            # remove create_database from $_POST Config array
+            # this shouldn't be written in the config file
             unset($_POST['config']['database']['db_create_database']);
         }
 
-        $sqlfile = ROOT . '/sql/clansuite.sql';
+        /**
+         * 3. Check if database is selectable
+         */
+         
+        if (!mysql_select_db($_POST['config']['database']['db_name']))
+        {
+            $step = 4;
+            $error = 'Datenbanktabelle konnte nicht selektiert werden. Entweder falsch benannt oder momentan nicht erreichbar.' . '<br />' . mysql_error();
+        }
+
+        /**
+         * 4. Insert SQL Data
+         */
+         
+        $sqlfile = ROOT . 'sql/clansuite.sql';
         if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
                                  $_POST['config']['database']['db_name'],
                                  $_POST['config']['database']['db_username'],
@@ -240,29 +280,34 @@ if( isset($_POST['step_forward']) AND $step == 5 )
             $step = 4;
             $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
         }
-        else
+        else # sql inserted correctly into database
         {
-            // AlertBox?
-            //print "SQL Data correctly inserted into Database!";
-        }
+            # 5. Write Settings to clansuite.config.php
+            if( !write_config_settings($_POST['config']))
+            {
+                $step = 4;
+                $error = 'Config not written <br />';
 
-        # A)  Write Settings to clansuite.config.php
-        
-        if( !write_config_settings($_POST['config']))
-        {
-            $step = 4;
-            $error = 'Config not written <br />';
+            }
+            else # config written
+            {
+            } # end if: 5. insert SQL Data
 
-        }
-        else
-        {
-            // Config written
-        }
+        } # end if: 4. insert SQL Data
     }
     else # input fields empty
     {
         $step = 4;
         $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
+
+        # Adjust Error-Message in case validity of database name FAILED
+        if( preg_match('#^[a-zA-Z]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) OR
+            is_numeric($_POST['config']['database']['db_name']{0}))
+        {
+            $error .= '<p>The database name you have entered, "'. $_POST['config']['database']['db_name'] . '", is invalid.</p>';
+            $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
+            $error .= '<p> Forbidden are database names starting with numbers, containing only numbers and names like mysql-database commands.</p>';
+        }
     }
 }
 
@@ -270,12 +315,12 @@ if( isset($_POST['step_forward']) AND $step == 5 )
  * Handling of STEP 5 - Configuration
  * if STEP 5 successful, proceed to 6 - else return STEP 5, display error
  */
-if( isset($_POST['step_forward']) AND $step == 6 )
+if( isset($_POST['step_forward']) && $step == 6 )
 {
     #var_dump($_SESSION);
     # check if input-fields are filled
-    if( isset($_POST['config']['template']['std_page_title']) AND
-        isset($_POST['config']['email']['from']) AND
+    if( isset($_POST['config']['template']['std_page_title']) &&
+        isset($_POST['config']['email']['from']) &&
         isset($_POST['config']['language']['timezone']) )
     {
         $array_to_write = array();
@@ -305,11 +350,11 @@ if( isset($_POST['step_forward']) AND $step == 6 )
  * Handling of STEP 6 - Create Administrator
  * if STEP 6 successful, proceed to 7 - else return STEP 6, display error
  */
-if( isset($_POST['step_forward']) AND $step == 7 )
+if( isset($_POST['step_forward']) && $step == 7 )
 {
     # checken, ob admin name und password vorhanden
     # wenn nicht, fehler : zurück zu STEP6
-    if( !isset($_POST['admin_name']) and !isset($_POST['admin_password']) )
+    if( !isset($_POST['admin_name']) && !isset($_POST['admin_password']) )
     {
         $step = 6;
         $error = $language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
@@ -323,7 +368,7 @@ if( isset($_POST['step_forward']) AND $step == 7 )
         $salt = $hashArr['salt'];
 
         // Insert User to DB
-        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'users SET 
+        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'users SET
                                 email= \'' . $_POST['admin_email'] . '\',
                                 nick= \'' .$_POST['admin_name']. '\',
                                 passwordhash = \'' .$hash. '\',
@@ -393,12 +438,12 @@ function build_salted_hash( $string = '', $hash_algo = '')
     # return array with elements ['salt'], ['hash']
     return $salted_hash_array;
 }
-    
+
 /**
  * This is security.class.php -> method generate_salt().
  *
  * Get random string/salt of size $length
- * mt_srand() and mt_rand() are used to generate even better
+ * mt_srand() && mt_rand() are used to generate even better
  * randoms, because of mersenne-twisting.
  *
  * @param integer $length Length of random string to return
@@ -472,7 +517,7 @@ function generate_hash($hash_algo = null, $string = '')
         }
     }
 }
-    
+
 /**
  * Calculate Progress
  * is used to display install-progress in percentages
@@ -628,32 +673,79 @@ function getQueriesFromSQLFile($file)
  */
 function write_config_settings($data_array)
 {
-    require '../core/clansuite_config.class.php';
+    require BASE_ROOT . 'core/clansuite_config.class.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
-    unset($data_array['lang']);
-    unset($data_array['db_create_database']); # handled in step 4 - section b
+    unset($data_array['lang']);    
 
     #var_dump($data_array);
-    
+
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
     $installer_config = Clansuite_Config::readConfig('clansuite.config.installer');
-    
+
     #var_dump($installer_config);
-    
+
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
     $data_array = array_merge_recursive($data_array, $installer_config);
     #var_dump($data_array);
 
     # Write Config File to ROOT Directory
-    #print ROOT . '..'. DS .'clansuite.config.php';
-    if ( false == Clansuite_Config::writeConfig( ROOT . '..'. DS .'clansuite.config.php', $data_array) )
+    #print BASE_ROOT . 'clansuite.config.php';
+    if ( !Clansuite_Config::writeConfig( BASE_ROOT . 'clansuite.config.php', $data_array) )
     {
         return false;
     }
     return true;
+}
+
+/**
+ * rm_recursive
+ *
+ * @description Remove recursively. (Like `rm -r`) AND uses opendir() instead of glob()
+ * @see Comment by davedx at gmail dot com on { http://us2.php.net/manual/en/function.rmdir.php }
+ * @param file {String} The file or folder to be deleted.
+ **/
+function rm_recursive($filepath)
+{
+    echo "<p>[Deleting Installation Directory] Starting at $filepath </p>";
+    
+    if (is_dir($filepath) && !is_link($filepath))
+    {
+        if ($dh = opendir($filepath))
+        {
+            while (($sf = readdir($dh)) !== false)
+            {
+                # handle . and ..
+                if ($sf == '.' || $sf == '..')
+                {
+                    continue;
+                }
+                else
+                {
+                    # handle files
+                    if(unlink($filepath.DS.$sf))
+                    {
+                        echo 'File '.$filepath.DS.$sf.' deleted successfully.<br />';
+                    }
+                    else
+                    {
+                        echo 'Unable to delete file '.$filepath.DS.$sf.'.<br />';
+                    }
+                }
+                
+                # handle dirs recursivly
+                if (!rm_recursive($filepath.DS.$sf))
+                {
+                    throw new Exception($filepath.DS.$sf.' could not be deleted.');
+                }
+            }
+            closedir($dh);
+        }
+        return rmdir($filepath);
+    }
+    return unlink($filepath);
 }
 
 // Save+Close the Session
@@ -669,7 +761,7 @@ session_write_close();
 class Clansuite_Installation_Startup_Exception extends Exception
 {
     /**
-     *    Define Exceptionmessage and Code via constructor
+     *    Define Exceptionmessage && Code via constructor
      */
     public function __construct($message, $code = 0)
     {
