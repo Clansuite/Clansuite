@@ -131,7 +131,7 @@ class language implements ArrayAccess
         $this->language['STEP7_SENTENCE4'] = 'Besuchen Sie Ihre neue';
         $this->language['STEP7_SENTENCE5'] = 'Clansuite Webseite';
         $this->language['STEP7_SENTENCE6'] = 'oder das';
-        $this->language['STEP7_SENTENCE7'] = 'Ihre Logindaten sind :';
+
         $this->language['STEP7_SENTENCE8'] = 'Hilfe zur Benutzung und Konfiguration der Clansuite-Software finden Sie im ';
         $this->language['STEP7_SENTENCE9'] = 'Benutzerhandbuch';
         $this->language['STEP7_SENTENCE10'] = 'Sicherheitshinweis';
