@@ -115,6 +115,7 @@ class Clansuite_Config implements ArrayAccess
        }
        else # the config array = the incoming assoc_array
        {
+           touch($ini_filename);
            $config_array = $assoc_array;
        }
 
@@ -178,9 +179,28 @@ class Clansuite_Config implements ArrayAccess
         # add php closing tag
         $content .= "\n; DO NOT REMOVE THIS LINE */ ?>";
 
-        # Write data to config file
-        # @todo: Remove @ somehow
-        return @file_put_contents($ini_filename, $content);
+        if (is_writable($ini_filename))
+        {
+            if (!$filehandle = fopen($ini_filename, 'wb'))
+            {
+                 echo "Kann die Datei $ini_filename nicht öffnen";
+                 return false;
+            }
+
+            if (!fwrite($filehandle, $content))
+            {
+                echo "Kann in die Datei $ini_filename nicht schreiben";
+                return false;
+                
+            }
+            fclose($filehandle);
+            return true;            
+        }
+        else
+        {
+            echo "Die Datei $ini_filename ist nicht schreibbar. Datei- und Verzeichnisschreibrechte vergeben!";
+            return false;
+        }
     }
 
     /**
