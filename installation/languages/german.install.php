@@ -52,9 +52,15 @@ class language implements ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Bibliothek';
+        $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
+        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: /clansuite';
+        $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Beschreibbar: /templates_c';
+        $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Beschreibbar: /cache';
+        $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: /uploads';
+        $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Lesbar: Config-Vorlagedatei';
 
         # RECOMMENDED SETTINGS (in order)
-        $this->language['PHP_MEMORY_LIMIT'] = 'PHP memory limit (Minimum 8M, recommend 16M)';
+        $this->language['PHP_MEMORY_LIMIT'] = 'PHP Memory Limit';
         $this->language['FILE_UPLOADS'] = 'Dateiuploads erlaubt?';
         $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
         $this->language['ALLOW_URL_FOPEN'] = 'ALLOW_URL_FOPEN';
@@ -62,10 +68,13 @@ class language implements ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
+        $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['EXTENSION_HASH'] = 'PHP Bibliothek: Hash';
         $this->language['EXTENSION_GETTEXT'] = 'PHP Bibliothek: Gettext';
         $this->language['EXTENSION_TOKENIZER'] = 'PHP Bibliothek: Tokenizer';
         $this->language['EXTENSION_GD'] = 'PHP Bibliothek: GD';
+        $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
+        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';

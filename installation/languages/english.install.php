@@ -52,7 +52,12 @@ class language implements ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
         $this->language['PDO_LIBRARY'] = 'PDO - Library';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Library';
-
+        $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
+        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
+        $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Can write: /templates_c';
+        $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Can write: /cache';
+        $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
+        $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
@@ -63,10 +68,13 @@ class language implements ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
+        $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['EXTENSION_HASH'] = 'PHP Extension: Hash';
         $this->language['EXTENSION_GETTEXT'] = 'PHP Extension: Gettext';
         $this->language['EXTENSION_TOKENIZER'] = 'PHP Extension: Tokenizer';
         $this->language['EXTENSION_GD'] = 'PHP Extension: GD';
+        $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
+        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
