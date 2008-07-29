@@ -379,7 +379,7 @@ dl dt
   border-top:1px solid #ddd;
   display:block;
   margin-top: 1.5em;
-  margin-left: 30px; 
+  margin-left: 30px;
   margin-right: 30px;
   padding-top:5px;
   text-align:center;
@@ -917,13 +917,13 @@ a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visit
 .tdcaption
 {
 	border: 1px solid grey;
-	background-color: #ccc;
+	background-color: #BBB;
 	text-align:center;
 }
 
 .tbhead
 {
-    background-color: #EEEEEE;
+    background-color: #CCC;
 }
 
 dd
@@ -932,7 +932,7 @@ dd
 	padding-bottom: 5px;
 }
 
-fieldset 
+fieldset
 {
     background:#FFFFFF none repeat scroll 0% 50%;
     border:1px solid #EFEFEF;
@@ -946,19 +946,19 @@ fieldset li, ol
 }
 
 fieldset legend
-{   
+{
     font-weight:bold;
-    
+
 }
 
 .formular
 {
   list-style-image:none;
   list-style-type:none;
-  margin-bottom:5px;  
+  margin-bottom:5px;
 }
 
-.formularleft 
+.formularleft
 {
  float: left;
  text-align: right;
@@ -967,7 +967,27 @@ fieldset legend
  padding-top: 2px;
 }
 
-.formularright 
+.formularright
 {
  margin-left : 2%;
+}
+
+.row1
+{
+    background-color: #EEEEEE;
+}
+
+.row2
+{
+    background-color: #DDDDDD;
+}
+
+.col1
+{
+    background-color: #;
+}
+
+.col2
+{
+    background-color: #;
 }

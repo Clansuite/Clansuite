@@ -28,7 +28,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                 <p><?=$language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
                 <p><?=$language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
                 <p><?=$language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
-                <!-- @todo: Verzeichnisse und +rw Rechte -->
+
                          <?php
                          /**
                           * Print alternating Table-Rows
@@ -46,24 +46,22 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 
                             foreach ($settings_array as $settingname => $value)
                             {
-                                #echo $value;
+                                // toggle
+                                $csstoggle = ($csstoggle==$css1) ? $css2 : $css1;
 
+                                //starting tablerow
+                                $table_rows = '<tr class="'. $csstoggle .'">';
 
-                            #s_array[Checking for PHP version 5.2+]
-                            // toggle
-                            $csstoggle = ($csstoggle==$css1) ? $css2 : $css1;
+                                #$table_rows .= '<td>'. $settingname .'=>'. $value['text'] .'</td>';
+                                $table_rows .= '<td>'. $value['text'] .'</td>';
+                                $table_rows .= '<td class="col1" align="center">' . $value['expected'] . '</td>';
+                                $table_rows .= '<td class="col2" align="center">' . $value['actual'] .'</td>';
+                                $table_rows .= '<td class="col1" align="center">' . $value['status'] .'</td>';
 
-                            //starting tablerow
-                            $table_rows = '<tr class="'. $csstoggle .'">';
-                            #echo $csstoggle;
-                            #$table_rows .= '<td>'. $settingname .'=>'. $value['text'] .'</td>';
-                            $table_rows .= '<td>'. $value['text'] .'</td>';
-                            $table_rows .= '<td class="col1">' . $value['expected'] . '</td>';
-                            $table_rows .= '<td class="col2">' . $value['actual'] .'</td>';
-                            $table_rows .= '<td class="col1">' . $value['status'] .'</td>';
-                            $table_rows .= '</tr>';
+                                // ending tablerow
+                                $table_rows .= '</tr>';
 
-                            echo $table_rows;
+                                echo $table_rows;
                             }
                          }
 
@@ -110,6 +108,26 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                             }
                          }
 
+                         /**
+                          * Checks the useability of the temporary directory
+                          */
+                         function check_temporary_dir()
+                         {
+                             $tempdir = ini_get("session.save_path");
+                             if ($temp_filename = tempnam($tempdir, "FOO FIGHTERS")) # filehandle for temp file
+                             {
+                                $handle = fopen($temp_file_name, "w");
+                                fwrite($handle, "writing to tempfile");
+                                fclose($handle);
+                                unlink($tmpfname);
+                                return true;
+                             }
+                             else
+                             {
+                                return $temp_filename;
+                             }
+                         }
+
                          # REQUIRED CHECKS
 
                          # Setting: PHP-Version
@@ -138,18 +156,44 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? 'on' : 'off';
                          $required['pdo_mysql_library']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Checking if session.save_path is writable
+              # NOT USED # Checking if session.save_path is writable
+              # NOT USED # Setting: Database
 
-                         # Setting: Database
+                         # Permissions Check: write on systems temporary directory
+                         $required['is_writable_temp_dir']['text']     = $language['IS_WRITEABLE_TEMP_DIR'];
+                         $required['is_writable_temp_dir']['expected'] = 'w';
+                         $required['is_writable_temp_dir']['actual']   = check_temporary_dir() ? 'w' : '---';
+                         $required['is_writable_temp_dir']['status']   = check_temporary_dir() ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Checking write permission on \smarty\templates_c
+                         # Permissions Check: write on \clansuite root
+                         $required['is_writable_clansuite_root']['text']     = $language['IS_WRITEABLE_CLANSUITE_ROOT'];
+                         $required['is_writable_clansuite_root']['expected'] = 'w';
+                         $required['is_writable_clansuite_root']['actual']   = is_writeable(BASE_ROOT) ? 'w' : '---';
+                         $required['is_writable_clansuite_root']['status']   = is_writeable(BASE_ROOT) ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Checking write permission on \smarty\cache
+                         # Permissions Check: write on \smarty\templates_c
+                         $required['is_writable_smarty_templates_c']['text']     = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];
+                         $required['is_writable_smarty_templates_c']['expected'] = 'w';
+                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(BASE_ROOT . '/libraries/smarty/templates_c') ? 'w' : '---';
+                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(BASE_ROOT . '/libraries/smarty/templates_c') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Checking write permission on CONFIG-FILE
+                         # Permissions Check: write on \smarty\cache
+                         $required['is_writable_smarty_cache']['text']     = $language['IS_WRITEABLE_SMARYT_CACHE'];
+                         $required['is_writable_smarty_cache']['expected'] = 'w';
+                         $required['is_writable_smarty_cache']['actual']   = is_writeable(BASE_ROOT . '/libraries/smarty/cache') ? 'w' : '---';
+                         $required['is_writable_smarty_cache']['status']   = is_writeable(BASE_ROOT . '/libraries/smarty/cache') ? SETTING_TRUE : SETTING_FALSE;
 
+                         # Permissions Check: write on uploads folder
+                         $required['is_writable_uploads']['text']     = $language['IS_WRITEABLE_UPLOADS'];
+                         $required['is_writable_uploads']['expected'] = 'w';
+                         $required['is_writable_uploads']['actual']   = is_writeable(BASE_ROOT . '/uploads') ? 'w' : '---';
+                         $required['is_writable_uploads']['status']   = is_writeable(BASE_ROOT . '/uploads') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Setting:
+                         # Permissions Check: read on Configuration Template File
+                         $required['is_readable_config_template']['text']     = $language['IS_READABLE_CONFIG_TEMPLATE'];
+                         $required['is_readable_config_template']['expected'] = 'r';
+                         $required['is_readable_config_template']['actual']   = is_readable(ROOT . 'clansuite.config.installer') ? 'r' : '---';
+                         $required['is_readable_config_template']['status']   = is_readable(ROOT . 'clansuite.config.installer') ? SETTING_TRUE : SETTING_FALSE;
 
                          # RECOMMENDED CHECKS
 
@@ -169,7 +213,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 
                          #Checking max upload file size (min 2M, recommend 10M)
 
-                         #Checking for basic XML (expat) support
+                         # Checking for basic XML (expat) support
 
                          # Checking RegisterGlobals
                          $recommended['register_globals']['text']       = $language['REGISTER_GLOBALS'];
@@ -207,6 +251,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
                          $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
 
+                         # Checking output_buffering
+                         $recommended['output_buffering']['text']       = $language['OUTPUT_BUFFERING'];
+                         $recommended['output_buffering']['expected']   = 'off';
+                         $recommended['output_buffering']['actual']     = get_php_setting('output_buffering',false,'string');
+                         $recommended['output_buffering']['status']     = get_php_setting('output_buffering',false,'img');
+
                          # Checking for PHP Extension : HASH
                          $recommended['extension_hash']['text']       = $language['EXTENSION_HASH'];
                          $recommended['extension_hash']['expected']   = 'on';
@@ -219,7 +269,6 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? 'on' : 'off';
                          $recommended['extension_gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
 
-
                          # Checking for PHP Extension : tokenizer
                          $recommended['extension_tokenizer']['text']      = $language['EXTENSION_TOKENIZER'];
                          $recommended['extension_tokenizer']['expected']  = 'on';
@@ -231,6 +280,18 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_gd']['expected']   = 'on';
                          $recommended['extension_gd']['actual']     = extension_loaded('gd') ? 'on' : 'off';
                          $recommended['extension_gd']['status']     = extension_loaded('gd') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : XML
+                         $recommended['extension_xml']['text']       = $language['EXTENSION_XML'];
+                         $recommended['extension_xml']['expected']   = 'on';
+                         $recommended['extension_xml']['actual']     = extension_loaded('xml') ? 'on' : 'off';
+                         $recommended['extension_xml']['status']     = extension_loaded('xml') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : SimpleXML
+                         $recommended['extension_simplexml']['text']       = $language['EXTENSION_SIMPLEXML'];
+                         $recommended['extension_simplexml']['expected']   = 'on';
+                         $recommended['extension_simplexml']['actual']     = extension_loaded('SimpleXML') ? 'on' : 'off';
+                         $recommended['extension_simplexml']['status']     = extension_loaded('SimpleXML') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>
                 <table class="settings" border="0">
@@ -247,15 +308,22 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                     </thead>
                     <tbody>
                         <?php setting_rows($required); ?>
+                    </tbody>
+                </table>
+                <br />
+                <table class="settings" border="0">
+                    <thead class="tbhead">
                         <tr>
                             <td class="tdcaption" colspan="4"><?=$language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td>
                         </tr>
                         <tr>
-                            <td><?=$language['STEP2_SETTING']?></td>
-                            <td><?=$language['STEP2_SETTING_EXPECTED']?></td>
-                            <td><?=$language['STEP2_SETTING_ACTUAL']?></td>
-                            <td><?=$language['STEP2_SETTING_STATUS']?></td>
+                            <th><?=$language['STEP2_SETTING']?></th>
+                            <th><?=$language['STEP2_SETTING_EXPECTED']?></th>
+                            <th><?=$language['STEP2_SETTING_ACTUAL']?></th>
+                            <th><?=$language['STEP2_SETTING_STATUS']?></th>
                         </tr>
+                    </thead>
+                    <tbody>
                         <?php setting_rows($recommended); ?>
                     </tbody>
                 </table>
