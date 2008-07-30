@@ -214,7 +214,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
     # check if input-fields are filled
     if (!empty($_POST['config']['database']['db_name']) &&
         !ctype_digit($_POST['config']['database']['db_name']) &&
-        preg_match('#^[a-zA-Z]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) &&      
+        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) &&
         !empty($_POST['config']['database']['db_host']) &&
         !empty($_POST['config']['database']['db_type']) &&
         !empty($_POST['config']['database']['db_username']) &&
@@ -301,12 +301,11 @@ if( isset($_POST['step_forward']) && $step == 5 )
         $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
 
         # Adjust Error-Message in case validity of database name FAILED
-        if( preg_match('#^[a-zA-Z]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) OR
-            is_numeric($_POST['config']['database']['db_name']{0}))
+        if( preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ))
         {
             $error .= '<p>The database name you have entered, "'. $_POST['config']['database']['db_name'] . '", is invalid.</p>';
             $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
-            $error .= '<p> Forbidden are database names starting with numbers, containing only numbers and names like mysql-database commands.</p>';
+            $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
         }
     }
 }
