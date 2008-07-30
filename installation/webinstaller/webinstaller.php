@@ -1,6 +1,4 @@
 <?php
-# Enter your Password here - make it at least 6 characters long !
-$passPhrase = "yeahbabyyeah";
    /**
     * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005 - onwards
@@ -58,7 +56,7 @@ $passPhrase = "yeahbabyyeah";
     *
     * HTML Written = Version 0.2 - 06 June 2007
     * HTML Document begins near Line #1000
-    * @version    SVN: $Id$
+    * @version    SVN: $Id: webinstaller.php 2109 2008-06-25 16:42:31Z vain $
     */
 
 if(ini_get("safe_mode") == true && ini_get("open_basedir") == true)
@@ -76,7 +74,7 @@ ini_set("upload_max_filesize","64M");
 #ini_set("safe_mode_exec_dir","/usr/bin/");
 #ini_set("safe_mode", "off");
 
-$webinstaller_version = 'Version 0.2 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME']));
+$webinstaller_version = 'Version : 0.3 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME']));
 
 /*****************************************************************
  * C O N F I G U R A T I O N
@@ -108,6 +106,10 @@ $availableExtensions = array('tar.gz');
 /* Available versions of G2 */
 $availableVersions = array('dev');
 
+#var_dump($_REQUEST);
+#var_dump($_POST);
+#var_dump($_GET);
+
 /*****************************************************************
  * M A I N
  *****************************************************************/
@@ -130,395 +132,370 @@ class WebInstaller {
 
     function main() {
 
-    /* Authentication */
-    //$this->authenticate();
+        /* Register all extract / download methods */
+        $this->_extractMethods =  array(new UnzipExtractor(),
+                                        new PhpUnzipExtractor(),
+                                        new TarGzExtractor(),
+                                        new PhpTarGzExtractor());
 
-    /* Register all extract / download methods */
-    $this->_extractMethods =  array(new UnzipExtractor(),
-                                    new PhpUnzipExtractor(),
-                                    new TarGzExtractor(),
-                                    new PhpTarGzExtractor());
+        $this->_downloadMethods = array(new CurlDownloader(),
+                                        new WgetDownloader(),
+                                        new FopenDownloader(),
+                                        new FsockopenDownloader());
 
-    $this->_downloadMethods = array(new CurlDownloader(),
-                                    new WgetDownloader(),
-                                    new FopenDownloader(),
-                                    new FsockopenDownloader());
+        /* Make sure we can write to the current working directory */
+        if (!Platform::isDirectoryWritable()) {
+            render('results', array('failure' => 'Local working directory' . dirname(__FILE__) .
+                        ' is not writeable!',
+                        'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
+            exit;
+        }
 
-    /* Make sure we can write to the current working directory */
-    if (!Platform::isDirectoryWritable()) {
-        render('results', array('failure' => 'Local working directory' . dirname(__FILE__) .
-                    ' is not writeable!',
-                    'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
-        exit;
-    }
+        /* Handle the request */
+        if (empty($_POST['command']))
+        {
+            $command = '';
+        }
+        else
+        {
+            $command = trim($_POST['command']);
+        }
 
-    /* Handle the request */
-    if (empty($_POST['command']))
-    {
-        $command = '';
-    }
-    else
-    {
-        $command = trim($_POST['command']);
-    }
+        /** Actions:
+        *   -extract
+        *   -download
+        *   -chmod
+        *   -rename
+        *   Default: check capabilities of php / server
+        */
 
-    /** Actions:
-    *   -extract
-    *   -download
-    *   -chmod
-    *   -rename
-    *   Default: check capabilities of php / server
-    */
+        switch ($command) {
 
-    switch ($command) {
+            case 'extract':
 
-        case 'extract':
-
-            /* Input validation / sanitation */
-            if (empty($_POST['method'])) $method = '';
-            else $method = trim($_POST['method']);
-            if (!preg_match('/^[a-z]+extractor$/', $method)) $method = '';
-            /* Handle the request */
-            if (class_exists($method)) {
-                global $archiveBaseName;
-                $extractor = new $method;
-                if ($extractor->isSupported()) {
-                $archiveName = dirname(__FILE__) . '/' .
-                    $archiveBaseName .  '.' . $extractor->getSupportedExtension();
-                if (is_file($archiveName)) {
-                    $results = $extractor->extract($archiveName);
-                    if ($results === true) {
-                    /* Make sure the dirs and files were extracted successfully */
-                    if (!$this->integrityCheck()) {
-                        render('results', array('failure' => 'Extraction was successful, but integrity check failed'));
-                    } else {
-                        render('results', array('success' => 'Archive successfully extracted'));
-
-                        /*
-                         * Set the permissions in the clansuite dir may be such that
-                         * the user can modify login.txt
-                         */
-                        @chmod(dirname(__FILE__) . '/clansuite', 0777);
-                    }
-                    } else {
-                    render('results', array('failure' => $results));
-                    }
-                } else {
-                    render('results', array('failure' => "Archive $archiveName does not exist in the current working directory"));
-                }
-                } else {
-                render('results', array('failure' => "Method $method is not supported by this platform!"));
-                }
-            } else {
-                render('results', array('failure' => 'Extract method is not defined or does not exist!'));
-            }
-
-        break;
-
-        case 'download':
-
-            /* Input validation / sanitation */
-            /* The download method */
-            if (empty($_POST['method'])) $method = '';
-            else $method = trim($_POST['method']);
-            if (!preg_match('/^[a-z]+downloader$/', $method)) $method = '';
-            /* ... archive extension */
-            if (empty($_POST['extension'])) $extension = '';
-            else $extension = trim($_POST['extension']);
-            if (!preg_match('/^([a-z]{2,4}\.)?[a-z]{2,4}$/', $extension)) {
-                render('results', array('failure' => 'Filetype for download not defined, please retry'));
-                exit;
-            }
-            global $availableExtensions, $availableVersions;
-            if (!in_array($extension, $availableExtensions)) $extension = 'zip';
-            /* Clansuite version (stable, rc, nightly snapshot) */
-            if (empty($_POST['version'])) $version = '';
-            else $version = trim($_POST['version']);
-            if (!in_array($version, $availableVersions)) $version = 'stable';
-            if (class_exists($method)) {
-                $downloader = new $method;
-                if ($downloader->isSupported()) {
-                global $archiveBaseName;
-                $archiveName = dirname(__FILE__) . '/' . $archiveBaseName . '.' . $extension;
-                /* Assemble the downlod URL */
-                $url = $this->getDownloadUrl($version, $extension, $downloader);
-                $results = $downloader->download($url, $archiveName);
-                if ($results === true) {
+                /* Input validation / sanitation */
+                if (empty($_POST['method'])) $method = '';
+                else $method = trim($_POST['method']);
+                if (!preg_match('/^[a-z]+extractor$/', $method)) $method = '';
+                /* Handle the request */
+                if (class_exists($method)) {
+                    global $archiveBaseName;
+                    $extractor = new $method;
+                    if ($extractor->isSupported()) {
+                    $archiveName = dirname(__FILE__) . '/' .
+                        $archiveBaseName .  '.' . $extractor->getSupportedExtension();
                     if (is_file($archiveName)) {
-                    @chmod($archiveName, 0777);
-                    render('results', array('success' => 'File successfully downloaded'));
+                        $results = $extractor->extract($archiveName);
+                        if ($results === true) {
+
+                        /* Make sure the dirs and files were extracted successfully */
+                        if (!$this->integrityCheck()) {
+                            render('results', array('failure' => 'Extraction was successful, but integrity check failed'));
+                        } else {
+                            render('results', array('success' => 'Archive successfully extracted',
+                                                    'clansuiteFolderName' => $this->findClansuiteFolder()
+                                                    ));
+
+                            /**
+                             * Set the permissions in the clansuite dir
+                             */
+                            @chmod(dirname(__FILE__) . '/clansuite', 0777);
+                        }
+                        } else {
+                        render('results', array('failure' => $results));
+                        }
                     } else {
-                    render('results', array('failure' => "Download failed, local file $archiveName does not exist"));
+                        render('results', array('failure' => "Archive $archiveName does not exist in the current working directory"));
+                    }
+                    } else {
+                    render('results', array('failure' => "Method $method is not supported by this platform!"));
                     }
                 } else {
-                    render('results', array('failure' => $results));
+                    render('results', array('failure' => 'Extract method is not defined or does not exist!'));
                 }
+
+            break;
+
+            case 'download':
+
+                /* Input validation / sanitation */
+                /* The download method */
+                if (empty($_POST['method'])) $method = '';
+                else $method = trim($_POST['method']);
+                if (!preg_match('/^[a-z]+downloader$/', $method)) $method = '';
+                /* ... archive extension */
+                if (empty($_POST['extension'])) $extension = '';
+                else $extension = trim($_POST['extension']);
+                if (!preg_match('/^([a-z]{2,4}\.)?[a-z]{2,4}$/', $extension)) {
+                    render('results', array('failure' => 'Filetype for download not defined, please retry'));
+                    exit;
+                }
+                global $availableExtensions, $availableVersions;
+                if (!in_array($extension, $availableExtensions)) $extension = 'zip';
+                /* Clansuite version (stable, rc, nightly snapshot) */
+                if (empty($_POST['version'])) $version = '';
+                else $version = trim($_POST['version']);
+                if (!in_array($version, $availableVersions)) $version = 'stable';
+                if (class_exists($method)) {
+                    $downloader = new $method;
+                    if ($downloader->isSupported()) {
+                    global $archiveBaseName;
+                    $archiveName = dirname(__FILE__) . '/' . $archiveBaseName . '.' . $extension;
+                    /* Assemble the downlod URL */
+                    $url = $this->getDownloadUrl($version, $extension, $downloader);
+                    $results = $downloader->download($url, $archiveName);
+                    if ($results === true) {
+                        if (is_file($archiveName)) {
+                        @chmod($archiveName, 0777);
+                        render('results', array('success' => 'File successfully downloaded'));
+                        } else {
+                        render('results', array('failure' => "Download failed, local file $archiveName does not exist"));
+                        }
+                    } else {
+                        render('results', array('failure' => $results));
+                    }
+                    } else {
+                    render('results', array('failure' => "Method $method is not supported by this platform!"));
+                    }
                 } else {
-                render('results', array('failure' => "Method $method is not supported by this platform!"));
+                    render('results', array('failure' => 'Method is not defined or does not exist!'));
                 }
-            } else {
-                render('results', array('failure' => 'Method is not defined or does not exist!'));
-            }
 
-        break;
+            break;
 
-       case 'chmod':
+           case 'chmod':
 
-            /* Input validation / sanitation */
-            if (empty($_POST['folderName'])) $folderName = '';
-            else $folderName = trim($_POST['folderName']);
-            /* Remove trailing / leading slashes */
-            $folderName = str_replace(array('/', "\\", '..'), '', $folderName);
-            if (!preg_match('/^\w+(\.\w+)*$/', $folderName)) {
-                render('results', array('failure' => "Folder $folderName has invalid characters. Can only change the permissions of folders in the current working directory."));
-                exit;
-            }
-            $folderName = dirname(__FILE__) . DIRECTORY_SEPARATOR .  $folderName;
-            if (!is_file($folderName)) {
-                render('results', array('failure' => "Folder $folderName does not exist!"));
-                exit;
-            }
-            if (empty($_POST['folderPermissions'])) $folderPermissions = '';
-            else $folderPermissions= trim($_POST['folderPermissions']);
-            /* Handle the request */
-            global $folderPermissionList;
-            if (in_array($folderPermissions, $folderPermissionList)) {
-                $folderPermissions = (string)('0' . (int)$folderPermissions);
-                $success = @chmod($folderName, octdec($folderPermissions));
+                /* Input validation / sanitation */
+                if (empty($_POST['folderName'])) $folderName = '';
+                else $folderName = trim($_POST['folderName']);
+                /* Remove trailing / leading slashes */
+                $folderName = str_replace(array('/', "\\", '..'), '', $folderName);
+                if (!preg_match('/^\w+(\.\w+)*$/', $folderName)) {
+                    render('results', array('failure' => "Folder $folderName has invalid characters. Can only change the permissions of folders in the current working directory."));
+                    exit;
+                }
+                $folderName = dirname(__FILE__) . DIRECTORY_SEPARATOR .  $folderName;
+                if (!is_file($folderName)) {
+                    render('results', array('failure' => "Folder $folderName does not exist!"));
+                    exit;
+                }
+                if (empty($_POST['folderPermissions'])) $folderPermissions = '';
+                else $folderPermissions= trim($_POST['folderPermissions']);
+                /* Handle the request */
+                global $folderPermissionList;
+                if (in_array($folderPermissions, $folderPermissionList)) {
+                    $folderPermissions = (string)('0' . (int)$folderPermissions);
+                    $success = @chmod($folderName, octdec($folderPermissions));
+                    if (!$success) {
+                    render('results', array('failure' => "Attempt to change permissions of folder $folderName to $folderPermissions failed!"));
+                    } else {
+                    render('results', array('success' => "Successfully changed permissions of $folderName to $folderPermissions"));
+                    }
+                } else {
+                    render('results', array('failure' => "Invalid permissions $folderPermissions"));
+                }
+
+            break;
+
+            case 'rename':
+
+                if (empty($_POST['folderName'])) $folderName = '';
+                else $folderName = trim($_POST['folderName']);
+                /* Remove trailing / leading slashes */
+                $folderName = str_replace(array('/', "\\", '.'), '', $folderName);
+                if (!preg_match('/^\w+$/', $folderName)) {
+                    render('results', array('failure' => "Folder name $folderName has invalid characters. Can only rename within the current working directory."));
+                    exit;
+                }
+                $folderName = dirname(__FILE__) . '/' .  $folderName;
+                $oldFolderName = $this->findclansuiteFolder();
+                if (empty($oldFolderName) || !is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName)) {
+                    render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
+                    exit;
+                }
+                $oldFolderName = dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName;
+                $success = @rename($oldFolderName, $folderName);
                 if (!$success) {
-                render('results', array('failure' => "Attempt to change permissions of folder $folderName to $folderPermissions failed!"));
+                    render('results', array('failure' => "Attempt to rename $oldFolderName to $folderName failed!"));
                 } else {
-                render('results', array('success' => "Successfully changed permissions of $folderName to $folderPermissions"));
+                    render('results', array('success' => "Successfully renamed $oldFolderName to $folderName"));
                 }
-            } else {
-                render('results', array('failure' => "Invalid permissions $folderPermissions"));
+
+            break;
+
+            default:
+            case 'before-download':
+
+            /* Discover the capabilities of this PHP installation / platform */
+            $capabilities = $this->discoverCapabilities();
+
+            $capabilities['clansuiteFolderName'] = $this->findClansuiteFolder();
+
+            if (!empty($capabilities['clansuiteFolderName']))
+            {
+                $statusMessage  = "Ready for installation! Clansuite found in the folder '" .
+                $capabilities['clansuiteFolderName'] . "'.";
+            }
+            else if (!empty($capabilities['anyArchiveExists']))
+            {
+                $statusMessage = 'Archive ready for extraction.';
+            }
+            else
+            {
+                $statusMessage = 'No archive in current working directory, please start with step 1.';
             }
 
-        break;
+            $capabilities['statusMessage'] = $statusMessage;
 
-        case 'rename':
-
-            if (empty($_POST['folderName'])) $folderName = '';
-            else $folderName = trim($_POST['folderName']);
-            /* Remove trailing / leading slashes */
-            $folderName = str_replace(array('/', "\\", '.'), '', $folderName);
-            if (!preg_match('/^\w+$/', $folderName)) {
-                render('results', array('failure' => "Folder name $folderName has invalid characters. Can only rename within the current working directory."));
-                exit;
+            /* Is there a ReleaseCandidate available?*/
+            if (!empty($capabilities['downloadMethods'])) {
+                foreach ($capabilities['downloadMethods'] as $dMethod) {
+                    if ($dMethod['isSupported']) {
+                        $capabilities['showRcVersion'] =
+                            $this->shouldShowRcVersion(new $dMethod['command']);
+                        break;
+                    }
+                }
             }
-            $folderName = dirname(__FILE__) . '/' .  $folderName;
-            $oldFolderName = $this->findclansuiteFolder();
-            if (empty($oldFolderName) || !is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName)) {
-                render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
-                exit;
-            }
-            $oldFolderName = dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName;
-            $success = @rename($oldFolderName, $folderName);
-            if (!$success) {
-                render('results', array('failure' => "Attempt to rename $oldFolderName to $folderName failed!"));
-            } else {
-                render('results', array('success' => "Successfully renamed $oldFolderName to $folderName"));
-            }
-
-        break;
-
-        default:
-
-        /* Discover the capabilities of this PHP installation / platform */
-        $capabilities = $this->discoverCapabilities();
-
-        $capabilities['clansuiteFolderName'] = $this->findClansuiteFolder();
-
-        if (!empty($capabilities['clansuiteFolderName'])) {
-            $statusMessage  = "Ready for installation (Clansuite folder '" .
-            $capabilities['clansuiteFolderName'] . "' found)";
-        } else if (!empty($capabilities['anyArchiveExists'])) {
-            $statusMessage = 'Archive ready for extraction';
-        } else {
-            $statusMessage =
-            'No archive in current working directory, please start with step 1';
+            render('options', $capabilities);
         }
-
-        $capabilities['statusMessage'] = $statusMessage;
-
-        /* Is there a ReleaseCandidate available?*/
-        if (!empty($capabilities['downloadMethods'])) {
-            foreach ($capabilities['downloadMethods'] as $dMethod) {
-            if ($dMethod['isSupported']) {
-                $capabilities['showRcVersion'] =
-                    $this->shouldShowRcVersion(new $dMethod['command']);
-                break;
-            }
-            }
-        }
-        render('options', $capabilities);
-    }
-    }
-
-    function authenticate() {
-    global $passPhrase;
-
-    /* Check authentication */
-    if (empty($passPhrase)) {
-        render('missingPassword');
-        exit;
-    } else if (strlen($passPhrase) < 6) {
-        render('passwordTooShort');
-        exit;
-    } else if (!empty($_COOKIE['CLANSUITE_WEBINSTALLER']) &&
-            trim($_COOKIE['CLANSUITE_WEBINSTALLER']) == md5($passPhrase)) {
-        /* Already logged in, got a cookie */
-        return true;
-    } else if (!empty($_POST['cs_password'])) {
-        /* Login attempt */
-        if ($_POST['cs_password'] == $passPhrase) {
-        setcookie("CLANSUITE_WEBINSTALLER",md5($passPhrase),0);
-        return true;
-        } else {
-        render('passwordForm', array('incorrectPassword' => 1));
-        exit;
-        }
-    } else {
-        render('passwordForm');
-        exit;
-    }
     }
 
     function discoverCapabilities() {
-    global $archiveBaseName;
-    $capabilities = array();
+        global $archiveBaseName;
+        $capabilities = array();
 
-    $extractMethods = array();
-    $extensions = array();
-    $anyExtensionSupported = 0;
-    $anyArchiveExists = 0;
-    foreach    ($this->_extractMethods as $method) {
-        $archiveName = $archiveBaseName . '.' . $method->getSupportedExtension();
-        $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
-        $isSupported = $method->isSupported();
-        $extractMethods[] = array('isSupported' => $isSupported,
-                      'name' => $method->getName(),
-                      'command' => strtolower(get_class($method)),
-                      'archiveExists' => $archiveExists,
-                      'archiveName' => $archiveName);
-        if (empty($extensions[$method->getSupportedExtension()])) {
-        $extensions[$method->getSupportedExtension()] = (int)$isSupported;
+        $extractMethods = array();
+        $extensions = array();
+        $anyExtensionSupported = 0;
+        $anyArchiveExists = 0;
+        foreach    ($this->_extractMethods as $method) {
+            $archiveName = $archiveBaseName . '.' . $method->getSupportedExtension();
+            $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
+            $isSupported = $method->isSupported();
+            $extractMethods[] = array('isSupported' => $isSupported,
+                          'name' => $method->getName(),
+                          'command' => strtolower(get_class($method)),
+                          'archiveExists' => $archiveExists,
+                          'archiveName' => $archiveName);
+            if (empty($extensions[$method->getSupportedExtension()])) {
+            $extensions[$method->getSupportedExtension()] = (int)$isSupported;
+            }
+            if ($isSupported) {
+            $anyExtensionSupported = 1;
+            }
+            if ($archiveExists) {
+            $anyArchiveExists = 1;
+            }
         }
-        if ($isSupported) {
-        $anyExtensionSupported = 1;
-        }
-        if ($archiveExists) {
-        $anyArchiveExists = 1;
-        }
-    }
-    $capabilities['extractMethods'] = $extractMethods;
-    $capabilities['extensions'] = $extensions;
-    $capabilities['anyExtensionSupported'] = $anyExtensionSupported;
-    $capabilities['anyArchiveExists'] = $anyArchiveExists;
+        $capabilities['extractMethods'] = $extractMethods;
+        $capabilities['extensions'] = $extensions;
+        $capabilities['anyExtensionSupported'] = $anyExtensionSupported;
+        $capabilities['anyArchiveExists'] = $anyArchiveExists;
 
-    $downloadMethods = array();
-    foreach    ($this->_downloadMethods as $method) {
-        $downloadMethods[] = array('isSupported' => $method->isSupported(),
-                       'name' => $method->getName(),
-                       'command' => strtolower(get_class($method)));
-    }
-    $capabilities['downloadMethods'] = $downloadMethods;
+        $downloadMethods = array();
+        foreach    ($this->_downloadMethods as $method) {
+            $downloadMethods[] = array('isSupported' => $method->isSupported(),
+                           'name' => $method->getName(),
+                           'command' => strtolower(get_class($method)));
+        }
+        $capabilities['downloadMethods'] = $downloadMethods;
 
-    return $capabilities;
+        return $capabilities;
     }
 
     function findClansuiteFolder() {
-    /* Search in the current folder for a clansuite folder */
-    $basePath = dirname(__FILE__) . '/';
-    if (is_file($basePath . 'clansuite') &&
-        is_file($basePath . 'clansuite/installation/index.php')) {
-        return 'clansuite';
-    }
-
-    if (!Platform::isPhpFunctionSupported('opendir') ||
-        !Platform::isPhpFunctionSupported('readdir')) {
-        return false;
-    }
-
-    $handle = opendir($basePath);
-    if (!$handle) {
-        return false;
-    }
-    while (($fileName = readdir($handle)) !== false) {
-        if ($fileName == '.' || $fileName == '..') {
-        continue;
+        /* Search in the current folder for a clansuite folder */
+        $basePath = dirname(__FILE__) . '/';
+        if (is_file($basePath . 'clansuite') &&
+            is_file($basePath . 'clansuite/installation/index.php')) {
+            return 'clansuite';
         }
-        if (is_file($basePath . $fileName . '/installation/index.php')) {
-        return $fileName;
-        }
-    }
-    closedir($handle);
 
-    return false;
+        if (!Platform::isPhpFunctionSupported('opendir') ||
+            !Platform::isPhpFunctionSupported('readdir')) {
+            return false;
+        }
+
+        $handle = opendir($basePath);
+        if (!$handle) {
+            return false;
+        }
+        while (($fileName = readdir($handle)) !== false) {
+            if ($fileName == '.' || $fileName == '..') {
+            continue;
+            }
+            if (is_file($basePath . $fileName . '/installation/index.php')) {
+            return $fileName;
+            }
+        }
+        closedir($handle);
+
+        return false;
     }
 
     function integrityCheck() {
-    /* TODO, check for the existence of modules, lib, themes, main.php */
-    return true;
+        /* TODO, check for the existence of modules, lib, themes, main.php */
+        return true;
     }
 
     function getDownloadUrl($version, $extension, $downloader) {
-    global $downloadUrls;
+        global $downloadUrls;
 
-    /* Default to the last known good version */
-    $url = $downloadUrls[$version];
+        /* Default to the last known good version */
+        $url = $downloadUrls[$version];
 
-    /* Try to get the latest version string */
-    $currentDownloadUrls = $this->getLatestVersions($downloader);
-    if (!empty($currentDownloadUrls[$version])) {
-        $url = $currentDownloadUrls[$version];
-    }
+        /* Try to get the latest version string */
+        $currentDownloadUrls = $this->getLatestVersions($downloader);
+        if (!empty($currentDownloadUrls[$version])) {
+            $url = $currentDownloadUrls[$version];
+        }
 
-    $url .= '.' . $extension;
+        $url .= '.' . $extension;
 
-    return $url;
+        return $url;
     }
 
     function getLatestVersions($downloader) {
-    global $versionCheckUrl, $availableVersions;
+        global $versionCheckUrl, $availableVersions;
 
-    $tempFile = dirname(__FILE__) . '/availableVersions.txt';
-    $currentVersions = array();
-    /*
-     * Fetch the version information from a remote server and if we already have it,
-     * update it if it's older than an hour
-     */
-    if (!is_file($tempFile) || !(($stat = @stat($tempFile)) &&
-        isset($stat['mtime']) && $stat['mtime'] > time() - 3600)) {
-        $downloader->download($versionCheckUrl, $tempFile);
-    }
-    /* Parse the fetched version information file */
-    if (is_file($tempFile)) {
-        $contents = @file($tempFile);
-        if (is_array($contents)) {
-        foreach ($contents as $line) {
-            /* Each line is of the format key=value */
-            $versionStrings = implode('|', $availableVersions);
-            if (preg_match('/^(' . $versionStrings .
-                ')=((?:http|ftp):\/(?:\/(?:[A-Za-z0-9-_]+\.?)+)+)\s*/',
-                   $line, $match)) {
-            $currentVersions[$match[1]] = $match[2];
+        $tempFile = dirname(__FILE__) . '/availableVersions.txt';
+        $currentVersions = array();
+        /*
+         * Fetch the version information from a remote server and if we already have it,
+         * update it if it's older than an hour
+         */
+        if (!is_file($tempFile) || !(($stat = @stat($tempFile)) &&
+            isset($stat['mtime']) && $stat['mtime'] > time() - 3600)) {
+            $downloader->download($versionCheckUrl, $tempFile);
+        }
+        /* Parse the fetched version information file */
+        if (is_file($tempFile)) {
+            $contents = @file($tempFile);
+            if (is_array($contents)) {
+            foreach ($contents as $line) {
+                /* Each line is of the format key=value */
+                $versionStrings = implode('|', $availableVersions);
+                if (preg_match('/^(' . $versionStrings .
+                    ')=((?:http|ftp):\/(?:\/(?:[A-Za-z0-9-_]+\.?)+)+)\s*/',
+                       $line, $match)) {
+                $currentVersions[$match[1]] = $match[2];
+                }
+            }
             }
         }
-        }
-    }
 
-    return $currentVersions;
+        return $currentVersions;
     }
 
     function shouldShowRcVersion($downloader) {
-    /*
-     * Only show the rc version (along with the stable and nightly) if we're in a
-     * release candidate stage
-     */
+        /*
+         * Only show the rc version (along with the stable and nightly) if we're in a
+         * release candidate stage
+         */
 
-     $currentDownloadUrls = $this->getLatestVersions($downloader);
-     return isset($currentDownloadUrls['rc']);
+        $currentDownloadUrls = $this->getLatestVersions($downloader);
+        return isset($currentDownloadUrls['rc']);
     }
 }
 
@@ -533,86 +510,86 @@ class Platform
 {
     /* Check if a specific php function is available */
     function isPhpFunctionSupported($functionName) {
-    if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName)) {
-        return false;
-    } else {
-        return true;
-    }
+        if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /* Check if a specific command line tool is available */
     function isBinaryAvailable($binaryName) {
-    $binaryPath = Platform::getBinaryPath($binaryName);
-    return !empty($binaryPath);
-    }
+        $binaryPath = Platform::getBinaryPath($binaryName);
+        return !empty($binaryPath);
+        }
 
-    /* Return the path to a binary or false if it's not available */
-    function getBinaryPath($binaryName) {
-    if (!Platform::isPhpFunctionSupported('exec')) {
+        /* Return the path to a binary or false if it's not available */
+        function getBinaryPath($binaryName) {
+        if (!Platform::isPhpFunctionSupported('exec')) {
+            return false;
+        }
+
+        /* First try 'which' */
+        $ret = array();
+        exec('which ' . $binaryName, $ret);
+        if (strpos(join(' ',$ret), $binaryName) !== false && is_executable(join('',$ret))) {
+            return $binaryName; // it's in the path
+        }
+
+        /* Try a bunch of likely seeming paths to see if any of them work. */
+        $paths = array();
+        if (!strncasecmp(PHP_OS, 'win', 3)) {
+            $separator = ';';
+            $slash = "\\";
+            $extension = '.exe';
+            $paths[] = "C:\\Program Files\\$binaryName\\";
+            $paths[] = "C:\\apps\$binaryName\\";
+            $paths[] = "C:\\$binaryName\\";
+        } else {
+            $separator = ':';
+            $slash = "/";
+            $extension = '';
+            $paths[] = '/usr/bin/';
+            $paths[] = '/usr/local/bin/';
+            $paths[] = '/bin/';
+            $paths[] = '/sw/bin/';
+        }
+        $paths[] = './';
+
+        foreach (explode($separator, getenv('PATH')) as $path) {
+            $path = trim($path);
+            if (empty($path)) {
+            continue;
+            }
+            if ($path{strlen($path)-1} != $slash) {
+            $path .= $slash;
+            }
+            $paths[] = $path;
+        }
+
+        /* Now try each path in turn to see which ones work */
+        /* error silenced, because of open_basedir restriction */
+        foreach ($paths as $path) {
+            $execPath = $path . $binaryName . $extension;
+            if (@is_file($execPath) && is_executable($execPath)) {
+            /* We have a winner */
+            return $execPath;
+            }
+        }
+
         return false;
-    }
-
-    /* First try 'which' */
-    $ret = array();
-    exec('which ' . $binaryName, $ret);
-    if (strpos(join(' ',$ret), $binaryName) !== false && is_executable(join('',$ret))) {
-        return $binaryName; // it's in the path
-    }
-
-    /* Try a bunch of likely seeming paths to see if any of them work. */
-    $paths = array();
-    if (!strncasecmp(PHP_OS, 'win', 3)) {
-        $separator = ';';
-        $slash = "\\";
-        $extension = '.exe';
-        $paths[] = "C:\\Program Files\\$binaryName\\";
-        $paths[] = "C:\\apps\$binaryName\\";
-        $paths[] = "C:\\$binaryName\\";
-    } else {
-        $separator = ':';
-        $slash = "/";
-        $extension = '';
-        $paths[] = '/usr/bin/';
-        $paths[] = '/usr/local/bin/';
-        $paths[] = '/bin/';
-        $paths[] = '/sw/bin/';
-    }
-    $paths[] = './';
-
-    foreach (explode($separator, getenv('PATH')) as $path) {
-        $path = trim($path);
-        if (empty($path)) {
-        continue;
-        }
-        if ($path{strlen($path)-1} != $slash) {
-        $path .= $slash;
-        }
-        $paths[] = $path;
-    }
-
-    /* Now try each path in turn to see which ones work */
-    /* error silenced, because of open_basedir restriction */
-    foreach ($paths as $path) {
-        $execPath = $path . $binaryName . $extension;
-        if (@is_file($execPath) && is_executable($execPath)) {
-        /* We have a winner */
-        return $execPath;
-        }
-    }
-
-    return false;
     }
 
     /* Check if we can write to this directory (download, extract) */
     function isDirectoryWritable() {
-    return is_writable(dirname(__FILE__));
+        return is_writable(dirname(__FILE__));
     }
 
     function extendTimeLimit() {
-    if (function_exists('apache_reset_timeout')) {
-        @apache_reset_timeout();
-    }
-    @set_time_limit(600);
+        if (function_exists('apache_reset_timeout')) {
+            @apache_reset_timeout();
+        }
+        @set_time_limit(600);
     }
 }
 
@@ -653,24 +630,24 @@ class DownloadMethod
 class WgetDownloader extends DownloadMethod
 {
     function download($url, $outputFile) {
-    $status = 0;
-    $output = array();
-    $wget = Platform::getBinaryPath('wget');
-    exec("$wget -O$outputFile $url ", $output, $status);
-    if ($status) {
-        $msg = 'exec returned an error status ';
-        $msg .= is_array($output) ? implode('<br>', $output) : '';
-        return $msg;
-    }
-    return true;
+        $status = 0;
+        $output = array();
+        $wget = Platform::getBinaryPath('wget');
+        exec("$wget -O$outputFile $url ", $output, $status);
+        if ($status) {
+            $msg = 'exec returned an error status ';
+            $msg .= is_array($output) ? implode('<br>', $output) : '';
+            return $msg;
+        }
+        return true;
     }
 
     function isSupported() {
-    return Platform::isBinaryAvailable('wget');
+        return Platform::isBinaryAvailable('wget');
     }
 
     function getName() {
-    return 'Download with Wget';
+        return 'Download with Wget';
     }
 }
 
@@ -685,65 +662,65 @@ class WgetDownloader extends DownloadMethod
 class FopenDownloader extends DownloadMethod
 {
     function download($url, $outputFile) {
-    if (!Platform::isDirectoryWritable()) {
-        return 'Unable to write to current working directory';
-    }
-
-    if (@ini_get('memory_limit') < 16)
-        @ini_set('memory_limit', '16M');
-
-    $start =time();
-
-    Platform::extendTimeLimit();
-
-    $fh = fopen($url, 'rb');
-    if (empty($fh)) {
-        return 'Unable to open url';
-    }
-    $ofh = fopen($outputFile, 'wb');
-    if (!$ofh) {
-        fclose($fh);
-        return 'Unable to open output file in writing mode';
-    }
-
-    $failed = $results = false;
-    while (!feof($fh) && !$failed) {
-        $buf = fread($fh, 4096);
-        if (!$buf) {
-        $results = 'Error during download';
-        $failed = true;
-        break;
+        if (!Platform::isDirectoryWritable()) {
+            return 'Unable to write to current working directory';
         }
-        if (fwrite($ofh, $buf) != strlen($buf)) {
-        $failed = true;
-        $results = 'Error during writing';
-        break;
-        }
-        if (time() - $start > 55) {
+
+        if (@ini_get('memory_limit') < 16)
+            @ini_set('memory_limit', '16M');
+
+        $start =time();
+
         Platform::extendTimeLimit();
-        $start = time();
+
+        $fh = fopen($url, 'rb');
+        if (empty($fh)) {
+            return 'Unable to open url';
         }
-    }
-    fclose($ofh);
-    fclose($fh);
-    if ($failed) {
-        return $results;
-    }
+        $ofh = fopen($outputFile, 'wb');
+        if (!$ofh) {
+            fclose($fh);
+            return 'Unable to open output file in writing mode';
+        }
 
-    return true;
-    }
+        $failed = $results = false;
+        while (!feof($fh) && !$failed) {
+            $buf = fread($fh, 4096);
+            if (!$buf) {
+            $results = 'Error during download';
+            $failed = true;
+            break;
+            }
+            if (fwrite($ofh, $buf) != strlen($buf)) {
+            $failed = true;
+            $results = 'Error during writing';
+            break;
+            }
+            if (time() - $start > 55) {
+            Platform::extendTimeLimit();
+            $start = time();
+            }
+        }
+        fclose($ofh);
+        fclose($fh);
+        if ($failed) {
+            return $results;
+        }
 
-    function isSupported() {
-    $actual = ini_get('allow_url_fopen');
-    if (in_array($actual, array(1, 'On', 'on')) && Platform::isPhpFunctionSupported('fopen')) {
         return true;
     }
 
-    return false;
+    function isSupported() {
+        $actual = ini_get('allow_url_fopen');
+        if (in_array($actual, array(1, 'On', 'on')) && Platform::isPhpFunctionSupported('fopen')) {
+            return true;
+        }
+
+        return false;
     }
 
     function getName() {
-    return 'Download with PHP fopen()';
+        return 'Download with PHP fopen()';
     }
 }
 
@@ -758,104 +735,104 @@ class FopenDownloader extends DownloadMethod
 class FsockopenDownloader extends DownloadMethod
 {
     function download($url, $outputFile, $maxRedirects=10) {
-    /* Code from WebHelper_simple.class */
+        /* Code from WebHelper_simple.class */
 
-    if ($maxRedirects < 0) {
-        return "Error too many redirects. Last URL: $url";
-    }
-
-    $components = parse_url($url);
-    $port = empty($components['port']) ? 80 : $components['port'];
-
-    $errno = $errstr = null;
-    $fd = @fsockopen($components['host'], $port, $errno, $errstr, 2);
-    if (empty($fd)) {
-        return "Error $errno: '$errstr' retrieving $url";
-    }
-
-    $get = $components['path'];
-    if (!empty($components['query'])) {
-        $get .= '?' . $components['query'];
-    }
-
-    $start = time();
-
-    /* Read the web file into a buffer */
-    $ok = fwrite($fd, sprintf("GET %s HTTP/1.0\r\n" .
-                       "Host: %s\r\n" .
-                       "\r\n",
-                       $get,
-                       $components['host']));
-    if (!$ok) {
-        return 'Download request failed (fwrite)';
-    }
-    $ok = fflush($fd);
-    if (!$ok) {
-        return 'Download request failed (fflush)';
-    }
-
-    /*
-     * Read the response code. fgets stops after newlines.
-     * The first line contains only the status code (200, 404, etc.).
-     */
-    $headers = array();
-    $response = trim(fgets($fd, 4096));
-
-    /* Jump over the headers but follow redirects */
-    while (!feof($fd)) {
-        $line = trim(fgets($fd, 4096));
-        if (empty($line)) {
-        break;
+        if ($maxRedirects < 0) {
+            return "Error too many redirects. Last URL: $url";
         }
 
-        /* Normalize the line endings */
-        $line = str_replace("\r", '', $line);
-        list ($key, $value) = explode(':', $line, 2);
-        if (trim($key) == 'Location') {
-        fclose($fd);
-        return $this->download(trim($value), $outputFile, --$maxRedirects);
-        }
-    }
+        $components = parse_url($url);
+        $port = empty($components['port']) ? 80 : $components['port'];
 
-    $success = false;
-    $ofd = fopen($outputFile, 'wb');
-    if ($ofd) {
-        /* Read the body */
-        $failed = false;
-        while (!feof($fd) && !$failed) {
-        $buf = fread($fd, 4096);
-        if (fwrite($ofd, $buf) != strlen($buf)) {
-            $failed = true;
+        $errno = $errstr = null;
+        $fd = @fsockopen($components['host'], $port, $errno, $errstr, 2);
+        if (empty($fd)) {
+            return "Error $errno: '$errstr' retrieving $url";
+        }
+
+        $get = $components['path'];
+        if (!empty($components['query'])) {
+            $get .= '?' . $components['query'];
+        }
+
+        $start = time();
+
+        /* Read the web file into a buffer */
+        $ok = fwrite($fd, sprintf("GET %s HTTP/1.0\r\n" .
+                           "Host: %s\r\n" .
+                           "\r\n",
+                           $get,
+                           $components['host']));
+        if (!$ok) {
+            return 'Download request failed (fwrite)';
+        }
+        $ok = fflush($fd);
+        if (!$ok) {
+            return 'Download request failed (fflush)';
+        }
+
+        /*
+         * Read the response code. fgets stops after newlines.
+         * The first line contains only the status code (200, 404, etc.).
+         */
+        $headers = array();
+        $response = trim(fgets($fd, 4096));
+
+        /* Jump over the headers but follow redirects */
+        while (!feof($fd)) {
+            $line = trim(fgets($fd, 4096));
+            if (empty($line)) {
             break;
-        }
-        if (time() - $start > 55) {
-            Platform::extendTimeLimit();
-            $start = time();
-        }
-        }
-        fclose($ofd);
-        if (!$failed) {
-        $success = true;
-        }
-    } else {
-        return "Could not open $outputFile in write mode";
-    }
-    fclose($fd);
+            }
 
-    /* if the HTTP response code did not begin with a 2 this request was not successful */
-    if (!preg_match("/^HTTP\/\d+\.\d+\s2\d{2}/", $response)) {
-        return "Download failed with HTTP status: $response";
-    }
+            /* Normalize the line endings */
+            $line = str_replace("\r", '', $line);
+            list ($key, $value) = explode(':', $line, 2);
+            if (trim($key) == 'Location') {
+            fclose($fd);
+            return $this->download(trim($value), $outputFile, --$maxRedirects);
+            }
+        }
 
-    return true;
+        $success = false;
+        $ofd = fopen($outputFile, 'wb');
+        if ($ofd) {
+            /* Read the body */
+            $failed = false;
+            while (!feof($fd) && !$failed) {
+            $buf = fread($fd, 4096);
+            if (fwrite($ofd, $buf) != strlen($buf)) {
+                $failed = true;
+                break;
+            }
+            if (time() - $start > 55) {
+                Platform::extendTimeLimit();
+                $start = time();
+            }
+            }
+            fclose($ofd);
+            if (!$failed) {
+            $success = true;
+            }
+        } else {
+            return "Could not open $outputFile in write mode";
+        }
+        fclose($fd);
+
+        /* if the HTTP response code did not begin with a 2 this request was not successful */
+        if (!preg_match("/^HTTP\/\d+\.\d+\s2\d{2}/", $response)) {
+            return "Download failed with HTTP status: $response";
+        }
+
+        return true;
     }
 
     function isSupported() {
-    return Platform::isPhpFunctionSupported('fsockopen');
+        return Platform::isPhpFunctionSupported('fsockopen');
     }
 
     function getName() {
-    return 'Download with PHP fsockopen()';
+        return 'Download with PHP fsockopen()';
     }
 }
 
@@ -870,51 +847,51 @@ class FsockopenDownloader extends DownloadMethod
 class CurlDownloader extends DownloadMethod
 {
     function download($url, $outputFile) {
-    $ch = curl_init();
-    $ofh = fopen($outputFile, 'wb');
-    if (!$ofh) {
-        fclose($ch);
-        return 'Unable to open output file in writing mode';
-    }
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FILE, $ofh);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_FAILONERROR, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 20 * 60);
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-
-    curl_exec($ch);
-
-    $errorString = curl_error($ch);
-    $errorNumber = curl_errno($ch);
-    curl_close($ch);
-
-    if ($errorNumber != 0) {
-        if (!empty($errorString)) {
-        return $errorString;
-        } else {
-        return 'CURL download failed';
+        $ch = curl_init();
+        $ofh = fopen($outputFile, 'wb');
+        if (!$ofh) {
+            fclose($ch);
+            return 'Unable to open output file in writing mode';
         }
-    }
 
-    return true;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FILE, $ofh);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20 * 60);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        curl_exec($ch);
+
+        $errorString = curl_error($ch);
+        $errorNumber = curl_errno($ch);
+        curl_close($ch);
+
+        if ($errorNumber != 0) {
+            if (!empty($errorString)) {
+            return $errorString;
+            } else {
+            return 'CURL download failed';
+            }
+        }
+
+        return true;
     }
 
     function isSupported() {
-    foreach (array('curl_init', 'curl_setopt', 'curl_exec', 'curl_close', 'curl_error')
-            as $functionName) {
-        if (!Platform::isPhpFunctionSupported($functionName)) {
-        return false;
+        foreach (array('curl_init', 'curl_setopt', 'curl_exec', 'curl_close', 'curl_error')
+                as $functionName) {
+            if (!Platform::isPhpFunctionSupported($functionName)) {
+            return false;
+            }
         }
-    }
-    return true;
+        return true;
     }
 
     function getName() {
-    return 'Download with PHP cURL()';
+        return 'Download with PHP cURL()';
     }
 }
 
@@ -963,28 +940,28 @@ class ExtractMethod
 class UnzipExtractor extends ExtractMethod
 {
     function extract($fileName) {
-    $output = array();
-    $status = 0;
-    $unzip = Platform::getBinaryPath('unzip');
-    exec($unzip . ' ' . $fileName, $output, $status);
-    if ($status) {
-        $msg = 'exec returned an error status ';
-        $msg .= is_array($output) ? implode('<br>', $output) : '';
-        return $msg;
-    }
-    return true;
+        $output = array();
+        $status = 0;
+        $unzip = Platform::getBinaryPath('unzip');
+        exec($unzip . ' ' . $fileName, $output, $status);
+        if ($status) {
+            $msg = 'exec returned an error status ';
+            $msg .= is_array($output) ? implode('<br>', $output) : '';
+            return $msg;
+        }
+        return true;
     }
 
     function getSupportedExtension() {
-    return 'zip';
+        return 'zip';
     }
 
     function isSupported() {
-    return Platform::isBinaryAvailable('unzip');
+        return Platform::isBinaryAvailable('unzip');
     }
 
     function getName() {
-    return 'Extract .zip with unzip';
+        return 'Extract .zip with unzip';
     }
 }
 
@@ -999,28 +976,28 @@ class UnzipExtractor extends ExtractMethod
 class TargzExtractor extends ExtractMethod
 {
     function extract($fileName) {
-    $output = array();
-    $status = 0;
-    $tar = Platform::getBinaryPath('tar');
-    exec($tar . ' -xzf' . $fileName, $output, $status);
-    if ($status) {
-        $msg = 'exec returned an error status ';
-        $msg .= is_array($output) ? implode('<br>', $output) : '';
-        return $msg;
-    }
-    return true;
+        $output = array();
+        $status = 0;
+        $tar = Platform::getBinaryPath('tar');
+        exec($tar . ' -xzf' . $fileName, $output, $status);
+        if ($status) {
+            $msg = 'exec returned an error status ';
+            $msg .= is_array($output) ? implode('<br>', $output) : '';
+            return $msg;
+        }
+        return true;
     }
 
     function getSupportedExtension() {
-    return 'tar.gz';
+        return 'tar.gz';
     }
 
     function isSupported() {
-    return Platform::isBinaryAvailable('tar');
+        return Platform::isBinaryAvailable('tar');
     }
 
     function getName() {
-    return 'Extract .tar.gz with tar';
+        return 'Extract .tar.gz with tar';
     }
 }
 
@@ -1035,26 +1012,25 @@ class TargzExtractor extends ExtractMethod
 class PhpTargzExtractor extends ExtractMethod
 {
     function extract($fileName) {
-    return PclTarExtract($fileName);
+        return PclTarExtract($fileName);
     }
 
     function getSupportedExtension() {
-    return 'tar.gz';
+        return 'tar.gz';
     }
 
     function isSupported() {
-    foreach (array('gzopen', 'gzclose', 'gzseek', 'gzread',
-               'touch', 'gzeof') as $functionName) {
-        if (!Platform::isPhpFunctionSupported($functionName)) {
-        return false;
+        foreach (array('gzopen', 'gzclose', 'gzseek', 'gzread',
+                   'touch', 'gzeof') as $functionName) {
+            if (!Platform::isPhpFunctionSupported($functionName)) {
+                return false;
+            }
         }
-    }
-
-    return true;
+        return true;
     }
 
     function getName() {
-    return 'Extract .tar.gz with PHP functions';
+        return 'Extract .tar.gz with PHP functions';
     }
 }
 
@@ -1069,684 +1045,573 @@ class PhpTargzExtractor extends ExtractMethod
 class PhpUnzipExtractor extends ExtractMethod
 {
     function extract($fileName) {
-    $baseFolder = dirname($fileName);
-    echo $baseFolder;
-    if (!($zip = zip_open($fileName)))
-    {
-        return "Could not open the zip archive $fileName";
-    }
-    $start = time();
-    while ($zip_entry = zip_read($zip))
-    {
-        if (zip_entry_filesize($zip_entry))
+        $baseFolder = dirname($fileName);
+        #echo $baseFolder;
+        if (!($zip = zip_open($fileName)))
         {
-            $complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
-            $complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
-            if(!file_exists($complete_path)) {
-                $tmp = '';
-                foreach(explode('/',$complete_path) AS $k)
-                {
-                    $tmp .= $k.'/';
-                    if(!file_exists($tmp))
+            return "Could not open the zip archive $fileName";
+        }
+        $start = time();
+        while ($zip_entry = zip_read($zip))
+        {
+            if (zip_entry_filesize($zip_entry))
+            {
+                $complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
+                $complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
+                if(!file_exists($complete_path)) {
+                    $tmp = '';
+                    foreach(explode('/',$complete_path) AS $k)
                     {
-                        @mkdir($tmp, 0777);
+                        $tmp .= $k.'/';
+                        if(!file_exists($tmp))
+                        {
+                            @mkdir($tmp, 0777);
+                        }
                     }
                 }
-            }
-            if (zip_entry_open($zip, $zip_entry, "r"))
-            {
-                if ($fd = fopen($complete_name, 'w'))
+                if (zip_entry_open($zip, $zip_entry, "r"))
                 {
-                    fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
-                    fclose($fd);
+                    if ($fd = fopen($complete_name, 'w'))
+                    {
+                        fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
+                        fclose($fd);
+                    }
+                    else echo "fopen($dir_atual.$complete_name) error<br>";
+                    zip_entry_close($zip_entry);
                 }
-                else echo "fopen($dir_atual.$complete_name) error<br>";
-                zip_entry_close($zip_entry);
+                else
+                {
+                    echo "zip_entry_open($zip,$zip_entry) error<br>";
+                    return false;
+                }
             }
-            else
+
+            if (time() - $start > 55)
             {
-                echo "zip_entry_open($zip,$zip_entry) error<br>";
-                return false;
+                Platform::extendTimeLimit();
+                $start = time();
             }
         }
+        zip_close($zip);
 
-        if (time() - $start > 55)
-        {
-            Platform::extendTimeLimit();
-            $start = time();
-        }
-    }
-    zip_close($zip);
-
-    return true;
+        return true;
     }
 
     function getSupportedExtension() {
-    return 'zip';
+        return 'zip';
     }
 
     function isSupported() {
-    foreach (array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
-            'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
-            as $functionName) {
-        if (!Platform::isPhpFunctionSupported($functionName)) {
-        return false;
+        foreach (array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
+                'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
+                as $functionName) {
+            if (!Platform::isPhpFunctionSupported($functionName)) {
+            return false;
+            }
         }
-    }
-    return true;
+        return true;
     }
 
     function getName() {
-    return 'Extract .zip with PHP functions';
+        return 'Extract .zip with PHP functions';
     }
 }
 
 function render($renderType, $args=array()) {
     global $archiveBaseName, $folderPermissionList, $webinstaller_version;
-    $self = basename(__FILE__);
 ?>
-<?php print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
-        '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
-<html>
-  <head>
-    <title>Clansuite :: Webinstaller</title>
-    <?php printHtmlStyle(); ?>
-    <?php printJs(); ?>
-  </head>
-  <body>
-    <div>
-      <b class="rounded_header">
-      <b class="rounded_header1"><b></b></b>
-      <b class="rounded_header2"><b></b></b>
-      <b class="rounded_header3"></b>
-      <b class="rounded_header4"></b>
-      <b class="rounded_header5"></b></b>
-
-      <div class="rounded_headerfg">
-        <div>
-            <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Webinstaller Logo" />
-            <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
-            <small><?php echo $webinstaller_version; ?></small>
-        </div>
-      </div>
-
-      <b style="clear:both;" class="rounded_header">
-      <b class="rounded_header5"></b>
-      <b class="rounded_header4"></b>
-      <b class="rounded_header3"></b>
-      <b class="rounded_header2"><b></b></b>
-      <b class="rounded_header1"><b></b></b></b>
-    </div>
-
-    <div>
-        <p>
-         <fieldset style="border-color: red; background:lightsalmon;">
-            <legend>
-            <strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
-                           filter:alpha(opacity=75);'>&nbsp;Security Advise&nbsp;</strong>
-            </legend>
-            <label>
-
-            <strong></strong> <i>Delete the file (<?php print $self; ?>) when you are done!</i><br>
-
-            </label>
-         </fieldset>
-       </p>
-    </div>
-
-
-     <div class="box">
-     <h2>Instructions</h2>
-     <span id="instructions-toggle" class="blockToggle"
-      onclick="BlockToggle('instructions', 'instructions-toggle', 'instructions')">
-      Show instructions
-     </span>
-     <div id="instructions" style="display: none;">
-
-        <p>
-             <b>This webinstaller gets the Clansuite web application on your server.</b>
-             <br>It's an alternative to the common, but time consuming way of uploading all
-             files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope
-             this will ease the process of installation, take work out of your hands and finally safe you some time!
-        </p>
-
-        <p>
-            <b>Installation Steps in Detail:</b>
-       </p>
-
-       <ol>
-             <li>
-               <b>Download of the latest Clansuite Archive</b>
-               <br>The latest archive of clansuite is fetched from the official
-               download server directly to your webserver.
-               <br>After this step you will find a [.tar.gz] or [.zip] package on your server.
-             </li>
-
-             <li>
-               <b>Extraction of Clansuite Archive</b>
-               <br>All files and folders are extracted from this archive.
-               <br>After this step you will find all files and folders of clansuite on your server.
-             </li>
-
-             <li>
-               <b>Installation</b>
-               <br>Follow the link to the Clansuite installation wizard.
-               <br>It will guide you through the final installation steps to get
-               Clansuite running on this server.
-             </li>
-       </ol>
-
-       <h1></h1>
-
-       <p>
-          <b>Permission Drawback</b>
-          <br><br>One possible Problem which arises by running this webinstaller is:
-              because it runs as a process of the webserver, all files it creates
-              are owned by the webserver process. So if you want to modify those
-              files yourself, you need to get the webserver to change the permissions
-              on them so that you have access.
-          <br><br>Use the following functions to achive this:
-       </p>
-
-       <ul>
-         <li>
-           <b>Change permissions</b>
-           <br>Clansuite files have been extracted by the webserver
-            and not by yourself,  so files and folders are not owned by you. That means for example, that you
-            are not allowed to access files and folders or rename the folders manually,
-            unless you change the permissions.
-         </li>
-         <li>
-           <b>Rename the Clansuite folder</b>
-           <br>The default folder is  &quot;clansuite/&quot;. If you want it to be rather &quot;cs/&quot; or
-           &quot;somethingelse/&quot; use this function to rename it.
-         </li>
-         <li>
-           <b>Deleting Clansuite</b>
-           <br>If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at:
-           <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
-         </li>
-
-
-       </ul>
-
-     </div>
-     </div>
-
-     <?php if (!empty($args['statusMessage'])): ?>
-     <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
-     <?php endif; ?>
-
-
-     <?php if ($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
-     <h2>
-    You are attempting to access a secure section.  You can't
-    proceed until you pass the security check.
-     </h2>
-     <?php endif; ?>
-
-     <?php if ($renderType == 'missingPassword'): ?>
-     <div class="error">
-       You must enter a setup password in your <?php print $self; ?> file in order
-       to be able to access this script.
-     </div>
-     <?php elseif ($renderType == 'passwordTooShort'): ?>
-     <div class="error">
-       The setup password in your <?php print $self; ?> file is too short. It must be at least
-       6 characters long.
-     </div>
-     <?php elseif ($renderType == 'passwordForm'): ?>
-     <div class="password_form">
-       <div class="box">
-     <span class="message">
-       In order to verify you, we require you to enter your pre-install setup password.  This is
-       the password that is stored in the config section at the top of this script.
-     </span>
-     <form id="loginForm" method="post">
-       Password:
-       <input type="password" name="cs_password"/>
-       <script type="text/javascript">document.getElementById('loginForm')['cs_password'].focus();</script>
-       <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
-     </form>
-     <?php if (!empty($args['incorrectPassword'])): ?>
-     <div class="error">
-       Password incorrect!
-     </div>
-     <?php endif; ?>
-       </div>
-     </div>
-
-     <?php elseif ($renderType == 'options'): ?>
-       <!-- Show available and unavailable options -->
-       <?php if (empty($args['anyExtensionSupported'])): ?>
-       <div class="error">
-       <h2>This platform has not the ability to extract any of our archive types!</h2>
-       <span>
-      <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
-        <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
-        <?php if (!$first) print ', '; else $first = false; ?>
-        <?php print $ext; ?>
-        <?php if (!$supported): ?></span><?php endif; ?>
-      <?php endforeach; ?>
-       </span>
-       </div>
-       <?php endif; ?>
-
-       <!-- DOWNLOAD SECTION -->
-       <?php
-       $label = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-       $display = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-       ?>
-       <div class="box">
-       <h2>[1] Download the Clansuite Archive</h2>
-       <span id="download-toggle" class="blockToggle"
-        onclick="BlockToggle('download', 'download-toggle', 'download methods')">
-        <?php print $label . 'download methods'; ?>
-       </span>
-       <div id="download" <?php print $display; ?>>
-     <br/>
-     <?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
-     <form id="downloadForm" method="post">
-     <span class="subtitle">Select the Clansuite version:</span>
-     <table class="choice">
-       <tr><td><select name="version">
-         <?php /*
-         <option value="stable" selected="selected">Latest stable version (recommended)</option>
-         <?php if (!empty($args['showRcVersion'])): ?>
-         <option value="rc">Latest release candidate for the next stable version</option>
-         <?php endif; ?>
-         <option value="nightly">Latest daily SVN snapshot (bleeding edge and dev)</option>
-         */ ?>
-         <option value="dev">Development Version 0.2-alpha1</option>
-       </select></td></tr>
-     </table>
-     <span class="subtitle">Select a download method:</span>
-     <table class="choice">
-     <?php $first = true;
-           foreach ($args['downloadMethods'] as $method):
-       $disabled = empty($method['isSupported']) ? 'disabled="true"' : '';
-       $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
-       $checked = '';
-       if ($first && !empty($method['isSupported'])) {
-        $checked = 'checked'; $first = false;
-       }
-       printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
-            $disabled, $method['command'], $checked, $method['name'], $notSupported);
-     endforeach; ?>
-     </table>
-     <span class="subtitle">Select an archive type:</span>
-     <table class="choice">
-     <?php $first = true; foreach ($args['extensions'] as $ext => $supported):
-       $disabled = empty($supported) ? 'disabled="true"' : '';
-       $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
-       $checked = '';
-       if ($first && $supported) {
-        $checked = 'checked'; $first = false;
-       }
-       printf('<tr><td><input type="radio" name="extension" value="%s" %s %s/></td><td>%s</td><td>%s</td></tr>',
-        $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
-     endforeach; ?>
-     </table>
-     <input type="hidden" name="command" value="download"/>
-     <input type="submit" value="Download"
-        onclick="this.disabled=true;this.form.submit();"/>
-     </form>
-     <?php elseif (!empty($args['anyExtensionSupported'])): ?>
-     <div class="warning">
-       This platform does not support any of our download / transfer methods. You can upload
-       the clansuite archiv as [.tar.gz] or [.zip] via FTP and extract it then with this tool.
-     </div>
-     <?php elseif (!empty($args['downloadMethods'])): ?>
-     <div class="warning">
-       This platform cannot extract archives, therefore downloading is also disabled.
-     </div>
-     <?php else: ?>
-     <div class="warning">
-       This platform does not support any of our download methods.
-     </div>
-     <?php endif; ?>
-       </div>
-       </div>
-
-       <!-- EXTRACTION METHODS -->
-       <?php
-       $label = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-       $display = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-       ?>
-       <div class="box">
-       <h2>[2] Extraction</h2>
-       <span id="extract-toggle" class="blockToggle"
-        onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
-        <?php print $label .  'extraction methods'; ?>
-       </span>
-       <div id="extract" <?php print $display; ?>>
-       <?php if (!empty($args['anyExtensionSupported'])): ?>
-       <form id="extractForm" method="post">
-     <table class="choice">
-     <?php $first = true; foreach ($args['extractMethods'] as $method):
-       $disabled = 'disabled="true"';
-       if (empty($method['isSupported'])) {
-           $message = 'not supported by this platform';
-       } else if (!$method['archiveExists']){
-           $message = '<span class="warning">first download the ' . $method['archiveName'] .
-                ' archive</span>';
-       } else {
-           $message = '<span class="success">ready for extraction!</span>';
-           $disabled = '';
-       }
-       $checked = '';
-       if ($first && empty($disabled) && !empty($method['isSupported'])) {
-        $checked = 'checked'; $first = false;
-       }
-       printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
-       $disabled, $method['command'], $checked, $method['name'], $message);
-     endforeach; ?>
-     </table>
-     <input type="hidden" name="command" value="extract"/>
-     <input type="submit" value="Extract"
-         onclick="this.disabled=true;this.form.submit();"/>
-       </form>
-       <?php else: ?>
-     <div class="warning">
-       Oops! - This platform cannot extract archives.
-       <br>Steps:
-       <br>a. Do it the old way - download archive, extract files and upload them manually!
-       <br>b. Ask your webhoster to extract the archive for you.
-       <br>c. Ask on Clansuite Board for installation help.
-     </div>
-       <?php endif; ?>
-       </div>
-       </div>
-
-       <!-- LINK TO INSTALLER -->
-       <?php
-       $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-       $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-       ?>
-       <div class="box">
-       <h2>[3] Installation of Clansuite!</h2>
-       <span id="install-toggle" class="blockToggle"
-        onclick="BlockToggle('install', 'install-toggle', 'link to installation wizard')">
-        <?php print $label .  'link to installation wizard'; ?>
-       </span>
-       <div id="install" <?php print $display; ?>>
-
-       <!-- PATH TO CLANSUITE INSTALLER -->
-       <?php if (!empty($args['clansuiteFolderName'])): ?>
-         <span style="font-size: 14px; font-weight:bold; color:green;">
-           <br />
-           Follow this link to start the
-           <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
-           Clansuite Installation Wizard</a>!
-         </span>
-
-       <!-- CHANGE PERMISSIONS -->
-       <?php
-       $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-       $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-       $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
-       <div class="box">
-       <h2>Change the permissions of your Clansuite Folder</h2>
-       <span id="chmod-toggle" class="blockToggle"
-        onclick="BlockToggle('chmod', 'chmod-toggle', 'change permissions form')">
-        <?php print $label .  'change permissions form'; ?>
-       </span>
-       <div id="chmod" <?php print $display; ?>>
-       <?php if (!empty($args['clansuiteFolderName'])): ?>
-     <p>
-       777 makes the folder writeable for everybody. That is needed such that you can move
-       clansuite or rename the directory with an FTP program. 555 makes it readable for
-       everybody, which is required to have an operational Clansuite installation.
-     </p><p>
-       For <b>security</b> purposes, it is recommended that you change the folder permissions
-       back to <b>555</b> once Clansuite is running. Only if you are running PHP-CGI, clansuite
-       might already owned by your user and no permission changes are required.
-     </p>
-       <form id="chmodForm" method="post">
-       Folder name: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
-       Permissions:
-       <select name="folderPermissions">
-     <?php foreach($folderPermissionList as $perm): ?>
-       <option value="<?php print $perm; ?>"><?php print $perm; ?></option>
-     <?php endforeach; ?>
-       </select>
-       <input type="hidden" name="command" value="chmod"/>
-       <input type="submit" value="Change Permissions"
-          onclick="this.disabled=true;this.form.submit();"/>
-       </form>
-       <?php else: ?>
-       <div class="warning">
-     There is no Clansuite folder in the current working directory.
-       </div>
-       <?php endif; ?>
-       </div>
-       </div>
-
-       <!-- RENAME FOLDER-->
-       <div class="box">
-        <h2>Rename the Clansuite folder</h2>
-        <span id="rename-toggle" class="blockToggle"
-             onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
-        <?php print $label .  'rename folder form'; ?>
-       </span>
-       <div id="rename" <?php print $display; ?>>
-       <?php if (!empty($args['clansuiteFolderName'])): ?>
-     <p>
-       Quickly rename the clansuite folder. You can do that with your FTP program as well.
-     </p>
-       <form id="renameForm" method="post">
-       Rename folder to: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
-       <input type="hidden" name="command" value="rename"/>
-       <input type="submit" value="Rename Folder"
-          onclick="this.disabled=true;this.form.submit();"/>
-       </form>
-       <?php else: ?>
-       <div class="warning">
-     There is no Clansuite folder in the current working directory.
-       </div>
-       <?php endif; ?>
-       </div>
-       </div>
-
-       </div>
-
-       <?php else: ?>
-         <div class="warning">
-           <b>Installer was not found!</b>
-           <br>Please perform steps 1 and 2 to get an extracted Clansuite archive.
-         </div>
-       <?php endif; ?>
-       </div>
-
-     <?php elseif ($renderType == 'results'): ?>
-     <h2> Results </h2>
-     <?php if (!empty($args['failure'])): ?>
-     <div class="error">
-       <?php print $args['failure']; ?>
-       <?php if (!empty($args['fix'])): ?>
-       <div class="suggested_fix">
-     <h2> Suggested fix: </h2>
-     <?php print $args['fix']; ?>
-       </div>
-     </div>
-     <?php endif; ?>
-     <?php endif; ?>
-     <?php if (!empty($args['success'])): ?>
-     <div class="success">
-       <?php print $args['success']; ?>
-     </div>
-     <?php endif; ?>
-     <div>
-       <a href="<?php print $self; ?>">Next Step!</a>
-     </div>
-     <?php endif; ?>
-
-  </body>
-</html>
-<?php
-}
-
-function printHtmlStyle() {
-    ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+     <title>Clansuite :: Webinstaller</title>
+    <link rel="shortcut icon" href="http://www.clansuite.com/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/installation.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/standard.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/kubrick.css" />
     <style type="text/css">
-    html {
-        font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-        font-size: 62.5%;
+    div.error, div.warning {
+        margin: 20px 10px 0;
+        padding: 5px;
+        background: #ffc;
+        border: 1px solid #f00;
+        text-align: center;
     }
-
-    body {
-        font-size: 1.2em;
-        margin: 16px 16px 0px 16px;
-        background: white;
-    }
-
-    h1, h2 {
-        font-family: "Gill Sans", Verdana, Arial, sans-serif;
-        color: #333;
-        margin: 0;
-        padding: 1.0em 0 0.15em 0;
-    }
-
-    h1 { font-size: 1.5em; border-bottom: 1px solid #ddd; }
-    h2 { font-size: 1.3em; padding: 2px;}
-
-    span.subtext {
-        font-size: 0.9em;
-    }
-
-    span.disabled, td.disabled {
-        color: #ddd;
-    }
-
-    span.subtitle {
-        font-size: 1.2em;
-    }
-
     div.error {
-        border: solid red 1px;
-        margin: 20px;
-        padding: 10px;
+        background: #f90;
     }
-
-    div.suggested_fix {
-        background: #eee;
-        margin: 20px;
-        padding: 10px;
-    }
-
-    div.success {
-        border: solid green 1px;
-        margin: 20px;
-        padding: 10px;
-    }
-
-    div.warning {
-        border: solid orange 1px;
-        margin: 20px;
-        padding: 10px;
-    }
-
-    .blockToggle {
-        padding: 0 0.4em 0.1em;
-        background-color: #eee;
-        border-width: 1px;
-        border: 1px solid #888;
-        line-height: 2;
-    }
-
-    .blockToggle:hover {
-        cursor: pointer;
-    }
-
     span.warning {
-        color: orange;
+        color: #f90;
     }
-
     span.success {
         color: green;
-    }
-
-    div.box {
-        border: solid #ddd 1px;
-        margin: 15px;
-        padding: 10px;
-    }
-
-    div.important {
-        background: #fdc;
-    }
-
-    div.status {
-        border: solid #d8d 1px;
-        margin: 20px;
-        padding: 10px;
-    }
-
-    div.status span.line_error {
-        display: block;
-        color: #C00;
-    }
-
-    div.status span.line_info {
-        display: block;
-        color: #0C0;
-    }
-
-    table.choice {
-        position: relative;
-        left: 20px;
-    }
-
-    pre {
-        font-size: 1.2em;
-    }
-    .rounded_header {
-      display:block
-    }
-    .rounded_header *{
-      display:block;
-      height:0.5px;
-      overflow:hidden;
-      font-size:.01em;
-      background:#00
-
-    }
-    .rounded_header1 {
-      margin-left:2px;
-      margin-right:2px;
-      padding-left:1px;
-      padding-right:1px;
-      border-left:1px solid #f00800;
-      border-right:1px solid #f00800;
-      background:#000300
-    }
-    .rounded_header2 {
-      margin-left:1px;
-      margin-right:1px;
-      padding-right:1px;
-      padding-left:1px;
-      border-left:1px solid #000d00;
-      border-right:1px solid #000d00;
-      background:#000200
-    }
-    .rounded_header3 {
-      margin-left:1px;
-      margin-right:1px;
-      border-left:1px solid #000200;
-      border-right:1px solid #000200;}
-    .rounded_header4 {
-      border-left:1px solid #000800;
-      border-right:1px solid #000800
-    }
-    .rounded_header5 {
-      border-left:1px solid #000300;
-      border-right:1px solid #000300
-    }
-    .rounded_headerfg {
-      margin-left: 1px;
-      background:#fff
+        font-weight: bold;
     }
     </style>
+    <script type="text/javascript">
+    function BlockToggle(objId, togId, text) {
+        var o = document.getElementById(objId), t = document.getElementById(togId);
+        if (o.style.display == 'none') {
+            o.style.display = 'block';
+            t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/up.gif' alt='UP' align='top' /></div>";
+        } else {
+            o.style.display = 'none';
+            t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/dn.gif' alt='DOWN' align='top' /></div>";
+        }
+    }
+    </script>
+</head>
+<body>
+<center>
+<div id="page"> <!-- Page START -->
+    <div id="header">                                                                          <!--  HeaderRotDunkel.jpg -->
+        <div id="headerimg" style="background-image: url('http://www.clansuite.com/website/images/kubrickheader-installation.png');">
+            <span>
+                <img style="margin: 46px 38px 0pt; position:relative;" src="http://www.clansuite.com/website/images/clansuite-joker.gif"  alt="Clansuite Joker Logo" />
+            </span>
+            <div class="description" style="font-size: 20px; margin-left: 190px; margin-top: -95px;">Webinstallation</div>
+          </div>
+    </div>
+    <hr />
+     <div id="sidebar">
+        <div id="stepbar">
+            <?php # define strings for on and off toggle
+                  $on = 'on">&raquo; ';
+                  $off = 'off">';
+
+                  /* Step based on command for handling the request */
+                  if (empty($_POST['command']))
+                  {
+                      $step_cmd = 'intro';
+                  }
+                  else
+                  {
+                      $step_cmd = trim($_POST['command']);
+                  }
+
+                  if (!empty($args['anyArchiveExists']))
+                  {
+                     # if Archive was found, jump to Extract Step
+                     $step_cmd = 'download';
+                  }
+
+                  if (!empty($args['clansuiteFolderName']) AND !empty($args['anyArchiveExists']))
+                  {
+                     # if the Clansuite folder was found, the archive was extracted
+                     # jump to installation area
+                     $step_cmd = 'installation';
+                  }
+            ?>
+            <p>Webinstallation</p>
+            <?php #echo 'Debug Step: '.$step_cmd; ?>
+            <div class="step-<?php if($step_cmd == 'intro' OR $step_cmd == ''){ print $on; } else { print $off; } ?>Welcome</div>
+            <div class="step-<?php if($step_cmd == 'before-download'){ print $on; } else { print $off; } ?>Download</div>
+            <div class="step-<?php if($step_cmd == 'download'){ print $on; } else { print $off; } ?>Extract</div>
+            <div class="step-<?php if($step_cmd == 'extract' OR $step_cmd == 'installation'){ print $on; } else { print $off; } ?>Installation</div>
+        </div>
+    </div>
+    <?php #echo 'Arguments: ' . var_dump($args); /** DEBUG */?>
+    <div id="content" class="narrowcolumn">
+        <div id="content_middle">
+
+            <!-- WARNING MESSAGE -->
+            <fieldset class="error_red">
+                <legend>Security Warning</legend>
+                <p><b>Delete the file (<?php print basename(__FILE__) ?>) when you are done!</b></p>
+            </fieldset>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if (!empty($args['statusMessage'])): ?>
+            <!-- Status Message -->
+            <br />
+            <fieldset class="error_beige">
+                <legend>Status</legend>
+                <div class="box"><?php print $args['statusMessage']; ?></div>
+            </fieldset>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if ($renderType == 'results'): ?>
+            <!-- Results -->
+            <div style="margin: 0 15px">
+                <h2 class="headerstyle">Result</h2>
+                <?php if (!empty($args['failure'])): ?>
+                <div class="error">
+                    <?php print $args['failure']; ?>
+                    <?php if (!empty($args['fix'])): ?>
+                    <div class="suggested_fix">
+                        <h2> Suggested fix: </h2>
+                        <?php print $args['fix']; ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                <?php if (!empty($args['success'])): ?>
+                <span class="success">
+                    <?php print $args['success']; ?>
+                </span>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php #echo $renderType;
+                  if ($renderType == 'options'): ?>
+            <!-- Show available and unavailable options -->
+            <?php if (empty($args['anyExtensionSupported'])): ?>
+            <div class="error">
+                <h2>This platform has not the ability to extract any of our archive types!</h2>
+                <span>
+                <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
+                <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
+                <?php if (!$first) print ', '; else $first = false; ?>
+                <?php print $ext; ?>
+                <?php if (!$supported): ?></span><?php endif; ?>
+                <?php endforeach; ?>
+                </span>
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if($step_cmd == 'intro' OR $step_cmd == ''): ?>
+            <!-- WELCOME AND INSTRUCTIONS -->
+            <div id="page-instructions" style="margin: 0 15px">
+                <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Instructions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+                <div id="toggle-instructions" style="display: none">
+                    <h3>This webinstaller gets the Clansuite web application on your server.</h3>
+                    <p>
+                         It's an alternative to the common, but time consuming way of uploading all
+                         files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope
+                         this will ease the process of installation, take work out of your hands and finally safe you some time!
+                    </p>
+                    <h3>Installation Steps in Detail:</h3>
+                    <ol>
+                        <li>
+                            <h4>Download of the latest Clansuite Archive</h4>
+                            The latest archive of clansuite is fetched from the official
+                            download server directly to your webserver.<br />
+                            After this step you will find a [.tar.gz] or [.zip] package on your server.
+                        </li>
+                        <li>
+                            <h4>Extraction of Clansuite Archive</h4>
+                            All files and folders are extracted from this archive.<br />
+                            After this step you will find all files and folders of clansuite on your server.
+                        </li>
+                        <li>
+                            <h4>Installation</h4>
+                            Follow the link to the Clansuite installation wizard.<br />
+                            It will guide you through the final installation steps to get
+                            Clansuite running on this server.
+                        </li>
+                    </ol>
+                    <h3>Permission Drawback</h3>
+                    <p>
+                        One possible Problem which arises by running this webinstaller is:
+                        because it runs as a process of the webserver, all files it creates
+                        are owned by the webserver process. So if you want to modify those
+                        files yourself, you need to get the webserver to change the permissions
+                        on them so that you have access.<br /><br />
+                        Use the following functions to achive this:
+                    </p>
+                    <ul>
+                        <li>
+                            <h4>Change permissions</h4>
+                            Clansuite files have been extracted by the webserver
+                            and not by yourself,  so files and folders are not owned by you. That means for example, that you
+                            are not allowed to access files and folders or rename the folders manually,
+                            unless you change the permissions.
+                        </li>
+                        <li>
+                            <h4>Rename the Clansuite folder</h4>
+                            The default folder is  &quot;clansuite/&quot;. If you want it to be rather &quot;cs/&quot; or
+                            &quot;somethingelse/&quot; use this function to rename it.
+                        </li>
+                        <li>
+                            <h4>Deleting Clansuite</h4>
+                            If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at:
+                            <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
+                        </li>
+                    </ul>
+                </div> <!-- end toggle-instructions -->
+             </div> <!-- end instructions -->
+             <?php printNavigationButtons('intro','before-download'); ?>
+        <?php endif; # END intro + welcome ?>
+
+        <?php /**-------------------------------------------------*/ ?>
+
+        <?php if($step_cmd == 'before-download'):  ?>
+            <!-- DOWNLOAD SECTION -->
+            <div id="page-1-download" style="margin: 0 15px">
+                <h2 class="headerstyle">Download of Clansuite Archive</h2>
+                <?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
+                <form id="downloadForm" action="" method="post">
+                    <span class="subtitle">Select the Clansuite version:</span>
+                    <table class="choice">
+                        <tr>
+                            <td>
+                                <select name="version">
+                                    <?php /*
+                                    <option value="stable" selected="selected">Latest stable version (recommended)</option>
+                                    <?php if (!empty($args['showRcVersion'])): ?>
+                                    <option value="rc">Latest release candidate for the next stable version</option>
+                                    <?php endif; ?>
+                                    <option value="nightly">Latest daily SVN snapshot (bleeding edge and dev)</option>
+                                    */ ?>
+                                    <option value="dev">Development Version 0.2-alpha1</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <span class="subtitle">Select a download method:</span>
+                    <table class="choice">
+                    <?php $first = true;
+                    foreach ($args['downloadMethods'] as $method):
+                        $disabled = empty($method['isSupported']) ? 'disabled="disabled"' : '';
+                        $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
+                        $checked = '';
+                        if ($first && !empty($method['isSupported'])) {
+                            $checked = ' checked="checked"'; $first = false;
+                        }
+                        printf('<tr><td><input type="radio" name="method" %s value="%s"%s /></td><td>%s</td><td>%s</td></tr>',
+                        $disabled, $method['command'], $checked, $method['name'], $notSupported);
+                    endforeach; ?>
+                    </table>
+                    <span class="subtitle">Select an archive type:</span>
+                    <table class="choice">
+                    <?php
+                    $first = true;
+                    foreach ($args['extensions'] as $ext => $supported):
+                        $disabled = empty($supported) ? 'disabled="disabled"' : '';
+                        $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
+                        $checked = '';
+                        if ($first && $supported) {
+                            $checked = ' checked="checked"'; $first = false;
+                        }
+                        printf('<tr><td><input type="radio" name="extension" value="%s" %s%s /></td><td>%s</td><td>%s</td></tr>',
+                        $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
+                    endforeach; ?>
+                    </table>
+                    <input type="hidden" name="command" value="download" />
+                    <input type="submit" value="Download" onclick="this.disabled=true;this.form.submit();" />
+                <!-- </form> -->
+                <?php  elseif (!empty($args['anyExtensionSupported'])): ?>
+                <div class="warning">
+                    This platform does not support any of our download / transfer methods. You can upload
+                    the clansuite archiv as [.tar.gz] or [.zip] via FTP and extract it then with this tool.
+                </div>
+                <?php elseif (!empty($args['downloadMethods'])): ?>
+                <div class="warning">
+                    This platform cannot extract archives, therefore downloading is also disabled.
+                </div>
+                <?php else: ?>
+                <div class="warning">
+                    This platform does not support any of our download methods.
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php printNavigationButtons('before-download','download'); ?>
+            <?php endif; ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php  if($step_cmd == 'download'): ?>
+            <!-- EXTRACTION METHODS -->
+            <div id="page-2-extraction" style="margin: 0 15px">
+                <h2 class="headerstyle">Extraction</h2>
+                <?php if (!empty($args['anyExtensionSupported'])): ?>
+                <form id="extractForm" action="" method="post">
+                    <table class="choice">
+                    <?php
+                    $first = true;
+                    foreach ($args['extractMethods'] as $method):
+                        $disabled = 'disabled="disabled"';
+                        if (empty($method['isSupported'])) {
+                            $message = 'not supported by this platform';
+                        } else if (!$method['archiveExists']){
+                            $message = '<span class="warning">first download the ' . $method['archiveName'] . ' archive</span>';
+                        } else {
+                            $message = '<span class="success">ready for extraction!</span>';
+                            $disabled = '';
+                        }
+                        $checked = '';
+                        if ($first && empty($disabled) && !empty($method['isSupported'])) {
+                            $checked = ' checked="checked"'; $first = false;
+                        }
+                        printf('<tr><td><input type="radio" name="method" %s value="%s" %s /></td><td>%s</td><td>%s</td></tr>',
+                        $disabled, $method['command'], $checked, $method['name'], $message);
+                     endforeach; ?>
+                    </table>
+                    <input type="hidden" name="command" value="extract" />
+                    <input type="submit" value="Extract" onclick="this.disabled=true;this.form.submit();" />
+                <!-- </form> -->
+                <?php else: ?>
+                <div class="warning">
+                    Oops! - This platform cannot extract archives.
+                    <h4>Steps:</h4>
+                    <ol>
+                       <li>Do it the old way - download archive, extract files and upload them manually!</li>
+                       <li>Or ask your webhoster to extract the archive for you.</li>
+                       <li>Ask on Clansuite Board for installation help.</li>
+                    </ol>
+                </div>
+                <?php endif; ?>
+            </div> <!-- end page-2-extraction -->
+            <?php printNavigationButtons('before-download','extract'); ?>
+            <?php endif; #  end extract ?>
+
+            <?php /**-------------------------------------------------*/ ?>
+
+            <?php if($step_cmd == 'extract' OR $step_cmd == 'installation'): ?>
+            <!-- LINK TO INSTALLER -->
+            <div id="page-3-installation" style="margin: 0 15px">
+                <h2 class="headerstyle">Installation of Clansuite</h2>
+
+                <!-- PATH TO CLANSUITE INSTALLER -->
+                <?php if (!empty($args['clansuiteFolderName'])): ?>
+                <p>
+                    <span style="font-size: 12px; font-weight:bold;">
+                    Webinstaller finished. Start the
+                    <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+                    Clansuite Installation Wizard</a>!
+                    </span>
+                </p>
+
+                <!-- CHANGE PERMISSIONS -->
+                   <?php
+                   $display = !empty($args['clansuiteFolderName']) ? 'style="display: none;"' : '';
+                   $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName']; ?>
+                   <!-- <div class="box"> -->
+
+                   <h2 id="chmod-toggler" class="headerstyle" style="cursor: pointer"
+                       onclick="BlockToggle('chmod-toggle', 'chmod-toggler', 'Change folder permissions')">Change folder permissions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+                   <div id="chmod-toggle" <?php print $display; ?>>
+
+                   <?php if (!empty($args['clansuiteFolderName'])): ?>
+                 <p>
+                    Change the permissions of your Clansuite Folder: <b>777</b> makes the folder writeable for everybody. That is needed such that you can move
+                    clansuite or rename the directory with an FTP program. <b>555</b> makes it readable for
+                    everybody, which is required to have an operational Clansuite installation.
+                </p>
+                <p>
+                    For <b>security</b> purposes, it is recommended that you change the folder permissions
+                    back to <b>555</b> once Clansuite is running. Only if you are running PHP-CGI, clansuite
+                    might already owned by your user and no permission changes are required.
+                </p>
+                <form id="chmodForm" action="" method="post">
+                    Folder name:
+                    <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>" />
+                    Permissions:
+                    <select name="folderPermissions">
+                    <?php foreach($folderPermissionList as $perm): ?>
+                        <option value="<?php print $perm; ?>"><?php print $perm; ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                    <input type="hidden" name="command" value="chmod" />
+                    <input type="submit" value="Change Permissions" onclick="this.disabled=true;this.form.submit();" />
+                </form>
+                <?php else: # of change permissions folder ?>
+                <div class="warning">
+                    There is no Clansuite folder in the current working directory.
+                </div>
+                <?php endif; # of change permissions folder ?>
+                </div> <!-- end chmod-toggle div -->
+
+                <!-- RENAME FOLDER-->
+                <h2 id="rename-toggler" class="headerstyle" style="cursor: pointer"
+                    onclick="BlockToggle('rename-toggle', 'rename-toggler', 'Rename folder')">Rename folder <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+                <div id="rename-toggle" <?php print $display; ?>>
+
+                <?php if (!empty($args['clansuiteFolderName'])): ?>
+                <p>
+                    Quickly rename the clansuite folder. You can do that with your FTP program as well.
+                </p>
+                <form id="renameForm" action="" method="post">
+                    Rename folder to:
+                    <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>" />
+                    <input type="hidden" name="command" value="rename" />
+                    <input type="submit" value="Rename Folder" onclick="this.disabled=true;this.form.submit();" />
+                </form>
+                </div> <!-- end rename-toggle div -->
+                <?php else: # of rename folder ?>
+                <div class="warning">
+                    There is no Clansuite folder in the current working directory.
+                </div>
+                <?php endif; # of rename folder ?>
+
+                <?php endif; ?>
+                </div> <!-- Close page-3-installation -->
+                <?php printNavigationButtons('intro','installation'); ?>
+                <?php endif; ?>
+
+        </div> <!-- Close Content-Middle -->
+
+        <!-- <div id="content_footer">
+
+        </div> --> <!-- div content_footer end -->
+
+    </div> <!-- Close Content -->
+
+    <div id="rightsidebar">
+        <ul>
+            <!-- Clansuite Webinstaller Icon -->
+            <li style="margin: 0px 0 20px 10px">
+                <img src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png"
+                     alt="Clansuite Webinstaller Logo"
+                     style="border: 3px groove #333333;"
+                 />
+            </li>
+
+            <!-- Clansuite Shortcuts -->
+            <li><h2>Clansuite Shortcuts</h2></li>
+            <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
+            <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
+            <li><strong><a href="http://forum.clansuite.com/index.php?board=4">Installsupport</a></strong></li>
+            <li><strong><a href="http://trac.clansuite.com/">Bugtracker</a></strong></li>
+            <li><strong><a href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support">Teamspeak</a></strong></li>
+            <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
+
+            <!-- Donate -->
+            <li><h2>Donate</h2></li>
+              <li>
+                <!-- PayPal Direct Image Button 
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="image" src="https://www.paypal.com/de_DE/i/btn/x-click-but04.gif" name="submit" alt="Zahlen Sie mit PayPal - schnell, kostenlos und sicher!" />
+                    <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" />
+                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHTwYJKoZIhvcNAQcEoIIHQDCCBzwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYB0LEEuVZOTu++bRevqW4bD4mdoGvWnTwCQ4urr8cax4ilsFehU4sl729m3S9QtPQv0B7CFhtWGxJ7pXhx3cQ35nTzobkxCYRYy01Aw0Gkmlxnc+6Rz7lIjAKOnL6U9Ftr7iCJH74c6ryJSlI8QB9dsqUi2YBsgfljyx5w/bunS9TELMAkGBSsOAwIaBQAwgcwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIXabqVcNbyPOAgaiz4LIIs8323fnbtieAP3ump4WwZ7rItgWlTYEj4DnK3zhL8nj78XevGVKQ3PjAHGHPIqvqHeP8QEgUWtW4B7cnRGZyPGF6eXOPnNGAfDpALa4us2I38klL3HI207q5ob+2Rz/9gu5wLccfDcWfyi5aTBVzWcozcyIwyhaOgZP8z1JzVj26uYhqZwPOryQ6KmvUa//K9+6RyEyttVo51/EtejO1zX/KNsKgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0wNzExMjMxNzU2NDdaMCMGCSqGSIb3DQEJBDEWBBT0m+M8uOJiEOLXaidOMaMQ39p/HzANBgkqhkiG9w0BAQEFAASBgJeXD93po4s9fSwc9U10wtURG34U1WcaiTJFVUPGUTwY80/IgBDyC7swVhXdGMq6sNLaQwb9f0DLvVHyYIMVHSEN90imprm9A7TzohMWKE695ypas6sQI1NOGxxC/lGwJnfib+k7II053TIDAM2ezZtnqpaF/ub0F+7aXcuusPp5-----END PKCS7-----" />
+                    </form>
+                -->
+                <!-- Pledige Campaign -->
+                <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>                
+            </li>
+            <li><h2>Link us</h2></li>
+            <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+        </ul>
+    </div>
+    <hr />
+    <!-- Fusszeile -->
+    <div id="footer">
+         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
+            <br />
+            Clansuite Webinstaller <?php echo $webinstaller_version; ?>
+            <br />
+            SVN: $Rev: 2115 $ $Author: vain $
+            <br />
+            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+         </p>
+       </div><!-- Fusszeile ENDE -->
+</div><!-- PAGE ENDE -->
+
+</body>
+</html>
+</center>
+</body>
+</html>
 <?php
 }
 
@@ -1767,23 +1632,35 @@ function compatiblityFunctions() {
     }
 }
 
-
-function printJs() {
+function printNavigationButtons($back_cmd, $forward_cmd)
+{
 ?>
-<script type="text/javascript">
-function BlockToggle(objId, togId, text) {
-    var o = document.getElementById(objId), t = document.getElementById(togId);
-    if (o.style.display == 'none') {
-    o.style.display = 'block';
-    t.innerHTML = 'Hide ' + text;
-    } else {
-    o.style.display = 'none';
-    t.innerHTML = 'Show ' + text;
-    }
-}
-</script>
+    <div class="navigation">
+        <span style="font-size:10px;">
+            Click Next to proceed!
+            <br />
+            Click Back to return!
+        </span>
+
+        <div class="alignright">
+             <?php if ($back_cmd == 'intro'): ?>
+                <form action="<?php print basename(__FILE__); ?>" method="post">
+             <?php endif; ?>
+                <input type="submit" value="Next" class="ButtonGreen" name="step_forward" />
+                <input type="hidden" name="command" value="<?php print $forward_cmd; ?>" />
+            </form>
+        </div>
+
+        <div class="alignleft">
+            <form action="<?php print basename(__FILE__); ?>" method="post">
+                <input type="submit" value="Back" class="ButtonRed" name="step_backward" />
+                <input type="hidden" name="command" value="<?php print $back_cmd; ?>" />
+            </form>
+        </div>
+    </div><!-- div navigation end -->
 <?php
 }
+
 
 /* --------------------------------------------------------------------
         Not all servers include the php service of tar handling,
