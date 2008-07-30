@@ -5,17 +5,17 @@
 Clansuite Webinstaller Instructions:
 
       1. Manually upload "webinstaller.php" to your webserver
-         or if you got SSH / Shell Access use
+         or if you got SSH / Shell Access use:
          wget http://download.gna.org/clansuite/webinstaller.php
 
-      2. Browse to http://yourserverdomain.com/yourdirectoryname/webinstaller.php to start the webinstaller
+      2. Browse to http://yourserverdomain.com/yourdirectoryname/webinstaller.php to start the webinstaller.
 
-      3. Follow the instructions
+      3. Follow the instructions.
 
       4. Once the webinstaller is finished, follow the link to the Clansuite Installer.
          The Installation-Application will guide you in several steps through the installation of Clansuite.
 
-      5. Finally remove the "webinstaller.php" file from your server
+      5. Finally remove the "webinstaller.php" file from your server.
 
 Important Note:
 
