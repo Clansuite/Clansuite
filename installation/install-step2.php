@@ -293,6 +293,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_simplexml']['actual']     = extension_loaded('SimpleXML') ? 'on' : 'off';
                          $recommended['extension_simplexml']['status']     = extension_loaded('SimpleXML') ? SETTING_TRUE : SETTING_FALSE;
 
+                         #  Checking for PHP Extension : Suhosin
+                         $recommended['extension_suhosin']['text']       = $language['EXTENSION_SUHOSIN'];
+                         $recommended['extension_suhosin']['expected']   = 'on';
+                         $recommended['extension_suhosin']['actual']     = extension_loaded('suhosin') ? 'on' : 'off';
+                         $recommended['extension_suhosin']['status']     = extension_loaded('suhosin') ? SETTING_TRUE : SETTING_FALSE;
+                       
                          ?>
                 <table class="settings" border="0">
                     <thead class="tbhead">

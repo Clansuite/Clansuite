@@ -107,50 +107,29 @@ ini_set('display_startup_errors', false);
 ini_set('display_errors', false);
 error_reporting(0);
 
-#================
-#     SELF DELETION
-#================
+#========================
+#      SELF DELETION
+#========================
+
 if(isset($_GET['delete_installation'])) { rm_recursive(getcwd()); }
 
-#================
-#     OUTPUT
-#================
+#=======================
+#      START OUTPUT
+#=======================
 
 # INCLUDE THE HEADER!
 include 'install_header.php';
 
-/**
- * ==============================
- *    STEP HANDLING + PROGRESS
- * ==============================
- */
+#================================
+#    STEP HANDLING + PROGRESS
+#================================
+
 # Get Total Steps and if we are at max_steps, set step to max
 $total_steps = get_total_steps();
 
-/**
- * Update the session with the given variables!
- */
+# Update the session with the given variables!
 $_SESSION = array_merge_rec($_SESSION, $_POST);
  
-function array_merge_rec($arr1, $arr2)
-{
-    foreach($arr2 as $k=>$v)
-    {
-        if (!array_key_exists($k, $arr1))
-        {
-            $arr1[$k]=$v;
-        }
-        else
-        {
-            if (is_array($v))
-            {
-                $arr1[$k]=array_merge_rec($arr1[$k], $arr2[$k]);
-            }
-        }
-    }
-    return $arr1;
-}
-
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
@@ -165,28 +144,36 @@ else { $step = 1; }
 $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
 
 /**
- * ==============================
- *    SET DEFAULT LANGUAGE VAR
- * ==============================
+ * ===========================
+ *    Language Handling
+ * ===========================
  */
-# Language Handling
+ 
+# Get language from GET
 if (isset($_GET['lang']) && !empty($_GET['lang']))
 {
    $lang =  (string) htmlspecialchars($_GET['lang']);
 }
 else
 {
+    # Get language from SESSION
     if(isset($_SESSION['lang']))
     {
         $lang = $_SESSION['lang'];
     }
+        
+    # SET DEFAULT LANGUAGE VAR
     if ($step == 1 OR empty( $_SESSION['lang']))
     {
         $lang = 'german';
     }
 }
 
-# Language Include
+/**
+ * ===========================
+ *    Language File Include
+ * ===========================
+ */
 try
 {
     if (is_file (ROOT . 'languages'. DS . $lang .'.install.php'))
@@ -205,9 +192,19 @@ catch (Exception $e)
     print $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
 }
 
+/***
+ * ===============================================
+ *      Handling of Installations STEPS
+ * ===============================================
+ * 
+ * Procedure Notice:
+ * if a STEP is successful, procedd to next else return to same STEP and display error
+ */
+
 /**
- * Handling of STEP 4 - Database
- * if STEP 4 successful, proceed to 5 - else return STEP 4, display error
+ * ===================================================
+ *      Handling of Installation STEP 4 - Database
+ * ===================================================
  */
 if( isset($_POST['step_forward']) && $step == 5 )
 {
@@ -311,8 +308,9 @@ if( isset($_POST['step_forward']) && $step == 5 )
 }
 
 /**
- * Handling of STEP 5 - Configuration
- * if STEP 5 successful, proceed to 6 - else return STEP 5, display error
+ * ========================================================
+ *      Handling of Installation STEP 5 - Configuration
+ * ========================================================
  */
 if( isset($_POST['step_forward']) && $step == 6 )
 {
@@ -346,8 +344,9 @@ if( isset($_POST['step_forward']) && $step == 6 )
 }
 
 /**
- * Handling of STEP 6 - Create Administrator
- * if STEP 6 successful, proceed to 7 - else return STEP 6, display error
+ * ========================================================
+ *      Handling of Installation STEP 6 - Create Administrator
+ * ========================================================
  */
 if( isset($_POST['step_forward']) && $step == 7 )
 {
@@ -379,20 +378,67 @@ if( isset($_POST['step_forward']) && $step == 7 )
 }
 
 /**
- * SWITCH to Intallation-functions based on "STEPS"
+ * =========================================================
+ *      SWITCH to Intallation-functions based on "STEPS"
+ * =========================================================
  */
-$installfunction  = "installstep_$step"; # add step to function name
-if(function_exists($installfunction))  # check if exists
+ 
+# add step to function name
+$installfunction  = "installstep_$step";
+ 
+# check if this functionname exists
+if(function_exists($installfunction))  
 {
-    # Set Step to Session
+    # set this step to the session
     $_SESSION['step'] = $step;
-    $installfunction($language,$error); # lets rock! :P
+    # lets rock! :P
+    $installfunction($language,$error); 
 }
 
-# INCLUDE THE FOOTER !!
+#=======================
+#      END OUTPUT
+#=======================
+
+# INCLUDE THE FOOTER !
 require 'install_footer.php';
 
-##### FUNCTIONS #####
+#===========================
+#      PAGE IS DISPLAYED
+#===========================
+
+# EOF
+
+/**
+ * ===================
+ * Installer Functions
+ * ===================
+ */ 
+
+/**
+ * Array Merge Recursive
+ * 
+ * @param $arr1 array
+ * @param $arr2 array
+ * @return recusrive merged array
+ */
+function array_merge_rec($arr1, $arr2)
+{
+    foreach($arr2 as $k=>$v)
+    {
+        if (!array_key_exists($k, $arr1))
+        {
+            $arr1[$k]=$v;
+        }
+        else
+        {
+            if (is_array($v))
+            {
+                $arr1[$k]=array_merge_rec($arr1[$k], $arr2[$k]);
+            }
+        }
+    }
+    return $arr1;
+}
 
 /**
  * Gets the total number of installations steps available

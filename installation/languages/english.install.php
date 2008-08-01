@@ -73,8 +73,9 @@ class language implements ArrayAccess
         $this->language['EXTENSION_GETTEXT'] = 'PHP Extension: Gettext';
         $this->language['EXTENSION_TOKENIZER'] = 'PHP Extension: Tokenizer';
         $this->language['EXTENSION_GD'] = 'PHP Extension: GD';
-        $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
-        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
+        $this->language['EXTENSION_XML'] = 'PHP Extension: XML';
+        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Extension: SimpleXML';
+        $this->language['EXTENSION_SUHOSIN'] = 'PHP Extension: Suhosin';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
@@ -135,7 +136,7 @@ class language implements ArrayAccess
         $this->language['STEP7_FINISH'] = 'Step [7] Finish';
 
         $this->language['STEP7_SENTENCE1'] = 'Done! Congratulation - You successfully installed Clansuite.';
-        $this->language['STEP7_SENTENCE2'] = 'The Developer-Team hopes that you take pleasure in exploring and using Clansuite.';
+        $this->language['STEP7_SENTENCE2'] = 'The Developers Team hopes that you take pleasure in exploring and using Clansuite.';
         $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the Links to the Frontend-Website, to the Admin Control Panel (ACP) and your Accounts Logindata.';
         $this->language['STEP7_SENTENCE4'] = 'Visit your new';
         $this->language['STEP7_SENTENCE5'] = 'Clansuite Website';

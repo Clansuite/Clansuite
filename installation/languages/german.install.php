@@ -75,6 +75,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_GD'] = 'PHP Bibliothek: GD';
         $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
         $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
+        $this->language['EXTENSION_SUHOSIN'] = 'PHP Bibliothek: Suhosin';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
