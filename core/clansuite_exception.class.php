@@ -98,7 +98,7 @@ class clansuite_exception extends exception
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Tracing
-        #if ( defined('DEBUG') && DEBUG===1 )
+        #if ( defined('DEBUG') && DEBUG == 1 )
         #{
         #    $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
         #}
