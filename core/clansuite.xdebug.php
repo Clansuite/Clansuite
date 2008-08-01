@@ -109,7 +109,7 @@ class clansuite_xdebug
     {
         # get page parsing time from xdebug
         echo "
-        <div id='debug' style='display:none;'>
+        <div id='xdebug' style='display:none;'>
         <center>
             <script>
             window.addEvent('domready', function() {
@@ -117,13 +117,13 @@ class clansuite_xdebug
                 window.addEvent('keydown', function(event){
                     if (event.control && event.shift)
                     {
-                        if( \$('debug').style.display == 'block' )
+                        if( \$('xdebug').style.display == 'block' )
                         {
-                            \$('debug').style.display = 'none'
+                            \$('xdebug').style.display = 'none'
                         }
                         else
                         {
-                            \$('debug').style.display = 'block'
+                            \$('xdebug').style.display = 'block'
                         }
                     }
                 });
