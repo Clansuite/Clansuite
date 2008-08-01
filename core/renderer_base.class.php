@@ -285,18 +285,27 @@ abstract class renderer_base
         # b) Meta Informations
         $tpl_constants['meta'] = $this->config['meta'];
 
-        # c) Clansuite Version from config.class.php
-        $template_constants['clansuite_version']       = $this->config['version']['clansuite_version'];
-        $template_constants['clansuite_version_state'] = $this->config['version']['clansuite_version_state'];
-        $template_constants['clansuite_version_name']  = $this->config['version']['clansuite_version_name'];
+        /**
+         * c) Clansuite Version
+         *
+         *    Note:
+         *    doubled functionality: you can use $smarty.const.CLANSUITE_VERSION or $clansuite_version
+         */
+        $template_constants['clansuite_version']       = CLANSUITE_VERSION;
+        $template_constants['clansuite_version_state'] = CLANSUITE_VERSION_STATE;
+        $template_constants['clansuite_version_name']  = CLANSUITE_VERSION_NAME;
+        $template_constants['clansuite_revision']      = CLANSUITE_REVISION;
 
-        # d) Page related
+        /**
+         * d) Page related
+         */
 
         # Page Title
         $template_constants['std_page_title'] = $this->config['template']['std_page_title'];
 
         # Normal CSS (global)
         $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_css'];
+
         # Normal Javascript (global)
         $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_javascript'];
 
