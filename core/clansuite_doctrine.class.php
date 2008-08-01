@@ -90,7 +90,7 @@ class Clansuite_Doctrine
             spl_autoload_register(array('Doctrine', 'autoload'));
 
             // Debug Modus
-            if ( defined('DEBUG') && DEBUG===1 )
+            if ( defined('DEBUG') && DEBUG == 1 )
             {
                 Doctrine::debug(true);
             }

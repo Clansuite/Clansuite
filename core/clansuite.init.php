@@ -41,8 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *  ================================================
  */
 # PHP Version Check
-define('REQUIRED_PHP_VERSION', '5.2');
-if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true) { die('Your PHP Version: <b>' . PHP_VERSION . '</b>! Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>'); }
+if (version_compare(PHP_VERSION, '5.2', '<') == true) { die('Your PHP Version: <b>' . PHP_VERSION . '</b>! Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>'); }
 # PDO Check
 if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
 # PDO mysql driver Check
@@ -155,4 +154,11 @@ else
 {
     putenv('TZ=' . $config['language']['timezone']);
 }
+
+/**
+ *  ================================================
+ *     Clansuite Version Information
+ *  ================================================
+ */
+require( ROOT . '/core/clansuite.version.php');
 ?>
