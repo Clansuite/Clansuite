@@ -27,10 +27,10 @@
  */
 function smarty_function_icq($params, &$smarty)
 {
-	
+
     // be sure icq parameter is present
     if(empty($params['number']))
-	{
+    {
         $smarty->trigger_error("icq: missing number as parameter");
         return;
     }
@@ -38,14 +38,12 @@ function smarty_function_icq($params, &$smarty)
     $icq = $params['number'];
     $title = HTMLSpecialChars($params['title']);
 
-	$html = '';
-	$html .= '<span style="white-space: nowrap;">';
-	$html .= '<a href="http://wwp.icq.com/scripts/contact.dll?msgto='.$icq.'">';
-	$html .= '<img src="http://web.icq.com/scripts/online.dll?icq=' . $icq . '&amp;img=5" alt="'.$title.'" /></a>'.$title.'</span>';
-	
-	return $html;
-}
+    $html = '';
+    $html .= '<span style="white-space: nowrap;">';
+    $html .= '<a href="http://wwp.icq.com/scripts/contact.dll?msgto='.$icq.'">';
+    $html .= '<img src="http://web.icq.com/scripts/online.dll?icq=' . $icq . '&amp;img=5" alt="'.$title.'" /></a>'.$title.'</span>';
 
-/* vim: set expandtab: */
+    return $html;
+}
 
 ?>
