@@ -48,16 +48,54 @@ html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
 /* mac hie \*/
 * html #middle {height:1%;position:relative;}
 /* end hide */
+
 #footer {
-	clear:both;
-	border-top:1px solid #fff;
-	height:100px;
-	text-align:center;
+border-top:1px solid;
+clear:both;
+color:#999999;
+font-size:10px;
+height:31px;
+padding:0.25em 0pt;
 }
-#footer a{color:#fff}
+
+#footer *:link, #footer *:visited {
+color:#999999;
+}
+
+#footer hr {
+display:none;
+}
+
+#footer #poweredby {
+border:0pt none;
+float:left;
+}
+
+#footer #poweredby:hover {
+background:transparent none repeat scroll 0%;
+}
+
+#footer p {
+margin:0pt;
+}
+
+#footer p.left {
+border-left:1px solid #B7B7B7;
+border-right:1px solid #B7B7B7;
+float:left;
+margin-left:1em;
+padding:0pt 1em;
+}
+
+#footer p.right {
+float:right;
+text-align:right;
+}
+
 h1,h3 {margin:0 0 1em 0}
 p {padding:0 5px;margin:.5em 0}
 h3 {margin:0;padding-top:10px}
+
 .clearer{
 	height:1px;
 	overflow:hidden;
@@ -90,7 +128,8 @@ a:hover
 
 /* External Links */
 
-a[href^="http:"]:not([href^="http://www.clansuite.com"])::after {
+a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.de"])::after 
+{
    padding-left: 0.2em;
    content:	  url(images/remote.png);
 }
