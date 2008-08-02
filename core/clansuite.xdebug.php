@@ -60,10 +60,9 @@ class clansuite_xdebug
     {
         if (function_exists('xdebug_start_trace'))
         {
-            #echo 'Xdebug ON';
             return true;
-        }
-        echo 'Xdebug OFF'; return false;
+        }       
+        return false;
     }
 
     /**
