@@ -134,7 +134,7 @@ foreach($postfilter_classes as $class)
 
 # Take off.
 $clansuite->processRequest($request, $response);
-#unset($clansuite);
+
 # Stop debugging and show debugging infos.
 if(XDBUG){ clansuite_xdebug::end_xdebug(); }
 
