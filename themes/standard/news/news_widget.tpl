@@ -13,7 +13,7 @@
 </table>
 <ul>
  {foreach item=news_widget from=$news_widget}
-   <li class="news_widget_row">
+   <li class="news_widget_row" style="text-decoration:none;">
      <table class="news_widget_row" width="100%">
        <tr>
         <td class="cell1" ><a href="index.php?mod=news">{$news_widget.news_title}</a></td>
