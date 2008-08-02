@@ -44,7 +44,7 @@
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
 {/doc_raw}
 
-<!-- BrowserCheck // -->
+{* BrowserCheck *}
  <h2 class="oops">{t}
 	You shouldn't be able to read this, because this site uses complex stylesheets to
 	display the information - your browser doesn't support these new standards. However, all
@@ -57,6 +57,13 @@
 	enhances your view of the Web.{/t}
 </h2>
 
+{* Ajax Notification *}
+<div id="notification" style="display: none;">
+    <img src="{$www_root_themes_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
+    &nbsp; Wait - while processing your request...
+</div>
+
+{* Header Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
@@ -64,6 +71,8 @@
     </td>
 </tr>
 </table>
+
+{* Preload XUL Menu Arrows *}
 <script type="application/javscript">
 //<![CDATA[
     var arrow1 = new Image(4, 7);
@@ -73,14 +82,17 @@
 //]]>
 </script>
 
+{* Main Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
+{* Header + Breadcrumbs *}
 <tr class="tr_header">
     <td width="10">Menu</td>
     <td>{include file='tools/breadcrumbs.tpl'}</td>
     <td width="200">Infos</td>
 </tr>
-
+{* Middle *}
 <tr>
+    {* Left Side *}
     <td class="cell1" width="100" height="300">
         <div class="left_menu">
 
@@ -116,22 +128,38 @@
                 </td>
             </tr>
             </table>
-
+            <!-- XUL Menu Init -->
+            <script type="application/javascript">
+            //<![CDATA[
+                var menu1 = new XulMenu("menu1");
+                menu1.type = "vertical";
+                menu1.position.level1.top = 0;
+                menu1.arrow1 = "{$www_root_theme}/images/arrow1.gif";
+                menu1.arrow2 = "{$www_root_theme}/images/arrow2.gif";
+                menu1.init();
+            //]]>
+            </script>
         </div>
     </td>
-
+    
+    {* Middle + Center = Main Content *}
     <td class="cell1">
-                        {$content}
+        {$content}
     </td>
 
+    {* Right Side *}
     <td class="cell1" style="padding: 0px;">
         <div style="margin-top: 10px">
+           {* 
+           {sidebarblock name='news' title='News'}*}
+           {*
            {$cs->loadModule("account")}
            {$account->block_login()}  
+           *}
         </div>
         <div style="margin-top: 10px">
-		   {* {load_module name="shoutbox" action="show"} *}
-		   {* {load_module name="news" action="widget_news" params="2"} *}
+		   {*{load_module name="shoutbox" action="show"}*}
+		   {load_module name="news" action="widget_news" items="2"}
 		</div>
         <div style="margin-top: 10px">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
@@ -157,25 +185,11 @@
 </table>
 
 <!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-<p style="text-align:center;clear:both;margin-top:20px;" class="copyright">
-                {$copyright}
-                <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
-                <br/> {include file='server_stats.tpl'}
-    </p>
+<p style="float:left; text-align:left;">
+    <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}    
+</p>
+<p style="text-align:right;">
+    <br /> {include file='server_stats.tpl'}
+</p>
 
-<script type="application/javascript">
-//<![CDATA[
-    var menu1 = new XulMenu("menu1");
-    menu1.type = "vertical";
-    menu1.position.level1.top = 0;
-    menu1.arrow1 = "{$www_root_theme}/images/arrow1.gif";
-    menu1.arrow2 = "{$www_root_theme}/images/arrow2.gif";
-    menu1.init();
-//]]>
-</script>
-
-{* Ajax Notification *}
-<div id="notification" style="display: none;">
-    <img src="{$www_root_themes_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
-    &nbsp; Wait - while processing your request...
-</div>
+{$copyright}
