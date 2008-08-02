@@ -82,7 +82,7 @@ $injector = new Phemto();
 # core classes to load
 $core_classes = array(
 'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager',
-'db', 'clansuite_doctrine','localization', 'Clansuite_Security', 'input', 'functions', 'statistic'
+'db', 'clansuite_doctrine','localization', 'Clansuite_Security', 'input', 'functions'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 

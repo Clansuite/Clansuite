@@ -315,12 +315,6 @@ abstract class renderer_base
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
 
-        # Assign Statistic Variables
-        # @todo: WRONG POS -> should be assigned by load_module statistics ...
-        # no general assign of stats
-        $statistic = $this->injector->instantiate('statistic');
-        $template_constants['stats'] = $statistic->get_statistic_array();
-
         return $template_constants;
     }
 
