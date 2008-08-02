@@ -70,7 +70,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
-      
+
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
@@ -282,37 +282,37 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     /**
      * widget_news
      *
-     * Displayes specified number of News-Headlines.
-     * Call this widget from Template-Side - by adding this to a template:
-     * {widget mod="news" params="5"}
-     *
-     *  // register with smarty
-     *  $smarty->register_block('translate', 'do_translation');
-     *
-     * http://www.smarty.net/manual/en/tips.componentized.templates.php
+     * Displayes the specified number of news in the news_widget.tpl.
+     * This is called from template-side by adding:
+     * {load_module name="news" action="widget_news" items="2"}
+     * 
+     * @param $numberNews Number of Newsitems to fetch
+     * @param $smarty Smarty Render Engine Object
+     * @returns content of news_widget.tpl
      */
-    public function widget_news($numberNews)
+    public function widget_news($numberNews, &$smarty)
     {
-        // Load DBAL
-        $this->getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
-
-        $news_headlines = Doctrine_Query::create()
+        $news = Doctrine_Query::create()
                           ->select('n.*, u.nick, u.user_id, c.name, c.image')
                           ->from('CsNews n')
                           ->leftJoin('n.CsUsers u')
                           ->leftJoin('n.CsCategories c')
-                         #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                          ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->orderby('n.news_id DESC')
+                          ->limit($numberNews)
                           ->execute();
 
-        $smarty = $this->getView();
+        $smarty->assign('news_widget', $news);
 
-
-        // Assign $news array to Smarty for template output
-        #$smarty->assign('news', $news_headlines);
-
-        return $this->view()->fetch('news/templates/news_widget.tpl');
-
+        # check for theme tpl / else take module tpl
+        if($smarty->template_exists('news/news_widget.tpl'))
+        {
+            echo $smarty->fetch('news/news_widget.tpl');
+        }
+        else
+        {
+            echo $smarty->fetch('news/templates/news_widget.tpl');
+        }
     }
 }
 ?>
