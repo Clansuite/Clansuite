@@ -161,25 +161,7 @@
 		   {*{load_module name="shoutbox" action="show"}*}
 		   {load_module name="news" action="widget_news" items="2"}
 		</div>
-        <div style="margin-top: 10px">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
-                <tr>
-                    <td class="td_header" colspan="2">{t}Statistics{/t}</td>
-                </tr>
-                <tr> {* {$stats|@var_dump} *}
-                    <td class="cell1">Online: {$stats.online} <br/>
-                                      - Users : {$stats.authed_users}
-                                      - Guests : {$stats.guest_users} <br/>
-                                      Today: {$stats.today_impressions} <br/>
-                                      Yesterday: {$stats.yesterday_impressions} <br/>
-                                      Month: {$stats.month_impressions} <br/>
-                                      <hr />
-                                      This Page: {$stats.page_impressions} <br/>
-                                      Total Impressions: {$stats.all_impressions} <br/>
-                    </td>
-                </tr>
-          </table>
-        </div>
+		   {load_module name="wwwstats" action="widget_wwwstats"}
     </td>
 </tr>
 </table>
