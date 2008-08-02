@@ -162,6 +162,42 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         # Prepare the Output
         $this->prepareOutput();
     }
+    
+     /**
+      * module news action_showone()
+      * 
+      * Show one single news with comments
+      *
+      */
+     public function action_showone()
+     {
+        // Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show One'), '/index.php?mod=news&amp;action=showone');
+        
+        $news_id = (int) $this->injector->instantiate('httprequest')->getParameter('id');
+
+        $single_news = Doctrine_Query::create()
+                    ->select('n.*, nc.*, u.nick, u.user_id, c.name, c.image, count(nc.comment_id) as nr_news_comments')
+                    ->from('CsNews n')
+                    ->leftJoin('n.CsUsers u')
+                    ->leftJoin('n.CsCategories c')
+                    ->leftJoin('n.CsNewsComments nc')
+                    #->where('c.module_id = 7')
+                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                    ->groupby('n.news_id')
+                    ->where('n.news_id = ' . $news_id)
+                    ->fetchArray();
+
+        # Get Render Engine
+        $smarty = $this->getView();
+        
+        # Assign News        
+        $smarty->assign('news', $single_news);
+        
+        # Prepare Output
+        $this->prepareOutput();
+     }
+    
 
     /**
      * module news action_archive()
