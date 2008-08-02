@@ -128,11 +128,11 @@ class view_smarty extends renderer_base
     private function smarty_configuration()
     {
         #### SMARTY DEBUGGING
-        $this->smarty->debugging           = DEBUG ? true : false;              # set smarty debugging, when debug on
+        $this->smarty->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
         $this->smarty->debug_tpl           = ROOT_THEMES . 'core/debug.tpl';   # set debugging template for smarty
-        if ( defined('DEBUG') && DEBUG===1 )
+        if ( $this->smarty->debugging == 1 )
         {
-            $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
+           $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
         }
         # $this->debug_tpl        = SMARTY_DIR."libs/";   # define path to debug_tpl file only if not found with std path or moved
         # $this->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in quey string
@@ -463,22 +463,13 @@ class view_smarty extends renderer_base
      * @static
      * @access public
      */
-    public static function loadStaticModule($params, $module_name, &$smarty)
+    public static function loadStaticModule($params, &$smarty)
     {
-        # Debug: Show Parameters for requested Module
-        #var_dump($params);
-
-        /**
-         *  Init incomming Variables
-         *  @todo: find an easier way to do this..
-         */
-
-        $params['name']     = isset( $params['name'] ) ? $params['name'] : '';
-        $params['sub']      = isset( $params['sub'] ) ? $params['sub'] : '';
-        $params['params']   = isset( $params['params'] ) ? $params['params'] : '';
-        $mod                = (string) $params['name'];
-        $sub                = (string) $params['sub'];
-        $action             = (string) $params['action'];
+        # Init incomming Variables
+        $mod     = isset( $params['name'] ) ? (string) $params['name'] : '';
+        $sub     = isset( $params['sub'] ) ? (string) $params['sub'] : '';
+        $action  = (string) $params['action'];
+        $items   = isset( $params['items'] ) ? (int) $params['items'] : 5;
 
         # Construct the variable module_name
         if (isset($params['sub']) && strlen($params['sub']) > 0)
@@ -492,52 +483,20 @@ class view_smarty extends renderer_base
             $module_name = 'module_' . strtolower($mod);
         }
 
-        // Debug: Display the Modulename
-        #echo $module_name;
-
         # Load class, if not already loaded
         if (!class_exists(ucfirst($module_name)))
         {
-
             clansuite_loader::loadModul($module_name);
         }
 
-        #$mod->execute($request);
-        #var_dump($mod);
         # Instantiate Class
         $controller = new $module_name;
-        #$controller->setInjector($smarty->injector);
-
-        //$this->injector->register('Module_'.ucfirst($module_name));
-        //$controller = $this->injector->instantiate('Module_'.ucfirst($module_name));
-        //
-        #$controller->setView('smarty_clean');
-
-        # Parameter Array
-
-        if( empty($params['params']) )
-        {
-            $param_array = null;
-        }
-        else
-        {
-            $param_array = split('\|', $params['params']);
-        }
-
-        #echo "View_Smarty => LoadModule => $module_name | Action $action | Controller $controller";
-        #exit;
 
         # Get the Ouptut of the Object->Method Call
         # slow
-        #$inner_html = call_user_func_array( array($controller, $action), $param_array );
+        #call_user_func_array( array($controller, $action), $param_array );
         # fast
-        $inner_html = $controller->$action($param_array, $smarty);
-        # @todo: Fix this ECHO?! , because it breaks MVC.
-        # a) return this via response object
-        # b) we're pulling php from templates (there is no other way!)
-        # c) we're directly writing the output (maybe consider a composite tree for the view??)
-        # var_dump($inner_html);
-        echo $inner_html;
+        $controller->$action($items, $smarty);
     }
 
     public function setRenderMode($mode)
@@ -577,6 +536,7 @@ class view_smarty extends renderer_base
         # Module Loading {loadModule }
         $this->smarty->assign_by_ref('cs', $this);
         $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
+
         # Error Block {error level="1" title="Error"}
         $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
@@ -608,25 +568,28 @@ class view_smarty extends renderer_base
 
             if( $this->check_content_var() )
             {
-                return $this->smarty->fetchDOC($this->getLayoutTemplate());    
+                return $this->smarty->fetchDOC($this->getLayoutTemplate());
             }
             else
             {
                 die('The content variable {$content} must be within the wrapper template!');
             }
         }
-        
+
         /**
          * Often used Debugging Stuff - leave it :D
          */
         #var_dump($modulcontent);
-        #DEBUG ? $debug->show_console() : '';
+
+        # Show Debug Console
+        #if(DEBUG){ require 'core/clansuite.debug.php'; $debug = new clansuite_debug; $debug->show_console(); };
+
         #var_dump($this->config['template']['tpl_wrapper_file']);
         #var_dump($this->getLayoutTemplate());
         #var_dump($this->smarty->template_dir);
         #exit;
     }
-    
+
     /**
     * @desc Check for a content variable
     * @return boolean
