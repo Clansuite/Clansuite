@@ -16,7 +16,7 @@
    <li class="news_widget_row" style="text-decoration:none;">
      <table class="news_widget_row" width="100%">
        <tr>
-        <td class="cell1" ><a href="index.php?mod=news">{$news_widget.news_title}</a></td>
+        <td class="cell1" ><a href="index.php?mod=news&action=showone&id={$news_widget.news_id}">{$news_widget.news_title}</a></td>
         <td class="cell2" width="70">{$news_widget.news_added}</td>
        </tr>
      </table>
