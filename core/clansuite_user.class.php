@@ -174,7 +174,7 @@ class Clansuite_User
                                 ->where('session_id = ?')
                                 ->fetchOne(array(session_id()), Doctrine::FETCH_ARRAY);
         }
-        
+
         // check if session-table[user_id] is a valid user-table[user_id]
         if (!empty($_SESSION['user']['user_id']))
         {
@@ -281,7 +281,7 @@ class Clansuite_User
             $_SESSION['user']['activated']      = 0;
 
             // Fallback: Language for Guest Users as defined by $this->config['language']['language']
-            if (empty($_SESSION['user']['language']))
+            if ( !isset($_SESSION['user']['language_via_url']) )
             {
                 $_SESSION['user']['language']   = $this->config['language']['language'];
             }
@@ -300,14 +300,15 @@ class Clansuite_User
             $_SESSION['user']['rights'] = array();
 
             $_SESSION['user']['groups'][] = 1;
+            $_SESSION['user']['rights'][] = 1;
 
-
+            /*
             $rights = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
                          ->from('CsGroups g')
                          ->leftJoin('g.CsRights r')
                          ->where('g.group_id = ?')
-                         ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array(1), Doctrine::FETCH_ARRAY);*/
             #var_dump($rights);
 
             /* OLD PDO Style
@@ -320,7 +321,7 @@ class Clansuite_User
             */
 
             #var_dump($rights);
-
+            /*
             if( is_array( $rights['CsRights'] ) )
             {
                 foreach( $rights['CsRights'] as $key => $values )
@@ -328,7 +329,7 @@ class Clansuite_User
                     $_SESSION['user']['rights'][$values['name']] = 1;
                 }
             }
-
+            */
             #var_dump($_SESSION);
         }
     }
