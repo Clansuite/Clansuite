@@ -466,13 +466,15 @@ class view_smarty extends renderer_base
     public static function loadStaticModule($params, &$smarty)
     {
         # Init incomming Variables
-        $mod     = isset( $params['name'] ) ? (string) $params['name'] : '';
-        $sub     = isset( $params['sub'] ) ? (string) $params['sub'] : '';
-        $action  = (string) $params['action'];
-        $items   = isset( $params['items'] ) ? (int) $params['items'] : 5;
+        $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
+        $sub    = isset( $params['sub'] )  ? (string) $params['sub']  : '';
+        $action = (string) $params['action'];     
+           
+        $params = isset( $params['params'] ) ? (string) $params['params'] : '';        
+        $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
 
         # Construct the variable module_name
-        if (isset($params['sub']) && strlen($params['sub']) > 0)
+        if (isset($sub) && strlen($sub) > 0)
         {
             # like "module_admin_menueditor"
             $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
@@ -488,15 +490,39 @@ class view_smarty extends renderer_base
         {
             clansuite_loader::loadModul($module_name);
         }
+        
+        # Parameter Array
 
+        if( empty($params['params']) )
+        {
+            $param_array = null;
+        }
+        else
+        {
+            $param_array = split('\|', $params['params']);
+        }
+        
         # Instantiate Class
         $controller = new $module_name;
-
-        # Get the Ouptut of the Object->Method Call
-        # slow
-        #call_user_func_array( array($controller, $action), $param_array );
-        # fast
-        $controller->$action($items, $smarty);
+        
+        /**
+         * Get the Ouptut of the Object->Method Call
+         *
+         */  
+        
+        # exceptional handling for adminmenu      
+        if ( $module_name == 'module_menu_admin' )
+        {
+            echo $controller->$action($param_array, $smarty);         
+        }
+        else
+        {
+            # slow
+            #call_user_func_array( array($controller, $action), $param_array );
+            
+            # fast
+            $controller->$action($items, $smarty);
+        }
     }
 
     public function setRenderMode($mode)
