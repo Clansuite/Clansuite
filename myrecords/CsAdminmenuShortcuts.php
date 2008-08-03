@@ -9,4 +9,3 @@ class CsAdminmenuShortcuts extends BaseCsAdminmenuShortcuts
 
 
 }
-?>

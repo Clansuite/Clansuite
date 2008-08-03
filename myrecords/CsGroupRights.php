@@ -9,4 +9,3 @@ class CsGroupRights extends BaseCsGroupRights
 
 
 }
-?>

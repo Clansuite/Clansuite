@@ -8,4 +8,3 @@ class CsMessagesTable extends Doctrine_Table
 
 
 }
-?>

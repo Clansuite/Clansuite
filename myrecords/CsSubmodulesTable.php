@@ -8,4 +8,3 @@ class CsSubmodulesTable extends Doctrine_Table
 
 
 }
-?>

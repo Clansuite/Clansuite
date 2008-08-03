@@ -8,4 +8,3 @@ class CsStaticPagesTable extends Doctrine_Table
 
 
 }
-?>

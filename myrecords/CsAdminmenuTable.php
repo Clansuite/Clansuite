@@ -7,5 +7,4 @@ class CsAdminmenuTable extends Doctrine_Table
 
 
 
-} 
-?>
+}

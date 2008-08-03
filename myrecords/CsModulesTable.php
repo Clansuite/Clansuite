@@ -8,4 +8,3 @@ class CsModulesTable extends Doctrine_Table
 
 
 }
-?>

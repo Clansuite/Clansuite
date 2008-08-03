@@ -8,4 +8,3 @@ class CsModRelSubTable extends Doctrine_Table
 
 
 }
-?>

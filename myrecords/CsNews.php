@@ -9,4 +9,3 @@ class CsNews extends BaseCsNews
 
 
 }
-?>

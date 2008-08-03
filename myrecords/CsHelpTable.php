@@ -8,4 +8,3 @@ class CsHelpTable extends Doctrine_Table
 
 
 }
-?>

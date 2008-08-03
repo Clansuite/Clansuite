@@ -8,4 +8,3 @@ class CsImagesTable extends Doctrine_Table
 
 
 }
-?>

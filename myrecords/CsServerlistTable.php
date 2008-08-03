@@ -8,4 +8,3 @@ class CsServerlistTable extends Doctrine_Table
 
 
 }
-?>

@@ -8,4 +8,3 @@ class CsRightsTable extends Doctrine_Table
 
 
 }
-?>

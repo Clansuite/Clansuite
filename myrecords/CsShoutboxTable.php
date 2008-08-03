@@ -8,4 +8,3 @@ class CsShoutboxTable extends Doctrine_Table
 
 
 }
-?>

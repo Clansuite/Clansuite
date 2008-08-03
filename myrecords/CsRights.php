@@ -9,4 +9,3 @@ class CsRights extends BaseCsRights
 
 
 }
-?>

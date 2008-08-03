@@ -8,4 +8,3 @@ class CsProfilesGuestbookTable extends Doctrine_Table
 
 
 }
-?>

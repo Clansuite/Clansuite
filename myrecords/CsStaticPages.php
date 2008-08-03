@@ -9,4 +9,3 @@ class CsStaticPages extends BaseCsStaticPages
 
 
 }
-?>
