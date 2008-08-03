@@ -8,4 +8,3 @@ class CsUsersTable extends Doctrine_Table
 
 
 }
-?>

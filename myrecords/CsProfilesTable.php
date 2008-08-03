@@ -8,4 +8,3 @@ class CsProfilesTable extends Doctrine_Table
 
 
 }
-?>

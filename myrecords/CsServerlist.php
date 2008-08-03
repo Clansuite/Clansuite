@@ -9,4 +9,3 @@ class CsServerlist extends BaseCsServerlist
 
 
 }
-?>

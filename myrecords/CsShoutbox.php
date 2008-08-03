@@ -9,4 +9,3 @@ class CsShoutbox extends BaseCsShoutbox
 
 
 }
-?>

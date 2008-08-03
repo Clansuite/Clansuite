@@ -9,4 +9,3 @@ class CsGuestbook extends BaseCsGuestbook
 
 
 }
-?>

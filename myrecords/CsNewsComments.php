@@ -9,4 +9,3 @@ class CsNewsComments extends BaseCsNewsComments
 
 
 }
-?>

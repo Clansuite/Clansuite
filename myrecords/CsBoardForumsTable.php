@@ -4,8 +4,6 @@
  */
 class CsBoardForumsTable extends Doctrine_Table
 {
-
-
-
+   
 }
 ?>

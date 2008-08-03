@@ -8,4 +8,3 @@ class CsGroupsTable extends Doctrine_Table
 
 
 }
-?>

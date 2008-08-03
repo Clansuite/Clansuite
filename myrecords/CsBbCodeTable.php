@@ -8,4 +8,3 @@ class CsBbCodeTable extends Doctrine_Table
 
 
 }
-?>

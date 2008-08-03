@@ -8,4 +8,3 @@ class CsAreasTable extends Doctrine_Table
 
 
 }
-?>

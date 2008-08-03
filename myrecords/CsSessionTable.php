@@ -8,4 +8,3 @@ class CsSessionTable extends Doctrine_Table
 
 
 }
-?>

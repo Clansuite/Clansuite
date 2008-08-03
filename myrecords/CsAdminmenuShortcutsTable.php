@@ -7,5 +7,4 @@ class CsAdminmenuShortcutsTable extends Doctrine_Table
 
 
 
-} 
-?>
+}

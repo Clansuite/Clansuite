@@ -8,4 +8,3 @@ class CsCalendarTable extends Doctrine_Table
 
 
 }
-?>

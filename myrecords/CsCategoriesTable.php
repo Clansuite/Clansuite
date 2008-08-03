@@ -8,4 +8,3 @@ class CsCategoriesTable extends Doctrine_Table
 
 
 }
-?>

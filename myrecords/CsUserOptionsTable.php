@@ -8,4 +8,3 @@ class CsUserOptionsTable extends Doctrine_Table
 
 
 }
-?>

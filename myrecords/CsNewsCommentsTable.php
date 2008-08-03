@@ -8,4 +8,3 @@ class CsNewsCommentsTable extends Doctrine_Table
 
 
 }
-?>

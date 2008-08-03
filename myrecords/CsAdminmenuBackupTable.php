@@ -8,4 +8,3 @@ class CsAdminmenuBackupTable extends Doctrine_Table
 
 
 }
-?>

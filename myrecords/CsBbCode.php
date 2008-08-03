@@ -9,4 +9,3 @@ class CsBbCode extends BaseCsBbCode
 
 
 }
-?>

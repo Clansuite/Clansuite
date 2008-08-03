@@ -9,4 +9,3 @@ class CsProfilesGuestbook extends BaseCsProfilesGuestbook
 
 
 }
-?>

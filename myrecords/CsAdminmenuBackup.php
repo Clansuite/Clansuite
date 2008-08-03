@@ -8,5 +8,4 @@ class CsAdminmenuBackup extends BaseCsAdminmenuBackup
 
 
 
-} 
-?>
+}
