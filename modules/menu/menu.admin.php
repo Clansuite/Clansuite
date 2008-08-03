@@ -36,15 +36,15 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Module:       Admin
- * Submodule:    Menueditor
+ * Module:       Menu
+ * Submodule:    Admin
  *
  * @author     Florian Wolf <xsign.dll@clansuite.com>
  * @author     Jens-Andre Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
  *
  * @package clansuite
- * @subpackage module_admin
+ * @subpackage module_menu
  * @category modules
  */
 class Module_Menu_Admin extends ModuleController implements Clansuite_Module_Interface
