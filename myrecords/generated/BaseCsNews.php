@@ -38,9 +38,9 @@ abstract class BaseCsNews extends Doctrine_Record
                                         ));
 
         $this->index('news_id', array('fields' => 'news_id'));
-        $this->hasMany('CsNewsComments', array('local' => 'news_id',
-                                        'foreign' => 'news_id'
-                                        #,
+        $this->hasMany('CsComments', array('local' => 'news_id',
+                                        'foreign' => 'comment_id',
+                                        'refClass' => 'CsRelNewsComment'#,
                                         #'onDelete' => 'CASCADE')
                                         ));
 
