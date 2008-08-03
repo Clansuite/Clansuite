@@ -102,7 +102,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             $sybase = ini_get('magic_quotes_sybase');
         }
-        
+
         // disable magic_quotes_sybase
         if ($sybase )
         {
@@ -111,7 +111,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         // disable magic_quotes_runtime
         set_magic_quotes_runtime(0);
-        
+
         if (get_magic_quotes_gpc())
         {
             $this->fix_magic_quotes();
@@ -121,8 +121,26 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # run IDS
         #$this->runIDS();
 
-        # 2) Clear Array and Assign the $_REQUEST Global to it
+        /**
+         *  2) Clear Array, Filter and Assign the $_REQUEST Global to it
+         */
+
+        # Clear Parameters Array
         $this->parameters = array();
+
+        # Filter for Request-Parameter: id
+        if(isset($_REQUEST['id']) && ctype_digit($_REQUEST['id']))
+        {
+            $this->parameters['id'] = (int) $_REQUEST['id'];
+        }
+
+        # Filter for Request-Parameter: items
+        if(isset($_REQUEST['items']) && ctype_digit($_REQUEST['items']))
+        {
+            $this->parameters['items'] = (int) $_REQUEST['items'];
+        }
+
+        # Assign the GLOBAL $_REQUEST
         $this->parameters = $_REQUEST;
     }
 
@@ -185,7 +203,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         else
         {
-            return NULL;   
+            return NULL;
         }
     }
 
@@ -422,7 +440,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
 
             $_SERVER['argv'] = $argv;
-            
+
             return true;
         }
 
