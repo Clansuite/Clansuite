@@ -21,26 +21,24 @@
     <tr>
         <td height="175" width="75%" valign="top">{$news.0.news_body}</td>
     </tr>
-
-     <tr>
-         <td>
-            <strong>&raquo;</strong>
-            <a href="#comments">{$news.0.CsComments.0.nr_news_comments} Comments</a>
-
-        </td>
-    	<td>
-    	{if isset($smarty.session.user.rights.cc_edit_news) AND
+    
+    {if isset($smarty.session.user.rights.cc_edit_news) AND
     	         ($smarty.session.user.rights.cc_edit_news == 1) AND
     	         ($smarty.session.user.rights.cc_access == 1)}
+     <tr>   
+        <td colspan="2">
+    	&nbsp;
+    	
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.0.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.0.news_id}" name="ids[]" />
                 <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.0.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
             </form>
-        {/if}
+       
     	</td>
-    </tr>
+     </tr>
+     {/if}
 
 </table>
 
