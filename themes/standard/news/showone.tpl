@@ -8,7 +8,7 @@
     News-Comments: {if isset($news_comments)} {$news_comments|@var_dump} {/if}
 *}
 
-
+{$news_comments|@var_dump}
 {foreach item=news from=$news}
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
@@ -30,8 +30,8 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.0.nr_news_comments} Comments</a>
-            {if isset($news.CsNewsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
+            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsComments.0.nr_news_comments} Comments</a>
+            {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
         </td>
     	<td>
     	{if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
