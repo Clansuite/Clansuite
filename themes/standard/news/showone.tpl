@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays: *}
 
-{$news|@var_dump}
-{$news_comments|@var_dump}
+{* {$news|@var_dump}*}
+{* {$news_comments|@var_dump} *}
 
 {foreach item=news from=$news}
 
@@ -45,4 +45,24 @@
 
 
 {/foreach}
+
 <!-- Ende News & Start Comments /-->
+
+{foreach item=news_comments from=$news_comments}
+<div style="width:99%;">
+<table width="100%" border="1" cellspacing="1" cellpadding="0">
+  <tr>
+    <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
+    <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
+  </tr>
+  <tr>
+    <td><div style="padding:10px;">{$news_comments.body}</div></td>
+  </tr>
+</table>
+</div>
+{/foreach}
+
+<!-- Ende Comments /-->
+
+
+
