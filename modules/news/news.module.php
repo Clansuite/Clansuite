@@ -207,10 +207,10 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                                      ->leftJoin('nc.CsUsers u')
                                      ->where('news_id = ' . $news_id)
                                      ->fetchArray();
+                                     
+             # Assign News
+             $smarty->assign('news_comments', $single_news_comments);                         
         }
-
-        # Assign News
-        $smarty->assign('news_comments', $single_news_comments);
 
         # Prepare Output
         $this->prepareOutput();
