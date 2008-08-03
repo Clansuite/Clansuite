@@ -1,7 +1,13 @@
-{* DEBUG OUTPUT of assigned Arrays: *}
+{*
+    DEBUG OUTPUT of assigned Arrays:
 
-{* {$news|@var_dump}*}
-{* {$news_comments|@var_dump} *}
+    News: {$news|@var_dump}
+
+    <hr>
+
+    News-Comments: {if isset($news_comments)} {$news_comments|@var_dump} {/if}
+*}
+
 
 {foreach item=news from=$news}
 
@@ -48,6 +54,7 @@
 
 <!-- Ende News & Start Comments /-->
 
+{if isset($news_comments)}
 {foreach item=news_comments from=$news_comments}
 <div style="width:99%;">
 <table width="100%" border="1" cellspacing="1" cellpadding="0">
@@ -61,8 +68,6 @@
 </table>
 </div>
 {/foreach}
+{/if}
 
 <!-- Ende Comments /-->
-
-
-
