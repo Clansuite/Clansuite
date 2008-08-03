@@ -1,73 +1,93 @@
-{*
-    DEBUG OUTPUT of assigned Arrays:
+<!-- Start News /-->
 
-    News: {$news|@var_dump}
+{* Debugoutput of News Array: {$news|@var_dump} *}
 
-    <hr>
+<a name="news_top" id="news_top"></a>
 
-    News-Comments: {if isset($news_comments)} {$news_comments|@var_dump} {/if}
-*}
-
-
-{foreach item=news from=$news}
+<h2>News : {$news.0.news_title} </h2>
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
 
 
     <tr>
-        <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
-        <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
+        <td height="20" ><b>{$news.0.news_title} - {$news.0.CsCategories.name}</b></td>
+        <td rowspan="3" valign="top"><img src="{$news.0.CsCategories.image}" alt="Category-Image: {$news.0.CsCategories.name} " /></td>
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.0.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.0.CsUsers.user_id}'>{$news.0.CsUsers.nick}</a> am {$news.0.news_added}</font></td>
     </tr>
 
     <tr>
-        <td height="175" width="75%" valign="top">{$news.news_body}</td>
+        <td height="175" width="75%" valign="top">{$news.0.news_body}</td>
     </tr>
 
-    <tr>
+     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsComments.0.nr_news_comments} Comments</a>
-            {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
+            <a href="#comments">{$news.0.CsComments.0.nr_news_comments} Comments</a>
+
         </td>
     	<td>
-    	{if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
+    	{if isset($smarty.session.user.rights.cc_edit_news) AND
+    	         ($smarty.session.user.rights.cc_edit_news == 1) AND
+    	         ($smarty.session.user.rights.cc_access == 1)}
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
-                <input type="hidden" value="{$news.news_id}" name="delete[]" />
-                <input type="hidden" value="{$news.news_id}" name="ids[]" />
-                <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
+                <input type="hidden" value="{$news.0.news_id}" name="delete[]" />
+                <input type="hidden" value="{$news.0.news_id}" name="ids[]" />
+                <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.0.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
             </form>
         {/if}
     	</td>
     </tr>
+
 </table>
-<br />
 
-  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+<!-- Ende News -->
 
+<br/>
 
-{/foreach}
+<!-- Start Comments /-->
 
-<!-- Ende News & Start Comments /-->
+{* Debugoutput of Comments Array: {$news_comments|@var_dump} *}
 
-{if isset($news_comments)}
-{foreach item=news_comments from=$news_comments}
-<div style="width:99%;">
-<table width="100%" border="1" cellspacing="1" cellpadding="0">
-  <tr>
-    <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
-    <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
-  </tr>
-  <tr>
-    <td><div style="padding:10px;">{$news_comments.body}</div></td>
-  </tr>
-</table>
-</div>
-{/foreach}
+<a name="comments" id="comments"></a>
+
+<h2>{t}Comments{/t}</h2>
+
+{if is_array($news_comments) && count($news_comments) > 0}
+
+     <div id="" style="width:99%;">
+            <table width="100%" border="1" cellspacing="1" cellpadding="0">
+              <tr>
+                <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
+                <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
+              </tr>
+              <tr>
+                <td><div style="padding:10px;">{$news_comments.body}</div></td>
+              </tr>
+            </table>
+        </div>
+
+{else}
+
+    {foreach item=news_comment from=$news_comments}
+
+        <div style="width:99%;">
+            <table width="100%" border="1" cellspacing="1" cellpadding="0">
+              <tr>
+                <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comment.pseudo}</p></div></td>
+                <td><div align="right">geschrieben am: {$news_comment.added}</div></td>
+              </tr>
+              <tr>
+                <td><div style="padding:10px;">{$news_comment.body}</div></td>
+              </tr>
+            </table>
+        </div>
+
+    {/foreach}
+
 {/if}
 
 <!-- Ende Comments /-->
