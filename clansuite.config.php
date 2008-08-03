@@ -64,6 +64,7 @@ default_action = "show"
 timezone = "Europe/Paris"
 gmtoffset = 3600
 outputcharset = "UTF-8"
+language = de
 
 ;----------------------------------------
 ; login
@@ -110,7 +111,7 @@ compression = 1
 suppress_errors = 0
 debug = 1
 xdebug = 1
-debug_popup = 1
+debug_popup = 0
 
 ;----------------------------------------
 ; version
