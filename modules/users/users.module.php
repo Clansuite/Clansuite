@@ -133,5 +133,33 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         # Prepare the Output
         $this->prepareOutput();
     }
+/**
+     * widget_user
+     *
+     * Displayes the specified number of last registered Users in the user_widget.tpl.
+     * This is called from template-side by adding:
+     * {load_module name="users" action="widget_users" items="3"}
+     *
+     * @param $numberUser Number of Users to fetch
+     * @param $smarty Smarty Render Engine Object
+     * @returns content of users_widget.tpl
+     */
+    public function widget_users($numberUsers, &$smarty)
+    {
+        /** username, userID, registrierungsdatum werden benötigt **/
+
+        $smarty->assign('users_widget', $users);
+
+        # check for theme tpl / else take module tpl
+        if($smarty->template_exists('users/users_widget.tpl'))
+        {
+            echo $smarty->fetch('users/users_widget.tpl');
+        }
+        else
+        {
+            echo $smarty->fetch('users/templates/users_widget.tpl');
+        }
+    }
 }
+
 ?>
