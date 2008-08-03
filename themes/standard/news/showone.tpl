@@ -1,6 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays: *}
 
-{* {$news|@var_dump} *}
+{$news|@var_dump}
+{$news_comments|@var_dump}
 
 {foreach item=news from=$news}
 
@@ -13,7 +14,7 @@
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.0.nr_news_comments} comments</a></font></td>
     </tr>
 
     <tr>

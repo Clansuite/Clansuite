@@ -162,42 +162,60 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
      /**
       * module news action_showone()
-      * 
+      *
       * Show one single news with comments
       *
       */
      public function action_showone()
      {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show One'), '/index.php?mod=news&amp;action=showone');
-        
-        $news_id = (int) $this->injector->instantiate('httprequest')->getParameter('id');
-
-        $single_news = Doctrine_Query::create()
-                    ->select('n.*, nc.*, u.nick, u.user_id, c.name, c.image, count(nc.comment_id) as nr_news_comments')
-                    ->from('CsNews n')
-                    ->leftJoin('n.CsUsers u')
-                    ->leftJoin('n.CsCategories c')
-                    ->leftJoin('n.CsNewsComments nc')
-                    #->where('c.module_id = 7')
-                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                    ->groupby('n.news_id')
-                    ->where('n.news_id = ' . $news_id)
-                    ->fetchArray();
+        trail::addStep( _('Show One'), '/index.php?mod=news');
 
         # Get Render Engine
         $smarty = $this->getView();
-        
-        # Assign News        
+
+        $news_id = (int) $this->injector->instantiate('httprequest')->getParameter('id');
+
+        $single_news = Doctrine_Query::create()
+                        ->select('n.*, u.nick, u.user_id, c.name, c.image, c.icon, c.color, count(nc.comment_id) as nr_news_comments')
+                        ->from('CsNews n')
+                        ->leftJoin('n.CsUsers u')
+                        ->leftJoin('n.CsCategories c')
+                        ->leftJoin('n.CsNewsComments nc')
+                        #->where('c.module_id = 7')
+                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                        ->groupby('news_id')
+                        ->where('news_id = ' . $news_id)
+                        ->fetchArray();
+
+        # Assign News
         $smarty->assign('news', $single_news);
-        
+
+        /**
+         * Fetch Comments in case we have some
+         *
+         * Get the nick and country for user_id
+         */
+        if ( $single_news[0]['CsNewsComments'][0]['nr_news_comments'] > 0 )
+        {
+             $single_news_comments = Doctrine_Query::create()
+                                     ->select('nc.*, u.nick, u.country')
+                                     ->from('CsNewsComments nc')
+                                     ->leftJoin('nc.CsUsers u')
+                                     ->where('news_id = ' . $news_id)
+                                     ->fetchArray();
+        }
+
+        # Assign News
+        $smarty->assign('news_comments', $single_news_comments);
+
         # Prepare Output
         $this->prepareOutput();
      }
-    
+
 
     /**
      * module news action_archive()
@@ -321,7 +339,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      * Displayes the specified number of news in the news_widget.tpl.
      * This is called from template-side by adding:
      * {load_module name="news" action="widget_news" items="2"}
-     * 
+     *
      * @param $numberNews Number of Newsitems to fetch
      * @param $smarty Smarty Render Engine Object
      * @returns content of news_widget.tpl
