@@ -58,7 +58,7 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsComments.nr_news_comments} Comments</a>
+            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.CsComments.nr_news_comments} Comments</a>
             {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsComments.CsUsers.lastcomment_by}</span>{/if}
         </td>
     	<td>
