@@ -50,43 +50,51 @@
 
 <!-- Start Comments /-->
 
-{* Debugoutput of Comments Array: {$news_comments|@var_dump} *}
+{* Debugoutput of Comments Array:  {$news_comments|@var_dump} *} 
 
 <a name="comments" id="comments"></a>
 
-<h2>{t}Comments{/t}</h2>
-
-{if is_array($news_comments) && count($news_comments) > 0}
-
-     <div id="" style="width:99%;">
-            <table width="100%" border="1" cellspacing="1" cellpadding="0">
-              <tr>
-                <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
-                <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
-              </tr>
-              <tr>
-                <td><div style="padding:10px;">{$news_comments.body}</div></td>
-              </tr>
-            </table>
-        </div>
-
-{else}
+{if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 0}
+    
+    <h2>{t}Comments{/t}</h2>
 
     {foreach item=news_comment from=$news_comments}
 
-        <div style="width:99%;">
-            <table width="100%" border="1" cellspacing="1" cellpadding="0">
-              <tr>
-                <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comment.pseudo}</p></div></td>
-                <td><div align="right">geschrieben am: {$news_comment.added}</div></td>
-              </tr>
-              <tr>
-                <td><div style="padding:10px;">{$news_comment.body}</div></td>
-              </tr>
-            </table>
-        </div>
+    <div style="width:99%;">
+        <table width="100%" border="1" cellspacing="1" cellpadding="0">
+          <tr>
+            <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comment.pseudo}</p></div></td>
+            <td><div align="right">geschrieben am: {$news_comment.added}</div></td>
+          </tr>
+          <tr>
+            <td><div style="padding:10px;">{$news_comment.body}</div></td>
+          </tr>
+        </table>
+    </div>
 
     {/foreach}
+    
+{elseif isset($news_comments)}
+
+   <h2>1 {t}Comment{/t}</h2>
+   
+   <div id="" style="width:99%;">
+        <table width="100%" border="1" cellspacing="1" cellpadding="0">
+          <tr>
+            <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
+            <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
+          </tr>
+          <tr>
+            <td><div style="padding:10px;">{$news_comments.body}</div></td>
+          </tr>
+        </table>
+   </div>
+        
+{else}
+    
+    <h2>{t}No Comments{/t}</h2>
+
+    Add a Comment !
 
 {/if}
 
