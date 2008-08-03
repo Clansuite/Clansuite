@@ -1,6 +1,6 @@
 {* DEBUG OUTPUT of assigned Arrays: *}
 
-{* {$news|@var_dump} *}
+ {$news|@var_dump} 
 
 {foreach item=news from=$news}
 
@@ -23,7 +23,7 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.nr_news_comments} Comments</a>
+            <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.0.nr_news_comments} Comments</a>
             {if isset($news.CsNewsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
         </td>
     	<td>
