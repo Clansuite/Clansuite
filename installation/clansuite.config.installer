@@ -34,6 +34,16 @@ default_action = "show"
 ; Default Locale Setting
 ;----------------------------------------
 [language]
+language        = de
 outputcharset   = "UTF-8"
+
+;----------------------------------------
+; Default Error Settings
+;----------------------------------------
+[error]
+suppress_errors = 0
+debug = 0
+xdebug = 0
+debug_popup = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>
