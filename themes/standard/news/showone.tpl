@@ -8,7 +8,7 @@
     News-Comments: {if isset($news_comments)} {$news_comments|@var_dump} {/if}
 *}
 
-{$news_comments|@var_dump}
+
 {foreach item=news from=$news}
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
