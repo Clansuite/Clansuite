@@ -833,3 +833,10 @@ table.admintable tr#cell3
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	padding-top: 5px;
 }
+
+/* Sidebar Widgets: News, TSViewer etc. */
+
+.container_right
+{
+    margin-top: 10px;
+}
