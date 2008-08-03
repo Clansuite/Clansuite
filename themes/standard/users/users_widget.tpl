@@ -1,1 +1,1 @@
-{* {$users_widget|var_dump} *}
+{$users_widget|var_dump}
