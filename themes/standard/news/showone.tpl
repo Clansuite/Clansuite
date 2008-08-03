@@ -1,6 +1,6 @@
 {* DEBUG OUTPUT of assigned Arrays: *}
 
- {$news|@var_dump} 
+{* {$news|@var_dump} *}
 
 {foreach item=news from=$news}
 
