@@ -173,13 +173,11 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
       */
      public function action_showone()
      {
-        // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show One'), '/index.php?mod=news');
-
         # Get Render Engine
         $smarty = $this->getView();
 
         $news_id = (int) $this->injector->instantiate('httprequest')->getParameter('id');
+        if($news_id == null) { $news_id = 1;  }
 
         $single_news = Doctrine_Query::create()
                         ->select('n.*, u.nick, u.user_id, c.name, c.image, c.icon, c.color, count(nc.comment_id) as nr_news_comments, nc.*')
@@ -192,6 +190,9 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                         ->groupby('news_id')
                         ->where('news_id = ' . $news_id)
                         ->fetchArray();
+      
+        // Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news');
 
         # Assign News
         $smarty->assign('news', $single_news);
