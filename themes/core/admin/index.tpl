@@ -57,7 +57,7 @@
             <td class="admin_header">
 
                 {include file="tools/breadcrumbs.tpl"}
-                
+
                 {literal}
                     <script type="text/javascript">
                     window.addEvent('domready', function() {
@@ -67,15 +67,15 @@
                         });
                         mySlide.hide();
                         //alert(mySlide.open);
-    
+
                         $('help-toggler').addEvent('click', function() {
                             mySlide.toggle('vertical');
                         });
                     }, 'javascript');
-    
+
                     </script>
                 {/literal}
-                
+
                 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
@@ -99,12 +99,24 @@
         </tr>
     </tbody>
 </table>
-<div id="footer" class="admin_content">
-<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-     {$copyright}
-    <br/> Frontpage-Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
-    <br/> {include file='server_stats.tpl'}
-    <div style="text-align: right;"><a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php?mod=admin">&rArr; {t} Administration {/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a></div>
+
+<!-- Start Footer with Theme-Copyright and Server-Stats // -->
+<div id="footer" class="admin_content_seperated" style="height: auto; margin-top: 10px; padding: 10px; clear:both;">
+    {include file="tools/breadcrumbs.tpl"}
+    <div style="font-size: 10px; text-align: center;">
+    <br/>
+    Frontpage-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}
+    <br/>
+    {include file='server_stats.tpl'}
+    </div>
+    <div style="font-size: 10px; text-align: right;">
+        <a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php?mod=admin">&rArr; {t} Administration {/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a>
+    </div>
+</div>
+
+<!-- Start Copyright-Footer  // -->
+<div id="footer" class="admin_content_seperated" style="height: auto; margin-top: 10px; padding: 10px; clear:both;">
+    {$copyright}
 </div>
 
 {* Ajax Notification *}
