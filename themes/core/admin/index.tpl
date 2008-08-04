@@ -56,9 +56,7 @@
         <tr>
             <td class="admin_header">
 
-                <div style="float: left">
-                    {breadcrumbs heading="1" trail=$trail separator=" &raquo; " length=30}
-                </div>
+                {include file="tools/breadcrumbs.tpl"}
                 
                 {literal}
                     <script type="text/javascript">
@@ -78,7 +76,7 @@
                     </script>
                 {/literal}
                 
-                <div id="help-toggler" style="float: right; font-size: 10px; cursor: pointer;">
+                <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
                 </div>
