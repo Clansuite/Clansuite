@@ -1,14 +1,8 @@
 <?php
    /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005-2007
+    * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
-    *
-    * File:         userslist.module.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Module Class - userslist
-    *               userslist
     *
     * LICENSE:
     *
@@ -91,7 +85,7 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
                             Doctrine_Query::create()
                                     ->select('u.user_id, u.nick, u.email, u.joined,, ug.*, g.name, g.color')
                                     ->from('CsUsers u')
-                                    ->leftJoin('u.CsUserGroups ug')
+                                    ->leftJoin('u.CsRelUserGroups ug')
                                    ->leftJoin('ug.CsGroups g')
                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                    ->orderby('u.user_id ASC'),
@@ -134,9 +128,9 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         $this->prepareOutput();
     }
 /**
-     * widget_user
+     * widget_lastregisteredusers
      *
-     * Displayes the specified number of last registered Users in the user_widget.tpl.
+     * Displayes the specified number of last registered Users in the lastregisteredusers_widget.tpl.
      * This is called from template-side by adding:
      * {load_module name="users" action="widget_users" items="3"}
      *
@@ -144,20 +138,30 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
      * @param $smarty Smarty Render Engine Object
      * @returns content of users_widget.tpl
      */
-    public function widget_users($numberUsers, &$smarty)
+    public function widget_lastregisteredusers($numberUsers, &$smarty)
     {
-        /** username, userID, registrierungsdatum werden benötigt **/
+        
+        # fetch specified num of last registered users 
+        $last_registered_users = Doctrine_Query::create()
+                                 ->select('u.user_id, u.email, u.nick, u.country')                                 
+                                 ->from('CsUsers u')
+                                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                 ->orderby('u.timestamp DESC')
+                                 ->where('u.activated = 1')
+                                 ->limit($numberUsers)
+                                 ->execute();
 
-        $smarty->assign('users_widget', $users);
-
+        # assign        
+        $smarty->assign('last_registered_users', $last_registered_users);
+        
         # check for theme tpl / else take module tpl
-        if($smarty->template_exists('users/users_widget.tpl'))
+        if($smarty->template_exists('users/lastregisteredusers_widget.tpl'))
         {
-            echo $smarty->fetch('users/users_widget.tpl');
+            echo $smarty->fetch('users/lastregisteredusers_widget.tpl');
         }
         else
         {
-            echo $smarty->fetch('users/templates/users_widget.tpl');
+            echo $smarty->fetch('users/templates/lastregisteredusers_widget.tpl');
         }
     }
 }

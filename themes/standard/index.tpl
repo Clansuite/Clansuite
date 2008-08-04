@@ -162,6 +162,7 @@
 		   {load_module name="news" action="widget_news" items="2"}
 		   {load_module name="wwwstats" action="widget_wwwstats"}
 		   {load_module name="tsviewer" action="widget_tsviewer"}
+		   {load_module name="users" action="widget_lastregisteredusers"}
 		</div>
     </td>
 </tr>

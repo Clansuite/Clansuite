@@ -1,6 +1,6 @@
 {* {$last_registered_users|var_dump} *}
 
-<!-- Start: last_registered_users widget @ Standard Theme // -->
+<!-- Start: last_registered_users widget @ Module Template // -->
 
 {foreach item=lastuser from=$last_registered_users}
 
