@@ -6,11 +6,17 @@
         allChecks.each( function(check, i) {
             if( $(check.id + '_display') )
             {
+
+                
+                // Alle methods sliders adden
                 var checkSlide = new Fx.Slide(check.id + '_display', {
                     duration: 500,
-                    transition: Fx.Transitions.Pow.easeOut
+                    transition: Fx.Transitions.Pow.easeOut,
+                    wait: false
                 });
                 checkSlide.hide();
+                
+                // checkboxen mit slider verknüpfen
                 check.addEvent('click', function(){
 
                     if( check.checked )
@@ -23,6 +29,24 @@
                     }
 
                 });
+                
+                // Alle add buttons mit click event belegen
+                var methodsWrapper = $( check.id + '_wrapper' );
+                var inputField = $( check.id + '_methods_input' );
+                
+                var methodsAdd = $( check.id + '_methods_add' );
+                
+                methodsAdd.addEvent('click', function() {
+                    var inputCopy = inputField.clone();
+                    var delEl = inputCopy.getElement('img');
+                    delEl.addEvent('click', function() {
+                        inputCopy.dispose();
+                        checkSlide.slideIn();
+                    });
+                    inputCopy.inject(methodsWrapper);
+                    checkSlide.slideIn();
+                });
+                
             }
             else
             {
@@ -34,36 +58,39 @@
 {/literal}
 <div text-align="center">
     <form action="index.php?mod=modulecreator&sub=admin&action=create" method="POST">
-        <table>
+        <table cellspacing="0" cellpadding="0" border="0">
             <tr>
-                <td>{t}Modulename{/t}</td>
-                <td><input type="text" value=""></input></td>
+                <td class="cell2">{t}Modulename{/t}</td>
+                <td class="cell1"><input type="text" value=""></input></td>
             </tr>
             <tr>
-                <td>Create frontend module?</td>
-                <td>
+                <td class="cell2">Create frontend module?</td>
+                <td class="cell1">
                     <input type="checkbox" name="m[frontend]" id="frontend_module" class="check_below" value="1" />
                     <div id="frontend_module_display">
-                        <b>{t}Method Names{/t}</b>
-                        <div id="frontend_methods">
-                            <input class="input_text" type="text" value="action_" name="m[frontend_methods][]" />
-                            <img src="{$www_root_themes_core}/images/icons/delete.png" />
-                                <img src="{$www_root_themes_core}/images/icons/add.png" />
+                        <div style="padding: 10px">
+                            <b>{t}Method Names{/t}</b>&nbsp;<img style="vertical-align: bottom;cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_methods_add" />
+                            <div id="frontend_module_wrapper">
+                                
+                                <div id="frontend_module_methods_input">
+                                    <input class="input_text" type="text" value="action_" name="m[frontend_methods][]" /><img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_methods_delete" style="vertical-align: bottom; cursor: pointer;" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Create backend module?</td>
-                <td><input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" /></td>
+                <td class="cell2">Create backend module?</td>
+                <td class="cell1"><input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" /></td>
             </tr>
             <tr>
-                <td>Create widget?</td>
-                <td><input type="checkbox" name="m[widget]" id="widget_module" class="check_below" value="1" /></td>
+                <td class="cell2">Create widget?</td>
+                <td class="cell1"><input type="checkbox" name="m[widget]" id="widget_module" class="check_below" value="1" /></td>
             </tr>
             <tr>
-                <td>{t}Module Style{/t}</td>
-                <td>
+                <td class="cell2">{t}Module Style{/t}</td>
+                <td class="cell1">
                     <select name="mc[type]" id="type" onchange="javascript:alert(this.options[this.selectedIndex].value)">
                         <option value="clean">{t}Clean module without any methods{/t}</option>
                         <option value="crud">{t}CRUD (Create, Read, Update, Delete) module{/t}</option>
