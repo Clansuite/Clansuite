@@ -162,7 +162,7 @@
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple size="3" name="m[frontend_snippets][0]" class="input_text">
+                                            <select multiple="multiple" size="3" name="m[frontend_snippets][0]" class="input_text">
                                                 <option value="config">Config Injector $config</option>
                                                 <option value="request">Request Injector $request</option>
                                                 <option value="user">User Injector $user</option>
@@ -171,7 +171,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple size="3" name="m[frontend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="3" name="m[frontend_doctrines][0]" class="input_text">
                                                 <option value="select">SELECT - single row</option>
                                                 <option value="create">CREATE - single row</option>
                                                 <option value="update">UPDATE - single row</option>
