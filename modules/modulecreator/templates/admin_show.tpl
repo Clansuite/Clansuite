@@ -2,6 +2,11 @@
 <script type="text/javascript">
     window.addEvent('domready', function() {
 
+        // Tooltips
+        var myTips = new Tips($$('.input_text option'), {
+            className: 'tooltip'
+        });
+    
         // On Doubleclick take the whole list
         var addSelectEvent = function() {
             var allSelects = $('modulcreator').getElements('select');
@@ -180,10 +185,10 @@
                                         </td>
                                         <td class="cell1">
                                             <select multiple="multiple" size="3" name="m[frontend_snippets][0]" class="input_text">
-                                                <option value="config">Config Injector $config</option>
-                                                <option value="request">Request Injector $request</option>
+                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Injector $config</option>
+                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Injector $request</option>
                                                 <option value="user">User Injector $user</option>
-                                                <option value="security">Security Injector $security</option>
+                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Injector $security</option>
                                                 <option value="mailer">Mailer Class $mailer</option>
                                             </select>
                                         </td>
