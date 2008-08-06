@@ -2,14 +2,28 @@
 <script type="text/javascript">
     window.addEvent('domready', function() {
 
+        // On Doubleclick take the whole list
+        var addSelectEvent = function() {
+            var allSelects = $('modulcreator').getElements('select');
+            allSelects.each( function(theSelect, i) {
+                theSelect.addEvent('dblclick', function() {
+                    var optL = theSelect.options.length;
+                    for( var y = 0; y < optL; y++ )
+                    {
+                        theSelect.options[y].selected = true;
+                    }                   
+                });
+            });
+        }
+        addSelectEvent();
+                
+        // Clientseitige Inputvalidierung
         var addInputEvent = function()
         {
             var allInputs = $('modulcreator').getElements('input[pattern^=^]');
             allInputs.each( function(mInput, i) {
                 mInput.addEvent('keyup', function() {
-                    
-                    //alert('hi');
-                    mInput.style.border = '1px solid grey';
+                                        mInput.style.border = '1px solid grey';
                     if( mInput.value.toString().test(mInput.get('pattern') ) )//"^[a-zA-Z_0-9]+$") )
                     {
                         if( mInput.get('name') == 'module_name' )
@@ -95,7 +109,10 @@
                     inputCopy.getElement('input').style.border = '1px solid #000000';
                     checkSlide.slideIn();
                     addInputEvent();
+                    addSelectEvent();
                 });
+                
+
                 
             }
             else
@@ -172,10 +189,10 @@
                                         </td>
                                         <td class="cell2">
                                             <select multiple="multiple" size="3" name="m[frontend_doctrines][0]" class="input_text">
-                                                <option value="select">SELECT - single row</option>
-                                                <option value="create">CREATE - single row</option>
-                                                <option value="update">UPDATE - single row</option>
-                                                <option value="delete">DELETE - single row</option>
+                                                <option value="select">SELECT Statement - single row</option>
+                                                <option value="create">CREATE Statement - single row</option>
+                                                <option value="update">UPDATE Statement - single row</option>
+                                                <option value="delete">DELETE Statement - single row</option>
                                                 <option value="pager">PAGER - Pagination</option>
                                             </select>
                                         </td>
