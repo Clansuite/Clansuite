@@ -129,7 +129,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->parameters = array();
 
         # Sanitize $_REQUEST
-        $this->sanitizeRequest():
+        $this->sanitizeRequest();
 
         # Assign the GLOBAL $_REQUEST
         $this->parameters = $_REQUEST;
