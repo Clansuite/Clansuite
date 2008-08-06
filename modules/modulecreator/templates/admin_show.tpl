@@ -99,9 +99,9 @@
                 
                 // Alle add buttons mit click event belegen
                 var methodsWrapper = $( check.id + '_wrapper' );
-                var inputField = $( check.id + '_methods_input' );
+                var inputField = $( check.id + '_input' );
                 
-                var methodsAdd = $( check.id + '_methods_add' );
+                var methodsAdd = $( check.id + '_add' );
                 
                 methodsAdd.addEvent('click', function() {
                     var inputCopy = inputField.clone();
@@ -143,20 +143,39 @@
                 <td class="cell1"><input name="module_name" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
             </tr>
             <tr>
-                <td class="cell2">{t}Author{/t}</td>
-                <td class="cell1"><input name="author" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                <td class="cell2">{t}Metadata{/t}</td>
+                <td class="cell1">
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <tr>
+                            <td class="cell2">{t}Author{/t}</td>
+                            <td class="cell1"><input name="meta[author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2">{t}Copyright{/t}</td>
+                            <td class="cell1"><input name="meta[copyright]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2">{t}Title{/t}</td>
+                            <td class="cell1"><input name="meta[title]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2">{t}Homepage{/t}</td>
+                            <td class="cell1"><input name="meta[homepage]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
             <tr>
-                <td class="cell2">Create frontend module?</td>
-                <td class="cell1" style="padding: 0">
-                    <div style="padding: 5px;"><input type="checkbox" name="m[frontend]" id="frontend_module" class="check_below" value="1" /></div>
+                <td class="cell2">Create frontend for the module?</td>
+                <td class="cell1">
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[frontend]" id="frontend_module" class="check_below" value="1" /></div>
                     <div id="frontend_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                                 <thead>
                                     <tr>
                                         <td class="td_header_small">
-                                            <b>{t}Method names{/t}</b>
+                                            {t}Method names{/t}
                                         </td>
                                         <td class="td_header_small">
                                             {t}Scope{/t}
@@ -174,12 +193,12 @@
                                             {t}Template?{/t}
                                         </td>
                                         <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_methods_add" />                                    
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />                                    
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody id="frontend_module_wrapper">
-                                    <tr id="frontend_module_methods_input">
+                                    <tr id="frontend_module_input">
                                         <td height="20" class="cell2">                                        
                                             <input class="input_text" type="text" value="action_" name="m[frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
@@ -192,11 +211,11 @@
                                         </td>
                                         <td class="cell1">
                                             <select multiple="multiple" size="5" name="m[frontend_snippets][0]" class="input_text">
-                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Injector $config</option>
-                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Injector $request</option>
-                                                <option value="user">User Injector $user</option>
-                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Injector $security</option>
-                                                <option value="mailer">Mailer Class $mailer</option>
+                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                                <option value="user">User Instance $user</option>
+                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                                <option value="mailer">Mailer Instance $mailer</option>
                                             </select>
                                         </td>
                                         <td class="cell2">
@@ -209,13 +228,13 @@
                                             </select>
                                         </td>
                                         <td class="cell1">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_outputs][0]" checked="checked" title="" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
                                         <td class="cell2">                                        
                                             <input class="input_text" type="checkbox" value="1" name="m[frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left" width="99%">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_methods_delete" style="margin-top: 2px; cursor: pointer;" />
+                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -235,17 +254,71 @@
                     </div>
                     
                     <div id="widget_module_display">
-                        <div style="padding: 10px">
-                            <b>{t}Method Names{/t}</b>&nbsp;<img style="vertical-align: bottom;cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_methods_add" />
-                            <table>
-                                <tbody id="widget_module_wrapper">
-                                    <tr id="widget_module_methods_input">
-                                        <td height="20">
-                                        
-                                            <input class="input_text" type="text" value="widget_" name="m[widget_methods][]" pattern="^[a-zA-Z0-9_]+$" />
+                        <div>
+                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                                <thead>
+                                    <tr>
+                                        <td class="td_header_small">
+                                            {t}Method names{/t}
                                         </td>
-                                        <td valign="bottom">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_methods_delete" style="margin-top: 4px; cursor: pointer;" />
+                                        <td class="td_header_small">
+                                            {t}Scope{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Snippets{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Doctrine{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Output?{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Template?{/t}
+                                        </td>
+                                        <td class="td_header_small" align="left">
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />                                    
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="widget_module_wrapper">
+                                    <tr id="widget_module_input">
+                                        <td height="20" class="cell2">                                        
+                                            <input class="input_text" type="text" value="widget_" name="m[widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                        </td>
+                                        <td class="cell2">
+                                            <select name="m[widget_scopes][0]" class="input_text">
+                                                <option value="public" selected="selected">Public</option>
+                                                <option value="private">Private</option>
+                                                <option value="protected">Protected</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell1">
+                                            <select multiple="multiple" size="5" name="m[widget_snippets][0]" class="input_text">
+                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                                <option value="user">User Instance $user</option>
+                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                                <option value="mailer">Mailer Instance $mailer</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell2">
+                                            <select multiple="multiple" size="5" name="m[widget_doctrines][0]" class="input_text">
+                                                <option value="select">SELECT Statement - single row</option>
+                                                <option value="create">CREATE Statement - single row</option>
+                                                <option value="update">UPDATE Statement - single row</option>
+                                                <option value="delete">DELETE Statement - single row</option>
+                                                <option value="pager">PAGER - Pagination</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell1">                                        
+                                            <input class="input_text" type="checkbox" value="1" name="m[widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                        </td>
+                                        <td class="cell2">                                        
+                                            <input class="input_text" type="checkbox" value="1" name="m[widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                        </td>
+                                        <td class="cell1" align="left" width="99%">
+                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -255,21 +328,113 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2">Create backend module?</td>
+                <td class="cell2">Create backend for the module?</td>
                 <td class="cell1">
                     <input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" />
                     <div id="backend_module_display">
-                        <div style="padding: 10px">
-                            <b>{t}Method Names{/t}</b>&nbsp;<img style="vertical-align: bottom;cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_methods_add" />
-                            <table>
-                                <tbody id="backend_module_wrapper">
-                                    <tr id="backend_module_methods_input">
-                                        <td height="20">
-                                        
-                                            <input class="input_text" type="text" value="action_admin_" name="m[backend_methods][]" pattern="^[a-zA-Z0-9_]+$" />
+                        <div>
+                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                                <thead>
+                                    <tr>
+                                        <td class="td_header_small">
+                                            {t}Method names{/t}
                                         </td>
-                                        <td valign="bottom">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_methods_delete" style="margin-top: 4px; cursor: pointer;" />
+                                        <td class="td_header_small">
+                                            {t}Scope{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Snippets{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Doctrine{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Output?{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Template?{/t}
+                                        </td>
+                                        <td class="td_header_small" align="left">
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />                                    
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="backend_module_wrapper">
+                                    <tr id="backend_module_input">
+                                        <td height="20" class="cell2">                                        
+                                            <input class="input_text" type="text" value="action_admin_" name="m[backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                        </td>
+                                        <td class="cell2">
+                                            <select name="m[backend_scopes][0]" class="input_text">
+                                                <option value="public" selected="selected">Public</option>
+                                                <option value="private">Private</option>
+                                                <option value="protected">Protected</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell1">
+                                            <select multiple="multiple" size="5" name="m[backend_snippets][0]" class="input_text">
+                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                                <option value="user">User Instance $user</option>
+                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                                <option value="mailer">Mailer Instance $mailer</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell2">
+                                            <select multiple="multiple" size="5" name="m[backend_doctrines][0]" class="input_text">
+                                                <option value="select">SELECT Statement - single row</option>
+                                                <option value="create">CREATE Statement - single row</option>
+                                                <option value="update">UPDATE Statement - single row</option>
+                                                <option value="delete">DELETE Statement - single row</option>
+                                                <option value="pager">PAGER - Pagination</option>
+                                            </select>
+                                        </td>
+                                        <td class="cell1">                                        
+                                            <input class="input_text" type="checkbox" value="1" name="m[backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                        </td>
+                                        <td class="cell2">                                        
+                                            <input class="input_text" type="checkbox" value="1" name="m[backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                        </td>
+                                        <td class="cell1" align="left" width="99%">
+                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_delete" style="margin-top: 2px; cursor: pointer;" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2">Create config for the module?</td>
+                <td class="cell1">
+                    <input type="checkbox" name="m[config]" id="config" class="check_below" value="1" />
+                    <div id="config_display">
+                        <div style="padding: 10px">
+                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                                <thead>
+                                    <tr>
+                                        <td class="td_header_small">
+                                            {t}Key{/t}
+                                        </td>
+                                        <td class="td_header_small">
+                                            {t}Value{/t}
+                                        </td>
+                                        <td class="td_header_small" align="left">
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="config_add" />                                    
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="config_wrapper">
+                                    <tr id="config_input">
+                                        <td height="20" class="cell2">                                        
+                                            <input class="input_text" type="text" value="" name="m[config_keys][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                        </td>
+                                        <td height="20" class="cell1">                                        
+                                            <input class="input_text" type="text" value="" name="m[config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                        </td>
+                                        <td class="cell2" align="left" width="99%">
+                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="config_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
                                 </tbody>
