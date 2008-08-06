@@ -62,8 +62,9 @@
                     <script type="text/javascript">
                     window.addEvent('domready', function() {
                         var mySlide = new Fx.Slide('help', {
-                            duration: 1000,
-                            transition: Fx.Transitions.Pow.easeOut
+                            duration: 500,
+                            transition: Fx.Transitions.Pow.easeOut,
+                            wait: false
                         });
                         mySlide.hide();
                         //alert(mySlide.open);
