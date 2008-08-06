@@ -623,3 +623,11 @@ table.admintable tr#cell3
 {
     display: none;
 }
+
+.tooltip
+{
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 5px;
+    font-weight: bold;
+}
