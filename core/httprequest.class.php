@@ -128,17 +128,8 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # Clear Parameters Array
         $this->parameters = array();
 
-        # Filter for Request-Parameter: id
-        if(isset($_REQUEST['id']) && ctype_digit($_REQUEST['id']))
-        {
-            $this->parameters['id'] = (int) $_REQUEST['id'];
-        }
-
-        # Filter for Request-Parameter: items
-        if(isset($_REQUEST['items']) && ctype_digit($_REQUEST['items']))
-        {
-            $this->parameters['items'] = (int) $_REQUEST['items'];
-        }
+        # Sanitize $_REQUEST
+        $this->sanitizeRequest():
 
         # Assign the GLOBAL $_REQUEST
         $this->parameters = $_REQUEST;
@@ -370,17 +361,34 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @todo: deprecated
      * @return void
      */
-    private function cleanup_request()
+    private function sanitizeRequest()
     {
-        #global $cfg, $security;
+        # Filter for Request-Parameter: id
+        if(isset($_REQUEST['id']) && ctype_digit($_REQUEST['id']))
+        {
+            $this->parameters['id'] = (int) $_REQUEST['id'];
+        }
 
-        $filter = array( '_REQUEST' => $_REQUEST, '_GET' => $_GET, '_POST' => $_POST, '_COOKIE' => $_COOKIE );
+        # Filter for Request-Parameter: items
+        if(isset($_REQUEST['items']) && ctype_digit($_REQUEST['items']))
+        {
+            $this->parameters['items'] = (int) $_REQUEST['items'];
+        }
+
+        /*
+
+        $filter = array( '_REQUEST' => $_REQUEST,
+                         '_GET'     => $_GET,
+                         '_POST'    => $_POST,
+                         '_COOKIE'  => $_COOKIE );
+
         foreach ( $filter as $key => $value )
         {
-            $secure = array ( 'id', 'action', 'mod', 'sub', $cfg->session_name, 'user_id' );
+            $secure = array ( 'id', 'action', 'mod', 'sub', session_name(), 'user_id' );
+
             foreach( $secure as $s_value )
             {
-                 if ( isset($value[$s_value]) and $this->check($value[$s_value] , 'is_violent' ) )
+                if ( isset($value[$s_value]) and $this->check($value[$s_value] , 'is_violent' ) )
                 {
                     $security->intruder_alert();
                 }
@@ -413,6 +421,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                     break;
             }
         }
+        */
     }
 
     /**
