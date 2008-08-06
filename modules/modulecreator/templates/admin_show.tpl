@@ -3,7 +3,12 @@
     window.addEvent('domready', function() {
 
         // Tooltips
-        var myTips = new Tips($$('.input_text option'), {
+        var myTips = new Tips($$('.input_text option[title!=]'), {
+            className: 'tooltip'
+        });
+        
+        // Tooltips
+        var myTips2 = new Tips($$('.input_text[title!=]'), {
             className: 'tooltip'
         });
     
@@ -33,6 +38,7 @@
                     {
                         if( mInput.get('name') == 'module_name' )
                         {
+                            mInput.value = mInput.value.toLowerCase();
                             if( mInput.value.length > 0 )
                             {
                                 $('the_link').innerHTML = "index.php?mod=<b>" + mInput.value + "</b>";
@@ -48,6 +54,7 @@
                     {
                         if( mInput.get('name') == 'module_name' )
                         {
+                            mInput.value = mInput.value.toLowerCase();
                             $('the_link').innerHTML = "";
                         }
                         mInput.style.border = '1px solid #ff0000';
@@ -184,7 +191,7 @@
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="3" name="m[frontend_snippets][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[frontend_snippets][0]" class="input_text">
                                                 <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Injector $config</option>
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Injector $request</option>
                                                 <option value="user">User Injector $user</option>
@@ -193,7 +200,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="3" name="m[frontend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[frontend_doctrines][0]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -202,10 +209,10 @@
                                             </select>
                                         </td>
                                         <td class="cell1">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_outputs][0]" checked="checked" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_outputs][0]" checked="checked" title="" />
                                         </td>
                                         <td class="cell2">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_tpls][0]" checked="checked" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left" width="99%">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_methods_delete" style="margin-top: 2px; cursor: pointer;" />
