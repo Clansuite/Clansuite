@@ -93,7 +93,7 @@ class Module_Settings_Admin extends ModuleController implements Clansuite_Module
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
 
-        $config->writeConfig( ROOT . 'clansuite.config.php',$data);
+        $config->writeConfig( ROOT . 'clansuite.config.php', $data);
 
         # Redirect
         header('index.php?mod=admin&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );

@@ -15,6 +15,13 @@
    <div class="tab-page">
        <h2 class="tab">{t}Standard{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+             {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> General Settings
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}General Settings{/t}
@@ -35,10 +42,17 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}You may provide an favicon for our website:{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.template.favicon}" name="config[template][favicon]" />
+                    <input class="input_text" type="text" value="{if isset($config.template.favicon)}{$config.template.favicon}{/if}" name="config[template][favicon]" />
                     <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
                 </td>
             </tr>
+
+             {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> Standard Template with Files
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Standard Template with Files{/t}
@@ -78,7 +92,13 @@
                     <input class="input_text" type="text" value="{$config.template.std_javascript}" name="config[template][std_javascript]" />
                 </td>
             </tr>
-           
+
+           {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> Default Module / Action
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Default Module / Action{/t}
@@ -102,6 +122,81 @@
                     <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> Default Module / Action
+               |
+               \--------------------------------------------------- *}
+
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Default Module / Action{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Standard module{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Module to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
+                    <input class="input_text" type="text" value="{$config.defaults.default_module}" name="config[defaults][default_module]" />
+                 </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Standard module action{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}Select the default Action to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
+                    <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
+                </td>
+            </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> URL Switches
+               |
+               \--------------------------------------------------- *}
+
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    {t}Switches via URL Parameters{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Theme Switching{/t}
+                    <br/>
+                    ?theme=
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}You may want to turn on theme-switching via URL. When this is activated and parameter theme is appended to your URL like "?theme=xy", the "xy"-theme it will be used for display.{/t}</small><br />
+                    <input type="radio" value="1" name="config[switches][themeswitch_via_url]" {if isset($config.switches.themeswitch_via_url) && $config.switches.themeswitch_via_url == 1}checked="checked"{/if} /> {t}activated{/t}
+                    <input type="radio" value="0" name="config[switches][themeswitch_via_url]" {if isset($config.switches.themeswitch_via_url) && $config.switches.themeswitch_via_url == 0}checked="checked"{/if} /> {t}deactivated{/t}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Language Switching{/t}
+                     <br/>
+                    ?lang=
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like "?lang=de", the german language (de_DE) will be used.{/t}</small><br />
+                    <input type="radio" value="1" name="config['switches']['languageswitch_via_url']" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 1}checked="checked"{/if} /> {t}activated{/t}
+                    <input type="radio" value="0" name="config['switches']['languageswitch_via_url']" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 0}checked="checked"{/if} /> {t}deactivated{/t}
+                </td>
+            </tr>
+
+
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Standard >> Maintenance Mode
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Maintenance Mode{/t}
@@ -128,10 +223,19 @@
             </tr>
         </table>
    </div>
+
+
     {* #### TAB PAGE - META TAGSINFOS SETTINGS #### *}
     <div class="tab-page">
         <h2 class="tab">{t}Meta Tags{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Meta Tags >> Define Meta Tags
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Define Meta Tags{/t}
@@ -178,11 +282,25 @@
                     <input class="input_text" type="text" value="{$config.meta.keywords}" name="config[meta][keywords]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Meta Tags >> Dublin Core
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Define Dublin Core Metadata Elements{/t}
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Meta Tags >> SEO
+               |
+               \--------------------------------------------------- *}
+
              <tr>
                 <td class="td_header_small"  colspan="2">
                      {t}Search Engine Optimization (SEO){/t}
@@ -199,11 +317,20 @@
                 </td>
             </tr>
         </table>
-    </div>    
+    </div>
+
+
    {* #### TAB PAGE - Language SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Language{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Language >> Default Language / Charset
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Default Language / Charset{/t}
@@ -215,7 +342,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}Language Selection is based on browser-detection, but you can specify a default language as fallback.{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.language.language}" name="config[language][language]" />
+                    <input class="input_text" type="text" value="{if isset($config.language.language)}{$config.language.language}{/if}" name="config[language][language]" />
                 </td>
             </tr>
             <tr>
@@ -223,16 +350,25 @@
                     {t}Charset{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.language.charset}" name="config[language][charset]" />
+                    <input class="input_text" type="text" value="{if isset($config.language.charset)}{$config.language.charset}{/if}" name="config[language][charset]" />
                 </td>
             </tr>
         </tr>
     </table>
     </div>
+
+
    {* #### TAB PAGE - EMAIL SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Email{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Email >> Mail Server Configuration
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Mail Server Configuration{/t}
@@ -244,12 +380,12 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[email][mailmethod]" class="input_text">
-                        <option value="mail" {if $config.email.mailmethod == 'mail'}selected="selected"{/if}>{t}Normal{/t}</option>
-                        <option value="smtp" {if $config.email.mailmethod == 'smtp'}selected="selected"{/if}>{t}SMTP{/t}</option>
-                        <option value="sendmail" {if $config.email.mailmethod == 'sendmail'}selected="selected"{/if}>{t}Sendmail{/t}</option>
-                        <option value="exim" {if $config.email.mailmethod == 'exim'}selected="selected"{/if}>{t}Exim{/t}</option>
-                        <option value="qmail" {if $config.email.mailmethod == 'qmail'}selected="selected"{/if}>{t}Qmail{/t}</option>
-                        <option value="postfix" {if $config.email.mailmethod == 'postfix'}selected="selected"{/if}>{t}PostFix{/t}</option>
+                        <option value="mail"     {if isset($config.email.mailmethod) && $config.email.mailmethod == 'mail'}selected="selected"{/if}>{t}Normal{/t}</option>
+                        <option value="smtp"     {if isset($config.email.mailmethod) && $config.email.mailmethod == 'smtp'}selected="selected"{/if}>{t}SMTP{/t}</option>
+                        <option value="sendmail" {if isset($config.email.mailmethod) && $config.email.mailmethod == 'sendmail'}selected="selected"{/if}>{t}Sendmail{/t}</option>
+                        <option value="exim"     {if isset($config.email.mailmethod) && $config.email.mailmethod == 'exim'}selected="selected"{/if}>{t}Exim{/t}</option>
+                        <option value="qmail"    {if isset($config.email.mailmethod) && $config.email.mailmethod == 'qmail'}selected="selected"{/if}>{t}Qmail{/t}</option>
+                        <option value="postfix"  {if isset($config.email.mailmethod) && $config.email.mailmethod == 'postfix'}selected="selected"{/if}>{t}PostFix{/t}</option>
                     </select>
                 </td>
             </tr>
@@ -258,7 +394,7 @@
                     {t}Mailerhost{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.email.mailerhost}" name="config[email][mailerhost]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.mailerhost)}{$config.email.mailerhost}{/if}" name="config[email][mailerhost]" />
                 </td>
             </tr>
             <tr>
@@ -266,7 +402,7 @@
                     {t}Mailerport{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.email.mailerport}" name="config[email][mailerport]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.mailerport)}{$config.email.mailerport}{/if}" name="config[email][mailerport]" />
                 </td>
             </tr>
             <tr>
@@ -275,12 +411,20 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <select name="config[email][mailencryption]" class="input_text">
-                        <option value="SWIFT_OPEN" {if $config.email.mailencryption == 'SWIFT_OPEN'}selected="selected"{/if}>{t}No encryption{/t}</option>
-                        <option value="SWIFT_SSL" {if $config.email.mailencryption == 'SWIFT_SSL'}selected="selected"{/if}>{t}SSL encryption{/t}</option>
-                        <option value="SWIFT_TLS" {if $config.email.mailencryption == 'SWIFT_TLS'}selected="selected"{/if}>{t}TLS/SSL encryption{/t}</option>
+                        <option value="SWIFT_OPEN" {if isset($config.email.mailencryption) && $config.email.mailencryption == 'SWIFT_OPEN'}selected="selected"{/if}>{t}No encryption{/t}</option>
+                        <option value="SWIFT_SSL"  {if isset($config.email.mailencryption) && $config.email.mailencryption == 'SWIFT_SSL'}selected="selected"{/if}>{t}SSL encryption{/t}</option>
+                        <option value="SWIFT_TLS"  {if isset($config.email.mailencryption) && $config.email.mailencryption == 'SWIFT_TLS'}selected="selected"{/if}>{t}TLS/SSL encryption{/t}</option>
                     </select>
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Email >> SMTP Authentication
+               |
+               \--------------------------------------------------- *}
+
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}SMTP authentication{/t}
@@ -291,7 +435,7 @@
                     {t}SMTP username{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.email.smtp_username}" name="config[email][smtp_username]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.smtp_username)}{$config.email.smtp_username}{/if}" name="config[email][smtp_username]" />
                 </td>
             </tr>
             <tr>
@@ -299,12 +443,19 @@
                     {t}SMTP password{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.email.smtp_password}" name="config[email][smtp_password]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.smtp_password)}{$config.email.smtp_password}{/if}" name="config[email][smtp_password]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Email >> Email sender address
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
-                    {t}eMail sender address{/t}
+                    {t}Email sender address{/t}
                 </td>
             </tr>
             <tr>
@@ -313,7 +464,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}Bitte geben Sie die Emailadresse des Systems bzw. des Systemadministrators ein;{/t}<br /></small>
-                    <input class="input_text" type="text" value="{$config.email.from}" name="config[email][from]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.from)}{$config.email.from}{/if}" name="config[email][from]" />
                 </td>
             </tr>
             <tr>
@@ -322,9 +473,17 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}Bitte geben Sie den vollen Namen des Absenders des Systems bzw. des Systemadministrators ein;{/t}<br /></small>
-                    <input class="input_text" type="text" value="{$config.email.from_name}" name="config[email][from_name]" />
+                    <input class="input_text" type="text" value="{if isset($config.email.from_name)}{$config.email.from_name}{/if}" name="config[email][from_name]" />
                 </td>
             </tr>
+
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Email >> Send Test Mail
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Send Test Mail{/t}
@@ -341,10 +500,19 @@
             </tr>
         </table>
    </div>
+
+
    {* #### TAB PAGE - LOGIN SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Login{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> Login
+               |
+               \--------------------------------------------------- *}
+
 
             <tr>
                 <td class="td_header_small"  colspan="2">
@@ -390,6 +558,13 @@
                     <input class="input_text" type="text" value="{$config.login.login_ban_minutes}" name="config[login][login_ban_minutes]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> Password Settings
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small" colspan="2">
                     {t}Password Settings{/t}
@@ -423,6 +598,13 @@
                     <input class="input_text" type="text" value="{$config.login.salt}" name="config[login][salt]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> Session Parameters
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Session Parameters{/t}
@@ -451,7 +633,7 @@
                     {t}Session expire time{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.session.session_expire_time}" name="config[session][session_expire_time]" />&nbsp; minutes
+                    <input class="input_text" type="text" value="{if isset($config.session.session_expire_time)} {$config.session.session_expire_time} {/if}" name="config[session][session_expire_time]" />&nbsp; minutes
                 </td>
             </tr>
             <tr>
@@ -459,12 +641,19 @@
                     {t}Session name{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.session.session_name}" name="config[session][session_name]" />
+                    <input class="input_text" type="text" value="{if isset($config.session.session_name)} {$config.session.session_name} {/if}" name="config[session][session_name]" />
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> OpenID
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
-                    {t}OpenID {/t}
+                    {t}OpenID{/t}
                 </td>
             </tr>
             <tr>
@@ -472,7 +661,7 @@
                     {t}Trust Root{/t}
                 </td>
                 <td class="cell1" style="padding: 3px">
-                    <input class="input_text" type="text" value="{$config.openid.openid_trustroot}" name="config[openid][openid_trustroot]" />
+                    <input class="input_text" type="text" value="{if isset($config.openid.openid_trustroot)}{$config.openid.openid_trustroot}{/if}" name="config[openid][openid_trustroot]" />
                 </td>
             </tr>
             <tr>
@@ -481,20 +670,27 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}When you enable this setting, the OpenID login fields will be displayed in the login box:{/t}</small><br />
-                    <input type="radio" value="1" name="config[openid][openid_showloginbox]" {if $config.openid.openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[openid][openid_showloginbox]" {if $config.openid.openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[openid][openid_showloginbox]" {if isset($config.openid.openid_showloginbox) && $config.openid.openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[openid][openid_showloginbox]" {if isset($config.openid.openid_showloginbox) && $config.openid.openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
             <tr>
                 <td class="cell2" width="15%">
                     {t}Add to Comments{/t}
                 </td>
-                <td class="cell1" style="padding: 3px"> 
+                <td class="cell1" style="padding: 3px">
                    <small>{t}When you enable this setting, the OpenID login fields will be displayed in the comments area's:{/t}</small><br />
-                    <input type="radio" value="1" name="config[openid][openid_showcommentsbox]" {if $config.openid.showcommentsbox == 1}checked="checked"{/if} /> {t}yes{/t}
-                    <input type="radio" value="0" name="config[openid][openid_showcommentsbox]" {if $config.openid.showcommentsbox == 0}checked="checked"{/if} /> {t}no{/t}
+                    <input type="radio" value="1" name="config[openid][openid_showcommentsbox]" {if isset($config.openid.showcommentsbox) && $config.openid.showcommentsbox == 1} checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[openid][openid_showcommentsbox]" {if isset($config.openid.showcommentsbox) && $config.openid.showcommentsbox == 0} checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> Registration
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Registration{/t}
@@ -506,15 +702,80 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}You may provide registration terms, which are displayed to your upcoming members during the registration process:{/t}</small><br />
-                    <textarea name="config[login][registration_term]" cols="30" rows="10" class="input_textarea">{$config.login.registration_term}</textarea>
+                    <textarea name="config[login][registration_term]" cols="30" rows="10" class="input_textarea">{if isset($config.login.registration_term)}{$config.login.registration_term}{/if}</textarea>
+                </td>
+            </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Login >> reCaptcha
+               |
+               \--------------------------------------------------- *}
+
+            <tr>
+                <td class="td_header_small"  colspan="2">
+                    reCAPTCHA
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    Get a reCAPTCHA key
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    {php}
+                        # Load Recaptcha Library
+                        require (ROOT_MOD . 'recaptcha/library/recaptchalib.php');
+
+                        # Build Link to get an free reCAPTCHA key
+                        echo '<a href="';
+                        echo recaptcha_get_signup_url($_SERVER['SERVER_NAME'], 'www.clansuite.com');
+                        echo '">free reCAPTCHA key</a>';
+                    {/php}
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}reCAPTCHA Public Key{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}Please provide your public key.{/t}</small><br />
+                    <input size=50 class="input_text" type="text" name="config[recaptcha][public_key]">{if isset($config.recaptcha.public_key)} {$config.recaptcha.public_key} {/if}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}reCAPTCHA Private Key{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}Please provide your private key.{/t}</small><br />
+                   <input size=50 class="input_text" type="text" name="config[recaptcha][private_key]">{if isset($config.recaptcha.private_key)} {$config.recaptcha.private_key} {/if}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell2" width="15%">
+                    {t}Add to Register User Dialog{/t}
+                </td>
+                <td class="cell1" style="padding: 3px">
+                    <small>{t}When you enable this setting, the reCAPTCHA will be displayed in the registration box:{/t}</small><br />
+                    <input type="radio" value="1" name="config[recaptcha][showinregisterbox]" {if isset($config.recaptcha.showinregisterbox) && $config.recaptcha.showinregisterbox == 1}checked="checked"{/if} /> {t}yes{/t}
+                    <input type="radio" value="0" name="config[recaptcha][showinregisterbox]" {if isset($config.recaptcha.showinregisterbox) && $config.recaptcha.showinregisterbox == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
         </table>
    </div>
+
+
   {* #### TAB PAGE - DEVELOPER SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Developers{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Developers >> Developer Settings
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Developer Settings{/t}
@@ -539,6 +800,13 @@
                     <input type="radio" value="0" name="config[error][compression]" {if $config.error.compression == 0}checked="checked"{/if} /> {t}no{/t}
                 </td>
             </tr>
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Developers >> Error Reporting
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Error Reporting{/t}
@@ -589,6 +857,13 @@
    <div class="tab-page">
        <h2 class="tab">{t}Date & Time{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Date & Time >> Date & Timezone Settings
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Date & Timezone Settings{/t}
@@ -600,7 +875,7 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}You may provide the format in which dates are displayed. Example: d-m-Y. For an How-To read: http://us2.php.net/manual/en/function.date.php{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.locale.dateformat}" name="config[locale][dateformat]" />
+                    <input class="input_text" type="text" value="{if isset($config.locale.dateformat)}{$config.locale.dateformat}{/if}" name="config[locale][dateformat]" />
                 </td>
             </tr>
             <tr>
@@ -610,8 +885,8 @@
                 <td class="cell1" style="padding: 3px">
                     <small>{t}Select the default timzone:{/t}</small><br />
                     <select name="config[locale][timezone]" class="input_text">
-                        <option value="md5" {if $config.locale.timezone == 'Berlin'}selected="selected"{/if}>Berlin</option>
-                        <option value="sha1" {if $config.locale.timezone == '123'}selected="selected"{/if}>123</option>
+                        <option value="md5" {if isset($config.locale.timezone) && $config.locale.timezone == 'Berlin'}selected="selected"{/if}>Berlin</option>
+                        <option value="sha1" {if isset($config.locale.timezone) && $config.locale.timezone == '123'}selected="selected"{/if}>123</option>
                     </select>
                 </td>
             </tr>
@@ -621,16 +896,24 @@
                 </td>
                 <td class="cell1" style="padding: 3px">
                     <small>{t}If you enable this, the Daylight Savings Time (or Summertime) corrects the time for the above {t}Default Timezone{/t}. The clock is advanced an hour, so that afternoons have more daylight and mornings have less:{/t}</small><br />
-                    <input type="radio" value="1" name="config[locale][daylight_saving]" {if $config.locale.daylight_saving == 1}checked="checked"{/if} /> {t}yes [Summertime = Default Timezone + 1 hour]{/t}
-                    <input type="radio" value="0" name="config[locale][daylight_saving]" {if $config.locale.daylight_saving == 0}checked="checked"{/if} /> {t}no [Normal Time = Default Timezone - 1 hour]{/t}                
+                    <input type="radio" value="1" name="config[locale][daylight_saving]" {if isset($config.locale.daylight_saving) && $config.locale.daylight_saving == 1}checked="checked"{/if} /> {t}yes [Summertime = Default Timezone + 1 hour]{/t}
+                    <input type="radio" value="0" name="config[locale][daylight_saving]" {if isset($config.locale.daylight_saving) && $config.locale.daylight_saving == 0}checked="checked"{/if} /> {t}no [Normal Time = Default Timezone - 1 hour]{/t}
                 </td>
             </tr>
         </table>
    </div>
+
    {* #### TAB PAGE - CACHE SETTINGS #### *}
    <div class="tab-page">
        <h2 class="tab">{t}Cache{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Cache >> Cache Settings
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Cache Settings{/t}
@@ -660,6 +943,13 @@
    <div class="tab-page">
        <h2 class="tab">{t}Updates{/t}</h2>
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+
+            {* /---------------------------------------------------
+               |
+               |     Tab: Updates >> Updates
+               |
+               \--------------------------------------------------- *}
+
             <tr>
                 <td class="td_header_small"  colspan="2">
                     {t}Updates{/t}
@@ -677,12 +967,14 @@
                 </td>
             </tr>
         </table>
-   </div>   
+   </div>
 </div>
 <br />
 <div style="text-align:center">
     <input type="submit" class="ButtonGreen" value="{t}Save Settings{/t}" name="submit" />
 </div>
 </form>
+
 {* #### Init TabPane #### *}
+
 <script type="text/javascript">setupAllTabs();</script>
