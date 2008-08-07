@@ -7,8 +7,14 @@
             className: 'tooltip'
         });
         
-        // Tooltips
+        // Tooltips for the input fields
         var myTips2 = new Tips($$('.input_text[title!=]'), {
+            className: 'tooltip'
+        });
+        
+        // Tooltips for the help Buttons
+        // Tooltips
+        var myTips3 = new Tips($$('img[title!=]'), {
             className: 'tooltip'
         });
     
@@ -174,23 +180,23 @@
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="td_header_small">
-                                            {t}Method names{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Scope{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Snippets{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Doctrine{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Output?{/t}
+                                        <td class="td_header_small" width="72">
+                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Template?{/t}
+                                        <td class="td_header_small" width="80">
+                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
                                             <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />                                    
@@ -200,7 +206,7 @@
                                 <tbody id="frontend_module_wrapper">
                                     <tr id="frontend_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" type="text" value="action_" name="m[frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="action_" name="m[frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
                                             <select name="m[frontend_scopes][0]" class="input_text">
@@ -233,7 +239,7 @@
                                         <td class="cell2">                                        
                                             <input class="input_text" type="checkbox" value="1" name="m[frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
-                                        <td class="cell1" align="left" width="99%">
+                                        <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
@@ -241,7 +247,7 @@
                                 <tfoot>
                                     <tr>
                                         <td class="cell2">
-                                            <b>Create widget methods?</b>
+                                            <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />{literal}{load_module name='news' action='widget_news' items='2'}{/literal}" /></div>
                                         </td>
                                         <td class="cell1" colspan="10">
                                             <input type="checkbox" name="m[widget]" id="widget_module" class="check_below" value="1" />
@@ -258,23 +264,23 @@
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="td_header_small">
-                                            {t}Method names{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Scope{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Snippets{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Doctrine{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Output?{/t}
+                                        <td class="td_header_small" width="72">
+                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Template?{/t}
+                                        <td class="td_header_small" width="80">
+                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
                                             <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />                                    
@@ -284,7 +290,7 @@
                                 <tbody id="widget_module_wrapper">
                                     <tr id="widget_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" type="text" value="widget_" name="m[widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="widget_" name="m[widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
                                             <select name="m[widget_scopes][0]" class="input_text">
@@ -317,7 +323,7 @@
                                         <td class="cell2">                                        
                                             <input class="input_text" type="checkbox" value="1" name="m[widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
-                                        <td class="cell1" align="left" width="99%">
+                                        <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
@@ -330,29 +336,29 @@
             <tr>
                 <td class="cell2">Create backend for the module?</td>
                 <td class="cell1">
-                    <input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" />
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" /></div>
                     <div id="backend_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="td_header_small">
-                                            {t}Method names{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Scope{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Snippets{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Doctrine{/t}
+                                        <td class="td_header_small" width="90">
+                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Output?{/t}
+                                        <td class="td_header_small" width="72">
+                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
                                         </td>
-                                        <td class="td_header_small">
-                                            {t}Template?{/t}
+                                        <td class="td_header_small" width="80">
+                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
                                             <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />                                    
@@ -362,7 +368,7 @@
                                 <tbody id="backend_module_wrapper">
                                     <tr id="backend_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" type="text" value="action_admin_" name="m[backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
                                             <select name="m[backend_scopes][0]" class="input_text">
@@ -395,7 +401,7 @@
                                         <td class="cell2">                                        
                                             <input class="input_text" type="checkbox" value="1" name="m[backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
-                                        <td class="cell1" align="left" width="99%">
+                                        <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_delete" style="margin-top: 2px; cursor: pointer;" />
                                         </td>
                                     </tr>
@@ -408,9 +414,9 @@
             <tr>
                 <td class="cell2">Create config for the module?</td>
                 <td class="cell1">
-                    <input type="checkbox" name="m[config]" id="config" class="check_below" value="1" />
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[config]" id="config" class="check_below" value="1" /></div>
                     <div id="config_display">
-                        <div style="padding: 10px">
+                        <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                                 <thead>
                                     <tr>
