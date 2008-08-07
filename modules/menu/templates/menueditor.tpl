@@ -23,10 +23,10 @@
         <td valign="top">
 
             <div class="DynamicTree">
-            Dynamic Tree Builder for Adminmenu 
-                <div class="wrap1">               
+            Dynamic Tree Builder for Adminmenu
+                <div class="wrap1">
                     <div class="top">{t}Adminmenu{/t}</div>
-                    <div class="wrap2" id="tree">                        
+                    <div class="wrap2" id="tree">
                         {load_module name="menu" sub="admin" action="get_adminmenu_div"}
                     </div>
                 </div>                
@@ -121,10 +121,10 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('update_icon').src='{$www_root_mod}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
+                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
                                     <option value="">{t}No icon{/t}</option>
                                     {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_root_mod}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
+                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
                                     {/foreach}
                                 </select>
                                 <img alt="update icon" src="" name="update_icon" id="update_icon" width="16" height="16" border="1" />
@@ -137,7 +137,7 @@
                             </td>
                         </tr>
                         </table>
-                    </form>                    
+                    </form>
                 </div>
             </div>
 
@@ -146,10 +146,10 @@
             <p>
                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
-            
+
             <p>
                <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"class="ButtonRed" value="{t}Restore last Adminmenu{/t}" />
-            </p>        
+            </p>
 
             <div id="tree-plugin">
                 <form action="index.php?mod=menu&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">
@@ -165,12 +165,12 @@
         </td>
         <td>
             {include file="help.html"}
-        </td>        
+        </td>
     </tr>
     </table>
 
     <script type="text/javascript">
-        var tree = new DynamicTreeBuilder("tree", "{$www_root_mod}/images/", "{$www_root_themes_core}/images/icons/");
+        var tree = new DynamicTreeBuilder("tree", "{$www_root}/modules/menu/", "{$www_root_themes_core}/images/icons/");
         tree.init();
         DynamicTreePlugins.call(tree);
     </script>
