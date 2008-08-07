@@ -170,7 +170,7 @@
     </table>
 
     <script type="text/javascript">
-        var tree = new DynamicTreeBuilder("tree", "{$www_root}/modules/menu/", "{$www_root_themes_core}/images/icons/");
+        var tree = new DynamicTreeBuilder("tree", "{$www_root}/modules/menu/images/", "{$www_root_themes_core}/images/icons/");
         tree.init();
         DynamicTreePlugins.call(tree);
     </script>
