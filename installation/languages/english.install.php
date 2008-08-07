@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Clansuite
- * @subpackage      Clansuite Installation
+ * @subpackage      Installation
  * @category        Installer
  * @author          Jens-Andre Koch <vain@clansuite.com>
  * @copyright       Jens-Andre Koch & Clansuite Development Team
