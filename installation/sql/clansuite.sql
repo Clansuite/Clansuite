@@ -1,4 +1,4 @@
-﻿-- MySQL dump 10.11 
+-- MySQL dump 10.11
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
@@ -882,12 +882,12 @@ DROP TABLE IF EXISTS `cs_quotes`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_quotes` (
-  `quotes_id` tinyint(4) NOT NULL auto_increment,
-  `quotes_body` text NOT NULL,
-  `quotes_author` varchar(40) NOT NULL,
-  PRIMARY KEY  (`quotes_id`),
-  KEY `quotes_id` (`quotes_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `quote_id` tinyint(4) NOT NULL auto_increment,
+  `quote_body` text NOT NULL,
+  `quote_author` varchar(40) NOT NULL,
+  PRIMARY KEY  (`quote_id`),
+  KEY `quotes_id` (`quote_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -895,6 +895,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_quotes` DISABLE KEYS */;
+INSERT INTO `cs_quotes` VALUES (1,'The turning point came when the mechanics of the storage of knowledge within the brain was worked out. Once that had been done, it became possible to devise Educational tapes that would modify the mechanics in such a way as to place within the mind a body of knowledge ready-made so to speak.','Isaac Asimov (1920-1992)');
 /*!40000 ALTER TABLE `cs_quotes` ENABLE KEYS */;
 
 --
@@ -1144,7 +1145,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'3cc191b4c0cec642ab8adea9df200fbc','initiated|b:1;token|s:32:\"c038a921ef5bbf8fdb177e4c1ddf64c4\";token_time|i:1218048850;client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.16) Gecko/20080702 Firefox/2.0.0.16\";client_host|s:9:\"localhost\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:4:{i:0;s:9:\"u.user_id\";i:1;s:7:\"u.email\";i:2;s:6:\"u.nick\";i:3;s:8:\"u.joined\";}s:14:\"default_column\";i:2;s:12:\"default_sort\";s:3:\"asc\";s:14:\"current_column\";i:2;s:12:\"current_sort\";s:3:\"asc\";s:11:\"target_page\";s:30:\"/index.php?mod=users&sub=admin\";}}','suiteSID',1218060893,1,'sessionstart');
+INSERT INTO `cs_session` VALUES (0,'f7378f94a8f6108ca4175f995ec8ce27','initiated|b:1;token|s:32:\"3ecdee959983770d838434cf1ff3fcd9\";token_time|i:1218214337;client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.8.1.16) Gecko/20080702 Firefox/2.0.0.16\";client_host|s:9:\"localhost\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:12:\"n.news_added\";i:1;s:12:\"n.news_title\";i:2;s:6:\"c.name\";i:3;s:6:\"u.nick\";i:4;s:7:\"n.draft\";}s:14:\"default_column\";i:0;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:0;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:51:\"/index.php?mod=news&sub=admin&action=delete&front=1\";}}','suiteSID',1218225391,1,'thememanager');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1340,4 +1341,4 @@ INSERT INTO `cs_users` VALUES (1,'user1@clansuite.com','user1','d033e22ae348aeb5
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-08-06 23:35:47
+-- Dump completed on 2008-08-08 19:29:55
