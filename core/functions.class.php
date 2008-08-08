@@ -36,16 +36,54 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* @desc Start functions class
-*/
+ * Clansuite
+ *
+ * Module:      Core
+ * Submodule:   Common Functions
+ *
+ * @author      Jens-Andre Koch  <vain@clansuite.com>
+ * @copyright   Jens-Andre Koch, (2005 - onwards)
+ * @since       0.2alpha
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  functions
+ */
 class functions
 {
     public $redirect = '';
 
     /**
-    * @desc Redirection modes
-    */
+     * Converts an Object to an Array
+     *
+     * @param $object object to convert
+     * @return array
+     */
+    static public function object2array($object)
+    {
+        $array = null;
+        if (is_object($object))
+        {
+            $array = array();
+            foreach (get_object_vars($object) as $key => $value)
+            {
+				if(is_object($value))
+				{
+					$array[$key] = self::object2Array($value);
+				}
+				else
+				{
+					$array[$key] = $value;
+				}
+			}
+	    }
+        return $array;
+    }
 
+
+    /**
+     *  Redirection modes
+     */
     function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user', $heading = '' )
     {
         global $session, $tpl, $cfg;
