@@ -93,36 +93,6 @@
                 </td>
             </tr>
 
-           {* /---------------------------------------------------
-               |
-               |     Tab: Standard >> Default Module / Action
-               |
-               \--------------------------------------------------- *}
-
-            <tr>
-                <td class="td_header_small"  colspan="2">
-                    {t}Default Module / Action{/t}
-                </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
-                    {t}Standard module{/t}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <small>{t}Select the default Module to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.defaults.default_module}" name="config[defaults][default_module]" />
-                 </td>
-            </tr>
-            <tr>
-                <td class="cell2" width="15%">
-                    {t}Standard module action{/t}
-                </td>
-                <td class="cell1" style="padding: 3px">
-                    <small>{t}Select the default Action to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
-                    <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
-                </td>
-            </tr>
-
             {* /---------------------------------------------------
                |
                |     Tab: Standard >> Default Module / Action
