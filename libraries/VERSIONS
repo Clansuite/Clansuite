@@ -1,0 +1,26 @@
+INSTALLED LIBRARIES:
+====================
+LIBRARY                   VERSION    LICENCE         WEBSITE
+-------                   -------    -------         -------
+BB Code String Parsing    0.3.1      GPL             http://www.christian-seiler.de
+CSQUERY                   0.11       LGPL            http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
+DOCTRINE                  0.11       GPL             http://www.doctrine.org                         
+FCKEDITOR                 2.6.3      GPL,LGPL,MPL    http://www.fckeditor.net
+GESHI                     1.0.8      GPL             http://qbnz.com/highlighter/
+GRAPH                     1.7.4      NONE, FREE      http://www.zackbloom.org/graph/ *down
+GZIP_ENCODE               0.67       GPL             http://leknor.com/code/php/ *down, fetchable via typo3 repos
+PHEMTO                    0.1a       PubDomain       http://sourceforge.net/projects/phemto
+PHP-GETTEXT               1.0        GPL             http://savannah.nongnu.org/projects/php-gettext/
+PHPIDS                    0.4        GPL             http://php-ids.org/
+SMARTY                    2.6.18     LGPL            http://www.smarty.net/
+SNOOPY                    1.2.3      LGPL            http://www.
+SWIFTMAILER               3.3.2      LGPL            http://www.swiftmailer.org/
+
+SUBVERSION:EXTERNALS of /libraries:
+===================================
+
+doctrine http://svn.phpdoctrine.org/branches/0.11/lib/
+fckeditor http://svn.fckeditor.net/FCKeditor/releases/latest/
+geshi https://geshi.svn.sourceforge.net/svnroot/geshi/branches/RELEASE_1_0_8_STABLE/geshi-1.0.X/src
+ids https://svn.php-ids.org/svn/trunk/lib/IDS/
+swiftmailer https://swiftmailer.svn.sourceforge.net/svnroot/swiftmailer/trunk/php5/lib
