@@ -141,11 +141,11 @@ class view_smarty extends renderer_base
 
         #### SMARTY FILTERS
         # $this->autoload_filters = "";                   # loading filters used for every template
-        $this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
-                                                      'pre'    => array('inserttplnames')
+        #$this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
+                                                    # 'pre'    => array('inserttplnames')
                                                     #,'post'   => array(),
                                                     #,'output' => array('tidyrepairhtml')
-                                                   );
+                                                   #);
 
         #### COMPILER OPTIONS
         # $this->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
@@ -223,6 +223,7 @@ class view_smarty extends renderer_base
 
         ## Smarty Template Handler Functions
 
+        
         # Additional Resource Handler: to fetch TPLs in "modules/templates" too
         require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
         $this->smarty->default_template_handler_func = 'smarty_fetch_module_templates';

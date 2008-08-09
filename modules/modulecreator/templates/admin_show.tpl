@@ -146,7 +146,7 @@
         <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
             <tr>
                 <td class="cell2">{t}Modulename{/t}</td>
-                <td class="cell1"><input name="module_name" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
+                <td class="cell1"><input name="m[module_name]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
             </tr>
             <tr>
                 <td class="cell2">{t}Metadata{/t}</td>
@@ -154,19 +154,19 @@
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                         <tr>
                             <td class="cell2">{t}Author{/t}</td>
-                            <td class="cell1"><input name="meta[author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
                             <td class="cell2">{t}Copyright{/t}</td>
-                            <td class="cell1"><input name="meta[copyright]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell1"><input name="m[meta][copyright]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
                             <td class="cell2">{t}Title{/t}</td>
-                            <td class="cell1"><input name="meta[title]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell1"><input name="m[meta][title]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
                             <td class="cell2">{t}Homepage{/t}</td>
-                            <td class="cell1"><input name="meta[homepage]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
+                            <td class="cell1"><input name="m[meta][homepage]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
                         </tr>
                     </table>
                 </td>
@@ -174,7 +174,7 @@
             <tr>
                 <td class="cell2">Create frontend for the module?</td>
                 <td class="cell1">
-                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[frontend]" id="frontend_module" class="check_below" value="1" /></div>
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[frontend][checked]" id="frontend_module" class="check_below" value="1" /></div>
                     <div id="frontend_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
@@ -206,17 +206,17 @@
                                 <tbody id="frontend_module_wrapper">
                                     <tr id="frontend_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" size="25" type="text" value="action_" name="m[frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="action_" name="m[frontend][frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
-                                            <select name="m[frontend_scopes][0]" class="input_text">
+                                            <select name="m[frontend][frontend_scopes][0]" class="input_text">
                                                 <option value="public" selected="selected">Public</option>
                                                 <option value="private">Private</option>
                                                 <option value="protected">Protected</option>
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[frontend_snippets][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[frontend][frontend_snippets][0]" class="input_text">
                                                 <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
@@ -225,7 +225,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[frontend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[frontend][frontend_doctrines][0]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -234,10 +234,10 @@
                                             </select>
                                         </td>
                                         <td class="cell1">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
                                         <td class="cell2">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                            <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_delete" style="margin-top: 2px; cursor: pointer;" />
@@ -250,7 +250,7 @@
                                             <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />{literal}{load_module name='news' action='widget_news' items='2'}{/literal}" /></div>
                                         </td>
                                         <td class="cell1" colspan="10">
-                                            <input type="checkbox" name="m[widget]" id="widget_module" class="check_below" value="1" />
+                                            <input type="checkbox" name="m[widget][checked]" id="widget_module" class="check_below" value="1" />
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -290,17 +290,17 @@
                                 <tbody id="widget_module_wrapper">
                                     <tr id="widget_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" size="25" type="text" value="widget_" name="m[widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="widget_" name="m[widget][widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
-                                            <select name="m[widget_scopes][0]" class="input_text">
+                                            <select name="m[widget][widget_scopes][0]" class="input_text">
                                                 <option value="public" selected="selected">Public</option>
                                                 <option value="private">Private</option>
                                                 <option value="protected">Protected</option>
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[widget_snippets][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[widget][widget_snippets][0]" class="input_text">
                                                 <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
@@ -309,7 +309,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[widget_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[widget][widget_doctrines][0]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -318,10 +318,10 @@
                                             </select>
                                         </td>
                                         <td class="cell1">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[widget][widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
                                         <td class="cell2">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                            <input class="input_text" type="checkbox" value="1" name="m[widget][widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_delete" style="margin-top: 2px; cursor: pointer;" />
@@ -336,7 +336,7 @@
             <tr>
                 <td class="cell2">Create backend for the module?</td>
                 <td class="cell1">
-                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend]" id="backend_module" class="check_below" value="1" /></div>
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend][backend]" id="backend_module" class="check_below" value="1" /></div>
                     <div id="backend_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
@@ -368,17 +368,17 @@
                                 <tbody id="backend_module_wrapper">
                                     <tr id="backend_module_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend][backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
-                                            <select name="m[backend_scopes][0]" class="input_text">
+                                            <select name="m[backend][backend_scopes][0]" class="input_text">
                                                 <option value="public" selected="selected">Public</option>
                                                 <option value="private">Private</option>
                                                 <option value="protected">Protected</option>
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[backend_snippets][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[backend][backend_snippets][0]" class="input_text">
                                                 <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
@@ -387,7 +387,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[backend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[backend][backend_doctrines][0]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -396,10 +396,10 @@
                                             </select>
                                         </td>
                                         <td class="cell1">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
                                         <td class="cell2">                                        
-                                            <input class="input_text" type="checkbox" value="1" name="m[backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_delete" style="margin-top: 2px; cursor: pointer;" />
@@ -434,10 +434,10 @@
                                 <tbody id="config_wrapper">
                                     <tr id="config_input">
                                         <td height="20" class="cell2">                                        
-                                            <input class="input_text" type="text" value="" name="m[config_keys][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" type="text" value="" name="m[config][config_keys][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td height="20" class="cell1">                                        
-                                            <input class="input_text" type="text" value="" name="m[config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                            <input class="input_text" type="text" value="" name="m[config][config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2" align="left" width="99%">
                                             <img src="{$www_root_themes_core}/images/icons/delete.png" id="config_delete" style="margin-top: 2px; cursor: pointer;" />
