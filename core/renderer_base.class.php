@@ -283,7 +283,7 @@ abstract class renderer_base
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
 
         # b) Meta Informations
-        $tpl_constants['meta'] = $this->config['meta'];
+        $template_constants['meta'] = $this->config['meta'];
 
         /**
          * c) Clansuite Version
