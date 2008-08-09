@@ -118,11 +118,18 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             ini_set('magic_quotes_gpc', 0);
         }
 
-        # run IDS
-        #$this->runIDS();
 
         /**
-         *  2) Clear Array, Filter and Assign the $_REQUEST Global to it
+         * 2) Security
+         */
+        # a) run IDS
+        #$this->runIDS();
+
+        # b) block Proxies
+        #$this->blockProxies();
+
+        /**
+         *  3) Clear Array, Filter and Assign the $_REQUEST Global to it
          */
 
         # Clear Parameters Array
@@ -158,6 +165,37 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
            // Take a look at the result object
            echo $monitoring_result;
            exit();
+        }
+    }
+
+    /**
+     * Block Requests from Proxies
+     */
+    public function blockProxies()
+    {
+        $request_headers = array('HTTP_VIA',
+                                 'HTTP_X_FORWARDED_FOR',
+                                 'HTTP_FORWARDED_FOR',
+                                 'HTTP_X_FORWARDED',
+                                 'HTTP_FORWARDED',
+                                 'HTTP_CLIENT_IP',
+                                 'HTTP_FORWARDED_FOR_IP',
+                                 'VIA',
+                                 'X_FORWARDED_FOR',
+                                 'FORWARDED_FOR',
+                                 'X_FORWARDED',
+                                 'FORWARDED',
+                                 'CLIENT_IP',
+                                 'FORWARDED_FOR_IP',
+                                 'HTTP_PROXY_CONNECTION'
+                                );
+
+        foreach($request_headers as $request_header)
+        {
+            if( array_key_exists($request_header,$_SERVER) )
+            {
+                die('Access Blocked for Proxies!');
+            }
         }
     }
 
