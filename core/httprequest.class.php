@@ -98,13 +98,13 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         // if sybase style quoting isn't specified, use ini setting
-        if (!isset($sybase) )
+        if ( !isset($sybase) )
         {
             $sybase = ini_get('magic_quotes_sybase');
         }
 
         // disable magic_quotes_sybase
-        if ($sybase )
+        if ( 1 == $sybase )
         {
             ini_set('magic_quotes_sybase', 0);
         }
@@ -112,21 +112,22 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         // disable magic_quotes_runtime
         set_magic_quotes_runtime(0);
 
-        if (get_magic_quotes_gpc())
+        if ( 1 == get_magic_quotes_gpc() )
         {
             $this->fix_magic_quotes();
             ini_set('magic_quotes_gpc', 0);
         }
 
-
         /**
-         * 2) Security
+         *  2) Security
          */
+
         # a) run IDS
-        #$this->runIDS();
+        $doorKeeper = new Clansuite_DoorKeeper;
+        $doorKeeper->runIDS();
 
         # b) block Proxies
-        #$this->blockProxies();
+        Clansuite_DoorKeeper::blockProxies();
 
         /**
          *  3) Clear Array, Filter and Assign the $_REQUEST Global to it
@@ -140,63 +141,6 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         # Assign the GLOBAL $_REQUEST
         $this->parameters = $_REQUEST;
-    }
-
-    /**
-     * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays
-     *
-     * Smoke Example: Apply to URL "index.php?theme=drahtgitter%3insert%00%00.'AND%XOR%XOR%.'DROP WHERE user_id='1';"
-     */
-    public function runIDS()
-    {
-        # Set Path and Require IDS
-        set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_LIBRARIES );
-        require_once ROOT_LIBRARIES . '/IDS/Init.php';
-        # Setup the $_GLOBALS to monitor
-        $request = array('GET' => $_GET, 'POST' => $_POST, 'COOKIE' => $_COOKIE);
-        $init = IDS_Init::init( ROOT_LIBRARIES . '/IDS/Config/Config.ini');
-        $ids = new IDS_Monitor($request, $init);
-        $monitoring_result = $ids->run();
-
-        #var_dump($monitoring_result);
-
-        if (!$monitoring_result->isEmpty())
-        {
-           // Take a look at the result object
-           echo $monitoring_result;
-           exit();
-        }
-    }
-
-    /**
-     * Block Requests from Proxies
-     */
-    public function blockProxies()
-    {
-        $request_headers = array('HTTP_VIA',
-                                 'HTTP_X_FORWARDED_FOR',
-                                 'HTTP_FORWARDED_FOR',
-                                 'HTTP_X_FORWARDED',
-                                 'HTTP_FORWARDED',
-                                 'HTTP_CLIENT_IP',
-                                 'HTTP_FORWARDED_FOR_IP',
-                                 'VIA',
-                                 'X_FORWARDED_FOR',
-                                 'FORWARDED_FOR',
-                                 'X_FORWARDED',
-                                 'FORWARDED',
-                                 'CLIENT_IP',
-                                 'FORWARDED_FOR_IP',
-                                 'HTTP_PROXY_CONNECTION'
-                                );
-
-        foreach($request_headers as $request_header)
-        {
-            if( array_key_exists($request_header,$_SERVER) )
-            {
-                die('Access Blocked for Proxies!');
-            }
-        }
     }
 
     /**
