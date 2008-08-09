@@ -1,0 +1,27 @@
+<match path="project">clansuite</match>
+
+<formatter name="IRCProjectName"/>
+
+<formatter medium="irc">
+
+    <filesWidthLimit>40</filesWidthLimit>
+    <lineLimit>5</lineLimit>
+    <wrapWidth>150</wrapWidth>
+    <widthLimit>150</widthLimit>
+    <crunchWhitespace/>
+
+    <format appliesTo="CommitToIRC">
+    <br />
+            <autoHide>
+                <color fg='green'>
+                    New SVN Commit:
+                    <autoHide>R#[<b><color fg='red'><revision/></color></b>]</autoHide>
+                    by <color fg='red'><author/></color>
+                </color>
+            </autoHide>
+    <br/>
+            <color fg='aqua'><project/></color>/<files/><b>:</b>
+            <log/>
+    <br/>
+    </format>
+</formatter>
