@@ -1,7 +1,9 @@
 {literal} 
 <script type="text/javascript">
     window.addEvent('domready', function() {
-
+        // Existing modules
+        var existing_modules = {/literal}{$existing_modules_js}{literal};
+    
         // Tooltips
         var myTips = new Tips($$('.input_text option[title!=]'), {
             className: 'tooltip'
@@ -39,12 +41,15 @@
             var allInputs = $('modulcreator').getElements('input[pattern^=^]');
             allInputs.each( function(mInput, i) {
                 mInput.addEvent('keyup', function() {
-                                        mInput.style.border = '1px solid grey';
-                    if( mInput.value.toString().test(mInput.get('pattern') ) )//"^[a-zA-Z_0-9]+$") )
+                    
+                    mInput.style.border = '1px solid grey';
+                    if( mInput.value.toString().test(mInput.get('pattern')) && !existing_modules.contains(mInput.value) )//"^[a-zA-Z_0-9]+$") )
                     {
-                        if( mInput.get('name') == 'module_name' )
+                        if( mInput.get('name') == 'm[module_name]' )
                         {
+                            
                             mInput.value = mInput.value.toLowerCase();
+                            
                             if( mInput.value.length > 0 )
                             {
                                 $('the_link').innerHTML = "index.php?mod=<b>" + mInput.value + "</b>";
@@ -55,15 +60,32 @@
                             }
                         }
                         mInput.style.border = '1px solid #20a429';
+                        $('create_form').removeEvents('submit');
+                        $('create_form').addEvent( 'submit', function() {
+                            return true;
+                        });
                     }
                     else
                     {
-                        if( mInput.get('name') == 'module_name' )
+                        if( mInput.get('name') == 'm[module_name]' )
                         {
                             mInput.value = mInput.value.toLowerCase();
-                            $('the_link').innerHTML = "";
+                            if( existing_modules.contains(mInput.value) )
+                            {
+                                $('the_link').innerHTML = "Module does already exist!";
+                            }
+                            else
+                            {
+                                $('the_link').innerHTML = "No special chars allowed!";
+                            }
                         }
                         mInput.style.border = '1px solid #ff0000';
+ 
+                        $('create_form').removeEvents('submit');
+                        $('create_form').addEvent( 'submit', function() {
+                            alert('There are still errors. Please correct');
+                            return false;
+                        });
                     }
                     
 
@@ -142,7 +164,7 @@
 </script>
 {/literal}
 <div id="modulcreator">
-    <form action="index.php?mod=modulecreator&sub=admin&action=create" method="POST">
+    <form action="index.php?mod=modulecreator&sub=admin&action=preview" method="POST" id="create_form">
         <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
             <tr>
                 <td class="cell2">{t}Modulename{/t}</td>
@@ -157,8 +179,8 @@
                             <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
-                            <td class="cell2">{t}Copyright{/t}</td>
-                            <td class="cell1"><input name="m[meta][copyright]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell2">{t}License{/t}</td>
+                            <td class="cell1"><input name="m[meta][license]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
                             <td class="cell2">{t}Title{/t}</td>
@@ -216,8 +238,8 @@
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[frontend][frontend_snippets][0]" class="input_text">
-                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                            <select multiple="multiple" size="5" name="m[frontend][frontend_snippets][0][]" class="input_text">
+
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
                                                 <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
@@ -225,7 +247,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[frontend][frontend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[frontend][frontend_doctrines][0][]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -300,8 +322,8 @@
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[widget][widget_snippets][0]" class="input_text">
-                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                            <select multiple="multiple" size="5" name="m[widget][widget_snippets][0][]" class="input_text">
+
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
                                                 <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
@@ -309,7 +331,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[widget][widget_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[widget][widget_doctrines][0][]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -336,7 +358,7 @@
             <tr>
                 <td class="cell2">Create backend for the module?</td>
                 <td class="cell1">
-                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend][backend]" id="backend_module" class="check_below" value="1" /></div>
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend][checked]" id="backend_module" class="check_below" value="1" /></div>
                     <div id="backend_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
@@ -378,8 +400,8 @@
                                             </select>
                                         </td>
                                         <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[backend][backend_snippets][0]" class="input_text">
-                                                <option value="config" title="$config = $this->injector->instantiate('Clansuite_Config');">Config Instance $config</option>
+                                            <select multiple="multiple" size="5" name="m[backend][backend_snippets][0][]" class="input_text">
+
                                                 <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
                                                 <option value="user">User Instance $user</option>
                                                 <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
@@ -387,7 +409,7 @@
                                             </select>
                                         </td>
                                         <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[backend][backend_doctrines][0]" class="input_text">
+                                            <select multiple="multiple" size="5" name="m[backend][backend_doctrines][0][]" class="input_text">
                                                 <option value="select">SELECT Statement - single row</option>
                                                 <option value="create">CREATE Statement - single row</option>
                                                 <option value="update">UPDATE Statement - single row</option>
@@ -414,7 +436,7 @@
             <tr>
                 <td class="cell2">Create config for the module?</td>
                 <td class="cell1">
-                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[config]" id="config" class="check_below" value="1" /></div>
+                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[config][checked]" id="config" class="check_below" value="1" /></div>
                     <div id="config_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
@@ -450,7 +472,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell1" colspan="2" align="center"><input class="ButtonGreen" type="submit" value="{t}Create module{/t}" name="submit" /></td>
+                <td class="cell1" colspan="2" align="center"><input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" /></td>
             </tr>
         </table>
     </form>
