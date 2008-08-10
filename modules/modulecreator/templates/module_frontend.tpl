@@ -1,10 +1,11 @@
 <?php
 /**
- * {$m.module_name|capitalize} Frontend Module
-*
- * @license    {$m.meta.license}
- * @author     {$m.meta.author}
- * @link       {$m.meta.homepage}
+ * {$mod.meta.title} Module (Frontend)
+ * ({$mod.module_name})
+ *
+ * @license    {$mod.meta.license}
+ * @author     {$mod.meta.author}
+ * @link       {$mod.meta.homepage}
  * @version    SVN: $Id: $
  */
 {literal}
@@ -16,12 +17,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * other classes in the "sample" package and
  * is part of "classes" subpackage
  * @package Clansuite
- * @subpackage {$m.module_name}
+ * @subpackage module_{$mod.module_name}
  */
-class Module_{$m.module_name} extends ModuleController implements Clansuite_Module_Interface{literal}
+class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface{literal}
 {{/literal}
     /**
-     * Main Method of {$m.module_name|capitalize} Module
+     * Main Method of {$mod.module_name|capitalize} Module
      *
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
@@ -29,12 +30,13 @@ class Module_{$m.module_name} extends ModuleController implements Clansuite_Modu
     public function execute(httprequest $request, httpresponse $response){literal}
     {{/literal}  
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/{$m.module_name}/{$m.module_name}.config.php');
+        $this->config->readConfig( ROOT_MOD . '/{$mod.module_name}/{$mod.module_name}.config.php');
 
         # proceed to the requested action
         $this->processActionController($request);{literal}
     }{/literal}     
-{$frontend_methods}
+{$frontend_methods|default}
+{$widget_methods|default}
 {literal}
 }
 {/literal}

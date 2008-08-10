@@ -72,17 +72,30 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         # Set Pagetitle and Breadcrumbs
         trail::addStep( _('Show'), '/index.php?mod=module_editor&amp;sub=admin&amp;action=show');
 
+        $smarty = $this->getView();
+        
+        // Get all modules in the directory
+        // I know... MVC -.- but we need to get going...
+        $existing_modules_js = '[';
+        $existing_glob = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
+        foreach( $existing_glob as $key => $value )
+        {
+            $existing_modules_js .= '"' . str_replace(ROOT_MOD, '', strtolower($value)) . '",';
+        }
+        $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
+        $smarty->assign('existing_modules_js', $existing_modules_js);
+        
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $smarty->setLayoutTemplate('admin/index.tpl');
 
         // Prepare the Output
         $this->prepareOutput();
     }
 
     /**
-     * Create the new mod
+     * Preview the new mod
      */
-    public function action_admin_create()
+    public function action_admin_preview()
     {
         # Permission check
         #$perms::check('cc_update_menueditor');
@@ -95,7 +108,11 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         
         $smarty = $this->getView();
         
-        $smarty->assign( 'm', $mod );
+        
+        
+        
+        $mod['data'] = base64_encode(serialize($mod));
+        $smarty->assign( 'mod', $mod );
 
         #$smarty->autoload_filters = array();
         #$smarty->unregister_prefilter('smarty_prefilter_inserttplnames');
@@ -104,14 +121,39 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         // Include & Instantiate GeSHi
         require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
         
-        $smarty->assign( 'frontend_methods', $smarty->fetch('module_frontend_method.tpl') );
-        $smarty->assign( 'frontend', geshi_highlight($smarty->fetch('module_frontend.tpl'),'php-brief', '',true ) );
+        // FRONTEND
+        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
+        {
+            // WIDGETS
+            if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
+            {
+                $widget_methods = $smarty->fetch('module_widget_method.tpl');
+                $smarty->assign( 'widget_methods',  $widget_methods);
+            }
+            
+            $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
+            $smarty->assign( 'frontend_methods',  $frontend_methods);
+       
+            $frontend = $smarty->fetch('module_frontend.tpl');
+            $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
+        }
         
-        $smarty->assign( 'backend_methods', $smarty->fetch('module_backend_method.tpl') );
-        $smarty->assign( 'backend', geshi_highlight($smarty->fetch('module_backend.tpl'),'php-brief', '',true ) );
+        // BACKEND
+        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
+        {
+            $backend_methods = $smarty->fetch('module_backend_method.tpl');
+            $smarty->assign( 'backend_methods',  $backend_methods );
+            
+            $backend = $smarty->fetch('module_backend.tpl');
+            $smarty->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
+        }
         
-        
-        $smarty->assign( 'config', geshi_highlight($smarty->fetch('module_config.tpl'),'php-brief', '',true ) );
+        // CONFIG
+        if( isset($mod['config']['checked']) && $mod['config']['checked'] == 1)
+        {
+            $config = $smarty->fetch('module_config.tpl');
+            $smarty->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
+        }
         
         error_reporting( E_ALL || E_STRICT );
         #$smarty->register_prefilter('smarty_prefilter_inserttplnames');
@@ -124,6 +166,96 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
             $err['mod_folder_not_writeable'] = 1;
         }
 
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+                
+        $this->prepareOutput();
+    }
+    
+    /**
+     * Create the new mod
+     */
+    public function action_admin_create()
+    {
+        # Permission check
+        #$perms::check('cc_update_menueditor');
+
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Create'), '/index.php?mod=modulecreator&amp;sub=admin&amp;action=create');
+
+        $request = $this->injector->instantiate('httprequest');
+        $mod = unserialize(base64_decode($request->getParameter('mod_data')));
+        
+        $smarty = $this->getView();
+        $smarty->assign( 'mod', $mod );
+        
+        /**
+        * @desc Folder's writeable?
+        */
+        if ( !is_writeable( ROOT_MOD ) )
+        {
+            $err['mod_folder_not_writeable'] = 1;
+        }
+        
+        // CREATE DIRECTORIES
+        mkdir( ROOT_MOD .  $mod['module_name'] );
+        mkdir( ROOT_MOD .  $mod['module_name'] . DS . 'templates' );
+        
+        // FRONTEND
+        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
+        {
+            // WIDGETS
+            if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
+            {
+                $widget_methods = $smarty->fetch('module_widget_method.tpl');
+                $smarty->assign( 'widget_methods',  $widget_methods);
+            }
+            
+            $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
+            $smarty->assign( 'frontend_methods',  $frontend_methods);       
+            $frontend = $smarty->fetch('module_frontend.tpl');
+            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.class.php', $frontend );
+        }
+        
+        // BACKEND
+        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
+        {
+            $backend_methods = $smarty->fetch('module_backend_method.tpl');
+            $smarty->assign( 'backend_methods',  $backend_methods );
+            $backend = $smarty->fetch('module_backend.tpl');
+            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.admin.php', $backend );
+        }
+        
+        // CONFIG
+        // config is always needed
+        $config = $smarty->fetch('module_config.tpl');
+        file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.config.php' , $config);
+
+        // Templates
+        foreach( $mod['frontend']['frontend_methods'] as $key => $value )
+        {
+            if( isset($mod['frontend']['frontend_tpls'][$key]) )
+            {
+                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+            }
+        }
+
+        foreach( $mod['backend']['backend_methods'] as $key => $value )
+        {
+            if( isset($mod['backend']['backend_tpls'][$key]) )
+            {
+                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+            }
+        }
+        
+        foreach( $mod['widget']['widget_methods'] as $key => $value )
+        {
+            if( isset($mod['widget']['widget_tpls'][$key]) )
+            {
+                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+            }
+        }        
+        
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
                 
