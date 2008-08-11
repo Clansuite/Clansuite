@@ -86,78 +86,44 @@
 <script type="text/javascript">
     window.addEvent('domready', function() {
         
-        //var drop = $('left_menu');
-
+        var mySortables = new Sortables( {}, {
+            revert: { duration: 500, transition: 'elastic:out' },
+            opacity: '0.5',
+            onComplete: function(it) {
+                it.setStyle('left', '0');
+                it.setStyle('top', '0');
+            }
+        });        
         $$('.block').each(function(item)
         {
             item.makeDraggable( {
                 droppables: [$('left_menu'), $('right_menu')],
                 
                 onDrop: function(element, droppable){
-                    if (!droppable) console.log(element, ' dropped on nothing');
-                    else
+                    if (droppable)
                     {
-                        console.log(element, 'dropped on', droppable);
-                        element.inject(droppable);
+                        if( element.getParent().id != droppable.id )
+                        { element.inject(droppable); }
                         element.setStyle('left', '0');
                         element.setStyle('top', '0');
                     }
                 },
              
                 onEnter: function(element, droppable){
-                    console.log(element, 'entered', droppable);
+
                 },
              
                 onLeave: function(element, droppable){
-                    console.log(element, 'left', droppable);
+
                 }
              
             });
             item.setStyle('position', 'relative');
             item.setStyle('left', '0');
             item.setStyle('top', '0');
-
+            mySortables.addItems(item);
         });
-
-        //var dropFx = new Fx.Elements(drop); // wait is needed so that to toggle the effect,
-        //alert('test');
-        /*
-        $$('.block').each(function(item){
-            
-            item.addEvent('mousedown', function(e) {
-                e = new Event(e).stop();
-         
-                var clone = this.clone()
-                    .setStyles(this.getCoordinates()) // this returns an object with left/top/bottom/right, so its perfect
-                    .setStyles({'opacity': 0.7, 'position': 'absolute'})
-                    .addEvent('emptydrop', function() {
-                        this.remove();
-                        drop.removeEvents();
-                    }).inject(document.body);
-         
-                drop.addEvents({
-                    'drop': function() {
-                        drop.removeEvents();
-                        clone.remove();
-                        item.clone().inject(drop);
-                        //dropFx.start('7389AE').chain(dropFx.start.pass('ffffff', dropFx));
-                    },
-                    'over': function() {
-                        //dropFx.start('98B5C1');
-                    },
-                    'leave': function() {
-                        //dropFx.start('ffffff');
-                    }
-                });
-         
-                var drag = clone.makeDraggable({
-                    droppables: [drop]
-                }); // this returns the dragged element
-         
-                drag.start(e); // start the event manual
-            });
-         
-        });*/
+        
     }, 'javascript');
 </script>{/literal}
 
@@ -228,22 +194,12 @@
 
     {* Right Side *}
     <td class="cell1" style="padding: 0px;" id="right_menu">
-        <div style="margin-top: 10px">
-           {* 
-           {sidebarblock name='news' title='News'}*}
-           {*
-           {$cs->loadModule("account")}
-           {$account->block_login()}  
-           *}
-        </div>
-        <div style="margin-top: 10px">
 		   {*{load_module name="shoutbox" action="show"}*}
 		   <div class="block">{load_module name="news"      action="widget_news" items="2"}</div>
 		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
 		   <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
 		   <div class="block">{load_module name="tsviewer"  action="widget_tsviewer"}</div>
 		   <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
-		</div>
     </td>
 </tr>
 </table>
