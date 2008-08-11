@@ -139,7 +139,7 @@
 <tr>
     {* Left Side *}
     <td class="cell1" width="100" height="300" id="left_menu">
-        <div class="left_menu" >
+        <div class="block">
 
             <table id="menu1" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
@@ -185,6 +185,7 @@
             //]]>
             </script>
         </div>
+        <div class="block">{load_module name="tsviewer"  action="widget_tsviewer"}</div>
     </td>
     
     {* Middle + Center = Main Content *}
@@ -198,7 +199,6 @@
 		   <div class="block">{load_module name="news"      action="widget_news" items="2"}</div>
 		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
 		   <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
-		   <div class="block">{load_module name="tsviewer"  action="widget_tsviewer"}</div>
 		   <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
     </td>
 </tr>
