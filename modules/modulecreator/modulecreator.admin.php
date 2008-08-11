@@ -80,7 +80,7 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         $existing_glob = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
         foreach( $existing_glob as $key => $value )
         {
-            $existing_modules_js .= '"' . str_replace(ROOT_MOD, '', strtolower($value)) . '",';
+            $existing_modules_js .= '"' . str_replace(strtolower(ROOT_MOD), '', strtolower($value)) . '",';
         }
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
         $smarty->assign('existing_modules_js', $existing_modules_js);
