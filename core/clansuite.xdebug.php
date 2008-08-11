@@ -110,7 +110,7 @@ class clansuite_xdebug
         echo "
         <div id='xdebug' style='display:none;'>
         <center>
-            <script type='text/javascript'>
+            <script type='application/javascript'>
             window.addEvent('domready', function() {
 
                 window.addEvent('keydown', function(event){
