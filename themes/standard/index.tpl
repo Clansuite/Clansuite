@@ -74,7 +74,7 @@
 </table>
 
 {* Preload XUL Menu Arrows *}
-<script type="application/javscript">
+<script type="application/javascript">
 //<![CDATA[
     var arrow1 = new Image(4, 7);
     arrow1.src = "{$www_root_theme}/images/arrow1.gif";
@@ -83,9 +83,8 @@
 //]]>
 </script>
 {literal}
-<script type="text/javascript">
+<script language="JavaScript" type="text/javascript">
     window.addEvent('domready', function() {
-        
         var mySortables = new Sortables( {}, {
             revert: { duration: 500, transition: 'elastic:out' },
             opacity: '0.5',
@@ -96,6 +95,7 @@
         });        
         $$('.block').each(function(item)
         {
+
             item.makeDraggable( {
                 droppables: [$('left_menu'), $('right_menu')],
                 
@@ -175,7 +175,7 @@
             </table>
             <!-- XUL Menu Init -->
             <script type="application/javascript">
-            //<![CDATA[
+
                 var menu1 = new XulMenu("menu1");
                 menu1.type = "vertical";
                 menu1.position.level1.top = 0;
