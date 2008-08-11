@@ -31,6 +31,7 @@
 <script src="{$javascript}" language="javascript" type="application/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 <script type="application/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
+<script type="application/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 
 <!--[if IE]>
 <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
@@ -81,6 +82,84 @@
     arrow2.src = "{$www_root_theme}/images/arrow2.gif";
 //]]>
 </script>
+{literal}
+<script type="text/javascript">
+    window.addEvent('domready', function() {
+        
+        //var drop = $('left_menu');
+
+        $$('.block').each(function(item)
+        {
+            item.makeDraggable( {
+                droppables: [$('left_menu'), $('right_menu')],
+                
+                onDrop: function(element, droppable){
+                    if (!droppable) console.log(element, ' dropped on nothing');
+                    else
+                    {
+                        console.log(element, 'dropped on', droppable);
+                        element.inject(droppable);
+                        element.setStyle('left', '0');
+                        element.setStyle('top', '0');
+                    }
+                },
+             
+                onEnter: function(element, droppable){
+                    console.log(element, 'entered', droppable);
+                },
+             
+                onLeave: function(element, droppable){
+                    console.log(element, 'left', droppable);
+                }
+             
+            });
+            item.setStyle('position', 'relative');
+            item.setStyle('left', '0');
+            item.setStyle('top', '0');
+
+        });
+
+        //var dropFx = new Fx.Elements(drop); // wait is needed so that to toggle the effect,
+        //alert('test');
+        /*
+        $$('.block').each(function(item){
+            
+            item.addEvent('mousedown', function(e) {
+                e = new Event(e).stop();
+         
+                var clone = this.clone()
+                    .setStyles(this.getCoordinates()) // this returns an object with left/top/bottom/right, so its perfect
+                    .setStyles({'opacity': 0.7, 'position': 'absolute'})
+                    .addEvent('emptydrop', function() {
+                        this.remove();
+                        drop.removeEvents();
+                    }).inject(document.body);
+         
+                drop.addEvents({
+                    'drop': function() {
+                        drop.removeEvents();
+                        clone.remove();
+                        item.clone().inject(drop);
+                        //dropFx.start('7389AE').chain(dropFx.start.pass('ffffff', dropFx));
+                    },
+                    'over': function() {
+                        //dropFx.start('98B5C1');
+                    },
+                    'leave': function() {
+                        //dropFx.start('ffffff');
+                    }
+                });
+         
+                var drag = clone.makeDraggable({
+                    droppables: [drop]
+                }); // this returns the dragged element
+         
+                drag.start(e); // start the event manual
+            });
+         
+        });*/
+    }, 'javascript');
+</script>{/literal}
 
 {* Main Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
@@ -93,8 +172,8 @@
 {* Middle *}
 <tr>
     {* Left Side *}
-    <td class="cell1" width="100" height="300">
-        <div class="left_menu">
+    <td class="cell1" width="100" height="300" id="left_menu">
+        <div class="left_menu" >
 
             <table id="menu1" cellspacing="0" cellpadding="0" class="XulMenu">
             <tr>
@@ -148,7 +227,7 @@
     </td>
 
     {* Right Side *}
-    <td class="cell1" style="padding: 0px;">
+    <td class="cell1" style="padding: 0px;" id="right_menu">
         <div style="margin-top: 10px">
            {* 
            {sidebarblock name='news' title='News'}*}
@@ -159,11 +238,11 @@
         </div>
         <div style="margin-top: 10px">
 		   {*{load_module name="shoutbox" action="show"}*}
-		   {load_module name="news"      action="widget_news" items="2"}
-		   {load_module name="wwwstats"  action="widget_wwwstats"}
-		   {load_module name="quotes"    action="widget_quotes"}
-		   {load_module name="tsviewer"  action="widget_tsviewer"}
-		   {load_module name="users"     action="widget_lastregisteredusers"}
+		   <div class="block">{load_module name="news"      action="widget_news" items="2"}</div>
+		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
+		   <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
+		   <div class="block">{load_module name="tsviewer"  action="widget_tsviewer"}</div>
+		   <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
 		</div>
     </td>
 </tr>

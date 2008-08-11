@@ -42,7 +42,7 @@
             allInputs.each( function(mInput, i) {
                 mInput.addEvent('keyup', function() {
                     
-                    mInput.style.border = '1px solid grey';
+                    mInput.setStyle('border-size','1px');
                     if( mInput.value.toString().test(mInput.get('pattern')) && !existing_modules.contains(mInput.value) )//"^[a-zA-Z_0-9]+$") )
                     {
                         if( mInput.get('name') == 'm[module_name]' )
@@ -137,6 +137,11 @@
                     delEl.addEvent('click', function() {
                         inputCopy.dispose();
                         checkSlide.slideIn();
+                    });
+                    var selects = inputCopy.getElements('select');
+                    selects.each( function(theSelect, i) {
+                        if( theSelect.get('size') == 5 )
+                        theSelect.set('multiple', 'multiple');
                     });
                     inputCopy.inject(methodsWrapper);
                     
