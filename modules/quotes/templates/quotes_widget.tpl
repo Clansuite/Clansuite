@@ -8,7 +8,5 @@
         by {$quote.0.quote_author}
         <br />
         <input type="submit" value="{t}Next{/t} >>"/>
-        
-    </div>
 </div>
 <!-- End: Quotes Widget Module Template //-->
