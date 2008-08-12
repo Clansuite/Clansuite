@@ -141,8 +141,8 @@
 <tr>
     {* Left Side *}
     <td class="cell1" width="200" height="300" id="left_block">
-        <div class="block">{load_module name="menu"     action="widget_menu"}</div>
-        <div class="block">{load_module name="tsviewer" action="widget_tsviewer"}</div>
+        <span class="block">{load_module name="menu"     action="widget_menu"}</span>
+        <span class="block">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
     
     {* Middle + Center = Main Content *}
@@ -153,17 +153,17 @@
     {* Right Side *}
     <td class="cell1" width="200" id="right_block">
 		   {*{load_module name="shoutbox" action="show"}*}
-		   <div class="block">{load_module name="news"      action="widget_news" items="2"}</div>
-		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
-		   <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
-		   <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
+		   <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
+		   <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+		   <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
+		   <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
     </td>
 </tr>
 <tr>
     <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
-           <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
-           <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
-           <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
+           <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+           <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
+           <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
     </td>
 </tr>
 </table>
