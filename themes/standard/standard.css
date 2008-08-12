@@ -838,5 +838,18 @@ table.admintable tr#cell3
 
 .container_right
 {
-    margin-top: 10px;
+    
+}
+
+.block
+{
+    /*float: left;*/
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#left_block
+{
+    width: 200px;
 }

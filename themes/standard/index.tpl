@@ -97,7 +97,7 @@
         {
 
             item.makeDraggable( {
-                droppables: [$('left_block'), $('right_block')],
+                droppables: [$('left_block'), $('right_block'), $('bottom_block')],
                 
                 onDrop: function(element, droppable){
                     if (droppable)
@@ -106,6 +106,7 @@
                         { element.inject(droppable); }
                         element.setStyle('left', '0');
                         element.setStyle('top', '0');
+                        element.setStyle('display', 'inline-block');
                     }
                 },
              
@@ -121,6 +122,7 @@
             item.setStyle('position', 'relative');
             item.setStyle('left', '0');
             item.setStyle('top', '0');
+            item.setStyle('display', 'inline-block');
             mySortables.addItems(item);
         });
         
@@ -144,7 +146,7 @@
     </td>
     
     {* Middle + Center = Main Content *}
-    <td class="cell1">
+    <td class="cell1" width="99%">
         {$content}
     </td>
 
@@ -155,6 +157,13 @@
 		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
 		   <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
 		   <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
+    </td>
+</tr>
+<tr>
+    <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
+           <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
+           <div class="block">{load_module name="quotes"    action="widget_quotes"}</div>
+           <div class="block">{load_module name="users"     action="widget_lastregisteredusers"}</div>
     </td>
 </tr>
 </table>
