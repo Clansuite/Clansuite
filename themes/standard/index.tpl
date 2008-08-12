@@ -64,30 +64,18 @@
     &nbsp; Wait - while processing your request...
 </div>
 
-{* Header Table *}
-<table cellspacing="0" cellpadding="0" width="100%">
-<tr>
-    <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_root_theme}/images/clansuite-header.png" />
-    </td>
-</tr>
-</table>
-
-{* Preload XUL Menu Arrows *}
-<script type="application/javascript">
-//<![CDATA[
-    var arrow1 = new Image(4, 7);
-    arrow1.src = "{$www_root_theme}/images/arrow1.gif";
-    var arrow2 = new Image(4, 7);
-    arrow2.src = "{$www_root_theme}/images/arrow2.gif";
-//]]>
-</script>
+{* IE FIX! *}
+<script language="JavaScript" type="text/javascript"></script>
 {literal}
 <script language="JavaScript" type="text/javascript">
     window.addEvent('domready', function() {
         var mySortables = new Sortables( {}, {
-            revert: { duration: 500, transition: 'elastic:out' },
-            opacity: '0.5',
+            /*revert: { duration: 500, transition: 'elastic:out' },*/
+            clone: true,
+            opacity: '0',
+            onStart: function(es, it) {
+                it.setStyle('opacity', '0.5');
+            },
             onComplete: function(it) {
                 it.setStyle('left', '0');
                 it.setStyle('top', '0');
@@ -129,6 +117,15 @@
     });
 </script>{/literal}
 
+{* Header Table *}
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+    <td height="180" align="center">
+        <img alt="Clansuite Header" src="{$www_root_theme}/images/clansuite-header.png" width="760" height="175" />
+    </td>
+</tr>
+</table>
+
 {* Main Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
 {* Header + Breadcrumbs *}
@@ -142,7 +139,7 @@
     {* Left Side *}
     <td class="cell1" width="200" height="300" id="left_block">
         <span class="block">{load_module name="menu"     action="widget_menu"}</span>
-        <span class="block">{load_module name="tsviewer" action="widget_tsviewer"}</span>
+
     </td>
     
     {* Middle + Center = Main Content *}
@@ -152,18 +149,19 @@
 
     {* Right Side *}
     <td class="cell1" width="200" id="right_block">
-		   {*{load_module name="shoutbox" action="show"}*}
-		   <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
-		   <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
-		   <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
-		   <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
+        {*{load_module name="shoutbox" action="show"}*}
+        <span class="block">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
 </tr>
 <tr>
     <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
-           <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
-           <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
-           <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
+        <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+        <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
+        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
+        <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
+        <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+        <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
+        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>           
     </td>
 </tr>
 </table>
