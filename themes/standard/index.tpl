@@ -27,11 +27,11 @@
 <link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
 <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script  src="{$www_root_themes_core}/javascript/XulMenu.js" type="application/javascript"></script>
-<script src="{$javascript}" language="javascript" type="application/javascript"></script>
+<script  src="{$www_root_themes_core}/javascript/XulMenu.js" type="text/javascript"></script>
+<script src="{$javascript}" language="javascript" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
-<script type="application/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
-<script type="application/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 
 <!--[if IE]>
 <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
@@ -97,7 +97,7 @@
         {
 
             item.makeDraggable( {
-                droppables: [$('left_menu'), $('right_menu')],
+                droppables: [$('left_block'), $('right_block')],
                 
                 onDrop: function(element, droppable){
                     if (droppable)
@@ -124,68 +124,23 @@
             mySortables.addItems(item);
         });
         
-    }, 'javascript');
+    });
 </script>{/literal}
 
 {* Main Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
 {* Header + Breadcrumbs *}
 <tr class="tr_header">
-    <td width="10">Menu</td>
+    <td width="10">left Blocks</td>
     <td>{include file='tools/breadcrumbs.tpl'}</td>
-    <td width="200">Infos</td>
+    <td width="200">Right Blocks</td>
 </tr>
 {* Middle *}
 <tr>
     {* Left Side *}
-    <td class="cell1" width="100" height="300" id="left_menu">
-        <div class="block">
-
-            <table id="menu1" cellspacing="0" cellpadding="0" class="XulMenu">
-            <tr>
-                <td>
-
-                    <a class="button" href="javascript:void(0)">Public<img class="arrow" src="{$www_root_theme}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-
-                    <div class="section">
-                        <a class="item" href="javascript:void(0)"><img class="pic" src="{$www_root_theme}/images/icons/modules.png" border="0" width="16" height="16" alt="" />Modules<img class="arrow" src="{$www_root_theme}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-                          <div class="section">
-                              <a class="item" href="index.php">Main</a>
-                              <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a>
-                              <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
-                              <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
-                              <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Board</a>
-                              <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
-                              <a class="item" href="index.php?mod=users">Users</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a>
-                              <a class="item" href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_theme}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a>
-                           </div>
-
-                        <a class="item" href="index.php?mod=users"><img class="pic" src="{$www_root_theme}/images/icons/users.png" border="0" width="16" height="16" alt=""/>Users<img class="arrow" src="{$www_root_theme}/images/arrow1.gif" width="4" height="7" alt="" /></a>
-                          <div class="section">
-                              <a class="item" href="index.php?mod=account">Login</a>
-                              <a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_theme}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a>
-                          </div>
-                    </div>
-
-                    <a class="button" href="index.php?mod=admin">Admin</a>
-
-                </td>
-            </tr>
-            </table>
-            <!-- XUL Menu Init -->
-            <script type="application/javascript">
-
-                var menu1 = new XulMenu("menu1");
-                menu1.type = "vertical";
-                menu1.position.level1.top = 0;
-                menu1.arrow1 = "{$www_root_theme}/images/arrow1.gif";
-                menu1.arrow2 = "{$www_root_theme}/images/arrow2.gif";
-                menu1.init();
-            //]]>
-            </script>
-        </div>
-        <div class="block">{load_module name="tsviewer"  action="widget_tsviewer"}</div>
+    <td class="cell1" width="200" height="300" id="left_block">
+        <div class="block">{load_module name="menu"     action="widget_menu"}</div>
+        <div class="block">{load_module name="tsviewer" action="widget_tsviewer"}</div>
     </td>
     
     {* Middle + Center = Main Content *}
@@ -194,7 +149,7 @@
     </td>
 
     {* Right Side *}
-    <td class="cell1" style="padding: 0px;" id="right_menu">
+    <td class="cell1" width="200" id="right_block">
 		   {*{load_module name="shoutbox" action="show"}*}
 		   <div class="block">{load_module name="news"      action="widget_news" items="2"}</div>
 		   <div class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</div>

@@ -126,7 +126,7 @@ class clansuite_xdebug
                         }
                     }
                 });
-            }, 'javascript');
+            });
             </script>
         ";
         self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
