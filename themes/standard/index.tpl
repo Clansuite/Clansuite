@@ -155,13 +155,12 @@
 </tr>
 <tr>
     <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
-        <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
         <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
         <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
         <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
         <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
         <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
-        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>           
+        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
     </td>
 </tr>
 </table>
