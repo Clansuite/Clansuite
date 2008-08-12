@@ -63,4 +63,18 @@ class Module_Menu extends ModuleController implements Clansuite_Module_Interface
         
         $this->prepareOutput();
     }
+    
+    /**
+     * widget_menu
+     *
+     * Displayes the menu for the frontpage
+     * {load_module name="news" action="widget_menu"}
+     *
+     * @param void
+     * @returns void
+     */
+    public function widget_menu($item, &$smarty)
+    {
+        echo $smarty->fetch('menu/widget_menu.tpl');
+    }
 }
