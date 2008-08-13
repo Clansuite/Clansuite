@@ -52,7 +52,7 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
     {
         # proceed to the requested action
         $this->processActionController($request);
-    }   
+    }
 
     /**
      * Show the Index / Entrance -> welcome message etc.

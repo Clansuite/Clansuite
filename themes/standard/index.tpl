@@ -27,7 +27,7 @@
 <link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
 <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <link rel="stylesheet" type="text/css" href="{$css}" />
-<script  src="{$www_root_themes_core}/javascript/XulMenu.js" type="text/javascript"></script>
+
 <script src="{$javascript}" language="javascript" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
@@ -80,13 +80,13 @@
                 it.setStyle('left', '0');
                 it.setStyle('top', '0');
             }
-        });        
+        });
         $$('.block').each(function(item)
         {
 
             item.makeDraggable( {
                 droppables: [$('left_block'), $('right_block'), $('bottom_block')],
-                
+
                 onDrop: function(element, droppable){
                     if (droppable)
                     {
@@ -97,15 +97,15 @@
                         element.setStyle('display', 'inline-block');
                     }
                 },
-             
+
                 onEnter: function(element, droppable){
 
                 },
-             
+
                 onLeave: function(element, droppable){
 
                 }
-             
+
             });
             item.setStyle('position', 'relative');
             item.setStyle('left', '0');
@@ -113,7 +113,7 @@
             item.setStyle('display', 'inline-block');
             mySortables.addItems(item);
         });
-        
+
     });
 </script>{/literal}
 
@@ -126,48 +126,49 @@
 </tr>
 </table>
 
-{* Main Table *}
+<!-- Main Table //-->
 <table cellspacing="0" cellpadding="0" width="100%">
-{* Header + Breadcrumbs *}
+
+<!-- TableHeader + Breadcrumbs //-->
 <tr class="tr_header">
-    <td width="10">left Blocks</td>
+    <td width="10">Left Blocks</td>
     <td>{include file='tools/breadcrumbs.tpl'}</td>
     <td width="200">Right Blocks</td>
 </tr>
-{* Middle *}
+
+<!-- Middle/Center Part of Table //-->
 <tr>
-    {* Left Side *}
-    <td class="cell1" width="200" height="300" id="left_block">
+    <!-- Left Side //-->
+    <td class="cell1" id="left_block">
         <span class="block">{load_module name="menu"     action="widget_menu"}</span>
 
     </td>
-    
-    {* Middle + Center = Main Content *}
+
+    <!-- Middle + Center = Main Content //-->
     <td class="cell1" width="99%">
         {$content}
     </td>
 
-    {* Right Side *}
-    <td class="cell1" width="200" id="right_block">
+    <!-- Right Side //-->
+    <td class="cell1" id="right_block">
         {*{load_module name="shoutbox" action="show"}*}
         <span class="block">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
 </tr>
 <tr>
+    <!-- Bottom Blocks //-->
     <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
         <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
         <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
         <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
         <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
-        <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
-        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
     </td>
 </tr>
 </table>
 
-<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
+<!-- Footer with Copyright and Theme-Copyright //-->
 <p style="float:left; text-align:left;">
-    <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}    
+    <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
 </p>
 <p style="text-align:right;">
     <br /> {include file='server_stats.tpl'}
