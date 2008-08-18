@@ -214,7 +214,7 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
             $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
             $smarty->assign( 'frontend_methods',  $frontend_methods);       
             $frontend = $smarty->fetch('module_frontend.tpl');
-            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.class.php', $frontend );
+            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.module.php', $frontend );
         }
         
         // BACKEND
