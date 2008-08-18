@@ -69,50 +69,40 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
     window.addEvent('domready', function() {
-        var mySortables = new Sortables( {}, {
-            /*revert: { duration: 500, transition: 'elastic:out' },*/
-            clone: true,
-            opacity: '0',
-            onStart: function(es, it) {
-                it.setStyle('opacity', '0.5');
-            },
-            onComplete: function(it) {
-                it.setStyle('left', '0');
-                it.setStyle('top', '0');
-            }
-        });
         $$('.block').each(function(item)
         {
-
-            item.makeDraggable( {
-                droppables: [$('left_block'), $('right_block'), $('bottom_block')],
-
-                onDrop: function(element, droppable){
-                    if (droppable)
-                    {
-                        if( element.getParent().id != droppable.id )
-                        { element.inject(droppable); }
-                        element.setStyle('left', '0');
-                        element.setStyle('top', '0');
-                        element.setStyle('display', 'inline-block');
-                    }
-                },
-
-                onEnter: function(element, droppable){
-
-                },
-
-                onLeave: function(element, droppable){
-
-                }
-
-            });
+            item.setStyle('display', 'inline-block');            
             item.setStyle('position', 'relative');
-            item.setStyle('left', '0');
-            item.setStyle('top', '0');
-            item.setStyle('display', 'inline-block');
-            mySortables.addItems(item);
         });
+
+        var ClanSuiteSort = new Sortables( '#left_block, #right_block, #bottom_block', {
+            revert: { duration: 500, transition: 'elastic:out' },
+            opacity: '0.5',
+            clone: function(a,element,c) {
+            return new Element('div').setStyles({
+              'margin': '0px',
+              'position': 'absolute',
+              'visibility': 'hidden',
+              'border': '1px solid #000000',
+              'height': '50px',
+              'width': element.getStyle('width')
+            }).inject(this.list).position(element.getPosition(element.getOffsetParent()));
+            
+            }
+        });
+        
+
+        /*
+        $('test').addEvent('click', function() {
+            ClanSuiteSort.serialize().each( function(list, i) {
+                list.each( function(block) {
+                    alert( i + ": " + block );
+                });
+            });
+        });
+        */
+        
+
 
     });
 </script>{/literal}
@@ -140,8 +130,8 @@
 <tr>
     <!-- Left Side //-->
     <td class="cell1" id="left_block">
-        <span class="block">{load_module name="menu"     action="widget_menu"}</span>
-
+        <span class="block" id="widget_menu">{load_module name="menu"     action="widget_menu"}</span>
+        <span class="block" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</span>
     </td>
 
     <!-- Middle + Center = Main Content //-->
@@ -152,16 +142,15 @@
     <!-- Right Side //-->
     <td class="cell1" id="right_block">
         {*{load_module name="shoutbox" action="show"}*}
-        <span class="block">{load_module name="tsviewer" action="widget_tsviewer"}</span>
+        <span class="block" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
 </tr>
 <tr>
     <!-- Bottom Blocks //-->
     <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
-        <span class="block">{load_module name="quotes"    action="widget_quotes"}</span>
-        <span class="block">{load_module name="users"     action="widget_lastregisteredusers"}</span>
-        <span class="block">{load_module name="news"      action="widget_news" items="2"}</span>
-        <span class="block">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+        <span class="block" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</span>
+        <span class="block" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</span>
+        <span class="block" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
     </td>
 </tr>
 </table>

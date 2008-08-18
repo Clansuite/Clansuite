@@ -3,7 +3,7 @@
 
 {/doc_raw}
 
-<table id="Frontend-Menu-1" cellspacing="0" cellpadding="0" class="XulMenu">
+<table id="Frontend-Menu-1" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
 <tr>
     <td class="td_header">
         {t}Menu{/t}

@@ -697,7 +697,7 @@ table.admintable tr#cell3
 	white-space: nowrap;
 	display: block;
 	position: relative;
-	width: 100px;
+	/*width: 100%;*/
 	border: 1px solid lightgrey;
 	text-align: center;
 }
