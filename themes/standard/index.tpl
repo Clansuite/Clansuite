@@ -29,7 +29,7 @@
 <link rel="stylesheet" type="text/css" href="{$css}" />
 
 <script src="{$javascript}" language="javascript" type="text/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 
