@@ -1,6 +1,6 @@
-<div class="container_right">
-<div class="td_header">TSViewer.com</div>
 
+<div class="td_header">TSViewer.com</div>
+<div class="cell1">
 <!-- TSViewer Widget from Standard Theme /-->
 
 <!-- Start TSViewer Widget //-->
@@ -14,7 +14,5 @@
     Enable JavaScript to see TeamSpeak Viewer or click
     <a href="http://www.tsviewer.com/index.php?page=ts_viewer&ID={$tsviewer.server_id}">here</a>.
 </noscript>
-
 </div>
-
 <!-- Ende TSViewer Widget //-->

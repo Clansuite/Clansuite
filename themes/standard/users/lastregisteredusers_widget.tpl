@@ -6,16 +6,18 @@
     <tr>
         <td class="td_header" colspan="2">{t}Last registered users{/t}</td>
     </tr>
-    {foreach item=lastuser from=$last_registered_users}
     <tr>
-        <td>
-            {$lastuser.user_id}
-            {$lastuser.email}
-            {$lastuser.nick}
-            {$lastuser.country}
+        <td class="cell1">
+            {foreach item=lastuser from=$last_registered_users}
+                {$lastuser.user_id}
+                {$lastuser.email}
+                {$lastuser.nick}
+                {$lastuser.country}
+                <br />
+            {/foreach}
         </td>
     </tr>
-    {/foreach}
+    
 </table>
 
 <!-- End: last_registered_users widget // -->

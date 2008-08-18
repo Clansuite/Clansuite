@@ -9,13 +9,10 @@
         </td>
     </tr>
     <tr>
-        <td><i>"{$quote.0.quote_body}"</i></td>
+        <td class="cell1"><i>"{$quote.0.quote_body}"</i></td>
     </tr>
     <tr>
-        <td>by {$quote.0.quote_author}</td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="{t}Next{/t} >>" /></td>
+        <td class="cell1">by {$quote.0.quote_author}</td>
     </tr>
 </table>
 

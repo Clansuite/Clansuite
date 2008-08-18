@@ -36,6 +36,7 @@
 {/literal}
 {/doc_raw} 
 <div class="td_header">Gallery</div>
+<div class="cell1">
 <div id="MooFlowWrapper" style="margin-top: 10px; visibility: hidden;">
     <div id="MooFlow">
         <a href="uploads/images/gallery/at_symbol.jpg"><img src="uploads/images/gallery/at_symbol.jpg" title="@2" alt="Ein @-Symbol" /></a>
@@ -47,4 +48,5 @@
         <a href="uploads/images/gallery/raetsel_1.jpg"><img src="uploads/images/gallery/raetsel_1.jpg" title="Rätsel" alt="Micro" /></a>
         <a href="uploads/images/gallery/raetsel_2.jpg"><img src="uploads/images/gallery/raetsel_2.jpg" title="Was ist das?" alt="Rutsche?" /></a>
     </div>
+</div>
 </div>
