@@ -37,7 +37,7 @@
 <!-- FRONTEND + WIDGETS -->
 {if isset($frontend)}
 <div class="td_header_small">
-    Frontend <span style="color: #cc0000;">/modules/{$mod.module_name}/{$mod.module_name}.class.php</span> - <a href="javascript:void(0);" class="scaler" id="frontend">{t}Increase view{/t}</a>
+    Frontend <span style="color: #cc0000;">/modules/{$mod.module_name}/{$mod.module_name}.module.php</span> - <a href="javascript:void(0);" class="scaler" id="frontend">{t}Increase view{/t}</a>
 </div>
 <div style="max-height: 150px; overflow: auto; background-color: #fff;" class="cell2" id="frontend_scale">
     {$frontend}
@@ -61,23 +61,21 @@
 {/if}
 
 <!-- TEMPLATES -->
-{if isset($config)}
 <div class="td_header_small">Templates <span style="color: #cc0000;">/modules/{$mod.module_name}/templates/</span> - <a href="javascript:void(0);" class="scaler" id="templates">{t}Increase view{/t}</a></div>
 <div style="max-height: 150px; overflow: auto; background-color: #fff;" class="cell2" id="templates_scale">
 {foreach from=$mod.frontend.frontend_methods item=item key=key}
-    {if isset($mod.frontend.frontend_tpls.$key)}
+    {if isset($mod.frontend.frontend_tpls.$key) AND isset($mod.frontend.checked)}
     /modules/{$mod.module_name}/templates/{$item}.tpl<br />
     {/if}
 {/foreach}
 {foreach from=$mod.backend.backend_methods item=item key=key}
-    {if isset($mod.backend.backend_tpls.$key)}
+    {if isset($mod.backend.backend_tpls.$key) AND isset($mod.backend.checked)}
     /modules/{$mod.module_name}/templates/{$item}.tpl<br />
     {/if}
 {/foreach}
 {foreach from=$mod.widget.widget_methods item=item key=key}
-    {if isset($mod.widget.widget_tpls.$key)}
+    {if isset($mod.widget.widget_tpls.$key) AND isset($mod.widget.checked)}
     /modules/{$mod.module_name}/templates/{$item}.tpl<br />
     {/if}
 {/foreach}
 </div>
-{/if}
