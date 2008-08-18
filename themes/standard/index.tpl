@@ -92,7 +92,37 @@
             }
         });
         
-
+        $$('.block .td_header').each( function(el) {
+            // DELETE BLOCK
+            var del = new Element('img').setProperties( { 
+                src: '/themes/core/images/crystal_clear/16/editdelete.png'
+            } ).setStyles( { 
+                right: '5px',
+                position: 'absolute',
+                cursor: 'pointer'
+            } );
+            del.inject(el);
+            del.addEvent('click', function() {
+                el.getParent('span').destroy();
+            });
+            
+            // ADD WIDTH BLOCK
+            var add = new Element('img').setProperties( { 
+                src: '/themes/core/images/crystal_clear/16/db_add.png'
+            } ).setStyles( { 
+                right: '26px',
+                position: 'absolute',
+                cursor: 'pointer'
+            } );
+            add.inject(el);
+            add.addEvent('click', function() {
+                el.getParent('span').tween('width', el.getParent('span').getSize().x, el.getParent('span').getSize().x+50);
+                
+                /*setStyles( {
+                    width: el.getParent('span').getSize().x+50
+                });*/
+            });            
+        });
         /*
         $('test').addEvent('click', function() {
             ClanSuiteSort.serialize().each( function(list, i) {

@@ -846,6 +846,7 @@ table.admintable tr#cell3
     width: 200px;
     display: inline-block;
     vertical-align: top;
+    text-align: left;
 }
 
 #left_block
