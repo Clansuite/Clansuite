@@ -144,6 +144,7 @@ language = "de"
 author = "Jens-Andre Koch, Florian Wolf & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
+domain = "clansuite-dev.com"
 
 ;----------------------------------------
 ; webserver

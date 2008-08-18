@@ -852,3 +852,33 @@ table.admintable tr#cell3
 {
     width: 200px;
 }
+
+/*menu*/
+
+#menu a, #menu h3 {
+    line-height: normal;
+    padding: 4px 6px 4px 6px;
+    margin: 1px;
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+    /*width: 100%;*/
+    border: 1px solid lightgrey;
+    text-align: center;
+}
+
+#menu a {
+    color: #595965;
+}
+
+#menu a h3
+{
+    padding: 0px 0px 0px 0px;
+}
+
+#menu h3 {
+    font-size: 13px;
+}
