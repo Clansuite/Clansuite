@@ -36,7 +36,7 @@
 {/literal}
 {/doc_raw} 
 <div class="td_header">Gallery</div>
-<div id="MooFlowWrapper" style="width: 200px; margin-top: 10px;visibility: hidden;">
+<div id="MooFlowWrapper" style="margin-top: 10px; visibility: hidden;">
     <div id="MooFlow">
         <a href="uploads/images/gallery/at_symbol.jpg"><img src="uploads/images/gallery/at_symbol.jpg" title="@2" alt="Ein @-Symbol" /></a>
         <a href="uploads/images/gallery/stimme_von_oben.jpg"><img src="uploads/images/gallery/stimme_von_oben.jpg" title="Stimme von oben" alt="Lautsprecherturm" /></a>
