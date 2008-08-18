@@ -106,22 +106,17 @@
                 el.getParent('span').destroy();
             });
             
-            // ADD WIDTH BLOCK
-            var add = new Element('img').setProperties( { 
-                src: '/themes/core/images/crystal_clear/16/db_add.png'
-            } ).setStyles( { 
-                right: '26px',
-                position: 'absolute',
-                cursor: 'pointer'
-            } );
-            add.inject(el);
-            add.addEvent('click', function() {
-                el.getParent('span').tween('width', el.getParent('span').getSize().x, el.getParent('span').getSize().x+50);
+            el.addEvent('mousewheel', function(event) {
+                event = new Event(event).stop();
+                if (event.wheel > 0) {
+                    el.getParent('span').setStyle('width', el.getParent('span').getSize().x+(0.04*el.getParent('span').getSize().x));
+                }
                 
-                /*setStyles( {
-                    width: el.getParent('span').getSize().x+50
-                });*/
-            });            
+                if (event.wheel < 0) {
+                    el.getParent('span').setStyle('width', el.getParent('span').getSize().x-(0.04*el.getParent('span').getSize().x));
+                }                
+            });
+                        
         });
         /*
         $('test').addEvent('click', function() {
