@@ -78,6 +78,7 @@
         var ClanSuiteSort = new Sortables( '#left_block, #right_block, #bottom_block', {
             revert: { duration: 500, transition: 'elastic:out' },
             opacity: '0.5',
+            handle: '.td_header',
             clone: function(a,element,c) {
             return new Element('div').setStyles({
               'margin': '0px',
@@ -105,7 +106,12 @@
 
 
     });
+
+
 </script>{/literal}
+
+
+
 
 {* Header Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
@@ -132,6 +138,7 @@
     <td class="cell1" id="left_block">
         <span class="block" id="widget_menu">{load_module name="menu"     action="widget_menu"}</span>
         <span class="block" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</span>
+        <span class="block" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</span>
     </td>
 
     <!-- Middle + Center = Main Content //-->
