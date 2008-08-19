@@ -88,11 +88,11 @@
 
 <!-- Middle/Center Part of Table //-->
 <tr>
-    <!-- Left Side //-->
-    <td class="cell1" id="left_block">
-        <span class="block" id="widget_menu">{load_module name="menu"     action="widget_menu"}</span>
-        <span class="block" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</span>
-        <span class="block" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</span>
+    <!-- Left Widget Bar //-->
+    <td id="left_widget_bar" class="cell1">
+        <span class="widget" id="widget_menu">{load_module name="menu"     action="widget_menu"}</span>
+        <span class="widget" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</span>
+        <span class="widget" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</span>
     </td>
 
     <!-- Middle + Center = Main Content //-->
@@ -100,18 +100,17 @@
         {$content}
     </td>
 
-    <!-- Right Side //-->
-    <td class="cell1" id="right_block">
-        {*{load_module name="shoutbox" action="show"}*}
-        <span class="block" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
+    <!-- Right Widget Bar //-->
+    <td id="right_widget_bar" class="cell1">
+        <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
 </tr>
 <tr>
-    <!-- Bottom Blocks //-->
-    <td class="cell1" width="100%" colspan="3" id="bottom_block" align="center" valign="top">
-        <span class="block" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</span>
-        <span class="block" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</span>
-        <span class="block" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+    <!-- Bottom Widget Bar //-->
+    <td id="bottom_widget_bar" class="cell1" width="100%" colspan="3" align="center" valign="top">
+        <span class="widget" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</span>
+        <span class="widget" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</span>
+        <span class="widget" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
     </td>
 </tr>
 </table>
