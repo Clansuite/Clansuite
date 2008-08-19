@@ -849,6 +849,26 @@ table.admintable tr#cell3
     text-align: left;
 }
 
+#all_blocks
+{
+    width: 80px;
+    height: 16px;
+    background-color: grey;
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    padding-left: 10px;
+    overflow: hidden;
+}
+
+#all_blocks_handle
+{
+    color: white;
+    cursor: pointer;
+}
+
 #left_block
 {
     width: 200px;
