@@ -115,5 +115,21 @@ class Module_Index extends ModuleController implements Clansuite_Module_Interfac
         # Prepare the Output
         $this->prepareOutput();
     }
+    
+    /**
+    * Makes the blocks moveable
+    */
+    public function action_edit()
+    {
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');                
+
+        $this->setTemplate( 'show.tpl' );
+        $smarty = $this->getView();
+        $smarty->addRawContent($smarty->fetch('action_edit.tpl'));
+        
+        # Prepare the Output
+        $this->prepareOutput();
+    }
 }
 ?>
