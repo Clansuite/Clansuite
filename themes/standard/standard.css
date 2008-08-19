@@ -836,12 +836,7 @@ table.admintable tr#cell3
 
 /* Sidebar Widgets: News, TSViewer etc. */
 
-.container_right
-{
-    
-}
-
-.block
+.widget
 {
     width: 200px;
     display: inline-block;
@@ -849,7 +844,7 @@ table.admintable tr#cell3
     text-align: left;
 }
 
-#all_blocks
+#all_widgets
 {
     width: 80px;
     height: 16px;
@@ -863,15 +858,25 @@ table.admintable tr#cell3
     overflow: hidden;
 }
 
-#all_blocks_handle
+#all_widgets_handle
 {
     color: white;
     cursor: pointer;
 }
 
-#left_block
+#left_widget_bar
 {
     width: 200px;
+}
+
+#right_widget_bar
+{
+    width: 200px;
+}
+
+#bottom_widget_bar
+{
+    
 }
 
 /*menu*/

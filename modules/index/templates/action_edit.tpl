@@ -1,16 +1,16 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
     window.addEvent('domready', function() {
-        // All Blocks Container
+        // All widgets Container
         var bCont = new Element('div');
         bCont.setProperties( {
-            id: 'all_blocks'
+            id: 'all_widgets'
         });
         bCont.inject($(document.body));
         bCont.out = false;
         var bCont2 = new Element('div');
         bCont2.setProperties( {
-            id: 'all_blocks_cont'
+            id: 'all_widgets_cont'
 
         });
         bCont2.setStyles( {
@@ -25,9 +25,9 @@
         // Click Text
         var bContClick = new Element('span');
         bContClick.setProperties( {
-            id: 'all_blocks_handle'
+            id: 'all_widgets_handle'
         });
-        bContClick.appendText('Show all blocks');
+        bContClick.appendText('Show all widgets');
         bContClick.addEvent('click', function() {
             if( bCont.out == false )
             {
@@ -52,13 +52,13 @@
         bCont2.inject(bCont);
         
         
-        $$('.block').each(function(item)
+        $$('.widget').each(function(item)
         {
-            item.setStyle('display', 'inline-block');            
+            item.setStyle('display', 'inline-widget');            
             item.setStyle('position', 'relative');
         });
 
-        var ClanSuiteSort = new Sortables( '#left_block, #right_block, #bottom_block, #all_blocks_cont', {
+        var ClanSuiteSort = new Sortables( '#left_widget_bar, #right_widget_bar, #bottom_widget_bar, #all_widgets_cont', {
             revert: { duration: 500, transition: 'elastic:out' },
             opacity: '0.5',
             handle: '.td_header',
@@ -67,18 +67,19 @@
               'margin': '0px',
               'position': 'absolute',
               'visibility': 'hidden',
-              'border': '1px solid #000000',
+              'border': '1px solid #333',
               'height': '50px',
+              'z-index': '15000',
               'width': element.getStyle('width')
             }).inject(this.list).position(element.getPosition(element.getOffsetParent()));
             
             }
         });
         
-        $$('.block .td_header').each( function(el) {
+        $$('.widget .td_header').each( function(el) {
             el.setStyles( { cursor: 'w-resize' } );
             
-            // DELETE BLOCK
+            // DELETE widget
             var del = new Element('img').setProperties( { 
                 src: '/themes/core/images/crystal_clear/16/editdelete.png'
             } ).setStyles( { 
@@ -88,7 +89,7 @@
             } );
             del.inject(el);
             del.addEvent('click', function() {
-                el.getParent('span').inject($('all_blocks_cont'));
+                el.getParent('span').inject($('all_widgets_cont'));
             });
             
             // WIDTH INCREASE
@@ -111,8 +112,8 @@
         /*
         $('test').addEvent('click', function() {
             ClanSuiteSort.serialize().each( function(list, i) {
-                list.each( function(block) {
-                    alert( i + ": " + block );
+                list.each( function(widget) {
+                    alert( i + ": " + widget );
                 });
             });
         });
