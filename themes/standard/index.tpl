@@ -81,9 +81,9 @@
 
 <!-- TableHeader + Breadcrumbs //-->
 <tr class="tr_header">
-    <td width="10">Left Blocks</td>
+    <td width="200">Left widget bar</td>
     <td>{include file='tools/breadcrumbs.tpl'}</td>
-    <td width="200">Right Blocks</td>
+    <td width="200">Right widget bar</td>
 </tr>
 
 <!-- Middle/Center Part of Table //-->
