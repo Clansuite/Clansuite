@@ -10,7 +10,7 @@
         bCont.out = false;
         var bCont2 = new Element('div');
         bCont2.setProperties( {
-            id: 'all_blocks_cont',
+            id: 'all_blocks_cont'
 
         });
         bCont2.setStyles( {

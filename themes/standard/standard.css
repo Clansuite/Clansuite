@@ -853,7 +853,7 @@ table.admintable tr#cell3
 {
     width: 80px;
     height: 16px;
-    background-color: grey;
+    background-color: #666;
     border: 1px solid black;
     position: absolute;
     top: 0;
