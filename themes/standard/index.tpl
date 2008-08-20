@@ -66,7 +66,6 @@
 
 {* IE FIX! *}
 <script language="JavaScript" type="text/javascript"></script>
-
 {* Header Table *}
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>

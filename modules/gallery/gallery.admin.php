@@ -46,6 +46,8 @@ class Module_Gallery_Admin extends ModuleController implements Clansuite_Module_
         # Set Pagetitle and Breadcrumbs
         trail::addStep( _('show'), '/index.php?mod=gallery&amp;action=show');
 
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
                 
         # Prepare the Output
         $this->prepareOutput();
