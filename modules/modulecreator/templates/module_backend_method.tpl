@@ -10,6 +10,9 @@
         # Set Pagetitle and Breadcrumbs
         trail::addStep( _('{$item|replace:'action_admin_':''}'), '/index.php?mod={$mod.module_name}&amp;action={$item|replace:'action_admin_':''}');
 
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
         {if isset($mod.backend.backend_snippets.$key) }
 
 {foreach from=$mod.backend.backend_snippets.$key item=item2 key=key2}
