@@ -165,7 +165,44 @@
             
             }
         });
-    }, 'javascript');
+        
+        $('preview_button').addEvent('click', function(event) {
+            event.stop();
+            // AJAX Request
+            myForm = $('create_form');
+            myForm.set('send', {
+                url: 'index.php?mod=modulecreator&sub=admin&action=preview',
+                method: 'post',
+                onSuccess: function(html) {
+                    $('preview_ajax').innerHTML = html;
+                    var scalers = $$('.scaler');
+                    scalers.each( function(scaler,i) {
+                        var fx = new Fx.Tween($(scaler.id + '_scale'));
+                        scaler.addEvent( 'click', function() {
+                            if( $(scaler.id + '_scale').getStyle('max-height') == '150px' )
+                            {
+                                $(scaler.id + '_scale').setStyle('max-height', '');
+                                $(scaler).innerHTML = "{/literal}{t}Decrease view{/t}{literal}";
+                            }
+                            else
+                            {
+                                $(scaler.id + '_scale').setStyle('max-height', '150px');
+                                $(scaler).innerHTML = "{/literal}{t}Increase view{/t}{literal}";
+                            }
+                        });
+                    });
+                    $('ajax_loader').fade('out');
+                },
+                onRequest: function() {
+                    $('ajax_loader').fade('in');
+                }
+            });
+            myForm.send(); //Sends the form.
+            
+        });
+        $('ajax_loader').fade('hide');
+        
+    });
 </script>
 {/literal}
 <div id="modulcreator">
@@ -477,8 +514,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell1" colspan="2" align="center"><input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" /></td>
+                <td class="cell1" colspan="2" align="center">
+                    <input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" /><br />
+                    <img src="{$www_root_themes_core}/images/ajax/2.gif" id="ajax_loader">
+                </td>
             </tr>
         </table>
     </form>
 </div>
+<div id="preview_ajax"></div>

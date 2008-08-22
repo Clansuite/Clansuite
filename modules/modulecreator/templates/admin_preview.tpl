@@ -1,6 +1,7 @@
 {literal} 
 <script type="text/javascript">
-    window.addEvent('domready', function() {
+    //window.addEvent('domready', function() {
+    var ajaxScript = function() {    
         var scalers = $$('.scaler');
         scalers.each( function(scaler,i) {
             var fx = new Fx.Tween($(scaler.id + '_scale'));
@@ -17,8 +18,7 @@
                 }
             });
         });
-
-    }, 'javascript');
+    }
 </script>
 {/literal}
 <div>

@@ -167,7 +167,8 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         }
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        //$this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setRenderMode('NOT_WRAPPED');
                 
         $this->prepareOutput();
     }
