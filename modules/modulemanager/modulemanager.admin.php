@@ -65,6 +65,72 @@ class Module_Modulemanager_Admin extends ModuleController implements Clansuite_M
     }
 
     /**
+     * Show the modulemanager
+     */
+    public function action_admin_show()
+    {
+        # Permission check
+        #$perms::check('cc_show_menueditor');
+
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
+        
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
+        
+
+        // Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    /**
+     * Install new modules
+     */
+    public function action_admin_install()
+    {
+        # Permission check
+        #$perms::check('cc_show_menueditor');
+
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
+        
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
+        
+
+        // Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    /**
+     * Export a module
+     */
+    public function action_admin_export()
+    {
+        # Permission check
+        #$perms::check('cc_show_menueditor');
+
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
+        
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
+        
+
+        // Prepare the Output
+        $this->prepareOutput();
+    }
+
+    
+    //
+    // Module creator + methods below
+    //
+    
+    
+    /**
      * Shows the mod creator
      */
     public function action_admin_creator()
@@ -73,7 +139,7 @@ class Module_Modulemanager_Admin extends ModuleController implements Clansuite_M
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=creator');
+        trail::addStep( _('Creator'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=creator');
 
         $smarty = $this->getView();
         
