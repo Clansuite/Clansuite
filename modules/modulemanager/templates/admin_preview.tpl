@@ -1,15 +1,9 @@
 <div>
     <div style="text-align:center" id="create_module_form">
-        <form action="index.php?mod=modulecreator&sub=admin&action=create" method="POST">
+        <form action="index.php?mod=modulemanager&sub=admin&action=create" method="POST">
             <input type="hidden" value="{$mod.data}" name="mod_data" />
             <input type="submit" name="create" value="Create the module" class="ButtonGreen"/>
         </form>
-        <!--
-        <form action="index.php?mod=modulecreator&sub=admin&action=show" method="POST">
-            <input type="hidden" value="{$mod.data}" name="mod_data" />
-            <input type="submit" name="edit" value="Edit the module again" class="ButtonOrange" />
-        </form>
-        -->
     </div>
 <div>
 
