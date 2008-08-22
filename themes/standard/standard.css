@@ -850,7 +850,7 @@ table.admintable tr#cell3
     height: 16px;
     background-color: #666;
     border: 1px solid black;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     padding: 5px;
@@ -877,6 +877,19 @@ table.admintable tr#cell3
 #bottom_widget_bar
 {
     
+}
+
+#widget_save_bar
+{
+    width: 100%;
+    height: 25px;
+    background-color: #666;
+    border: 1px solid black;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    text-align: center;
 }
 
 /*menu*/
