@@ -8,7 +8,7 @@
     {$mod.frontend.frontend_scopes.$key} function {$item}(){literal}
     {{/literal}
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('{$item|replace:'action_':''}'), '/index.php?mod={$mod.module_name}&amp;action={$item|replace:'action_':''}');
+        trail::addStep( _('{$item|replace:'action_':''|replace:'_':' '|capitalize}'), '/index.php?mod={$mod.module_name}&amp;action={$item|replace:'action_':''}');
 
         {if isset($mod.frontend.frontend_snippets.$key) }
 

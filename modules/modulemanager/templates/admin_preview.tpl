@@ -1,31 +1,8 @@
-{literal} 
-<script type="text/javascript">
-    //window.addEvent('domready', function() {
-    var ajaxScript = function() {    
-        var scalers = $$('.scaler');
-        scalers.each( function(scaler,i) {
-            var fx = new Fx.Tween($(scaler.id + '_scale'));
-            scaler.addEvent( 'click', function() {
-                if( $(scaler.id + '_scale').getStyle('max-height') == '150px' )
-                {
-                    $(scaler.id + '_scale').setStyle('max-height', '');
-                    $(scaler).innerHTML = "{/literal}{t}Decrease view{/t}{literal}";
-                }
-                else
-                {
-                    $(scaler.id + '_scale').setStyle('max-height', '150px');
-                    $(scaler).innerHTML = "{/literal}{t}Increase view{/t}{literal}";
-                }
-            });
-        });
-    }
-</script>
-{/literal}
 <div>
-    <div style="text-align:center">
+    <div style="text-align:center" id="create_module_form">
         <form action="index.php?mod=modulecreator&sub=admin&action=create" method="POST">
             <input type="hidden" value="{$mod.data}" name="mod_data" />
-            <input type="submit" name="create" value="Create the module" class="ButtonGreen" />
+            <input type="submit" name="create" value="Create the module" class="ButtonGreen"/>
         </form>
         <!--
         <form action="index.php?mod=modulecreator&sub=admin&action=show" method="POST">

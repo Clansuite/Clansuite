@@ -41,7 +41,10 @@
             var allInputs = $('modulcreator').getElements('input[pattern^=^]');
             allInputs.each( function(mInput, i) {
                 mInput.addEvent('keyup', function() {
-                    
+                    if( $('create_module_form') )
+                    {
+                        $('create_module_form').fade('out');
+                    }
                     mInput.setStyle('border-size','1px');
                     if( mInput.value.toString().test(mInput.get('pattern')) && !existing_modules.contains(mInput.value) )//"^[a-zA-Z_0-9]+$") )
                     {
@@ -122,7 +125,6 @@
                     {
                         checkSlide.slideOut();
                     }
-                
                 });
                 
                 // Alle add buttons mit click event belegen
@@ -143,15 +145,20 @@
                         if( theSelect.get('size') == 5 )
                         theSelect.set('multiple', 'multiple');
                     });
+                    inputCopy.fade('hide');
                     inputCopy.inject(methodsWrapper);
+                    inputCopy.fade('in');
                     
                     var allInputs = inputCopy.getElements('input').extend(inputCopy.getElements('select'));
                     allInputs.each( function(theInput, i) {
                         theInput.set('name', theInput.get('name').replace('[0]', '['+x+']'));
+                        theInput.setStyles( {
+                            border: '1px solid #000'
+                        });
                     });
                     x++;
                     
-                    inputCopy.getElement('input').style.border = '1px solid #000000';
+                    //inputCopy.getElements('input').style.border = '1px solid #000000';
                     checkSlide.slideIn();
                     addInputEvent();
                     addSelectEvent();
@@ -171,7 +178,7 @@
             // AJAX Request
             myForm = $('create_form');
             myForm.set('send', {
-                url: 'index.php?mod=modulecreator&sub=admin&action=preview',
+                url: 'index.php?mod=modulemanager&sub=admin&action=preview',
                 method: 'post',
                 onSuccess: function(html) {
                     $('preview_ajax').innerHTML = html;
@@ -202,6 +209,25 @@
         });
         $('ajax_loader').fade('hide');
         
+        // SAMPLES
+        // CRUD
+        var crudLink = $('sample_crud');
+        crudLink.addEvent('click', function(event) {
+            event.stop();
+            allChecks.each( function(check, i) {
+                check.checked = 1;
+                check.fireEvent('click');
+            });
+            $('frontend_module_add').fireEvent('click');
+            $('frontend_module_add').fireEvent('click');
+            $('frontend_module_add').fireEvent('click');
+
+            $('backend_module_add').fireEvent('click');
+            $('backend_module_add').fireEvent('click');
+            $('backend_module_add').fireEvent('click');
+        });
+        
+        
     });
 </script>
 {/literal}
@@ -213,11 +239,15 @@
                 <td class="cell1"><input name="m[module_name]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
             </tr>
             <tr>
+                <td class="cell2">{t}Samples{/t}</td>
+                <td class="cell1"><a href="" id="sample_crud">CRUD</a></td>
+            </tr>
+            <tr>
                 <td class="cell2">{t}Metadata{/t}</td>
                 <td class="cell1">
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                         <tr>
-                            <td class="cell2">{t}Author{/t}</td>
+                            <td class="cell2" width="100px">{t}Author{/t}</td>
                             <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
