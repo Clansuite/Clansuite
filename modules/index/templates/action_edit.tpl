@@ -6,9 +6,14 @@
         bCont.setProperties( {
             id: 'all_widgets'
         });
+        bCont.setStyles( {
+            position: 'fixed'
+        } );
         bCont.inject($(document.body));
         bCont.out = false;
         var bCont2 = new Element('div');
+        
+        // A handler to store deleted widgets
         bCont2.setProperties( {
             id: 'all_widgets_cont'
 
@@ -22,7 +27,7 @@
         bCont2.innerHTML = '&nbsp;';
         
                 
-        // Click Text
+        // Click text for all widgets handler
         var bContClick = new Element('span');
         bContClick.setProperties( {
             id: 'all_widgets_handle'
@@ -50,6 +55,32 @@
         
         bContClick.inject(bCont);
         bCont2.inject(bCont);
+        
+        // Save button
+        var saveBar = new Element('div', {
+            id: 'widget_save_bar'
+        });
+        saveBar.inject($(document.body));
+        
+        var saveButton = new Element('input', {
+            id: 'wdget_save_button',
+            value: 'Save the widgets...',
+            type: 'submit'
+        });
+        
+        saveButton.inject(saveBar);
+        
+        saveButton.addEvent('click', function(event) {
+            event.stop();
+            ClanSuiteSort.serialize().each( function(list, i) {
+                list.each( function(widget) {
+                    alert( i + ": " + widget );
+                });
+            });
+        });
+        
+        
+        
         
         
         $$('.widget').each(function(item)
@@ -110,13 +141,7 @@
         
         
         /*
-        $('test').addEvent('click', function() {
-            ClanSuiteSort.serialize().each( function(list, i) {
-                list.each( function(widget) {
-                    alert( i + ": " + widget );
-                });
-            });
-        });
+
         */
         
 
