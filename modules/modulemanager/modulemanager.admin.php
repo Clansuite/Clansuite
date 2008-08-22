@@ -2,6 +2,7 @@
    /**
     * Clansuite - just an eSports CMS
     * Jens-Andre Koch © 2005 - onwards
+    * Florian Wolf © 2006 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -23,13 +24,16 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
+    * 
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: menueditor.module.php 2248 2008-07-12 01:48:54Z vain $
+    * @version    SVN: $Id: $
     */
 
 //Security Handler
@@ -40,37 +44,36 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Submodule:    Admin
  *
  * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+ * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
  *
  * @package clansuite
- * @subpackage module_admin
+ * @subpackage modulemanager
  * @category modules
  */
-class Module_Modulecreator_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Modulemanager_Admin extends ModuleController implements Clansuite_Module_Interface
 {
     /**
-     * Module_Module_Creator -> Execute
+     * Module_Module_Manager -> Execute
      */
     public function execute(httprequest $request, httpresponse $response)
     {
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/modulecreator/modulecreator.config.php');
+        $this->config->readConfig( ROOT_MOD . '/Modulemanager/Modulemanager.config.php');
         
         # proceed to the requested action
         $this->processActionController($request);
     }
 
     /**
-     * Shows the Admin Module Editor
+     * Shows the mod creator
      */
-    public function action_admin_show()
+    public function action_admin_creator()
     {
         # Permission check
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=module_editor&amp;sub=admin&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=creator');
 
         $smarty = $this->getView();
         
@@ -94,6 +97,7 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
 
     /**
      * Preview the new mod
+     * AJAX
      */
     public function action_admin_preview()
     {
@@ -101,7 +105,7 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         #$perms::check('cc_update_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create'), '/index.php?mod=modulecreator&amp;sub=admin&amp;action=create');
+        # trail::addStep( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
         $request = $this->injector->instantiate('httprequest');
         $mod = $request->getParameter('m');
@@ -182,7 +186,7 @@ class Module_Modulecreator_Admin extends ModuleController implements Clansuite_M
         #$perms::check('cc_update_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create'), '/index.php?mod=modulecreator&amp;sub=admin&amp;action=create');
+        trail::addStep( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
         $request = $this->injector->instantiate('httprequest');
         $mod = unserialize(base64_decode($request->getParameter('mod_data')));
