@@ -1,16 +1,15 @@
 <match path="project">clansuite</match>
 
-<formatter name="IRCProjectName"/>
-
 <formatter medium="irc">
 
-    <filesWidthLimit>40</filesWidthLimit>
-    <lineLimit>5</lineLimit>
+    <filesWidthLimit>45</filesWidthLimit>
     <wrapWidth>150</wrapWidth>
     <widthLimit>150</widthLimit>
     <crunchWhitespace/>
 
     <format appliesTo="CommitToIRC">
+
+    <color bg='black' fg='white'>
     <br />
             <autoHide>
                 <color fg='green'>
@@ -20,8 +19,13 @@
                 </color>
             </autoHide>
     <br/>
-            <color fg='aqua'><project/></color>/<files/><b>:</b>
-            <log/>
+            File(s): <project/>/<files/>
     <br/>
+            Comment: <log/>
+    <br/>
+    </color>
+
     </format>
+
 </formatter>
+<formatter name="IRCProjectName"/>
