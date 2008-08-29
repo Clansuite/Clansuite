@@ -3,10 +3,7 @@
 {html_alt_table loop=$guestbook}*}
 
 {doc_raw}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
+
 {/doc_raw}
 
 {*
@@ -20,46 +17,43 @@
     {$entry.gb_town}
     {$entry.gb_text}
     {$entry.gb_ip}
-    {$entry.CsImages|@var_dump}
-    {$entry.CsImages.type}
+    {$entry.CsImage|@var_dump}
+    {$entry.CsImage.type}
 {/foreach}
 *}
 
-<div>
+<div class="guestbook">
     {include file="tools/paginate.tpl"}
-    <div>
-        <input type="button" value="{t}Add a guestbook entry{/t}" 
-               onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", 
-                                              options: {method: "get"}}, 
-                                                       {className: "alphacube", width:500, height: 420});{/literal}' />
+    <div class="options-top">
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" />
     </div>
     {foreach from=$guestbook item=entry key=key}
-	<div>
-        <div>
-            <div>
+	<div class="gb">
+        <div class="gbhead">
+            <div class="author">
                 {t}Autor{/t}
             </div>
-            <div>
+            <div class="message">
                 {t}Message{/t}
             </div>
         </div>
-        <div>
-            <span>{t}Name{/t}</span>: <span>{$entry.gb_nick}</span><br />
+        <div class="gbleft">
+            <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span><br />
             
-            {$entry.CsImages.type}
+            {$entry.CsImage.type}
             
-            {if $entry.CsImages.type == 'url'}
-                <img src="{$entry.location}" alt="{$entry.gb_nick}" />
-            {elseif $entry.CsImages.type == 'upload'}
-                <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.gb_nick}" /></a>
+            {if $entry.CsImage.type == 'url'}
+                <img src="{$entry.location}" alt="{$entry.gb_nick}" class="the_pic" />
+            {elseif $entry.CsImage.type == 'upload'}
+                <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.gb_nick}"  class="the_pic" /></a>
             {else}
-                <img src="{$www_root_themes}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.gb_nick}" />
+                <img src="{$www_root_themes_core}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.gb_nick}"  class="the_pic" />
             {/if}
 
             <br />
             <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />
         </div>
-        <div>
+        <div class="gbright">
             {$entry.gb_text}
             {if !empty($entry.gb_comment)}
             <fieldset>
@@ -68,15 +62,15 @@
             </fieldset>
             {/if}
         </div>
-        <div>
+        <div class="gbfooter">
         {* AJAX Needed *}
-        {if (isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access) )
+        {if ( isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access) )
         OR ($smarty.session.user.user_id == $entry.user_id) }
             {if $smarty.session.user.user_id == $entry.user_id.1}
-            <input type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" />
             {/if}
             {if isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access)}
-            <input type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" />
             {/if}
         {/if}
         </div>
@@ -106,8 +100,8 @@
                 </dl>
 *}
     {/foreach}
-    <div>
-        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+    <div class="options-bottom">
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
     {include file="tools/paginate.tpl"}
 </div>
