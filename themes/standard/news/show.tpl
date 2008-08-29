@@ -32,12 +32,12 @@
 
 
     <tr>
-        <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
-        <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
+        <td height="20" ><b>{$news.news_title} - {$news.CsCategory.name}</b></td>
+        <td rowspan="3" valign="top"><img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name} " /></td>
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;;action=showone&amp;id={$news.news_id}'>{$news.CsComments.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;;action=showone&amp;id={$news.news_id}'>{$news.CsComment.nr_news_comments} comments</a></font></td>
     </tr>
 
     <tr>
@@ -47,8 +47,8 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.CsComments.nr_news_comments} Comments</a>
-            {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsComments.CsUsers.lastcomment_by}</span>{/if}
+            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.CsComment.nr_news_comments} Comments</a>
+            {if isset($news.CsComment.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if}
         </td>
     	<td>
     	{if $smarty.session.user.rights.cc_edit_news == 1 AND $smarty.session.user.rights.cc_access == 1}
@@ -64,7 +64,7 @@
 </table>
 <br />
 
-  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}"/> {/if}</div>
 
 
 {/foreach}

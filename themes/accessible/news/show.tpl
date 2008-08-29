@@ -16,15 +16,15 @@
 {include file="tools/paginate.tpl"}
 {foreach item=news from=$news}
 <div id="news-{$news.news_id}" class="newsbox">
-	<h4 class="news-head">{$news.news_title} - {$news.CsCategories.name}</h4>
+	<h4 class="news-head">{$news.news_title} - {$news.CsCategory.name}</h4>
 	<div class="news-author-comments">
-		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} {t}comments{/t}</a>
+		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} {t}comments{/t}</a>
 	</div>
 	<div class="news-content">
 		<div class="news-cat-img">
-			<img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name}" />
+			<img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name}" />
 		</div>
-		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}" />{/if}
+		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}" />{/if}
 		{$news.news_body}<br />
        {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post" accept-charset="UTF-8">

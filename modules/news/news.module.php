@@ -77,9 +77,9 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                             Doctrine_Query::create()
                                     ->select('n.*, u.nick, u.user_id, c.name, c.image, COUNT(nc.comment_id) as nr_news_comments, nc.*')
                                     ->from('CsNews n')
-                                    ->leftJoin('n.CsUsers u')
-                                    ->leftJoin('n.CsCategories c')
-                                    ->leftJoin('n.CsComments nc')
+                                    ->leftJoin('n.CsUser u')
+                                    ->leftJoin('n.CsCategory c')
+                                    ->leftJoin('n.CsComment nc')
                                     #->where('c.module_id = 7')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->groupby('news_id')
@@ -110,8 +110,8 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         // TODO: One query possible with some joins ?
         /*$stmt1 = Doctrine_Query::create()
                          ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
-                         ->from('CsComments nc')
-                         ->leftJoin('nc.CsUsers u')
+                         ->from('CsComment nc')
+                         ->leftJoin('nc.CsUser u')
                          ->groupby('nc.news_id')
                          ->setHydrationMode(Doctrine::HYDRATE_NONE)
                          ->where('nc.news_id = ?');*/
@@ -119,17 +119,17 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         foreach ($news as $k => $v)
         {
             // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $v['CsComments'];//$stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
+            $cs_news_comments_array = $v['CsComment'];//$stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
             # check if something was returned
             if(isset($cs_news_comments_array[0]))
             {
                 # strip the [0] array off
-                $news[$k]['CsComments'] = $cs_news_comments_array[0];
+                $news[$k]['CsComment'] = $cs_news_comments_array[0];
             }
             else
             {
                 # nothing was returned, so we set 0
-                $news[$k]['CsComments'] = array('nr_news_comments' => 0);
+                $news[$k]['CsComment'] = array('nr_news_comments' => 0);
             }
         }
 
@@ -182,9 +182,9 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $single_news = Doctrine_Query::create()
                         ->select('n.*, u.nick, u.user_id, c.name, c.image, c.icon, c.color, count(nc.comment_id) as nr_news_comments, nc.*')
                         ->from('CsNews n')
-                        ->leftJoin('n.CsUsers u')
-                        ->leftJoin('n.CsCategories c')
-                        ->leftJoin('n.CsComments nc')
+                        ->leftJoin('n.CsUser u')
+                        ->leftJoin('n.CsCategory c')
+                        ->leftJoin('n.CsComment nc')
                         #->where('c.module_id = 7')
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                         ->groupby('news_id')
@@ -202,17 +202,17 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
          *
          * Get the nick and country for user_id
          */
-        if ( $single_news[0]['CsComments'][0]['nr_news_comments'] > 0 )
+        if ( $single_news[0]['CsComment'][0]['nr_news_comments'] > 0 )
         {
              /*$single_news_comments = Doctrine_Query::create()
                                      ->select('nc.*, u.nick, u.country')
                                      ->from('CsNewsComments nc')
-                                     ->leftJoin('nc.CsUsers u')
+                                     ->leftJoin('nc.CsUser u')
                                      ->where('news_id = ' . $news_id)
                                      ->fetchArray();*/
                                                                           
              # Assign News
-             $smarty->assign('news_comments', $single_news[0]['CsComments'][0]);
+             $smarty->assign('news_comments', $single_news[0]['CsComment'][0]);
         }
 
         # Prepare Output
@@ -250,8 +250,8 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                             Doctrine_Query::create()
                                     ->select('n.*, u.nick, u.user_id, c.name, c.image')
                                     ->from('CsNews n')
-                                    ->leftJoin('n.CsUsers u')
-                                    ->leftJoin('n.CsCategories c')
+                                    ->leftJoin('n.CsUser u')
+                                    ->leftJoin('n.CsCategory c')
                                     ->where('n.news_status = 4')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('n.news_id DESC'),
@@ -282,7 +282,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $stmt1 = Doctrine_Query::create()
                          ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
                          ->from('CsNewsComments nc')
-                         ->leftJoin('nc.CsUsers u')
+                         ->leftJoin('nc.CsUser u')
                          ->groupby('nc.news_id')
                          ->setHydrationMode(Doctrine::HYDRATE_NONE)
                          ->where('nc.news_id = ?');
@@ -352,8 +352,8 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $news = Doctrine_Query::create()
                           ->select('n.*, u.nick, u.user_id, c.name, c.image')
                           ->from('CsNews n')
-                          ->leftJoin('n.CsUsers u')
-                          ->leftJoin('n.CsCategories c')
+                          ->leftJoin('n.CsUser u')
+                          ->leftJoin('n.CsCategory c')
                           ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->orderby('n.news_id DESC')
                           ->limit($numberNews)

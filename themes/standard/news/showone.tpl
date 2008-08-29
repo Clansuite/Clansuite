@@ -10,12 +10,12 @@
 
 
     <tr>
-        <td height="20" ><b>{$news.0.news_title} - {$news.0.CsCategories.name}</b></td>
-        <td rowspan="3" valign="top"><img src="{$news.0.CsCategories.image}" alt="Category-Image: {$news.0.CsCategories.name} " /></td>
+        <td height="20" ><b>{$news.0.news_title} - {$news.0.CsCategory.name}</b></td>
+        <td rowspan="3" valign="top"><img src="{$news.0.CsCategory.image}" alt="Category-Image: {$news.0.CsCategory.name} " /></td>
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.0.CsUsers.user_id}'>{$news.0.CsUsers.nick}</a> am {$news.0.news_added}</font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.0.CsUser.user_id}'>{$news.0.CsUser.nick}</a> am {$news.0.news_added}</font></td>
     </tr>
 
     <tr>

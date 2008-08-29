@@ -25,12 +25,12 @@
     <!-- News Wrap -->
     <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
         <tr>
-            <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
-            <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
+            <td height="20" ><b>{$news.news_title} - {$news.CsCategory.name}</b></td>
+            <td rowspan="3" valign="top"><img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name} " /></td>
         </tr>
 
         <tr>
-            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}at{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
+            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}at{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
         </tr>
 
         <tr>
@@ -41,7 +41,7 @@
              <td>
                 <strong>&raquo;</strong>
                 <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.nr_news_comments} Comments</a>
-                {if isset($news.CsNewsComments.CsUsers.lastcomment_by) }<span> : {$news.CsNewsComments.CsUsers.lastcomment_by}</span>{/if}
+                {if isset($news.CsNewsComments.CsUser.lastcomment_by) }<span> : {$news.CsNewsComments.CsUser.lastcomment_by}</span>{/if}
             </td>
     	    <td>
     	    {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
@@ -57,7 +57,7 @@
     </table>
     <br />
 
-    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}"/> {/if}</div>
 
 
     {/foreach}

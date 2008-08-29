@@ -156,8 +156,8 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                                 Doctrine_Query::create()
                                         ->select('n.*, u.nick, u.user_id, c.name, c.image')
                                         ->from('CsNews n')
-                                        ->leftJoin('n.CsUsers u')
-                                        ->leftJoin('n.CsCategories c')
+                                        ->leftJoin('n.CsUser u')
+                                        ->leftJoin('n.CsCategory c')
                                        #->where('c.module_id = 7')
                                        #->setHydrationMode(Doctrine::HYDRATE_ARRAY)                                      
                                         ->orderby($sortorder),
@@ -190,8 +190,8 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                                 Doctrine_Query::create()
                                         ->select('n.*, u.nick, u.user_id, c.name, c.image')
                                         ->from('CsNews n')
-                                        ->leftJoin('n.CsUsers u')
-                                        ->leftJoin('n.CsCategories c')
+                                        ->leftJoin('n.CsUser u')
+                                        ->leftJoin('n.CsCategory c')
                                        #->where('c.module_id = 7')
                                        #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                         ->where('n.cat_id = ?')
@@ -220,7 +220,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         // Get all $categories for module_news
         $newscategories = Doctrine_Query::create()
                                ->select('cat_id, name')
-                               ->from('CsCategories c')
+                               ->from('CsCategory c')
                                ->where('c.module_id = 7')
                               #->where('c.module_id = ?);
                          #$stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
