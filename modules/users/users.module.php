@@ -84,9 +84,9 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
                         new Doctrine_Pager(
                             Doctrine_Query::create()
                                     ->select('u.user_id, u.nick, u.email, u.joined,, ug.*, g.name, g.color')
-                                    ->from('CsUsers u')
-                                    ->leftJoin('u.CsRelUserGroups ug')
-                                   ->leftJoin('ug.CsGroups g')
+                                    ->from('CsUser u')
+                                    ->leftJoin('u.CsRelUserGroup ug')
+                                   ->leftJoin('ug.CsGroup g')
                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                    ->orderby('u.user_id ASC'),
                                  # The following is Limit  ?,? =
@@ -144,7 +144,7 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         # fetch specified num of last registered users 
         $last_registered_users = Doctrine_Query::create()
                                  ->select('u.user_id, u.email, u.nick, u.country')                                 
-                                 ->from('CsUsers u')
+                                 ->from('CsUser u')
                                  ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                  ->orderby('u.timestamp DESC')
                                  ->where('u.activated = 1')

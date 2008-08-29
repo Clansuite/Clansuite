@@ -67,7 +67,7 @@ class Module_Quotes extends ModuleController implements Clansuite_Module_Interfa
     {
         $quotes = Doctrine_Query::create()
                           ->select('q.*')
-                          ->from('CsQuotes q')
+                          ->from('CsQuote q')
                           ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->limit(1)
                           ->orderby('q.quote_id = '. rand())

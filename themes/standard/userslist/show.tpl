@@ -15,8 +15,8 @@
 		<tr>
 			<td class="nick-rank">
 {foreach item=group from=$user.CsUserGroups}				
-				<span style="color:{$group.CsGroups.color}">
-					{$group.CsGroups.name}
+				<span style="color:{$group.CsGroup.color}">
+					{$group.CsGroup.name}
 				</span>
 {/foreach}
 				<a href="#profile-link" title="{t}Go to the profile of $user.nick{/t}">{$user.nick}</a>

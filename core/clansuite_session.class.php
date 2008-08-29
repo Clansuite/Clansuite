@@ -447,8 +447,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * @todo: move to users class!
          */
         $rows = Doctrine_Query::create()
-                                 ->delete('CsUsers')
-                                 ->from('CsUsers')
+                                 ->delete('CsUser')
+                                 ->from('CsUser')
                                  ->where('activated = ? AND joined < ?')
                                  ->execute( array( 0, ( time() - (60*60*24*3) ) ) );
 

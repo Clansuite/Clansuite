@@ -337,7 +337,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             // Check if email already exists
             $result = Doctrine_Query::create()
                             ->select('email')
-                            ->from('CsUsers')
+                            ->from('CsUser')
                             ->where('email = ?')
                             ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
                          
@@ -347,7 +347,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             // Check if nick already exists
             $result = Doctrine_Query::create()
                             ->select('nick')
-                            ->from('CsUsers')
+                            ->from('CsUser')
                             ->where('nick = ?')
                             ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
                          
@@ -365,7 +365,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 $salt = $hashArr['salt'];
                 
                 // Insert User to DB
-                $userIns = new CsUsers();
+                $userIns = new CsUser();
                 $userIns->email = $email;
                 $userIns->nick = $nick;
                 $userIns->passwordhash = $hash;
@@ -451,7 +451,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                 // Select WHERE email
                 $result = Doctrine_Query::create()
                                 ->select('user_id,nick,activated')
-                                ->from('CsUsers')
+                                ->from('CsUser')
                                 ->where('email = ?')
                                 ->fetchOne(array($email));
                 
@@ -598,7 +598,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
                     // Select a DB Row
                     $result = Doctrine_Query::create()
                                     ->select('user_id, nick, activated')
-                                    ->from('CsUsers')
+                                    ->from('CsUser')
                                     ->where('email = ?')
                                     ->fetchOne(array($email));
 
@@ -674,7 +674,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         // Select a DB Row
         $result = Doctrine_Query::create()
                         ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
-                        ->from('CsUsers')
+                        ->from('CsUser')
                         ->where('user_id = ? AND activation_code = ?')
                         ->fetchOne(array($user_id, $code));
                                          

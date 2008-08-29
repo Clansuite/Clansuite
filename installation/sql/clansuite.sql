@@ -153,111 +153,6 @@ INSERT INTO `cs_bb_code` VALUES (1,'b','<b>','</b>','block','listitem,block,inli
 /*!40000 ALTER TABLE `cs_bb_code` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_board_forums`
---
-
-DROP TABLE IF EXISTS `cs_board_forums`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_board_forums` (
-  `forumid` int(11) NOT NULL auto_increment,
-  `forumparent` int(11) NOT NULL default '0',
-  `name` varchar(128) default NULL,
-  `description` text,
-  `displayorder` smallint(6) NOT NULL default '0',
-  `moderator` int(11) default NULL,
-  `posts` int(11) NOT NULL,
-  `threads` int(11) NOT NULL,
-  `permissions` int(11) default NULL,
-  `password` varchar(32) default NULL,
-  `lastpost` varchar(54) NOT NULL,
-  `status` varchar(15) NOT NULL,
-  `type` varchar(15) NOT NULL,
-  PRIMARY KEY  (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_board_forums`
---
-
-/*!40000 ALTER TABLE `cs_board_forums` DISABLE KEYS */;
-INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1,NULL,0,0,NULL,NULL,'','on','forum'),(2,0,'Birnen-Forum','Birne',3,NULL,0,0,NULL,NULL,'','on','forum'),(3,1,'Kirschen-Forum is a Child of Apfel-Forum','Kirsche',2,NULL,0,0,NULL,NULL,'','on','sub'),(4,3,'SahneKirschen-Forum is a Child of Kirschen-Forum','Sahnekirschen',4,NULL,0,0,NULL,NULL,'','on','sub'),(5,2,'Nashi-Birnen Forum','Nashi-Birnen',5,NULL,0,0,0,NULL,'','on','sub'),(6,0,'Orangen-Forum','Orangen',2,NULL,0,0,0,NULL,'','on','forum');
-/*!40000 ALTER TABLE `cs_board_forums` ENABLE KEYS */;
-
---
--- Table structure for table `cs_board_posts`
---
-
-DROP TABLE IF EXISTS `cs_board_posts`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_board_posts` (
-  `forumid` int(11) NOT NULL default '0',
-  `threadid` int(11) NOT NULL default '0',
-  `postid` int(11) NOT NULL auto_increment,
-  `author` varchar(32) NOT NULL,
-  `message` text NOT NULL,
-  `subject` tinytext NOT NULL,
-  `date` int(10) NOT NULL default '0',
-  `icon` varchar(50) default NULL,
-  `signatur` varchar(15) NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  `bbcodeoff` varchar(15) NOT NULL,
-  `smileyoff` varchar(15) NOT NULL,
-  `edited_by` text,
-  PRIMARY KEY  (`postid`),
-  KEY `fid` (`forumid`),
-  KEY `tid` (`threadid`),
-  KEY `dateline` (`date`),
-  KEY `author` (`author`(8))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_board_posts`
---
-
-/*!40000 ALTER TABLE `cs_board_posts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cs_board_posts` ENABLE KEYS */;
-
---
--- Table structure for table `cs_board_threads`
---
-
-DROP TABLE IF EXISTS `cs_board_threads`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_board_threads` (
-  `threadid` int(11) NOT NULL auto_increment,
-  `forumid` int(11) NOT NULL default '0',
-  `subject` varchar(128) NOT NULL,
-  `icon` varchar(75) NOT NULL,
-  `lastpost` varchar(54) NOT NULL,
-  `views` bigint(32) NOT NULL default '0',
-  `replies` int(10) NOT NULL default '0',
-  `author` varchar(32) NOT NULL,
-  `closed` varchar(15) NOT NULL,
-  `stickified` tinyint(1) NOT NULL default '0',
-  `poll` text NOT NULL,
-  PRIMARY KEY  (`forumid`),
-  KEY `fid` (`forumid`),
-  KEY `tid` (`threadid`),
-  KEY `lastpost` (`lastpost`),
-  KEY `author` (`author`(8)),
-  KEY `closed` (`closed`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_board_threads`
---
-
-/*!40000 ALTER TABLE `cs_board_threads` DISABLE KEYS */;
-INSERT INTO `cs_board_threads` VALUES (1,1,'Apfelernte','','',0,0,'','',0,'');
-/*!40000 ALTER TABLE `cs_board_threads` ENABLE KEYS */;
-
---
 -- Table structure for table `cs_calendar`
 --
 
@@ -453,28 +348,6 @@ SET character_set_client = @saved_cs_client;
 
 /*!40000 ALTER TABLE `cs_forum_threads` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cs_forum_threads` ENABLE KEYS */;
-
---
--- Table structure for table `cs_group_rights`
---
-
-DROP TABLE IF EXISTS `cs_group_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_group_rights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_group_rights`
---
-
-/*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
-INSERT INTO `cs_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(3,21),(3,22),(3,23),(3,24),(3,25),(3,26),(3,27),(3,28);
-/*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_groups`
@@ -941,6 +814,28 @@ SET character_set_client = @saved_cs_client;
 /*!40000 ALTER TABLE `cs_rel_category_name` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_rel_group_rights`
+--
+
+DROP TABLE IF EXISTS `cs_rel_group_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_rel_group_rights` (
+  `group_id` int(11) NOT NULL default '0',
+  `right_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`group_id`,`right_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_rel_group_rights`
+--
+
+/*!40000 ALTER TABLE `cs_rel_group_rights` DISABLE KEYS */;
+INSERT INTO `cs_rel_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(3,21),(3,22),(3,23),(3,24),(3,25),(3,26),(3,27),(3,28);
+/*!40000 ALTER TABLE `cs_rel_group_rights` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_rel_news_comments`
 --
 
@@ -1145,7 +1040,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'024a52cb089802ee408e229cd353682a','user|a:11:{s:6:\"authed\";i:1;s:7:\"user_id\";s:2:\"10\";s:4:\"nick\";s:5:\"user5\";s:12:\"passwordhash\";s:40:\"ff4e167734b0cc1c61fb9ca064a18d85045aea80\";s:5:\"email\";s:19:\"user5@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:0:{}s:6:\"rights\";a:0:{}}','suiteSID',1219417376,1,'menu'),(0,'698652ac500fd414ffebf45c02ecb680','initiated|b:1;token|s:32:\"07da49c18bc04bfd7221bc969780ce68\";token_time|i:1219415576;client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1\";client_host|s:10:\"powertower\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:1;s:7:\"user_id\";s:2:\"10\";s:4:\"nick\";s:5:\"user5\";s:12:\"passwordhash\";s:40:\"ff4e167734b0cc1c61fb9ca064a18d85045aea80\";s:5:\"email\";s:19:\"user5@clansuite.com\";s:8:\"disabled\";s:1:\"0\";s:9:\"activated\";s:1:\"1\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:0:{}s:6:\"rights\";a:0:{}}','suiteSID',1219417376,1,'menu');
+INSERT INTO `cs_session` VALUES (0,'e21fc98fc6db327ede726045cda4f209','initiated|b:1;token|s:32:\"50816299931c8b02fbc97a130abadf40\";token_time|i:1219998077;client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1\";client_host|s:10:\"powertower\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}','suiteSID',1220002655,1,'news');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1226,74 +1121,6 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 /*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
--- Table structure for table `cs_user_groups`
---
-
-DROP TABLE IF EXISTS `cs_user_groups`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_user_groups`
---
-
-/*!40000 ALTER TABLE `cs_user_groups` DISABLE KEYS */;
-INSERT INTO `cs_user_groups` VALUES (1,3);
-/*!40000 ALTER TABLE `cs_user_groups` ENABLE KEYS */;
-
---
--- Table structure for table `cs_user_options`
---
-
-DROP TABLE IF EXISTS `cs_user_options`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_user_options` (
-  `option_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `language` varchar(255) NOT NULL,
-  `theme` varchar(255) NOT NULL,
-  PRIMARY KEY  (`option_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_user_options`
---
-
-/*!40000 ALTER TABLE `cs_user_options` DISABLE KEYS */;
-INSERT INTO `cs_user_options` VALUES (0,1,'en','accessible');
-/*!40000 ALTER TABLE `cs_user_options` ENABLE KEYS */;
-
---
--- Table structure for table `cs_user_rights`
---
-
-DROP TABLE IF EXISTS `cs_user_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cs_user_rights` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `right_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`right_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cs_user_rights`
---
-
-/*!40000 ALTER TABLE `cs_user_rights` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cs_user_rights` ENABLE KEYS */;
-
---
 -- Table structure for table `cs_users`
 --
 
@@ -1341,4 +1168,4 @@ INSERT INTO `cs_users` VALUES (1,'user1@clansuite.com','user1','d033e22ae348aeb5
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-08-22 14:34:38
+-- Dump completed on 2008-08-29  9:09:32
