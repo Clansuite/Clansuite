@@ -44,7 +44,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show'), '/index.php?mod=forum&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=forum&amp;action=show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -62,7 +62,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_create_category()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('create_category'), '/index.php?mod=forum&amp;action=create_category');
+        trail::addStep( _('Create Category'), '/index.php?mod=forum&amp;action=create_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -80,7 +80,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_create_board()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('create_board'), '/index.php?mod=forum&amp;action=create_board');
+        trail::addStep( _('Create Board'), '/index.php?mod=forum&amp;action=create_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -98,7 +98,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_edit_category()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('edit_category'), '/index.php?mod=forum&amp;action=edit_category');
+        trail::addStep( _('Edit Category'), '/index.php?mod=forum&amp;action=edit_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -116,7 +116,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_edit_board()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('edit_board'), '/index.php?mod=forum&amp;action=edit_board');
+        trail::addStep( _('Edit Board'), '/index.php?mod=forum&amp;action=edit_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -134,7 +134,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_delete_category()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('delete_category'), '/index.php?mod=forum&amp;action=delete_category');
+        trail::addStep( _('Delete Category'), '/index.php?mod=forum&amp;action=delete_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -152,7 +152,7 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     public function action_admin_delete_board()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('delete_board'), '/index.php?mod=forum&amp;action=delete_board');
+        trail::addStep( _('Delete Board'), '/index.php?mod=forum&amp;action=delete_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
