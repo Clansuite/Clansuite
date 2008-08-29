@@ -70,7 +70,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_root_theme}/images/clansuite-header.png" width="760" height="175" />
+        <img alt="Clansuite Header" src="{$www_root_themes_core}/images/clansuite-header.png" width="760" height="175" />
     </td>
 </tr>
 </table>

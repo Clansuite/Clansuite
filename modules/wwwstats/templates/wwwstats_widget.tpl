@@ -1,22 +1,71 @@
 {* {$stats|@var_dump} *}
 
-<div style="margin-top: 10px">
-    <table cellpadding="0" cellspacing="0" border="0" width="60%" align="center">
-        <tr>
-            <td class="td_header" colspan="2">{t}Statistics{/t}</td>
-        </tr>
-        <tr>
-            <td class="cell1">
-              Online: {$stats.online} <br/>
-              - Users : {$stats.authed_users} <br />
-              - Guests : {$stats.guest_users} <br/>
-              Today: {$stats.today_impressions} <br/>
-              Yesterday: {$stats.yesterday_impressions} <br/>
-              Month: {$stats.month_impressions} <br/>
-              <hr width="80%"/>
-              This Page: {$stats.page_impressions} <br/>
-              Total Impressions: {$stats.all_impressions} <br/>
-            </td>
-        </tr>
-  </table>
-</div>
+<table cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td class="td_header" colspan="2">{t}Statistics{/t}</td>
+    </tr>
+    <tr>
+        <td class="cell1">
+            Online:
+        </td>
+        <td class="cell2">
+            {$stats.online}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+             - Users:
+        </td>
+        <td class="cell2">
+             {$stats.authed_users}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+             - Guests:
+        </td>
+        <td class="cell2">
+             {$stats.guest_users}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+              Today:
+        </td>
+        <td class="cell2">
+              {$stats.today_impressions}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+              Yesterday:
+        </td>
+        <td class="cell2">
+              {$stats.yesterday_impressions}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+              Month:
+        </td>
+        <td class="cell2">
+              {$stats.month_impressions}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+              This Page:
+        </td>
+        <td class="cell2">
+              {$stats.page_impressions}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
+              Total Impressions:
+        </td>
+        <td class="cell2">
+              {$stats.all_impressions}
+        </td>
+    </tr>
+</table>

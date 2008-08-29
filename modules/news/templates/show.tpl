@@ -6,53 +6,65 @@
    {$pagination_links|@var_dump} 
 *}
 
-{if !empty($news)}
-    {include file="tools/paginate.tpl"}
+<table border="0" cellspacing="1" cellpadding="3" style="width:99%">
+<tr>
+    <td class="td_header">News</td>
+</tr>
+<tr>
+    <td class="td_header_small">
+        <div style="float:right;">
+        <a href="/index.php">
+            <img src="{$www_root_themes_core}/images/rss/16px-Feed-icon.png" 
+                 alt="Clansuite RSS News Feed" />
+        </a> 
+        </div>
+        {include file="tools/paginate.tpl"}
+    </td>
+</tr>
+</table>
 
-    {foreach item=news from=$news}
+<br />
 
-    <!-- Anker-Sprungmarke für {$news.news_id}-->
-    <a name="news-{$news.news_id}"></a>
+{foreach item=news from=$news}
 
-    <!-- News Wrap -->
-    <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
-        <tr>
-            <td height="20" ><b>{$news.news_title} - {$news.CsCategory.name}</b></td>
-            <td rowspan="3" valign="top"><img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name} " /></td>
-        </tr>
-
-        <tr>
-            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}at{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
-        </tr>
-
-        <tr>
-            <td height="175" width="75%" valign="top">{$news.news_body}</td>
-        </tr>
-
-        <tr>
-             <td>
-                <strong>&raquo;</strong>
-                <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.nr_news_comments} Comments</a>
-                {if isset($news.CsNewsComments.CsUser.lastcomment_by) }<span> : {$news.CsNewsComments.CsUser.lastcomment_by}</span>{/if}
-            </td>
-            <td>
-            {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
-
-                <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
-                    <input type="hidden" value="{$news.news_id}" name="delete[]" />
-                    <input type="hidden" value="{$news.news_id}" name="ids[]" />
-                    <input type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input type="submit" name="submit" value="{t}Delete{/t}" />
-                </form>
-            {/if}
-            </td>
-        </tr>
-    </table>
-    <br />
-
-    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}"/> {/if}</div>
+<!-- Anker-Sprungmarke f?r {$news.news_id}--> <a name="news-{$news.news_id}"></a>
+<table border="1" cellspacing="1" cellpadding="3" style="width:99%">
 
 
-    {/foreach}
-{else}
-{t}There is no news available.{/t}
-{/if}
+    <tr>
+        <td height="20" ><b>{$news.news_title} - {$news.CsCategory.name}</b></td>
+        <td rowspan="3" valign="top"><img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name} " /></td>
+    </tr>
+
+    <tr>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;;action=showone&amp;id={$news.news_id}'>{$news.CsComment.nr_news_comments} comments</a></font></td>
+    </tr>
+
+    <tr>
+        <td height="175" width="75%" valign="top">{$news.news_body}</td>
+    </tr>
+
+    <tr>
+         <td>
+            <strong>&raquo;</strong>
+            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.CsComment.nr_news_comments} Comments</a>
+            {if isset($news.CsComment.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if}
+        </td>
+    	<td>
+    	{if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access) }
+
+            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+                <input type="hidden" value="{$news.news_id}" name="delete[]" />
+                <input type="hidden" value="{$news.news_id}" name="ids[]" />
+                <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
+            </form>
+        {/if}
+    	</td>
+    </tr>
+</table>
+<br />
+
+  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}"/> {/if}</div>
+
+
+{/foreach}
