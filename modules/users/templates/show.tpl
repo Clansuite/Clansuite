@@ -22,11 +22,10 @@
     	<td>
     	
     	{* Debugausgabe des Arrays: {$user.CsUserGroups|@var_dump} *}
-    
-        {foreach item=group from=$user.CsUserGroups}
+        {foreach item=group from=$user.CsGroup}
         			
-        	<span style="color:{$group.CsGroup.0.color}">
-        		{if isset($group.CsGroup.0.name)} {$group.CsGroup.0.name} {else} No Group! {/if}
+        	<span style="color:{$group.color}">
+        		{if isset($group.name)} {$group.name} {else} No Group! {/if}
         	</span>
         
         {/foreach}
@@ -36,7 +35,7 @@
     		<a href="#profile-link" title="{t}Go to the profile of $user.nick{/t}">{$user.nick}</a>
     	</td>
     	<td>{$user.email}</td>
-    	<td>{icq number=$user.email}</td>
+    	<td>{if isset($user.CsProfile.icq)}{icq number=$user.CsProfile.icq title='ICQ'}{else}{/if}</td>
     	<td>{$user.joined}</td>
     	<td><a href="">PM</a></td>
     </tr>

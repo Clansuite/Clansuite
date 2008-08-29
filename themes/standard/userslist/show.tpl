@@ -14,7 +14,7 @@
 {foreach item=user from=$userslist}
 		<tr>
 			<td class="nick-rank">
-{foreach item=group from=$user.CsUserGroups}				
+{foreach item=group from=$user.CsUserGroup}				
 				<span style="color:{$group.CsGroup.color}">
 					{$group.CsGroup.name}
 				</span>

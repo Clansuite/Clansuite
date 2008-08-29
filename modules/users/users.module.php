@@ -83,10 +83,11 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
                             Doctrine_Query::create()
-                                    ->select('u.user_id, u.nick, u.email, u.joined,, ug.*, g.name, g.color')
+                                    ->select('u.user_id, u.nick, u.email, u.joined, g.name, g.color, p.icq')
                                     ->from('CsUser u')
-                                    ->leftJoin('u.CsRelUserGroup ug')
-                                   ->leftJoin('ug.CsGroup g')
+                                    #->leftJoin('u.CsRelUserGroup ug')
+                                    ->leftJoin('u.CsGroup g')
+                                    ->leftJoin('u.CsProfile p')
                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                    ->orderby('u.user_id ASC'),
                                  # The following is Limit  ?,? =
