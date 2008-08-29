@@ -44,7 +44,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show'), '/index.php?mod=forum&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=forum&amp;action=show');
 
         
         # Prepare the Output
@@ -59,7 +59,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_show_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show_thread'), '/index.php?mod=forum&amp;action=show_thread');
+        trail::addStep( _('Show Thread'), '/index.php?mod=forum&amp;action=show_thread');
 
         
         # Prepare the Output
@@ -74,7 +74,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_show_post()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show_post'), '/index.php?mod=forum&amp;action=show_post');
+        trail::addStep( _('Show Post'), '/index.php?mod=forum&amp;action=show_post');
 
         
         # Prepare the Output
@@ -89,7 +89,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_create_post()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('create_post'), '/index.php?mod=forum&amp;action=create_post');
+        trail::addStep( _('Create Post'), '/index.php?mod=forum&amp;action=create_post');
 
         
         # Prepare the Output
@@ -104,7 +104,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_create_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('create_thread'), '/index.php?mod=forum&amp;action=create_thread');
+        trail::addStep( _('Create Thread'), '/index.php?mod=forum&amp;action=create_thread');
 
         
         # Prepare the Output
@@ -119,7 +119,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_delete_post()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('delete_post'), '/index.php?mod=forum&amp;action=delete_post');
+        trail::addStep( _('Delete Post'), '/index.php?mod=forum&amp;action=delete_post');
 
         
         # Prepare the Output
@@ -134,7 +134,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_delete_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('delete_thread'), '/index.php?mod=forum&amp;action=delete_thread');
+        trail::addStep( _('Delete Thread'), '/index.php?mod=forum&amp;action=delete_thread');
 
         
         # Prepare the Output
@@ -149,7 +149,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_edit_post()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('edit_post'), '/index.php?mod=forum&amp;action=edit_post');
+        trail::addStep( _('Edit Post'), '/index.php?mod=forum&amp;action=edit_post');
 
         
         # Prepare the Output
@@ -164,7 +164,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_edit_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('edit_thread'), '/index.php?mod=forum&amp;action=edit_thread');
+        trail::addStep( _('Edit Thread'), '/index.php?mod=forum&amp;action=edit_thread');
 
         
         # Prepare the Output
@@ -179,7 +179,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_show_category()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show_category'), '/index.php?mod=forum&amp;action=show_category');
+        trail::addStep( _('Show Category'), '/index.php?mod=forum&amp;action=show_category');
 
         
         # Prepare the Output
@@ -194,7 +194,7 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     public function action_show_board()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('show_board'), '/index.php?mod=forum&amp;action=show_board');
+        trail::addStep( _('Show Board'), '/index.php?mod=forum&amp;action=show_board');
 
         
         # Prepare the Output
