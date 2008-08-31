@@ -138,8 +138,9 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
-                         ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
+                         ->leftJoin('g.CsRight r')
                          ->where('u.user_id = ?')
                          ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
         }
@@ -149,8 +150,9 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
-                         ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
+                         ->leftJoin('g.CsRight r')
                          ->where('u.email = ?')
                          ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
         }
@@ -160,10 +162,12 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
-                         ->leftJoin('u.CsUserOptions o')
+                         ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
+                         ->leftJoin('g.CsRight r')
                          ->where('u.nick = ?')
                          ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
+                          
         }
         else
         {
@@ -182,8 +186,9 @@ class Clansuite_User
             {
                 $this->user = Doctrine_Query::create()
                              ->from('CsUser u')
-                             ->leftJoin('u.CsUserOptions o')
+                             ->leftJoin('u.CsOption o')
                              ->leftJoin('u.CsGroup g')
+                             ->leftJoin('g.CsRight r')
                              ->where('u.user_id = ?')
                              ->fetchOne(array($session_result['user_id']), Doctrine::FETCH_ARRAY);
 
@@ -246,21 +251,15 @@ class Clansuite_User
                 foreach( $this->user['CsGroup'] as $key => $group )
                 {
                     $_SESSION['user']['groups'][] = $group['group_id'];
-
-                    $rights = Doctrine_Query::create()
-                                 ->select('g.group_id, r.right_id, r.name')
-                                 ->from('CsGroup g')
-                                 ->leftJoin('g.CsRight r')
-                                 ->where('g.group_id = ?')
-                                 ->fetchOne(array(1), Doctrine::FETCH_ARRAY);
-
-                    if( is_array( $rights['CsRight'] ) )
+                    
+                    if( isset($group['CsRight']) && is_array( $group['CsRight'] ) )
                     {
-                        foreach( $rights['CsRight'] as $key => $values )
+                        foreach( $group['CsRight'] as $key => $values )
                         {
                             $_SESSION['user']['rights'][$values['name']] = 1;
                         }
                     }
+                    
                 }
             }
         }
@@ -527,6 +526,21 @@ class Clansuite_User
              */
             $result->user_id = $this->user['user_id'];
             $result->save();
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Checks a permission
+     */
+    public static function hasAccess( $permission = '' )
+    {
+        if( $permission == '' )
+            return false;
+        
+        if ( isset($_SESSION['user']['rights'][$permission]) && $_SESSION['user']['rights'][$permission] == 1 )
+        {
             return true;
         }
         return false;
