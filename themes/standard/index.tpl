@@ -101,6 +101,7 @@
 
     <!-- Right Widget Bar //-->
     <td id="right_widget_bar" class="cell1">
+        <span class="widget" id="widget_login">{load_module name="account" action="widget_login"}</span>
         <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
     </td>
 </tr>

@@ -30,7 +30,7 @@ abstract class BaseCsGroup extends Doctrine_Record
                                     
     $this->hasMany('CsRight', array('local' => 'group_id',
                                     'foreign' => 'right_id',
-                                    'refClass' => 'CsGroupRight'));
+                                    'refClass' => 'CsRelGroupRight'));
 }
 }
 ?>

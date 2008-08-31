@@ -22,10 +22,7 @@ abstract class BaseCsOption extends Doctrine_Record
     
     $this->hasMany('CsUser', array('local' => 'option_id',  
                                     'foreign' => 'user_id',            
-                                    'refClass' => 'CsUserOptions'));
-    $this->hasMany('CsOptionName', array(   'local' => 'name_id',  
-                                            'foreign' => 'name',            
-                                            'refClass' => 'CsUserOptions'));
+                                    'refClass' => 'CsRelUserOption'));
   }
 
 }
