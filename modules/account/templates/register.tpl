@@ -60,7 +60,7 @@
     </script>
 {/literal}
 <h2>{t}Register{/t}</h2>
-
+{* OLD ERRORS
     {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $err.nick_wrong == 1}<p class="error">{t}The nickname contains violating characters!{/t}</p>{/if}
     {if $err.email_wrong == 1}<p class="error">{t}Please enter a valid email!{/t}</p>{/if}
@@ -70,20 +70,20 @@
     {if $err.passes_do_not_fit == 1}<p class="error">{t}The passwords aren't the same!{/t}</p>{/if}
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
     {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
-
+*}
     <form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
     <table>
         <tr>
             <td>{t}Nick:{/t}</td>
-            <td><input type="text" name="nick" value="{$smarty.post.nick|escape:"html"}"></td>
+            <td><input type="text" name="nick" value="{$smarty.post.nick|default|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{t}Email:{/t}</td>
-            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|escape:"html"}"></td>
+            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|default|escape:"html"}"></td>
         </tr>
         <tr>
             <td>{t}Confirm email:{/t}</td>
-            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|escape:"html"}"></td>
+            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|default|escape:"html"}"></td>
         </tr>
 
         <tr>

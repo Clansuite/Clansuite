@@ -48,10 +48,11 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
      */
     public function execute(httprequest $request, httpresponse $response)
     {
+        # read module config
+        $this->config->readConfig( ROOT_MOD . '/account/account.config.php');
+        
         # proceed to the requested action
         $this->processActionController($request);
-        # read module config
-        #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
     }
 
     public function action_show()
@@ -63,14 +64,19 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
      * Login Block
      */
-    public function block_login()
+    public function widget_login(&$item, &$smarty)
     {
         # Get Render Engine
-        $smarty = $this->getView();
-
+        //$smarty = $this->getView();
+        
+        $this->config = clansuite_config::readConfig(ROOT . '/clansuite.config.php');
+        #Clansuite_User::hasAccess();
+        #$this->hasAccess();
+        #var_dump($this);
+        
         // get user class
-        $user = $this->injector->instantiate('Clansuite_User');
-        $config = $this->injector->instantiate('Clansuite_Config');
+        #$user = $smarty->injector->instantiate('Clansuite_User');
+        #$config = $smarty->injector->instantiate('Clansuite_Config');
         
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
@@ -78,19 +84,15 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             // Assing vars & output template
 
             // Assing vars & output template
-            $smarty->assign('config', $config);
-            $smarty->assign('error', $error);
+            $smarty->assign('config', $this->config);
+            #$smarty->assign('error', $error);
 
-            $this->setTemplate('block_login.tpl');
-            $this->prepareOutput();
+            echo $smarty->fetch('account/widget_login.tpl');
         }
         else
         {
             //  Show usercenter
-            $this->setTemplate('block_usercenter.tpl');
-
-            $this->prepareOutput();
-
+            echo $smarty->fetch('account/widget_usercenter.tpl');
         }
         
     }
@@ -317,6 +319,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             }
 
             // Check both passwords
+            /*
             if ($pass != $pass2 )
             {
                 $err['passes_do_not_fit'] = 1;
@@ -327,6 +330,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             {
                 $err['wrong_captcha'] = 1;
             }
+            */
 
             // Check the password
             if (strlen($pass) < $config['login']['min_pass_length'])
