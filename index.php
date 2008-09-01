@@ -104,9 +104,6 @@ $injector->instantiate('clansuite_doctrine');
 Clansuite_Session::getInstance($injector);
 $injector->register('Clansuite_User');
 
-# A Smarty function call workaround {if hasAccess('...')} ... {/if}. Just a redirect to the users function.
-function hasAccess($item) { return Clansuite_User::hasAccess($item); }
-
 /**
  *  ================================================
  *     Frontcontroller + Filters + processRequest
