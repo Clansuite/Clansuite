@@ -190,7 +190,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                         ->groupby('news_id')
                         ->where('news_id = ' . $news_id)
                         ->fetchArray();
-      
+
         // Set Pagetitle and Breadcrumbs
         trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news');
 
@@ -210,7 +210,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                                      ->leftJoin('nc.CsUser u')
                                      ->where('news_id = ' . $news_id)
                                      ->fetchArray();*/
-                                                                          
+
              # Assign News
              $smarty->assign('news_comments', $single_news[0]['CsComment'][0]);
         }
@@ -361,15 +361,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         $smarty->assign('news_widget', $news);
 
-        # check for theme tpl / else take module tpl
-        if($smarty->template_exists('news/news_widget.tpl'))
-        {
-            echo $smarty->fetch('news/news_widget.tpl');
-        }
-        else
-        {
-            echo $smarty->fetch('news/templates/news_widget.tpl');
-        }
+        $this->renderWidget($smarty);
     }
 }
 ?>
