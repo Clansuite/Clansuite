@@ -13,6 +13,6 @@
 {include file="snippets_$item2.tpl"}               
 {/foreach}
         {/if}
-        {if $mod.widget.widget_outputs.$key == '1'}echo $smarty->fetch('{$mod.module_name}/{$item}.tpl');{/if}{literal}
+        {if $mod.widget.widget_outputs.$key == '1'}$this->renderWidget($smarty);{/if}{literal}
     }{/literal}
 {/foreach}

@@ -57,9 +57,9 @@ class Module_Gallery extends ModuleController implements Clansuite_Module_Interf
      * @param void
      * @return void 
      */
-    public function widget_gallery($item, &$smarty)
+    public function widget_gallery($item)
     {
-                echo $smarty->fetch('gallery/widget_gallery.tpl');
+        $this->renderWidget(__METHOD__);
     }
 
 

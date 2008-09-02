@@ -505,6 +505,8 @@ class view_smarty extends renderer_base
         
         # Instantiate Class
         $controller = new $module_name;
+        $controller->moduleName = $mod;
+        $controller->setView($smarty);
         
         /**
          * Get the Ouptut of the Object->Method Call
@@ -514,7 +516,7 @@ class view_smarty extends renderer_base
         # exceptional handling for adminmenu      
         if ( $module_name == 'module_menu_admin' )
         {
-            echo $controller->$action($param_array, $smarty);         
+            echo $controller->$action($param_array);         
         }
         else
         {
@@ -522,7 +524,7 @@ class view_smarty extends renderer_base
             #call_user_func_array( array($controller, $action), $param_array );
             
             # fast
-            $controller->$action($items, $smarty);
+            $controller->$action($items);
         }
     }
 

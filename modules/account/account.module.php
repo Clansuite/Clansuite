@@ -64,10 +64,10 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
     /**
      * Login Block
      */
-    public function widget_login(&$item, &$smarty)
+    public function widget_login(&$item)
     {
         # Get Render Engine
-        //$smarty = $this->getView();
+        $smarty = $this->getView();
         
         $this->config = clansuite_config::readConfig(ROOT . '/clansuite.config.php');
         #Clansuite_User::hasAccess();
@@ -87,13 +87,18 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
             $smarty->assign('config', $this->config);
             #$smarty->assign('error', $error);
 
-            echo $smarty->fetch('account/widget_login.tpl');
+            #echo $smarty->fetch('account/widget_login.tpl');
+            $this->setWidgetTemplate('widget_login.tpl');
         }
         else
         {
             //  Show usercenter
-            echo $smarty->fetch('account/widget_usercenter.tpl');
+            #echo $smarty->fetch('account/widget_usercenter.tpl');
+            $this->setWidgetTemplate('widget_usercenter.tpl');
         }
+        
+        // Output
+        $this->renderWidget();
         
     }
 

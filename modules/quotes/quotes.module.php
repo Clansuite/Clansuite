@@ -63,8 +63,9 @@ class Module_Quotes extends ModuleController implements Clansuite_Module_Interfa
      * @param $smarty Smarty Render Engine Object
      * @returns content of quotes_widget.tpl
      */
-    public function widget_quotes($item, &$smarty)
+    public function widget_quotes($item)
     {
+        $smarty = $this->getView();
         $quotes = Doctrine_Query::create()
                           ->select('q.*')
                           ->from('CsQuote q')
@@ -75,15 +76,9 @@ class Module_Quotes extends ModuleController implements Clansuite_Module_Interfa
 
         $smarty->assign('quote', $quotes);
 
-        # check for theme tpl / else take module tpl
-        if($smarty->template_exists('quotes/quotes_widget.tpl'))
-        {
-            echo $smarty->fetch('quotes/quotes_widget.tpl');
-        }
-        else
-        {
-            echo $smarty->fetch('quotes/templates/quotes_widget.tpl');
-        }
+        
+        $this->renderWidget(__METHOD__);
+        
     }
 
 }

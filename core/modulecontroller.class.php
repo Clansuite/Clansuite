@@ -81,6 +81,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     // Variable contains the name of the template
     public $template = null;
 
+    // Variable contains the name of the widget template
+    public $widgetTemplate = null;
+    
     // Variable contains the Dependecy Injector
     public $injector = null;                    # dynamic
     static $static_injector = null;             # static
@@ -90,6 +93,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
     // Variable contains the Name of the Action
     public $action_name = null;
+    
+    // Variable contains the module name
+    public $moduleName = null;
 
     /**
      * Constructor
@@ -328,7 +334,60 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
         return $this->template;
     }
+    
+    /**
+     * Set the template name for a widget
+     *
+     * @access public
+     * @param string $template Name of the Template with full Path
+     */
+    public function setWidgetTemplate($template)
+    {
+        $this->widgetTemplate = $template;
+    }
 
+    /**
+     * Returns the widget Template Name
+     *
+     * @access public
+     * @return Returns the widget templateName as String
+     */
+    public function getWidgetTemplateName()
+    {
+        # if the templateName was not set manually, we construct it from module/action infos
+        if(empty($this->widgetTemplate))
+        {
+            $this->widgetTemplate = 'tplnotfound.tpl';
+        }
+        return $this->constructWidgetTemplateName($this->widgetTemplate);
+    }
+
+    /**
+     * constructWidgetTemplateName
+     *
+     * @desc desc
+     */
+    private function constructWidgetTemplateName($template_name)
+    {
+        $widgetname = null;
+        $methodname_array   = array();
+        
+        # incomming widgetname is e.g. Module_News::widget_news
+        $methodname_array = split('::',  strtolower($template_name));
+
+        # if __METHOD__ then add .tpl
+        if ( isset($methodname_array[1]) )
+        {
+            $widgetname = $methodname_array[1].'.tpl';
+        }
+        else
+        {
+            $widgetname = $template_name;   
+        }
+        
+        return $widgetname;
+    }
+        
     /**
      * constructTemplateName
      *
@@ -432,34 +491,27 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @param $modulename Modulename of the widget to display
      */
-    public function renderWidget($methodname, &$smarty)
+    public function renderWidget($methodname = null)
     {
-        $widgetname         = null;
-        $methodname_array   = array();
-        $modulename         = null;
+        if( !empty( $methodname ) && empty($this->widgetTemplate) )
+        {
+            $this->setWidgetTemplate($methodname);
+        }
         
-        # incomming widgetname is e.g. Module_News::widget_news
-        $methodname_array = split('::',  strtolower($methodname));
-        # get widgetname from methodname array      
-        $widgetname = $methodname_array[1];        
-        # splitt the first item of the methodname_array to get the modulename
-        $modulename_array = split('_',  strtolower($methodname_array[0]));
-        # assign modulename
-        $modulename =  $modulename_array[1];
-
-        # if widgetname == null take $modulename as $widgetname
-        if ( $widgetname == null ) { $widgetname = $modulename; }
-
+        # Get the view
+        $smarty = $this->getView();
+            
         # check for theme tpl / else take module tpl
-        if($smarty->template_exists( $modulename.DS.$widgetname.'.tpl'))
+        if($smarty->template_exists( $this->getWidgetTemplateName()))
         {
             # Themefolder: news\widget_news.tpl
-            echo $smarty->fetch( $modulename.DS.$widgetname.'.tpl');
+            echo $smarty->fetch($this->moduleName.DS.$this->getWidgetTemplateName());
         }
         else
         {
             # Modulefolder: news\templates\widget_news.tpl
-            echo $smarty->fetch($modulename.DS.'templates'.DS.$widgetname.'.tpl');
+            echo $smarty->fetch($this->moduleName.DS.'templates'.DS.$this->getWidgetTemplateName());
+            #$this->widgetTemplate = $modulename.DS.'templates'.DS.$widgetname.'.tpl';
         }
     }
 

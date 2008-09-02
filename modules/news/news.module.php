@@ -347,8 +347,9 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
      * @param $smarty Smarty Render Engine Object
      * @returns content of news_widget.tpl
      */
-    public function widget_news($numberNews, &$smarty)
+    public function widget_news($numberNews)
     {
+        $smarty = $this->getView();
         $news = Doctrine_Query::create()
                           ->select('n.*, u.nick, u.user_id, c.name, c.image')
                           ->from('CsNews n')
@@ -361,7 +362,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         $smarty->assign('news_widget', $news);
 
-        $this->renderWidget(__METHOD__, $smarty);
+        $this->renderWidget(__METHOD__);
     }
 }
 ?>
