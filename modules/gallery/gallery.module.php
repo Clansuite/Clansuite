@@ -59,7 +59,7 @@ class Module_Gallery extends ModuleController implements Clansuite_Module_Interf
      */
     public function widget_gallery($item)
     {
-        $this->renderWidget(__METHOD__);
+        $this->renderWidget();
     }
 
 

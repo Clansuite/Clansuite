@@ -97,6 +97,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     // Variable contains the module name
     public $moduleName = null;
 
+    // Variable contains the method name
+    public $methodName = null;
+    
     /**
      * Constructor
      *
@@ -491,11 +494,15 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @param $modulename Modulename of the widget to display
      */
-    public function renderWidget($methodname = null)
+    public function renderWidget($template_name = null)
     {
-        if( !empty( $methodname ) && empty($this->widgetTemplate) )
+        if( empty( $template_name ) )
         {
-            $this->setWidgetTemplate($methodname);
+            $this->setWidgetTemplate($this->methodName . '.tpl');
+        }
+        else
+        {
+            $this->setWidgetTemplate($template_name);
         }
         
         # Get the view

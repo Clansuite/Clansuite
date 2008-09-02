@@ -506,6 +506,7 @@ class view_smarty extends renderer_base
         # Instantiate Class
         $controller = new $module_name;
         $controller->moduleName = $mod;
+        $controller->methodName = $action;
         $controller->setView($smarty);
         
         /**
