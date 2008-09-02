@@ -509,7 +509,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $smarty = $this->getView();
             
         # check for theme tpl / else take module tpl
-        if($smarty->template_exists( $this->getWidgetTemplateName()))
+        if($smarty->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
         {
             # Themefolder: news\widget_news.tpl
             echo $smarty->fetch($this->moduleName.DS.$this->getWidgetTemplateName());
