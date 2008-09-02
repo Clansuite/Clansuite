@@ -72,11 +72,6 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     protected $output = null;
 
-    // note by vain: check if these are still needed -> from v0.1 now deprecated?
-    // positional check: this is view-related!
-    protected $additional_head  = null;
-    protected $suppress_wrapper = null;
-
     // Variable contains the rendering engine (view object)
     public $view = null;
 
@@ -203,15 +198,28 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         #print $methodname;
 
-        # handle method!
-
+        /**
+         * Handle Method
+         *
+         * 1) check if method exists in module, then call it
+         * 2) check if method exists in module/actions path, then call it
+         * 3) if not found display error
+         *
+         */
         if(method_exists($this,$methodname))
         {
-            # call the method !
+            # 1. call the method on module!
             $this->{$methodname}();
         }
+        /**
+        elseif
+        {
+            callFileActions
+        }
+        */
         else
         {
+            # 3. error
             trigger_error('Action does not exist: ' . $methodname);
             exit();
         }
@@ -347,27 +355,32 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
         $subModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
         #echo 'SubModuleName : '.$subModuleName.'<br>';
+
         if( empty($this->template) )
         {
             if(strlen($subModuleName) > 0)
             {
-                if( $actionName )
+                if(strlen($actionName) > 0 )
                 {
-                    $template = $moduleName.DS.$subModuleName.'_'.$actionName.'.tpl';
+                    # news/action_admin_show.tpl
+                    $template = $moduleName.DS.'action_'.$subModuleName.'_'.$actionName.'.tpl';
                 }
                 else
                 {
+                    # news.tpl
                     $template = $moduleName.'.tpl';
                 }
             }
             else
             {
-                if( $actionName )
+                if(strlen($actionName) > 0)
                 {
-                    $template = $moduleName.DS.$actionName.'.tpl';
+                    # news/action_show.tpl
+                    $template = $moduleName.DS.'action_'.$actionName.'.tpl';
                 }
                 else
                 {
+                    # news.tpl
                     $template = $moduleName.'.tpl';
                 }
             }
@@ -385,11 +398,22 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         $this->setTemplate($template);
     }
 
+    /**
+     * Sets the Render Mode
+     *
+     * Available Modes: WRAPPED,...
+     *
+     * @param $mode RenderMode
+     */
     public function setRenderMode($mode)
     {
         $this->getView()->renderMode = $mode;
     }
 
+    /**
+     * Get the Render Mode
+     *
+     */
     public function getRenderMode()
     {
         if(empty($this->getView()->renderMode))
@@ -400,7 +424,33 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * controller_base::prepareRendering();
+     * modulecontroller->renderWidget()
+     *
+     * Outputs the widget template of a module
+     * 1. searches template in theme folder: news\widget_news.tpl
+     * 2. searches template in module folder: news\template\widget_news.tpl
+     *
+     * @param $modulename Modulename of the widget to display
+     */
+    public function renderWidget(&$smarty)
+    {
+        $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+
+        # check for theme tpl / else take module tpl
+        if($smarty->template_exists( $modulename.DS.'widget_'.$modulename.'.tpl'))
+        {
+            # Themefolder: news\widget_news.tpl
+            echo $smarty->fetch( $modulename.DS.'widget_'.$modulename.'.tpl');
+        }
+        else
+        {
+            # Modulefolder: news\templates\widget_news.tpl
+            echo $smarty->fetch($modulename.DS.'templates'.DS.'widget_'.$modulename.'.tpl');
+        }
+    }
+
+    /**
+     * modulecontroller->prepareOutput();
      *
      * All Output is done via the Response Object.
      * ModelData -> View -> Response Object
