@@ -14,6 +14,7 @@ FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckedit
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
 GRAPH                     1.7.4      NONE, FREE               http://www.zackbloom.org/graph/ *down
 GZIP_ENCODE               0.67       LGPL                     http://www.leknor.com/code/php/ *down, fetchable via typo3 repos
+PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
 PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
