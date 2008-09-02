@@ -362,7 +362,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         $smarty->assign('news_widget', $news);
 
-        $this->renderWidget(__METHOD__);
+        $this->renderWidget();
     }
 }
 ?>

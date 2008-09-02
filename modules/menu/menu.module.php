@@ -75,6 +75,6 @@ class Module_Menu extends ModuleController implements Clansuite_Module_Interface
      */
     public function widget_menu($item)
     {
-        $this->renderWidget(__METHOD__);
+        $this->renderWidget();
     }
 }

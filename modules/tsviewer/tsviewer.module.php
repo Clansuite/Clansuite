@@ -69,7 +69,7 @@ class Module_tsviewer extends ModuleController implements Clansuite_Module_Inter
         # assign
         $smarty->assign('tsviewer', $tsviewer);
 
-        $this->renderWidget(__METHOD__);
+        $this->renderWidget();
     }
 }
 ?>

@@ -115,7 +115,7 @@ class Module_wwwstats extends ModuleController implements Clansuite_Module_Inter
         $smarty = $this->getView();
         $smarty->assign('stats', self::fetch_wwwstats());
         
-        $this->renderWidget(__METHOD__);        
+        $this->renderWidget();        
     }
 }
 ?>
