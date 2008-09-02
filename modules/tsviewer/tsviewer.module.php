@@ -52,8 +52,9 @@ class Module_tsviewer extends ModuleController implements Clansuite_Module_Inter
         $this->processActionController($request);
     }
 
-    public function widget_tsviewer($params, &$smarty)
+    public function widget_tsviewer($params)
     {
+        $smarty = $this->getView();
         /*
         # get data
         $tsviewer = Doctrine_Query::create()
@@ -68,15 +69,7 @@ class Module_tsviewer extends ModuleController implements Clansuite_Module_Inter
         # assign
         $smarty->assign('tsviewer', $tsviewer);
 
-        # check for theme tpl / else take module tpl
-        if($smarty->template_exists('tsviewer/tsviewer_widget.tpl'))
-        {
-            echo $smarty->fetch('tsviewer/tsviewer_widget.tpl');
-        }
-        else
-        {
-            echo $smarty->fetch('tsviewer/templates/tsviewer_widget.tpl');
-        }
+        $this->renderWidget(__METHOD__);
     }
 }
 ?>

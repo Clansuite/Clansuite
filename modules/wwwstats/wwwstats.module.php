@@ -110,19 +110,12 @@ class Module_wwwstats extends ModuleController implements Clansuite_Module_Inter
     
     
     
-    public function widget_wwwstats($params, &$smarty)
+    public function widget_wwwstats($params)
     {       
+        $smarty = $this->getView();
         $smarty->assign('stats', self::fetch_wwwstats());
         
-        # check for theme tpl / else take module tpl
-        if($smarty->template_exists('wwwstats/wwwstats_widget.tpl'))
-        {
-            echo $smarty->fetch('wwwstats/wwwstats_widget.tpl');
-        }
-        else
-        {
-            echo $smarty->fetch('wwwstats/templates/wwwstats_widget.tpl');
-        }
+        $this->renderWidget(__METHOD__);        
     }
 }
 ?>

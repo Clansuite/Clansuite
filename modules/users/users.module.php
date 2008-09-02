@@ -139,9 +139,10 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
      * @param $smarty Smarty Render Engine Object
      * @returns content of users_widget.tpl
      */
-    public function widget_lastregisteredusers($numberUsers, &$smarty)
+    public function widget_lastregisteredusers($numberUsers)
     {
         
+        $smarty = $this->getView();
         # fetch specified num of last registered users 
         $last_registered_users = Doctrine_Query::create()
                                  ->select('u.user_id, u.email, u.nick, u.country')                                 
@@ -155,15 +156,7 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         # assign        
         $smarty->assign('last_registered_users', $last_registered_users);
         
-        # check for theme tpl / else take module tpl
-        if($smarty->template_exists('users/lastregisteredusers_widget.tpl'))
-        {
-            echo $smarty->fetch('users/lastregisteredusers_widget.tpl');
-        }
-        else
-        {
-            echo $smarty->fetch('users/templates/lastregisteredusers_widget.tpl');
-        }
+        $this->renderWidget(__METHOD__);
     }
 }
 
