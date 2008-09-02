@@ -432,20 +432,34 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @param $modulename Modulename of the widget to display
      */
-    public function renderWidget(&$smarty)
+    public function renderWidget($methodname, &$smarty)
     {
-        $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+        $widgetname         = null;
+        $methodname_array   = array();
+        $modulename         = null;
+        
+        # incomming widgetname is e.g. Module_News::widget_news
+        $methodname_array = split('::',  strtolower($methodname));
+        # get widgetname from methodname array      
+        $widgetname = $methodname_array[1];        
+        # splitt the first item of the methodname_array to get the modulename
+        $modulename_array = split('_',  strtolower($methodname_array[0]));
+        # assign modulename
+        $modulename =  $modulename_array[1];
+
+        # if widgetname == null take $modulename as $widgetname
+        if ( $widgetname == null ) { $widgetname = $modulename; }
 
         # check for theme tpl / else take module tpl
-        if($smarty->template_exists( $modulename.DS.'widget_'.$modulename.'.tpl'))
+        if($smarty->template_exists( $modulename.DS.$widgetname.'.tpl'))
         {
             # Themefolder: news\widget_news.tpl
-            echo $smarty->fetch( $modulename.DS.'widget_'.$modulename.'.tpl');
+            echo $smarty->fetch( $modulename.DS.$widgetname.'.tpl');
         }
         else
         {
             # Modulefolder: news\templates\widget_news.tpl
-            echo $smarty->fetch($modulename.DS.'templates'.DS.'widget_'.$modulename.'.tpl');
+            echo $smarty->fetch($modulename.DS.'templates'.DS.$widgetname.'.tpl');
         }
     }
 
