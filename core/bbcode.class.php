@@ -4,10 +4,7 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         bbcode.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for for BBCode Handling
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -33,7 +30,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id$
     */
@@ -188,7 +184,7 @@ class bbcode
         }
 
         // Include & Instantiate GeSHi
-        require_once( ROOT_CORE . '/geshi/geshi.php' );
+        require_once( ROOT_LIBRARIES . '/geshi/geshi.php' );
         $geshi = new GeSHi($content, $attributes['default']);
          
         return $geshi->parse_code();

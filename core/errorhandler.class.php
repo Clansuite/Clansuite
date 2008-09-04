@@ -4,10 +4,7 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         errorhandling.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for Error Handling
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -32,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id$
     */
@@ -41,10 +37,10 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * This Clansuite Core Class for Error Handling
+ * This Clansuite Core Class for Errorhandling
  *
- * Version 0.2
- * Notes: File was rewritten for Release 0.2.
+ * @author     Jens-Andre Koch <vain@clansuite.com>
+ * @copyright  Jens-Andre Koch (2005 - onwards)
  *
  * @package     clansuite
  * @category    core
@@ -53,6 +49,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class errorhandler
 {
     private $config; # holds configuration instance
+
+    private static $errorstack = array(); # holds errorstack elements
 
     /**
      * Errorhandler Constructor
@@ -74,6 +72,42 @@ class errorhandler
 
         # register own shutdown function
         #register_shutdown_function(array(&$this,'shutdown_and_exit'));
+    }
+
+    /**
+     * Add an Error to the ErrorStack
+     *
+     * @param $errormessage
+     * @param $errorcode
+     */
+    public static function addError($errormessage, $errorcode)
+    {
+        Clansuite_Errorstack::$errorstack[] = array('message'   => $errormessage,
+                                                    'code' => $errorcode);
+    }
+
+    /**
+     * toString Magic Method to display the Errorstack
+     */
+    public static function toString()
+    {
+        $output = '';
+
+        foreach(Clansuite_Errorstack::$errorstack as $error)
+        {
+		    $output .= 'Error: '. $error['message'] .' Code: ' .$error['code'] . "\n\n";
+		}
+		return $output;
+    }
+
+    /**
+     * Get Method for fetching the whole Errorstack
+     *
+     * @return errorhandler:$errorstack
+     */
+    public static function getErrorStack()
+    {
+        return Clansuite_ErrorStack:$errorstack;
     }
 
     /**
@@ -201,7 +235,7 @@ class errorhandler
     {
        if ($this->config['suppress_errors'] == 0 )
        {
-            $error_head = 'Clansuite Exception';            
+            $error_head = 'Clansuite Exception';
             $this->ysod($exception, $error_head, 'Exception:', 1000);
        }
     }
