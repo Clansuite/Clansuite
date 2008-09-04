@@ -496,12 +496,13 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function renderWidget($template_name = null)
     {
-        if( empty( $template_name ) )
+        if( empty( $template_name ) && empty( $this->widgetTemplate ) )
         {
             $this->setWidgetTemplate($this->methodName . '.tpl');
         }
-        else
+        elseif ( empty( $this->widgetTemplate ) )
         {
+            #echo $this->widgetTemplate;
             $this->setWidgetTemplate($template_name);
         }
         
