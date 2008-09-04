@@ -107,7 +107,7 @@ class errorhandler
      */
     public static function getErrorStack()
     {
-        return Clansuite_ErrorStack:$errorstack;
+        return Clansuite_ErrorStack::$errorstack;
     }
 
     /**
