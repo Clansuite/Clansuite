@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS.
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -61,7 +62,7 @@ class clansuite_xdebug
         if (function_exists('xdebug_start_trace'))
         {
             return true;
-        }       
+        }
         return false;
     }
 
@@ -129,13 +130,14 @@ class clansuite_xdebug
             });
             </script>
         ";
+
         self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
         self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
         self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
-        self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. xdebug_stop_trace();
+        self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. @xdebug_stop_trace();
         echo self::$_xdebug_memory_before;
 
-        # stop tracings and var_dump       
+        # stop tracings and var_dump
         xdebug_dump_superglobals();
         echo "</center></div>";
         # var_dump(xdebug_get_code_coverage());
