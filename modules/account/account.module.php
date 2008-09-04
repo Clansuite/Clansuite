@@ -57,8 +57,10 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
     public function action_show()
     {
-        $this->setTemplate('login.tpl');
-        $this->prepareOutput();
+        $this->setTemplate('action_login.tpl');
+        $this->action_login();
+        
+        #$this->prepareOutput();
     }
 
     /**
@@ -507,7 +509,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
         $smarty->assign( 'err', $err );
 
         // Output
-        $this->setTemplate('activation_email.tpl');
+        #$this->setTemplate('activation_email.tpl');
         $this->prepareOutput();
     }
 
@@ -656,7 +658,7 @@ class Module_Account extends ModuleController implements Clansuite_Module_Interf
 
         $smarty = $this->getView();
         $smarty->assign('err', $err);
-        $this->setTemplate('forgot_password.tpl');
+        #$this->setTemplate('forgot_password.tpl');
         $this->prepareOutput();
     }
 
