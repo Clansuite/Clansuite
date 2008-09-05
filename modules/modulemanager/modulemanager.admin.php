@@ -315,30 +315,41 @@ class Module_Modulemanager_Admin extends ModuleController implements Clansuite_M
         $config = $smarty->fetch('module_config.tpl');
         file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.config.php' , $config);
 
-        // Templates
-        foreach( $mod['frontend']['frontend_methods'] as $key => $value )
+        // FRONTEND TPLS
+        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {
-            if( isset($mod['frontend']['frontend_tpls'][$key]) )
+            foreach( $mod['frontend']['frontend_methods'] as $key => $value )
             {
-                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                if( isset($mod['frontend']['frontend_tpls'][$key]) )
+                {
+                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                }
             }
         }
 
-        foreach( $mod['backend']['backend_methods'] as $key => $value )
+        // BACKEND TPLS
+        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
-            if( isset($mod['backend']['backend_tpls'][$key]) )
+            foreach( $mod['backend']['backend_methods'] as $key => $value )
             {
-                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                if( isset($mod['backend']['backend_tpls'][$key]) )
+                {
+                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                }
             }
         }
         
-        foreach( $mod['widget']['widget_methods'] as $key => $value )
-        {
-            if( isset($mod['widget']['widget_tpls'][$key]) )
+        // WIDGET TPLS
+        if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
+        {        
+            foreach( $mod['widget']['widget_methods'] as $key => $value )
             {
-                file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                if( isset($mod['widget']['widget_tpls'][$key]) )
+                {
+                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                }
             }
-        }        
+        }
         
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
