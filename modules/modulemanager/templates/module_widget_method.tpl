@@ -5,7 +5,7 @@
      * @param void
      * @return void 
      */
-    {$mod.widget.widget_scopes.$key} function {$item}($item, &$smarty){literal}
+    {$mod.widget.widget_scopes.$key} function {$item}($item){literal}
     {{/literal}
         {if isset($mod.widget.widget_snippets.$key) }
 
@@ -13,6 +13,6 @@
 {include file="snippets_$item2.tpl"}               
 {/foreach}
         {/if}
-        {if $mod.widget.widget_outputs.$key == '1'}$this->renderWidget($smarty);{/if}{literal}
+        {if $mod.widget.widget_outputs.$key == '1'}$this->renderWidget();{/if}{literal}
     }{/literal}
 {/foreach}
