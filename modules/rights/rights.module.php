@@ -38,39 +38,55 @@
     */
 
 /**
- * {$mod.meta.title} Admin Module (Backend)
- * ({$mod.module_name})
+ * Rights module for ClanSuite Module (Frontend)
+ * (rights)
  *
- * @license    {$mod.meta.license}
- * @author     {$mod.meta.author}
- * @link       {$mod.meta.homepage}
+ * @license    GPL v2 or later
+ * @author     Florian Wolf
+ * @link       http://www.clansuite.com
  */
-{literal}
+
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-{/literal}
+
 /**
  * @package Clansuite
- * @subpackage module_admin_{$mod.module_name}
+ * @subpackage module_rights
  */
-class Module_{$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface{literal}
-{{/literal}
+class Module_Rights extends ModuleController implements Clansuite_Module_Interface
+{
     /**
-     * Main Method of {$mod.module_name|capitalize} Module
+     * Main Method of Rights Module
      *
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
      */
-    public function execute(httprequest $request, httpresponse $response){literal}
-    {{/literal}  
+    public function execute(httprequest $request, httpresponse $response)
+    {  
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/{$mod.module_name}/{$mod.module_name}.config.php');
+        $this->config->readConfig( ROOT_MOD . '/rights/rights.config.php');
 
         # proceed to the requested action
-        $this->processActionController($request);{literal}
-    }{/literal}     
-{$backend_methods|default}
-{literal}
+        $this->processActionController($request);
+    }     
+
+    /**
+     * The action_show method for the Rights module
+     * @param void
+     * @return void 
+     */
+    public function action_show()
+    {
+        # Set Pagetitle and Breadcrumbs
+        trail::addStep( _('Show'), '/index.php?mod=rights&amp;action=show');
+
+        
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+
+
 }
-{/literal}
+
 ?>

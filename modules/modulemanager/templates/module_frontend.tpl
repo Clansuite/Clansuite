@@ -1,7 +1,9 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-Andre Koch (c) 2005 - onwards
+    * Florian Wolf (c) 2006 - onwards
+    *
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -25,7 +27,9 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -46,9 +50,6 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 {/literal}
 /**
- * An example class, this is grouped with
- * other classes in the "sample" package and
- * is part of "classes" subpackage
  * @package Clansuite
  * @subpackage module_{$mod.module_name}
  */

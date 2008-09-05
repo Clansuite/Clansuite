@@ -77,7 +77,20 @@ class Module_Modulemanager_Admin extends ModuleController implements Clansuite_M
         
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $view = $this->getView();
         
+        // Init vars
+        $modules = array();
+        
+        $mod_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
+        foreach( $mod_glob as $mod )
+        {
+            $modules[] = array(
+                'name' => ucfirst(str_replace( ROOT . 'modules' . DS ,'', $mod))
+            );
+        }
+        
+        $view->assign('modules', $modules);
         
 
         // Prepare the Output
