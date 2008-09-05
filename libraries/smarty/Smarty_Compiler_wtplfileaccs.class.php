@@ -190,6 +190,7 @@ class Smarty_Compiler_wtplfileaccs extends Smarty_Compiler
         $_cacheable_state = $this->_push_cacheable_state('function', $tag_command);
 
 					// Brett added
+					if(empty($this->doc_infoalias)){ $this->doc_infoalias = null; }
 					if ($tag_command === $this->doc_infoalias || $tag_command === 'info' || $tag_command === 'doc_info' || $tag_command === 'tag') {
 						$tag_args .= ' tplorig="'.$this->_current_file.'"';
 					} // end if
