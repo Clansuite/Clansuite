@@ -2,11 +2,11 @@
 
 /**
  * Project:     SmartyDoc2 - a Plugin for Smarty
- * File:        SmartyDoc2.class.php5
+ * File:        SmartyDoc2.class.php
  *
- * SmartyDocB helps to create a qualified document using 
+ * SmartyDocB helps to create a qualified document using
  * previously collected user information.
- * 
+ *
  * Requires:    PHP5 and Smarty 2.6.10+
  *
  * License:
@@ -30,7 +30,7 @@
  * @link http://sourceforge.net/projects/smartydocb/
  *
  * @copyright   vain 2007
- *              brettz9 2006-2007
+ *              brettz9 2006-2008
  *              brainpower, boots 2002-2007
  * @author	    brettz9 <brettz9@yahoo.com>
  * @author      vain    <jakoch@web.de>
@@ -41,12 +41,6 @@
  *
  * @version     SVN: $Id$
  */
-
-/**
- * Global variable used for localizing my own scripts
- * you should uncomment this just in case you have register globals on
- */
-// $langu = '';
 
 /**
  *  Require the Smarty_Compiler.class
@@ -79,16 +73,22 @@ class Render_SmartyDoc extends Smarty
 	 *
 	 * @var bool
 	 */
-	public $add_openclose = true;
+	public $add_openclose = false;
 
+	/**
+	 * If true, will override XHTML detection of headers in the event of having
+	 * XHTML 1.1 or higher doc_info's
+	 *
+	 * @var bool
+	 */
+	public $xhtmldebug = false;
 	/**
 	 * If true, will add relevant XML headers, and allow stylesheets to be added
 	 * (with appropriate attributes) as xsl-stylesheet's rather than link tags (if
 	 * not using XHTML, be sure to change add_openclose also to false, so html,
 	 * head, and body tags won't be added automatically); if true, be wary of
 	 * inline scripts/styles and even other elements like titles getting distorted
-	 * in Firefox (as it will serve application/xhtml+xml as it is supposed to, but
-	 * which is not well-supported)
+	 * in Firefox (as it will serve application/xhtml+xml as it is supposed to)
 	 *
 	 * @var bool
 	 */
@@ -128,7 +128,7 @@ class Render_SmartyDoc extends Smarty
 	public $application_xml = true;
 
 	/**
-	 * If set to true, this will perform a DOM validation (according to whatever 
+	 * If set to true, this will perform a DOM validation (according to whatever
 	 * DTD you have in your document) and output the results (if negative) in an array.
 	 * Can also be forced to true (even if false here) by setting the following in a template:
 	 * {assign var=validateon value=true}
@@ -140,9 +140,9 @@ class Render_SmartyDoc extends Smarty
 	 * exist in the document (e.g., if taking advantage of SmartyDocB features
 	 * strictly through the PHP interface)
 	 * Need to fix to use with dtds and not just xsds to allow http, etc. to show in the page HTML code?
-	 * @todo where does this belong to?
+	 * @todo: where does this belong to?
 	 */
-	public $use_auto = true; // 
+	public $use_auto = true; //
 
 	/**
      *	This is used to force the header to text/html even if the document
@@ -151,7 +151,7 @@ class Render_SmartyDoc extends Smarty
      *	or server-side transformation). // Still working on this and not sure I need
      *	this after all (scratches head)
 	 */
-	public $force_html = false; // 
+	public $force_html = false; //
 	public $force_css = false;
 
 	/**
@@ -175,13 +175,13 @@ class Render_SmartyDoc extends Smarty
 	public $site_root_hidden = '';
 	// The following need slashes at the beginning
 	public $dr_css_file_src = '/dr_mainstyles.css';
-	public $dr_code_file_st = '/dr_mainscripts_';
+
 	public $dr_code_file_src = '/dr_mainscripts.js';
 	public $dr_xsl_file_src = '/dr_mainxsl.xsl';
 	public $dr_xsd_file_src = ''; // Set in constructor via set_rootnode
 	public $dr_dtd_file_src = ''; // Set in constructor via set_rootnode
 	public $dr_notes_file_src = '/dr_mainnotes.txt';
-	
+
 	public $rootnode = 'html';
 	public $xmlns = ''; // 'http://www.w3.org/1999/xhtml'; // To be changed for plain XML
 
@@ -190,7 +190,7 @@ class Render_SmartyDoc extends Smarty
 	public $dr_code_file;
 	public $dr_xsl_file;
 	public $site_public_root_dir;
-	
+
 	public $root_nns_xsd; // Can specify if adding an XSD noNamespaceSchemaLocation attribute (or do it instead via the template, doc_raws, etc.)
 
 	public $xsd_ns = 'http://www.w3.org/2001/XMLSchema';
@@ -204,7 +204,7 @@ class Render_SmartyDoc extends Smarty
 	public $entity_prefixed; // These may also be used in external dtd subsets/external parameter entity references: http://www.w3.org/TR/REC-xml/#NT-extSubset
 
 	public $xsl_prefixed; // Set in constructor
-	
+
 	public $xsl_postfixed = "\n</xsl:stylesheet>";
 
 	public $dr_notes_pre = '<!-- Notes for this file are taken at: "';
@@ -221,14 +221,24 @@ class Render_SmartyDoc extends Smarty
 	public $dr_comments_postpre = '';
 	public $dr_comments_post = " -->\n";
 	public $dr_style_pre; // Set later
-	
-	
+
+	public $dr_doctype_pre;
+	public $dr_doctype_post;
+
+	public $dr_head_post;
+
 	public $dr_style_postpre = ">\n\t<!--/*--><![CDATA[/*><!--*/\n";
 	public $dr_style_post = "\t/*]]>*/--></style>\n";
-	
+	public $dr_style_postpre_xml = ">\n\t<![CDATA[\n";
+	public $dr_style_post_xml = "\t]]></style>\n";
+
+
 	public $dr_script_pre; // Set later
 	public $dr_script_postpre = ">\n\t<!--//--><![CDATA[//><!--\n";
 	public $dr_script_post = "\t//--><!]]></script>\n";
+	public $dr_script_postpre_xml = ">\n\t<![CDATA[\n";
+	public $dr_script_post_xml = "\t]]></script>\n";
+
 	public $xform_all = false; // Set to true if want to always perform server-side transforms of XSL, even if the attribute is not specified in the template code
 	public $xform_none = false; // Perform no server-side transforms (besides those using the xsl/xml functions/modifiers which are transformed of necessity)
 	public $xform_get = true; // If set to true, this will allow server-side XSL to be avoided in favor of client-side (this would allow you in debugging (or if you wanted to share your raw XML and XSL) to view the prexformed data
@@ -244,23 +254,22 @@ class Render_SmartyDoc extends Smarty
 	public $strip_all_whitespace = false; // You may want to set this to true as you can still allow whitespace to be optionally seen with $whitespace_get and specify a $whitespace_get_url to determine the URL call to control whitespace from the site (and optionally have $show_whitespace_comments turned on so that others visiting your site can optionally view these options (listed within comments at the top of the HTML source code) to have whitespace added back or removed); note however that this removes all extra whitespace regardless of pre blocks.
 	public $show_whitespace_comments = true; // Note that if you don't want the feature on at all, you have to set $whitespace_get to false--otherwise the latter must be turned on for the comments to show
 	public $strip_all_ws_xhtmlbasic = true;
-	public $whitespace_comments = false; // Will put comments at the top of the document (after any XML declaration) to let people know that they can see the whitespace added back or taken away with the right GET url)
+	public $whitespace_comments = true; // Will put comments at the top of the document (after any XML declaration) to let people know that they can see the whitespace added back or taken away with the right GET url)
 	private $whitespace_comment_type;
 
 //	public $xhtmlbasic_xsl = 'http://www.w3.org/2003/04/xhtml1ToBasic.xsl'; // Infinitely faster to copy this to a local file location!
 
-	public $xhtmlbasic_xsl = '/home/bahai/public_html/xhtmlbasic1.xsl'; // Infinitely faster to copy this to a local file location!
+	public $xhtmlbasic_xsl; // Infinitely faster to copy this to a local file location!
 
-	
+
 	public $xformtobasic_get = true; // Allows transformation into XHTML Basic via a GET request
 	public $xformtobasic_url = 'xhtmlbasic1'; // If $xformtobasic_get is true, defines the GET Request name that will trigger the transform
 
 	public $auto_xform_mobile = true; // Automatically transform file into XHTML Basic when detecting mobile user agent devices
-	// public $Browscap_file = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\Browscap.php5';
-	// public $Browscap_cache_dir = 'c:\Program Files\Apache Software Foundation\Apache2.2\hiddentext\Browscap\cache';
-	public $Browscap_file = '/home/bahai/Browscap/Browscap.php5';
-	public $Browscap_cache_dir = '/home/bahai/Browscap/cache';
-	
+
+	public $Browscap_file; // = '/home/user/Browscap/Browscap.php5';
+	public $Browscap_cache_dir; // = '/home/user/Browscap/cache';
+
 	// See also the prefilter for "safe" abbreviations (e.g., search down for [=  )
 	// The following should only be changed carefully as their sequence is important (see the prefilter)
 	// Note that if the tagc items are changed to single <>'s, any HTML you have will be run through this function--this may be an advantage if you want your styles first transferred into your main site's stylesheet (referencing an id unless you prepend a "e" and or "cl" prefix to the style attribute in which case it may instead reference an element or class (an auto-created class, that is, if none exists)); however, it is not a good idea to use that approach normally, it could also slow things down quite a bit, especially if you have a lot of tags to go through! If you do change it to single <>'s, you will probably also want to keep/set "styles_to_css" below to true as well so that the styles will go into an external file
@@ -274,7 +283,7 @@ class Render_SmartyDoc extends Smarty
 //	public $left_tagclose = '{{/';  // Didn't really need these (unless making them as opening rather than self-closing tags--but opening would probably be rare)
 //	public $right_tagclose = '}}';
 	public $styles_to_css = false; // Will convert all tag function uses of style (e.g., istyle) into the css equivalent (especially useful when tag function set to replace all HTML tags, as "style" (or subsequent tweaks such as "clstyle", etc.) will be shuffled off into an external file (you may also wish to consider changing the tagc delimiters above to single <>'s as described in a note above.
-	
+
 	/**
 	 * Variable is set via set_rootnode (set via the constructor)
 	 * @access protected
@@ -294,16 +303,16 @@ class Render_SmartyDoc extends Smarty
 	public $encoding = 'UTF-8'; // Used for generating headers
 	public $HTTP_ACCEPT = 'text/html';
 
-	public $rewrite_docraw_on = false; // This should be turned off (to false) to gain performance if code within doc_raw (css or code) is not changing but is required for the styles/scripts/etc. to be written (unless turned on by setting the rewrite_docraw_get to true and calling it via a GET request!
+	public $rewrite_docraw_on = true; // This should be turned off (to false) to gain performance if code within doc_raw (css or code) is not changing but is required for the styles/scripts/etc. to be written (unless turned on by setting the rewrite_docraw_get to true and calling it via a GET request!
 	public $rewrite_docraw_get = true; // Lets a URL be specified to choose the value of $rewrite_docraw_on
-	public $rewrite_docraw_get_url = 'rewrite'; // If you have the rewrite_docraw_get set to 'true', you may want to change this so that other visitors to your site cannot force a rewrite of your CSS on each load with the GET
+	public $rewrite_docraw_get_url = 'rewr'; // If you have the rewrite_docraw_get set to 'true', you may want to change this so that other visitors to your site cannot force a rewrite of your CSS on each load with the GET
 	public $gzip_output = true; // Tries to gzip the main output if the browser will accept it (and if not already on via the Zlib extension)
 
 	// Note the following will not uncomment the comments within files which are needed to identify which blocks to rewrite on subsequent calls
 	public $external_comments = false; // Indicates template source in comments within the main document (surrounding the tag referencing the external content or tags without specific head content)
-	public $head_comments = false; // Indicates template source in comments within the main document (surrounding all of the doc_raws targeted for that block)
+	public $head_comments = true; // Indicates template source in comments within the main document (surrounding all of the doc_raws targeted for that block)
 	public $print_main_comments = false; // Setting this to false will cause individual doc_raw items targeted for the head not to possess comments
-	public $comments = false; // Controls placement of external comments, head comments, and main comments (this should be set to false unless you want to turn all on); this is most useful to have on when debugging or when changing CSS
+	public $comments = true; // Controls placement of external comments, head comments, and main comments (this should be set to false unless you want to turn all on); this is most useful to have on when debugging or when changing CSS
 	public $comments_get = true; // Specifies whether one can use a $_GET URL to turn comments on
 	public $comments_get_url = 'commentson';
 	public $strip_xml_decl = false; // This can remove the resulting XML Declaration from XSL-transformed XML
@@ -318,6 +327,8 @@ class Render_SmartyDoc extends Smarty
 	private $extra_ent_comments;
 	private $entity_file_toget;
 
+    public $nexthide = null;
+
 //	private $keepapptype; // Set in getdoctypesignature
 	private $file_attribs = array('href', 'src', 'file', 'family'); // Brett added the last two to the condition (those to be urlencoded) // Not xmlns, xsi__noNamespaceSchemaLocation, xsi__schemaLocation ?
 	private $temp_content = '';
@@ -326,7 +337,7 @@ class Render_SmartyDoc extends Smarty
 	private static $class_ctr = 0; // Used by "tag" function
 	private static $id_ctr = 0; // Used by "tag" function
 	private $internaldoctype = false; // Used by getdoctypesignature
-
+	private $xhtmlbasic = false; // Used by xhtmlbasic_detect
 	/**
      * XInclude Variables as used by smarty_block_xinclude
      * Note that these are not implemented yet in browsers
@@ -339,7 +350,7 @@ class Render_SmartyDoc extends Smarty
 	 * @var	bool switches xinclude on/off
      */
     private $xincludeset = false;
-    
+
 	/**
 	 * This denotes which XHTML (or other prespecified DTD's here) are modular
 	 * (i.e., which can accept internal doctypes)
@@ -677,8 +688,8 @@ class Render_SmartyDoc extends Smarty
 	private $doc_raw  = array();
 	private $doc_modules = array();
 
-	
-	
+    private $avoid_xml_stylesheet = false;
+
 	/**
 	 * CONSTRUCTOR
 	 *
@@ -688,11 +699,11 @@ class Render_SmartyDoc extends Smarty
 	public function __construct($doc_infoalias='', $doc_rawalias='')
 	{
 		// sets the doc_raw alias
-		if ($doc_rawalias != '') 
+		if ($doc_rawalias != '')
 		{
 			$this->doc_rawalias = $doc_rawalias;
 		}
-		
+
 		// sets the doc_infoalias
 		if ($doc_infoalias != '')
 		{
@@ -701,10 +712,16 @@ class Render_SmartyDoc extends Smarty
 		// Currently this just assigns the variable "SCRIPT_NAME"
 		$this->Smarty();
 
-		
+
 		$this->set_rewrite_docraw_get();
 		$this->set_comments_get();
 		$this->set_whitespace_get();
+
+		// A few variables that needed concatenation
+		$this->dr_xsl_pre = '<'.'?xml-stylesheet href="';
+		$this->dr_xsl_post = '?'.">\n";
+		$this->xsl_prefixed = '<'.'?xml version="1.0"?'.">\n".'<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">'."\n";
+		$this->entity_prefixed = '<'.'?xml version="1.0"?'.">\n";
 
 		$this->set_rootnode($this->rootnode);
 
@@ -717,19 +734,19 @@ class Render_SmartyDoc extends Smarty
 
 				if ($value['doc_raw_target'] === 'external')
 				{
-					// Populated with those elements which can be targets of doc_raw blocks 
+					// Populated with those elements which can be targets of doc_raw blocks
 					// and shuffled off into external files
 					$this->external_doc_raws[] = $key;
 				}
 			}
 
-			if (isset($value['occur_once'])) 
+			if (isset($value['occur_once']))
 			{
 				// Populated with those elements which should only occur once
 				$this->occur_once[] = $key;
 			}
 		}
-        
+
         /**
          * Register Smarty Functions
          *
@@ -738,21 +755,21 @@ class Render_SmartyDoc extends Smarty
          * - tag
          * - xslt
          */
-         
+
 		$this->register_function('info',        array($this, 'smarty_function_info'), false);
 		$this->register_function('doc_info',    array($this, 'smarty_function_info'), false); // alias
 		$this->register_function('tag',         array($this, 'smarty_function_tag'), false);
 		$this->register_function('xslt',        array($this, 'smarty_function_xslt'), false);
-		
+
 		/**
 		 * Register Smarty Modifiers
 		 * - xsl
 		 * - xml
-		 */	
-		 	
+		 */
+
 		$this->register_modifier('xsl',         array($this, 'smarty_modifier_xsl'), false);
 		$this->register_modifier('xml',         array($this, 'smarty_modifier_xml'), false);
-		
+
 		/**
 		 * Register Smarty Blocks
 		 *
@@ -764,9 +781,9 @@ class Render_SmartyDoc extends Smarty
 		 * - cdata
 		 * - xinclude
 		 *
-		 * @todo Check if these could be cached?
+		 * @todo: Check if these could be cached?
 		 */
-		 
+
 		$this->register_block('xsl',            array($this, 'smarty_block_xsl'), false);
 		$this->register_block('xml',            array($this, 'smarty_block_xml'), false);
 		$this->register_block('moveto',         array($this, 'smarty_block_moveto'), false);
@@ -774,11 +791,11 @@ class Render_SmartyDoc extends Smarty
 		$this->register_block('tagc',           array($this, 'smarty_block_tagc'), false);
 		$this->register_block('cdata',          array($this, 'smarty_block_cdata'), false);
 		$this->register_block('xinclude',       array($this, 'smarty_block_xinclude'), false);
-		
+
 		/**
 		 * Register Smarty Prefilter
 		 */
-		 		
+
 		$this->register_prefilter(array($this, 'smarty_prefilter_SmartyDoc'));
 	}
 
@@ -954,7 +971,7 @@ class Render_SmartyDoc extends Smarty
 
 	/**
      * If hide_notes(false) makes the notes public and visible in the comments of the output
-     * 
+     *
      * @param bool
      */
 	public function hide_notes ($bool = true) {
@@ -975,17 +992,9 @@ class Render_SmartyDoc extends Smarty
      *
      * @param string
      */
-	public function set_rootnode ($node = 'html') {
+	public function set_rootnode ($node = 'html')
+	{
 		$this->rootnode = $node;
-
-		// Localize script (for my own personal project)
-		global $langu;
-		$lang = $langu;
-		if (!in_array($langu, array('cy', 'de', 'en-US', 'zh-CN', 'zh-TW', 'es', 'fr', 'pt', 'ru', 'ar', 'fa', 'it', 'hu'))) {
-			$lang = 'err'; // This shouldn't overwrite English if there is an error
-		}
-		$this->dr_code_file_src = $this->dr_code_file_st.$lang.'.js';
-		$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$lang.'.js';
 
 		$this->dr_xsd_file_src = '/'.$node.'.xsd';
 		$this->dr_dtd_file_src = '/'.$node.'.dtd';
@@ -995,21 +1004,15 @@ class Render_SmartyDoc extends Smarty
 		$this->dr_dtd_file = $this->site_root_public.'/'.$node.'.dtd';
 		$this->dr_entity_file = $this->site_root_public.'/'.$node.'.xml';
 		$this->dr_entity_file_src = '/'.$node.'.xml';
-		
+
 		// May wish these to be undefined instead
 		$this->dr_css_file = $this->site_root_public.$this->dr_css_file_src;
 		$this->dr_code_file = $this->site_root_public.$this->dr_code_file_src;
 		$this->dr_xsl_file = $this->site_root_public.$this->dr_xsl_file_src;
 		$this->hidden_notes_dir($this->notes_in_hiddendir); // Sets notes dir
 
-		$this->dr_xsl_pre = '<'.'?xml-stylesheet href="';
-		$this->dr_xsl_post = '?'.">\n";
-		
 		$this->xsd_prefixed = '<'.'?xml version="'.$this->xsd_xml_version.'"?'.">\n".'<xs:schema xmlns:xs="'.$this->xsd_ns.'"targetNamespace="'.$this->xsd_target_ns.'"xmlns="'.$this->xsd_xmlns.'"elementFormDefault="'.$this->xsd_formdefault.'">'."\n";
 
-		$this->xsl_prefixed = '<'.'?xml version="1.0"?'.">\n".'<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">'."\n";
-		
-		$this->entity_prefixed = '<'.'?xml version="1.0"?'.">\n";
 	}
 
 	/**
@@ -1097,6 +1100,9 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function getDoctypeSignature($docinfo = 'doc_info', $val = '')
 	{
+        $docpre  = null;
+        $docpost = null;
+        $addrtbr = null;
 
 		if ($docinfo === 'doc_info' || $docinfo === $this->doc_infoalias)
 		{
@@ -1159,7 +1165,12 @@ class Render_SmartyDoc extends Smarty
 			else {
 				// only uses uppercase (SYSTEM or PUBLIC identifiers)
 				$type = strtoupper($value['type']);
-				$subtype = $value['subtype'];
+
+				if(isset($value['subtype']))
+				{
+				    $subtype = $value['subtype'];
+				}
+
 				// If dtd specified a root
 				if (!empty($value['root']))
 				{
@@ -1187,9 +1198,9 @@ class Render_SmartyDoc extends Smarty
 				{
 					$nosubtype = true;
 				}
-				
+
 				// For a doctype doc_raw with no subtype specified
-				if ($nosubtype && $this->avoid_blanksubtype) {
+				if (isset($nosubtype) && $this->avoid_blanksubtype) {
 					$dtd = $docpre.'<!DOCTYPE '.$root;
 					$dtd .= $rtbracket;
 					$dtd .= "\n".$docpost;
@@ -1319,28 +1330,33 @@ class Render_SmartyDoc extends Smarty
 	{
 
 		// The following should be in the occur_once array:'title', 'base', 'xml', 'html', 'root', 'head', 'body', 'doctype', 'dtd';
-		if ($docraw)
+		if (isset($docraw))
 		{
 			// Brett removed "is_string($params['key']) &&" from the following condition in order to allow keys which specified a sequence for placement
 			$key = (isset($params['key']) && strlen($params['key'])>0)
 				? $params['key']
 				: null;
-			$target = $params['target'];
-			$fileparam = $params['file'];
-			if ($fileparam == '')
+
+			if (isset($params['target'])){ $target = $params['target']; } else { $target = null; }
+
+			if (isset($params['file']))
 			{
-				$fileparam = 'main';
+				$fileparam = $params['file'];
+			}
+			else
+			{
+			    $fileparam = 'main';
 			}
 		}
-	
+
 		foreach ($this->doc_info_types as $allowed=>$rules)
 		{
 			$element = array();
-			
-			// This 'if' follows constraints unless 'root' is the element (assuming it is not the "root" attribute within a 'dtd' or 'doctype') 
+
+			// This 'if' follows constraints unless 'root' is the element (assuming it is not the "root" attribute within a 'dtd' or 'doctype')
 			// Brett added a condition for doc_raws since they won't necessarily have an allowable parameter (but they may rely on the default attributes and definitely on the meta attribute target)
-			if (($docraw && strstr($allowed, $target)) || 
-				(isset($params[$allowed]) && array_key_exists($allowed, $params)) || 
+			if (($docraw && strstr($allowed, $target)) ||
+				(isset($params[$allowed]) && array_key_exists($allowed, $params)) ||
 				($allowed === 'root' && isset($params['root'])&& !isset($params['dtd']) && !isset($params['doctype'])) ||
 				$allowed === 'pi' && isset($params['pi']))
 				{
@@ -1363,10 +1379,11 @@ class Render_SmartyDoc extends Smarty
 				}
 				else
 				{
-					if ($this->xml_plain && is_array($rules['include_in_xml']))
+					if ($this->xml_plain && isset($rules['include_in_xml']) && is_array($rules['include_in_xml']))
 					{
-						$rules2cycle = $rules['include_in_xml'];
-						if (is_array($rules['xml_defaults']))
+					    $rules2cycle = $rules['include_in_xml'];
+
+						if (isset($rules['xml_defaults']) && is_array($rules['xml_defaults']))
 						{
 							foreach($this->doc_info_types[$allowed]['xml_defaults'] as $defkey => $default)
 							{
@@ -1378,9 +1395,7 @@ class Render_SmartyDoc extends Smarty
 					{
 						$rules2cycle = $rules['optional'];
 					}
-
 					$rules2cycle = array_merge($rules2cycle, $rules['meta_attribs']);
-
 
 					$paramkeys = array_keys($params);
 
@@ -1388,10 +1403,10 @@ class Render_SmartyDoc extends Smarty
 					foreach ($paramkeys as $paramkey) {
 						if (((!$docraw && $paramkey !== $allowed) ||
 							($docraw && $params['target'] !== $allowed)) &&
-								!in_array($paramkey, $rules2cycle) && 
+								!in_array($paramkey, $rules2cycle) &&
 								!in_array($paramkey, $rules['defaults']))
 							{
-							// If decide to allow renameto's for docraws, the portion "!docraw &&" of the first condition should be removed 
+							// If decide to allow renameto's for docraws, the portion "!docraw &&" of the first condition should be removed
 							continue 2;
 						}
 					}
@@ -1413,7 +1428,7 @@ class Render_SmartyDoc extends Smarty
 						}
 						if (in_array($attribute, $this->file_attribs))
 						{
-							$element[$_attribute] = urlencode($element[$_attribute]);
+							$element[$_attribute] = @urlencode($element[$_attribute]);
 						}
 					}
 
@@ -1424,13 +1439,13 @@ class Render_SmartyDoc extends Smarty
 					$renameto = (is_null($rules['renameto'])) ? '_content' : $rules['renameto'];
 					$element[$renameto] = $params[$allowed];
 					// Docinfos now also have access to originating template (but won't print this out except in comments)
-					$element['tplorig'] = $params['tplorig'];
+					if(isset($params['tplorig'])){$element['tplorig'] = $params['tplorig'];}
 					if (in_array($allowed, $this->occur_once)) { // Those that occur once
 						$this->doc_info[$allowed] = $element;
 					}
 					else
 					{
-						$this->doc_info[$allowed][$element[$renameto]] = $element;	
+						$this->doc_info[$allowed][$element[$renameto]] = $element;
 					}
 				}
 				break;
@@ -1450,7 +1465,7 @@ class Render_SmartyDoc extends Smarty
 			else
 			{
 				$this->doc_raw[$target][$fileparam][$key] = $element;
-			} 
+			}
 		}
 	}
 
@@ -1469,7 +1484,7 @@ class Render_SmartyDoc extends Smarty
 	 *
 	 * @param $key
 	 * @param string $target
-	 *	 
+	 *
 	 * @return mixed raw header item based on key, current header item if key=null otherwise false
 	 */
 	public function getRawHeader($key=null, $target='head')
@@ -1528,8 +1543,35 @@ class Render_SmartyDoc extends Smarty
 	{
 		$this->fetchDoc($resource_name, $cache_id, $compile_id, true);
 	}
-	
 
+	private function xhtmlbasic_detect() {
+		// This test is necessary here to avoid including scripts, as these are not allowed in XHTML Basic (as with input type file, button, and nested tables)
+		if (isset($_GET[$this->xformtobasic_url]) && $_GET[$this->xformtobasic_url] && $this->xformtobasic_get)
+		{
+			$this->xsl[] = $this->xhtmlbasic_xsl;
+			$this->pre_xform[] = true;
+			$this->xhtmlbasic = true;
+		}
+		elseif ($this->auto_xform_mobile && $this->Browscap_file != '' && file_exists($this->Browscap_file))
+		{
+			//Loads the class (get at http://garetjax.info/projects/browscap/ )
+			require $this->Browscap_file;
+			//Creates a new browscap object; loads or creates the cache)
+			$bc = new Browscap($this->Browscap_cache_dir);
+			//Gets information about the current browser's user agent
+			$current_browser = $bc->getBrowser();
+			if ($current_browser->isMobileDevice)
+			{
+				$this->xsl[] = $this->xhtmlbasic_xsl;
+				$this->pre_xform[] = true;
+				$this->xhtmlbasic = true;
+			}
+	    }
+
+		if ($this->xhtmlbasic) {
+			$this->assign('xhtmlbasic_flag', true);
+		}
+	}
 
 	/**
 	 * Produce a complete document as determined by the collected document
@@ -1545,18 +1587,21 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function fetchDoc($resource_name, $cache_id=null, $compile_id=null, $display=false)
 	{
-		
+
+		$this->xhtmlbasic_detect();
+
 		$this->register_outputfilter(array($this, 'smarty_outputfilter_SmartyDoc'));
 		if ($this->strip_whitespace)
 		{
 			// This filter doesn't work for very large files at least within the textarea block (due to use of preg_replace which has apparent size limits)--for my system anything greater than 99996 characters would cause the page to go completely blank
 			$this->load_filter('output', 'trimwhitespace');
 		}
-		
+
+		$this->setContentType();
 		$output = parent::fetch($resource_name, $cache_id, $compile_id);
-		
+
 //		if (!isset($this->headers_ran) || !$this->headers_ran) {
-			$this->setContentType();
+
 			/* While I was testing, it seemed Explorer needed the following to be forced, though now it is ok (scratches head); still working on this, so don't delete it yet
 			if ($this->force_html) {
 				$this->HTTP_ACCEPT = 'text/html';
@@ -1569,13 +1614,13 @@ class Render_SmartyDoc extends Smarty
 			header('Content-Script-Type: text/javascript');
 			header('Content-Type: '.$this->HTTP_ACCEPT.'; charset='.$this->encoding);
 //		}
-		
+
 		$this->unregister_outputfilter('smarty_outputfilter_SmartyDoc');
 		$this->resetDoc();
 
 		// zlib.output_compression cannot be used with ob_gzhandler()
-		if (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
-			substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && 
+		if (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) &&
+			substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') &&
 			ini_get('zlib.output_compression')
 			)
 		{
@@ -1583,11 +1628,11 @@ class Render_SmartyDoc extends Smarty
 			$ob_enabled = false;
 		}
 		// PHP documentation states that the former is preferable (if available)
-		elseif (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && 
-		 		  substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') 
+		elseif (extension_loaded('zlib') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) &&
+		 		  substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')
 		 		  && $this->gzip_output)
 		{
-//			ob_start('ob_gzhandler'); // This caused problems with blank screens (using Windows machine); see also comment at http://cn.php.net/manual/en/function.ob-gzhandler.php
+			//ob_start('ob_gzhandler'); // This caused problems with blank screens (using Windows machine); see also comment at http://cn.php.net/manual/en/function.ob-gzhandler.php
 			$ob_enabled = true;
 		}
 		else
@@ -1605,7 +1650,7 @@ class Render_SmartyDoc extends Smarty
 		// This surrounding conditional probably isn't necessary
 		if ($ob_enabled)
 		{
-		//	$a = ob_end_clean(); // commenting out since commented above out
+		//	$a = ob_end_clean(); // commenting out since commented above out // problems per http://cn.php.net/ob_gzhandler
         }
 
 	}
@@ -1621,7 +1666,7 @@ class Render_SmartyDoc extends Smarty
 	{
 		// Remember when debugging prefilters like this one, you have to require
 		// compiling each time or delete the compiled files!!!
-	
+
 		// protect comments temporarily
 		if ($this->left_tagcdelim === '<')
 		{
@@ -1637,7 +1682,7 @@ class Render_SmartyDoc extends Smarty
 		/**
 		 * Prepare delimiters for insertion into regexps below
 		 */
-		 
+
 		// The "closing" tag does not need the actual tag name, but since it may be more clear in the template to have it, it can be deleted here through a regexp (instead of later in the next str_replace
 		$source = preg_replace('@'.$this->left_tagcclose.'[^'.$this->right_tagcclose.']*?'.$this->right_tagcclose.'@', '{/tagc}', $source);
 
@@ -1685,9 +1730,6 @@ class Render_SmartyDoc extends Smarty
 
 		//	print "@(".$ldelim."doc_raw\s+target=(['|\"]{0,1})(".$glued_docraws.")\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/doc_raw".$rdelim.")@s";exit;
 		//	print htmlentities($source);exit;
-		
-
-
 
 		$source = preg_replace_callback("@(".$ldelim.$this->doc_rawalias."\s+target=(['|\"]{0,1})(".$glued_docraws.")\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/".$this->doc_rawalias.$rdelim.")@s", $callback, $source);
 
@@ -1727,7 +1769,7 @@ class Render_SmartyDoc extends Smarty
 		{
 			$target = 'head';
 		}
-	
+
 		// Brett removed && is_string($content)
 		if (isset($content) && !empty($content))
 		{
@@ -1808,11 +1850,10 @@ class Render_SmartyDoc extends Smarty
 	}
 
 
-
     /**
      * prepare_xsl
      *
-     * This function is used by a set of XML/XSL smarty modifiers, block functions, 
+     * This function is used by a set of XML/XSL smarty modifiers, block functions,
      * and a regular function, to transform XML by XSL
      *
      * @param $xml
@@ -1887,7 +1928,7 @@ class Render_SmartyDoc extends Smarty
 
 		return str_replace("<"."?xml version=\"1.0\"?".">", '', $xml);
 	}
-	
+
 	/*
 	 * Smarty plugin
 	 * -------------------------------------------------------------
@@ -1966,7 +2007,7 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function smarty_block_xsl($params, $content, &$smarty, &$repeat)
 	{
-		if ($content != '') 
+		if ($content != '')
 		{
 			$xml = $params['xml'];
 			$xsl = $content;
@@ -2074,21 +2115,24 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function smarty_block_moveto($params, $content, &$smarty, &$repeat)
 	{
+	    $comment_style = null;
+
 		// Might have been set in "tag"
 		if (isset($params['tplorig']))
 		{
 			$smarty->currfileblock = $params['tplorig'];
 		}
-		$target = $params['target'];
-		$fileparam = $params['file'];
-		$getparam = $params['get'];
-		
-		// Brett removed this condition: is_string($params['key']) && 
+		if(isset($params['target'])){ $target       = $params['target'];} else { $target = null; }
+		if(isset($params['file']))  { $fileparam    = $params['file'];}
+		if(isset($params['get']))   { $getparam     = $params['get'];}
+
+		// Brett removed this condition: is_string($params['key']) &&
 		$key = (isset($params['key']) && strlen($params['key'])>0)
 			? $params['key']
 			: null;
-		$doc_info_comm_style = $this->doc_info_types[$target]['doc_raw_comment_style'];
-		$comment_style = strtolower($params['comment_style']);
+		$doc_info_comm_style = @$this->doc_info_types[$target]['doc_raw_comment_style'];
+
+        if(isset($params['comment_style']))   { $comment_style     = strtolower($params['comment_style']);}
 		$comments = true;
 
 		$externaldocraw = false;
@@ -2143,7 +2187,7 @@ class Render_SmartyDoc extends Smarty
 		{
 			$content = rtrim($content); // Don't want the last one if it exists
 			$content = rtrim($content, ';');
-			
+
 			$cont_arr = explode(';', $content); // Tried \n but troublesome
 			array_walk($cont_arr, create_function('&$a', '$a = explode("\t", trim($a));'));
 
@@ -2158,16 +2202,16 @@ class Render_SmartyDoc extends Smarty
 			{
 				$getparams = explode(' ', $getparam);
 			}
-			
+
 			$entget = isset ($_GET[$getparams[0]])?$_GET[$getparams[0]]:null;
 			$entgotten = @array_search($entget, $getparams);
-			
+
 			if (!$entgotten) {
 				$entgotten = 1;
 			}
 
-			// Makes an external parameter entity out of the tab-delimited items (or at least the GET-selected ones if more than one); 
-			// although all will get saved, only the GET selected file (or default 2nd column if no GET) will have 
+			// Makes an external parameter entity out of the tab-delimited items (or at least the GET-selected ones if more than one);
+			// although all will get saved, only the GET selected file (or default 2nd column if no GET) will have
 			// its entities replaced later at the end of the outputfilter
 			if (isset($fileparam))
 			{
@@ -2220,7 +2264,7 @@ class Render_SmartyDoc extends Smarty
 				}
 			}
 			else
-			{ 
+			{
 				// Build entities into the internal doctype and optionally replace them in the document
 				$j = $entgotten;
 
@@ -2230,7 +2274,7 @@ class Render_SmartyDoc extends Smarty
 				}
 				// Might replace this with check of whole doc_source at end of outputfilter so as to catch entities added via doctype doc_raw
 				if ($this->entity_replace) {
-					// server-side entity replacement 
+					// server-side entity replacement
 					preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $content, $matches);
 					$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
 					$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
@@ -2266,41 +2310,31 @@ class Render_SmartyDoc extends Smarty
 				}
 			}
 		}
-		// Perform entity replacement here since if external will not otherwise be checked; might also do this for doctype if not replacing from the whole 
-		//  doc_source at the end of the outputfilter; Might replace this with getting the file attribute of the dtd here to check at end of outputfilter 
+		// Perform entity replacement here since if external will not otherwise be checked; might also do this for doctype if not replacing from the whole
+		//  doc_source at the end of the outputfilter; Might replace this with getting the file attribute of the dtd here to check at end of outputfilter
 		//  for the contents of the file (in case the dtd were manually edited)
 		elseif (($target === 'dtd' || $target === 'doctype') && $content !='') {
 			// server-side entity replacement
 			if ($this->entity_replace && (!isset($params['dummy']) || $params['subtype'] === $params['file']))
 			{
 				preg_match_all('@<!ENTITY\s+([^%"]*?)\s+"([^"]*?)"@', $content, $matches);
-				$this->extra_ent_repl_nm = array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
-				$this->extra_ent_repl_txt = array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
+				$this->extra_ent_repl_nm = @array_merge((array) $this->extra_ent_repl_nm, (array) $matches[1]);
+				$this->extra_ent_repl_txt = @array_merge((array) $this->extra_ent_repl_txt, (array) $matches[2]);
 			}
 		}
 
 		// If wanted to allow file parameter on internal, could add condition " || $fileparam" with the in_array test, but would also need to fix things with the target name and in the outputfilter to write the contents to a file (e.g., treat a "script" as a "code" there too)
-		
+
 		if ($smarty->rewrite_docraw_on && !$this->caching && $this->compile_check && in_array($target, $this->external_doc_raws))
 		{
-			// Replace all doc_raw data of this type from the main external stylesheet (or specific stylesheet) 
+			// Replace all doc_raw data of this type from the main external stylesheet (or specific stylesheet)
 			//  (if caching off, etc.?--doc_raws are currently not being cached--see the register_block lines)
 			if ($this->timer_dr_{$target}[$this->currfileblock][$fileparam] == 0)
 			{
-				// Although this is called in the constructor, the $langu variable may only have been set by now
-				if ($target === 'code')
-				{
-					global $langu;
-					if (isset($langu) && $langu != '') {
-						$this->dr_code_file_src = $this->dr_code_file_st.$langu.'.js';
-						$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$langu.'.js';
-					}
-				}
 				if ($fileparam == '' || $target === 'notes')
 				{
 					$dr_wkeytarget0 = 'dr_'.$target.'_file';
 					$dr_wkeytarget = $this->$dr_wkeytarget0;
-					
 				}
 				else
 				{
@@ -2357,7 +2391,7 @@ class Render_SmartyDoc extends Smarty
 			}
 			elseif(isset($target) && in_array(strtolower($target), array_keys($this->doc_info_types)))
 			{
-				$smarty->addRaw($content, $key, $target, $fileparam);
+				@$smarty->addRaw($content, $key, $target, $fileparam);
 			}
 		}
 		elseif ($target === 'entity' && (count($params) === 1))
@@ -2384,25 +2418,28 @@ class Render_SmartyDoc extends Smarty
 	 * Insert html header items from anywhere at anytime
 	 *
 	 * @return nothing
-	 * @todo the functionality is doubled ! search for "$repeatno = false;" and look some lines after that
+	 * @todo: the functionality is doubled ! search for "$repeatno = false;" and look some lines after that
 	 */
 	public function smarty_function_info($params, &$smarty)
 	{
 		// Overridden method below will have already added tplorig to this
 		$smarty->addInfo($params);
 
+		$this->setContentType();
+		/*
 		// Adding the following to make the type information available to the templates
 		if ($this->HTTP_ACCEPT == '' && !$smarty->keepapptype) {
-			$this->setContentType();
+
 			/**
-			* However, this may be overridden (and thus inconsistent) if relying 
+			* However, this may be overridden (and thus inconsistent) if relying
 			* on a fallback setting in getdoctypesignature to change the application_xml
 			* value--e.g., to XHTML (and thus change setcontenttype results which determines
 			* the actual header sent)
 			*
 			*/
 			$smarty->assign('http_accept', $this->HTTP_ACCEPT);
-		}
+		//}
+
 
 	}
 
@@ -2582,7 +2619,7 @@ class Render_SmartyDoc extends Smarty
 					$params['target'] = 'css';
 					break;
 				case 'class':
-					if (!isset($params['clstyle']) && !isset($params['eclstyle']) 
+					if (!isset($params['clstyle']) && !isset($params['eclstyle'])
 						&& !isset($params['clcss']) && !isset($params['eclcss']))
 					{
 						$attrs['class'] = $value;
@@ -2597,7 +2634,7 @@ class Render_SmartyDoc extends Smarty
 				case 'css':
 					$param = 'style'; // Thus one can easily convert an "icss" or "clcss", etc. into a "css" for testing templates
 					$attrs['style'] = $value;
-					unset($params[$param]);					
+					unset($params[$param]);
 					break;
 				case 'styleid':
 					$params['id'] = $value;
@@ -2614,7 +2651,7 @@ class Render_SmartyDoc extends Smarty
 					break;
 			}
 		}
-		
+
 		/**
 		 * These must be unset (if they exist), outside of the switch
 		 */
@@ -2671,15 +2708,27 @@ class Render_SmartyDoc extends Smarty
 	 *
 	 * @access protected
 	 */
-	protected function setContentType()
+	public function setContentType()
 	{
 		// first check if type is XHTML or not and if so, whether the browser accepts application/xhtml+xml content type
-		// Assume that a version attribute (used  for auto-setting a doctype for XHTML when no doc_info['dtd'] is set--e.g., 
+		// Assume that a version attribute (used  for auto-setting a doctype for XHTML when no doc_info['dtd'] is set--e.g.,
 		// if it is XHTML version 1.1) means it is XHTML
-		if ($this->xml_plain &&
-				($this->application_xml === 'XHTML' || 
-					(isset($this->doc_info['dtd']['family']) && $this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html'])))
+
+		//print $this->doc_info['dtd']['family'];exit;
+
+		$docinfodtdlevel = isset($this->doc_info['dtd']['level'])?$this->doc_info['dtd']['level']:null;
+		// Add this to the beginning?:  $this->doc_info['dtd']['level'] === '1.1+' || $this->doc_info['dtd']['level'] >= '1.1' ||
+		if ((!$this->xhtmldebug && (($docinfodtdlevel === '1.1+') || $docinfodtdlevel >= '1.1')) || ($this->xml_plain &&
+				($this->application_xml === 'XHTML' ||
+					(isset($this->doc_info['dtd']['family']) && $this->doc_info['dtd']['family'] === 'XHTML') ||
+					@array_key_exists('v', $this->doc_info['html']))))
 		{
+
+
+			if (!$this->xhtmldebug && ($docinfodtdlevel === '1.1+' || $docinfodtdlevel >= '1.1')) {
+				$this->xml_plain = true; // Needed to allow XML attributes on XHTML (e.g., xmlns) to be auto-added even
+										// if not specified as such via the API
+			}
 
 			if (stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml'))
 			{
@@ -2701,16 +2750,24 @@ class Render_SmartyDoc extends Smarty
 			{
 				$this->HTTP_ACCEPT = 'text/xml';
 			}
-			//Send Opera 7.0 application/xhtml+xml
-			elseif (stristr($_SERVER['HTTP_USER_AGENT'], 'Opera 7') || stristr($_SERVER['HTTP_USER_AGENT'], 'Opera/7'))
-			{
-				$this->HTTP_ACCEPT = 'application/xhtml+xml';
-			}
+			//Send Opera 7.0+ application/xhtml+xml
+			elseif (stristr($_SERVER['HTTP_USER_AGENT'], 'Opera ') || stristr($_SERVER['HTTP_USER_AGENT'], 'Opera/')) {
+
+				preg_match('@Opera/(\d)@', $_SERVER['HTTP_USER_AGENT'], $matches);
+				if (isset($matches[1]) && $matches[1] >= 7) {
+					$this->HTTP_ACCEPT = 'application/xhtml+xml';
+				}
+				else {
+					$this->HTTP_ACCEPT = 'text/html';
+				}
+}
 			//Send everyone else text/html (even though XHTML)
 			else
 			{
 				$this->HTTP_ACCEPT = 'text/html';
-			}		}
+
+			}
+		}
 		elseif ($this->xml_plain && !$this->application_xml)
 		{
 			$this->HTTP_ACCEPT = 'text/xml';
@@ -2736,11 +2793,17 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function doc_raw_head_build ($target, $attribs = false, $savecomments = false)
 	{
+	    $doc_source = null;
+	    $tpl_pre    = null;
+	    $tpl_post   = null;
+	    $attrs      = null;
 
 		if (isset($this->doc_raw[$target]['main']))
 		{
 			$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types[$target]['meta_attribs'])); // Prepare for comparison
 
+            $contentcount = null;
+            $hidecount = null;
 			$rawtoadd = '';
 			$attr = '';
 			$temppre = 'dr_'.$target.'_pre';
@@ -2756,7 +2819,7 @@ class Render_SmartyDoc extends Smarty
 				{
 					if ($a === '_content')
 					{
-						if (!$this->nexthide)
+						if (isset($this->nexthide) && $this->nexthide == false)
 						{
 							$rawtoadd .= $v."\n";
 							unset($this->nexthide);
@@ -2783,7 +2846,7 @@ class Render_SmartyDoc extends Smarty
 					}
 				}
 			}
-			unset($this->nexthide);
+			if(isset($this->nexthide)){ unset($this->nexthide); }
 			if ($hidecount > 0 && $hidecount === $contentcount)
 			{
 				// If all content is to be hidden, don't print anything including comments
@@ -2847,6 +2910,8 @@ class Render_SmartyDoc extends Smarty
      */
 	public function doc_raw_build ($target, $exclude_in_xml='', $pub_or_hide='public', $hidden = false, $print_ext = true, $both_main_indiv = true)
 	{
+	    $doc_source = null;
+
 		$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types[$target]['meta_attribs']));
 		$ds_attrs_arr = $ds_attrs_arr2 = $rootattrs = array();
 
@@ -2976,6 +3041,7 @@ class Render_SmartyDoc extends Smarty
 					// Skipped where opening tag should not be created (e.g., 'xsd' filling in the root element's data)
 					if ($hidden !== 'skippre' && $print_ext)
 					{
+
 						$doc_source .= $tpl_pre['main'].$this->$drtargetpre.$this->$drtargetfilesrc.'"';
 					}
 					if ($print_ext)
@@ -2993,13 +3059,17 @@ class Render_SmartyDoc extends Smarty
 										$ds_attrs_arr[$a] = $v;
 									}
 								}
-								elseif ($a == 'xsi:schemaLocation')
+								elseif ($a === 'xsi:schemaLocation')
 								{
 									$xsimain = $v;
 								}
-								elseif ($a == 'xsi:noNamespaceSchemaLocation')
+								elseif ($a === 'xsi:noNamespaceSchemaLocation')
 								{
 									$xsimain_nns = $v;
+								}
+								elseif ($a === 'rel' && $v === 'alternate stylesheet')
+								{
+									$ds_attrs_arr['alternate'] = 'yes';
 								}
 							}
 							if ($target == 'xsl' && ($main_attribs['xform'] || $this->xform_all))
@@ -3064,6 +3134,10 @@ class Render_SmartyDoc extends Smarty
 										// Overwrite any others, since should only be one
 										$xsiindiv_nns = $v;
 									}
+									elseif ($a === 'rel' && $v === 'alternate stylesheet')
+									{
+										$ds_attrs2 .= " alternate=\"yes\"";
+									}
 								}
 							}
 							if ($target !== 'xsd')
@@ -3081,7 +3155,7 @@ class Render_SmartyDoc extends Smarty
 
 			$tplpretarget = 'tpl_pre_'.$target;
 			$tplposttarget = 'tpl_post_'.$target;
-			
+
 			$this->$tplpretarget = $tpl_pre; // Store it so it can be used in the outputfilter if needed
 			$this->$tplposttarget = $tpl_post; // Store it so it can be used in the outputfilter if needed
 		}
@@ -3153,7 +3227,7 @@ class Render_SmartyDoc extends Smarty
 				if (!empty($main_ext_doc))
 				{
 					if ($xsimain)
-					{ 
+					{
 						// If the templater specified a xsi:schemaLocation attribute, use that instead
 						$doc_source .= $xsimain.' ';
 					}
@@ -3208,10 +3282,11 @@ class Render_SmartyDoc extends Smarty
 	 */
 	public function smarty_outputfilter_SmartyDoc($source, &$smarty)
 	{
+        $doc_source     = null;
 
 		if (!empty($smarty->doc_info) || !empty($smarty->doc_raw) || $this->use_auto)
 		{
-			if (!$this->headers_ran)
+			if (isset($this->headers_ran) && !$this->headers_ran)
 			{
 				// Get content type here so can detect whether to serve stylesheets, etc. in XML style given that some browsers that don't support this style.
 				$this->setContentType();
@@ -3219,15 +3294,25 @@ class Render_SmartyDoc extends Smarty
 			$indent = $smarty->getIndent();
 			$_doc_info  =& $smarty->doc_info;
 
+			if ($this->xml_plain && $this->HTTP_ACCEPT === 'application/xhtml+xml' || $this->HTTP_ACCEPT === 'application/xml' || $this->HTTP_ACCEPT === 'text/xml')
+			{
+				$this->dr_script_postpre = $this->dr_script_postpre_xml;
+				$this->dr_script_post = $this->dr_script_post_xml;
+				$this->dr_style_postpre = $this->dr_style_postpre_xml;
+				$this->dr_style_post = $this->dr_style_post_xml;
+			}
+
 			 // Override add_openclose if this is clearly a plain XML document (e.g., a DTD but with no family)
-			if (($_doc_info['dtd']['family'] == '' || strtoupper($_doc_info['dtd']['family']) === 'XML') && isset($_doc_info['dtd']['type']))
+			if ( isset($_doc_info['dtd']['family']) and isset($_doc_info['dtd']['type']) and
+			     ($_doc_info['dtd']['family'] == '' OR $_doc_info['dtd']['family'] == 'XML')
+			   )
 			{
 				$this->add_openclose = false;
 			}
-			
+
 			// process modules
 			$module_content = array('head_pre'=>'', 'head_post'=>'', 'body_pre'=>'', 'body_post'=>'');
-			
+
 			foreach ($this->doc_modules as $module)
 			{
 				$module->onDocStart();
@@ -3320,10 +3405,10 @@ class Render_SmartyDoc extends Smarty
 						break;
 					case 'none':
 						$doc_source .= '<!-- You can remove just some whitespace by setting "'.$ws_geturl.'" in the URL equal to "some" or remove all whitespace by setting it to "all" -->'."\n";
-						break;			
+						break;
 				}
 			}
-					
+
 			if (isset($_doc_info['robots']) && $this->xml_plain)
 			{
 				foreach ($_doc_info['robots'] as $a=>$v)
@@ -3391,6 +3476,7 @@ class Render_SmartyDoc extends Smarty
 			{
 				// Note that the following could not be merged with doc_raw_head_build, as the latter assumed that independent items would be merged into one (and for processing instructions, there could be more than one)
 				$this->dr_pi_pre = ' ';
+				ksort($this->doc_raw['pi']['main']);
 				foreach ($this->doc_raw['pi']['main'] as $rawid => $rawkeys)
 				{
 					$pi_attrs = '';
@@ -3419,15 +3505,15 @@ class Render_SmartyDoc extends Smarty
 						{
 							$pi_attrs .= " {$a}=\"{$v}\"";
 						}
-					} 
+					}
 					if ($pi_attrs == '')
 					{
 						$pi_attrs = ' ';
-					}					
+					}
 					$doc_source .= $pi_tpl_pre.'<?'.$pi_prefix.$pi_attrs; // Closed above
-				} 
+				}
 			}
-			
+
 			// process 'xsl' (xml-stylesheet) doc info
 			if (isset($_doc_info['xsl']))
 			{
@@ -3449,7 +3535,7 @@ class Render_SmartyDoc extends Smarty
 								$docpost_xsl = '<!-- End '.$this->doc_infoalias.' xsl from template '.$v." -->\n";
 							}
 						}
-					} 
+					}
 					$this->xsl[] = $stylesheet['href']; // for XSL processing below
 					if (!$this->xform_all)
 					{
@@ -3464,15 +3550,16 @@ class Render_SmartyDoc extends Smarty
 						$this->pre_xform[] = true;
 					}
 					$doc_source .= $docpre_xsl.'<'.'?xml-stylesheet'.$doc_src_xsl.'?'.">\n".$docpost_xsl;
-				} 
+				}
 			}
-			
+
 			// Per http://www.w3.org/TR/xhtml1/#C_14 , internal style elements in XHTML should be referenced by an xml-stylesheet referring to their id
 			$styleidcount = 0;
 			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html')
 			{
 				if (isset($this->doc_raw['style']['main']))
 				{
+					ksort($this->doc_raw['style']['main']);
 					foreach ($this->doc_raw['style']['main'] as &$styleids)
 					{
 						if ($extcomments)
@@ -3511,19 +3598,20 @@ class Render_SmartyDoc extends Smarty
 							$distyleids['id'] = 'style_tag_id'.$styleidcount; // Add the 'id' so that it can be processed below when the style tag is printed
 							$doc_source .= $docpre2_styleid.'<'.'?xml-stylesheet href="#style_tag_id'.$styleidcount.'" type="text/css"?>'."\n".$docpost2_styleid;
 						}
-					} 
+					}
 				}
 			}
-			
 
-			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html')
+
+			// Firefox 2.0 has a bug in dealing with ampersands in xml-stylesheet (it expects them unescaped whereas per http://www.w3.org/TR/xml-stylesheet/ they should be escaped)
+			if ($this->xml_plain && $this->HTTP_ACCEPT !== 'text/html' && !(strstr($_SERVER['HTTP_USER_AGENT'], 'Firefox/2')) && !$this->avoid_xml_stylesheet)
 			{
 				$this->dr_css_pre = $this->dr_xsl_pre;
 				$this->dr_css_post = $this->dr_xsl_post;
 				$doc_source .= $this->doc_raw_build('css', 'exclude_in_xml');
 
 
-				// process 'css' doc info	
+				// process 'css' doc info
 				if (isset($_doc_info['css']))
 				{
 					$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['css']['meta_attribs'])); // Prepare for comparison
@@ -3551,11 +3639,11 @@ class Render_SmartyDoc extends Smarty
 							{
 								$doc_src_css .= " {$a}=\"{$v}\"";
 							}
-						} 
+						}
 						$doc_source .= $docpre_css.'<'.'?xml-stylesheet'." href=\"{$href}\"".$doc_src_css.$this->dr_css_post.$docpost_css;
-					} 
+					}
 				}
-			} 
+			}
 
 			$doc_source .= $this->doc_raw_build('xsl');
 
@@ -3593,9 +3681,9 @@ class Render_SmartyDoc extends Smarty
 						$doc_source .= $note['file'];
 						$doc_source .= " -->\n".$docpost_notes;
 					}
-				} 
+				}
 			}
-			
+
 			// process 'comments' doc info
 			if ($this->visible_notes && isset($_doc_info['comments']))
 			{
@@ -3612,12 +3700,13 @@ class Render_SmartyDoc extends Smarty
 						$doc_source .= $comment['_content'];
 						$doc_source .= " -->\n".$docpost_comm;
 					}
-				} 
+				}
 			}
 
 			// process doc_raw targetted before the root (no attributes)
 			if (isset($this->doc_raw['root_pre']['main']))
 			{
+				ksort($this->doc_raw['root_pre']['main']);
 				foreach ($this->doc_raw['root_pre']['main'] as $rawpre)
 				{
 					foreach ($rawpre as $a => $v)
@@ -3627,9 +3716,10 @@ class Render_SmartyDoc extends Smarty
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
 						}
-					} 
-				} 
+					}
+				}
 			}
+
 			// process doc_info targetted before the root (no attributes)
 			if (isset($_doc_info['root_pre']))
 			{
@@ -3641,7 +3731,7 @@ class Render_SmartyDoc extends Smarty
 						$docpost_root_pre = '<!-- End '.$this->doc_infoalias.' root_pre from template '.$rawpre['tplorig']." -->\n";
 					}
 					$doc_source .= $docpre_root_pre.$indent.$rawpre['_content']."\n".$docpost_root_pre;
-				} 
+				}
 			}
 
 //			print $this->HTTP_ACCEPT;exit;
@@ -3725,9 +3815,9 @@ class Render_SmartyDoc extends Smarty
 									{
 										$paramnotation = $v;
 									}
-								} 
+								}
 								if (empty($elem['file']) && empty($elem['subtype']))
-								{ 
+								{
 								// This ought to be targeted to the main file
 									$paramfilevalue = '"'.$this->dr_entity_file_src.'"';
 								}
@@ -3748,8 +3838,8 @@ class Render_SmartyDoc extends Smarty
 								}
 								$this->doctype_rawcontent .= $docpost_entity;
 							}
-						} 
-					} 
+						}
+					}
 				}
 				if (isset($_doc_info['entity']))
 				{
@@ -3800,13 +3890,13 @@ class Render_SmartyDoc extends Smarty
 							{
 								$paramnotation = $v;
 							}
-						} 
-						
+						}
+
 						if (isset($paramcontents))
 						{
 							$paramfilevalue = $paramcontents;
 						}
-						elseif (empty($val['file']) && empty($val['subtype'])) 
+						elseif (empty($val['file']) && empty($val['subtype']))
 						{ // This ought to be targeted to the main file
 							$paramfilevalue = '"'.$this->dr_entity_file_src.'"';
 						}
@@ -3822,10 +3912,10 @@ class Render_SmartyDoc extends Smarty
 						}
 						$this->doctype_rawcontent .= $docpost_entity;
 
-					} 
+					}
 				}
 				$this->internaldoctype = true; // Unnecessary
-				
+
 			}
 
 			// Prepare internal (doctype) docraws
@@ -3851,14 +3941,14 @@ class Render_SmartyDoc extends Smarty
 					{
 						$this->doctype_add = $v;
 					}
-				} 
+				}
 			}
 			elseif ($this->doctype_rawcontent != '')
 			{
 				$this->internaldoctype = true;
 			}
 
-			
+
 
 			// Process external (dtd) docraws
 			if (isset($this->doc_raw['dtd']) || isset($this->doc_raw['doctype']))
@@ -3907,8 +3997,8 @@ class Render_SmartyDoc extends Smarty
 			}
 
 			// This long sequence sets the rootnode of the document (and possibly any xsd's)
-			if (($this->rootnode != 'html' && $this->rootnode != '') || 
-					isset($this->doc_raw['xsd']) || isset($this->doc_info['xsd']) || 
+			if (($this->rootnode != 'html' && $this->rootnode != '') ||
+					isset($this->doc_raw['xsd']) || isset($this->doc_info['xsd']) ||
 							isset($_doc_info['root']['_content']) ||
 								$this->add_openclose || isset($_doc_info['html'])
 							)
@@ -3927,15 +4017,15 @@ class Render_SmartyDoc extends Smarty
 				}
 				else
 				{
-					$doc_source_temp .= 'html';			
+					$doc_source_temp .= 'html';
 				}
 
 				if ($this->xmlns != '')
-				{ 
+				{
 					// Will also be triggered if $_doc_info['root'] exists and has an xmlns value (see above)
 					$doc_source_temp .= ' xmlns="'.$this->xmlns.'"';
 				}
-				
+
 				if ($this->xincludeset)
 				{
 					$doc_source_temp .= ' xmlns:xi="'.$this->xinclude_ns.'"';
@@ -3969,7 +4059,7 @@ class Render_SmartyDoc extends Smarty
 								$this->extra_xsds[$v] = $v;
 							}
 						}
-					} 
+					}
 				}
 				else
 				{
@@ -4007,7 +4097,7 @@ class Render_SmartyDoc extends Smarty
 									$this->rootattrs[$a] = $v;
 								}
 							}
-						} 
+						}
 					}
 					elseif ($this->add_openclose)
 					{
@@ -4016,7 +4106,9 @@ class Render_SmartyDoc extends Smarty
 							$docpre_html = '<!-- Begin auto add_openclose html '."-->\n";
 							$docpost_html = '<!-- End auto add_openclose html '."-->\n";
 						}
-						if ($this->application_xml === 'XHTML' || $_doc_info['dtd']['family'] === 'XHTML')
+						if ( isset($_doc_info['dtd']['family']) && $_doc_info['dtd']['family'] == 'XHTML'
+						     or $this->application_xml == 'XHTML'
+						   )
 						{
 							$this->rootattrs['xmlns'] = 'http://www.w3.org/1999/xhtml';
 						}
@@ -4032,15 +4124,15 @@ class Render_SmartyDoc extends Smarty
 					$doc_source_temp .= $this->doc_raw_build('xsd', '', 'public', 'skippre');
 				}
 				else
-				{ 
+				{
 					// Changed to allow all (including html) to check; was(isset($_doc_info['root'])) {
 					$doc_source_temp .= $this->doc_raw_build('root', '', 'public', 'skippre');
 				}
-				
+
 				$doc_source_temp .= ">\n";
 
 				if ($extcomments)
-				{				
+				{
 					$doc_source .= $docpre_html.$docpre_root.@implode('', $this->docpre_xsdcomm).@implode("\n", $this->tpl_pre_xsd).$doc_source_temp.@implode("\n", $this->tpl_post_xsd).@implode('', $this->docpost_xsdcomm).$docpost_root.$docpost_html; // Allow any comments to be added around the element
 				}
 				else
@@ -4049,10 +4141,101 @@ class Render_SmartyDoc extends Smarty
 				}
 			}
 
+			// Prepare the metas as they need to come first given that the content/http-equiv should be the first child in the head
+			// process 'meta' doc info
+			if (isset($_doc_info['meta']))
+			{
+				foreach ($_doc_info['meta'] as $meta)
+				{
+					$doc_src_meta = '';
+					$doc_src_meta0 = '';
+					if (isset($meta['http-equiv']))
+					{
+						// Meta with http-equiv should apparently not be printed when served as application/xhtml+xml per http://www.w3.org/TR/xhtml-media-types/, though I've commented it out now since I'm guessing this may only be for the case of setting a character set (and not for things like redirects):
+						/*
+						if (!$this->xml_plain)
+						{ */
+							foreach ($meta as $a=>$v)
+							{
+								if ($a === 'tplorig')
+								{
+									if ($extcomments)
+									{
+										$docpre_meta0 = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+										$docpost_meta0 = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+									}
+								}
+								// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)
+								elseif ($a === 'content' && $v === 'http_accept')
+								{
+									// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
+									$doc_src_meta0 .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
+								}
+								elseif (!empty($v))
+								{
+									$doc_src_meta0 .= " {$a}=\"{$v}\"";
+								}
+							}
+						// }
+					}
+					else
+					{
+						foreach ($meta as $a=>$v)
+						{
+							if ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
+									$docpre_meta = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+									$docpost_meta = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
+								}
+							}
+							// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)
+							elseif ($v === 'http_accept')
+							{
+							// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
+								$doc_src_meta .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
+							}
+							elseif (!empty($v))
+							{
+								$doc_src_meta .= " {$a}=\"{$v}\"";
+							}
+						}
+					}
+					if ($doc_src_meta0 != '')
+					{
+						$doc_source_meta0 .= $docpre_meta0."{$indent}<meta".$doc_src_meta0." />\n".$docpost_meta0; // Ensure http_accept type goes first
+					}
+					if ($doc_src_meta != '')
+					{
+						$doc_source_meta .= $docpre_meta."{$indent}<meta".$doc_src_meta." />\n".$docpost_meta;
+					}
+				}
+				$doc_meta = $doc_source_meta0.$doc_source_meta;
+			}
+
+            $docpre_base    = null;
+            $docpre_head    = null;
+            $docpre_title   = null;
+            $docpre_body    = null;
+            $docpre_html    = null;
+
+            $docpost_base   = null;
+            $docpost_head   = null;
+            $docpost_title  = null;
+            $docpost_body   = null;
+            $docpost_html   = null;
+
+            $doc_src_base   = null;
+
+            $doc_meta       = null;
+
+            $head_content   = null;
 
 			// process doc_raw targetted for the beginning of the head
 			if (isset($this->doc_raw['head']['main']))
 			{
+				ksort($this->doc_raw['head']['main']);
 				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
 				{
 					$this->dr_head_pre = '<head';
@@ -4078,11 +4261,11 @@ class Render_SmartyDoc extends Smarty
 						{
 							$this->dr_head_pre .= " {$a}=\"{$v}\"";
 						}
-					} 
+					}
 				}
 				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
 				{
-					$this->dr_head_postpre = ">\n";
+					$this->dr_head_postpre = ">\n".$doc_meta;
 					$addheadclose = true;
 				}
 				$doc_source .= $docpre_head.$this->doc_raw_head_build('head', true).$head_content.$docpost_head;
@@ -4097,7 +4280,7 @@ class Render_SmartyDoc extends Smarty
 						if ($extcomments)
 						{
 							$docpre_head = '<!-- Begin '.$this->doc_infoalias.' head from template '.$v." -->\n";
-							$docpost_head = '<!-- End '.$this->doc_infoalias.' head from template '.$v." -->\n";	
+							$docpost_head = '<!-- End '.$this->doc_infoalias.' head from template '.$v." -->\n";
 						}
 					}
 					elseif ($a === '_content')
@@ -4109,8 +4292,8 @@ class Render_SmartyDoc extends Smarty
 						$doc_src_head .= " {$a}=\"{$v}\"";
 					}
 				}
-				$doc_source .= $docpre_head.'<head'.$doc_src_head.">\n".$head_content.$docpost_head;
-				
+				$doc_source .= $docpre_head.'<head'.$doc_src_head.">\n".$doc_meta.$head_content.$docpost_head;
+
 				$addheadclose = true;
 			}
 
@@ -4121,80 +4304,8 @@ class Render_SmartyDoc extends Smarty
 					$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
 					$docpost_head = '<!-- End auto add_openclose head '."-->\n";
 				}
-				$doc_source .= $docpre_head."<head>\n".$docpost_head;
+				$doc_source .= $docpre_head."<head>\n".$doc_meta.$docpost_head;
 				$addheadclose = true;
-			}
-
-			// Do the charset meta's need to be taken out to make sure they are first right after the head?
-			// process 'meta' doc info
-			if (isset($_doc_info['meta']))
-			{
-				foreach ($_doc_info['meta'] as $meta)
-				{
-					$doc_src_meta = '';
-					$doc_src_meta0 = '';
-					if (isset($meta['http-equiv']))
-					{
-						if (!$this->xml_plain)
-						{ 
-							// Meta with http-equiv should apparently not be printed for XML: 
-							foreach ($meta as $a=>$v)
-							{
-								if ($a === 'tplorig')
-								{
-									if ($extcomments)
-									{
-										$docpre_meta0 = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-										$docpost_meta0 = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-									}
-								}
-								// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)
-								elseif ($a === 'content' && $v === 'http_accept')
-								{
-									// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
-									$doc_src_meta0 .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
-								}
-								elseif (!empty($v))
-								{
-									$doc_src_meta0 .= " {$a}=\"{$v}\"";
-								}
-							} 
-						}
-					}
-					else
-					{
-						foreach ($meta as $a=>$v)
-						{
-							if ($a === 'tplorig')
-							{
-								if ($extcomments)
-								{
-									$docpre_meta = '<!-- Begin '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-									$docpost_meta = '<!-- End '.$this->doc_infoalias.' meta from template '.$v." -->\n";
-								}
-							}
-							// Allow for http type (and charset) to be auto-calculated (such as from the Navbarcrumbs class)			
-							elseif ($v === 'http_accept')
-							{
-							// Note that if trying to serve XHTML as 'application/xhtml+xml' as it is supposed to be (or 'application/xml'), those served as the specified types are not to include an http_equiv: http://www.w3.org/TR/xhtml-media-types/#application-xml
-								$doc_src_meta .= " {$a}=\"".$this->HTTP_ACCEPT.'; charset='.$this->encoding.'"';
-							}
-							elseif (!empty($v))
-							{
-								$doc_src_meta .= " {$a}=\"{$v}\"";
-							}
-						} 
-					}
-					if ($doc_src_meta0 != '')
-					{
-						$doc_source_meta0 .= $docpre_meta0."{$indent}<meta".$doc_src_meta0." />\n".$docpost_meta0; // Ensure http_accept type goes first
-					}
-					if ($doc_src_meta != '')
-					{
-						$doc_source_meta .= $docpre_meta."{$indent}<meta".$doc_src_meta." />\n".$docpost_meta;
-					}
-				} 
-				$doc_source .= $doc_source_meta0.$doc_source_meta;
 			}
 
 			// insert module header-pre content (I placed this after the meta, since meta http-equiv in HTML should come first
@@ -4214,14 +4325,14 @@ class Render_SmartyDoc extends Smarty
 					}
 					// Place this first (not sure if its necessary, but it seems to be convention)
 					elseif ($a === 'index')
-					{ 
+					{
 						if ($v === 'yes')
 						{
 							$doc_src_robots1 = 'index';
 						}
 						elseif ($v === 'no')
 						{
-							$doc_src_robots1 = 'noindex';			
+							$doc_src_robots1 = 'noindex';
 						}
 					}
 					elseif ($a === 'follow')
@@ -4232,14 +4343,14 @@ class Render_SmartyDoc extends Smarty
 						}
 						elseif ($v === 'no')
 						{
-							$doc_src_robots2 = ',nofollow';			
+							$doc_src_robots2 = ',nofollow';
 						}
 					}
 					else
 					{
 						$doc_src_robots1 = $v; // Allow 'all' or 'none'
 					}
-				} 
+				}
 				$doc_source .= $docpre_robots.'<meta name="robots" content="'.$doc_src_robots1.$doc_src_robots2."\" />\n".$docpost_robots;
 			}
 			// process 'base' doc info
@@ -4263,8 +4374,9 @@ class Render_SmartyDoc extends Smarty
 				$doc_source .= $docpre_base."{$indent}<base".$doc_src_base." />\n".$docpost_base;
 			}
 
+			// Firefox 2.0 has a bug in dealing with ampersands in xml-stylesheet (it expects them unescaped whereas per http://www.w3.org/TR/xml-stylesheet/ they should be escaped)
 			// If XML plain, should be above as xml-stylesheet
-			if (!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html')
+			if (!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html' || (strstr($_SERVER['HTTP_USER_AGENT'], 'Firefox/2')) || $this->avoid_xml_stylesheet)
 			{
 				$this->dr_css_pre = "{$indent}<link href=\"";
 				$doc_source .= $this->doc_raw_build('css');
@@ -4300,8 +4412,8 @@ class Render_SmartyDoc extends Smarty
 								$stylecontent .= $v;
 							}
 						}
-					} 
-				} 
+					}
+				}
 				if ($extcomments)
 				{
 					$docpre_style = '<!-- Begin '.$this->doc_infoalias.' style from template '.implode(', ', $docpres_style)." -->\n";
@@ -4313,7 +4425,7 @@ class Render_SmartyDoc extends Smarty
 			}
 
 			// process 'css' doc info
-			if ((!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html') && $_doc_info['css'])
+			if ((!$this->xml_plain || $this->HTTP_ACCEPT === 'text/html') && isset($_doc_info['css']))
 			{
 				// Serve plain link tags for CSS if the browser doesn't support XML-style (or if not serving as XML)
 				$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['css']['meta_attribs'])); // Prepare for comparison
@@ -4392,7 +4504,7 @@ class Render_SmartyDoc extends Smarty
 							}
 						}
 						elseif ($v === 'http_accept')
-						{ 
+						{
 							// Allow for http type to be auto-calculated (such as from the Navbarcrumbs class)
 							$doc_src_link .= " {$a}=\"{$this->HTTP_ACCEPT}\"";
 						}
@@ -4405,90 +4517,93 @@ class Render_SmartyDoc extends Smarty
 				}
 			}
 
-			$this->dr_code_pre = "{$indent}<script src=\"";
+			// XHTML Basic shouldn't have scripts
+			if (!$this->xhtmlbasic) {
+				$this->dr_code_pre = "{$indent}<script src=\"";
 
-			// Although this is called in the constructor, the $langu variable may only have been set by now
-			global $langu; // Adding to localize "script" file as it contains localized instructions at our site
-			if (isset($langu) && $langu != '')
-			{
-				$this->dr_code_file_src = $this->dr_code_file_st.$langu.'.js';
-				$this->dr_code_file = $this->site_root_public.$this->dr_code_file_st.$langu.'.js';
-			}
-			
-			$doc_source .= $this->doc_raw_build('code');
 
-			// process doc_raw targetted for the script tag
-			$this->dr_script_pre = "{$indent}<script";
-			$doc_source .= $this->doc_raw_head_build('script', true);
 
-			// process 'script' doc info
-			if (isset($_doc_info['script']))
-			{
-				$doc_src_script = '';
-				foreach ($_doc_info['script'] as $scriptattribs)
+
+
+
+
+
+
+				$doc_source .= $this->doc_raw_build('code');
+
+				// process doc_raw targetted for the script tag
+				$this->dr_script_pre = "{$indent}<script";
+				$doc_source .= $this->doc_raw_head_build('script', true);
+
+				// process 'script' doc info
+				if (isset($_doc_info['script']))
 				{
-					foreach ($scriptattribs as $a=>$v)
+					$doc_src_script = '';
+					foreach ($_doc_info['script'] as $scriptattribs)
 					{
-						if ($a === 'tplorig')
+						foreach ($scriptattribs as $a=>$v)
 						{
-							$docpres_script[$v] = $v; // Ensure filenames are not repeated
-							$docposts_script[$v] = $v;
-						}
-						elseif ($a != '_content')
-						{
-							if (!empty($v))
+							if ($a === 'tplorig')
 							{
-								$doc_src_script[$a] .= " {$a}=\"{$v}\""; // Ensure attributes are not repeated
+								$docpres_script[$v] = $v; // Ensure filenames are not repeated
+								$docposts_script[$v] = $v;
+							}
+							elseif ($a != '_content')
+							{
+								if (!empty($v))
+								{
+									$doc_src_script[$a] .= " {$a}=\"{$v}\""; // Ensure attributes are not repeated
+								}
+							}
+							else
+							{
+								if (!empty($v))
+								{
+									$scriptcontent .= $v;
+								}
 							}
 						}
-						else
-						{
-							if (!empty($v))
-							{
-								$scriptcontent .= $v;
-							}
-						}
-					} 
-				} 
-				if ($extcomments)
-				{
-					$docpre_script = '<!-- Begin '.$this->doc_infoalias.' script from template '.implode(', ', $docpres_script)." -->\n";
-					$docpost_script = '<!-- End '.$this->doc_infoalias.' script from template '.implode(', ', $docposts_script)." -->\n";
+					}
+					if ($extcomments)
+					{
+						$docpre_script = '<!-- Begin '.$this->doc_infoalias.' script from template '.implode(', ', $docpres_script)." -->\n";
+						$docpost_script = '<!-- End '.$this->doc_infoalias.' script from template '.implode(', ', $docposts_script)." -->\n";
+					}
+
+					$scriptcontent = str_replace(array('[[[', ']]]'), array('{', '}'), $scriptcontent);
+					$doc_source .= $docpre_script."{$indent}<script".implode('', $doc_src_script).$this->dr_script_postpre.$scriptcontent."\n".$this->dr_script_post.$docpost_script;
 				}
 
-				$scriptcontent = str_replace(array('[[[', ']]]'), array('{', '}'), $scriptcontent);
-				$doc_source .= $docpre_script."{$indent}<script".implode('', $doc_src_script).$this->dr_script_postpre.$scriptcontent."\n".$this->dr_script_post.$docpost_script;
-			}
-
-			// process 'code' doc info
-			if (isset($_doc_info['code']))
-			{
-				$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['code']['meta_attribs'])); // Prepare for comparison
-				foreach ($_doc_info['code'] as $link)
+				// process 'code' doc info
+				if (isset($_doc_info['code']))
 				{
-					$src = $link['src'];
-					if (!(substr($src, 0, 1) == '/' || substr($src, 0, 7) == 'http://'))
+					$targetmeta_attr = str_replace('_', '-', str_replace('__', ':', $this->doc_info_types['code']['meta_attribs'])); // Prepare for comparison
+					foreach ($_doc_info['code'] as $link)
 					{
-						$src = $smarty->doc_script_url . $src;
-					}
-					unset($link['src']);
-					$doc_src_code = '';
-					foreach ($link as $a=>$v) {
-						if (!@in_array($a, $targetmeta_attr) && !empty($v))
+						$src = $link['src'];
+						if (!(substr($src, 0, 1) == '/' || substr($src, 0, 7) == 'http://'))
 						{
-							$doc_src_code .= " {$a}=\"{$v}\"";
+							$src = $smarty->doc_script_url . $src;
 						}
-						elseif ($a === 'tplorig')
-						{
-							if ($extcomments)
+						unset($link['src']);
+						$doc_src_code = '';
+						foreach ($link as $a=>$v) {
+							if (!@in_array($a, $targetmeta_attr) && !empty($v))
 							{
-								$docpre_code = '<!-- Begin '.$this->doc_infoalias.' code from template '.$v." -->\n";
-								$docpost_code = '<!-- End '.$this->doc_infoalias.' code from template '.$v." -->\n";
+								$doc_src_code .= " {$a}=\"{$v}\"";
+							}
+							elseif ($a === 'tplorig')
+							{
+								if ($extcomments)
+								{
+									$docpre_code = '<!-- Begin '.$this->doc_infoalias.' code from template '.$v." -->\n";
+									$docpost_code = '<!-- End '.$this->doc_infoalias.' code from template '.$v." -->\n";
+								}
 							}
 						}
-					} 
-					$doc_source .= $docpre_code."{$indent}<script".$doc_src_code." src=\"{$src}\"></script>\n".$docpost_code;
-				} 
+						$doc_source .= $docpre_code."{$indent}<script".$doc_src_code." src=\"{$src}\"></script>\n".$docpost_code;
+					}
+				}
 			}
 
 			// insert module header-pre content
@@ -4497,6 +4612,7 @@ class Render_SmartyDoc extends Smarty
 			// process doc_raw targetted at the end of the head (no attributes)
 			if (isset($this->doc_raw['head_post']['main']))
 			{
+				ksort($this->doc_raw['head_post']['main']);
 				foreach ($this->doc_raw['head_post']['main'] as $rawpre)
 				{
 					foreach ($rawpre as $a => $v)
@@ -4506,8 +4622,8 @@ class Render_SmartyDoc extends Smarty
 							$v = str_replace(array('[[[', ']]]'), array('{', '}'), $v);
 							$doc_source .= $v."\n";
 						}
-					} 
-				} 
+					}
+				}
 			}
 			// process doc_info targetted at the end of the head (no attributes)
 			if (isset($_doc_info['head_post']))
@@ -4552,9 +4668,9 @@ class Render_SmartyDoc extends Smarty
 				$doc_source .= $docpre_title."<title></title>\n".$docpost_title;
 			}
 
-			if ($addheadclose)
+			if (isset($addheadclose))
 			{ // Set if head raw, head doc_info or add_openclose
-				if ($extcomments)
+				if (isset($extcomments))
 				{
 					$docpre_head = '<!-- Begin auto add_openclose head '."-->\n";
 					$docpost_head = '<!-- End auto add_openclose head '."-->\n";
@@ -4564,6 +4680,7 @@ class Render_SmartyDoc extends Smarty
 			// process doc_raw targetted for the beginning of the body
 			if (isset($this->doc_raw['body']['main']))
 			{
+				ksort($this->doc_raw['body']['main']);
 				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
 				{
 					$this->dr_body_pre .= '<body';
@@ -4584,13 +4701,13 @@ class Render_SmartyDoc extends Smarty
 						{
 							$this->dr_body_pre .= " {$a}=\"{$v}\"";
 						}
-					} 
+					}
 				}
 				if (!$this->xml_plain || ($this->application_xml === 'XHTML') || ($this->doc_info['dtd']['family'] === 'XHTML') || @array_key_exists('v', $this->doc_info['html']))
 				{
 					$this->dr_body_postpre = ">\n";
 				}
-				
+
 				$doc_source .= $docpre_body.$this->doc_raw_head_build('body', true).$docpost_body;
 			}
 			elseif (isset($_doc_info['body']))
@@ -4634,6 +4751,7 @@ class Render_SmartyDoc extends Smarty
 			// process doc_raw targetted for the end of the body (no attributes)
 			if (isset($this->doc_raw['body_post']['main']))
 			{
+				ksort($this->doc_raw['body_post']['main']);
 				foreach ($this->doc_raw['body_post']['main'] as $rawpre)
 				{
 					foreach ($rawpre as $a => $v)
@@ -4647,7 +4765,7 @@ class Render_SmartyDoc extends Smarty
 					}
 				}
 			}
-
+//print $doc_source;exit;
 
 			// process doc_info targetted for the end of the body (no attributes)
 			if (isset($_doc_info['body_post']))
@@ -4696,18 +4814,19 @@ class Render_SmartyDoc extends Smarty
 */
 				$doc_source .= $_doc_info['root']['_content'].'>'.$docpost_root;
 			}
-			elseif (($this->rootnode != 'html' && $this->rootnode != '') || 
+			elseif (($this->rootnode != 'html' && $this->rootnode != '') ||
 					isset($this->doc_raw['xsd']) || isset($this->doc_info['xsd']))
 			{
 				$doc_source .= '</';
 				$doc_source .= $this->rootnode;
 				$doc_source .= '>';
 			}
-			
+
 
 			// process doc_raw targetted before the root (no attributes)
 			if (isset($this->doc_raw['root_post']['main']))
 			{
+				ksort($this->doc_raw['root_post']['main']);
 				foreach ($this->doc_raw['root_post']['main'] as $rawpost)
 				{
 					foreach ($rawpost as $a => $v)
@@ -4731,49 +4850,6 @@ class Render_SmartyDoc extends Smarty
 						$docpost_root_post = '<!-- End '.$this->doc_infoalias.' root_post from template '.$rawpost['tplorig']." -->\n";
 					}
 					$doc_source .= $docpre_root_post.$indent.$rawpost['_content']."\n".$docpost_root_post;
-				}
-			}
-
-
-			$xhtmlbasic = false;
-			if ($_GET[$this->xformtobasic_url] && $this->xformtobasic_get)
-			{
-				$this->xsl[] = $this->xhtmlbasic_xsl;
-				$this->pre_xform[] = true;
-				$xhtmlbasic = true;
-			}
-			elseif ($this->auto_xform_mobile && $this->Browscap_file != '' && file_exists($this->Browscap_file))
-			{
-				//Loads the class (get at http://garetjax.info/projects/browscap/ )
-				require $this->Browscap_file;
-				//Creates a new browscap object; loads or creates the cache)
-				$bc = new Browscap($this->Browscap_cache_dir);
-				//Gets information about the current browser's user agent
-				$current_browser = $bc->getBrowser();
-				if ($current_browser->isMobileDevice)
-				{
-					$this->xsl[] = $this->xhtmlbasic_xsl;
-					$this->pre_xform[] = true;
-					$xhtmlbasic = true;
-				}
-			}
-			// If have access to .ini, can do the following instead of the above elseif contents
-			//Can test out with something like this (the argument forces the script to treat the page like a mobile device, in this case the "Blazer" type): $current_browser = get_browser('Blazer');
-			else
-			{ // Note I haven't tested the following option
-				$browscapfile = ini_get('browscap');
-				if (!is_null($browscapfile))
-				{ // Note that one must have the specified browscap.ini file // One can get it from http://browsers.garykeith.com/downloads.asp (but be sure to get the PHP version!)
-					if (file_exists($browscapfile))
-					{
-						$current_browser = get_browser();
-						if ($current_browser->isMobileDevice)
-						{
-							$this->xsl[] = $this->xhtmlbasic_xsl;
-							$this->pre_xform[] = true;
-							$xhtmlbasic = true;
-						}
-					}
 				}
 			}
 
@@ -4802,11 +4878,11 @@ class Render_SmartyDoc extends Smarty
 					$doc_source = str_replace('&nbsp;', '&#160;', $doc_source);
 				}
 
-				
-				$xslproc = new XSLTProcessor;
-				$xslcount = count($this->xsl);
 
-				
+				$xslproc = new XSLTProcessor;
+				$xslcount = @count($this->xsl);
+
+
 				for ($i = 0; $i < $xslcount; $i++)
 				{
 					if ($this->xform_all || $this->pre_xform[$i])
@@ -4841,9 +4917,9 @@ class Render_SmartyDoc extends Smarty
 								$doc_source .= '). -->';
 								break;
 							}
-							
+
 							$doc_source = $xslproc->transformToXML($xformed);
-				
+
 							if ($this->strip_xml_decl)
 							{
 								$doc_source = str_replace("<"."?xml version=\"1.0\"?".">", '', $doc_source);
@@ -4867,9 +4943,11 @@ class Render_SmartyDoc extends Smarty
 				} // end for
 			}
 
-			if ($this->strip_all_whitespace || ($xhtmlbasic && $this->strip_all_ws_xhtmlbasic))
+			if ($this->strip_all_whitespace || ($this->xhtmlbasic && $this->strip_all_ws_xhtmlbasic))
 			{
-				$doc_source = preg_replace('@\s+@', ' ', $doc_source);
+				$pattern = '@\s+@';
+				if ($this->encoding === 'UTF-8') $pattern .= 'u';
+				$doc_source = preg_replace($pattern, ' ', $doc_source);
 			}
 
 
@@ -4878,32 +4956,32 @@ class Render_SmartyDoc extends Smarty
 			if ($this->entity_replace)
 			{ // server-side entity replacement
 				// Besides the file contents of a tab-delimited entity doc_raw, could come from entities in the doctype or dtd doc_raw, a general entity, or a parameter entity that was not submitted as tab-delimited (though not checking within any of these entire files at present for manual changes--besides the tab-delimited ones)
-			
+
 				$ent_file_content = file_get_contents($this->entity_file_toget);
 //				print $this->entity_file_toget;exit;
 				preg_match_all('@<!ENTITY\s+([^%" ]*?)\s+"([^"]*?)"@', $ent_file_content, $matches0);
 				array_walk($matches0[1], create_function('&$matches', '$matches = \'&\'.$matches.\';\';'));
 				$doc_source = str_replace($matches0[1], $matches0[2], $doc_source);
 
-				
+
 				$ent_nms = isset($this->extra_ent_repl_nm)?$this->extra_ent_repl_nm:array();
 				$ent_txt = isset($this->extra_ent_repl_txt)?$this->extra_ent_repl_txt:array();
 
 				preg_match_all('@<!ENTITY\s+([^%" ]*?)\s+"([^"]*?)"@', $doc_source, $matches);
 //				preg_match_all('@<!ENTITY\s+([^%"]*?)\s+SYSTEM\s+"([^"]*?)"@', $doc_source, $matches2);
 			//	preg_match_all('@<!ENTITY\s+%\s+([^%"]*?)\s+SYSTEM\s+"([^"]*?)"@', $doc_source, $matches3); // Could use this to convert external parameter references into internal ones, but would need to add functionality to doc_raw and to the array_merges below
-				
-				$nw_arr = array_merge((array) $ent_nms, (array) $this->extra_ext_ent_nm);
+
+				$nw_arr = @array_merge((array) $ent_nms, (array) $this->extra_ext_ent_nm);
 
 				array_walk($nw_arr, create_function('&$matches', '$matches = \'&\'.$matches.\';\';'));
 
 				//$aaaa = array_merge((array) $ent_txt, (array) $matches[2], (array) $this->extra_ext_ent_txt);
 
-				$doc_source = str_replace($nw_arr, array_merge((array) $ent_txt, (array) $this->extra_ext_ent_txt), $doc_source);
+				$doc_source = str_replace($nw_arr, @array_merge((array) $ent_txt, (array) $this->extra_ext_ent_txt), $doc_source);
 			}
 //print $doc_source;exit;
 
-			if ($this->validate === true || $smarty->_tpl_vars['validateon'])
+			if ($this->validate === true or isset($smarty->_tpl_vars['validateon']))
 			{
 				// Adapted from function on PHP's documentation on Document->validate
 				function staticerror($errno, $errstr, $errfile, $errline, $errcontext, $ret = false)
@@ -4920,14 +4998,14 @@ class Render_SmartyDoc extends Smarty
 				// Load a document
 				$dom = new DOMDocument;
 				$dom->loadXML($doc_source);
-				
+
 				// Set up error handling
 				set_error_handler('staticerror');
 				$old = ini_set('html_errors', false);
-				
+
 				// Validate
 				$dom->validate();
-				
+
 				// Restore error handling
 				ini_set('html_errors', $old);
 				restore_error_handler();
@@ -4958,7 +5036,7 @@ class Render_SmartyDoc extends Smarty
 		} // end (long) if
 
 		return $source;
-	}	
+	}
 
 
 	/**
