@@ -1,11 +1,10 @@
-{* DEBUG OUTPUT of assigned Arrays: 
+{* DEBUG OUTPUT of assigned Arrays:
    {$smarty.session|@var_dump}
    <hr>
    {$news|@var_dump}
    <hr>
-   {$pagination_links|@var_dump} 
+   {$pagination_links|@var_dump}
 *}
-
 <table border="0" cellspacing="1" cellpadding="3" style="width:99%">
 <tr>
     <td class="td_header">News</td>
@@ -14,9 +13,9 @@
     <td class="td_header_small">
         <div style="float:right;">
         <a href="/index.php">
-            <img src="{$www_root_themes_core}/images/rss/16px-Feed-icon.png" 
+            <img src="{$www_root_themes_core}/images/rss/16px-Feed-icon.png"
                  alt="Clansuite RSS News Feed" />
-        </a> 
+        </a>
         </div>
         {include file="tools/paginate.tpl"}
     </td>
@@ -37,7 +36,7 @@
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;;action=showone&amp;id={$news.news_id}'>{$news.CsComment.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> am {$news.news_added} - <a href='index.php?mod=news&amp;;action=showone&amp;id={$news.news_id}'>{$news.nr_news_comments} comments</a></font></td>
     </tr>
 
     <tr>
@@ -47,7 +46,7 @@
     <tr>
          <td>
             <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.CsComment.nr_news_comments} Comments</a>
+            <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
             {if isset($news.CsComment.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if}
         </td>
     	<td>

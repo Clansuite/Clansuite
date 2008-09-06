@@ -19,23 +19,24 @@
     </tr>
 
     <tr>
+
         <td height="175" width="75%" valign="top">{$news.0.news_body}</td>
     </tr>
-    
+
     {if isset($smarty.session.user.rights.cc_edit_news) AND
     	         ($smarty.session.user.rights.cc_edit_news == 1) AND
     	         ($smarty.session.user.rights.cc_access == 1)}
-     <tr>   
+     <tr>
         <td colspan="2">
     	&nbsp;
-    	
+
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.0.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.0.news_id}" name="ids[]" />
                 <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.0.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
             </form>
-       
+
     	</td>
      </tr>
      {/if}
@@ -48,21 +49,30 @@
 
 <!-- Start Comments /-->
 
-{* Debugoutput of Comments Array:  {$news_comments|@var_dump} *} 
+{* Debugoutput of Comments Array: {$news_comments|@var_dump} *}
 
 <a name="comments" id="comments"></a>
 
 {if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 0}
-    
+
     <h2>{t}Comments{/t}</h2>
 
     {foreach item=news_comment from=$news_comments}
 
-    <div style="width:99%;">
+    {* Debugoutput of Comments Array: {$news_comment|@var_dump} *}
+
+    <div id="news-comment-id{$news_comment.comment_id}" style="width:99%;">
         <table width="100%" border="1" cellspacing="1" cellpadding="0">
           <tr>
-            <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comment.pseudo}</p></div></td>
-            <td><div align="right">geschrieben am: {$news_comment.added}</div></td>
+            <td width="150" rowspan="2" align="center" valign="middle">
+                <div align="center">
+                <p>{$news_comment.pseudo} {$news_comment.CsUser.nick}</p>
+                {gravatar email="`$news_comment.CsUser.email`"}
+                </div>
+            </td>
+            <td>
+                <div align="right">{t}Comment{/t} {$news_comment.comment_id} {t}written :{/t} {$news_comment.added}</div>
+            </td>
           </tr>
           <tr>
             <td><div style="padding:10px;">{$news_comment.body}</div></td>
@@ -71,15 +81,20 @@
     </div>
 
     {/foreach}
-    
+
 {elseif isset($news_comments)}
 
    <h2>1 {t}Comment{/t}</h2>
-   
-   <div id="" style="width:99%;">
+
+   <div id="news-comment-id{$news_comments.comment_id}" style="width:99%;">
         <table width="100%" border="1" cellspacing="1" cellpadding="0">
           <tr>
-            <td width="150" rowspan="2" align="center" valign="middle"><div align="center"><p>{$news_comments.pseudo}</p></div></td>
+            <td width="150" rowspan="2" align="center" valign="middle">
+                <div align="center">
+                <p>{$news_comments.pseudo} {$news_comments.CsUser.nick}</p>
+                {gravatar email="`$news_comments.CsUser.email`"}
+                </div>
+            </td>
             <td><div align="right">geschrieben am: {$news_comments.added}</div></td>
           </tr>
           <tr>
@@ -87,9 +102,9 @@
           </tr>
         </table>
    </div>
-        
+
 {else}
-    
+
     <h2>{t}No Comments{/t}</h2>
 
     Add a Comment !

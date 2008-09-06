@@ -27,9 +27,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id$
     */
 
 // Security Handler
@@ -40,6 +38,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Module:      News
  *
+ * @since      File available since Release 0.2
+ * @version    SVN: $Id$
  */
 class Module_News extends ModuleController implements Clansuite_Module_Interface
 {
@@ -75,15 +75,19 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
                             Doctrine_Query::create()
-                                    ->select('n.*, u.nick, u.user_id, c.name, c.image, COUNT(nc.comment_id) as nr_news_comments, nc.*')
+                                    ->select('n.*,
+                                              u.nick, u.user_id, u.email, u.country,
+                                              c.name, c.image, c.icon, c.color,
+                                              nc.*,
+                                              ncu.nick, ncu.email, ncu.country')
                                     ->from('CsNews n')
                                     ->leftJoin('n.CsUser u')
                                     ->leftJoin('n.CsCategory c')
                                     ->leftJoin('n.CsComment nc')
+                                    ->leftJoin('nc.CsUser ncu')
                                     #->where('c.module_id = 7')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->groupby('news_id')
-                                    ->orderby('n.news_id DESC'),
+                                    ->orderby('n.news_id DESC, n.news_added DESC'),
                                  # The following is Limit  ?,? =
                                  $currentPage, // Current page of request
                                  $resultsPerPage // (Optional) Number of results per page Default is 25
@@ -103,33 +107,20 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
-        #die(var_dump($news));
-        // Fetch the related COUNT on news_comments and the author of the latest!
-        // a) Count all news
-        // b) Get the nickname of the last comment for certain news_id
-        // TODO: One query possible with some joins ?
-        /*$stmt1 = Doctrine_Query::create()
-                         ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
-                         ->from('CsComment nc')
-                         ->leftJoin('nc.CsUser u')
-                         ->groupby('nc.news_id')
-                         ->setHydrationMode(Doctrine::HYDRATE_NONE)
-                         ->where('nc.news_id = ?');*/
 
+        // Calculate Number of Comments
         foreach ($news as $k => $v)
         {
-            // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $v['CsComment'];//$stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
             # check if something was returned
-            if(isset($cs_news_comments_array[0]))
+            if( isset($v['CsComment']) && !empty($v['CsComment']) )
             {
-                # strip the [0] array off
-                $news[$k]['CsComment'] = $cs_news_comments_array[0];
+                # add to $newslist array, the numbers of news_comments for each news_id
+                $news[$k]['nr_news_comments'] = count($v['CsComment']);
             }
             else
             {
                 # nothing was returned, so we set 0
-                $news[$k]['CsComment'] = array('nr_news_comments' => 0);
+                $news[$k]['nr_news_comments'] = 0;
             }
         }
 
@@ -165,6 +156,108 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         $this->prepareOutput();
     }
 
+    /**
+     * createFeed
+     *
+     * URL-Parameters: ?items=15 or 30
+     */
+    public function createFeed()
+    {
+        # Require Feedcreator Class
+        if(!class_exists('UniversalFeedCreator'))
+        {
+            require ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
+        }
+
+        /**
+         * Get Number of Feed Items to create
+         */
+        $feed_items = (int) $this->injector->instantiate('httprequest')->getParameter('items');
+
+        # Set Number of Items Range 0<15 || MAX 30
+        if($feed_items == null or $feed_items < 15)   { $feed_items = 15;  }
+        elseif($feed_items > 15 )                     { $feed_items = 30;  }
+
+        /**
+         * Create Main Feed Object
+         */
+        $rss = new UniversalFeedCreator();
+        $rss->useCached(); // use cached version if age<1 hour
+        $rss->title = "PHP news";
+        $rss->description = "daily news from the clanwebsites world";
+
+        //optional
+        $rss->descriptionTruncSize = 500;
+        $rss->descriptionHtmlSyndicated = true;
+
+        $rss->link = "http://www.clanswebsite.net/news";
+        $rss->syndicationURL = "http://www.clanwebsite.net/".$_SERVER["PHP_SELF"];
+
+        /**
+         * Create Feed Image Object
+         */
+        $image = new FeedImage();
+        $image->title = "clanwebsite.net logo";
+        $image->url = "http://www.clanwebsite.net/images/logo.gif";
+        $image->link = "http://www.clanwebsite.net";
+        $image->description = "Feed provided by clanwebsite.net. Click to visit.";
+
+        //optional
+        $image->descriptionTruncSize = 500;
+        $image->descriptionHtmlSyndicated = true;
+
+        # Set Feed Image Object to Main Feed Object
+        $rss->image = $image;
+
+        # Fetch News via Doctrine
+        $news = Doctrine_Query::create()
+                        ->select('n.*,
+                                  u.nick, u.user_id, u.email, u.country,
+                                  c.name, c.image, c.icon, c.color,
+                                  nc.*,
+                                  ncu.nick, ncu.email, ncu.country')
+                        ->from('CsNews n')
+                        ->leftJoin('n.CsUser u')
+                        ->leftJoin('n.CsCategory c')
+                        ->leftJoin('n.CsComment nc')
+                        ->leftJoin('nc.CsUser ncu')
+                        #->where('c.module_id = 7')
+                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                        ->fetchArray();
+
+        /**
+         * Loop over Dataset
+         */
+        foreach ($news as $k => $v)
+        {
+            /**
+             * Create Feed Item Object
+             */
+            $item = new FeedItem();
+            $item->title = $data->title;
+            $item->link = $data->url;
+            $item->description = $data->short;
+
+            //optional
+            $item->descriptionTruncSize = 500;
+            $item->descriptionHtmlSyndicated = true;
+
+            $item->date = $data->newsdate;
+            $item->source = "http://www.clanwebsite.net";
+            $item->author = "John 'wanker' Vain";
+
+            # Set Feed Item Object to Main Feed Object
+            $rss->addItem($item);
+        }
+
+        /**
+         * Valid format strings are:
+         * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
+         * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
+         */
+        $rss->saveFeed("RSS1.0", ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
+    }
+
      /**
       * module news action_showone()
       *
@@ -180,39 +273,51 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         if($news_id == null) { $news_id = 1;  }
 
         $single_news = Doctrine_Query::create()
-                        ->select('n.*, u.nick, u.user_id, c.name, c.image, c.icon, c.color, count(nc.comment_id) as nr_news_comments, nc.*')
+                        ->select('n.*,
+                                  u.nick, u.user_id, u.email, u.country,
+                                  c.name, c.image, c.icon, c.color,
+                                  nc.*,
+                                  ncu.nick, ncu.email, ncu.country')
                         ->from('CsNews n')
                         ->leftJoin('n.CsUser u')
                         ->leftJoin('n.CsCategory c')
                         ->leftJoin('n.CsComment nc')
+                        ->leftJoin('nc.CsUser ncu')
                         #->where('c.module_id = 7')
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                        ->groupby('news_id')
                         ->where('news_id = ' . $news_id)
                         ->fetchArray();
 
-        // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news');
+        #var_dump($single_news);
 
-        # Assign News
-        $smarty->assign('news', $single_news);
-
-        /**
-         * Fetch Comments in case we have some
-         *
-         * Get the nick and country for user_id
-         */
-        if ( $single_news[0]['CsComment'][0]['nr_news_comments'] > 0 )
+        # if a news was found
+        if(!empty($single_news))
         {
-             /*$single_news_comments = Doctrine_Query::create()
-                                     ->select('nc.*, u.nick, u.country')
-                                     ->from('CsNewsComments nc')
-                                     ->leftJoin('nc.CsUser u')
-                                     ->where('news_id = ' . $news_id)
-                                     ->fetchArray();*/
+            // Set Pagetitle and Breadcrumbs
+            trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
 
-             # Assign News
-             $smarty->assign('news_comments', $single_news[0]['CsComment'][0]);
+            # Assign News
+            $smarty->assign('news', $single_news);
+
+            /**
+             * Fetch additional Userdata for the Comments in case we have user_id > 0
+             *
+             * Get the nick, email and country for user_id
+             */
+            if ( $single_news[0]['CsComment'] > 0 )
+            {
+                 # Assign News
+                 $smarty->assign('news_comments', $single_news[0]['CsComment']);
+            }
+            else
+            {
+                $smarty->assign('news_comments', array());
+            }
+        }
+        else # no news found for this id
+        {
+            #@todo redirect with errormessage
+            $this->setTemplate('news/news_notex.tpl');
         }
 
         # Prepare Output
