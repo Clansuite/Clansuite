@@ -72,10 +72,10 @@ class clansuite_gravatar
     );
 
     # Email
-    $this->email = '';
+    public $email = '';
 
     # Turn on/off the use of cached Gravatars
-    $this->useCaching = true;
+    public $useCaching = true;
 
     /**
      *  Constructor
@@ -85,7 +85,7 @@ class clansuite_gravatar
         $this->setEmail($email);
         $this->setRating($rating);
         $this->setSize($size);
-        $this->setDefault($default);
+        $this->setDefaultAvatar($default);
         if(true == $nocaching )
         {
             $this->disableCaching();
@@ -121,6 +121,10 @@ class clansuite_gravatar
         if (in_array($rating, $this->GRAVATAR_RATINGS))
         {
             $this->GRAVATAR_PROPERTIES['rating'] = strtolower($rating);
+        }
+        else
+        {
+             $this->GRAVATAR_PROPERTIES['rating'] = 'g';
         }
         return $this;
     }
@@ -189,9 +193,9 @@ class clansuite_gravatar
         {
             # initialize cache class
             $cache = new clansuite_gravatar_cache($this->getGravatarURL(),
+                                                  $this->GRAVATAR_PROPERTIES['gravatar_id'],
                                                   $this->GRAVATAR_PROPERTIES['size'],
-                                                  $this->GRAVATAR_PROPERTIES['rating'],
-                                                  $this->GRAVATAR_PROPERTIES['default']);
+                                                  $this->GRAVATAR_PROPERTIES['rating']);
             # getGravatar URL from cache
             $html .= '<img src="'. $cache->getGravatar() .'"';
         }
@@ -238,14 +242,17 @@ class clansuite_gravatar
  */
 class clansuite_gravatar_cache
 {
-    $this->cache_location       = WWW_ROOT . '/uploads/avatars';
-    $this->gravatar_cache_url   = '/gravatar_cache/%s-%s-%s.jpg';
-    $this->cache_expire_time    = '7 days';
-    $this->cacheable            = false;
-    $this->gravatar_url         = null;
-    $this->gravatar_id          = null;
-    $this->size                 = null;
-    $this->rating               = null;
+    # Gravatar Cache Settings
+    public $cache_location       = 'uploads/images';
+    public $gravatar_cache_url   = '/gravatar_cache/%s-%s-%s.png';
+    public $cache_expire_time    = '7 days';
+    public $cacheable            = true;
+
+    # Gravatar Attributes
+    public $gravatar_url         = null;
+    public $gravatar_id          = null;
+    public $size                 = null;
+    public $rating               = null;
 
     function __construct( $gravatar_url, $gravatar_id, $size, $rating)
     {
@@ -256,10 +263,10 @@ class clansuite_gravatar_cache
     }
 
     /**
-     * Set URL to the /gravatar_cache folder.
+     * Set absolute Path to the /gravatar_cache folder.
      * Cache might be located on another webserver.
      */
-    public function setCacheLocation($path);
+    public function setCacheLocation($path)
     {
         $this->cache_location = $path;
     }
@@ -270,7 +277,7 @@ class clansuite_gravatar_cache
      */
     public function checkIfCachable()
     {
-        if (1 == ini_get("allow_url_fopen") )
+        if ($this->cacheable == true or 1 == ini_get("allow_url_fopen") )
         {
             $this->cacheable = true;
         }
@@ -282,20 +289,30 @@ class clansuite_gravatar_cache
      */
     public function getGravatar()
     {
-        $cache_filename  = '';
-        $cache_filename .= $this->cache_location;
-        $cache_filename .= (string)sprintf($this->gravatar_cache_location,
-                                           $this->gravatar_id,
-                                           $this->size,
-                                           $this->rating);
+        $gravatar_filename  = '';
+        $gravatar_filename .= (string)sprintf($this->gravatar_cache_url,
+                                              $this->gravatar_id,
+                                              $this->size,
+                                              $this->rating);
 
-        if (is_file($cache_filename) && (filemtime($cache_filename) > strtotime('-' . $this->cache_expire_time)))
+        # absolute
+        $absolute_cache_filename  = '';
+        $absolute_cache_filename .= ROOT . $this->cache_location . $gravatar_filename;
+
+        # relative
+        $relative_cache_filename  = '';
+        $relative_cache_filename .= WWW_ROOT .'/'. $this->cache_location . $gravatar_filename;
+
+        # if the cache_file is detected on an absolute path and still in the cache time
+        if (is_file($absolute_cache_filename) && (filemtime($absolute_cache_filename) > strtotime('-' . $this->cache_expire_time)))
         {
-            return $cache_filename;
+            # return it a relative path
+            return $relative_cache_filename;
         }
         else
         {
-            $this->setGravatar($cache_filename, $this->gravatar_url)
+            # returnfrom gravatar.com
+            return $this->setGravatar($absolute_cache_filename, $this->gravatar_url);
         }
     }
 
@@ -307,7 +324,7 @@ class clansuite_gravatar_cache
         # Check if caching is possible
         if($this->checkIfCachable() == true)
         {
-            # Save the Cache File
+            # Get the Gravatar and Save a Cache File from
             file_put_contents($cache_filename, file_get_contents($gravatar_url));
 
             # Check if Cache file was created
