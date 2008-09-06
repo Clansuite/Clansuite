@@ -42,7 +42,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_adminmenu` DISABLE KEYS */;
-INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Home','?mod=admin','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Board','','Board','_self',1,'application_view_list.png',''),(6,5,'item','Manage board','index.php?mod=board&amp;sub=admin','Manage board','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Create new Static Page','index.php?mod=static&amp;sub=admin&amp;action=create','Create new Static Page','_self',0,'add.png',''),(27,25,'item','Show Static Pages','index.php?mod=static&amp;sub=admin','Show Static Pages','_self',1,'pencil.png',''),(28,0,'folder','Administration','','Administration','_self',2,'textfield_key.png',''),(29,28,'folder','Users','','Users','_self',0,'user_suit.png',''),(30,29,'item','Manage users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'add.png','cc_show_users'),(31,29,'item','Search a User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(32,28,'folder','Groups','','Groups','_self',1,'group.png',''),(33,32,'item','Show all Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(34,32,'item','Create a group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(35,28,'folder','Permissions','','Permissions','_self',2,'key.png',''),(36,35,'item','Manage permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(37,28,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',3,'spellcheck.png',''),(38,28,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png',''),(39,38,'item','BB Code Editor','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(40,38,'item','Adminmenu Editor','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(41,38,'item','Template Editor','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(42,38,'item','Themes Manager','index.php?mod=admin&amp;sub=themes','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(43,0,'folder','System','','System','_self',3,'computer.png',''),(44,43,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(45,43,'folder','Database','','Database','_self',1,'database_gear.png',''),(46,45,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',0,'database_go.png',''),(47,45,'item','Backup','index.php?mod=database&amp;action=backup','Backup','_self',1,'database_key.png',''),(48,43,'folder','Modules','','Modules','_self',2,'bricks.png',''),(49,48,'item','Install new modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(50,48,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=creator','Create a module','_self',1,'add.png',''),(51,48,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(52,48,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(53,43,'folder','Language','','Language','_self',3,'spellcheck.png',''),(54,53,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(55,43,'item','Bridges','index.php?mod=admin&amp;sub=bridges','Bridges','_self',4,'application_view_list.png',''),(56,0,'folder','Help','','Help','_self',4,'help.png',''),(57,56,'item','Help','index.php?mod=admin&amp;sub=static&amp;action=show&amp;page=help','Help','_self',0,'help.png',''),(58,56,'item','Manual','http://www.clansuite.com/documentation/user/manual/','Manual','_blank',1,'book_open.png',''),(59,56,'item','Report Bugs & Issues','index.php?mod=admin&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(60,56,'item','About Clansuite','index.php?mod=admin&amp;action=about','About Clansuite','_self',3,'information.png','');
+INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Home','?mod=admin','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Forum','','Forum','_self',1,'application_view_list.png',''),(6,5,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',0,'add.png',''),(27,25,'item','Show Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',1,'pencil.png',''),(28,2,'folder','Quotes','','Quotes','_self',11,'report.png',''),(29,28,'item','Manage Quotes','index.php?mod=quote&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(30,0,'folder','Administration','','Administration','_self',2,'textfield_key.png',''),(31,30,'folder','Users','','Users','_self',0,'user_suit.png',''),(32,31,'item','Manage users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'add.png','cc_show_users'),(33,31,'item','Search a User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(34,30,'folder','Groups','','Groups','_self',1,'group.png',''),(35,34,'item','Show all Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(36,34,'item','Create a group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(37,30,'folder','Permissions','','Permissions','_self',2,'key.png',''),(38,37,'item','Manage permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(39,30,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',3,'spellcheck.png',''),(40,30,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png',''),(41,40,'item','BB Code Editor','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(42,40,'item','Adminmenu Editor','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(43,40,'item','Template Editor','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(44,40,'item','Themes Manager','index.php?mod=admin&amp;sub=themes','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(45,0,'folder','System','','System','_self',3,'computer.png',''),(46,45,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(47,45,'folder','Database','','Database','_self',1,'database_gear.png',''),(48,47,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',1,'database_gear.png',''),(49,47,'item','Export & Backup','index.php?mod=database&amp;action=backup','Export & Backup','_self',2,'database_key.png',''),(50,45,'folder','Modules','','Modules','_self',2,'bricks.png',''),(51,50,'item','Install new modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(52,50,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=creator','Create a module','_self',1,'add.png',''),(53,50,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(54,50,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(55,45,'folder','Language','','Language','_self',3,'spellcheck.png',''),(56,55,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(57,45,'item','Bridges','index.php?mod=admin&amp;sub=bridges','Bridges','_self',4,'application_view_list.png',''),(58,0,'folder','Help','','Help','_self',4,'help.png',''),(59,58,'item','Help','index.php?mod=admin&amp;sub=static&amp;action=show&amp;page=help','Help','_self',0,'help.png',''),(60,58,'item','Manual','http://www.clansuite.com/documentation/user/manual/','Manual','_blank',1,'book_open.png',''),(61,58,'item','Report Bugs & Issues','index.php?mod=admin&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(62,58,'item','About Clansuite','index.php?mod=admin&amp;action=about','About Clansuite','_self',3,'information.png',''),(63,47,'item','Import','','Import','_self',0,'database_go.png',''),(64,45,'item','Information','','Information','_self',5,'information.png','');
 /*!40000 ALTER TABLE `cs_adminmenu` ENABLE KEYS */;
 
 --
@@ -72,7 +72,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_adminmenu_backup` DISABLE KEYS */;
-INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Home','?mod=admin','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Board','','Board','_self',1,'application_view_list.png',''),(6,5,'item','Manage board','index.php?mod=board&amp;sub=admin','Manage board','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Create new Static Page','index.php?mod=static&amp;sub=admin&amp;action=create','Create new Static Page','_self',0,'add.png',''),(27,25,'item','Show Static Pages','index.php?mod=static&amp;sub=admin','Show Static Pages','_self',1,'pencil.png',''),(28,0,'folder','Administration','','Administration','_self',2,'textfield_key.png',''),(29,28,'folder','Users','','Users','_self',0,'user_suit.png',''),(30,29,'item','Manage users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'add.png','cc_show_users'),(31,29,'item','Search a User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(32,28,'folder','Groups','','Groups','_self',1,'group.png',''),(33,32,'item','Show all Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(34,32,'item','Create a group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(35,28,'folder','Permissions','','Permissions','_self',2,'key.png',''),(36,35,'item','Manage permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(37,28,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',3,'spellcheck.png',''),(38,28,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png',''),(39,38,'item','BB Code Editor','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(40,38,'item','Adminmenu Editor','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(41,38,'item','Template Editor','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(42,38,'item','Themes Manager','index.php?mod=admin&amp;sub=themes','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(43,0,'folder','System','','System','_self',3,'computer.png',''),(44,43,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(45,43,'folder','Database','','Database','_self',1,'database_gear.png',''),(46,45,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',0,'database_go.png',''),(47,45,'item','Backup','index.php?mod=database&amp;action=backup','Backup','_self',1,'database_key.png',''),(48,43,'folder','Modules','','Modules','_self',2,'bricks.png',''),(49,48,'item','Install new modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(50,48,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=creator','Create a module','_self',1,'add.png',''),(51,48,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(52,48,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(53,43,'folder','Language','','Language','_self',3,'spellcheck.png',''),(54,53,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(55,43,'item','Bridges','index.php?mod=admin&amp;sub=bridges','Bridges','_self',4,'application_view_list.png',''),(56,0,'folder','Help','','Help','_self',4,'help.png',''),(57,56,'item','Help','index.php?mod=admin&amp;sub=static&amp;action=show&amp;page=help','Help','_self',0,'help.png',''),(58,56,'item','Manual','http://www.clansuite.com/documentation/user/manual/','Manual','_blank',1,'book_open.png',''),(59,56,'item','Report Bugs & Issues','index.php?mod=admin&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(60,56,'item','About Clansuite','index.php?mod=admin&amp;action=about','About Clansuite','_self',3,'information.png','');
+INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Home','?mod=admin','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Forum','','Forum','_self',1,'application_view_list.png',''),(6,5,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',0,'add.png',''),(27,25,'item','Show Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',1,'pencil.png',''),(28,2,'folder','Quotes','','Quotes','_self',11,'report.png',''),(29,28,'item','Manage Quotes','index.php?mod=quote&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(30,0,'folder','Administration','','Administration','_self',2,'textfield_key.png',''),(31,30,'folder','Users','','Users','_self',0,'user_suit.png',''),(32,31,'item','Manage users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'add.png','cc_show_users'),(33,31,'item','Search a User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(34,30,'folder','Groups','','Groups','_self',1,'group.png',''),(35,34,'item','Show all Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(36,34,'item','Create a group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(37,30,'folder','Permissions','','Permissions','_self',2,'key.png',''),(38,37,'item','Manage permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(39,30,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',3,'spellcheck.png',''),(40,30,'folder','Layout & Styles','','Layout & Styles','_self',4,'layout_header.png',''),(41,40,'item','BB Code Editor','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(42,40,'item','Adminmenu Editor','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(43,40,'item','Template Editor','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(44,40,'item','Themes Manager','index.php?mod=admin&amp;sub=themes','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(45,0,'folder','System','','System','_self',3,'computer.png',''),(46,45,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(47,45,'folder','Database','','Database','_self',1,'database_gear.png',''),(48,47,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',0,'database_go.png',''),(49,47,'item','Backup','index.php?mod=database&amp;action=backup','Backup','_self',1,'database_key.png',''),(50,45,'folder','Modules','','Modules','_self',2,'bricks.png',''),(51,50,'item','Install new modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(52,50,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=creator','Create a module','_self',1,'add.png',''),(53,50,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(54,50,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(55,45,'folder','Language','','Language','_self',3,'spellcheck.png',''),(56,55,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(57,45,'item','Bridges','index.php?mod=admin&amp;sub=bridges','Bridges','_self',4,'application_view_list.png',''),(58,0,'folder','Help','','Help','_self',4,'help.png',''),(59,58,'item','Help','index.php?mod=admin&amp;sub=static&amp;action=show&amp;page=help','Help','_self',0,'help.png',''),(60,58,'item','Manual','http://www.clansuite.com/documentation/user/manual/','Manual','_blank',1,'book_open.png',''),(61,58,'item','Report Bugs & Issues','index.php?mod=admin&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(62,58,'item','About Clansuite','index.php?mod=admin&amp;action=about','About Clansuite','_self',3,'information.png','');
 /*!40000 ALTER TABLE `cs_adminmenu_backup` ENABLE KEYS */;
 
 --
@@ -153,6 +153,111 @@ INSERT INTO `cs_bb_code` VALUES (1,'b','<b>','</b>','block','listitem,block,inli
 /*!40000 ALTER TABLE `cs_bb_code` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_board_forums`
+--
+
+DROP TABLE IF EXISTS `cs_board_forums`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_board_forums` (
+  `forumid` int(11) NOT NULL auto_increment,
+  `forumparent` int(11) NOT NULL default '0',
+  `name` varchar(128) default NULL,
+  `description` text,
+  `displayorder` smallint(6) NOT NULL default '0',
+  `moderator` int(11) default NULL,
+  `posts` int(11) NOT NULL,
+  `threads` int(11) NOT NULL,
+  `permissions` int(11) default NULL,
+  `password` varchar(32) default NULL,
+  `lastpost` varchar(54) NOT NULL,
+  `status` varchar(15) NOT NULL,
+  `type` varchar(15) NOT NULL,
+  PRIMARY KEY  (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_board_forums`
+--
+
+/*!40000 ALTER TABLE `cs_board_forums` DISABLE KEYS */;
+INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1,NULL,0,0,NULL,NULL,'','on','forum'),(2,0,'Birnen-Forum','Birne',3,NULL,0,0,NULL,NULL,'','on','forum'),(3,1,'Kirschen-Forum is a Child of Apfel-Forum','Kirsche',2,NULL,0,0,NULL,NULL,'','on','sub'),(4,3,'SahneKirschen-Forum is a Child of Kirschen-Forum','Sahnekirschen',4,NULL,0,0,NULL,NULL,'','on','sub'),(5,2,'Nashi-Birnen Forum','Nashi-Birnen',5,NULL,0,0,0,NULL,'','on','sub'),(6,0,'Orangen-Forum','Orangen',2,NULL,0,0,0,NULL,'','on','forum');
+/*!40000 ALTER TABLE `cs_board_forums` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_board_posts`
+--
+
+DROP TABLE IF EXISTS `cs_board_posts`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_board_posts` (
+  `forumid` int(11) NOT NULL default '0',
+  `threadid` int(11) NOT NULL default '0',
+  `postid` int(11) NOT NULL auto_increment,
+  `author` varchar(32) NOT NULL,
+  `message` text NOT NULL,
+  `subject` tinytext NOT NULL,
+  `date` int(10) NOT NULL default '0',
+  `icon` varchar(50) default NULL,
+  `signatur` varchar(15) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `bbcodeoff` varchar(15) NOT NULL,
+  `smileyoff` varchar(15) NOT NULL,
+  `edited_by` text,
+  PRIMARY KEY  (`postid`),
+  KEY `fid` (`forumid`),
+  KEY `tid` (`threadid`),
+  KEY `dateline` (`date`),
+  KEY `author` (`author`(8))
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_board_posts`
+--
+
+/*!40000 ALTER TABLE `cs_board_posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_board_posts` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_board_threads`
+--
+
+DROP TABLE IF EXISTS `cs_board_threads`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_board_threads` (
+  `threadid` int(11) NOT NULL auto_increment,
+  `forumid` int(11) NOT NULL default '0',
+  `subject` varchar(128) NOT NULL,
+  `icon` varchar(75) NOT NULL,
+  `lastpost` varchar(54) NOT NULL,
+  `views` bigint(32) NOT NULL default '0',
+  `replies` int(10) NOT NULL default '0',
+  `author` varchar(32) NOT NULL,
+  `closed` varchar(15) NOT NULL,
+  `stickified` tinyint(1) NOT NULL default '0',
+  `poll` text NOT NULL,
+  PRIMARY KEY  (`forumid`),
+  KEY `fid` (`forumid`),
+  KEY `tid` (`threadid`),
+  KEY `lastpost` (`lastpost`),
+  KEY `author` (`author`(8)),
+  KEY `closed` (`closed`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_board_threads`
+--
+
+/*!40000 ALTER TABLE `cs_board_threads` DISABLE KEYS */;
+INSERT INTO `cs_board_threads` VALUES (1,1,'Apfelernte','','',0,0,'','',0,'');
+/*!40000 ALTER TABLE `cs_board_threads` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_calendar`
 --
 
@@ -220,6 +325,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_comments` (
   `comment_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(11) unsigned NOT NULL default '0',
+  `email` varchar(200) NOT NULL,
   `body` text NOT NULL,
   `added` datetime NOT NULL default '0000-00-00 00:00:00',
   `pseudo` varchar(25) default NULL,
@@ -234,7 +340,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_comments` DISABLE KEYS */;
-INSERT INTO `cs_comments` VALUES (1,1,'123','2005-07-29 13:04:07','','127.0.0.1','localhost'),(2,2,'1234567','2005-07-29 16:50:08','blub','127.0.0.1','localhost');
+INSERT INTO `cs_comments` VALUES (1,1,'','123','2005-07-29 13:04:07','','127.0.0.1','localhost'),(2,2,'','1234567','2005-07-29 16:50:08','blub','127.0.0.1','localhost');
 /*!40000 ALTER TABLE `cs_comments` ENABLE KEYS */;
 
 --
@@ -350,6 +456,28 @@ SET character_set_client = @saved_cs_client;
 /*!40000 ALTER TABLE `cs_forum_threads` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_group_rights`
+--
+
+DROP TABLE IF EXISTS `cs_group_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_group_rights` (
+  `group_id` int(11) NOT NULL default '0',
+  `right_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`group_id`,`right_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_group_rights`
+--
+
+/*!40000 ALTER TABLE `cs_group_rights` DISABLE KEYS */;
+INSERT INTO `cs_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(3,21),(3,22),(3,23),(3,24),(3,25),(3,26),(3,27),(3,28);
+/*!40000 ALTER TABLE `cs_group_rights` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_groups`
 --
 
@@ -405,7 +533,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_guestbook` DISABLE KEYS */;
-INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','email','123124','www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf','1231231231','mir nur ganz alleine :) [b]fu[/b] asdfasdf asdfffffffffffffffffasd asdfsadfsafsafsadf asdfsadfsfsafsafddddddddddddddddddddddddddddd  asdfsfsdfsdfsdfddddddddddddddddddddddddd dddddasdfsdfsdfsdfsaf assadfsaf ',3),(2,0,1175392043,'123','123','123','','123','123','0','',0),(3,0,1175919684,'nester tester','asdf','1234---1234','http://www.uschi.de','blablubb','asafsdfd [b]/uschi[/b]','127.0.0.1',NULL,0),(4,0,1175924624,'asdf','asdfafafaf','afaffa','faffa','fafafa','faafaffaaf','127.0.0.1',NULL,3),(5,0,1175928797,'asdfsadf','sdfas','sdfasdf','sdfasdf','1234234','21efsdfasdfasdf','127.0.0.1',NULL,0);
+INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','jakoch@web.de','123124','www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf','1231231231','mir nur ganz alleine :) [b]fu[/b] asdfasdf asdfffffffffffffffffasd asdfsadfsafsafsadf asdfsadfsfsafsafddddddddddddddddddddddddddddd  asdfsfsdfsdfsdfddddddddddddddddddddddddd dddddasdfsdfsdfsdfsaf assadfsaf ',3),(2,0,1175392043,'nick1','vain@clansuite.com','123','','123','123','0','',0),(3,0,1175919684,'nester tester','vain@clansuite.com','1234567','http://www.test.de','blablubb','asafsdfd [b]test[/b]','127.0.0.1',NULL,0),(4,0,1175924624,'nickname','email@email.de','32452345','faffa','fafafa','faafaffaaf','127.0.0.1',NULL,3),(5,0,1175928797,'name','email@email.de','sdfasdf','sdfasdf','1234234','21efsdfasdfasdf','127.0.0.1',NULL,0);
 /*!40000 ALTER TABLE `cs_guestbook` ENABLE KEYS */;
 
 --
@@ -571,7 +699,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_news` DISABLE KEYS */;
-INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,1168260056,0),(2,'1243','21341234',0,1,1168260056,0),(3,'2345','asdvgfas',1,1,1168260056,0),(4,'3451','dfas',2,1,1168260056,0),(5,'234512','df',3,1,1168260056,0),(6,'51','dfaas',4,1,1168260056,0),(7,'3512','sdf',2,1,1168260056,0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n				<p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n				\r\n				<blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n				\r\n				<code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n					<li>Tristique</li>\r\n					<li>Aenean</li>\r\n					<li>Pretium</li>\r\n				</ul>\r\n\r\n				<p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,1168260056,0),(17,'asdfasdf','<p>asdfasdfasdf</p>',0,1,1175294049,1);
+INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,1168260056,0),(2,'testeintrag2','testeintrag2body',0,1,1168260056,0),(3,'testeintrag3','testeintrag3body',1,1,1168260056,0),(7,'testeintrag7','testeintrag7body',2,1,1168260056,0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n				<p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n				\r\n				<blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n				\r\n				<code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n					<li>Tristique</li>\r\n					<li>Aenean</li>\r\n					<li>Pretium</li>\r\n				</ul>\r\n\r\n				<p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,1168260056,0);
 /*!40000 ALTER TABLE `cs_news` ENABLE KEYS */;
 
 --
@@ -854,7 +982,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_rel_news_comments` DISABLE KEYS */;
-INSERT INTO `cs_rel_news_comments` VALUES (17,1),(17,2);
+INSERT INTO `cs_rel_news_comments` VALUES (16,1),(16,2),(16,3),(16,4);
 /*!40000 ALTER TABLE `cs_rel_news_comments` ENABLE KEYS */;
 
 --
@@ -1040,7 +1168,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'e21fc98fc6db327ede726045cda4f209','initiated|b:1;token|s:32:\"50816299931c8b02fbc97a130abadf40\";token_time|i:1219998077;client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1\";client_host|s:10:\"powertower\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}','suiteSID',1220002655,1,'news');
+INSERT INTO `cs_session` VALUES (0,'ccf30f70f58c20ba9270e71b2774b9dc','initiated|b:1;token|s:32:\"3e628d4afc63668c326a088679279807\";token_time|i:1220618575;client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1\";client_host|s:9:\"localhost\";user|a:11:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:12:\"n.news_added\";i:1;s:12:\"n.news_title\";i:2;s:6:\"c.name\";i:3;s:6:\"u.nick\";i:4;s:7:\"n.draft\";}s:14:\"default_column\";i:0;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:0;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:29:\"/index.php?mod=news&sub=admin\";}}','suiteSID',1220671053,1,'menu');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1121,6 +1249,74 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 /*!40000 ALTER TABLE `cs_submodules` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_user_groups`
+--
+
+DROP TABLE IF EXISTS `cs_user_groups`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_user_groups` (
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `group_id` int(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_user_groups`
+--
+
+/*!40000 ALTER TABLE `cs_user_groups` DISABLE KEYS */;
+INSERT INTO `cs_user_groups` VALUES (1,3);
+/*!40000 ALTER TABLE `cs_user_groups` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_user_options`
+--
+
+DROP TABLE IF EXISTS `cs_user_options`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_user_options` (
+  `option_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `language` varchar(255) NOT NULL,
+  `theme` varchar(255) NOT NULL,
+  PRIMARY KEY  (`option_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_user_options`
+--
+
+/*!40000 ALTER TABLE `cs_user_options` DISABLE KEYS */;
+INSERT INTO `cs_user_options` VALUES (0,1,'en','accessible');
+/*!40000 ALTER TABLE `cs_user_options` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_user_rights`
+--
+
+DROP TABLE IF EXISTS `cs_user_rights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_user_rights` (
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `right_id` int(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`right_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_user_rights`
+--
+
+/*!40000 ALTER TABLE `cs_user_rights` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_user_rights` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_users`
 --
 
@@ -1156,7 +1352,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'user1@clansuite.com','user1','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',1215754325,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'user2@clansuite.com','user2','d1ca11799e222d429424d47b424047002ea72d44','','','','',1215763325,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'user3@clansuite.com','user3','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','',NULL,''),(9,'user4@clansuite.com','user4','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','',NULL,''),(10,'user5@clansuite.com','user5','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','',NULL,'');
+INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',1215754325,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'user2@clansuite.com','user2','d1ca11799e222d429424d47b424047002ea72d44','','','','',1215763325,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'user3@clansuite.com','user3','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','',NULL,''),(9,'user4@clansuite.com','user4','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','',NULL,''),(10,'user5@clansuite.com','user5','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','',NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1168,4 +1364,4 @@ INSERT INTO `cs_users` VALUES (1,'user1@clansuite.com','user1','d033e22ae348aeb5
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-08-29  9:09:32
+-- Dump completed on 2008-09-06  2:52:19
