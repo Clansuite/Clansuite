@@ -248,7 +248,7 @@
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                         <tr>
                             <td class="cell2" width="100px">{t}Author{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
                         </tr>
                         <tr>
                             <td class="cell2">{t}License{/t}</td>
