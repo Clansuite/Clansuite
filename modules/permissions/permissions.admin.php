@@ -28,8 +28,8 @@
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
     * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
-    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
+    * @copyright  Copyleft: All permissions reserved. Jens-Andre Koch (2005-onwards)
+    * @copyright  Copyleft: All permissions reserved. Florian Wolf (2006-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -38,8 +38,8 @@
     */
 
 /**
- * Rights module for ClanSuite Admin Module (Backend)
- * (rights)
+ * Permissions module for ClanSuite Admin Module (Backend)
+ * (permissions)
  *
  * @license    GPL v2 or later
  * @author     Florian Wolf
@@ -51,12 +51,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * @package Clansuite
- * @subpackage module_admin_rights
+ * @subpackage module_admin_permissions
  */
-class Module_Rights_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Permissions_Admin extends ModuleController implements Clansuite_Module_Interface
 {
     /**
-     * Main Method of Rights Module
+     * Main Method of Permissions Module
      *
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
@@ -64,21 +64,21 @@ class Module_Rights_Admin extends ModuleController implements Clansuite_Module_I
     public function execute(httprequest $request, httpresponse $response)
     {  
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/rights/rights.config.php');
+        $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
 
         # proceed to the requested action
         $this->processActionController($request);
     }     
 
     /**
-     * The action_admin_show method for the Rights module
+     * The action_admin_show method for the Permissions module
      * @param void
      * @return void 
      */
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=rights&amp;action=show');
+        trail::addStep( _('Show'), '/index.php?mod=permissions&amp;action=show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -89,14 +89,14 @@ class Module_Rights_Admin extends ModuleController implements Clansuite_Module_I
     }
 
     /**
-     * The action_admin_create method for the Rights module
+     * The action_admin_create method for the Permissions module
      * @param void
      * @return void 
      */
     public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create'), '/index.php?mod=rights&amp;action=create');
+        trail::addStep( _('Create'), '/index.php?mod=permissions&amp;action=create');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -107,14 +107,14 @@ class Module_Rights_Admin extends ModuleController implements Clansuite_Module_I
     }
 
     /**
-     * The action_admin_update method for the Rights module
+     * The action_admin_update method for the Permissions module
      * @param void
      * @return void 
      */
     public function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Update'), '/index.php?mod=rights&amp;action=update');
+        trail::addStep( _('Update'), '/index.php?mod=permissions&amp;action=update');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -125,14 +125,14 @@ class Module_Rights_Admin extends ModuleController implements Clansuite_Module_I
     }
 
     /**
-     * The action_admin_delete method for the Rights module
+     * The action_admin_delete method for the Permissions module
      * @param void
      * @return void 
      */
     public function action_admin_delete()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Delete'), '/index.php?mod=rights&amp;action=delete');
+        trail::addStep( _('Delete'), '/index.php?mod=permissions&amp;action=delete');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
