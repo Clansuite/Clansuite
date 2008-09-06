@@ -1,6 +1,6 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ; 
-; Recaptcha Config
+; Modulemanager Config
 ;
 
 [modulecreator]
