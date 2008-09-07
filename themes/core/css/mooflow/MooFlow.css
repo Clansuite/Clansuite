@@ -16,7 +16,7 @@
 	margin:0 auto;
 	top:45%;
 	width:100%;
-	background:url(../images/mooflow/ajax_loader.gif) no-repeat 50% 0;
+	background:url(../../images/mooflow/ajax_loader.gif) no-repeat 50% 0;
 	padding:30px 0;
     color: #000;
 }
@@ -52,10 +52,10 @@
 	cursor:pointer;
 }
 .mf a.play{
-	background:url(../images/mooflow/play.gif) no-repeat;
+	background:url(../../images/mooflow/play.gif) no-repeat;
 }
 .mf a.stop{
-	background:url(../images/mooflow/stop.gif) no-repeat;
+	background:url(../../images/mooflow/stop.gif) no-repeat;
 }
 .mf div.sliderCon{
 	margin-top:5px;
@@ -63,10 +63,10 @@
 	width:74%;
 }
 .mf a.sliderNext{
-	background:url(../images/mooflow/left.gif) no-repeat;
+	background:url(../../images/mooflow/left.gif) no-repeat;
 }
 .mf a.sliderPrev{
-	background:url(../images/mooflow/right.gif) no-repeat;
+	background:url(../../images/mooflow/right.gif) no-repeat;
 }
 .mf a.sliderNext, a.sliderPrev{
 	text-decoration:none;
@@ -86,10 +86,10 @@
 	height:24px;
 	float:right;
 	cursor:pointer;
-	background:url(../images/mooflow/resize.gif) no-repeat;
+	background:url(../../images/mooflow/resize.gif) no-repeat;
 }
 .mf div.slider{
-	background:url(../images/mooflow/middle.gif) repeat-x;
+	background:url(../../images/mooflow/middle.gif) repeat-x;
 	height:16px;
 	position:relative;
 	text-align:left;
@@ -97,10 +97,10 @@
 }
 .mf div.knob{
 	height:16px;
-	background:url(../images/mooflow/middle-slider.gif) repeat-x right center;
+	background:url(../../images/mooflow/middle-slider.gif) repeat-x right center;
 }
 .mf div.knobleft{
-	background:url(../images/mooflow/left-slider.gif) repeat-x center;
+	background:url(../../images/mooflow/left-slider.gif) repeat-x center;
 	width:8px;
 	height:16px;
 }
