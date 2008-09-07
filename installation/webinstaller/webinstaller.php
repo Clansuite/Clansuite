@@ -101,14 +101,13 @@ $archiveBaseName = 'clansuite';
 /* A list of folder permissions that are available for chmodding */
 $folderPermissionList = array('777', '755', '555');
 /* Archive extensions available for download */
-// $availableExtensions = array('zip', 'tar.gz');
-$availableExtensions = array('tar.gz');
-/* Available versions of G2 */
+$availableExtensions = array('zip', 'tar.gz');
+/* Available versions of Clansuite */
 $availableVersions = array('dev');
 
-#var_dump($_REQUEST);
-#var_dump($_POST);
-#var_dump($_GET);
+var_dump($_REQUEST);
+var_dump($_POST);
+var_dump($_GET);
 
 /*****************************************************************
  * M A I N
@@ -151,6 +150,15 @@ class WebInstaller {
             exit;
         }
 
+        /**
+         * Handle the delete request
+         */
+        if (isset($_GET['delete_webinstaller']))
+    	{
+    	    unlink(__FILE__);
+    	    header("Location:../index.php");
+    	}
+
         /* Handle the request */
         if (empty($_POST['command']))
         {
@@ -184,8 +192,22 @@ class WebInstaller {
                     if ($extractor->isSupported()) {
                     $archiveName = dirname(__FILE__) . '/' .
                         $archiveBaseName .  '.' . $extractor->getSupportedExtension();
-                    if (is_file($archiveName)) {
-                        $results = $extractor->extract($archiveName);
+                    if (is_file($archiveName))
+                    {
+                        if (empty($_POST['target_path'])) $target_path = '';
+                        else $method = trim($_POST['target_path']);
+
+                        if (isset($_POST['remove_path']) && $_POST['remove_path'] == 'clansuite/')
+                        {
+                            $remove_path = 'clansuite/';
+                        }
+                        else
+                        {
+                            $remove_path = '';
+                        }
+                        
+                        $results = $extractor->extract($archiveName, $target_path, $remove_path);
+
                         if ($results === true) {
 
                         /* Make sure the dirs and files were extracted successfully */
@@ -342,7 +364,7 @@ class WebInstaller {
             }
             else
             {
-                $statusMessage = 'No archive in current working directory, please start with step 1.';
+                $statusMessage = 'There was no archive found in the current working directory! Please start to download.';
             }
 
             $capabilities['statusMessage'] = $statusMessage;
@@ -939,7 +961,7 @@ class ExtractMethod
 
 class UnzipExtractor extends ExtractMethod
 {
-    function extract($fileName) {
+    function extract($fileName, $target_path, $remove_path) {
         $output = array();
         $status = 0;
         $unzip = Platform::getBinaryPath('unzip');
@@ -975,7 +997,7 @@ class UnzipExtractor extends ExtractMethod
 
 class TargzExtractor extends ExtractMethod
 {
-    function extract($fileName) {
+    function extract($fileName, $target_path, $remove_path) {
         $output = array();
         $status = 0;
         $tar = Platform::getBinaryPath('tar');
@@ -1011,8 +1033,8 @@ class TargzExtractor extends ExtractMethod
 
 class PhpTargzExtractor extends ExtractMethod
 {
-    function extract($fileName) {
-        return PclTarExtract($fileName);
+    function extract($fileName, $target_path, $remove_path) {
+        return PclTarExtract($fileName, $target_path, $remove_path);
     }
 
     function getSupportedExtension() {
@@ -1044,9 +1066,17 @@ class PhpTargzExtractor extends ExtractMethod
 
 class PhpUnzipExtractor extends ExtractMethod
 {
-    function extract($fileName) {
-        $baseFolder = dirname($fileName);
-        #echo $baseFolder;
+    function extract($fileName, $target_path, $remove_path)
+    {
+        if(!empty($target_path))
+        {
+            $baseFolder = $target_path;
+        }
+        else
+        {
+            $baseFolder = dirname($fileName);
+        }
+
         if (!($zip = zip_open($fileName)))
         {
             return "Could not open the zip archive $fileName";
@@ -1056,8 +1086,35 @@ class PhpUnzipExtractor extends ExtractMethod
         {
             if (zip_entry_filesize($zip_entry))
             {
-                $complete_path = $baseFolder . DIRECTORY_SEPARATOR . dirname(zip_entry_name($zip_entry));
-                $complete_name = $baseFolder . DIRECTORY_SEPARATOR . zip_entry_name($zip_entry);
+                # get from zip entry name: path and name
+                $zip_path = dirname(zip_entry_name($zip_entry));
+                $zip_name = zip_entry_name($zip_entry);
+
+                # cut off the subdirectory "/clansuite"
+                if (isset($remove_path) && ($remove_path == 'clansuite/'))
+                {
+                    $complete_path = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_path, 10);
+                    $complete_name = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_name, 10);
+                }
+                else
+                {
+                     $complete_path = $baseFolder . DIRECTORY_SEPARATOR . $zip_path;
+                     $complete_name = $baseFolder . DIRECTORY_SEPARATOR . $zip_name;
+                }
+
+                echo 'ZipName :'.$zip_name;
+                echo '<br>';
+                echo 'RemovePath :'.$remove_path;
+                echo '<br>';
+                echo 'BaseFolder :'.$baseFolder;
+                echo '<br>';
+                echo 'Voller Path : '.$complete_path;
+                echo '<br>';
+                echo 'Voller Name :'.$complete_name;
+                echo '<br>';
+
+                exit;
+
                 if(!file_exists($complete_path)) {
                     $tmp = '';
                     foreach(explode('/',$complete_path) AS $k)
@@ -1258,7 +1315,7 @@ function render($renderType, $args=array()) {
 
             <?php /**-------------------------------------------------*/ ?>
 
-            <?php #echo $renderType;
+            <?php /** #echo $renderType;
                   if ($renderType == 'options'): ?>
             <!-- Show available and unavailable options -->
             <?php if (empty($args['anyExtensionSupported'])): ?>
@@ -1274,7 +1331,7 @@ function render($renderType, $args=array()) {
                 </span>
             </div>
             <?php endif; ?>
-            <?php endif; ?>
+            <?php endif; */?>
 
             <?php /**-------------------------------------------------*/ ?>
 
@@ -1354,7 +1411,7 @@ function render($renderType, $args=array()) {
                     <table class="choice">
                         <tr>
                             <td>
-                                <select name="version">
+                                <select name="version" style="width: auto;">
                                     <?php /*
                                     <option value="stable" selected="selected">Latest stable version (recommended)</option>
                                     <?php if (!empty($args['showRcVersion'])): ?>
@@ -1426,6 +1483,7 @@ function render($renderType, $args=array()) {
                 <?php if (!empty($args['anyExtensionSupported'])): ?>
                 <form id="extractForm" action="" method="post">
                     <table class="choice">
+                    Wählen Sie eine der folgenden Methoden zum entpacken aus:
                     <?php
                     $first = true;
                     foreach ($args['extractMethods'] as $method):
@@ -1445,11 +1503,52 @@ function render($renderType, $args=array()) {
                         printf('<tr><td><input type="radio" name="method" %s value="%s" %s /></td><td>%s</td><td>%s</td></tr>',
                         $disabled, $method['command'], $checked, $method['name'], $message);
                      endforeach; ?>
+                     </table>
+                     <br />
+                     <table class="choice">
+                        <tr><td>
+                     <input type="checkbox" checked="checked" id="CheckboxRemoveClansuiteDir" name="remove_path" value="" onclick="CheckboxToggle();">
+                     Möchten Sie Clansuite in ein Verzeichnis names "clansuite" installieren?
+                     <br /><br />
+                     Aktueller Installationspfad: <br/> <font size="2"> <b>
+
+                     <?php
+                        # pathname without "clansuite/"
+                        $pathname= dirname(__FILE__).DIRECTORY_SEPARATOR;
+                        $pathname = str_replace("\\", "/", $pathname);
+
+                        # pathname with "clansuite/"
+                        $with_pathname = dirname(__FILE__).DIRECTORY_SEPARATOR.'clansuite'.DIRECTORY_SEPARATOR;
+                        $with_pathname = str_replace("\\", "/",   $with_pathname);
+                     ?>
+
+                     <div id="installPath"><?=$with_pathname ?></div>
+
+                     </b>
+
+                    <script type = "text/javascript">
+                        function CheckboxToggle()
+                        {
+                            if ( document.getElementById('CheckboxRemoveClansuiteDir').checked )
+                            {
+                                document.getElementById("installPath").innerHTML="<?php echo $with_pathname ?>";
+                                document.getElementById('CheckboxRemoveClansuiteDir').value = '';
+                            }
+                            else
+                            {
+                                document.getElementById("installPath").innerHTML="<?php echo $pathname ?>";
+                                document.getElementById('CheckboxRemoveClansuiteDir').value = 'clansuite/';
+                            }
+                            alert(document.getElementById('CheckboxRemoveClansuiteDir').value);
+                       }
+                    </script>
+                    <br /><br />
+                    </td></tr>
                     </table>
                     <input type="hidden" name="command" value="extract" />
                     <input type="submit" value="Extract" onclick="this.disabled=true;this.form.submit();" />
                 <!-- </form> -->
-                <?php else: ?>
+                <?php /** else:  ?>
                 <div class="warning">
                     Oops! - This platform cannot extract archives.
                     <h4>Steps:</h4>
@@ -1459,7 +1558,7 @@ function render($renderType, $args=array()) {
                        <li>Ask on Clansuite Board for installation help.</li>
                     </ol>
                 </div>
-                <?php endif; ?>
+                <?php */ endif; ?>
             </div> <!-- end page-2-extraction -->
             <?php printNavigationButtons('before-download','extract'); ?>
             <?php endif; #  end extract ?>
@@ -1578,7 +1677,7 @@ function render($renderType, $args=array()) {
             <!-- Donate -->
             <li><h2>Donate</h2></li>
               <li>
-                <!-- PayPal Direct Image Button 
+                <!-- PayPal Direct Image Button
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="image" src="https://www.paypal.com/de_DE/i/btn/x-click-but04.gif" name="submit" alt="Zahlen Sie mit PayPal - schnell, kostenlos und sicher!" />
@@ -1587,7 +1686,7 @@ function render($renderType, $args=array()) {
                     </form>
                 -->
                 <!-- Pledige Campaign -->
-                <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>                
+                <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>
             </li>
             <li><h2>Link us</h2></li>
             <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
