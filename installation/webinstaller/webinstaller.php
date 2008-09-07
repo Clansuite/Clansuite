@@ -105,10 +105,6 @@ $availableExtensions = array('zip', 'tar.gz');
 /* Available versions of Clansuite */
 $availableVersions = array('dev');
 
-var_dump($_REQUEST);
-var_dump($_POST);
-var_dump($_GET);
-
 /*****************************************************************
  * M A I N
  *****************************************************************/
