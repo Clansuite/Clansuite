@@ -205,7 +205,7 @@ class WebInstaller {
                         {
                             $remove_path = '';
                         }
-                        
+
                         $results = $extractor->extract($archiveName, $target_path, $remove_path);
 
                         if ($results === true) {
@@ -429,8 +429,16 @@ class WebInstaller {
     function findClansuiteFolder() {
         /* Search in the current folder for a clansuite folder */
         $basePath = dirname(__FILE__) . '/';
+
+        # installtion in "clansuite/" directory
         if (is_file($basePath . 'clansuite') &&
             is_file($basePath . 'clansuite/installation/index.php')) {
+            return 'clansuite';
+        }
+
+        # installation without "clansuite/" directory
+        if (is_file($basePath . 'index.php') &&
+            is_file($basePath . '/installation/index.php')) {
             return 'clansuite';
         }
 
@@ -1098,22 +1106,9 @@ class PhpUnzipExtractor extends ExtractMethod
                 }
                 else
                 {
-                     $complete_path = $baseFolder . DIRECTORY_SEPARATOR . $zip_path;
-                     $complete_name = $baseFolder . DIRECTORY_SEPARATOR . $zip_name;
+                    $complete_path = $baseFolder . DIRECTORY_SEPARATOR . $zip_path;
+                    $complete_name = $baseFolder . DIRECTORY_SEPARATOR . $zip_name;
                 }
-
-                echo 'ZipName :'.$zip_name;
-                echo '<br>';
-                echo 'RemovePath :'.$remove_path;
-                echo '<br>';
-                echo 'BaseFolder :'.$baseFolder;
-                echo '<br>';
-                echo 'Voller Path : '.$complete_path;
-                echo '<br>';
-                echo 'Voller Name :'.$complete_name;
-                echo '<br>';
-
-                exit;
 
                 if(!file_exists($complete_path)) {
                     $tmp = '';
@@ -1507,7 +1502,9 @@ function render($renderType, $args=array()) {
                      <br />
                      <table class="choice">
                         <tr><td>
-                     <input type="checkbox" checked="checked" id="CheckboxRemoveClansuiteDir" name="remove_path" value="" onclick="CheckboxToggle();">
+                     <input type="checkbox" checked="checked" id="CheckboxRemoveClansuiteDir" name="remove_path" value="on" onclick="CheckboxToggle();">
+                     <input type="hidden" id="hidden_remove_path" name="remove_path" value="" />
+
                      Möchten Sie Clansuite in ein Verzeichnis names "clansuite" installieren?
                      <br /><br />
                      Aktueller Installationspfad: <br/> <font size="2"> <b>
@@ -1532,14 +1529,15 @@ function render($renderType, $args=array()) {
                             if ( document.getElementById('CheckboxRemoveClansuiteDir').checked )
                             {
                                 document.getElementById("installPath").innerHTML="<?php echo $with_pathname ?>";
-                                document.getElementById('CheckboxRemoveClansuiteDir').value = '';
+                                document.getElementById('CheckboxRemoveClansuiteDir').value = 'on';
+                                document.getElementById('hidden_remove_path').value = 'on';
                             }
                             else
                             {
                                 document.getElementById("installPath").innerHTML="<?php echo $pathname ?>";
-                                document.getElementById('CheckboxRemoveClansuiteDir').value = 'clansuite/';
+                                document.getElementById('CheckboxRemoveClansuiteDir').value = 'off';
+                                document.getElementById('hidden_remove_path').value = 'clansuite/';
                             }
-                            alert(document.getElementById('CheckboxRemoveClansuiteDir').value);
                        }
                     </script>
                     <br /><br />
@@ -1573,8 +1571,10 @@ function render($renderType, $args=array()) {
                 <!-- PATH TO CLANSUITE INSTALLER -->
                 <?php if (!empty($args['clansuiteFolderName'])): ?>
                 <p>
-                    <span style="font-size: 12px; font-weight:bold;">
-                    Webinstaller finished. Start the
+                    <span style="font-size: 12px; font-weight:bold; ">
+                    The Webinstaller has successfully extracted the archive.
+                    <br /><br />
+                    Please proceed to the
                     <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                     Clansuite Installation Wizard</a>!
                     </span>
