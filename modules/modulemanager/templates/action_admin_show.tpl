@@ -5,31 +5,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mocha/mocha.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mocha/mocha-init.js"></script>
 {/doc_raw}
-{literal}
-<script type="text/javascript">
-window.addEvent('domready', function() {
-    var confirm = function() {        
-        new MochaUI.Window({
-            class: 'delete',
-            title: 'Please confirm...',
-            loadMethod: 'xhr',
-            content: 'Are you sure you want to delete the module?',
-            width: 330,
-            height: 180,
-            x: 570,
-            y: 280,
-            resizeLimit: {'x': [275, 2500], 'y': [125, 2000]},
-            toolbar: true
-        });    
-    }
-
-    $$('.delete').addEvent('click', function(e) {
-        new Event(e).stop();
-        confirm();
-    });
-});
-</script>
-{/literal}
+{confirm class="delete" title="Please confirm...." html="<center>Are you sure you want to delete the module?</center><br />"}
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
         <th class="td_header_small">{t}Modulename{/t}</th>
