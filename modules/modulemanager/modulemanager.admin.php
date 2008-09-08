@@ -86,7 +86,7 @@ class Module_Modulemanager_Admin extends ModuleController implements Clansuite_M
         foreach( $mod_glob as $mod )
         {
             $modules[] = array(
-                'name' => ucfirst(str_replace( ROOT . 'modules' . DS ,'', $mod))
+                'name' => str_replace( ROOT . 'modules' . DS ,'', $mod)
             );
         }
         

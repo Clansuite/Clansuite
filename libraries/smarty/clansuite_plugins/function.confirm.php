@@ -9,41 +9,46 @@
  * This smarty function is part of "Clansuite - just an eSports CMS"
  * @link http://www.clansuite.com
  *
- * @author Jens-Andre Koch <jakoch@web.de>
- * @copyright Copyright (C) 2008 Jens-André Koch
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ * @copyright Copyright (C) 2008 Florian Wolf
  * @license GNU Public License (GPL) v2 or any later version
  * @version SVN $Id: $
  *
- * Name:     	gravatar
+ * Name:     	confirm
  * Type:     	function
- * Purpose: This TAG inserts a valid Gravatar Image.
+ * Purpose: This TAG inserts Mocha UI JavaScript for a confirmation message
  *
- * See http://en.gravatar.com/ for further information.
- *
- * Parameters:
- * - email      = the email to fetch the gravatar for (required)
- * - size       = the images width
- * - rating     = the highest possible rating displayed image [ G | PG | R | X ]
- * - default    = full url to the default image in case of none existing OR
- *                invalid rating (required, only if "email" is not set)
  *
  * Example usage:
  *
- * {gravatar email="example@example.com" size="40" rating="R" default="http://myhost.com/myavatar.png"}
+ * {confirm class="delete" title="Please confirm...." html="<center>Are you sure you want to delete the module?</center><br />"} 
  *
- * @param array $params as described above (emmail, size, rating, defaultimage)
+ * @param array $params as described above (class,html,htmlTemplate,title,link)
  * @param Smarty $smarty
  * @return string
  */
 function smarty_function_confirm($params, &$smarty)
 {
 	if( !isset( $params['class'] ) ) { $smarty->trigger_error("Parameter 'class' not specified!"); return; }
-    if( !isset( $params['html'] ) ) { $smarty->trigger_error("Parameter 'html' not specified!"); return; }
-    if( !isset( $params['title'] ) ) { $smarty->trigger_error("Parameter 'title' not specified!"); return; }
+    if( !isset( $params['html'] ) && !isset( $params['htmlTemplate'] ) ) { $smarty->trigger_error("Parameter 'html' or 'htmlTemplate' not specified!"); return; }
+    if( !isset( $params['link'] ) && isset( $params['htmlTemplate'] ) ) { $smarty->trigger_error("Parameter 'link' not specified!"); return; }
+
+    if( !isset( $params['title'] ) ) { $params['title'] = _('Please confirm...'); }
     
-    $smarty->assign('confirmHTML', $params['html']);
     $smarty->assign('confirmClass', $params['class']);
     $smarty->assign('confirmTitle', $params['title']);
+    $smarty->assign('confirmGrabValueFrom', $params['grabValueFrom']);
+    
+    if( isset( $params['htmlTemplate'] ) )
+    {
+        $smarty->assign('confirmLink', $params['link']);
+        #$tpl = str_replace( '"', '\\"', $smarty->fetch(ROOT_THEMES . 'core/tools/' . $params['htmlTemplate']) );
+        $smarty->assign('confirmTpl', $smarty->fetch(ROOT_THEMES . 'core/tools/' . $params['htmlTemplate']));
+    }
+    else
+    {
+        $smarty->assign('confirmHTML', $params['html']);
+    }
     
     return $smarty->fetch( ROOT_THEMES . 'core/tools/confirm_mocha.tpl' );
 }
