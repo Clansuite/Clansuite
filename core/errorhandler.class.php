@@ -82,8 +82,7 @@ class errorhandler
      */
     public static function addError($errormessage, $errorcode)
     {
-        Clansuite_Errorstack::$errorstack[] = array('message'   => $errormessage,
-                                                    'code' => $errorcode);
+        self::$errorstack[] = array('message' => $errormessage, 'code' => $errorcode);
     }
 
     /**
@@ -93,11 +92,25 @@ class errorhandler
     {
         $output = '';
 
-        foreach(Clansuite_Errorstack::$errorstack as $error)
+        foreach(self::$errorstack as $error)
         {
-		    $output .= 'Error: '. $error['message'] .' Code: ' .$error['code'] . "\n\n";
+		    $output .= '<font color="#DF2F3D"> Error: '. $error['message'] .' Code: ' .$error['code'] . "</font><br /> \n\n";
 		}
 		return $output;
+    }
+
+    /**
+     * Method to check if any errors were set
+     *
+     * @return boolean true, if errors were set
+     */
+    public static function hasErrors()
+    {
+        if(!empty (self::$errorstack))
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -107,7 +120,7 @@ class errorhandler
      */
     public static function getErrorStack()
     {
-        return Clansuite_ErrorStack::$errorstack;
+        return self::$errorstack;
     }
 
     /**

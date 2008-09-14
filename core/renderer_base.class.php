@@ -47,11 +47,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 abstract class renderer_base
 {
     public $view = null;     # holds instance of the Rendering Engine
-    protected $injector; # holds instance of Dependency Injector Phemto (object)
-
     public $config = null;
-
     public $layoutTemplate = null;
+    protected $injector;     # holds instance of Dependency Injector Phemto (object)
 
     /**
      * Construct View from Module.
@@ -202,6 +200,9 @@ abstract class renderer_base
      */
     public function getModuleTemplatePath($template)
     {
+        # incomming "\" slashfix
+        $template = str_replace("/", "\\",  $template);
+
         # init var
         $modulepath = '';
 
@@ -227,7 +228,7 @@ abstract class renderer_base
             return $modulepath;
         }
 
-        # attach "/template/" to the $template string
+        # attach "/template/" to the $template string, at "news\action_show.tpl" DS
         $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
 
         # single slash correction
@@ -240,6 +241,7 @@ abstract class renderer_base
         if(is_file( ROOT_MOD . $template ))
         {
             $modulepath = ROOT_MOD . $template;
+
         }
         elseif (is_file( ROOT_MOD . $moduleName . $template))
         {
@@ -249,11 +251,11 @@ abstract class renderer_base
         {
             # NOT EXISTANT
             $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
-       }
+        }
 
-       #echo 'We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
+        #echo 'We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
 
-       return $modulepath;
+        return $modulepath;
     }
 
     /**
