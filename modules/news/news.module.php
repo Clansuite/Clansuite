@@ -300,14 +300,14 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
             $smarty->assign('news', $single_news);
 
             /**
-             * Fetch additional Userdata for the Comments in case we have user_id > 0
-             *
-             * Get the nick, email and country for user_id
+             * Check if this news_id has comments and assign them to an extra smarty var
+             * {$news_comments.} for easier access on template side
+             * (yes, it's doubled: you could also access the values via {$news.} )
              */
-            if ( $single_news[0]['CsComment'] > 0 )
+            if ( !empty($single_news['0']['CsComment']) )
             {
-                 # Assign News
-                 $smarty->assign('news_comments', $single_news[0]['CsComment']);
+                # Assign News
+                $smarty->assign('news_comments', $single_news['0']['CsComment']);
             }
             else
             {
