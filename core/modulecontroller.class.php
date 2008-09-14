@@ -83,7 +83,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
     // Variable contains the name of the widget template
     public $widgetTemplate = null;
-    
+
     // Variable contains the Dependecy Injector
     public $injector = null;                    # dynamic
     static $static_injector = null;             # static
@@ -93,13 +93,13 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
 
     // Variable contains the Name of the Action
     public $action_name = null;
-    
+
     // Variable contains the module name
     public $moduleName = null;
 
     // Variable contains the method name
     public $methodName = null;
-    
+
     /**
      * Constructor
      *
@@ -337,7 +337,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
         return $this->template;
     }
-    
+
     /**
      * Set the template name for a widget
      *
@@ -368,13 +368,13 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     /**
      * constructWidgetTemplateName
      *
-     * @desc desc
+     * @param $template_name The widget's templatename
      */
     private function constructWidgetTemplateName($template_name)
     {
         $widgetname = null;
         $methodname_array   = array();
-        
+
         # incomming widgetname is e.g. Module_News::widget_news
         $methodname_array = split('::',  strtolower($template_name));
 
@@ -385,12 +385,12 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         }
         else
         {
-            $widgetname = $template_name;   
+            $widgetname = $template_name;
         }
-        
+
         return $widgetname;
     }
-        
+
     /**
      * constructTemplateName
      *
@@ -505,10 +505,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             #echo $this->widgetTemplate;
             $this->setWidgetTemplate($template_name);
         }
-        
+
         # Get the view
         $smarty = $this->getView();
-            
+
         # check for theme tpl / else take module tpl
         if($smarty->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
         {
@@ -568,7 +568,24 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     }
 
     /**
-     * controller_base::forward();
+     * ModuleController->addError();
+     * is a call for errorhandler::addError
+     *
+     * This passes the errormessage and errorcode to the errorhandler.
+     *
+     * @access public
+     */
+    public function addError($errormessage, $errorcode)
+    {
+        # pass variables to errorhandler
+        errorhandler::addError($errormessage, $errorcode);
+
+        # event log
+
+    }
+
+    /**
+     * ModuleController->forward();
      * is as substitute for getAction
      *
      * This forwards from one controller function to
@@ -577,11 +594,13 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      *
      * @access public
      */
-    public function forward($functionName, $controllerName)
+    public function forward($class, $method, array $arguments = array())
     {
-        # forward to controller-name + controller-action
+        # forward another controller-name + controller-action
+        Clansuite_Loader::callMethod($class, $method, $arguments);
 
         # event log
+
     }
 
     /**

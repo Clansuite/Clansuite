@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * Sorry, but include_path is not my favorite choice when it comes to path assignments.
  * Any ideas or help on that topic? Report to board or contact me.
  *
- * TODO by vain:
+ * @todo by vain:
  * 1. Check about default implementation and support of ini_set paths while autoloading!
  * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
@@ -138,16 +138,14 @@ class Clansuite_Loader
      * - constructs absolute filename
      * - hands both to requireFile, returns true if successfull
      *
-     * classname for modules is fixed 'module_' . $modname
-     * absolute filename: e.g. 'clansuite/modules/'. $modname .'.module.php''
+     * The classname for modules is prefixed 'module_' . $modname
+     * The filename is 'clansuite/modules/'. $modname .'.module.php'
      *
-     * @param string $modulename The name of the module, which should be loaded
+     * @param string $modulename The name of the module, which should be loaded.
      * @static
      * @access public
      *
      * @return boolean
-     *
-     * @todo: this 'module_" prefixing is complete bullshit, but we have to get going!
      *
      * String Variants to consider:
      * 1) admin
@@ -159,16 +157,15 @@ class Clansuite_Loader
     {
         # check for prefix 'module_'
         $spos=strpos(strtolower($modulename), 'module_');
-      	if (is_int($spos) && ($spos==0))
-      	{
-    	    # ok, 'module_' is prefixed, do nothing
-    	    #echo $spos; exit;
-      	}
-      	else
-      	{
-      	    # add the prefix
-      	    $modulename = 'module_'. strtolower($modulename);
-      	}
+        if (is_int($spos) && ($spos==0))
+        {
+            # ok, 'module_' is prefixed, do nothing
+        }
+        else
+        {
+            # add the prefix
+            $modulename = 'module_'. strtolower($modulename);
+        }
 
         /**
          * now we have a common string like 'module_admin_menueditor' or 'module_news'
@@ -177,7 +174,6 @@ class Clansuite_Loader
          * or  : Array ( [0] => module [1] => news )
          */
         $modulinfos = explode("_", $modulename);
-        #var_dump($modulinfos);
 
         # construct first part of filename
         $filename = ROOT_MOD . $modulinfos['1'] . DS;
@@ -191,7 +187,6 @@ class Clansuite_Loader
                 # admin submodule filename, like news.admin.php
                 $filename .= strtolower($modulinfos['1']) . '.admin.php';
                 #echo '<br>loaded Admin SubModule => '. $filename;
-
             }
             else
             {
@@ -237,21 +232,39 @@ class Clansuite_Loader
      * After that we use call_user_func_array.
      * Looks stupid, but may result in an speedup while calling!
      *
+     *
+     * @param $classname Takes name of the class or the class object itself.
+     * @param $method Methodname to call.
+     * @param $arguments Array of Arguments for the Method Call.
+     *
      * @return object / method response
      * @todo: we have to profile this!
      */
-    public static function callMethod($class, $method, array $arguments = array())
+    public static function callMethod($classname, $method, array $arguments = array())
     {
+        # if $classname is not an object, we have to initialize the class
+        if (!is_object($classname))
+        {
+            # ensure type
+            $classname  = (string) $classname;
+            $method     = (string) $method;
+
+            # initalize class
+            $class = new $classname;
+        }
+
+        # @todo: if $class has Prefix "Module_" fetch / pass the injector into the object
+
         switch (count($arguments))
         {
             case 0:
-                return new $class->method();
+                return $class->$method();
             case 1:
-                return new $class->$method($arguments[0]);
+                return $class->$method($arguments[0]);
             case 2:
-                return new $class->$method($arguments[0], $arguments[1]);
+                return $class->$method($arguments[0], $arguments[1]);
             case 3:
-                return new $class->$method($arguments[0], $arguments[1], $arguments[2]);
+                return $class->$method($arguments[0], $arguments[1], $arguments[2]);
             default:
                 return call_user_func_array( array($class, $method), $arguments );
         }
