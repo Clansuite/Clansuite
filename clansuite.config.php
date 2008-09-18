@@ -49,6 +49,7 @@ std_javascript = "standard.js"
 [switches]
 themeswitch_via_url = 1
 languageswitch_via_url = 1
+webdebug = 1
 
 ;----------------------------------------
 ; defaults

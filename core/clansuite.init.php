@@ -59,7 +59,7 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
 # Debug-Mode is set via config
 define('DEBUG', $config['error']['debug']);
 # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-if ( defined('DEBUG') && DEBUG==1 )
+if ( defined('DEBUG') && DEBUG == 1 )
 {
     ini_set('display_startup_errors', true);
     ini_set('display_errors', true);    # display errors in the browser
@@ -71,6 +71,8 @@ else
     error_reporting(0);                 # do not report errors
 }
 
+
+
 /**
  *  ================================================
  *     Define Constants
@@ -79,7 +81,8 @@ else
  *   - ROOT & *_ROOT
  *   - WWW_ROOT & WWW_ROOT_*
  *   - DB_PREFIX
- *   - NL
+ *   - NL, CR
+ *  ------------------------------------------------
  */
 # DEFINE_SHORTHAND -> DIRECTORY_SEPARATOR
 define('DS', DIRECTORY_SEPARATOR);
@@ -121,6 +124,7 @@ define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folde
 define('DB_PREFIX'          , $config['database']['db_prefix']);
 # DEFINE -> HTML Break + Carriage Return
 define('NL', "<br />\r\n");
+define('CR', "\n");
 
 /**
  *  ================================================
