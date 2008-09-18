@@ -61,11 +61,14 @@ class view_smarty extends renderer_base
 	 */
     private $smarty     = null;
 
-    private $db         = null;
-    private $functions  = null;
-
+    /**
+     * holds instance of Dependency Injector Phemto
+     */
     protected $injector   = null;
 
+    /**
+     * variable for the RenderMode (available: WRAPPED)
+     */
     public $renderMode = null;
 
     /**
@@ -80,8 +83,6 @@ class view_smarty extends renderer_base
 
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('Clansuite_Config');
-      $this->db             = $this->injector->instantiate('db');
-      $this->functions      = $this->injector->instantiate('functions');
 
       /**
        * ==============================================
@@ -223,7 +224,7 @@ class view_smarty extends renderer_base
 
         ## Smarty Template Handler Functions
 
-        
+
         # Additional Resource Handler: to fetch TPLs in "modules/templates" too
         require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
         $this->smarty->default_template_handler_func = 'smarty_fetch_module_templates';
@@ -345,9 +346,8 @@ class view_smarty extends renderer_base
     public function getSmartyConstants()
     {
         # Assign DB Counters
-        $template_constants['db_counter']= $this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter;
-        # Redirects, if necessary
-        $template_constants['redirect'] = $this->functions->redirect;
+        $template_constants['db_counter']= '00';
+        #$this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter;
 
         /**
          * Copyright-Sign
@@ -391,7 +391,7 @@ class view_smarty extends renderer_base
 
         if ( !empty($string) )
         {
-            $this->showError( $params['title'], $string, $params['level'] );
+            #$this->showError( $params['title'], $string, $params['level'] );
         }
     }
 
@@ -400,15 +400,14 @@ class view_smarty extends renderer_base
      *
      * uses /themes/core/error.tpl
      */
-    public static function showError( $error_head = 'Unknown Error', $string = '', $level = 3, $redirect = '' )
+    public static function showError( $error_heading = 'Unknown Error', $error_message = '', $level = 3, $redirect = '' )
     {
-        $this->smarty->assign('error_head'    , $error_head );
-        $this->smarty->assign('debug_info'    , $string );
+        $this->smarty->assign('error_head'     , $error_heading );
+        $this->smarty->assign('error_message'  , $error_message );
 
         switch ( $level )
         {
-            # watch out: die() on error!
-            case '1':
+            case '1': # watch out: die() on error!
                 $this->smarty->assign('error_type', 1);
                 $redirect!='' ? $this->smarty->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
                 $content = $this->smarty->fetch( 'error.tpl' );
@@ -430,14 +429,15 @@ class view_smarty extends renderer_base
     /**
      * Instantiates Module and assigns_by_reference
      *
+     * @param $module_name
      */
     public function loadModule($module_name)
     {
         $this->injector->register('httprequest');
         $this->injector->register('Clansuite_ModuleController_Resolver');
 
-        $request              = $this->injector->instantiate('httprequest');
-        $modulecontroller_resolver    = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
+        $request = $this->injector->instantiate('httprequest');
+        $modulecontroller_resolver = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
         $modulecontroller_resolver->setModuleName($module_name);
 
         $module = $modulecontroller_resolver->getModuleController($request);
@@ -451,7 +451,7 @@ class view_smarty extends renderer_base
     }
 
     /**
-     * view_smarty::loadModule
+     * view_smarty::loadStaticModule
      *
      * Static Function to Call variable Methods from templates via
      * {load_module name= sub= params=}
@@ -469,9 +469,9 @@ class view_smarty extends renderer_base
         # Init incomming Variables
         $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
         $sub    = isset( $params['sub'] )  ? (string) $params['sub']  : '';
-        $action = (string) $params['action'];     
-           
-        $params = isset( $params['params'] ) ? (string) $params['params'] : '';        
+        $action = (string) $params['action'];
+
+        $params = isset( $params['params'] ) ? (string) $params['params'] : '';
         $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
 
         # Construct the variable module_name
@@ -491,7 +491,7 @@ class view_smarty extends renderer_base
         {
             clansuite_loader::loadModul($module_name);
         }
-        
+
         # Parameter Array
 
         if( empty($params['params']) )
@@ -502,30 +502,34 @@ class view_smarty extends renderer_base
         {
             $param_array = split('\|', $params['params']);
         }
-        
+
         # Instantiate Class
         $controller = new $module_name;
         $controller->moduleName = $mod;
         $controller->methodName = $action;
         $controller->setView($smarty);
-        
+
         /**
          * Get the Ouptut of the Object->Method Call
-         *
-         */  
-        
-        # exceptional handling for adminmenu      
-        if ( $module_name == 'module_menu_admin' )
+         */
+        if( method_exists( $controller, $action ) )
         {
-            echo $controller->$action($param_array);         
+            # exceptional handling for adminmenu
+            if ( $module_name == 'module_menu_admin' )
+            {
+                echo $controller->$action($param_array);
+                return;
+            }
+
+            # slow call
+            #call_user_func_array( array($controller, $action), $param_array );
+
+            # fast call
+            $controller->$action($items);
         }
         else
         {
-            # slow
-            #call_user_func_array( array($controller, $action), $param_array );
-            
-            # fast
-            $controller->$action($items);
+            echo "Load failed:<br /> $module_name -> $action($items)";
         }
     }
 
@@ -557,10 +561,7 @@ class view_smarty extends renderer_base
      */
     public function render($template)
     {
-        #echo 'Rendering via Smarty:<br />';
-        #var_dump($this->smarty);
-        #var_dump($_SESSION);
-
+        # Assign Constants
         $this->assignConstants();
 
         # Module Loading {loadModule }
@@ -568,10 +569,10 @@ class view_smarty extends renderer_base
         $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
 
         # Error Block {error level="1" title="Error"}
-        $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
+        #$this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
+        # @todo: caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
-        #$this->smarty->display($this->module->template);
 
         /**
          * Fetch the Template of the module
@@ -586,52 +587,52 @@ class view_smarty extends renderer_base
 
         $modulecontent =  $this->fetch($template);
 
-        if( $this->getRenderMode() !== 'WRAPPED' ) # without wrapper
+        # check for existing errors and prepend them
+        if( errorhandler::hasErrors() == true )
+        {
+            $modulecontent = errorhandler::toString() . $modulecontent;
+            #$modulecontent = errorhandler::getErrorStack.$modulecontent;
+        }
+
+        /**
+         * Decide on given set RenderMode, if modulecontent should be rendered WRAPPED or STANDALONE
+         */
+        if( $this->getRenderMode() !== 'WRAPPED' ) # render without wrapper: STANDALONE
         {
             #echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
             return $modulecontent;
         }
-        else # with wrapper
+        else # render with wrapper: WRAPPED
         {
-            #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
-            $this->smarty->assign('content',  $modulecontent );
-
+            # first ensure that {$content} variable exists in the wrapper template
             if( $this->check_content_var() )
             {
+                # then assign the modulecontent to it
+                $this->smarty->assign('content',  $modulecontent );
+                #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
+
                 return $this->smarty->fetchDOC($this->getLayoutTemplate());
             }
-            else
+            else # {$content} is missing, give error.
             {
                 die('The content variable {$content} must be within the wrapper template!');
             }
         }
-
-        /**
-         * Often used Debugging Stuff - leave it :D
-         */
-        #var_dump($modulcontent);
-
-        # Show Debug Console
-        #if(DEBUG){ require 'core/clansuite.debug.php'; $debug = new clansuite_debug; $debug->show_console(); };
-
-        #var_dump($this->config['template']['tpl_wrapper_file']);
-        #var_dump($this->getLayoutTemplate());
-        #var_dump($this->smarty->template_dir);
-        #exit;
     }
 
     /**
-    * @desc Check for a content variable
-    * @return boolean
-    */
+     * Check for a content variable
+     *
+     * @return boolean
+     */
     public function check_content_var()
     {
         foreach( $this->smarty->template_dir as $dir )
         {
-            $thefile = $dir . DS . $this->getLayoutTemplate();
-            if( is_file($thefile) )
+            $file = $dir . DS . $this->getLayoutTemplate();
+            if (is_file($file) != 0)
             {
-                return (strpos(file_get_contents($thefile), '{$content}')!=FALSE);
+                return ( false != strpos(file_get_contents($file), '{$content}') );
             }
         }
     }
