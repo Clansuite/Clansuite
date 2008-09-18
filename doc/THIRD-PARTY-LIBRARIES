@@ -17,6 +17,7 @@ GRAPH                     1.7.4      NONE, FREE               http://www.zackblo
 GZIP_ENCODE               0.67       LGPL                     http://www.leknor.com/code/php/ *down, fetchable via typo3 repos
 PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
 PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto
+PHP-DEBUG                 1.0.2      MIT-License              http://www.php-debug.com/
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
 SMARTY                    2.6.18     LGPL v2.1 or above       http://www.smarty.net/
