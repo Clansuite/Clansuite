@@ -410,9 +410,15 @@ table.admintable tr#cell3
 }
 
 .header span
-{   /* move Date inside Header to right-side */
-    position: absolute;
-    right: 38px;
+{
+    /* move Date inside Header to right-side */
+    padding-left: 550px;
+}
+
+.adminmenu-rightside
+{   
+/   /* move User, Frontpage, Logout inside adminmenu to right-side */
+    margin-left: 230px;
 }
 
 .menugradient
