@@ -416,8 +416,8 @@ table.admintable tr#cell3
 }
 
 .adminmenu-rightside
-{   
-/   /* move User, Frontpage, Logout inside adminmenu to right-side */
+{
+    /* move User, Frontpage, Logout inside adminmenu to right-side */
     margin-left: 230px;
 }
 
