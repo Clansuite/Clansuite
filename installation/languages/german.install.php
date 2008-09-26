@@ -24,8 +24,8 @@ class language implements ArrayAccess
         // STEP 1 - Language Selection
         $this->language['STEP1_LANGUAGE_SELECTION'] = 'Schritt [1] Sprachauswahl';
 
-        $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich für Clansuite entschieden haben!';
         $this->language['STEP1_WELCOME'] = 'Willkommen zur Installation von Clansuite.';
+        $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich für Clansuite entschieden haben!';
         $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung führt Sie schrittweise durch die Installation.';
         $this->language['STEP1_CHOOSELANGUAGE'] = 'Wählen Sie bitte die Sprache aus.';
 
@@ -80,7 +80,7 @@ class language implements ArrayAccess
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
 
-        $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz veröffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
+        $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz Version 2 und jeder späteren Version veröffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
         $this->language['STEP3_REVIEW'] = 'Bitte überprüfen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
         $this->language['STEP3_MUST_AGREE'] = 'Sie müssen der GNU/GPL Lizenz zustimmen um Clansuite zu installieren.';
         $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen und stimme zu, dass Clansuite unter der GNU/GPL Lizenz steht!';

@@ -4,18 +4,6 @@
  */
 if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 ?>
-    <div id="sidebar">
-        <div id="stepbar">
-            <p><?=$language['MENU_HEADING']?></p>
-            <div class="step-pass"><?=$language['MENUSTEP1']?> </div>
-            <div class="step-pass"><?=$language['MENUSTEP2']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP3']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP4']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP5']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP6']?></div>
-            <div class="step-on"><?=$language['MENUSTEP7']?></div>
-         </div>
-    </div>
     <div id="content" class="narrowcolumn">
          <div id="content_middle">
             <div class="accordion">
@@ -31,7 +19,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         <ul>
                             <li><a href="../index.php"><?=$language['STEP7_SENTENCE5']?></a><br/></li>
                             <?=$language['STEP7_SENTENCE6']?>
-                            <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>                            
+                            <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>
                         </ul>
                       </b>
                       <br />
