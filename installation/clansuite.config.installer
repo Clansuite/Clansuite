@@ -31,11 +31,17 @@ default_module = "index"
 default_action = "show"
 
 ;----------------------------------------
-; Default Locale Setting
+; Default Language Setting
 ;----------------------------------------
 [language]
 language        = de
 outputcharset   = "UTF-8"
+
+;----------------------------------------
+; Locale Setting
+;----------------------------------------
+[locale]
+locale          = "3600"
 
 ;----------------------------------------
 ; Default Error Settings

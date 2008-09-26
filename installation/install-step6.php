@@ -15,18 +15,6 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
         }
     }
 </script>
-    <div id="sidebar">
-        <div id="stepbar">
-            <p><?=$language['MENU_HEADING']?></p>
-            <div class="step-pass"><?=$language['MENUSTEP1']?> </div>
-            <div class="step-pass"><?=$language['MENUSTEP2']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP3']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP4']?></div>
-            <div class="step-pass"><?=$language['MENUSTEP5']?></div>
-            <div class="step-on"><?=$language['MENUSTEP6']?></div>
-            <div class="step-off"><?=$language['MENUSTEP7']?></div>
-        </div>
-    </div>
     <div id="content" class="narrowcolumn">
         <div id="content_middle">
             <div class="accordion">
@@ -63,11 +51,11 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                                    {
                                       echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                                       $file = substr($file->getFilename(), 0, -4);
-                                      
+
                                       # filename conversion to shorthand
                                       if($file == 'german' ) { $language_shorthand = 'de_DE'; }
                                       if($file == 'english') { $language_shorthand = 'en_EN'; }
-                                      
+
                                       if ($_SESSION['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
                                       echo '>';
                                       echo $file;

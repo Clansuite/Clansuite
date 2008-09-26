@@ -77,7 +77,7 @@ catch (Exception $e)
 
 // Define: DS; ROOT; BASE_ROOT
 define ('DS', DIRECTORY_SEPARATOR);
-define ('ROOT', getcwd() . DS); 
+define ('ROOT', getcwd() . DS);
 chdir('..'); define ('BASE_ROOT', getcwd() . DS); chdir ('installation');
 
 // The Clansuite version this script installs
@@ -113,12 +113,6 @@ error_reporting(0);
 
 if(isset($_GET['delete_installation'])) { rm_recursive(getcwd()); }
 
-#=======================
-#      START OUTPUT
-#=======================
-
-# INCLUDE THE HEADER!
-include 'install_header.php';
 
 #================================
 #    STEP HANDLING + PROGRESS
@@ -129,11 +123,11 @@ $total_steps = get_total_steps();
 
 # Update the session with the given variables!
 $_SESSION = array_merge_rec($_SESSION, $_POST);
- 
+
 # STEP HANDLING
 if(isset($_SESSION['step']))
 {
-    $step = (int) $_SESSION['step'];
+    $step = (int) intval($_SESSION['step']);
     if(isset($_POST['step_forward']))  { $step++; }
     if(isset($_POST['step_backward'])) { $step--; }
     if($step >= $total_steps) { $step = $total_steps; }
@@ -148,7 +142,7 @@ $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
  *    Language Handling
  * ===========================
  */
- 
+
 # Get language from GET
 if (isset($_GET['lang']) && !empty($_GET['lang']))
 {
@@ -161,7 +155,7 @@ else
     {
         $lang = $_SESSION['lang'];
     }
-        
+
     # SET DEFAULT LANGUAGE VAR
     if ($step == 1 OR empty( $_SESSION['lang']))
     {
@@ -176,27 +170,38 @@ else
  */
 try
 {
-    if (is_file (ROOT . 'languages'. DS . $lang .'.install.php'))
+    $file = ROOT . 'languages'. DS . $lang .'.install.php';
+    if (is_file ($file))
     {
-        require_once ROOT . 'languages'. DS . $lang .'.install.php';
+        require_once $file;
         $language = new language;
         $_SESSION['lang'] = $lang;
     }
     else
     {
-        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . ROOT . $lang . '.install.php</strong>.</span>');
+        throw new Clansuite_Installation_Startup_Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
     }
 }
 catch (Exception $e)
 {
-    print $e->getMessage().' in '.$e->getFile().', line: '. $e->getLine().'.';
+    exit($e);
 }
+
+#=======================
+#      START OUTPUT
+#=======================
+
+# INCLUDE THE HEADER!
+include 'install_header.php';
+
+# INCLUDE THE MENU!
+include 'install_menu.php';
 
 /***
  * ===============================================
  *      Handling of Installations STEPS
  * ===============================================
- * 
+ *
  * Procedure Notice:
  * if a STEP is successful, procedd to next else return to same STEP and display error
  */
@@ -222,7 +227,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
         /**
          * 1. Check if Connection Data is valid (establish db connection)
          */
-         
+
         $db_connection = '';
         $db_connection = mysql_pconnect($_POST['config']['database']['db_host'],
                                          $_POST['config']['database']['db_username'],
@@ -239,7 +244,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
 	     * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
          * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
          */
-         
+
         if (isset($_POST['config']['database']['db_create_database']) &&
             $_POST['config']['database']['db_create_database'] == 'on')
         {
@@ -257,7 +262,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
         /**
          * 3. Check if database is selectable
          */
-         
+
         if (!mysql_select_db($_POST['config']['database']['db_name']))
         {
             $step = 4;
@@ -267,7 +272,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
         /**
          * 4. Insert SQL Data
          */
-         
+
         $sqlfile = ROOT . 'sql/clansuite.sql';
         if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
                                  $_POST['config']['database']['db_name'],
@@ -382,17 +387,17 @@ if( isset($_POST['step_forward']) && $step == 7 )
  *      SWITCH to Intallation-functions based on "STEPS"
  * =========================================================
  */
- 
+
 # add step to function name
 $installfunction  = "installstep_$step";
- 
+
 # check if this functionname exists
-if(function_exists($installfunction))  
+if(function_exists($installfunction))
 {
     # set this step to the session
     $_SESSION['step'] = $step;
     # lets rock! :P
-    $installfunction($language,$error); 
+    $installfunction($language,$error);
 }
 
 #=======================
@@ -412,11 +417,11 @@ require 'install_footer.php';
  * ===================
  * Installer Functions
  * ===================
- */ 
+ */
 
 /**
  * Array Merge Recursive
- * 
+ *
  * @param $arr1 array
  * @param $arr2 array
  * @return recusrive merged array
@@ -722,7 +727,7 @@ function write_config_settings($data_array)
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
-    unset($data_array['lang']);    
+    unset($data_array['lang']);
 
     #var_dump($data_array);
 
@@ -755,7 +760,7 @@ function write_config_settings($data_array)
 function rm_recursive($filepath)
 {
     echo "<p>[Deleting Installation Directory] Starting at $filepath </p>";
-    
+
     if (is_dir($filepath) && !is_link($filepath))
     {
         if ($dh = opendir($filepath))
@@ -779,7 +784,7 @@ function rm_recursive($filepath)
                         echo 'Unable to delete file '.$filepath.DS.$sf.'.<br />';
                     }
                 }
-                
+
                 # handle dirs recursivly
                 if (!rm_recursive($filepath.DS.$sf))
                 {
@@ -821,7 +826,7 @@ class Clansuite_Installation_Startup_Exception extends Exception
     {
         # Header
         $errormessage    = '<p><html><head>';
-        $errormessage   .= '<title>Clansuite Installation Error</title>';
+        $errormessage   .= '<title>Clansuite Installation - Error</title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
@@ -854,7 +859,7 @@ class Clansuite_Installation_Startup_Exception extends Exception
         $errormessage   .= "<br />1) Please use <a href=\"phpinfo.php\">phpinfo()</a> to check your serversettings! ";
         $errormessage   .= "<br />2) Check your php.ini and ensure all needed extensions/libraries are loaded!";
         $errormessage   .= "<br />3) Check the webservers errorlog.<br/>";
-        $errormessage   .= "<br />If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=22.0\">Installation - Support Forum</a>.<br/>";
+        $errormessage   .= "<br />If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
         $errormessage   .= '</fieldset>';
         # FOOTER
         $errormessage   .= '</body></html>';

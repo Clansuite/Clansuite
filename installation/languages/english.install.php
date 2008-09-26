@@ -24,8 +24,8 @@ class language implements ArrayAccess
         // STEP 1 - Language Selection
         $this->language['STEP1_LANGUAGE_SELECTION'] = 'Step [1] Language Selection';
 
-        $this->language['STEP1_THANKS_CHOOSING'] = 'Thanks for choosing to use Clansuite!';
         $this->language['STEP1_WELCOME'] = 'Welcome to the Clansuite Installation.';
+        $this->language['STEP1_THANKS_CHOOSING'] = 'Thanks for choosing to use Clansuite!';
         $this->language['STEP1_APPINSTALL_STEPWISE'] = 'This application will guide you in several steps through the installation.';
         $this->language['STEP1_CHOOSELANGUAGE'] = 'Please select your language.';
 
@@ -80,7 +80,7 @@ class language implements ArrayAccess
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
 
-        $this->language['STEP3_SENTENCE1'] = 'Realize, that Clansuite as an instance of Code is released under GNU/GPL Licence! The GNU/GPL Licence which you find below, itself is copyrighted by the Free Software Foundation.';
+        $this->language['STEP3_SENTENCE1'] = 'Realize, that Clansuite as an instance of Code is released under GNU/GPL Licence Version 2 or any later version! The GNU/GPL Licence which you find below, itself is copyrighted by the Free Software Foundation.';
         $this->language['STEP3_REVIEW'] = 'Please review the Licence Terms before installing Clansuite:';
         $this->language['STEP3_MUST_AGREE'] = 'You must agree with the GNU/GPL Licence to install Clansuite.';
         $this->language['STEP3_CHECKBOX'] = 'I agree and have realized that Clansuite is released under the GNU/GPL License!';
