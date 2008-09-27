@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -47,7 +49,6 @@ if (!class_exists('pdo')) { die('<i>php_pdo</i> not enabled!'); }
 # PDO mysql driver Check
 if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i> driver not enabled.'); }
 
-
 /**
  *  ================================================
  *     Debug & Error Reporting
@@ -71,8 +72,6 @@ else
     error_reporting(0);                 # do not report errors
 }
 
-
-
 /**
  *  ================================================
  *     Define Constants
@@ -84,8 +83,9 @@ else
  *   - NL, CR
  *  ------------------------------------------------
  */
-# DEFINE_SHORTHAND -> DIRECTORY_SEPARATOR
+# DEFINE Shorthands for DIRECTORY_SEPARATOR & PATH_SEPARATOR
 define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
 
 # DEFINE -> ROOT
 # Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
@@ -125,6 +125,14 @@ define('DB_PREFIX'          , $config['database']['db_prefix']);
 # DEFINE -> HTML Break + Carriage Return
 define('NL', "<br />\r\n");
 define('CR', "\n");
+
+# Set Include Path for PEAR Libraries
+# Note: Path order is important <first path to look>:<second path>:<etc>:
+set_include_path( ROOT_LIBRARIES . 'PEAR' . DS . PS .                   # /libraries/PEAR
+                  #$_SERVER['DOCUMENT_ROOT'].'/libraries/PEAR/' . PS .  # /libraries/PEAR
+                  ROOT_LIBRARIES . PS  .                                # /libraries/
+                  get_include_path()                                    # attach rest
+                 );
 
 /**
  *  ================================================

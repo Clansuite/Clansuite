@@ -4,7 +4,7 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * LICENSE:
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     *    This program is free software; you can redistribute it and/or modify
     *    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -68,9 +67,6 @@ class Clansuite_DoorKeeper
      */
     public function runIDS()
     {
-        # Set Path and Require IDS
-        set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_LIBRARIES );
-
         # load ids init
         require_once ROOT_LIBRARIES . 'ids/Init.php';
 
