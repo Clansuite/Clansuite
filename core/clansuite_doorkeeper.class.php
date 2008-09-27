@@ -68,16 +68,16 @@ class Clansuite_DoorKeeper
     public function runIDS()
     {
         # load ids init
-        require_once ROOT_LIBRARIES . 'ids/Init.php';
+        require_once ROOT_LIBRARIES . 'IDS/Init.php';
 
         # Setup the $_GLOBALS to monitor
         $request = array('GET' => $_GET, 'POST' => $_POST, 'COOKIE' => $_COOKIE);
 
         # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
-        define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'ids/default_filter.xml');
-        define( 'IDS_TMP_PATH',     ROOT_LIBRARIES . 'ids/tmp/');
+        define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
+        define( 'IDS_TMP_PATH',     ROOT_LIBRARIES . 'IDS/tmp/');
         define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
-        define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'ids/tmp/default_filter.cache');
+        define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'IDS/tmp/default_filter.cache');
 
         # Initialize the System with these values
         $init = IDS_Init::init( ROOT . 'core/config/phpids_config.ini');
