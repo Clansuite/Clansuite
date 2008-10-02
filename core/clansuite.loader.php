@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -233,27 +234,27 @@ class Clansuite_Loader
      * Looks stupid, but may result in an speedup while calling!
      *
      *
-     * @param $classname Takes name of the class or the class object itself.
+     * @param $class Takes name of the class or the class object itself.
      * @param $method Methodname to call.
      * @param $arguments Array of Arguments for the Method Call.
      *
      * @return object / method response
      * @todo: we have to profile this!
      */
-    public static function callMethod($classname, $method, array $arguments = array())
+    public static function callMethod($class, $method, array $arguments = array())
     {
-        # if $classname is not an object, we have to initialize the class
-        if (!is_object($classname))
+        # if $class is not an object, we have to initialize the class
+        if (!is_object($class))
         {
             # ensure type
-            $classname  = (string) $classname;
+            $classname  = (string) $class;
             $method     = (string) $method;
 
             # initalize class
             $class = new $classname;
         }
 
-        # @todo: if $class has Prefix "Module_" fetch / pass the injector into the object
+        # @todo: if $class has Prefix "Module_" fetch / pass the injector into the object ?? why?
 
         switch (count($arguments))
         {
