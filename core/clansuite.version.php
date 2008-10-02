@@ -33,9 +33,9 @@ if (!defined('CLANSUITE_REVISION'))
         unset ($svn);
         unset ($version);
     }
-    else # default if no svn data avilable
+    else # default if no svn data available
     {
-        define ('CLANSUITE_REVISION', 0);
+        define ('CLANSUITE_REVISION', '');
     }
 }
 ?>

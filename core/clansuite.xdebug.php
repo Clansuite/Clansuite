@@ -4,7 +4,7 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS.
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -107,40 +107,44 @@ class clansuite_xdebug
      */
     public static function end_xdebug()
     {
-        # get page parsing time from xdebug
-        echo "
-        <div id='xdebug' style='display:none;'>
-        <center>
-            <script type='application/javascript'>
-            window.addEvent('domready', function() {
-
-                window.addEvent('keydown', function(event){
-                    if (event.control && event.shift)
-                    {
-                        if( \$('xdebug').style.display == 'block' )
+        # Start XDEBUG Tracing and Coverage
+        if (self::is_xdebug_active())
+        {
+            # get page parsing time from xdebug
+            echo "
+            <div id='xdebug' style='display:none;'>
+            <center>
+                <script type='application/javascript'>
+                window.addEvent('domready', function() {
+    
+                    window.addEvent('keydown', function(event){
+                        if (event.control && event.shift)
                         {
-                            \$('xdebug').style.display = 'none'
+                            if( \$('xdebug').style.display == 'block' )
+                            {
+                                \$('xdebug').style.display = 'none'
+                            }
+                            else
+                            {
+                                \$('xdebug').style.display = 'block'
+                            }
                         }
-                        else
-                        {
-                            \$('xdebug').style.display = 'block'
-                        }
-                    }
+                    });
                 });
-            });
-            </script>
-        ";
+                </script>
+            ";
 
-        self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
-        self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
-        self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
-        self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. @xdebug_stop_trace();
-        echo self::$_xdebug_memory_before;
+            self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
+            self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
+            self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
+            self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. @xdebug_stop_trace();
+            echo self::$_xdebug_memory_before;
 
-        # stop tracings and var_dump
-        xdebug_dump_superglobals();
-        echo "</center></div>";
-        # var_dump(xdebug_get_code_coverage());
+            # stop tracings and var_dump
+            xdebug_dump_superglobals();
+            echo "</center></div>";
+            # var_dump(xdebug_get_code_coverage());
+        }
     }
 
     /**

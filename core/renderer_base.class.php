@@ -82,13 +82,8 @@ abstract class renderer_base
         #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->view, $method))
         {
-            /**
-             * @todo: Speedup the Method Calling
-             * maybe Clansuite_Loader::callMethodwithArguments()
-             * count arguments, build a switch based on count, assign directly up to 4 arguments
-             * default/ last one call_user_func_array
-             */
-            return call_user_func_array(array($this->view, $method), $arguments);
+            return clansuite_loader::callMethod($this->view, $method, $arguments);
+            #return call_user_func_array(array($this->view, $method), $arguments);
         }
         else
         {
@@ -187,7 +182,7 @@ abstract class renderer_base
             $themepath = ROOT_THEMES . 'core' .DS. $template;
         }
 
-        #print 'getThemeTemplatePath: '. $themepath . '<br>';
+        #print '<br>getThemeTemplatePath: '. $themepath . '<br>';
 
         return $themepath;
     }
@@ -200,9 +195,6 @@ abstract class renderer_base
      */
     public function getModuleTemplatePath($template)
     {
-        # incomming "\" slashfix
-        $template = str_replace("/", "\\",  $template);
-
         # init var
         $modulepath = '';
 
@@ -221,11 +213,9 @@ abstract class renderer_base
         # we insert "/templates" at the last slash
 
         # if template was found in session theme directory
-        # return it
         if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template ))
         {
-            $modulepath = ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
-            return $modulepath;
+            return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
         }
 
         # attach "/template/" to the $template string, at "news\action_show.tpl" DS
@@ -237,17 +227,25 @@ abstract class renderer_base
         $template = str_replace("//", "/",  $template);
         $template = str_replace("\\\\", "\\",  $template);
 
-        # Check, if template exists in module folder / templates
+        # Check, if template exists in module folder + 'templates/name.tpl'
         if(is_file( ROOT_MOD . $template ))
         {
-            $modulepath = ROOT_MOD . $template;
-
+            $modulepath = ROOT_MOD . $template;       
         }
-        elseif (is_file( ROOT_MOD . $moduleName . $template))
+        
+        # Check, if template exists in module folder + 'news' + 'templates/name.tpl'
+        if(is_file( ROOT_MOD . $moduleName . $template))
         {
-            $modulepath = ROOT_MOD . $moduleName . $template;
+            $modulepath =  ROOT_MOD . $moduleName . $template;
         }
-        else
+        
+        # Check, if template exists in module folder + 'news' + 'templates' +'/name.tpl'
+        if(is_file( ROOT_MOD . $moduleName . '/templates/' . $template))
+        {
+            $modulepath =  ROOT_MOD . $moduleName . '/templates/' . $template;
+        }
+        
+        if(strlen($modulepath) == 0)
         {
             # NOT EXISTANT
             $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
