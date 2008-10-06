@@ -172,40 +172,36 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
         # get action parameter from URL
         $action = $request->getParameter('action');
 
-        # get submodule parameter from URL
-        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+        # action not set by URL, so we set default_action from config
+        if( empty( $action ) )
+        {
+            # set the used action name internally
+            $this->action_name = $this->config['defaults']['default_action'];
+            # set the method name
+            $action = $this->config['defaults']['default_action'];
+        }
 
         # the pseudo-namesspace prefix 'action_' is used for all actions.
         # this is also a way to ensure some kind of whitelisting via namespacing.
-        $methodname = 'action';
+        $methodname = 'action_';
 
         /**
-        * @desc Check for submodule
-        */
+         *  Check for submodule and append to methodname
+         */
+
+        # get submodule parameter from URL
+        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+
         if(isset($submodule) && !empty($submodule))
         {
-            $methodname .= '_' . $submodule;
+            $methodname .= $submodule . '_';
         }
 
-        /**
-        * @desc Check for a action
-        */
-        if(isset($action) && !empty($action) && method_exists($this,$methodname . '_' . $action))
-        {
-            # set the used action name
-            $this->action_name = $action;
-            # set the method name
-            $methodname .= '_' . $action;
-        }
-        else // action not set or method not existing
-        {
-            # set the used action name
-            $this->action_name = $this->config['defaults']['default_action'];
-            # set the method name
-            $methodname .= '_' . $this->config['defaults']['default_action'];
-        }
+        # Append action to methodname
+        $methodname = $methodname . $action;
 
-        #print $methodname;
+        # Debug Display
+        # echo '<br>Methodname of Action: '. $methodname .'<br>';
 
         /**
          * Handle Method
@@ -217,13 +213,18 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
          */
         if(method_exists($this,$methodname))
         {
+            # set the used action name
+            $this->action_name = $action;
+
             # 1. call the method on module!
             $this->{$methodname}();
         }
-        /**
+        /*
         elseif
         {
-            callFileActions
+            @todo: callFileActions
+            # example: 'modulename/commands/action_show.php'
+            return 'modulename/commands/'$methodname.'.php';
         }
         */
         else

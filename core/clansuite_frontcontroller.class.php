@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -147,16 +148,26 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     public function getModuleController(httprequest $request)
     {
         $required_modulename = '';
-        # ModuleName is either the requested modulename or the defaultModule or a set module name
-        if( isset(self::$_ModuleName) )
+
+        /**
+         * ModuleName is either
+         * 1) internally set (in case of internal forward)
+         * 2) requested by URL
+         * 3) the defaultModule by config value
+         */
+        if( isset(self::$_ModuleName) ) # internally set
         {
             $module_name = self::getModuleName();
         }
-        else
+        elseif ( !empty($request['mod']) ) # set by URL
         {
-            $module_name = (isset($request['mod']) && !empty($request['mod'])) ? $request->getParameter('mod') : $this->_defaultModule;
+            $module_name = $request->getParameter('mod');
         }
-       
+        else # take the default module defined by config
+        {
+            $module_name = $this->_defaultModule;
+        }
+
         # When SubModulName exists, attached to the ModuleName
         if(isset($module_name{1}) && isset($request['sub']) && !empty($request['sub']))
         {
@@ -169,10 +180,10 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             {
                 $submodule_name = $request->getParameter('sub');
             }
-            
+
             # Set the modulename as public static class variables
             self::setSubModuleName($submodule_name);
-        
+
             # SubModulName is attached to the ModuleName
             $required_modulename = $module_name . '_'. $submodule_name;
             #echo "Module + Submodule => ModuleController => $module_name <br>";
@@ -192,12 +203,12 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         else
         {
             # @todo: throw correct Status Header via httprequest - if not found and redirect to default
-            
+
             # Trigger a error to show, that the required module does not exist
-            trigger_error('Module does not exist: ' . $module_name);
+            #trigger_error('Module does not exist: ' . $module_name, E_USER_ERROR);
             #die(var_dump($module_name));
-            exit();
-            
+            #exit();
+
             # Load Default Module as Fallback (require), because the requested module may not exist!
             clansuite_loader::loadModul($this->_defaultModule);
             # Set the module name
@@ -205,7 +216,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
 
         # Set the modulename as public static class variables
-        $this->setModuleName($module_name);        
+        $this->setModuleName($module_name);
 
         # Construct Classname to instantiate the required Module
         $class = 'module_' . $required_modulename;
@@ -411,10 +422,10 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
 
         # 3)
         $moduleController->setInjector($this->injector);
-            
+
         # 4)
         $moduleController->execute($request, $response);
-            
+
         # 5)
         $this->post_filtermanager->processFilters($request, $response);
 
