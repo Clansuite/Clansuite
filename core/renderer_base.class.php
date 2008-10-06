@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -99,7 +100,7 @@ abstract class renderer_base
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
-    abstract public function assign($tpl_parameter, $value = null);
+    /*abstract*/ public function assign($tpl_parameter, $value = null);
 
     /**
      * Executes the template rendering and returns the result.
@@ -110,7 +111,7 @@ abstract class renderer_base
      * @param mixed $data Additional data to process
      * @return string
      */
-    abstract public function fetch($template, $data = null);
+    /*abstract*/ public function fetch($template, $data = null);
 
     /**
      * Executes the template rendering and displays the result.
@@ -121,7 +122,7 @@ abstract class renderer_base
      * @param mixed $data Additional data to process
      * @return string
      */
-    abstract public function display($template, $data = null);
+    /*abstract*/ public function display($template, $data = null);
 
     /**
      * Returns the Template Path
@@ -230,21 +231,21 @@ abstract class renderer_base
         # Check, if template exists in module folder + 'templates/name.tpl'
         if(is_file( ROOT_MOD . $template ))
         {
-            $modulepath = ROOT_MOD . $template;       
+            $modulepath = ROOT_MOD . $template;
         }
-        
+
         # Check, if template exists in module folder + 'news' + 'templates/name.tpl'
         if(is_file( ROOT_MOD . $moduleName . $template))
         {
             $modulepath =  ROOT_MOD . $moduleName . $template;
         }
-        
+
         # Check, if template exists in module folder + 'news' + 'templates' +'/name.tpl'
         if(is_file( ROOT_MOD . $moduleName . '/templates/' . $template))
         {
             $modulepath =  ROOT_MOD . $moduleName . '/templates/' . $template;
         }
-        
+
         if(strlen($modulepath) == 0)
         {
             # NOT EXISTANT
