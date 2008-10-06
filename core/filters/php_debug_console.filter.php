@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -67,7 +69,7 @@ class php_debug_console implements Filter_Interface
             {
                 # Load Library
                 require ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php';
-    
+
                 # Setup Options
                 $options = array('HTML_DIV_images_path' =>  '/libraries/phpdebug/images',
                                  'HTML_DIV_css_path' => '/libraries/phpdebug/css',

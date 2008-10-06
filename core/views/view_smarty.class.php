@@ -4,6 +4,8 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -45,7 +46,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @author     Jens-Andre Koch <vain@clansuite.com>
  * @copyright  Jens-Andre Koch (2005 - onwards)
- * @since      Class available since Release 0.2
  *
  * @package     clansuite
  * @category    view
@@ -189,7 +189,7 @@ class view_smarty extends renderer_base
         $this->smarty->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
         $this->smarty->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
         # $this->request_vars_order               = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        $this->smarty->request_use_auto_globals   = false;  # for templates using $smarty.get.*, $smarty.request.*, etc...
+        $this->smarty->request_use_auto_globals   = true;  # for templates using $smarty.get.*, $smarty.request.*, etc...
         $this->smarty->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**
