@@ -42,7 +42,7 @@ arrow2.src =  "{$tplpath}/images/arrow2.gif";
                         &nbsp;
 
                         <a href="index.php?mod=account&amp;action=logout" class="itembtn">
-                            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/door_out.png" border="0" alt="logout-image" width="16" height="16" />
+                            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/tango/16/System-log-out.png" border="0" alt="logout-image" width="16" height="16" />
                             &nbsp;{t}Logout{/t}
                         </a>
                  </div>
