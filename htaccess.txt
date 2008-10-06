@@ -14,9 +14,10 @@ php_value magic_quotes_runtime  "0"
 php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
+
 # (5) For safety reasons you should disable the following php functions:
 
-# php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen"
+# php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen, popen, proc_open, escapeshellcmd, escapeshellarg"
 </IfModule>
 
 # (6) Apache2 with "LoadModule mod_deflate"
