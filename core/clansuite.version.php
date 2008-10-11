@@ -1,4 +1,37 @@
 <?php
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-Andre Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL, see COPYING.txt
+    *
+    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @copyright  Jens-Andre Koch (2005 - onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    *
+    * @version    SVN: $Id$
+    */
 
 if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
 
@@ -35,7 +68,17 @@ if (!defined('CLANSUITE_REVISION'))
     }
     else # default if no svn data available
     {
-        define ('CLANSUITE_REVISION', '');
+        /**
+         * Returns revision number
+         */
+        function getRevisionNumber()
+        {
+            $svnrevision = '$Rev$';                        # $Rev$ is substituted by SVN on commit
+            $svnrevision = substr($svnrevision, 6);         # cut left:  "$Rev: "
+            $svnrevision = substr($svnrevision , 0, -2);    # cut right: " $"
+            return $svnrevision;
+        }
+        define ('CLANSUITE_REVISION', getRevisionNumber());
     }
 }
 ?>
