@@ -49,7 +49,7 @@ std_javascript = "standard.js"
 [switches]
 themeswitch_via_url = 1
 languageswitch_via_url = 1
-webdebug = 1
+webdebug = 0
 
 ;----------------------------------------
 ; defaults
@@ -112,15 +112,7 @@ compression = 1
 suppress_errors = 0
 debug = 1
 xdebug = 1
-debug_popup = 0
-
-;----------------------------------------
-; version
-;----------------------------------------
-[version]
-clansuite_version = 0.2
-clansuite_version_state = "alpha"
-clansuite_version_name = "Trajan"
+debug_popup = 1
 
 ;----------------------------------------
 ; cache

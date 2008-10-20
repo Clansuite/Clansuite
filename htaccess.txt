@@ -14,6 +14,7 @@ php_value magic_quotes_runtime  "0"
 php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
+php_value output_handler        ob_gzhandler
 
 # (5) For safety reasons you should disable the following php functions:
 
@@ -34,7 +35,7 @@ php_value output_buffering      "1"
 
 # (7a) Turn Rewrite Engine on
 
-       #RewriteEngine on
+       RewriteEngine on
 
 # (7b) Set the Base for the Rewrite Engine (which is the path to your /Clansuite Directory)
 #      Examples:
@@ -49,8 +50,7 @@ php_value output_buffering      "1"
         #RewriteCond %{REQUEST_FILENAME} !-f
         #RewriteCond %{REQUEST_FILENAME} !-d
 
-# route all non-ressource/file/dir requests to index.php
-
+        # route all non-ressource/file/dir requests to index.php
         #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
 
 </IfModule>
@@ -59,10 +59,10 @@ php_value output_buffering      "1"
 #     Removed Etag + Smaller Header for image, javascript, css files with cache lifetime 1 year+
 
 <IfModule mod_expires.c>
-    <filesmatch "\.(jpg|gif|png|css|js)$">
-    ExpiresActive on
-    ExpiresDefault "access plus 1 year"
-    </filesmatch>
+    <FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 1 years"
+	</FilesMatch>
 </IfModule>
 
 # (9) Apache2 with "LoadModule mod_headers"
@@ -73,7 +73,9 @@ php_value output_buffering      "1"
     Header unset ETag
     Header unset Last-Modified
 </IfModule>
-FileETag None
+<FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+	FileETag none
+</FilesMatch>
 
 # (10) Apache2 with "LoadModule mod_gzip"
 #     Compresses your Content
@@ -81,7 +83,7 @@ FileETag None
 <IfModule mod_gzip.c>
   mod_gzip_on Yes
   mod_gzip_dechunk Yes
-  mod_gzip_item_include file \.(html?|txt|css|js|php|pl|jpg|png|gif)$
+  mod_gzip_item_include file \.(html?|txt|xml|css|js|php|pl|gif|jpg|jpeg|png|swf)$
   mod_gzip_item_include handler ^cgi-script$
   mod_gzip_item_include mime ^text/.*
   mod_gzip_item_include mime ^application/x-javascript.*
