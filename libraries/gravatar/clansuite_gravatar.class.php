@@ -327,6 +327,9 @@ class clansuite_gravatar_cache
             # Get the Gravatar and Save a Cache File from
             file_put_contents($cache_filename, file_get_contents($gravatar_url));
 
+            # Set CHMOD to 755 (rwx r-x r-x)
+            chmod($cache_filename, 755);
+
             # Check if Cache file was created
             if (is_file($cache_filename))
             {
