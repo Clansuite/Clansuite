@@ -114,6 +114,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         if ( 1 == get_magic_quotes_gpc() )
         {
+            # @todo: Evaluate if a php.ini "magic_quotes off" should be requested from user!
             $this->fix_magic_quotes();
             ini_set('magic_quotes_gpc', 0);
         }
@@ -197,6 +198,22 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * Get $_SERVER REQUEST_URI
+     */
+    public function getRequestURI()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Get $_SERVER REMOTE_URI
+     */
+    public function getRemoteURI()
+    {
+        return $_SERVER['REMOTE_URI'];
+    }
+
+    /**
      * Get $_SERVER REMOTE_ADDRESS
      */
     public function getRemoteAddress()
@@ -205,7 +222,7 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get $_SERVER REMOTE_ADDRESS
+     * Get $_SERVER REQUEST_METHOD
      */
     public function getRequestMethod()
     {
@@ -323,14 +340,14 @@ class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             {
                 unset($GLOBALS[$key]);
                 unset($GLOBALS[$key]); # no, this is not a bug, we use double unset() .. it is to circunvent
-              /* *
-                                    * @todo: check if this is still a vulnerability !
-                                    *this PHP critical vulnerability
-                                    * http://www.hardened-php.net/hphp/zend_hash_del_key_or_index_vulnerability.html
-                                    * this is intended to minimize the catastrophic effects that has on systems with
-                                    * register_globals on.. users with register_globals off are still vulnerable but
-                                    * afaik,there is nothing we can do for them.
-                                    */
+               /**
+                * @todo: check if this is still a vulnerability !
+                *this PHP critical vulnerability
+                * http://www.hardened-php.net/hphp/zend_hash_del_key_or_index_vulnerability.html
+                * this is intended to minimize the catastrophic effects that has on systems with
+                * register_globals on.. users with register_globals off are still vulnerable but
+                * afaik,there is nothing we can do for them.
+                */
             }
          }
     }

@@ -36,14 +36,13 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
+ * Clansuite Functions
  *
  * Module:      Core
  * Submodule:   Common Functions
  *
  * @author      Jens-Andre Koch  <vain@clansuite.com>
  * @copyright   Jens-Andre Koch, (2005 - onwards)
- * @since       0.2alpha
  *
  * @package     clansuite
  * @category    core
@@ -51,8 +50,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class functions
 {
-    public $redirect = '';
-
     /**
      * Converts an Object to an Array
      *
@@ -80,6 +77,93 @@ class functions
         return $array;
     }
 
+    /**
+     * distanceOfTimeInWords
+     *
+     * @author: anon
+     * @link: http://www.php.net/manual/de/function.time.php#85481
+     *
+     * @param $fromTime starttime
+     * @param $toTime endtime
+     * @param $showLessThanAMinute boolean
+     * @return string
+     */
+    static public function distanceOfTimeInWords($fromTime, $toTime = 0, $showLessThanAMinute = false)
+    {
+        $distanceInSeconds = round(abs($toTime - $fromTime));
+        $distanceInMinutes = round($distanceInSeconds / 60);
+
+        if ( $distanceInMinutes <= 1 )
+        {
+            if ( !$showLessThanAMinute )
+            {
+                return ($distanceInMinutes == 0) ? 'less than a minute' : '1 minute';
+            }
+            else
+            {
+                if ( $distanceInSeconds < 5  ) { return 'less than 5 seconds';  }
+                if ( $distanceInSeconds < 10 ) { return 'less than 10 seconds'; }
+                if ( $distanceInSeconds < 20 ) { return 'less than 20 seconds'; }
+                if ( $distanceInSeconds < 40 ) { return 'about half a minute';  }
+                if ( $distanceInSeconds < 60 ) { return 'less than a minute';   }
+                return '1 minute';
+            }
+        }
+        if ( $distanceInMinutes < 45 )      { return $distanceInMinutes . ' minutes';  }
+        if ( $distanceInMinutes < 90 )      { return 'about 1 hour'; }
+        if ( $distanceInMinutes < 1440 )    { return 'about ' . round(floatval($distanceInMinutes) / 60.0) . ' hours'; }
+        if ( $distanceInMinutes < 2880 )    { return '1 day'; }
+        if ( $distanceInMinutes < 43200 )   { return 'about ' . round(floatval($distanceInMinutes) / 1440) . ' days';  }
+        if ( $distanceInMinutes < 86400 )   { return 'about 1 month';    }
+        if ( $distanceInMinutes < 525600 )  { return round(floatval($distanceInMinutes) / 43200) . ' months';}
+        if ( $distanceInMinutes < 1051199 ) { return 'about 1 year'; }
+
+        return 'over ' . round(floatval($distanceInMinutes) / 525600) . ' years';
+    }
+
+    /**
+     * Convert $size to readable format
+     *
+     * @author Mike Cochrane
+     * @param $size bytes
+     *
+     * @return string
+     */
+    public static function getsize($size)
+    {
+        $si = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $remainder = $i = 0;
+        while ($size >= 1024 && $i < 8)
+        {
+            $remainder = (($size & 0x3ff) + $remainder) / 1024;
+            $size = $size >> 10;
+            $i++;
+        }
+        return round($size + $remainder, 2) . ' ' . $si[$i];
+    }
+
+    /**
+     * Get the variable name as string
+     *
+     * @author http://us2.php.net/manual/en/language.variables.php#76245
+     * @param $var variable as reference
+     * @param $scope scope
+     *
+     * @return string
+     */
+    public static function vname(&$var, $scope=false, $prefix='unique', $suffix='value')
+      {
+        if($scope) $vals = $scope;
+        else      $vals = $GLOBALS;
+        $old = $var;
+        $var = $new = $prefix.rand().$suffix;
+        $vname = FALSE;
+        foreach($vals as $key => $val) {
+          if($val === $new) $vname = $key;
+        }
+        $var = $old;
+        return $vname;
+      }
 
     /**
      *  Redirection modes

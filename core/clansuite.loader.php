@@ -54,6 +54,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * 2. Check about specific file-extension and their support while autoloading,
  *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
  *
+ * PHP Manual: __autoload
+ * @http://www.php.net/manual/en/language.oop5.autoload.php
+ *
  * @package     clansuite
  * @category    core
  * @subpackage  loader
@@ -66,14 +69,16 @@ class Clansuite_Loader
      * Overwrites Zend Engines __autoload cache with our own loader-functions
      * by registering single file loaders via spl_autoload_register($load_function)
      *
+     * PHP Manual: spl_autoload_register
+     * @link http://www.php.net/manual/de/function.spl-autoload-register.php
      * @static
      * @access public
      */
     public static function register_autoload()
     {
-        spl_autoload_register(array ('clansuite_loader','loadCoreClass'));
-        #spl_autoload_register(array ('clansuite_loader','loadClass'));
-        spl_autoload_register(array ('clansuite_loader','loadFilter'));
+        spl_autoload_register(array (__CLASS__,'loadCoreClass'));
+        #spl_autoload_register(array (__CLASS__,'loadClass'));
+        spl_autoload_register(array (__CLASS__,'loadFilter'));
     }
 
     /**
@@ -111,6 +116,29 @@ class Clansuite_Loader
     {
         $filename = ROOT . $directory . strtolower($classname) . '.class.php';
         #echo '<br>loaded Class => '. $filename;
+        return self::requireFile($filename);
+    }
+
+    /**
+     * Load a Library by name and dir
+     * Extensions .php
+     *
+     * @param string $classname The class, which should be loaded
+     * @param string $directory without start/end slashes
+     * @static
+     * @access public
+     *
+     * @return boolean
+     */
+    public static function loadLibrary($classname, $directory = NULL)
+    {
+        $filename = ROOT_LIBRARIES;
+        if ( $directory != NULL )
+        {
+            $filename .= $directory . DS;
+        }
+        $filename .= $classname . '.php';
+        #echo '<br>loaded Library => '. $filename;
         return self::requireFile($filename);
     }
 
