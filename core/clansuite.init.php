@@ -76,6 +76,7 @@ else
  *  ================================================
  *     Define Constants
  *  ================================================
+ *   - Syntax Declarations
  *   - Path Assignments
  *   - ROOT & *_ROOT
  *   - WWW_ROOT & WWW_ROOT_*
@@ -83,7 +84,7 @@ else
  *   - NL, CR
  *  ------------------------------------------------
  */
-# DEFINE Shorthands for DIRECTORY_SEPARATOR & PATH_SEPARATOR
+# DEFINE Shorthands and Syntax Declarations for DIRECTORY_SEPARATOR & PATH_SEPARATOR
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 

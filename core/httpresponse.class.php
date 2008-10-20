@@ -84,6 +84,8 @@ class HttpResponse implements Clansuite_Response_Interface
      */
     protected $headers = array();
 
+    protected $output_compression_level = 7;
+
     /**
      * String holding the response body.
      *
@@ -185,7 +187,7 @@ class HttpResponse implements Clansuite_Response_Interface
         header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
 
         // Send X-Powered-By Header to Clansuite Signature
-        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. $this->config['version']['clansuite_version'] .' ][ www.clansuite.com ]');
+        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
 
          // Send our Content-Type with UTF-8 encoding
         $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
@@ -193,14 +195,14 @@ class HttpResponse implements Clansuite_Response_Interface
         // Send user specificed headers from $this->headers array
         foreach ($this->headers as $name => $value)
         {
-            header("{$name}: {$value}", false);
+             header("{$name}: {$value}", false);
         }
 
         // Finally PRINT the response body
         print $this->body;
 
         // Flush Compressed Buffer
-        if(defined('OB_GZIP')){ new gzip_encode(7); }
+        if(defined('OB_GZIP')){ new gzip_encode($this->output_compression_level); }
 
         // OK, Reset -> Package delivered! Return to Base!
         $this->clearHeaders();
@@ -218,19 +220,27 @@ class HttpResponse implements Clansuite_Response_Interface
      */
     public function activateOutputCompression()
     {
-        # Method 1 zlib
-        if((!XDBUG) && extension_loaded('zlib'))
+        # Check for Debugging
+        if( (bool)XDBUG === false )
         {
-            ini_set('zlib.output_compression'       , true);
-            ini_set('zlib.output_compression_level' , '7');
-
-            # Method 2 Fallback to ob_start('gz_handler') = output buffering with gzip handling
-            if(!(bool)ini_get('zlib.output_compression') === true)
+            # Method 1: zlib
+            if (extension_loaded('zlib'))
             {
-              ob_start('ob_gzhandler');
-              require ROOT_LIBRARIES . 'gzip_encode/class.gzip_encode.php';
-              define('OB_GZIP', true);
+                ini_set('zlib.output_compression'       , true);
+                ini_set('zlib.output_compression_level' , $this->output_compression_level);
+
+                # Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
+                if((bool)ini_get('zlib.output_compression') === false)
+                {
+                  ob_start('ob_gzhandler');
+                  require ROOT_LIBRARIES . 'gzip_encode/class.gzip_encode.php';
+                  define('OB_GZIP', true);
+                }
             }
+        }
+        else
+        {
+            #No Output-Compression when Debugging!
         }
     }
 

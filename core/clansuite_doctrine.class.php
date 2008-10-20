@@ -4,6 +4,7 @@
     * Jens-Andre Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *

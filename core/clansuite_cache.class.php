@@ -32,6 +32,9 @@
     *
     * @version    SVN: $Id: cache.class.php 1813 2008-03-21 22:46:21Z vain $
     */
+    
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Interfaces
