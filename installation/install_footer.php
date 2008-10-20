@@ -83,7 +83,7 @@ date_default_timezone_set('Europe/Berlin');
     <div id="footer">
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
             <br />
-            <?php $webinstaller_version = 'Version : 0.3 - '. date("l, jS F Y",filemtime($_SERVER['SCRIPT_FILENAME'])); ?>
+            <?php $webinstaller_version = 'Version : 0.3 - '. date("l, jS F Y",getlastmod()); ?>
             Clansuite Installation <?php echo $webinstaller_version; ?>
             <br />
             SVN: $Rev$ $Author$
