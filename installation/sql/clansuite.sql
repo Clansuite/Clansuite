@@ -1160,7 +1160,7 @@ CREATE TABLE `cs_session` (
   `session_where` text NOT NULL,
   UNIQUE KEY `session_id` (`session_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
