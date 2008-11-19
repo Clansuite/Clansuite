@@ -23,19 +23,18 @@
 
     Version:  $Id$
 -->
-<project name="Clansuite" description="Clansuite Build File" basedir="/home/clansuite/svn" default="help">
+<project name="Clansuite" description="Clansuite Build File" basedir="/home/clansuite/svn" default="build">
 
     <!-- ==================================================== -->
     <!-- ======     0) Display HELP TEXT first, ok?    ====== -->
     <!-- ==================================================== -->
 
     <!-- COMMAND = "help" -->
-    <!-- Displays a helptext for the Phing Build Commands avaiable -->
-    <target name="help">
+    <target name="help" description="Displays a helptext for the Phing Build Commands avaiable">
         <echo>
 
-        Welcome to the Clansuite build script!
-        --------------------------------------
+        Welcome to the "Clansuite - just an eSports CMS" build script!
+        --------------------------------------------------------------
         Use the following syntax to trigger a build command:
 
                   phing   &lt;build command&gt;
@@ -60,7 +59,7 @@
     <!-- ==================================================== -->
 
     <!-- Define Common Properties for all Build Commands | make constants -->
-    <property name="build.base.directory" value="build"/>                           <!-- name of the build directory -->
+    <property name="build.base.directory" value="/home/clansuite/build/" />                           <!-- name of the build directory -->
     <property name="clansuite_version" value="0.2" override="true" />               <!-- version number -->
     <property name="clansuite_version_state" value="alpha-dev" override="true" />   <!-- version state -->
     <property name="clansuite_version_name" value="Trajan" override="true" />       <!-- version name -->
@@ -86,11 +85,16 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="exportdir"  value="svn-export" />                                 <!-- Local SVN Export Directory (todir) -->
+    <property name="exportdir"  value="/home/clansuite/svn-export" />                               <!-- Local SVN Export Directory (todir) -->
+    <property name="svndir"     value="/home/clansuite/svn" />
+
+    <!-- COMMAND = "svn-update" -->
+    <target name="svn-update" description="Updates ${svndir} via svn up.">
+        <exec command="svn update ${svndir}"/>
+    </target>
 
     <!-- COMMAND = "svn-checkout" -->
-    <!-- The SvnCheckoutTask checks out a Subversion repository to a local directory. -->
-    <target name="svn-checkout" description="Checks out Clansuite from SVN">
+    <target name="svn-checkout" description="Checks out a Subversion repository to a local directory.">
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
                      repositoryurl="${repository}"
@@ -98,19 +102,17 @@
     </target>
 
     <!-- COMMAND = "svn-export" -->
-    <!-- The SvnExportTask exports a Subversion repository to a local directory. -->
-    <target name="svn-export" description="Exports Clansuite from a Repository">
+    <target name="svn-export" description="Exports a Subversion repository to a local directory.">
         <echo>Performing an SVN Export</echo>
         <svnexport svnpath="${svn.path}"
                    username="${username}"
                    password="${password}"
-                   nocache="true"    
+                   nocache="true"
                    repositoryurl="${repository}"
                    todir="${exportdir}" />
     </target>
 
     <!-- COMMAND = "svn-lastrevision" -->
-    <!-- The SvnLastRevisionTask stores the number of the last revision of a Subversion workingcopy in a property. -->
     <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
         <echo>Fetching the Revision Number</echo>
         <svnlastrevision svnpath="${svn.path}"
@@ -141,9 +143,8 @@
     </target>
 
     <!-- COMMAND = "mrproper"  -->
-    <!-- cleans the Building Directories -->
-    <target name="mrproper">
-        <echo>Mr.Proper wipes the Building (clears the build directory)</echo>
+    <target name="mrproper" description="cleans the Building Directories">
+        <echo>Mr.Proper wipes the Building (Delete build directory: ${build.base.directory})</echo>
         <delete dir="${build.base.directory}"/>
     </target>
 
@@ -152,24 +153,23 @@
     <!-- 1) Copy all Clansuite Files defined as "clansuite_projectfiles" to the build dir -->
     <!-- 2) Then inserts the missing htaccess files -->
     <target name="build-clansuite" description="Build Clansuite Package">
-        <copy todir="/build">
+        <copy todir="/build"> <!-- Dir to Copy INTO -->
             <fileset refid="clansuite_projectfiles" />
         </copy>
         <!-- <phingcall target="create-htaccess-files" /> -->
     </target>
 
-   <!-- COMMAND = "rebuild" -->
-   <!-- is a combined task: -->
-   <!-- 1) cleans the Building Directories via comannd "mrproper" -->
-   <!-- 2) runs a clansuite build via command "build_clansuite" -->
-
+    <!-- COMMAND = "rebuild" -->
+    <!-- is a combined task: -->
+    <!-- 1) cleans the Building Directories via comannd "mrproper" -->
+    <!-- 2) runs a clansuite build via command "build_clansuite" -->
     <target name="rebuild" description="Rebuilds the Clansuite Package">
         <phingcall target="mrproper" />
-        <phingcall target="build_clansuite" />
+        <phingcall target="build-clansuite" />
     </target>
 
-     <!-- COMMAND = "create-htaccess-files" -->
-    <target name="create-htaccess-files">
+    <!-- COMMAND = "create-htaccess-files" -->
+    <target name="create-htaccess-files" description="protect folders with htaccess files">
         <echo>Creating htaccess files (deny from all)</echo>
         <property name="htaccess.deny" value="deny from all"/>
         <!-- Write the above property to the file location ! -->
@@ -177,6 +177,7 @@
         <echo file="./${build.base.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
         <echo file="./${build.base.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
     </target>
+
 
     <!-- =================================================== -->
     <!-- ======     4) Testing & Validation Tasks     ====== -->
@@ -200,9 +201,7 @@
     <property name="documentations_dir" value="documentation/developer/" override="true" />
 
     <!-- COMMAND = "all_docs" -->
-    <!-- creates all developer documentations -->
-    <!-- is a combined task: -->
-    <target name="all_docs">
+    <target name="all_docs" description="creates all documentations (combined task)">
         <echo>-----------------------------------</echo>
  	    <echo>|   Creating ALL Documentations   |</echo>
 	    <echo>-----------------------------------</echo>
@@ -221,14 +220,14 @@
         <mkdir dir="${documentations_dir}/${phpdoc_dir}" />
         <exec command="c:\xampplite\htdocs\work\phpdocumentor\phpdoc -c c:/xampplite/htdocs/work/clansuite/doc/clansuite-phpdoc.ini -f c:/xampplite/htdocs/work/clansuite/trunk/*.php -t c:/xampplite/htdocs/work/clansuite/${documentations_dir}/${phpdoc_dir} > debug.txt"/>
     </target>
-    
+
     <!-- COMMAND = "doc_phpdoc2" -->
     <!-- Generates the API documentation using PHPDocumentor -->
     <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="phpdoc2">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <phpdoc title="Clansuite API PHPDocumentation"
-                destdir="apidocs"               
+                destdir="apidocs"
                 sourcepath="${build.base.directory}/"
                 sourcecode="yes"
                 output="HTML:Smarty:PHP">
