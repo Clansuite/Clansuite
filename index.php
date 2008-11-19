@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_
@@ -26,10 +26,10 @@
     |                                                                                  |
     +----------------------------------------------------------------------------------+
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -55,8 +55,8 @@ define('IN_CS', true);
  */
 # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
 if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
-# Check if install.php is found, so we are installed but without security steps performed
-#if ( is_file( 'install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
+# Check if install.php is still available, so we are installed but without security steps performed
+#if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'core/clansuite_config.class.php';
 $config = Clansuite_Config::readConfig('clansuite.config.php'); #clansuite_xdebug::printR($config);
@@ -105,16 +105,17 @@ Clansuite_Session::getInstance($injector);
 $injector->register('Clansuite_User');
 
 /**
- *  ================================================
- *     Frontcontroller + Filters + processRequest
- *  ================================================
+ *  ===================================================================
+ *     Request & Response + Frontcontroller + Filters + processRequest
+ *  ===================================================================
  */
-# Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
-$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['defaults']['default_module'],$config['defaults']['default_action']),$injector);
 
 # Get request and response objects for Filters and RequestProcessing
 $request  = $injector->instantiate('httprequest');
 $response = $injector->instantiate('httpresponse');
+
+# Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
+$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['defaults']['default_module'],$config['defaults']['default_action']),$injector);
 
 /**
  * Prefilters or Postfilters
