@@ -6,6 +6,7 @@
 # http://de.wikipedia.org/wiki/Robots_Exclusion_Standard
 
 User-agent: *
+Disallow: /cache/
 Disallow: /core/
 Disallow: /doc/
 Disallow: /languages/
