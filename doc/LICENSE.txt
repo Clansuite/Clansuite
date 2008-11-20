@@ -1,20 +1,19 @@
-                                   _________
-                                   CLANSUITE
+                            _________________________
+                            C  L  A  N  S  U  I  T  E
 
-                        Clansuite - just an eSports CMS
+                         Clansuite - just an eSports CMS
 
                                       is
 
+    A. maintained by Jens-André Koch (BDfL).
 
-    - maintained by Jens-André Koch (BDfL).
+    B. written by Jens-André Koch and the Clansuite Development Team.
 
-    - written by the Clansuite Development Team.
+       For a detailed list of all authors, contributors and supporters view the
+       "doc/AUTHORS" file.
 
-      For a detailed list of all authors, contributors and supporters view the
-      "doc/AUTHORS" file.
-
-    - licensed under "GNU General Public License Version 2 or any later license"
-      as declared by our License Application Conditions:
+    C. licensed under "GNU General Public License Version 2 or any later license"
+       as declared by our License Application Conditions:
 
       §  1  License Application
 
