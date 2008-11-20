@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -20,10 +20,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -42,8 +42,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * We have several things handled here:
  * (1) PHP IDS Init (2) Proxy Blocking
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
  * @package     clansuite
  * @subpackage  core
@@ -71,7 +71,11 @@ class Clansuite_DoorKeeper
         require_once ROOT_LIBRARIES . 'IDS/Init.php';
 
         # Setup the $_GLOBALS to monitor
-        $request = array('GET' => $_GET, 'POST' => $_POST, 'COOKIE' => $_COOKIE);
+
+        $request = array( 'GET'     => $_GET,
+                          'POST'    => $_POST,
+                          'COOKIE'  => $_COOKIE,
+                          'REQUEST' => $_REQUEST ); # @todo: determine, if $_REQUEST is redundant and already in $_GET + $_POST
 
         # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
         define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
@@ -79,10 +83,10 @@ class Clansuite_DoorKeeper
         define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
         define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'IDS/tmp/default_filter.cache');
 
-        # Initialize the System with these values
+        # Initialize the System with the configuration values
         $init = IDS_Init::init( ROOT . 'core/config/phpids_config.ini');
 
-        # Get IDS Monitor
+        # Get IDS Monitor: and analyse the Request with Config applied
         $ids = new IDS_Monitor($request, $init);
 
         # Get Results
@@ -91,10 +95,18 @@ class Clansuite_DoorKeeper
         #var_dump($monitoring_result);
 
         # if no results, everything is fine
-        if (!$monitoring_result->isEmpty())
+        if ( ( !$monitoring_result->isEmpty() ) or ( $monitoring_result->getImpact() > 1 ) )
         {
-           # Take a look at the result object
-           exit('Access Blocked by IDS! <br /> Monitor:'. $monitoring_result);
+            $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
+
+            if ( DEBUG === true )
+            {
+                $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
+            }
+
+            # Stop the execution of the application.
+            # @todo: advanced intrustion handling system (logs, blocking etc.)
+            exit($access_block_message);
         }
     }
 

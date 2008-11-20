@@ -1,13 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         httpresponse.class.php
-    * Requires:     PHP 5.2
-    *
-    * Purpose:      Clansuite Core Class for Response Handling
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -25,19 +22,18 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -57,7 +53,11 @@ interface Clansuite_Response_Interface
 }
 
 /**
- * HttpResponse represents the web response object on a request processed by Clansuite.
+ * HttpResponse
+ *
+ * Purpose:  Clansuite Core Class for Response Handling
+ *
+ * This class represents the web response object on a request processed by Clansuite.
  *
  * @todo: headers, cookies
  *
@@ -186,7 +186,7 @@ class HttpResponse implements Clansuite_Response_Interface
         // Send the status line
         header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
 
-        // Send X-Powered-By Header to Clansuite Signature
+        // Set X-Powered-By Header to Clansuite Signature
         $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
 
          // Send our Content-Type with UTF-8 encoding
@@ -329,17 +329,23 @@ class HttpResponse implements Clansuite_Response_Interface
 
             # redirect to ...
             $this->setStatusCode($statusCode);
+
             # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+
+            # Flush the content on the normal way!
             $this->flush();
 
-            # event log
+            # @todo: event log
         }
         else # headers already send!
         {
+            #echo "<script>document.location.href='$url';</script>";
             print "Header bereits gesendet in $filename in Zeile $linenum\n" .
                   "Redirect nicht moeglich, klicken Sie daher statt dessen <a " .
                   "href=\"$url\">diesen Link</a> an\n";
+
+            # Exit after redirect
             exit;
         }
     }

@@ -1,13 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         session.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for Session Handling
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -25,15 +22,14 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Jens-André Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id$
     */
@@ -44,9 +40,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This is the Clansuite Core Class for Session Handling
  *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * Purpose:    Clansuite Core Class for Session Handling
+ *
+ * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+ * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
@@ -133,9 +131,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         #ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
         #ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
-        # use_trans_sid off -> because spiders will index with PHPSESSID 
+        # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
-        ini_set('session.use_trans_sid'     , 0 ); 
+        ini_set('session.use_trans_sid'     , 0 );
         ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
         ini_set('session.use_cookies'       , $this->config['session']['use_cookies'] );
         ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
@@ -154,6 +152,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         try
         {
+            # set cookie parameters
+            session_set_cookie_params(0, ROOT);
+
+            # name the session
+            session_name(self::session_name);
+
+            # START THE SESSION
             session_start();
 
         }
@@ -177,7 +182,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $_SESSION['token'] = $token;
             $_SESSION['token_time'] = time();
         }
-        
+
         # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
 
         if (!$this->_session_check_security() )
@@ -479,9 +484,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                 #$this->response->redirect('index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
 
                 $this->response->redirect('index.php?mod=account&action=login', 0, '302' );
-                
+
             }
-            
+
         }
 
         /**
