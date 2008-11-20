@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     *
@@ -43,7 +43,7 @@
     * we like to thank for it and give credit to both developers
     * Bharat Mediratta and Andy Staudacher <ast@gmx.ch>. Thank You!
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
     * @author     Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
     * @copyright  2007 Clansuite Group
     * @license    see COPYING.txt
@@ -1697,7 +1697,7 @@ function render($renderType, $args=array()) {
             <br />
             SVN: $Rev: 2115 $ $Author: vain $
             <br />
-            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.Jens-André-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
          </p>
        </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->

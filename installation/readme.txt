@@ -1,3 +1,6 @@
+                         _________________________
+                         C  L  A  N  S  U  I  T  E
+
 
     Clansuite Installation - Version 0.2
     ------------------------------------
@@ -16,17 +19,22 @@
     In installation step 2 we will perform a detailed check on the requirements.
 
 
-    The Clansuite Developers Team hopes that you take pleasure in exploring and using Clansuite.
+    Copyright Information
+    ---------------------
 
-    -----------------
+    The Graphics and Icons used on the Header Bars of the Installer are created
+    by Tango Project [ http://tango-project.org/ ]  and fetched
+    via Wikimedia Commons [ http://commons.wikimedia.org/wiki/Category:Tango_project ].
 
-    Copyright Information:
 
-    The Graphics / Icons used on the Header Bars of the Installer are created
-    by Tango Project (http://tango-project.org/)
-    and fetched via Wikimedia Commons (http://commons.wikimedia.org/wiki/Category:Tango_project).
+    Last Words
+    ----------
 
-     Developer Info:
+    The Clansuite Developer Team hopes that you take pleasure in exploring and using Clansuite.
 
-     How to get resized SVG-Icons from Wikimedia Commons?
-     Browse Archiv -> Click Icon -> Graphic Show -> URL Bar -> Change PX Size -> SAVE AS
+      Best Regards,
+
+        Jens-André Koch
+        Clansuite Maintainer
+
+    Version: $Id$
