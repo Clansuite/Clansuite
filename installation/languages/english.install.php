@@ -3,8 +3,8 @@
  * @package         Clansuite
  * @subpackage      Installation
  * @category        Installer
- * @author          Jens-Andre Koch <vain@clansuite.com>
- * @copyright       Jens-Andre Koch & Clansuite Development Team
+ * @author          Jens-André Koch <vain@clansuite.com>
+ * @copyright       Jens-André Koch & Clansuite Development Team
  * @license         http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
  * @description     English Installation Language
  * @version         SVN: $Id$

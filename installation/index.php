@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * Clansuite Installer
@@ -22,10 +22,13 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
+    *
     * @author     Florian Wolf <xsign.dll@clansuite.com> 2005-2006
-    * @copyright  Jens-Andre Koch (2005 - onwards)
-    * @license    see COPYING.txt
+    * @copyright  Florian Wolf (2005-2006)
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
@@ -364,6 +367,7 @@ if( isset($_POST['step_forward']) && $step == 7 )
     }
     else
     {
+        # @todo Check mysql connect
         $db = mysql_pconnect($_SESSION['config']['database']['db_host'], $_SESSION['config']['database']['db_username'], $_SESSION['config']['database']['db_password']);
         // Generate activation code & salted hash
         $hashArr = build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
@@ -371,6 +375,7 @@ if( isset($_POST['step_forward']) && $step == 7 )
         $salt = $hashArr['salt'];
 
         // Insert User to DB
+        # @todo check mysql insert
         $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'users SET
                                 email= \'' . $_POST['admin_email'] . '\',
                                 nick= \'' .$_POST['admin_name']. '\',

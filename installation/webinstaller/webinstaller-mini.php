@@ -3,7 +3,7 @@
 $passPhrase = "yeahbabyyeah";
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     *
@@ -45,7 +45,7 @@ $passPhrase = "yeahbabyyeah";
     * we like to thank for it and give credit to both developers
     * Bharat Mediratta and Andy Staudacher <ast@gmx.ch>. Thank You!
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
     * @author     Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
     * @copyright  2007 Clansuite Group
     * @license    see COPYING.txt
