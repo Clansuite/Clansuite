@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -22,10 +22,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -33,7 +33,8 @@
     * @version    SVN: $Id$
     */
 
-if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 # This file contains version info only and is automatically updated. DO NOT EDIT.
 
@@ -53,7 +54,7 @@ if (!defined('CLANSUITE_REVISION'))
          * Author: Andy Dawson (AD7six) for cakephp.org
          * URL: http://bakery.cakephp.org/articles/view/using-your-application-svn-revision-number
          */
-        function getRevisionNumberFromFile()
+        public static function getRevisionNumberFromFile()
         {
             $svn = file(ROOT . '.svn' . DS . 'entries');
             if (is_numeric(trim($svn[3])))
@@ -65,7 +66,9 @@ if (!defined('CLANSUITE_REVISION'))
                 $version = explode('"', $svn[4]);
                 $version = $version[1];
             }
+
             unset($svn);
+
             return trim($version);
         }
         define ('CLANSUITE_REVISION', getRevisionNumberFromFile());
@@ -75,11 +78,17 @@ if (!defined('CLANSUITE_REVISION'))
         /**
          * Returns revision number from Subversion Rev-property
          */
-        function getRevisionNumber()
+        public static function getRevisionNumber()
         {
-            $svnrevision = '$Rev$';                        # $Rev$ is substituted by SVN on commit
-            $svnrevision = substr($svnrevision, 6);         # cut left:  "$Rev: "
-            $svnrevision = substr($svnrevision , 0, -2);    # cut right: " $"
+            # $Rev$ is substituted by SVN on commit
+            $svnrevision = '$Rev$';
+
+            # cut left:  "$Rev: "
+            $svnrevision = substr($svnrevision, 6);
+
+            # cut right: " $"
+            $svnrevision = substr($svnrevision , 0, -2);
+
             return $svnrevision;
         }
         define ('CLANSUITE_REVISION', getRevisionNumber());
