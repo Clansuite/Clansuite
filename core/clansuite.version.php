@@ -36,62 +36,81 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-# This file contains version info only and is automatically updated. DO NOT EDIT.
+    /** =============================================================================
+     *    WARNING: THIS FILE CONTAINS VERSION INFO ONLY AND IS AUTOMATICALLY UPDATED.
+     *             DO NOT EDIT.
+     *  =============================================================================
+     */
 
-define('CLANSUITE_VERSION',         '0.2');
-define('CLANSUITE_VERSION_NAME',    'Trajan');
-define('CLANSUITE_VERSION_STATE',   'alpha-dev');
-
-# Define Clansuite SVN Revision
-if (!defined('CLANSUITE_REVISION'))
+/**
+ * Clansuite_Version
+ *
+ */
+class Clansuite_Version
 {
-    # File used: "root/.svn/entries"
-    if (file_exists(ROOT . '.svn' . DS . 'entries'))
+    function __construct()
     {
-        /**
-         * Detect SVN Revision Number from File
-         *
-         * Author: Andy Dawson (AD7six) for cakephp.org
-         * URL: http://bakery.cakephp.org/articles/view/using-your-application-svn-revision-number
-         */
-        public static function getRevisionNumberFromFile()
+        define('CLANSUITE_VERSION',         '0.2');
+        define('CLANSUITE_VERSION_NAME',    'Trajan');
+        define('CLANSUITE_VERSION_STATE',   'alpha-dev');
+
+        # Define Clansuite SVN Revision
+        if (!defined('CLANSUITE_REVISION'))
         {
-            $svn = file(ROOT . '.svn' . DS . 'entries');
-            if (is_numeric(trim($svn[3])))
+            # File used: "root/.svn/entries"
+            if (file_exists(ROOT . '.svn' . DS . 'entries'))
             {
-                $version = $svn[3];
+                define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
             }
-            else # pre 1.4 svn used xml for this file
+            else # get revision number from the Subversion Rev-property, if no SVN data available
             {
-                $version = explode('"', $svn[4]);
-                $version = $version[1];
+                define ('CLANSUITE_REVISION', self::getRevisionNumber());
             }
-
-            unset($svn);
-
-            return trim($version);
         }
-        define ('CLANSUITE_REVISION', getRevisionNumberFromFile());
     }
-    else # get revision number from the Subversion Rev-property, if no SVN data available
+
+    /**
+     * Detect SVN Revision Number from File
+     *
+     * Author: Andy Dawson (AD7six) for cakephp.org
+     * URL: http://bakery.cakephp.org/articles/view/using-your-application-svn-revision-number
+     */
+    public static function getRevisionNumberFromFile()
     {
-        /**
-         * Returns revision number from Subversion Rev-property
-         */
-        public static function getRevisionNumber()
+        $svn = file(ROOT . '.svn' . DS . 'entries');
+        if (is_numeric(trim($svn[3])))
         {
-            # $Rev$ is substituted by SVN on commit
-            $svnrevision = '$Rev$';
-
-            # cut left:  "$Rev: "
-            $svnrevision = substr($svnrevision, 6);
-
-            # cut right: " $"
-            $svnrevision = substr($svnrevision , 0, -2);
-
-            return $svnrevision;
+            $version = $svn[3];
         }
-        define ('CLANSUITE_REVISION', getRevisionNumber());
+        else # pre 1.4 svn used xml for this file
+        {
+            $version = explode('"', $svn[4]);
+            $version = $version[1];
+        }
+
+        unset($svn);
+
+        return trim($version);
+    }
+
+    /**
+     * Returns revision number from Subversion Rev-property
+     */
+    function getRevisionNumber()
+    {
+        # $Rev$ is substituted by SVN on commit
+        $svnrevision = '$Rev$';
+
+        # cut left:  "$Rev: "
+        $svnrevision = substr($svnrevision, 6);
+
+        # cut right: " $"
+        $svnrevision = substr($svnrevision , 0, -2);
+
+        return $svnrevision;
     }
 }
+
+# autocall this call when loaded
+new Clansuite_Version;
 ?>

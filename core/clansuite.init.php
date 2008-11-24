@@ -172,5 +172,5 @@ else
  *     Clansuite Version Information
  *  ================================================
  */
-require( ROOT . '/core/clansuite.version.php');
+require ROOT_CORE . 'clansuite.version.php';
 ?>
