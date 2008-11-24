@@ -47,19 +47,18 @@
 # Define security constant
 define('IN_CS', true);
 
-
 /**
  *  ==========================================
  *     Configuration, Initalization, Loader
  *  ==========================================
  */
 # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-if ( is_file( 'clansuite.config.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
+if ( is_file('configuration/clansuite.config.php' ) == false ) { header( 'Location: installation/index.php' ); exit; }
 # Check if install.php is still available, so we are installed but without security steps performed
 #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
 require 'core/clansuite_config.class.php';
-$config = Clansuite_Config::readConfig('clansuite.config.php'); #clansuite_xdebug::printR($config);
+$config = Clansuite_Config::readConfig('configuration/clansuite.config.php'); #clansuite_xdebug::printR($config);
 
 # Setup XDebug
 define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }

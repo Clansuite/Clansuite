@@ -99,6 +99,8 @@ define('ROOT_LANGUAGES'     , ROOT . $config['paths']['language_folder'].DS);
 define('ROOT_CORE'          , ROOT . $config['paths']['core_folder'].DS);
 define('ROOT_LIBRARIES'     , ROOT . $config['paths']['libraries_folder'].DS);
 define('ROOT_UPLOAD'        , ROOT . $config['paths']['upload_folder'].DS);
+define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
+
 
 # DEFINE -> Webpaths for Templates
 
