@@ -9,4 +9,5 @@
             <cssfile css="cssname.css"/>
         </stylename>
     </cssfiles>
+    <renderengine>smarty</renderengine>
 </theme>

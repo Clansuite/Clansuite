@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <link rel="stylesheet" type="text/css" href="{$css}">
-<title>{t}Please confirm!{/t}</title>
+<title>{t}Please 1 confirm!{/t}</title>
 </head>
 <body>
 <form action="{$link}" method="post">    

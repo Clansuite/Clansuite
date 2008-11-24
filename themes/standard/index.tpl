@@ -1,50 +1,74 @@
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <base href="{$meta.domain}" />
+<head>
+    <!--
+    	This website is powered by "Clansuite - just an eSport CMS" an open source Content Management Framework!
+    	Clansuite was initially created by Jens-André Koch and is licensed under GNU/GPLv2 and any later license.
+    	Clansuite is copyright 2005-2008 of Jens-André Koch. Extensions are copyright of their respective owners.
+    	Information and contribution at http://clansuite.com/
+    -->
+    
+    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.  -->
 
-{* everything in doc_raw is moved "as is" to header *}
-{doc_raw}
+    {* Breadcrumb => $breadcrumb
+    {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30 assign=1}*}
 
-{* Dublin Core Metatags *}
-<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
-<meta name="DC.Title" content="Clansuite - just an eSport CMS" />
-<meta name="DC.Creator" content="Jens-Andre Koch" />
-<meta name="DC.Date" content="20080101" />
-<meta name="DC.Identifier" content="http://www.clansuite.com/" />
-<meta name="DC.Subject" content="Subject" />
-<meta name="DC.Subject.Keyword " content="Subject.Keyword" />
-<meta name="DC.Subject.Keyword" content="Subject.Keyword" />
-<meta name="DC.Description" content="Description" />
-<meta name="DC.Publisher" content="Publisher" />
-<meta name="DC.Coverage" content="Coverage" />
+    {* Title - `$breadcrumbs` *}
+    {doc_info title="`$std_page_title`" dir="ltr" lang="`$meta.language`" xml__lang="`$meta.language`"}
 
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="content-language" content="{$meta.language}" />
-<meta name="author" content="{$meta.author}" />
-<meta http-equiv="reply-to" content="{$meta.email}" />
-<meta name="description" content="{$meta.description}" />
-<meta name="keywords" content="{$meta.keywords}" />
+    {* Dublin Core Metatags *}
+    
+    <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+    <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
+    <meta name="DC.Creator" content="Jens-Andre Koch" />
+    <meta name="DC.Date" content="20080101" />
+    <meta name="DC.Identifier" content="http://www.clansuite.com/" />
+    <meta name="DC.Subject" content="Subject" />
+    <meta name="DC.Subject.Keyword " content="Subject.Keyword" />
+    <meta name="DC.Subject.Keyword" content="Subject.Keyword" />
+    <meta name="DC.Description" content="Description" />
+    <meta name="DC.Publisher" content="Publisher" />
+    <meta name="DC.Coverage" content="Coverage" />
 
-<link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
-<link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
-<link rel="stylesheet" type="text/css" href="{$css}" />
+    {* Metatags *}
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="{$meta.language}" />
+    <meta name="author" content="{$meta.author}" />
+    <meta http-equiv="reply-to" content="{$meta.email}" />
+    <meta name="description" content="{$meta.description}" />
+    <meta name="keywords" content="{$meta.keywords}" />
 
-<script src="{$javascript}" language="javascript" type="text/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
+    {* Favicon *}
+    
+    <link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 
-<!--[if IE]>
-<link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
-<script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
-<![endif]-->
+    {* Cascading Style Sheets *}
+    
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/standard.css" />
+    <link rel="stylesheet" type="text/css" href="{$css}" />
+    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 
-{if isset($additional_head)} {$additional_head} {/if}
-{if isset($redirect)} {$redirect} {/if}
+    <!--[if IE]>
+    <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
+    <script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
+    <![endif]-->
 
-<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
-<!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
-{/doc_raw}
+    {if isset($additional_head)} {$additional_head} {/if}
+    {if isset($redirect)} {$redirect} {/if}
 
+    {* set title - and apply -breadcrumb title="1"- to it *}
+    
+    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+    
+    {* display cache time as comment *}
+    
+    <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
+</head>
+
+<body>
 {* BrowserCheck *}
  <h2 class="oops">{t}
 	You shouldn't be able to read this, because this site uses complex stylesheets to
@@ -103,6 +127,7 @@
     <td id="right_widget_bar" class="cell1">
         <span class="widget" id="widget_login">{load_module name="account" action="widget_login"}</span>
         <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
+        <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsministatus"}</span>
     </td>
 </tr>
 <tr>
