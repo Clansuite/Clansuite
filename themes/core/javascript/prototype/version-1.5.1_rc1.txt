@@ -1,5 +1,0 @@
-Prototype 1.5.1_rc1
-http://www.prototypejs.org/
-
-be warned(!) that scriptaculous often brings a modifed version of prototype with itself. 
-it's better to use it then.

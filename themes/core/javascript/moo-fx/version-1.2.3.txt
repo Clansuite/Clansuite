@@ -1,2 +1,0 @@
-moo.fx v 1.2.3
-http://moofx.mad4milk.net

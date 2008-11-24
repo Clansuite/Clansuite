@@ -1,6 +1,11 @@
+{doc_raw}
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/mocha/mocha.css" />
+{/doc_raw}
+
 {if isset($confirmTpl)}
-<div id="{$confirmClass}_container" style="display:none">{$confirmTpl}</div>
+    <div id="{$confirmClass}_container" style="display:none">{$confirmTpl}</div>
 {/if}
+
 {literal}
 <script type="text/javascript">
 window.addEvent('domready', function() {
