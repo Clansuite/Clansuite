@@ -8,7 +8,7 @@ abstract class BaseCsUser extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('cs_users');
+    $this->setTableName('users');
 
     $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
     $this->hasColumn('email', 'string', 150, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false, 'unique' => true));
