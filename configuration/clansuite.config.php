@@ -108,9 +108,9 @@ session_name = ""
 ;----------------------------------------
 [error]
 suppress_errors = 0
-debug = 0
-xdebug = 0
-debug_popup = 0
+debug = 1
+xdebug = 1
+debug_popup = 1
 
 ;----------------------------------------
 ; cache
