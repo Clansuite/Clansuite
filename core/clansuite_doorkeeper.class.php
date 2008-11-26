@@ -84,7 +84,7 @@ class Clansuite_DoorKeeper
         define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'IDS/tmp/default_filter.cache');
 
         # Initialize the System with the configuration values
-        $init = IDS_Init::init( ROOT . 'core/config/phpids_config.ini');
+        $init = IDS_Init::init( ROOT_CONFIG . 'phpids_config.ini');
 
         # Get IDS Monitor: and analyse the Request with Config applied
         $ids = new IDS_Monitor($request, $init);
