@@ -28,7 +28,7 @@
 
       Best Regards,
 
-        Jens-Andre Koch
+        Jens-André Koch
         Clansuite Maintainer
 
   Version: $Id$
