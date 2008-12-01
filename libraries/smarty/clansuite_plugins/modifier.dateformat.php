@@ -19,7 +19,7 @@
  * Example:  {$timestamp|date}
 
  * @version  1.0
- * @author   Jens-Andre Koch <jakoch@web.de>
+ * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */

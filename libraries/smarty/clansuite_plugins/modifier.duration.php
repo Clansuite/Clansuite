@@ -13,14 +13,11 @@
  * Name:     duration<br>
  * Date:     Oct 07, 2008
  * Purpose:  show distanceOfTimeInWords from current timestamp to string timestamp
- * Input:<br>
- *         - contents = contents to replace
- *         - preceed_test = if true, includes preceeding break tags
- *           in replacement
+ * Input:
  * Example:  {$timestamp|duration}
 
  * @version  1.0
- * @author   Jens-Andre Koch <jakoch@web.de>
+ * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */

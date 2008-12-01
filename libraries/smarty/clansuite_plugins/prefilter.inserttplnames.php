@@ -12,7 +12,7 @@
 * Install: Place in your (local) plugins directory and
 *          add the call:
 *          $smarty->load_filter('pre', 'inserttplnames');
-* Author:  Jens-Andre Koch
+* Author:  Jens-André Koch
 * --------------------------------------------------------
 */
 function smarty_prefilter_inserttplnames( $tpl_source, &$compiler )
