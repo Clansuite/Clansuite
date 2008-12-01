@@ -61,12 +61,12 @@ require 'core/clansuite_config.class.php';
 $config = Clansuite_Config::readConfig('configuration/clansuite.config.php'); #clansuite_xdebug::printR($config);
 
 # Setup XDebug
-define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
+define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/bootstrap/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
 
 # initialize constants / errorhandling / ini_sets / paths
-require 'core/clansuite.init.php';
+require 'core/bootstrap/clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
-require 'core/clansuite.loader.php';
+require 'core/bootstrap/clansuite.loader.php';
 clansuite_loader::register_autoload();
 
 /**
