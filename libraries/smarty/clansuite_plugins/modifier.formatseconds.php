@@ -10,23 +10,21 @@
  * Smarty plugin
  *
  * Type:     modifier<br>
- * Name:     megabytes<br>
+ * Name:     duration<br>
  * Date:     Oct 07, 2008
- * Purpose:  convert a number to megabytes , kilobytes, bytes
- * Input:<br>
- *         - string = bytesize to convert to mb, kb, b
- * Example:  {$bytesize|megabytes}
+ * Purpose:  show format_seconds_to_shortstring from current timestamp in seconds
+ * Input:
+ *
+ * Example:  {$seconds|formatseconds}
 
  * @version  1.0
  * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */
-function smarty_modifier_megabytes($string)
+function smarty_modifier_formatseconds($seconds)
 {
-    return functions::getsize($string);
+    return functions::format_seconds_to_shortstring($seconds);
 }
-
 /* vim: set expandtab: */
-
 ?>
