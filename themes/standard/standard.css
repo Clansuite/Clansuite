@@ -1,4 +1,7 @@
-* {margin:0;padding:0}
+*
+{
+    margin:0;
+}
 body
 {   margin: 10px;
 	padding: 10px;
@@ -11,10 +14,6 @@ body
 
 html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
 
-#container {/* #809900 is background color of right column and image is bg of left column*/
-	background:#809900 url(../core/images/lcolex2.gif) repeat-y 20% 0;
-	border:1px solid #fff;
-}
 #header {
 	height:180px;
 	border-bottom:1px solid #fff;
@@ -22,7 +21,12 @@ html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
 	text-align:center;
 	color:#fff;
 }
-#inner{width:100%;float:left;}
+
+#inner {
+width:100%;
+float:left;
+}
+
 #left {
 	float:left;
 	width:32%;/* note this width is 32% and not 20% */
@@ -128,10 +132,10 @@ a:hover
 
 /* External Links */
 
-a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.de"])::after 
+a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.de"])::after
 {
    padding-left: 0.2em;
-   content:	  url(../core/images/remote.png);
+   content:	  url(images/remote.png);
 }
 
 /* Breadcrumb / Trail ( You are here >> )*/
@@ -174,27 +178,27 @@ a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.d
 .Button,
 .ButtonGrey
 {
-	background: url(../core/images/background_form_element_grey.gif) repeat-x;
+	background: url(images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-	background: url(../core/images/background_form_element_yellow.gif) repeat-x;
+	background: url(images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-	background: url(../core/images/background_form_element_orange.gif) repeat-x;
+	background: url(images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-	background: url(../core/images/background_form_element_red.gif) repeat-x;
+	background: url(images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-	background: url(../core/images/background_form_element_green.gif) repeat-x;
+	background: url(images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -428,7 +432,7 @@ table.admintable tr#cell3
 	cursor: default;
 	font-size: 12px;
 	font-weight: bold;
-	background: url(../core/images/header.gif) repeat-x;
+	background: url(images/thback.gif) repeat-x;
 }
 
 .tr_header td
@@ -440,7 +444,7 @@ table.admintable tr#cell3
 	cursor: default;
 	font-size: 12px;
 	font-weight: bold;
-	background: url(../core/images/header.gif) repeat-x;
+	background: url(images/-header.gif) repeat-x;
 }
 
 .tr_header_small td
@@ -876,7 +880,7 @@ table.admintable tr#cell3
 
 #bottom_widget_bar
 {
-    
+
 }
 
 #widget_save_bar

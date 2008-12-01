@@ -1,0 +1,38 @@
+/* Vertical Tabs */
+#vertical-tabs
+{
+    /*width: 75%;*/
+    margin: auto;
+    padding: 0px;
+    border-color:rgb(172, 168, 153) rgb(255, 255, 255) #FFFFFF rgb(172, 168, 153) ;
+    /*border-style:solid;*/
+    /*border-width:1px;*/
+}
+
+#vertical-tabs ul
+{
+    list-style: none;
+    float:left;
+    /*display: inline;*/
+}
+
+#vertical-tabs li
+{
+    background:#ECE9D8 none repeat scroll 0%;
+    border-color:#FFFFFF rgb(172, 168, 153) rgb(172, 168, 153) rgb(255, 255, 255);
+    border-style:double;
+    width: 110px;
+    margin-top: 15px;
+    padding: 5px;
+    text-align: center;
+}
+
+#vertical-tabs li.ui-tabs-selected a
+{
+    color: #000;
+}
+
+#vertical-tabs .ui-tabs-hide
+{
+    display: none;
+}

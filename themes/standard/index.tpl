@@ -1,24 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<base href="{$meta.domain}" />
-<head>
-    <!--
-    	This website is powered by "Clansuite - just an eSport CMS" an open source Content Management Framework!
-    	Clansuite was initially created by Jens-André Koch and is licensed under GNU/GPLv2 and any later license.
-    	Clansuite is copyright 2005-2008 of Jens-André Koch. Extensions are copyright of their respective owners.
-    	Information and contribution at http://clansuite.com/
-    -->
-    
+{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+
+{* everything in doc_raw is moved "as is" to header *}
+{doc_raw}
+    {include file='clansuite_header_notice.tpl'}
+
     <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.  -->
 
-    {* Breadcrumb => $breadcrumb
-    {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30 assign=1}*}
+    <base href="{$meta.domain}" />
 
-    {* Title - `$breadcrumbs` *}
-    {doc_info title="`$std_page_title`" dir="ltr" lang="`$meta.language`" xml__lang="`$meta.language`"}
+    {* Breadcrumb => $breadcrumb and Title - $breadcrumbs *}
+    {breadcrumbs title="1" trail="`$trail`" separator=" &raquo; " length="30" assign="1"}
+    {doc_info title="`$std_page_title` - `$breadcrumb`" dir="ltr" lang="`$meta.language`" xml__lang="`$meta.language`"}
 
     {* Dublin Core Metatags *}
-    
+
     <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
     <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
     <meta name="DC.Creator" content="Jens-Andre Koch" />
@@ -32,7 +27,7 @@
     <meta name="DC.Coverage" content="Coverage" />
 
     {* Metatags *}
-    
+
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="content-language" content="{$meta.language}" />
     <meta name="author" content="{$meta.author}" />
@@ -41,45 +36,48 @@
     <meta name="keywords" content="{$meta.keywords}" />
 
     {* Favicon *}
-    
+
     <link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
     <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 
-    {* Cascading Style Sheets *}
-    
-    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/standard.css" />
-    <link rel="stylesheet" type="text/css" href="{$css}" />
+    {* Clip *}
+
+    {* <script src="{$javascript}" language="javascript" type="text/javascript"></script> *}
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 
     <!--[if IE]>
     <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
     <script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
     <![endif]-->
 
+    {* Cascading Style Sheets *}
+    <link rel="stylesheet" type="text/css" href="{$css}" />
+
+    {* Additional Stuff for the Header *}
     {if isset($additional_head)} {$additional_head} {/if}
+
+    {* Redirect *}
     {if isset($redirect)} {$redirect} {/if}
 
-    {* set title - and apply -breadcrumb title="1"- to it *}
-    
-    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
-    
     {* display cache time as comment *}
-    
-    <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
-</head>
 
-<body>
+    <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
+
+{/doc_raw}
+
 {* BrowserCheck *}
  <h2 class="oops">{t}
-	You shouldn't be able to read this, because this site uses complex stylesheets to
-	display the information - your browser doesn't support these new standards. However, all
-	is not lost, you can upgrade your browser absolutely free, so please
+    You shouldn't be able to read this, because this site uses complex stylesheets to
+    display the information - your browser doesn't support these new standards. However, all
+    is not lost, you can upgrade your browser absolutely free, so please
 
-	UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"
-	title="Download a browser that complies with Web standards.">
-	standards-compliant browser</a>. If you decide against doing so, then
-	this and other similar sites will be lost to you. Remember...upgrading is free, and it
-	enhances your view of the Web.{/t}
+    UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"
+    title="Download a browser that complies with Web standards.">
+    standards-compliant browser</a>. If you decide against doing so, then
+    this and other similar sites will be lost to you. Remember...upgrading is free, and it
+    enhances your view of the Web.{/t}
 </h2>
 
 {* Ajax Notification *}
@@ -104,18 +102,16 @@
 
 <!-- TableHeader + Breadcrumbs //-->
 <tr class="tr_header">
-    <td width="200">Left widget bar</td>
-    <td>{include file='tools/breadcrumbs.tpl'}</td>
-    <td width="200">Right widget bar</td>
+    <td colspan="3">{include file='tools/breadcrumbs.tpl'}</td>
 </tr>
 
 <!-- Middle/Center Part of Table //-->
 <tr>
     <!-- Left Widget Bar //-->
     <td id="left_widget_bar" class="cell1">
-        <span class="widget" id="widget_menu">{load_module name="menu"     action="widget_menu"}</span>
-        <span class="widget" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</span>
-        <span class="widget" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</span>
+        <div class="widget" id="widget_menu">{load_module name="menu"     action="widget_menu"}</div>
+        <div class="widget" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</div>
+        <div class="widget" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</div>
     </td>
 
     <!-- Middle + Center = Main Content //-->
@@ -125,17 +121,17 @@
 
     <!-- Right Widget Bar //-->
     <td id="right_widget_bar" class="cell1">
-        <span class="widget" id="widget_login">{load_module name="account" action="widget_login"}</span>
-        <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsviewer"}</span>
-        <span class="widget" id="widget_tsviewer">{load_module name="tsviewer" action="widget_tsministatus"}</span>
+        <div class="widget" id="widget_login">{load_module name="account" action="widget_login"}</div>
+        <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsviewer"}</div>
+        <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
     </td>
 </tr>
 <tr>
     <!-- Bottom Widget Bar //-->
     <td id="bottom_widget_bar" class="cell1" width="100%" colspan="3" align="center" valign="top">
-        <span class="widget" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</span>
-        <span class="widget" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</span>
-        <span class="widget" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</span>
+        <div class="widget" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</div>
+        <div class="widget" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</div>
+        <div class="widget" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
     </td>
 </tr>
 </table>
