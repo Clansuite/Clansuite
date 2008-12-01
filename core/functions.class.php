@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * Template Handler Class
@@ -24,7 +24,7 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  2006 Clansuite Group
     * @license    see COPYING.txt
     * @version    SVN: $Id$
@@ -41,8 +41,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:      Core
  * Submodule:   Common Functions
  *
- * @author      Jens-Andre Koch  <vain@clansuite.com>
- * @copyright   Jens-Andre Koch, (2005 - onwards)
+ * @author      Jens-André Koch  <vain@clansuite.com>
+ * @copyright   Jens-André Koch, (2005 - onwards)
  *
  * @package     clansuite
  * @category    core
@@ -75,6 +75,38 @@ class functions
 			}
 	    }
         return $array;
+    }
+    
+   /**
+     * Takes a needle and multi-dimensional haystack array and does a search on it's values.
+     *
+     * @param    string        $string        Needle to find
+     * @param    array        $array        Haystack to look through
+     * @result    array                    Returns the elements that the $string was found in
+     * 
+     * array_values_recursive
+     */
+    static function array_find_element_by_key($key, $array)
+    {
+        if (array_key_exists($key, $array))
+        {
+            $result= $array[$key];
+            return $result;
+        }
+        
+        foreach ($array as $k => $v)
+        {
+            if (is_array($v))
+            {
+                $result = self::array_find_element_by_key($key, $array[$k]);
+                
+                if ($result)
+                {
+                    return $result;
+                }
+            }
+        }        
+        return false;
     }
 
     /**
@@ -164,6 +196,24 @@ class functions
         $var = $old;
         return $vname;
       }
+
+    /**
+     * format_seconds_to_shortstring
+     * 
+     * Ouput: 4D 10:12:20
+     */
+    public static function format_seconds_to_shortstring($seconds = 0)
+    {
+      if(isset($seconds))
+      {
+        $time = sprintf("%dD %02d:%02d:%02dh", $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
+      }
+      else
+      {
+        return "00:00:00";
+      }      
+      return $time;
+    }
 
     /**
      *  Redirection modes

@@ -77,7 +77,7 @@ class cache_factory
      */
     public static function getCache($cache_type, Phemto $injector)
     {
-         try
+        try
         {
 			$file = ROOT_CORE .'/cache/cache_'. strtolower($cache_type) .'.class.php';
         	if (is_file($file) != 0)
