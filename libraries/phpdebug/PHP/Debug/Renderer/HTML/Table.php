@@ -3,7 +3,7 @@
 /**
  * Class of the HTML_Table renderer
  */
-require_once 'TableConfig.php';
+require_once 'PHP/Debug/Renderer/HTML/TableConfig.php';
 
 /**
  * A concrete renderer for Debug

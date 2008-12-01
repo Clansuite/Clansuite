@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Renderer/Common.php';
+require_once 'PHP/Debug/Renderer/Common.php';
 
 /**
  * A loader class for the renderers.
@@ -27,15 +27,17 @@ class PHP_Debug_Renderer
      */
     public static function factory($debugObject, $options)
     {
-        $className = 'PHP_Debug_Renderer_'. $options['render_type']. '_'. $options['render_mode'];
-        $classPath = 'Renderer/'. $options['render_type']. '/'. $options['render_mode']. '.php';
+        $className = 'PHP_Debug_Renderer_'. $options['render_type']. 
+            '_'. $options['render_mode'];
+        $classPath = 'PHP/Debug/Renderer/'. $options['render_type']. 
+            '/'. $options['render_mode']. '.php';
 
-        require $classPath;
+        include_once $classPath;
 
         if (class_exists($className)) {
             $obj = new $className($debugObject, $options);
         } else {
-            require 'PEAR.php';
+            include_once 'PEAR.php';
             PEAR::raiseError('PHP_Debug: renderer &gt;' . 
                 $options['DEBUG_render_mode'] . '&lt; not found', true);
             return NULL;

@@ -47,7 +47,7 @@
  * @see 	     Text_Highlighter 
  * @see        Var_Dump, SQL_Parser
  * @since      1.0.0RC1
- * @version    CVS: $Id: Debug.php,v 1.3 2008/08/31 19:32:50 c0il Exp $
+ * @version    CVS: $Id: Debug.php,v 1.4 2008/09/24 12:41:26 c0il Exp $
  */
 
 /**
@@ -55,8 +55,8 @@
  * 
  * @see Debug/Renderer/*.php
  */
-require 'DebugLine.php';
-require 'Debug/Renderer.php';
+require_once 'PHP/DebugLine.php';
+require_once 'PHP/Debug/Renderer.php';
 
 /**
  * External constants
@@ -78,8 +78,8 @@ class PHP_Debug
     const VERSION_PEAR       = 1;
     const VERSION_DEFAULT    = self::VERSION_STANDALONE;
     const VERSION            = self::VERSION_STANDALONE;
-    const RELEASE            = 'V2.1.4';
-    const PEAR_RELEASE       = 'V1.0.2';
+    const RELEASE            = 'V2.1.5';
+    const PEAR_RELEASE       = 'V1.0.3';
 
     /**
      * These are constant for dump() and DumpObj() functions.
@@ -610,7 +610,7 @@ class PHP_Debug
             $this->requiredFiles = get_required_files();
     
             // Call rendering
-            return $renderer->render();
+            return$renderer->render();
         }
     }
 
