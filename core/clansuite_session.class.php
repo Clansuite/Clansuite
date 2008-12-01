@@ -148,25 +148,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_gc"     ));
 
 
-        # Start Session and throw Error on failure
-
-        try
-        {
-            # set cookie parameters
-            session_set_cookie_params(0, ROOT);
-
-            # name the session
-            session_name(self::session_name);
-
-            # START THE SESSION
-            session_start();
-
-        }
-        catch (Exception $exception)
-        {
-            throw new clansuite_exception( $exception, 'The session start failed!', 200);
-            exit;
-        }
+        
 
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
         if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
@@ -181,7 +163,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $token = md5(uniqid(rand(), true)); # session token
             $_SESSION['token'] = $token;
             $_SESSION['token_time'] = time();
+
+
         }
+
+        # Start Session
+        $this->startSession();
 
         # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
 
@@ -189,6 +176,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             $this->response->redirect('index.php?mod=login');
         }
+
 
         # Control the session ( Clean up: 3day registrations, old sessions)
 
@@ -198,6 +186,38 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # @todo: is this needed? session_write_close is called in response->flush()
 
         register_shutdown_function(array($this,'session_close'));
+    }
+    
+    /**
+     * Start Session and throw Error on failure
+     */
+    private function startSession($time = 3600, $ses = 'MYSES')
+    {
+        try
+        {
+            # set cookie parameters
+            session_set_cookie_params($time);
+            #session_set_cookie_params(0, ROOT);
+
+            # name the session
+            session_name($ses);
+            #session_name(self::session_name);
+
+            # START THE SESSION
+            session_start();
+            
+            # Reset the expiration time upon page load
+            if (isset($_COOKIE[$ses]))
+            {
+                setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
+            }
+
+        }
+        catch (Exception $exception)
+        {
+            throw new clansuite_exception( $exception, 'The session start failed!', 200);
+            exit;
+        }
     }
 
     /**
@@ -232,8 +252,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public function session_read( $id )
     {
-        #echo 'session id =>'. $id;
-        #echo self::session_name;
+        # Debug Display
+        # echo 'Session ID is: '. $id .' AND Session NAME is:'. self::session_name;
 
         $result = Doctrine_Query::create()
                          ->select('session_data, session_expire')
@@ -264,7 +284,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * $this->session_expire_time is a minute time value, we get this from config settings
          * $sessionLifetime is seconds
          */
-        //die($this->session_expire_time);
         $sessionlifetime = $this->session_expire_time * 60;
         $expires = time() + $sessionlifetime;
 
@@ -301,6 +320,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             /**
              * Insert Session, because we got no session_result for that session_id
+             * using the Doctrine CsSession Object
              */
             $newSession = new CsSession();
             $newSession->session_id         = $id;
@@ -434,7 +454,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     /**
      * Session control
-     * 1. Prune no activated users
+     * 1. Prune not activated users after 3 days
      * 2. Prune timed out Sessions (just call gc)
      * 3.
      *
@@ -442,25 +462,24 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public function session_control()
     {
-        # NOT NEEDED - gc_ probabilites are set by php itself ( see ini_set in __construct() )
-        # Perform Garbage Control
-        # $this->session_gc(1);
+       /**
+         *  Perform Garbage Control
+         *  DELETE: Timed out Sessions!
+         *
+         *  @todo: NOT NEEDED? - gc_ probabilites are set by php itself ( see ini_set in __construct() )
+         */
+        $this->session_gc();
 
         /**
          * DELETE : USERS which are not activated after 3 days.
          *
+         * 259200 = (60s * 60m * 24h * 3d)
          * @todo: move to users class!
          */
-        $rows = Doctrine_Query::create()
-                                 ->delete('CsUser')
-                                 ->from('CsUser')
-                                 ->where('activated = ? AND joined < ?')
-                                 ->execute( array( 0, ( time() - (60*60*24*3) ) ) );
-
-        /**
-         *  DELETE: Timed out Sessions!
-         */
-        $this->session_gc();
+        /*$query = Doctrine_Query::create()->delete('CsUser')
+                                         ->from('CsUser')
+                                         ->where('activated = ? AND joined < ?')
+                                         ->execute( array( 0, time() - 259200 ) );*/
 
         /**
          *  CHECK whether session is EXPIRED
@@ -492,10 +511,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          *  Assign Session Time Values for Session Countdown
          */
-        $expire_seconds = $this->session_expire_time * 60;
+        /*$expire_seconds = $this->session_expire_time * 60;
         $time = time();
         $expiretime = $time + $expire_seconds;
-
+         */
         //@todo: session countdown / ajax
         #$tpl->assign('SessionCurrentTime', $time);
         #$tpl->assign('SessionExpireTime', $expiretime);

@@ -83,8 +83,11 @@ abstract class renderer_base
         #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->view, $method))
         {
+            # this should be faster then call_user_func_array
             return clansuite_loader::callMethod($this->view, $method, $arguments);
-            #return call_user_func_array(array($this->view, $method), $arguments);
+
+            # leave this for clarification
+            # return call_user_func_array(array($this->view, $method), $arguments);
         }
         else
         {
@@ -135,6 +138,10 @@ abstract class renderer_base
      */
     public function getTemplatePath($template)
     {
+        # if template is a qualified path and template filename
+        # @todo why this? not needed?
+        if(is_file($template)) { return $template; }
+
         # default is Theme Template Path
         $theme_template = $this->getThemeTemplatePath($template);
 
@@ -145,7 +152,7 @@ abstract class renderer_base
         }
         else # try a lookup in the Module Template Path
         {
-             return $this->getModuleTemplatePath($template);
+            return $this->getModuleTemplatePath($template);
         }
     }
 
@@ -160,6 +167,11 @@ abstract class renderer_base
      */
     public function getThemeTemplatePath($template)
     {
+        # Debug Display
+        # echo $template;
+        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
+        # echo ROOT_THEMES . 'admin' .DS. $template;
+
         # init var
         $themepath = '';
 
@@ -177,10 +189,11 @@ abstract class renderer_base
             $themepath = ROOT_THEMES . '/standard/' . $template;
         }*/
 
-        # ADMIN
-        elseif(is_file( ROOT_THEMES . 'core' .DS. $template))
+        # ADMIN-Theme
+
+        elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
         {
-            $themepath = ROOT_THEMES . 'core' .DS. $template;
+            $themepath = ROOT_THEMES . 'admin' .DS. $template;
         }
 
         #print '<br>getThemeTemplatePath: '. $themepath . '<br>';
@@ -213,7 +226,13 @@ abstract class renderer_base
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
+        #echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
+
         # if template was found in session theme directory
+        #
+        # Example:
+        # index\action_show.tpl
+        # D:\xampplite\htdocs\work\clansuite\trunk\themes\standard\index\index\action_show.tpl
         if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template ))
         {
             return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
@@ -249,10 +268,10 @@ abstract class renderer_base
         if(strlen($modulepath) == 0)
         {
             # NOT EXISTANT
-            $modulepath = ROOT_THEMES . 'core/tplnotfound.tpl';
+            $modulepath = ROOT_THEMES . 'core/template_not_found.tpl';
         }
 
-        #echo 'We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
+        #echo '<br>We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
 
         return $modulepath;
     }

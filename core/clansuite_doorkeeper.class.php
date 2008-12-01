@@ -67,46 +67,51 @@ class Clansuite_DoorKeeper
      */
     public function runIDS()
     {
-        # load ids init
-        require_once ROOT_LIBRARIES . 'IDS/Init.php';
-
-        # Setup the $_GLOBALS to monitor
-
-        $request = array( 'GET'     => $_GET,
-                          'POST'    => $_POST,
-                          'COOKIE'  => $_COOKIE,
-                          'REQUEST' => $_REQUEST ); # @todo: determine, if $_REQUEST is redundant and already in $_GET + $_POST
-
-        # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
-        define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
-        define( 'IDS_TMP_PATH',     ROOT_LIBRARIES . 'IDS/tmp/');
-        define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
-        define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'IDS/tmp/default_filter.cache');
-
-        # Initialize the System with the configuration values
-        $init = IDS_Init::init( ROOT_CONFIG . 'phpids_config.ini');
-
-        # Get IDS Monitor: and analyse the Request with Config applied
-        $ids = new IDS_Monitor($request, $init);
-
-        # Get Results
-        $monitoring_result = $ids->run();
-
-        #var_dump($monitoring_result);
-
-        # if no results, everything is fine
-        if ( ( !$monitoring_result->isEmpty() ) or ( $monitoring_result->getImpact() > 1 ) )
+        // prevent redeclaration
+        if (!class_exists('IDS_Monitor') )
         {
-            $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
+            # load ids init
+            require_once ROOT_LIBRARIES . 'IDS/Init.php';
 
-            if ( DEBUG === true )
+            # Setup the $_GLOBALS to monitor
+
+            $request = array( 'GET'     => $_GET,
+                              'POST'    => $_POST,
+                              'COOKIE'  => $_COOKIE,
+                              'REQUEST' => $_REQUEST ); # @todo: determine, if $_REQUEST is redundant and already in $_GET + $_POST
+
+            # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
+
+            define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
+            define( 'IDS_TMP_PATH',     ROOT_LIBRARIES . 'IDS/tmp/');
+            define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
+            define( 'IDS_CACHE_PATH',   ROOT_LIBRARIES . 'IDS/tmp/default_filter.cache');
+
+            # Initialize the System with the configuration values
+            $init = IDS_Init::init( ROOT_CONFIG . 'phpids_config.ini');
+
+            # Get IDS Monitor: and analyse the Request with Config applied
+            $ids = new IDS_Monitor($request, $init);
+
+            # Get Results
+            $monitoring_result = $ids->run();
+
+            #var_dump($monitoring_result);
+
+            # if no results, everything is fine
+            if ( ( !$monitoring_result->isEmpty() ) or ( $monitoring_result->getImpact() > 1 ) )
             {
-                $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
-            }
+                $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
 
-            # Stop the execution of the application.
-            # @todo: advanced intrustion handling system (logs, blocking etc.)
-            exit($access_block_message);
+                if ( DEBUG === true )
+                {
+                    $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
+                }
+
+                # Stop the execution of the application.
+                # @todo: advanced intrustion handling system (logs, blocking etc.)
+                exit($access_block_message);
+            }
         }
     }
 

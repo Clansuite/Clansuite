@@ -1,9 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -21,17 +22,17 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
+
 // Security Handler
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
@@ -54,7 +55,7 @@ interface Clansuite_EventHandler
  * Clansuite_EventManager
  *
  * Is a parent Class for all the EventHandlers.
- * Performs an lookup of the eventname over all registered eventhandlers 
+ * Performs an lookup of the eventname over all registered eventhandlers
  * and fires the event, if found.
  *
  * @package     clansuite
@@ -91,10 +92,10 @@ class Clansuite_EventManager
      */
     public function addHandler($eventName, Clansuite_EventHandler $event)
     {
-        #
-        if (!isset->eventhandlers[$eventName])
+        # if eventhandler is not set already, initialize as array
+        if (!isset($this->eventhandlers[$eventName]))
         {
-            $this->eventhandlers[$eventName] = $array();
+            $this->eventhandlers[$eventName] = array();
         }
 
         # add event to the eventhandler list

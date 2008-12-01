@@ -1,8 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -20,14 +22,13 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -91,6 +92,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     // Variable contains the Configuration Object
     public $config = null;
 
+    // Variable contains the Module Configuration Object
+    public $moduleconfig = null;
+
     // Variable contains the Name of the Action
     public $action_name = null;
 
@@ -134,6 +138,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      * Reads the config for the requested module as default
      * or the config file specified by $filename.
      *
+     * Replacement function for:
+     * $this->moduleconfig = $this->config->readConfig( ROOT_MOD . 'mod/mod.config.php');
+     * var_dump($this->moduleconfig);
+     *
      * @param string $filename configuration ini-filename to read
      * @access public
      */
@@ -141,11 +149,23 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     {
         if(is_null($filename))
         {
-            return $this->config->readConfig(Clansuite_ModuleController_Resolver::getModuleName());
+            # construct config filename
+            $filename = ROOT_MOD.Clansuite_ModuleController_Resolver::getModuleName().DS.Clansuite_ModuleController_Resolver::getModuleName().'.config.php';
+        }
+        $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()] = $this->config->readConfig($filename);
+    }
+
+    public function getConfigValue($value, $default)
+    {
+        # try a lookup of the value by keyname
+
+        if(false != functions::array_find_element_by_key($value,$this->moduleconfig))
+        {
+            return functions::array_find_element_by_key($value,$this->moduleconfig);
         }
         else
         {
-            return $this->config->readConfig($filename);
+            return $default;
         }
     }
 
@@ -216,7 +236,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             # set the used action name
             $this->action_name = $action;
 
-            # 1. call the method on module!
+            # call the method on module!
             $this->{$methodname}();
         }
         /*
@@ -227,11 +247,10 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
             return 'modulename/commands/'$methodname.'.php';
         }
         */
-        else
+        else # error
         {
-            # 3. error
-            trigger_error('Action does not exist: ' . $methodname);
-            exit();
+
+            throw new Exception('Action does not exist: ' . $methodname, 1);
         }
     }
 
@@ -562,6 +581,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
          */
         # a)
         $response->setContent($this->output);
+
         # b)
         //$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
         # c)

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -22,10 +22,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -33,6 +33,7 @@
     *
     * @version    SVN: $Id$
     */
+
 // Security Handler
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
@@ -53,16 +54,15 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *    - Sqlite
  */
 
-class Clansuite_Doctrine
+class clansuite_doctrine
 {
-    #public $db = null; # holds a db instance
+    private $config; # holds a config instance
 
     function __construct(Clansuite_Config $config)
     {
         $this->config = $config; # set config instance
 
         # Load DBAL
-        #$db = $this->injector->instantiate('clansuite_doctrine');
         $this->doctrine_initialize();
     }
 
@@ -77,26 +77,26 @@ class Clansuite_Doctrine
     {
         if (!class_exists('Doctrine')) // prevent redeclaration
         {
-            // Require compiled or normal Library
+            # Require compiled or normal Library
             if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
             {
                 require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
             }
-            else
+            else # require the normal Library
             {
                 require ROOT_LIBRARIES .'doctrine/Doctrine.php';
             }
 
-            // Register Doctrine autoloader
+            # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine', 'autoload'));
 
-            // Debug Modus
-            if ( defined('DEBUG') && DEBUG == 1 )
+            # Enable Debug Modus
+            if ( defined('DEBUG') )
             {
                 Doctrine::debug(true);
             }
 
-            // Db Connection
+            # Db Connection
             $this->prepareDbConnection();
         }
     }
@@ -112,62 +112,76 @@ class Clansuite_Doctrine
      */
     private function prepareDbConnection()
     {
-        Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
-        Doctrine::loadModels( ROOT . '/myrecords/' ); // This call will not require the found .php files
-
-        // construct the Data Source Name (DSN)
-        // Example:
-        #$dsn = 'mysql://clansuite:toop@localhost/clansuite';
+        /**
+         * Construct the Data Source Name (DSN)
+         *
+         * Examples:
+         * $dsn = 'mysql://clansuite:toop@localhost/clansuite';
+         * $dsn = 'mysql://databaseuser:databasepassword@servername/databasename';
+         */
         $dsn  = $this->config['database']['db_type'] . '://';
         $dsn .= $this->config['database']['db_username'] .  ':';
         $dsn .= $this->config['database']['db_password'] . '@';
         $dsn .= $this->config['database']['db_host'] . '/';
         $dsn .= $this->config['database']['db_name'];
-        #echo 'Doctrine DSN: '.$dsn;
 
-        // initalize a new Doctrine_Connection
-        $manager = Doctrine_Manager::connection($dsn);
+        # Debugdisplay
+        # echo 'Doctrine DSN: '.$dsn; exit();
 
-        // !! no actual database connection yet !!
-        # object(Doctrine_Connection_Mysql) -> 'isConnected' => false
-        # var_dump($manager);
+        /**
+         * Setup phpDoctrine ConnectionObject for LATER Connection
+         *
+         * Doctrine_Manager::getInstance()->getCurrentConnection();
+         * will fetch current connection.
+         */
+        Doctrine_Manager::connection($dsn, $this->config['database']['db_name']);
 
         /**
          * Setup phpDoctrine Attributes for that later Connection
          */
 
-        # Changing the database naming convention by adding DB_PREFIX
-        $manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+        # Set portability for all rdbms = default
+        #Doctrine_Manager::getInstance()->setAttribute('portability', Doctrine::PORTABILITY_ALL);
+
+        # Changing the database naming convention by adding
+        # TBLNAME: clansuite.DB_PREFIX_tablename
+        Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+
+        #
+        #Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
         /**
+         * Load Models (automatic + lazy loading)
          *
-         * Aggressive - It finds all .php files in a given path recursively and
-           performs a require_once() on each file. Your files can be in subfolders, and
-           the files can include multiple models. It is very flexible but the downside
-           is that it will require_once() all files.
-
-           Conservative - It finds all .php files in a given path recursively and
-           builds an array of className => /path/to/file. The className is parsed from
-           the name of the file, so each file must contain only one class and the file
-           must be named after the class inside of it. This array is then referenced in
-           Doctrine::autoload() and used to load models when they are asked for.
-
-           Johnatan Wage on http://groups.google.com/group/doctrine-user
+         * "Aggressive - It finds all .php files in a given path recursively and
+         * performs a require_once() on each file. Your files can be in subfolders, and
+         * the files can include multiple models. It is very flexible but the downside
+         * is that it will require_once() all files.
+         *
+         * Conservative - It finds all .php files in a given path recursively and
+         * builds an array of className => /path/to/file. The className is parsed from
+         * the name of the file, so each file must contain only one class and the file
+         * must be named after the class inside of it. This array is then referenced in
+         * Doctrine::autoload() and used to load models when they are asked for."
+         *
+         * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
+        Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
 
-        # Load Models (automatic + lazy loading)
-        $manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
-        #Doctrine::loadModels( ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
+        # define the models directory
+        # this will NOT require the .php files found
+        Doctrine::loadModels( ROOT . '/myrecords/' );
+
 
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();
-        #print_r($models);
+        #var_dump($models);
 
-        // Validate All
+        #$path = Doctrine::getPath();
+        #var_dump($path);
+
+        # Validate All
         #$manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
-
-        // Set portability for all rdbms = default
-        #$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
 
         // identifier quoting
         // disabled for now, because we have no reserved words as a field names
@@ -181,8 +195,6 @@ class Clansuite_Doctrine
         // set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
         $manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
         */
-        # set character set
-        $manager->execute("SET CHARACTER SET utf8");
     }
 }
 ?>

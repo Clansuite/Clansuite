@@ -1,13 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch Â© 2005-onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         config.class.php
-    * Requires:     PHP5+
-    *
-    * Purpose:      Variable Configuration and Settings Class
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -25,15 +22,14 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Jens-André Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id: clansuite.config.php 2009 2008-05-07 15:34:26Z xsign $
     */
@@ -44,10 +40,8 @@
     *  =====================================================================
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('Clansuite Framework not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * This is the Config class of Clansuite. And it's build around the $config array,
@@ -84,9 +78,9 @@ class Clansuite_Config implements ArrayAccess
      * CONSTRUCTOR
      * sets up all variables
      */
-    public function __construct($filename = 'clansuite.config.php')
+    public function __construct($filename = 'configuration/clansuite.config.php')
     {
-        $this->config = self::readConfig($filename);
+        $this->config = self::readConfig( $filename);
     }
 
     /**
@@ -191,10 +185,10 @@ class Clansuite_Config implements ArrayAccess
             {
                 echo "Kann in die Datei $ini_filename nicht schreiben";
                 return false;
-                
+
             }
             fclose($filehandle);
-            return true;            
+            return true;
         }
         else
         {
@@ -254,15 +248,18 @@ class Clansuite_Config implements ArrayAccess
      * @access  private
      * @param   string  The value that should be converted
      * @return  mixed
+     * @todo enable "config value security" by setting
      */
     private static function _getValue($value)
     {
+        /*
         if (preg_match('/^-?[0-9]+$/i', $value)) { return (int)$value; }
         else if (strtolower($value) === 'true') { return true; }
         else if (strtolower($value) === 'false') { return false; }
         else if ( ((string)(float)$value) == $value ) { return (float)$value; }
         else if (preg_match('/^"(.*)"$/i', $value, $m)) { return $m[1]; }
         else if (preg_match('/^\'(.*)\'$/i', $value, $m)) { return $m[1]; }
+        */
         return $value;
     }
 
@@ -275,7 +272,7 @@ class Clansuite_Config implements ArrayAccess
      */
     private static function _getKey($key)
     {
-        if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
+        #if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
         return $key;
     }
 
