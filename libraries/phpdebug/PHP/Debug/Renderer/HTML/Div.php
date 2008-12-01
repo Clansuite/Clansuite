@@ -13,7 +13,7 @@
  * @version CVS: $Id: Div.php,v 1.2 2008/08/31 19:24:17 c0il Exp $
  */
 
-require 'DivConfig.php';
+require_once 'PHP/Debug/Renderer/HTML/DivConfig.php';
 
 
 /**

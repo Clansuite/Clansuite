@@ -66,13 +66,37 @@ class php_debug_console implements Filter_Interface
              */
             if(DEBUG)
             {
-                # Load Library
-                require ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php';
+                # Additional ini path for PHPDEBUG
+                define('ADD_PHPDEBUG_ROOT', ROOT_LIBRARIES . 'phpdebug' );
+                set_include_path(ADD_PHPDEBUG_ROOT . PATH_SEPARATOR. get_include_path());
 
-                # Setup Options
-                $options = array('HTML_DIV_images_path' =>  '/libraries/phpdebug/images',
-                                 'HTML_DIV_css_path'    => '/libraries/phpdebug/css',
-                                 'HTML_DIV_js_path'     => '/libraries/phpdebug/js');
+                # Load Library
+                require_once ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php';
+
+                # Setup Options for the PHPDebug Object
+                $options = array(
+                        # General Options
+                        'render_type'          => 'HTML',    // Renderer type
+                        'render_mode'          => 'Div',     // Renderer mode
+                        'restrict_access'      => false,     // Restrict access of debug
+                        'allow_url_access'     => true,      // Allow url access
+                        'url_key'              => 'key',     // Url key
+                        'url_pass'             => 'nounou',  // Url pass
+                        'enable_watch'         => true,     // Enable wath of vars
+                        'replace_errorhandler' => true,      // Replace the php error handler
+                        'lang'                 => 'EN',      // Lang
+
+                        # Renderer specific
+                        'HTML_DIV_view_source_script_name' => '/libraries/phpdebug/PHP_Debug_ShowSource.php',
+                        'HTML_DIV_images_path' => '/libraries/phpdebug/images',
+                        'HTML_DIV_css_path' => '/libraries/phpdebug/css',
+                        'HTML_DIV_js_path' => '/libraries/phpdebug/js',
+                        'HTML_DIV_remove_templates_pattern' => true,
+                        'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
+                );
+
+                # Guess what? => developers from localhost only :)
+                $allowedip = array('127.0.0.1');
 
                 # Initialiaze Object
                 $debug = new PHP_Debug($options);
