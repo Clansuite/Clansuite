@@ -98,6 +98,7 @@ foreach($postfilter_classes as $class) { $injector->register($class); } # regist
 
 # Connect DB, that is needed for session & user rights management
 $injector->instantiate('clansuite_doctrine');
+$injector->instantiate('errorhandler');
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
