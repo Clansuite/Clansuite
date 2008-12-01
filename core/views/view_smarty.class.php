@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -22,10 +22,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -44,8 +44,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * {@link http://smarty.php.net/ smarty.php.net}
  * {@link http://smarty.incutio.com/ smarty wiki}
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @package     clansuite
  * @category    view
@@ -96,19 +96,32 @@ class view_smarty extends renderer_base
        */
        if (!class_exists('Smarty')) // prevent redeclaration
        {
-          if (is_file(ROOT_LIBRARIES . '/smarty/Smarty.class.php')) // check if library exists
+          # developer switch to enable Render_SmartyDoc
+          $use_RenderSmartyDOC = true;
+
+          if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
           {
-              require(ROOT_LIBRARIES . '/smarty/Smarty.class.php');
-              #$this->smarty = new Smarty();
-              require(ROOT_LIBRARIES . '/smarty/Render_SmartyDoc.class.php');
-              #require(ROOT_LIBRARIES . '/smarty/SmartyDoc2.class.php');
-              # Set view and smarty to the smarty object
-              $this->view = $this->smarty = new Render_SmartyDoc();
+              require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
+              $this->smarty = new Smarty();
           }
           else // throw error in case smarty library is missing
           {
               die('Smarty Template Library missing!');
           }
+
+          if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
+          {
+              require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
+              #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
+              # Set view and smarty to the smarty object
+              $this->smarty = new Render_SmartyDoc();
+              $this->view = $this->smarty;
+          }
+          else // throw error in case Smarty RenderDoc Library is missing
+          {
+              die('Smarty RenderDoc Library missing!');
+          }
+
        }
        else // throw error in case smarty was already loaded
        {
@@ -131,7 +144,7 @@ class view_smarty extends renderer_base
         #### SMARTY DEBUGGING
         $this->smarty->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
         $this->smarty->debug_tpl           = ROOT_THEMES . 'core/debug.tpl';   # set debugging template for smarty
-        if ( $this->smarty->debugging == 1 )
+        if ( $this->smarty->debugging == true )
         {
            $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
         }
@@ -202,36 +215,29 @@ class view_smarty extends renderer_base
          * 3) "/modules/"
          * 4) "/modules/modulename/templates/"
          * 5) "/themes/core/"
+         * 6) "/themes/admin/"
          */
         $this->smarty->template_dir   = array();
         $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
-        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;                                           # /themes/user-session_theme
+        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         $this->smarty->template_dir[] = ROOT_MOD;
-        $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;    # /modules
-        $this->smarty->template_dir[] = ROOT_THEMES . 'core' .DS;                                                                      # /themes/core
+        $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
+        $this->smarty->template_dir[] = ROOT_THEMES . 'core' .DS;
+        $this->smarty->template_dir[] = ROOT_THEMES . 'admin' .DS;
+        $this->smarty->template_dir[] = ROOT_THEMES . DS;
+
         #var_dump($this->smarty->template_dir);
 
-        $this->smarty->compile_dir    = ROOT_LIBRARIES .'smarty/templates_c/';         # directory for compiled files
-        $this->smarty->config_dir     = ROOT_LIBRARIES .'smarty/configs/';             # directory for config files (example.conf)
-        $this->smarty->cache_dir      = ROOT_LIBRARIES .'smarty/cache/';               # directory for cached files
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';   # directory for clansuite smarty plugins
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';             # direcotry for original smarty plugins
+        $this->smarty->compile_dir    = ROOT .'cache/templates_c/';                   # directory for compiled files
+        $this->smarty->config_dir     = ROOT_LIBRARIES .'smarty/configs/';            # directory for config files (example.conf)
+        $this->smarty->cache_dir      = ROOT .'cache/';                               # directory for cached files
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';            # directory for clansuite smarty plugins
+        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';            # direcotry for original smarty plugins
 
         # Modifiers
         #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # @todo check functionality
         #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
-
-        ## Smarty Template Handler Functions
-
-
-        # Additional Resource Handler: to fetch TPLs in "modules/templates" too
-        require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
-        $this->smarty->default_template_handler_func = 'smarty_fetch_module_templates';
-
-        # Additional Resource Handler: to autogenerate "not found" templates
-        #require_once $this->smarty->_get_plugin_filepath('resource', 'fetch_module_templates');
-        #$this->smarty->default_template_handler_func = 'make_template';
      }
 
     /**
@@ -336,17 +342,17 @@ class view_smarty extends renderer_base
      */
     public function display($template, $data = null)
     {
-       $template = $this->getTemplatePath($template);
+        $template = $this->getTemplatePath($template);
 
-       #echo 'Template in view_smarty->display() : '.$template . '<br>';
+        #echo 'Template in view_smarty->display() : '.$template . '<br>';
 
-       $this->smarty->display($template, $data = null);
+        $this->smarty->display($template, $data = null);
     }
 
     public function getSmartyConstants()
     {
         # Assign DB Counters
-        $template_constants['db_counter']= '00';
+        $template_constants['db_counter']= '0';
         #$this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter;
 
         /**
@@ -354,7 +360,8 @@ class view_smarty extends renderer_base
          * Keep in mind ! that we spend a lot of time and ideas on this project.
          * Do not remove this! Please give something back to the community.
          */
-        $template_constants['copyright'] = $this->smarty->fetch(ROOT_THEMES . 'core/copyright.tpl');
+
+        $template_constants['copyright'] = $this->fetch(ROOT_THEMES . 'core\copyright.tpl');
 
         return $template_constants;
     }
@@ -372,7 +379,7 @@ class view_smarty extends renderer_base
 
         # fetch the specific smarty constants from view_smarty->getSmartyConstants()
         $this->smarty->assign($this->getSmartyConstants());
-        ##var_dump($this->getSmartyConstants());
+        #var_dump($this->getSmartyConstants());
 
         # leave this for debugging purposes
         #var_dump($this->smarty);
@@ -492,6 +499,12 @@ class view_smarty extends renderer_base
             clansuite_loader::loadModul($module_name);
         }
 
+        # Check if class was loaded
+        if (!class_exists(ucfirst($module_name)))
+        {
+            return '<br/>Module missing or misspelled: <strong>'. $module_name.'</strong>';
+        }
+
         # Parameter Array
 
         if( empty($params['params']) )
@@ -561,6 +574,9 @@ class view_smarty extends renderer_base
      */
     public function render($template)
     {
+        # Debug Display
+        #echo 'Smarty was asked to render template: '.$template;
+
         # Assign Constants
         $this->assignConstants();
 
@@ -588,11 +604,11 @@ class view_smarty extends renderer_base
         $modulecontent =  $this->fetch($template);
 
         # check for existing errors and prepend them
-        if( errorhandler::hasErrors() == true )
-        {
-            $modulecontent = errorhandler::toString() . $modulecontent;
+        #if( errorhandler::hasErrors() == true )
+        #{
+            #$modulecontent = errorhandler::toString() . $modulecontent;
             #$modulecontent = errorhandler::getErrorStack.$modulecontent;
-        }
+        #}
 
         /**
          * Decide on given set RenderMode, if modulecontent should be rendered WRAPPED or STANDALONE
@@ -611,7 +627,14 @@ class view_smarty extends renderer_base
                 $this->smarty->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                return $this->smarty->fetchDOC($this->getLayoutTemplate());
+                if($this->smarty instanceof Render_SmartyDoc)
+                {
+                    return $this->smarty->fetchDOC($this->getLayoutTemplate());
+                }
+                elseif($this->smarty instanceof Smarty)
+                {
+                    return $this->smarty->fetch($this->getLayoutTemplate());
+                }
             }
             else # {$content} is missing, give error.
             {
@@ -634,6 +657,8 @@ class view_smarty extends renderer_base
             {
                 return ( false != strpos(file_get_contents($file), '{$content}') );
             }
+            #var_dump($file);
+            #exit;
         }
     }
 }
