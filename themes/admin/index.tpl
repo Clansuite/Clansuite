@@ -1,7 +1,6 @@
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
-
+<base href="{$meta.domain}" />
 {* everything in doc_raw is moved "as is" to header *}
-
 {doc_raw}
 
     {* jQuery *}
@@ -9,17 +8,11 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 
     {* Mootools *}
-    <script src='{$www_root_themes_core}/javascript/mootools/mootools.js' type='text/javascript'></script>
-    <script src='{$www_root_themes_core}/javascript/mootools/mootools-more.js' type='text/javascript'></script>
+    <script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}/javascript/mootools/mootools-more.js" type="text/javascript"></script>
 
     {* Clip *}
-    <script src='{$www_root_themes_core}/javascript/clip.js' type='text/javascript'></script>
-
-{literal}
-    <script>
-        typeof($chk)=="function"
-    </script>
-{/literal}
+    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -31,10 +24,8 @@
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/icons/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/admin.css" />
-
-
+    <link rel="shortcut icon" href="{$www_root_theme}/admin/images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
 
     {if isset($additional_head)}{$additional_head}{/if}
     {if isset($redirect)}{$redirect}{/if}
@@ -50,8 +41,10 @@
     <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
-{include file="menu/adminmenu.tpl"}
-<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
+
+{include file="menu/templates/adminmenu.tpl"}
+
+<table class="adminForm" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
     <thead>
         <tr>
             <td class="admin_header">
@@ -93,7 +86,7 @@
                 </div>
                 <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
                     <div id="help" class="admin_help" style="float: right; z-index: 99;">
-                          <p><bTest</b>&nbsp;Lorem Ipsum</p>
+                          <p><strong>Help-Topics</strong>&nbsp;Lorem Ipsum</p>
                     </div>
                 </div>
             </td>

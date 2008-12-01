@@ -1,9 +1,9 @@
 body
 {
-	margin: 0;
+    margin: 0;
     padding: 2em;
     background: #E4E0C7;
-    /* background: url(../images/bgr.png); */
+    /* background: url(images/bgr.png); */
     font: 11px tahoma, verdana, arial, sans-serif;
 }
 
@@ -80,15 +80,15 @@ a:hover
 .ButtonGrey,
 .ButtonOrange
 {
-	background-color: #FFFFFF;
-	border: 1px solid #999999;
-	border-top-color: #CCCCCC;
-	border-left-color: #CCCCCC;
-	color: #333333;
-	font-size: 9px;
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    border-top-color: #CCCCCC;
+    border-left-color: #CCCCCC;
+    color: #333333;
+    font-size: 9px;
     font-family: tahoma, sans-serif;
     font-weight: bold;
-	padding: .25em;
+    padding: .25em;
     margin: 3px;
     white-space: nowrap;
 }
@@ -96,27 +96,27 @@ a:hover
 .Button,
 .ButtonGrey
 {
-	background: url(../images/background_form_element_grey.gif) repeat-x;
+    background: url(images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-	background: url(../images/background_form_element_yellow.gif) repeat-x;
+    background: url(images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-	background: url(../images/background_form_element_orange.gif) repeat-x;
+    background: url(images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-	background: url(../images/background_form_element_red.gif) repeat-x;
+    background: url(images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-	background: url(../images/background_form_element_green.gif) repeat-x;
+    background: url(images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -126,9 +126,9 @@ a:hover
 .ButtonGrey:active,
 .ButtonOrange:active
 {
-	border: 1px solid #CCCCCC;
-	border-top-color: #999999;
-	border-left-color: #999999;
+    border: 1px solid #CCCCCC;
+    border-top-color: #999999;
+    border-left-color: #999999;
 }
 
 
@@ -160,22 +160,22 @@ a:hover
 .redirect_message
 {
     background-color: #e3e3e3;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
 }
 
 #redirect_heading
 {
     position:absolute;
-	top: 50%;
-	left: 50%;
-	width: 30em;
-	margin-top: -9em; /*set to a negative number 1/2 of your height*/
-	margin-left: -15em; /*set to a negative number 1/2 of your width*/
-	background-color: #ccc;
-	border: 1px solid #000;
-	text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 30em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    background-color: #ccc;
+    border: 1px solid #000;
+    text-align: center;
 }
 
 .font_mini
@@ -193,8 +193,8 @@ form input,
 form textarea,
 form select
 {
-	width: auto;      /* auto-size, otherwise watch for wrap on resize */
-	margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
+    width: auto;      /* auto-size, otherwise watch for wrap on resize */
+    margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
                               label aligns textarea better in IE */
     padding-left: 3px;
 }
@@ -238,7 +238,7 @@ img {
 
 table td
 {
-    vertical-align: top;
+
 }
 
 p
@@ -346,7 +346,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-	background: url(../images/td_header.gif) repeat-x;
+    background: url(images/td_header.gif) repeat-x;
 }
 
 .tr_header td,
@@ -359,7 +359,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-	background: url(../images/td_header.gif) repeat-x;
+    background: url(images/td_header.gif) repeat-x;
 }
 
 .tr_header_small td
@@ -376,14 +376,14 @@ table.admintable tr#cell3
 
 .td_header_small
 {
-    background: #D5CCBB;
+    background: gainsboro;
     border: 1px solid;
-    border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    padding: 2px;
-    padding-left: 5px;
+    border-color: #ffffff gray gray #ffffff;
+    padding: 5px;
     cursor: default;
     font-size: 12px;
     font-weight: bold;
+    heigth: 20px;
 }
 
 .left_menu
@@ -410,15 +410,9 @@ table.admintable tr#cell3
 }
 
 .header span
-{
-    /* move Date inside Header to right-side */
-    padding-left: 550px;
-}
-
-.adminmenu-rightside
-{
-    /* move User, Frontpage, Logout inside adminmenu to right-side */
-    margin-left: 230px;
+{   /* move Date inside Header to right-side */
+    position: absolute;
+    right: 38px;
 }
 
 .menugradient
@@ -430,7 +424,7 @@ table.admintable tr#cell3
     /* overflow: auto; Aufgrund des Floatens der Innencontainer */
     padding-top:    1px;
     padding-bottom: 1px;
-
+    padding-left:   8px;
 }
 
 .bar
@@ -476,24 +470,24 @@ table.admintable tr#cell3
 */
 .Bold
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .Title
 {
-	font-weight: bold;
-	font-size: 18px;
-	color: #cc3300;
+    font-weight: bold;
+    font-size: 18px;
+    color: #cc3300;
 }
 
 .Code
 {
-	border: #8b4513 1px solid;
-	padding-right: 5px;
-	padding-left: 5px;
-	color: #000066;
-	font-family: 'Courier New' , Monospace;
-	background-color: #ff9933;
+    border: #8b4513 1px solid;
+    padding-right: 5px;
+    padding-left: 5px;
+    color: #000066;
+    font-family: 'Courier New' , Monospace;
+    background-color: #ff9933;
 }
 
 /**
@@ -505,42 +499,67 @@ table.admintable tr#cell3
 }
 
 /**
+ * This is the "HELP" element; on the right side; in the admin header
+ */
+#help-toggler
+{
+    padding-right: 10px;
+}
+
+/**
 * @desc Admin Header,Content,Helptext
 */
 .admin_header
 {
-    font-family: georgia, tahoma, verdana;
-    background: #D5CCBB;
-    border: 1px solid;
+    background: url(images/thback.gif) repeat-x scroll 0 0;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    padding: 8px;
-    cursor: default;
+    border-width: 1px;
+    border-style: solid;
     color: #333333;
-    font-size: 16px;
+    cursor: default;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 13px;
     font-weight: bold;
-	background: url(../images/admin_header.gif) repeat-x;
+    padding: 4px;
 }
 
 .admin_header_help
 {
-	width: 350px;
+    cursor: pointer;
     padding: 8px;
-    background: #D5CCBB url(../images/admin_header_help.gif) repeat-x;
+    background: #D5CCBB url(images/admin_header_help.gif) repeat-x;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	font: bold 16px georgia, tahoma, verdana;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
     color: #333333;
-	cursor: default;
+    cursor: default;
 }
 
+.adminmenu-rightside
+{
+    margin-left: 265px;
+    padding-right: 5px;
+}
+
+.adminmenu-rightside-td
+{
+    vertical-align: top;
+    text-align: right;
+}
+/**
+ * this is the box which fades in after you clicked HELP in the admin header
+ */
 .admin_help
 {
-	width: 350px;
-	padding: 8px;
-	background: #DDF3F7;
+    width: 350px;
+    padding: 8px;
+    background: #DDF3F7;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     cursor: default;
+    z-index: auto;
 }
 
 .admin_content
@@ -563,19 +582,19 @@ table.admintable tr#cell3
 
 #notification {
     display: block;
-	position: fixed;
-	width: 100%;
-	margin: 0px;
-	left: 0px;
-	bottom: 0px;
-	/* top: 0px; */
-	height: 20px;
-	background-color: #FFFF99;
-	text-align: center;
-	font-weight: bold;
-	font-size: 1.3em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	padding-top: 5px;
+    position: fixed;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    bottom: 0px;
+    /* top: 0px; */
+    height: 20px;
+    background-color: #FFFF99;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding-top: 5px;
 }
 
 .admin .user_settings
@@ -588,46 +607,6 @@ table.admintable tr#cell3
 .admin .user_settings table tr
 {
     padding: 3px;
-}
-
-/* Vertical Tabs */
-#vertical-tabs
-{
-	width: 75%;
-	margin: auto;
-	padding: 0px;
-	border-color:rgb(172, 168, 153) rgb(255, 255, 255) #FFFFFF rgb(172, 168, 153) ;
-    border-style:solid;
-    border-width:1px;
-}
-
-#vertical-tabs ul
-{
-	margin-top: 20px;
-	list-style: none;
-    float:left;
-	display: inline;
-}
-
-#vertical-tabs li
-{
-    background:#ECE9D8 none repeat scroll 0%;
-    border-color:#FFFFFF rgb(172, 168, 153) rgb(172, 168, 153) rgb(255, 255, 255);
-    border-style:double;
-    width: 110px;
-	margin-top: 15px;
-	padding: 5px;
-    text-align: center;
-}
-
-#vertical-tabs li.ui-tabs-selected a
-{
-	color: #000;
-}
-
-#vertical-tabs .ui-tabs-hide
-{
-    display: none;
 }
 
 .tooltip

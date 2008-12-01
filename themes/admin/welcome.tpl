@@ -5,11 +5,15 @@
     <br />
     {t}This is the Control Center (CC) of Clansuite.{/t}
     </h3>
-
-    {if isset($updater.enabled)}
+    
+    
+    {include file="admin/shortcuts.tpl"}
+    
+    
+    {$updater|@var_dump}
+    
+    {if isset($updater.enabled) && $updater.enabled == true}
         {include file="admin/updater/updater.tpl"}
     {/if}
-
-    {include file="admin/shortcuts.tpl"}
 
 </div>
