@@ -88,7 +88,7 @@ date_default_timezone_set('Europe/Berlin');
             <br />
             SVN: $Rev$ $Author$
             <br />
-            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-Andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
         </p>
     </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->
