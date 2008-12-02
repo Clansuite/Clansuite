@@ -4,8 +4,6 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
-    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -25,80 +23,66 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005-2008)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: cache.class.php 1813 2008-03-21 22:46:21Z vain $
+    * @version    SVN: $Id: view_factory.class.php 2584 2008-11-21 22:39:52Z vain $
     */
 
 // Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Interface for all Cachehandler Classes to implement
+ * View Factory
  *
- * @package clansuite
- * @subpackage session
- * @category interfaces
- */
-interface Clansuite_Cache_Interface
-{
-    function fetch($key);
-    function store($key, $data, $cache_lifetime);
-    function delete($key);
-    function stats();
-}
-
-/**
- * Cache Factory
- *
- * The static method getCache() returns the included and instantiated
- * Cache Engine Object!
+ * The static method getRenderer() returns the included and instantiated
+ * Rendering Engine Object - which is the View in MVC!
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @package     clansuite
- * @category    Cache
- * @subpackage  Cache
+ * @category    factory
+ * @subpackage  view
  */
-class cache_factory
+class view_factory
 {
     /**
-     * getCache
+     * getRenderer
      *
-     * @param $cache_type String (A Cache Engine Name like "apc", "xcache", "memcache" or "file")
+     * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
      * @param $injector Dependency Injector Phemto
      * @static
      * @access public
-     * @return Cache Engine Object
+     * @return Renderer Object
      */
-    public static function getCache($cache_type, Phemto $injector)
+    public static function getRenderer($view_type, Phemto $injector)
     {
         try
         {
-			$file = ROOT_CORE .'/cache/cache_'. strtolower($cache_type) .'.class.php';
+			$file = ROOT_CORE .'/views/'. strtolower($view_type) .'.view.php';
         	if (is_file($file) != 0)
 			{
 				require_once($file);
-	            $class = 'Clansuite_Cache_'. $cache_type;
+	            $class = 'view_'. $view_type;
 	            if (class_exists($class))
 	            {
 	                # instantiate and return the renderer and pass $injector into
-	                $Cache = new $class($injector);
-	                # var_dump($Cache);
-	                return $Cache;
+	                $view = new $class($injector);
+	                # var_dump($view);
+	                return $view;
 	            }
 	            else
 	            {
-	            	 throw new CacheFactoryClassNotFoundException($class);
+	            	 throw new ViewFactoryClassNotFoundException($class);
 	            }
 	        }
 			else
 			{
-				throw new CacheFactoryFileNotFoundException($file);
+				throw new ViewFactoryFileNotFoundException($file);
 	        }
 	    }
 		catch(Exception $e) {}
@@ -106,35 +90,35 @@ class cache_factory
 }
 
 /**
- * Clansuit Exception - CacheFactoryClassNotFoundException
+ * Clansuit Exception - ViewFactoryClassNotFoundException
  *
  * @package clansuite
  * @category    core
  * @subpackage exceptions
  */
-class CacheFactoryClassNotFoundException extends Exception
+class ViewFactoryClassNotFoundException extends Exception
 {
 	function __construct($class)
 	{
 		parent::__construct();
-	  	echo 'Cache_Factory -> Class not found: ' . $class;
+	  	echo 'View_Factory -> Class not found: ' . $class;
 	  	die();
 	}
 }
 
 /**
- * Clansuit Exception - CacheFactoryFileNotFoundException
+ * Clansuit Exception - ViewFactoryFileNotFoundException
  *
  * @package clansuite
  * @category    core
  * @subpackage exceptions
  */
-class CacheFactoryFileNotFoundException extends Exception
+class ViewFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
 	{
 		parent::__construct();
-		echo 'Cache_Factory -> File not found: ' . $file;
+		echo 'View_Factory -> File not found: ' . $file;
 		die();
 	}
 }
