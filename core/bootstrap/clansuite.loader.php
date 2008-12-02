@@ -79,6 +79,7 @@ class Clansuite_Loader
         spl_autoload_register(array (__CLASS__,'loadCoreClass'));
         #spl_autoload_register(array (__CLASS__,'loadClass'));
         spl_autoload_register(array (__CLASS__,'loadFilter'));
+        spl_autoload_register(array (__CLASS__,'loadFactory'));
     }
 
     /**
@@ -248,6 +249,27 @@ class Clansuite_Loader
     {
         $filename = ROOT . 'core/filters/' . strtolower($classname) . '.filter.php';
         #echo '<br>loaded Filter-Class => '. $filename;
+        return self::requireFile($filename);
+    }
+
+    /**
+     * loadFactories
+     * requires: clansuite/core/factories/classname.filter.php
+     * require if found
+     *
+     * @param string $classname The name of the factories class
+     * @static
+     * @access public
+     *
+     * @return boolean
+     */
+    public static function loadFactory($classname)
+    {
+        # replace the classname "view_factory" with "view.factory" for the correct filename
+        $classname = str_replace('_','.',$classname);
+
+        $filename = ROOT . 'core/factories/' . strtolower($classname) . '.php';
+        #echo '<br>loaded Factory-Class => '. $filename;
         return self::requireFile($filename);
     }
 
