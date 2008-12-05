@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 interface Clansuite_Module_Interface
 {
     # always needed is the main execute() method
-    function execute(httprequest $request, httpresponse $response);
+    function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
 }
 
 /**
@@ -64,7 +64,7 @@ interface Clansuite_Module_Interface
  * 3. provide access to create_global_view
  *
  */
-abstract class ModuleController extends Clansuite_ModuleController_Resolver
+abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Resolver
 {
     /**
      * Variable $output contains the output (view-data) of the module
@@ -159,9 +159,9 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     {
         # try a lookup of the value by keyname
 
-        if(false != functions::array_find_element_by_key($value,$this->moduleconfig))
+        if(false != Clansuite_Functions::array_find_element_by_key($value,$this->moduleconfig))
         {
-            return functions::array_find_element_by_key($value,$this->moduleconfig);
+            return Clansuite_Functions::array_find_element_by_key($value,$this->moduleconfig);
         }
         else
         {
@@ -562,7 +562,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
     public function prepareOutput()
     {
         # 1) get the Response Object
-        $response = $this->injector->instantiate('httpresponse');
+        $response = $this->injector->instantiate('Clansuite_HttpResponse');
 
         # 2) get the view
         $view = $this->getView();
@@ -634,7 +634,7 @@ abstract class ModuleController extends Clansuite_ModuleController_Resolver
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
-        $this->injector->instantiate('httpresponse')->redirect($url, $time, $statusCode, $text);
+        $this->injector->instantiate('Clansuite_HttpResponse $response')->redirect($url, $time, $statusCode, $text);
     }
 }
 ?>

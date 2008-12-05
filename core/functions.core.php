@@ -4,9 +4,7 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * Template Handler Class
-    *
-    * PHP versions 5.1.4
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -19,20 +17,23 @@
     *    but WITHOUT ANY WARRANTY; without even the implied warranty of
     *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     *    GNU General Public License for more details.
+    *
     *    You should have received a copy of the GNU General Public License
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  2006 Clansuite Group
-    * @license    see COPYING.txt
-    * @version    SVN: $Id$
+    * @copyright  Jens-André Koch (2005 - onwards)
+    *
+    * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -41,6 +42,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:      Core
  * Submodule:   Common Functions
  *
+ * @author      Florian Wolf <xsign.dll@clansuite.com>
+ * @copyright   Florian Wolf, (2005 - 2007)
  * @author      Jens-André Koch  <vain@clansuite.com>
  * @copyright   Jens-André Koch, (2005 - onwards)
  *
@@ -48,7 +51,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @category    core
  * @subpackage  functions
  */
-class functions
+class Clansuite_Functions
 {
     /**
      * Converts an Object to an Array
@@ -76,14 +79,36 @@ class functions
 	    }
         return $array;
     }
-    
+
+    static public function str_replace_count($search,$replace,$subject,$times)
+    {
+        $subject_original=$subject;
+        $len=strlen($search);    
+        $pos=0;
+        for ($i=1;$i<=$times;$i++) {
+        $pos=strpos($subject,$search,$pos);
+        if($pos!==false)
+        {                
+            $subject=substr($subject_original,0,$pos);
+            $subject.=$replace;
+            $subject.=substr($subject_original,$pos+$len);
+            $subject_original=$subject;
+        } 
+        else
+        {
+            break;
+        }
+        }
+        return($subject);
+    }
+
    /**
      * Takes a needle and multi-dimensional haystack array and does a search on it's values.
      *
      * @param    string        $string        Needle to find
      * @param    array        $array        Haystack to look through
      * @result    array                    Returns the elements that the $string was found in
-     * 
+     *
      * array_values_recursive
      */
     static function array_find_element_by_key($key, $array)
@@ -93,19 +118,19 @@ class functions
             $result= $array[$key];
             return $result;
         }
-        
+
         foreach ($array as $k => $v)
         {
             if (is_array($v))
             {
                 $result = self::array_find_element_by_key($key, $array[$k]);
-                
+
                 if ($result)
                 {
                     return $result;
                 }
             }
-        }        
+        }
         return false;
     }
 
@@ -199,7 +224,7 @@ class functions
 
     /**
      * format_seconds_to_shortstring
-     * 
+     *
      * Ouput: 4D 10:12:20
      */
     public static function format_seconds_to_shortstring($seconds = 0)
@@ -211,7 +236,7 @@ class functions
       else
       {
         return "00:00:00";
-      }      
+      }
       return $time;
     }
 

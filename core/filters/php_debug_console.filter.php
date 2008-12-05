@@ -53,7 +53,7 @@ class php_debug_console implements Filter_Interface
        $this->config    = $config;
     }
 
-    public function executeFilter(httprequest $request, httpresponse $response)
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)

@@ -70,8 +70,11 @@ class Clansuite_DoorKeeper
         // prevent redeclaration
         if (!class_exists('IDS_Monitor') )
         {
+            # Additional ini path for PHPDEBUG
+            set_include_path(ROOT_LIBRARIES . PATH_SEPARATOR. get_include_path());
+
             # load ids init
-            require_once ROOT_LIBRARIES . 'IDS/Init.php';
+            require ROOT_LIBRARIES . 'IDS/Init.php';
 
             # Setup the $_GLOBALS to monitor
 

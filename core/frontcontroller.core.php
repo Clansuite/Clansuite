@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *//*
 interface Clansuite_ActionControllerResolver_Interface
 {
-    public function getActionController(httprequest $request);
+    public function getActionController(Clansuite_HttpRequest $request);
 }
 
 class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerResolver_Interface
@@ -61,7 +61,7 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
         $this->defaultAction    = (string) strtolower($defaultAction);   # set defaultAction
     }
 
-    public function getActionController(httprequest $request)
+    public function getActionController(Clansuite_HttpRequest $request)
     {
         # Check if action is set and exists as module_class->action
         # if positive, set the action as ModuleAction, else set the standard action
@@ -110,7 +110,7 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
  */
 interface Clansuite_ModuleController_Resolver_Interface
 {
-    public function getModuleController(httprequest $request);
+    public function getModuleController(Clansuite_HttpRequest $request);
 }
 
 /**
@@ -145,7 +145,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      * @return object controller (module)
      * deprecated v0.1 -> load modul -> instantiate modul -> modul::auto_run();
      */
-    public function getModuleController(httprequest $request)
+    public function getModuleController(Clansuite_HttpRequest $request)
     {
         $required_modulename = '';
 
@@ -324,7 +324,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
  */
 interface Clansuite_FrontController_Interface
 {
-    public function processRequest(httprequest $request, httpresponse $response);
+    public function processRequest(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
     public function addPreFilter(Filter_Interface $filter);
     public function addPostFilter(Filter_Interface $filter);
 }
@@ -371,8 +371,8 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
     {
            $this->resolver = $resolver;
            $this->injector = $injector;
-           $this->pre_filtermanager  = new filtermanager();
-           $this->post_filtermanager = new filtermanager();
+           $this->pre_filtermanager  = new Clansuite_Filtermanager();
+           $this->post_filtermanager = new Clansuite_Filtermanager();
     }
 
     /**
@@ -412,7 +412,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * 8. flush response
      *
      */
-    public function processRequest(httprequest $request, httpresponse $response)
+    public function processRequest(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # 1)
         $moduleController = $this->resolver->getModuleController($request);

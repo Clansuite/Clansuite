@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 interface Filter_Interface
 {
-    public function executeFilter(httprequest $request, httpresponse $response);
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
 }
 
 /**
@@ -59,7 +59,7 @@ interface Filter_Interface
  * @subpackage core
  * @category filters
  */
-class FilterManager
+class Clansuite_FilterManager
 {
     private $filters = array();
 
@@ -82,7 +82,7 @@ class FilterManager
      * @param response object
      * @access public
      */
-    public function processFilters(httprequest $request, httpresponse $response)
+    public function processFilters(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         foreach ($this->filters as $filter)
         {

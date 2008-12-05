@@ -24,9 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -115,8 +114,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # Setup References
 
         $this->config       = $injector->instantiate('Clansuite_Config');
-        $this->request      = $injector->instantiate('httprequest');
-        $this->response     = $injector->instantiate('httpresponse');
+        $this->request      = $injector->instantiate('Clansuite_HttpRequest');
+        $this->response     = $injector->instantiate('Clansuite_HttpResponse');
 
         /**
          * Configure Session
@@ -148,7 +147,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_gc"     ));
 
 
-        
+
 
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
         if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
@@ -163,8 +162,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $token = md5(uniqid(rand(), true)); # session token
             $_SESSION['token'] = $token;
             $_SESSION['token_time'] = time();
-
-
         }
 
         # Start Session
@@ -187,7 +184,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         register_shutdown_function(array($this,'session_close'));
     }
-    
+
     /**
      * Start Session and throw Error on failure
      */
@@ -205,7 +202,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
             # START THE SESSION
             session_start();
-            
+
             # Reset the expiration time upon page load
             if (isset($_COOKIE[$ses]))
             {

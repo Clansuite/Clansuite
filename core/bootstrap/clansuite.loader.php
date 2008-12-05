@@ -103,6 +103,20 @@ class Clansuite_Loader
     }
 
     /**
+     * str_replace method to presents the incomming classname
+     * as a proper filename
+     */
+    private static function prepareClassnameAsFilename($classname)
+    {
+        # replace "Clansuite_View_Factory" for the correct filename
+        $classname = str_replace('Clansuite_','',$classname);
+        # replace the classname "view_factory" with "view.factory" for the correct filename
+        $classname = str_replace('_','.',$classname);
+       
+        return $classname;
+    }
+
+    /**
      * Load a Class with name and dir
      * Extensions .class.php
      *
@@ -113,7 +127,7 @@ class Clansuite_Loader
      *
      * @return boolean
      */
-    public static function loadClass($classname, $directory = NULL)
+    public static function loadClass($classname, $directory = null)
     {
         $filename = ROOT . $directory . strtolower($classname) . '.class.php';
         #echo '<br>loaded Class => '. $filename;
@@ -131,10 +145,10 @@ class Clansuite_Loader
      *
      * @return boolean
      */
-    public static function loadLibrary($classname, $directory = NULL)
+    public static function loadLibrary($classname, $directory = null)
     {
         $filename = ROOT_LIBRARIES;
-        if ( $directory != NULL )
+        if ( $directory != null )
         {
             $filename .= $directory . DS;
         }
@@ -156,7 +170,9 @@ class Clansuite_Loader
      */
     public static function loadCoreClass($classname)
     {
-        $filename = ROOT_CORE . strtolower($classname) . '.class.php';
+        $classname = self::prepareClassnameAsFilename($classname);
+
+        $filename = ROOT_CORE . strtolower($classname) . '.core.php'; #@todo rename files from .class.php to .core.php  + commit
         #echo '<br>loaded Core-Class => '. $filename;
         return self::requireFile($filename);
     }
@@ -265,8 +281,7 @@ class Clansuite_Loader
      */
     public static function loadFactory($classname)
     {
-        # replace the classname "view_factory" with "view.factory" for the correct filename
-        $classname = str_replace('_','.',$classname);
+        $classname = self::prepareClassnameAsFilename($classname);
 
         $filename = ROOT . 'core/factories/' . strtolower($classname) . '.php';
         #echo '<br>loaded Factory-Class => '. $filename;

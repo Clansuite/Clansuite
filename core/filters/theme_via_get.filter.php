@@ -52,13 +52,13 @@ class theme_via_get implements Filter_Interface
     private $config     = null;
     private $input      = null;
 
-    function __construct(Clansuite_Config $config, input $input)
+    function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
        $this->config    = $config;
        $this->input     = $input;
     }
 
-    public function executeFilter(httprequest $request, httpresponse $response)
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)

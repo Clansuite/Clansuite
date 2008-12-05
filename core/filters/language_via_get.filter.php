@@ -67,7 +67,7 @@ class language_via_get implements Filter_Interface
        $this->config    = $config;      # set instance of config to class
     }
 
-    public function executeFilter(httprequest $request, httpresponse $response)
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         /**
          * take the initiative of filtering, if language switching is enabled in CONFIG

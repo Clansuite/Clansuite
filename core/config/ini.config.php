@@ -63,7 +63,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
  * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
  */
-class Clansuite_Config implements ArrayAccess
+
+class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
      /**
      * Configuration Array
@@ -80,7 +81,26 @@ class Clansuite_Config implements ArrayAccess
      */
     public function __construct($filename = 'configuration/clansuite.config.php')
     {
-        $this->config = self::readConfig( $filename);
+        $this->config = self::readConfig($filename);
+    }
+
+    /**
+     * Clansuite_Config_INIHandler is a Singleton
+     *
+     * @param object $filename Filename
+     *
+     * @return instance of Config_INIHandler class
+     */
+    public static function getInstance($filename)
+    {
+    	static $instance;
+
+        if ( ! isset($instance))
+        {
+            $instance = new Clansuite_Config_INIHandler($filename);
+        }
+
+        return $instance;
     }
 
     /**
@@ -275,7 +295,10 @@ class Clansuite_Config implements ArrayAccess
         #if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
         return $key;
     }
+}
 
+abstract class Clansuite_Config_Base
+{    
     /**
      * Returns $this->config Object as Array
      *
