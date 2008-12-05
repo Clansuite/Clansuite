@@ -52,7 +52,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  view_smarty
  */
 
-class view_smarty extends renderer_base
+class view_smarty extends Clansuite_Renderer_Base
 {
     /**
 	 * holds instance of Smarty Template Engine (object)
@@ -373,7 +373,7 @@ class view_smarty extends renderer_base
      */
     protected function assignConstants()
     {
-        # fetch the general clansuite constants from renderer_base->getConstants()
+        # fetch the general clansuite constants from Clansuite_Renderer_Base->getConstants()
         $this->smarty->assign($this->getConstants());
         #var_dump($this->getConstants());
 

@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  view_php
  */
 
-class view_serialized extends renderer_base
+class view_serialized extends Clansuite_Renderer_Base
 {
     public function __construct()
     {
