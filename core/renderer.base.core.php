@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage view
  * @abstract
  */
-abstract class renderer_base
+abstract class Clansuite_Renderer_Base
 {
     public $view = null;     # holds instance of the Rendering Engine
     public $config = null;
@@ -330,7 +330,7 @@ abstract class renderer_base
         $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_javascript'];
 
         # Breadcrumb
-        $template_constants['trail'] = trail::getTrail();
+        $template_constants['trail'] = Clansuite_Trail::getTrail();
 
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );

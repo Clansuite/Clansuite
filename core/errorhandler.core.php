@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -22,10 +22,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -39,14 +39,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This Clansuite Core Class for Errorhandling
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @package     clansuite
  * @category    core
  * @subpackage  errorhandler
  */
-class errorhandler
+class Clansuite_Errorhandler
 {
     private $config; # holds configuration instance
 
@@ -173,7 +173,7 @@ class errorhandler
                                  6143   => 'E_ALL 6143 PHP5.2.x',   # all errors and warnings + old value of E_ALL of PHP Version 5.2.x
                                 #8191   => 'E_ALL 8191'             # PHP 6 -> 8191
                                 #8192   => 'E_DEPRECATED',          # notice marker for 'in future' deprecated php-functions (since PHP 5.3.0)
-                                #16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions 
+                                #16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions
                                 #30719  => 'E_ALL 30719 PHP5.3.x'   # all errors and warnings - E_ALL of PHP Version 5.3.x
                                 #32767  => 'E_ALL 32767 PHP6'       # all errors and warnings - E_ALL of PHP Version 6
                                  );
@@ -213,28 +213,20 @@ class errorhandler
             # so we need to detect if an e_user_errors is coming from smarty
             if(strpos(strtolower($errorfile),'smarty') !== false)
             {
-                # Print shorter Version of ErrorReport
-                echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
-                echo '<pre/>';
+                # echo Smarty Template Error
             }
-            else
+            else # give normal Error Display
             {
                 # All Error Informations (except backtraces)
-                echo '<pre/>';
-
+                $this->ysod($errorstring, $errorname, $errornumber, 256);
             }
-
-            echo "<u>$errorname:</u><br/>";
-            echo '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
-            echo "File: $errorfile <br/>Line: $errorline ";
-           /*
-            $trace = array();
-            if (function_exists('debug_backtrace')) {
-                $trace = array_shift(debug_backtrace());
-            }
-            echo '<br> '.var_dump($trace); */
-
-            echo '</pre><br/>';
+            /*
+                $trace = array();
+                if (function_exists('debug_backtrace')) {
+                    $trace = array_shift(debug_backtrace());
+                }
+                echo '<br> '.var_dump($trace);
+            */
         }
 
         # Skip PHP internal error handler
@@ -257,9 +249,31 @@ class errorhandler
     {
        if ($this->config['suppress_errors'] == 0 )
        {
-            $error_head = 'Clansuite Exception';
-            $this->ysod($exception, $error_head, 'Exception:', 1000);
+            $this->ysod($exception, 'Clansuite Exception', 'Exception:', 1000);
        }
+    }
+
+
+    /**
+     * Smarty Error Display
+     * prints a shorter Version of ErrorReport
+     */
+    public function smarty_error_display()
+    {
+        echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
+        echo '<pre/>';
+        echo "<u>$errorname:</u><br/>";
+        echo '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
+        echo "File: $errorfile <br/>Line: $errorline ";
+        echo '</pre><br/>';
+    }
+
+    /**
+     * Red Screen of Death (RSOD) is used to display errors
+     */
+    public function rsod()
+    {
+
     }
 
     /**
@@ -270,36 +284,38 @@ class errorhandler
      * @param string $string contains errorstring
      * @param integer $error_level contains errorlvl
      */
-    public function ysod( $ErrorObject = null, $error_head = 'Clansuite Error', $string = '', $error_level = 3 )
+    public function ysod( $error_head = 'Clansuite Error', $string = '', $error_code, $error_level = 3 )
     {
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>'. $error_head .' | Code: '. $error_level .'</title>';
+        $errormessage   .= '<title>Clansuite Error [ '. $error_head .' | Code: '. $error_code .' ]</title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
         # Body
         $errormessage   .= '<body>';
+        echo $error_level;
         # Fieldset with colours (error_red, error_orange, error_beige)
-        if ($error_level == 1)     { echo '<fieldset class="error_red">'; }
-        elseif ($error_level == 2) { echo '<fieldset class="error_orange">'; }
-        elseif ($error_level == 3) { echo '<fieldset class="error_beige">'; }
+        if ($error_level == 256)        { echo '<fieldset class="error_red">'; }
+        elseif ($error_level == 512)    { echo '<fieldset class="error_orange">'; }
+        elseif ($error_level == 1024)   { echo '<fieldset class="error_beige">'; }
+        elseif ($error_level > 0)       { echo '<fieldset class="error_beige">'; }
         # Errorlogo
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
         # Fieldset Legend
-        $errormessage   .= '<legend>'. $error_head .'</legend>';
+        $errormessage   .= '<legend>'. wordwrap($error_head,50,"\n") .'</legend>';
         # Error String (passed Error Description)
         #$errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
         # Error Messages from the ErrorObject
         #$errormessage   .= '<hr style="width=80%">';
         $errormessage   .= '<table>';
-        $errormessage  .= '<tr><td><h3>'. $error_head .'</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$ErrorObject->getCode().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$ErrorObject->getMessage().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
+        $errormessage  .= '<tr><td><h3>'. wordwrap($error_head,50,"\n") .'</h3></td></tr>';
+        $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$error_level.'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$string.'</td></tr>';
+       /* $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject->getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject->getLine().'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject->getLine().'</td></tr>';*/
         # HR Split
         $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
         # Environmental Informations at Errortime

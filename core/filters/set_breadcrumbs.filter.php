@@ -65,7 +65,7 @@ class set_breadcrumbs implements Filter_Interface
         return $haystack;
     }
 
-    public function executeFilter(httprequest $request, httpresponse $response)
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();     # $request->getParameter('mod');
         $submoduleName  = Clansuite_ModuleController_Resolver::getSubModuleName();  # $request->getParameter('sub');
@@ -99,7 +99,7 @@ class set_breadcrumbs implements Filter_Interface
 
             # Set Pagetitle and Breadcrumbs for that Module
             # >> MODULENAME
-            trail::addStep( T_( ucfirst($trailName) ), $URL );            
+            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );            
         }
 
         # add submodule part
@@ -116,7 +116,7 @@ class set_breadcrumbs implements Filter_Interface
 
             # Set Pagetitle and Breadcrumbs for that Module
             # >> SUBMODULENAME
-            trail::addStep( T_( ucfirst($trailName) ), $URL );
+            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );
         }
     }
 }

@@ -73,7 +73,7 @@ interface Clansuite_Request_Interface
  * @subpackage core
  * @category httprequest
  */
-class HttpRequest implements Clansuite_Request_Interface, ArrayAccess
+class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
     # contains the cleaned $_REQUEST Parameters
     private $parameters;

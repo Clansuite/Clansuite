@@ -58,7 +58,7 @@ class Clansuite_Config_Factory
      */
     function __construct($configfile)
     {
-        self::getConfiguration(self::determineConfigurationHandlerTypeBy($configfile), $configfile);
+        return self::getConfiguration(self::determineConfigurationHandlerTypeBy($configfile), $configfile);
     }
 
     /**
@@ -76,13 +76,20 @@ class Clansuite_Config_Factory
     {
         $extension = substr($configfile, -11);
 
+        /**
+         * deprecated, because unsecure!
         if ($extension == '.config.ini')
         {
             $type = 'ini';
         }
-        elseif($extension == '.config.php')
+        else
+        */
+
+        # the fileextensions .config.php means it's an .ini file
+        # the content of the file IS NOT a php-array as you might think
+        if($extension == '.config.php')
         {
-            $type = 'php';
+            $type = 'ini';
         }
         elseif($extension == '.config.xml')
         {
@@ -117,12 +124,13 @@ class Clansuite_Config_Factory
         	if (is_file($file) != 0)
 			{
 				require_once($file);
-	            $class = 'Clansuite_'. strtoupper($config_type).'Config_Handler';
+	            $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
 	            if (class_exists($class))
 	            {
 	                # instantiate and return the renderer and pass $injector into
+	                #$config = new $class($configfile);
 	                $config = new $class($configfile);
-	                # var_dump($config);
+	                #var_dump($config);
 	                return $config;
 	            }
 	            else
@@ -171,6 +179,5 @@ class CacheFactoryFileNotFoundException extends Exception
 		echo 'Cache_Factory -> File not found: ' . $file;
 		die();
 	}
-}
 }
 ?>

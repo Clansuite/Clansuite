@@ -54,7 +54,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @category    core
  * @subpackage  trail
  */
-class trail
+class Clansuite_Trail
 {
         /**
          * @access private

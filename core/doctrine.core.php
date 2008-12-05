@@ -53,8 +53,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *    - PostgreSQL
  *    - Sqlite
  */
-
-class clansuite_doctrine
+class Clansuite_Doctrine
 {
     private $config; # holds a config instance
 

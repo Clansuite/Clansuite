@@ -62,7 +62,7 @@ interface Clansuite_EventHandler
  * @subpackage  eventhandler
  * @category    core
  */
-class Clansuite_EventManager
+class Clansuite_Eventhandler
 {
     # holds instance of this class (singleton)
     static private $instance;

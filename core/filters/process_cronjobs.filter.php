@@ -57,7 +57,7 @@ class process_cronjobs implements Filter_Interface
        $this->cronjob = $cronjob;
     }
 
-    public function executeFilter(httprequest $request, httpresponse $response)
+    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative, if cronjob processing is enabled in Clansuite_Config
         // or pass through (do nothing)

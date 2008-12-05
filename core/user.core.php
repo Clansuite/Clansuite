@@ -1,13 +1,10 @@
 <?php
 /**
     * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch, Florian Wolf © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         clansuite_user.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for Users Handling
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -25,30 +22,26 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id: user.class.php 2025 2008-05-14 16:02:27Z vain $
     */
 
-/**
- * Security Handler
- */
-if (!defined('IN_CS')){ die('You are not allowed to view this page.'); }
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * This Clansuite Core Class for Users Handling
  *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+ * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
@@ -72,7 +65,7 @@ class Clansuite_User
      * Sets up the References
      */
 
-    function __construct(Clansuite_Config $config, Clansuite_Security $security, input $input )
+    function __construct(Clansuite_Config $config, Clansuite_Security $security, Clansuite_Inputfilter $input )
     {
         $this->config       = $config;
         $this->security     = $security;
@@ -167,7 +160,7 @@ class Clansuite_User
                          ->leftJoin('g.CsRight r')
                          ->where('u.nick = ?')
                          ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
-                          
+
         }
         else
         {
@@ -251,7 +244,7 @@ class Clansuite_User
                 foreach( $this->user['CsGroup'] as $key => $group )
                 {
                     $_SESSION['user']['groups'][] = $group['group_id'];
-                    
+
                     if( isset($group['CsRight']) && is_array( $group['CsRight'] ) )
                     {
                         foreach( $group['CsRight'] as $key => $values )
@@ -259,7 +252,7 @@ class Clansuite_User
                             $_SESSION['user']['rights'][$values['name']] = 1;
                         }
                     }
-                    
+
                 }
             }
         }
@@ -530,7 +523,7 @@ class Clansuite_User
         }
         return false;
     }
-    
+
     /**
      * Checks a permission
      */
@@ -538,7 +531,7 @@ class Clansuite_User
     {
         if( $permission == '' )
             return false;
-        
+
         if ( isset($_SESSION['user']['rights'][$permission]) && $_SESSION['user']['rights'][$permission] == 1 )
         {
             return true;

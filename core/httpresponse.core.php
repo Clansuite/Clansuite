@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id$
+    * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
 // Security Handler
@@ -53,7 +53,7 @@ interface Clansuite_Response_Interface
 }
 
 /**
- * HttpResponse
+ * Clansuite_HttpResponse $response
  *
  * Purpose:  Clansuite Core Class for Response Handling
  *
@@ -63,9 +63,9 @@ interface Clansuite_Response_Interface
  *
  * @package clansuite
  * @subpackage core
- * @category httpresponse
+ * @category Clansuite_HttpResponse $response
  */
-class HttpResponse implements Clansuite_Response_Interface
+class Clansuite_HttpResponse implements Clansuite_Response_Interface
 {
     /**
      * Status of the response as integer value.
