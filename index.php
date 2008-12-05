@@ -57,8 +57,8 @@ if ( is_file('configuration/clansuite.config.php' ) == false ) { header( 'Locati
 # Check if install.php is still available, so we are installed but without security steps performed
 #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 # requires configuration & gets a config to work with
-require 'core/clansuite_config.class.php';
-$config = Clansuite_Config::readConfig('configuration/clansuite.config.php'); #clansuite_xdebug::printR($config);
+require 'core/config/ini.config.php';
+$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php'); #clansuite_xdebug::printR($config);
 
 # Setup XDebug
 define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/bootstrap/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
@@ -80,8 +80,8 @@ $injector = new Phemto();
 
 # core classes to load
 $core_classes = array(
-'Clansuite_Config', 'errorhandler', 'httprequest', 'httpresponse', 'filtermanager',
-'db', 'clansuite_doctrine','localization', 'Clansuite_Security', 'input', 'functions'
+'Clansuite_Config', 'Clansuite_Errorhandler', 'Clansuite_HttpRequest', 'Clansuite_HttpResponse', 'Clansuite_FilterManager',
+'Clansuite_Doctrine','Clansuite_Localization', 'Clansuite_Security', 'Clansuite_Inputfilter', 'Clansuite_Functions'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
@@ -97,8 +97,8 @@ $postfilter_classes = array(
 foreach($postfilter_classes as $class) { $injector->register($class); } # register the filters
 
 # Connect DB, that is needed for session & user rights management
-$injector->instantiate('clansuite_doctrine');
-$injector->instantiate('errorhandler');
+$injector->instantiate('Clansuite_Doctrine');
+$injector->instantiate('Clansuite_Errorhandler');
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
@@ -111,8 +111,8 @@ $injector->register('Clansuite_User');
  */
 
 # Get request and response objects for Filters and RequestProcessing
-$request  = $injector->instantiate('httprequest');
-$response = $injector->instantiate('httpresponse');
+$request  = $injector->instantiate('Clansuite_HttpRequest');
+$response = $injector->instantiate('Clansuite_HttpResponse');
 
 # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
 $clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['defaults']['default_module'],$config['defaults']['default_action']),$injector);
