@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,8 +22,8 @@
     *
     * @license    GNU/GPL, see COPYING.txt
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -40,8 +40,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005-onwards)
  * @since      Class available since Release 0.2
  *
  * @package     clansuite
@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  view_php
  */
 
-class view_php extends renderer_base
+class view_php extends Clansuite_Renderer_Base
 {
 	var $data = array();
 
