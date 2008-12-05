@@ -24,7 +24,7 @@
  */
 function smarty_modifier_formatseconds($seconds)
 {
-    return functions::format_seconds_to_shortstring($seconds);
+    return Clansuite_Functions::format_seconds_to_shortstring($seconds);
 }
 /* vim: set expandtab: */
 ?>

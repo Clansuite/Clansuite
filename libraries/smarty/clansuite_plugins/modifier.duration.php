@@ -23,7 +23,7 @@
  */
 function smarty_modifier_duration($toTimestamp)
 {
-    return functions::distanceOfTimeInWords(time(),$toTimestamp, false);
+    return Clansuite_Functions::distanceOfTimeInWords(time(),$toTimestamp, false);
 }
 
 /* vim: set expandtab: */
