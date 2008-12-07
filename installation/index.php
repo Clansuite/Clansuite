@@ -84,7 +84,7 @@ define ('ROOT', getcwd() . DS);
 chdir('..'); define ('BASE_ROOT', getcwd() . DS); chdir ('installation');
 
 // The Clansuite version this script installs
-require( ROOT . '../core/clansuite.version.php');
+require( ROOT . '../core/bootstrap/clansuite.version.php');
 
 // Define $error
 $error = '';
