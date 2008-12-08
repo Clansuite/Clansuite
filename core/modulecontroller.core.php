@@ -250,7 +250,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         else # error
         {
 
-            throw new Exception('Action does not exist: ' . $methodname, 1);
+            throw new Clansuite_Exception('Action does not exist: ' . $methodname, '1');
         }
     }
 
