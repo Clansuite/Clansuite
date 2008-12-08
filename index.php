@@ -100,6 +100,9 @@ foreach($postfilter_classes as $class) { $injector->register($class); } # regist
 $injector->instantiate('Clansuite_Doctrine');
 $injector->instantiate('Clansuite_Errorhandler');
 
+# Set Exception Handler
+set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
+
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
 $injector->register('Clansuite_User');
