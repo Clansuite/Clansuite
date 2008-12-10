@@ -69,26 +69,32 @@ require 'core/bootstrap/clansuite.init.php';
 require 'core/bootstrap/clansuite.loader.php';
 clansuite_loader::register_autoload();
 
+# Set Exception Handler
+set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
+
+# Set Error Handler
+new Clansuite_Errorhandler(new Clansuite_Config);
+
 /**
  *  ============================================
  *     Dependency Injector + Register Classes
  *  ============================================
  */
 # Setup Phemto
-require ROOT_LIBRARIES.'/phemto/phemto.php';
+require ROOT_LIBRARIES.'phemto/phemto.php';
 $injector = new Phemto();
 
 # core classes to load
 $core_classes = array(
-'Clansuite_Config', 'Clansuite_Errorhandler', 'Clansuite_HttpRequest', 'Clansuite_HttpResponse', 'Clansuite_FilterManager',
-'Clansuite_Doctrine','Clansuite_Localization', 'Clansuite_Security', 'Clansuite_Inputfilter', 'Clansuite_Functions'
+'Clansuite_Config', 'Clansuite_HttpRequest', 'Clansuite_HttpResponse', 'Clansuite_FilterManager',
+'Clansuite_Doctrine','Clansuite_Localization', 'Clansuite_Security', 'Clansuite_Inputfilter'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
 # filters to load
 $prefilter_classes = array(
 'maintenance', 'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs',
-'php_debug_console');
+'php_debug_console', 'startup_checks');
 foreach($prefilter_classes as $class) { $injector->register($class); } # register the filters
 
 $postfilter_classes = array(
@@ -98,10 +104,6 @@ foreach($postfilter_classes as $class) { $injector->register($class); } # regist
 
 # Connect DB, that is needed for session & user rights management
 $injector->instantiate('Clansuite_Doctrine');
-$injector->instantiate('Clansuite_Errorhandler');
-
-# Set Exception Handler
-set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);

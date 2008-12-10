@@ -56,13 +56,14 @@ class Clansuite_Errorhandler
      * Errorhandler Constructor
      *
      * Sets up the ErrorHandler and ExceptionHandler
+     *
+     * Usage:
+     * trigger_error('Errormessage', E_ERROR_TYPE);
+     * E_ERROR_TYPE as string or int
      */
     function __construct(Clansuite_Config $config)
     {
         $this->config   = $config; # set instance of configuration
-
-        # register own exception handler
-        set_exception_handler(array(&$this, 'clansuite_exception_handler' ));
 
         # register own error handler
         set_error_handler(array(&$this,'clansuite_error_handler'));
@@ -137,7 +138,7 @@ class Clansuite_Errorhandler
      * @link http://www.php.net/manual/de/function.set-error-handler.php
      * @link http://www.php.net/manual/de/errorfunc.constants.php
      */
-    public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline )
+    public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # do just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
         if(($this->config['error']['suppress_errors'] == 1) OR (error_reporting() == 0))
@@ -185,25 +186,21 @@ class Clansuite_Errorhandler
             # get the errorname from the array via $errornumber
             $errorname = $errorTypes[$errornumber];
         }
-        else
-        {
-            # when it's not in there, its an unknown errorcode
-            $errorname = 'Unknown Errorcode';
-        }
 
         # Handling the ErrorType via Switch
-        switch ($errornumber)
+        switch ($errorname)
         {
             # What are the errortypes that can be handled by a user-defined errorhandler?
-            case E_WARNING:                 $errorname .= ' [php warning]'; break;
-            case E_NOTICE:                  $errorname .= ' [php notice]'; break;
-            case E_USER_ERROR:              $errorname .= ' [Clansuite Internal Error]'; break;
-            case E_USER_WARNING:            $errorname .= ' [Clansuite Internal Error]'; break;
-            case E_USER_NOTICE:             $errorname .= ' [Clansuite Internal Error]'; break;
-            #case E_ALL:
-            case E_STRICT:                  $errorname .= ' [php strict]'; break;
-            #case E_RECOVERABLE_ERROR:
-            default:                        $errorname .= 'Unknown ErrorCode ['. $errornumber .']: ';
+            case 'E_WARNING':                 $errorname .= ' [php warning]'; break;
+            case 'E_NOTICE':                  $errorname .= ' [php notice]'; break;
+            case 'E_USER_ERROR':              $errorname .= ' [Clansuite Internal Error]'; break;
+            case 'E_USER_WARNING':            $errorname .= ' [Clansuite Internal Error]'; break;
+            case 'E_USER_NOTICE':             $errorname .= ' [Clansuite Internal Error]'; break;
+            #case 'E_ALL':
+            case 'E_STRICT':                  $errorname .= ' [php strict]'; break;
+            #case 'E_RECOVERABLE_ERROR':
+            # when it's not in there, its an unknown errorcode
+            default:                        $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
         }
 
         # if DEBUG is set, display the error, else log the error
@@ -214,19 +211,13 @@ class Clansuite_Errorhandler
             if(strpos(strtolower($errorfile),'smarty') !== false)
             {
                 # echo Smarty Template Error
+                echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
             else # give normal Error Display
             {
                 # All Error Informations (except backtraces)
-                $this->ysod($errorstring, $errorname, $errornumber, 256);
+                echo $this->ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
-            /*
-                $trace = array();
-                if (function_exists('debug_backtrace')) {
-                    $trace = array_shift(debug_backtrace());
-                }
-                echo '<br> '.var_dump($trace);
-            */
         }
 
         # Skip PHP internal error handler
@@ -234,111 +225,87 @@ class Clansuite_Errorhandler
     }
 
     /**
-     * Exception Handler Callback
-     *
-     * Uncaught Exception will bubble up and trigger an ERROR?
-     * This is used to trigger the output via errorhandler::show,
-     * when suppress_errors is not enabled.
-     *
-     * @param $exception
-     *
-     * @see error::show()
-     * @todo
-     */
-    public function clansuite_exception_handler( Exception $exception )
-    {
-       if ($this->config['suppress_errors'] == 0 )
-       {
-            $this->ysod($exception, 'Clansuite Exception', 'Exception:', 1000);
-       }
-    }
-
-
-    /**
      * Smarty Error Display
      * prints a shorter Version of ErrorReport
      */
-    public function smarty_error_display()
+    private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        echo "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
-        echo '<pre/>';
-        echo "<u>$errorname:</u><br/>";
-        echo '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
-        echo "File: $errorfile <br/>Line: $errorline ";
-        echo '</pre><br/>';
-    }
-
-    /**
-     * Red Screen of Death (RSOD) is used to display errors
-     */
-    public function rsod()
-    {
-
+        $errormessage  = "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
+        $errormessage .=  '<pre/>';
+        $errormessage .=  "<u>$errorname:</u><br/>";
+        $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
+        $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
+        $errormessage .=  '</pre><br/>';
+        return $errormessage;
     }
 
     /**
      * Yellow Screen of Death (YSOD) is used to display errors
      *
      * @param string $ErrorObject contains ErrorObject
-     * @param string $error_head contains the Name of the Error
+     * @param string $errorstring contains the Name of the Error
      * @param string $string contains errorstring
-     * @param integer $error_level contains errorlvl
+     * @param integer $errornumber contains errorlvl
      */
-    public function ysod( $error_head = 'Clansuite Error', $string = '', $error_code, $error_level = 3 )
+    private function ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Error [ '. $error_head .' | Code: '. $error_code .' ]</title>';
+        $errormessage   .= '<title>Clansuite Error : [ '. wordwrap($errorstring,40,"\n") .' | Code: '. $errornumber .' ] </title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
         # Body
         $errormessage   .= '<body>';
-        echo $error_level;
+
         # Fieldset with colours (error_red, error_orange, error_beige)
-        if ($error_level == 256)        { echo '<fieldset class="error_red">'; }
-        elseif ($error_level == 512)    { echo '<fieldset class="error_orange">'; }
-        elseif ($error_level == 1024)   { echo '<fieldset class="error_beige">'; }
-        elseif ($error_level > 0)       { echo '<fieldset class="error_beige">'; }
+        if ($errornumber == 256)        { echo '<fieldset class="error_red">';    }
+        elseif ($errornumber == 512)    { echo '<fieldset class="error_orange">'; }
+        elseif ($errornumber == 1024)   { echo '<fieldset class="error_beige">';  }
+        elseif ($errornumber > 0)       { echo '<fieldset class="error_beige">';  }
+
         # Errorlogo
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
         # Fieldset Legend
-        $errormessage   .= '<legend>'. wordwrap($error_head,50,"\n") .'</legend>';
-        # Error String (passed Error Description)
-        #$errormessage   .= '<p><strong>'.$ErrorObject->message.'</strong>';
-        # Error Messages from the ErrorObject
-        #$errormessage   .= '<hr style="width=80%">';
+        $errormessage   .= '<legend>Clansuite Error : [ '. wordwrap($errorstring,50,"\n") .' ] </legend>';
+
+        # Error Messages
         $errormessage   .= '<table>';
-        $errormessage  .= '<tr><td><h3>'. wordwrap($error_head,50,"\n") .'</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Errorcode :</strong></td><td>'.$error_level.'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$string.'</td></tr>';
-       /* $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($ErrorObject->getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($ErrorObject->getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$ErrorObject->getLine().'</td></tr>';*/
+        $errormessage   .= '<tr><td colspan="2"><h3>'. wordwrap($errorstring,50,"\n") .'</h3></td></tr>';
+        $errormessage   .= '<tr><td width=15%><strong>Errorcode :</strong></td><td>'.$errorname.' ('.$errornumber.')</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$errorstring.'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($errorfile).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($errorfile).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$errorline.'</td></tr>';
+
         # HR Split
-        $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
-        # Environmental Informations at Errortime
-        $errormessage  .= '<tr><td><h3>Server Environment</h3></td></tr>';
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
+        # Environmental Informations at Errortime ( $errorcontext is not displayed )
+        $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
         $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
         $errormessage   .= '<tr><td><strong>Request :</strong></td><td>'.$_SERVER['QUERY_STRING'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
-        # HR Split
-        $errormessage   .= '<tr><td colspan="2"><hr style="width=80%"></td></tr>';
+
         # Tracing
-        if ( defined('DEBUG') && DEBUG == 1 )
+        /*if ( defined('DEBUG') && DEBUG == 1 )
         {
-            $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
-        }
+        $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
+        }*/
+
+        # HR Split
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
         # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
         $errormessage   .= '</fieldset>';
         $errormessage   .= '</body></html>';
-        # Output the errormessage
-        echo $errormessage;
 
+        # Output the errormessage
+        return $errormessage;
     }
 
     function getDebugBacktrace()
