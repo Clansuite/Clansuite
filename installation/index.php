@@ -728,7 +728,7 @@ function getQueriesFromSQLFile($file)
  */
 function write_config_settings($data_array)
 {
-    require BASE_ROOT . 'core/clansuite_config.class.php';
+    require BASE_ROOT . 'core/config/ini.config.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
@@ -738,7 +738,7 @@ function write_config_settings($data_array)
 
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
-    $installer_config = Clansuite_Config::readConfig('clansuite.config.installer');
+    $installer_config = Clansuite_Config_INIHandler::readConfig('clansuite.config.installer');
 
     #var_dump($installer_config);
 
@@ -748,7 +748,7 @@ function write_config_settings($data_array)
 
     # Write Config File to ROOT Directory
     #print BASE_ROOT . 'clansuite.config.php';
-    if ( !Clansuite_Config::writeConfig( BASE_ROOT . 'clansuite.config.php', $data_array) )
+    if ( !Clansuite_Config_INIHandler::writeConfig( BASE_ROOT . '/configuration/clansuite.config.php', $data_array) )
     {
         return false;
     }
