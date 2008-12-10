@@ -45,14 +45,57 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Exception extends Exception
 {
+    private static $exception_template_content = '';
+
     # redeclare exception, so that it is not optional
     public function __construct($message = null, $code = 0)
     {
         # assign to parent
         parent::__construct($message, $code);
-        
+
+        # fetch errorTemplate, but not for $code = 0
+        if( $code > 0 )
+        {
+            self::fetchExceptionTTemplate($code);
+        }
+
         # debug display of exception object
         #clansuite_xdebug::printR($this);
+    }
+
+    /**
+     * Fetches an ErrorTemplate from File and sets it to the object
+     *
+     * @param $code errorcode
+     */
+    private static function fetchExceptionTTemplate($code)
+    {
+        $exception_template_file = ROOT . 'themes/core/exceptions/exception-'.$code.'.html';
+        if(is_file($exception_template_file))
+        {
+            $content = file_get_contents($exception_template_file);
+            self::setExceptionTTemplate($content);
+        }
+    }
+
+    /**
+     * Setter Method for the Content of the ErrorTemplate
+     *
+     * @param $content
+     */
+    private static function setExceptionTTemplate($content)
+    {
+        self::$exception_template_content = $content;
+    }
+
+    /**
+     * Getter Method for the exception_template_conent
+     *
+     * @return Content of $exception_template_content
+     */
+    private static function getExceptionTemplate()
+    {
+        return self::$exception_template_content;
     }
 
     /**
@@ -76,7 +119,7 @@ class Clansuite_Exception extends Exception
      * It is a pass-through to our presentation format (ysod);
      */
     public function __toString()
-    {        
+    {
         return $this->yellowScreenOfDeath();
     }
 
@@ -96,21 +139,13 @@ class Clansuite_Exception extends Exception
      */
     public function yellowScreenOfDeath()
     {
-        #echo 'exception-ysod';
-
-        #echo self::getLine();
-        #echo self::getFile();
-        #echo self::getTrace();
-        #echo self::getTraceAsString();
-
-        #var_dump($e);
-
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Exception : [ '. self::getMessage() .' ] | Errorcode: '. self::getCode() .'</title>';
+        $errormessage   .= '<title>Clansuite Exception : [ '. self::getMessage() .' | Errorcode: '. self::getCode() .' ] </title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
+
         # Body
         $errormessage   .= '<body>';
 
@@ -127,8 +162,8 @@ class Clansuite_Exception extends Exception
         # Error Messages from Object (table)
         # HEADING <Exception Object>
         $errormessage   .= '<table>';
-        $errormessage   .= '<tr><td><h3>Exception Object</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Code :</strong></td><td>'.self::getCode().'</td></tr>';
+        $errormessage   .= '<tr><td colspan="2"><h3>Exception</h3></td></tr>';
+        $errormessage   .= '<tr><td width=15%><strong>Code :</strong></td><td>'.self::getCode().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.self::getMessage().'</td></tr>';
         $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'.dirname(self::getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'.basename(self::getFile()).'</td></tr>';
@@ -156,6 +191,16 @@ class Clansuite_Exception extends Exception
         }
 
         # Split
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
+        # HEADING <Additional Information>
+        if(self::getExceptionTemplate() != '')
+        {
+            $errormessage  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3></td></tr>';
+            $errormessage   .= '<tr><td colspan="2">'.self::getExceptionTemplate().'</td></tr>';
+        }
+
+        # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr></table>';
 
         # Footer with Support-Backlinks
@@ -178,6 +223,9 @@ class Clansuite_Exception extends Exception
         return $errormessage;
     }
 
+    /**
+     * formats the getTraceString by applying linebreaks
+     */
     public static function formatGetTraceString($string)
     {
         $string = str_replace('#','<br/><br/>#', $string);
