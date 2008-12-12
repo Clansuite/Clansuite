@@ -35,20 +35,16 @@
     */
 
 // Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}<?php
+if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * ClanSuite Gallery Module (Frontend)
- * (gallery)
+ * Clansuite Module Gallery
  *
  * @license    GPL
- * @author
+ * @author     Florian Wolf
  * @link       http://www.clansuite.com
- * @version    SVN: $Id: $
+ * @version    SVN: $Id$
  *
- * An example class, this is grouped with
- * other classes in the "sample" package and
- * is part of "classes" subpackage
  * @package Clansuite
  * @subpackage module_gallery
  */

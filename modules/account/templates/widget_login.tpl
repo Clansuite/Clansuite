@@ -5,7 +5,7 @@
 {literal}
     <script>
     function hashLoginPassword(theForm)
-    {       
+    {
         theForm.password.value = SHA1(theForm.password.value);
     }
     </script>
@@ -20,18 +20,22 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
              <td class="td_header" colspan="2">
-                <form action="index.php?mod=account&action=login" 
-                method="post" id="block_login_form" accept-charset="UTF-8" onsubmit="hashLoginPassword(this);">             
+                <form action="index.php?mod=account&action=login"
+                      method="post"
+                      id="block_login_form"
+                      accept-charset="UTF-8"
+                      onsubmit="hashLoginPassword(this);"
+                />
              {t}Login{/t}
              </td>
         </tr>
-        {if $config.login.login_method == 'email'}
+        {if isset($config.login.login_method) && $config.login.login_method == 'email'}
         <tr>
             <td class="cell1">{t}Email:{/t}</td>
             <td class="cell2"><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}" /></td>
         </tr>
         {/if}
-        {if $config.login.login_method == 'nick'}
+        {if isset($config.login.login_method) && $config.login.login_method == 'nick'}
         <tr>
             <td class="cell1">{t}Nickname:{/t}</td>
             <td class="cell2"><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|default|escape:"html"}" /></td>
@@ -61,4 +65,3 @@
             </td>
         </tr>
     </table>
-   
