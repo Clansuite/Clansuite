@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -23,17 +25,17 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: news.module.php 2248 2008-07-12 01:48:54Z vain $
+    * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
 // Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * Clansuite
