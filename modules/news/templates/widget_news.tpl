@@ -1,10 +1,8 @@
 {* {$news_widget|var_dump} *}
 
-<!-- News Widget from Standard Theme /-->
+<!-- Start News Widget from Module News /-->
 
-<!-- Start News Widget //-->
-
-<table class="news_widget_info" width="100%" width="100%" cellpadding="0" cellspacing="0">
+<table class="news_widget" width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td class="td_header" colspan="2">
             {t}Recent news{/t}
@@ -21,5 +19,5 @@
     </tr>
     {/foreach}
 </table>
-    
+
 <!-- Ende News Widget //-->
