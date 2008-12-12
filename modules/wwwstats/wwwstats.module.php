@@ -1,8 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -20,38 +22,38 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: news.module.php 2345 2008-08-02 04:35:23Z vain $
+    * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
 // Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite
+ * Clansuite Module - wwwstats
  *
- * Module:      wwwstats
- *
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  */
-class Module_wwwstats extends ModuleController implements Clansuite_Module_Interface
+class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_News -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
     }
-    
+
     /**
      * This fetches the statistics from db and returns them as array.
      *
@@ -74,7 +76,7 @@ class Module_wwwstats extends ModuleController implements Clansuite_Module_Inter
                                         ->select('COUNT(s.session_id) online')
                                         ->from('CSSession s')
                                         ->execute(array(), Doctrine::FETCH_ARRAY);
-        
+
         $stats['online'] = $sessions_online[0]['online'];
 
         /**
@@ -84,11 +86,11 @@ class Module_wwwstats extends ModuleController implements Clansuite_Module_Inter
         $authed_user_session  = Doctrine_Query::create()
                                 ->select('COUNT(s.session_id) authed_users')
                                 ->from('CSSession s')
-                                ->where('user_id != 0')                                                                         
+                                ->where('user_id != 0')
                                 ->execute(array(), Doctrine::FETCH_ARRAY);
-        
+
         $stats['authed_users'] = $authed_user_session[0]['authed_users'];
-        
+
         /**
          * Calculate number of guests, based on total users subtracted by authed users
          */
@@ -107,15 +109,15 @@ class Module_wwwstats extends ModuleController implements Clansuite_Module_Inter
 
         return $stats;
     }
-    
-    
-    
+
+
+
     public function widget_wwwstats($params)
-    {       
+    {
         $smarty = $this->getView();
         $smarty->assign('stats', self::fetch_wwwstats());
-        
-        $this->renderWidget();        
+
+        $this->renderWidget();
     }
 }
 ?>
