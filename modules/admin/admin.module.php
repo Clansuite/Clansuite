@@ -112,13 +112,12 @@ class module_admin extends Clansuite_ModuleController implements Clansuite_Modul
 
         $smarty->assign( 'shortcuts', $images );
 
-        $updater = array();
-        $updater['enabled'] = true;
-
-        $smarty->assign( 'updater', $updater);
-
+        # Fetch Render Engine and Set Layout
         $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        # Set Template to render
         $this->setTemplate('welcome.tpl');
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -157,6 +156,5 @@ class module_admin extends Clansuite_ModuleController implements Clansuite_Modul
         # Prepare the Output
         $this->prepareOutput();
     }
-
 }
 ?>
