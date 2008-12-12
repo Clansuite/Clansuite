@@ -56,7 +56,14 @@ class startup_checks implements Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # Check if Smarty Output Dirs are writable
+        # Check if Smarty Output Dirs do exist
+        if (!is_dir( ROOT . 'cache/templates_c') or !is_dir( ROOT . 'cache/cache' ))
+        {
+
+        	throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+        }
+
+        # Check if Smarty Output Dirs are writeable
         if (!is_writable( ROOT . 'cache/templates_c') or !is_writable( ROOT . 'cache/cache' ))
         {
 
