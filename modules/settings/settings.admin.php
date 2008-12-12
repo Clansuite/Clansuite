@@ -20,7 +20,7 @@
 *    along with this program; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-* @author     Jens-Andre Koch <vain@clansuite.com>
+* @author     Jens-André Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
@@ -43,9 +43,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage module_admin_settings
  * @category modules
  */
-class Module_Settings_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Settings_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
@@ -57,7 +57,7 @@ class Module_Settings_Admin extends ModuleController implements Clansuite_Module
     function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -84,7 +84,7 @@ class Module_Settings_Admin extends ModuleController implements Clansuite_Module
     function action_settings_update()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
+        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize
@@ -93,7 +93,7 @@ class Module_Settings_Admin extends ModuleController implements Clansuite_Module
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
 
-        $config->writeConfig( ROOT . 'clansuite.config.php', $data);
+        $config->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
 
         # Redirect
         header('index.php?mod=admin&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );

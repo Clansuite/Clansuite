@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -20,10 +20,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,12 +41,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @since      File available since Release 0.2
  * @version    SVN: $Id$
  */
-class Module_News extends ModuleController implements Clansuite_Module_Interface
+class Module_News extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_News -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
@@ -64,7 +64,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
 
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
@@ -294,7 +294,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
         if(!empty($single_news))
         {
             // Set Pagetitle and Breadcrumbs
-            trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
+            Clansuite_Trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
 
             # Assign News
             $smarty->assign('news', $single_news);
@@ -342,7 +342,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     public function action_archive()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
+        Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
@@ -455,6 +455,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
     public function widget_news($numberNews)
     {
         $smarty = $this->getView();
+
         $news = Doctrine_Query::create()
                           ->select('n.*, u.nick, u.user_id, c.name, c.image')
                           ->from('CsNews n')
@@ -463,7 +464,7 @@ class Module_News extends ModuleController implements Clansuite_Module_Interface
                           ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->orderby('n.news_id DESC')
                           ->limit($numberNews)
-                          ->execute();
+                          ->execute( array());
 
         $smarty->assign('news_widget', $news);
 

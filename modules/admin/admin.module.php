@@ -1,8 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -20,10 +22,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -32,8 +34,8 @@
     * @version    SVN: $Id$
     */
 
-//Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+// Security Handler
+if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * Clansuite
@@ -44,15 +46,16 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage module_admin
  * @category modules
  */
-class module_admin extends ModuleController implements Clansuite_Module_Interface
+class module_admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Admin -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
+
         # read module config
         #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
     }
@@ -62,7 +65,7 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
      */
     public function action_show()
     {
-        #$user->hasAccess('admin','show');
+        #$user::hasAccess('admin','show');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -81,7 +84,7 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
                                  #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                  ->orderby('s.cat DESC, s.order ASC, s.title ASC')
                                  ->execute();
-
+        #var_dump($result);
 
         if ( is_array ( $result ) )
         {
@@ -107,11 +110,53 @@ class module_admin extends ModuleController implements Clansuite_Module_Interfac
             $stmt->execute( array( 'index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );
         }*/
 
-        $smarty->assign( 'shortcuts', $images );       
+        $smarty->assign( 'shortcuts', $images );
+
+        $updater = array();
+        $updater['enabled'] = true;
+
+        $smarty->assign( 'updater', $updater);
+
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        $this->setTemplate('admin/welcome.tpl');
+        $this->setTemplate('welcome.tpl');
         # Prepare the Output
         $this->prepareOutput();
     }
+
+
+    /**
+     * Show the Informations to submit a Bug
+     */
+    public function action_bugs()
+    {
+        #$user::hasAccess('admin','bugs');
+
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=admin&amp;action=bugs');
+
+        # Fetch Render Engine and Set Layout
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+    /**
+     * Show the Informations to submit a Bug
+     */
+    public function action_about()
+    {
+        #$user::hasAccess('admin','about');
+
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=admin&amp;action=about');
+
+        # Fetch Render Engine and Set Layout
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
 }
 ?>

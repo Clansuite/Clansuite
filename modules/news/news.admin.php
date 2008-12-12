@@ -1,35 +1,36 @@
 <?php
-/**
-* new.admin.php
-* Module - News - Admin Interface
-*
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2005-2007 Clansuite Group
-* @link       http://gna.org/projects/clansuite
-*
-* @author     Jens-AndrÃ© Koch
-* @copyright  Clansuite Group
-* @license    GPL v2
-* @version    SVN: $Id$
-* @link       http://www.clansuite.com
-*/
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch Â© 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
+    *
+    * @version    SVN: $Id$
+    */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
@@ -37,31 +38,31 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Clansuite
  *
- * Module:      News 
+ * Module:      News
  * Submodule:   Admin
  *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
+ * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch, Florian Wolf (2005 - $Date$)
+ * @copyright  Jens-André Koch, Florian Wolf (2005 - $Date$)
  * @since      Class available since Release 1.0alpha
  *
  * @package     clansuite
  * @category    module
  * @subpackage  news
  */
-class Module_News_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     public function __construct(Phemto $injector=null)
     {
         parent::__construct(); # run constructor on controller_base
     }
 
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
-        $this->processActionController($request);        
+        $this->processActionController($request);
     }
-    
+
     /**
     * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
     * @desc Loads necessary language files
@@ -125,17 +126,17 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
     {
         # Permission check
         #$perms::check('cc_view_news');
-        
+
         # Set Pagetitle and Breadcrumbs
-        trail::addstep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
-        
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
+
         # Incoming Variables
         $cat_id      = (int) $this->injector->instantiate('httprequest')->getParameter('cat_id');
         // add cat_id to select statement if set, else empty
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
         $currentPage = (int) $this->injector->instantiate('httprequest')->getParameter('page');
-        $resultsPerPage = (int) 10;  
-        
+        $resultsPerPage = (int) 10;
+
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
@@ -146,7 +147,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         $columnsort->setDefault('n.news_added', 'desc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
-        
+
         # Display ALL NEWS
         if($cat_id == 0)
         {
@@ -159,7 +160,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                                         ->leftJoin('n.CsUser u')
                                         ->leftJoin('n.CsCategory c')
                                        #->where('c.module_id = 7')
-                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)                                      
+                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                         ->orderby($sortorder),
                                          # The following is Limit  ?,? =
                                          $currentPage, // Current page of request
@@ -170,13 +171,13 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                                  )),
                                  '?mod=news&sub=admin&action=show&page={%page}'
                                  );
-            
+
             # Assigning templates for page links creation
             $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
             $pager_layout->setSelectedTemplate('[{%page}]');
             # Retrieving Doctrine_Pager instance
-            $pager = $pager_layout->getPager();                    
-                                 
+            $pager = $pager_layout->getPager();
+
             // Fetching news
             #var_dump($pager->getExecuted());
             $newsarchiv = $pager->execute(array(), Doctrine::FETCH_ARRAY);
@@ -205,13 +206,13 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                                  )),
                                  '?mod=news&sub=admin&action=show&page={%page}'
                                  );
-                                 
+
             # Assigning templates for page links creation
             $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
             $pager_layout->setSelectedTemplate('[{%page}]');
             # Retrieving Doctrine_Pager instance
-            $pager = $pager_layout->getPager();  
-                               
+            $pager = $pager_layout->getPager();
+
              // Fetching news
             #var_dump($pager->getExecuted());
             $newsarchiv = $pager->execute(array($cat_id), Doctrine::FETCH_ARRAY);
@@ -225,10 +226,10 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
                               #->where('c.module_id = ?);
                          #$stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
                                ->execute(array(), Doctrine::HYDRATE_ARRAY);
-        
+
         # Get Render Engine
-        $smarty = $this->getView();        
-        
+        $smarty = $this->getView();
+
         #$smarty->assign('news', $news->toArray());
         $smarty->assign('newsarchiv', $newsarchiv);
         $smarty->assign('newscategories', $newscategories);
@@ -239,7 +240,7 @@ class Module_News_Admin extends ModuleController implements Clansuite_Module_Int
         // Pagination
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-        
+
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
         # specifiy the template manually

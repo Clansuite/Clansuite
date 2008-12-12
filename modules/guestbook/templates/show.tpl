@@ -2,24 +2,20 @@
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} 
 {html_alt_table loop=$guestbook}*}
 
-{doc_raw}
-
-{/doc_raw}
-
 {*
-{foreach item=entry from=$guestbook}
-    {$entry.gb_id}
-    {$entry.gb_added}
-    {$entry.gb_nick} <a href='index.php?mod=users&show'>{$entry.gb_nick}</a>
-    {$entry.gb_email}
-    {$entry.gb_icq}
-    {$entry.gb_website}
-    {$entry.gb_town}
-    {$entry.gb_text}
-    {$entry.gb_ip}
-    {$entry.CsImage|@var_dump}
-    {$entry.CsImage.type}
-{/foreach}
+    {foreach item=entry from=$guestbook}
+        {$entry.gb_id}
+        {$entry.gb_added}
+        {$entry.gb_nick} <a href='index.php?mod=users&show'>{$entry.gb_nick}</a>
+        {$entry.gb_email}
+        {$entry.gb_icq}
+        {$entry.gb_website}
+        {$entry.gb_town}
+        {$entry.gb_text}
+        {$entry.gb_ip}
+        {$entry.CsImage|@var_dump}
+        {$entry.CsImage.type}
+    {/foreach}
 *}
 
 <div class="guestbook">
@@ -105,3 +101,5 @@
     </div>
     {include file="tools/paginate.tpl"}
 </div>
+
+{$form}

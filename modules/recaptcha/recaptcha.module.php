@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -20,10 +20,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,12 +41,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:  Recaptcha ( http://recaptcha.net/ )
  *
  */
-class Module_Recaptcha extends ModuleController implements Clansuite_Module_Interface
+class Module_Recaptcha extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Recaptcha -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . '/recaptcha/recaptcha.config.php');

@@ -9,10 +9,11 @@
     <tr>
         <td class="cell1">
             {foreach item=lastuser from=$last_registered_users}
-                {$lastuser.user_id}
-                {$lastuser.email}
+                {* {$lastuser.user_id} *}
                 {$lastuser.nick}
-                {$lastuser.country}
+                {* {$lastuser.email} *}           
+                {* {$lastuser.country} *}
+                ( {$lastuser.joined|duration} ago )              
                 <br />
             {/foreach}
         </td>

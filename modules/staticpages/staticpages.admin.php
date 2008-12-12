@@ -1,119 +1,99 @@
 <?php
-/**
-* staticpages Pages Admin Module Class
-*
-* PHP versions 5.1.4
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
-* @copyright  2006 Clansuite Group
-* @license    ???
-* @version    SVN: $Id$
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 0.1
-*/
-
-/**
-* @desc Security Handler
-*/
-if (!defined('IN_CS'))
-{
-    die('You are not allowed to view this page statically.' );
-}
-
-/**
-* @desc Admin Module - Static Pages Class
-*/
-class module_staticpages_admin
-{
-    public $output          = '';
-    public $additional_head = '';
-    public $suppress_wrapper= '';
-    private $used = array();
-
-    /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loading necessary language files
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
+    *
+    * @version    SVN: $Id: news.module.php 2006 2008-05-07 09:08:40Z xsign $
     */
 
-    function auto_run()
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
+
+/**
+ * Clansuite
+ *
+ * Module:  Module_Staticpages_Admin
+ *
+ */
+class Module_Staticpages_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+{
+    public function __construct(Phemto $injector=null)
     {
-        global $lang, $trail;
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
-        $trail->addStep($lang->t('Static Pages'), '/index.php?mod=staticpages&amp;sub=admin');
-
-        switch ($_REQUEST['action'])
-        {
-            default:
-            case 'show':
-                $trail->addStep($lang->t('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
-                $this->show_staticpages_admin();
-                break;
-
-            case 'create':
-                $trail->addStep($lang->t('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
-                $this->create_staticpages();
-                break;
-
-            case 'edit':
-                $trail->addStep($lang->t('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
-                $this->edit_staticpages();
-                break;
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
+        parent::__construct();
     }
 
-     /**
-    * @desc List all static pages
-    */
-    function show_staticpages_admin()
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions;
+        $this->processActionController($request);
+    }
 
-        $info['html']           = '';
-        $info['description']    = '';
-        $info['title']          = '';
-        $info['url']            = '';
-        $info['iframe']         = '';
-        $info['iframe_height']  = '';
-        $info['id']             = '';
+    /**
+     * action_admin_show()
+     */
+    public function action_admin_show()
+    {
+        # Permission check
+        #$perms::check('cc_admin_show_staticpages');
 
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages ORDER BY title ASC' );
-        $stmt->execute();
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
 
-        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $staticpages = Doctrine_Query::create()
+                              ->select('*')
+                              ->from('CsStaticPages s')
+                              ->orderby('s.title ASC')
+                              ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-        $tpl->assign( 'info', $info);
-        $this->output .= $tpl->fetch('staticpages/show.tpl');
+         # Get Render Engine
+        $smarty = $this->getView();
+        $smarty->assign( 'staticpages', $staticpages);
+
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        # specifiy the template manually
+        #$this->setTemplate('news/admin_show.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
 
     /**
-    * @desc Create a static page
-    */
+     * create_staticpages()
+     */
     function create_staticpages()
     {
-        global $cfg, $db, $tpl, $error, $lang, $input, $functions;
+        # Permission check
+        #$perms::check('cc_admin_create_staticpages');
+
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
 
         $html           = $_POST['html'];
         $description    = $_POST['description'];
@@ -128,20 +108,20 @@ class module_staticpages_admin
             if ( empty( $description ) OR
                  empty( $title ) )
             {
-                $err['fill_form'] = 1;
+                $error['fill_form'] = 1;
             }
 
             if (  ( !$input->check( $description        , 'is_abc|is_int|is_custom', '_\s' ) OR
                     !$input->check( $title              , 'is_abc|is_int|is_custom', '_\s' ) OR
                     !$input->check( $iframe_height      , 'is_int' ) )
-                    AND !$err['fill_form'] )
+                    AND !$error['fill_form'] )
             {
-                $err['no_special_chars'] = 1;
+                $error['no_special_chars'] = 1;
             }
 
             if ( !$input->check( $url, 'is_url' ) AND !empty( $url ) )
             {
-                $err['give_correct_url'] = 1;
+                $error['give_correct_url'] = 1;
             }
 
             $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
@@ -150,10 +130,10 @@ class module_staticpages_admin
 
             if ( is_array( $result ) )
             {
-                $err['static_already_exist'] = 1;
+                $error['static_already_exist'] = 1;
             }
 
-            if ( count( $err ) == 0 )
+            if ( count( $error ) == 0 )
             {
                 $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
                 $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
@@ -162,20 +142,31 @@ class module_staticpages_admin
             }
         }
 
-        $tpl->assign( 'description' , $description );
-        $tpl->assign( 'title'       , $title );
-        $tpl->assign( 'url'         , $url );
-        $tpl->assign( 'html'        , $html);
-        $tpl->assign( 'err'         , $err);
-        $this->output .= $tpl->fetch('staticpages/create.tpl');
+        $smarty = $this->getView();
+        $smarty->assign( 'description' , $description );
+        $smarty->assign( 'title'       , $title );
+        $smarty->assign( 'url'         , $url );
+        $smarty->assign( 'html'        , $html);
+        $smarty->assign( 'error'       , $error);
+
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        # specifiy the template manually
+        #$this->setTemplate('staticpages/create.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
     /**
-    * @desc Edit a static page
-    */
+     * edit_staticpages()
+     */
     function edit_staticpages()
     {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $input;
+        # Permission check
+        #$perms::check('cc_admin_edit_staticpages');
+
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
 
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
@@ -192,20 +183,20 @@ class module_staticpages_admin
             if ( empty( $info['description'] ) OR
                  empty( $info['title'] ) )
             {
-                $err['fill_form'] = 1;
+                $error['fill_form'] = 1;
             }
 
             if (  ( !$input->check( $info['description']    , 'is_abc|is_int|is_custom', '_\s' ) OR
                     !$input->check( $info['title']          , 'is_abc|is_int|is_custom', '_\s' ) OR
                     !$input->check( $info['iframe_height']  , 'is_int' ) )
-                    AND !$err['fill_form'] )
+                    AND !$error['fill_form'] )
             {
-                $err['no_special_chars'] = 1;
+                $error['no_special_chars'] = 1;
             }
 
             if ( !$input->check( $info['url'], 'is_url' ) AND !empty( $url ) )
             {
-                $err['give_correct_url'] = 1;
+                $error['give_correct_url'] = 1;
             }
 
             $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
@@ -214,10 +205,10 @@ class module_staticpages_admin
 
             if ( is_array( $result ) AND $info['orig_title'] != $info['title'] )
             {
-                $err['static_already_exist'] = 1;
+                $error['static_already_exist'] = 1;
             }
 
-            if ( count( $err ) == 0 )
+            if ( count( $error ) == 0 )
             {
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
                 $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
@@ -235,11 +226,16 @@ class module_staticpages_admin
             }
         }
 
-        $tpl->assign( 'err'  , $err);
-        $tpl->assign( 'info' , $info);
-        $this->output .= $tpl->fetch('staticpages/edit.tpl');
+        $smarty = $this->getView();
+        $smarty->assign( 'error'  , $error);
+        $smarty->assign( 'info' , $info);
+
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        # specifiy the template manually
+        #$this->setTemplate('staticpages/edit.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
     }
-
-
 }
 ?>
