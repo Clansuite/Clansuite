@@ -1,0 +1,41 @@
+                            _________________________
+                            C  L  A  N  S  U  I  T  E
+
+
+
+
+  Clansuite Exceptioncodes
+  ------------------------
+
+  This document lists all internally used Codes for Errors and Exceptions.
+
+  Exceptioncode    Exceptionname                                        Used in File
+  -----------------------------------------------------------------------------------------------
+  09               Smarty Template Directories do not exist.            startup_checks.filter.php
+  10               Smarty Template Directories not writable.            *
+
+  [tbc]
+
+
+  Clansuite Errorcodes
+  --------------------
+
+  You can! use PHP's trigger_error() method to trigger one of the follwing errors.
+  But this is not recommended! Our advise is to use Exceptions instead.
+
+  E_USER_WARNING
+  E_USER_NOTICE
+  E_USER_ERROR
+
+
+  Last Words
+  ----------
+
+    Thanks for using Clansuite!
+
+      Best Regards,
+
+        Jens-André Koch
+        Clansuite Maintainer
+
+  Version: $Id: README.EN.txt 2575 2008-11-20 01:08:44Z vain $
