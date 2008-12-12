@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -20,10 +20,10 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -38,22 +38,60 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
 * Admin Module - Config Class
 */
-class Module_Users_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
     }
 
     /**
-    * Show all users
-    *
-    */
+     *
+     *
+     */
+    function action_admin_deleteavatar()
+    {
+        /**
+         * @todo: 1. in general:    permissions to delete
+         * @todo: 2. in particular: sessio.id = avatar.id to delete are matching
+         */
+        # $user::hasAccess(deleteAvatar);
+        # and session.user_id = deleteavatar.id
+        
+        var_dump($_REQUEST);        
+    }
+
+    /**
+     *  Edits the user's Avatar Image
+     */
+    function action_admin_editavatar()
+    {
+        #var_dump($_REQUEST);
+        
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Add Avatar'), '/index.php?mod=users&amp;sub=admin&amp;action=addavatar');
+
+        # Get Render Engine
+        $smarty = $this->getView();        
+        
+        if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png') )
+        {
+            $avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png';
+            $smarty->assign('avatar_image', $avatar_image);
+        }
+
+        $this->prepareOutput();
+    }
+
+    /**
+     * Show all users
+     *
+     */
     function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -65,7 +103,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
-      
+
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
@@ -133,7 +171,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
 
     /**
      * Create a new user
-     *   
+     *
      */
     function action_admin_create()
     {
@@ -141,7 +179,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         $perms->check( 'cc_create_users' );
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
+        Clansuite_Trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
 
         /**
          * Init
@@ -460,15 +498,15 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
     }
 
     /**
-    * Usercenter
-    * 
-    * Shows own Profil, Messages, Next Events, Votes etc.
-    */
+     * Usercenter
+     *
+     * Shows own Profil, Messages, Next Events, Votes etc.
+     */
     function action_users_usercenter()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
-        
+        Clansuite_Trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
+
         # Get Render Engine
         $smarty = $this->getView();
 
@@ -505,7 +543,7 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
     function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
+        Clansuite_Trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -622,11 +660,9 @@ class Module_Users_Admin extends ModuleController implements Clansuite_Module_In
         }
 
         /**
-        * Redirect on finish
-        */
+         * Redirect on finish
+         */
         $functions->redirect( 'index.php?mod=users&sub=admin&action=show_all', 'metatag|newsite', 3, $lang->t( 'The selected user(s) were deleted.' ), 'admin' );
-
     }
-
 }
 ?>

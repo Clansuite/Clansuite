@@ -1,8 +1,10 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-Andre Koch © 2005 - onwards
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -20,29 +22,27 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
 
 // Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite
+ * Clansuite Module : Users
  *
- * Module:      Userslist
- *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005-onwards)
+ * @author     Jens-André Koch   <vain@clansuite.com>
+ * @author     Florian Wolf      <xsign.dll@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @link
  * @since      Class available since Release 0.1
  *
@@ -50,15 +50,18 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @category    module
  * @subpackage  module_userslist
  */
-class Module_Users extends ModuleController implements Clansuite_Module_Interface
+class Module_Users extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Userslist -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
+        
+        # read module config
+        $this->config->readConfig( ROOT_MOD . '/users/users.config.php');
     }
 
     /**
@@ -72,7 +75,7 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=users&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
@@ -145,10 +148,10 @@ class Module_Users extends ModuleController implements Clansuite_Module_Interfac
         $smarty = $this->getView();
         # fetch specified num of last registered users 
         $last_registered_users = Doctrine_Query::create()
-                                 ->select('u.user_id, u.email, u.nick, u.country')                                 
+                                 ->select('u.user_id, u.email, u.nick, u.country, u.joined')                                 
                                  ->from('CsUser u')
                                  ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                 ->orderby('u.timestamp DESC')
+                                 ->orderby('u.joined DESC')
                                  ->where('u.activated = 1')
                                  ->limit($numberUsers)
                                  ->execute();
