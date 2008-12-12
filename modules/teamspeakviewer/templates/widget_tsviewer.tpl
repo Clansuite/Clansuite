@@ -1,5 +1,5 @@
 
-<div class="td_header">TSViewer.com</div>
+<div class="td_header">Teamspeak Viewer</div>
 <div class="cell1">
 <!-- TSViewer Widget from Standard Theme /-->
 

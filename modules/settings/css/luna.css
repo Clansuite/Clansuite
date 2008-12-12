@@ -22,7 +22,7 @@
 	padding:		2px 0px 0px 0px;
 	border:			0;
 
-	z-index:		1;
+	z-index:		auto;
 	font:			11px Tahoma;
 	white-space:	nowrap;
 	text-align:		center;
@@ -35,7 +35,7 @@
 	background-repeat:	no-repeat;
 
 	border-bottom-width:	0;
-	z-index:		3;
+	z-index:		auto;
 	padding:		2px 0 0px 0;
 	margin:			1px -3px -3px 0px;
 	top:			-2px;

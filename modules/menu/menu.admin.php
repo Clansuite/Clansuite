@@ -47,12 +47,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage module_menu
  * @category modules
  */
-class Module_Menu_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Menueditor -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
@@ -75,7 +75,7 @@ class Module_Menu_Admin extends ModuleController implements Clansuite_Module_Int
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
 
         // Setup Icons Array
         $icons = array();

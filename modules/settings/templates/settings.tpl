@@ -1,15 +1,77 @@
 {* {$config|@var_dump} *}
 
+{*
+
+LOCALIZATION
+---------------
+Long Date/time format:
+Format of full date and time display.
+
+Short Date/time format:
+Format of short date and time display.
+
+Long Date format:
+Format of full date display.
+
+Short Date format:
+Format of short date display. 12-31-06, 31-12-06 oder mit / 12/31/06, 31/12/06
+
+Time format:
+Format of time display.	 19:00 PM oder 07:00PM
+
+Time Zone: GMT+1
+
+CRONSJOBS / SCHEDULER
+---------------------
+Scheduler run frequency (minutes):
+
+
+SYSTEM HEALTH
+-------------
+
+1) .htaccess Health (check if htaccess exists in essential paths)
+
+2) check template permissions
+
+3) email template permissions
+
+4) general directory permissons
+
+*}
+
+{*
+5) GOOGLE MAPS API
+<tbody><tr><td class="text" colspan="2"> </td></tr><tr><td width="440" colspan="2" class="maindescbig"><b>GOOGLE MAPS API SETTINGS</b></td></tr><tr><td height="4" colspan="2" class="small"><hr size="1"/></td></tr><tr><td colspan="2"><table width="100%" cellspacing="3" cellpadding="3" border="0"><tbody><tr height="20"><td class="maindescbig">Enable google maps:<span class="maindesc"/></td><td width="200" align="right" class="maindescbig"><input type="checkbox" checked="" name="in_gmap_enable"/> <a href="javascript:var winpops=window.open('http://www.webscribble.com/products/webnetwork/documentation/1.0/gmap_api.htm#1','1522','scrollbars=yes,menubar=no,resizable=yes,location=no,screenX=50,screenY=100,width=520,height=600')"><img border="0" src="images/help.gif"/></a></td></tr><tr height="20"><td class="maindescbig">Google maps API key:<span class="maindesc"/></td><td width="200" align="right" class="maindescbig"><input type="text" style="width: 150px;" value="ABQIAAAAsQcrfZak2biaSIc1i-YTmBQ-rFo6-mNicSPX2ogSS-kustWM6xTSxkinDndVUadgH9E8lBZPjQ_TQQ" name="in_gmap_api_key"/> <a href="javascript:var winpops=window.open('http://www.webscribble.com/products/webnetwork/documentation/1.0/gmap_api.htm#2','1522','scrollbars=yes,menubar=no,resizable=yes,location=no,screenX=50,screenY=100,width=520,height=600')"><img border="0" src="images/help.gif"/></a></td></tr></tbody></table></td></tr>
+	<tr>
+		<td height="6" bgcolor="#ffffff" colspan="2"><spacer height="6" width="100%" type="block"/></td>
+	</tr>
+	<tr>
+		<td height="4" colspan="2"><hr size="1"/></td>
+	</tr>
+	<tr>
+		<td align="right" colspan="2" class="text"><br/>
+			<input type="image" border="0" onclick="return confirm('Save settings?');" alt="Save" src="images/save.gif"/> 
+			<a href="main_frame.php?plugin=system_settings_desc"><img border="0" src="images/cancel.gif" alt="Cancel"/></a> 
+            <br/><br/>
+		</td>
+	</tr>
+
+</tbody>
+
+6) EMOTICONS MANAGER
+
+*}
 {assign var=reduce value=$templatepath|strrpos:"/templates"}
 {assign var=tplpath value=$templatepath|@truncate:$reduce:"":true}
 
 {doc_raw}
-    {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/luna.css" />
-    <script type="text/javascript" src="{$www_root_mod}/javascript/tabpane.js"></script>
+    {* Tabs with Tabpane *}
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabpane/luna.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane/tabpane.js"></script>
 {/doc_raw}
 
 <form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
+
 <div class="tab-pane" id="tab-pane-1">
    {* #### TAB PAGE - STANDARD SETTINGS #### *}
    <div class="tab-page">

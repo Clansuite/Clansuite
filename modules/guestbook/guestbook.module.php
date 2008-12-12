@@ -1,8 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch Â© 2005 - onwards
+    * Jens-André Koch Â© 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -20,11 +22,11 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
+    * @author     Jens-André Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -39,57 +41,23 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This is the Clansuite Module Class - Guestbook
  *
- * @author     Jens-Andre Koch <vain@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
  * @category    module
  * @subpackage  guestbook
  */
-class module_guestbook extends ModuleController implements Clansuite_Module_Interface
+class module_guestbook extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Guestbook -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
-    }
-
-    /**
-    * General Function Hook of guestbook-Modul
-    *
-    * 1. Set Pagetitle and Breadcrumbs
-    * 2. $_REQUEST['action'] determines the switch
-    * 3. function title is added to page title, to complete the title
-    * 4. switch-functions are called
-    *
-    * @global $lang
-    * @global $trail
-    * @return: array ( OUTPUT, ADDITIONAL_HEAD, SUPPRESS_WRAPPER )
-    *
-    */
-
-    function auto_run()
-    {
-        switch ($_REQUEST['action'])
-        {
-            case 'show_avatar':
-                $this->show_avatar();
-                break;
-
-            case 'create':
-                $trail->addStep($lang->t('Add'), '/index.php?mod=guestbook&amp;action=create');
-                $this->create();
-                break;
-
-            case 'instant_show':
-                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;
-
-        }
     }
 
     /**
@@ -99,16 +67,12 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
     function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;action=show');
 
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
         $resultsPerPage = 3;
-
-        // get all guestbook entries
-        #$stmt = $db->prepare( ' LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id
-        #                       LEFT JOIN ' . DB_PREFIX . 'users u ON g.user_id = u.user_id ORDER BY g.gb_added DESC' );
 
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
@@ -196,11 +160,63 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
         // Pagination
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-
+       
+        /**
+         *
+        $form->displayWithSmarty();
+        */
+        
+        $form = new Clansuite_Form;
+        $form->createForm('eingabe','post',$_SERVER['PHP_SELF']);
+        
+        #  mixed    Either type name (treated case-insensitively) or an element instance
+        #  mixed   	$name   	â€” 	  Element name
+        #  mixed   	$attributes â€” 	  Element attributes
+        #  array   	$data   	â€” 	  Element-specific data
+        // checkboxes and radios
+        $fs = $form->addElement('fieldset')->setLabel('Checkboxes and radios');
+        $fs->addElement('checkbox', 
+            'boxTest', null, array('label' => 'Test Checkbox:', 'content' => 'check me')
+        );
+        $fs->addElement('radio', 
+            'radioTest', array('value' => 1), array('label' => 'Test radio:', 'content' => 'select radio #1')
+        );
+        $fs->addElement('radio', 
+            'radioTest', array('value' => 2), array('label' => '(continued)', 'content' => 'select radio #2')
+        );
+        
+        $fs->addElement('button', 
+            'submit', array('value' => 2), array('label' => '(continued)', 'content' => 'select radio #2')
+        );
+        
+        $a = $form->output_element($fs);
+        $smarty->assign('form', $a);
+        
         # Prepare the Output
         $this->prepareOutput();
     }
-
+    
+    /*
+    <?php
+    $form->prepareCache();
+    include $form->getCacheFile();
+    ?>
+    
+    Validation would work as it currently does. You'd end up with something
+    like:
+    
+    <?php
+    $form = new HTML_Quickform2;
+    $form['name'] = 'whatever';
+    if ($form->submitted && $form->valid) {
+    }if ($form->cached) {
+    $form->displayCache();
+    } else {
+    // set up the form
+    }
+    
+    ?>
+    */
     /**
     * AJAX request to save the comment
     * 1. save comment in raw with bbcodes on - into database
@@ -286,50 +302,6 @@ class module_guestbook extends ModuleController implements Clansuite_Module_Inte
             $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
-    }
-
-    /**
-    * Send a img header
-    *
-    * @global $db
-    */
-    function show_avatar()
-    {
-        global $db;
-
-        // Incoming vars
-        $id = isset($_GET['id']) ? $_GET['id'] : 0;
-
-        if( $id != 0 )
-        {
-            $stmt = $db->prepare( 'SELECT i.*,g.gb_id FROM ' . DB_PREFIX . 'guestbook g LEFT JOIN ' . DB_PREFIX . 'images i ON i.image_id = g.image_id WHERE g.gb_id = ?' );
-            $stmt->execute( array( $id ) );
-            $result = $stmt->fetch(PDO::FETCH_NAMED);
-
-            require( ROOT_CORE . '/image.class.php' );
-            $img = new image( ROOT_UPLOAD . '/' . $result['location'] );
-            $img->resize( 150, 100 );
-            $img->show();
-        }
-    }
-
-    /**
-    * @desc Function: instant_show
-    *
-    * This content can be instantly displayed by adding this into a template:
-    * {mod name="guestbook" func="instant_show" params="mytext"}
-    *
-    * You have to add the lines as shown above into the case block:
-    * $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */
-    function instant_show($my_text)
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t($my_text);
-    }
+    }    
 }
 ?>

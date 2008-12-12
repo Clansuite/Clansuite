@@ -1,8 +1,8 @@
 {* {$quote|@var_dump} *}
 
-<!-- Start: Quotes Widget Module Template //-->
+<!-- Start: Quotes Widget from Module Quotes  //-->
 
-<table class="quotes_widget_info" width="100%" width="100%" cellpadding="0" cellspacing="0">
+<table class="quotes_widget_info" width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td class="td_header" colspan="2">
             {t}Quotes{/t}

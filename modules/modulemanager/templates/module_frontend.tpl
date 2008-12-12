@@ -2,7 +2,6 @@
    /**
     * Clansuite - just an eSports CMS
     * Jens-Andre Koch (c) 2005 - onwards
-    * Florian Wolf (c) 2006 - onwards
     *
     * http://www.clansuite.com/
     *
@@ -27,9 +26,7 @@
     * @license    GNU/GPL, see COPYING.txt
     *
     * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
-    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -56,15 +53,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface{literal}
 {{/literal}
     /**
-     * Main Method of {$mod.module_name|capitalize} Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
+     * {$mod.module_name|capitalize} -> Execute
      */
     public function execute(httprequest $request, httpresponse $response){literal}
     {{/literal}  
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/{$mod.module_name}/{$mod.module_name}.config.php');
+        $this->config->readConfig( ROOT_MOD . '{$mod.module_name}/{$mod.module_name}.config.php');
 
         # proceed to the requested action
         $this->processActionController($request);{literal}

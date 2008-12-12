@@ -50,7 +50,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package Clansuite
  * @subpackage module_admin_sysinfo
  */
-class Module_Sysinfo_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Sysinfo_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Main Method of sysinfo Module
@@ -58,7 +58,7 @@ class Module_Sysinfo_Admin extends ModuleController implements Clansuite_Module_
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . 'sysinfo/sysinfo.config.php');
@@ -75,7 +75,7 @@ class Module_Sysinfo_Admin extends ModuleController implements Clansuite_Module_
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
 
         # get system informations and server variables
 
@@ -113,7 +113,7 @@ class Module_Sysinfo_Admin extends ModuleController implements Clansuite_Module_
     public function action_admin_showapc()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         // get ap infos
         Clansuite_Loader::loadCoreClass('clansuite_cache');

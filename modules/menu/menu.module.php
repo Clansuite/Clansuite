@@ -41,12 +41,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:      Menu
  *
  */
-class Module_Menu extends ModuleController implements Clansuite_Module_Interface
+class Module_Menu extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Menu -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # proceed to the requested action
         $this->processActionController($request);
@@ -59,11 +59,11 @@ class Module_Menu extends ModuleController implements Clansuite_Module_Interface
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=menu&amp;action=show');
-        
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;action=show');
+
         $this->prepareOutput();
     }
-    
+
     /**
      * widget_menu
      *
@@ -78,3 +78,4 @@ class Module_Menu extends ModuleController implements Clansuite_Module_Interface
         $this->renderWidget();
     }
 }
+?>
