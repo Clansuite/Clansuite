@@ -68,7 +68,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
@@ -172,7 +172,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         /**
          * Get Number of Feed Items to create
          */
-        $feed_items = (int) $this->injector->instantiate('httprequest')->getParameter('items');
+        $feed_items = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('items');
 
         # Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)   { $feed_items = 15;  }
@@ -269,7 +269,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # Get Render Engine
         $smarty = $this->getView();
 
-        $news_id = (int) $this->injector->instantiate('httprequest')->getParameter('id');
+        $news_id = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
 
         $single_news = Doctrine_Query::create()
@@ -345,7 +345,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = 3;
 
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities

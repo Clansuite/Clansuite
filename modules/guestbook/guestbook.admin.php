@@ -127,7 +127,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
         
         # Incoming Variables
-        $currentPage    = (int) $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = (int) 10;  
       
         // SmartyColumnSort -- Easy sorting of html table columns.

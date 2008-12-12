@@ -131,10 +131,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
 
         # Incoming Variables
-        $cat_id      = (int) $this->injector->instantiate('httprequest')->getParameter('cat_id');
+        $cat_id      = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('cat_id');
         // add cat_id to select statement if set, else empty
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
-        $currentPage = (int) $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = (int) 10;
 
         // SmartyColumnSort -- Easy sorting of html table columns.

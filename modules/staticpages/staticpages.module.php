@@ -57,7 +57,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
     */
     function action_show()
     {
-        $page = (string) $this->injector->instantiate('httprequest')->getParameter('page');
+        $page = (string) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
 
         // if no page is requested, show overview
         if(empty($page)) { return $this->action_overview(); }

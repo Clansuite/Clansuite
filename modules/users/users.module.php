@@ -78,7 +78,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = 25;
 
         /* @todo: news with status: draft, published, private, private+protected*/

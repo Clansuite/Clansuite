@@ -71,7 +71,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
 
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('httprequest')->getParameter('page');
+        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
