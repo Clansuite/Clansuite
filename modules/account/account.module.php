@@ -113,7 +113,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         Clansuite_Trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
 
         // Get Inputvariables
-        $request = $this->injector->instantiate('httprequest');
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
         # from $_POST
         $nick        = $request->getParameter('nickname');
         $email       = $request->getParameter('email');
@@ -243,7 +243,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         Clansuite_Trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=logout');
 
         // Get Inputvariables
-        $request = $this->injector->instantiate('httprequest');
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
 
         // $_POST
         $confirm = (int) $request->getParameter('confirm');
@@ -276,7 +276,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_register()
     {
         // Request Controller
-        $request = $this->injector->instantiate('httprequest');
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $input = $this->injector->instantiate('input');
         $security = $this->injector->instantiate('Clansuite_Security');
         $config = $this->injector->instantiate('Clansuite_Config');
@@ -431,7 +431,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $err = array();
         
         // Request Controller
-        $request = $this->injector->instantiate('httprequest');        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
         
         // Input validation
         $input = $this->injector->instantiate('input');
@@ -530,7 +530,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_activate_account()
     {
         // Request Controller
-        $request = $this->injector->instantiate('httprequest');        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
 
         // Get Inputvariables from $_GET
         $user_id = (int) $request->getParameter('user_id');
@@ -578,7 +578,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_forgot_password()
     {
         // Request Controller
-        $request = $this->injector->instantiate('httprequest');        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
         $input = $this->injector->instantiate('input');
         $config = $this->injector->instantiate('Clansuite_Config');
         $security = $this->injector->instantiate('Clansuite_Security');
@@ -668,7 +668,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_activate_password()
     {
         // Request Controller
-        $request = $this->injector->instantiate('httprequest');
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $input = $this->injector->instantiate('input');
         
         $user_id = (int) $request->getParameter('user_id');
