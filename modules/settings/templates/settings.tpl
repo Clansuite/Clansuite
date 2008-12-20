@@ -929,7 +929,7 @@ SYSTEM HEALTH
                 <td class="cell1" style="padding: 3px">
                     <small>{t}If you enable this, the Daylight Savings Time (or Summertime) corrects the time for the above {t}Default Timezone{/t}. The clock is advanced an hour, so that afternoons have more daylight and mornings have less:{/t}</small><br />
                     <input type="radio" value="1" name="config[locale][daylight_saving]" {if isset($config.locale.daylight_saving) && $config.locale.daylight_saving == 1}checked="checked"{/if} /> {t}yes [Summertime = Default Timezone + 1 hour]{/t}
-                    <input type="radio" value="0" name="config[locale][daylight_saving]" {if isset($config.locale.daylight_saving) && $config.locale.daylight_saving == 0}checked="checked"{/if} /> {t}no [Normal Time = Default Timezone - 1 hour]{/t}
+                    <input type="radio" value="0" name="config[locale][daylight_saving]" {if isset($config.locale.daylight_saving) && $config.locale.daylight_saving == 0}checked="checked"{/if} /> {t}no [Normal Time = Default Timezone]{/t}
                 </td>
             </tr>
         </table>
