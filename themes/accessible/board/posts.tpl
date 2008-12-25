@@ -76,7 +76,7 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
 						</td>
 						<td valign="bottom" align="right" class="smalltext">
 							<a href="index.php?action=reporttm;topic=67.0;msg=250">Moderator informieren</a>  
-							<img border="0" alt="" src="http://www.clansuite.com/smf/Themes/EnglishSteel/images/ip.gif"/>
+							<img border="0" alt="" src="http://forum.clansuite.com/Themes/EnglishSteel/images/ip.gif"/>
 							<a href="index.php?action=trackip;searchip={$post.ip}">{$post.ip}</a>
 						</td>
 					</tr>

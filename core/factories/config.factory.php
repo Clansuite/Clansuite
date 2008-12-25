@@ -58,14 +58,14 @@ class Clansuite_Config_Factory
      */
     function __construct($configfile)
     {
-        return self::getConfiguration(self::determineConfigurationHandlerTypeBy($configfile), $configfile);
+        return self::getConfiguration($configfile);
     }
 
     /**
      * Instantiates the correct subclass determined by the fileextension
      *
      * Possible Extensions of the Configuration Files
-     *  .config.ini
+     * (.config.ini)
      *  .config.php
      *  .config.xml
      *  .config.yaml
@@ -116,8 +116,10 @@ class Clansuite_Config_Factory
      * @access public
      * @return Renderer Object
      */
-    public static function getConfiguration($config_type, $configfile)
+    public static function getConfiguration($configfile)
     {
+        $config_type = self::determineConfigurationHandlerTypeBy($configfile);
+
         try
         {
 			$file = ROOT_CORE .'/config/'. strtolower($config_type) .'.config.php';
@@ -127,8 +129,7 @@ class Clansuite_Config_Factory
 	            $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
 	            if (class_exists($class))
 	            {
-	                # instantiate and return the renderer and pass $injector into
-	                #$config = new $class($configfile);
+	                # instantiate and return the specific confighandler with the $configfile to read
 	                $config = new $class($configfile);
 	                #var_dump($config);
 	                return $config;

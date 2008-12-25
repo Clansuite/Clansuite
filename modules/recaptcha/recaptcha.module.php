@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -23,16 +25,15 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: news.module.php 2095 2008-06-11 23:44:20Z vain $
+    * @version    SVN: $Id: renderer.base.core.php 2614 2008-12-05 21:18:45Z vain $
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -49,26 +50,25 @@ class Module_Recaptcha extends Clansuite_ModuleController implements Clansuite_M
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/recaptcha/recaptcha.config.php');
-        
+        $this->getModuleConfig();
+
         # proceed to the requested action
-        $this->processActionController($request);        
+        $this->processActionController($request);
     }
 
     /**
      * display_recaptcha
-     *
      */
     public function display_recaptcha()
     {
         # Load Recaptcha Library
         require_once( ROOT_MOD . 'recaptcha/library/recaptchalib.php');
- 
-        $publickey = "..."; // you got this from the signup page
 
-        echo recaptcha_get_html($publickey);
+        # fetch publickey from config, you got this key from the recaptcha signup page
+        $publicKey = $this->getConfigValue('public_key','');
+
+        echo recaptcha_get_html($publicKey);
     }
-
 
     /**
      * validate_recaptcha
@@ -79,13 +79,11 @@ class Module_Recaptcha extends Clansuite_ModuleController implements Clansuite_M
     {
         # Load Recaptcha Library
         require_once( ROOT_MOD . 'recaptcha/library/recaptchalib.php');
- 
-        $privatekey = "...";
 
-        $resp = recaptcha_check_answer ($privatekey,
-                                        $_SERVER["REMOTE_ADDR"],
-                                        $_POST["recaptcha_challenge_field"],
-                                        $_POST["recaptcha_response_field"]);
+        $resp = recaptcha_check_answer( $this->getConfigValue('public_key',''),
+                                        $this->request->getRemoteAddress(),
+                                        $this->request->getParameter('recaptcha_challenge_field'), # POST
+                                        $this->request->getParameter('recaptcha_response_field');  # POST
 
         if (!$resp->is_valid)
         {

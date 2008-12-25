@@ -59,7 +59,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         # $user::hasAccess(deleteAvatar);
         # and session.user_id = deleteavatar.id
         
-        var_dump($_REQUEST);        
+        #var_dump($_REQUEST);        
     }
 
     /**

@@ -1,3 +1,5 @@
+{* {$config|@var_dump} *}
+
 {doc_raw}
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
