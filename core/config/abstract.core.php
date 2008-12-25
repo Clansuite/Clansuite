@@ -1,6 +1,6 @@
 <?php
-abstract class Clansuite_Config_Base()
-{    
+abstract class Clansuite_Config_Base
+{
     /**
      * Returns $this->config Object as Array
      *
@@ -23,7 +23,14 @@ abstract class Clansuite_Config_Base()
      */
     public function __get($configkey)
     {
-        return isset($this->config[$configkey]) ? $this->config[$configkey] : null;
+        if ( isset($this->config[$configkey]) )
+        {
+            return $this->config[$configkey];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -37,10 +44,6 @@ abstract class Clansuite_Config_Base()
      */
     public function __set($configkey, $configvalue)
     {
-        #if (isset($this->config[$configkey]) == true) {
-        #       throw new Exception('Variable ' . $configkey . ' already set.');
-        #}
-
         $this->config[$configkey] = $configvalue;
         return true;
     }
@@ -76,7 +79,6 @@ abstract class Clansuite_Config_Base()
         $this->__set($offset, $value);
     }
 
-    // hmm? why should configuration be unset?
     public function offsetUnset($offset)
     {
         unset($this->config[$offset]);

@@ -139,6 +139,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->sanitizeRequest();
 
         # Assign the GLOBAL $_REQUEST
+        # @todo: split get and post
         $this->parameters = $_REQUEST;
     }
 
@@ -175,7 +176,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 
@@ -290,9 +291,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
      private function cleanGlobals()
      {
-        // @todo: change this to a nicer error
-        if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) {
-            die('GLOBALS overwrite attempt detected');
+        # Intercept GLOBALS overwrite
+        if ( isset($_REQUEST['GLOBALS']) or isset($_FILES['GLOBALS']) )
+        {
+            throw new Clansuite_Exception('GLOBALS overwrite attempt detected');
         }
 
         # List of Variables which shouldn't be unset
@@ -309,7 +311,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                        * Notice by vain:
                        * argc+argv are php commandline (CLI) stuff
                        * on an webserver-environment they are found in _SERVER.
-                       * hats why they are commented off
+                       * CLI is not used, thats why they are commented off.
                        *
                        * If you need them, remove commenting.
                        * and watch out to keep the comma on the start of the next line
@@ -334,17 +336,18 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          // Unset the globals.
          foreach ($keys as $key)
          {
-            if (isset($GLOBALS[$key]) && ! in_array($key, $list))
+            if (isset($GLOBALS[$key]) and !in_array($key, $list) )
             {
                 unset($GLOBALS[$key]);
-                unset($GLOBALS[$key]); # no, this is not a bug, we use double unset() .. it is to circunvent
+                unset($GLOBALS[$key]);
+
                /**
-                * @todo: check if this is still a vulnerability !
-                *this PHP critical vulnerability
+                * @todo: 1. check if double unset is still needed !
+                * 2. check this PHP critical vulnerability
                 * http://www.hardened-php.net/hphp/zend_hash_del_key_or_index_vulnerability.html
                 * this is intended to minimize the catastrophic effects that has on systems with
                 * register_globals on.. users with register_globals off are still vulnerable but
-                * afaik,there is nothing we can do for them.
+                * afaik, there is nothing we can do for them.
                 */
             }
          }
@@ -372,8 +375,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             $this->parameters['items'] = (int) $_REQUEST['items'];
         }
 
-        /*
-
+        /**
         $filter = array( '_REQUEST' => $_REQUEST,
                          '_GET'     => $_GET,
                          '_POST'    => $_POST,
@@ -430,14 +432,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return Returns the magic quotes fixed $var
      */
-    private function fix_magic_quotes($var = NULL, $sybase = NULL )
+    private function fix_magic_quotes($var = null, $sybase = null )
     {
 
         // if no var is specified, fix all affected superglobals
         if (!isset($var) )
         {
             // workaround because magic_quotes does not change $_SERVER['argv']
-            $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : NULL;
+            $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : null;
 
             // fix all affected arrays
             foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
@@ -485,14 +487,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         return $this->getParameter($offset);
     }
 
-    // not setting request vars
-    public function offsetSet($offset, $value) {}
+    # not setting request vars
+    public function offsetSet($offset, $value){}
 
-    // not unsetting request vars
-    public function offsetUnset($offset)
-    {
-        //unset($this->parameter[$offset]);
-        //return true;
-    }
+    # not unsetting request vars
+    public function offsetUnset($offset){}
 }
 ?>

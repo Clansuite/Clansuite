@@ -1,6 +1,6 @@
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-    <tr class="tr_header">
-            <td colspan="2">{t}User Panel{/t}</td>
+    <tr>
+       <td class="td_header" colspan="2">{t}User Panel{/t}</td>
     </tr>
     <tr>
         <td align="center">
@@ -9,7 +9,7 @@
     </tr>
     {if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
     <tr>
-        <td align="center">
+        <td class="td_header">
             <a href="index.php?mod=admin">{t}Control Center{/t}</a>
         </td>
     </tr>

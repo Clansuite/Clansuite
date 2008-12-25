@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -23,23 +25,22 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Clansuite
  *
  * Module:  Account (User Account Registration/ Login / Logout etc. )
- * 
+ *
  * @todo: registration and usage conditions agreement
  */
 class Module_Account extends Clansuite_ModuleController implements Clansuite_Module_Interface
@@ -50,8 +51,8 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/account/account.config.php');
-        
+        $this->getModuleConfig();
+
         # proceed to the requested action
         $this->processActionController($request);
     }
@@ -60,7 +61,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         $this->setTemplate('action_login.tpl');
         $this->action_login();
-        
+
         #$this->prepareOutput();
     }
 
@@ -70,38 +71,27 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function widget_login(&$item)
     {
         # Get Render Engine
-        $smarty = $this->getView();        
-        
-        #Clansuite_User::hasAccess();
-        #$this->hasAccess();
-        #var_dump($this);
-        
-        // get user class
-        #$user = $smarty->injector->instantiate('Clansuite_User');
-        #$config = $smarty->injector->instantiate('Clansuite_Config');
-        
-        // Login Form / User Center
-        if ( $_SESSION['user']['user_id'] == 0 )
-        {
-            // Assing vars & output template
+        $view = $this->getView();
 
-            // Assing vars & output template
-            $smarty->assign('config', $this->config);
+        #Clansuite_User::hasAccess(); $this->hasAccess();
+
+        # Login Form / User Center
+        if ( ($_SESSION['user']['user_id'] == 0) and ($_SESSION['user']['authed'] != 1) )
+        {
+            # Assing vars & output template
+            $view->assign('config', $this->getClansuiteConfig());
             #$smarty->assign('error', $error);
 
-            #echo $smarty->fetch('account/widget_login.tpl');
             $this->setWidgetTemplate('widget_login.tpl');
         }
         else
         {
-            //  Show usercenter
-            #echo $smarty->fetch('account/widget_usercenter.tpl');
+            #  Show usercenter
             $this->setWidgetTemplate('widget_usercenter.tpl');
         }
-        
-        // Output
+
+        # Output
         $this->renderWidget();
-        
     }
 
     /**
@@ -204,8 +194,8 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             $smarty->assign('error', $error);
             $smarty->assign('referer', $referer);
 
-                        
-            #$this->prepareOutput(); 
+
+            #$this->prepareOutput();
             #return $smarty->fetch('account/login.tpl');
             //return $smarty->fetch('login.tpl');
 
@@ -282,7 +272,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $config = $this->injector->instantiate('Clansuite_Config');
         $smarty = $this->getView();
         $user = $this->injector->instantiate('Clansuite_User');
-        
+
         // Get Inputvariables from $_POST
         $email      = $request->getParameter('email');
         $email2     = $request->getParameter('email2');
@@ -351,21 +341,21 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             ->from('CsUser')
                             ->where('email = ?')
                             ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
-                         
+
             if( $result )
                 $err['email_exists'] = 1;
-            
+
             // Check if nick already exists
             $result = Doctrine_Query::create()
                             ->select('nick')
                             ->from('CsUser')
                             ->where('nick = ?')
                             ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
-                         
+
             if( $result )
                 $err['nick_exists'] = 1;
 
-            #var_dump($err);    
+            #var_dump($err);
             // No errors - then proceed
             // Register the user!
             if ( count($err) == 0  )
@@ -374,7 +364,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                 $hashArr = $security->build_salted_hash($pass);
                 $hash = $hashArr['hash'];
                 $salt = $hashArr['salt'];
-                
+
                 // Insert User to DB
                 $userIns = new CsUser();
                 $userIns->email = $email;
@@ -382,7 +372,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                 $userIns->passwordhash = $hash;
                 $userIns->salt = $salt;
                 $userIns->joined = time();
-                
+
                 if($config['login']['email_activation'] == 0)
                 {
                     $userIns->activated = 1;
@@ -396,10 +386,10 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                     $code = md5 ( microtime() );
                     $userIns->activation_code = $code;
                     $userIns->save();
-                    // Send activation mail                
+                    // Send activation mail
                     if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
                     {
-                        $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox...') );   
+                        $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox...') );
                         die();
                     }
                     else
@@ -407,7 +397,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                         trigger_error( 'Sending of email activation failed.' );
                     }
                 }
-                
+
             }
         }
 
@@ -418,7 +408,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         // Get the template
         #$this->setTemplate('register.tpl');
-        
+
         // Output
         $this->prepareOutput();
     }
@@ -429,13 +419,13 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_activation_email()
     {
         $err = array();
-        
+
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
-        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+
         // Input validation
         $input = $this->injector->instantiate('input');
-        
+
         // Get Inputvariables from $_POST
         $email  = $request->getParameter('email');
         $submit = $request->getParameter('submit');
@@ -465,7 +455,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                                 ->from('CsUser')
                                 ->where('email = ?')
                                 ->fetchOne(array($email));
-                
+
                 // Email was not found
                 if ( !$result )
                 {
@@ -491,7 +481,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
                         if( $this->_send_activation_email($email, $result->nick, $result->user_id, $code) )
                         {
-                            $this->redirect( 'index.php', 200, _('Activation mail has been resend to your mailbox.') );   
+                            $this->redirect( 'index.php', 200, _('Activation mail has been resend to your mailbox.') );
                         }
                         else
                         {
@@ -504,7 +494,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         // get View Ctrl.
         $smarty = $this->getView();
-        
+
         // Assign tpl vars
         $smarty->assign( 'err', $err );
 
@@ -530,7 +520,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_activate_account()
     {
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
 
         // Get Inputvariables from $_GET
         $user_id = (int) $request->getParameter('user_id');
@@ -578,12 +568,12 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     public function action_forgot_password()
     {
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');        
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $input = $this->injector->instantiate('input');
         $config = $this->injector->instantiate('Clansuite_Config');
         $security = $this->injector->instantiate('Clansuite_Security');
         $err = array();
-        
+
         $email = $request->getParameter('email');
         $pass = $request->getParameter('password');
         $submit = $request->getParameter('submit');
@@ -620,7 +610,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                     }
                     else if ( $result->activated != 1 )
                     {
-                        $err['account_not_activated'] = 1;   
+                        $err['account_not_activated'] = 1;
                     }
                     else
                     {
@@ -630,26 +620,26 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             $hashArr = $security->build_salted_hash($pass);
                             $hash = $hashArr['hash'];
                             $salt = $hashArr['salt'];
-                            
+
                             // Insert User to DB
                             $result->new_passwordhash = $hash;
                             $result->new_salt = $salt;
-                            
+
                             $code = md5 ( microtime() );
                             $result->activation_code = $code;
                             $result->save();
-                            
-                            // Send activation mail                
+
+                            // Send activation mail
                             if( $this->_send_password_email($email, $result->nick, $result->user_id, $code) )
                             {
-                                $this->redirect( 'index.php', 0, 200, _('Check your mailbox to activate your new password.') );   
+                                $this->redirect( 'index.php', 0, 200, _('Check your mailbox to activate your new password.') );
                                 die();
                             }
                             else
                             {
                                 trigger_error( 'Sending of email activation failed.' );
                             }
-                            
+
                         }
                     }
                 }
@@ -670,7 +660,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         // Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $input = $this->injector->instantiate('input');
-        
+
         $user_id = (int) $request->getParameter('user_id');
         $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
 
@@ -680,15 +670,15 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             return;
         }
 
-        
-        
+
+
         // Select a DB Row
         $result = Doctrine_Query::create()
                         ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
                         ->from('CsUser')
                         ->where('user_id = ? AND activation_code = ?')
                         ->fetchOne(array($user_id, $code));
-                                         
+
         if ( $result )
         {
             if ( empty($result->new_passwordhash) )
@@ -718,7 +708,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             return;
         }
     }
-    
+
     /**
     * @desc Private Function to send a activation email
     */
@@ -727,7 +717,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $config = $this->injector->instantiate('Clansuite_Config');
         $this->injector->register('Clansuite_Mailer');
         $mailer = $this->injector->instantiate('Clansuite_Mailer');
-        
+
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
         $subject        = _('Account activation');
@@ -751,7 +741,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             return false;
         }
     }
-    
+
     /**
     * @desc Send a link to validate new password
     */
@@ -761,7 +751,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $this->injector->register('Clansuite_Mailer');
         return true;
         $mailer = $this->injector->instantiate('Clansuite_Mailer');
-        
+
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
         $subject        = _('Account activation');
@@ -773,7 +763,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $body .= _('Password').": *"._('hidden')."*";
         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
         $body  = sprintf($body, $user_id, $code, $nick);
-        
+
         // Send mail
         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
         {
@@ -783,7 +773,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
             return false;
-        }  
+        }
     }
 }
 ?>

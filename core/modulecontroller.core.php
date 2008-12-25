@@ -138,7 +138,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * Reads the config for the requested module as default
      * or the config file specified by $filename.
      *
-     * Replacement function for:
+     * Replacement function for the following call in an action controller:
      * $this->moduleconfig = $this->config->readConfig( ROOT_MOD . 'mod/mod.config.php');
      * var_dump($this->moduleconfig);
      *
@@ -147,21 +147,47 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getModuleConfig($filename = null)
     {
+        # build filename for config
         if(is_null($filename))
         {
             # construct config filename
             $filename = ROOT_MOD.Clansuite_ModuleController_Resolver::getModuleName().DS.Clansuite_ModuleController_Resolver::getModuleName().'.config.php';
         }
+
+        # set moduleconfig['modulename'] = configarray
         $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()] = $this->config->readConfig($filename);
     }
 
-    public function getConfigValue($value, $default)
+    public function getClansuiteConfig()
+    {
+        # determine, if this function is called from an static background
+        # this is the case, if called from an module widget
+        if(is_object($this->injector))
+        {
+            $this->config = $this->injector->instantiate('Clansuite_Config')->toArray;
+        }
+        else
+        {
+            $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
+        }
+        return $this->config;
+    }
+
+    /**
+     * Get Config Value
+     *
+     * @param $keyname
+     * @param $default
+     */
+    public function getConfigValue($keyname, $default)
     {
         # try a lookup of the value by keyname
+        $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
 
-        if(false != Clansuite_Functions::array_find_element_by_key($value,$this->moduleconfig))
+        # return value or default
+        if(isset($value))
         {
-            return Clansuite_Functions::array_find_element_by_key($value,$this->moduleconfig);
+            return $value;
         }
         else
         {
