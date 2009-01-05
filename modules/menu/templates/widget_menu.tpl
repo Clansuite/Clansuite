@@ -33,7 +33,7 @@
               </div>
         </div>
 
-        <a class="button" href="index.php?mod=admin">Admin</a>
+        <a class="button" href="index.php?mod=controlcenter">Control Center (CC)</a>
 
     </td>
 </tr>
