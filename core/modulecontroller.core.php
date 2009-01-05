@@ -207,6 +207,40 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         return self::$static_injector;
     }
 
+   /**
+    * Maps the action to an method name.
+    * The pseudo-namesspace prefix 'action_' is used for all actions.
+    * Example: action_show()
+    * This is also a way to ensure some kind of whitelisting via namespacing.
+    *
+    * The use of submodules like News_Admin is also supported.
+    * In this case the actionname is action_admin_show().
+    *
+    * @param  string  the action
+    * @param  string  the submodule
+    * @return string  the mapped method name
+    */
+    private function mapAction($action, $submodule = null)
+    {
+        # action not set by URL, so we set default_action from config
+        if( !isset( $action ) )
+        {
+            # set the method name
+            $action = $this->config['defaults']['default_action'];
+        }
+
+        # if $module is set, use it as a prefix on $action
+        if( isset($submodule) && ($submodule !== null) )
+        {
+            $action = $submodule .'_'. $action;
+        }
+
+        # Debug Display
+        #echo '<br>Methodname of Action: '. $action .'<br>';
+
+        # return the complete methodname
+        return 'action_' . $action;
+    }
     /**
      * Fire Action !
      *
@@ -215,39 +249,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function processActionController($request)
     {
-        # get action parameter from URL
-        $action = $request->getParameter('action');
-
-        # action not set by URL, so we set default_action from config
-        if( empty( $action ) )
-        {
-            # set the used action name internally
-            $this->action_name = $this->config['defaults']['default_action'];
-            # set the method name
-            $action = $this->config['defaults']['default_action'];
-        }
-
-        # the pseudo-namesspace prefix 'action_' is used for all actions.
-        # this is also a way to ensure some kind of whitelisting via namespacing.
-        $methodname = 'action_';
-
         /**
-         *  Check for submodule and append to methodname
+         * construct correct methodname from URI-Parameters
+         *
+         * $action      = httprequest action
+         * $submodule   = httprequest sub
          */
-
-        # get submodule parameter from URL
-        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-
-        if(isset($submodule) && !empty($submodule))
-        {
-            $methodname .= $submodule . '_';
-        }
-
-        # Append action to methodname
-        $methodname = $methodname . $action;
-
-        # Debug Display
-        # echo '<br>Methodname of Action: '. $methodname .'<br>';
+        $methodname = $this->mapAction($request->getParameter('action'),
+                                       $request->getParameter('sub'));
+                                       #Clansuite_ModuleController_Resolver::getSubModuleName());
 
         /**
          * Handle Method
@@ -260,7 +270,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         if(method_exists($this,$methodname))
         {
             # set the used action name
-            $this->action_name = $action;
+            $this->action_name = substr($methodname, 7);
 
             # call the method on module!
             $this->{$methodname}();
@@ -276,7 +286,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         else # error
         {
 
-            throw new Clansuite_Exception('Action does not exist: ' . $methodname, '1');
+            throw new Clansuite_Exception('Action does not exist: ' . $methodname, 1);
         }
     }
 
@@ -456,7 +466,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         $moduleName = $moduleName[0];
         #echo 'ModuleName : '.$moduleName.'<br>';
 
-        # @todo?
+        # @todo !!! getActionName, get rid off that substr at Line 273
         #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
         $actionName = $this->action_name;
         #echo 'ActionName : '.$actionName.'<br>';
