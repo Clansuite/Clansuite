@@ -236,7 +236,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
 
         # Debug Display
-        #echo '<br>Methodname of Action: '. $action .'<br>';
+        #echo '<br>Methodname of Action: action_'. $action .'<br>';
 
         # return the complete methodname
         return 'action_' . $action;
@@ -270,7 +270,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         if(method_exists($this,$methodname))
         {
             # set the used action name
-            $this->action_name = substr($methodname, 7);
+            $this->action_name = $methodname;
 
             # call the method on module!
             $this->{$methodname}();
@@ -466,7 +466,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         $moduleName = $moduleName[0];
         #echo 'ModuleName : '.$moduleName.'<br>';
 
-        # @todo !!! getActionName, get rid off that substr at Line 273
         #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
         $actionName = $this->action_name;
         #echo 'ActionName : '.$actionName.'<br>';
@@ -481,7 +480,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
                 if(strlen($actionName) > 0 )
                 {
                     # news/action_admin_show.tpl
-                    $template = $moduleName.DS.'action_'.$subModuleName.'_'.$actionName.'.tpl';
+                    $template = $moduleName.DS.$actionName.'.tpl';
                 }
                 else
                 {
@@ -494,7 +493,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
                 if(strlen($actionName) > 0)
                 {
                     # news/action_show.tpl
-                    $template = $moduleName.DS.'action_'.$actionName.'.tpl';
+                    $template = $moduleName.DS.$actionName.'.tpl';
                 }
                 else
                 {
@@ -511,7 +510,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         {
             $template = $this->template;
         }
-        #echo 'TPL Name : '.$template.'<br>';
+
+        # Debug
+        # echo 'TemplateName : '.$template.'<br>';
 
         $this->setTemplate($template);
     }
