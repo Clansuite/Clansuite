@@ -93,5 +93,25 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         $this->prepareOutput();
 
     }
+    
+    public function action_admin_create_album()
+    {
+    	
+    	# Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
+    	
+   		# Get Render Engine
+        $smarty = $this->getView();
+        
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        
+        # specifiy the template manually
+        //$this->setTemplate('gallery/admin_action_create_album.tpl');
+    	
+        # Prepare the Output
+        $this->prepareOutput();
+    	
+    }
 }
 ?>
