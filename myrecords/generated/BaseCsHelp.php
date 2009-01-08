@@ -5,16 +5,15 @@
  */
 abstract class BaseCsHelp extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('help');
-    $this->hasColumn('help_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('mod', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('sub', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('action', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('helptext', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('related_links', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('help_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'primary' => true, 'autoincrement' => true));
+    $this->hasColumn('mod', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('sub', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('action', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('helptext', 'string', null, array('type' => 'string', 'notnull' => true));
+    $this->hasColumn('related_links', 'string', null, array('type' => 'string', 'notnull' => true));
   }
 
   public function setUp()

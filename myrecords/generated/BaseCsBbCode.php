@@ -5,22 +5,16 @@
  */
 abstract class BaseCsBbCode extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('bb_code');
-    $this->hasColumn('bb_code_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('name', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('start_tag', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('end_tag', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('content_type', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('allowed_in', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('not_allowed_in', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-  }
-
-  public function setUp()
-  {
-    parent::setUp();
+    $this->hasColumn('bb_code_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'primary' => true, 'autoincrement' => true));
+    $this->hasColumn('name', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('start_tag', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('end_tag', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('content_type', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('allowed_in', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('not_allowed_in', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
   }
 
 }
