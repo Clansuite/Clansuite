@@ -38,7 +38,7 @@
 {/doc_raw}
 <a accesskey="t" name="top"/>
 <div class="header">
-    <a href="index.php?mod=admin"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
+    <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
 
@@ -104,7 +104,7 @@
     {include file='server_stats.tpl'}
     </div>
     <div style="font-size: 10px; text-align: right;">
-        <a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php?mod=admin">&rArr; {t} Administration {/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a>
+        <a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="index.php?mod=controlcenter">&rArr; {t} Administration {/t}</a> | <a href="index.php">&rArr; {t}Show Frontpage{/t}</a>
     </div>
 </div>
 
