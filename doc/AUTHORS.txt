@@ -2,15 +2,15 @@
                             C  L  A  N  S  U  I  T  E
                          _______________________________
                          D E V E L O P M E N T   T E A M
-                      
 
 
-For a detailed list of Development Team Members with SVN Access visit: 
+
+For a detailed list of Development Team Members with SVN Access visit:
     https://gna.org/project/memberlist.php?group=clansuite
-    
+
 For the project history visit:
     https://gna.org/project/admin/history.php?group=clansuite
-    
+
 Clansuite is developed by:
 
 =========================================================================================================
@@ -31,7 +31,7 @@ Clansuite is developed by:
    Headdeveloper                                                                (+) joined GNA 19.05.2006
                                                                                     break from 05.2007 on
                                                                                 (-) left 15.10.2007
-                                                                                (-) GNA remove 28.01.2008 !                                                                                     
+                                                                                (-) GNA remove 28.01.2008 !
                                                                                     joined Clansphere Project
    Developer / Serveradministration                                             (+) re-joined GNA 04.04.2008
                                                                                     break from 09.2008 on
@@ -49,7 +49,7 @@ Clansuite is developed by:
    Graphics                                                                     (+) joined 10.09.2006
                                                                                 (-) GNA remove 28.01.2008
                                                                                     inactive, no contact
-                                                                                    
+
 ---------------------------------------------------------------------------------------------------------
 
 5  René Stalder               nachtmeister      nachtmeister@6pounder.com
@@ -63,3 +63,11 @@ Clansuite is developed by:
 
    Documentation, Themes, Graphics                                              (+) joined x.y.2008
                                                                                     break from 09.2008 on
+                                                                                    
+---------------------------------------------------------------------------------------------------------
+
+7 Daniel Winterfeldt          rikku             rikku@gna.org                   (+) joined GNA 10.12.2008
+
+  Developer
+  
+---------------------------------------------------------------------------------------------------------

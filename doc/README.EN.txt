@@ -83,7 +83,7 @@
   Authors
   -------
 
-    Clansuite is maintained by Jens-Andre Koch <jakoch@web.de>.
+    Clansuite is maintained by Jens-André Koch <jakoch@web.de>.
 
     Clansuite is written and developped by the Clansuite Development Team.
     This software consists of voluntary contributions made by many individuals.
