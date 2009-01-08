@@ -202,7 +202,6 @@ form select
 .input_text
 {
     border: 1px solid black;
-    height: 13px;
     font-family: tahoma, verdana, arial, sans-serif;
     font-size: 11px;
 }
