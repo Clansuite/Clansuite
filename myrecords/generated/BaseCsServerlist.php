@@ -5,22 +5,16 @@
  */
 abstract class BaseCsServerlist extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('serverlist');
-    $this->hasColumn('server_id', 'integer', 4, array('unsigned' => 0, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('ip', 'string', 15, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('port', 'string', 5, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('name', 'string', 250, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('csquery_engine', 'string', 60, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('gametype', 'string', 60, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-    $this->hasColumn('image_country', 'string', 20, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false));
-  }
-
-  public function setUp()
-  {
-    parent::setUp();
+    $this->hasColumn('server_id', 'integer', 4, array('type' => 'integer', 'length' => 4));
+    $this->hasColumn('ip', 'string', 15, array('type' => 'string', 'length' => 15));
+    $this->hasColumn('port', 'string', 5, array('type' => 'string', 'length' => 5));
+    $this->hasColumn('name', 'string', 250, array('type' => 'string', 'length' => 250));
+    $this->hasColumn('csquery_engine', 'string', 60, array('type' => 'string', 'length' => 60));
+    $this->hasColumn('gametype', 'string', 60, array('type' => 'string', 'length' => 60));
+    $this->hasColumn('image_country', 'string', 20, array('type' => 'string', 'length' => 20));
   }
 
 }

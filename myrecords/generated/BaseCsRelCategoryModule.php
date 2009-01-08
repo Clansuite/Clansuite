@@ -5,12 +5,11 @@
  */
 abstract class BaseCsRelCategoryModule extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('rel_category_module');
-    $this->hasColumn('category_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('module_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('category_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
+    $this->hasColumn('module_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
   }
 
   public function setUp()

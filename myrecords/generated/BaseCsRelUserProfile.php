@@ -5,12 +5,11 @@
  */
 abstract class BaseCsRelUserProfile extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('rel_user_profile');
-    $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('profile_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('user_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
+    $this->hasColumn('profile_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
   }
 
   public function setUp()

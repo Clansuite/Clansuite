@@ -5,12 +5,11 @@
  */
 abstract class BaseCsRelOptionName extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('rel_option_name');
-    $this->hasColumn('option_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('name_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('option_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
+    $this->hasColumn('name_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
   }
 
   public function setUp()

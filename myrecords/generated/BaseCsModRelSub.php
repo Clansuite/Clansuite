@@ -5,12 +5,11 @@
  */
 abstract class BaseCsModRelSub extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('mod_rel_sub');
-    $this->hasColumn('module_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('submodule_id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('module_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'primary' => true));
+    $this->hasColumn('submodule_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'primary' => true));
   }
 
   public function setUp()

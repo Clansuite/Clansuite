@@ -5,16 +5,15 @@
  */
 abstract class BaseCsShoutbox extends Doctrine_Record
 {
-
   public function setTableDefinition()
   {
     $this->setTableName('shoutbox');
-    $this->hasColumn('id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('name', 'string', 100, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('mail', 'string', 100, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('msg', 'string', null, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('time', 'integer', 4, array('unsigned' => 1, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('ip', 'string', 15, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true, 'autoincrement' => true));
+    $this->hasColumn('name', 'string', 100, array('type' => 'string', 'length' => 100, 'notnull' => true));
+    $this->hasColumn('mail', 'string', 100, array('type' => 'string', 'length' => 100, 'notnull' => true));
+    $this->hasColumn('msg', 'string', null, array('type' => 'string', 'notnull' => true));
+    $this->hasColumn('time', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'notnull' => true));
+    $this->hasColumn('ip', 'string', 15, array('type' => 'string', 'length' => 15, 'notnull' => true));
   }
 
   public function setUp()
