@@ -144,7 +144,7 @@ class Clansuite_Doctrine
 
         # Changing the database naming convention by adding
         # TBLNAME: clansuite.DB_PREFIX_tablename
-        #Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+        Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
 
         #
         #Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
