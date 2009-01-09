@@ -13,7 +13,7 @@ License:
 /* Mocha UI */
 
 html, body {
-	height: 100%;
+	/*height: 100%;*/
 	overflow: auto; /* Removes empty vertical scrollbars in IE */
 }		
 
