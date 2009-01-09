@@ -58,7 +58,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
+        $this->getModuleConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
         
         # proceed to the requested action
         $this->processActionController($request);
