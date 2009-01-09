@@ -59,7 +59,7 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
         $tsviewer = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
-                    ->execute(array(), Doctrine::FETCH_ARRAY);
+                    ->execute(array(), HYDRATE_ARRAY);
         */
 
         # hardcoded for testing
@@ -105,7 +105,7 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
         $tsviewer = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
-                    ->execute(array(), Doctrine::FETCH_ARRAY);
+                    ->execute(array(), HYDRATE_ARRAY);
         */
 
         # hardcoded for testing
