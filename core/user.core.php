@@ -91,7 +91,7 @@ class Clansuite_User
                         ->from('CsUser')
                         ->leftJoin('CsProfile')
                         ->where('CsUser.user_id = ?')
-                        ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
+                        ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
         if(is_array($userdata))
         {
@@ -135,7 +135,7 @@ class Clansuite_User
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
                          ->where('u.user_id = ?')
-                         ->fetchOne(array($user_id), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
         else if ( !empty($email) )
         {
@@ -147,7 +147,7 @@ class Clansuite_User
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
                          ->where('u.email = ?')
-                         ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
         else if ( !empty($nick) )
         {
@@ -159,7 +159,7 @@ class Clansuite_User
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
                          ->where('u.nick = ?')
-                         ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
         }
         else
@@ -169,7 +169,7 @@ class Clansuite_User
                                 ->select('user_id')
                                 ->from('CsSession')
                                 ->where('session_id = ?')
-                                ->fetchOne(array(session_id()), Doctrine::FETCH_ARRAY);
+                                ->fetchOne(array(session_id()), Doctrine::HYDRATE_ARRAY);
         }
 
         // check if session-table[user_id] is a valid user-table[user_id]
@@ -183,7 +183,7 @@ class Clansuite_User
                              ->leftJoin('u.CsGroup g')
                              ->leftJoin('g.CsRight r')
                              ->where('u.user_id = ?')
-                             ->fetchOne(array($session_result['user_id']), Doctrine::FETCH_ARRAY);
+                             ->fetchOne(array($session_result['user_id']), Doctrine::HYDRATE_ARRAY);
 
             }
             else
@@ -300,7 +300,7 @@ class Clansuite_User
                          ->from('CsGroup g')
                          ->leftJoin('g.CsRight r')
                          ->where('g.group_id = ?')
-                         ->fetchOne(array(1), Doctrine::FETCH_ARRAY);*/
+                         ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);*/
             #var_dump($rights);
 
             /* OLD PDO Style
@@ -353,7 +353,7 @@ class Clansuite_User
                          ->select('user_id, passwordhash, salt')
                          ->from('CsUser u')
                          ->where('nick = ?')
-                         ->fetchOne(array($value), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
         // check if a given email exists
@@ -364,7 +364,7 @@ class Clansuite_User
                          ->select('user_id, passwordhash, salt')
                          ->from('CsUser u')
                          ->where('email = ?')
-                         ->fetchOne(array($value), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
         // if user was found, check if passwords match each other
@@ -457,7 +457,7 @@ class Clansuite_User
                                 ->select('user_id,passwordhash,salt')
                                 ->from('CsUser')
                                 ->where('user_id = ?')
-                                ->fetchOne(array((int)$_COOKIE['cs_cookie_user_id']), Doctrine::FETCH_ARRAY);
+                                ->fetchOne(array((int)$_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
 
             /**
              * Proceed if match
