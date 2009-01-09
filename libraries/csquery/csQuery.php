@@ -5,14 +5,14 @@
  *  and several other projectes like kquery and hlsw. 
  *
  *  csQuery - gameserver query class
- *  @copyright Copyright (c) 2005-2008 Jens-Andre Koch <jakoch@web.de>
+ *  @copyright Copyright (c) 2005-2008 Jens-André Koch <jakoch@web.de>
  *  http://www.clansuite.com
  *
  *  gsQuery - Querys game servers
  *  @copyright Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
  *  http://www.gsQuery.org
  *
- *  This file is part of the e-sport CMS Clansuite.
+ *  This file is part of "Clansuite - just an eSports CMS".
  *  This file is part of the csQuery gameserver query library.
  *
  *  LICENSE:
@@ -33,7 +33,7 @@
  *  59 Temple Place, Suite 330, Boston,
  *  MA  02111-1307  USA
  *
- * @author    Jens-Andre Koch <vain@clansuite.com>
+ * @author    Jens-André Koch <vain@clansuite.com>
  * @link      http://gna.org/projects/clansuite
  * @license   LGPL - as stated above
  *
