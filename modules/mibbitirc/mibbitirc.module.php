@@ -45,7 +45,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 class Module_Mibbitirc extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
-     * Module_News -> Execute
+     * Module_Mibbitirc -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
@@ -58,18 +58,23 @@ class Module_Mibbitirc extends Clansuite_ModuleController implements Clansuite_M
 
     public function action_show()
     {
-        $smarty = $this->getView();
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=mibbitirc&amp;action=show');
 
+        # Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);
 
-        $mibbit_options['title']       = $this->getConfigValue('mibbit_irc_page_title',      'Live Chat');
-        $mibbit_options['nick_prefix'] = $this->getConfigValue('mibbit_irc_nickname_prefix', 'cs_');
-        $mibbit_options['server']      = $this->getConfigValue('mibbit_irc_server',          'irc.mibbit.com');
-        $mibbit_options['channel']     = $this->getConfigValue('mibbit_irc_channel',         'mibbit_test');
+        $mibbit_options['title']       = $this->getConfigValue('mibbit_irc_page_title',      'Clansuite Live Chat');
+        $mibbit_options['nick_prefix'] = $this->getConfigValue('mibbit_irc_nickname_prefix', 'Guest');
+        $mibbit_options['server']      = $this->getConfigValue('mibbit_irc_server',          'irc.quakenet.org');
+        $mibbit_options['channel']     = $this->getConfigValue('mibbit_irc_channel',         '#clansuite');
         $mibbit_options['width']       = $this->getConfigValue('mibbit_irc_width',           '500');
         $mibbit_options['height']      = $this->getConfigValue('mibbit_irc_height',          '280');
 
-        $smarty->assign('mibbit_options', $mibbit_options);
+        # Set options to the view
+        $this->getView()->assign('mibbit_options', $mibbit_options);
+
+        # Output
         $this->prepareOutput();
     }
 }
