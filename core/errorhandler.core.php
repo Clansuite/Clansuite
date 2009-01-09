@@ -289,6 +289,7 @@ class Clansuite_Errorhandler
         $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
+        $errormessage  .= '<tr><td><strong>Clansuite :</strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
 
         # Tracing
         /*if ( defined('DEBUG') && DEBUG == 1 )
@@ -301,7 +302,7 @@ class Clansuite_Errorhandler
 
         # close all html elements: table, fieldset, body+page
         $errormessage   .= '</table>';
-        $errormessage   .= '</fieldset>';
+        $errormessage   .= '</fieldset><br /><br />';
         $errormessage   .= '</body></html>';
 
         # Output the errormessage

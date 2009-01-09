@@ -23,14 +23,14 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
 
     public function readConfig($configfile)
     {
-        # @todo determince configtype ? ablage der einzelnen configs im benannten array?
         if( ! is_object($this->confighandler))
         {
             $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
         }
-        #@todo check if confighandler is of that configfile, else readConfig
+
+        # @todo check if confighandler is of that configfile, else readConfig
         # check object name auf teilstring configtype object(Clansuite_Config_INIHandler)
-        $this->config = $this->confighandler->readConfig($configfile)->toArray();
+        return $this->confighandler->readConfig($configfile);
     }
 
     /**
