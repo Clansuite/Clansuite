@@ -77,7 +77,7 @@ class php_debug_console implements Filter_Interface
                 $options = array(
                         # General Options
                         'render_type'          => 'HTML',    // Renderer type
-                        'render_mode'          => 'Div',     // Renderer mode
+                        'render_mode'          => 'div',     // Renderer mode
                         'restrict_access'      => false,     // Restrict access of debug
                         'allow_url_access'     => true,      // Allow url access
                         'url_key'              => 'key',     // Url key
@@ -87,10 +87,10 @@ class php_debug_console implements Filter_Interface
                         'lang'                 => 'EN',      // Lang
 
                         # Renderer specific
-                        'HTML_DIV_view_source_script_name' => '/libraries/phpdebug/PHP_Debug_ShowSource.php',
-                        'HTML_DIV_images_path' => '/libraries/phpdebug/images',
-                        'HTML_DIV_css_path' => '/libraries/phpdebug/css',
-                        'HTML_DIV_js_path' => '/libraries/phpdebug/js',
+                        'HTML_DIV_view_source_script_name' => ROOT . '/libraries/phpdebug/PHP_Debug_ShowSource.php',
+                        'HTML_DIV_images_path' =>  WWW_ROOT . '/libraries/phpdebug/images',
+                        'HTML_DIV_css_path' =>  WWW_ROOT . '/libraries/phpdebug/css',
+                        'HTML_DIV_js_path' =>  WWW_ROOT . '/libraries/phpdebug/js',
                         'HTML_DIV_remove_templates_pattern' => true,
                         'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
                 );
@@ -101,20 +101,22 @@ class php_debug_console implements Filter_Interface
                 # Initialiaze Object
                 $debug = new PHP_Debug($options);
 
-                # Set Title
-                $debug->add('Clansuite DEBUG INFO');
-
                 /* Load JS / CSS */
+                #$response->setContent($data, BEFORE_BODY_END);
+                /*
                 ?>
                 <script type="text/javascript" src="<?php echo $options['HTML_DIV_js_path']; ?>/html_div.js"></script>
                 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $options['HTML_DIV_css_path']; ?>/html_div.css" />
                 <?php
-
+                */
                 # unset $options
                 unset($options);
 
+                # Set Title
+                $debug->add('Clansuite DEBUG INFO');
+
                 # display the console
-                $debug->display();
+                #$debug->display();
             }
         }// else => bypass
     }

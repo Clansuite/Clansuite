@@ -153,9 +153,11 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
             # construct config filename
             $filename = ROOT_MOD.Clansuite_ModuleController_Resolver::getModuleName().DS.Clansuite_ModuleController_Resolver::getModuleName().'.config.php';
         }
-
+        
         # set moduleconfig['modulename'] = configarray
         $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()] = $this->config->readConfig($filename);
+        
+        return $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()];
     }
 
     public function getClansuiteConfig()
