@@ -33,11 +33,12 @@ function smarty_function_confirm($params, &$smarty)
     if( !isset( $params['html'] ) && !isset( $params['htmlTemplate'] ) ) { $smarty->trigger_error("Parameter 'html' or 'htmlTemplate' not specified!"); return; }
     if( !isset( $params['link'] ) && isset( $params['htmlTemplate'] ) ) { $smarty->trigger_error("Parameter 'link' not specified!"); return; }
 
-    if( !isset( $params['title'] ) ) { $params['title'] = _('Please confirm...'); }
+    if( !isset( $params['title'] ) ) { $params['title'] = _('Please confirm your request'); }
     
     $smarty->assign('confirmClass', $params['class']);
     $smarty->assign('confirmTitle', $params['title']);
     $smarty->assign('confirmGrabValueFrom', $params['grabValueFrom']);
+    $smarty->assign('confirmMessage', $params['confirmMessage']);
     
     if( isset( $params['htmlTemplate'] ) )
     {

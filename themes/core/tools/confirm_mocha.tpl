@@ -9,7 +9,7 @@
 {literal}
 <script type="text/javascript">
 window.addEvent('domready', function() {
-    var confirmMocha{/literal}{$confirmClass}{literal} = function() {        
+    var confirmMocha{/literal}{$confirmClass}{literal} = function() {
         new MochaUI.Window({
             title: '{/literal}{$confirmTitle}{literal}',
             loadMethod: 'html',
@@ -22,7 +22,7 @@ window.addEvent('domready', function() {
             {literal}
             minimizable: false,
             toolbar: false
-        });    
+        });
     }
 
     $$('.{/literal}{$confirmClass}{literal}').each( function(cEl) {
