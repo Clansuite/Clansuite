@@ -81,7 +81,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         $icons = array();
 
         // Get Icons from Directory
-        $dir_handler = opendir( ROOT_THEMES_CORE . 'images/icons/' );
+        $dir_handler = opendir( ROOT_THEMES . 'core/images/icons/' );
 
         while( false !== ($file = readdir($dir_handler)) )
         {
