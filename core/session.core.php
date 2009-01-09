@@ -256,7 +256,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                          ->select('session_data, session_expire')
                          ->from('CsSession')
                          ->where('session_name = ? AND session_id = ?')
-                         ->fetchOne(array(self::session_name, $id ), Doctrine::FETCH_ARRAY);
+                         ->fetchOne(array(self::session_name, $id ), HYDRATE_ARRAY);
         if( $result )
         {
             //$_SESSION = unserialize($result['session_data']);
@@ -489,7 +489,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                 ->select('user_id, session_expire')
                                 ->from('CsSession')
                                 ->where('session_id = ?')
-                                ->fetchOne(array( $this->request[self::session_name] ), Doctrine::FETCH_ARRAY);
+                                ->fetchOne(array( $this->request[self::session_name] ), HYDRATE_ARRAY);
 
             if ( $result && $result['session_expire'] < time() )
             {
