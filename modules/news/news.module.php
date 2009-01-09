@@ -89,7 +89,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->leftJoin('n.CsComment nc')
                                     ->leftJoin('nc.CsUser ncu')
                                     #->where('c.module_id = 7')
-                                    #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->setHydrationMode(HYDRATE_ARRAY)
                                     ->orderby('n.news_id DESC, n.news_added DESC'),
                                  # The following is Limit  ?,? =
                                  $currentPage, // Current page of request
@@ -109,7 +109,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $pager = $pager_layout->getPager();
 
         // Fetching news
-        $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Calculate Number of Comments
         foreach ($news as $k => $v)
@@ -381,24 +381,24 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $pager = $pager_layout->getPager();
 
         // Fetching news
-        $news = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $news = $pager->execute(array(), HYDRATE_ARRAY);
 
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
         // b) Get the nickname of the last comment for certain news_id
         // TODO: One query possible with some joins ?
         $stmt1 = Doctrine_Query::create()
-                         ->select('nc.*, u.nick as lastcomment_by, count(nc.comment_id) as nr_news_comments')
+                         ->select('nc.*, u.nick as lastcomment_by, COUNT(nc.comment_id) as nr_news_comments')
                          ->from('CsNewsComments nc')
                          ->leftJoin('nc.CsUser u')
                          ->groupby('nc.news_id')
-                         ->setHydrationMode(Doctrine::HYDRATE_NONE)
+                         #->setHydrationMode(HYDRATE_NONE)
                          ->where('nc.news_id = ?');
 
         foreach ($news as $k => $v)
         {
             // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::FETCH_ARRAY);
+            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), HYDRATE_ARRAY);
             # check if something was returned
             if(isset($cs_news_comments_array[0]))
             {
