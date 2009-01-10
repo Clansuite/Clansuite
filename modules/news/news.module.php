@@ -89,7 +89,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->leftJoin('n.CsComment nc')
                                     ->leftJoin('nc.CsUser ncu')
                                     #->where('c.module_id = 7')
-                                    ->setHydrationMode(HYDRATE_ARRAY)
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('n.news_id DESC, n.news_added DESC'),
                                  # The following is Limit  ?,? =
                                  $currentPage, // Current page of request
