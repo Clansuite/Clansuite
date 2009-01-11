@@ -56,13 +56,13 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @package clansuite
  * @subpackage filters
- * @implements FilterInterface
+ * @implements Clansuite_FilterInterface
  */
-class language_via_get implements Filter_Interface
+class language_via_get implements Clansuite_FilterInterface
 {
     private $config     = null;     # holds instance of config
 
-    function __construct(Clansuite_Config $config)
+public function __construct(Clansuite_Config $config)
     {
        $this->config    = $config;      # set instance of config to class
     }

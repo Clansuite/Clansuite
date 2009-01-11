@@ -30,41 +30,38 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: view_smarty.class.php 2530 2008-09-18 23:12:04Z vain $
+    * @version    SVN: $Id: get_user.filter.php 2614 2008-12-05 21:18:45Z vain $
     */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); }
 
 /**
- * Clansuite Filter - Process Cronjobs
+ * Clansuite Filter - Permissions / RBACL
  *
- * Purpose: processes regular jobs (cron-daemon like)
- *
+ * Purpose: Perform an Permissions / RBACL Check
  *
  * @package clansuite
  * @subpackage filters
- * @implements Clansuite_FilterInterface
+ * @implements FilterInterface
  */
-class process_cronjobs implements Clansuite_FilterInterface
+class ajax_request implements Clansuite_FilterInterface
 {
-    private $config     = null;
-    private $cronjobs    = null;
-
-public function __construct(Clansuite_Config $config, Clansuite_Cronjobs $cronjobs)
+    public function __construct()
     {
-       $this->config   = $config;
-       $this->cronjobs = $cronjobs;
+        
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative, if cronjob processing is enabled in Clansuite_Config
-        // or pass through (do nothing)
-        if($this->config['cronjobs']['enabled'] == 1)
-        {
-            $this->cronjobs->execute();
-        }// else => bypass
+        # check if the request is an xmlhttprequest / ajax request
+        if ($request->isXhr())
+        {   
+            #$response-> 
+            # set rendering as wrapped, when smarty
+            
+            # set JSON output 
+		}
     }
 }
 ?>
