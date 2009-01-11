@@ -147,17 +147,19 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getModuleConfig($filename = null)
     {
+        $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+
         # build filename for config
         if(is_null($filename))
         {
             # construct config filename
-            $filename = ROOT_MOD.Clansuite_ModuleController_Resolver::getModuleName().DS.Clansuite_ModuleController_Resolver::getModuleName().'.config.php';
+            $filename = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
         }
-        
+
         # set moduleconfig['modulename'] = configarray
-        $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()] = $this->config->readConfig($filename);
-        
-        return $this->moduleconfig[Clansuite_ModuleController_Resolver::getModuleName()];
+        $this->moduleconfig[$modulename] = $this->config->readConfig($filename);
+
+        return $this->moduleconfig[$modulename];
     }
 
     public function getClansuiteConfig()
@@ -243,6 +245,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         # return the complete methodname
         return 'action_' . $action;
     }
+
     /**
      * Fire Action !
      *
@@ -259,6 +262,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
          */
         $methodname = $this->mapAction($request->getParameter('action'),
                                        $request->getParameter('sub'));
+                                       # @todo: after we add routing, we have to use abstract methods to get the values
+                                       # we can not take the parameter from req-obj directly
                                        #Clansuite_ModuleController_Resolver::getSubModuleName());
 
         /**
@@ -458,63 +463,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     private function constructTemplateName()
     {
-        # get modulName,  actionName, subModuleName
-        $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
-        #echo $moduleName;
+        $module = Clansuite_ModuleController_Resolver::getModuleName();
 
-        $moduleName = split('_', $moduleName);
-        #$moduleName = explode("_", $moduleName);
-        #echo 'ModuleName : '.$moduleName['0'].' - '.$moduleName['1'].'<br>';
-        $moduleName = $moduleName[0];
-        #echo 'ModuleName : '.$moduleName.'<br>';
+        $action = $this->action_name; #Clansuite_ActionControllerResolver::getModuleAction();
 
-        #$actionName = Clansuite_ActionControllerResolver::getModuleAction();
-        $actionName = $this->action_name;
-        #echo 'ActionName : '.$actionName.'<br>';
-
-        $subModuleName = Clansuite_ModuleController_Resolver::getSubModuleName();
-        #echo 'SubModuleName : '.$subModuleName.'<br>';
-
-        if( empty($this->template) )
-        {
-            if(strlen($subModuleName) > 0)
-            {
-                if(strlen($actionName) > 0 )
-                {
-                    # news/action_admin_show.tpl
-                    $template = $moduleName.DS.$actionName.'.tpl';
-                }
-                else
-                {
-                    # news.tpl
-                    $template = $moduleName.'.tpl';
-                }
-            }
-            else
-            {
-                if(strlen($actionName) > 0)
-                {
-                    # news/action_show.tpl
-                    $template = $moduleName.DS.$actionName.'.tpl';
-                }
-                else
-                {
-                    # news.tpl
-                    $template = $moduleName.'.tpl';
-                }
-            }
-        }
-        elseif( !strpos($this->template, DS) )
-        {
-            $template = $moduleName.DS.$this->template;
-        }
-        else
-        {
-            $template = $this->template;
-        }
+        # Construct Templatename, like news/action_show.tpl
+        $template = $module.DS.$action.'.tpl';
 
         # Debug
-        # echo 'TemplateName : '.$template.'<br>';
+        # echo 'Module : '.$module.' and Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
 
         $this->setTemplate($template);
     }
@@ -553,16 +510,16 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      *
      * @param $modulename Modulename of the widget to display
      */
-    public function renderWidget($template_name = null)
+    public function renderWidget($template = null)
     {
-        if( empty( $template_name ) && empty( $this->widgetTemplate ) )
+        if( empty( $template ) && empty( $this->widgetTemplate ) )
         {
             $this->setWidgetTemplate($this->methodName . '.tpl');
         }
         elseif ( empty( $this->widgetTemplate ) )
         {
             #echo $this->widgetTemplate;
-            $this->setWidgetTemplate($template_name);
+            $this->setWidgetTemplate($template);
         }
 
         # Get the view
@@ -606,7 +563,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         # 2) get the view
         $view = $this->getView();
 
-        # 3) get the layout
+        # 3) get the layout (like admin/index.tpl)
         #$view->getLayoutTemplate();
 
         /**
@@ -619,10 +576,10 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
          * c) Render Engine -> method render() which returns a complete layout (rendered mainframe)
          */
         # a)
-        $response->setContent($this->output);
+        #$response->setContent($this->output);
 
         # b)
-        //$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
+        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
         # c)
         $response->setContent($view->render($this->getTemplateName()));
     }
@@ -641,6 +598,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         errorhandler::addError($errormessage, $errorcode);
 
         # event log
+        #$this->addEvent('logErrormessage')
 
     }
 
@@ -660,7 +618,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         Clansuite_Loader::callMethod($class, $method, $arguments);
 
         # event log
-
+        #$this->addEvent('logErrormessage');
     }
 
     /**
@@ -673,7 +631,20 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
-        $this->injector->instantiate('Clansuite_HttpResponse $response')->redirect($url, $time, $statusCode, $text);
+        $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
+    }
+
+    /**
+     * addEvent (shortcut for usage in modules)
+     *
+     * @param string Name of the Event
+     * @param object Eventobject
+     * @access public
+     */
+    public function addEvent($eventName, Clansuite_Event $event)
+    {
+        Clansuite_Eventhandler::instantiate();
+        Clansuite_Eventhandler::addHandler($eventName, $event);
     }
 }
 ?>
