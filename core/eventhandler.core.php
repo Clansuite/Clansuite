@@ -80,17 +80,17 @@ class Clansuite_Eventhandler
     {
         if (self::$instance === null)
         {
-            self::instance = new Clansuite_EventManager();
-        }
+            self::instance = new Clansuite_Eventhandler();
+        }        
     }
 
     /**
      * add an EventHandler to the Eventhandlers Array
      *
      * @param $eventName Name of the Event
-     * @param $event Instance of Clansuite_EventHandler
+     * @param $event Instance of Clansuite_Event
      */
-    public function addHandler($eventName, Clansuite_EventHandler $event)
+    public function addHandler($eventName, Clansuite_Event $event)
     {
         # if eventhandler is not set already, initialize as array
         if (!isset($this->eventhandlers[$eventName]))
@@ -120,9 +120,9 @@ class Clansuite_Eventhandler
     public function triggerEvent($event, $context = null, $info = null)
     {
         # init Event Class with constructor settings
-        if(!$event instanceof Event)
+        if(!$event instanceof Clansuite_Event)
         {
-            $event = new Event($event, $context, $info);
+            $event = new Clansuite_Event($event, $context, $info);
         }
 
         # get the Name
@@ -161,7 +161,7 @@ class Clansuite_Eventhandler
  * @subpackage  eventhandler
  * @category    core
  */
-class Event
+class Clansuite_Event
 {
     # name of the event
     private $name;
