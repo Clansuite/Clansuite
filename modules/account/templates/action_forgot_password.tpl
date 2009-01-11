@@ -1,18 +1,13 @@
 {doc_raw}
-<script src="{$www_root_themes_core}/javascript/php.js" type="application/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/doc_raw}
 {literal}
-<script>
-window.addEvent('domready', function() {
-
-    $('send_pass_activation').addEvent('submit', function(){
-        $('forgot_password').value = sha1($('forgot_password').value);
-        return true;
-    });
-
-}, 'javascript');
-</script>
+    <script>
+    function hashLoginPassword(theForm)
+    {
+        theForm.password.value = SHA1(theForm.password.value);
+    }
+    </script>
 {/literal}
 <h1>{t}Forgot Password{/t}</h1>
 
@@ -24,7 +19,9 @@ window.addEvent('domready', function() {
     {if $err.form_not_filled == 1}<p class="error">{t}Please fill the form.{/t}</p>{/if}
     {if $err.pass_too_short == 1}<p class="error">{t}The password is too short!{/t}</p>{/if}
     *}
-    <form action="index.php?mod=account&action=forgot_password" method="post" id="send_pass_activation" autocomplete="off">
+
+    <form action="index.php?mod=account&action=forgot_password"
+          method="post" id="send_pass_activation" onsubmit="hashLoginPassword(this);" autocomplete="off">
     <table>
     <tr>
         <td>{t}Email:{/t}</td>

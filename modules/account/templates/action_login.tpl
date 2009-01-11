@@ -5,7 +5,7 @@
 {literal}
     <script>
     function hashLoginPassword(theForm)
-    {       
+    {
         theForm.password.value = SHA1(theForm.password.value);
     }
     </script>
@@ -20,8 +20,8 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
              <td class="td_header" colspan="2">
-                <form action="index.php?mod=account&action=login" 
-                method="post" id="block_login_form" accept-charset="UTF-8" onsubmit="hashLoginPassword(this);">             
+                <form action="index.php?mod=account&action=login"
+                method="post" id="block_login_form" accept-charset="UTF-8" onsubmit="hashLoginPassword(this);">
              {t}Login{/t}
              </td>
         </tr>
@@ -61,4 +61,3 @@
             </td>
         </tr>
     </table>
-   
