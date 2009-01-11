@@ -70,7 +70,7 @@ class Clansuite_FilterManager
      * @param object $filter
      * @access public
      */
-    public function addFilter(Filter_Interface $filter)
+    public function addFilter(Clansuite_FilterInterface $filter)
     {
         $this->filters[] = $filter;
     }
