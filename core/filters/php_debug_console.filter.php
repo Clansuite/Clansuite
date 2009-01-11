@@ -42,13 +42,13 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @package clansuite
  * @subpackage filters
- * @implements FilterInterface
+ * @implements Clansuite_FilterInterface
  */
-class php_debug_console implements Filter_Interface
+class php_debug_console implements Clansuite_FilterInterface
 {
     private $config     = null;
 
-    function __construct(Clansuite_Config $config)
+public function __construct(Clansuite_Config $config)
     {
        $this->config    = $config;
     }

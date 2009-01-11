@@ -45,14 +45,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @package clansuite
  * @subpackage filters
- * @implements FilterInterface
+ * @implements Clansuite_FilterInterface
  */
-class theme_via_get implements Filter_Interface
+class theme_via_get implements Clansuite_FilterInterface
 {
     private $config     = null;
     private $input      = null;
 
-    function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
+public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
        $this->config    = $config;
        $this->input     = $input;
@@ -76,7 +76,7 @@ class theme_via_get implements Filter_Interface
                     // @todo umstellen auf thrown Exception
                     $this->input->display_intrusion_warning();
                 }
-                
+
                 // If $_GET['theme'] dir exists, set it as session-user-theme
                 if(is_dir(ROOT_THEMES . '/' . $request['theme'] . '/'))
                 {

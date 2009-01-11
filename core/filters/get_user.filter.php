@@ -43,21 +43,21 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @package clansuite
  * @subpackage filters
- * @implements FilterInterface
+ * @implements Clansuite_FilterInterface
  */
-class get_user implements Filter_Interface
+class get_user implements Clansuite_FilterInterface
 {
     private $user    = null;
 
-    function __construct(Clansuite_User $user)
+    public function __construct(Clansuite_User $user)
     {
         $this->user = $user;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-       $this->user->createUser();		    # Create a user (empty)
-       $this->user->checkLoginCookie();	    # Check for login cookie - Guest/Member
+        $this->user->createUser();		    # Create a user (empty)
+        $this->user->checkLoginCookie();	# Check for login cookie - Guest/Member
     }
 }
 ?>
