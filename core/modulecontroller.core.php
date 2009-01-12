@@ -95,13 +95,12 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     // Variable contains the Module Configuration Object
     public $moduleconfig = null;
 
-    // Variable contains the Name of the Action
-    public $action_name = null;
-
     // Variable contains the module name
+    # @todo this is used by widget modules?
     public $moduleName = null;
 
     // Variable contains the method name
+    # @todo this is used by widget modules?
     public $methodName = null;
 
     /**
@@ -209,92 +208,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public static function getInjector()
     {
         return self::$static_injector;
-    }
-
-   /**
-    * Maps the action to an method name.
-    * The pseudo-namesspace prefix 'action_' is used for all actions.
-    * Example: action_show()
-    * This is also a way to ensure some kind of whitelisting via namespacing.
-    *
-    * The use of submodules like News_Admin is also supported.
-    * In this case the actionname is action_admin_show().
-    *
-    * @param  string  the action
-    * @param  string  the submodule
-    * @return string  the mapped method name
-    */
-    private function mapAction($action, $submodule = null)
-    {
-        # action not set by URL, so we set default_action from config
-        if( !isset( $action ) )
-        {
-            # set the method name
-            $action = $this->config['defaults']['default_action'];
-        }
-
-        # if $module is set, use it as a prefix on $action
-        if( isset($submodule) && ($submodule !== null) )
-        {
-            $action = $submodule .'_'. $action;
-        }
-
-        # Debug Display
-        #echo '<br>Methodname of Action: action_'. $action .'<br>';
-
-        # return the complete methodname
-        return 'action_' . $action;
-    }
-
-    /**
-     * Fire Action !
-     *
-     * @access public
-     * @param string $requested_action the requested action as string
-     */
-    public function processActionController($request)
-    {
-        /**
-         * construct correct methodname from URI-Parameters
-         *
-         * $action      = httprequest action
-         * $submodule   = httprequest sub
-         */
-        $methodname = $this->mapAction($request->getParameter('action'),
-                                       $request->getParameter('sub'));
-                                       # @todo: after we add routing, we have to use abstract methods to get the values
-                                       # we can not take the parameter from req-obj directly
-                                       #Clansuite_ModuleController_Resolver::getSubModuleName());
-
-        /**
-         * Handle Method
-         *
-         * 1) check if method exists in module, then call it
-         * 2) check if method exists in module/actions path, then call it
-         * 3) if not found display error
-         *
-         */
-        if(method_exists($this,$methodname))
-        {
-            # set the used action name
-            $this->action_name = $methodname;
-
-            # call the method on module!
-            $this->{$methodname}();
-        }
-        /*
-        elseif
-        {
-            @todo: callFileActions
-            # example: 'modulename/commands/action_show.php'
-            return 'modulename/commands/'$methodname.'.php';
-        }
-        */
-        else # error
-        {
-
-            throw new Clansuite_Exception('Action does not exist: ' . $methodname, 1);
-        }
     }
 
     /**
@@ -464,14 +377,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     private function constructTemplateName()
     {
         $module = Clansuite_ModuleController_Resolver::getModuleName();
+        $action = Clansuite_ActionController_Resolver::getActionName();
 
-        $action = $this->action_name; #Clansuite_ActionControllerResolver::getModuleAction();
+        $module = Clansuite_Functions::cut_string_backwards($module, '_admin');
 
         # Construct Templatename, like news/action_show.tpl
         $template = $module.DS.$action.'.tpl';
 
         # Debug
-        # echo 'Module : '.$module.' and Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
+        #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
 
         $this->setTemplate($template);
     }
@@ -529,7 +443,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         if($smarty->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
         {
             # Themefolder: news\widget_news.tpl
-            echo $smarty->fetch($this->moduleName.DS.$this->getWidgetTemplateName());
+            echo $smarty->fetch($this->moduleName.DS.$this->getWigetTemplateName());
         }
         else
         {
@@ -565,6 +479,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # 3) get the layout (like admin/index.tpl)
         #$view->getLayoutTemplate();
+
+        # Debug
+        #echo $this->getTemplateName();
 
         /**
          * 4+5) Set Content on the Response Object

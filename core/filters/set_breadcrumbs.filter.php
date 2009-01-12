@@ -54,32 +54,21 @@ class set_breadcrumbs implements Clansuite_FilterInterface
        $this->config    = $config;      # set instance of config to class
     }
 
-    function cut_string($haystack, $needle)
-    {
-        $needle_length = strlen($needle);
-
-        if(($i = strpos($haystack,$needle) !== false))
-        {
-            return substr($haystack, 0, -$needle_length);
-        }
-        return $haystack;
-    }
-
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();     # $request->getParameter('mod');
-        $submoduleName  = Clansuite_ModuleController_Resolver::getSubModuleName();  # $request->getParameter('sub');
-        $actionName     = $request->getParameter('action');
+        $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();
+        $submoduleName  = Clansuite_ModuleController_Resolver::getSubModuleName();
+        $actionName     = Clansuite_ActionController_Resolver::getActionName();
 
         # add module Part
         if(strlen($moduleName) > 0)
-        {   
+        {
             # Strip String ModuleName at "_admin", example: guestbook_admin
             #$moduleName = strstr($moduleName, '_Admin', true);     # php6
-            $moduleName = $this->cut_string($moduleName, '_admin');
-            
+            $moduleName = Clansuite_Functions::cut_string_backwards($moduleName, '_admin');
+
             # Strip String ModuleName at "admin_", example: admin_menueditor
-            if(strpos($moduleName,'admin_')!==false) 
+            if(strpos($moduleName,'admin_')!==false)
             {
                 #$moduleName = substr($moduleName, 6);
                 $moduleName_exploded = explode("_", $moduleName);
@@ -99,7 +88,7 @@ class set_breadcrumbs implements Clansuite_FilterInterface
 
             # Set Pagetitle and Breadcrumbs for that Module
             # >> MODULENAME
-            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );            
+            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );
         }
 
         # add submodule part

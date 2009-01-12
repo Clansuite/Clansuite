@@ -51,8 +51,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

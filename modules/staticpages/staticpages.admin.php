@@ -51,7 +51,6 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $this->processActionController($request);
     }
 
     /**

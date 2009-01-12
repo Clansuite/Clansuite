@@ -120,7 +120,10 @@ $request  = $injector->instantiate('Clansuite_HttpRequest');
 $response = $injector->instantiate('Clansuite_HttpResponse');
 
 # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
-$clansuite = new Clansuite_FrontController(new Clansuite_ModuleController_Resolver($config['defaults']['default_module'],$config['defaults']['default_action']),$injector);
+$clansuite = new Clansuite_FrontController(
+                 new Clansuite_ModuleController_Resolver($config['defaults']['default_module']),
+                 new Clansuite_ActionController_Resolver($config['defaults']['default_action']),
+                 $injector);
 
 /**
  * Prefilters or Postfilters

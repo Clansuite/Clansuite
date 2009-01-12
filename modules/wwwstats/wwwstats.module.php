@@ -50,8 +50,6 @@ class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Mo
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

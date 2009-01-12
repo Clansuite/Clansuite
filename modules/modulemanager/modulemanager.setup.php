@@ -58,9 +58,6 @@ class Module_Modulemanager_Setup extends ModuleController implements Clansuite_M
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
-        
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

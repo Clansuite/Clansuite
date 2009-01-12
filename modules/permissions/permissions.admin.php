@@ -65,9 +65,6 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
     {  
         # read module config
         $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }     
 
     /**
@@ -101,6 +98,11 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
         
+        # insert permission into database
+               
+        # else
+        $this->setErrormessage(Could not create Permission);
+                
                 
         # Prepare the Output
         $this->prepareOutput();

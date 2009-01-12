@@ -46,8 +46,6 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     public function widget_tsministatus($params)

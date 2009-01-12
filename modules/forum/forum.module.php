@@ -31,9 +31,6 @@ class Module_Forum extends ModuleController implements Clansuite_Module_Interfac
     {  
         # read module config
         $this->config->readConfig( ROOT_MOD . '/forum/forum.config.php');
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }     
 
     /**

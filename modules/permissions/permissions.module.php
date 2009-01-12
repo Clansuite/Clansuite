@@ -65,9 +65,6 @@ class Module_Permissions extends ModuleController implements Clansuite_Module_In
     {  
         # read module config
         $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }     
 
     /**

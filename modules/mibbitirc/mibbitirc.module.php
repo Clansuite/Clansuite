@@ -51,9 +51,6 @@ class Module_Mibbitirc extends Clansuite_ModuleController implements Clansuite_M
     {
         # read module config
         $this->getModuleConfig();
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     public function action_show()
