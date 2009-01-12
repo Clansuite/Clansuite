@@ -54,7 +54,6 @@ interface Clansuite_ActionController_Resolver_Interface
 class Clansuite_ActionController_Resolver implements Clansuite_ActionController_Resolver_Interface
 {
     private $_defaultAction;             # holds the name of the defaultAction
-    private $_moduleController;
 
     public static $actionName = null;   # holds the Action of the Module
 
@@ -102,12 +101,8 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     {
         /**
          * construct correct methodname from URI-Parameters
-         *
-         * $action      = httprequest action
-         * $submodule   = httprequest sub
          */
-        $methodname = $this->mapAction(Clansuite_ActionController_Resolver::getActionName(),
-                                       Clansuite_ModuleController_Resolver::getSubModuleName());
+        $methodname = $this->mapAction($request['action'], $request['sub']);
 
         /**
          * Handle Method
