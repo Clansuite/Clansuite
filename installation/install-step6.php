@@ -56,7 +56,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                                       if($file == 'german' ) { $language_shorthand = 'de_DE'; }
                                       if($file == 'english') { $language_shorthand = 'en_EN'; }
 
-                                      if ($_SESSION['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
+                                      if ($values['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
                                       echo '>';
                                       echo $file;
                                       echo "</option>\n";
