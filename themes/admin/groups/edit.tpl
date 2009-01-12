@@ -27,7 +27,7 @@
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}
 {if $err.name_already == 1}     {error title="Name already exists"} The name you have entered already exists in the database.{/error}   {/if}
 
-<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=groups&amp;action=edit">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=groups&amp;action=edit">
     <table cellpadding="0" cellspacing="0" border="0" style="width:500px;margin:0 auto;text-align:center">
         <tr class="tr_header">
             <td>
@@ -171,7 +171,7 @@
         </tr>
         <tr class="tr_row2">
             <td colspan="3" align="right">
-                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=groups'"/>
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=groups'"/>
                 <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit the group{/t}" />
                 <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>

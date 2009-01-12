@@ -11,10 +11,10 @@
 <tbody>
     <tr>
         <td class="cell1" style="text-align: left">
-        		<a style="text-wieght: bold" href="index.php?mod=admin&amp;sub=modules&amp;action=export&amp;details_name={$wert.name}">{$wert.title}</a>
+        		<a style="text-wieght: bold" href="index.php?mod=controlcenter&amp;sub=modules&amp;action=export&amp;details_name={$wert.name}">{$wert.title}</a>
         		<br />
         		{foreach key=key item=item from=$wert.subs}
-        		&nbsp;-&nbsp;<a href="index.php?mod=admin&amp;sub=modules&amp;action=export&amp;subdetails_id={$item.submodule_id.0}">{$item.name}</a><br />
+        		&nbsp;-&nbsp;<a href="index.php?mod=controlcenter&amp;sub=modules&amp;action=export&amp;subdetails_id={$item.submodule_id.0}">{$item.name}</a><br />
         		{/foreach}
         </td>
     </tr>

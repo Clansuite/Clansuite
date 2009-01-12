@@ -1,4 +1,4 @@
-<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=permissions&amp;action=edit_right">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_right">
     <input type="hidden" name="info[right_id]" class="input_text" value="{$info.right_id}" />
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="280">
     <tr class="tr_header">

@@ -1,7 +1,7 @@
 {* Debuganzeige, wenn DEBUG = 1 |    {$categories|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$categories} {/if} *}
 
-<form action="index.php?mod=admin&amp;sub=categories&amp;action=delete" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=controlcenter&amp;sub=categories&amp;action=delete" method="post" accept-charset="UTF-8">
     <table cellpadding="0" cellspacing="0" border="0" width="700" align="center">
       	<tr class="tr_header">
        		<td align="center">{t}ID{/t}</td>
@@ -39,7 +39,7 @@
             </td>
             <td>{$category.description}</td>
             <td align="center">
-                <a href="index.php?mod=admin&amp;sub=categories&amp;action=edit&amp;id={$categories.cat_id}">
+                <a href="index.php?mod=controlcenter&amp;sub=categories&amp;action=edit&amp;id={$categories.cat_id}">
                     <input type="button" value="{t}Edit{/t}" class="ButtonGreen" />
                 </a>
             </td>
@@ -48,7 +48,7 @@
         {/foreach}
         <tr>
             <td colspan="9" align="right" class="cell1">
-                <input class="ButtonGreen" type="button" onclick="location.href='index.php?mod=admin&amp;sub=categories&amp;action=create'" value="{t}Create a new Category{/t}" />
+                <input class="ButtonGreen" type="button" onclick="location.href='index.php?mod=controlcenter&amp;sub=categories&amp;action=create'" value="{t}Create a new Category{/t}" />
                 <input class="ButtonGrey" type="reset" name="reset" value="{t}Reset{/t}" />
                 <input class="ButtonRed" type="submit" name="submit" value="{t}Delete the selected Category(ies){/t}" />
             </td>

@@ -39,7 +39,7 @@
         
         <script type="text/javascript">
         	function getTemplateFile(filename){
-        	    var url = 'index.php?mod=admin&sub=templates&action=ajax_get';
+        	    var url = 'index.php?mod=controlcenter&sub=templates&action=ajax_get';
         		//alert('File:' + filename.id);
         		var getAjax = new Ajax.Updater(
         				'template_textarea', url, 
@@ -49,7 +49,7 @@
         	}   
         	
         	function saveTemplateFile(){
-        	    var url = 'index.php?mod=admin&sub=templates&action=ajax_save';
+        	    var url = 'index.php?mod=controlcenter&sub=templates&action=ajax_save';
         		//alert('File:' + $('filename').innerHTML);
         		//alert('Content:' + $('template_textarea').value );
         		var saveAjax = new Ajax.Updater(

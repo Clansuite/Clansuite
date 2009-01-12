@@ -12,13 +12,13 @@
         <td class="td_header_small" width="20%" align="center">         Action       </td>       
     </tr>
 {foreach key=key item=item from=$info}
-<form action="index.php?mod=admin&sub=themes&action=edit" method="POST">    
+<form action="index.php?mod=controlcenter&sub=themes&action=edit" method="POST">    
     <tr>
         <td class="cell1" align="center">
          <img src="{$www_root}/{$item.themename}/preview_thumb.png"> 
          Constructed filename: {$www_root_theme}/{$item.themename}/preview_thumb.png
             <input type="hidden" name="id" value="{$item.id}">
-            <b><a href="index.php?mod=admin&sub=themes&page={$item.title}" target="_blank">{$item.title}</a></b>
+            <b><a href="index.php?mod=controlcenter&sub=themes&page={$item.title}" target="_blank">{$item.title}</a></b>
         </td>
         <td class="cell2">
             {$item.description}
