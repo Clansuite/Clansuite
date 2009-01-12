@@ -63,7 +63,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
  * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
  */
-require 'core/config/abstract.core.php';
+require dirname(__FILE__) . '/abstract.core.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
      /**
