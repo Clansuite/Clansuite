@@ -321,13 +321,11 @@ class Clansuite_Loader
      * After that we use call_user_func_array.
      * Looks stupid, but may result in an speedup while calling!
      *
-     *
      * @param $class Takes name of the class or the class object itself.
      * @param $method Methodname to call.
      * @param $arguments Array of Arguments for the Method Call.
      *
      * @return object / method response
-     * @todo: we have to profile this!
      */
     public static function callMethod($class, $method, array $arguments = array())
     {
@@ -341,8 +339,6 @@ class Clansuite_Loader
             # initalize class
             $class = new $className;
         }
-
-        # @todo: if $class has Prefix "Module_" fetch / pass the injector into the object ?? why?
 
         switch (count($arguments))
         {
