@@ -39,11 +39,23 @@ session_start();
 
 @set_time_limit(0);
 
-// Security Handler
+# Security Handler
 define('IN_CS', true);
 
-// Debugging Handler
-define('DEBUG', false);
+# Debugging Handler
+define('DEBUG', true);
+
+/**
+ * Suppress Errors and use E_STRICT when Debugging
+ * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
+ * so we use E_ALL when DEBUGING. This is just an installer btw :)
+ */
+ini_set('display_startup_errors', true);
+ini_set('display_errors', true);
+error_reporting(E_ALL);
+
+#var_dump($_SESSION);
+#var_dump($_POST);
 
 /**
  *  ================================================
@@ -78,37 +90,25 @@ catch (Exception $e)
     exit($e);
 }
 
-// Define: DS; ROOT; BASE_ROOT
+// Define: DS; INSTALLATION_ROOT; ROOT
 define ('DS', DIRECTORY_SEPARATOR);
-define ('ROOT', getcwd() . DS);
-chdir('..'); define ('BASE_ROOT', getcwd() . DS); chdir ('installation');
+define ('INSTALLATION_ROOT', getcwd() . DS);
+define ('ROOT', dirname(getcwd()) . DS);
 
 // The Clansuite version this script installs
-require( ROOT . '../core/bootstrap/clansuite.version.php');
+require ROOT . 'core/bootstrap/clansuite.version.php';
 
 // Define $error
 $error = '';
 
-#var_dump($_SESSION);
-#var_dump($_POST);
-
 // in case clansuite.config.php exists, exit -> can be configured from backend then
-/*if (is_file( ROOT . '../clansuite.config.php' ))
+/*if (is_file( ROOT . 'configuration/clansuite.config.php' ))
 {
-    exit('The file <strong>../clansuite.config.php</strong> already exists! This indicates that
+    exit('The file <strong>/configuration/clansuite.config.php</strong> already exists! This indicates that
           <strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
-          <br /> You should visit your websites <a href="../index.php">frontend</a>
-          or it\'s  <a href="../index.php?mod=admin">admin-control-panel</a> instead.');
+          <br /> You should visit your Websites <a href="../index.php">Frontend</a>
+          or it\'s  <a href="../index.php?mod=controlcenter">Controlcenter (CC)</a> instead.');
 }*/
-
-/**
- * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
- * so we use E_ALL when DEBUGING. This is just an installer btw :)
- */
-ini_set('display_startup_errors', false);
-ini_set('display_errors', false);
-error_reporting(0);
 
 #========================
 #      SELF DELETION
@@ -173,7 +173,7 @@ else
  */
 try
 {
-    $file = ROOT . 'languages'. DS . $lang .'.install.php';
+    $file = INSTALLATION_ROOT . 'languages'. DS . $lang .'.install.php';
     if (is_file ($file))
     {
         require_once $file;
@@ -276,7 +276,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
          * 4. Insert SQL Data
          */
 
-        $sqlfile = ROOT . 'sql/clansuite.sql';
+        $sqlfile = INSTALLATION_ROOT . 'sql/clansuite.sql';
         if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
                                  $_POST['config']['database']['db_name'],
                                  $_POST['config']['database']['db_username'],
@@ -304,9 +304,8 @@ if( isset($_POST['step_forward']) && $step == 5 )
     {
         $step = 4;
         $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
-
         # Adjust Error-Message in case validity of database name FAILED
-        if( preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ))
+        if( isset($_POST['config']['database']['db_name']) && preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ))
         {
             $error .= '<p>The database name you have entered, "'. $_POST['config']['database']['db_name'] . '", is invalid.</p>';
             $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
@@ -410,7 +409,7 @@ if(function_exists($installfunction))
 #=======================
 
 # INCLUDE THE FOOTER !
-require 'install_footer.php';
+require INSTALLATION_ROOT.'install_footer.php';
 
 #===========================
 #      PAGE IS DISPLAYED
@@ -588,11 +587,11 @@ function calc_progress($this_is_step,$of_total_steps)
 }
 
 // STEP 1 - Language Selection
-function installstep_1($language){    require 'install-step1.php' ;}
+function installstep_1($language){    require INSTALLATION_ROOT.'install-step1.php' ;}
 // STEP 2 - System Check
-function installstep_2($language){    require 'install-step2.php' ;}
+function installstep_2($language){    require INSTALLATION_ROOT.'install-step2.php' ;}
 // STEP 3 - System Check
-function installstep_3($language){    require 'install-step3.php' ;}
+function installstep_3($language){    require INSTALLATION_ROOT.'install-step3.php' ;}
 // STEP 4 - System Check
 function installstep_4($language, $error)
 {
@@ -604,7 +603,7 @@ function installstep_4($language, $error)
     $values['db_password']  = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
     $values['db_prefix']    = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
 
-    require 'install-step4.php' ;
+    require INSTALLATION_ROOT.'install-step4.php' ;
 }
 // STEP 5 - System Check
 function installstep_5($language)
@@ -612,8 +611,9 @@ function installstep_5($language)
     $values['std_page_title']      = isset($_SESSION['std_page_title']) ? $_SESSION['std_page_title'] : 'Team Clansuite';
     $values['from']                = isset($_SESSION['from']) ? $_SESSION['from'] : 'system@website.com';
     $values['timezone']            = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : '0';
+    $values['encryption']          = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
 
-    require 'install-step5.php';
+    require INSTALLATION_ROOT.'install-step5.php';
 }
 // STEP 6 - System Check
 function installstep_6($language)
@@ -623,14 +623,10 @@ function installstep_6($language)
     $values['admin_email']      = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
     $values['admin_language']   = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
 
-  /*$values['encryption']        = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-    $values['salt']                = isset($_SESSION['salt']) ? $_SESSION['salt'] : generate_salt(6);
-  */
-
     require 'install-step6.php';
 }
 // STEP 7 - System Check
-function installstep_7($language){    require 'install-step7.php' ;}
+function installstep_7($language){    require INSTALLATION_ROOT.'install-step7.php' ;}
 
 
 /**
@@ -723,12 +719,13 @@ function getQueriesFromSQLFile($file)
  * Writes the Database-Settings into the clansuite.config.php
  *
  * @param $data_array
- * @return BOOLEAN true, if clansuite.config.php could be written to the ROOT
+ * @return BOOLEAN true, if clansuite.config.php could be written to the INSTALLATION_ROOT
  *
  */
 function write_config_settings($data_array)
 {
-    require BASE_ROOT . 'core/config/ini.config.php';
+    # Read/Write Handler for Configfiles
+    require ROOT . 'core/config/ini.config.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
@@ -738,7 +735,7 @@ function write_config_settings($data_array)
 
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
-    $installer_config = Clansuite_Config_INIHandler::readConfig('clansuite.config.installer');
+    $installer_config = Clansuite_Config_INIHandler::readConfig( INSTALLATION_ROOT . 'clansuite.config.installer');
 
     #var_dump($installer_config);
 
@@ -747,8 +744,8 @@ function write_config_settings($data_array)
     #var_dump($data_array);
 
     # Write Config File to ROOT Directory
-    #print BASE_ROOT . 'clansuite.config.php';
-    if ( !Clansuite_Config_INIHandler::writeConfig( BASE_ROOT . '/configuration/clansuite.config.php', $data_array) )
+    #print ROOT . 'clansuite.config.php';
+    if ( !Clansuite_Config_INIHandler::writeConfig( ROOT . '/configuration/clansuite.config.php', $data_array) )
     {
         return false;
     }

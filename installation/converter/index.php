@@ -45,6 +45,22 @@ define('DEBUG', true);
 
 set_time_limit(0);
 
+/**
+ * Suppress Errors and use E_STRICT when Debugging
+ * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
+ * so we use E_ALL when DEBUGING. This is just an installer btw :)
+ */
+$boolean = true;
+if(DEBUG == false) { $boolean = false; } else { $boolean = true; }
+ini_set('display_startup_errors', $boolean);
+ini_set('display_errors', $boolean);
+error_reporting($boolean);
+
+// Define: DS; ROOT; BASE_ROOT
+define ('DS', DIRECTORY_SEPARATOR);
+define ('CONVERTER_ROOT', getcwd() . DS);
+define ('ROOT', dirname(dirname(getcwd())) . DS);
+
 echo 'P,G,R,S';
 var_dump($_POST); var_dump($_GET); var_dump($_REQUEST); var_dump($_SESSION);
 
@@ -63,35 +79,20 @@ if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
 }
 
 # Check for Configuration File
-if(false == is_file('../../clansuite.config.php'))
+if(false == is_file( ROOT . '/configuration/clansuite.config.php'))
 {
     $e = new Clansuite_Converter_Exception("<i>Configuration file not found!</i> | Ensure that Clansuite is installed properly and clansuite.config.php resides in maindirectory! The file is needed for Database Access!", 2);
     exit($e);
 }
 
-// Define: DS; ROOT; BASE_ROOT
-define ('DS', DIRECTORY_SEPARATOR);
-define ('ROOT', getcwd() . DS);
-chdir('..'); define ('BASE_ROOT', getcwd() . DS); chdir ('converter');
 
 // The Clansuite version this script installs
-require( ROOT . '../../core/clansuite.version.php');
+require( ROOT . '/core/clansuite.version.php');
 define('CONVERTER_VERSION', '0.1');
 
 // Define $error
 $error = '';
 
-
-/**
- * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
- * so we use E_ALL when DEBUGING. This is just an installer btw :)
- */
-$boolean = false;
-if(DEBUG == false) { $boolean = false; } else { $boolean = true; }
-ini_set('display_startup_errors', $boolean);
-ini_set('display_errors', $boolean);
-error_reporting($boolean);
 
 #========================
 #      SELF DELETION
@@ -525,7 +526,7 @@ function getQueriesFromSQLFile($file)
  */
 function write_config_settings($data_array)
 {
-    require BASE_ROOT . 'core/clansuite_config.class.php';
+    require ROOT . 'core/clansuite_config.class.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
@@ -535,7 +536,7 @@ function write_config_settings($data_array)
 
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
-    $installer_config = Clansuite_Config::readConfig('clansuite.config.installer');
+    $installer_config = Clansuite_Config::readConfig( CONVERTER_ROOT . 'clansuite.config.converter');
 
     #var_dump($installer_config);
 
@@ -544,8 +545,8 @@ function write_config_settings($data_array)
     #var_dump($data_array);
 
     # Write Config File to ROOT Directory
-    #print BASE_ROOT . 'clansuite.config.php';
-    if ( !Clansuite_Config::writeConfig( BASE_ROOT . 'clansuite.config.php', $data_array) )
+    #print ROOT . 'clansuite.config.php';
+    if ( !Clansuite_Config::writeConfig( ROOT . 'clansuite.config.php', $data_array) )
     {
         return false;
     }

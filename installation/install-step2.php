@@ -102,12 +102,15 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          function check_temporary_dir()
                          {
                              $tempdir = ini_get("session.save_path");
-                             if ($temp_filename = tempnam($tempdir, "FOO FIGHTERS")) # filehandle for temp file
+                             # filehandle for temp file
+                             $temp_file_name = tempnam($tempdir, "FOO FIGHTERS");
+                             
+                             if (!empty($temp_file_name)) 
                              {
                                 $handle = fopen($temp_file_name, "w");
                                 fwrite($handle, "writing to tempfile");
                                 fclose($handle);
-                                unlink($tmpfname);
+                                unlink($temp_file_name);
                                 return true;
                              }
                              else
@@ -156,32 +159,32 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          # Permissions Check: write on \clansuite root
                          $required['is_writable_clansuite_root']['text']     = $language['IS_WRITEABLE_CLANSUITE_ROOT'];
                          $required['is_writable_clansuite_root']['expected'] = 'w';
-                         $required['is_writable_clansuite_root']['actual']   = is_writeable(BASE_ROOT) ? 'w' : '---';
-                         $required['is_writable_clansuite_root']['status']   = is_writeable(BASE_ROOT) ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_clansuite_root']['actual']   = is_writeable(ROOT) ? 'w' : '---';
+                         $required['is_writable_clansuite_root']['status']   = is_writeable(ROOT) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on \smarty\templates_c
                          $required['is_writable_smarty_templates_c']['text']     = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];
                          $required['is_writable_smarty_templates_c']['expected'] = 'w';
-                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(BASE_ROOT . '/libraries/smarty/templates_c') ? 'w' : '---';
-                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(BASE_ROOT . '/libraries/smarty/templates_c') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . '/libraries/smarty/templates_c') ? 'w' : '---';
+                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . '/libraries/smarty/templates_c') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on \smarty\cache
                          $required['is_writable_smarty_cache']['text']     = $language['IS_WRITEABLE_SMARYT_CACHE'];
                          $required['is_writable_smarty_cache']['expected'] = 'w';
-                         $required['is_writable_smarty_cache']['actual']   = is_writeable(BASE_ROOT . '/libraries/smarty/cache') ? 'w' : '---';
-                         $required['is_writable_smarty_cache']['status']   = is_writeable(BASE_ROOT . '/libraries/smarty/cache') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . '/libraries/smarty/cache') ? 'w' : '---';
+                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . '/libraries/smarty/cache') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['text']     = $language['IS_WRITEABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
-                         $required['is_writable_uploads']['actual']   = is_writeable(BASE_ROOT . '/uploads') ? 'w' : '---';
-                         $required['is_writable_uploads']['status']   = is_writeable(BASE_ROOT . '/uploads') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_uploads']['actual']   = is_writeable(ROOT . '/uploads') ? 'w' : '---';
+                         $required['is_writable_uploads']['status']   = is_writeable(ROOT . '/uploads') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: read on Configuration Template File
                          $required['is_readable_config_template']['text']     = $language['IS_READABLE_CONFIG_TEMPLATE'];
                          $required['is_readable_config_template']['expected'] = 'r';
-                         $required['is_readable_config_template']['actual']   = is_readable(ROOT . 'clansuite.config.installer') ? 'r' : '---';
-                         $required['is_readable_config_template']['status']   = is_readable(ROOT . 'clansuite.config.installer') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_readable_config_template']['actual']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? 'r' : '---';
+                         $required['is_readable_config_template']['status']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? SETTING_TRUE : SETTING_FALSE;
 
                          # RECOMMENDED CHECKS
 

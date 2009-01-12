@@ -19,7 +19,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         <ul>
                             <li><a href="../index.php"><?=$language['STEP7_SENTENCE5']?></a><br/></li>
                             <?=$language['STEP7_SENTENCE6']?>
-                            <li><a href="../index.php?mod=admin">Admin Control Panel (ACP)</a>.<br /></li>
+                            <li><a href="../index.php?mod=controlcenter">Control Center (CC)</a>.<br /></li>
                         </ul>
                       </b>
                       <br />
