@@ -84,7 +84,7 @@ class {$admin_class_name}
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=controlcenter');
         $trail->addStep($lang->t('{$title}'), '/index.php?mod={$name}&amp;sub=admin');
 
         switch ($_REQUEST['action'])

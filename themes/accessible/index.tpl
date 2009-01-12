@@ -56,7 +56,7 @@
 			<li><a href="index.php?mod=userslist">Userslist</a></li>
 			<li><a href="index.php?mod=staticpages&amp;page=credits">Credits</a></li>
 			<li><a href="index.php?mod=staticpages&amp;action=overview">Static Pages Overview</a></li>
-			<li><a href="index.php?mod=admin">Admin Control Panel</a></li>
+			<li><a href="index.php?mod=controlcenter">Admin Control Panel</a></li>
 		</ul>
 	</div>
 	<div id="breadcrumb">

@@ -1,4 +1,4 @@
-<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=permissions&amp;action=create_area">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_area">
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="280">
         <tr class="tr_header">
             <td width="80">{t}Description{/t}</td>

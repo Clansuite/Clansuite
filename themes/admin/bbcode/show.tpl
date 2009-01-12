@@ -37,7 +37,7 @@
    {/literal}
 {/doc_raw}
 
-<form action="index.php?mod=admin&sub=bbcode&action=create" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=controlcenter&sub=bbcode&action=create" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="90%" align="center">
     <tr class="tr_header">
         <td align="center">{t}Tag Name{/t}</td>
@@ -110,5 +110,5 @@
         </td>
     </tr>
 {/foreach}
-        <script type="text/javascript">new TableGrid('table_bbcode', '6', 'index.php?mod=admin&sub=bbcode&action=ajaxupdate_bbcode');</script>
+        <script type="text/javascript">new TableGrid('table_bbcode', '6', 'index.php?mod=controlcenter&sub=bbcode&action=ajaxupdate_bbcode');</script>
 </table>

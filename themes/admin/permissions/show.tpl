@@ -73,7 +73,7 @@
             {t}Select the area on the left side{/t}
             </div>
             {foreach key=area_id item=area_array from=$areas}
-            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
+            <form action="index.php?mod=controlcenter&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <div style="height: 1px; display: none; overflow: hidden" id="area_{$area_array.area_id}">
                 <table cellpadding="0" cellspacing="0" border="0" id="table_area_{$area_array.area_id}">
                     <tr class="tr_header_small">
@@ -89,8 +89,8 @@
                         <td style="vertical-align: middle" align="left"><b>{if substr($right_array.name, 0, 3) == 'cc_'}<span style="color: red">{$right_array.name}</span>{else}{$right_array.name}{/if}</b></td>
                         <td style="vertical-align: middle">{$right_array.description}</td>
                         <td align="center">
-                            <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{t}Edit{/t}" />
-                            <input type="button" class="ButtonYellow" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" value="{t}Lookup users{/t}" />
+                            <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{t}Edit{/t}" />
+                            <input type="button" class="ButtonYellow" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center" style="vertical-align: middle">
                             <input type="hidden" name="ids[]" value="{$right_array.right_id}" />
@@ -100,9 +100,9 @@
                     {/foreach}
                     <tr class="tr_row1">
                         <td align="right" colspan="5">
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Create right{/t}" />
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_area&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Edit area{/t}" />
-                            <input type="button" onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=delete_area&amp;area_id={$area_id}'" class="ButtonRed" value="{t}Delete area{/t}" />
+                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Create right{/t}" />
+                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_area&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Edit area{/t}" />
+                            <input type="button" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=delete_area&amp;area_id={$area_id}'" class="ButtonRed" value="{t}Delete area{/t}" />
                             <input type="submit" name="submit" class="ButtonRed" value="{t}Delete selected Permissions{/t}" />
                             <input type="reset" name="submit" class="ButtonGrey" value="{t}Reset{/t}" />
                         </td>
@@ -111,7 +111,7 @@
                 </div>
             </form>
             {/foreach}
-            <form action="index.php?mod=admin&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
+            <form action="index.php?mod=controlcenter&amp;sub=permissions&amp;action=delete_right" method="post" accept-charset="UTF-8">
                 <table style="display: none;" id="area_unassigned" cellpadding="0" cellspacing="0" border="0">
                     <tr class="tr_header_small">
                         <td width="100">{t}Right ID{/t}</td>
@@ -126,8 +126,8 @@
                         <td>{$right_array.name}</td>
                         <td>{$right_array.description}</td>
                         <td align="center">
-                            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{t}Edit{/t}" />
-                            <input onclick="self.location.href='index.php?mod=admin&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{t}Lookup users{/t}" />
+                            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{t}Edit{/t}" />
+                            <input onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center">
                             <input type="hidden" name="ids[]" value="{$right_array.right_id}">
@@ -147,8 +147,8 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new area{/t}" />
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new right{/t}" />
+            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new area{/t}" />
+            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new right{/t}" />
         </td>
     </tr>
 </table>

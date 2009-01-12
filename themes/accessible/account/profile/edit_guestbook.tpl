@@ -77,7 +77,7 @@
         </tr>
         <tr class="tr_row1">
             <td colspan="2" align="right">
-                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=admin&amp;sub=users'" />
+                <input type="button" value="{t}Abort{/t}" class="ButtonRed" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=users'" />
                 <input class="ButtonGreen" type="submit" name="submit" value="{t}Edit the user{/t}" />
                 <input class="ButtonGrey" type="reset" value="{t}Reset{/t}" />
             </td>

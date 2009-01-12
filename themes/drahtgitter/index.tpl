@@ -30,7 +30,7 @@
             <li><a href="?mod=users">Userslist</a></li>
             <li><a href="?mod=staticpages">Static Pages</a></li>
             <li><a href="?mod=staticpages&amp;page=credits">Credits</a></li>
-            <li><a href="?mod=admin">Control Center</a></li>
+            <li><a href="?mod=controlcenter">Control Center</a></li>
         </ul>
     </td>
     <td valign="top">
