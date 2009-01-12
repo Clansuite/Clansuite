@@ -31,9 +31,6 @@ class Module_Forum_Admin extends ModuleController implements Clansuite_Module_In
     {  
         # read module config
         $this->config->readConfig( ROOT_MOD . '/forum/forum.config.php');
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }     
 
     /**

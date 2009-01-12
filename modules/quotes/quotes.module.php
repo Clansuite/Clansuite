@@ -48,8 +48,6 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

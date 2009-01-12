@@ -56,8 +56,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
+
     }
 
     /**

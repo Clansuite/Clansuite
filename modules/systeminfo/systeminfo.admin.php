@@ -61,9 +61,6 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
     {
         # read module config
         $this->getModuleConfig();
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

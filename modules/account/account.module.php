@@ -52,9 +52,6 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         # read module config
         $this->getModuleConfig();
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     public function action_show()

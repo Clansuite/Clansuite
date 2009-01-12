@@ -51,9 +51,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
-
         # read module config
         #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
     }

@@ -224,7 +224,7 @@ class view_smarty extends Clansuite_Renderer_Base
         $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
         $this->smarty->template_dir[] = ROOT_THEMES . 'core' .DS;
         $this->smarty->template_dir[] = ROOT_THEMES . 'admin' .DS;
-        $this->smarty->template_dir[] = ROOT_THEMES . DS;
+        $this->smarty->template_dir[] = ROOT_THEMES;
 
         #var_dump($this->smarty->template_dir);
 

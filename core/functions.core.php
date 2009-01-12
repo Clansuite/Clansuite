@@ -59,7 +59,7 @@ class Clansuite_Functions
      * @param $object object to convert
      * @return array
      */
-    static public function object2array($object)
+    public static function object2array($object)
     {
         $array = null;
         if (is_object($object))
@@ -80,20 +80,77 @@ class Clansuite_Functions
         return $array;
     }
 
-    static public function str_replace_count($search,$replace,$subject,$times)
+    /**
+     * cut_string_backwards
+     *
+     * haystack = abc_def
+     * needle = _def
+     * result = abc
+     *
+     * Strip String ModuleName at "_admin", example: guestbook_admin
+     * $moduleName = strstr($moduleName, '_Admin', true);     # php6
+     */
+    public static function cut_string_backwards($haystack, $needle)
+    {
+        $needle_length = strlen($needle);
+
+        if(($i = strpos($haystack,$needle) !== false))
+        {
+            return substr($haystack, 0, -$needle_length);
+        }
+        return $haystack;
+    }
+
+    /**
+     * Converts a SimpleXML String recursivly to an Array
+     *
+	 * @author : Jason Sheets <jsheets at shadonet dot com>
+	 * @param unknown_type $xml
+	 * @return Array
+	 */
+    public static function SimpleXMLToArray($simplexml)
+    {
+    	$array = array();
+
+    	if ($simplexml)
+    	{
+    		foreach ($simplexml as $k => $v)
+    		{
+    			if ($simplexml['list'])
+    			{
+    				$array[] = self::SimpleXMLToArray($v);
+    			}
+    			else
+    			{
+    				$array[$k] = self::SimpleXMLToArray($v);
+    			}
+    		}
+    	}
+
+    	if (sizeof($array) > 0)
+    	{
+    		return $array;
+    	}
+    	else
+    	{
+    		return (string)$simplexml;
+    	}
+    }
+
+    public static function str_replace_count($search,$replace,$subject,$times)
     {
         $subject_original=$subject;
-        $len=strlen($search);    
+        $len=strlen($search);
         $pos=0;
         for ($i=1;$i<=$times;$i++) {
         $pos=strpos($subject,$search,$pos);
         if($pos!==false)
-        {                
+        {
             $subject=substr($subject_original,0,$pos);
             $subject.=$replace;
             $subject.=substr($subject_original,$pos+$len);
             $subject_original=$subject;
-        } 
+        }
         else
         {
             break;
@@ -145,7 +202,7 @@ class Clansuite_Functions
      * @param $showLessThanAMinute boolean
      * @return string
      */
-    static public function distanceOfTimeInWords($fromTime, $toTime = 0, $showLessThanAMinute = false)
+    public static function distanceOfTimeInWords($fromTime, $toTime = 0, $showLessThanAMinute = false)
     {
         $distanceInSeconds = round(abs($toTime - $fromTime));
         $distanceInMinutes = round($distanceInSeconds / 60);

@@ -57,9 +57,6 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
-        
         # read module config
         $this->config->readConfig( ROOT_MOD . '/users/users.config.php');
     }

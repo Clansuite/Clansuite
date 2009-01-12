@@ -59,9 +59,6 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     {
         # read module config
         $this->getModuleConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
-        
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

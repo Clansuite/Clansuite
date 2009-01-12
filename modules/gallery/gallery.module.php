@@ -60,9 +60,6 @@ class Module_Gallery extends Clansuite_ModuleController implements Clansuite_Mod
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . '/gallery/gallery.config.php');
-
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

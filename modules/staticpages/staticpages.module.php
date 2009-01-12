@@ -48,8 +48,6 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     /**

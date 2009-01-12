@@ -54,8 +54,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
+
     }
 
     /**

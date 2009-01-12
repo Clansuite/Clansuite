@@ -60,8 +60,6 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # proceed to the requested action
-        $this->processActionController($request);
     }
 
     public function action_admin_show()

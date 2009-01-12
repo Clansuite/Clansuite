@@ -106,7 +106,7 @@ class Clansuite_DoorKeeper
             {
                 $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
 
-                if ( DEBUG === true )
+                if ( DEBUG == true )
                 {
                     $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
                 }

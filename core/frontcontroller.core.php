@@ -39,41 +39,104 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Interface for Action/Command Controller Resolving
  *
- * The ModuleController_Resolver has to implement the following methods,
- * to resolve the Request to a Action/Command.
+ * The ModuleController_Resolver has to implement the following methods
+ * to resolve the Request to a Module and the Action/Command.
  *
  * @package clansuite
  * @subpackage controller
  * @category interfaces
- *//*
-interface Clansuite_ActionControllerResolver_Interface
+ */
+interface Clansuite_ActionController_Resolver_Interface
 {
-    public function getActionController(Clansuite_HttpRequest $request);
+    public function processActionController(Clansuite_HttpRequest $request, Clansuite_Module_Interface $module);
 }
 
-class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerResolver_Interface
+class Clansuite_ActionController_Resolver implements Clansuite_ActionController_Resolver_Interface
 {
-    private $defaultAction;     # holds the name of the defaultAction
-    public static $actionName = null;         # holds the Action of the Module
+    private $_defaultAction;             # holds the name of the defaultAction
+    private $_moduleController;
+
+    public static $actionName = null;   # holds the Action of the Module
 
     public function __construct($defaultAction)
     {
-        $this->defaultAction    = (string) strtolower($defaultAction);   # set defaultAction
+        $this->_defaultAction = (string) strtolower($defaultAction);
     }
 
-    public function getActionController(Clansuite_HttpRequest $request)
+    /**
+    * Maps the action to an method name.
+    * The pseudo-namesspace prefix 'action_' is used for all actions.
+    * Example: action_show()
+    * This is also a way to ensure some kind of whitelisting via namespacing.
+    *
+    * The use of submodules like News_Admin is also supported.
+    * In this case the actionname is action_admin_show().
+    *
+    * @param  string  the action
+    * @param  string  the submodule
+    * @return string  the mapped method name
+    */
+    private function mapAction($action, $submodule = null)
     {
-        # Check if action is set and exists as module_class->action
-        # if positive, set the action as ModuleAction, else set the standard action
-        # @todo: filter this? (only chars+undescore: like action_names) !
-        $action = $request->getParameter('action');
-        if(isset($action) && !empty($action) && method_exists($class,$action))
+        # action not set by URL, so we set default_action from config
+        if( !isset( $action ) )
         {
-            self::setModuleAction($action);
+            # set the method name
+            $action = $this->_defaultAction;
         }
-        else
+
+        # if $module is set, use it as a prefix on $action
+        if( isset($submodule) && ($submodule !== null) )
         {
-            self::setModuleAction($this->defaultAction);
+            $action = $submodule .'_'. $action;
+        }
+
+        # Debug Display
+        #echo '<br>Methodname of Action: action_'. $action .'<br>';
+
+        # return the complete methodname
+        return 'action_' . $action;
+    }
+
+    public function processActionController(Clansuite_HttpRequest $request, Clansuite_Module_Interface $module)
+    {
+        /**
+         * construct correct methodname from URI-Parameters
+         *
+         * $action      = httprequest action
+         * $submodule   = httprequest sub
+         */
+        $methodname = $this->mapAction(Clansuite_ActionController_Resolver::getActionName(),
+                                       Clansuite_ModuleController_Resolver::getSubModuleName());
+
+        /**
+         * Handle Method
+         *
+         * 1) check if method exists in module, then call it
+         * 2) check if method exists in module/actions path, then call it
+         * 3) if not found display error
+         *
+         */
+        if(method_exists($module,$methodname))
+        {
+            # set the used action name
+            self::setActionName($methodname);
+
+            # call the method on module!
+            $module->{$methodname}();
+        }
+        /*
+        elseif
+        {
+            @todo: callFileActions
+            # example: 'modulename/commands/action_show.php'
+            return 'modulename/commands/'$methodname.'.php';
+        }
+        */
+        else # error
+        {
+
+            throw new Clansuite_Exception('Action does not exist: ' . $methodname, 1);
         }
     }
 
@@ -81,8 +144,8 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
      * Method to set the Action
      *
      * @access private
-     *//*
-    public static function setModuleAction($actionName)
+     */
+    public static function setActionName($actionName)
     {
         self::$actionName = (string) $actionName;
     }
@@ -92,17 +155,19 @@ class Clansuite_ActionControllerResolver implements Clansuite_ActionControllerRe
      *
      * @access public
      * @return $string
-     *//*
-    public static function getModuleAction()
+     */
+    public static function getActionName()
     {
         return self::$actionName;
     }
-}*/
+}
 
 /**
  * Interface for Module Controller Resolving ( Request to Module )
  *
- * The ModuleController_Resolver has to implement the following methods.
+ * The ModuleController_Resolver has to implement the following methods
+ * to resolve the Request to a Module.
+ *
  *
  * @package clansuite
  * @subpackage controller
@@ -129,26 +194,18 @@ interface Clansuite_ModuleController_Resolver_Interface
  */
 class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
 {
-    private $_defaultModule;             # holds the name of the defaultModule
-    private static $_ModuleName = null;   # holds the Name of the Module
-    private static $_SubModuleName = null;   # holds the Name of the SubModule
+    private $_defaultModule;                # defaultModule
+
+    private static $_ModuleName = null;     # mod
+    private static $_SubModuleName = null;  # sub
 
     public function __construct($defaultModule)
     {
-        $this->_defaultModule    = (string) strtolower($defaultModule);   # set defaultModule
+        $this->_defaultModule = (string) strtolower($defaultModule);
     }
 
-    /**
-     * Clansuite_ControllerResolver->getController()
-     *
-     * @param $requet input REQUEST-Object
-     * @return object controller (module)
-     * deprecated v0.1 -> load modul -> instantiate modul -> modul::auto_run();
-     */
-    public function getModuleController(Clansuite_HttpRequest $request)
+    private function mapModuleController($request)
     {
-        $required_modulename = '';
-
         /**
          * ModuleName is either
          * 1) internally set (in case of internal forward)
@@ -168,7 +225,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             $module_name = $this->_defaultModule;
         }
 
-        # When SubModulName exists, attached to the ModuleName
+        # When SubModulName exists, attach to the ModuleName
         if(isset($module_name{1}) && isset($request['sub']) && !empty($request['sub']))
         {
             # get SubModuleName from Request
@@ -193,81 +250,40 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             $required_modulename = $module_name;
         }
 
+        # Construct Classname to instantiate the required Module
+        return 'module_' .$required_modulename;
+    }
+
+    /**
+     * Clansuite_ControllerResolver->getController()
+     *
+     * @param $requet input REQUEST-Object
+     * @return object controller (module)
+     */
+    public function getModuleController(Clansuite_HttpRequest $request)
+    {
+        $module = $this->mapModuleController($request);
+
         # Load Modul (require) based on requested module_name
-        if(clansuite_loader::loadModul($required_modulename) == true)
+        if(clansuite_loader::loadModul($module) == true)
         {
-            # Set the module name
-            #$required_modulename = $module_name;
-            #var_dump($module_name);
+            # Set the modulename as public static class variables
+            # like request mod = without "module_" prefix and without "_admin"
+            $this->setModuleName(Clansuite_Functions::cut_string_backwards(substr($module, 7),'_admin'));
+
+            # Instantiate and Return the Module Object
+            $controller = new $module();
+            #var_dump($controller);
+            return $controller;
         }
         else
         {
             # @todo: throw correct Status Header via httprequest - if not found and redirect to default
-
             # Trigger a error to show, that the required module does not exist
-            #trigger_error('Module does not exist: ' . $module_name, E_USER_ERROR);
-            #die(var_dump($module_name));
-            #exit();
-
-            # Load Default Module as Fallback (require), because the requested module may not exist!
-            clansuite_loader::loadModul($this->_defaultModule);
-            # Set the module name
-            $required_modulename = $this->_defaultModule;
-        }
-
-        # Set the modulename as public static class variables
-        $this->setModuleName($module_name);
-
-        # Construct Classname to instantiate the required Module
-        $class = 'module_' . $required_modulename;
-
-        # Instantiate and Return the Module Object
-        $controller = new $class();
-        return $controller;
-    }
-
-    /**
-     * Fire Action !
-     *
-     * @param string $requested_action the requested action as string
-     */
-    /*
-    public function getActionController($request)
-    {
-        # get action parameter from URL
-        $action = $request->getParameter('action');
-
-        # the pseudo-namesspace prefix 'action_' is used for all actions.
-        # this is also a way to ensure some kind of whitelisting via namespacing.
-        $method = 'action_'.$action;
-
-        # ensure action is (a) set and (b) not empty and (c) check if method action_$actionxxx
-        # exists in the main module class (the one extending this class)
-        if(isset($action) && !empty($action) && method_exists($this,$method))
-        {
-            # set the used action name
-            $this->action_name = $action;
-            # call the method !
-            $this->{$method}();
-        }
-        # check if the method exists as a drop in action in the module directory
-        /*elseif
-        {
-            if is_file() ....
-
-        }*/
-        /*
-        else
-        {
-            # set the used action name
-            $this->action_name = $this->config['defaults']['default_action'];
-            # set the method name
-            $method = 'action_'.$this->config['defaults']['default_action'];
-            # call the method !
-            $this->{$method}();
+            trigger_error('Module does not exist: ' . $module, E_USER_NOTICE);
+            exit();
         }
     }
-    */
 
     /**
      * Method to set the ModuleName
@@ -287,7 +303,10 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public static function getModuleName()
     {
-        #explode("_",self::$_ModuleName);
+        if(empty(self::$_ModuleName))
+        {
+            self::setModuleName($_defaultModule);
+        }
         return self::$_ModuleName;
     }
 
@@ -340,10 +359,11 @@ interface Clansuite_FrontController_Interface
  * 2. gets all needed "pre action processing" things like Auth, Sessions, Logging, whatever... pluggable or not.
  * 3. decides then, which ModuleController we must dynamically invoking to process the request
  *
- * The constructor takes the Controller_Resolver_Interface (so it's an implementation against an interface)
+ * The constructor takes the ModuleController_Resolver_Interface (so it's an implementation against an interface),
+ * the ActionController_Resolver_Interface (so it's again an implementation against an interface)
  * and the Dependency Injector.
  *
- * @implements ControllerCommandInterface
+ * @implements  Clansuite_FrontController_Interface
  * @package     clansuite
  * @category    core
  * @subpackage  controller
@@ -356,20 +376,27 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * the injector
      * and the PRE and POST Filtermanager Objects
      */
-    private $resolver;
+    private $actionResolver;
+    private $moduleResolver;
     private $injector;
     private $pre_filtermanager;
     private $post_filtermanager;
 
     /**
      * Constructor
-     * 1. assign the resolver object
-     * 2  assign the injector
-     * 3. instantiate pre/post-filter objects
+     *
+     * 1. assign the action resolver object
+     * 2. assign the module resolver object
+     * 3. assign the injector
+     * 4. instantiate pre-filter objects
+     * 5. instantiate post-filters objects
      */
-    public function __construct(Clansuite_ModuleController_Resolver_Interface $resolver, Phemto $injector)
+    public function __construct(Clansuite_ModuleController_Resolver_Interface $moduleResolver,
+                                Clansuite_ActionController_Resolver_Interface $actionResolver,
+                                Phemto $injector)
     {
-           $this->resolver = $resolver;
+           $this->actionResolver = $actionResolver;
+           $this->moduleResolver = $moduleResolver;
            $this->injector = $injector;
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
@@ -403,40 +430,44 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      *
      * Processing:
      * 1. get the modulecontroller via clansuite_controllerresolver
-     * 2. execute preFilters
+     * 2. process preFilters
      * 3. set Injector to modulecontroller
      * 4. execute modulecontroller
-     * 5. execute postFilters
-     * 6. fetches view / implicit getRenderEngine
-     * 7. assign view to response / implicit getTemplate
-     * 8. flush response
+     * 5. execute action
+     * 6. process postFilters
+     * 7. fetches view / implicit getRenderEngine
+     * 8. assign view to response / implicit getTemplate
+     * 9. flush response
      *
      */
     public function processRequest(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # 1)
-        $moduleController = $this->resolver->getModuleController($request);
+        # 1) initialize Module
+        $moduleController = $this->moduleResolver->getModuleController($request);
 
-        # 2)
+        # 2) process Prefilters
         $this->pre_filtermanager->processFilters($request, $response);
 
-        # 3)
+        # 3) insert Injector
         $moduleController->setInjector($this->injector);
 
-        # 4)
+        # 4) Module execute
         $moduleController->execute($request, $response);
 
-        # 5)
+        # 5) Fire Action !
+        $this->actionResolver->processActionController($request, $moduleController);
+
+        # 6) process Postfilters
         $this->post_filtermanager->processFilters($request, $response);
 
         // moved to controller_base::prepareOutput
-        # 6)
+        # 7)
         #$view = $moduleController->getRenderEngine();
 
-        # 7) pushes RenderEngine generated Output to the response
+        # 8) pushes RenderEngine generated Output to the response
         #$response->setContent($view->render($moduleController->getTemplateName()));
 
-        # 8)
+        # 9) flush response
         $response->flush();
     }
 }
