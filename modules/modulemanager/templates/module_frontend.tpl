@@ -56,13 +56,12 @@ class Module_{$mod.module_name|capitalize} extends ModuleController implements C
      * {$mod.module_name|capitalize} -> Execute
      */
     public function execute(httprequest $request, httpresponse $response){literal}
-    {{/literal}  
+    {{/literal}
         # read module config
         $this->config->readConfig( ROOT_MOD . '{$mod.module_name}/{$mod.module_name}.config.php');
 
-        # proceed to the requested action
-        $this->processActionController($request);{literal}
-    }{/literal}     
+    {literal}
+    }{/literal}
 {$frontend_methods|default}
 {$widget_methods|default}
 {literal}
