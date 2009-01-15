@@ -37,7 +37,7 @@ function smarty_outputfilter_move_to($tpl_output, &$smarty)
     $matches = array();
     preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $tpl_output, $matches);
     $tpl_output = preg_replace("!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is", '', $tpl_output);
-    $tpl_output = str_replace('<body>', implode("\n", '<body>'."\n".array_unique($matches[1])), $tpl_output);
+    $tpl_output = str_replace('<body>', '<body>'."\n".implode("\n", array_unique($matches[1])), $tpl_output);
 
     # PRE_BODY_CLOSE = x</body>
     $matches = array();

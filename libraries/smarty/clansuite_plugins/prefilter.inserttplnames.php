@@ -18,6 +18,6 @@
 function smarty_prefilter_inserttplnames( $tpl_source, &$compiler )
 {
     #die(var_dump($this));
-    return "\n<!-- _________/  Start of {\$smarty.template}  \_________ -->\n".$tpl_source."\n<!--  \_________  End of {\$smarty.template}  _________/ -->\n";
+    return "\n<!-- [Start] Included Template {\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.template}  -->\n";
 }
 ?>

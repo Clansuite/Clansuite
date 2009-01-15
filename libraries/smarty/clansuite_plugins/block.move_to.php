@@ -44,13 +44,13 @@ function smarty_block_move_to($params, $content, &$smarty, &$repeat)
         return;
     }
 
-    if( isset($params['tag']) )
+    if( isset($params['position']) )
     {
-        $tag = strtoupper($params['tag']);
+        $tag = strtoupper($params['position']);
     }
     else
     {
-        $smarty->trigger_error("Parameter 'tag' missing.");
+        $smarty->trigger_error("Parameter 'positions' missing. Available Options: pre_head_close, post_body_open, pre_body_close.");
         return;
     }
 
@@ -65,11 +65,18 @@ function smarty_block_move_to($params, $content, &$smarty, &$repeat)
     # check if tag is a valid movement position
     if( !in_array($tag, $valid_movement_positions) )
     {
-        $smarty->trigger_error("Parameter 'tag' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
+        $smarty->trigger_error("Parameter 'position' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
         return;
     }
 
-    $content = '@@@SMARTY:'.$tag.':BEGIN@@@'.trim($content).'@@@SMARTY:'.$tag.':END@@@';
+    /**
+     * This is inserts a comment, showing from which template a certain move is performed.
+     * This makes it easier to determine the origin of the move operation.
+     */
+    $origin_start = '<!-- [Start] Segment moved from: '.$smarty->_tpl_vars['templatename']." -->\n";
+    $origin_end   = '<!-- [-End-] Segment moved from: '.$smarty->_tpl_vars['templatename']." -->\n";
+
+    $content = '@@@SMARTY:'.$tag.':BEGIN@@@'.$origin_start.' '.trim($content)."\n".$origin_end.'@@@SMARTY:'.$tag.':END@@@';
 
     return $content;
 }
