@@ -1,12 +1,12 @@
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+{doctype doctype=XHTML level=Transitional}
 
-{* everything in doc_raw is moved "as is" to header *}
-{doc_raw}
+{* display cache time as comment *}
+<!--
+    This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
+ -->
+<html>
+<head>
     {include file='clansuite_header_notice.tpl'}
-
-    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.  -->
-
-    <base href="{$meta.domain}" />
 
     {* Breadcrumb => $breadcrumb and Title - $breadcrumbs *}
     {breadcrumbs title="1" trail="`$trail`" separator=" &raquo; " length="30" assign="1"}
@@ -37,12 +37,11 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}/images/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Clip *}
 
-    {* <script src="{$javascript}" language="javascript" type="text/javascript"></script> *}
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
@@ -54,18 +53,8 @@
 
     {* Cascading Style Sheets *}
     <link rel="stylesheet" type="text/css" href="{$css}" />
-
-    {* Additional Stuff for the Header *}
-    {if isset($additional_head)} {$additional_head} {/if}
-
-    {* Redirect *}
-    {if isset($redirect)} {$redirect} {/if}
-
-    {* display cache time as comment *}
-
-    <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
-
-{/doc_raw}
+</head>
+<body>
 
 {* BrowserCheck *}
  <h2 class="oops">{t}
@@ -145,3 +134,6 @@
 </p>
 
 {$copyright}
+
+</body>
+</html>
