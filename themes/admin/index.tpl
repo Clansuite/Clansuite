@@ -1,18 +1,27 @@
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
-<base href="{$meta.domain}" />
-{* everything in doc_raw is moved "as is" to header *}
-{doc_raw}
+{doctype doctype=XHTML level=Transitional}
+
+{* display cache time as comment *}
+<!--
+    This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
+ -->
+<html>
+<head>
 
     {* jQuery *}
+
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 
     {* Mootools *}
+
     <script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/mootools/mootools-more.js" type="text/javascript"></script>
 
     {* Clip *}
+
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+
+    {* Metatags *}
 
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
@@ -24,19 +33,21 @@
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
 
-    <link rel="shortcut icon" href="{$www_root_theme}/admin/images/icons/favicon.ico" />
+     {* Favicon *}
+
+    <link rel="shortcut icon" href="{$www_root_themes_core}/images/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}/images/Clansuite-Favicon-16.ico" type="image/gif" />
+
+    {* Cascading Style Sheets *}
+    
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
 
-    {if isset($additional_head)}{$additional_head}{/if}
-    {if isset($redirect)}{$redirect}{/if}
+    {* Pagetitle *}
     <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
-    <!--
-    page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
-    -->
+</head>
 
-{/doc_raw}
-<a accesskey="t" name="top"/>
+<body>
 <div class="header">
     <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
@@ -118,3 +129,6 @@
     <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
+
+</body>
+</html>

@@ -34,8 +34,6 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 <script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script>
-{if isset($additional_head)} {$additional_head} {/if}
-{if isset($redirect)} {$redirect} {/if}
 
 {* set title - and apply -breadcrumb title="1"- to it *}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
