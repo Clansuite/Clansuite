@@ -87,41 +87,20 @@ class view_smarty extends Clansuite_Renderer_Base
       /**
        * ==============================================
        * Sets up Smarty Template Engine (Smarty Object)
-       *    by initializing Render_SmartyDoc as
-       *    custom-made Smarty Document Processor
        * ==============================================
-       *
-       * @note by vain: Please leave the following commented lines,
-       *                i need them for SmartyDOC development!
        */
        if (!class_exists('Smarty')) // prevent redeclaration
        {
-          # developer switch to enable Render_SmartyDoc
-          $use_RenderSmartyDOC = true;
-
-          if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
+         if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
           {
               require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
               $this->smarty = new Smarty();
+              $this->view = $this->smarty;
           }
           else // throw error in case smarty library is missing
           {
               die('Smarty Template Library missing!');
           }
-
-          if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
-          {
-              require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
-              #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
-              # Set view and smarty to the smarty object
-              $this->smarty = new Render_SmartyDoc();
-              $this->view = $this->smarty;
-          }
-          else // throw error in case Smarty RenderDoc Library is missing
-          {
-              die('Smarty RenderDoc Library missing!');
-          }
-
        }
        else // throw error in case smarty was already loaded
        {
@@ -155,11 +134,11 @@ class view_smarty extends Clansuite_Renderer_Base
 
         #### SMARTY FILTERS
         # $this->autoload_filters = "";                   # loading filters used for every template
-        #$this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
-                                                    # 'pre'    => array('inserttplnames')
-                                                    #,'post'   => array(),
-                                                    #,'output' => array('tidyrepairhtml')
-                                                   #);
+        $this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
+                                                     'pre'    => array('inserttplnames')
+                                                     #,'post'   => array()
+                                                     #,'output' => array()
+                                                   );
 
         #### COMPILER OPTIONS
         # $this->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
@@ -202,7 +181,7 @@ class view_smarty extends Clansuite_Renderer_Base
         $this->smarty->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
         $this->smarty->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
         # $this->request_vars_order               = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        $this->smarty->request_use_auto_globals   = true;  # for templates using $smarty.get.*, $smarty.request.*, etc...
+        $this->smarty->request_use_auto_globals   = true;   # for templates using $smarty.get.*, $smarty.request.*, etc...
         $this->smarty->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**
@@ -235,9 +214,9 @@ class view_smarty extends Clansuite_Renderer_Base
         $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';            # direcotry for original smarty plugins
 
         # Modifiers
-        #$this->smarty->default_modifiers          = array('escape:"htmlall"');	# array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
-        # @todo check functionality
-        #$this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+        # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
+        # $this->smarty->default_modifiers = array('escape:"htmlall"');
+        # $this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
      }
 
     /**
@@ -385,167 +364,6 @@ class view_smarty extends Clansuite_Renderer_Base
         #var_dump($this->smarty);
     }
 
-    /**
-     * view_smarty::smartyBlockError
-     *
-     * ErrorTemplate {error level="1" title="Error"}
-     */
-    public static function smartyBlockError($params, $string, &$smarty)
-    {
-        // Init Vars
-        $params['level']   = !isset( $params['level'] ) ? 3 : $params['level'];
-        $params['title']   = !isset( $params['level'] ) ? 'Unkown Error' : $params['title'];
-
-        if ( !empty($string) )
-        {
-            #$this->showError( $params['title'], $string, $params['level'] );
-        }
-    }
-
-    /**
-     * Show Error in Smarty Templates
-     *
-     * uses /themes/core/error.tpl
-     */
-    public static function showError( $error_heading = 'Unknown Error', $error_message = '', $level = 3, $redirect = '' )
-    {
-        $this->smarty->assign('error_head'     , $error_heading );
-        $this->smarty->assign('error_message'  , $error_message );
-
-        switch ( $level )
-        {
-            case '1': # watch out: die() on error!
-                $this->smarty->assign('error_type', 1);
-                $redirect!='' ? $this->smarty->assign('redirect', '<meta http-equiv="refresh" content="5; URL=' . $redirect . '">') : '';
-                $content = $this->smarty->fetch( 'error.tpl' );
-                die( $content );
-                break;
-
-            case '2':
-                $this->smarty->assign('error_type', 2);
-                return( $this->smarty->fetch( 'error.tpl' ) );
-                break;
-
-            case '3':
-                $this->smarty->assign('error_type', 3);
-                echo( $this->smarty->fetch( 'error.tpl' ) );
-                break;
-        }
-    }
-
-    /**
-     * Instantiates Module and assigns_by_reference
-     *
-     * @param $module_name
-     */
-    public function loadModule($module_name)
-    {
-        $this->injector->register('httprequest');
-        $this->injector->register('Clansuite_ModuleController_Resolver');
-
-        $request = $this->injector->instantiate('httprequest');
-        $modulecontroller_resolver = $this->injector->instantiate('Clansuite_ModuleController_Resolver');
-        $modulecontroller_resolver->setModuleName($module_name);
-
-        $module = $modulecontroller_resolver->getModuleController($request);
-
-        $module->setView($this);
-        $module->setRenderMode('NOT WRAPPED');
-
-        $module->setInjector($this->injector);
-
-        $this->smarty->assign_by_ref($module_name, $module);
-    }
-
-    /**
-     * view_smarty::loadStaticModule
-     *
-     * Static Function to Call variable Methods from templates via
-     * {load_module name= sub= params=}
-     *
-     * [deprecated] :
-     * This was formlerly {mod} inside templates.
-     * Calling a function named get_instant_content() on core/modules.class.php.
-     *
-     * @param array $params Parameters
-     * @static
-     * @access public
-     */
-    public static function loadStaticModule($params, &$smarty)
-    {
-        # Init incomming Variables
-        $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
-        $sub    = isset( $params['sub'] )  ? (string) $params['sub']  : '';
-        $action = (string) $params['action'];
-
-        $params = isset( $params['params'] ) ? (string) $params['params'] : '';
-        $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
-
-        # Construct the variable module_name
-        if (isset($sub) && strlen($sub) > 0)
-        {
-            # like "module_admin_menueditor"
-            $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
-        }
-        else
-        {
-            # like "module_admin"
-            $module_name = 'module_' . strtolower($mod);
-        }
-
-        # Load class, if not already loaded
-        if (!class_exists(ucfirst($module_name)))
-        {
-            clansuite_loader::loadModul($module_name);
-        }
-
-        # Check if class was loaded
-        if (!class_exists(ucfirst($module_name)))
-        {
-            return '<br/>Module missing or misspelled: <strong>'. $module_name.'</strong>';
-        }
-
-        # Parameter Array
-
-        if( empty($params['params']) )
-        {
-            $param_array = null;
-        }
-        else
-        {
-            $param_array = split('\|', $params['params']);
-        }
-
-        # Instantiate Class
-        $controller = new $module_name;
-        $controller->moduleName = $mod;
-        $controller->methodName = $action;
-        $controller->setView($smarty);
-
-        /**
-         * Get the Ouptut of the Object->Method Call
-         */
-        if( method_exists( $controller, $action ) )
-        {
-            # exceptional handling for adminmenu
-            if ( $module_name == 'module_menu_admin' )
-            {
-                echo $controller->$action($param_array);
-                return;
-            }
-
-            # slow call
-            #call_user_func_array( array($controller, $action), $param_array );
-
-            # fast call
-            $controller->$action($items);
-        }
-        else
-        {
-            echo "Load failed:<br /> $module_name -> $action($items)";
-        }
-    }
-
     public function setRenderMode($mode)
     {
         $this->renderMode = $mode;
@@ -572,20 +390,20 @@ class view_smarty extends Clansuite_Renderer_Base
      * @param string $templatename Template Filename
      * @return mainframe.tpl layout
      */
-    public function render($template)
+    public function render($layout_template)
     {
         # Debug Display
-        #echo 'Smarty was asked to render template: '.$template;
+        # echo 'Smarty was asked to render template: '.$template;
 
         # Assign Constants
         $this->assignConstants();
 
         # Module Loading {loadModule }
-        $this->smarty->assign_by_ref('cs', $this);
-        $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
+        # $this->smarty->assign_by_ref('cs', $this);
+        # $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
 
         # Error Block {error level="1" title="Error"}
-        #$this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
+        # $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
         # @todo: caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
@@ -597,11 +415,11 @@ class view_smarty extends Clansuite_Renderer_Base
          * 2) Assign it to the Layout Template as $content
          *
          * Debugging Hint:
-         * Change Fetch to DisplayDOC to get an echo of the pure ModuleContent
+         * Change Fetch to Display to get an echo of the pure ModuleContent
          * else var_dump the fetch!
          */
 
-        $modulecontent =  $this->fetch($template);
+        $modulecontent =  $this->fetch($layout_template);
 
         # check for existing errors and prepend them
         #if( errorhandler::hasErrors() == true )
@@ -627,14 +445,10 @@ class view_smarty extends Clansuite_Renderer_Base
                 $this->smarty->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                if($this->smarty instanceof Render_SmartyDoc)
-                {
-                    return $this->smarty->fetchDOC($this->getLayoutTemplate());
-                }
-                elseif($this->smarty instanceof Smarty)
-                {
-                    return $this->smarty->fetch($this->getLayoutTemplate());
-                }
+                $this->smarty->load_filter('output', 'move_to');
+                $this->smarty->load_filter('output', 'tidyrepairhtml');
+
+                return $this->smarty->fetch($this->getLayoutTemplate());
             }
             else # {$content} is missing, give error.
             {
@@ -657,8 +471,6 @@ class view_smarty extends Clansuite_Renderer_Base
             {
                 return ( false != strpos(file_get_contents($file), '{$content}') );
             }
-            #var_dump($file);
-            #exit;
         }
     }
 }
