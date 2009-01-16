@@ -57,7 +57,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
     function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=admin&amp;sub=settings&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=show');
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -84,7 +84,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
     function action_settings_update()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=admin&amp;sub=settings&amp;action=update');
+        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize
@@ -96,7 +96,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         $config->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
 
         # Redirect
-        header('index.php?mod=admin&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
+        header('index.php?mod=controlcenter&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
     }
 }
 ?>

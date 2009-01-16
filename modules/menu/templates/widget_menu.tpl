@@ -1,6 +1,6 @@
-{doc_raw}
+{move_to position="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/XulMenu.js" type="text/javascript"></script>
-{/doc_raw}
+{/move_to}
 
 <table id="Frontend-Menu-1" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
 <tr>

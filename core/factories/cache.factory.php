@@ -64,7 +64,7 @@ interface Clansuite_Cache_Interface
  * @category    Cache
  * @subpackage  Cache
  */
-class cache_factory
+class Clansuite_Cache_Factory
 {
     /**
      * getCache
@@ -79,7 +79,7 @@ class cache_factory
     {
         try
         {
-			$file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.class.php';
+			$file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
         	if (is_file($file) != 0)
 			{
 				require_once($file);
@@ -87,9 +87,9 @@ class cache_factory
 	            if (class_exists($class))
 	            {
 	                # instantiate and return the renderer and pass $injector into
-	                $Cache = new $class($injector);
+	                $cache = new $class($injector);
 	                # var_dump($Cache);
-	                return $Cache;
+	                return $cache;
 	            }
 	            else
 	            {

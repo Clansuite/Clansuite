@@ -181,7 +181,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         if ( !empty($abort) )
         {
             $this->redirect('index.php?mod=menu&sub=admin');
-            #$functions->redirect( 'index.php?mod=admin&sub=menueditor', 'metatag|newsite', 3,
+            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor', 'metatag|newsite', 3,
             #                      _( 'Aborted. Nothing has been changed.' ), 'admin' );
         }
 
@@ -219,13 +219,13 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             }
 
             $this->redirect('index.php?mod=menu&sub=admin');
-            #$functions->redirect( 'index.php?mod=admin&sub=menueditor',
+            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor',
             #'metatag|newsite', 3, _( 'Last menu restored...' ), 'admin' );
         }
         else
         {
             $this->redirect('index.php?mod=menu&sub=admin&action=restore');
-            #$functions->redirect( 'index.php?mod=admin&sub=menueditor&action=restore',
+            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor&action=restore',
             #'confirm', 3, _( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
         }
     }

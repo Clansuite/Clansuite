@@ -8,9 +8,8 @@
 <head>
     {include file='clansuite_header_notice.tpl'}
 
-    {* Breadcrumb => $breadcrumb and Title - $breadcrumbs *}
-    {breadcrumbs title="1" trail="`$trail`" separator=" &raquo; " length="30" assign="1"}
-    {doc_info title="`$std_page_title` - `$breadcrumb`" dir="ltr" lang="`$meta.language`" xml__lang="`$meta.language`"}
+    {* Pagetitle *}
+    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
     {* Dublin Core Metatags *}
 

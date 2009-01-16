@@ -1,22 +1,22 @@
-{doc_raw}
+{move_to position="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/DynamicTree.css" />
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
-{literal}
-<style type="text/css">
-    body { background: #F1EFE2; }
-    body, table { font-family: georgia, sans-serif; font-size: 11px; }
-    form { margin: 0; }
-    input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
-    a { color: #0000ee; text-decoration: none; }
-    a:hover { color: #0000ee; text-decoration: underline; }
-    p { margin-top: 0; margin-bottom: 1em; }
-    #tree-plugin, #tree-plugin-button-import-html { display: none; }
-    #tree-plugin-textarea { white-space: nowrap; }
-    </style>
-    {/literal}
-{/doc_raw}
 
+{literal}
+    <style type="text/css">
+        body { background: #F1EFE2; }
+        body, table { font-family: georgia, sans-serif; font-size: 11px; }
+        form { margin: 0; }
+        input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
+        a { color: #0000ee; text-decoration: none; }
+        a:hover { color: #0000ee; text-decoration: underline; }
+        p { margin-top: 0; margin-bottom: 1em; }
+        #tree-plugin, #tree-plugin-button-import-html { display: none; }
+        #tree-plugin-textarea { white-space: nowrap; }
+    </style>
+{/literal}
+{/move_to}
 
 <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
     <tr>
@@ -29,7 +29,7 @@
                     <div class="wrap2" id="tree">
                         {load_module name="menu" sub="admin" action="get_adminmenu_div"}
                     </div>
-                </div>                
+                </div>
                 <div class="actions">
                 <b>Actions</b><br /><br />
                     <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>

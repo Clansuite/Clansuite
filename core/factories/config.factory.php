@@ -172,7 +172,7 @@ class ConfigFactoryClassNotFoundException extends Exception
  * @category    core
  * @subpackage exceptions
  */
-class CacheFactoryFileNotFoundException extends Exception
+class ConfigFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
 	{

@@ -111,11 +111,10 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
 
-        // get ap infos
-        Clansuite_Loader::loadCoreClass('clansuite_cache');
-        $cache_apc = new Clansuite_Cache_APC();
-
-        // Set Layout Template
+        # Get APC Cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
+        
+        # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
 
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
@@ -129,11 +128,10 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
 
-        // get ap infos
-        Clansuite_Loader::loadCoreClass('clansuite_cache');
-        $cache_apc = new Clansuite_Cache_APC();
+        # Get APC Cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
 
-        // Set Layout Template
+        # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
 
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
