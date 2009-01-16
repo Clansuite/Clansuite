@@ -74,7 +74,7 @@ class Clansuite_Exception extends Exception
         if(is_file($exception_template_file))
         {
             $content = file_get_contents($exception_template_file);
-            self::setExceptionTTemplate($content);
+            self::setExceptionTemplate($content);
         }
     }
 
