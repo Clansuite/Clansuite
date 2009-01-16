@@ -68,11 +68,18 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
 
-        #
+        
+        
+        $album = CsGalleryAlbum::getGalleryAlbums();
+
+        
+        
 
         # Get Render Engine
         $smarty = $this->getView();
 
+        
+        $smarty->assign('album', $album);
         #$smarty->assign('news', $news->toArray());
         #$smarty->assign('newsarchiv', $newsarchiv);
         #$smarty->assign('newscategories', $newscategories);
@@ -99,6 +106,23 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
     	# Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
     	
+        try
+        {
+        	$album = new CsGalleryAlbum;
+        	$album->name			= $_POST['album_name'];
+        	$album->description 	= $_POST['album_description'];
+        	$album->position		= $_POST['album_position'];
+        	$album->thumb			= '';
+        	$album->save();
+        	
+        } catch (Clansuite_Exception $e) {
+        	$e->getMessage();
+        }
+        
+        
+        
+
+        
    		# Get Render Engine
         $smarty = $this->getView();
         
