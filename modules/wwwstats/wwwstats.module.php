@@ -73,7 +73,7 @@ class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Mo
         $sessions_online = Doctrine_Query::create()
                                         ->select('COUNT(s.session_id) online')
                                         ->from('CSSession s')
-                                        ->execute(array(), Doctrine::FETCH_ARRAY);
+                                        ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         $stats['online'] = $sessions_online[0]['online'];
 
@@ -85,7 +85,7 @@ class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Mo
                                 ->select('COUNT(s.session_id) authed_users')
                                 ->from('CSSession s')
                                 ->where('user_id != 0')
-                                ->execute(array(), Doctrine::FETCH_ARRAY);
+                                ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         $stats['authed_users'] = $authed_user_session[0]['authed_users'];
 
