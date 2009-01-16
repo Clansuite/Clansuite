@@ -132,7 +132,7 @@
     <br /> {include file='server_stats.tpl'}
 </p>
 
-{$copyright}
+{include file='copyright.tpl'}
 
 </body>
 </html>
