@@ -345,7 +345,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/td_header.gif) repeat-x;
+    background: transparent url(images/thback.gif) repeat-x scroll 0 0;
 }
 
 .tr_header td,
@@ -358,7 +358,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/td_header.gif) repeat-x;
+    background: transparent url(images/thback.gif) repeat-x scroll 0 0;
 }
 
 .tr_header_small td
