@@ -334,14 +334,6 @@ class view_smarty extends Clansuite_Renderer_Base
         $template_constants['db_counter']= '0';
         #$this->db->query_counter + $this->db->exec_counter + $this->db->stmt_counter;
 
-        /**
-         * Copyright-Sign
-         * Keep in mind ! that we spend a lot of time and ideas on this project.
-         * Do not remove this! Please give something back to the community.
-         */
-
-        $template_constants['copyright'] = $this->fetch(ROOT_THEMES . 'core\copyright.tpl');
-
         return $template_constants;
     }
 
@@ -433,26 +425,54 @@ class view_smarty extends Clansuite_Renderer_Base
          */
         if( $this->getRenderMode() !== 'WRAPPED' ) # render without wrapper: STANDALONE
         {
-            #echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
+            echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
             return $modulecontent;
         }
         else # render with wrapper: WRAPPED
         {
-            # first ensure that {$content} variable exists in the wrapper template
-            if( $this->check_content_var() )
+            # ensure that {$content} variable and {include for copyright} exists in the layout template
+            if( $this->ensure_content_var_exists() && $this->ensure_copyright_included())
             {
                 # then assign the modulecontent to it
-                $this->smarty->assign('content',  $modulecontent );
+                $this->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                $this->smarty->load_filter('output', 'move_to');
-                $this->smarty->load_filter('output', 'tidyrepairhtml');
+                $this->load_filter('output', 'move_to');
+                #$this->smarty->load_filter('output', 'tidyrepairhtml');
 
                 return $this->smarty->fetch($this->getLayoutTemplate());
             }
             else # {$content} is missing, give error.
             {
-                die('The content variable {$content} must be within the wrapper template!');
+                if($this->ensure_content_var_exists() == false)
+                {
+                    die('The content variable {$content} must be within the wrapper template!');
+                }
+
+                if($this->ensure_copyright_included() == false)
+                {
+                    die("The content variable {include file='copyright.tpl' must be within the wrapper template!");
+                }
+            }
+        }
+    }
+
+    /**
+     * Ensures that the Layouttemplate has the Copyright-Sign from copyright.tpl applied.
+     *
+     * Keep in mind ! that we spend a lot of time and ideas on this project.
+     * Do not remove this! Please give something back to the community.
+     *
+     * @return boolean
+     */
+    public function ensure_copyright_included()
+    {
+        foreach( $this->smarty->template_dir as $dir )
+        {
+            $file = $dir . DS . $this->getLayoutTemplate();
+            if (is_file($file) != 0)
+            {
+                return ( false != strpos(file_get_contents($file), "{include file='copyright.tpl'}") );
             }
         }
     }
@@ -462,7 +482,7 @@ class view_smarty extends Clansuite_Renderer_Base
      *
      * @return boolean
      */
-    public function check_content_var()
+    public function ensure_content_var_exists()
     {
         foreach( $this->smarty->template_dir as $dir )
         {
