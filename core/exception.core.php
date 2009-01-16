@@ -56,7 +56,7 @@ class Clansuite_Exception extends Exception
         # fetch errorTemplate, but not for $code = 0
         if( $code > 0 )
         {
-            self::fetchExceptionTTemplate($code);
+            self::fetchExceptionTemplate($code);
         }
 
         # debug display of exception object
@@ -68,7 +68,7 @@ class Clansuite_Exception extends Exception
      *
      * @param $code errorcode
      */
-    private static function fetchExceptionTTemplate($code)
+    private static function fetchExceptionTemplate($code)
     {
         $exception_template_file = ROOT . 'themes/core/exceptions/exception-'.$code.'.html';
         if(is_file($exception_template_file))
@@ -83,7 +83,7 @@ class Clansuite_Exception extends Exception
      *
      * @param $content
      */
-    private static function setExceptionTTemplate($content)
+    private static function setExceptionTemplate($content)
     {
         self::$exception_template_content = $content;
     }
