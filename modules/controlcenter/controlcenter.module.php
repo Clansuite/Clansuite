@@ -63,7 +63,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         #$user::hasAccess('admin','show');
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Load DBAL
         #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
@@ -102,13 +102,13 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         $stmt = $db->prepare( "INSERT INTO cs_adminmenu_shortcuts ( href, title, file_name ) VALUES ( ?, ?, ? )" );
         foreach( $files as $key )
         {
-            $stmt->execute( array( 'index.php?mod=admin&sub='.$key, $key, $key.'.png' ) );
+            $stmt->execute( array( 'index.php?mod=controlcenter&sub='.$key, $key, $key.'.png' ) );
         }*/
 
-        $smarty->assign( 'shortcuts', $images );
+        $view->assign( 'shortcuts', $images );
 
         # Fetch Render Engine and Set Layout
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $view->setLayoutTemplate('admin/index.tpl');
 
         # Set Template to render
         $this->setTemplate('welcome.tpl');
@@ -126,7 +126,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         #$user::hasAccess('admin','bugs');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=admin&amp;action=bugs');
+        Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
         # Fetch Render Engine and Set Layout
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -143,7 +143,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         #$user::hasAccess('admin','about');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=admin&amp;action=about');
+        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
 
         # Fetch Render Engine and Set Layout
         $this->getView()->setLayoutTemplate('admin/index.tpl');

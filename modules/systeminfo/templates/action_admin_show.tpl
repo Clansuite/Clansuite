@@ -1,3 +1,5 @@
+{include file="modulenavigation.tpl"}
+
 <table>
 <thead class="tr_header">
     <th  colspan="2">System Informations</th>

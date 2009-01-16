@@ -435,20 +435,16 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
             #echo $this->widgetTemplate;
             $this->setWidgetTemplate($template);
         }
-
-        # Get the view
-        $smarty = $this->getView();
-
         # check for theme tpl / else take module tpl
-        if($smarty->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
+        if($this->view->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
         {
             # Themefolder: news\widget_news.tpl
-            echo $smarty->fetch($this->moduleName.DS.$this->getWigetTemplateName());
+            echo $this->view->fetch($this->moduleName.DS.$this->getWigetTemplateName());
         }
         else
         {
             # Modulefolder: news\templates\widget_news.tpl
-            echo $smarty->fetch($this->moduleName.DS.'templates'.DS.$this->getWidgetTemplateName());
+            echo $this->view->fetch($this->moduleName.DS.'templates'.DS.$this->getWidgetTemplateName());
             #$this->widgetTemplate = $modulename.DS.'templates'.DS.$widgetname.'.tpl';
         }
     }
@@ -496,7 +492,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         #$response->setContent($this->output);
 
         # b)
-        #$response->setContent($view->fetch($this->getTemplateName()));   # some fetched template
+        # $response->setContent($view->fetch($this->getTemplateName()));
         # c)
         $response->setContent($view->render($this->getTemplateName()));
     }

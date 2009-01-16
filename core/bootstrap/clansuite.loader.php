@@ -112,6 +112,8 @@ class Clansuite_Loader
         $className = str_replace('Clansuite_','',$className);
         # replace the classname "view_factory" with "view.factory" for the correct filename
         $className = str_replace('_','.',$className);
+        # strtolower
+        $className = strtolower($className);
 
         return $className;
     }
@@ -185,7 +187,7 @@ class Clansuite_Loader
 
         $className = self::prepareClassnameAsFilename($className);
 
-        $fileName = ROOT_CORE . strtolower($className) . '.core.php'; #@todo rename files from .class.php to .core.php  + commit
+        $fileName = ROOT_CORE . $className . '.core.php';
         #echo '<br>loaded Core-Class => '. $fileName;
         return self::requireFile($fileName);
     }
@@ -285,10 +287,10 @@ class Clansuite_Loader
         #echo '<br>loaded Filter-Class => '. $fileName;
         return self::requireFile($fileName);
     }
-
+    
     /**
      * loadFactories
-     * requires: clansuite/core/factories/classname.filter.php
+     * requires: clansuite/core/factories/classname.php
      * require if found
      *
      * @param string $className The name of the factories class
@@ -306,7 +308,7 @@ class Clansuite_Loader
 
         $className = self::prepareClassnameAsFilename($className);
 
-        $fileName = ROOT . 'core/factories/' . strtolower($className) . '.php';
+        $fileName = ROOT . 'core/factories/' . $className . '.php';
         #echo '<br>loaded Factory-Class => '. $fileName;
         return self::requireFile($fileName);
     }

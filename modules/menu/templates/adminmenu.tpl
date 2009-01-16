@@ -1,6 +1,7 @@
+{move_to position="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root}/modules/menu/css/menu.css" />
 <script type="text/javascript" src="{$www_root}/modules/menu/javascript/XulMenu.js"></script>
-
+{/move_to}
 
 <!-- start: AdminMenu - Header 2 //-->
 
@@ -24,7 +25,7 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
                 <td class="adminmenu-rightside-td">
                     <div class="adminmenu-rightside">
 
-                        <a class="itembtn" href="index.php?mod=admin&amp;sub=users&amp;action=usercenter">
+                        <a class="itembtn" href="index.php?mod=controlcenter&amp;sub=users&amp;action=usercenter">
                             <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
                             &nbsp;{$smarty.session.user.nick}
                         </a>
