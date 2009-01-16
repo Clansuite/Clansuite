@@ -109,15 +109,16 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
     public function action_admin_show_apc()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Trail::addStep( _('Show Info - Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
-        
+
+        # Assign Data to the View
+        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
+
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-
-        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
         # Prepare the Output
         $this->prepareOutput();
@@ -131,10 +132,11 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
 
+        # Assign Data to the View
+        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
+
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-
-        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
         # Prepare the Output
         $this->prepareOutput();

@@ -3,6 +3,10 @@
 {* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
 {* {$apc_sysinfos.settings|@dump:APC_SYSINFOS_settings} *}
 
+{if empty($apc_sysinfos.version)}
+<b>Alternative PHP Cache not loaded. Enable the PHP Extension 'extension=php_apc.dll' in php.ini.</b>
+{else}
+
 <h1>Statistics for "Alternative PHP Cache {$apc_sysinfos.version}"</h1>
 
 <h2>General Cache Informations</h2>
@@ -64,3 +68,5 @@
     </tr>
 {/foreach}
 </table>
+
+{/if}
