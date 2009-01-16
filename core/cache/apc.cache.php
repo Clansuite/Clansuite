@@ -67,18 +67,8 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         }
         catch (Exception $exception)
         {
-            new clansuite_exception( $exception, 'Clansuite_Cache_APC __construct() failure. APC not loaded.');
+            new Clansuite_Exception('Clansuite_Cache_APC __construct() failure. APC not loaded.', 300);
         }
-
-        /*
-        // only get the data off the text file if we can't get it from APC i.e. from memory
-        if( !(GID_EXTENSION_LOADED_APC && ($this->_keywords=apc_fetch('highlighter_keywords'))) );
-
-        // if APC is loaded, store the data in memory
-        if( GID_EXTENSION_LOADED_APC )
-        {
-            apc_store( 'highlighter_keywords', $this->_keywords );
-        }*/
     }
 
     // apc_fetch
@@ -112,8 +102,13 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * 1. Shared Memory Allocation
      * 2. Cache Infos / Meta-Data
      */
-    function stats()
+    public function stats()
     {
+        if(CSID_EXTENSION_LOADED_APC == false)
+        {
+            return;
+        }
+        
         # Retrieve APC Version
         $apc_sysinfos['version'] = phpversion('apc');
         $apc_sysinfos['phpversion'] = phpversion();
