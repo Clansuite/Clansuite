@@ -56,8 +56,8 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
          */
         # $user::hasAccess(deleteAvatar);
         # and session.user_id = deleteavatar.id
-        
-        #var_dump($_REQUEST);        
+
+        #var_dump($_REQUEST);
     }
 
     /**
@@ -66,19 +66,23 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
     function action_admin_editavatar()
     {
         #var_dump($_REQUEST);
-        
+
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Add Avatar'), '/index.php?mod=users&amp;sub=admin&amp;action=addavatar');
 
         # Get Render Engine
-        $smarty = $this->getView();        
-        
+        $smarty = $this->getView();
+
         if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png') )
         {
             $avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png';
             $smarty->assign('avatar_image', $avatar_image);
         }
 
+        # Set Admin Layout Template
+        $smarty->setLayoutTemplate('admin/index.tpl');
+
+        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -128,7 +132,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5
                              )),
-                             '?mod=admin&sub=users&action=show&page={%page}'
+                             '?mod=controlcenter&sub=users&action=show&page={%page}'
                              );
 
         // Assigning templates for page links creation
@@ -140,7 +144,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         $pager = $pager_layout->getPager();
 
         // Query users
-        $users = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $users = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Get Number of Rows
         #$count = count($users);
@@ -323,7 +327,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         // Check id
         if( empty( $id ) )
         {
-            $error->show( 'No ID given', 'You have\'nt supplied an ID', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+            $error->show( 'No ID given', 'You have\'nt supplied an ID', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
         }
 
         /**
@@ -373,12 +377,12 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
             {
                 if( $info['email'] == $user['email'] )
                 {
-                    $error->show( 'eMail', 'eMail already existing!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+                    $error->show( 'eMail', 'eMail already existing!', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
                 }
 
                 if( $info['nick'] == $user['nick'] )
                 {
-                    $error->show( 'Nickname', 'Nickname already existing!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+                    $error->show( 'Nickname', 'Nickname already existing!', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
                 }
             }
 
@@ -387,7 +391,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
             */
             if ( $input->check($info['email'], 'is_email' ) == false )
             {
-                $error->show( 'eMail', 'eMail is not valid!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+                $error->show( 'eMail', 'eMail is not valid!', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
             }
 
             /**
@@ -396,7 +400,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
             if( empty($info['nick']) OR
                 empty($info['email']) )
             {
-                $error->show( 'Form', 'Please fill the form!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+                $error->show( 'Form', 'Please fill the form!', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
             }
 
             $groups = $info['groups'];
@@ -425,7 +429,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
             }
             else
             {
-                $error->show( 'No user', 'The user could not be found!', 1, 'index.php?mod=admin&amp;sub=users&amp;action=show' );
+                $error->show( 'No user', 'The user could not be found!', 1, 'index.php?mod=controlcenter&amp;sub=users&amp;action=show' );
             }
         }
 

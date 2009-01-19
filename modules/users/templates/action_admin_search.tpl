@@ -31,9 +31,9 @@
  {/datatable}
 
 
-<a href="index.php?mod=admin&sub=users&action=add_new_user">- Create User-Account -</>
+<a href="index.php?mod=controlcenter&sub=users&action=add_new_user">- Create User-Account -</>
 <br />
-<a href="index.php?mod=admin&sub=users&action=search">- Search -</a>
+<a href="index.php?mod=controlcenter&sub=users&action=search">- Search -</a>
 
 </center>
 
@@ -42,7 +42,7 @@
 function row_clicked( user_id, nick, email )
 {
   alert( 'You clicked user_id '+user_id+', name is '+nick+', email is '+email+'.' );
-  window.open( 'index.php?mod=admin&sub=users&action=edit&userid=+user_id+','popup','resizable=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,toolbar=0,width=400,height=400');
+  window.open( 'index.php?mod=controlcenter&sub=users&action=edit&userid=+user_id+','popup','resizable=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,toolbar=0,width=400,height=400');
 
 }
 </script>

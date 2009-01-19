@@ -108,7 +108,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         $pager = $pager_layout->getPager();
 
         // Fetching userslist
-        $userslist = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $userslist = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Get Number of Rows
         $count = count($userslist);
