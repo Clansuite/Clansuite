@@ -222,11 +222,16 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      *
      * @access  public
      * @param   string  The filename
-     * @return  array
+     * @return  array | boolean false
      */
     public static function readConfig($filename)
     {
-        return self::_manageKeys(parse_ini_file($filename, true));
+        # when ini_filename exists, get config array
+        if(is_file($filename))
+        {            
+            return self::_manageKeys(parse_ini_file($filename, true));
+        }
+        return false;
     }
 
     /**
