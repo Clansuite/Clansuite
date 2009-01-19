@@ -28,7 +28,7 @@
     {/error}
 {/if}
 
-<form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=users&amp;action=create">
+<form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=users&amp;action=create">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="350">
         <tr class="tr_header">
@@ -67,7 +67,7 @@
                             <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $smarty.post.info.groups)}checked="checked"{/if}/>
                         </td>
                         <td>
-                            <a href="index.php?mod=admin&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
+                            <a href="index.php?mod=controlcenter&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
                         </td>
                     </tr>
                 {/foreach}

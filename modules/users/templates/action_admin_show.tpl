@@ -10,14 +10,15 @@
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/doc_raw}
 
-{if isset($additional_head)} {$additional_head} {/if}
+{*
 {if $error.no_users == 1}
    {error title="No users found."}
         Users with ID not found!
     {/error}
 {/if}
+*}
 
-<form action="index.php?mod=admin&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=controlcenter&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 
     <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
             <tr class="tr_row1">
@@ -43,20 +44,20 @@
                     <td>                {$wert.joined|date_format:"%d.%m.%Y"}      </td>
                     <td align="center">
 
-                        {if $smarty.session.user.rights.cc_edit_users == 1}
-                            <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                        {if isset($smarty.session.user.rights.cc_edit_users) && $smarty.session.user.rights.cc_edit_users == 1} *}
+                            <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
-                        
-                        {if $smarty.session.user.rights.cc_edit_generals == 1}
-                            <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+
+                        {if isset($smarty.session.user.rights.cc_edit_generals) && $smarty.session.user.rights.cc_edit_generals == 1}
+                            <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
-                        
-                        {if $smarty.session.user.rights.cc_edit_computers == 1}
-                            <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+
+                        {if isset($smarty.session.user.rights.cc_edit_computers) && $smarty.session.user.rights.cc_edit_computers == 1}
+                            <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
-                        
-                        {if $smarty.session.user.rights.cc_edit_users == 1}
-                            <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+
+                        {if isset($smarty.session.user.rights.cc_edit_usersguestbook) && $smarty.session.user.rights.cc_edit_usersguestbook == 1}
+                            <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                     </td>
                     <td align="center" width="1%">
@@ -70,7 +71,7 @@
             <tr class="tr_row1">
                <td height="20" colspan="8" align="right">
 
-                    <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
+                    <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
                     <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
                     <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Users{/t}" />
 
@@ -83,4 +84,4 @@
             </tr>
     </table>
 
-</form> 
+</form>

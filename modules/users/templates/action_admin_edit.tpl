@@ -1,6 +1,6 @@
 <div class="admin">
     <div class="user_settings">
-    <form method="post" accept-charset="UTF-8" action="index.php?mod=admin&amp;sub=users&amp;action=edit_standard">
+    <form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=users&amp;action=edit_standard">
 
         <input type="hidden" name="info[user_id]" value="{$user.user_id}" />
         <table cellspacing="0" border="0" align="center" width="400">
@@ -41,7 +41,7 @@
                                 <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $groups)}checked="checked"{/if}/>
                             </td>
                             <td align="left">
-                                <a href="index.php?mod=admin&amp;sub=groups&amp;action=edit&amp;id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
+                                <a href="index.php?mod=controlcenter&amp;sub=groups&amp;action=edit&amp;id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
                             </td>
                         </tr>
                     {/foreach}
