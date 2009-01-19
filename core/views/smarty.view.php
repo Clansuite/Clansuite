@@ -87,20 +87,41 @@ class view_smarty extends Clansuite_Renderer_Base
       /**
        * ==============================================
        * Sets up Smarty Template Engine (Smarty Object)
+       *    by initializing Render_SmartyDoc as
+       *    custom-made Smarty Document Processor
        * ==============================================
+       *
+       * @note by vain: Please leave the following commented lines,
+       *                i need them for SmartyDOC development!
        */
        if (!class_exists('Smarty')) // prevent redeclaration
        {
-         if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
+          # developer switch to enable Render_SmartyDoc
+          $use_RenderSmartyDOC = true;
+
+          if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
           {
               require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
               $this->smarty = new Smarty();
-              $this->view = $this->smarty;
           }
           else // throw error in case smarty library is missing
           {
               die('Smarty Template Library missing!');
           }
+
+          if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
+          {
+              require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
+              #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
+              # Set view and smarty to the smarty object
+              $this->smarty = new Render_SmartyDoc();
+              $this->view = $this->smarty;
+          }
+          else // throw error in case Smarty RenderDoc Library is missing
+          {
+              die('Smarty RenderDoc Library missing!');
+          }
+
        }
        else // throw error in case smarty was already loaded
        {
