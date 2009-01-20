@@ -50,10 +50,16 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
 
 /**
  *  ================================================
- *     Debug & Error Reporting
+ *     Debug Mode & Error Reporting Level
  *  ================================================
  *
- *  @note: in php6 e_strict will be moved into e_all
+ * Some words about the PHP Error Reporting Level.
+ * The Error Reporting depends on the Debug Mode Setting.
+ * When the Debug Mode is enabled Clansuite runs with error reporting set to E_ALL | E_STRICT.
+ * When the Debug is disabled Clansuite will not report any errors (0).
+ * For security reasons you are advised to change the Debug Mode Setting to disabled when your site goes live.
+|* For more info visit:  http://www.php.net/error_reporting
+ * @note: in php6 e_strict will be moved into e_all
  */
 
 # Debug-Mode is set via config
@@ -90,7 +96,7 @@ define('PS', PATH_SEPARATOR);
 # DEFINE -> ROOT
 # Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
 define('ROOT',  getcwd() . DS);
-#define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/');
+#define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/'); # Replace the DSs to Unix Style 
 
 # DEFINE -> Directories related to ROOT
 define('ROOT_MOD'           , ROOT . $config['paths']['mod_folder'].DS);
