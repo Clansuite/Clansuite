@@ -99,7 +99,6 @@ function smarty_function_load_module($params, &$smarty)
          * if this would be active, it would be a direct translation of the mod/action
          * with no other choice
          */
-        /*
         if($smarty->template_exists( $mod.DS.$action.'.tpl'))
         {
             # Themefolder: news\widget_news.tpl
@@ -109,7 +108,7 @@ function smarty_function_load_module($params, &$smarty)
         {
             # Modulefolder: news\templates\widget_news.tpl
             return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
-        }*/
+        }
     }
     else
     {
