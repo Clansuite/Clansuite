@@ -32,7 +32,7 @@
 function smarty_function_load_module($params, &$smarty)
 {
     # @todo use module and action mapping here
-    
+
     # Init incomming Variables
     $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
     $sub    = isset( $params['sub'] )  ? (string) $params['sub']  : '';
@@ -40,6 +40,12 @@ function smarty_function_load_module($params, &$smarty)
 
     $params = isset( $params['params'] ) ? (string) $params['params'] : '';
     $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
+
+    # Build a Parameter Array from Parameter String like: param|param|etc
+    if( strlen($params) > 0)
+    {
+        $param_array = split('\|', $params);
+    }
 
     # Construct the variable module_name
     if (isset($sub) && strlen($sub) > 0)
@@ -56,30 +62,15 @@ function smarty_function_load_module($params, &$smarty)
     # Load class, if not already loaded
     if (!class_exists(ucfirst($module_name)))
     {
-        clansuite_loader::loadModul($module_name);
-    }
-
-    # Check if class was loaded
-    if (!class_exists(ucfirst($module_name)))
-    {
-        return '<br/>Module missing or misspelled: <strong>'. $module_name.'</strong>';
-    }
-
-    # Parameter Array
-
-    if( empty($params['params']) )
-    {
-        $param_array = null;
-    }
-    else
-    {
-        $param_array = split('\|', $params['params']);
+        # Check if class was loaded
+        if( clansuite_loader::loadModul($module_name) == false)
+        {
+            return '<br/>Module missing or misspelled: <strong>'. $module_name.'</strong>';
+        }
     }
 
     # Instantiate Class
     $controller = new $module_name;
-    $controller->moduleName = $mod;
-    $controller->methodName = $action;
     $controller->setView($smarty);
 
     /**
@@ -90,8 +81,7 @@ function smarty_function_load_module($params, &$smarty)
         # exceptional handling for adminmenu
         if ( $module_name == 'module_menu_admin' )
         {
-            echo $controller->$action($param_array);
-            return;
+            $controller->$action($param_array);
         }
 
         # slow call
@@ -99,10 +89,31 @@ function smarty_function_load_module($params, &$smarty)
 
         # fast call
         $controller->$action($items);
+
+        /**
+         * Outputs the widget template of a module
+         * check for theme tpl / else take module tpl
+         *
+         * The reason for outcommenting this is:
+         * you can set an alternative widgettemplate inside the widget itself.
+         * if this would be active, it would be a direct translation of the mod/action
+         * with no other choice
+         */
+        /*
+        if($smarty->template_exists( $mod.DS.$action.'.tpl'))
+        {
+            # Themefolder: news\widget_news.tpl
+            return $smarty->fetch($mod.DS.$action.'.tpl');
+        }
+        else
+        {
+            # Modulefolder: news\templates\widget_news.tpl
+            return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
+        }*/
     }
     else
     {
-        echo "Load failed:<br /> $module_name -> $action($items)";
+        return "Error! Failed to load Widget: <br /> $module_name -> $action($items)";
     }
 }
 ?>
