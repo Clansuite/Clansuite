@@ -14,21 +14,21 @@
  * @license GNU General Public License v2 or any later version
  * @version SVN $Id: $
  *
- * Smarty {move_to} block plugin
+ * Smarty {move_it} block plugin
  *
- * Filename: block_move_to.php<br>
+ * Filename: block_move_it.php<br>
  * Type:     block<br>
- * Name:     move_to<br>
+ * Name:     move_it<br>
  * Date:     Januar 11, 2009<br>
- * Purpose:  move all content in move_to blocks to the position in the html document which is defined by tag parameter
+ * Purpose:  move all content in move_it blocks to the position in the html document which is defined by tag parameter
  *
  * Examples:<br>
  * <pre>
- * {move_to tag="pre_head_close"}
+ * {move_it tag="pre_head_close"}
  *    <style type="text/css">
  *       h1{font-family:fantasy;}
  *    </style>
- * {/move_to}
+ * {/move_it}
  * </pre>
  *
  * @param array
@@ -37,7 +37,7 @@
  * @param boolean
  * @return string
  */
-function smarty_block_move_to($params, $content, &$smarty, &$repeat)
+function smarty_block_move_it($params, $content, &$smarty, &$repeat)
 {
     if ( empty($content) )
     {
