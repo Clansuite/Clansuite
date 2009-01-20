@@ -87,9 +87,13 @@ class Clansuite_Doctrine
             {
                 require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
             }
-            else # require the normal Library
+            elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php')) # require the normal Library
             {
                 require ROOT_LIBRARIES .'doctrine/Doctrine.php';
+            }
+            else
+            {
+                throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
 
             # Register the Doctrine autoloader
