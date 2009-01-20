@@ -1,6 +1,6 @@
 {* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|@var_dump} *}
 
-<form action="index.php?mod=admin&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=controlcenter&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 
 <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
     <tr class="tr_row1">

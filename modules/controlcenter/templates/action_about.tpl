@@ -1,4 +1,4 @@
-{move_to position=PRE_HEAD_CLOSE}
+{move_to target="head"}
 {* Tabs with Tabpane *}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabpane/luna.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane/tabpane.js"></script>

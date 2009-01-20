@@ -10,7 +10,7 @@
     {if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
     <tr>
         <td class="td_header">
-            <a href="index.php?mod=admin">{t}Control Center{/t}</a>
+            <a href="index.php?mod=controlcenter">{t}Control Center{/t}</a>
         </td>
     </tr>
     {/if}

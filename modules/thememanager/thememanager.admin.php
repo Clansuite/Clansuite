@@ -53,25 +53,21 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Module_Thememanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
 
     public function action_admin_show()
     {
-
         $themes = self::getThemesList();
+        #var_dump($themes);
 
         $smarty = $this->getView();
-        $smarty->assign('themes',$themes);
+        $smarty->assign('themes', $themes);
 
         # Set Layout Template
         $smarty->setLayoutTemplate('admin/index.tpl');
+
         $this->prepareOutput();
     }
 

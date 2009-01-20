@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {* Prototype + Scriptaculous + Smarty_Ajax + Xilinus*}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"></script>
@@ -10,7 +10,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
-{/doc_raw}
+{/move_to}
 
 {literal}
     <script type="text/javascript">

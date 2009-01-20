@@ -7,8 +7,8 @@
                 </p>
                 <p>
                     <input type="hidden" name="confirm" value="1" />
-                    <input type="submit" name="submit" value="{t}Confirm{/t}" />
-                    <input type="button" value="{t}Abort{/t}" onclick="self.location.href='index.php'" />
+                    <input type="submit" class="ButtonRed" name="submit" value="{t}Confirm{/t}" />
+                    <input type="button" class="ButtonGreen" value="{t}Abort{/t}" onclick="self.location.href='index.php'" />
                 </p>
             </td>
         </tr>

@@ -6,9 +6,9 @@
 *}
 
 
-{doc_raw}
+{move_to}
 <script src="{$www_root_themes_core}/javascript/picklist.js" type="text/javascript"></script>
-{/doc_raw}
+{/move_to}
 
 <form action="index.php?mod=controlcenter&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}" method="post" accept-charset="UTF-8" onsubmit="return selIt();">
     <table class="admintable" cellpadding="0" cellspacing="0" border="0" style="width:700px;margin:0 auto;text-align:center">

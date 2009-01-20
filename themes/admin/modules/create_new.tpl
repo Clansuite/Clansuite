@@ -36,7 +36,7 @@
     {/error}
 {/if}
 
-{doc_raw}
+{move_to}
 
 {*
 {literal}
@@ -85,7 +85,7 @@ function rem_col(id)
 {/literal}
 </script>
 *}
-{/doc_raw}
+{/move_to}
 
 <form action="index.php?mod=controlcenter&amp;sub=modules&amp;action=create_new" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="400">

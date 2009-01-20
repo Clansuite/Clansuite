@@ -27,7 +27,7 @@
     * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
-    * 
+    *
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -71,14 +71,14 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
-        
+
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
         $view = $this->getView();
-        
+
         // Init vars
         $modules = array();
-        
+
         $mod_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
         foreach( $mod_glob as $mod )
         {
@@ -86,14 +86,14 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                 'name' => str_replace( ROOT . 'modules' . DS ,'', $mod)
             );
         }
-        
+
         $view->assign('modules', $modules);
-        
+
 
         // Prepare the Output
         $this->prepareOutput();
     }
-    
+
     /**
      * Install new modules
      */
@@ -104,16 +104,16 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
-        
+
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
-        
+
+
 
         // Prepare the Output
         $this->prepareOutput();
     }
-    
+
     /**
      * Export a module
      */
@@ -124,22 +124,22 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
-        
+
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
-        
+
+
 
         // Prepare the Output
         $this->prepareOutput();
     }
 
-    
+
     //
     // Module creator + methods below
     //
-    
-    
+
+
     /**
      * Shows the mod creator
      */
@@ -152,7 +152,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Creator'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=creator');
 
         $smarty = $this->getView();
-        
+
         // Get all modules in the directory
         // I know... MVC -.- but we need to get going...
         $existing_modules_js = '[';
@@ -163,7 +163,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         }
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
         $smarty->assign('existing_modules_js', $existing_modules_js);
-        
+
         // Set Layout Template
         $smarty->setLayoutTemplate('admin/index.tpl');
 
@@ -185,22 +185,22 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $mod = $request->getParameter('m');
-        
+
         $smarty = $this->getView();
-        
-        
-        
-        
+
+
+
+
         $mod['data'] = base64_encode(serialize($mod));
         $smarty->assign( 'mod', $mod );
 
         #$smarty->autoload_filters = array();
         #$smarty->unregister_prefilter('smarty_prefilter_inserttplnames');
         error_reporting(0);
-        
+
         // Include & Instantiate GeSHi
         require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
-        
+
         // FRONTEND
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {
@@ -210,34 +210,34 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                 $widget_methods = $smarty->fetch('module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
             }
-            
+
             $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
             $smarty->assign( 'frontend_methods',  $frontend_methods);
-       
+
             $frontend = $smarty->fetch('module_frontend.tpl');
             $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
         }
-        
+
         // BACKEND
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
             $backend_methods = $smarty->fetch('module_backend_method.tpl');
             $smarty->assign( 'backend_methods',  $backend_methods );
-            
+
             $backend = $smarty->fetch('module_backend.tpl');
             $smarty->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
         }
-        
+
         // CONFIG
         if( isset($mod['config']['checked']) && $mod['config']['checked'] == 1)
         {
             $config = $smarty->fetch('module_config.tpl');
             $smarty->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
         }
-        
+
         error_reporting( E_ALL || E_STRICT );
         #$smarty->register_prefilter('smarty_prefilter_inserttplnames');
-        
+
         /**
         * @desc Folder's writeable?
         */
@@ -249,10 +249,10 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         // Set Layout Template
         //$this->getView()->setLayoutTemplate('admin/index.tpl');
         $this->getView()->setRenderMode('NOT_WRAPPED');
-                
+
         $this->prepareOutput();
     }
-    
+
     /**
      * Create the new mod
      */
@@ -266,10 +266,10 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $mod = unserialize(base64_decode($request->getParameter('mod_data')));
-        
+
         $smarty = $this->getView();
         $smarty->assign( 'mod', $mod );
-        
+
         /**
         * @desc Folder's writeable?
         */
@@ -277,11 +277,11 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         {
             $err['mod_folder_not_writeable'] = 1;
         }
-        
+
         // CREATE DIRECTORIES
         mkdir( ROOT_MOD .  $mod['module_name'] );
         mkdir( ROOT_MOD .  $mod['module_name'] . DS . 'templates' );
-        
+
         // FRONTEND
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {
@@ -291,13 +291,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                 $widget_methods = $smarty->fetch('module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
             }
-            
+
             $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
-            $smarty->assign( 'frontend_methods',  $frontend_methods);       
+            $smarty->assign( 'frontend_methods',  $frontend_methods);
             $frontend = $smarty->fetch('module_frontend.tpl');
             file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.module.php', $frontend );
         }
-        
+
         // BACKEND
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
@@ -306,7 +306,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             $backend = $smarty->fetch('module_backend.tpl');
             file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.admin.php', $backend );
         }
-        
+
         // CONFIG
         // config is always needed
         $config = $smarty->fetch('module_config.tpl');
@@ -335,10 +335,10 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                 }
             }
         }
-        
+
         // WIDGET TPLS
         if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
-        {        
+        {
             foreach( $mod['widget']['widget_methods'] as $key => $value )
             {
                 if( isset($mod['widget']['widget_tpls'][$key]) )
@@ -347,10 +347,10 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                 }
             }
         }
-        
+
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-                
+
         $this->prepareOutput();
     }
 }

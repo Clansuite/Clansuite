@@ -1,7 +1,7 @@
 <h1>{t}Guestbook{/t}</h1>
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
-{doc_raw}
+{move_to}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
@@ -10,7 +10,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
-{/doc_raw}
+{/move_to}
 
 <div class="user_gb">
 {if $err.gb_empty == "1"}

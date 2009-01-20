@@ -1,11 +1,11 @@
 {*
-{doc_raw}
+{move_to}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tablegrid.css" />
-{/doc_raw}
+{/move_to}
 *}
 <div class="general">
     <div class="picture_infos">

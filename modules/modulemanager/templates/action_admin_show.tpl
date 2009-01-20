@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to target="head"}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mocha/mocha.js"></script>
@@ -8,7 +8,7 @@
 <![endif]-->
 
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mocha/mocha-init.js"></script>
-{/doc_raw}
+{/move_to}
 
 
 {confirm class="delete"

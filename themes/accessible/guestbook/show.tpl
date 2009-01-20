@@ -1,12 +1,12 @@
 <h1>{t}Guestbook{/t}</h1>
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
-{doc_raw}
+{move_to}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
-{/doc_raw}
+{/move_to}
 
 <div class="guestbook">
     {include file="tools/paginate.tpl"}

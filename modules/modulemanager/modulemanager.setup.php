@@ -1,9 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch © 2005 - onwards
-    * Florian Wolf © 2006 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -21,19 +22,15 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
-    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
-    * 
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: $
+    * @version    SVN: $Id: news.module.php 2672 2009-01-09 01:51:22Z vain $
     */
 
 //Security Handler
@@ -49,15 +46,40 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage modulemanager
  * @category modulesetup
  */
-class Module_Modulemanager_Setup extends ModuleController implements Clansuite_Module_Interface
+class Module_Modulemanager_Setup extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Modulemanager_Setup -> Execute
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
-        $this->config->readConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
+        $this->config->readConfig( ROOT_MOD . 'modulemanager/modulemanager.config.php');
+        
+        $this->loadModuleInformations( ROOT_MOD . 'modulemanager/modulemanager.info.php');
+    }
+    
+    /**
+     * Loads the module informations from file
+     *
+     * @param $info_file Informations File to Load
+     */
+    public function loadModuleInformations(ModuleInformationsController $modInfoController, $info_file)
+    {
+        
+        require $info_file;
+        
+        #$modInfoController
+        #$this->moduleInformations = array();
+                    
+    }
+
+    /**
+     * 
+     */
+    public function abc()
+    {
+        
     }
 
     /**

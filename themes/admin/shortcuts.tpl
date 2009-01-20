@@ -11,7 +11,7 @@
         </script>
         {/literal}
 
-        {move_to position="pre_head_close"}
+        {move_to}
         <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/vertical-tabs.css" />
         {/move_to}
 

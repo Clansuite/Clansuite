@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {literal}
         <script type="text/javascript" src="{$www_root_themes_core}/javascript/ajax.js"></script>
         <script type="text/javascript">
@@ -68,4 +68,4 @@
             }
         </script>
     {/literal}
-{/doc_raw}
+{/move_to}

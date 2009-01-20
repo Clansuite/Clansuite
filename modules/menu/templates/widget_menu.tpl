@@ -1,4 +1,4 @@
-{move_to position="pre_head_close"}
+{move_to target="head"}
 <script src="{$www_root_themes_core}/javascript/XulMenu.js" type="text/javascript"></script>
 {/move_to}
 

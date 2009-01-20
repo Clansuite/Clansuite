@@ -57,7 +57,7 @@ class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Mo
      *
      * @return stats array
      */
-    public static function fetch_wwwstats()
+    private static function fetch_wwwstats()
     {
         $stats = array();
         $stats['all_impressions']        = 0;
@@ -115,7 +115,7 @@ class Module_wwwstats extends Clansuite_ModuleController implements Clansuite_Mo
         $smarty = $this->getView();
         $smarty->assign('stats', self::fetch_wwwstats());
 
-        $this->renderWidget();
+        
     }
 }
 ?>

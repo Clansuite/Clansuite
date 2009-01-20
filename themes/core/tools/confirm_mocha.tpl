@@ -1,6 +1,6 @@
-{doc_raw}
+{move_to}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/mocha/mocha.css" />
-{/doc_raw}
+{/move_to}
 
 {if isset($confirmTpl)}
     <div id="{$confirmClass}_container" style="display:none">{$confirmTpl}</div>

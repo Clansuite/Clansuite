@@ -1,11 +1,12 @@
-{doctype doctype=XHTML level=Transitional}
+{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+{move_to}{* disabled: <html><head> *}
 
-{* display cache time as comment *}
-<!--
-    This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
- -->
-<html>
-<head>
+    {* display cache time as comment *}
+    <!--
+        This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
+     -->
+
+    {* Include the Clansuite Header Notice *}
     {include file='clansuite_header_notice.tpl'}
 
     {* Pagetitle *}
@@ -45,6 +46,7 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 
+    {* Include several Hacks and Fixes for Internet Explorer *}
     <!--[if IE]>
     <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
     <script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
@@ -52,8 +54,8 @@
 
     {* Cascading Style Sheets *}
     <link rel="stylesheet" type="text/css" href="{$css}" />
-</head>
-<body>
+
+{/move_to}{* disabled </head><body> *}
 
 {* BrowserCheck *}
  <h2 class="oops">{t}
@@ -109,7 +111,12 @@
 
     <!-- Right Widget Bar //-->
     <td id="right_widget_bar" class="cell1">
+   {* {if isset($smarty.session.user.user_id) && $smarty.session.user.user_id == 0 &&
+          isset($smarty.session.user.authed) && $smarty.session.user.authed == 1 } *}
         <div class="widget" id="widget_login">{load_module name="account" action="widget_login"}</div>
+    {*{else}
+        <div class="widget" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div>
+    {/if} *}
         <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsviewer"}</div>
         <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
     </td>
@@ -133,6 +140,3 @@
 </p>
 
 {include file='copyright.tpl'}
-
-</body>
-</html>

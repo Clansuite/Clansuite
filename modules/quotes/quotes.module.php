@@ -75,7 +75,7 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
         $smarty->assign('quote', $quotes);
 
         
-        $this->renderWidget();
+        
         
     }
 

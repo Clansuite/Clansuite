@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch (c) 2005 - onwards
+    * Jens-André Koch (c) 2005 - onwards
     * Florian Wolf (c) 2006 - onwards
     *
     * http://www.clansuite.com/
@@ -24,11 +24,11 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
     * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @copyright  Copyleft: All permissions reserved. Jens-Andre Koch (2005-onwards)
+    * @copyright  Copyleft: All permissions reserved. Jens-André Koch (2005-onwards)
     * @copyright  Copyleft: All permissions reserved. Florian Wolf (2006-onwards)
     *
     * @link       http://www.clansuite.com
@@ -53,7 +53,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package Clansuite
  * @subpackage module_admin_permissions
  */
-class Module_Permissions_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Permissions_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Main Method of Permissions Module
@@ -61,7 +61,7 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
      * Sets up module specific stuff, needed by all actions of the module
      * Calls the requested Action $_REQUEST['action']
      */
-    public function execute(httprequest $request, httpresponse $response)
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {  
         # read module config
         $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
@@ -75,7 +75,7 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Show'), '/index.php?mod=permissions&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=permissions&amp;action=show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -93,7 +93,7 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
     public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Create'), '/index.php?mod=permissions&amp;action=create');
+        Clansuite_Trail::addStep( _('Create'), '/index.php?mod=permissions&amp;action=create');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -116,7 +116,7 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
     public function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Update'), '/index.php?mod=permissions&amp;action=update');
+        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=permissions&amp;action=update');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -134,7 +134,7 @@ class Module_Permissions_Admin extends ModuleController implements Clansuite_Mod
     public function action_admin_delete()
     {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('Delete'), '/index.php?mod=permissions&amp;action=delete');
+        Clansuite_Trail::addStep( _('Delete'), '/index.php?mod=permissions&amp;action=delete');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');

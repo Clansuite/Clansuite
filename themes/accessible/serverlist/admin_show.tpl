@@ -1,8 +1,8 @@
-{doc_raw}
+{move_to}
 <script src="{$www_root_themes_core}/javascript/prototype.js" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/scriptaculous.js" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
-{/doc_raw}
+{/move_to}
 
 <script type="text/javascript">
 {literal}

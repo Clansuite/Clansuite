@@ -102,7 +102,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
 
         // Fetching guestbook entries
         #var_dump($pager->getExecuted());
-        $guestbook = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $guestbook = $pager->execute(array(), HYDRATE_ARRAY);
 
         // if array contains data proceed, else show empty message
         if ( !is_array( $guestbook ) )

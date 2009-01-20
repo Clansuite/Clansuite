@@ -70,7 +70,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $params = func_get_args();
 
         // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=admin');
+        $trail->addStep($lang->t('Admin'), '/index.php?mod=controlcenter');
         $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook&amp;sub=admin');
 
         switch ($_REQUEST['action'])
@@ -165,7 +165,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
                              
         // Fetching news
         #var_dump($pager->getExecuted());
-        $guestbook_entries = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+        $guestbook_entries = $pager->execute(array(), HYDRATE_ARRAY);
 
         // Transform RAW text to BB-formatted Text
         require_once( ROOT_CORE . '/bbcode.class.php' );

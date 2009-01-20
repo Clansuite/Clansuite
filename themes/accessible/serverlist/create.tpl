@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {* StyleSheets *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/js_color_picker_v2.css" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/fieldset.css" />  
@@ -21,7 +21,7 @@
         }
     </script>
     {/literal}
-{/doc_raw}
+{/move_to}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
 {if $err.fill_form == 1}        {error title="Fill form"}           Please fill all necessary fields.{/error}                                     {/if}

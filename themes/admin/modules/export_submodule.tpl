@@ -1,5 +1,5 @@
 {$chmod_tpl}
-{doc_raw}
+{move_to}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
@@ -95,7 +95,7 @@
     }
     </script>
     {/literal}
-{/doc_raw}
+{/move_to}
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...
 </div>

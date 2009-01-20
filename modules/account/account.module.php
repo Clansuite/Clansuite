@@ -67,28 +67,10 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_login(&$item)
     {
-        # Get Render Engine
-        $view = $this->getView();
+        # @todo assign not the whole config, only the parameters need
 
-        #Clansuite_User::hasAccess(); $this->hasAccess();
-
-        # Login Form / User Center
-        if ( ($_SESSION['user']['user_id'] == 0) and ($_SESSION['user']['authed'] != 1) )
-        {
-            # Assing vars & output template
-            $view->assign('config', $this->getClansuiteConfig());
-            #$smarty->assign('error', $error);
-
-            $this->setWidgetTemplate('widget_login.tpl');
-        }
-        else
-        {
-            #  Show usercenter
-            $this->setWidgetTemplate('widget_usercenter.tpl');
-        }
-
-        # Output
-        $this->renderWidget();
+        # Get Render Engine & Assign vars
+        $this->getView()->assign('config', $this->getClansuiteConfig());
     }
 
     /**
@@ -101,6 +83,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         // Get Inputvariables
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
+
         # from $_POST
         $nick        = $request->getParameter('nickname');
         $email       = $request->getParameter('email');
@@ -337,7 +320,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             ->select('email')
                             ->from('CsUser')
                             ->where('email = ?')
-                            ->fetchOne(array($email), Doctrine::FETCH_ARRAY);
+                            ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
 
             if( $result )
                 $err['email_exists'] = 1;
@@ -347,7 +330,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             ->select('nick')
                             ->from('CsUser')
                             ->where('nick = ?')
-                            ->fetchOne(array($nick), Doctrine::FETCH_ARRAY);
+                            ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
             if( $result )
                 $err['nick_exists'] = 1;

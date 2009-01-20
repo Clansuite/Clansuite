@@ -3,11 +3,11 @@
 	{$paginate|@var_dump}
 *}
 
-{doc_raw}
+{move_to}
  {* Tabs *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
-{/doc_raw}
+{/move_to}
 
 
 {$err}

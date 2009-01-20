@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {* Prototype + Tablegrid Extension *}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
@@ -35,7 +35,7 @@
 
         </style>
    {/literal}
-{/doc_raw}
+{/move_to}
 
 <form action="index.php?mod=controlcenter&sub=bbcode&action=create" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="90%" align="center">
