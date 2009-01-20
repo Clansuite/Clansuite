@@ -146,10 +146,9 @@ class Render_SmartyDoc extends Smarty
     {
         $this->Smarty();
         $this->register_function('doc_info', array($this, 'smarty_function_doc_info'), false);
-        $this->register_block('doc_raw', array($this, 'smarty_block_doc_raw'), false);
-        // the following line is only needed when you need doc_raw, it executes some
-        // heavy regular expressions. So only enable it if you really need it
-        // (you can comment it out if you don't need it)
+        $this->register_block('move_to', array($this, 'smarty_block_move_to'), false);
+        # the following line is only needed when you need "move_to" functionality.
+        # it executes some heavy regular expressions.
         $this->register_prefilter(array($this, 'smarty_prefilter_SmartyDoc'));
     }
 
@@ -396,22 +395,31 @@ class Render_SmartyDoc extends Smarty
      */
     public function smarty_prefilter_SmartyDoc($source, &$smarty)
     {
-        // Prepare delimiters for insertion into regexps below
+        # Prepare delimiters for insertion into regexps below
         $ldelim = preg_quote($this->left_delimiter, '@');
         $rdelim = preg_quote($this->right_delimiter, '@');
 
-        $source = preg_replace('@'.$ldelim.'\$([^}]*?)'.$rdelim.'@', '-~#-~$1-#~-', $source); // Adding a temporary replacement to hide the genuine smarty variables from the other curly brace items
-        $source = preg_replace('@'.$ldelim.'#([^}]*?)'.$rdelim.'@', '--#-~$1--~-', $source); // Adding a temporary replacement to hide the genuine config variables from the other curly brace items
+        #Adding a temporary replacement to hide the genuine smarty variables from the other curly brace items
+        $source = preg_replace('@'.$ldelim.'\$([^}]*?)'.$rdelim.'@', '-~#-~$1-#~-', $source);
+        #Adding a temporary replacement to hide the genuine config variables from the other curly brace items
+        $source = preg_replace('@'.$ldelim.'#([^}]*?)'.$rdelim.'@', '--#-~$1--~-', $source);
 
-        $callback = create_function('$matches', "return \$matches[1].str_replace(array('{', '}'), array('[[', ']]'), \$matches[3]).\$matches[4];"); // This approach is better than using preg_replace with the e modifier, since preg_replace auto-performs addslashes() which we do not want here
+
+        # This approach is better than using preg_replace with the e modifier,
+        #since preg_replace auto-performs addslashes() which we do not want here
+        $callback = create_function('$matches', "return \$matches[1].str_replace(array('{', '}'), array('[[', ']]'), \$matches[3]).\$matches[4];");
 
         $source = preg_replace_callback("@(".$ldelim."doc_info style=(['|\"]))([^\\2]*?)(\\2.*?".$rdelim.")@s", $callback, $source);
         $source = preg_replace_callback("@(".$ldelim."doc_info script=(['|\"]))([^\\2]*?)(\\2.*?".$rdelim.")@s", $callback, $source);
-        $source = preg_replace_callback("@(".$ldelim."doc_raw target=(['|\"]{0,1})style\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/doc_raw".$rdelim.")@s", $callback, $source);
-        $source = preg_replace_callback("@(".$ldelim."doc_raw target=(['|\"]{0,1})script\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/doc_raw".$rdelim.")@s", $callback, $source);
+        $source = preg_replace_callback("@(".$ldelim."move_to target=(['|\"]{0,1})style\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/move_to".$rdelim.")@s", $callback, $source);
+        $source = preg_replace_callback("@(".$ldelim."move_to target=(['|\"]{0,1})script\\2[^}]*?".$rdelim.")(.*?)(".$ldelim."/move_to".$rdelim.")@s", $callback, $source);
 
-        $source = preg_replace('@-~#-~(.*?)-#\~-@s', $this->left_delimiter.'$$1'.$this->right_delimiter, $source); // Reverting back temporary replacement from above to allow smarty variables to work
-        $source = preg_replace('@--#-~(.*?)--\~-@s', $this->left_delimiter.'#$1'.$this->right_delimiter, $source); // Reverting back temporary replacement from above to allow config variables to work
+        # Reverting back temporary replacement from above to allow smarty variables to work
+        $source = preg_replace('@-~#-~(.*?)-#\~-@s', $this->left_delimiter.'$$1'.$this->right_delimiter, $source);
+
+        # Reverting back temporary replacement from above to allow config variables to work
+        $source = preg_replace('@--#-~(.*?)--\~-@s', $this->left_delimiter.'#$1'.$this->right_delimiter, $source);
+
         return $source;
     }
 
@@ -422,14 +430,19 @@ class Render_SmartyDoc extends Smarty
 
     protected function addRaw($content, $key='', $target='head')
     {
-        if (!in_array($target, self::$target_choices)) {
+        if (!in_array($target, self::$target_choices))
+        {
             $target = 'head';
         }
 
-        if (isset($content) && !empty($content) && is_string($content)) {
-            if (!empty($key)) {
+        if (isset($content) && !empty($content) && is_string($content))
+        {
+            if (!empty($key))
+            {
                 $this->doc_raw[$target][$key] = $content;
-            } else {
+            }
+            else
+            {
                 $this->doc_raw[$target][] = $content;
             }
         }
@@ -479,18 +492,31 @@ class Render_SmartyDoc extends Smarty
      *
      * @return nothing
      */
-    public function smarty_block_doc_raw($params, $content, &$smarty)
+    public function smarty_block_move_to($params, $content, &$smarty)
     {
-        if (isset($params['key']) && is_string($params['key']) && strlen($params['key'])>0) 
+        /**
+         * This is inserts a comment, showing from which template a certain move is performed.
+         * This makes it easier to determine the origin of the move operation.
+         */
+        $origin_start = ' <!--{*[Start] Segment moved from: '.$smarty->_tpl_vars['templatename']." *}-->\n ";
+        $origin_end   = ' <!--{*  [-End-] Segment moved from: '.$smarty->_tpl_vars['templatename']." *}-->\n ";
+        $content = $origin_start.' '.$content.' '.$origin_end;
+
+
+        if (isset($params['key']) && is_string($params['key']) && strlen($params['key']) > 0)
         {
             $key = $params['key'];
-        } else { 
-            $key =null; 
         }
-        
-        if (isset($params['target']) && strtolower($params['target']) === 'body') {
+        else
+        {
+            $key = null;
+        }
+        if (isset($params['target']) && strtolower($params['target']) === 'body')
+        {
             $smarty->addRawContent($content, $key, $params['target']);
-        } else {
+        }
+        else
+        {
             $smarty->addRawHeader($content, $key, $params);
         }
     }
@@ -546,7 +572,7 @@ class Render_SmartyDoc extends Smarty
     {
         $doc_source = null;
         $xsl        = null;
-        
+
 		#$this->setContentType();
 
         if (!empty($smarty->doc_info) || !empty($smarty->doc_raw)) {
@@ -848,7 +874,6 @@ class Render_SmartyDoc extends Smarty
             // insert module header-pre content
             $doc_source .= $module_content['head_post'];
 
-
             // process 'body' doc info
             $doc_source .= "</head>\n<body";
             if (isset($_doc_info['body'])) {
@@ -877,29 +902,29 @@ class Render_SmartyDoc extends Smarty
             // insert module header-pre content
             $doc_source .= $module_content['body_post'];
 
-            // vain add {insert body_post doc_raw content}
+            // process doc_raw targetted for the body_post
             if (isset($this->doc_raw['body_post'])) {
                 foreach ($this->doc_raw['body_post'] as $raw) {
                     $doc_source .= "{$indent}{$raw}\n";
                 }
-            } //vain add off
+            }
 
             // y'all come back now, y'hear?
             $doc_source .= "</body>\n</html>";
 
 
-							if (extension_loaded('xsl')) {
-								$xslproc = new XSLTProcessor;
-								$xslcount = count($xsl);
-								for ($i = 0; $i < $xslcount; $i++) {
-									if ($pre_xform[$i]) { // make sure the template designer in fact wants the stylesheet transformed server-side
-										$xslproc->importStyleSheet($xsl[$i]); // attach the xsl rule
-										$doc_source = $xslproc->transformToXML($doc_source);
-									}
-								}
-							}
+			if (extension_loaded('xsl')) {
+				$xslproc = new XSLTProcessor;
+				$xslcount = count($xsl);
+				for ($i = 0; $i < $xslcount; $i++) {
+					if ($pre_xform[$i]) { // make sure the template designer in fact wants the stylesheet transformed server-side
+						$xslproc->importStyleSheet($xsl[$i]); // attach the xsl rule
+						$doc_source = $xslproc->transformToXML($doc_source);
+					}
+				}
+			}
 
-							return $doc_source;
+			return $doc_source;
 
         }
         return $source;
