@@ -55,7 +55,10 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Doctrine
 {
-    private $config; # holds a config instance
+    private $config;        # holds a config instance
+    protected $manager;     # holds instance of doctrine manager
+    protected $locator;     # holds instance of doctrine locator
+    protected $connection;  # holds instance of database connection
 
     function __construct(Clansuite_Config $config)
     {
@@ -63,6 +66,9 @@ class Clansuite_Doctrine
 
         # Load DBAL
         $this->doctrine_initialize();
+
+        # Db Connection
+        $this->prepareDbConnection();
     }
 
     /**
@@ -94,9 +100,6 @@ class Clansuite_Doctrine
             {
                 Doctrine::debug(true);
             }
-
-            # Db Connection
-            $this->prepareDbConnection();
         }
     }
 
@@ -117,6 +120,9 @@ class Clansuite_Doctrine
          * Examples:
          * $dsn = 'mysql://clansuite:toop@localhost/clansuite';
          * $dsn = 'mysql://databaseuser:databasepassword@servername/databasename';
+         *
+         * Debugdisplay
+         * echo 'Doctrine DSN: '.$dsn; exit();
          */
         $dsn  = $this->config['database']['db_type'] . '://';
         $dsn .= $this->config['database']['db_username'] .  ':';
@@ -124,16 +130,24 @@ class Clansuite_Doctrine
         $dsn .= $this->config['database']['db_host'] . '/';
         $dsn .= $this->config['database']['db_name'];
 
-        # Debugdisplay
-        # echo 'Doctrine DSN: '.$dsn; exit();
-
         /**
          * Setup phpDoctrine ConnectionObject for LATER Connection
-         *
-         * Doctrine_Manager::getInstance()->getCurrentConnection();
-         * will fetch current connection.
          */
-        Doctrine_Manager::connection($dsn, $this->config['database']['db_name']);
+        $this->manager = Doctrine_Manager::getInstance();
+        if (count($this->manager) === 0)
+        {
+            #$this->connection = $this->manager->openConnection(new PDO('sqlite::memory:'));
+            #Doctrine_Manager::getInstance()->connection($dsn, $this->config['database']['db_name']);
+            $this->connection = $this->manager->connection($dsn, $this->config['database']['db_name']);
+        } else
+        {
+            #Doctrine_Manager::getInstance()->getCurrentConnection();
+            $this->connection = $this->manager->getCurrentConnection();
+        }
+
+        # Get Doctrine Locator and set ClassPrefix
+        $this->locator = Doctrine_Locator::instance();
+        $this->locator->setClassPrefix('Clansuite_');
 
         /**
          * Setup phpDoctrine Attributes for that later Connection
