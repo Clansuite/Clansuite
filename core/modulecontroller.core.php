@@ -82,9 +82,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     // Variable contains the name of the template
     public $template = null;
 
-    // Variable contains the name of the widget template
-    public $widgetTemplate = null;
-
     // Variable contains the Dependecy Injector
     public $injector = null;                    # dynamic
     static $static_injector = null;             # static
@@ -94,14 +91,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     // Variable contains the Module Configuration Object
     public $moduleconfig = null;
-
-    // Variable contains the module name
-    # @todo this is used by widget modules?
-    public $moduleName = null;
-
-    // Variable contains the method name
-    # @todo this is used by widget modules?
-    public $methodName = null;
 
     /**
      * Constructor
@@ -315,59 +304,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
-     * Set the template name for a widget
-     *
-     * @access public
-     * @param string $template Name of the Template with full Path
-     */
-    public function setWidgetTemplate($template)
-    {
-        $this->widgetTemplate = $template;
-    }
-
-    /**
-     * Returns the widget Template Name
-     *
-     * @access public
-     * @return Returns the widget templateName as String
-     */
-    public function getWidgetTemplateName()
-    {
-        # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->widgetTemplate))
-        {
-            $this->widgetTemplate = 'tplnotfound.tpl';
-        }
-        return $this->constructWidgetTemplateName($this->widgetTemplate);
-    }
-
-    /**
-     * constructWidgetTemplateName
-     *
-     * @param $template_name The widget's templatename
-     */
-    private function constructWidgetTemplateName($template_name)
-    {
-        $widgetname = null;
-        $methodname_array   = array();
-
-        # incomming widgetname is e.g. Module_News::widget_news
-        $methodname_array = split('::',  strtolower($template_name));
-
-        # if __METHOD__ then add .tpl
-        if ( isset($methodname_array[1]) )
-        {
-            $widgetname = $methodname_array[1].'.tpl';
-        }
-        else
-        {
-            $widgetname = $template_name;
-        }
-
-        return $widgetname;
-    }
-
-    /**
      * constructTemplateName
      *
      * When this method is called, the templateName was not set manually!
@@ -413,40 +349,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
             $this->getView()->renderMode = 'WRAPPED';
         }
         return $this->getView()->renderMode;
-    }
-
-    /**
-     * modulecontroller->renderWidget()
-     *
-     * Outputs the widget template of a module
-     * 1. searches template in theme folder: news\widget_news.tpl
-     * 2. searches template in module folder: news\template\widget_news.tpl
-     *
-     * @param $modulename Modulename of the widget to display
-     */
-    public function renderWidget($template = null)
-    {
-        if( empty( $template ) && empty( $this->widgetTemplate ) )
-        {
-            $this->setWidgetTemplate($this->methodName . '.tpl');
-        }
-        elseif ( empty( $this->widgetTemplate ) )
-        {
-            #echo $this->widgetTemplate;
-            $this->setWidgetTemplate($template);
-        }
-        # check for theme tpl / else take module tpl
-        if($this->view->template_exists( $this->moduleName.DS.$this->getWidgetTemplateName()))
-        {
-            # Themefolder: news\widget_news.tpl
-            echo $this->view->fetch($this->moduleName.DS.$this->getWigetTemplateName());
-        }
-        else
-        {
-            # Modulefolder: news\templates\widget_news.tpl
-            echo $this->view->fetch($this->moduleName.DS.'templates'.DS.$this->getWidgetTemplateName());
-            #$this->widgetTemplate = $modulename.DS.'templates'.DS.$widgetname.'.tpl';
-        }
     }
 
     /**
