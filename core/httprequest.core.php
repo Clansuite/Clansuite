@@ -539,7 +539,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->parameters[$offset]);
+        return $this->issetParameter($offset);
     }
 
     public function offsetGet($offset)
