@@ -42,9 +42,13 @@ function smarty_function_load_module($params, &$smarty)
     $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
 
     # Build a Parameter Array from Parameter String like: param|param|etc
-    if( strlen($params) > 0)
+    if( empty($params['params']) )
     {
-        $param_array = split('\|', $params);
+        $param_array = null;
+    }
+    else
+    {
+        $param_array = split('\|', $params['params']);
     }
 
     # Construct the variable module_name
@@ -78,10 +82,10 @@ function smarty_function_load_module($params, &$smarty)
      */
     if( method_exists( $controller, $action ) )
     {
-        # exceptional handling for adminmenu
+        # exceptional handling of parameters and output for adminmenu
         if ( $module_name == 'module_menu_admin' )
         {
-            $controller->$action($param_array);
+            return $controller->$action($param_array);
         }
 
         # slow call
