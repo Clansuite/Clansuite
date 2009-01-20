@@ -142,20 +142,20 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          */
 
         # Clear Parameters Array
-        $this->request_parameters        = array();
-        $this->get_parameters    = array();
-        $this->post_parameters   = array();
-        $this->cookie_parameters = array();
+        $this->request_parameters   = array();
+        $this->get_parameters       = array();
+        $this->post_parameters      = array();
+        $this->cookie_parameters    = array();
 
         # Sanitize $_REQUEST
         # $_REQUEST is at first a clone of $_GET, later $_REQUEST, then $_COOKIES are merged; each overwriting former values.
         $this->sanitizeRequest();
 
         # Assign the GLOBAL $_REQUEST, $_GET, $_POST
-        $this->request_parameters        = $_REQUEST;
-        $this->get_parameters    = $_GET;
-        $this->post_parameters   = $_POST;
-        $this->cookie_parameters = $_COOKIE;
+        $this->request_parameters = $_REQUEST;
+        $this->get_parameters     = $_GET;
+        $this->post_parameters    = $_POST;
+        $this->cookie_parameters  = $_COOKIE;
     }
 
     /**
@@ -230,10 +230,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameter($name, $parameterArrayName = 'REQUEST')
     {
-        if(true == issetParameter($name, $parameterArrayName))
+        if(true == $this->issetParameter($name, $parameterArrayName))
         {
-            $action = strtolower($parameterArrayName).'_parameters';
-            return $this->$action[$name];
+            return $this->{strtolower($parameterArrayName).'_parameters'}[$name];
         }
         else
         {
