@@ -1,11 +1,10 @@
-{doctype doctype=XHTML level=Transitional}
+{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+{move_to}{* disabled: <html><head> *}
 
-{* display cache time as comment *}
-<!--
-    This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
- -->
-<html>
-<head>
+    {* display cache time as comment *}
+    <!--
+        This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
+     -->
 
     {* jQuery *}
 
@@ -39,15 +38,15 @@
     <link rel="icon" href="{$www_root_themes_core}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Cascading Style Sheets *}
-    
+
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
 
     {* Pagetitle *}
     <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
-</head>
+{/move_to}{* disabled </head><body> *}
 
-<body>
+
 <div class="header">
     <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
@@ -129,6 +128,3 @@
     <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
-
-</body>
-</html>

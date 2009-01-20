@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {* Dynamic Tree *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
     {* Tabs *}
@@ -26,7 +26,7 @@
         }
         </script>
     {/literal}
-{/doc_raw}
+{/move_to}
 
 {* <a id="addrow" href="#"><img src="newrow.gif" alt="" /></a> *}
 {* #### TAB PANE 1 - MODULES - NOT IN WHITELIST #### *}

@@ -60,7 +60,7 @@ class Module_Index extends Clansuite_ModuleController implements Clansuite_Modul
     /**
      * Show the Index / Entrance -> welcome message etc.
      */
-    function action_show()
+    public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');

@@ -34,7 +34,7 @@
 {if $is_saved === true}
 	{$save_entry}
 {else}
-{doc_raw}
+{move_to}
 {literal}
 <script type="text/javascript">
 $(document).ready(function() {
@@ -42,6 +42,6 @@ $(document).ready(function() {
 })
 </script>
 {/literal}
-{/doc_raw}
+{/move_to}
 {/if}
 </div>

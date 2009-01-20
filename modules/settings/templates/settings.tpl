@@ -1,6 +1,6 @@
 {* {$config|@var_dump} *}
 
-<form action="index.php?mod=admin&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=controlcenter&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
 
     {tabpane name="Settings"}
        {tabpage name="Standard"}    {include file='tabpage-standard.tpl'}   {/tabpage}

@@ -85,7 +85,7 @@ class Module_Gallery extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_gallery($item)
     {
-        $this->renderWidget();
+    
     }
 
     /**
@@ -95,7 +95,7 @@ class Module_Gallery extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_random_image($item)
     {
-        $this->renderWidget();
+        
     }
 }
 ?>

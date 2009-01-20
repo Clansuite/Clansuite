@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
 {* Prototype + Scriptaculous + Smarty_Ajax *}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>
@@ -59,7 +59,7 @@
         </script>
     {/literal}
     
-{/doc_raw}
+{/move_to}
 
 
 <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">

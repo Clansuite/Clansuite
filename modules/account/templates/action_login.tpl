@@ -1,6 +1,6 @@
-{doc_raw}
+{move_to target="head"}
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
-{/doc_raw}
+{/move_to}
 
 {literal}
     <script>

@@ -2,7 +2,7 @@
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 
 {* doc_raw movement! -> everything in doc_raw is moved "as is" to header *}
-{doc_raw}
+{move_to}
 
 {* Dublin Core Metatags *}
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
@@ -39,7 +39,7 @@
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 {* display cache time as comment *}
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
-{/doc_raw}
+{/move_to}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
 <div id="box">
 	<div id="header">

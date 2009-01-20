@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
@@ -141,7 +141,7 @@
     }
     {/literal}
     </script>
-{/doc_raw}
+{/move_to}
 
 {literal}
 <div id="hidden_input_container" style="display: none;">

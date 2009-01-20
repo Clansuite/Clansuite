@@ -71,7 +71,7 @@
 
     <tr class="tr_row1">
         <td height="20" colspan="8" align="right">
-            <input class="ButtonGreen" type="button" value="{t}Create News{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=admin&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Create News{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
             <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
             <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected News{/t}" />
         </td>

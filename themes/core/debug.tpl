@@ -3,7 +3,7 @@
 
 {* Start - Assign the following content to Variable debug_content *}
 {capture assign=debug_output}
-    {doc_raw}
+    {move_to}
 
     {literal}
     <style type="text/css">
@@ -19,7 +19,7 @@
     </style>
   {/literal}
 
-  {/doc_raw}
+  {/move_to}
 
 <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 
@@ -209,7 +209,7 @@
 
 {if $debug.debug_popup == 0}
     {* Captures Content from above is in $debug_output and moved with doc_raw to body_post *}
-    {doc_raw target="body_post"}    {$debug_output}    {/doc_raw}
+    {doc_raw target="body_post"}    {$debug_output}    {/move_to}
 {else}
     <script type="text/javascript">
     	if ( self.name == '' )

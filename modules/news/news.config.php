@@ -20,7 +20,7 @@
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 * @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
+* @author     Jens-André Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *

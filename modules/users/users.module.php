@@ -156,7 +156,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         # assign        
         $smarty->assign('last_registered_users', $last_registered_users);
         
-        $this->renderWidget();
+        
     }
 }
 

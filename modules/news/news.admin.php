@@ -178,7 +178,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
             // Fetching news
             #var_dump($pager->getExecuted());
-            $newsarchiv = $pager->execute(array(), Doctrine::FETCH_ARRAY);
+            $newsarchiv = $pager->execute(array(), HYDRATE_ARRAY);
         }
         # Display News ordered by Category
         else
@@ -213,7 +213,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
              // Fetching news
             #var_dump($pager->getExecuted());
-            $newsarchiv = $pager->execute(array($cat_id), Doctrine::FETCH_ARRAY);
+            $newsarchiv = $pager->execute(array($cat_id), HYDRATE_ARRAY);
         }
 
         // Get all $categories for module_news

@@ -1,8 +1,8 @@
 {* DEBUG {$info|@var_dump} *}
-{doc_raw}
+{move_to}
     {* Clip Clap Toggle *}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
-{/doc_raw}
+{/move_to}
 
 <table class="klappable" cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>

@@ -91,7 +91,7 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         $smarty->assign('serverinfo', $serverinfo);
 
-        $this->renderWidget();
+        
     }
 
     public function widget_tsviewer($params)
@@ -112,7 +112,7 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
         # assign
         $smarty->assign('tsviewer', $tsviewer);
 
-        $this->renderWidget();
+        
     }
 }
 

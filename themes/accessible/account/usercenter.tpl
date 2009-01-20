@@ -12,7 +12,7 @@
 	</ul>{*
 	SessionCountdown:
     <div id="countdown"></div>
-{doc_raw}
+{move_to}
 {literal}
     <script type="text/javascript">
     var ServerCurrentTime        = {/literal}{$SessionCurrentTime}{literal};	    // Current
@@ -31,6 +31,6 @@
     setTimeout('count()', 1000);
     </script>
 {/literal}
-{/doc_raw}
+{/move_to}
 {$SessionCurrentTime|date_format:"%H:%M:%S"} {$SessionExpireTime|date_format:"%H:%M:%S"} *}
 </div>

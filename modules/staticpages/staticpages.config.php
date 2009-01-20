@@ -20,7 +20,7 @@
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 * @author     Florian Wolf <xsign.dll@clansuite.com>
-* @author     Jens-Andre Koch <vain@clansuite.com>
+* @author     Jens-André Koch <vain@clansuite.com>
 * @copyright  2006 Clansuite Group
 * @link       http://gna.org/projects/clansuite
 *
@@ -92,6 +92,6 @@ $info['core']           = 0;
 * @desc Admin Menus
 */
  
-$info['admin_menu'] = 'a:4:{i:2;a:9:{s:2:"id";s:1:"2";s:6:"parent";s:1:"0";s:4:"type";s:6:"folder";s:4:"text";s:7:"Modules";s:4:"href";s:0:"";s:5:"title";s:7:"Modules";s:6:"target";s:5:"_self";s:5:"order";s:1:"1";s:4:"icon";s:0:"";}i:11;a:9:{s:2:"id";s:2:"11";s:6:"parent";s:1:"2";s:4:"type";s:6:"folder";s:4:"text";s:12:"Static Pages";s:4:"href";s:0:"";s:5:"title";s:12:"Static Pages";s:6:"target";s:5:"_self";s:5:"order";s:1:"8";s:4:"icon";s:8:"html.png";}i:12;a:9:{s:2:"id";s:2:"12";s:6:"parent";s:2:"11";s:4:"type";s:4:"item";s:4:"text";s:6:"Create";s:4:"href";s:45:"/index.php?mod=admin&sub=staticpages&action=create";s:5:"title";s:6:"Create";s:6:"target";s:5:"_self";s:5:"order";s:1:"0";s:4:"icon";s:7:"add.png";}i:13;a:9:{s:2:"id";s:2:"13";s:6:"parent";s:2:"11";s:4:"type";s:4:"item";s:4:"text";s:4:"Edit";s:4:"href";s:47:"/index.php?mod=admin&sub=staticpages&action=list_all";s:5:"title";s:4:"Edit";s:6:"target";s:5:"_self";s:5:"order";s:1:"1";s:4:"icon";s:10:"pencil.png";}}';
+$info['admin_menu'] = 'a:4:{i:2;a:9:{s:2:"id";s:1:"2";s:6:"parent";s:1:"0";s:4:"type";s:6:"folder";s:4:"text";s:7:"Modules";s:4:"href";s:0:"";s:5:"title";s:7:"Modules";s:6:"target";s:5:"_self";s:5:"order";s:1:"1";s:4:"icon";s:0:"";}i:11;a:9:{s:2:"id";s:2:"11";s:6:"parent";s:1:"2";s:4:"type";s:6:"folder";s:4:"text";s:12:"Static Pages";s:4:"href";s:0:"";s:5:"title";s:12:"Static Pages";s:6:"target";s:5:"_self";s:5:"order";s:1:"8";s:4:"icon";s:8:"html.png";}i:12;a:9:{s:2:"id";s:2:"12";s:6:"parent";s:2:"11";s:4:"type";s:4:"item";s:4:"text";s:6:"Create";s:4:"href";s:45:"/index.php?mod=controlcenter&sub=staticpages&action=create";s:5:"title";s:6:"Create";s:6:"target";s:5:"_self";s:5:"order";s:1:"0";s:4:"icon";s:7:"add.png";}i:13;a:9:{s:2:"id";s:2:"13";s:6:"parent";s:2:"11";s:4:"type";s:4:"item";s:4:"text";s:4:"Edit";s:4:"href";s:47:"/index.php?mod=controlcenter&sub=staticpages&action=list_all";s:5:"title";s:4:"Edit";s:6:"target";s:5:"_self";s:5:"order";s:1:"1";s:4:"icon";s:10:"pencil.png";}}';
 
 ?>

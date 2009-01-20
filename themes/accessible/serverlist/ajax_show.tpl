@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
 <link rel="stylesheet" type="text/css" href="{$www_root_theme}/coffee-with-milk.css" />
-{/doc_raw}
+{/move_to}
 
 {* Debuganzeige, wenn DEBUG = 1 |   {$servers|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}

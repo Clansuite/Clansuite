@@ -1,6 +1,6 @@
-{doc_raw}
+{move_to}
 	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
-{/doc_raw}
+{/move_to}
 
 {if $err.no_special_chars == 1}
     {error title="Special Chars"}

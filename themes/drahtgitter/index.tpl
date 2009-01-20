@@ -1,6 +1,6 @@
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 
-{doc_raw}
+{move_to}
 {* everything in doc_raw is moved "as is" to header *}
 <!-- Clip -->
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
@@ -9,7 +9,7 @@
 <link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
-{/doc_raw}
+{/move_to}
 
 <p align="center">This is "Drahtgitter" - an theme for pure development purposes - no gimmicks!</p>
 

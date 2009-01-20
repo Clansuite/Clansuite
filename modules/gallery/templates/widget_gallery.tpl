@@ -1,18 +1,12 @@
-
-{doc_raw}
+{move_to target="head"}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/mooflow/MooFlow.css" />
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/milkbox/milkbox.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/MooFlow.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/milkbox.js"></script>
-
+{/move_to}
 
 {literal}
 <script language="JavaScript" type="text/javascript">
-    
     var myMooFlowPage = {
-    
         start: function(){
-    
             var mf = new MooFlow($('MooFlow'), {
                 startIndex: 5,
                 useCaption: false,
@@ -23,18 +17,13 @@
                 onClickView: function(obj){
                     Milkbox.showThisImage(obj.href, obj.title);
                 }
-                
             });
-           
         }
-        
     };
-    
     window.addEvent('domready', myMooFlowPage.start);
-    
 </script>
 {/literal}
-{/doc_raw} 
+
 <div class="td_header">Gallery</div>
 <div class="cell1">
 <div id="MooFlowWrapper" style="margin-top: 10px; visibility: hidden;">

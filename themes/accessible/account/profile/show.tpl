@@ -1,4 +1,4 @@
-{doc_raw}
+{move_to}
     {* Tabs *}
     <link rel="stylesheet" type="text/css" href="{$www_root_theme}/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
@@ -23,7 +23,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 
-{/doc_raw}
+{/move_to}
 <div class="profile">
     <div class="tab-pane" id="profile">
         <script type="text/javascript">tp1 = new WebFXTabPane( document.getElementById( "profile" ) );</script>

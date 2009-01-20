@@ -137,7 +137,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
                 $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
                 $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
 
-                $functions->redirect( 'index.php?mod=admin&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
             }
         }
 
@@ -212,7 +212,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
                 $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
 
-                $functions->redirect( 'index.php?mod=admin&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
+                $functions->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
             }
         }
         else

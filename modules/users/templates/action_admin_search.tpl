@@ -1,9 +1,9 @@
 <h2>User :: Search</h2>
 
-{doc_raw}
+{move_to}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/datatable.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/admin/datatable.js"></script>
-{/doc_raw}
+{/move_to}
 
 {* Debugoutput *}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:  {html_alt_table loop=$users}   {/if}
