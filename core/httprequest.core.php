@@ -76,7 +76,16 @@ interface Clansuite_Request_Interface
 class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
     # contains the cleaned $_REQUEST Parameters
-    private $parameters;
+    private $request_parameters;
+
+    # contains the cleaned $_POST Parameters
+    private $post_parameters;
+
+    # contains the cleaned $_GET Parameters
+    private $get_parameters;
+
+    # contains the cleaned $_COOKIE Parameters
+    private $cookie_parameters;
 
     /**
      * Construct the Request Object
@@ -133,46 +142,98 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          */
 
         # Clear Parameters Array
-        $this->parameters = array();
+        $this->request_parameters        = array();
+        $this->get_parameters    = array();
+        $this->post_parameters   = array();
+        $this->cookie_parameters = array();
 
         # Sanitize $_REQUEST
+        # $_REQUEST is at first a clone of $_GET, later $_REQUEST, then $_COOKIES are merged; each overwriting former values.
         $this->sanitizeRequest();
 
-        # Assign the GLOBAL $_REQUEST
-        # @todo: split get and post
-        $this->parameters = $_REQUEST;
+        # Assign the GLOBAL $_REQUEST, $_GET, $_POST
+        $this->request_parameters        = $_REQUEST;
+        $this->get_parameters    = $_GET;
+        $this->post_parameters   = $_POST;
+        $this->cookie_parameters = $_COOKIE;
     }
 
     /**
-     * List of all parameters in the REQUEST
+     * Lists all parameters in the specific parameters array
+     * Defaults to Request parameters array
      */
-    public function getParameterNames()
+    public function getParameterNames($parameterArrayName = 'REQUEST')
     {
-        return array_keys($this->parameters);
+        $parameterArrayName = strtoupper($parameterArrayName);
+
+        if($parameterArrayName == 'R' or $parameterArrayName == 'REQUEST')
+        {
+            return array_keys($this->request_parameters);
+        }
+
+        if($parameterArrayName == 'G' or $parameterArrayName == 'GET')
+        {
+            return array_keys($this->get_parameters);
+        }
+
+        if($parameterArrayName == 'P' or $parameterArrayName == 'POST')
+        {
+            return array_keys($this->post_parameters);
+        }
+
+        if($parameterArrayName == 'C' or $parameterArrayName == 'COOKIE')
+        {
+            return array_keys($this->cookie_parameters);
+        }
     }
 
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
-     * @todo docblock
      * @param string $name Name of the Parameter
+     * @param string $parameterArrayName R, G, P, C
+     * @return boolean true|false
      */
-    public function issetParameter($name)
+    public function issetParameter($name, $parameterArrayName = 'REQUEST')
     {
-        return isset($this->parameters[$name]);
+        $parameterArrayName = strtoupper($parameterArrayName);
+
+        if($parameterArrayName == 'R' or $parameterArrayName == 'REQUEST')
+        {
+            return isset($this->request_parameters[$name]);
+        }
+
+        if($parameterArrayName == 'G' or $parameterArrayName == 'GET')
+        {
+            return isset($this->get_parameters[$name]);
+        }
+
+        if($parameterArrayName == 'P' or $parameterArrayName == 'POST')
+        {
+            return isset($this->post_parameters[$name]);
+        }
+
+        if($parameterArrayName == 'C' or $parameterArrayName == 'COOKIE')
+        {
+            return isset($this->cookie_parameters[$name]);
+        }
+
+        return false;
     }
 
     /**
      * get, returns a certain parameter if existing
      *
-     * @todo docblock
      * @param string $name Name of the Parameter
+     * @param string $parameterArrayName R, G, P, C
+     * @return boolean true|false
      */
-    public function getParameter($name)
+    public function getParameter($name, $parameterArrayName = 'REQUEST')
     {
-        if (isset($this->parameters[$name]))
+        if(true == issetParameter($name, $parameterArrayName))
         {
-            return $this->parameters[$name];
+            $action = strtolower($parameterArrayName).'_parameters';
+            return $this->$action[$name];
         }
         else
         {
