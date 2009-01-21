@@ -434,7 +434,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             $this->parameters['items'] = (int) $_REQUEST['items'];
         }
-
+        
+        # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
+        if(isset($_REQUEST['defaultCol']) && ctype_digit($_REQUEST['defaultCol']))
+        {
+            $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
+        }
+        
+        # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
+        if(isset($_REQUEST['defaultSort']) && ctype_alpha($_REQUEST['defaultSort']) && (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
+        {
+            $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
+        }
+        
         /**
         $filter = array( '_REQUEST' => $_REQUEST,
                          '_GET'     => $_GET,
