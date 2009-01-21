@@ -292,7 +292,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         #var_dump($single_news);
 
         # if a news was found
-        if(!empty($single_news))
+        if(!empty($single_news) && is_array($single_news))
         {
             // Set Pagetitle and Breadcrumbs
             Clansuite_Trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
@@ -317,8 +317,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         }
         else # no news found for this id
         {
-            #@todo redirect with errormessage
-            $this->setTemplate('news/news_notex.tpl');
+            $this->setTemplate('newsnotfound.tpl');
         }
 
         # Prepare Output
