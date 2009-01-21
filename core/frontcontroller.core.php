@@ -446,7 +446,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
         # 3) insert Injector
         $moduleController->setInjector($this->injector);
 
-        # 4) Module execute
+        # 4) Module execute (pre_processActionController)
         $moduleController->execute($request, $response);
 
         # 5) Fire Action !

@@ -158,7 +158,7 @@ class Clansuite_Javascripts
 
 		if( defined('OB_GZIP') )
 		{
-		    Clansuite_Javascripts::addToCompressionWhitelist($javascript);
+		    #Clansuite_Javascripts::addToCompressionWhitelist($javascript);
 		    echo '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
 		}
 		else

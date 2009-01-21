@@ -156,7 +156,7 @@ class view_smarty extends Clansuite_Renderer_Base
         #### SMARTY FILTERS
         # $this->autoload_filters = "";                   # loading filters used for every template
         $this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
-                                                     'pre'    => array('inserttplnames')
+                                                     #'pre'    => array('inserttplnames')
                                                      #,'post'   => array()
                                                      #,'output' => array()
                                                    );
@@ -446,7 +446,7 @@ class view_smarty extends Clansuite_Renderer_Base
          */
         if( $this->getRenderMode() !== 'WRAPPED' ) # render without wrapper: STANDALONE
         {
-            echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
+            #echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
             return $modulecontent;
         }
         else # render with wrapper: WRAPPED
@@ -458,10 +458,7 @@ class view_smarty extends Clansuite_Renderer_Base
                 $this->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                $this->load_filter('output', 'move_to');
-                #$this->smarty->load_filter('output', 'tidyrepairhtml');
-
-                return $this->smarty->fetch($this->getLayoutTemplate());
+                return $this->smarty->fetchDOC($this->getLayoutTemplate());
             }
             else # {$content} is missing, give error.
             {
