@@ -4,9 +4,9 @@
 
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $this->config['email']['fromname'] . '" <' . $this->config['email']['from'] . '>';
-        $subject        = _('Account activation');
+        $subject        = _('Subject of Email.');
 
-        $body  = _("eMail Content here.");
+        $body  = _("Content of Email.");
 
         // Send mail
         if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )

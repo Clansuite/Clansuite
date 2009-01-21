@@ -379,7 +379,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $pager = $pager_layout->getPager();
 
         // Fetching news
-        $news = $pager->execute(array(), HYDRATE_ARRAY);
+        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
@@ -396,7 +396,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         foreach ($news as $k => $v)
         {
             // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), HYDRATE_ARRAY);
+            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::HYDRATE_ARRAY);
             # check if something was returned
             if(isset($cs_news_comments_array[0]))
             {
@@ -469,7 +469,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         $smarty->assign('news_widget', $news);
 
-        
+
     }
 }
 ?>

@@ -3,6 +3,6 @@
 ; Modulemanager Config
 ;
 
-[modulecreator]
+[modulemanager]
 
 ; DO NOT REMOVE THIS LINE */ ?>

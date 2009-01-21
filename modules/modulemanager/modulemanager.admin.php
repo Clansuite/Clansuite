@@ -177,26 +177,19 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
      */
     public function action_admin_preview()
     {
-        # Permission check
-        #$perms::check('cc_update_menueditor');
-
-        # Set Pagetitle and Breadcrumbs
-        # Clansuite_Trail::addStep( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
-
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $mod = $request->getParameter('m');
 
+        #var_dump($mod);
+
         $smarty = $this->getView();
-
-
-
 
         $mod['data'] = base64_encode(serialize($mod));
         $smarty->assign( 'mod', $mod );
 
         #$smarty->autoload_filters = array();
         #$smarty->unregister_prefilter('smarty_prefilter_inserttplnames');
-        error_reporting(0);
+        #error_reporting(0);
 
         // Include & Instantiate GeSHi
         require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
@@ -239,17 +232,14 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         #$smarty->register_prefilter('smarty_prefilter_inserttplnames');
 
         /**
-        * @desc Folder's writeable?
-        */
+         * Folder's writeable?
+         */
         if ( !is_writeable( ROOT_MOD ) )
         {
             $err['mod_folder_not_writeable'] = 1;
         }
 
-        // Set Layout Template
-        //$this->getView()->setLayoutTemplate('admin/index.tpl');
         $this->getView()->setRenderMode('NOT_WRAPPED');
-
         $this->prepareOutput();
     }
 
@@ -278,9 +268,18 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             $err['mod_folder_not_writeable'] = 1;
         }
 
-        // CREATE DIRECTORIES
-        mkdir( ROOT_MOD .  $mod['module_name'] );
-        mkdir( ROOT_MOD .  $mod['module_name'] . DS . 'templates' );
+        if (!is_dir(ROOT_MOD .  $mod['module_name']))
+        {
+            // CREATE DIRECTORIES
+            mkdir( ROOT_MOD .  $mod['module_name'] );
+            mkdir( ROOT_MOD .  $mod['module_name'] . DS . 'templates' );
+
+        }
+        else
+        {
+            echo 'Module folder already exists.'.ROOT_MOD .  $mod['module_name'];
+            exit;
+        }
 
         // FRONTEND
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
@@ -308,9 +307,12 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         }
 
         // CONFIG
-        // config is always needed
         $config = $smarty->fetch('module_config.tpl');
         file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.config.php' , $config);
+
+        // SETUP
+        $setup = $smarty->fetch('module_setup.tpl');
+        file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.setup.php' , $config);
 
         // FRONTEND TPLS
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)

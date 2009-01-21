@@ -1,6 +1,8 @@
 {* {$serverinfo|@var_dump} *}
 
+<!-- [Start] Widget: Teamspeak Ministatus //-->
 <div class="td_header">Teamspeak Online Check</div>
+
 <div class="cell1">
 
     {if $serverinfo.request_ok == true}
@@ -37,15 +39,18 @@
 
         <br />
 
-        <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_udpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
+        <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_tcpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
         Connect
         </a>
 
     {else}
 
-        <span style="color: red; font-weight: bold;">offline</span>
+        {* ({$serverinfo.server_address}:{$serverinfo.server_tcpport}) *}
+        <br />
+        <span style="color: red; font-weight: bold;">Server offline</span>
 
     {/if}
 
 </div>
 </div>
+<!-- [-End-] Widget: Teamspeak Ministatus //-->

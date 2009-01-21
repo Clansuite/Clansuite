@@ -39,13 +39,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite Module - Teamspeakviewer
  *
  */
-class Module_teamspeakviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
-     * Module_News -> Execute
+     * Module_Teamspeakviewer -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+
     }
 
     public function widget_tsministatus($params)
@@ -57,7 +58,7 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
         $tsviewer = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
-                    ->execute(array(), HYDRATE_ARRAY);
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
         */
 
         # hardcoded for testing
@@ -72,26 +73,27 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         # load query object
         $ts_query = new tcpquery($server_address, $server_tcpport, $server_udpport);
+        $serverinfo = $ts_query->get_serverinfo();
 
-        if(is_object($ts_query))
+        if(is_array($serverinfo))
         {
-            $serverinfo = $ts_query->get_serverinfo();
+
             $serverinfo['request_ok'] = true;
+
+            # assign
+            $serverinfo['server_address']  = $server_address;
+            $serverinfo['server_tcpport']  = $server_tcpport;
+            $serverinfo['guest_nickname']  = $guest_nickname;
+            $serverinfo['server_location'] = $server_location;
         }
         else
         {
             $serverinfo['request_ok'] = false;
+            $serverinfo['server_address']  = $server_address;
+            $serverinfo['server_tcpport']  = $server_tcpport;
         }
 
-        # assign
-        $serverinfo['server_address']  = $server_address;
-        $serverinfo['server_tcpport']  = $server_tcpport;
-        $serverinfo['guest_nickname']  = $guest_nickname;
-        $serverinfo['server_location'] = $server_location;
-
         $smarty->assign('serverinfo', $serverinfo);
-
-        
     }
 
     public function widget_tsviewer($params)
@@ -100,19 +102,18 @@ class Module_teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         /*
         # get data
-        $tsviewer = Doctrine_Query::create()
+        $serverinfo = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
-                    ->execute(array(), HYDRATE_ARRAY);
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
         */
 
         # hardcoded for testing
-        $tsviewer['server_id'] = '77135';
+        $serverinfo['server_id'] = '77135';
 
         # assign
-        $smarty->assign('tsviewer', $tsviewer);
+        $smarty->assign('serverinfo', $serverinfo);
 
-        
     }
 }
 
@@ -142,11 +143,11 @@ class tcpquery
 
     function connect()
     {
-        $this->socket = fsockopen($this->server_address, $this->server_tcpport, $errno, $errstr, 2);
+        $this->socket = @fsockopen($this->server_address, $this->server_tcpport, $errno, $errstr, 2);
 
         if(isset($this->socket))
         {
-            if(!$this->socket or !preg_match('/^\[TS\]\s*$/', fgets($this->socket)))
+            if(!$this->socket or !preg_match('/^\[TS\]\s*$/', @fgets($this->socket)))
             {
                 return false;
             }
@@ -158,9 +159,9 @@ class tcpquery
 
     function get_serverinfo()
     {
-        fputs($this->socket,"si $this->server_udpport\n");
+        @fputs($this->socket,"si $this->server_udpport\n");
 
-        while($answer = fgets($this->socket))
+        while($answer = @fgets($this->socket))
         {
             if(preg_match('/^([^\r\n\f=]*)=([^\r\n\f]*)\s*$/', $answer, $info))
             {
@@ -180,7 +181,7 @@ class tcpquery
 
     function disconnect()
     {
-        fputs($this->socket,"quit\n");
+        @fputs($this->socket,"quit\n");
         return true;
     }
 }

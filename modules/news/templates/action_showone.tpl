@@ -53,8 +53,9 @@
 
 <a name="comments" id="comments"></a>
 
-{if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 0}
+{if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 1}
 
+    <!-- Start Multiple Comments /-->
     <h2>{t}Comments{/t}</h2>
 
     {foreach item=news_comment from=$news_comments}
@@ -81,9 +82,11 @@
     </div>
 
     {/foreach}
+    <!-- End Multiple Comments /-->
 
-{elseif isset($news_comments)}
+{elseif isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0)}
 
+   <!-- Start One Comment /-->
    <h2>1 {t}Comment{/t}</h2>
 
    <div id="news-comment-id{$news_comments.comment_id}" style="width:99%;">
@@ -102,12 +105,16 @@
           </tr>
         </table>
    </div>
+   <!-- End One Comment /-->
 
 {else}
 
+    <!-- Start No Comment /-->
     <h2>{t}No Comments{/t}</h2>
 
     Add a Comment !
+
+    <!-- End No Comment /-->
 
 {/if}
 
