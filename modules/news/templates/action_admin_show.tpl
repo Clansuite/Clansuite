@@ -8,7 +8,6 @@
     {$newscategories|@var_dump}
 *}
 
-
 <style type="text/css">
 {literal}
     .selected { color:green; }
@@ -62,8 +61,8 @@
             <td>published</td>
             <td>add edit</td>
             <td align="center" width="1%">
-                        <input type="hidden" name="ids[]" value="{$wert.user_id.0}" />
-                        <input name="delete[]" type="checkbox" value="{$wert.user_id.0}" />
+                        <input type="hidden" name="ids[]" value="{$news.news_id.0}" />
+                        <input name="delete[]" type="checkbox" value="{$news.news_id.0}" />
             </td>
     </tr>
     {/foreach}
@@ -71,7 +70,7 @@
 
     <tr class="tr_row1">
         <td height="20" colspan="8" align="right">
-            <input class="ButtonGreen" type="button" value="{t}Create News{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Create News{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
             <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
             <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected News{/t}" />
         </td>

@@ -129,11 +129,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
 
         # Incoming Variables
-        $cat_id      = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('cat_id');
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $cat_id      = (int) $request->getParameter('cat_id');
         // add cat_id to select statement if set, else empty
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
-        $currentPage = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $currentPage = (int) $request->getParameter('page');
         $resultsPerPage = (int) 10;
+
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
@@ -178,7 +180,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
             // Fetching news
             #var_dump($pager->getExecuted());
-            $newsarchiv = $pager->execute(array(), HYDRATE_ARRAY);
+            $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
         }
         # Display News ordered by Category
         else
@@ -213,7 +215,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
              // Fetching news
             #var_dump($pager->getExecuted());
-            $newsarchiv = $pager->execute(array($cat_id), HYDRATE_ARRAY);
+            $news = $pager->execute(array($cat_id), Doctrine::HYDRATE_ARRAY);
         }
 
         // Get all $categories for module_news
@@ -229,7 +231,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $smarty = $this->getView();
 
         #$smarty->assign('news', $news->toArray());
-        $smarty->assign('newsarchiv', $newsarchiv);
+        $smarty->assign('news', $news);
         $smarty->assign('newscategories', $newscategories);
 
         // Return true if it's necessary to paginate or false if not

@@ -1,7 +1,8 @@
 {move_to target="head"}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/mooflow/MooFlow.css" />
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/milkbox/milkbox.css" />
-{/move_to}
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/MooFlow.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/milkbox.js"></script>
 
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -23,6 +24,7 @@
     window.addEvent('domready', myMooFlowPage.start);
 </script>
 {/literal}
+{/move_to}
 
 <div class="td_header">Gallery</div>
 <div class="cell1">

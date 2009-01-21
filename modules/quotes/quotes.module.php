@@ -36,7 +36,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
+ * Clansuite 
  *
  * Module:      Quotes
  *
@@ -50,20 +50,11 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
     {
     }
 
-    /**
-     * widget_quotes
-     *
-     * Displayes random quotes in the quotes_widget.tpl.
-     * This is called from template-side by adding:
-     * {load_module name="quotes" action="widget_quotes"}
-     *
-     * @param $item unused
-     * @param $smarty Smarty Render Engine Object
-     * @returns content of quotes_widget.tpl
-     */
     public function widget_quotes($item)
     {
         $smarty = $this->getView();
+
+        # @todo fetchOne()?
         $quotes = Doctrine_Query::create()
                           ->select('q.*')
                           ->from('CsQuote q')
@@ -73,10 +64,6 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
                           ->execute();
 
         $smarty->assign('quote', $quotes);
-
-        
-        
-        
     }
-
 }
+?>

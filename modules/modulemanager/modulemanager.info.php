@@ -4,7 +4,7 @@
 ;
 
 [modulemanager_info]
-author="Forian Wolf"
+author="Florian Wolf"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = Modulemanager

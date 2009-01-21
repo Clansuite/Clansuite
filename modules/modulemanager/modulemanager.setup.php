@@ -64,7 +64,7 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
      *
      * @param $info_file Informations File to Load
      */
-    public function loadModuleInformations(ModuleInformationsController $modInfoController, $info_file)
+    public function loadModuleInformations(Clansuite_ModuleInformationsController $modInfoController, $info_file)
     {
         
         require $info_file;
@@ -72,14 +72,6 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
         #$modInfoController
         #$this->moduleInformations = array();
                     
-    }
-
-    /**
-     * 
-     */
-    public function abc()
-    {
-        
     }
 
     /**

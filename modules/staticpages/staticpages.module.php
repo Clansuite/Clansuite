@@ -73,9 +73,9 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
                                     ->select('*')
                                     ->from('CsStaticPage')
                                     ->where('title = ?')
-                                    ->execute( array( $page ), HYDRATE_ARRAY );
-            
-            var_dump($result);
+                                    ->execute( array( $page ), Doctrine::HYDRATE_ARRAY);
+
+            #var_dump($result);
 
             if ( is_array( $result ) )
             {
@@ -89,8 +89,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
 
                     #$this->output .= $result['0']['html'];
                 }
-                /* static page is iframe??
-                else
+                /*else # static page is iframe??
                 {
                     $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
                     if ( $result['iframe'] == 1 )
