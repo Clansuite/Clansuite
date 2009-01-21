@@ -200,35 +200,35 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             // WIDGETS
             if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
             {
-                $widget_methods = $smarty->fetch('module_widget_method.tpl');
+                $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
             }
 
-            $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
+            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
             $smarty->assign( 'frontend_methods',  $frontend_methods);
 
-            $frontend = $smarty->fetch('module_frontend.tpl');
+            $frontend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend.tpl');
             $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
         }
 
         // BACKEND
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
-            $backend_methods = $smarty->fetch('module_backend_method.tpl');
+            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
             $smarty->assign( 'backend_methods',  $backend_methods );
 
-            $backend = $smarty->fetch('module_backend.tpl');
+            $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
             $smarty->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
         }
 
         // CONFIG
         if( isset($mod['config']['checked']) && $mod['config']['checked'] == 1)
         {
-            $config = $smarty->fetch('module_config.tpl');
+            $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
             $smarty->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
         }
 
-        error_reporting( E_ALL || E_STRICT );
+        #error_reporting( E_ALL || E_STRICT );
         #$smarty->register_prefilter('smarty_prefilter_inserttplnames');
 
         /**
@@ -287,11 +287,11 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             // WIDGETS
             if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
             {
-                $widget_methods = $smarty->fetch('module_widget_method.tpl');
+                $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
             }
 
-            $frontend_methods = $smarty->fetch('module_frontend_method.tpl');
+            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
             $smarty->assign( 'frontend_methods',  $frontend_methods);
             $frontend = $smarty->fetch('module_frontend.tpl');
             file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.module.php', $frontend );
@@ -300,18 +300,18 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         // BACKEND
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
-            $backend_methods = $smarty->fetch('module_backend_method.tpl');
+            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
             $smarty->assign( 'backend_methods',  $backend_methods );
-            $backend = $smarty->fetch('module_backend.tpl');
+            $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
             file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.admin.php', $backend );
         }
 
         // CONFIG
-        $config = $smarty->fetch('module_config.tpl');
+        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
         file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.config.php' , $config);
 
         // SETUP
-        $setup = $smarty->fetch('module_setup.tpl');
+        $setup = $smarty->fetch( ROOT_MOD . 'scaffolding/module_setup.tpl');
         file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.setup.php' , $config);
 
         // FRONTEND TPLS
