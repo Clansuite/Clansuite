@@ -49,7 +49,7 @@ interface Clansuite_Response_Interface
     public function addHeader($name, $value);
     public function setContent($data);
     public function flush();
-    public function newCookie($name, $value);
+    public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
 }
 
 /**
@@ -172,8 +172,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
     /**
      * This flushes the headers and bodydata to the client.
-     *
-     * @todo implement version into header: a. from $config or b. define
      */
     public function flush()
     {
@@ -254,6 +252,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     {
         #declare(encoding=$config['language']['outputcharset']);
         /**
+        #ini_set('unicode.output_encoding', 'utf-8');
+        #ini_set('unicode.stream_encoding', 'utf-8');
+        #ini_set('unicode.runtime_encoding', 'utf-8');
         unicode.fallback_encoding       =
         unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
         unicode.from_error_subst_char	=
@@ -270,6 +271,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         {
         	mb_http_output($this->config['language']['outputcharset']);
         	mb_internal_encoding($this->config['language']['outputcharset']);
+        	mb_regex_encoding('UTF-8');
+            mb_language('uni');
         	# replace mail(), str*(), ereg*() by mbstring functions
             ini_set('mbstring.func_overload','7');
         }
@@ -292,20 +295,98 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         $this->headers  = array();
         $this->data     = null;
     }
+    /**
+     * A better alternative (RFC 2109 compatible) to the php setcookie() function
+     *
+     * @author isooik at gmail-antispam dot com
+     * @link http://de.php.net/manual/de/function.setcookie.php#81398
+     * @param string Name of the cookie
+     * @param string Value of the cookie
+     * @param int Lifetime of the cookie
+     * @param string Path where the cookie can be used
+     * @param string Domain which can read the cookie
+     * @param bool Secure mode?
+     * @param bool Only allow HTTP usage?
+     * @return bool True or false whether the method has successfully run
+     *
+     * @todo until php6 namespaces, the methodname can not be setCookie()
+     *       because this would conflict with the php function
+     */
+    public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false)
+    {
+        $ob = ini_get('output_buffering');
+
+        # Abort the method if headers have already been sent, except when output buffering has been enabled
+        if ( headers_sent() && (bool) $ob === false || strtolower($ob) == 'off' )
+        {
+            return false;
+        }
+
+        if ( !empty($domain) )
+        {
+            # Fix the domain to accept domains with and without 'www.'.
+            if ( strtolower( substr($domain, 0, 4) ) == 'www.' )
+            {
+                $domain = substr($domain, 4);
+            }
+
+            # Add the dot prefix to ensure compatibility with subdomains
+            if ( substr($domain, 0, 1) != '.' )
+            {
+                $domain = '.'.$domain;
+            }
+
+            # Remove port information.
+            $port = strpos($domain, ':');
+
+            if ( $port !== false )
+            {
+                $domain = substr($domain, 0, $port);
+            }
+        }
+
+        # Prevent "headers already sent" error with utf8 support (BOM)
+        //if ( utf8_support ) header('Content-Type: text/html; charset=utf-8');
+
+        header('Set-Cookie: '.rawurlencode($name).'='.rawurlencode($value)
+                                    .(empty($domain) ? '' : '; Domain='.$domain)
+                                    .(empty($maxage) ? '' : '; Max-Age='.$maxage)
+                                    .(empty($path) ? '' : '; Path='.$path)
+                                    .(!$secure ? '' : '; Secure')
+                                    .(!$HTTPOnly ? '' : '; HttpOnly'), false);
+        return true;
+    }
+
 
     /**
-     * Sets a Cookie
+     * Sets NoCache Header Values
+     */
+    public function setNoCacheHeader()
+    {
+        $this->addHeader('Pragma',        'no-cache');
+        $this->addHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        $this->addHeader('Cache-Control', 'post-check=0, pre-check=0');
+        $this->addHeader('Expires',       '1');
+    }
+
+    /**
+     * Redirect
      *
-     * @todo until php6 namespaces, function name can not be setCookie
-     *        because this would conflict with the php function
+     * Redirects to another action after disabling the caching.
+     * This avoids the typicals reposting after an POST is send,
+     * by disabling the cache.
+     * This enables the POST-Redirect-GET Workflow.
      *
-     * @param string name
-     * @param string value
+     * @param string Redirect to this URL
+     * @param int    seconds before redirecting (for the html tag "meta refresh")
+     * @param int    http status code, default: '302' => 'Not Found'
+     * @param text   text of redirect message
      * @access public
      */
-    public function newCookie($name, $value)
+    public function redirectNoCache($url, $time = 0, $statusCode = 302, $text='')
     {
-
+        $this->setNoCacheHeader();
+        $this->redirect($url, $time = 0, $statusCode = 302, $text='');
     }
 
     /**
@@ -314,6 +395,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
+     * @param text   text of redirect message
      * @access public
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text='')
