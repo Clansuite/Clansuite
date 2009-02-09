@@ -47,12 +47,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class set_module_language implements Clansuite_FilterInterface
 {
-    private $config     = null;     # holds instance of config
     private $locale     = null;     # holds instance of localization
 
-public function __construct(Clansuite_Config $config, Clansuite_Localization $locale)
+    public function __construct(Clansuite_Localization $locale)
     {
-       $this->config    = $config;      # set instance of config to class
        $this->locale    = $locale;      # set instance of localization to class
     }
 

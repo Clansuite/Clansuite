@@ -52,7 +52,7 @@ class theme_via_get implements Clansuite_FilterInterface
     private $config     = null;
     private $input      = null;
 
-public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
+    public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
        $this->config    = $config;
        $this->input     = $input;
