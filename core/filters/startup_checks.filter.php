@@ -47,27 +47,34 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  */
 class startup_checks implements Clansuite_FilterInterface
 {
-    private $config     = null;     # holds instance of config
-
-public function __construct(Clansuite_Config $config)
-    {
-       $this->config    = $config;      # set instance of config to class
-    }
-
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # Check if Smarty Output Dirs do exist
+        # Check if Smarty Output Dirs do EXIST
         if (!is_dir( ROOT . 'cache/templates_c') or !is_dir( ROOT . 'cache/cache' ))
         {
+            # try to create the missing directories, throw exception if it fails
+            if( (false == mkdir(ROOT . 'cache/templates_c', 0755)) and (false == mkdir(ROOT . 'cache/cache', 0755)) )
+            {
+                throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+            }
+            else # Log-Entry: "Created Directories Templates_C and Cache."
+            {
 
-        	throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+            }
         }
 
-        # Check if Smarty Output Dirs are writeable
+        # Check if Smarty Output Dirs are WRITEABLE
         if (!is_writable( ROOT . 'cache/templates_c') or !is_writable( ROOT . 'cache/cache' ))
         {
+            # try to set permissions on the folders, throw exception if it fails
+            if( (false == chmod (ROOT . 'cache/templates_c', 0755)) and (false == chmod (ROOT . 'cache/cache', 0755)) )
+            {
+                throw new Clansuite_Exception('Smarty Template Directories not writable.', 10);
+            }
+            else # Log-Entry: "CHMOD 0755 applied on /cache and /templates_c."
+            {
 
-        	throw new Clansuite_Exception('Smarty Template Directories not writable.', 10);
+            }
         }
     }
 }
