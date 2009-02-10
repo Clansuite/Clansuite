@@ -85,6 +85,7 @@ else
         }
 
         echo "<br />";
+        asort($months, SORT_DESC);
 
         foreach ($months as $month => $days)
         {
