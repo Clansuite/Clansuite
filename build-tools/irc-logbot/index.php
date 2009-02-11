@@ -12,15 +12,15 @@ $back_monat = 0;
 $date = $_GET['date'];
 if (isset($date) && preg_match("/^\d\d\d\d-\d\d-\d\d$/", $date))
 {
-    $jahr = substr($date, 0, 4);
-    $monat = substr($date, 5, 2);
+    $year = substr($date, 0, 4);
+    $month = substr($date, 5, 2);
     $day = substr($date,8,2);
 ?>
     <p>
         <a href="./">Index</a>
     </p>
 
-    <h2>IRC Log for <?php echo strftime("%A, %d. %B %Y", mktime(0, 0, 0, $monat, $day, $jahr)); ?></h2>
+    <h2>IRC Log for <?php echo strftime("%A, %d. %B %Y", mktime(0, 0, 0, $month, $day, $year)); ?></h2>
 
     <p>
         Timestamps are in GMT/BST.
@@ -53,11 +53,11 @@ else
     {
         $file   = substr($file, 0, 10);
 
-    	$jahr   = substr($file, 0, 4);
+    	$year   = substr($file, 0, 4);
     	$month  = substr($file, 5, 2);
         $day    = substr($file, 8, 2);
 
-    	$years_array["$jahr"]["$month"]["$day"] = $file;
+    	$years_array["$year"]["$month"]["$day"] = $file;
     }
     asort($years_array, SORT_STRING);
 
@@ -92,10 +92,10 @@ else
             $monthname = strftime("%B", mktime(0, 0, 0, $month, '01', $year));
             echo "<h3><a name='$year-$month'>$monthname</a></h3>";
             echo "<blockquote>";
+
+            arsort($days);
             foreach($days as $day => $filename)
             {
-
-
                 echo "<li>";
                 ?>
                 <a href="<?php echo($_SERVER['PHP_SELF'] . "?date=" . $filename); ?>">
