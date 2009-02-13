@@ -1,0 +1,64 @@
+libacts2 - The TeamSpeak 2 PHP library
+Copyright (c) 2006 Steven Barth
+Several improvements and fixes by Sven Paulsen from PlanetTeamspeak
+
+Development : www.absurdcoding.org
+Published at: www.planetteamspeak.com
+Supported by: www.germeshausen.de
+
+Development Mail: libacts2 [at] absurdcoding [dot] org
+
+Intention:
+
+The idea of libacts2 is to replace the CyTS class with a new flexible fast
+and reliable object-oriented library which meets the requirements of todays
+PHP developers.
+
+The result should be simple and efficient.
+
+
+
+Requirements:
+
+PHP >= 5.1
+
+
+
+How to start:
+
+Just have a look at the documentation or if you like "learning by doing" have
+a look at the examples directory.
+
+
+
+Which files do I need to use libacts2 in my own projects:
+
+You neeed The file "Absurd.php" and the directory "Absurd" with all
+of its subdirectories and files. In your PHP application you only need
+to include / require the "Absurd.php" the rest should be done automatically.
+
+
+
+Where to report bugs, feature requests, ...:
+
+Please send them to libacts2 [at] absurdcoding [dot] org
+Any support related questions here will be ignored.
+
+
+
+Where to get the latest developer version:
+
+The latest version can alway be found in the subversion repositories of
+absurdcoding.org. You can checkout the latest version by using
+
+svn co svn://svn.absurdcoding.org/libacts2/trunk
+
+
+
+How to build the manual:
+
+Install phpdocumentor on your machine if you have not already done it by typing
+
+pear install phpdocumentor
+
+now use the "makedocs" script to build the documentation.

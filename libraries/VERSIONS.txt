@@ -16,6 +16,7 @@ FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolg
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
 GRAPH                     1.7.4      NONE, FREE               http://www.zackbloom.org/graph/ *down
 GZIP_ENCODE               0.67       LGPL                     http://www.leknor.com/code/php/ *down, fetchable via typo3 repos
+LIBACTS2                  #30        GPL v2 or above          http://forum.planetteamspeak.com/showthread.php?t=81
 PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
 PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto
 PHP-DEBUG                 1.0.2      MIT-License              http://www.php-debug.com/ 
@@ -50,12 +51,3 @@ PHP.JS                    1.26       DUAL: MIT, GPL           http://kevin.vanzo
 TabPane                   1.02       Apache License v2        http://webfx.eae.net/dhtml/tabpane/
 webtoolkit.sha1                      MIT License              http://www.webtoolkit.info/
 XulMenu (mygosuMenu)      1.4.2      BSD (revised/new)        http://gosu.pl/dhtml/mygosumenu.html
-
-SUBVERSION:EXTERNALS OF "/trunk/libraries" FOLDER ARE:
-======================================================
-
-doctrine http://svn.phpdoctrine.org/branches/0.11/lib/
-fckeditor http://svn.fckeditor.net/FCKeditor/releases/latest/
-geshi https://geshi.svn.sourceforge.net/svnroot/geshi/branches/RELEASE_1_0_8_STABLE/geshi-1.0.X/src
-ids https://svn.php-ids.org/svn/trunk/lib/IDS/
-swiftmailer https://swiftmailer.svn.sourceforge.net/svnroot/swiftmailer/tags/php5/3.3.3/lib/
