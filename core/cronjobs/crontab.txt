@@ -1,1 +1,9 @@
-*/1	*	*	*	*	crontab.php	# Crontab, do not delete this line!
+# Clansuite Crontab
+#
+# Comments start with '#'
+#
+#mi  h    d    m    dow      job                                 comment
+#*/1 *    *    *    *        crontab.php                         # Crontab, do not delete this line!
+0    5    *    *    Sun      cronjobs/dump.cronjob.php           # make db dump every sunday at 5 am
+#40   5    2    *    *        cronjobs/sendlog.cronjob.php        # send last month's web server logs
+#*/15 8-19 *    *    Mon-Fri  cronjobs/refrexternals.cronjob.php  # refresh external news sources
