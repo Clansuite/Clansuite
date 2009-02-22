@@ -272,7 +272,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @return renderengine object
      */
     public function getRenderEngine()
-    {
+    {      
         return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
 
@@ -448,6 +448,16 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     {
         $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
     }
+    
+    /**
+    * @desc  Shortcut for Redirect with an 404 Repsonse Code
+    * @param string Redirect to this URL
+    * @param int    seconds before redirecting (for the html tag "meta refresh")
+    */
+    public function redirect404($url, $time = 5)
+    {
+        $this->redirect($url, $time, 404, _('The URL you request is not available.'));
+    }
 
     /**
      * addEvent (shortcut for usage in modules)
@@ -458,8 +468,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function addEvent($eventName, Clansuite_Event $event)
     {
-        Clansuite_Eventhandler::instantiate();
-        Clansuite_Eventhandler::addHandler($eventName, $event);
+        $eventhandler = Clansuite_Eventhandler::instantiate();
+        $eventhandler->addEventHandler($eventName, $event);
     }
 }
 ?>
