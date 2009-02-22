@@ -45,10 +45,10 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @subpackage  eventhandler
  * @category    interfaces
  */
-interface Clansuite_EventHandler
+interface Clansuite_Event
 {
     # methods gets an Event Object
-    public function handle(Event $event);
+    public function execute(Clansuite_Event $event);
 }
 
 /**
@@ -76,12 +76,13 @@ class Clansuite_Eventhandler
      * @static
      * @access public
      */
-    static public function instantiate()
+    public static function instantiate()
     {
         if (self::$instance === null)
         {
             self::instance = new Clansuite_Eventhandler();
-        }        
+        }
+        return self::instance;       
     }
 
     /**
@@ -90,7 +91,7 @@ class Clansuite_Eventhandler
      * @param $eventName Name of the Event
      * @param $event Instance of Clansuite_Event
      */
-    public function addHandler($eventName, Clansuite_Event $event)
+    public function addEventHandler($eventName, Clansuite_Event $event)
     {
         # if eventhandler is not set already, initialize as array
         if (!isset($this->eventhandlers[$eventName]))
@@ -99,15 +100,7 @@ class Clansuite_Eventhandler
         }
 
         # add event to the eventhandler list
-        $this->eventhandlers[$eventName] = $event;
-    }
-
-    /**
-     * handle = getName
-     */
-    public function handle()
-    {
-        print $event->getName();
+        $this->eventhandlers[$eventName][] = $event;
     }
 
     /**
@@ -137,7 +130,7 @@ class Clansuite_Eventhandler
         foreach ($this->eventhandlers[$eventName] as $eventhandler)
         {
             # handle the event !!
-            $eventhandler->handle($event);
+            $eventhandler->execute($event);
 
             # break, on cancelled
             if($event->isCancelled())
