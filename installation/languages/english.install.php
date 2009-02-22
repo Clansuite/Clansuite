@@ -36,7 +36,7 @@ class language implements ArrayAccess
 
         $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Some of these system settings are required for the correct work of Clansuite.';
         $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'While other settings are only recommended to enhance the security or performance.';
-        $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'The red marked settings show where you have to take action.';
+        $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Please ensure that all of the required system check items listed below are green. The red marked settings show where you have to take action.';
         $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'The System-Check resulted in:';
 
         $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Required Settings';
@@ -76,6 +76,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_XML'] = 'PHP Extension: XML';
         $this->language['EXTENSION_SIMPLEXML'] = 'PHP Extension: SimpleXML';
         $this->language['EXTENSION_SUHOSIN'] = 'PHP Extension: Suhosin';
+        $this->language['EXTENSION_SKEIN'] = 'PHP Extension: Skein';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
