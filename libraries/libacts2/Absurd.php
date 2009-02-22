@@ -72,11 +72,22 @@ class Absurd
 	 */
   public static function autoload($class)
   {
-    if (!class_exists($class) && !interface_exists($class)) {
-      if (!preg_match('/^[A-Za-z0-9_]+$/', $class)) {
+    if (!class_exists($class) && !interface_exists($class))
+    {
+      if (!preg_match('/^[A-Za-z0-9_]+$/', $class))
+      {
         throw new Absurd_Exception("Class $class contains invalid characters", 0x01);
-      } else {
+      }
+      else
+      {
         $file = self::$libpath . str_replace('_', '/', $class) . self::$extension;
+        /**
+         * Modification Reason:
+         * The following section of original code is just ahem.. stu.. suboptimal!
+         * If you work with several autoload methods (chaining), throwing exceptions is fatal (breaking the chain).
+         * Therefore it's replaced by a bypass!
+         */
+        /*
         if (!$fp = @fopen($file, 'r', true)) {
           throw new Absurd_Exception("Class file $file was not found", 0x02);
         } else {
@@ -86,6 +97,13 @@ class Absurd
             throw new Absurd_Exception("Class $class was not found in the expected place", 0x03);
           }
         }
+        */        
+        if (is_file($file))
+        {
+            require_once $file;
+            return true;
+        }
+        return false;
       }
     }
   }
