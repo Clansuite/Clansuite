@@ -36,7 +36,7 @@ class language implements ArrayAccess
 
         $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgemäß funktioniert.';
         $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegründen.';
-        $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
+        $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Bitte stellen Sie sicher, dass die erforderlichen Einstellungen alle grün markiert sind. Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
         $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemüberprüfung ergab folgendes:';
 
         $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Erforderliche Einstellungen';
@@ -76,6 +76,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
         $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
         $this->language['EXTENSION_SUHOSIN'] = 'PHP Bibliothek: Suhosin';
+        $this->language['EXTENSION_SKEIN'] = 'PHP Bibliothek: Skein';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';

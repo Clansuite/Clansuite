@@ -104,8 +104,8 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                              $tempdir = ini_get("session.save_path");
                              # filehandle for temp file
                              $temp_file_name = tempnam($tempdir, "FOO FIGHTERS");
-                             
-                             if (!empty($temp_file_name)) 
+
+                             if (!empty($temp_file_name))
                              {
                                 $handle = fopen($temp_file_name, "w");
                                 fwrite($handle, "writing to tempfile");
@@ -290,6 +290,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_suhosin']['actual']     = extension_loaded('suhosin') ? 'on' : 'off';
                          $recommended['extension_suhosin']['status']     = extension_loaded('suhosin') ? SETTING_TRUE : SETTING_FALSE;
 
+                         #  Checking for PHP Extension : Skein Hash
+                         $recommended['extension_skein']['text']       = $language['EXTENSION_SKEIN'];
+                         $recommended['extension_skein']['expected']   = 'on';
+                         $recommended['extension_skein']['actual']     = extension_loaded('skein') ? 'on' : 'off';
+                         $recommended['extension_skein']['status']     = extension_loaded('skein') ? SETTING_TRUE : SETTING_FALSE;
+
                          ?>
                 <table class="settings" border="0">
                     <thead class="tbhead">
@@ -324,6 +330,13 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         <?php setting_rows($recommended); ?>
                     </tbody>
                 </table>
+                <!--
+                <br />
+                <div style="text-align:center;">
+                <script language="javascript"> function reload() { window.location.reload(true); }</script>
+		        <input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="2">
+                </div>
+                -->
                 <div id="content_footer">
                     <div class="navigation">
                         <span style="font-size:10px;">
@@ -332,15 +345,16 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         </span>
                         <form action="index.php" method="post">
                             <div class="alignright">
-                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
+                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" tabindex="1" />
                             </div>
                             <div class="alignleft">
-                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
+                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" tabindex="3" />
                                 <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
                             </div>
                         </form>
                     </div><!-- div navigation end -->
                 </div> <!-- div content_footer end -->
+
             </div> <!-- div accordion end -->
         </div> <!-- div content_middle end -->
     </div> <!-- div content end -->
