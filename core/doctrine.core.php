@@ -128,11 +128,13 @@ class Clansuite_Doctrine
          * Debugdisplay
          * echo 'Doctrine DSN: '.$dsn; exit();
          */
-        $dsn  = $this->config['database']['db_type'] . '://';
-        $dsn .= $this->config['database']['db_username'] .  ':';
-        $dsn .= $this->config['database']['db_password'] . '@';
-        $dsn .= $this->config['database']['db_host'] . '/';
-        $dsn .= $this->config['database']['db_name'];
+        $dsn = sprintf('%s://%s:%s@%s/%s',
+                       $this->config['database']['db_type'],
+                       $this->config['database']['db_username'] ,
+                       $this->config['database']['db_password'],
+                       $this->config['database']['db_host'],
+                       $this->config['database']['db_name']
+        );
 
         /**
          * Setup phpDoctrine ConnectionObject for LATER Connection
