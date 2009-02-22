@@ -116,7 +116,8 @@ class Clansuite_Security
      * This function generates a HASH of a given string using the requested hash_algorithm.
      * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
      * To get a complete list of available hash encodings use: print_r(hash_algos());
-     * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
+     * When you have the "skein_hash" extension installed, we use "skein_hash". 
+     * When it's not possible to use hash() or skein_hash() for any reason, we use "md5" and "sha1".
      *
      * @param $string String to build a HASH from
      * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
@@ -137,6 +138,17 @@ class Clansuite_Security
         {
             return hash($hash_algo,$string);
         }
+        /**
+         * check, if we can use skein_hash() 
+         * 
+         * therefore the php extension "skein" has to be installed.
+         * website: http://www.skein-hash.info/downloads
+         */
+        elseif (extension_loaded('skein')) # function_exists('skein_hash')
+        {
+            # get the binary 512-bits hash of string
+            return skein_hash($string, 512);
+        }        
         else
         {   # when hash() not available, do hashing the old way
             switch($hash_algo)
