@@ -96,7 +96,7 @@ define('PS', PATH_SEPARATOR);
 # DEFINE -> ROOT
 # Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
 define('ROOT',  getcwd() . DS);
-#define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/'); # Replace the DSs to Unix Style 
+#define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/'); # Replace the DSs to Unix Style
 
 # DEFINE -> Directories related to ROOT
 define('ROOT_MOD'           , ROOT . $config['paths']['mod_folder'].DS);
@@ -105,14 +105,25 @@ define('ROOT_LANGUAGES'     , ROOT . $config['paths']['language_folder'].DS);
 define('ROOT_CORE'          , ROOT . $config['paths']['core_folder'].DS);
 define('ROOT_LIBRARIES'     , ROOT . $config['paths']['libraries_folder'].DS);
 define('ROOT_UPLOAD'        , ROOT . $config['paths']['upload_folder'].DS);
+define('ROOT_LOGS'          , ROOT . $config['paths']['logfiles_folder'].DS);
 define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
-
 
 # DEFINE -> Webpaths for Templates
 
-# 1. SERVER_URL
-define('SERVER_URL'    , 'http://'.$_SERVER['SERVER_NAME']);
-# 2. Build WWW_ROOT = complete www-path with server from SERVER_URL, depending on os-system
+# @toto get rid of using $_SERVER
+
+# 1. Determine Type of Protocol for Webpaths (http/https)
+if(isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on')
+{
+    define('PROTOCOL','https://');
+}
+else
+{
+    define('PROTOCOL','http://');  
+}
+# 2. SERVER_URL
+define('SERVER_URL'    , PROTOCOL.$_SERVER['SERVER_NAME']);
+# 3. Build WWW_ROOT = complete www-path with server from SERVER_URL, depending on os-system
 # Purpose of WWW_ROOT is to provide the complete www-path for later use in templates
 # Example: WWW_ROOT = 'http://www.yourdomain.com/clansuite_root_directory/';
 if (dirname($_SERVER['PHP_SELF']) == "\\" )
