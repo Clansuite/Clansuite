@@ -72,7 +72,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * $statusCode = '200' => 'OK'
      *
      * @var       integer
-     * @access    protected
      */
     protected $statusCode = '200';
 
@@ -80,7 +79,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * Array holding the response headers.
      *
      * @var       array
-     * @access    protected
      */
     protected $headers = array();
 
@@ -90,7 +88,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * String holding the response body.
      *
      * @var       string
-     * @access    protected
      */
     protected $body = null;
 
@@ -106,7 +103,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * This method is also used to set the return status code when there
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
      *
-     * @access public
      * @param  integer $statusCode The status code to set
      */
     public function setStatusCode($statusCode)
@@ -118,6 +114,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * Get-Method for HTTP 1.1 status code and its meaning.
      *
      * used in (@link $this->flush )
+     * @see $this->flush()
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
     public function getStatusCodeDescription($statusCode)
@@ -162,7 +159,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     /**
      * append content to body
      *
-     * @access public
      * @param string $content Content to store in the buffer
      */
     public function setContent($content)
@@ -187,8 +183,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // Set X-Powered-By Header to Clansuite Signature
         $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
 
-         // Send our Content-Type with UTF-8 encoding
-        $this->addHeader('Content-Type', 'text/html; charset=UTF-8');
+        // Send our Content-Type with UTF-8 encoding
+        #$this->addHeader('Content-Type', 'text/html; charset=UTF-8');
 
         // Send user specificed headers from $this->headers array
         foreach ($this->headers as $name => $value)
@@ -219,7 +215,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public function activateOutputCompression()
     {
         # Check for Debugging
-        if( (bool)XDBUG === false )
+        if( (bool)XDEBUG === false or (bool)DEBUG === false)
         {
             # Method 1: zlib
             if (extension_loaded('zlib'))
@@ -317,7 +313,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         $ob = ini_get('output_buffering');
 
         # Abort the method if headers have already been sent, except when output buffering has been enabled
-        if ( headers_sent() && (bool) $ob === false || strtolower($ob) == 'off' )
+        if ( headers_sent() and (bool) $ob === false or strtolower($ob) == 'off' )
         {
             return false;
         }
@@ -347,7 +343,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
         # Prevent "headers already sent" error with utf8 support (BOM)
         //if ( utf8_support ) header('Content-Type: text/html; charset=utf-8');
-
+        # @todo: appending to string with dots is slow, "sprintf"y this
         header('Set-Cookie: '.rawurlencode($name).'='.rawurlencode($value)
                                     .(empty($domain) ? '' : '; Domain='.$domain)
                                     .(empty($maxage) ? '' : '; Max-Age='.$maxage)
@@ -381,7 +377,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
-     * @access public
      */
     public function redirectNoCache($url, $time = 0, $statusCode = 302, $text='')
     {
@@ -396,7 +391,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
-     * @access public
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text='')
     {
