@@ -60,9 +60,6 @@ if ( is_file('configuration/clansuite.config.php' ) == false ) { header( 'Locati
 require 'core/config/ini.config.php';
 $config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php'); #clansuite_xdebug::printR($config);
 
-# Setup XDebug
-define('XDBUG', $config['error']['xdebug']); if(XDBUG){ require 'core/bootstrap/clansuite.xdebug.php'; clansuite_xdebug::start_xdebug(); }
-
 # initialize constants / errorhandling / ini_sets / paths
 require 'core/bootstrap/clansuite.init.php';
 # get loaders and register/overwrite spl_autoload handling
@@ -107,7 +104,7 @@ $injector->instantiate('Clansuite_Doctrine');
 
 # Initialize Session, then register the session-depending User-Object manually
 Clansuite_Session::getInstance($injector);
-$injector->register('Clansuite_User');
+$injector->register(new Singleton('Clansuite_User'));
 
 /**
  *  ===================================================================
@@ -144,7 +141,14 @@ foreach($postfilter_classes as $class)
 # Take off.
 $clansuite->processRequest($request, $response);
 
-# Stop debugging and show debugging infos.
-if(XDBUG){ clansuite_xdebug::end_xdebug(); }
+# XDebug has the last word: Stop tracing and show debugging infos.
+if(XDEBUG)
+{
+    clansuite_xdebug::end_xdebug();
+}
 
+if(DEBUG)
+{
+    $injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
+}
 ?>
