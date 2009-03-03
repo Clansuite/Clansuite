@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -27,98 +29,96 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: view_factory.class.php 2584 2008-11-21 22:39:52Z vain $
+    * @version    SVN: $Id: httpresponse.core.php 2614 2008-12-05 21:18:45Z vain $response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-/**
- * View Factory
- *
- * The static method getRenderer() returns the included and instantiated
- * Rendering Engine Object - which is the View in MVC!
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- *
- * @package     clansuite
- * @category    factory
- * @subpackage  view
- */
-class view_factory
+class Clansuite_Logger_Factory
 {
     /**
-     * getRenderer
+     * getLogger
      *
-     * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
+     * @param $logger_type String (A Logger Name like "file", "db")
      * @param $injector Dependency Injector Phemto
      * @static
+     * @access public
      * @return Renderer Object
      */
-    public static function getRenderer($view_type, Phemto $injector)
+    public static function getLogger($logger_type, Phemto $injector)
     {
         try
         {
-			$file = ROOT_CORE .'views'.DS. strtolower($view_type) .'.view.php';
+			$file = ROOT_CORE .'logger'.DS. strtolower($logger_type) .'.logger.php';
         	if (is_file($file) != 0)
 			{
 				require_once($file);
-	            $class = 'view_'. $view_type;
+	            $class = 'logger_'. $logger_type;
 	            if (class_exists($class))
 	            {
-	                # instantiate and return the renderer and pass $injector into
-	                $view = new $class($injector);
-	                #var_dump($view);
-	                return $view;
+	                # instantiate and return the logger and pass $injector into
+	                $logger = new $class($injector);
+	                # var_dump($logger);
+	                return $logger;
 	            }
 	            else
 	            {
-	            	 throw new ViewFactoryClassNotFoundException($class);
+	            	 throw new LoggerFactoryClassNotFoundException($class);
 	            }
 	        }
 			else
 			{
-				throw new ViewFactoryFileNotFoundException($file);
+				throw new LoggerFactoryFileNotFoundException($file);
 	        }
 	    }
-		catch(Clansuite_Exception $e) {}
+		catch(Exception $e) {}
     }
 }
 
 /**
- * Clansuit Exception - ViewFactoryClassNotFoundException
+ * Clansuit Exception - LoggerFactoryClassNotFoundException
  *
  * @package clansuite
  * @category    core
  * @subpackage exceptions
  */
-class ViewFactoryClassNotFoundException extends Exception
+class LoggerFactoryClassNotFoundException extends Exception
 {
 	function __construct($class)
 	{
 		parent::__construct();
-	  	echo 'View_Factory -> Class not found: ' . $class;
+	  	echo 'Logger_Factory -> Class not found: ' . $class;
 	  	die();
 	}
 }
 
 /**
- * Clansuit Exception - ViewFactoryFileNotFoundException
+ * Clansuit Exception - LoggerFactoryFileNotFoundException
  *
  * @package clansuite
  * @category    core
  * @subpackage exceptions
  */
-class ViewFactoryFileNotFoundException extends Exception
+class LoggerFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
 	{
 		parent::__construct();
-		echo 'View_Factory -> File not found: ' . $file;
+		echo 'Logger_Factory -> File not found: ' . $file;
 		die();
 	}
+}
+
+/**
+ * Clansuite_Logger_Interface
+ * 
+ * Purpose: All Loggers must implement the following functions.
+ */
+class Clansuite_Logger_Interface()
+{
+    function getInstance($injector);
+    function writeLog($string);
 }
 ?>

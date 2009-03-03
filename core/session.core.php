@@ -120,16 +120,18 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Configure Session
          */
-        #session_module_name("files");
-        ini_set('session.save_handler', 'user');                    # workaround for save_handler user is causing a strange bug
-        #ini_set('session.save_handler'      , 'user' );
-        #ini_set("session.save_path", "C:/xampplite/temp");          # Session Temp Path outside the Clansuite Directory
-        #ini_set("session.save_path", ROOT . 'tmp');                # Session Temp Path inside the Clansuite Directory
-        // Garbage Collector not needed, because it's gettin called everytime in session_control()
-        ini_set('session.gc_maxlifetime'    , $this->config['session']['session_expire_time']);
-        #ini_set('session.gc_probability'    , 100 ); // 10% of the requests will call the gc
-        #ini_set('session.gc_divisor'        , 100 );
         ini_set('session.name'              , self::session_name );
+        ini_set('session.save_handler'      , 'user');
+
+        /**
+         * Configure Garbage Collector
+         * This will call the GC in 10% of the requests.
+         * Calculation : gc_probability/gc_divisor = 1/10 = 0,1 = 10%
+         */
+        ini_set('session.gc_maxlifetime'    , $this->config['session']['session_expire_time']);
+        ini_set('session.gc_probability'    , 1 );
+        ini_set('session.gc_divisor'        , 10 );
+
         # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
         ini_set('session.use_trans_sid'     , 0 );
@@ -138,7 +140,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
 
         # Setup the custom session handler
-
         session_set_save_handler(   array($this, "session_open"   ),
                                     array($this, "session_close"  ),
                                     array($this, "session_read"   ),
@@ -146,21 +147,19 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_destroy"),
                                     array($this, "session_gc"     ));
 
-
-
-
         # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
-        if ($this->session_read(session_id()) == '' OR strlen(session_id()) != 32 OR !isset($_SESSION['initiated']))
+        # $this->session_read(session_id()) == '' OR
+        if ( strlen(session_id()) != 32 OR !isset($_SESSION['initiated']) OR ((string)$_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
         {
             session_regenerate_id(true);    # Make a new session_id and destroy old session
-            $_SESSION['initiated'] = true;  # session fixation
+            $_SESSION['initiated']      = true;  # session fixation
+            $_SESSION['application']    = 'CS-'.CLANSUITE_REVISION; # application-marker
 
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
              */
-            $token = md5(uniqid(rand(), true)); # session token
-            $_SESSION['token'] = $token;
+            $_SESSION['token']      = md5(uniqid(rand(), true)); # session token
             $_SESSION['token_time'] = time();
         }
 
@@ -177,12 +176,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         # Control the session ( Clean up: 3day registrations, old sessions)
 
-        $this->session_control();
-
-        # Register shutdown
-        # @todo: is this needed? session_write_close is called in response->flush()
-
-        register_shutdown_function(array($this,'session_close'));
+        #$this->session_control();
     }
 
     /**
@@ -193,11 +187,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         try
         {
             # set cookie parameters
-            session_set_cookie_params($time);
+            #session_set_cookie_params($time);
             #session_set_cookie_params(0, ROOT);
 
             # name the session
-            session_name($ses);
             #session_name(self::session_name);
 
             # START THE SESSION
@@ -244,23 +237,21 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * Reads a session
      *
      * @param integer $id contains the session_id
-     *
-     * @return mixed (boolean false or data)
+     * @return string string of the session data
      */
     public function session_read( $id )
     {
         # Debug Display
-        # echo 'Session ID is: '. $id .' AND Session NAME is:'. self::session_name;
+        #echo 'Session ID is: '. $id .' AND Session NAME is:'. self::session_name;
 
         $result = Doctrine_Query::create()
-                         ->select('session_data, session_expire')
+                         ->select('session_data, session_starttime')
                          ->from('CsSession')
                          ->where('session_name = ? AND session_id = ?')
                          ->fetchOne(array(self::session_name, $id ), Doctrine::HYDRATE_ARRAY);
         if( $result )
         {
-            //$_SESSION = unserialize($result['session_data']);
-            return (string) $result['session_data'];
+            return (string) $result['session_data'];  # unserialize($result['session_data']);
         }
         return '';
     }
@@ -270,59 +261,38 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @param integer $id contains session_id
      * @param array $data contains session_data
-     *
      * @return bool
      */
     public function session_write( $id, $data )
     {
         /**
-         * Determine Expiretime of Session
-         *
-         * $this->session_expire_time is a minute time value, we get this from config settings
-         * $sessionLifetime is seconds
-         */
-        $sessionlifetime = $this->session_expire_time * 60;
-        $expires = time() + $sessionlifetime;
-
-        /**
          * Determine the current location of a user by checking request['mod']
-         *
-         #var_dump($_REQUEST);
-         #var_dump($this->request);
-         *
          */
         $userlocation = (!isset($request['mod']) && empty($this->request['mod'])) ? 'sessionstart' : $this->request['mod'];
         #echo 'location '.$userlocation;
 
         /**
-         * Check if session_id exists in DB
+         * Try to Update / Replace Session Data in case session_id already exists
+         * $result is 1, when update successful, zero otherwise
          */
         $result = Doctrine_Query::create()
-                         #->select('*') // automatically set when left out
-                         ->from('CsSession')
-                         ->where('session_name = ? AND session_id = ?')
-                         ->fetchOne(array(self::session_name, $id ));
+                         ->update('CsSession s')
+                         ->set('s.session_starttime','?', time())
+                         ->set('s.session_data','?', $data)
+                         ->set('s.session_where','?', $userlocation)
+                         ->where('s.session_id = ?', $id)
+                         ->execute();
 
-        if ( $result )
+        /**
+         * Insert Session using the Doctrine CsSession Object
+         * because we got no result for that session_id during update
+         */
+        if ( $result == 0)
         {
-            /**
-             * Update Session, because we know that session_id already exists
-             */
-            $result->session_expire = $expires;
-            $result->session_data   = $data;
-            $result->session_where  = $userlocation;
-            $result->save();
-        }
-        else
-        {
-            /**
-             * Insert Session, because we got no session_result for that session_id
-             * using the Doctrine CsSession Object
-             */
             $newSession = new CsSession();
             $newSession->session_id         = $id;
             $newSession->session_name       = self::session_name;
-            $newSession->session_expire     = $expires;
+            $newSession->session_starttime  = time();
             $newSession->session_data       = $data;
             $newSession->session_visibility = 1;
             $newSession->session_where      = $userlocation;
@@ -361,22 +331,42 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  ->execute(array( self::session_name, $session_id ));
     }
 
-    /**
-     * Session garbage collector
+     /**
+     * Session Garbage Collector
      *
+     * @param int session life time (mins)
      * Removes the current session, if:
      * a) gc probability is reached (ini_set)
      * b) time() is reached (DB has timestamp stored, that is time() + expiration )
+     * @see session.gc_divisor      100
+     * @see session.gc_maxlifetime  1800 = 30*60
+     * @see session.gc_probability    1
+     * @usage execution rate 1/100 (session.gc_probability/session.gc_divisor)
+     * @return boolean
      */
-
-    public function session_gc()
+    public function session_gc($maxlifetime)
     {
-        # echo xdebug_call_function();
-        $rows = Doctrine_Query::create()
-                                 ->delete('CsSession')
-                                 ->from('CsSession')
-                                 ->where('session_name = ? AND session_expire < ?')
-                                 ->execute(array( self::session_name, time() ));
+        if($maxlifetime == 0 )
+        {
+            return;
+        }
+
+        /**
+         * Determine Expiretime of Session
+         *
+         * $maxlifetime is a minute time value, we get this from config settings ['session']('session_expire_time']
+         * $sessionLifetime is seconds
+         */
+        $sessionlifetime = $maxlifetime * 60;
+        $expire_time = time() + $sessionlifetime;
+
+        Doctrine_Query::create()
+                 ->delete('CsSession')
+                 ->from('CsSession')
+                 ->where('session_name = ? AND session_starttime < ?')
+                 ->execute(array( self::session_name, $expire_time  ));
+
+        return true;
     }
 
     /**
@@ -385,6 +375,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * 1. Check for IP
      * 2. Check for Browser
      * 3. Check for Host Address
+     * 4. Check for Number of Password Tries
      *
      * @return boolean
      */
@@ -443,6 +434,40 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         /**
+         * 4. Check for Number of Password Tries
+         **/
+        /*
+        if(in_array("bad_password_tries", $this->session_security))
+        {
+            if($_SESSION['password_tries'] < $this->config['anti-hijack']['maximal_password_tries'])
+            {
+                if(true == $this->request->issetParameter('POST','password'))
+                {
+                    if(!isset($_SESSION['password_tries']))
+                    {
+                        $_SESSION['password_tries'] = 1;
+                    }
+                    elseif($_SESSION['password_tries'] <= $this->config['anti-hijack']['maximal_password_tries'])
+                    {
+                        $_SESSION['password_tries']++;
+                    }
+
+                    # perform password check here
+                }
+                else # reset
+                {
+                    unset($_SESSION['password_tries']);
+                }
+            }
+            else
+            {
+                $this->session_destroy(session_id());
+                return false;
+            }
+        }
+        */
+
+        /**
          *  Return true if everything is ok
          */
 
@@ -459,14 +484,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public function session_control()
     {
-       /**
-         *  Perform Garbage Control
-         *  DELETE: Timed out Sessions!
-         *
-         *  @todo: NOT NEEDED? - gc_ probabilites are set by php itself ( see ini_set in __construct() )
-         */
-        $this->session_gc();
-
         /**
          * DELETE : USERS which are not activated after 3 days.
          *
@@ -481,12 +498,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          *  CHECK whether session is EXPIRED
          */
-
+        /*
         if ( ( !isset($_COOKIE['cs_cookie_user_id']) OR !isset($_COOKIE['cs_cookie_password']) ) )
         #AND $_SESSION['user']['user_id'] != 0 )
         {
             $result = Doctrine_Query::create()
-                                ->select('user_id, session_expire')
+                                ->select('user_id, session_starttime')
                                 ->from('CsSession')
                                 ->where('session_id = ?')
                                 ->fetchOne(array( $this->request[self::session_name] ), Doctrine::HYDRATE_ARRAY);
@@ -503,7 +520,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
             }
 
-        }
+        } */
 
         /**
          *  Assign Session Time Values for Session Countdown
@@ -588,6 +605,6 @@ interface Clansuite_Session_Interface
     public function session_read($id);
     public function session_write($id, $data);
     public function session_destroy($id);
-    public function session_gc();
+    public function session_gc($maxlifetime);
 }
 ?>
