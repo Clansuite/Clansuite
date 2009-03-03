@@ -50,6 +50,16 @@ if (!in_array('mysql', PDO::getAvailableDrivers() )) { die('<i>php_pdo_mysql</i>
 
 /**
  *  ================================================
+ *     Alter php.ini settings
+ *  ================================================
+ */
+ini_set('short_open_tag'                , 'off');
+ini_set('arg_separator.input'           , '&amp;');
+ini_set('arg_separator.output'          , '&amp;');
+ini_set('memory_limit'                  , '20M' );
+
+/**
+ *  ================================================
  *     Debug Mode & Error Reporting Level
  *  ================================================
  *
@@ -77,6 +87,14 @@ else
     error_reporting(0);                 # do not report errors
 }
 
+# Setup XDebug
+define('XDEBUG', $config['error']['xdebug']);
+if((bool)XDEBUG === true)
+{
+    require 'core/bootstrap/clansuite.xdebug.php';
+    clansuite_xdebug::start_xdebug();
+}
+
 /**
  *  ================================================
  *     Define Constants
@@ -99,6 +117,7 @@ define('ROOT',  getcwd() . DS);
 #define('ROOT'       , str_replace('\\', '/', dirname(__FILE__) ) . '/'); # Replace the DSs to Unix Style
 
 # DEFINE -> Directories related to ROOT
+# Purpose: absolute path shortcuts
 define('ROOT_MOD'           , ROOT . $config['paths']['mod_folder'].DS);
 define('ROOT_THEMES'        , ROOT . $config['paths']['themes_folder'].DS);
 define('ROOT_LANGUAGES'     , ROOT . $config['paths']['language_folder'].DS);
@@ -135,9 +154,11 @@ else
     define('WWW_ROOT', SERVER_URL.dirname($_SERVER['PHP_SELF']) );
 }
 
-# DEFINE -> Directories related to WWW_ROOT
-define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['paths']['themes_folder']);
-define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folder'] .  '/core');
+
+
+# Purpose: webpath shortcuts for direct usage in templates
+#define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['paths']['themes_folder']);
+#define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folder'] .  '/core');
 
 # DEFINE -> Database Prefix
 define('DB_PREFIX'          , $config['database']['db_prefix']);
@@ -152,16 +173,6 @@ set_include_path( ROOT_LIBRARIES . 'PEAR' . DS . PS .                   # /libra
                   ROOT_LIBRARIES . PS  .                                # /libraries/
                   get_include_path()                                    # attach rest
                  );
-
-/**
- *  ================================================
- *     Alter php.ini settings
- *  ================================================
- */
-ini_set('short_open_tag'                , 'off');
-ini_set('arg_separator.input'           , '&amp;');
-ini_set('arg_separator.output'          , '&amp;');
-ini_set('memory_limit'                  , '20M' );
 
 /**
  *  ================================================
