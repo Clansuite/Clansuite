@@ -45,12 +45,54 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  */
 class Clansuite_Cache_File implements Clansuite_Cache_Interface
 {
+    
+    /**
+     *
+     */
+   public function isCached($key)
+   {
+        $filepath = $this->filesystemKey($key);
+        if (is_file($filepath))
+        {
+            return true;
+        }
+        return false;
+   }
+    
     /**
      *
      */
     function fetch($key)
     {
-
+        $filepath = $this->filesystemKey($key);
+        
+        # try to open file, read-only
+        if(is_file($filepath)) && file = fopen($filepath, 'r'))
+        {
+             # get the expiration time stamp
+             $expires = (int)fread($file, 10);
+             # if expiration time exceeds the current time, return the cache 
+            if (!$expires || $expires > time())
+            {
+                $realsize = filesize($block) - 10;
+                $cache = '';
+                # read in a loop, because fread returns after 8192 bytes
+                while ($chunk = fread($file, $realsize))
+                {
+                    $cache .= $chunk;
+                }
+                fclose($block);
+                return unserialize($cache);
+            }
+            else
+            {
+                # close and delete the expired cache
+                fclose($block);
+                $this->delete($key);
+            }
+        }
+        return false;
+        }
     }
 
     /**
@@ -58,7 +100,19 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
      */
     function store($key, $data, $cache_lifetime)
     {
-
+        # get name and lifetime
+        $filepath = $this->filesystemKey($key);
+        $cache_lifetime = str_pad( (int) $cache_lifetime, 10, '0', STR_PAD_LEFT);
+        
+        # write key file
+        $success = (bool) file_put_contents($filepath, $cache_lifetime, FILE_EX);
+        
+        # append serialized value to file
+        if ( $success )
+        {
+            return (bool) file_put_contents($filepath, serialize($value), FILE_EX | FILE_APPEND);
+        } 
+        return false;    
     }
 
     /**
@@ -66,7 +120,12 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
      */
     function delete($key)
     {
-
+        $filepath = $this->filesystemKey($key);
+        if (is_file($filepath))
+        {
+            return unlink($filepath);
+        }
+        return true;
     }
 
     /**
@@ -75,6 +134,11 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
     function stats()
     {
 
+    }
+    
+    protected function filesystemKey($key)
+    {
+        return ROOT_CACHE . md5($key);
     }
 }
 ?>
