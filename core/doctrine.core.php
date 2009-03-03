@@ -59,6 +59,7 @@ class Clansuite_Doctrine
     protected $manager;     # holds instance of doctrine manager
     protected $locator;     # holds instance of doctrine locator
     protected $connection;  # holds instance of database connection
+    public $profiler;       # holds instance of doctrine connection profiler
 
     function __construct(Clansuite_Config $config)
     {
@@ -69,6 +70,13 @@ class Clansuite_Doctrine
 
         # Db Connection
         $this->prepareDbConnection();
+
+        # Enable Debug Modus
+        if ( defined('DEBUG') )
+        {
+            # Activate Debug
+            Doctrine::debug(true);
+        }
     }
 
     /**
@@ -98,12 +106,6 @@ class Clansuite_Doctrine
 
             # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine', 'autoload'));
-
-            # Enable Debug Modus
-            if ( defined('DEBUG') )
-            {
-                Doctrine::debug(true);
-            }
         }
     }
 
@@ -155,19 +157,23 @@ class Clansuite_Doctrine
         $this->locator = Doctrine_Locator::instance();
         $this->locator->setClassPrefix('Clansuite_');
 
+        if(extension_loaded('apc') and ('APC' == $this->config['database']['db_cache']))
+        {
+            $this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, new Doctrine_Cache_Apc());
+            $this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+        }
+
         /**
          * Setup phpDoctrine Attributes for that later Connection
          */
 
         # Set portability for all rdbms = default
-        #Doctrine_Manager::getInstance()->setAttribute('portability', Doctrine::PORTABILITY_ALL);
-
+        #$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
         # Changing the database naming convention by adding
         # TBLNAME: clansuite.DB_PREFIX_tablename
-        Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
-
-        #
-        #Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+        $this->manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+        $this->manager->setAttribute(Doctrine::ATTR_USE_NATIVE_ENUM, true);
+        #$manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
         /**
          * Load Models (automatic + lazy loading)
@@ -185,12 +191,11 @@ class Clansuite_Doctrine
          *
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
-        Doctrine_Manager::getInstance()->setAttribute('model_loading', 'conservative');
+        $this->manager->setAttribute('model_loading', 'conservative');
 
         # define the models directory
         # this will NOT require the .php files found
         Doctrine::loadModels( ROOT . '/myrecords/' );
-
 
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine::getLoadedModels();
@@ -213,7 +218,67 @@ class Clansuite_Doctrine
         $manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cacheDriver);
         // set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
         $manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+
+
+
         */
+
+         # Set Connection Listener for Profiling
+        $this->profiler = new Doctrine_Connection_Profiler();
+        $this->connection->setListener($this->profiler);
+    }
+
+    /**
+     * Get for DB-Connection
+     */
+    public static function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Returns Doctrine's connection profiler
+     *
+     * @return Doctrine_Connection_Profiler
+     */
+    public function getProfiler()
+    {
+            return $this->profiler;
+    }
+
+
+    /**
+     * Displayes all Doctrine Querys with profiling Informations
+     * @todo: This is debug output + direct output breaks the abstraction
+     */
+    public function displayProfilingHTML()
+    {
+        $query_count = 0;
+        $time = 0;
+        echo "<table width='100%' border='1'>";
+        foreach ( $this->profiler as $event )
+        {
+            /*if ($event->getName() != 'execute')
+            {
+                continue;
+            }
+            */
+            $query_count++;
+            echo "<tr>";
+            $time += $event->getElapsedSecs();
+            echo "<td>" . $event->getName() . "</td><td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
+            echo "<td>" . $event->getQuery() . "</td>";
+            $params = $event->getParams();
+            if ( !empty($params))
+            {
+                  echo "<td>";
+                  echo join(', ', $params);
+                  echo "</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "Total time: " . sprintf("%2.5f", $time) . ", query count: $query_count <br>\n ";
     }
 }
 ?>
