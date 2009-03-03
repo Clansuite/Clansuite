@@ -449,6 +449,14 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
         # 4) Module execute (pre_processActionController)
         $moduleController->execute($request, $response);
 
+        /**
+         * Plugins for Modules
+         * At this point, we don't want to extend the ModuleController or Module itself,
+         * but add functionality at runtime. So we wrap the object into an Decorator (Wrapper)
+         * and add plugins.
+         */
+        #$moduleController = $this->moduleControllerDecorator->decorate($moduleController);
+
         # 5) Fire Action !
         $this->actionResolver->processActionController($request, $moduleController);
 

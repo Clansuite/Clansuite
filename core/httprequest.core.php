@@ -45,16 +45,20 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 interface Clansuite_Request_Interface
 {
+    # Parameters
     public function getParameterNames();
-    public function issetParameter($name);
-    public function getParameter($name);
-    public function getHeader($name);
+    public function issetParameter($parameterArrayName, $parametername);
+    public function getParameter($parameterArrayName, $parametername);
+    public function getHeader($name);    
+    public function getCookie($name);  
 
+    # Request Method
     public function getRequestMethod();
-    public function getCookie($name);
+    public function setRequestMethod($method);
+   
+    # $_SERVER Stuff
+    public static function getServerProtocol();
     public function isSecure();
-
-    #public function getAuthData();
     public function getRemoteAddress();
 }
 
@@ -86,6 +90,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     # contains the cleaned $_COOKIE Parameters
     private $cookie_parameters;
+
+    # the requestmethod takes GET, POST, PUT, DELETE
+    protected $request_method;
+
+    # the base URL (protocol://server:port)
+    protected static $baseURL;
 
     /**
      * Construct the Request Object
@@ -156,7 +166,37 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
+
+        /**
+         * 4) set WWW_ROOT defines
+         */
+        self::defineWWWPathConstants();
+        
+        /**
+         * 5) Detect REST Tunneling through POST and set request_method accordingly
+         */
+         $this->detectRESTTunneling();
     }
+
+    /**
+     * defineWWWPathConstants()
+     * 
+     * @todo: These defines are used throughout the response with themes. This should therefore be part of Repsonse object.
+     * So the clansuite.init is the wrong position for this function, "but, we need it" for the exception and errorhandler outputs.
+     * still todo
+     */
+    public static function defineWWWPathConstants()
+    {
+        #  WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
+        if (dirname($_SERVER['PHP_SELF']) == "\\" )
+        {
+            define('WWW_ROOT', self::getBaseURL());
+        }
+        else
+        {
+            define('WWW_ROOT', self::getBaseURL().dirname($_SERVER['PHP_SELF']) );
+        }
+    } 
 
     /**
      * Lists all parameters in the specific parameters array
@@ -190,32 +230,32 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
+     * @param string $parameterArrayName R, G, P, C 
      * @param string $name Name of the Parameter
-     * @param string $parameterArrayName R, G, P, C
      * @return boolean true|false
      */
-    public function issetParameter($name, $parameterArrayName = 'REQUEST')
+    public function issetParameter($parameterArrayName = 'REQUEST', $parametername)
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
         if($parameterArrayName == 'R' or $parameterArrayName == 'REQUEST')
         {
-            return isset($this->request_parameters[$name]);
+            return isset($this->request_parameters[$parametername]);
         }
 
         if($parameterArrayName == 'G' or $parameterArrayName == 'GET')
         {
-            return isset($this->get_parameters[$name]);
+            return isset($this->get_parameters[$parametername]);
         }
 
         if($parameterArrayName == 'P' or $parameterArrayName == 'POST')
         {
-            return isset($this->post_parameters[$name]);
+            return isset($this->post_parameters[$parametername]);
         }
 
         if($parameterArrayName == 'C' or $parameterArrayName == 'COOKIE')
         {
-            return isset($this->cookie_parameters[$name]);
+            return isset($this->cookie_parameters[$parametername]);
         }
 
         return false;
@@ -228,16 +268,51 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param string $parameterArrayName R, G, P, C
      * @return boolean true|false
      */
-    public function getParameter($name, $parameterArrayName = 'REQUEST')
+    public function getParameter($parameterArrayName = 'REQUEST', $parametername)
     {
-        if(true == $this->issetParameter($name, $parameterArrayName))
+        if(true == $this->issetParameter($parameterArrayName, $parametername))
         {
-            return $this->{strtolower($parameterArrayName).'_parameters'}[$name];
+            return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
         }
         else
         {
             return null;
         }
+    }
+    
+    /**
+     * set, returns a certain parameter if existing
+     *
+     * @param string $name Name of the Parameter
+     * @param string $parameterArrayName R, G, P, C
+     * @return boolean true|false
+     */
+    public function setParameter($parameterArrayName = 'REQUEST', $parametername)
+    {
+        if(true == $this->issetParameter($parameterArrayName, $parametername))
+        {
+            return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Shortcut to get a Parameter from $_POST
+     */
+    public function getParameterFromPost($parametername)
+    {
+        return $this->getParameter('POST', $parametername);
+    }
+    
+    /**
+     * Shortcut to get a Parameter from $_GET
+     */
+    public function getParameterFromGet($parametername)
+    {
+        return $this->getParameter('GET', $parametername);
     }
 
     /**
@@ -254,6 +329,81 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             return $_SERVER[$name];
         }
         return null;
+    }
+
+    /**
+     * Determine Type of Protocol for Webpaths (http/https)   
+     * Get for $_SERVER['HTTPS'] 
+     * 
+     * @todo: check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']? 
+     * @return string
+     */
+    public static function getServerProtocol()
+    {
+        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo: check -> or $_SERVER['SSL_PROTOCOL'] 
+        {
+             return 'https://';
+        }
+        else
+        {
+             return 'http://';
+        }
+    }
+    
+    /**
+     * Determine Type of Protocol for Webpaths (http/https)
+     * Get for $_SERVER['HTTPS'] with boolean return value
+     * @see $this->getServerProtocol()
+     * @return bool
+     */
+    public function isSecure()
+    {
+        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Determine Port Number for Webpaths (http/https)
+     * Get for $_SERVER['SERER_PORT'] and $_SERVER['SSL_PROTOCOL']
+     * @return string
+     */
+    private static function getServerPort()
+    {
+        if ( ! isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] != 443 )
+        {
+            return ":{$_SERVER['SERVER_PORT']}";
+        }
+    }
+
+    /**
+     * Returns the base of the current URL
+     * Format: protocol://server:port
+     * 
+     * The "template constant"" WWW_ROOT is later defined as getBaseURL 
+     * <form action="<?=WWW_ROOT?>/news/7" method="DELETE"/> 
+     * 
+     * @return string
+     */
+    public static function getBaseURL()
+    {
+        if( empty(self::$baseURL) )
+        {
+            # 1. Determine Protocol
+            self::$baseURL = self::getServerProtocol();
+
+            # 2. Determine Servername
+            self::$baseURL .= $_SERVER['SERVER_NAME'];
+
+            # 3. Determine Port
+            self::$baseURL .= self::getServerPort();
+       }
+       return self::$baseURL;
     }
 
     /**
@@ -281,11 +431,75 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get $_SERVER REQUEST_METHOD
+     * This method takes care for REST (Representational State Transfer) by tunneling PUT, DELETE through POST (principal of least power).
+     * Ok, this is faked or spoofed REST, but lowers the power of POST and it's short and nice in html forms.
+     * @see https://wiki.nbic.nl/index.php/REST.inc
+     */
+    public function detectRESTTunneling()
+    {
+        # this will allow DELETE and PUT
+        $REST_MethodNames = array('DELETE', 'PUT');  # @todo: allow 'GET' through POST?
+        
+        # request_method has to be POST AND GET has to to have the method GET
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
+        {           
+            # check for allowed rest commands
+            if (in_array(strtoupper($_GET['method']), $REST_MethodNames))
+            {
+                # set the internal (tunneled) method as new REQUEST_METHOD
+                $this->setRequestMethod($_GET['method']); 
+
+                # unset the tunneled method
+                unset($_GET['method']);
+
+                # now strip the methodname from the QUERY_STRING and rebuild REQUEST_URI               
+                
+                # rebuild the QUERY_STRING from $_GET
+                $_SERVER['QUERY_STRING'] = http_build_query($_GET);
+                # rebuild the REQUEST_URI
+                $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+                # append QUERY_STRING to REQUEST_URI if not empty
+                if ($_SERVER['QUERY_STRING'] != '')
+                {
+                    $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+                }
+            }
+            else
+            {               
+                throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
+            }
+        }
+        elseif($_SERVER['REQUEST_METHOD'] == 'GET' and isset($_GET['method'])) # $this->issetParameter('GET', 'method')
+        {
+            # NOPE, there's no tunneling through GET!
+            throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.'); 
+        }
+    }
+    
+    /**
+     * Get the REQUEST METHOD
+     * Returns the internal request method first, then $_SERVER REQUEST_METHOD.
+     *
      */
     public function getRequestMethod()
+    {  
+        # first get the internally set request_method (PUT, DELETE) because we might have a REST-tunneling
+        if(isset($this->$request_method))
+        {
+            return $this->request_method;
+        }
+        else # this will be POST or GET
+        {
+            return $_SERVER['REQUEST_METHOD'];
+        }
+    }
+
+    /**
+     * Set the REQUEST_METHOD
+     */
+    public function setRequestMethod($method)
     {
-        return $_SERVER['REQUEST_METHOD'];
+        $this->request_method = strtoupper($method);
     }
 
     /**
@@ -296,28 +510,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     public function getCookie($name)
     {
 
-    }
-
-    /**
-     * Check if https is used
-     *
-     * @access private
-     *
-     * @return bool
-     * @todo by vain: check HTTP_X_FORWARD_PROTO?
-     */
-    public function isSecure()
-    {
-        if(isset($_SERVER['HTTPS']) && ( $_SERVER['HTTPS'] = '1' or $_SERVER['HTTPS'] = 'on'))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
+    } 
 
     /**
      * Checks if a ajax-request is given, by checking
@@ -434,19 +627,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             $this->parameters['items'] = (int) $_REQUEST['items'];
         }
-        
+
         # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
         if(isset($_REQUEST['defaultCol']) && ctype_digit($_REQUEST['defaultCol']))
         {
             $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
         }
-        
+
         # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
         if(isset($_REQUEST['defaultSort']) && ctype_alpha($_REQUEST['defaultSort']) && (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
         {
             $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
         }
-        
+
         /**
         $filter = array( '_REQUEST' => $_REQUEST,
                          '_GET'     => $_GET,
@@ -548,9 +741,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Implementation of SPL ArrayAccess
      * only offsetExists and offsetGet are relevant
+     * @todo!
      */
     public function offsetExists($offset)
-    {
+    {         
         return $this->issetParameter($offset);
     }
 
