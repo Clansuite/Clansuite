@@ -39,39 +39,47 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 /**
  * Clansuite Cache Handler for Filecaching
  *
+ * The Filecache stores directly to disk.
+ *
  * @package clansuite
  * @subpackage cache
  * @category caches
  */
 class Clansuite_Cache_File implements Clansuite_Cache_Interface
 {
-    
+
     /**
+     * isCached checks the cache for a key
      *
+     * @param string $key Identifier for the data
+     * @return boolean true|false
      */
-   public function isCached($key)
-   {
+    public function isCached($key)
+    {
         $filepath = $this->filesystemKey($key);
         if (is_file($filepath))
         {
             return true;
         }
         return false;
-   }
-    
+    }
+
     /**
+     * Read a key from the cache
      *
+     * @param string $key Identifier for the data
+     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     function fetch($key)
     {
         $filepath = $this->filesystemKey($key);
-        
+
         # try to open file, read-only
         if(is_file($filepath)) && file = fopen($filepath, 'r'))
         {
              # get the expiration time stamp
              $expires = (int)fread($file, 10);
-             # if expiration time exceeds the current time, return the cache 
+             # if expiration time exceeds the current time, return the cache
             if (!$expires || $expires > time())
             {
                 $realsize = filesize($block) - 10;
@@ -96,27 +104,35 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
     }
 
     /**
+     * Stores data by key into cache
      *
+     * @param string $key Identifier for the data
+     * @param mixed $data Data to be cached
+     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @return boolean True if the data was successfully cached, false on failure
      */
     function store($key, $data, $cache_lifetime)
     {
         # get name and lifetime
         $filepath = $this->filesystemKey($key);
         $cache_lifetime = str_pad( (int) $cache_lifetime, 10, '0', STR_PAD_LEFT);
-        
+
         # write key file
         $success = (bool) file_put_contents($filepath, $cache_lifetime, FILE_EX);
-        
+
         # append serialized value to file
         if ( $success )
         {
             return (bool) file_put_contents($filepath, serialize($value), FILE_EX | FILE_APPEND);
-        } 
-        return false;    
+        }
+        return false;
     }
 
     /**
+     * Delete data by key from cache
      *
+     * @param string $key Identifier for the data
+     * @return boolean True if the data was successfully removed, false on failure
      */
     function delete($key)
     {
@@ -129,13 +145,14 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
     }
 
     /**
+     * Get stats and usage Informations for display
      *
+     * @todo
      */
     function stats()
     {
-
     }
-    
+
     protected function filesystemKey($key)
     {
         return ROOT_CACHE . md5($key);

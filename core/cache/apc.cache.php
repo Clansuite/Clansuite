@@ -53,13 +53,13 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
     {
         try
         {
-            # Check if APC extension is loaded and set flag
+            # Check if APC extension is loaded and set a define as flag
             if( !defined('CSID_EXTENSION_LOADED_APC') )
             {
                 define( 'CSID_EXTENSION_LOADED_APC', extension_loaded('apc') );
             }
 
-            # Check for Flag
+            # Check for defined flag
             if( CSID_EXTENSION_LOADED_APC == false)
             {
                 throw new Exception('The PHP extension APC (Alternative PHP Cache) was not loaded! You should enable it in php.ini!', 300);
@@ -71,7 +71,12 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         }
     }
 
-    // apc_fetch
+    /**
+     * Read a key from the cache
+     *
+     * @param string $key Identifier for the data
+     * @return boolean True if the data was successfully fetched from the cache, false on failure
+     */
     function fetch($key)
     {
         return apc_fetch($key);
@@ -83,18 +88,40 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
-     * @return boolean True if the data was succesfully cached, false on failure
-     * @access public
+     * @return boolean True if the data was successfully cached, false on failure
      */
     function store($key, $data, $cache_lifetime)
     {
         return apc_store($key, $data, $cache_lifetime);
     }
 
-    // apc_delete
+    /**
+     * Delete data by key from cache
+     *
+     * @param string $key Identifier for the data
+     * @return boolean True if the data was successfully removed, false on failure
+     */
     function delete($key)
     {
         return apc_delete($key);
+    }
+
+    /**
+     * isCached checks the cache for a key
+     *
+     * @param string $key Identifier for the data
+     * @return boolean true|false
+     */
+    function isCached($key)
+    {
+        if( true === apc_fetch($key) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -108,7 +135,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         {
             return;
         }
-        
+
         # Retrieve APC Version
         $apc_sysinfos['version'] = phpversion('apc');
         $apc_sysinfos['phpversion'] = phpversion();
