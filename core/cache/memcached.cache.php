@@ -39,7 +39,17 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 /**
  * Clansuite Cache Handler for Memcached
  *
+ * memcached is a high-performance, distributed memory object caching system, generic in nature,
+ * but intended for use in speeding up dynamic web applications by alleviating database load.
+ * memcached was developed by Danga Interactive to enhance the speed of LiveJournal.com.
+ * You need two things to get this running: a memcache daemon (server) and the php extension memcached.
+ *
  * @link http://www.danga.com/memcached/
+ * @link http://php.net/manual/en/book.memcached.php
+ *
+ * See also the new implementation by Andrei Zmievsk based on libmemcached and memcached.
+ * @link http://github.com/andreiz/php-memcached/tree/master
+ * @link http://pecl.php.net/package/memcached ()
  *
  * @package clansuite
  * @subpackage cache
@@ -54,10 +64,30 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      */
     function __construct()
     {
+        try
+        {
+            # Check if eAccelerator extension is loaded and set a define as flag
+            if( !defined('CSID_EXTENSION_LOADED_MEMC') )
+            {
+                define( 'CSID_EXTENSION_LOADED_MEMC', extension_loaded("memcache") );
+            }
+
+            # Check for defined Flag
+            if( CSID_EXTENSION_LOADED_MEMC == false)
+            {
+                throw new Exception('The PHP extension memcached (PHP Cache) was not loaded! You should enable it in php.ini!', 300);
+            }
+        }
+        catch (Exception $exception)
+        {
+            new Clansuite_Exception('Clansuite_Cache_Memached __construct() failure. memcached not loaded.', 300);
+        }
+
         # instantiate object und set to class
         $this->memcache = new Memcache;
 
         # fetch configuration and connection data
+        # @todo
         $config = clansuite_registry::getConfigurationStatic();
 
         # if memcache server pooling should be used
@@ -65,8 +95,8 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         if($config['cache']['memcached_serverpool'] === true)
         {
             $this->memcache->addServer('servernode1', 11211);
-            $this->memcache->addServer('servernode1', 11211);
-            $this->memcache->addServer('servernode1', 11211);
+            $this->memcache->addServer('servernode2', 11211);
+            $this->memcache->addServer('servernode3', 11211);
         }
         else # no serverpool is used
         {
@@ -88,7 +118,6 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
                 {
                     throw new Clansuite_Exception('Connect to Memcache Server failed');
                 }
-
             }
         }
 
@@ -100,7 +129,6 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
             $this->memcache->setCompressThreshold($config['cache']['memcached_compressionsize'],
                                                   $config['cache']['memcached_compressionratio']);
         }
-
     }
 
     /**
@@ -124,7 +152,32 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         return $this->fetch($key);
     }
 
-    // apc_fetch
+    /**
+     * isCached checks the cache for a key
+     *
+     * @param string $key Identifier for the data
+     * @return boolean true|false
+     */
+    function isCached($key)
+    {
+        # md5'ify the key
+        $key = md5($key);
+        if( true === $this->memcache->get($key))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Read a key from the cache
+     *
+     * @param string $key Identifier for the data
+     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     */
     function fetch($key)
     {
         if(!is_array($key))
@@ -226,11 +279,19 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 
     /**
      * Display Memcached Usage Informations
+     *
+     * @todo
      */
     function stats()
     {
+        if(CSID_EXTENSION_LOADED_MEMC == false)
+        {
+            return;
+        }
+
         # return $this->memcache->memcache_get_version($memcache);
         # return $this->memcache->getExtendedStats();
+        # return $this->memcache->getVersion();
     }
 
     public function __destruct()
