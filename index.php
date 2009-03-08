@@ -84,14 +84,14 @@ $injector = new Phemto();
 # core classes to load
 $core_classes = array(
 'Clansuite_Config', 'Clansuite_HttpRequest', 'Clansuite_HttpResponse', 'Clansuite_FilterManager',
-'Clansuite_Doctrine','Clansuite_Localization', 'Clansuite_Security', 'Clansuite_Inputfilter'
+'Clansuite_Doctrine','Clansuite_Localization', 'Clansuite_Security', 'Clansuite_Inputfilter', 'Clansuite_Statistics'
 );
 foreach($core_classes as $class) { $injector->register(new Singleton($class)); }
 
 # filters to load
 $prefilter_classes = array(
 'maintenance', 'get_user', 'language_via_get', 'theme_via_get', 'set_module_language', 'set_breadcrumbs',
-'php_debug_console', 'startup_checks');
+'php_debug_console', 'startup_checks', 'statistics');
 foreach($prefilter_classes as $class) { $injector->register($class); } # register the filters
 
 $postfilter_classes = array(

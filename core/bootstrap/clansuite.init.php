@@ -154,11 +154,9 @@ else
     define('WWW_ROOT', SERVER_URL.dirname($_SERVER['PHP_SELF']) );
 }
 
-
-
 # Purpose: webpath shortcuts for direct usage in templates
-#define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['paths']['themes_folder']);
-#define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folder'] .  '/core');
+define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . $config['paths']['themes_folder']);
+define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . $config['paths']['themes_folder'] .  '/core');
 
 # DEFINE -> Database Prefix
 define('DB_PREFIX'          , $config['database']['db_prefix']);

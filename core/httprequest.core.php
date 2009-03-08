@@ -47,8 +47,8 @@ interface Clansuite_Request_Interface
 {
     # Parameters
     public function getParameterNames();
-    public function issetParameter($parameterArrayName, $parametername);
-    public function getParameter($parameterArrayName, $parametername);
+    public function issetParameter($parametername, $parameterArrayName = 'REQUEST');
+    public function getParameter($parametername, $parameterArrayName = 'REQUEST');
     public function getHeader($name);    
     public function getCookie($name);  
 
@@ -170,12 +170,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         /**
          * 4) set WWW_ROOT defines
          */
-        self::defineWWWPathConstants();
+        #self::defineWWWPathConstants();
         
         /**
          * 5) Detect REST Tunneling through POST and set request_method accordingly
          */
-         $this->detectRESTTunneling();
+        $this->detectRESTTunneling();
     }
 
     /**
@@ -196,6 +196,42 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             define('WWW_ROOT', self::getBaseURL().dirname($_SERVER['PHP_SELF']) );
         }
+    }
+    
+    public function isGet()
+    {
+        if($this->requestMethod == "GET")
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public function isPost()
+    {
+       if($this->requestMethod == "POST")
+       {
+           return true;
+       }
+       return false;
+    }
+
+    public function isPut()
+    {
+       if($this->requestMethod == "PUT")
+       {
+           return true;
+       }
+       return false;
+    }
+
+    public function isDelete()
+    {
+       if($this->requestMethod == "DELETE")
+       {
+           return true;
+       }
+       return false;
     } 
 
     /**
@@ -234,7 +270,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param string $name Name of the Parameter
      * @return boolean true|false
      */
-    public function issetParameter($parameterArrayName = 'REQUEST', $parametername)
+    public function issetParameter($parametername, $parameterArrayName = 'REQUEST')
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
@@ -268,9 +304,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param string $parameterArrayName R, G, P, C
      * @return boolean true|false
      */
-    public function getParameter($parameterArrayName = 'REQUEST', $parametername)
+    public function getParameter($parametername, $parameterArrayName = 'REQUEST')
     {
-        if(true == $this->issetParameter($parameterArrayName, $parametername))
+        if(true == $this->issetParameter($parametername, $parameterArrayName))
         {
             return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
         }
@@ -287,9 +323,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param string $parameterArrayName R, G, P, C
      * @return boolean true|false
      */
-    public function setParameter($parameterArrayName = 'REQUEST', $parametername)
+    public function setParameter($parametername, $parameterArrayName = 'REQUEST')
     {
-        if(true == $this->issetParameter($parameterArrayName, $parametername))
+        if(true == $this->issetParameter($parametername, $parameterArrayName))
         {
             return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
         }
@@ -304,7 +340,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameterFromPost($parametername)
     {
-        return $this->getParameter('POST', $parametername);
+        return $this->getParameter($parametername, 'POST');
     }
     
     /**
@@ -312,7 +348,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameterFromGet($parametername)
     {
-        return $this->getParameter('GET', $parametername);
+        return $this->getParameter($parametername, 'GET');
     }
 
     /**
