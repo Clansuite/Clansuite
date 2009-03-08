@@ -349,7 +349,7 @@ class Clansuite_Errorhandler
                          # @todo: this is buggy!
         			     $backtrace_string .= new $dbg_backtrace[$i]['args'][$j]->toString();
         			}
-        			# if object, without toString method return NULL
+        			# if object, without toString method return null
         			elseif (is_object($dbg_backtrace[$i]['args'][$j]))
         			{
         			     $backtrace_string .= 'Object';
