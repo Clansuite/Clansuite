@@ -56,10 +56,9 @@ class view_smarty extends Clansuite_Renderer_Base
 {
     /**
 	 * holds instance of Smarty Template Engine (object)
-	 * @access private
-	 * @var Smarty $smarty
+	 * @var object Smarty
 	 */
-    private $smarty     = null;
+    protected $smarty     = null;
 
     /**
      * holds instance of Dependency Injector Phemto
@@ -403,7 +402,7 @@ class view_smarty extends Clansuite_Renderer_Base
      * @param string $templatename Template Filename
      * @return mainframe.tpl layout
      */
-    public function render($layout_template)
+    public function render($template)
     {
         # Debug Display
         # echo 'Smarty was asked to render template: '.$template;
@@ -432,7 +431,7 @@ class view_smarty extends Clansuite_Renderer_Base
          * else var_dump the fetch!
          */
 
-        $modulecontent =  $this->fetch($layout_template);
+        $modulecontent =  $this->fetch($template);
 
         # check for existing errors and prepend them
         #if( errorhandler::hasErrors() == true )
@@ -460,7 +459,7 @@ class view_smarty extends Clansuite_Renderer_Base
 
                 return $this->smarty->fetchDOC($this->getLayoutTemplate());
             }
-            else # {$content} is missing, give error.
+            else # {$content} or copyright include is missing, throw error.
             {
                 if($this->ensure_content_var_exists() == false)
                 {
@@ -469,7 +468,7 @@ class view_smarty extends Clansuite_Renderer_Base
 
                 if($this->ensure_copyright_included() == false)
                 {
-                    die("The content variable {include file='copyright.tpl' must be within the wrapper template!");
+                    die("The content variable {include file='copyright.tpl'} must be within the wrapper template!");
                 }
             }
         }

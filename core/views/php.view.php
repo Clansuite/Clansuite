@@ -51,14 +51,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 class view_php extends Clansuite_Renderer_Base
 {
-	var $data = array();
+	private $template;
+	private $data = array();
 
-	function __construct($directory)
+	public function __construct($template)
 	{
-		$this->directory = $directory;
+		$this->template = $template;
 	}
 
-	function set($key, $value = NULL)
+	public function set($key, $value = NULL)
 	{
 		if (!is_object($key))
 		{
@@ -70,16 +71,18 @@ class view_php extends Clansuite_Renderer_Base
 		}
 	}
 
-	function fetch($filename, $directory = DIR_TEMPLATE)
+	public function fetch($filename, $directory)
 	{
-	    $file = $directory . $this->directory . '/' . $filename;
-	    if (file_exists($file))
+	    $file = $directory . '/' . $filename;
+	    if (is_file($file))
 	    {
     		extract($this->data);
+
     		ob_start();
     		include($file);
     		$content = ob_get_contents();
     		ob_end_clean();
+
     		return $content;
 		}
 		else
@@ -87,5 +90,15 @@ class view_php extends Clansuite_Renderer_Base
 			exit('Error: Template ' . $file . ' not found!');
 		}
 	}
+
+    public function assign()
+    {
+
+    }
+
+    public function render()
+    {
+
+    }
 }
 ?>
