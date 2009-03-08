@@ -96,7 +96,7 @@ class Clansuite_Version
     /**
      * Returns revision number from Subversion Rev-property
      */
-    function getRevisionNumber()
+    public static function getRevisionNumber()
     {
         # $Rev$ is substituted by SVN on commit
         $svnrevision = '$Rev$';

@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File :
-; D:\xampplite\htdocs\work\clansuite\trunk\clansuite.config.php
+; D:\xampplite\htdocs\work\clansuite\trunk\/configuration/clansuite.config.php
 ;
 
 
@@ -15,6 +15,7 @@ db_username = "clansuite"
 db_password = "toop"
 db_name = "clansuite"
 db_prefix = "cs_"
+db_cache = "APC"
 
 ;----------------------------------------
 ; paths
@@ -26,6 +27,7 @@ language_folder = "languages"
 themes_folder = "themes"
 mod_folder = "modules"
 upload_folder = "uploads"
+logfiles_folder = "logs"
 
 ;----------------------------------------
 ; email
@@ -47,8 +49,8 @@ std_javascript = "standard.js"
 ; switches
 ;----------------------------------------
 [switches]
-themeswitch_via_url = 1
-languageswitch_via_url = 1
+themeswitch_via_url = 0
+languageswitch_via_url = 0
 webdebug = 0
 
 ;----------------------------------------
@@ -110,12 +112,13 @@ session_name = ""
 suppress_errors = 0
 debug = 1
 xdebug = 1
-debug_popup = 1
+debug_popup = 0
 
 ;----------------------------------------
 ; cache
 ;----------------------------------------
 [cache]
+cache = APC
 caching = 0
 cache_lifetime = 90
 
@@ -148,5 +151,8 @@ mod_rewrite = 0
 ;----------------------------------------
 [locale]
 locale = 3600
+
+[statistics]
+enabled = 1
 
 ; DO NOT REMOVE THIS LINE */ ?>

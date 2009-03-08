@@ -99,7 +99,6 @@ abstract class Clansuite_Renderer_Base
      * Assigns a value to a template parameter.
      *
      * @abstract
-     * @access public
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
@@ -109,7 +108,6 @@ abstract class Clansuite_Renderer_Base
      * Executes the template rendering and returns the result.
      *
      * @abstract
-     * @access public
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
      * @return string
@@ -120,12 +118,27 @@ abstract class Clansuite_Renderer_Base
      * Executes the template rendering and displays the result.
      *
      * @abstract
-     * @access public
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
      * @return string
      */
     /*abstract*/ public function display($template, $data = null) {}
+    
+    /**
+     * Returns the render engine object
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getEngine();
+    
+    /**
+     * Renders the given Template
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function render($template);
 
     /**
      * Returns the Template Path
@@ -375,5 +388,24 @@ abstract class Clansuite_Renderer_Base
 
         return $this->layoutTemplate;
     }
+    
+    /**
+     * View Helpers
+     *
+     * You can use this inside templates
+     * Smarty-> PHP = $this->helper(helpername);
+     *
+     * @name viewhelper
+     * @param string $src
+     * @param bool $nothrow
+     */
+    /*
+    function viewhelper($src, $return)
+    {
+        $src = 'this->' . trim($src);            
+        require_once $this->getEngine.'/HelperImplementation.php';
+        return ENGINE_HelperImplementation::($src);
+    }
+    */
 }
 ?>
