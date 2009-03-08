@@ -297,17 +297,17 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_skein']['status']     = extension_loaded('skein') ? SETTING_TRUE : SETTING_FALSE;
                          
                          #  Checking for PHP Extension : GeoIP
-                         $recommended['extension_skein']['text']       = $language['EXTENSION_GEOIP'];
-                         $recommended['extension_skein']['expected']   = 'on';
-                         $recommended['extension_skein']['actual']     = extension_loaded('geoip') ? 'on' : 'off';
-                         $recommended['extension_skein']['status']     = extension_loaded('geoip') ? SETTING_TRUE : SETTING_FALSE;
-                         
+                         $recommended['extension_geoip']['text']       = $language['EXTENSION_GEOIP'];
+                         $recommended['extension_geoip']['expected']   = 'on';
+                         $recommended['extension_geoip']['actual']     = extension_loaded('geoip') ? 'on' : 'off';
+                         $recommended['extension_geoip']['status']     = extension_loaded('geoip') ? SETTING_TRUE : SETTING_FALSE;
+                                                 
                          #  Checking for PHP Extension : CURL
-                         $recommended['extension_skein']['text']       = $language['EXTENSION_CURL'];
-                         $recommended['extension_skein']['expected']   = 'on';
-                         $recommended['extension_skein']['actual']     = extension_loaded('curl') ? 'on' : 'off';
-                         $recommended['extension_skein']['status']     = extension_loaded('curl') ? SETTING_TRUE : SETTING_FALSE;                                               
-
+                         $recommended['extension_curl']['text']       = $language['EXTENSION_CURL'];
+                         $recommended['extension_curl']['expected']   = 'on';
+                         $recommended['extension_curl']['actual']     = extension_loaded('curl') ? 'on' : 'off';
+                         $recommended['extension_curl']['status']     = extension_loaded('curl') ? SETTING_TRUE : SETTING_FALSE;                                               
+                                               
                          ?>
                 <table class="settings" border="0">
                     <thead class="tbhead">
