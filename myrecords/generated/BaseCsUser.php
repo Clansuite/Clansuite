@@ -11,8 +11,8 @@ abstract class BaseCsUser extends Doctrine_Record
     $this->setTableName('users');
 
     $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
-    $this->hasColumn('email', 'string', 150, array('fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false, 'unique' => true));
-    $this->hasColumn('nick', 'string', 25, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
+    $this->hasColumn('email', 'string', 150, array('unique' => true, 'fixed' => false, 'primary' => false, 'notnull' => false, 'autoincrement' => false, 'unique' => true));
+    $this->hasColumn('nick', 'string', 25, array('unique' => true, 'fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('passwordhash', 'string', 40, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('new_passwordhash', 'string', 40, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('salt', 'string', 20, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
