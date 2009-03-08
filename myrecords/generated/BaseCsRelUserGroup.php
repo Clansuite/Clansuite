@@ -5,17 +5,25 @@
  */
 abstract class BaseCsRelUserGroup extends Doctrine_Record
 {
+    public function setTableDefinition()
+    {
+        $this->setTableName('rel_user_groups');
+        $this->hasColumn('user_id', 'integer', 4, array('primary' => true, 'notnull' => true));
+        $this->hasColumn('group_id', 'integer', 4, array('primary' => true, 'notnull' => true));
+    }
 
-  public function setTableDefinition()
-  {
-    $this->setTableName('rel_user_groups');
-    $this->hasColumn('user_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-    $this->hasColumn('group_id', 'integer', 4, array('unsigned' => 1, 'primary' => true, 'default' => '0', 'notnull' => true, 'autoincrement' => false));
-  }
-
-  public function setUp()
-  {
-    parent::setUp();
-  }
-
+    public function setUp()
+    {
+        $this->hasMany('CsGroup',
+                        array('local' => 'group_id',
+                              'foreign' => 'id',
+                              'onDelete' => 'cascade',
+                              'onUpdate' => 'cascade'));
+                        
+        $this->hasMany('CsUser',
+                        array('local' => 'user_id',
+                              'foreign' => 'id',
+                              'onDelete' => 'cascade',
+                              'onUpdate' => 'cascade'));
+    }
 }
