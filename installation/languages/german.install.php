@@ -78,7 +78,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_SUHOSIN'] = 'PHP Bibliothek: Suhosin';
         $this->language['EXTENSION_SKEIN'] = 'PHP Bibliothek: Skein'; 
         $this->language['EXTENSION_GEOIP'] = 'PHP Bibliothek: GeoIP';
-        $this->language['EXTENSION_CURL'] = 'PHP Bibliothek: CURL'; 
+        $this->language['EXTENSION_CURL'] = 'PHP Bibliothek: cURL'; 
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
