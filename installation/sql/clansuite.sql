@@ -1155,7 +1155,7 @@ CREATE TABLE `cs_session` (
   `session_id` varchar(32) NOT NULL,
   `session_data` text NOT NULL,
   `session_name` text NOT NULL,
-  `session_expire` int(11) NOT NULL default '0',
+  `session_starttime` int(11) NOT NULL default '0',
   `session_visibility` tinyint(4) NOT NULL default '0',
   `session_where` text NOT NULL,
   UNIQUE KEY `session_id` (`session_id`),
