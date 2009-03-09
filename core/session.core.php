@@ -183,8 +183,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * Start Session and throw Error on failure
      */
     private function startSession($time = 3600, $ses = 'MYSES')
-    {
-       
+    {       
         # set cookie parameters
         #session_set_cookie_params($time);
         #session_set_cookie_params(0, ROOT);
@@ -194,8 +193,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         # START THE SESSION
         if( true === session_start())
-        {
-
+        { 
             # Reset the expiration time upon page load
             if (isset($_COOKIE[$ses]))
             {
@@ -204,7 +202,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         else
         {
-            throw new Clansuite_Exception( $exception, 'The session start failed!', 200);  
+            throw new Clansuite_Exception('The session start failed!', 200);  
         }    
     }
 
