@@ -184,30 +184,28 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     private function startSession($time = 3600, $ses = 'MYSES')
     {
-        try
+       
+        # set cookie parameters
+        #session_set_cookie_params($time);
+        #session_set_cookie_params(0, ROOT);
+
+        # name the session
+        #session_name(self::session_name);
+
+        # START THE SESSION
+        if( true === session_start())
         {
-            # set cookie parameters
-            #session_set_cookie_params($time);
-            #session_set_cookie_params(0, ROOT);
-
-            # name the session
-            #session_name(self::session_name);
-
-            # START THE SESSION
-            session_start();
 
             # Reset the expiration time upon page load
             if (isset($_COOKIE[$ses]))
             {
                 setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
             }
-
         }
-        catch (Exception $exception)
+        else
         {
-            throw new clansuite_exception( $exception, 'The session start failed!', 200);
-            exit;
-        }
+            throw new Clansuite_Exception( $exception, 'The session start failed!', 200);  
+        }    
     }
 
     /**
