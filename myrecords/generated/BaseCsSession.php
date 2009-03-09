@@ -12,7 +12,7 @@ abstract class BaseCsSession extends Doctrine_Record
     $this->hasColumn('session_id', 'string', 32, array('type' => 'string', 'length' => 32, 'primary' => true));
     $this->hasColumn('session_data', 'string', null, array('type' => 'string', 'notnull' => true));
     $this->hasColumn('session_name', 'string', null, array('type' => 'string', 'notnull' => true));
-    $this->hasColumn('session_expire', 'integer', 4, array('type' => 'integer', 'length' => 4, 'default' => '0', 'notnull' => true));
+    $this->hasColumn('session_starttime', 'integer', 4, array('type' => 'integer', 'length' => 4, 'default' => '0', 'notnull' => true));
     $this->hasColumn('session_visibility', 'integer', 1, array('type' => 'integer', 'length' => 1, 'default' => '0', 'notnull' => true));
     $this->hasColumn('session_where', 'string', null, array('type' => 'string', 'notnull' => true));
   }
