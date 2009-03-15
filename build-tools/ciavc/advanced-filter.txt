@@ -9,20 +9,21 @@
 
     <format appliesTo="CommitToIRC">
 
-    <color bg='black' fg='white'>
+    <color bg="black" fg="white">
     <br />
             <autoHide>
-                <color fg='green'>
-                    New SVN Commit:
-                    <autoHide>R#[<b><color fg='red'><revision/></color></b>]</autoHide>
-                    by <color fg='red'><author/></color>
+                <color fg="green">
+                   New SVN Commit:
+                    <autoHide>R#[<b><color fg="red"><revision/></color></b>]</autoHide>
+                    by <color fg="red"><author/></color>
                 </color>
             </autoHide>
     <br/>
-            File(s): <project/>/<files/>
+            <autoHide>File(s): <project/>/<files/></autoHide>
     <br/>
-            Comment: <log/>
+            <autoHide>Comment: <log/></autoHide>
     <br/>
+            <autoHide>View (delayed): http://trac.clansuite.com/changeset/<revision/></autoHide>
     </color>
 
     </format>
