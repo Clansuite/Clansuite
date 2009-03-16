@@ -51,6 +51,11 @@
         - rebuild   : clean first and then build
         - translate : search files for strings to translate
         - run_tests : runs simpletest testsuite
+        SVN
+        - svn-update
+        - svn-checkout
+        - svn-export-from-gna
+        - svn-export-from-local
         </echo>
     </target>
 
@@ -59,7 +64,7 @@
     <!-- ==================================================== -->
 
     <!-- Define Common Properties for all Build Commands | make constants -->
-    <property name="build.base.directory" value="/home/clansuite/build/" />                           <!-- name of the build directory -->
+    <property name="build.base.directory" value="/home/clansuite/build/" />         <!-- name of the build directory -->
     <property name="clansuite_version" value="0.2" override="true" />               <!-- version number -->
     <property name="clansuite_version_state" value="alpha-dev" override="true" />   <!-- version state -->
     <property name="clansuite_version_name" value="Trajan" override="true" />       <!-- version name -->
@@ -85,12 +90,12 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="exportdir"  value="/home/clansuite/svn-export" />                               <!-- Local SVN Export Directory (todir) -->
-    <property name="svndir"     value="/home/clansuite/svn" />
+    <property name="svn.local.export.dir"  value="/home/clansuite/svn-export" />                               <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.dir"     value="/home/clansuite/svn" />
 
     <!-- COMMAND = "svn-update" -->
-    <target name="svn-update" description="Updates ${svndir} via svn up.">
-        <exec command="svn update ${svndir}"/>
+    <target name="svn-update" description="Updates ${svn.local.dir} via svn update.">
+        <exec command="svn update ${svn.local.dir}"/>
     </target>
 
     <!-- COMMAND = "svn-checkout" -->
@@ -98,25 +103,36 @@
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
                      repositoryurl="${repository}"
-                     todir="${exportdir}" />
+                     todir="${svn.local.export.dir}" />
     </target>
 
-    <!-- COMMAND = "svn-export" -->
-    <target name="svn-export" description="Exports a Subversion repository to a local directory.">
+    <!-- COMMAND = "svn-export-from-gna" -->
+    <target name="svn-export-from-gna" description="Exports the GNA Subversion repository to a local export directory.">
         <echo>Performing an SVN Export</echo>
         <svnexport svnpath="${svn.path}"
                    username="${username}"
                    password="${password}"
                    nocache="true"
                    repositoryurl="${repository}"
-                   todir="${exportdir}" />
+                   todir="${svn.local.export.dir}" />
+    </target>
+
+    <!-- COMMAND = "svn-local-export" -->
+    <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to a local export directory.">
+        <echo>Performing an SVN Export</echo>
+        <svnexport svnpath="${svn.path}"
+                   username="${username}"
+                   password="${password}"
+                   nocache="true"
+                   repositoryurl="${repository}"
+                   todir="${svn.local.export.dir}" />
     </target>
 
     <!-- COMMAND = "svn-lastrevision" -->
     <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
         <echo>Fetching the Revision Number</echo>
         <svnlastrevision svnpath="${svn.path}"
-                         workingcopy="/home/clansuite/svn"
+                         workingcopy="{svn.local.dir}"
                          propertyname="svn.lastrevision"/>
      </target>
 
@@ -214,7 +230,7 @@
     <!-- Generates the API documentation using PHPDocumentor -->
     <!-- Windows Version -->
     <property name="phpdoc_dir" value="phpdoc" override="true" />
-    <target name="doc_phpdoc">
+    <target name="doc_phpdoc_w32">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <delete dir="${documentations_dir}/${phpdoc_dir}" />
         <mkdir dir="${documentations_dir}/${phpdoc_dir}" />
@@ -224,7 +240,7 @@
     <!-- COMMAND = "doc_phpdoc2" -->
     <!-- Generates the API documentation using PHPDocumentor -->
     <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
-    <target name="phpdoc2">
+    <target name="doc_phpdoc">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <phpdoc title="Clansuite API PHPDocumentation"
                 destdir="apidocs"
@@ -265,7 +281,7 @@
     <!-- ======================================== -->
 
     <!-- Properties for the Archives -->
-    <property name="archive_dir" value="archive" override="true" />
+    <property name="archive_dir" value=""${build.base.directory}/archive" override="true" />
     <property name="archive_filename" value="clansuite-${version}" override="true" />
 
     <!-- COMMAND = "tar" -->
