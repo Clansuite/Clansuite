@@ -62,6 +62,7 @@
                 {include file="tools/breadcrumbs.tpl"}
 
                 {literal}
+                    <!-- Javascript for the Help Toggle -->
                     <script type="text/javascript">
                     window.addEvent('domready', function() {
                         var mySlide = new Fx.Slide('help', {
@@ -75,11 +76,11 @@
                         $('help-toggler').addEvent('click', function() {
                             mySlide.toggle('vertical');
                         });
-                    }, 'javascript');
-
+                    }, 'javascript'); 
                     </script>
                 {/literal}
 
+                <!-- Help Icon -->
                 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
                     {t}Help{/t}
@@ -90,10 +91,12 @@
     </thead>
     <tbody>
         <tr>
-            <td class="admin_content" width="100%">
-                <div style="float: left; width: 100%;">
-                    {$content}
-                </div>
+            <td class="admin_content">
+                
+                 <!-- Maincontent -->
+                {$content}
+                
+                <!-- Help -->
                 <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
                     <div id="help" class="admin_help" style="float: right; z-index: 99;">
                           <p><strong>Help-Topics</strong>&nbsp;Lorem Ipsum</p>
