@@ -41,7 +41,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Developer Notice:
  * The "Fatal error: Exception thrown without a stack frame in Unknown on line 0"
- * is of PHP dying when an exception is thrown when running inside an error or exception handler.
+ * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
+ * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Clansuite_Exception().
  */
 class Clansuite_Exception extends Exception
 {

@@ -37,9 +37,15 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); }
 
 /**
- * Clansuite View Class - View for json data
+ * Clansuite View Class - View for JSON data
  *
- * This is a wrapper/adapter for returning json data.
+ * This is a wrapper/adapter for returning JSON data.
+ *
+ * JSON stands for JavaScript Object Notation (JSON).
+ * It's an lightweight, text-based, language-independent data interchange format.
+ * It was derived from the ECMAScript Programming Language Standard.
+ * JSON defines formatting rules for the portable representation of structured data.
+ * @see http://www.ietf.org/rfc/rfc4627.
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
@@ -50,9 +56,22 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  */
 class view_json extends Clansuite_Renderer_Base
 {
-    public function __construct()
+    /**
+     * holds instance of Dependency Injector Phemto
+     */
+    protected $injector   = null;
+
+    public function __construct(Phemto $injector = null)
     {
-        # eventlog initalization
+      # apply instances to class
+      $this->injector = $injector;
+      #var_dump($injector);
+
+	  # get instances from injector
+      $this->config         = $this->injector->instantiate('Clansuite_Config');
+      $this->response       = $this->injector->instantiate('Clansuite_HttpResponse');
+
+      # eventlog initalization
     }
 
     /**
@@ -60,6 +79,12 @@ class view_json extends Clansuite_Renderer_Base
      */
     public function render($data)
     {
+        /**
+         * The MIME media type for JSON text is application/json.
+         * @see http://www.ietf.org/rfc/rfc4627
+         */
+        $this->response->setHeader ("Content-Type: application/json;charset={$this->config['language']['outputcharset']}");
+
         # take php's json encode
 		if (function_exists('json_encode'))
 		{

@@ -37,9 +37,9 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Interface for Clansuite_EventHandler
+ * Interface for Clansuite_Event
  *
- * The Clansuite_EventHandler has to implement a method handle()
+ * The Clansuite_Event has to implement a method handle()
  *
  * @package     clansuite
  * @subpackage  eventhandler
@@ -52,7 +52,7 @@ interface Clansuite_Event
 }
 
 /**
- * Clansuite_EventManager
+ * Clansuite_Eventdispatcher
  *
  * Is a parent Class for all the EventHandlers.
  * Performs an lookup of the eventname over all registered eventhandlers
@@ -62,7 +62,7 @@ interface Clansuite_Event
  * @subpackage  eventhandler
  * @category    core
  */
-class Clansuite_Eventhandler
+class Clansuite_Eventdispatcher
 {
     # holds instance of this class (singleton)
     static private $instance;
@@ -160,7 +160,7 @@ class Clansuite_Event
     private $name;
     # context of the event triggering, the object from where we are calling
     private $context;
-    # some informations
+    # some pieces of information
     private $info;
     # cancel state of the event
     private $cancelled = false;
