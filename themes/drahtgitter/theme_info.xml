@@ -2,6 +2,8 @@
 <theme>
     <name>Drahtgitter</name>
     <author>Jens-André Koch</author>
+    <theme_version>0.1</theme_version>
     <required_clansuite_version>0.1</required_clansuite_version>
     <date>April 2008</date>
+    <renderengine>smarty</renderengine>
 </theme>

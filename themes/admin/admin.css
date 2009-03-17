@@ -489,6 +489,25 @@ table.admintable tr#cell3
     background-color: #ff9933;
 }
 
+.ModuleHeading
+{
+    border-bottom:2px solid #ACA899;
+    color:#333333;
+    font-size:1.6em;
+    margin:0 0 20px;
+    padding:-10;
+    font-weight:bold;
+}
+
+.ModuleHeadingSmall
+{
+    color:#333333;
+    font-size:1.0em;
+    margin:0 0 20px;
+    padding:0;
+    font-weight:bold;
+}
+
 /**
 * @desc Admin Menu
 */
@@ -536,17 +555,15 @@ table.admintable tr#cell3
     cursor: default;
 }
 
+/**
+ * This is for the div next to the adminmenu. (userprofil, show frontpage, logout).
+ */
 .adminmenu-rightside
 {
-    margin-left: 265px;
-    padding-right: 5px;
-}
-
-.adminmenu-rightside-td
-{
-    vertical-align: top;
+    padding-right: 13px;
     text-align: right;
 }
+
 /**
  * this is the box which fades in after you clicked HELP in the admin header
  */

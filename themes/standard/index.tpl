@@ -117,8 +117,13 @@
     {*{else}
         <div class="widget" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div>
     {/if} *}
+
         <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsviewer"}</div>
         <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
+        <div class="widget" id="widget_tsviewer">{load_module name="shockvoiceviewer" action="widget_shockvoiceviewer"}</div>
+        <div class="widget" id="widget_tsviewer">{load_module name="shoutbox" action="widget_shoutbox"}</div>
+        <div class="widget" id="widget_tsviewer">{load_module name="votes" action="widget_votes"}</div>
+
     </td>
 </tr>
 <tr>
@@ -126,6 +131,8 @@
     <td id="bottom_widget_bar" class="cell1" width="100%" colspan="3" align="center" valign="top">
         <div class="widget" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</div>
         <div class="widget" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</div>
+        <div class="widget" id="widget_users">{load_module name="users"     action="widget_randomuser"}</div>
+        <div class="widget" id="widget_users">{load_module name="users"     action="widget_usersonline"}</div>
         <div class="widget" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
     </td>
 </tr>

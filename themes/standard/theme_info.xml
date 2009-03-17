@@ -2,11 +2,12 @@
 <theme>
     <name>Clansuite Standard</name>
     <author>Jens-André Koch, Florian Wolf</author>
-    <required_version>0.1</required_version>
+    <theme_version>0.1</theme_version>
+    <required_clansuite_version>0.1</required_clansuite_version>
     <date>August 2006</date>
     <cssfiles>
         <stylename name="Clansuite Standard CSS">
-            <cssfile css="cssname.css"/>
+            <cssfile css="/standard.css"/>
         </stylename>
     </cssfiles>
     <renderengine>smarty</renderengine>
