@@ -46,12 +46,18 @@ php_value output_handler        ob_gzhandler
 
 #  (7c) Rewrite Rules
 
-        #RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+        # disable rewrite for css, images, javascript and txt
+        RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|txt)$
+
+	    # negated flags!
         #RewriteCond %{REQUEST_FILENAME} !-f
         #RewriteCond %{REQUEST_FILENAME} !-d
 
         # route all non-ressource/file/dir requests to index.php
         #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
+
+	    # Redirect all Requests to the Clansuite Frontcontroller (index.php)
+	    RewriteRule ^(.*)$ index.php [QSA,L]
 
 </IfModule>
 
@@ -92,7 +98,7 @@ php_value output_handler        ob_gzhandler
 </IfModule>
 
 # (11) If you have trouble uploading larger files, increase the maximum file size.
-# 
+#
 #<IfModule mod_php5.c>
 #  php_value upload_max_filesize -1
 #  php_value post_max_size 512M
