@@ -49,13 +49,13 @@ interface Clansuite_Request_Interface
     public function getParameterNames();
     public function issetParameter($parametername, $parameterArrayName = 'REQUEST');
     public function getParameter($parametername, $parameterArrayName = 'REQUEST');
-    public function getHeader($name);    
-    public function getCookie($name);  
+    public function getHeader($name);
+    public function getCookie($name);
 
     # Request Method
     public function getRequestMethod();
     public function setRequestMethod($method);
-   
+
     # $_SERVER Stuff
     public static function getServerProtocol();
     public function isSecure();
@@ -97,6 +97,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     # the base URL (protocol://server:port)
     protected static $baseURL;
 
+    # boolean of magic_quotes
+    private $magic_quotes_gpc;
+
     /**
      * Construct the Request Object
      *
@@ -114,24 +117,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             $this->cleanGlobals();
         }
 
-        // if sybase style quoting isn't specified, use ini setting
-        if ( !isset($sybase) )
-        {
-            $sybase = ini_get('magic_quotes_sybase');
-        }
-
-        // disable magic_quotes_sybase
-        if ( 1 == $sybase )
-        {
-            ini_set('magic_quotes_sybase', 0);
-        }
-
         // disable magic_quotes_runtime
         set_magic_quotes_runtime(0);
 
+        # if magic quotes gpc is on, stripslash them
         if ( 1 == get_magic_quotes_gpc() )
         {
-            # @todo: Evaluate if a php.ini "magic_quotes off" should be requested from user!
+            $this->magic_quotes_gpc = true;
             $this->fix_magic_quotes();
             ini_set('magic_quotes_gpc', 0);
         }
@@ -171,7 +163,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          * 4) set WWW_ROOT defines
          */
         #self::defineWWWPathConstants();
-        
+
         /**
          * 5) Detect REST Tunneling through POST and set request_method accordingly
          */
@@ -180,7 +172,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * defineWWWPathConstants()
-     * 
+     *
      * @todo: These defines are used throughout the response with themes. This should therefore be part of Repsonse object.
      * So the clansuite.init is the wrong position for this function, "but, we need it" for the exception and errorhandler outputs.
      * still todo
@@ -197,7 +189,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             define('WWW_ROOT', self::getBaseURL().dirname($_SERVER['PHP_SELF']) );
         }
     }
-    
+
+    /**
+     * Shorthand for boolean check of the requestMethod GET
+     * 
+     * @return boolean true | false 
+     */
     public function isGet()
     {
         if($this->requestMethod == "GET")
@@ -206,7 +203,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         return false;
     }
-
+    
+    /**
+     * Shorthand for boolean check of the requestMethod POST
+     * 
+     * @return boolean true | false 
+     */
     public function isPost()
     {
        if($this->requestMethod == "POST")
@@ -215,7 +217,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
        }
        return false;
     }
-
+    
+    /**
+     * Shorthand for boolean check of the requestMethod PUT
+     * 
+     * @return boolean true | false 
+     */
     public function isPut()
     {
        if($this->requestMethod == "PUT")
@@ -224,7 +231,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
        }
        return false;
     }
-
+    
+    /**
+     * Shorthand for boolean check of the requestMethod DELETE
+     * 
+     * @return boolean true | false 
+     */
     public function isDelete()
     {
        if($this->requestMethod == "DELETE")
@@ -232,11 +244,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
            return true;
        }
        return false;
-    } 
+    }
 
     /**
      * Lists all parameters in the specific parameters array
      * Defaults to Request parameters array
+     * 
+     * @param string $parameterArrayName R, G, P, C (REQUEST, GET, POST, COOKIE)
+     * @return array
      */
     public function getParameterNames($parameterArrayName = 'REQUEST')
     {
@@ -266,8 +281,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
-     * @param string $parameterArrayName R, G, P, C 
-     * @param string $name Name of the Parameter
+     * @param string $parametername Name of the Parameter
+     * @param string $parameterArrayName R, G, P, C
      * @return boolean true|false
      */
     public function issetParameter($parametername, $parameterArrayName = 'REQUEST')
@@ -300,9 +315,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * get, returns a certain parameter if existing
      *
-     * @param string $name Name of the Parameter
+     * @param string $parametername Name of the Parameter  
      * @param string $parameterArrayName R, G, P, C
-     * @return boolean true|false
+     * @return data | null
      */
     public function getParameter($parametername, $parameterArrayName = 'REQUEST')
     {
@@ -315,13 +330,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             return null;
         }
     }
-    
+
     /**
      * set, returns a certain parameter if existing
      *
-     * @param string $name Name of the Parameter
+     * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
-     * @return boolean true|false
+     * @return data | null
      */
     public function setParameter($parametername, $parameterArrayName = 'REQUEST')
     {
@@ -337,14 +352,20 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Shortcut to get a Parameter from $_POST
+     * 
+     * @param string $parametername Name of the Parameter    
+     * @return string data | null  
      */
     public function getParameterFromPost($parametername)
     {
         return $this->getParameter($parametername, 'POST');
     }
-    
+
     /**
      * Shortcut to get a Parameter from $_GET
+     *
+     * @param string $parametername Name of the Parameter 
+     * @return string data | null  
      */
     public function getParameterFromGet($parametername)
     {
@@ -356,6 +377,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @todo docblock
      * @param string $name Name of the Parameter
+     * @return string
      */
     public function getHeader($name)
     {
@@ -368,15 +390,15 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Determine Type of Protocol for Webpaths (http/https)   
-     * Get for $_SERVER['HTTPS'] 
-     * 
-     * @todo: check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']? 
+     * Determine Type of Protocol for Webpaths (http/https)
+     * Get for $_SERVER['HTTPS']
+     *
+     * @todo: check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']?
      * @return string
      */
     public static function getServerProtocol()
     {
-        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo: check -> or $_SERVER['SSL_PROTOCOL'] 
+        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo: check -> or $_SERVER['SSL_PROTOCOL']
         {
              return 'https://';
         }
@@ -385,7 +407,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
              return 'http://';
         }
     }
-    
+
     /**
      * Determine Type of Protocol for Webpaths (http/https)
      * Get for $_SERVER['HTTPS'] with boolean return value
@@ -420,11 +442,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Returns the base of the current URL
      * Format: protocol://server:port
-     * 
-     * The "template constant"" WWW_ROOT is later defined as getBaseURL 
-     * <form action="<?=WWW_ROOT?>/news/7" method="DELETE"/> 
-     * 
-     * @return string
+     *
+     * The "template constant"" WWW_ROOT is later defined as getBaseURL
+     * <form action="<?=WWW_ROOT?>/news/7" method="DELETE"/>
+     *
+     * @return string   
      */
     public static function getBaseURL()
     {
@@ -434,7 +456,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             self::$baseURL = self::getServerProtocol();
 
             # 2. Determine Servername
-            self::$baseURL .= $_SERVER['SERVER_NAME'];
+            self::$baseURL .= self::getServerName();
 
             # 3. Determine Port
             self::$baseURL .= self::getServerPort();
@@ -443,7 +465,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * Get $_SERVER SERVER_NAME
+     * 
+     * @return string   
+     */
+    public static function getServerName()
+    {
+        return $_SERVER['SERVER_NAME'];
+    }
+
+    /**
      * Get $_SERVER REQUEST_URI
+     * 
+     * @return string   
      */
     public function getRequestURI()
     {
@@ -452,6 +486,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER REMOTE_URI
+     * 
+     * @return string
      */
     public function getRemoteURI()
     {
@@ -460,6 +496,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER REMOTE_ADDRESS
+     * 
+     * @return string
      */
     public function getRemoteAddress()
     {
@@ -475,21 +513,21 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         # this will allow DELETE and PUT
         $REST_MethodNames = array('DELETE', 'PUT');  # @todo: allow 'GET' through POST?
-        
+
         # request_method has to be POST AND GET has to to have the method GET
         if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
-        {           
+        {
             # check for allowed rest commands
             if (in_array(strtoupper($_GET['method']), $REST_MethodNames))
             {
                 # set the internal (tunneled) method as new REQUEST_METHOD
-                $this->setRequestMethod($_GET['method']); 
+                $this->setRequestMethod($_GET['method']);
 
                 # unset the tunneled method
                 unset($_GET['method']);
 
-                # now strip the methodname from the QUERY_STRING and rebuild REQUEST_URI               
-                
+                # now strip the methodname from the QUERY_STRING and rebuild REQUEST_URI
+
                 # rebuild the QUERY_STRING from $_GET
                 $_SERVER['QUERY_STRING'] = http_build_query($_GET);
                 # rebuild the REQUEST_URI
@@ -501,24 +539,25 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 }
             }
             else
-            {               
+            {
                 throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
         }
         elseif($_SERVER['REQUEST_METHOD'] == 'GET' and isset($_GET['method'])) # $this->issetParameter('GET', 'method')
         {
             # NOPE, there's no tunneling through GET!
-            throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.'); 
+            throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
     }
-    
+
     /**
      * Get the REQUEST METHOD
      * Returns the internal request method first, then $_SERVER REQUEST_METHOD.
      *
+     * @return string request method
      */
     public function getRequestMethod()
-    {  
+    {
         # first get the internally set request_method (PUT, DELETE) because we might have a REST-tunneling
         if(isset($this->$request_method))
         {
@@ -539,26 +578,28 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Gets a Cookie
+     * Get previously set cookies.
      *
      * @param string $name Name of the Cookie
+     * @return Returns an associative array containing any previously set cookies.
      */
     public function getCookie($name)
     {
-
-    } 
+        if(isset($this->cookie_parameters[$name]) == true)
+        {
+           return $this->cookie_parameters($name);
+        }
+    }
 
     /**
      * Checks if a ajax-request is given, by checking
      * X-Requested-With Header for xmlhttprequest.
      *
-     * @access public
-     *
      * @return bool
      */
     public function isXhr()
     {
-       if(strtolower($_SERVER['X-Requested-With']) == 'xmlhttprequest')
+       if(isset($_SERVER['X-Requested-With']) && strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
        {
            return true;
        }
@@ -567,14 +608,22 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
            return false;
        }
     }
+    
+    /**
+     * Shorthand for isXhr()
+     * 
+     * @return boolean
+     */
+    public function isAjax()
+    {
+        return $this->isXhr();
+    }
 
     /**
      * Cleans the global scope of all variables that are found
      * in other super-globals.
      *
      * This code originally from Richard Heyes and Stefan Esser
-     *
-     * @access private
      *
      * @return void
      */
@@ -628,16 +677,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             if (isset($GLOBALS[$key]) and !in_array($key, $list) )
             {
                 unset($GLOBALS[$key]);
-                unset($GLOBALS[$key]);
-
-               /**
-                * @todo: 1. check if double unset is still needed !
-                * 2. check this PHP critical vulnerability
-                * http://www.hardened-php.net/hphp/zend_hash_del_key_or_index_vulnerability.html
-                * this is intended to minimize the catastrophic effects that has on systems with
-                * register_globals on.. users with register_globals off are still vulnerable but
-                * afaik, there is nothing we can do for them.
-                */
             }
          }
     }
@@ -646,8 +685,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Essential clean-up of $_REQUEST
      * Handles possible Injections
      *
-     * @access private
-     * @todo: deprecated
+     * @todo: deprecated, this will move into the routes validation
      * @return void
      */
     private function sanitizeRequest()
@@ -675,103 +713,44 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
         }
-
-        /**
-        $filter = array( '_REQUEST' => $_REQUEST,
-                         '_GET'     => $_GET,
-                         '_POST'    => $_POST,
-                         '_COOKIE'  => $_COOKIE );
-
-        foreach ( $filter as $key => $value )
-        {
-            $secure = array ( 'id', 'action', 'mod', 'sub', session_name(), 'user_id' );
-
-            foreach( $secure as $s_value )
-            {
-                if ( isset($value[$s_value]) and $this->check($value[$s_value] , 'is_violent' ) )
-                {
-                    $security->intruder_alert();
-                }
-            }
-
-            if( isset($value['id']) )
-                $value['id'] = (int) $value['id'];
-            if( isset($value['user_id']) )
-                $value['user_id'] = (int) $value['user_id'];
-            $value['mod']     = isset($value['mod'])    ? $this->check($value['mod']    , 'is_int|is_abc|is_custom', '_') ? $value['mod'] : $cfg->std_module : $cfg->std_module;
-            $value['sub']     = isset($value['sub'])    ? $this->check($value['sub']    , 'is_int|is_abc|is_custom', '_') ? $value['sub'] : '' : '';
-            $value['action']  = isset($value['action']) ? $this->check($value['action'] , 'is_int|is_abc|is_custom', '_') ? $value['action'] : $cfg->std_module_action : $cfg->std_module_action;
-
-            switch($key)
-            {
-                case '_REQUEST':
-                    $_REQUEST = $value;
-                    break;
-
-                case '_GET':
-                    $_GET = $value;
-                    break;
-
-                case '_POST':
-                    $_POST = $value;
-                    break;
-
-                case '_COOKIE':
-                    $_COOKIE = $value;
-                    break;
-            }
-        }
-        */
     }
 
     /**
      * Revert magic_quotes() if still enabled
      *
-     * @param array $var Array to apply the magic quotes fix on
-     * @param boolean $sybase Boolean Value TRUE for magic_quotes_sybase
-     * @access private
+     * This while-loop is an replacement for the old recursive method.
+     * It's taken from "Guide to PHP Security" by Ilia Alshanetsky.
+     * @link http://talks.php.net/show/php-best-practices/26
      *
+     * @param array $var Array to apply the magic quotes fix on
      * @return Returns the magic quotes fixed $var
      */
-    private function fix_magic_quotes($var = null, $sybase = null )
+    private function fix_magic_quotes($input = null)
     {
-
-        // if no var is specified, fix all affected superglobals
-        if (!isset($var) )
+        if($this->magic_quotes_gpc == false)
         {
-            // workaround because magic_quotes does not change $_SERVER['argv']
-            $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : null;
-
-            // fix all affected arrays
-            foreach (array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER') as $var )
-            {
-                $GLOBALS[$var] = $this->fix_magic_quotes($GLOBALS[$var], $sybase);
-            }
-
-            $_SERVER['argv'] = $argv;
-
-            return true;
-        }
-
-        // if var is an array, fix each element
-        if (is_array($var) )
-        {
-            foreach ($var as $key => $val )
-            {
-                $var[$key] = $this->fix_magic_quotes($val, $sybase);
-            }
-
             return $var;
         }
 
-        // if var is a string, strip slashes
-        if (is_string($var) )
+        // if no var is specified, fix all affected superglobals
+        if (!isset($input) )
         {
-            return $sybase ? str_replace('\'\'', '\'', $var) : stripslashes($var);
+            $input = array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER');
         }
 
-        // otherwise ignore and just return
-        return $var;
+        while (list($k,$v) = each($input))
+        {
+            foreach ($v as $key => $val)
+            {
+                if (!is_array($val))
+                {
+                    $input[$k][$key] = stripslashes($val);
+                    continue;
+                }
+                $input[] =& $input[$k][$key];
+            }
+        }
+        unset($input);
     }
 
     /**
@@ -780,7 +759,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @todo!
      */
     public function offsetExists($offset)
-    {         
+    {
         return $this->issetParameter($offset);
     }
 
