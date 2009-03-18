@@ -1,4 +1,4 @@
-<?php 
+<?php
    /**
     * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards
@@ -45,20 +45,20 @@
     */
 
 // Security Handler
-if ( !defined('IN_CS') ) { die('Clansuite not loaded. Direct Access forbidden.'); }         
- 
+if ( !defined('IN_CS') ) { die('Clansuite not loaded. Direct Access forbidden.'); }
+
 class Clansuite_CMS
 {
     # Dependency Injector Phemto
     private static $injector;
-    
+
     # Configuration
     private static $config;
-    
+
     private static $prefilter_classes;
-    
+
     private static $postfilter_classes;
-    
+
     function __construct()
     {
 
@@ -66,33 +66,33 @@ class Clansuite_CMS
 
     public static function run()
     {
-        Clansuite_CMS::application_startup_checks();       
-        
+        Clansuite_CMS::application_startup_checks();
+
         Clansuite_CMS::initialize_Config();
-        
+
         Clansuite_CMS::initialize_Debug();
-        
+
         Clansuite_CMS::initialize_Paths();
-        
+
         Clansuite_CMS::set_Version();
-        
-        Clansuite_CMS::initialize_Locale();                     
-         
+
+        Clansuite_CMS::initialize_Locale();
+
         Clansuite_CMS::initialize_Loader();
-        
+
         Clansuite_CMS::initialize_Errorhandling();
-        
+
         Clansuite_CMS::initialize_DependecyInjection();
-        
+
         Clansuite_CMS::register_DI_Core();
-        
+
         Clansuite_CMS::register_DI_Filters();
-         
-        Clansuite_CMS::start_Session();        
-        
-        Clansuite_CMS::execute_Frontcontroller();        
+
+        Clansuite_CMS::start_Session();
+
+        Clansuite_CMS::execute_Frontcontroller();
     }
-    
+
     /**
      *  ================================================
      *     Startup Checks
@@ -106,10 +106,10 @@ class Clansuite_CMS
             header( 'Location: installation/index.php' );
             exit;
         }
-        
+
         # Check if install.php is still available, so we are installed but without security steps performed
         #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
-        
+
         # PHP Version Check
         if ( version_compare(PHP_VERSION, '5.2', '<') == true )
         {
@@ -127,24 +127,24 @@ class Clansuite_CMS
         if ( !in_array('mysql', PDO::getAvailableDrivers()) )
         {
             die('<i>php_pdo_mysql</i> driver not enabled.');
-        } 
-    }   
-   
+        }
+    }
+
 
     /**
      *  ==========================================
      *     Configuration, Initalization, Loader
      *  ==========================================
-     */ 
+     */
     private static function initialize_Config()
     {
         # requires configuration & gets a config to work with
         require 'core/config/ini.config.php';
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
-        
+
         # Debug Display of Config Array
         # clansuite_xdebug::printR($config);
-        
+
         /**
          *  ================================================
          *     Alter php.ini settings
@@ -155,7 +155,7 @@ class Clansuite_CMS
         ini_set('arg_separator.output'          , '&amp;');
         ini_set('memory_limit'                  , '20M' );
     }
-    
+
     /**
      *  ================================================
      *     Define Constants
@@ -235,7 +235,7 @@ class Clansuite_CMS
                           get_include_path()                                    # attach rest
                          );
     }
-    
+
     /**
      *  ================================================
      *     Debug Mode & Error Reporting Level
@@ -248,12 +248,12 @@ class Clansuite_CMS
      * For security reasons you are advised to change the Debug Mode Setting to disabled when your site goes live.
     |* For more info visit:  http://www.php.net/error_reporting
      * @note: in php6 e_strict will be moved into e_all
-     */ 
+     */
     private static function initialize_Debug()
     {
         # Debug-Mode is set via config
         define('DEBUG', self::$config['error']['debug']);
-        
+
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if ( defined('DEBUG') && DEBUG == true ) # == true or false
         {
@@ -270,7 +270,7 @@ class Clansuite_CMS
         # Setup XDebug
         # XDebug is set via config
         define('XDEBUG', self::$config['error']['xdebug']);
-        
+
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
         if((bool)XDEBUG === true)
         {
@@ -279,13 +279,19 @@ class Clansuite_CMS
         }
     }
 
+    /**
+     * Initialize Autoloader
+     */
     private static function initialize_Loader()
     {
         # get loaders and register/overwrite spl_autoload handling
         require 'core/bootstrap/clansuite.loader.php';
         clansuite_loader::register_autoload();
     }
-    
+
+    /**
+     * Initialize the custom Exception- and Errorhandlers
+     */
     private static function initialize_Errorhandling()
     {
         # Set Exception Handler
@@ -307,6 +313,9 @@ class Clansuite_CMS
         self::$injector = new Phemto();
     }
 
+    /**
+     * Register the Core Classes at the Dependency Injector
+     */
     private static function register_DI_Core()
     {
         # core classes to load
@@ -316,12 +325,12 @@ class Clansuite_CMS
                               'Clansuite_HttpResponse',
                               'Clansuite_FilterManager',
                               'Clansuite_Doctrine',
-                              'Clansuite_Localization', 
-                              'Clansuite_Security', 
-                              'Clansuite_Inputfilter', 
+                              'Clansuite_Localization',
+                              'Clansuite_Security',
+                              'Clansuite_Inputfilter',
                               'Clansuite_Statistics'
-                              );
-        
+                             );
+
         # register to DI as singletons
         foreach( $core_classes as $class )
         {
@@ -329,39 +338,42 @@ class Clansuite_CMS
         }
     }
 
+    /**
+     * Register the Pre- and Postfilters Classes at the Dependency Injector
+     */
     private static function register_DI_Filters()
     {
         # prefilters to load
         self::$prefilter_classes = array(
-                                    'maintenance',
-                                    'get_user',
-                                    'language_via_get',
-                                    'theme_via_get',
-                                    'set_module_language',
-                                    'set_breadcrumbs',
-                                    'php_debug_console',
-                                    'startup_checks',
-                                    'statistics'
-                                    );
-        
+                                         'maintenance',
+                                         'get_user',
+                                         'language_via_get',
+                                         'theme_via_get',
+                                         'set_module_language',
+                                         'set_breadcrumbs',
+                                         'php_debug_console',
+                                         'startup_checks',
+                                         'statistics'
+                                        );
+
         # register the prefilters
         foreach( self::$prefilter_classes as $class )
-        { 
+        {
             self::$injector->register( $class );
-        } 
+        }
 
         # postfilters to load
         self::$postfilter_classes = array(
                                     #empty-at-this-time
                                     );
- 
+
         # register the postfilters
         foreach( self::$postfilter_classes as $class )
         {
             self::$injector->register( $class );
-        } 
+        }
     }
-    
+
     /**
      *  ===================================================================
      *     Request & Response + Frontcontroller + Filters + processRequest
@@ -397,7 +409,7 @@ class Clansuite_CMS
 
         # Take off.
         $clansuite->processRequest($request, $response);
-        
+
         # XDebug has the last word: Stop tracing and show debugging infos.
         if(XDEBUG)
         {
@@ -410,7 +422,7 @@ class Clansuite_CMS
             self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
         }
     }
-    
+
     /**
      *  ================================================
      *     Set Timezone Settings
@@ -427,6 +439,7 @@ class Clansuite_CMS
     private static function initialize_Locale()
     {
         ini_set('date.timezone', self::$config['language']['timezone']);
+        
         if(function_exists('date_default_timezone_set'))
         {
             date_default_timezone_set(self::$config['language']['timezone']);
@@ -434,22 +447,27 @@ class Clansuite_CMS
         else
         {
             putenv('TZ=' . self::$config['language']['timezone']);
-        }       
+        }
     }
-    
+
+    /**
+     * Starts a new Session and Userobject
+     *
+     * @todo some position problems (locale, doctrine)
+     */
     private static function start_Session()
     {
         # Connect DB, that is needed for session & user rights management
         self::$injector->instantiate('Clansuite_Doctrine');
-        
+
         # instantiate the Locale
-        self::$injector->instantiate('Clansuite_Localization');  
-  
+        self::$injector->instantiate('Clansuite_Localization');
+
         # Initialize Session, then register the session-depending User-Object manually
         Clansuite_Session::getInstance(self::$injector);
         self::$injector->register(new Singleton('Clansuite_User'));
     }
-    
+
     /**
      *  ================================================
      *     Clansuite Version Information

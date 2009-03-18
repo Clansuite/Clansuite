@@ -79,6 +79,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_SKEIN'] = 'PHP Extension: Skein';
         $this->language['EXTENSION_GEOIP'] = 'PHP Extension: GeoIP';
         $this->language['EXTENSION_CURL'] = 'PHP Extension: cURL';
+        $this->language['EXTENSION_SYCK'] = 'PHP Extension: SYCK'; 
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
