@@ -38,7 +38,19 @@
         </table>
 
         <br />
-
+        <style type="text/css">
+        <!--
+            a.mainlevel
+            {literal}{{/literal}
+                background:transparent url(../images/default/play.png) no-repeat scroll 0 0;
+                display:block;
+                height:16px;
+                line-height:15px;
+                margin-bottom:3px;
+                padding:0 0 0 20px;
+            {literal}}{/literal}
+        -->
+        </style>
         <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_tcpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
         Connect
         </a>
