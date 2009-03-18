@@ -307,6 +307,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_curl']['expected']   = 'on';
                          $recommended['extension_curl']['actual']     = extension_loaded('curl') ? 'on' : 'off';
                          $recommended['extension_curl']['status']     = extension_loaded('curl') ? SETTING_TRUE : SETTING_FALSE;                                               
+                          
+                         #  Checking for PHP Extension : SYCK
+                         $recommended['extension_syck']['text']       = $language['EXTENSION_SYCK'];
+                         $recommended['extension_syck']['expected']   = 'on';
+                         $recommended['extension_syck']['actual']     = extension_loaded('syck') ? 'on' : 'off';
+                         $recommended['extension_syck']['status']     = extension_loaded('syck') ? SETTING_TRUE : SETTING_FALSE;                                               
                                                
                          ?>
                 <table class="settings" border="0">

@@ -34,16 +34,12 @@
     * @version    SVN: $Id: clansuite.config.php 2009 2008-05-07 15:34:26Z xsign $
     */
 
-   /**  =====================================================================
-    *  WARNING: DO NOT MODIFY THIS FILE, UNLESS YOU KNOW WHAT YOU ARE DOING.
-    *           READ THE DOCUMENTATION FOR INSTALLATION PROCEDURE.
-    *  =====================================================================
-    */
-
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
+ * Clansuite Core File - Config Handler for INI Format      
+ * 
  * This is the Config class of Clansuite. And it's build around the $config array,
  * which is a storage container for settings.
  *
@@ -60,8 +56,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     clansuite
  * @category    core
  * @subpackage  config
- * @todo COMMENT by vain: maybe change this class to a ini or yaml file? but that would add overhead when loading!
- * @todo  by vain: add set/get via database if not found in mainarray! save changes on destruct?
  */
 require dirname(__FILE__) . '/abstract.core.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess

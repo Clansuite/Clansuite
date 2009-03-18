@@ -1,0 +1,215 @@
+<?php
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @author     Florian Wolf      <xsign.dll@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    *
+    * @version    SVN: $Id: clansuite.config.php 2009 2008-05-07 15:34:26Z xsign $
+    */
+
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
+/**
+ * Clansuite Core File - Config Handler for YAML Format
+ * 
+ * Purpose: This Confighandler supports the YAML-Fileformat.
+ * 
+ * What is YAML? 
+ * 1) YAML Ain't Markup Language
+ * 2) YAML(tm) (rhymes with "camel") is a straightforward machine parsable data serialization format 
+ * designed for human readability and interaction with scripting languages. YAML is optimized for 
+ * data serialization, configuration settings, log files, Internet messaging and filtering.
+ * 
+ * The YAML Support of this class is based around two parser libraries:
+ * a) the php extension SYCK (available via PECL) 
+ * b) the SPYC Library.
+ * 
+ * @link http://www.yaml.org/ YAML Website
+ * @link http://www.yaml.org/spec/ YAML Format Specification
+ * @link http://pecl.php.net/package/syck/ PECL SYCK Package maintained by Alexey Zakhlestin
+ * @link http://github.com/why/syck/tree/master PECL SYCK Repository
+ * @link http://spyc.sourceforge.net/ SPYC Library Website at Sourceforge
+ *
+ * @package     clansuite
+ * @category    core
+ * @subpackage  config
+ */
+require dirname(__FILE__) . '/abstract.core.php';
+class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements ArrayAccess
+{
+     /**
+     * Configuration Array
+     * protected-> only visible to childs
+     *
+     * @var array
+     * @access protected
+     */
+    protected $config = array();
+    
+    # holds SPYC instance
+    private $spyc = null;
+    
+    /**
+     * CONSTRUCTOR
+     * sets up all variables
+     */
+    public function __construct($filename)
+    {
+        # load SPYC 
+        require ROOT_LIBARIES . 'spyc/spyc.class.php';
+        
+        # instantiate SPYC
+        $this->spyc = new Spyc;
+        
+        # read config file, set to array
+        $this->config = self::readConfig($filename);        
+    }
+
+    /**
+     * Clansuite_Config_INIHandler is a Singleton
+     *
+     * @param string $filename Filename
+     * @return instance of Config_YAMLHandler class
+     */
+    public static function getInstance($filename)
+    {
+        static $instance;
+
+        if ( ! isset($instance))
+        {
+            $instance = new Clansuite_Config_YAMLHandler($filename);
+        }
+
+        return $instance;
+    }
+    
+    /**
+     * Write the config array to a yaml file
+     *
+     * @access  public
+     * @param   string  The filename
+     * @return  array | boolean false
+     * @todo use file_put_contents()
+     * @todo fix this return true/false thingy
+     */
+    public static function writeConfig($filename, $assoc_array)
+    {
+        # transform PHP Array into YAML Format
+        $yaml_content = $this->spyc->dump($assoc_array);
+       
+       # ensure file is writable
+        if (is_writable($filename))
+        {
+            # open file
+            if (!$filehandle = fopen($filename, 'wb'))
+            {
+                 throw new Clansuite_Exception("Kann die Datei $filename nicht öffnen");
+                 return false;
+            }
+            
+            # write YAML content to file
+            if (!fwrite($filehandle, $yaml_content))
+            {
+                throw new Clansuite_Exception("Kann in die Datei $filename nicht schreiben");
+                return false;
+
+            }
+            
+            # close file
+            fclose($filehandle);
+            return true;
+        }
+        else
+        {
+            throw new Clansuite_Exception("Die Datei $filename ist nicht schreibbar. Datei- und Verzeichnisschreibrechte vergeben!");
+            return false;
+        }
+    }
+    
+    /**
+     *  Read the complete config file *.yaml
+     *
+     * @access  public
+     * @param   string  The yaml filename
+     * @return  array
+     */
+    public static function readConfig($filename)
+    {
+        # check if the filename exists
+        if(is_file($filename))
+        {   
+            # read the yaml content of the file         
+            $yaml_content = file_get_contents($filename);
+        }
+        else
+        {
+            throw new Clansuite_Exception("Die Datei $filename existiert nicht. Kann YAML Config nicht lesen!");
+        }        
+        
+        /**
+         * check if the php extension SYCK is available as parser
+         * SYCK is written in C, so it's implementation is faster then SPYC, which is pure PHP.
+         */
+        if( extension_loaded('syck') ) # take the faster one first
+        {
+            # syck_load accepts a YAML string as input and converts it into a PHP data structure 
+            $php_datastructure = syck_load($yaml_content);
+        }
+        # else check if we habe spyc as a library 
+        elseif(is_file(ROOT_LIBRARIES.'/Spyc.class.php'))
+        {
+            # ok, load spyc
+            require_once ROOT_LIBRARIES.'/Spyc.class.php';
+            
+            # instantiate
+            $spyc = new Spyc(); 
+            
+            # parse the yaml content with spyc
+            $php_datastructure = $spyc->load($yaml_content);
+        }
+        else # we have no YAML Parser - too bad :(
+        {
+            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Sycl!');
+        }
+
+        # check if the php_datastructire is an filled array
+        if (is_array($php_datastructure) and (empty($php_datastructure) == false))
+        {
+            # then return it
+            return $php_datastructure;
+        }
+        else # return an empty array
+        {
+            return array(); 
+        }
+    }
+}
+?>
