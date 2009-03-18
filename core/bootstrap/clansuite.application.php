@@ -66,6 +66,8 @@ class Clansuite_CMS
 
     public static function run()
     {
+        define('STARTTIME', microtime(1));
+
         Clansuite_CMS::application_startup_checks();
 
         Clansuite_CMS::initialize_Config();
@@ -420,6 +422,8 @@ class Clansuite_CMS
         if(DEBUG)
         {
             self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
+
+            echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
         }
     }
 
@@ -439,7 +443,7 @@ class Clansuite_CMS
     private static function initialize_Locale()
     {
         ini_set('date.timezone', self::$config['language']['timezone']);
-        
+
         if(function_exists('date_default_timezone_set'))
         {
             date_default_timezone_set(self::$config['language']['timezone']);
