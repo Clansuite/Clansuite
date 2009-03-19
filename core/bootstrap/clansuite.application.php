@@ -349,6 +349,7 @@ class Clansuite_CMS
         self::$prefilter_classes = array(
                                          'maintenance',
                                          'get_user',
+                                         'session_security',
                                          'language_via_get',
                                          'theme_via_get',
                                          'set_module_language',
@@ -366,8 +367,9 @@ class Clansuite_CMS
 
         # postfilters to load
         self::$postfilter_classes = array(
-                                    #empty-at-this-time
-                                    );
+                                          #empty-at-this-time
+                                          'html_tidy'
+                                          );
 
         # register the postfilters
         foreach( self::$postfilter_classes as $class )
@@ -457,18 +459,16 @@ class Clansuite_CMS
     /**
      * Starts a new Session and Userobject
      *
-     * @todo some position problems (locale, doctrine)
+     * @todo some position problems (locale)
      */
     private static function start_Session()
     {
-        # Connect DB, that is needed for session & user rights management
-        self::$injector->instantiate('Clansuite_Doctrine');
-
         # instantiate the Locale
         self::$injector->instantiate('Clansuite_Localization');
 
         # Initialize Session, then register the session-depending User-Object manually
         Clansuite_Session::getInstance(self::$injector);
+
         self::$injector->register(new Singleton('Clansuite_User'));
     }
 

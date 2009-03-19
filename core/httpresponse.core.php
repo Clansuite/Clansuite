@@ -82,6 +82,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     protected $headers = array();
 
+    /**
+     * Integer holding the GZIP compression level
+     * 
+     * @var      integer
+     */
     protected $output_compression_level = 7;
 
     /**
@@ -91,7 +96,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     protected $body = null;
 
-    protected $config; # holds instance of Clansuite_Config
+    # holds instance of Clansuite_Config
+    protected $config; 
 
     public function __construct(Clansuite_Config $config)
     {
@@ -157,13 +163,34 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
-     * append content to body
+     * setContent:
+     * appends content to the response body
+     * when replace is true, the bodycontent is replaced
      *
-     * @param string $content Content to store in the buffer
+     * @param string $content Content to store in the buffer 
+     * @param boolean $replace toggles append or replace content 
      */
-    public function setContent($content)
+    public function setContent($content, $replace = false)
+    {        
+        # check, if the content should be replaced
+        if($replace == false)
+        {
+            # no, replace is false, we append the content
+            $this->body .= $content;
+        }
+        else
+        {
+            # yes, replace the body with the content
+            $this->body = $content;
+        }
+    }
+    
+    /**
+     * get content retunrs the response body
+     */
+    public function getContent()
     {
-        $this->body .= $content;
+        return $this->body;    
     }
 
     /**
