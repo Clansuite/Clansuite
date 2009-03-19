@@ -64,7 +64,7 @@ default_action = "show"
 ; language
 ;----------------------------------------
 [language]
-timezone = "Europe/Paris"
+timezone = "Europe/Berlin"
 gmtoffset = 3600
 language = "de"
 outputcharset = "UTF-8"
@@ -103,7 +103,10 @@ max_upload_filesize = 1048576
 use_cookies = 1
 use_cookies_only = 0
 session_expire_time = 30
-session_name = ""
+check_ip = 1
+check_browser = 1
+check_host = 1
+maximal_password_tries = 3
 
 ;----------------------------------------
 ; error
