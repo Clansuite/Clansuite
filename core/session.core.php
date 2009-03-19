@@ -56,23 +56,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     const session_name = 'suiteSID'; # session_name contains the session name
 
-    /**#@+
+    /**
      * @access public
      * @var integer
      */
     public $session_expire_time     = 30; # Session Expire time in minutes
     public $session_probability     = 30; # Probabliity of trashing the Session as percentage
-
-
-    /**#@-*/
-
-    /**
-     * Array with Settings for the Session Security Check
-     * possible options are: 'check_ip', 'check_browser', 'check_host'
-     *
-     * @access public
-     */
-    public $session_security    = array('check_ip', 'check_browser', 'check_host');
 
     /**
      * @access public
@@ -112,9 +101,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     function __construct(Phemto $injector)
     {
         # Setup References
+        # Clansuite_Config $config, Clansuite_Doctrine $doctrine, Clansuite_HttpRequest $request, Clansuite_HttpResponse $response
 
         $this->config       = $injector->instantiate('Clansuite_Config');
-        #$this->doctrine     = $injector->instantiate('Clansuite_Doctrine');
+        $this->doctrine     = $injector->instantiate('Clansuite_Doctrine');
         $this->request      = $injector->instantiate('Clansuite_HttpRequest');
         $this->response     = $injector->instantiate('Clansuite_HttpResponse');
 
@@ -148,63 +138,53 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, "session_destroy"),
                                     array($this, "session_gc"     ));
 
-        # Create new ID, if session is not in DB OR string-lenght corrupted OR not initiated already
-        # $this->session_read(session_id()) == '' OR
-        if ( strlen(session_id()) != 32 OR !isset($_SESSION['initiated']) OR ((string)$_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
+        # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
+        if (  strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string)$_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
         {
-            session_regenerate_id(true);    # Make a new session_id and destroy old session
-            $_SESSION['initiated']      = true;  # session fixation
-            $_SESSION['application']    = 'CS-'.CLANSUITE_REVISION; # application-marker
+            # Make a new session_id and destroy old session
+            # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
+            session_regenerate_id(true);
+
+            # session fixation
+            $_SESSION['initiated']      = true;
+
+            # application-marker
+            $_SESSION['application']    = 'CS-'.CLANSUITE_REVISION;
 
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
              */
-            $_SESSION['token']      = md5(uniqid(rand(), true)); # session token
+            # session token
+            $_SESSION['token']      = md5(uniqid(rand(), true));
+
+            # session time
             $_SESSION['token_time'] = time();
         }
 
         # Start Session
-        $this->startSession();
-
-        # Perform a Security Check on the Session, and if it doesn't pass this, redirect to login.
-
-        if (!$this->_session_check_security() )
-        {
-            $this->response->redirect('index.php?mod=login');
-        }
-
-
-        # Control the session ( Clean up: 3day registrations, old sessions)
-
-        #$this->session_control();
+        $this->startSession(3600);
     }
 
     /**
      * Start Session and throw Error on failure
      */
-    private function startSession($time = 3600, $ses = 'MYSES')
-    {       
+    private function startSession($time = 3600)
+    {
         # set cookie parameters
-        #session_set_cookie_params($time);
-        #session_set_cookie_params(0, ROOT);
-
-        # name the session
-        #session_name(self::session_name);
+        session_set_cookie_params($time);
+        session_set_cookie_params(0, ROOT);
 
         # START THE SESSION
         if( true === session_start())
-        { 
-            # Reset the expiration time upon page load
-            if (isset($_COOKIE[$ses]))
-            {
-                setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
-            }
+        {
+             # Set Cookie + adjust the expiration time upon page load
+            setcookie(self::session_name, session_id() , time() + $time, "/");
         }
         else
         {
-            throw new Clansuite_Exception('The session start failed!', 200);  
-        }    
+            throw new Clansuite_Exception('The session start failed!', 200);
+        }
     }
 
     /**
@@ -284,7 +264,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * Insert Session using the Doctrine CsSession Object
          * because we got no result for that session_id during update
          */
-        if ( $result == 0)
+        if (empty($result) == true)
         {
             $newSession = new CsSession();
             $newSession->session_id         = $id;
@@ -365,172 +345,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         return true;
     }
-
-    /**
-     * Ensure the session integrity
-     *
-     * 1. Check for IP
-     * 2. Check for Browser
-     * 3. Check for Host Address
-     * 4. Check for Number of Password Tries
-     *
-     * @return boolean
-     */
-
-    public function _session_check_security()
-    {
-        /**
-         * 1. Check for IP
-         */
-
-        if (in_array("check_ip", $this->session_security))
-        {
-            if ( !isset($_SESSION['client_ip']) )
-            {
-                $_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
-            }
-            else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
-            {
-                $this->session_destroy(session_id());
-                return false;
-            }
-        }
-
-        /**
-         * 2. Check for Browser
-         */
-
-        if ( in_array("check_browser", $this->session_security) )
-        {
-            if ( !isset($_SESSION['client_browser']) )
-            {
-                $_SESSION['client_browser'] = $_SERVER["HTTP_USER_AGENT"];
-            }
-            else if ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
-            {
-                $this->session_destroy(session_id());
-                return false;
-            }
-        }
-
-        /**
-         * 3. Check for Host Address
-         */
-
-        if(in_array("check_host", $this->session_security))
-        {
-            if( !isset( $_SESSION['client_host'] ) )
-            {
-                $_SESSION['client_host'] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
-            }
-            else if ( gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'] )
-            {
-                $this->session_destroy(session_id());
-                return false;
-            }
-        }
-
-        /**
-         * 4. Check for Number of Password Tries
-         **/
-        /*
-        if(in_array("bad_password_tries", $this->session_security))
-        {
-            if($_SESSION['password_tries'] < $this->config['anti-hijack']['maximal_password_tries'])
-            {
-                if(true == $this->request->issetParameter('POST','password'))
-                {
-                    if(!isset($_SESSION['password_tries']))
-                    {
-                        $_SESSION['password_tries'] = 1;
-                    }
-                    elseif($_SESSION['password_tries'] <= $this->config['anti-hijack']['maximal_password_tries'])
-                    {
-                        $_SESSION['password_tries']++;
-                    }
-
-                    # perform password check here
-                }
-                else # reset
-                {
-                    unset($_SESSION['password_tries']);
-                }
-            }
-            else
-            {
-                $this->session_destroy(session_id());
-                return false;
-            }
-        }
-        */
-
-        /**
-         *  Return true if everything is ok
-         */
-
-        return true;
-    }
-
-    /**
-     * Session control
-     * 1. Prune not activated users after 3 days
-     * 2. Prune timed out Sessions (just call gc)
-     * 3.
-     *
-     * @TODO: Move user prune to users class
-     */
-    public function session_control()
-    {
-        /**
-         * DELETE : USERS which are not activated after 3 days.
-         *
-         * 259200 = (60s * 60m * 24h * 3d)
-         * @todo: move to users class!
-         */
-        /*$query = Doctrine_Query::create()->delete('CsUser')
-                                         ->from('CsUser')
-                                         ->where('activated = ? AND joined < ?')
-                                         ->execute( array( 0, time() - 259200 ) );*/
-
-        /**
-         *  CHECK whether session is EXPIRED
-         */
-        /*
-        if ( ( !isset($_COOKIE['cs_cookie_user_id']) OR !isset($_COOKIE['cs_cookie_password']) ) )
-        #AND $_SESSION['user']['user_id'] != 0 )
-        {
-            $result = Doctrine_Query::create()
-                                ->select('user_id, session_starttime')
-                                ->from('CsSession')
-                                ->where('session_id = ?')
-                                ->fetchOne(array( $this->request[self::session_name] ), Doctrine::HYDRATE_ARRAY);
-
-            if ( $result && $result['session_expire'] < time() )
-            {
-                //session_regenerate_id(true);
-                //var_dump($result);
-
-                // deprecated redirect with message
-                #$this->response->redirect('index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your session has expired. Please login again.') );
-
-                $this->response->redirect('index.php?mod=account&action=login', 0, '302' );
-
-            }
-
-        } */
-
-        /**
-         *  Assign Session Time Values for Session Countdown
-         */
-        /*$expire_seconds = $this->session_expire_time * 60;
-        $time = time();
-        $expiretime = $time + $expire_seconds;
-         */
-        //@todo: session countdown / ajax
-        #$tpl->assign('SessionCurrentTime', $time);
-        #$tpl->assign('SessionExpireTime', $expiretime);
-    }
-
 
     /**
      * Sets Data into the Session.
