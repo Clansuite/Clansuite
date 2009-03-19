@@ -80,10 +80,16 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         $sysinfos['apache_modules']     = apache_get_modules();
 
         // PHP
-        $sysinfos['php_uname']      = php_uname();
-        $sysinfos['php_os']         = PHP_OS;
-        $sysinfos['phpversion']     = phpversion();
-        $sysinfos['php_extensions'] = get_loaded_extensions();
+        $sysinfos['php_sapi_name']      = php_sapi_name();
+        $sysinfos['php_uname']          = php_uname();
+        $sysinfos['php_os']             = PHP_OS;
+        $sysinfos['php_sapi']           = PHP_SAPI;
+        $sysinfos['phpversion']         = phpversion();
+        $sysinfos['php_extensions']     = get_loaded_extensions();
+        $sysinfos['zendversion']        = zend_version();
+        $sysinfos['path_to_phpini']     = php_ini_loaded_file();
+        $sysinfos['cfg_include_path']   = get_cfg_var('include_path');
+        $sysinfos['cfg_file_path']      = realpath(get_cfg_var("cfg_file_path"));
 
         // MYSQL
         #$mysql_get_server_info  = mysql_get_server_info();

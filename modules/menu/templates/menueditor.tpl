@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
 
+{*
 {literal}
     <style type="text/css">
         body { background: #F1EFE2; }
@@ -16,7 +17,11 @@
         #tree-plugin-textarea { white-space: nowrap; }
     </style>
 {/literal}
+*}
 {/move_to}
+
+<div class="ModuleHeading">{t}Adminmenü - Verwaltung{/t}</div>
+<div class="ModuleHeadingSmall">{t}Mit dem Menüeditor können Sie die Menüpunkte des Adminmenüs verändern oder neue hinzufügen, sowie alte entfernen.{/t}</div>
 
 <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
     <tr>

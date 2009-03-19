@@ -1,3 +1,4 @@
+{include file="modulenavigation.tpl"}
 {* {$apc_sysinfos.sma_info|@dump:APC_SYSINFOS_sma_info} *}
 {* {$apc_sysinfos.cache_info|@dump:APC_SYSINFOS_cache_info} *}
 {* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
@@ -7,7 +8,8 @@
 <b>Alternative PHP Cache not loaded. Enable the PHP Extension 'extension=php_apc.dll' in php.ini.</b>
 {else}
 
-<h1>Statistics for "Alternative PHP Cache {$apc_sysinfos.version}"</h1>
+<div class="ModuleHeading">{t}Statistics for "Alternative PHP Cache {$apc_sysinfos.version}"{/t}</div>
+<div class="ModuleHeadingSmall">{t}Aktueller Zustand und statistische Informationen des AP-Cache.{/t}</div>
 
 <h2>General Cache Informations</h2>
 <table>
