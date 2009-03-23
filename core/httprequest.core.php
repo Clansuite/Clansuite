@@ -192,8 +192,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Shorthand for boolean check of the requestMethod GET
-     * 
-     * @return boolean true | false 
+     *
+     * @return boolean true | false
      */
     public function isGet()
     {
@@ -203,11 +203,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         return false;
     }
-    
+
     /**
      * Shorthand for boolean check of the requestMethod POST
-     * 
-     * @return boolean true | false 
+     *
+     * @return boolean true | false
      */
     public function isPost()
     {
@@ -217,11 +217,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
        }
        return false;
     }
-    
+
     /**
      * Shorthand for boolean check of the requestMethod PUT
-     * 
-     * @return boolean true | false 
+     *
+     * @return boolean true | false
      */
     public function isPut()
     {
@@ -231,11 +231,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
        }
        return false;
     }
-    
+
     /**
      * Shorthand for boolean check of the requestMethod DELETE
-     * 
-     * @return boolean true | false 
+     *
+     * @return boolean true | false
      */
     public function isDelete()
     {
@@ -249,7 +249,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Lists all parameters in the specific parameters array
      * Defaults to Request parameters array
-     * 
+     *
      * @param string $parameterArrayName R, G, P, C (REQUEST, GET, POST, COOKIE)
      * @return array
      */
@@ -315,7 +315,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * get, returns a certain parameter if existing
      *
-     * @param string $parametername Name of the Parameter  
+     * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
      * @return data | null
      */
@@ -352,9 +352,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Shortcut to get a Parameter from $_POST
-     * 
-     * @param string $parametername Name of the Parameter    
-     * @return string data | null  
+     *
+     * @param string $parametername Name of the Parameter
+     * @return string data | null
      */
     public function getParameterFromPost($parametername)
     {
@@ -364,8 +364,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Shortcut to get a Parameter from $_GET
      *
-     * @param string $parametername Name of the Parameter 
-     * @return string data | null  
+     * @param string $parametername Name of the Parameter
+     * @return string data | null
      */
     public function getParameterFromGet($parametername)
     {
@@ -446,7 +446,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * The "template constant"" WWW_ROOT is later defined as getBaseURL
      * <form action="<?=WWW_ROOT?>/news/7" method="DELETE"/>
      *
-     * @return string   
+     * @return string
      */
     public static function getBaseURL()
     {
@@ -466,8 +466,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER SERVER_NAME
-     * 
-     * @return string   
+     *
+     * @return string
      */
     public static function getServerName()
     {
@@ -476,8 +476,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER REQUEST_URI
-     * 
-     * @return string   
+     *
+     * @return string
      */
     public function getRequestURI()
     {
@@ -486,7 +486,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER REMOTE_URI
-     * 
+     *
      * @return string
      */
     public function getRemoteURI()
@@ -496,7 +496,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get $_SERVER REMOTE_ADDRESS
-     * 
+     *
      * @return string
      */
     public function getRemoteAddress()
@@ -608,10 +608,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
            return false;
        }
     }
-    
+
     /**
      * Shorthand for isXhr()
-     * 
+     *
      * @return boolean
      */
     public function isAjax()
@@ -717,6 +717,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Revert magic_quotes() if still enabled
+     * stripslashes + array_deep + non_recursive
      *
      * This while-loop is an replacement for the old recursive method.
      * It's taken from "Guide to PHP Security" by Ilia Alshanetsky.
@@ -733,18 +734,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         // if no var is specified, fix all affected superglobals
-        if (!isset($input) )
+        if ( isset($input) == false )
         {
-            $input = array('_ENV', '_REQUEST', '_GET', '_POST', '_COOKIE', '_SERVER');
+            $input = array($_ENV, $_REQUEST, $_GET, $_POST, $_COOKIE, $_SERVER);
         }
 
-        while (list($k,$v) = each($input))
+        while ( list($k,$v) = each($input) )
         {
             foreach ($v as $key => $val)
             {
-                if (!is_array($val))
+                if (is_array($val) == false)
                 {
                     $input[$k][$key] = stripslashes($val);
+
                     continue;
                 }
                 $input[] =& $input[$k][$key];
