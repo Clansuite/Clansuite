@@ -244,39 +244,24 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         /**
          * Determine the current location of a user by checking request['mod']
+         * @todo get rid of request, use router or better resolver instead
          */
         $userlocation = (!isset($request['mod']) && empty($this->request['mod'])) ? 'sessionstart' : $this->request['mod'];
         #echo 'location '.$userlocation;
 
         /**
-         * Try to Update / Replace Session Data in case session_id already exists
-         * $result is 1, when update successful, zero otherwise
+         * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
-        $result = Doctrine_Query::create()
-                         ->update('CsSession s')
-                         ->set('s.session_starttime','?', time())
-                         ->set('s.session_data','?', $data)
-                         ->set('s.session_where','?', $userlocation)
-                         ->where('s.session_id = ?', $id)
-                         ->execute();
-
-        /**
-         * Insert Session using the Doctrine CsSession Object
-         * because we got no result for that session_id during update
-         */
-        if (empty($result) == true)
-        {
-            $newSession = new CsSession();
-            $newSession->session_id         = $id;
-            $newSession->session_name       = self::session_name;
-            $newSession->session_starttime  = time();
-            $newSession->session_data       = $data;
-            $newSession->session_visibility = 1;
-            $newSession->session_where      = $userlocation;
-            $newSession->user_id            = 0;
-            $newSession->save();
-        }
-
+        $session_query = new CsSession();
+        $session_query->session_id         = $id;
+        $session_query->session_name       = self::session_name;
+        $session_query->session_starttime  = time();
+        $session_query->session_data       = $data;
+        $session_query->session_visibility = 1;
+        $session_query->session_where      = $userlocation;
+        $session_query->user_id            = 0;
+        $session_query->replace();
+        
         return true;
     }
 

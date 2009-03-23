@@ -84,7 +84,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
     /**
      * Integer holding the GZIP compression level
-     * 
+     *
      * @var      integer
      */
     protected $output_compression_level = 7;
@@ -97,7 +97,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     protected $body = null;
 
     # holds instance of Clansuite_Config
-    protected $config; 
+    protected $config;
 
     public function __construct(Clansuite_Config $config)
     {
@@ -167,11 +167,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * appends content to the response body
      * when replace is true, the bodycontent is replaced
      *
-     * @param string $content Content to store in the buffer 
-     * @param boolean $replace toggles append or replace content 
+     * @param string $content Content to store in the buffer
+     * @param boolean $replace toggles append or replace content
      */
     public function setContent($content, $replace = false)
-    {        
+    {
         # check, if the content should be replaced
         if($replace == false)
         {
@@ -184,13 +184,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             $this->body = $content;
         }
     }
-    
+
     /**
      * get content retunrs the response body
      */
     public function getContent()
     {
-        return $this->body;    
+        return $this->body;
     }
 
     /**
@@ -254,7 +254,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 if((bool)ini_get('zlib.output_compression') === false)
                 {
                   ob_start('ob_gzhandler');
+
                   require ROOT_LIBRARIES . 'gzip_encode/class.gzip_encode.php';
+
                   define('OB_GZIP', true);
                 }
             }
