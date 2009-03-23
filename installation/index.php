@@ -52,7 +52,7 @@ define('DEBUG', true);
  */
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
-error_reporting(E_ALL);
+error_reporting(E_ALL | E_STRICT);
 
 #var_dump($_SESSION);
 #var_dump($_POST);
