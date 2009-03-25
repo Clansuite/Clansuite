@@ -70,8 +70,8 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
      */
     public function action_admin_show()
     {
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
+        # Set Pagetitle and Breadcrumbs - not needed
+        # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
 
         # get system informations and server variables
 
@@ -115,7 +115,7 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
     public function action_admin_show_apc()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show Info - Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Trail::addStep( _('Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
