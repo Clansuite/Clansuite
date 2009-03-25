@@ -1,8 +1,8 @@
--- MySQL dump 10.11
+-- MySQL dump 10.13  Distrib 5.1.30, for Win32 (ia32)
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.51a
+-- Server version	5.1.30-community
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `cs_adminmenu`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `parent` tinyint(3) unsigned NOT NULL default '0',
+  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `cs_adminmenu` (
   `order` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `right_to_view` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`,`parent`)
+  PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -53,8 +53,8 @@ DROP TABLE IF EXISTS `cs_adminmenu_backup`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu_backup` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `parent` tinyint(3) unsigned NOT NULL default '0',
+  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `cs_adminmenu_backup` (
   `order` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `right_to_view` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`,`parent`)
+  PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -83,13 +83,13 @@ DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_adminmenu_shortcuts` (
-  `id` tinyint(4) NOT NULL auto_increment,
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL default '30',
+  `order` tinyint(4) NOT NULL DEFAULT '30',
   `cat` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -109,10 +109,10 @@ DROP TABLE IF EXISTS `cs_areas`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_areas` (
-  `area_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default 'New Area',
+  `area_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT 'New Area',
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY  (`area_id`)
+  PRIMARY KEY (`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -132,14 +132,14 @@ DROP TABLE IF EXISTS `cs_bb_code`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_bb_code` (
-  `bb_code_id` int(11) NOT NULL auto_increment,
+  `bb_code_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `start_tag` varchar(255) NOT NULL,
   `end_tag` varchar(255) NOT NULL,
   `content_type` varchar(255) NOT NULL,
   `allowed_in` varchar(255) NOT NULL,
   `not_allowed_in` varchar(255) NOT NULL,
-  PRIMARY KEY  (`bb_code_id`),
+  PRIMARY KEY (`bb_code_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -160,20 +160,20 @@ DROP TABLE IF EXISTS `cs_board_forums`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_board_forums` (
-  `forumid` int(11) NOT NULL auto_increment,
-  `forumparent` int(11) NOT NULL default '0',
-  `name` varchar(128) default NULL,
+  `forumid` int(11) NOT NULL AUTO_INCREMENT,
+  `forumparent` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
   `description` text,
-  `displayorder` smallint(6) NOT NULL default '0',
-  `moderator` int(11) default NULL,
+  `displayorder` smallint(6) NOT NULL DEFAULT '0',
+  `moderator` int(11) DEFAULT NULL,
   `posts` int(11) NOT NULL,
   `threads` int(11) NOT NULL,
-  `permissions` int(11) default NULL,
-  `password` varchar(32) default NULL,
+  `permissions` int(11) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
   `lastpost` varchar(54) NOT NULL,
   `status` varchar(15) NOT NULL,
   `type` varchar(15) NOT NULL,
-  PRIMARY KEY  (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
+  PRIMARY KEY (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -193,20 +193,20 @@ DROP TABLE IF EXISTS `cs_board_posts`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_board_posts` (
-  `forumid` int(11) NOT NULL default '0',
-  `threadid` int(11) NOT NULL default '0',
-  `postid` int(11) NOT NULL auto_increment,
+  `forumid` int(11) NOT NULL DEFAULT '0',
+  `threadid` int(11) NOT NULL DEFAULT '0',
+  `postid` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(32) NOT NULL,
   `message` text NOT NULL,
   `subject` tinytext NOT NULL,
-  `date` int(10) NOT NULL default '0',
-  `icon` varchar(50) default NULL,
+  `date` int(10) NOT NULL DEFAULT '0',
+  `icon` varchar(50) DEFAULT NULL,
   `signatur` varchar(15) NOT NULL,
   `ip` varchar(15) NOT NULL,
   `bbcodeoff` varchar(15) NOT NULL,
   `smileyoff` varchar(15) NOT NULL,
   `edited_by` text,
-  PRIMARY KEY  (`postid`),
+  PRIMARY KEY (`postid`),
   KEY `fid` (`forumid`),
   KEY `tid` (`threadid`),
   KEY `dateline` (`date`),
@@ -229,18 +229,18 @@ DROP TABLE IF EXISTS `cs_board_threads`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_board_threads` (
-  `threadid` int(11) NOT NULL auto_increment,
-  `forumid` int(11) NOT NULL default '0',
+  `threadid` int(11) NOT NULL AUTO_INCREMENT,
+  `forumid` int(11) NOT NULL DEFAULT '0',
   `subject` varchar(128) NOT NULL,
   `icon` varchar(75) NOT NULL,
   `lastpost` varchar(54) NOT NULL,
-  `views` bigint(32) NOT NULL default '0',
-  `replies` int(10) NOT NULL default '0',
+  `views` bigint(32) NOT NULL DEFAULT '0',
+  `replies` int(10) NOT NULL DEFAULT '0',
   `author` varchar(32) NOT NULL,
   `closed` varchar(15) NOT NULL,
-  `stickified` tinyint(1) NOT NULL default '0',
+  `stickified` tinyint(1) NOT NULL DEFAULT '0',
   `poll` text NOT NULL,
-  PRIMARY KEY  (`forumid`),
+  PRIMARY KEY (`forumid`),
   KEY `fid` (`forumid`),
   KEY `tid` (`threadid`),
   KEY `lastpost` (`lastpost`),
@@ -265,7 +265,7 @@ DROP TABLE IF EXISTS `cs_calendar`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_calendar` (
-  `event_id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `cat_id` smallint(2) NOT NULL,
   `day` varchar(2) NOT NULL,
   `month` varchar(2) NOT NULL,
@@ -273,7 +273,7 @@ CREATE TABLE `cs_calendar` (
   `eventname` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  PRIMARY KEY  (`event_id`,`cat_id`)
+  PRIMARY KEY (`event_id`,`cat_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -293,15 +293,15 @@ DROP TABLE IF EXISTS `cs_categories`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_categories` (
-  `cat_id` tinyint(4) NOT NULL auto_increment,
-  `module_id` tinyint(4) default NULL,
-  `sortorder` tinyint(4) default '0',
-  `name` varchar(200) default 'New Category',
+  `cat_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `module_id` tinyint(4) DEFAULT NULL,
+  `sortorder` tinyint(4) DEFAULT '0',
+  `name` varchar(200) DEFAULT 'New Category',
   `description` text,
-  `image` varchar(60) default NULL,
-  `icon` varchar(60) default NULL,
-  `color` varchar(7) default NULL,
-  PRIMARY KEY  (`cat_id`),
+  `image` varchar(60) DEFAULT NULL,
+  `icon` varchar(60) DEFAULT NULL,
+  `color` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`cat_id`),
   UNIQUE KEY `cat_id` (`cat_id`),
   KEY `modul_id` (`module_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -323,15 +323,15 @@ DROP TABLE IF EXISTS `cs_comments`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_comments` (
-  `comment_id` int(10) unsigned NOT NULL auto_increment,
-  `user_id` int(11) unsigned NOT NULL default '0',
+  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `email` varchar(200) NOT NULL,
   `body` text NOT NULL,
-  `added` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pseudo` varchar(25) default NULL,
+  `added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `pseudo` varchar(25) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
   `host` varchar(255) NOT NULL,
-  PRIMARY KEY  (`comment_id`)
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -351,12 +351,12 @@ DROP TABLE IF EXISTS `cs_forum_boards`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_forum_boards` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `board_id` bigint(20) default NULL,
-  `category_id` bigint(20) default NULL,
-  `name` varchar(100) collate latin1_general_ci default NULL,
-  `description` text collate latin1_general_ci,
-  PRIMARY KEY  (`id`)
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `board_id` bigint(20) DEFAULT NULL,
+  `category_id` bigint(20) DEFAULT NULL,
+  `name` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `description` text COLLATE latin1_general_ci,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 SET character_set_client = @saved_cs_client;
 
@@ -375,12 +375,12 @@ DROP TABLE IF EXISTS `cs_forum_category`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_forum_category` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `root_category_id` bigint(20) default NULL,
-  `parent_category_id` bigint(20) default NULL,
-  `name` varchar(50) collate latin1_general_ci default NULL,
-  `description` text collate latin1_general_ci,
-  PRIMARY KEY  (`id`),
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `root_category_id` bigint(20) DEFAULT NULL,
+  `parent_category_id` bigint(20) DEFAULT NULL,
+  `name` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `description` text COLLATE latin1_general_ci,
+  PRIMARY KEY (`id`),
   KEY `root_category_id_idx` (`root_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 SET character_set_client = @saved_cs_client;
@@ -400,17 +400,17 @@ DROP TABLE IF EXISTS `cs_forum_entry`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_forum_entry` (
-  `entry_id` bigint(20) NOT NULL default '0',
-  `thread_id` bigint(20) default NULL,
-  `parent_entry_id` bigint(20) default NULL,
-  `author` varchar(50) collate latin1_general_ci default NULL,
-  `topic` varchar(100) collate latin1_general_ci default NULL,
-  `message` text collate latin1_general_ci,
-  `date` bigint(20) default NULL,
-  `smileyoff` tinyint(1) default NULL,
-  `bbcodeoff` tinyint(1) default NULL,
-  `edited_by` varchar(50) collate latin1_general_ci default NULL,
-  PRIMARY KEY  (`entry_id`),
+  `entry_id` bigint(20) NOT NULL DEFAULT '0',
+  `thread_id` bigint(20) DEFAULT NULL,
+  `parent_entry_id` bigint(20) DEFAULT NULL,
+  `author` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `topic` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `message` text COLLATE latin1_general_ci,
+  `date` bigint(20) DEFAULT NULL,
+  `smileyoff` tinyint(1) DEFAULT NULL,
+  `bbcodeoff` tinyint(1) DEFAULT NULL,
+  `edited_by` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  PRIMARY KEY (`entry_id`),
   KEY `parent_entry_id_idx` (`parent_entry_id`),
   KEY `thread_id_idx` (`thread_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -431,19 +431,19 @@ DROP TABLE IF EXISTS `cs_forum_threads`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_forum_threads` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `thread_id` bigint(20) default NULL,
-  `board_id` bigint(20) default NULL,
-  `title` varchar(200) collate latin1_general_ci default NULL,
-  `updated` bigint(20) default NULL,
-  `closed` tinyint(4) default NULL,
-  `author` varchar(32) collate latin1_general_ci default NULL,
-  `icon` varchar(75) collate latin1_general_ci default NULL,
-  `lastpost` varchar(54) collate latin1_general_ci default NULL,
-  `views` bigint(20) default NULL,
-  `replies` int(11) default NULL,
-  `stickified` tinyint(4) default NULL,
-  PRIMARY KEY  (`id`),
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `thread_id` bigint(20) DEFAULT NULL,
+  `board_id` bigint(20) DEFAULT NULL,
+  `title` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
+  `updated` bigint(20) DEFAULT NULL,
+  `closed` tinyint(4) DEFAULT NULL,
+  `author` varchar(32) COLLATE latin1_general_ci DEFAULT NULL,
+  `icon` varchar(75) COLLATE latin1_general_ci DEFAULT NULL,
+  `lastpost` varchar(54) COLLATE latin1_general_ci DEFAULT NULL,
+  `views` bigint(20) DEFAULT NULL,
+  `replies` int(11) DEFAULT NULL,
+  `stickified` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `board_id_idx` (`board_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 SET character_set_client = @saved_cs_client;
@@ -456,6 +456,31 @@ SET character_set_client = @saved_cs_client;
 /*!40000 ALTER TABLE `cs_forum_threads` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_gallery_album`
+--
+
+DROP TABLE IF EXISTS `cs_gallery_album`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cs_gallery_album` (
+  `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `position` int(4) unsigned NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cs_gallery_album`
+--
+
+/*!40000 ALTER TABLE `cs_gallery_album` DISABLE KEYS */;
+INSERT INTO `cs_gallery_album` VALUES (1,'Erstes Album','Mein erstes Album',1,'/test/thumbs/thums.jpg');
+/*!40000 ALTER TABLE `cs_gallery_album` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_group_rights`
 --
 
@@ -463,9 +488,9 @@ DROP TABLE IF EXISTS `cs_group_rights`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_group_rights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `right_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -485,14 +510,14 @@ DROP TABLE IF EXISTS `cs_groups`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_groups` (
-  `group_id` int(5) unsigned NOT NULL auto_increment,
-  `sortorder` int(4) unsigned NOT NULL default '0',
+  `group_id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `sortorder` int(4) unsigned NOT NULL DEFAULT '0',
   `name` varchar(80) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `icon` varchar(255) default NULL,
-  `image` varchar(255) default NULL,
-  `color` varchar(7) default NULL,
-  PRIMARY KEY  (`group_id`)
+  `icon` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `color` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`group_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -512,19 +537,19 @@ DROP TABLE IF EXISTS `cs_guestbook`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_guestbook` (
-  `gb_id` int(11) NOT NULL auto_increment,
-  `user_id` int(11) NOT NULL default '0',
-  `gb_added` int(12) default NULL,
-  `gb_nick` varchar(25) default NULL,
-  `gb_email` varchar(35) default NULL,
-  `gb_icq` varchar(15) default NULL,
-  `gb_website` varchar(35) default NULL,
-  `gb_town` varchar(25) default NULL,
+  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `gb_added` int(12) DEFAULT NULL,
+  `gb_nick` varchar(25) DEFAULT NULL,
+  `gb_email` varchar(35) DEFAULT NULL,
+  `gb_icq` varchar(15) DEFAULT NULL,
+  `gb_website` varchar(35) DEFAULT NULL,
+  `gb_town` varchar(25) DEFAULT NULL,
   `gb_text` text,
-  `gb_ip` varchar(15) default NULL,
+  `gb_ip` varchar(15) DEFAULT NULL,
   `gb_comment` text,
-  `image_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`gb_id`)
+  `image_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -544,13 +569,13 @@ DROP TABLE IF EXISTS `cs_help`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_help` (
-  `help_id` int(11) NOT NULL auto_increment,
+  `help_id` int(11) NOT NULL AUTO_INCREMENT,
   `mod` varchar(255) NOT NULL,
   `sub` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
   `helptext` text NOT NULL,
   `related_links` text NOT NULL,
-  PRIMARY KEY  (`help_id`),
+  PRIMARY KEY (`help_id`),
   UNIQUE KEY `help_id` (`help_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -571,11 +596,11 @@ DROP TABLE IF EXISTS `cs_images`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_images` (
-  `image_id` int(11) NOT NULL auto_increment,
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  PRIMARY KEY  (`image_id`),
+  PRIMARY KEY (`image_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -596,14 +621,14 @@ DROP TABLE IF EXISTS `cs_messages`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_messages` (
-  `message_id` int(11) NOT NULL auto_increment,
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `from` int(11) NOT NULL,
   `to` int(11) NOT NULL,
   `headline` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `timestamp` int(11) NOT NULL,
   `read` int(1) NOT NULL,
-  PRIMARY KEY  (`message_id`),
+  PRIMARY KEY (`message_id`),
   KEY `from` (`from`,`to`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -626,7 +651,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_mod_rel_sub` (
   `module_id` int(11) NOT NULL,
   `submodule_id` int(11) NOT NULL,
-  PRIMARY KEY  (`module_id`,`submodule_id`)
+  PRIMARY KEY (`module_id`,`submodule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -646,7 +671,7 @@ DROP TABLE IF EXISTS `cs_modules`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_modules` (
-  `module_id` int(11) NOT NULL auto_increment,
+  `module_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   `homepage` varchar(255) NOT NULL,
@@ -661,8 +686,8 @@ CREATE TABLE `cs_modules` (
   `image_name` varchar(255) NOT NULL,
   `module_version` float NOT NULL,
   `clansuite_version` float NOT NULL,
-  `core` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`module_id`),
+  `core` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`module_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -683,14 +708,14 @@ DROP TABLE IF EXISTS `cs_news`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_news` (
-  `news_id` int(11) NOT NULL auto_increment,
+  `news_id` int(11) NOT NULL AUTO_INCREMENT,
   `news_title` varchar(255) NOT NULL,
   `news_body` text NOT NULL,
-  `cat_id` tinyint(4) NOT NULL default '0',
-  `user_id` int(11) unsigned NOT NULL default '0',
-  `news_added` int(11) default NULL,
+  `cat_id` tinyint(4) NOT NULL DEFAULT '0',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `news_added` int(11) DEFAULT NULL,
   `news_status` int(11) NOT NULL,
-  PRIMARY KEY  (`news_id`,`cat_id`,`user_id`)
+  PRIMARY KEY (`news_id`,`cat_id`,`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -710,10 +735,10 @@ DROP TABLE IF EXISTS `cs_options`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_options` (
-  `option_id` int(10) unsigned NOT NULL auto_increment,
+  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name_id` int(10) unsigned NOT NULL,
   `value` varchar(255) NOT NULL,
-  PRIMARY KEY  (`option_id`,`name_id`)
+  PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -733,26 +758,26 @@ DROP TABLE IF EXISTS `cs_profiles`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_profiles` (
-  `profile_id` int(11) NOT NULL auto_increment,
+  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL default '-',
+  `gender` varchar(255) NOT NULL DEFAULT '-',
   `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL default '-',
-  `zipcode` varchar(255) NOT NULL default '-',
-  `city` varchar(255) NOT NULL default '-',
-  `country` varchar(255) NOT NULL default '-',
-  `homepage` varchar(255) NOT NULL default '-',
-  `icq` varchar(255) NOT NULL default '-',
-  `msn` varchar(255) NOT NULL default '-',
-  `skype` varchar(255) NOT NULL default '-',
-  `phone` varchar(255) NOT NULL default '-',
-  `mobile` varchar(255) NOT NULL default '-',
+  `address` varchar(255) NOT NULL DEFAULT '-',
+  `zipcode` varchar(255) NOT NULL DEFAULT '-',
+  `city` varchar(255) NOT NULL DEFAULT '-',
+  `country` varchar(255) NOT NULL DEFAULT '-',
+  `homepage` varchar(255) NOT NULL DEFAULT '-',
+  `icq` varchar(255) NOT NULL DEFAULT '-',
+  `msn` varchar(255) NOT NULL DEFAULT '-',
+  `skype` varchar(255) NOT NULL DEFAULT '-',
+  `phone` varchar(255) NOT NULL DEFAULT '-',
+  `mobile` varchar(255) NOT NULL DEFAULT '-',
   `custom_text` text NOT NULL,
-  PRIMARY KEY  (`profile_id`),
+  PRIMARY KEY (`profile_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -788,7 +813,7 @@ CREATE TABLE `cs_profiles_computer` (
   `network` text NOT NULL,
   `other` text NOT NULL,
   `image_id` int(11) NOT NULL,
-  PRIMARY KEY  (`computer_id`),
+  PRIMARY KEY (`computer_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -808,28 +833,28 @@ DROP TABLE IF EXISTS `cs_profiles_general`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_profiles_general` (
-  `general_id` int(11) NOT NULL auto_increment,
+  `general_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL default '-',
+  `gender` varchar(255) NOT NULL DEFAULT '-',
   `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL default '-',
-  `zipcode` varchar(255) NOT NULL default '-',
-  `city` varchar(255) NOT NULL default '-',
+  `address` varchar(255) NOT NULL DEFAULT '-',
+  `zipcode` varchar(255) NOT NULL DEFAULT '-',
+  `city` varchar(255) NOT NULL DEFAULT '-',
   `state` varchar(255) NOT NULL,
-  `country` varchar(255) NOT NULL default '-',
-  `homepage` varchar(255) NOT NULL default '-',
-  `icq` varchar(255) NOT NULL default '-',
-  `msn` varchar(255) NOT NULL default '-',
-  `skype` varchar(255) NOT NULL default '-',
-  `phone` varchar(255) NOT NULL default '-',
-  `mobile` varchar(255) NOT NULL default '-',
+  `country` varchar(255) NOT NULL DEFAULT '-',
+  `homepage` varchar(255) NOT NULL DEFAULT '-',
+  `icq` varchar(255) NOT NULL DEFAULT '-',
+  `msn` varchar(255) NOT NULL DEFAULT '-',
+  `skype` varchar(255) NOT NULL DEFAULT '-',
+  `phone` varchar(255) NOT NULL DEFAULT '-',
+  `mobile` varchar(255) NOT NULL DEFAULT '-',
   `custom_text` text NOT NULL,
   `image_id` int(11) NOT NULL,
-  PRIMARY KEY  (`general_id`),
+  PRIMARY KEY (`general_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -850,20 +875,20 @@ DROP TABLE IF EXISTS `cs_profiles_guestbook`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_profiles_guestbook` (
-  `gb_id` int(11) NOT NULL auto_increment,
-  `from` int(11) NOT NULL default '0',
+  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
+  `from` int(11) NOT NULL DEFAULT '0',
   `to` int(11) NOT NULL,
-  `gb_added` int(12) default NULL,
-  `gb_nick` varchar(25) default NULL,
-  `gb_email` varchar(35) default NULL,
-  `gb_icq` varchar(15) default NULL,
-  `gb_website` varchar(35) default NULL,
-  `gb_town` varchar(25) default NULL,
+  `gb_added` int(12) DEFAULT NULL,
+  `gb_nick` varchar(25) DEFAULT NULL,
+  `gb_email` varchar(35) DEFAULT NULL,
+  `gb_icq` varchar(15) DEFAULT NULL,
+  `gb_website` varchar(35) DEFAULT NULL,
+  `gb_town` varchar(25) DEFAULT NULL,
   `gb_text` text,
-  `gb_ip` varchar(15) default NULL,
+  `gb_ip` varchar(15) DEFAULT NULL,
   `gb_comment` text,
-  `image_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`gb_id`)
+  `image_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -883,10 +908,10 @@ DROP TABLE IF EXISTS `cs_quotes`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_quotes` (
-  `quote_id` tinyint(4) NOT NULL auto_increment,
+  `quote_id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `quote_body` text NOT NULL,
   `quote_author` varchar(40) NOT NULL,
-  PRIMARY KEY  (`quote_id`),
+  PRIMARY KEY (`quote_id`),
   KEY `quotes_id` (`quote_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -909,7 +934,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_category_module` (
   `category_id` int(10) unsigned NOT NULL,
   `module_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`category_id`,`module_id`)
+  PRIMARY KEY (`category_id`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -930,7 +955,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_category_name` (
   `category_id` int(10) unsigned NOT NULL,
   `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`category_id`,`name_id`)
+  PRIMARY KEY (`category_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -949,9 +974,9 @@ DROP TABLE IF EXISTS `cs_rel_group_rights`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_rel_group_rights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `right_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -973,7 +998,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_news_comments` (
   `news_id` int(10) unsigned NOT NULL,
   `comment_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`news_id`,`comment_id`)
+  PRIMARY KEY (`news_id`,`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -995,7 +1020,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_option_name` (
   `option_id` int(10) unsigned NOT NULL,
   `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`option_id`,`name_id`)
+  PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -1014,9 +1039,9 @@ DROP TABLE IF EXISTS `cs_rel_user_groups`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_rel_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1038,7 +1063,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_user_options` (
   `option_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY  (`option_id`,`user_id`)
+  PRIMARY KEY (`option_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1060,7 +1085,7 @@ SET character_set_client = utf8;
 CREATE TABLE `cs_rel_user_profile` (
   `user_id` int(10) unsigned NOT NULL,
   `profile_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`user_id`,`profile_id`)
+  PRIMARY KEY (`user_id`,`profile_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -1079,9 +1104,9 @@ DROP TABLE IF EXISTS `cs_rel_user_rights`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_rel_user_rights` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `right_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`right_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 SET character_set_client = @saved_cs_client;
 
@@ -1100,11 +1125,11 @@ DROP TABLE IF EXISTS `cs_rights`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_rights` (
-  `right_id` int(11) unsigned NOT NULL auto_increment,
-  `area_id` int(11) NOT NULL default '0',
+  `right_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `area_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY  (`right_id`,`area_id`)
+  PRIMARY KEY (`right_id`,`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1124,14 +1149,14 @@ DROP TABLE IF EXISTS `cs_serverviewer`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_serverviewer` (
-  `server_id` int(5) NOT NULL auto_increment,
-  `ip` varchar(15) default NULL,
-  `port` varchar(5) default NULL,
-  `name` varchar(250) default NULL,
-  `csquery_engine` varchar(60) default NULL,
-  `gametype` varchar(60) default NULL,
-  `image_country` varchar(20) default NULL,
-  PRIMARY KEY  (`server_id`)
+  `server_id` int(5) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) DEFAULT NULL,
+  `port` varchar(5) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `csquery_engine` varchar(60) DEFAULT NULL,
+  `gametype` varchar(60) DEFAULT NULL,
+  `image_country` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1151,12 +1176,12 @@ DROP TABLE IF EXISTS `cs_session`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_session` (
-  `user_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `session_id` varchar(32) NOT NULL,
   `session_data` text NOT NULL,
   `session_name` text NOT NULL,
-  `session_starttime` int(11) NOT NULL default '0',
-  `session_visibility` tinyint(4) NOT NULL default '0',
+  `session_starttime` int(11) NOT NULL DEFAULT '0',
+  `session_visibility` tinyint(4) NOT NULL DEFAULT '0',
   `session_where` text NOT NULL,
   UNIQUE KEY `session_id` (`session_id`),
   KEY `user_id` (`user_id`)
@@ -1179,7 +1204,7 @@ DROP TABLE IF EXISTS `cs_shoutbox`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_shoutbox` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `mail` varchar(100) NOT NULL,
   `msg` tinytext NOT NULL,
@@ -1205,14 +1230,14 @@ DROP TABLE IF EXISTS `cs_static_pages`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_static_pages` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `html` text NOT NULL,
-  `iframe` tinyint(1) NOT NULL default '0',
-  `iframe_height` int(11) NOT NULL default '300',
-  PRIMARY KEY  (`id`)
+  `iframe` tinyint(1) NOT NULL DEFAULT '0',
+  `iframe_height` int(11) NOT NULL DEFAULT '300',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1232,11 +1257,11 @@ DROP TABLE IF EXISTS `cs_submodules`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_submodules` (
-  `submodule_id` int(11) NOT NULL auto_increment,
+  `submodule_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
-  PRIMARY KEY  (`submodule_id`)
+  PRIMARY KEY (`submodule_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1256,9 +1281,9 @@ DROP TABLE IF EXISTS `cs_user_groups`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1282,7 +1307,7 @@ CREATE TABLE `cs_user_options` (
   `user_id` int(11) NOT NULL,
   `language` varchar(255) NOT NULL,
   `theme` varchar(255) NOT NULL,
-  PRIMARY KEY  (`option_id`),
+  PRIMARY KEY (`option_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -1303,9 +1328,9 @@ DROP TABLE IF EXISTS `cs_user_rights`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_user_rights` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `right_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`right_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 SET character_set_client = @saved_cs_client;
 
@@ -1324,24 +1349,24 @@ DROP TABLE IF EXISTS `cs_users`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cs_users` (
-  `user_id` int(10) unsigned NOT NULL auto_increment,
-  `email` varchar(150) default NULL,
+  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(150) DEFAULT NULL,
   `nick` varchar(25) NOT NULL,
   `passwordhash` varchar(40) NOT NULL,
   `new_passwordhash` varchar(40) NOT NULL,
   `salt` varchar(20) NOT NULL,
   `new_salt` varchar(40) NOT NULL,
   `activation_code` varchar(255) NOT NULL,
-  `joined` int(11) NOT NULL default '0',
-  `timestamp` int(11) NOT NULL default '0',
-  `disabled` tinyint(1) NOT NULL default '0',
-  `activated` tinyint(1) NOT NULL default '0',
-  `status` tinyint(4) NOT NULL default '0',
+  `joined` int(11) NOT NULL DEFAULT '0',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `disabled` tinyint(1) NOT NULL DEFAULT '0',
+  `activated` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   `country` varchar(5) NOT NULL,
   `language` varchar(12) NOT NULL,
-  `timezone` varchar(8) default NULL,
+  `timezone` varchar(8) DEFAULT NULL,
   `theme` varchar(255) NOT NULL,
-  PRIMARY KEY  (`user_id`),
+  PRIMARY KEY (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
@@ -1364,4 +1389,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-03-25 19:02:06
+-- Dump completed on 2009-03-25 21:27:37
