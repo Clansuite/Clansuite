@@ -54,18 +54,35 @@ class set_breadcrumbs implements Clansuite_FilterInterface
         $actionName     = Clansuite_ActionController_Resolver::getActionName();
      
         /**
-         *  This adds the FIRST PART of the TRAIL.
-         *  Check if an submoduleName "admin" is requested.
-         *  If yes, add "?mod=controlcenter" as the first trail.
+         *  This adds the FIRST PART of the TRAIL.   
+         * 
+         *  We have 3 cases:
+         *  a) if a Submodule "admin" is requested, then the FIRST PART of the TRAIL has to be "Control Center"
+         *  b) if the Module Control Center is requested, then the FIRST PART of the TRAIL has to be "Control Center"
+         *  c) if 
          */
-        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))
+        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))  
         {
             # Set Pagetitle "Control Center"" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
             Clansuite_Trail::addControlCenterTrail();
+        }
+         
+        if(strlen($moduleName) > 0 and ($moduleName == 'controlcenter'))
+        {
+            # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
+            Clansuite_Trail::addControlCenterTrail();
+        } 
+        
+        if(strlen($moduleName) >= 0 and ($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
+        {
+            # Set Pagetitle "Home" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
+            Clansuite_Trail::addHomeTrail();
         }        
         
-        # add module Part
-        if(strlen($moduleName) > 0)
+        /**
+         * This adds the SECCOND PART of the TRAIL.   
+         */
+        if(strlen($moduleName) > 0  and ($moduleName != 'controlcenter'))
         {
             # Strip String ModuleName at "_admin", example: guestbook_admin
             #$moduleName = strstr($moduleName, '_Admin', true);     # php6
@@ -86,9 +103,15 @@ class set_breadcrumbs implements Clansuite_FilterInterface
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
-            if( (strlen($actionName) > 0) && (strlen($submoduleName) == 0))
+            if( (strlen($actionName) > 0) and (strlen($submoduleName) == 0))
             {
                 $URL .= '&amp;action=' . $actionName;
+            }
+            
+            # if this is an request to an submodule admin, we append that to the URL
+            if( (strlen($submoduleName) > 0)  and ($submoduleName == 'admin')) 
+            {
+                $URL .= '&amp;sub=admin';
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
@@ -97,7 +120,7 @@ class set_breadcrumbs implements Clansuite_FilterInterface
         }
 
         # add submodule part
-        if(strlen($submoduleName) > 0)
+        if(strlen($submoduleName) > 0 and ($submoduleName != 'admin'))
         {   
             # Construct URL
             $URL .= '&amp;sub=' . $submoduleName;
