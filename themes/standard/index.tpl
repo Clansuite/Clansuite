@@ -130,7 +130,7 @@
         <div class="widget" id="widget_lastregistered">{load_module name="users" action="widget_lastregisteredusers"}</div>
         <div class="widget" id="widget_randomuser">{load_module name="users" action="widget_randomuser"}</div>
         <div class="widget" id="widget_usersonline">{load_module name="users" action="widget_usersonline"}</div>
-        <div class="widget" id="widget_stats">{load_module name="wwwstats" action="widget_stats"}</div>
+        <div class="widget" id="widget_stats">{load_module name="wwwstats" action="widget_wwwstats"}</div>
     </td>
 </tr>
 </table>
