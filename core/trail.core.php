@@ -63,12 +63,28 @@ class Clansuite_Trail
         private static $path = array();
 
         /**
-         * Executed by addstep and assigns "Home >>"
+         * Assigns a trailstep "Home >>"
          *
          * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
          * @param string $homeLink contains the link as url, standard is '/' refering to base_url
          */
         public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
+        {
+            # check if it's the first trail step, then let it be >> HOME
+            if(count(self::$path) == 0)
+            {
+                self::$path[] = array(  'title' => $homeLabel,
+                                        'link'  => WWW_ROOT . $homeLink);
+            }
+        }
+        
+        /**
+         * Assigns a trailstep "Control Center >>"
+         *
+         * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
+         * @param string $homeLink contains the link as url, standard is '/' refering to base_url
+         */
+        public static function addControlCenterTrail($homeLabel = 'Control Center', $homeLink = '/index.php?mod=controlcenter')
         {
             # check if it's the first trail step, then let it be >> HOME
             if(count(self::$path) == 0)
@@ -87,7 +103,7 @@ class Clansuite_Trail
         public static function addstep($title, $link = '')
         {
             # let the first Trail, be "HOME >>"
-            self::addHomeTrail();
+            #self::addHomeTrail();
 
             $item = array('title' => $title);
 

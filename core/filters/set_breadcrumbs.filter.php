@@ -52,13 +52,24 @@ class set_breadcrumbs implements Clansuite_FilterInterface
         $moduleName     = Clansuite_ModuleController_Resolver::getModuleName();
         $submoduleName  = Clansuite_ModuleController_Resolver::getSubModuleName();
         $actionName     = Clansuite_ActionController_Resolver::getActionName();
-
+     
+        /**
+         *  This adds the FIRST PART of the TRAIL.
+         *  Check if an submoduleName "admin" is requested.
+         *  If yes, add "?mod=controlcenter" as the first trail.
+         */
+        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))
+        {
+            # Set Pagetitle "Control Center"" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
+            Clansuite_Trail::addControlCenterTrail();
+        }        
+        
         # add module Part
         if(strlen($moduleName) > 0)
         {
             # Strip String ModuleName at "_admin", example: guestbook_admin
             #$moduleName = strstr($moduleName, '_Admin', true);     # php6
-            $moduleName = Clansuite_Functions::cut_string_backwards($moduleName, '_admin');
+            /*$moduleName = Clansuite_Functions::cut_string_backwards($moduleName, '_admin');
 
             # Strip String ModuleName at "admin_", example: admin_menueditor
             if(strpos($moduleName,'admin_')!==false)
@@ -66,9 +77,10 @@ class set_breadcrumbs implements Clansuite_FilterInterface
                 #$moduleName = substr($moduleName, 6);
                 $moduleName_exploded = explode("_", $moduleName);
                 $moduleName = $moduleName_exploded[0];
-            }
+            }*/
 
-            # BASE
+            # Construct URL
+             # BASE URL
             $URL  = '/index.php';
             $URL .= '?mod=' . $moduleName;
             $trailName = $moduleName;
@@ -86,7 +98,8 @@ class set_breadcrumbs implements Clansuite_FilterInterface
 
         # add submodule part
         if(strlen($submoduleName) > 0)
-        {
+        {   
+            # Construct URL
             $URL .= '&amp;sub=' . $submoduleName;
             $trailName = $submoduleName;
 
