@@ -99,9 +99,9 @@
 <tr>
     <!-- Left Widget Bar //-->
     <td id="left_widget_bar" class="cell1">
-        <div class="widget" id="widget_menu">{load_module name="menu"     action="widget_menu"}</div>
-        <div class="widget" id="widget_news">{load_module name="news"      action="widget_news" items="2"}</div>
-        <div class="widget" id="widget_gallery">{load_module name="gallery"  action="widget_gallery"}</div>
+        <div class="widget" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
+        <div class="widget" id="widget_news">{load_module name="news" action="widget_news" items="2"}</div>
+        <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
     </td>
 
     <!-- Middle + Center = Main Content //-->
@@ -119,21 +119,18 @@
     {/if} *}
 
         <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsviewer"}</div>
-        <div class="widget" id="widget_tsviewer">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
-        <div class="widget" id="widget_tsviewer">{load_module name="shockvoiceviewer" action="widget_shockvoiceviewer"}</div>
-        <div class="widget" id="widget_tsviewer">{load_module name="shoutbox" action="widget_shoutbox"}</div>
-        <div class="widget" id="widget_tsviewer">{load_module name="votes" action="widget_votes"}</div>
-
+        <div class="widget" id="widget_tsministatus">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
+        <div class="widget" id="widget_shockvoiceviewer">{load_module name="shockvoiceviewer" action="widget_shockvoiceviewer"}</div>
     </td>
 </tr>
 <tr>
     <!-- Bottom Widget Bar //-->
     <td id="bottom_widget_bar" class="cell1" width="100%" colspan="3" align="center" valign="top">
-        <div class="widget" id="widget_quotes">{load_module name="quotes"    action="widget_quotes"}</div>
-        <div class="widget" id="widget_users">{load_module name="users"     action="widget_lastregisteredusers"}</div>
-        <div class="widget" id="widget_users">{load_module name="users"     action="widget_randomuser"}</div>
-        <div class="widget" id="widget_users">{load_module name="users"     action="widget_usersonline"}</div>
-        <div class="widget" id="widget_wwwstats">{load_module name="wwwstats"  action="widget_wwwstats"}</div>
+        <div class="widget" id="widget_quotes">{load_module name="quotes" action="widget_quotes"}</div>
+        <div class="widget" id="widget_lastregistered">{load_module name="users" action="widget_lastregisteredusers"}</div>
+        <div class="widget" id="widget_randomuser">{load_module name="users" action="widget_randomuser"}</div>
+        <div class="widget" id="widget_usersonline">{load_module name="users" action="widget_usersonline"}</div>
+        <div class="widget" id="widget_stats">{load_module name="wwwstats" action="widget_stats"}</div>
     </td>
 </tr>
 </table>
