@@ -49,14 +49,13 @@ php_value output_handler        ob_gzhandler
         # disable rewrite for css, images, javascript and txt
         RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|txt)$
 
-	    # negated flags!
         #RewriteCond %{REQUEST_FILENAME} !-f
         #RewriteCond %{REQUEST_FILENAME} !-d
 
         # route all non-ressource/file/dir requests to index.php
         #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
 
-	    # Redirect all Requests to the Clansuite Frontcontroller (index.php)
+	    # all requests are redirected the frontcontroller (index.php)
 	    RewriteRule ^(.*)$ index.php [QSA,L]
 
 </IfModule>
