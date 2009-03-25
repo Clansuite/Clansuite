@@ -1,6 +1,6 @@
 <!-- Module Heading -->
 <div class="ModuleHeading">{t}Links & Help{/t}</div>
-<div class="ModuleHeadingSmall">{t}This page shows all your static pages. You can create, modify and delete them.{/t}</div>
+<div class="ModuleHeadingSmall">{t}On this page you find Help and Support Links.{/t}</div>
 
 <!-- Content -->
 <div > 
