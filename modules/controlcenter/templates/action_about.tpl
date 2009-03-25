@@ -1,3 +1,6 @@
+<div class="ModuleHeading">{t}About Clansuite{/t}</div>
+<!-- <div class="ModuleHeadingSmall">{t}About - Credits.{/t}</div> -->
+
 {move_to target="head"}
 {* Tabs with Tabpane *}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabpane/luna.css" />
@@ -14,9 +17,9 @@
    <div class="tab-page" id="tab-page-1">
    <h2 class="tab">Clansuite</h2>
 
-    <img style="float:left; position: absolute; margin: 10px 0px 15px 20px;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite_med.png">
+    <img style="float:left; margin: 10px 0px 15px 1%;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite_clown_mini.png">
 
-    <img style="float:left; position: absolute; margin: 10px 0px 15px 840px;" src="{$www_root_mod}/images/osi-certified-72x60-t.png">
+    <img style="float:right; margin: 10px 0px 15px;" src="{$www_root_mod}/images/osi-certified-72x60-t.png">
 
 
     <h2 align="center">
@@ -94,21 +97,21 @@
           <td valign="top"><b>B. S.</b></td>
           <td valign="top"><b>freq77</b></td>
           <td valign="top"><b>---</b></td>
-          <td valign="top">Developer (especially Shoutbox)</td>
+          <td valign="top">Developer (Shoutbox)</td>
           <td/>
         </tr>
         <tr>
           <td valign="top"><b>Daniel Winterfeldt</b></td>
           <td valign="top"><b>rikku</b></td>
           <td valign="top"><b>rikku@gna.org</b></td>
-          <td valign="top">Developer</td>
+          <td valign="top">Developer (Image-Processing-Library)</td>
           <td/>
         </tr>
         <tr>
           <td valign="top"><b>Florian Wolf</b></td>
           <td valign="top"><b>xsign.dll</b></td>
           <td valign="top"><b>xsign.dll@clansuite.com</b></td>
-          <td valign="top">Developer, Serveradminstrator,<br /> Developer of Clansuite Core v0.1</td>
+          <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1</td>
           <td></td>
         </tr>
         <tr>
@@ -116,6 +119,13 @@
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top">Developer</td>
+          <td/>
+        </tr>
+        <tr>
+          <td valign="top"><b>Niklas</b></td>
+          <td valign="top"><b>Karoly</b></td>
+          <td valign="top"><b>---</b></td>
+          <td valign="top"></td>
           <td/>
         </tr>
 	</tbody>
@@ -309,7 +319,7 @@
             <td><h2>{t}Thanks for your support!{/t}</h2></td><td><h2>{t}Current Donation Campaign{/t}</h2></td>
         </tr>
         <tr>
-            <td>{t}We are passionate open-source programmers, but passion alone doesn’t make software.{/t}
+            <td>{t}We are passionate open-source programmers, but passion alone doesnï¿½t make software.{/t}
             	<br />
             	{t}All donations are appreciated, no matter if they are big or small, and thanks for your support.{/t}
             </td>
@@ -317,7 +327,7 @@
                 <br />
             	<a href='http://www.pledgie.com/campaigns/1180' target='_new'>Unterst&uuml;tzt Clansuite!</a>
             	<br /><br />
-            	<a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=chrome' border='0' /></a>
+            	<a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstï¿½tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=chrome' border='0' /></a>
             	<br />
             </td>
         </tr>
@@ -345,55 +355,5 @@
         </tr>
 		</tbody>
 	   </table>
-   </div>
-
-   {*  /---------------------------------------------------
-       |
-       |     Tab: Links
-       |
-       \--------------------------------------------------- *}
-	<div class="tab-page">
-	<h2 class="tab">{t}Links & Help{/t}</h2>
-
-	<h2 align="center">{t}Links & Help{/t}</h2>
-
-    <strong>{t}Offical Website{/t}</strong>
-    <br />
-    <a target="_blank" href="http://www.clansuite.com">Clansuite Website</a>
-    <br />
-    <br />
-
-    <strong>{t}Support{/t}</strong>
-    <br />
-    <a target="_blank" href="http://forum.clansuite.com">Clansuite Forum</a>
-    <br />
-    <a target="_blank" href="http://forum.clansuite.com/index.php/board,4.0.html">Clansuite Forum: Hilfe | Support & Troubleshooting</a>
-    <br />
-    <a target="_blank" href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support"> Get Clansuite Support via Teamspeak </a>
-    <br />
-    <br />
-
-    <strong>{t}Documentation{/t}</strong>
-    <br/>
-    <a target="_blank" href="http://trac.clansuite.com/wiki">Clansuite Wiki</a>
-    <br />
-    <a target="_blank" href="http://www.clansuite.com/documentation/">{t}Documentation{/t}</a>
-    <br />
-    <br />
-
-    <strong>{t}Development{/t}</strong>
-    <br />
-    <a target="_blank" href="http://trac.clansuite.com/">Bugtracker (Trac)</a>
-    <br />
-    <a target="_blank" href="http://trac.clansuite.com/roadmap">Roadmap</a>
-    <br />
-    <br />
-
-    <strong>{t}Tools & Addons{/t}</strong>
-    <br/>
-    <a target="_blank" href="http://www.clansuite.com/toolbar/clansuite_toolbar.xpi">Toolbar</a>
-    <br />
-    <br />
-
-   </div>
+   </div>    
 </div>
