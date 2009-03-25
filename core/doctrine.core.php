@@ -255,7 +255,8 @@ class Clansuite_Doctrine
     {
         $query_count = 0;
         $time = 0;
-        echo "<table width='100%' border='1'>";
+        echo "<strong>Doctrine Query Debugging</strong>";
+        echo "<br/><table width='100%' border='1'>";
         foreach ( $this->profiler as $event )
         {
             /*if ($event->getName() != 'execute')
