@@ -94,14 +94,11 @@
             <td class="admin_content">
                 
                  <!-- Maincontent -->
-                {$content}
-                
+                {$content}                
+
                 <!-- Help -->
-                <div style="position: absolute; float: right; right: 22px; margin-top: -9px;">
-                    <div id="help" class="admin_help" style="float: right; z-index: 99;">
-                          <p><strong>Help-Topics</strong>&nbsp;Lorem Ipsum</p>
-                    </div>
-                </div>
+                {include file="../modules/help/templates/help.tpl"} 
+                
             </td>
         </tr>
     </tbody>
