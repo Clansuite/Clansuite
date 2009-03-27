@@ -47,6 +47,14 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 class Module_Index extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
+     * @desc  Constructor with call to ModuleController as Parent
+     */
+    public function __construct(Phemto $injector=null)
+    {
+        parent::__construct(); # run constructor on controller_base
+    }     
+    
+    /**
      * Main Method of Index Module
      *
      * Sets up module specific stuff, needed by all actions of the module

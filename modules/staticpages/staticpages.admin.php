@@ -62,7 +62,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         #$perms::check('cc_admin_show_staticpages');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
+        Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
 
         $staticpages = Doctrine_Query::create()
                               ->select('*')

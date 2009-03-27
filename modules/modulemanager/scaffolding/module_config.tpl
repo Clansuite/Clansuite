@@ -1,6 +1,6 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
-; {$mod.module_name|capitalize} - Module Configuration File
+; {$mod.module_name|capitalize} - Clansuite Module Configuration File
 ;
 [{$mod.module_name}]
 {foreach from=$mod.config.config_keys item=item key=key}

@@ -141,15 +141,15 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
 
     /**
-     * Shows the mod creator
+     * Shows the module builder
      */
-    public function action_admin_creator()
+    public function action_admin_builder()
     {
         # Permission check
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Creator'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=creator');
+        Clansuite_Trail::addStep( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
 
         $smarty = $this->getView();
 
@@ -173,55 +173,85 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
     /**
      * Preview the new mod
-     * AJAX
+     * 
+     * @todo convention ajaxaction_
      */
     public function action_admin_preview()
-    {
+    {   
+        $smarty = $this->getView(); 
+        
+        # request init
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        # get parameter for module data
         $mod = $request->getParameter('m');
-
-        #var_dump($mod);
-
-        $smarty = $this->getView();
-
+        var_dump($mod);
+        
+        # serialize the module data 
         $mod['data'] = base64_encode(serialize($mod));
+        
+        # assign the whole pack to smarty
         $smarty->assign( 'mod', $mod );
 
         #$smarty->autoload_filters = array();
         #$smarty->unregister_prefilter('smarty_prefilter_inserttplnames');
         #error_reporting(0);
 
-        // Include & Instantiate GeSHi
+        /**
+         * Include & Instantiate GeSHi
+         * for the formatting of the sourcecode with geshi_highlight()
+         */
         require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
 
-        // FRONTEND
+        /**
+         * Frontend = class Module_Modulename
+         */
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {
-            // WIDGETS
+            
+            /**
+             * Frontend Header
+             */
+            $frontend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend.tpl');
+            $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
+            
+            /**
+             * Frontend Method
+             */
+            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
+            $smarty->assign( 'frontend_methods',  $frontend_methods);
+            
+            /**
+             * Widget Method (Module integrated)
+             */
             if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
             {
                 $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
-            }
-
-            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
-            $smarty->assign( 'frontend_methods',  $frontend_methods);
-
-            $frontend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend.tpl');
-            $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
+            }            
         }
 
-        // BACKEND
+        /**
+         * BACKEND - Module_Modulename_Admin
+         */
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
-            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
-            $smarty->assign( 'backend_methods',  $backend_methods );
-
+          
+            /**
+             * Admin Module Header
+             */
             $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
             $smarty->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
+            
+            /**
+             * Admin Module Method
+             */
+            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
+            $smarty->assign( 'backend_methods',  $backend_methods );
         }
 
-        // CONFIG
+        /**
+         * CONFIG - Module Configuration File
+         */
         if( isset($mod['config']['checked']) && $mod['config']['checked'] == 1)
         {
             $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
@@ -277,7 +307,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         }
         else
         {
-            echo 'Module folder already exists.'.ROOT_MOD .  $mod['module_name'];
+            echo 'The Module folder already exists: '. ROOT_MOD .  $mod['module_name'];
             exit;
         }
 
@@ -306,54 +336,161 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.admin.php', $backend );
         }
 
-        // CONFIG
-        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
-        file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.config.php' , $config);
+        # Config
+        $this->createConfigFromTemplate($mod['module_name']); 
+         
+        # Setup
+        $this->createSetupFromTemplate($mod['module_name']); 
+      
+        # Frontend Templates
+        $this->createFrontendTemplatesFromTemplate($mod['module_name'], $mod['frontend']);
 
-        // SETUP
+        # Backend Templates = Adminmodule Templates
+        $this->createBackendTemplatesFromTemplate($mod['module_name'], $mod['backend']);
+
+        # Widget Method and Templates (Standalone Widget?)
+        $this->createWidgetFromTemplate($mod['module_name'], $mod['widget']);
+
+        # Documentation
+        #$this->createModuleDocumentationFromTemplate($mod['module_name']);
+
+        # Unittest
+        #$this->createUnitTestFromTemplate($mod['module_name']);
+
+        # MODULE META INFORMATIONS
+
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        $this->prepareOutput();
+    }
+    
+     /**
+      * This Method creates the Config for the Module
+      * 
+      * @param $modulename string Name of the Module
+      */
+     public function createConfigFromTemplate($modulename)
+     {
+        # get smarty
+        $smarty = $this->getView();
+         
+        # load scaffolding template
+        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl'); 
+        
+        # inject modifications
+        
+        # save to file
+        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.config.php' , $config);
+     }
+    
+    /**
+     * This Method creates the Setup for the Module
+     */
+    public function createSetupFromTemplate($modulename)
+    {
+        # get smarty
+        $smarty = $this->getView();
+        
+        # load scaffolding template
         $setup = $smarty->fetch( ROOT_MOD . 'scaffolding/module_setup.tpl');
-        file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.setup.php' , $config);
-
-        // FRONTEND TPLS
-        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
+        
+        # inject modifications
+        
+        # save to file
+        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.setup.php' , $setup);
+    }
+   
+    /**
+     * This Method creates the Templates for the Frontend Methods
+     */
+    public function createFrontendTemplatesFromTemplate($module_name, $module_frontend_data)
+    { 
+        if( isset( $module_frontend_data['checked']) && $module_frontend_data['checked'] == 1 )
         {
-            foreach( $mod['frontend']['frontend_methods'] as $key => $value )
+            foreach( $module_frontend_data['frontend_methods'] as $key => $value )
             {
-                if( isset($mod['frontend']['frontend_tpls'][$key]) )
+                if( isset( $module_frontend_data['frontend_tpls'][$key] ) )
                 {
-                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD . $module_name . DS . 'templates' . DS . $value . '.tpl', '');
+                }
+            }
+        }    
+    }
+   
+    /**
+     * This Method creates the templates for the backend methods.
+     * 
+     * @param 
+     */
+    public function createBackendTemplatesFromTemplate($module_name, $module_backend_data)
+    {
+        if( isset( $module_backend_data['checked']) && $module_backend_data['checked'] == 1 )
+        {
+            foreach( $module_backend_data['backend_methods'] as $key => $value )
+            {
+                if( isset( $module_backend_data['backend_tpls'][$key] ) )
+                {
+                    file_put_contents(ROOT_MOD . $module_name . DS . 'templates' . DS . $value . '.tpl', '');
                 }
             }
         }
-
-        // BACKEND TPLS
-        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
-        {
-            foreach( $mod['backend']['backend_methods'] as $key => $value )
-            {
-                if( isset($mod['backend']['backend_tpls'][$key]) )
-                {
-                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
-                }
-            }
-        }
-
-        // WIDGET TPLS
+    }
+    
+    /**
+     * This Method creates a Widget for the Module
+     * 
+     * @param string $module modulename
+     * @param array $module_widget widget parameters array
+     * @return void
+     */
+    public function createWidgetTemplateFromTemplate($module, $module_widget)
+    {
+        # Create the Widget Method
+        # @todo
+        
+        
+        # Create Widget Template
         if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
         {
             foreach( $mod['widget']['widget_methods'] as $key => $value )
             {
                 if( isset($mod['widget']['widget_tpls'][$key]) )
                 {
-                    file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . 'templates' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD .  $module . DS . 'templates' . DS . $value . '.tpl', '');
                 }
             }
+        } 
+    }
+
+    /**
+     * This Method creates a Documentation Template for the Module, if not existant yet.
+     *
+     * @param $module string Modulename
+     * @return void
+     */
+    public function createModuleDocumentationTemplateFromTemplate($module)
+    {
+        # check, if the documentation file exists, if not create documentation from template
+        if( is_file($module.'_docu.asc') == false )
+        {
+            # get some moduleinfos from module_info.xml
+
+            # fill the documentation template with the moduleinfo data 
+            $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_documentation.tpl');
+
+            # write the documentation file to the moduledir
+            file_put_contents( ROOT_MOD .  $module . DS . 'doc' . DS . $module . '_documentation.asc', $documentation_template_content);
         }
+    }
 
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+    /**
+     * This Method is loop over all Module Directories.
+     * It uses DirectoryIterator.
+     */
+    private function runThroughAllModuleDirectories()
+    {
 
-        $this->prepareOutput();
     }
 }
 ?>

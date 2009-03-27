@@ -115,7 +115,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
 
         # Get Render Engine
         $smarty = $this->getView();
-        
+
         // Assign $userslist array to Smarty for template output
         $smarty->assign('userslist', $userslist);
 
@@ -141,11 +141,11 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
      */
     public function widget_lastregisteredusers($numberUsers)
     {
-        
+
         $smarty = $this->getView();
-        # fetch specified num of last registered users 
+        # fetch specified num of last registered users
         $last_registered_users = Doctrine_Query::create()
-                                 ->select('u.user_id, u.email, u.nick, u.country, u.joined')                                 
+                                 ->select('u.user_id, u.email, u.nick, u.country, u.joined')
                                  ->from('CsUser u')
                                  ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                  ->orderby('u.joined DESC')
@@ -153,11 +153,64 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
                                  ->limit($numberUsers)
                                  ->execute();
 
-        # assign        
+        # assign
         $smarty->assign('last_registered_users', $last_registered_users);
-        
-        
+    }
+
+   /**
+     * widget_useronline
+     *
+     * Displayes the specified number of news in the news_widget.tpl.
+     * This is called from template-side by adding:
+     * {load_module name="news" action="widget_news" items="2"}
+     *
+     * @param $numberNews Number of Newsitems to fetch
+     * @param $smarty Smarty Render Engine Object
+     * @returns content of news_widget.tpl
+     */
+    public function widget_useronline()
+    {
+        $smarty = $this->getView();
+
+        $usersonline = Doctrine_Query::create()
+                          ->select('')
+                          ->from('')
+                          ->leftJoin('')
+                          ->leftJoin('')
+                          ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                          ->orderby('')
+                          #->limit()
+                          ->execute( array());
+
+        $smarty->assign('useronline_widget', $usersonline);
+
+
+    }
+
+    /**
+     * widget RandomUser
+     *
+     * Displayes a random user  widget_randomuser.tpl.
+     * This is called from template-side by adding:
+     * {load_module name="users" action="widget_randomuser"}
+     *
+     * @param $smarty Smarty Render Engine Object
+     * @returns direct smarty assign of randomuser data
+     */
+    public function widget_randomuser($numberNews)
+    {
+        $view = $this->getView();
+
+        $random_user = Doctrine_Query::create()
+                 ->select('u.nick, u.email, u.country, u.joined, RANDOM() rand')
+                 ->from('CsUser u')
+                 ->orderby('rand')
+                 ->limit(1)
+                 ->execute()
+                 ->getFirst()
+                 ->toArray();
+
+        $view->assign('random_user', $random_user);
     }
 }
-
 ?>

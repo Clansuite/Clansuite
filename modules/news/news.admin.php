@@ -229,8 +229,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Get Render Engine
         $smarty = $this->getView();
-
-        #$smarty->assign('news', $news->toArray());
+  
         $smarty->assign('news', $news);
         $smarty->assign('newscategories', $newscategories);
 
@@ -352,17 +351,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
     * Create news
     *
-    * @global $db
-    * @global $lang
-    * @global $functions
-    * @global $input
-    * @global $tpl
-    * @global $cfg
-    * @global $perms
     */
     function create()
-    {
-        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
+    {            
 
         // Permission check
         $perms->check('cc_create_news');

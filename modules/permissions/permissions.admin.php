@@ -101,7 +101,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
         # insert permission into database
                
         # else
-        $this->setErrormessage(Could not create Permission);
+        $this->setErrormessage('Could not create Permission');
                 
                 
         # Prepare the Output

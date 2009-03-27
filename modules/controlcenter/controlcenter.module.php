@@ -110,9 +110,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Fetch Render Engine and Set Layout
         $view->setLayoutTemplate('admin/index.tpl');
 
-        # Set Template to render
-        $this->setTemplate('welcome.tpl');
-
         # Prepare the Output
         $this->prepareOutput();
     }

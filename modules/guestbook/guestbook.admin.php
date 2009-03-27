@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -22,25 +24,24 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id$
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * This is the Clansuite Module Class - Guestbook Admin
  *
  * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * @author     Florian Wolf    <xsign.dll@clansuite.com>           
+ * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @package     clansuite
@@ -58,72 +59,17 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     {
 
     }
-    
+
     /**
-     * First function to run - switches between $_REQUEST['action'] Vars to the functions
-     * Loads necessary language files
+     * Show all guestbook entries and give the possibility to edit/delete
      */
-
-    function auto_run()
-    {
-        global $lang,$trail;
-        $params = func_get_args();
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('Admin'), '/index.php?mod=controlcenter');
-        $trail->addStep($lang->t('Guestbook'), '/index.php?mod=guestbook&amp;sub=admin');
-
-        switch ($_REQUEST['action'])
-        {
-            default:
-            case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
-                $this->show();
-                break;
-
-            case 'save_comment':
-                $this->save_comment();
-                break;
-
-            case 'get_comment':
-                $this->get_comment();
-                break;
-
-            case 'show_single':
-                $this->show_single();
-                break;
-
-            case 'edit':
-                $this->edit();
-                break;
-
-            case 'delete':
-                $this->delete();
-                break;
-
-        }
-    }
-
-    /**
-    * Show all guestbook entries and give the possibility to edit/delete
-    *
-    * @global $cfg
-    * @global $db
-    * @global $tpl
-    * @global $error
-    * @global $lang
-    * @global $functions
-    * @global $security
-    * @global $input
-    * @global $perms
-    */
     function action_admin_show()
     {
         # Permission check
         #$perms::check('cc_view_news');
         
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
+        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
         
         # Incoming Variables
         $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
@@ -165,10 +111,10 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
                              
         // Fetching news
         #var_dump($pager->getExecuted());
-        $guestbook_entries = $pager->execute(array(), HYDRATE_ARRAY);
+        $guestbook_entries = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Transform RAW text to BB-formatted Text
-        require_once( ROOT_CORE . '/bbcode.class.php' );
+        require_once( ROOT_CORE . '/bbcode.core.php' );
         $bbcode = new bbcode($this->injector);
         
         foreach( $guestbook_entries as $key => $value )

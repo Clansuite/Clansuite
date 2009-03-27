@@ -37,12 +37,9 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
- *
- * Module:      News
+ * Clansuite Module - News
  *
  * @since      File available since Release 0.2
- * @version    SVN: $Id$
  */
 class Module_News extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -187,7 +184,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $rss->title = "PHP news";
         $rss->description = "daily news from the clanwebsites world";
 
-        //optional
+        # optional
         $rss->descriptionTruncSize = 500;
         $rss->descriptionHtmlSyndicated = true;
 
@@ -203,7 +200,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $image->link = "http://www.clanwebsite.net";
         $image->description = "Feed provided by clanwebsite.net. Click to visit.";
 
-        //optional
+        # optional
         $image->descriptionTruncSize = 500;
         $image->descriptionHtmlSyndicated = true;
 
@@ -239,7 +236,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             $item->link = $data->url;
             $item->description = $data->short;
 
-            //optional
+            # optional
             $item->descriptionTruncSize = 500;
             $item->descriptionHtmlSyndicated = true;
 
@@ -252,11 +249,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         }
 
         /**
+         * Set Feed Format and save to file
+         * 
          * Valid format strings are:
          * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
          * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
          */
-        $rss->saveFeed("RSS1.0", ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
+        $rss->saveFeed('RSS2.0', ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
     }
 
      /**
@@ -454,21 +453,22 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_news($numberNews)
     {
+        # get smarty as the view
         $smarty = $this->getView();
 
+        # fetch news via doctrine query
         $news = Doctrine_Query::create()
-                          ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                          ->from('CsNews n')
-                          ->leftJoin('n.CsUser u')
-                          ->leftJoin('n.CsCategory c')
-                          ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                          ->orderby('n.news_id DESC')
-                          ->limit($numberNews)
-                          ->execute( array());
+                              ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                              ->from('CsNews n')
+                              ->leftJoin('n.CsUser u')
+                              ->leftJoin('n.CsCategory c')
+                              ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                              ->orderby('n.news_id DESC')
+                              ->limit($numberNews)
+                              ->execute( array() );
 
+        # assign the fetched news to the view
         $smarty->assign('news_widget', $news);
-
-
     }
 }
 ?>

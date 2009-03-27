@@ -1,5 +1,8 @@
 {* {$config|@var_dump} *}
 
+<div class="ModuleHeading">{t}Settings{/t}</div>
+<div class="ModuleHeadingSmall">{t}Konfiguration des Systems.{/t}</div>
+
 <form action="index.php?mod=controlcenter&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
 
     {tabpane name="Settings"}
@@ -17,7 +20,9 @@
     <br />
 
     <div style="text-align:center">
-    <input type="submit" class="ButtonGreen" value="{t}Save Settings{/t}" name="submit" />
+
+        <input type="submit" class="ButtonGreen" value="{t}Save Settings{/t}" name="submit" />
+
     </div>
 
 </form>
