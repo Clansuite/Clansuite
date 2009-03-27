@@ -281,10 +281,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         #ini_set('unicode.stream_encoding', 'utf-8');
         #ini_set('unicode.runtime_encoding', 'utf-8');
         unicode.fallback_encoding       =
-        unicode.from_error_mode	        = U_INVALID_SUBSTITUTE;         # replace invalid characters
-        unicode.from_error_subst_char	=
-        unicode.http_input_encoding	    = $config['language']['outputcharset'];
-        unicode.output_encoding	        = $config['language']['outputcharset'];
+        unicode.from_error_mode         = U_INVALID_SUBSTITUTE;         # replace invalid characters
+        unicode.from_error_subst_char   =
+        unicode.http_input_encoding     = $config['language']['outputcharset'];
+        unicode.output_encoding         = $config['language']['outputcharset'];
         unicode.runtime_encoding        =
         unicode.script_encoding         = $config['language']['outputcharset'];
         # this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
@@ -294,11 +294,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // Set Charset and Character Encoding
         if(function_exists('mb_http_output'))
         {
-        	mb_http_output($this->config['language']['outputcharset']);
-        	mb_internal_encoding($this->config['language']['outputcharset']);
-        	mb_regex_encoding('UTF-8');
+            mb_http_output($this->config['language']['outputcharset']);
+            mb_internal_encoding($this->config['language']['outputcharset']);
+            mb_regex_encoding('UTF-8');
             mb_language('uni');
-        	# replace mail(), str*(), ereg*() by mbstring functions
+            # replace mail(), str*(), ereg*() by mbstring functions
             ini_set('mbstring.func_overload','7');
         }
 
@@ -416,6 +416,14 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     /**
      * Redirect
      *
+     * Redirects to the URL.
+     * This redirects automatically, when headers are not already sent,
+     * else it provides a link to the target URL for manual redirection.
+     *
+     * Time defines how long the redirect screen will be displayed.
+     * Statuscode defines a http status code. The default value is 302.
+     * Text is a messagestring for the htmlbody of the redirect screen.
+     *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
@@ -424,7 +432,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public function redirect($url, $time = 0, $statusCode = 302, $text='')
     {
         # redirect only, if headers are NOT already send
-        if (!headers_sent($filename, $linenum))
+        if (headers_sent($filename, $linenum) == false)
         {
             # redirect html content
             $redirect_html  = '';
