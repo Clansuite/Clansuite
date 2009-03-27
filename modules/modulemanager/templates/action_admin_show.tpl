@@ -32,4 +32,4 @@
         </td>
     </tr>
     {/foreach}
-</table>
+</table> 

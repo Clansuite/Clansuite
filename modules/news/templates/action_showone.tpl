@@ -23,9 +23,9 @@
         <td height="175" width="75%" valign="top">{$news.0.news_body}</td>
     </tr>
 
-    {if isset($smarty.session.user.rights.cc_edit_news) AND
-    	         ($smarty.session.user.rights.cc_edit_news == 1) AND
-    	         ($smarty.session.user.rights.cc_access == 1)}
+    {if isset($smarty.session.user.rights.permission_edit_news) AND
+    	         ($smarty.session.user.rights.permission_edit_news == 1) AND
+    	         ($smarty.session.user.rights.permission_access == 1)}
      <tr>
         <td colspan="2">
     	&nbsp;

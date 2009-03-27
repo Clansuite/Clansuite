@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -23,23 +25,23 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: Quotes.module.php 2390 2008-08-04 19:38:54Z vain $
+    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-// Security Handler
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite 
- *
- * Module:      Quotes
- *
+ * Clansuite Module - Quotes
+ * 
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
+ * @version    0.1
  */
 class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -48,6 +50,26 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        # nothing to do
+    }
+    
+    public function action_show()
+    {
+        $smarty = $this->getView();
+
+        # @todo fetchOne()?
+        $quotes = Doctrine_Query::create()
+                          ->select('q.*')
+                          ->from('CsQuotes q')
+                          ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                          ->limit(1)
+                          ->orderby('q.quote_id = '. rand())
+                          ->execute();
+
+        $smarty->assign('quote', $quotes[0]);
+        
+        # Prepare the Output
+        $this->prepareOutput();
     }
 
     public function widget_quotes($item)
@@ -57,13 +79,13 @@ class Module_Quotes extends Clansuite_ModuleController implements Clansuite_Modu
         # @todo fetchOne()?
         $quotes = Doctrine_Query::create()
                           ->select('q.*')
-                          ->from('CsQuote q')
+                          ->from('CsQuotes q')
                           ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->limit(1)
                           ->orderby('q.quote_id = '. rand())
                           ->execute();
 
-        $smarty->assign('quote', $quotes);
+        $smarty->assign('quote', $quotes[0]);
     }
 }
 ?>

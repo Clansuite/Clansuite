@@ -102,7 +102,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
 
         // Fetching guestbook entries
         #var_dump($pager->getExecuted());
-        $guestbook = $pager->execute(array(), HYDRATE_ARRAY);
+        $guestbook = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // if array contains data proceed, else show empty message
         if ( !is_array( $guestbook ) )
@@ -120,7 +120,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
             #$SmartyPaginate->assign($tpl);
 
             // Get the BB-Code Class
-            require_once( ROOT_CORE . '/bbcode.class.php' );
+            Clansuite_Loader::loadCoreClass('bbcode');
             $bbcode = new bbcode($this->injector);
 
             // Set 'not specified's
@@ -164,7 +164,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
          *
         $form->displayWithSmarty();
         */
-        
+        /*
         $form = new Clansuite_Form;
         $form->createForm('eingabe','post',$_SERVER['PHP_SELF']);
         
@@ -189,7 +189,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
         );
         
         $a = $form->output_element($fs);
-        $smarty->assign('form', $a);
+        $smarty->assign('form', $a);*/
         
         # Prepare the Output
         $this->prepareOutput();

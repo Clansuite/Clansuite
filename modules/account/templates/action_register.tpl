@@ -4,13 +4,13 @@
 
 {literal}
     <script>
-    
+
     function hashLoginPassword(theForm)
-    {       
+    {
         if( (theForm.password.value  != '') &&
             (theForm.password2.value != '') &&
             (theForm.password.value  != theForm.password2.value))
-            {                
+            {
                 alert('Passwords do not match. Please Re-Enter');
                 theForm.password.value  = '';
                 theForm.password2.value = '';
@@ -18,41 +18,41 @@
             }
             else
             {
-                theForm.password.value  = SHA1(theForm.password.value);  
-                theForm.password2.value = SHA1(theForm.password2.value);                
+                theForm.password.value  = SHA1(theForm.password.value);
+                theForm.password2.value = SHA1(theForm.password2.value);
                 return true;
             }
     }
-    
+
     function randomPassword(length)
     {
        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
        pass = "";
-    
+
        for(x=0;x<length;x++)
        {
           i = Math.floor(Math.random() * 62);
           pass += chars.charAt(i);
        }
-    
+
        return pass;
     }
-    
+
     function fillPasswordForm(length)
     {
         document.register_form.password.type = "text";
         document.register_form.password2.type = "text";
         document.register_form.password2.disabled = true;
-    
+
         document.register_form.password.value=randomPassword(length)
         document.register_form.password2.value=document.register_form.password.value
     }
-    
+
     function resetPasswordForm()
     {
         document.register_form.password.type = "password";
         document.register_form.password.value = '';
-    
+
         document.register_form.password2.type = "password";
         document.register_form.password2.disabled = false;
         document.register_form.password2.value = '';

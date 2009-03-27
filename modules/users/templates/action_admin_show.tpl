@@ -44,19 +44,19 @@
                     <td>                {$wert.joined|date_format:"%d.%m.%Y"}      </td>
                     <td align="center">
 
-                        {if isset($smarty.session.user.rights.cc_edit_users) && $smarty.session.user.rights.cc_edit_users == 1} *}
+                        {if isset($smarty.session.user.rights.permission_edit_users) && $smarty.session.user.rights.permission_edit_users == 1} *}
                             <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
 
-                        {if isset($smarty.session.user.rights.cc_edit_generals) && $smarty.session.user.rights.cc_edit_generals == 1}
+                        {if isset($smarty.session.user.rights.permission_edit_generals) && $smarty.session.user.rights.permission_edit_generals == 1}
                             <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
 
-                        {if isset($smarty.session.user.rights.cc_edit_computers) && $smarty.session.user.rights.cc_edit_computers == 1}
+                        {if isset($smarty.session.user.rights.permission_edit_computers) && $smarty.session.user.rights.permission_edit_computers == 1}
                             <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
 
-                        {if isset($smarty.session.user.rights.cc_edit_usersguestbook) && $smarty.session.user.rights.cc_edit_usersguestbook == 1}
+                        {if isset($smarty.session.user.rights.permission_edit_usersguestbook) && $smarty.session.user.rights.permission_edit_usersguestbook == 1}
                             <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
                         {/if}
                     </td>

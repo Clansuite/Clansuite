@@ -60,12 +60,12 @@
         </div>
         <div class="gbfooter">
         {* AJAX Needed *}
-        {if ( isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access) )
+        {if ( isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access) )
         OR ($smarty.session.user.user_id == $entry.user_id) }
             {if $smarty.session.user.user_id == $entry.user_id.1}
             <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" />
             {/if}
-            {if isset($smarty.session.user.rights.cc_edit_gb) AND isset($smarty.session.user.rights.cc_access)}
+            {if isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access)}
             <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" />
             {/if}
         {/if}
@@ -89,7 +89,7 @@
                         </dd>
                     <dt>{t}City{/t}: </dt>
                         <dd>{$entry.gb_town}</dd>
-                    {if $smarty.session.user.rights.cc_edit_gb == '1' AND $smarty.session.user.rights.cc_access == '1'}
+                    {if $smarty.session.user.rights.permission_edit_gb == '1' AND $smarty.session.user.rights.permission_access == '1'}
                     <dt>IP: </dt>
                         <dd>{$entry.gb_ip}</dd>
                     {/if}

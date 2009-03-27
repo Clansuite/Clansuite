@@ -7,6 +7,10 @@ Downloads
 
 {t}New{/t}:
 
-{t}Popular{/t}}:
+<br />
 
-{t}TOP10{/t}}:
+{t}Popular{/t}:
+
+<br />
+
+{t}TOP10{/t}:

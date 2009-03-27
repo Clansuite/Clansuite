@@ -9,10 +9,10 @@
         </td>
     </tr>
     <tr>
-        <td class="cell1"><i>"{$quote.0.quote_body}"</i></td>
+        <td class="cell1"><i>"{$quote.quote_body}"</i></td>
     </tr>
     <tr>
-        <td class="cell1">by {$quote.0.quote_author}</td>
+        <td class="cell1">by {$quote.quote_author} <br/>  {$quote.quote_source}</td>
     </tr>
 </table>
 

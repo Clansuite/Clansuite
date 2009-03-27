@@ -48,7 +48,7 @@
             {if isset($news.CsComment.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if}
         </td>
     	<td>
-    	{if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access) }
+    	{if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access) }
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />

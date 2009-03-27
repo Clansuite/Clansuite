@@ -1,25 +1,25 @@
-{literal} 
+{literal}
 <script type="text/javascript">
     window.addEvent('domready', function() {
         // Existing modules
         var existing_modules = {/literal}{$existing_modules_js}{literal};
-    
+
         // Tooltips
         var myTips = new Tips($$('.input_text option[title!=]'), {
             className: 'tooltip'
         });
-        
+
         // Tooltips for the input fields
         var myTips2 = new Tips($$('.input_text[title!=]'), {
             className: 'tooltip'
         });
-        
+
         // Tooltips for the help Buttons
         // Tooltips
         var myTips3 = new Tips($$('img[title!=]'), {
             className: 'tooltip'
         });
-    
+
         // On Doubleclick take the whole list
         var addSelectEvent = function() {
             var allSelects = $('modulcreator').getElements('select');
@@ -29,12 +29,12 @@
                     for( var y = 0; y < optL; y++ )
                     {
                         theSelect.options[y].selected = true;
-                    }                   
+                    }
                 });
             });
         }
         addSelectEvent();
-                
+
         // Clientseitige Inputvalidierung
         var addInputEvent = function()
         {
@@ -50,9 +50,9 @@
                     {
                         if( mInput.get('name') == 'm[module_name]' )
                         {
-                            
+
                             mInput.value = mInput.value.toLowerCase();
-                            
+
                             if( mInput.value.length > 0 )
                             {
                                 $('the_link').innerHTML = "index.php?mod=<b>" + mInput.value + "</b>";
@@ -83,21 +83,21 @@
                             }
                         }
                         mInput.style.border = '1px solid #ff0000';
- 
+
                         $('create_form').removeEvents('submit');
                         $('create_form').addEvent( 'submit', function() {
                             alert('There are still errors. Please correct');
                             return false;
                         });
                     }
-                    
 
-                    
+
+
                 });
             });
         }
         addInputEvent();
-        
+
         var x = 1;
         // Checkbox methods
         var allChecks = $$('.check_below');
@@ -105,7 +105,7 @@
             if( $(check.id + '_display') )
             {
 
-                
+
                 // Alle methods sliders adden
                 var checkSlide = new Fx.Slide(check.id + '_display', {
                     duration: 500,
@@ -113,7 +113,7 @@
                     wait: false
                 });
                 checkSlide.hide();
-                
+
                 // checkboxen mit slider verknüpfen
                 check.addEvent('click', function(){
 
@@ -126,13 +126,13 @@
                         checkSlide.slideOut();
                     }
                 });
-                
+
                 // Alle add buttons mit click event belegen
                 var methodsWrapper = $( check.id + '_wrapper' );
                 var inputField = $( check.id + '_input' );
-                
+
                 var methodsAdd = $( check.id + '_add' );
-                
+
                 methodsAdd.addEvent('click', function() {
                     var inputCopy = inputField.clone();
                     var delEl = inputCopy.getElement('img');
@@ -148,7 +148,7 @@
                     inputCopy.fade('hide');
                     inputCopy.inject(methodsWrapper);
                     inputCopy.fade('in');
-                    
+
                     var allInputs = inputCopy.getElements('input').extend(inputCopy.getElements('select'));
                     allInputs.each( function(theInput, i) {
                         theInput.set('name', theInput.get('name').replace('[0]', '['+x+']'));
@@ -157,22 +157,22 @@
                         });
                     });
                     x++;
-                    
+
                     //inputCopy.getElements('input').style.border = '1px solid #000000';
                     checkSlide.slideIn();
                     addInputEvent();
                     addSelectEvent();
                 });
-                
 
-                
+
+
             }
             else
             {
-            
+
             }
         });
-        
+
         $('preview_button').addEvent('click', function(event) {
             event.stop();
             // AJAX Request
@@ -205,13 +205,26 @@
                 }
             });
             myForm.send(); //Sends the form.
-            
+
         });
         $('ajax_loader').fade('hide');
-        
-        // SAMPLES
-        // CRUD
+
+        // SAMPLE_CRUD
         var crudLink = $('sample_crud');
+        crudLink.addEvent('click', function(event) {
+            event.stop();
+            allChecks.each( function(check, i) {
+                check.checked = 1;
+                check.fireEvent('click');
+            });
+            $('frontend_module_add').fireEvent('click');
+
+            $('backend_module_add').fireEvent('click');
+        });
+        
+        // SAMPLE_BREAD
+        // CRUD
+        var breadLink = $('sample_bread');
         crudLink.addEvent('click', function(event) {
             event.stop();
             allChecks.each( function(check, i) {
@@ -226,8 +239,8 @@
             $('backend_module_add').fireEvent('click');
             $('backend_module_add').fireEvent('click');
         });
-        
-        
+
+
     });
 </script>
 {/literal}
@@ -235,38 +248,100 @@
     <form action="index.php?mod=modulecreator&sub=admin&action=preview" method="POST" id="create_form">
         <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
             <tr>
-                <td class="cell2">{t}Modulename{/t}</td>
-                <td class="cell1"><input name="m[module_name]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
-            </tr>
-            <tr>
-                <td class="cell2">{t}Samples{/t}</td>
-                <td class="cell1"><a href="" id="sample_crud">CRUD</a></td>
-            </tr>
-            <tr>
-                <td class="cell2">{t}Metadata{/t}</td>
+                <td class="cell2">{t}Module Defaults{/t}</td>
                 <td class="cell1">
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                         <tr>
-                            <td class="cell2" width="100px">{t}Author{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                            <td class="cell2">{t}Modulename{/t}</td>
+                            <td class="cell1"><input name="m[module_name]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
                         </tr>
                         <tr>
+                            <td class="cell2">{t}Description{/t}</td>
+                            <td class="cell1"><input name="m[meta][description]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}Initial Version{/t}</td>
+                            <td class="cell1"><input name="m[meta][inititalversion]" class="input_text" type="text" value="0.0.1" pattern="^[0-9_\s]+$" /></td>
+                        </tr>
+                         <tr>
                             <td class="cell2">{t}License{/t}</td>
                             <td class="cell1"><input name="m[meta][license]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2">{t}Title{/t}</td>
-                            <td class="cell1"><input name="m[meta][title]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2">{t}Homepage{/t}</td>
-                            <td class="cell1"><input name="m[meta][homepage]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td class="cell2">Create frontend for the module?</td>
+                <td class="cell2">{t}Lead-Developer{/t}</td>
+                <td class="cell1">
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <tr>
+                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}E-Mail{/t}</td>
+                            <td class="cell1"><input name="m[meta][email]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}Organisation{/t}</td>
+                            <td class="cell1"><input name="m[meta][organisation]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2">{t}Website{/t}</td>
+                            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
+                        </tr>
+                         <tr>
+                            <td class="cell2" width="100px">{t}Repository Username{/t}</td>
+                            <td class="cell1"><input name="m[meta][svnnickname]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            {* @todo add multiple developers
+            <tr>
+                <td class="cell2">{t}Additional Parties / Developers{/t}</td>
+                <td class="cell1">
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <tr>
+                            <td class="cell2" width="100px">{t}Role{/t}</td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="Co-Developer, Lead-Developer, Maintainer, Sponsor" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
+                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}E-Mail{/t}</td>
+                            <td class="cell1"><input name="m[meta][email]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2" width="100px">{t}Organisation{/t}</td>
+                            <td class="cell1"><input name="m[meta][organisation]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell2">{t}Website{/t}</td>
+                            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
+                        </tr>
+                         <tr>
+                            <td class="cell2" width="100px">{t}Repository Username{/t}</td>
+                            <td class="cell1"><input name="m[meta][svnnickname]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            *}
+            <tr>
+                <td class="cell2">{t}Choose a Methodname Structure for the Module{/t}</td>
+                <td class="cell1"><a href="" id="sample_crud">CRUD (create, read, update, delete)</a>
+                {* <a href="" id="sample_bread">BREAD (browse, read, edit, add, delete)</a> 
+                 <a href="" id="sample_abcd">ABCD (add, brosw, change, delete)</a> *}</td>
+            </tr>
+            <tr>
+                <td class="cell2">Create Frontend for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;"><input type="checkbox" name="m[frontend][checked]" id="frontend_module" class="check_below" value="1" /></div>
                     <div id="frontend_module_display">
@@ -275,10 +350,10 @@
                                 <thead>
                                     <tr>
                                         <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
+                                            <div style="float: left">{t}Method Names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
                                         </td>
                                         <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
+                                            <div style="float: left">{t}Method Visibility{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
                                         </td>
                                         <td class="td_header_small" width="90">
                                             <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
@@ -293,13 +368,13 @@
                                             <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />                                    
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody id="frontend_module_wrapper">
                                     <tr id="frontend_module_input">
-                                        <td height="20" class="cell2">                                        
+                                        <td height="20" class="cell2">
                                             <input class="input_text" size="25" type="text" value="action_" name="m[frontend][frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
@@ -327,10 +402,10 @@
                                                 <option value="pager">PAGER - Pagination</option>
                                             </select>
                                         </td>
-                                        <td class="cell1">                                        
+                                        <td class="cell1">
                                             <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
-                                        <td class="cell2">                                        
+                                        <td class="cell2">
                                             <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
@@ -350,9 +425,9 @@
                                 </tfoot>
                             </table>
                         </div>
-                        
+
                     </div>
-                    
+
                     <div id="widget_module_display">
                         <div>
                             <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
@@ -377,13 +452,13 @@
                                             <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />                                    
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody id="widget_module_wrapper">
                                     <tr id="widget_module_input">
-                                        <td height="20" class="cell2">                                        
+                                        <td height="20" class="cell2">
                                             <input class="input_text" size="25" type="text" value="widget_" name="m[widget][widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
@@ -411,10 +486,10 @@
                                                 <option value="pager">PAGER - Pagination</option>
                                             </select>
                                         </td>
-                                        <td class="cell1">                                        
+                                        <td class="cell1">
                                             <input class="input_text" type="checkbox" value="1" name="m[widget][widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
-                                        <td class="cell2">                                        
+                                        <td class="cell2">
                                             <input class="input_text" type="checkbox" value="1" name="m[widget][widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
@@ -428,7 +503,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2">Create backend for the module?</td>
+                <td class="cell2">Create Backend for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend][checked]" id="backend_module" class="check_below" value="1" /></div>
                     <div id="backend_module_display">
@@ -455,13 +530,13 @@
                                             <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
                                         </td>
                                         <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />                                    
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody id="backend_module_wrapper">
                                     <tr id="backend_module_input">
-                                        <td height="20" class="cell2">                                        
+                                        <td height="20" class="cell2">
                                             <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend][backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2">
@@ -489,10 +564,10 @@
                                                 <option value="pager">PAGER - Pagination</option>
                                             </select>
                                         </td>
-                                        <td class="cell1">                                        
+                                        <td class="cell1">
                                             <input class="input_text" type="checkbox" value="1" name="m[backend][backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
                                         </td>
-                                        <td class="cell2">                                        
+                                        <td class="cell2">
                                             <input class="input_text" type="checkbox" value="1" name="m[backend][backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
                                         </td>
                                         <td class="cell1" align="left">
@@ -506,7 +581,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="cell2">Create config for the module?</td>
+                <td class="cell2">Create Config for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;"><input type="checkbox" name="m[config][checked]" id="config" class="check_below" value="1" /></div>
                     <div id="config_display">
@@ -521,16 +596,16 @@
                                             {t}Value{/t}
                                         </td>
                                         <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="config_add" />                                    
+                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="config_add" />
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody id="config_wrapper">
                                     <tr id="config_input">
-                                        <td height="20" class="cell2">                                        
+                                        <td height="20" class="cell2">
                                             <input class="input_text" type="text" value="" name="m[config][config_keys][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
-                                        <td height="20" class="cell1">                                        
+                                        <td height="20" class="cell1">
                                             <input class="input_text" type="text" value="" name="m[config][config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
                                         </td>
                                         <td class="cell2" align="left" width="99%">
@@ -543,6 +618,56 @@
                     </div>
                 </td>
             </tr>
+            
+            <tr>
+                <td class="cell2">Create Documenation?</td>
+                <td class="cell1">
+                    <div style="padding-bottom: 5px;">
+                        <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
+                    </div>                    
+                </td>
+            </tr>            
+
+            <tr>
+                <td class="cell2">Create a Unit-Test Skeleton for the module?</td>
+                <td class="cell1">
+                    <div style="padding-bottom: 5px;">
+                        <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
+                    </div>                    
+                </td>
+            </tr>
+
+            <tr>
+                <td class="cell2">Constraints and Dependencies</td>
+                <td class="cell1">
+                    <div style="padding-bottom: 5px;">
+                        <input type="checkbox" name="m[create_dependencies][checked]" id="create_dependencies" class="check_below" value="1" />
+                    </div>                   
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <tr>
+                            <td class="cell2" width="100px">{t}Dependency{/t}</td>
+                            <td class="cell2" width="100px">{t}Type{/t}</td>
+                            <td class="cell2" width="100px">{t}Key{/t}</td>
+                            <td class="cell2" width="100px">{t}Minimum{/t}</td>
+                            <td class="cell2" width="100px">{t}Maximum{/t}</td>
+                            </tr>
+                        <tr>
+                            <td class="cell2" width="100px">Depends on, Conflicting with</td>
+                            <td class="cell2" width="100px">Core, Module, Environment</td>
+                            <td class="cell2" width="100px">{t}Key{/t}</td>
+                            <td class="cell2" width="100px">{t}Minimum{/t}</td>
+                            <td class="cell2" width="100px">{t}Maximum{/t}</td>
+                        </tr>
+                        Environment: PHP, PHP Extension, Operating System, Memory, PEAR
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="cell2">Select the Locales to create:</td>
+                <td>locales drop-down</td>
+            </tr>
+
             <tr>
                 <td class="cell1" colspan="2" align="center">
                     <input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" /><br />

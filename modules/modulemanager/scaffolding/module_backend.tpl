@@ -1,8 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch (c) 2005 - onwards
-    *
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -23,50 +22,56 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL, see COPYING.txt
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-Andre Koch (2005-onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: $
+    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-/**
- * {$mod.meta.title} Admin Module (Backend)
- * ({$mod.module_name})
- *
- * @license    {$mod.meta.license}
- * @author     {$mod.meta.author}
- * @link       {$mod.meta.homepage}
- */
-{literal}
-// Security Handler
+{literal}  
+//Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-{/literal}
-/**
+{/literal}  
+
+/**  
+ * Clansuite Administration Module - {$mod.module_name|capitalize} 
+ *
+ * Description: {$mod.meta.description}
+ *
+ * @version    {$mod.meta.initialversion}
+ * @author     {$mod.meta.author} {$mod.meta.email}
+ * @copyright  {$mod.meta.copyright}
+ * @license    {$mod.meta.license} 
+ * @link       {$mod.meta.website}
+ *
  * @package Clansuite
- * @subpackage module_admin_{$mod.module_name}
+ * @subpackage Module_{$mod.module_name|capitalize}
  */
 class Module_{$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface{literal}
 {{/literal}
+    
     /**
-     * Main Method of {$mod.module_name|capitalize} Module
+     * Module_{$mod.module_name|capitalize}_Admin -> Execute 
      *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
+     * Execute sets up common module specific stuff, needed by all actions of the module.
+     * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
-    public function execute(httprequest $request, httpresponse $response){literal}
-    {{/literal}  
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response){literal}
+    {{/literal}
+        
         # read module config
         $this->config->readConfig( ROOT_MOD . '{$mod.module_name}/{$mod.module_name}.config.php');
 
-        # proceed to the requested action
-        $this->processActionController($request);{literal}
-    }{/literal}     
+    {literal}
+    }{/literal}
+        
 {$backend_methods|default}
+
 {literal}
 }
 {/literal}

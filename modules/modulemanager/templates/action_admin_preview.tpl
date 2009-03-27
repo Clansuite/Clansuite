@@ -1,3 +1,6 @@
+<div class="ModuleHeading">{t}Preview of the new Module{/t}</div>
+<div class="ModuleHeadingSmall">{t}This preview shows the modulefiles and their content. If you like what you see, click "Create Module".{/t}</div>
+
 <div>
     <div style="text-align:center" id="create_module_form">
         <form action="index.php?mod=modulemanager&sub=admin&action=create" method="POST">

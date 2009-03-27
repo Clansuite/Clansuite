@@ -7,7 +7,7 @@
             {t}You're logged in as {/t}<b>{$smarty.session.user.nick}</b>
         </td>
     </tr>
-    {if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
+    {if isset($smarty.session.user.rights.permission_access) && $smarty.session.user.rights.permission_access == 1}
     <tr>
         <td align="center">
             <a href="index.php?mod=controlcenter">{t}Control Center{/t}</a>
