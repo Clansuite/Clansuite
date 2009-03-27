@@ -80,7 +80,15 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         $sysinfos['apache_modules']     = apache_get_modules();
 
         // PHP
+        # Get Interface Webserver<->PHP (Server-API)
         $sysinfos['php_sapi_name']      = php_sapi_name();
+
+        # Is the SERVER-API an CGI (until PHP 5.3) or CGI_FCGI?
+        if ( substr($sysinfos['php_sapi_name'], 0, 3) == 'cgi') # this will take care of 'cgi' and 'cgi-fcgi'
+        {
+            $sysinfos['php_sapi_cgi'] = true;
+        }
+
         $sysinfos['php_uname']          = php_uname();
         $sysinfos['php_os']             = PHP_OS;
         $sysinfos['php_sapi']           = PHP_SAPI;
