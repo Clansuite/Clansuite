@@ -919,6 +919,8 @@ a,a:link,a:visited,h2,h2 a,h2 a:hover,h2 a:visited,h3,h3 a,h3 a:hover,h3 a:visit
 	border: 1px solid grey;
 	background-color: #BBB;
 	text-align:center;
+	font-weight: bold;
+	font-size: 14px;
 }
 
 .tbhead
