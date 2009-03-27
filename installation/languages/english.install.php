@@ -39,8 +39,8 @@ class language implements ArrayAccess
         $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Please ensure that all of the required system check items listed below are green. The red marked settings show where you have to take action.';
         $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'The System-Check resulted in:';
 
-        $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Required Settings';
-        $this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Recommended Settings';
+        $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Required Settings (must)';
+        $this->language['STEP2_SYSTEMSETTING_RECOMMENDED'] = 'Recommended Settings (optional)';
 
         $this->language['STEP2_SETTING'] = 'Settings';
         $this->language['STEP2_SETTING_ACTUAL'] = 'Actual';
@@ -79,7 +79,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_SKEIN'] = 'PHP Extension: Skein';
         $this->language['EXTENSION_GEOIP'] = 'PHP Extension: GeoIP';
         $this->language['EXTENSION_CURL'] = 'PHP Extension: cURL';
-        $this->language['EXTENSION_SYCK'] = 'PHP Extension: SYCK'; 
+        $this->language['EXTENSION_SYCK'] = 'PHP Extension: SYCK';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
