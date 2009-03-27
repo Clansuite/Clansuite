@@ -54,9 +54,13 @@ interface Clansuite_Event
 /**
  * Clansuite_Eventdispatcher
  *
- * Is a parent Class for all the EventHandlers.
- * Performs an lookup of the eventname over all registered eventhandlers
- * and fires the event, if found.
+ * Purpose:
+ * Eventdispatcher is a container class for all the EventHandlers. This class is an aide for event-driven development. 
+ * You can register eventhandlers under a eventname. When you trigger an event, it performs an lookup of the eventname 
+ * over all registered eventhandlers and fires the event, if found.
+ * This is a very flexible form of communication between objects.
+ * 
+ * @pattern EventDispatcher, Event, Advanced Subject-Observer-Pattern, Notification Queue
  *
  * @package     clansuite
  * @subpackage  eventhandler
