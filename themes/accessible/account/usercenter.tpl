@@ -2,7 +2,7 @@
 <div class="content usercenter">
 	{t}You're logged in as {/t}<strong>{$smarty.session.user.nick}</strong>
 	<ul>
-{if isset($smarty.session.user.rights.cc_access) && $smarty.session.user.rights.cc_access == 1}
+{if isset($smarty.session.user.rights.permission_access) && $smarty.session.user.rights.permission_access == 1}
 		<li><a href="index.php?mod=controlcenter">{t}Control Center{/t}</a></li>
 {/if}
 		<li><a href="index.php?mod=account&amp;sub=options">{t}Options{/t}</a></li>

@@ -26,7 +26,7 @@
 		</div>
 		{if isset($news.image)}<img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}" />{/if}
 		{$news.news_body}<br />
-       {if isset($smarty.session.user.rights.cc_edit_news) AND isset($smarty.session.user.rights.cc_access)}
+       {if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access)}
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post" accept-charset="UTF-8">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.news_id}" name="ids[]" />
