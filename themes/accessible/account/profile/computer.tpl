@@ -471,6 +471,6 @@
 {if $smarty.session.user.user_id == $info.user_id}
 <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:450, height: 550});{/literal}' />
 {/if}
-{if $smarty.session.rights.cc_access == 1 && $smarty.session.rights.edit_profile}
+{if $smarty.session.rights.permission_access == 1 && $smarty.session.rights.edit_profile}
     <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:600, height: 400});{/literal}' />
 {/if}

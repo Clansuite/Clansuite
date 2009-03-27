@@ -86,7 +86,7 @@
                     {foreach key=right_name item=right_array from=$rights.$area_id}
                     <tr class="{cycle values="tr_row1, tr_row2"}">
                         <td style="vertical-align: middle"><input type="hidden" name="ids[]" value="{$right_array.right_id}" />{$right_array.right_id}</td>
-                        <td style="vertical-align: middle" align="left"><b>{if substr($right_array.name, 0, 3) == 'cc_'}<span style="color: red">{$right_array.name}</span>{else}{$right_array.name}{/if}</b></td>
+                        <td style="vertical-align: middle" align="left"><b>{if substr($right_array.name, 0, 3) == 'permission_'}<span style="color: red">{$right_array.name}</span>{else}{$right_array.name}{/if}</b></td>
                         <td style="vertical-align: middle">{$right_array.description}</td>
                         <td align="center">
                             <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{t}Edit{/t}" />

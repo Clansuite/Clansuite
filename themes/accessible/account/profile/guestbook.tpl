@@ -59,7 +59,7 @@
                         </dd>
                     <dt>{t}City{/t}: </dt>
                         <dd>{$entry.gb_town}</dd>
-                    {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
+                    {if $smarty.session.user.rights.permission_edit_gb == 1 AND $smarty.session.user.rights.permission_access == 1}
                     <dt>IP: </dt>
                         <dd>{$entry.gb_ip}</dd>
                     {/if}
@@ -77,13 +77,13 @@
             </div>
 
         {* AJAX Needed *}
-            {if ($smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1) OR ($smarty.session.user.user_id == $entry.user_id) }
+            {if ($smarty.session.user.rights.permission_edit_gb == 1 AND $smarty.session.user.rights.permission_access == 1) OR ($smarty.session.user.user_id == $entry.user_id) }
             <div class="options">
                 <div class="edit_button">
                     {if $smarty.session.user.user_id == $entry.user_id.1}
                         <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
                     {/if}
-                    {if $smarty.session.user.rights.cc_edit_gb == 1 AND $smarty.session.user.rights.cc_access == 1}
+                    {if $smarty.session.user.rights.permission_edit_gb == 1 AND $smarty.session.user.rights.permission_access == 1}
                         <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
                     {/if}
                 </div>
