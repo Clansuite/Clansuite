@@ -504,7 +504,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
      *
      * Shows own Profil, Messages, Next Events, Votes etc.
      */
-    function action_users_usercenter()
+    function action_admin_usercenter()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
