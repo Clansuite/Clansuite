@@ -38,7 +38,7 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Modul:  ControlCenter (Backend)
+ * Clansuite Administration Module - ControlCenter
  *
  * @package clansuite
  * @subpackage module_controlcenter
@@ -106,6 +106,9 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         }*/
 
         $view->assign( 'shortcuts', $images );
+        $view->assign( 'newsfeed', $this->assignFeedContent());
+        # @todo assign the lat change date of the file
+        #view->assign( 'newsfeed-updatetime', );
 
         # Fetch Render Engine and Set Layout
         $view->setLayoutTemplate('admin/index.tpl');
@@ -147,6 +150,74 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         # Prepare the Output
         $this->prepareOutput();
+    }
+
+    private function getFeed()
+    {
+        # URL of Clansuite News Feed
+        $feedURL = "http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml";
+
+        # Cache Filename and Path
+        $this->cachefile = ROOT_CACHE . urlencode($feedURL);
+
+        # define cache lifetime
+        $cachetime = 60*60*3; # 10800min = 3h
+
+        # try to return the file from cache
+        if (is_file($this->cachefile) and (time()-filemtime($this->cachefile))>$cachetime)
+        {
+            return readfile($this->cachefile);
+        }
+        else # get the feed from the source
+        {
+            # ensure file exists, before we write
+            if (!is_file($this->cachefile))
+            {
+                # create and chmod
+                touch($this->cachefile);
+                chmod($this->cachefile, 0666);
+            }
+            else # cachefile exists
+            {
+                #echo $cachefile;
+            }
+
+            # Get Feed, Write File
+            $feedcontent = file_get_contents($feedURL);
+            $fp=fopen($this->cachefile, "w");
+            fwrite($fp, $feedcontent);
+            fclose($fp);
+            return $feedcontent;
+        }
+    }
+
+    private function assignFeedContent()
+    {
+        # get Feed Data (from Cache or File)
+        $feedcontent = $this->getFeed();
+
+        # read as xml
+        $xml = new SimpleXMLElement($feedcontent);
+
+        # set output var
+        $output = '';
+
+        # process output
+        $i = 0;
+        foreach( $xml->channel->item as $items )
+        {
+            $i++;
+            $output .= '<p><strong>#'.$i.' - <a href="' . $items->link . '">' . htmlspecialchars($items->title) . '</a></strong><br />';
+            $output .= '<span style="font-size: 11px;">' . htmlspecialchars($items->pubDate) . '</span><br /></p>';
+
+            # show 10 items @todo configvalue for itemnumber
+            if ( $i == 5 )
+            {
+                break(0);
+            }
+        }
+
+        return $output;
     }
 }
 ?>
