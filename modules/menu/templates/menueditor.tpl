@@ -27,15 +27,19 @@
     <tr>
         <td valign="top">
 
+            <!-- Dynamic Tree Builder for Adminmenu -->
             <div class="DynamicTree">
             Dynamic Tree Builder for Adminmenu
                 <div class="wrap1">
                     <div class="top">{t}Adminmenu{/t}</div>
                     <div class="wrap2" id="tree">
+
+                        <!-- Adminmenu Tree Display -->
                         {load_module name="menu" sub="admin" action="get_adminmenu_div"}
+
                     </div>
-                </div>
-                <div class="actions">
+                </div><!-- Actions for editing the Adminmenu -->
+            <div class="actions">
                 <b>Actions</b><br /><br />
                     <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
                     <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
@@ -47,6 +51,7 @@
                     <div class="tooltip" id="tree-tooltip"></div>
                 </div>
                 <br /><br />
+                <!-- Form Elements for editing the Adminmenu -->
                 <div id="tree-insert-form">
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
@@ -99,6 +104,7 @@
                         </table>
                     </form>
                 </div>
+
                 <div id="tree-info-form">
                     <div class="actions"><b>Edit the Element</b><br /><br /></div>
                     <form action="javascript:void(0)" method="get">
@@ -145,16 +151,19 @@
                     </form>
                 </div>
             </div>
-
         </td>
+
         <td valign="top">
+
+
+
+            <p>
+               <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"class="ButtonRed" value="{t}Restore the last Adminmenu{/t}" />
+            </p>
             <p>
                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
             </p>
 
-            <p>
-               <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"class="ButtonRed" value="{t}Restore last Adminmenu{/t}" />
-            </p>
 
             <div id="tree-plugin">
                 <form action="index.php?mod=menu&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">

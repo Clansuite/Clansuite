@@ -98,7 +98,7 @@
     background: #FCFCF8;
     border: 1px solid #000000;
     border-color: #F1EFE2 #716F64 #716F64 #F1EFE2;
-    padding: 2px 1px 1px 2px; /* top right bottom left */
+    padding: 5px 2px 4px 3px; /* top right bottom left */
     position: absolute;
     visibility: hidden;
     z-index: 5;
@@ -120,12 +120,12 @@
 .XulMenu .nubs_pic {
    position: absolute;
    top: -1px;
-   left: -2px;  
+   left: -2px;
 }
 
 .XulMenu .element {
     position: relative;
-    padding-left: 25px;	
+    padding-left: 25px;
 }
 
 

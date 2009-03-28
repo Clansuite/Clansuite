@@ -21,10 +21,10 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
         <table id="Adminmenu" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
             <tr>
                 <!-- module-include: admin menueditor get_html_div //-->
-                {load_module name="menu" sub="admin" action="get_html_div"}               
+                {load_module name="menu" sub="admin" action="get_html_div"}
             </tr>
-        </table> 
-        
+        </table>
+
         <script type="text/javascript">
             var Adminmenu = new XulMenu("Adminmenu");
             Adminmenu.arrow1 = "{$www_root}/modules/menu/images/arrow1.gif";
@@ -33,10 +33,10 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
         </script>
 
     </div>
-    
+
     <div class="adminmenu-rightside">
-    
-        <a class="itembtn" href="index.php?mod=controlcenter&amp;sub=users&amp;action=usercenter">
+
+        <a class="itembtn" href="index.php?mod=account&amp;sub=admin&amp;action=usercenter">
             <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
             &nbsp;{$smarty.session.user.nick}
         </a>
@@ -54,8 +54,8 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
             <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/tango/16/System-log-out.png" border="0" alt="logout-image" width="16" height="16" />
             &nbsp;{t}Logout{/t}
         </a>
-        
+
       </div>
-      
+
 </div>
 <!-- End: AdminMenu (Modules->Menu) //-->
