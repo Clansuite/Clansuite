@@ -3,11 +3,11 @@
 <table cellspacing="0" cellpadding="0" width="100%">
     <tbody>
     <tr height="14">
-        <td bgcolor="#76ae31" valign="bottom" class="t2">Shortcuts</td>
-        <td nowrap="" background="/i/green2.gif" width="100%" class="bg"></td>
+        <td bgcolor="#ACD943" valign="bottom" class="t2">Shortcuts</td>
+        <td nowrap="" background="{$www_root}/modules/controlcenter/images/green-triangle.gif" width="100%" style="background-repeat: no-repeat;" class="bg"></td
     </tr>
     <tr>
-        <td height="3" bgcolor="#76ae31" colspan="2"/>
+        <td height="3" bgcolor="#ACD943" colspan="2"/>
     </tr>
     <tr>
         <td bgcolor="#dde9cf" valign="top" colspan="2">
@@ -19,7 +19,7 @@
                         <tbody>
                         <tr>
                             <td>
-                            
+
                                 {* Start:Shortcuts Content*}
                                 {literal}
                                     <script type="text/javascript">
@@ -42,7 +42,7 @@
                                         <li><a href="#fragment-4"><span><img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" /><br />Benutzer</span></a></li>
                                         <li><a href="#fragment-5"><span><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" /><br />Layout</span></a></li>
                                     </ul>
-                                    
+
                                     <div id="fragment-1">
                                         {* Table for Administration Symbols/Shortcuts *}
                                         <table cellspacing="10" cellpadding="5" {* Tabelle zentrieren: style="margin:0 auto" *}>
@@ -65,29 +65,29 @@
 
                                         </table>
                                     </div>
-                                    
+
                                     <div id="fragment-2">
                                         Ipsum
                                     </div>
-                                    
+
                                     <div id="fragment-3">
                                         Ipsum
                                     </div>
-                                    
+
                                     <div id="fragment-4">
                                         Ipsum
                                     </div>
-                                    
+
                                     <div id="fragment-5">
                                         Ipsum
                                     </div>
-                                    
+
                                     <!-- Clear -->
                                     <div style="clear:both">
                                  <!-- Close Vertical Tabs -->
                                  </div>
-                                 {* End:Shortcuts Content *} 
-                                                         
+                                 {* End:Shortcuts Content *}
+
                             </td>
                         </tr>
                         </tbody>
