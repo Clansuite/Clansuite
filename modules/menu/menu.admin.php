@@ -165,9 +165,10 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             */
         }
 
-        $this->redirect('index.php?mod=menu&amp;sub=admin');
+        # message the user
 
-        #'metatag|newsite', 5, $lang->t( 'The menu was successfully updated...' ), 'admin' );
+        # redirect back to the menu manager
+        $this->redirect('/index.php?mod=menu&amp;sub=admin', 1, 404, _('Menu successfully updated.'));
     }
 
     /**
@@ -180,9 +181,11 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
 
         if ( !empty($abort) )
         {
+            # tell the user, that the last action changed nothing on the menu
+            $this->addFlashMessage('Menuediting was cancelled. Nothing has been changed.');
+
+            # redirect to menu manager
             $this->redirect('index.php?mod=menu&sub=admin');
-            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor', 'metatag|newsite', 3,
-            #                      _( 'Aborted. Nothing has been changed.' ), 'admin' );
         }
 
         if ( !empty($confirm) )
@@ -218,15 +221,19 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                 $stmt5->execute( $data );
             }
 
+            # tell the user, that the last menu was restored on the next screen
+            $this->addFlashMessage('The Last Menu was restored.');
+
+            # redirect  to menu manager
             $this->redirect('index.php?mod=menu&sub=admin');
-            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor',
-            #'metatag|newsite', 3, _( 'Last menu restored...' ), 'admin' );
         }
         else
         {
-            $this->redirect('index.php?mod=menu&sub=admin&action=restore');
-            #$functions->redirect( 'index.php?mod=controlcenter&sub=menueditor&action=restore',
+            # confirm?
             #'confirm', 3, _( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
+
+            # redirect to menu restore
+            $this->redirect('index.php?mod=menu&sub=admin&action=restore');
         }
     }
 
@@ -253,8 +260,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         foreach($menu as $entry)
         {
             /**
-            * @desc Init Vars
-            */
+             * Init Vars
+             */
             $entry['type']          = isset($entry['type'])             ? $entry['type']            : '';
             $entry['content']       = isset($entry['content'])          ? $entry['content']         : '';
             $entry['href']          = isset($entry['href'])             ? $entry['href']            : '';
@@ -264,44 +271,82 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $entry['name']          = isset($entry['name'])             ? $entry['name']            : '';
             $entry['right_to_view'] = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
 
-            // Set empty image, if no image is given [ IE HACK ]
+            # Set empty image, if no image is given [ IE HACK ]
             if ( $entry['icon'] == '' )
             {
                 $entry['icon'] = 'empty.png';
             }
 
             /**
-            * @desc Build Menu
-            */
-            if ( $entry['href'] == '' && isset( $entry['href'] ) )
-            {
-                $entry['href'] = 'javascript:void(0)';
-            }
+             *  Build Menu Start
+             */
 
-            ################# Start ####################
-
+            # Toplevel
             if ( $entry['type'] == 'folder')
             {
-
                  $result .= "\n\t";
 
+                 # we are at the toplevel, there are no parents
                  if ( $entry['parent'] == 0)
                  {
                      $result .= '<td>';
                      $result .= "\n\t";
-                     $result .= '<a class="button" href="'.$entry['href'];
-                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+
+                     /**
+                      * if we have an toplevel-menu-item with link, we have to present an anchor href
+                      * (this implies that there are no submenuitems - you won't reach them)
+                      * else present the toplevel-menu-item as an clickable div.
+                      * this was formerly an <a href="javascript:void(0);"></a>
+                      * but u know: avoid the void!
+                      *
+                      * this conditional handles the opening of the tag.
+                      * the tag is closed with the same conditional check some lines below.
+                      */
+                     # it's an toplevel-menu-item WITHOUT link and we have to open the div container
+                     if ( $entry['href'] == '' )
+                     {
+                        $result .= '<span class="button" onclick="aFunction(); return false;">';
+
+                     }
+                     else # it's an toplevel-menu-item WITH link and we have to open the anchor href
+                     {
+                        $result .= '<a class="button" href="'.$entry['href'].'" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
+                     }
+
+                     /**
+                      * Image
+                      */
                      $result .= '<img alt="Image of Folder" class="pic" src="' . WWW_ROOT_THEMES_CORE .'/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
 
-                     if( $entry['icon'] != 'empty.png' )
+                     # if the icon empty is used, we do not need to put the name in an html span element
+                     # @todo because of what, we have to do this? is this an IE FIX with span element?
+                     if( $entry['icon'] == 'empty.png' )
                      {
-                         $result .= '<span class="element">' . htmlspecialchars(_($entry['name'])) . '</span>';
+                        $result .= htmlspecialchars(_($entry['name']));
                      }
-                     else
+                     else # we are not using empty.png, put the entryname in span
                      {
-                         $result .= htmlspecialchars(_($entry['name']));
+                        $result .= '<span class="element">' . htmlspecialchars(_($entry['name'])) . '</span>';
                      }
-                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_ROOT_THEMES_CORE . '/images/adminmenu/nubs.gif" /></a>';
+
+                     /**
+                      * Add Seperator Dots between Toplevel Menu Items
+                      */
+                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_ROOT_THEMES_CORE . '/images/adminmenu/nubs.gif" />';
+
+                     /**
+                      * Close Anchor or Div Element of Toplevel Item
+                      */
+                     #  it's an toplevel-menu-item WITHOUT link and we have to close the div container
+                     if ( $entry['href'] == '' )
+                     {
+                        $result .= '</span>';
+                     }
+                     else # it's an toplevel-menu-item WITH link, we have to close the anchor href
+                     {
+                        $result .= '</a>';
+                     }
+
                  }
                  else
                  {
