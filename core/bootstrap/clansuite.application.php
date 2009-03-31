@@ -190,6 +190,7 @@ class Clansuite_CMS
         define('ROOT_LIBRARIES'     , ROOT . self::$config['paths']['libraries_folder'].DS);
         define('ROOT_UPLOAD'        , ROOT . self::$config['paths']['upload_folder'].DS);
         define('ROOT_LOGS'          , ROOT . self::$config['paths']['logfiles_folder'].DS);
+        define('ROOT_CACHE'         , ROOT . 'cache'.DS);
         define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
 
         # DEFINE -> Webpaths for Templates
