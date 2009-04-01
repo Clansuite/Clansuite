@@ -1,13 +1,12 @@
 {* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump} {$pager|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if} *}
 
+<div class="ModuleHeading">{t}Users{/t}</div>
+<div class="ModuleHeadingSmall">{t}Administrate your Users.{/t}</div>
+
+
 {move_to}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
-
-    {* Prototype + Scriptaculous + Smarty_Ajax + Xilinus*}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/move_to}
 
 {*
