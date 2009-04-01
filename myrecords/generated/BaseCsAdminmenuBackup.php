@@ -17,7 +17,7 @@ abstract class BaseCsAdminmenuBackup extends Doctrine_Record
     $this->hasColumn('target', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
     $this->hasColumn('order', 'integer', 1, array('type' => 'integer', 'length' => 1, 'notnull' => true));
     $this->hasColumn('icon', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
-    $this->hasColumn('right_to_view', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
+    $this->hasColumn('permission', 'string', 255, array('type' => 'string', 'length' => 255, 'notnull' => true));
   }
 
   public function setUp()
