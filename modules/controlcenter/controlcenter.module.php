@@ -105,10 +105,12 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
             $stmt->execute( array( 'index.php?mod=controlcenter&sub='.$key, $key, $key.'.png' ) );
         }*/
 
+        ;
         $view->assign( 'shortcuts', $images );
+
         $view->assign( 'newsfeed', $this->assignFeedContent());
         # @todo assign the lat change date of the file
-        #view->assign( 'newsfeed-updatetime', );
+        #$view->assign( 'newsfeed-updatetime', $this->assignFeedContent());
 
         # Fetch Render Engine and Set Layout
         $view->setLayoutTemplate('admin/index.tpl');
@@ -166,7 +168,8 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # try to return the file from cache
         if (is_file($this->cachefile) and (time()-filemtime($this->cachefile))>$cachetime)
         {
-            return readfile($this->cachefile);
+            #return readfile($this->cachefile); # this writes directly to the output buffer
+            return file_get_contents($this->cachefile);
         }
         else # get the feed from the source
         {
@@ -177,9 +180,8 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
                 touch($this->cachefile);
                 chmod($this->cachefile, 0666);
             }
-            else # cachefile exists
+            else # the cachefile already exists
             {
-                #echo $cachefile;
             }
 
             # Get Feed, Write File
