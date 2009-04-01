@@ -43,24 +43,23 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 	public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
 	{
 	}
-	
+
 	function action_admin_banuser()
-	{		
+	{
 	}
-	
+
 	function action_admin_removebanuser()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Show all users
-	 *
 	 */
 	function action_admin_show()
 	{
 		# Set Pagetitle and Breadcrumbs
-		Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
+		#Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
 
 		# Get Render Engine
 		$smarty = $this->getView();
@@ -76,7 +75,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		// SmartyColumnSort -- Easy sorting of html table columns.
 		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
 		// A list of database columns to use in the table.
-		$columns = array( 'u.user_id','u.email', 'u.nick', 'u.joined');
+		$columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
 		// Create the columnsort object
 		$columnsort = new SmartyColumnSort($columns);
 		// And set the the default sort column and order.
@@ -88,7 +87,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		$pager_layout = new Doctrine_Pager_Layout(
 						new Doctrine_Pager(
 							Doctrine_Query::create()
-									->select('u.user_id, u.nick, u.email, u.joined')
+									->select('u.user_id, u.nick, u.email, u.joined, u.timestamp')
 									->from('CsUser u')
 									#->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 									->orderby($sortorder),
@@ -99,7 +98,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 							 new Doctrine_Pager_Range_Sliding(array(
 								 'chunk' => 5
 							 )),
-							 '?mod=controlcenter&sub=users&action=show&page={%page}'
+							 '?mod=users&sub=admin&action=show&page={%page}'
 							 );
 
 		// Assigning templates for page links creation
@@ -144,9 +143,6 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 	 */
 	function action_admin_create()
 	{
-		# Permissions
-		$perms->check( 'cc_create_users' );
-
 		# Set Pagetitle and Breadcrumbs
 		Clansuite_Trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
 
@@ -274,9 +270,6 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 	 */
 	function action_admin_edit_standard()
 	{
-		// Permissions
-		$perms->check( 'cc_edit_users' );
-
 		/**
 		* Init
 		*/
@@ -463,7 +456,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 
 		# Prepare the Output
 		$this->prepareOutput();
-	} 
+	}
 
 	/**
 	 * Advanced User-Search
@@ -511,11 +504,6 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 	 */
 	function action_admin_delete()
 	{
-		global $db, $functions, $input, $lang;
-
-		// Permissions check
-		$perms->check( 'cc_delete_users' );
-
 		/**
 		 * Init
 		 */
@@ -529,7 +517,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 
 		if ( count($delete) < 1 )
 		{
-			$functions->redirect( 'index.php?mod=users&sub=admin', 'metatag|newsite', 3, $lang->t( 'No users selected to delete! Aborted... ' ), 'admin' );
+			$this->redirect( 'index.php?mod=users&sub=admin', 3, _( 'No users selected to delete! Aborted... ' ));
 		}
 
 		/**
@@ -574,7 +562,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 					$d = in_array( $value['user_id'], $delete  ) ? 1 : 0;
 					if ( !isset ( $_POST['confirm'] ) )
 					{
-						$functions->redirect( 'index.php?mod=users&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
+						$this->redirect( 'index.php?mod=users&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following user(s) to delete: ' . $names ), 'admin' );
 					}
 					else
 					{
@@ -591,7 +579,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		/**
 		 * Redirect on finish
 		 */
-		$functions->redirect( 'index.php?mod=users&sub=admin&action=show_all', 'metatag|newsite', 3, $lang->t( 'The selected user(s) were deleted.' ), 'admin' );
+		$this->redirect( 'index.php?mod=users&sub=admin&action=show_all', 3, _( 'The selected user(s) were deleted.' ));
 	}
 }
 ?>
