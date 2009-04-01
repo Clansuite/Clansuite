@@ -70,11 +70,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     public function action_admin_menueditor()
     {
-        # Permission check
-        #$perms::check('cc_show_menueditor');
-
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
+        # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
 
         // Setup Icons Array
         $icons = array();
@@ -633,8 +630,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         {
             if($result[$i]['parent'] == $parent)
             {
-                #if ( $perms->check( $result[$i]['right_to_view'] , 'no_redirect' )
-                #      OR $result[$i]['right_to_view'] == ''
+                #if ( $perms->check( $result[$i]['permission'] , 'no_redirect' )
+                #      OR $result[$i]['permission'] == ''
                 #      OR $perm_check == false )
                 #{
                     $output[$result[$i]['id']] = array(
@@ -648,7 +645,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                                                         'target'        => $result[$i]['target'],
                                                         'order'         => $result[$i]['order'],
                                                         'icon'          => $result[$i]['icon'],
-                                                        'right_to_view' => $result[$i]['right_to_view']
+                                                        'permission'    => $result[$i]['permission']
                                                     );
 
                     $output[$result[$i]['id']]['content'] = $this->fetch_adminmenu($perm_check, $result, $result[$i]['id'], $level + 1);

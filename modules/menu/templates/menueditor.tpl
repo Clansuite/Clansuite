@@ -77,11 +77,11 @@
                         </tr>
                         <tr>
                             <td class="label">Target</td>
-                            <td><input class="input_text" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="" /></td>
+                            <td><input class="input_text" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="_self" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{t}Right to view{/t}</td>
-                            <td><input class="input_text" size="20" id="tree-insert-right_to_view" name="tree-insert-right_to_view" type="text" value="" /></td>
+                            <td class="label">{t}View Permission{/t}</td>
+                            <td><input class="input_text" size="20" id="tree-insert-permission" name="tree-insert-permission" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
@@ -126,8 +126,8 @@
                             <td><input class="input_text" size="40" id="tree-info-target" name="tree-info-target" type="text" value="" /></td>
                         </tr>
                         <tr>
-                            <td class="label">{t}Right to view{/t}</td>
-                            <td><input class="input_text" size="40" id="tree-info-right_to_view" name="tree-info-right_to_view" type="text" value="" /></td>
+                            <td class="label">{t}View Permission{/t}</td>
+                            <td><input class="input_text" size="40" id="tree-info-permission" name="tree-info-permission" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
