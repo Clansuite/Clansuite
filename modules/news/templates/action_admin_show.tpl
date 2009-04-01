@@ -24,7 +24,7 @@
     <tr class="tr_row2">        
     
          <!-- Modify the View : Drop-Down Selection of the News-Categories -->
-         <td colspan="8" align="right">Kategorie-Auswahl:
+         <td colspan="8" align="right">Select Categorie:
             <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
             <select name="cat_id" class="form">
                 <option value="0">----</option>
@@ -32,7 +32,7 @@
                 <option value="{$cats.cat_id}">{$cats.name}</option>
                 {/foreach}                
             </select> 
-            <input type="submit" name="submit" value="Anzeige ändern" class="ButtonOrange"/>
+            <input type="submit" name="submit" value="Change View" class="ButtonOrange"/>
             </form>
         </td>
     </tr>
@@ -46,11 +46,11 @@
     
     <!-- Header of Table -->
     <tr class="td_header">
-        <th>{columnsort html='Datum'}</th>
+        <th>{columnsort html='Date'}</th>
         <th>{columnsort selected_class="selected"
                         html='Title'}</th>
-        <th>{columnsort html='Kategorie'}</th>
-        <th>{columnsort html='Verfasser'}</th>
+        <th>{columnsort html='Categorie'}</th>
+        <th>{columnsort html='Author'}</th>
         <th>Draft</th>
         <th>Action</th>
         <th>Select</th>
