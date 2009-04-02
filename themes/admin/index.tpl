@@ -76,9 +76,11 @@
                         $('help-toggler').addEvent('click', function() {
                             mySlide.toggle('vertical');
                         });
-                    }, 'javascript'); 
+                    }, 'javascript');
                     </script>
                 {/literal}
+
+
 
                 <!-- Help Icon -->
                 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
@@ -86,19 +88,35 @@
                     {t}Help{/t}
                 </div>
 
+                {*
+
+                <!-- Update Icon -->
+                <div id="update-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/warning.png" alt="Updates" />
+                    {t}Update{/t}
+                </div>
+
+                <!-- Bugreport Icon -->
+                <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="Updates" />
+                    {t}Bugreport{/t}
+                </div>
+
+                *}
+
             </td>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td class="admin_content">
-                
+
                  <!-- Maincontent -->
-                {$content}                
+                {$content}
 
                 <!-- Help -->
-                {include file="../modules/help/templates/help.tpl"} 
-                
+                {include file="../modules/help/templates/help.tpl"}
+
             </td>
         </tr>
     </tbody>
