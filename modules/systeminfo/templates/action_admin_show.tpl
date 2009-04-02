@@ -14,6 +14,10 @@
         <td class="cell1" width="70%">Clansuite {$clansuite_version} - Milestone: {$clansuite_version_name} - State: {$clansuite_version_state} - SVN: [{$clansuite_revision}]</td>
     </tr>
     <tr class="tr_row1">
+        <td>Operating System Information</td>
+        <td>{$sysinfos.php_uname} ({$sysinfos.php_os}).</td>
+    </tr>
+    <tr class="tr_row1">
         <td class="tr_row2">PHP Information</td>
         <td>
             PHP Version {$sysinfos.phpversion} - Zend Core Version {$sysinfos.zendversion} <br /><br />
@@ -42,32 +46,38 @@
                 </ul>
         </td>
     </tr>
+
     <tr class="tr_row1">
-        <td>Operating System Information</td>
-        <td>{$sysinfos.php_uname} ({$sysinfos.php_os}).</td>
-    </tr>
-    {*
-    <tr class="tr_row1">
-        <td>MySQL Information</td>
+        <td>Database Information</td>
         <td>
-            MySQL Server Version {$mysql_get_server_info <br />
-            MySQL Host {$mysql_get_host_info <br />
-            MySQL Client {$mysql_get_client_info <br />
-            The current character set is {$mysql_client_encoding <br /><br />
-            Actual MySQL Stats <br />
-                <ul>
-                    <li>{$status[0]</li>
-                    <li>{$status[1]</li>
-                    <li>{$status[2]</li>
-                    <li>{$status[3]</li>
-                    <li>{$status[4]</li>
-                    <li>{$status[5]</li>
-                    <li>{$status[6]</li>
-                    <li>{$status[7]</li>
-                </ul>
+            Database Type: {$sysinfos.pdo.driver_name}
+            <br/>
+            Client: {$sysinfos.pdo.client_info}
+            <br/>
+            Server Version: {$sysinfos.pdo.server_version}
+            {* <br/>
+            {$sysinfos.pdo.timeout}
+            <br/>
+            {$sysinfos.pdo.prefetch}   *}
+            <br/>
+            Oracle Nulls: {$sysinfos.pdo.oracle_nulls}
+            <br/>
+            Connection Status: {$sysinfos.pdo.connection_status}
+            <br/>
+            Persistant Connection: {$sysinfos.pdo.persistent}
+            <br/>
+            Case: {$sysinfos.pdo.attr_case}
+            <br/>
+            Database Statistics:
+            <ul>
+                {* Debug Array: {$sysinfos.pdo.server_infos|@var_dump} *}
+                {foreach item=serverinfo from=$sysinfos.pdo.server_infos}
+                <li>{$serverinfo}</li>
+                {/foreach}
+             </ul>
         </td>
     </tr>
-    *}
+
     </tbody>
     </table>
 </div>

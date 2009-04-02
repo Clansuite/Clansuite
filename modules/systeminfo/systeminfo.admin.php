@@ -75,11 +75,11 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
 
         # get system informations and server variables
 
-        // WEBSERVER
+        # WEBSERVER
         $sysinfos['apache_get_version'] = apache_get_version();
         $sysinfos['apache_modules']     = apache_get_modules();
 
-        // PHP
+        # PHP
         # Get Interface Webserver<->PHP (Server-API)
         $sysinfos['php_sapi_name']      = php_sapi_name();
 
@@ -99,12 +99,25 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         $sysinfos['cfg_include_path']   = get_cfg_var('include_path');
         $sysinfos['cfg_file_path']      = realpath(get_cfg_var("cfg_file_path"));
 
-        // MYSQL
-        #$mysql_get_server_info  = mysql_get_server_info();
-        #$mysql_get_host_info    = mysql_get_host_info();
-        #$mysql_get_client_info  = mysql_get_client_info();
-        #$mysql_client_encoding  = mysql_client_encoding($db->connection);
-        #$status                 = explode('  ', mysql_stat($db->connection));
+        # Fetch Database infos from PDO
+        # get PDO Object from Doctrine
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        # fetch PDO::getAttributes and store them in
+        $sysinfos['pdo']['driver_name']        = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $sysinfos['pdo']['server_version']     = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $sysinfos['pdo']['client_info']        = $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION);
+        # Driver does not support this function: driver does not support that attribute
+        # $sysinfos['pdo']['timeout']          = $pdo->getAttribute(PDO::ATTR_TIMEOUT);
+        # $sysinfos['pdo']['prefetch']         = $pdo->getAttribute(PDO::ATTR_PREFETCH);
+        $sysinfos['pdo']['oracle_nulls']       = $pdo->getAttribute(PDO::ATTR_ORACLE_NULLS);
+        $sysinfos['pdo']['connection_status']  = $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+        $sysinfos['pdo']['persistent']         = $pdo->getAttribute(PDO::ATTR_PERSISTENT);
+        $sysinfos['pdo']['attr_case']          = $pdo->getAttribute(PDO::ATTR_CASE);
+        $sysinfos['pdo']['server_infos']       = explode('  ', $pdo->getAttribute(PDO::ATTR_SERVER_INFO));
+
+        # apply sorting
+        asort($sysinfos['apache_modules']);
+        asort($sysinfos['php_extensions']);
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
