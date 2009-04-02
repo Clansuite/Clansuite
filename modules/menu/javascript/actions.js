@@ -55,12 +55,12 @@ function treeHideInsert() {
     var href = document.getElementById("tree-insert-href");
     var title = document.getElementById("tree-insert-title");
     var target = document.getElementById("tree-insert-target");
-    var right_to_view = document.getElementById("tree-insert-right_to_view");
+    var permission = document.getElementById("tree-insert-permission");
     name.value = "";
     href.value = "";
     title.value = "";
     target.value = "";
-    right_to_view.value = "";
+    permission.value = "";
     document.getElementById("tree-insert-form").style.display = "none";
 }
 function treeInfo() {
@@ -70,12 +70,12 @@ function treeInfo() {
     var title = document.getElementById("tree-info-title");
     var target = document.getElementById("tree-info-target");
     var update_icon = document.getElementById('update_icon');
-    var right_to_view = document.getElementById("tree-info-right_to_view");
+    var permission = document.getElementById("tree-info-permission");
     name.value = "";
     href.value = "";
     title.value = "";
     target.value = "";
-    right_to_view.value = "";
+    permission.value = "";
     document.getElementById("tree-info-form").style.display = "block";
     if (tree.active) {
         var node = tree.getActiveNode();
@@ -90,7 +90,7 @@ function treeInfo() {
         href.value = node.href;
         title.value = node.title;
         target.value = node.target;
-        right_to_view.value = node.right_to_view;
+        permission.value = node.permission;
         update_icon.src = tree.custom_icon_path + node.custom_icon;
     }
 }
@@ -100,7 +100,7 @@ function treeInfoUpdate() {
     var title = document.getElementById("tree-info-title");
     var target = document.getElementById("tree-info-target");
     var custom_icon = document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex];
-    var right_to_view = document.getElementById("tree-info-right_to_view");
+    var permission = document.getElementById("tree-info-permission");
     name.value = name.value.trim();
     href.value = href.value.trim();
     if (!name.value) {
@@ -113,7 +113,7 @@ function treeInfoUpdate() {
         node.title = title.value;
         node.target = target.value;
         node.custom_icon = custom_icon.text;
-        node.right_to_view = right_to_view.value;
+        node.permission = permission.value;
         tree.updateHtml();
     }
 }
@@ -122,12 +122,12 @@ function treeHideInfo() {
     var href = document.getElementById("tree-info-href");
     var title = document.getElementById("tree-info-title");
     var target = document.getElementById("tree-info-target");
-    var right_to_view = document.getElementById("tree-info-right_to_view");
+    var permission = document.getElementById("tree-info-permission");
     name.value = "";
     href.value = "";
     title.value = "";
     target.value = "";
-    right_to_view.value = "";
+    permission.value = "";
     document.getElementById("tree-info-form").style.display = "none";
 }
 
@@ -140,13 +140,13 @@ function treeInsertExecute() {
     var title = document.getElementById("tree-insert-title");
     var target = document.getElementById("tree-insert-target");
     var custom_icon = document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex];
-    var right_to_view = document.getElementById("tree-insert-right_to_view");
+    var permission = document.getElementById("tree-insert-permission");
     name.value = name.value.trim();
     href.value = href.value.trim();
     if (!name.value) {
         return false;
     }
-    var o = {"href": href.value, "title": title.value, "target": target.value, "custom_icon": custom_icon.text, "right_to_view": right_to_view.value};
+    var o = {"href": href.value, "title": title.value, "target": target.value, "custom_icon": custom_icon.text, "permission": permission.value};
     if (tree.active) {
         switch (where.value) {
             case "before":
@@ -169,7 +169,7 @@ function treeInsertExecute() {
     href.value = "";
     title.value = "";
     target.value = "";
-    right_to_view.value = "";
+    permission.value = "";
     this.blur();
 }
 function treeRemove() {
