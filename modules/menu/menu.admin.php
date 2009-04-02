@@ -128,7 +128,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         $stmt1->execute();
 
         // Insert the adminmenu Into the Backup Table
-        $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu' );
+        $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu' );
         $stmt2->execute();
 
         // Clear Original Adminmenu Table
@@ -141,8 +141,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $parent = str_replace( 'tree-', '', $value['parent'] );
             $value['href'] = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
 
-            $stmt4 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
-            $stmt4->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['right_to_view'] ) );
+            $stmt4 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt4->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['permission'] ) );
 
             /*
             $q = new CsAdminmenu();
@@ -156,7 +156,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $q['target']        = $value['target'];
             $q['order']         = $value['order'];
             $q['icon']          = $value['icon'];
-            $q['right_to_view'] = $value['right_to_view'];
+            $q['permission'] = $value['permission'];
 
             $q->save();
             */
@@ -204,7 +204,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $stmt2->execute();
 
             # 3) insert into adminmenu the adminmenu_backup entries
-            $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view` FROM '. DB_PREFIX . 'adminmenu_backup' );
+            $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu_backup' );
             $stmt3->execute();
 
             # 4) empty adminmenu_backup table
@@ -212,7 +212,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $stmt4->execute();
 
             # 5) insert the former adminmenu into the adminmenu_backup table
-            $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `right_to_view`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt5->execute( $data );
@@ -266,7 +266,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $entry['target']        = isset($entry['target'])           ? $entry['target']          : '';
             $entry['icon']          = isset($entry['icon'])             ? $entry['icon']            : '';
             $entry['name']          = isset($entry['name'])             ? $entry['name']            : '';
-            $entry['right_to_view'] = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
+            $entry['permission']    = isset($entry['permission'])       ? $entry['permission']      : '';
 
             # Set empty image, if no image is given [ IE HACK ]
             if ( $entry['icon'] == '' )
@@ -413,7 +413,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $entry['target']            = isset($entry['target'])           ? $entry['target']          : '';
             $entry['icon']              = isset($entry['icon'])             ? $entry['icon']            : '';
             $entry['name']              = isset($entry['name'])             ? $entry['name']            : '';
-            $entry['right_to_view']     = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
+            $entry['permission']        = isset($entry['permission'])       ? $entry['permission']       : '';
 
             /**
              *  Build Menu
@@ -422,7 +422,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             {
                 $result .= "<div class=\"folder\">";
                 $result .= '<a href="'.$entry['href'];
-                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
+                $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['permission']) . '">';
                 $result .= htmlspecialchars( _($entry['name'])) . '</a>';
             }
 
@@ -443,7 +443,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
-                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['right_to_view']) . '">';
+                    $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['permission']) . '">';
                     $result .= htmlspecialchars( _($entry['name'])) . '</a>';
                 }
             }
@@ -496,7 +496,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $entry['target']            = isset($entry['target'])           ? $entry['target']          : '';
             $entry['icon']              = isset($entry['icon'])             ? $entry['icon']            : '';
             $entry['name']              = isset($entry['name'])             ? $entry['name']            : '';
-            $entry['right_to_view']     = isset($entry['right_to_view'])    ? $entry['right_to_view']   : '';
+            $entry['permission']        = isset($entry['permission'])       ? $entry['permission']      : '';
 
             /**
             * @desc Build Menu
