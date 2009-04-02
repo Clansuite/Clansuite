@@ -329,7 +329,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                      /**
                       * Add Seperator Dots between Toplevel Menu Items
                       */
-                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_ROOT_THEMES_CORE . '/images/adminmenu/nubs.gif" />';
+                     $result .= '<img alt="dots" class="nubs_pic" src="' . WWW_ROOT . '/modules/menu/images/nubs.gif" />';
 
                      /**
                       * Close Anchor or Div Element of Toplevel Item
@@ -351,7 +351,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
                      $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT_THEMES_CORE .'/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      $result .= htmlspecialchars(_($entry['name']));
-                     $result .= '<img alt="arrow" class="arrow" src="' . WWW_ROOT_THEMES_CORE . '/images/adminmenu/arrow1.gif" width="4" height="7" />';
+                     $result .= '<img alt="arrow" class="arrow" src="' . WWW_ROOT . '/modules/menu/images/arrow1.gif" width="4" height="7" />';
                      $result .= '</a>';
                  }
              }
