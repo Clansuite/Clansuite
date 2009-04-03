@@ -157,7 +157,8 @@ class Clansuite_Doctrine
 		$this->locator = Doctrine_Locator::instance();
 		$this->locator->setClassPrefix('Clansuite_');
 
-		if(extension_loaded('apc') and isset($this->config['database']['db_cache']) and ('APC' == $this->config['database']['db_cache']))
+		if(extension_loaded('apc') and (defined('DEBUG') == false) and
+		   isset($this->config['database']['db_cache']) and ('APC' == $this->config['database']['db_cache']))
 		{
 			$this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, new Doctrine_Cache_Apc());
 			$this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
