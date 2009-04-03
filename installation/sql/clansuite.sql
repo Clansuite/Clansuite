@@ -30,7 +30,7 @@ CREATE TABLE `cs_adminmenu` (
   `href` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `target` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL,
+  `sortorder` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
@@ -60,7 +60,7 @@ CREATE TABLE `cs_adminmenu_backup` (
   `href` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `target` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL,
+  `sortorder` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`,`parent`)
@@ -1389,4 +1389,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-04-01 21:15:51
+-- Dump completed on 2009-04-03  1:45:49

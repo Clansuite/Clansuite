@@ -112,55 +112,77 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     public function action_admin_update()
     {
-        # Permission check
-        #$perms::check('cc_update_menueditor');
+        /**
+         * Incoming Variables
+         */
+        # initalize request
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        # fetch the container variable from post
+        $menu    = $request->getParameter('container','POST');
 
-        // Incoming Variables
-        $menu = $_POST['container'];
+        # Check if we have some $menu values to insert
+        if(count($menu) == 0)
+        {
+            # if not, tell the user about it and stop here
+            throw new Clansuite_Exception('No Menu Items defined for Action: '.__FUNCTION__);
+        }
+        else
+        {
+            # create temporary adminmenu
+            $temporary_adminmenu = array();
 
-        # Load DBAL
-        #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
+            # now loop over all menu values and prepare the temporary array to insert later
+            foreach ( $menu as $key => $value )
+            {
+                #clansuite_xdebug::printR($value);
 
-        // Get PDO Object from Doctrine
+                $temporary_adminmenu['id']            = (string) str_replace( 'tree-', '', $key );
+                $temporary_adminmenu['parent']        = (string) str_replace( 'tree-', '', $value['parent'] );
+
+                $temporary_adminmenu['type']          = $value['type'];
+                $temporary_adminmenu['text']          = html_entity_decode($value['text']);
+
+                $temporary_adminmenu['href']          = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
+                $temporary_adminmenu['title']         = html_entity_decode($value['title']);
+
+                $temporary_adminmenu['target']        = html_entity_decode($value['target']);
+                $temporary_adminmenu['sortorder']         = (int) $value['sortorder'];
+
+                $temporary_adminmenu['icon']          = (string) $value['icon'];
+                $temporary_adminmenu['permission']    = (string) $value['permission'];
+            }
+        }
+
+        /**
+         * Clear the Backup Table of the adminmenu (truncate table)
+         */
+        Doctrine::getTable('CsAdminmenuBackup')->createQuery()->delete()->execute();
+
+        /**
+         * Insert the adminmenu Into the Backup Table
+         */
+        # Get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();
-        // Clear Backup Table
-        $stmt1 = $pdo->prepare('TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup');
-        $stmt1->execute();
-
-        // Insert the adminmenu Into the Backup Table
-        $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu' );
+        # prepare stmt
+        $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup
+                                SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission`
+                                FROM '. DB_PREFIX . 'adminmenu' );
+        # execute
         $stmt2->execute();
 
-        // Clear Original Adminmenu Table
-        $stmt3 = $pdo->prepare('TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu');
-        $stmt3->execute();
 
-        foreach ( $menu as $key => $value )
-        {
-            $id = str_replace( 'tree-', '', $key );
-            $parent = str_replace( 'tree-', '', $value['parent'] );
-            $value['href'] = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
+        /**
+         * Clear Original Adminmenu Table (truncate table)
+         */
+        Doctrine::getTable('CsAdminmenu')->createQuery()->delete()->execute();
 
-            $stmt4 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
-            $stmt4->execute( array( $id, $parent, $value['type'], html_entity_decode($value['text']), $value['href'], html_entity_decode($value['title']), $value['target'], $value['order'], $value['icon'], $value['permission'] ) );
-
-            /*
-            $q = new CsAdminmenu();
-
-            $q['id']            = $id;
-            $q['parent']        = $parent;
-            $q['type']          = $value['type'];
-            $q['text']          = html_entity_decode($value['text']);
-            $q['href']          = $value['href'];
-            $q['title']         = html_entity_decode($value['title']);
-            $q['target']        = $value['target'];
-            $q['order']         = $value['order'];
-            $q['icon']          = $value['icon'];
-            $q['permission'] = $value['permission'];
-
-            $q->save();
-            */
-        }
+        /**
+         * Insert the new values for the Adminmenu
+         */
+        # fetch an activerecord-object of the adminmenu table
+        $adminmenu = new CsAdminmenu();
+        $adminmenu->synchronizeWithArray($temporary_adminmenu);
+        $adminmenu->save();
 
         # message the user
 
@@ -204,7 +226,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $stmt2->execute();
 
             # 3) insert into adminmenu the adminmenu_backup entries
-            $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu_backup' );
+            $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu_backup' );
             $stmt3->execute();
 
             # 4) empty adminmenu_backup table
@@ -212,7 +234,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             $stmt4->execute();
 
             # 5) insert the former adminmenu into the adminmenu_backup table
-            $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `order`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
+            $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt5->execute( $data );
@@ -604,57 +626,56 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     public function fetch_adminmenu( $perm_check = true, &$result = '', $parent = 0, $level = 0 )
     {
+       # this is a recursive funtion, if this is the first call to it, fetch the menu
        if ( empty($result) )
-        {
-            # Load DBAL
-            # parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
-
-            # Load Models
-            # octrine::loadModels(ROOT . '/myrecords/', Doctrine::MODEL_LOADING_CONSERVATIVE);
-
+       {
             # Issue Doctrine_Query
             $result = Doctrine_Query::create()
                                     ->select('m.*')
                                     ->from('CsAdminmenu m')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     #->setHydrationMode(Doctrine::HYDRATE_NONE)
-                                    ->orderby('m.order ASC, m.parent ASC')
+                                    ->orderby('m.sortorder ASC, m.parent ASC')
                                     ->execute();
-            #var_dump($result);
-            #$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-        }
-        $output = array();
-        $rows = count($result);
 
-        for($i = 0; $i < $rows; $i++)
+            #clansuite_xdebug::printR($result);
+        }
+
+        # initialize the output array
+        $output = array();
+
+        # count the menurows
+        $menuitems = count($result);
+
+        for($i = 0; $i < $menuitems; $i++)
         {
             if($result[$i]['parent'] == $parent)
             {
-                #if ( $perms->check( $result[$i]['permission'] , 'no_redirect' )
-                #      OR $result[$i]['permission'] == ''
-                #      OR $perm_check == false )
-                #{
-                    $output[$result[$i]['id']] = array(
-                                                        'name'          => $result[$i]['text'],
-                                                        'level'         => $level,
-                                                        'type'          => $result[$i]['type'],
-                                                        'parent'        => $result[$i]['parent'],
-                                                        'id'            => $result[$i]['id'],
-                                                        'href'          => $result[$i]['href'],
-                                                        'title'         => $result[$i]['title'],
-                                                        'target'        => $result[$i]['target'],
-                                                        'order'         => $result[$i]['order'],
-                                                        'icon'          => $result[$i]['icon'],
-                                                        'permission'    => $result[$i]['permission']
-                                                    );
+               # @todo - permission check?
+               $output[$result[$i]['id']] = array(
+                                                    'name'          => $result[$i]['text'],
+                                                    'level'         => $level,
+                                                    'type'          => $result[$i]['type'],
+                                                    'parent'        => $result[$i]['parent'],
+                                                    'id'            => $result[$i]['id'],
+                                                    'href'          => $result[$i]['href'],
+                                                    'title'         => $result[$i]['title'],
+                                                    'target'        => $result[$i]['target'],
+                                                    'sortorder'     => $result[$i]['sortorder'],
+                                                    'icon'          => $result[$i]['icon'],
+                                                    'permission'    => $result[$i]['permission']
+                                                );
 
-                    $output[$result[$i]['id']]['content'] = $this->fetch_adminmenu($perm_check, $result, $result[$i]['id'], $level + 1);
+                $output[$result[$i]['id']]['content'] = $this->fetch_adminmenu($perm_check, $result, $result[$i]['id'], $level + 1);
 
-                    if( count($output[$result[$i]['id']]['content']) == 0)
-                        unset($output[$result[$i]['id']]['content']);
-                    else
-                        $output[$result[$i]['id']]['expanded'] = true;
-                #}
+                if( count($output[$result[$i]['id']]['content']) == 0)
+                {
+                    unset($output[$result[$i]['id']]['content']);
+                }
+                else
+                {
+                    $output[$result[$i]['id']]['expanded'] = true;
+                }
             }
         }
         return array_values($output);

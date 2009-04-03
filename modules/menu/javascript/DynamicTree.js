@@ -162,7 +162,7 @@ function DynamicTree(id) {
                 if (this.childNodes.length) { s += '</a>'; }
                 s += '<img id="?-icon" src="?" width="18" height="18" alt="" />'.format(this.id, icon);
                 if (self.foldersAsLinks) {
-                    s += '<a href="?"???>?</a>'.format(this.href, (this.title ? ' title="?"'.format(this.title) : ""), (this.target ? ' target="?"'.format(this.target) : ""), (this.right_to_view ? ' alt="?"'.format(this.right_to_view) : ""), this.text);
+                    s += '<a href="?"???>?</a>'.format(this.href, (this.title ? ' title="?"'.format(this.title) : ""), (this.target ? ' target="?"'.format(this.target) : ""), (this.permission ? ' alt="?"'.format(this.permission) : ""), this.text);
                 } else {
                     s += this.text;
                 }
@@ -179,7 +179,7 @@ function DynamicTree(id) {
             }
             if (this.isDoc) {
                 s += '<img src="?" width="18" height="18" alt="" /><img src="?" width="18" height="18" alt="" />'.format((this.isLast() ? self.img.leafEnd : self.img.leaf), self.img.doc);
-                s += '<a href="?"???>?</a>'.format(this.href, (this.title ? ' title="?"'.format(this.title) : ""), (this.target ? ' target="?"'.format(this.target) : ""), (this.right_to_view ? ' alt="?"'.format(this.right_to_view) : ""), this.text);
+                s += '<a href="?"???>?</a>'.format(this.href, (this.title ? ' title="?"'.format(this.title) : ""), (this.target ? ' target="?"'.format(this.target) : ""), (this.permission ? ' alt="?"'.format(this.permission) : ""), this.text);
             }
             s += '</div>';
             return s;
