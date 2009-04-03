@@ -126,32 +126,6 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             # if not, tell the user about it and stop here
             throw new Clansuite_Exception('No Menu Items defined for Action: '.__FUNCTION__);
         }
-        else
-        {
-            # create temporary adminmenu
-            $temporary_adminmenu = array();
-
-            # now loop over all menu values and prepare the temporary array to insert later
-            foreach ( $menu as $key => $value )
-            {
-                #clansuite_xdebug::printR($value);
-
-                $temporary_adminmenu['id']            = (string) str_replace( 'tree-', '', $key );
-                $temporary_adminmenu['parent']        = (string) str_replace( 'tree-', '', $value['parent'] );
-
-                $temporary_adminmenu['type']          = $value['type'];
-                $temporary_adminmenu['text']          = html_entity_decode($value['text']);
-
-                $temporary_adminmenu['href']          = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
-                $temporary_adminmenu['title']         = html_entity_decode($value['title']);
-
-                $temporary_adminmenu['target']        = html_entity_decode($value['target']);
-                $temporary_adminmenu['sortorder']         = (int) $value['sortorder'];
-
-                $temporary_adminmenu['icon']          = (string) $value['icon'];
-                $temporary_adminmenu['permission']    = (string) $value['permission'];
-            }
-        }
 
         /**
          * Clear the Backup Table of the adminmenu (truncate table)
@@ -160,6 +134,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
 
         /**
          * Insert the adminmenu Into the Backup Table
+         *
+         * @todo how to clone a table? with Doctrine clone / copy()?
          */
         # Get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();
@@ -170,24 +146,42 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         # execute
         $stmt2->execute();
 
-
         /**
          * Clear Original Adminmenu Table (truncate table)
          */
         Doctrine::getTable('CsAdminmenu')->createQuery()->delete()->execute();
 
         /**
-         * Insert the new values for the Adminmenu
+         * Insert the new values for the Adminmenu via Doctrine ActiveRecord
          */
-        # fetch an activerecord-object of the adminmenu table
-        $adminmenu = new CsAdminmenu();
-        $adminmenu->synchronizeWithArray($temporary_adminmenu);
-        $adminmenu->save();
+        # now loop over all menu values and prepare the temporary array to insert later
+        foreach ( $menu as $key => $value )
+        {
+            #clansuite_xdebug::printR($value);
+
+            # fetch activerecord of the adminmenu
+            $adminmenu = new CsAdminmenu();
+
+            # setup the new menuelement
+            $adminmenu['id']            = (string) str_replace( 'tree-', '', $key );
+            $adminmenu['parent']        = (string) str_replace( 'tree-', '', $value['parent'] );
+            $adminmenu['type']          = $value['type'];
+            $adminmenu['text']          = html_entity_decode($value['text']);
+            $adminmenu['href']          = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
+            $adminmenu['title']         = html_entity_decode($value['title']);
+            $adminmenu['target']        = (string) $value['target'];
+            $adminmenu['sortorder']     = (int) $value['sortorder'];
+            $adminmenu['icon']          = (string) $value['icon'];
+            $adminmenu['permission']    = (string) $value['permission'];
+
+            # save it
+            $adminmenu->save();
+        }
 
         # message the user
 
         # redirect back to the menu manager
-        $this->redirect('/index.php?mod=menu&amp;sub=admin', 1, 404, _('Menu successfully updated.'));
+        $this->redirect('/index.php?mod=menu&amp;sub=admin', 1, 202, _('Menu successfully updated.'));
     }
 
     /**

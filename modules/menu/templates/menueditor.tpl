@@ -3,11 +3,11 @@
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
 
-{*
+
 {literal}
     <style type="text/css">
         body { background: #F1EFE2; }
-        body, table { font-family: georgia, sans-serif; font-size: 11px; }
+        {* body, table { font-family: georgia, sans-serif; font-size: 11px; } *}
         form { margin: 0; }
         input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
         a { color: #0000ee; text-decoration: none; }
@@ -17,7 +17,7 @@
         #tree-plugin-textarea { white-space: nowrap; }
     </style>
 {/literal}
-*}
+
 {/move_to}
 
 <div class="ModuleHeading">{t}Adminmenü - Verwaltung{/t}</div>
@@ -38,21 +38,61 @@
                         {load_module name="menu" sub="admin" action="get_adminmenu_div"}
 
                     </div>
-                </div><!-- Actions for editing the Adminmenu -->
+                </div>
+
+            <!-- Actions for editing the Adminmenu -->
             <div class="actions">
                 <b>Actions</b><br /><br />
-                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" /></a>
-                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" /></a>
-                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" /></a>
-                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)"><img src="{$www_root_mod}/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" /></a>
-                    <a id="tree-insert" class="insert" href="javascript:void(0)"><img src="{$www_root_mod}/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" /></a>
-                    <a id="tree-info" class="info" href="javascript:void(0)"><img src="{$www_root_mod}/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" /></a>
-                    <a id="tree-remove" class="remove" href="javascript:void(0)"><img src="{$www_root_mod}/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" /></a>
-                    <div class="tooltip" id="tree-tooltip"></div>
+
+                    <!-- Up -->
+                    <a id="tree-moveUp" class="moveUp" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" />
+                    </a>
+
+                    <!-- Down -->
+                    <a id="tree-moveDown" class="moveDown" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" />
+                    </a>
+
+                    <!-- Left -->
+                    <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" />
+                    </a>
+
+                    <!-- Right -->
+                    <a id="tree-moveRight" class="moveRight" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" />
+                    </a>
+
+                     <!-- Insert / Add new Element -->
+                    <a id="tree-insert" class="insert" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" />
+                    </a>
+
+                     <!-- Info / Edit Element -->
+                    <a id="tree-info" class="info" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" />
+                    </a>
+
+                    <!-- Delete Element -->
+                    <a id="tree-remove" class="remove" href="javascript:void(0)">
+                        <img src="{$www_root_mod}/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" />
+                    </a>
+
+                    <!-- Action Tooltip -->
+                    <div class="tooltip" id="tree-tooltip">Choose Action</div>
                 </div>
-                <br /><br />
-                <!-- Form Elements for editing the Adminmenu -->
+
+                <br />
+                <br />
+
+                <!-- Form Elements for INSERTING a NEW ITEM into Adminmenu -->
                 <div id="tree-insert-form">
+                    <div class="actions">
+                        <b>{t}Insert new Menuelement{/t}</b>
+                        <br />
+                        <br />
+                    </div>
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
                         <tr id="tree-insert-where-div">
@@ -65,19 +105,19 @@
                         </tr>
                         <tr>
                             <td class="label">Name</td>
-                            <td><input class="input_text" size="20" id="tree-insert-name" name="tree-insert-name" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-insert-name" name="tree-insert-name" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Href</td>
-                            <td><input class="input_text" size="20" id="tree-insert-href" name="tree-insert-href" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-insert-href" name="tree-insert-href" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Title</td>
-                            <td><input class="input_text" size="20" id="tree-insert-title" name="tree-insert-href" type="text" value="" /></td>
+                            <td><input class="input_text" size="40" id="tree-insert-title" name="tree-insert-href" type="text" value="" /></td>
                         </tr>
                         <tr>
                             <td class="label">Target</td>
-                            <td><input class="input_text" size="20" id="tree-insert-target" name="tree-insert-target" type="text" value="_self" /></td>
+                            <td><input class="input_text" size="40" id="tree-insert-target" name="tree-insert-target" type="text" value="_self" /></td>
                         </tr>
                         <tr>
                             <td class="label">{t}View Permission{/t}</td>
@@ -86,27 +126,41 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text" class="input" id="tree-insert-custom_icon">
+                                <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text"
+                                        class="input" id="tree-insert-custom_icon">
                                     <option value="">{t}No icon{/t}</option>
-                                    {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
+
+                                    {foreach item=icon from=$icons}
+
+                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$icon});
+                                                       background-repeat:no-repeat;padding-left:20px;
+                                                       height:20px;
+                                                       line-height:20px;"
+                                                       value="{$icon}">{$icon}</option>
+
                                     {/foreach}
+
                                 </select>
                                 <img alt="insert icon" src="" id="insert_icon" width="16" height="16" border="1" />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
-                                <input id="tree-insert-button" class="button" type="button" value="Insert" />
-                                <input id="tree-insert-cancel" type="button" value="Cancel" />
+                                <input class="ButtonGreen" id="tree-insert-button" class="button" type="button" value="Insert" />
+                                <input class="ButtonGrey" id="tree-insert-cancel" type="button" value="Cancel" />
                             </td>
                         </tr>
                         </table>
                     </form>
                 </div>
 
+                <!-- Form Elements for EDITING a ITEM into Adminmenu -->
                 <div id="tree-info-form">
-                    <div class="actions"><b>Edit the Element</b><br /><br /></div>
+                    <div class="actions">
+                        <b>{t}Edit the Menuelement{/t}</b>
+                        <br />
+                        <br />
+                    </div>
                     <form action="javascript:void(0)" method="get">
                         <table cellspacing="0" cellpadding="0">
                         <tr>
@@ -132,11 +186,21 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text" class="input_text" id="tree-info-custom_icon">
+                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text"
+                                        class="input_text" id="tree-info-custom_icon">
                                     <option value="">{t}No icon{/t}</option>
-                                    {foreach key=key item=item from=$icons}
-                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$item});background-repeat:no-repeat;padding-left:20px;height:20px;line-height:20px;" value="{$item}">{$item}</option>
+
+                                    {foreach item=icon from=$icons}
+
+                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$icon});
+                                                       background-repeat:no-repeat;
+                                                       padding-left:20px;
+                                                       height:20px;
+                                                       line-height:20px;"
+                                                value="{$icon}">{$icon}</option>
+
                                     {/foreach}
+
                                 </select>
                                 <img alt="update icon" src="" name="update_icon" id="update_icon" width="16" height="16" border="1" />
                             </td>
@@ -155,10 +219,9 @@
 
         <td valign="top">
 
-
-
             <p>
-               <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"class="ButtonRed" value="{t}Restore the last Adminmenu{/t}" />
+               <input type="button" onclick="self.location.href='index.php?mod=menu&amp;sub=admin&amp;action=restore'"
+                     class="ButtonRed" value="{t}Restore the last Adminmenu{/t}" />
             </p>
             <p>
                <input type="button" class="ButtonGreen" value="{t}Generate Menu{/t}" onclick="treePluginGenerateMenu();" />
@@ -168,8 +231,9 @@
             <div id="tree-plugin">
                 <form action="index.php?mod=menu&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">
                 <div id="tree-plugin-content"></div>
-                <strong>{t}The menu has been generated.{/t}</strong> <br />
-                {t}Click the button below, to save the menu into the Database.{/t} <br />
+                 <strong>{t}The menu has been generated.{/t}</strong>
+                    <br />
+                    {t}Click the button below, to save the menu into the Database.{/t}
                 <p>
                     <input class="ButtonGreen" type="submit" name="submit" value="{t}Update the Adminmenu{/t}" />
                 </p>
