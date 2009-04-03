@@ -3,7 +3,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
     <tbody>
     <tr height="14">
-        <td bgcolor="#ACD943" valign="bottom" class="t2">Shortcuts</td>
+        <td bgcolor="#ACD943" valign="bottom" width="30%" class="t2">&nbsp;&raquo; Shortcuts</td>
         <td nowrap="" background="{$www_root}/modules/controlcenter/images/green-triangle.gif" width="100%" style="background-repeat: no-repeat;" class="bg"></td
     </tr>
     <tr>

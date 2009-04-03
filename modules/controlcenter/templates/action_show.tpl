@@ -23,7 +23,7 @@
         <table cellspacing="0" cellpadding="0" width="60%">
             <tbody>
                 <tr height="14">
-                    <td bgcolor="#FF924F" valign="bottom" width="38%" class="t2"> Clansuite News </td>
+                    <td bgcolor="#FF924F" valign="bottom" width="30%" class="t2">&nbsp;&raquo; Clansuite News </td>
                     <td nowrap="" background="{$www_root}/modules/controlcenter/images/red-triangle.gif" width="100%" style="background-repeat: no-repeat;" class="bg">
                         <div align="right" class="gr">Last Updated: {$smarty.now|date_format:"%d-%m-%Y"} </div>
                     </td>
