@@ -100,12 +100,18 @@ abstract class Doctrine_Query_Abstract
     protected $_state = Doctrine_Query::STATE_CLEAN;
 
     /**
-     * @var array $params  The parameters of this query.
+     * @var array $_params  The parameters of this query.
      */
-    protected $_params = array('join' => array(),
+    protected $_params = array('exec' => array(),
+                               'join' => array(),
                                'where' => array(),
                                'set' => array(),
                                'having' => array());
+
+    /**
+     * @var array $_execParams The parameters passed to connection statement
+     */
+    protected $_execParams = array();
 
     /* Caching properties */
     /**
@@ -189,6 +195,13 @@ abstract class Doctrine_Query_Abstract
      */
     protected $_queryComponents = array();
 
+	/**
+     * Stores the root DQL alias
+     *
+     * @var string
+     */
+    protected $_rootAlias = '';
+	
     /**
      * @var integer $type                   the query type
      *
@@ -499,7 +512,7 @@ abstract class Doctrine_Query_Abstract
             throw new Doctrine_Query_Exception('Unknown query part ' . $name);
         }
 
-        if ($name == 'limit' || $name == 'offset') {
+        if ($name == 'limit' || $name == 'offset' || $name == 'forUpdate') {
             $this->_sqlParts[$name] = false;
         } else {
             $this->_sqlParts[$name] = array();
@@ -532,23 +545,39 @@ abstract class Doctrine_Query_Abstract
     }
 
     /**
-     * getParams
+     * Get raw array of parameters for query and all parts.
      *
-     * @return array
+     * @return array $params
      */
-    public function getParams($params = array())
+    public function getParams()
     {
-        return array_merge((array) $params, $this->_params['join'], $this->_params['set'], $this->_params['where'], $this->_params['having']);
+        return $this->_params;
     }
 
     /**
-     * Get the raw array of parameters
+     * Get flattened array of parameters for query.
+     * Used internally and used to pass flat array of params to the database.
+     *
+     * @param array $params
+     * @return void
+     */
+    public function getFlattenedParams($params = array())
+    {
+        return array_merge(
+            (array) $params, (array) $this->_params['exec'], 
+            $this->_params['join'], $this->_params['set'],
+            $this->_params['where'], $this->_params['having']
+        );
+    }
+
+    /**
+     * getInternalParams
      *
      * @return array
      */
-    public function getRawParams()
+    public function getInternalParams($params = array())
     {
-      return $this->_params;
+        return array_merge($params, $this->_execParams);
     }
 
     /**
@@ -559,6 +588,45 @@ abstract class Doctrine_Query_Abstract
     public function setParams(array $params = array())
     {
         $this->_params = $params;
+    }
+    
+    /**
+     * getCountQueryParams
+     * Retrieves the parameters for count query
+     *
+     * @return array Parameters array
+     */
+    public function getCountQueryParams($params = array())
+    {
+        if ( ! is_array($params)) {
+            $params = array($params);
+        }
+
+        $this->_params['exec'] = $params;
+
+        $params = array_merge($this->_params['join'], $this->_params['where'], $this->_params['having'], $this->_params['exec']);
+
+        $this->fixArrayParameterValues($params);
+
+        return $this->_execParams;
+    }
+
+    /**
+     * @nodoc
+     */
+    public function fixArrayParameterValues($params = array())
+    {
+        foreach ($params as $i => $param) {
+            if (is_array($param)) {
+                $c = count($param);
+
+                array_splice($params, $i, 1, $param);
+                
+                $i += $c;
+            }
+        }
+        
+        $this->_execParams = $params;
     }
 
     /**
@@ -784,7 +852,7 @@ abstract class Doctrine_Query_Abstract
     }
 
     /**
-     * copyAliases
+     * copySubqueryInfo
      * copy aliases from another Hydrate object
      *
      * this method is needed by DQL subqueries which need the aliases
@@ -805,18 +873,17 @@ abstract class Doctrine_Query_Abstract
 
     /**
      * getRootAlias
-     * returns the alias of the the root component
+     * returns the alias of the root component
      *
      * @return array
      */
     public function getRootAlias()
     {
         if ( ! $this->_queryComponents) {
-          $this->getSql();
+            $this->getSql();
         }
-        reset($this->_queryComponents);
-
-        return key($this->_queryComponents);
+        
+        return $this->_rootAlias;
     }
 
     /**
@@ -827,7 +894,7 @@ abstract class Doctrine_Query_Abstract
      */
     public function getRootDeclaration()
     {
-        $map = reset($this->_queryComponents);
+        $map = $this->_queryComponents[$this->_rootAlias];
         return $map;
     }
 
@@ -839,7 +906,7 @@ abstract class Doctrine_Query_Abstract
      */
     public function getRoot()
     {
-        $map = reset($this->_queryComponents);
+        $map = $this->_queryComponents[$this->_rootAlias];
 
         if ( ! isset($map['table'])) {
             throw new Doctrine_Query_Exception('Root component not initialized.');
@@ -874,7 +941,7 @@ abstract class Doctrine_Query_Abstract
      */
     public function generateSqlTableAlias($componentAlias, $tableName)
     {
-        preg_match('/([^_])/', $tableName, $matches);
+        preg_match('/([^_|\d])/', $tableName, $matches);
         $char = strtolower($matches[0]);
 
         $alias = $char;
@@ -948,22 +1015,46 @@ abstract class Doctrine_Query_Abstract
      */
     protected function _execute($params)
     {
+        // Apply boolean conversion in DQL params
         $params = $this->_conn->convertBooleans($params);
 
+        foreach ($this->_params as $k => $v) {
+            $this->_params[$k] = $this->_conn->convertBooleans($v);
+        }
+
+        $dqlParams = $this->getFlattenedParams($params);
+
+        // Check if we're not using a Doctrine_View
         if ( ! $this->_view) {
             if ($this->_queryCache !== false && ($this->_queryCache || $this->_conn->getAttribute(Doctrine::ATTR_QUERY_CACHE))) {
                 $queryCacheDriver = $this->getQueryCacheDriver();
                 $hash = $this->calculateQueryCacheHash();
                 $cached = $queryCacheDriver->fetch($hash);
 
+                // If we have a cached query...
                 if ($cached) {
+                    // Rebuild query from cache
                     $query = $this->_constructQueryFromCache($cached);
+                    
+                    // Assign building/execution specific params
+                    $this->_params['exec'] = $params;
+            
+                    // Initialize prepared parameters array
+                    $this->_execParams = $this->getFlattenedParams();
+                    
+                    // Fix possible array parameter values in SQL params
+                    $this->fixArrayParameterValues($this->getInternalParams());
                 } else {
+                    // Generate SQL or pick already processed one
                     $query = $this->getSqlQuery($params);
+
                     // Check again because getSqlQuery() above could have flipped the _queryCache flag
                     // if this query contains the limit sub query algorithm we don't need to cache it
                     if ($this->_queryCache !== false && ($this->_queryCache || $this->_conn->getAttribute(Doctrine::ATTR_QUERY_CACHE))) {
+                        // Convert query into a serialized form
                         $serializedQuery = $this->getCachedForm($query);
+
+                        // Save cached query
                         $queryCacheDriver->save($hash, $serializedQuery, $this->getQueryCacheLifeSpan());
                     }
                 }
@@ -973,10 +1064,13 @@ abstract class Doctrine_Query_Abstract
         } else {
             $query = $this->_view->getSelectSql();
         }
+        
+        // Get prepared SQL params for execution
+        $params = $this->getInternalParams();
 
         if ($this->isLimitSubqueryUsed() &&
                 $this->_conn->getAttribute(Doctrine::ATTR_DRIVER_NAME) !== 'mysql') {
-            $params = array_merge($params, $params);
+            $params = array_merge((array) $params, (array) $params);
         }
 
         if ($this->_type !== self::SELECT) {
@@ -984,6 +1078,9 @@ abstract class Doctrine_Query_Abstract
         }
 
         $stmt = $this->_conn->execute($query, $params);
+
+        $this->_params['exec'] = array();
+
         return $stmt;
     }
 
@@ -996,21 +1093,22 @@ abstract class Doctrine_Query_Abstract
      */
     public function execute($params = array(), $hydrationMode = null)
     {
+        // Clean any possible processed params
+        $this->_execParams = array();
+
         if (empty($this->_dqlParts['from']) && empty($this->_sqlParts['from'])) {
             throw new Doctrine_Query_Exception('You must have at least one component specified in your from.');
         }
 
-        $preQueryParams = $this->getParams($params);
+        $dqlParams = $this->getFlattenedParams($params);
 
-        $this->_preQuery($preQueryParams);
+        $this->_preQuery($dqlParams);
 
         if ($hydrationMode !== null) {
             $this->_hydrator->setHydrationMode($hydrationMode);
         }
 
-        $params = $this->getParams($params);
-
-        if ($this->_resultCache && $this->_type == self::SELECT) {
+        if ($this->_resultCache !== false && $this->_type == self::SELECT && ($this->_resultCache || $this->_conn->getAttribute(Doctrine::ATTR_RESULT_CACHE))) {
             $cacheDriver = $this->getResultCacheDriver();
             $hash = $this->calculateResultCacheHash($params);
             $cached = ($this->_expireResultCache) ? false : $cacheDriver->fetch($hash);
@@ -1036,8 +1134,17 @@ abstract class Doctrine_Query_Abstract
                 $result = $this->_hydrator->hydrateResultSet($stmt, $this->_tableAliasMap);
             }
         }
-
+        if ($this->getConnection()->getAttribute(Doctrine::ATTR_AUTO_FREE_QUERY_OBJECTS)) {
+            $this->free();
+        }
         return $result;
+    }
+
+    /**
+     * Blank template method free(). Override to be used to free query object memory
+     */
+    public function free()
+    { 
     }
 
     /**
@@ -1123,9 +1230,18 @@ abstract class Doctrine_Query_Abstract
         }
 
         $copy = $this->copy();
+        $copy->setParams(array(
+            'exec' => array(), 
+            'join' => array(), 
+            'set' => array(), 
+            'where' => array(), 
+            'having' => array()
+        ));
         $copy->getSqlQuery($params);
         $componentsAfter = $copy->getQueryComponents();
 
+        $this->_rootAlias = $copy->getRootAlias();
+        
         if ($componentsBefore !== $componentsAfter) {
             return array_diff($componentsAfter, $componentsBefore);
         } else {
@@ -1159,7 +1275,7 @@ abstract class Doctrine_Query_Abstract
         $queryComponents = array();
         $cachedComponents = $cached[1];
         foreach ($cachedComponents as $alias => $components) {
-            $e = explode('.', $components[0]);
+            $e = explode('.', $components['name']);
             if (count($e) === 1) {
                 $queryComponents[$alias]['table'] = $this->_conn->getTable($e[0]);
             } else {
@@ -1167,11 +1283,11 @@ abstract class Doctrine_Query_Abstract
                 $queryComponents[$alias]['relation'] = $queryComponents[$e[0]]['table']->getRelation($e[1]);
                 $queryComponents[$alias]['table'] = $queryComponents[$alias]['relation']->getTable();
             }
-            if (isset($components[1])) {
-                $queryComponents[$alias]['agg'] = $components[1];
+            if (isset($components['agg'])) {
+                $queryComponents[$alias]['agg'] = $components['agg'];
             }
-            if (isset($components[2])) {
-                $queryComponents[$alias]['map'] = $components[2];
+            if (isset($components['map'])) {
+                $queryComponents[$alias]['map'] = $components['map'];
             }
         }
         $this->_queryComponents = $queryComponents;
@@ -1192,15 +1308,15 @@ abstract class Doctrine_Query_Abstract
 
         foreach ($this->getQueryComponents() as $alias => $components) {
             if ( ! isset($components['parent'])) {
-                $componentInfo[$alias][] = $components['table']->getComponentName();
+                $componentInfo[$alias]['name'] = $components['table']->getComponentName();
             } else {
-                $componentInfo[$alias][] = $components['parent'] . '.' . $components['relation']->getAlias();
+                $componentInfo[$alias]['name'] = $components['parent'] . '.' . $components['relation']->getAlias();
             }
             if (isset($components['agg'])) {
-                $componentInfo[$alias][] = $components['agg'];
+                $componentInfo[$alias]['agg'] = $components['agg'];
             }
             if (isset($components['map'])) {
-                $componentInfo[$alias][] = $components['map'];
+                $componentInfo[$alias]['map'] = $components['map'];
             }
         }
 
@@ -1395,7 +1511,7 @@ abstract class Doctrine_Query_Abstract
 
         // if there's no params, return (else we'll get a WHERE IN (), invalid SQL)
         if ( ! count($params)) {
-            return $this;
+            throw new Doctrine_Query_Exception('You must pass at least one parameter when using an IN() condition.');
         }
 
         $a = array();
@@ -1411,7 +1527,7 @@ abstract class Doctrine_Query_Abstract
 
         $this->_params['where'] = array_merge($this->_params['where'], $params);
 
-        return $expr . ($not === true ? ' NOT ':'') . ' IN (' . implode(', ', $a) . ')';
+        return $expr . ($not === true ? ' NOT' : '') . ' IN (' . implode(', ', $a) . ')';
     }
 
 
@@ -1503,9 +1619,14 @@ abstract class Doctrine_Query_Abstract
      * @param string $select        Query SELECT part
      * @return Doctrine_Query
      */
-    public function select($select)
+    public function select($select = null)
     {
-        return $this->_addDqlQueryPart('select', $select);
+        $this->_type = self::SELECT;
+        if ($select) {
+            return $this->_addDqlQueryPart('select', $select);
+        } else {
+            return $this;
+        }
     }
 
     /**
@@ -2158,5 +2279,18 @@ abstract class Doctrine_Query_Abstract
     public function getQuery($params = array())
     {
         return $this->getSqlQuery($params);
+    }
+    
+    
+    /**
+     * toString magic call
+     * this method is automatically called when Doctrine_Query object is trying to be used as a string
+     * So, it it converted into its DQL correspondant
+     *
+     * @return string DQL string
+     */
+    public function __toString()
+    {
+        return $this->getDql();
     }
 }

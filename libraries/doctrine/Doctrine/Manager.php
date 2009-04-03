@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Manager.php 5308 2008-12-18 00:20:38Z jwage $
+ *  $Id: Manager.php 5457 2009-02-03 03:55:57Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5308 $
+ * @version     $Revision: 5457 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Manager extends Doctrine_Configurable implements Countable, IteratorAggregate
@@ -60,6 +60,16 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     protected $_queryRegistry;
 
     /**
+     * @var array                       Array of registered validators
+     */
+    protected $_validators = array();
+
+    /**
+     * @var boolean                     Whether or not the validators from disk have been loaded
+     */
+    protected $_loadedValidatorsFromDisk = false;
+
+    /**
      * constructor
      *
      * this is private constructor (use getInstance to get an instance of this class)
@@ -82,27 +92,32 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
         if ( ! $init) {
             $init = true;
             $attributes = array(
-                        Doctrine::ATTR_CACHE                    => null,
-                        Doctrine::ATTR_RESULT_CACHE             => null,
-                        Doctrine::ATTR_QUERY_CACHE              => null,
-                        Doctrine::ATTR_LOAD_REFERENCES          => true,
-                        Doctrine::ATTR_LISTENER                 => new Doctrine_EventListener(),
-                        Doctrine::ATTR_RECORD_LISTENER          => new Doctrine_Record_Listener(),
-                        Doctrine::ATTR_THROW_EXCEPTIONS         => true,
-                        Doctrine::ATTR_VALIDATE                 => Doctrine::VALIDATE_NONE,
-                        Doctrine::ATTR_QUERY_LIMIT              => Doctrine::LIMIT_RECORDS,
-                        Doctrine::ATTR_IDXNAME_FORMAT           => "%s_idx",
-                        Doctrine::ATTR_SEQNAME_FORMAT           => "%s_seq",
-                        Doctrine::ATTR_TBLNAME_FORMAT           => "%s",
-                        Doctrine::ATTR_QUOTE_IDENTIFIER         => false,
-                        Doctrine::ATTR_SEQCOL_NAME              => 'id',
-                        Doctrine::ATTR_PORTABILITY              => Doctrine::PORTABILITY_NONE,
-                        Doctrine::ATTR_EXPORT                   => Doctrine::EXPORT_ALL,
-                        Doctrine::ATTR_DECIMAL_PLACES           => 2,
-                        Doctrine::ATTR_DEFAULT_PARAM_NAMESPACE  => 'doctrine',
-                        Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES   => false,
-                        Doctrine::ATTR_USE_DQL_CALLBACKS        => false,
-                        Doctrine::ATTR_AUTO_ACCESSOR_OVERRIDE   => false,
+                        Doctrine::ATTR_CACHE                        => null,
+                        Doctrine::ATTR_RESULT_CACHE                 => null,
+                        Doctrine::ATTR_QUERY_CACHE                  => null,
+                        Doctrine::ATTR_LOAD_REFERENCES              => true,
+                        Doctrine::ATTR_LISTENER                     => new Doctrine_EventListener(),
+                        Doctrine::ATTR_RECORD_LISTENER              => new Doctrine_Record_Listener(),
+                        Doctrine::ATTR_THROW_EXCEPTIONS             => true,
+                        Doctrine::ATTR_VALIDATE                     => Doctrine::VALIDATE_NONE,
+                        Doctrine::ATTR_QUERY_LIMIT                  => Doctrine::LIMIT_RECORDS,
+                        Doctrine::ATTR_IDXNAME_FORMAT               => "%s_idx",
+                        Doctrine::ATTR_SEQNAME_FORMAT               => "%s_seq",
+                        Doctrine::ATTR_TBLNAME_FORMAT               => "%s",
+                        Doctrine::ATTR_FKNAME_FORMAT                => "%s",
+                        Doctrine::ATTR_QUOTE_IDENTIFIER             => false,
+                        Doctrine::ATTR_SEQCOL_NAME                  => 'id',
+                        Doctrine::ATTR_PORTABILITY                  => Doctrine::PORTABILITY_NONE,
+                        Doctrine::ATTR_EXPORT                       => Doctrine::EXPORT_ALL,
+                        Doctrine::ATTR_DECIMAL_PLACES               => 2,
+                        Doctrine::ATTR_DEFAULT_PARAM_NAMESPACE      => 'doctrine',
+                        Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES       => false,
+                        Doctrine::ATTR_USE_DQL_CALLBACKS            => false,
+                        Doctrine::ATTR_AUTO_ACCESSOR_OVERRIDE       => false,
+                        Doctrine::ATTR_AUTO_FREE_QUERY_OBJECTS      => false,
+                        Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS   => array(),
+                        Doctrine::ATTR_DEFAULT_COLUMN_OPTIONS       => array(),
+                        Doctrine::ATTR_HYDRATE_OVERWRITE            => true
                         ); 
             foreach ($attributes as $attribute => $value) {
                 $old = $this->getAttribute($attribute);
@@ -526,7 +541,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     {
         $key = (string) $key;
         if ( ! isset($this->_connections[$key])) {
-            throw new Doctrine_Connection_Exception("Connection key '$key' does not exist.");
+            throw new Doctrine_Manager_Exception("Connection key '$key' does not exist.");
         }
         $this->_currIndex = $key;
     }
@@ -641,5 +656,52 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
         $r[] = "Connections : ".count($this->_connections);
         $r[] = "</pre>";
         return implode("\n",$r);
+    }
+
+    /**
+     * Get available doctrine validators
+     *
+     * @return array $validators
+     */
+    public function getValidators()
+    {
+        if ( ! $this->_loadedValidatorsFromDisk) {
+            $this->_loadedValidatorsFromDisk = true;
+
+            $validators = array();
+
+            $dir = Doctrine::getPath() . DIRECTORY_SEPARATOR . 'Doctrine' . DIRECTORY_SEPARATOR . 'Validator';
+
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::LEAVES_ONLY);
+            foreach ($files as $file) {
+                $e = explode('.', $file->getFileName());
+
+                if (end($e) == 'php') {
+                    $name = strtolower($e[0]);
+
+                    $validators[] = $name;
+                }
+            }
+
+            $this->registerValidators($validators);
+        }
+
+        return $this->_validators;
+    }
+
+    /**
+     * Register validators so that Doctrine is aware of them
+     *
+     * @param  mixed $validators Name of validator or array of validators
+     * @return void
+     */
+    public function registerValidators($validators)
+    {
+        $validators = (array) $validators;
+        foreach ($validators as $validator) {
+            if ( ! in_array($validator, $this->_validators)) {
+                $this->_validators[] = $validator;
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Lib.php 5197 2008-11-20 21:07:01Z jwage $
+ *  $Id: Lib.php 5231 2008-12-01 22:31:22Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5197 $
+ * @version     $Revision: 5231 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Lib
@@ -255,33 +255,6 @@ class Doctrine_Lib
                 return call_user_func_array(array('Doctrine_Lib', 'arrayDeepMerge'), $args);
             break;
         }
-    }
-
-    /**
-     * getValidators
-     *
-     * Get available doctrine validators
-     *
-     * @return array $validators
-     */
-    public static function getValidators()
-    {
-        $validators = array();
-
-        $dir = Doctrine::getPath() . DIRECTORY_SEPARATOR . 'Doctrine' . DIRECTORY_SEPARATOR . 'Validator';
-
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::LEAVES_ONLY);
-        foreach ($files as $file) {
-            $e = explode('.', $file->getFileName());
-
-            if (end($e) == 'php') {
-                $name = strtolower($e[0]);
-
-                $validators[$name] = $name;
-            }
-        }
-
-        return $validators;
     }
 
     /**

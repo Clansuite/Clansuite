@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Connection.php 5324 2008-12-30 16:00:44Z guilhermeblanco $
+ *  $Id: Connection.php 5529 2009-02-19 19:29:53Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -49,7 +49,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5324 $
+ * @version     $Revision: 5529 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Lukas Smith <smith@pooteeweet.org> (MDB2 library)
  */
@@ -153,6 +153,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
                                   'wildcards'           => array('%', '_'),
                                   'varchar_max_length'  => 255,
                                   'sql_file_delimiter'  => ";\n",
+                                  'max_identifier_length' => 64,
                                   );
 
     /**
@@ -163,9 +164,9 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     protected $options    = array();
 
     /**
-     * @var array $availableDrivers         an array containing all available drivers
+     * @var array $supportedDrivers         an array containing all supported drivers
      */
-    private static $availableDrivers    = array(
+    private static $supportedDrivers    = array(
                                         'Mysql',
                                         'Pgsql',
                                         'Oracle',
@@ -175,6 +176,14 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
                                         'Firebird'
                                         );
     protected $_count = 0;
+
+    /**
+     * @var array $_userFkNames                 array of foreign key names that have been used
+     */
+    protected $_usedNames = array(
+            'foreign_keys' => array(),
+            'indexes' => array()
+        );
 
     /**
      * the constructor
@@ -297,6 +306,16 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     public static function getAvailableDrivers()
     {
         return PDO::getAvailableDrivers();
+    }
+
+    /**
+     * Returns an array of supported drivers by Doctrine
+     *
+     * @return array $supportedDrivers
+     */
+    public static function getSupportedDrivers()
+    {
+        return self::$supportedDrivers;
     }
 
     /**
@@ -451,7 +470,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         $found = false;
         
         if (extension_loaded('pdo')) {
-            if (in_array($e[0], PDO::getAvailableDrivers())) {
+            if (in_array($e[0], self::getAvailableDrivers())) {
             	try {
                     $this->dbh = new PDO($this->options['dsn'], $this->options['username'], 
                                      (!$this->options['password'] ? '':$this->options['password']), $this->options['other']);
@@ -672,16 +691,6 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
                 . ' VALUES (' . implode(', ', $a) . ')';
 
         return $this->exec($query, array_values($fields));
-    }
-
-    /**
-     * Set the charset on the current connection
-     *
-     * @param string    charset
-     */
-    public function setCharset($charset)
-    {
-
     }
 
     /**
@@ -1017,9 +1026,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
                 return $stmt;
             }
-        } 
-        catch (Doctrine_Adapter_Exception $e) { }
-        catch (PDOException $e) { }
+        } catch (Doctrine_Adapter_Exception $e) {
+        } catch (PDOException $e) { }
 
         $this->rethrowException($e, $this);
     }
@@ -1109,6 +1117,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         if (isset($this->tables[$name])) {
             return $this->tables[$name];
         }
+        
         $class = $name . 'Table';
 
         if (class_exists($class, $this->getAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES)) &&
@@ -1117,9 +1126,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         } else {
             $table = new Doctrine_Table($name, $this, true);
         }
-
-        $this->tables[$name] = $table;
-
+        
         return $table;
     }
 
@@ -1446,13 +1453,6 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         // Close the temporary connection used to issue the drop database command
         $this->getManager()->closeConnection($tmpConnection);
 
-        // Re-create Doctrine or PDO style dsn
-        if ($info['unix_socket']) {
-            $dsn = array($info['scheme'] . ':unix_socket=' . $info['unix_socket'] . ';dbname=' . $info['dbname'], $this->getOption('username'), $this->getOption('password'));
-        } else {
-            $dsn = $info['scheme'] . '://' . $this->getOption('username') . ':' . $this->getOption('password') . '@' . $info['host'] . '/' . $info['dbname'];
-        }
-
         if (isset($e)) {
             return $e;
         } else {
@@ -1487,13 +1487,6 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         // Close the temporary connection used to issue the drop database command
         $this->getManager()->closeConnection($tmpConnection);
 
-        // Re-create Doctrine or PDO style dsn
-        if ($info['unix_socket']) {
-            $dsn = array($info['scheme'] . ':unix_socket=' . $info['unix_socket'] . ';dbname=' . $info['dbname'], $this->getOption('username'), $this->getOption('password'));
-        } else {
-            $dsn = $info['scheme'] . '://' . $this->getOption('username') . ':' . $this->getOption('password') . '@' . $info['host'] . '/' . $info['dbname'];
-        }
-
         if (isset($e)) {
             return $e;
         } else {
@@ -1515,11 +1508,17 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      */
     public function getTmpConnection($info)
     {
+        $pdoDsn = $info['scheme'] . ':';
+        
         if ($info['unix_socket']) {
-            $pdoDsn = $info['scheme'] . ':unix_socket=' . $info['unix_socket'];
-        } else {
- 	        $pdoDsn = $info['scheme'] . ':host=' . $info['host'];
+            $pdoDsn .= 'unix_socket=' . $info['unix_socket'] . ';';
         }
+
+ 	    $pdoDsn .= 'host=' . $info['host'];
+
+ 	    if ($info['port']) {
+ 	        $pdoDsn .= ';port=' . $info['port'];
+ 	    }
 
         if (isset($this->export->tmpConnectionDatabase) && $this->export->tmpConnectionDatabase) {
             $pdoDsn .= ';dbname=' . $this->export->tmpConnectionDatabase;
@@ -1590,5 +1589,77 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
         foreach ($array as $name => $values) {
             $this->$name = $values;
         }
+    }
+
+    /**
+     * Get/generate a unique foreign key name for a relationship
+     *
+     * @param  Doctrine_Relation $relation  Relation object to generate the foreign key name for
+     * @return string $fkName
+     */
+    public function generateUniqueRelationForeignKeyName(Doctrine_Relation $relation)
+    {
+        $parts = array(
+            $relation['localTable']->getTableName(),
+            $relation->getLocalColumnName(),
+            $relation['table']->getTableName(),
+            $relation->getForeignColumnName(),
+        );
+        $key = implode('_', array_merge($parts, array($relation['onDelete']), array($relation['onUpdate'])));
+        $format = $this->getAttribute(Doctrine::ATTR_FKNAME_FORMAT);
+
+        return $this->_generateUniqueName('foreign_keys', $parts, $key, $format, $this->properties['max_identifier_length']);
+    }
+
+    /**
+     * Get/generate unique index name for a table name and set of fields
+     *
+     * @param string $tableName     The name of the table the index exists
+     * @param string $fields        The fields that makes up the index
+     * @return string $indexName    The name of the generated index
+     */
+    public function generateUniqueIndexName($tableName, $fields)
+    {
+        $fields = (array) $fields;
+        $parts = array($tableName);
+        $parts = array_merge($parts, $fields);
+        $key = implode('_', $parts);
+        $format = $this->getAttribute(Doctrine::ATTR_IDXNAME_FORMAT);
+
+        return $this->_generateUniqueName('indexes', $parts, $key, $format, $this->properties['max_identifier_length']);
+    }
+
+    protected function _generateUniqueName($type, $parts, $key, $format = '%s', $maxLength = 64)
+    {
+        if (isset($this->_usedNames[$type][$key])) {
+            return $this->_usedNames[$type][$key];
+        }
+
+        $generated = implode('_', $parts);
+        // If the final length is greater than 64 we need to create an abbreviated fk name
+        if (strlen(sprintf($format, $generated)) > $maxLength) {
+            $generated = '';
+            foreach ($parts as $part) {
+                $generated .= $part[0];
+            }
+            $name = $generated;
+        } else {
+            $name = $generated;
+        }
+
+        $count = 1;
+        while (in_array($name, $this->_usedNames[$type])) {
+            $e = explode('_', $name);
+            $end = end($e);
+            if (is_numeric($end))
+            {
+              unset($e[count($e) - 1]);
+              $fkName = implode('_', $e);
+            }
+            $name = $name . '_' . $count++;
+        }
+        $this->_usedNames[$type][$key] = $name;
+
+        return $name;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Oracle.php 5116 2008-10-21 20:35:42Z adrive $
+ *  $Id: Oracle.php 5286 2008-12-11 09:56:16Z adrive $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5116 $
+ * @version     $Revision: 5286 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Connection_Oracle extends Doctrine_Connection
@@ -63,6 +63,7 @@ class Doctrine_Connection_Oracle extends Doctrine_Connection
         $this->properties['sql_file_delimiter']   = "\n/\n";
         $this->properties['varchar2_max_length']  = 4000;
         $this->properties['number_max_precision'] = 38;
+        $this->properties['max_identifier_length'] = 30;
         
         parent::__construct($manager, $adapter);
     }

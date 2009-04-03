@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Pgsql.php 5297 2008-12-17 20:44:10Z jwage $
+ *  $Id: Pgsql.php 5440 2009-01-30 22:41:39Z Kronuz $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Paul Cooper <pgc@ucecom.com>
  * @author      Lukas Smith <smith@pooteeweet.org> (PEAR MDB2 library)
- * @version     $Revision: 5297 $
+ * @version     $Revision: 5440 $
  * @link        www.phpdoctrine.org
  * @since       1.0
  */
@@ -405,8 +405,8 @@ class Doctrine_DataDict_Pgsql extends Doctrine_DataDict
                     }
                 }
                 return 'INT';
-	    case 'inet':
-		return 'INET';
+			case 'inet':
+				return 'INET';
             case 'bit':
             case 'varbit':
                 return 'VARBIT';		
@@ -415,9 +415,9 @@ class Doctrine_DataDict_Pgsql extends Doctrine_DataDict
             case 'date':
                 return 'DATE';
             case 'time':
-                return 'TIME without time zone';
+                return 'TIME';
             case 'timestamp':
-                return 'TIMESTAMP without time zone';
+                return 'TIMESTAMP';
             case 'float':
             case 'double':
                 return 'FLOAT';

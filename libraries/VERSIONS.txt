@@ -10,7 +10,7 @@ BB Code String Parsing    0.3.1      GPL v1 or above
                                      Artistic L v2 or above   http://www.christian-seiler.de
 BROWSCAP                  0.7        LGPL 2.1 or above        http://garetjax.info/projects/browscap/
 CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
-DOCTRINE                  0.11       LGPL                     http://www.doctrine.org
+DOCTRINE                  0.11       LGPL                     http://www.doctrine-project.or
 FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/

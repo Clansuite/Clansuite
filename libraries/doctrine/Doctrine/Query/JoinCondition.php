@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JoinCondition.php 5066 2008-10-08 06:44:26Z guilhermeblanco $
+ *  $Id: JoinCondition.php 5501 2009-02-16 20:35:26Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5066 $
+ * @version     $Revision: 5501 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition 
@@ -77,6 +77,7 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
                     // subquery found
                     $q     = $this->query->createSubquery()->parseQuery($trimmed, false);
                     $value   = '(' . $q->getSql() . ')';
+                    $q->free();
                 } elseif (substr($trimmed_upper, 0, 4) == 'SQL:') {
                     // Change due to bug "(" XXX ")"
                     //$value = '(' . substr($trimmed, 4) . ')';

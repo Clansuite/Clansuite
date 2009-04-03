@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Configurable.php 5000 2008-09-28 20:06:20Z jwage $
+ *  $Id: Configurable.php 5457 2009-02-03 03:55:57Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5000 $
+ * @version     $Revision: 5457 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
@@ -182,6 +182,12 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
             case Doctrine::ATTR_RECURSIVE_MERGE_FIXTURES;
             case Doctrine::ATTR_USE_DQL_CALLBACKS;
             case Doctrine::ATTR_AUTO_ACCESSOR_OVERRIDE;
+            case Doctrine::ATTR_AUTO_FREE_QUERY_OBJECTS;
+            case Doctrine::ATTR_DEFAULT_TABLE_CHARSET;
+            case Doctrine::ATTR_DEFAULT_TABLE_COLLATE;
+            case Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS;
+            case Doctrine::ATTR_DEFAULT_COLUMN_OPTIONS;
+            case Doctrine::ATTR_HYDRATE_OVERWRITE;
 
                 break;
             case Doctrine::ATTR_SEQCOL_NAME:
@@ -196,6 +202,7 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
             case Doctrine::ATTR_SEQNAME_FORMAT:
             case Doctrine::ATTR_IDXNAME_FORMAT:
             case Doctrine::ATTR_TBLNAME_FORMAT:
+            case Doctrine::ATTR_FKNAME_FORMAT:
                 if ($this instanceof Doctrine_Table) {
                     throw new Doctrine_Exception('Sequence / index name format attributes cannot be set'
                                                . 'at table level (only at connection or global level).');
@@ -457,6 +464,46 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Set the charset
+     *
+     * @param string $charset
+     */
+    public function setCharset($charset)
+    {
+        $this->setAttribute(Doctrine::ATTR_DEFAULT_TABLE_CHARSET, $charset);
+    }
+
+    /**
+     * Get the charset
+     *
+     * @return mixed
+     */
+    public function getCharset()
+    {
+        return $this->getAttribute(Doctrine::ATTR_DEFAULT_TABLE_CHARSET);
+    }
+
+    /**
+     * Set the collate
+     *
+     * @param string $collate
+     */
+    public function setCollate($collate)
+    {
+        $this->setAttribute(Doctrine::ATTR_DEFAULT_TABLE_COLLATE, $collate);
+    }
+
+    /**
+     * Get the collate
+     *
+     * @return mixed $collate
+     */
+    public function getCollate()
+    {
+        return $this->getAttribute(Doctrine::ATTR_DEFAULT_TABLE_COLLATE);
     }
 
     /**

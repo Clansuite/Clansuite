@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Relation.php 5095 2008-10-15 21:45:14Z jwage $
+ *  $Id: Relation.php 5268 2008-12-04 23:26:12Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5095 $
+ * @version     $Revision: 5268 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 abstract class Doctrine_Relation implements ArrayAccess
@@ -352,6 +352,16 @@ abstract class Doctrine_Relation implements ArrayAccess
      * @return Doctrine_Record|Doctrine_Collection
      */
     abstract public function fetchRelatedFor(Doctrine_Record $record);
+
+    /**
+     * Get the name of the foreign key for this relationship
+     *
+     * @return string $foreignKeyName
+     */
+    public function getForeignKeyName()
+    {
+        return $this['localTable']->getConnection()->generateUniqueRelationForeignKeyName($this);
+    }
 
     /**
      * __toString

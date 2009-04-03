@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Mssql.php 5203 2008-11-21 12:36:27Z guilhermeblanco $
+ *  $Id: Mssql.php 5482 2009-02-13 02:03:23Z guilhermeblanco $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5203 $
+ * @version     $Revision: 5482 $
  */
 class Doctrine_Export_Mssql extends Doctrine_Export
 {
@@ -285,7 +285,7 @@ class Doctrine_Export_Mssql extends Doctrine_Export
         $query .= ' (' . $this->getIndexFieldDeclarationList($definition['fields']) . ')';
 
         return $query;
-    }
+    }    
     
     /**
      * getNotNullFieldDeclaration
@@ -297,6 +297,9 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      */
     public function getNotNullFieldDeclaration(array $definition)
     {
-        return (isset($definition['notnull']) && $definition['notnull']) ? ' NOT NULL' : ' NULL';
+        return (
+            (isset($definition['notnull']) && $definition['notnull']) || 
+            (isset($definition['primary']) && $definition['primary'])
+        ) ? ' NOT NULL' : ' NULL';
     }
 }

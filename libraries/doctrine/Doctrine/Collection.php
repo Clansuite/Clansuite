@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Collection.php 5049 2008-10-04 20:51:17Z jwage $
+ *  $Id: Collection.php 5047 2008-10-03 01:54:03Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5049 $
+ * @version     $Revision: 5047 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Collection extends Doctrine_Access implements Countable, IteratorAggregate, Serializable
@@ -687,6 +687,22 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         }
         
         return $data;
+    }
+
+    /**
+     * Build an array made up of the values from the 2 specified columns
+     *
+     * @param string $key 
+     * @param string $value 
+     * @return array $result
+     */
+    public function toKeyValueArray($key, $value)
+    {
+        $result = array();
+        foreach ($this as $record) {
+            $result[$record->$key] = $record->$value;
+        }
+        return $result;
     }
 
     /**

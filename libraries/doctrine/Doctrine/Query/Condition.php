@@ -44,7 +44,7 @@ abstract class Doctrine_Query_Condition extends Doctrine_Query_Part
         $tmp = trim($str);
         
         $parts = $this->_tokenizer->bracketExplode($str, array(' OR '), '(', ')');
-
+        
         if (count($parts) > 1) {
             $ret = array();
             foreach ($parts as $part) {
@@ -54,7 +54,7 @@ abstract class Doctrine_Query_Condition extends Doctrine_Query_Part
             $r = implode(' OR ', $ret);
         } else {
             $parts = $this->_tokenizer->bracketExplode($str, array(' AND '), '(', ')');
-            
+
             // Ticket #1388: We need to make sure we're not splitting a BETWEEN ...  AND ... clause
             $tmp = array();
 
@@ -121,8 +121,10 @@ abstract class Doctrine_Query_Condition extends Doctrine_Query_Part
                 if ( ! is_numeric($a[0])) {
                     // a component found
                     $field     = array_pop($a);
-                	  $reference = implode('.', $a);
-                    $value = $this->query->getConnection()->quoteIdentifier($this->query->getTableAlias($reference). '.' . $field);
+                	$reference = implode('.', $a);
+                    $value     = $this->query->getConnection()->quoteIdentifier(
+                        $this->query->getTableAlias($reference). '.' . $field
+                    );
                 }
             }
         } else {

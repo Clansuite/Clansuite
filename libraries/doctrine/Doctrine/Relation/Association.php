@@ -76,7 +76,7 @@ class Doctrine_Relation_Association extends Doctrine_Relation
         return $dql;
     }
 
-    /**
+	/**
      * getLocalRefColumnName
      * returns the column name of the local reference column
      */

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: NestedSet.php 5190 2008-11-19 16:12:49Z guilhermeblanco $
+ *  $Id: NestedSet.php 5558 2009-02-27 04:02:18Z guilhermeblanco $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5190 $
+ * @version     $Revision: 5558 $
  * @author      Joe Simms <joe.simms@websites4.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
@@ -60,8 +60,8 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
      */
     public function setTableDefinition()
     {
-        if ($root = $this->getAttribute('rootColumnName')) {
-            $this->table->setColumn($root, 'integer', 4);
+        if (($root = $this->getAttribute('rootColumnName')) && (!$this->table->hasColumn($root))) {
+            $this->table->setColumn($root, 'integer');
         }
 
         $this->table->setColumn('lft', 'integer', 4);
@@ -167,7 +167,9 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
         // fetch tree
         $q = $this->getBaseQuery();
 
-        $q = $q->addWhere($this->_baseAlias . ".lft >= ?", 1);
+        $depth = isset($options['depth']) ? $options['depth'] : null;
+
+        $q->addWhere($this->_baseAlias . ".lft >= ?", 1);
 
         // if tree has many roots, then specify root id
         $rootId = isset($options['root_id']) ? $options['root_id'] : '1';
@@ -176,6 +178,10 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
                     ", " . $this->_baseAlias . ".lft ASC");
         } else {
             $q->addOrderBy($this->_baseAlias . ".lft ASC");
+        }
+
+        if ( ! is_null($depth)) { 
+            $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array(0, $depth)); 
         }
 
         $q = $this->returnQueryWithRootId($q, $rootId);
@@ -213,9 +219,9 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
         $q->addWhere($this->_baseAlias . ".lft >= ? AND " . $this->_baseAlias . ".rgt <= ?", $params)
                 ->addOrderBy($this->_baseAlias . ".lft asc");
 
-		if ( ! is_null($depth)) { 
+        if ( ! is_null($depth)) { 
             $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array($record->get('level'), $record->get('level')+$depth)); 
-        }        
+        }
 
         $q = $this->returnQueryWithRootId($q, $record->getNode()->getRootValue());
 

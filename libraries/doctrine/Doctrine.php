@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Doctrine.php 5335 2009-01-05 20:24:09Z pookey $
+ *  $Id: Doctrine.php 5606 2009-03-17 00:14:30Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,14 +29,14 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5335 $
+ * @version     $Revision: 5606 $
  */
 final class Doctrine
 {
     /**
      * VERSION
      */
-    const VERSION                   = '1.0.6';
+    const VERSION                   = '1.1.0';
 
     /**
      * ERROR CONSTANTS
@@ -161,6 +161,7 @@ final class Doctrine
     const ATTR_DBNAME_FORMAT        = 117;
     const ATTR_TBLCLASS_FORMAT      = 119;
     const ATTR_TBLNAME_FORMAT       = 120;
+    const ATTR_FKNAME_FORMAT        = 171;
     const ATTR_EXPORT               = 140;
     const ATTR_DECIMAL_PLACES       = 141;
 
@@ -176,26 +177,32 @@ final class Doctrine
     const ATTR_USE_NATIVE_ENUM      = 117;
     const ATTR_DEFAULT_SEQUENCE     = 133;
 
-    const ATTR_FETCHMODE                = 118;
-    const ATTR_NAME_PREFIX              = 121;
-    const ATTR_CREATE_TABLES            = 122;
-    const ATTR_COLL_LIMIT               = 123;
-
-    const ATTR_CACHE                    = 150;
-    const ATTR_RESULT_CACHE             = 150;
-    const ATTR_CACHE_LIFESPAN           = 151;
-    const ATTR_RESULT_CACHE_LIFESPAN    = 151;
-    const ATTR_LOAD_REFERENCES          = 153;
-    const ATTR_RECORD_LISTENER          = 154;
-    const ATTR_THROW_EXCEPTIONS         = 155;
-    const ATTR_DEFAULT_PARAM_NAMESPACE  = 156;
-    const ATTR_QUERY_CACHE              = 157;
-    const ATTR_QUERY_CACHE_LIFESPAN     = 158;
-    const ATTR_AUTOLOAD_TABLE_CLASSES   = 160;
-    const ATTR_MODEL_LOADING            = 161;
-    const ATTR_RECURSIVE_MERGE_FIXTURES = 162;
-    const ATTR_USE_DQL_CALLBACKS        = 164;
-    const ATTR_AUTO_ACCESSOR_OVERRIDE   = 165;
+    const ATTR_FETCHMODE                    = 118;
+    const ATTR_NAME_PREFIX                  = 121;
+    const ATTR_CREATE_TABLES                = 122;
+    const ATTR_COLL_LIMIT                   = 123;
+                                        
+    const ATTR_CACHE                        = 150;
+    const ATTR_RESULT_CACHE                 = 150;
+    const ATTR_CACHE_LIFESPAN               = 151;
+    const ATTR_RESULT_CACHE_LIFESPAN        = 151;
+    const ATTR_LOAD_REFERENCES              = 153;
+    const ATTR_RECORD_LISTENER              = 154;
+    const ATTR_THROW_EXCEPTIONS             = 155;
+    const ATTR_DEFAULT_PARAM_NAMESPACE      = 156;
+    const ATTR_QUERY_CACHE                  = 157;
+    const ATTR_QUERY_CACHE_LIFESPAN         = 158;
+    const ATTR_AUTOLOAD_TABLE_CLASSES       = 160;
+    const ATTR_MODEL_LOADING                = 161;
+    const ATTR_RECURSIVE_MERGE_FIXTURES     = 162;
+    const ATTR_USE_DQL_CALLBACKS            = 164;
+    const ATTR_AUTO_ACCESSOR_OVERRIDE       = 165;
+    const ATTR_AUTO_FREE_QUERY_OBJECTS      = 166;
+    const ATTR_DEFAULT_TABLE_CHARSET        = 167;
+    const ATTR_DEFAULT_TABLE_COLLATE        = 168;
+    const ATTR_DEFAULT_IDENTIFIER_OPTIONS   = 169;
+    const ATTR_DEFAULT_COLUMN_OPTIONS       = 170;
+    const ATTR_HYDRATE_OVERWRITE            = 172;
 
     /**
      * LIMIT CONSTANTS
@@ -329,6 +336,16 @@ final class Doctrine
      * HYDRATE_NONE
      */
     const HYDRATE_NONE              = 4;
+    
+    /**
+     * HYDRATE_SCALAR
+     */
+    const HYDRATE_SCALAR            = 5;
+    
+    /**
+     * HYDRATE_SINGLE_SCALAR
+     */
+    const HYDRATE_SINGLE_SCALAR     = 6;
 
     /**
      * VALIDATION CONSTANTS
@@ -904,6 +921,22 @@ final class Doctrine
         $builder = new Doctrine_Migration_Builder($migrationsPath);
 
         return $builder->generateMigrationsFromModels($modelsPath, $modelLoading);
+    }
+
+    /**
+     * Generate a set of migration classes by generating differences between two sets
+     * of schema information
+     *
+     * @param  string $migrationsPath   Path to your Doctrine migration classes
+     * @param  string $from             From schema information
+     * @param  string $to               To schema information
+     * @return array $changes
+     */
+    public static function generateMigrationsFromDiff($migrationsPath, $from, $to)
+    {
+        $diff = new Doctrine_Migration_Diff($from, $to, $migrationsPath);
+
+        return $diff->generateMigrationClasses();
     }
 
     /**

@@ -66,7 +66,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      */
     public function addListener($listener, $name = null)
     {
-        $this->_table->addRecordListener($listener, $name = null);
+        $this->_table->addRecordListener($listener, $name);
 
         return $this;
     }
@@ -112,6 +112,27 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
             return $this->_table->addIndex($name, $definition);
         }
     }
+
+    /**
+     * Specify an array of fields that are unique and will be validated as such
+     *
+     * @return void
+     */
+    public function unique()
+    {
+        $args = func_get_args();
+
+        if (count($args) == 1) {
+            $fields = (array) $args[0];
+        } else if (count($args) > 1) {
+            $fields = $args;
+        } else {
+            throw new Doctrine_Record_Exception('You must specify the fields to make a unique constraint on.');
+        }
+
+        return $this->_table->unique($fields);
+    }
+
     public function setAttribute($attr, $value)
     {
         $this->_table->setAttribute($attr, $value);
@@ -139,6 +160,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
             $this->_table->setOption('inheritanceMap', $mapColumnNames);
             return;
         }
+
         $this->_table->setOption('subclasses', array_keys($map));
     }
 
@@ -232,7 +254,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * @param mixed $options
      * @return void
      */
-    public function hasColumn($name, $type, $length = 2147483647, $options = "")
+    public function hasColumn($name, $type = null, $length = null, $options = array())
     {
         $this->_table->setColumn($name, $type, $length, $options);
     }
