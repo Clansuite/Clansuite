@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Export.php 5102 2008-10-16 11:03:01Z adrive $
+ *  $Id: Export.php 5106 2008-10-17 08:11:31Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5102 $
+ * @version     $Revision: 5106 $
  */
 class Doctrine_Export extends Doctrine_Connection_Module
 {
@@ -1006,7 +1006,7 @@ class Doctrine_Export extends Doctrine_Connection_Module
     {
         $sql = '';
         if (isset($definition['name'])) {
-            $sql .= ' CONSTRAINT ' . $this->conn->quoteIdentifier($definition['name']) . ' ';
+            $sql .= 'CONSTRAINT ' . $this->conn->quoteIdentifier($definition['name']) . ' ';
         }
         $sql .= 'FOREIGN KEY (';
 

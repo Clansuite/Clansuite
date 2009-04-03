@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: RawSql.php 5189 2008-11-19 14:27:32Z guilhermeblanco $
+ *  $Id: RawSql.php 5489 2009-02-14 21:11:15Z guilhermeblanco $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,7 +33,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5189 $
+ * @version     $Revision: 5489 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_RawSql extends Doctrine_Query_Abstract
@@ -42,8 +42,8 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * @var array $fields
      */
     private $fields = array();
-    
-	/**
+
+    /**
      * Constructor.
      *
      * @param Doctrine_Connection  The connection object the query will use.
@@ -56,8 +56,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
         // RawSql expects to be plain SQL + syntax for SELECT part. It is used as is in query execution.
         $this->useQueryCache(false);
     }
-
-
+    
     /**
      * @deprecated
      */
@@ -169,7 +168,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
                     if ( ! isset($parts[$type][0])) {
                         $parts[$type][0] = $part;
                     } else {
-                        // why does this add to index 0 and not append to the 
+                        // why does this add to index 0 and not append to the
                         // array. If it had done that one could have used 
                         // parseQueryPart.
                         $parts[$type][0] .= ' '.$part;
@@ -191,6 +190,15 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      */
     public function getSqlQuery($params = array())
     {        
+        // Assign building/execution specific params
+        $this->_params['exec'] = $params;
+
+        // Initialize prepared parameters array
+        $this->_execParams = $this->getFlattenedParams();
+
+        // Initialize prepared parameters array
+        $this->fixArrayParameterValues($this->_execParams);
+
         $select = array();
 
         foreach ($this->fields as $field) {
@@ -246,6 +254,8 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
         reset($this->_queryComponents);
         $componentAlias = key($this->_queryComponents);
         
+        $this->_rootAlias = $componentAlias;
+
         $q .= implode(', ', $select[$componentAlias]);
         unset($select[$componentAlias]);
 
@@ -287,6 +297,9 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
         //This is not correct, if the result is not hydrated by doctrine, but it mimics the behaviour of Doctrine_Query::getCountQuery
         reset($this->_queryComponents);
         $componentAlias = key($this->_queryComponents);
+
+        $this->_rootAlias = $componentAlias;
+
         $tableAlias = $this->getSqlTableAlias($componentAlias);
         $fields = array();
 
@@ -329,13 +342,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
     public function count($params = array())
     {
         $q = $this->getCountQuery();
-
-        if ( ! is_array($params)) {
-            $params = array($params);
-        }
-
-        $params = array_merge($this->_params['join'], $this->_params['where'], $this->_params['having'], $params);
-
+        $params = $this->getCountQueryParams($params);
         $results = $this->getConnection()->fetchAll($q, $params);
 
         if (count($results) > 1) {

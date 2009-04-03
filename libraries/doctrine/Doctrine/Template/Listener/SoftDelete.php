@@ -61,6 +61,15 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
      */
     public function preDelete(Doctrine_Event $event)
     {
+        $name = $this->_options['name'];
+        $invoker = $event->getInvoker();
+        
+        if ($this->_options['type'] == 'timestamp') {
+            $invoker->$name = date('Y-m-d H:i:s', time());
+        } else if ($this->_options['type'] == 'boolean') {
+            $invoker->$name = true;
+        }
+
         $event->skipOperation();
     }
 
@@ -72,8 +81,6 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
      */
     public function postDelete(Doctrine_Event $event)
     {
-        $name = $this->_options['name'];
-        $event->getInvoker()->$name = true;
         $event->getInvoker()->save();
     }
 
@@ -91,8 +98,14 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         $query = $event->getQuery();
         if ( ! $query->contains($field)) {
             $query->from('')->update($params['component']['table']->getOption('name') . ' ' . $params['alias']);
-            $query->set($field, '?', array(true));
-            $query->addWhere($field . ' = ? OR ' . $field . ' IS NULL', array(false));
+            
+            if ($this->_options['type'] == 'timestamp') {
+                $query->set($field, '?', date('Y-m-d H:i:s', time()));
+                $query->addWhere($field . ' IS NULL');
+            } else if ($this->_options['type'] == 'boolean') {
+                $query->set($field, '?', array('true'));
+                $query->addWhere($field . ' = 0');
+            }
         }
     }
 
@@ -108,8 +121,16 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         $params = $event->getParams();
         $field = $params['alias'] . '.' . $this->_options['name'];
         $query = $event->getQuery();
-        if ( ! $query->contains($field)) {
-            $query->addWhere($field . ' = ? OR ' . $field . ' IS NULL', array(false));
+
+        // We only need to add the restriction if:
+        // 1 - We are in the root query
+        // 2 - We are in the subquery and it defines the component with that alias
+        if (( ! $query->isSubquery() || ($query->isSubquery() && $query->contains(' ' . $params['alias'] . ' '))) && ! $query->contains($field)) {
+            if ($this->_options['type'] == 'timestamp') {
+                $query->addPendingJoinCondition($params['alias'], $field . ' IS NULL');
+            } else if ($this->_options['type'] == 'boolean') {
+                $query->addPendingJoinCondition($params['alias'], $field . ' = 0');
+            }
         }
     }
 }

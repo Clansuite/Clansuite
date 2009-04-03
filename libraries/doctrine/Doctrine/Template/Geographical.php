@@ -41,23 +41,12 @@ class Doctrine_Template_Geographical extends Doctrine_Template
      */
     protected $_options = array('latitude' =>  array('name'     =>  'latitude',
                                                      'type'     =>  'float',
-                                                     'size'     =>  4,
+                                                     'size'     =>  null,
                                                      'options'  =>  array()),
                                 'longitude' => array('name'     =>  'longitude',
                                                      'type'     =>  'float',
-                                                     'size'     =>  4,
+                                                     'size'     =>  null,
                                                      'options'  =>  array()));
-
-    /**
-     * __construct
-     *
-     * @param string $array 
-     * @return void
-     */
-    public function __construct(array $options = array())
-    {
-        $this->_options = Doctrine_Lib::arrayDeepMerge($this->_options, $options);
-    }
 
     /**
      * Set table definition for Geographical behavior

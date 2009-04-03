@@ -30,20 +30,11 @@
  * @link        www.phpdoctrine.org
  * @since       1.0
  */
-class Doctrine_Search_Analyzer_Standard implements Doctrine_Search_Analyzer_Interface
+class Doctrine_Search_Analyzer_Standard extends Doctrine_Search_Analyzer implements Doctrine_Search_Analyzer_Interface
 {
     protected static $_stopwords = array(
-                            '0',
-                            '1',
-                            '2',
-                            '3',
-                            '4',
-                            '5',
-                            '6',
-                            '7',
-                            '8',
-                            '9',
-                            '10',
+                            // Ticket #1787. Fixed searchable behavior numeric evaluation
+                            // Removed the numeric 0-9 from here
                             'a',
                             'about',
                             'after',
@@ -270,10 +261,10 @@ class Doctrine_Search_Analyzer_Standard implements Doctrine_Search_Analyzer_Inte
                             'yours'
                             );
 
-    public function analyze($text)
+    public function analyze($text, $encoding = null)
     {
-    	$text = preg_replace('/[\'`´"]/', '', $text);
-    	$text = Doctrine_Inflector::unaccent($text);
+        $text = preg_replace('/[\'`´"]/', '', $text);
+        $text = Doctrine_Inflector::unaccent($text);
         $text = preg_replace('/[^A-Za-z0-9]/', ' ', $text);
         $text = str_replace('  ', ' ', $text);
 

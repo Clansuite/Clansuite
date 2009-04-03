@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Validator.php 4998 2008-09-26 20:47:39Z jwage $
+ *  $Id: Validator.php 5557 2009-02-27 03:59:30Z guilhermeblanco $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 4998 $
+ * @version     $Revision: 5557 $
  * @author      Roman Borschel <roman@code-factory.org>
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
@@ -76,6 +76,7 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
         foreach ($fields as $fieldName => $value) {
             $table->validateField($fieldName, $value, $record);
         }
+        $table->validateUniques($record);
     }
 
     /**
@@ -92,6 +93,12 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
             return true;
         } else if ($type == 'array' || $type == 'object') {
             $length = strlen(serialize($value));
+        } else if ($type == 'decimal' || $type == 'float') {
+            $e = explode('.', $value);
+            $length = strlen($e[0]);
+            if (isset($e[1])) {
+                $length = $length + strlen($e[1]);
+            }
         } else {
             $length = self::getStringLength($value);
         }
@@ -110,11 +117,11 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
     public static function getStringLength($string)
     {
         if (function_exists('iconv_strlen')) {
-            return iconv_strlen($string);
+            return iconv_strlen($string, 'UTF-8');
         } else if (function_exists('mb_strlen')) {
-            return mb_strlen($string);
+            return mb_strlen($string, 'utf8');
         } else {
-            return strlen($string);
+            return strlen(utf8_decode($string));
         }
     }
 
@@ -151,7 +158,7 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
              case 'decimal':
                  return (string)$var == strval(floatval($var));
              case 'integer':
-                 return (string)$var == strval(intval($var));
+                 return (string)$var == strval(round(floatval($var)));
              case 'string':
                  return is_string($var) || is_numeric($var);
              case 'blob':

@@ -167,7 +167,9 @@ class Doctrine_Data_Import extends Doctrine_Data
     protected function _getImportedObject($rowKey, Doctrine_Record $record, $relationName, $referringRowKey)
     {
         if ( ! isset($this->_importedObjects[$rowKey])) {
-            throw new Doctrine_Data_Exception('Invalid row key specified: ' . $rowKey);
+            throw new Doctrine_Data_Exception(
+                sprintf('Invalid row key specified: %s, referred to in %s', $rowKey, $referringRowKey)
+            );
         }
 
         $relatedRowKeyObject = $this->_importedObjects[$rowKey];
@@ -200,6 +202,9 @@ class Doctrine_Data_Import extends Doctrine_Data
                 $func = 'set' . Doctrine_Inflector::classify($key);
                 $obj->$func($value);
             } else if ($obj->getTable()->hasField($key)) {
+                if ($obj->getTable()->getTypeOf($key) == 'object') {
+                    $value = unserialize($value);
+                }
                 $obj->set($key, $value);
             } else if ($obj->getTable()->hasRelation($key)) {
                 if (is_array($value)) {
@@ -219,12 +224,18 @@ class Doctrine_Data_Import extends Doctrine_Data
                 } else {
                     $obj->set($key, $this->_getImportedObject($value, $obj, $key, $rowKey));
                 }
-            // used for Doctrine plugin methods (Doctrine_Template)
-            } else if (is_callable(array($obj, 'set' . Doctrine_Inflector::classify($key)))) {
-              $func = 'set' . Doctrine_Inflector::classify($key);
-              $obj->$func($value);
             } else {
-                throw new Doctrine_Data_Exception('Invalid fixture element "'. $key . '" under "' . $rowKey . '"');
+                try {
+                    $obj->$key = $value;
+                } catch (Exception $e) {
+                    // used for Doctrine plugin methods (Doctrine_Template)
+                    if (is_callable(array($obj, 'set' . Doctrine_Inflector::classify($key)))) {
+                        $func = 'set' . Doctrine_Inflector::classify($key);
+                        $obj->$func($value);
+                    } else {
+                        throw new Doctrine_Data_Exception('Invalid fixture element "'. $key . '" under "' . $rowKey . '"');
+                    }
+                }
             }
         }
     }
@@ -239,10 +250,21 @@ class Doctrine_Data_Import extends Doctrine_Data
     * @param $data
     * @return boolean
     */
-    protected function _hasNaturalNestedSetFormat($className, array $data) {
-		$first = current($data);
-		return isset($first['children']) && Doctrine::getTable($className)->isTree();
+    protected function _hasNaturalNestedSetFormat($className, array &$data)
+    {
+        if (Doctrine::getTable($className)->isTree()) {
+            if (isset($data['NestedSet']) && $data['NestedSet'] == true) {
+                unset($data['NestedSet']);
+                return true;
+            } else {
+                $first = current($data);
+                return array_key_exists('children', $first);
+            }
+        } else {
+            return false;
+        }
     }
+
     /**
      * Perform the loading of the data from the passed array
      *
@@ -328,7 +350,7 @@ class Doctrine_Data_Import extends Doctrine_Data
             $data  = array();
 
             if (array_key_exists('children', $nestedSet)) {
-                $children = $nestedSet['children'];
+                $children = (array) $nestedSet['children'];
                 $children = array_reverse($children, true);
                 unset($nestedSet['children']);
             }

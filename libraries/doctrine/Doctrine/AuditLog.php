@@ -35,18 +35,21 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
     /**
      * Array of AuditLog Options
      *
-     * @var string
+     * @var array
      */
-    protected $_options = array(
-                            'className'     => '%CLASS%Version',
-                            'versionColumn' => 'version',
-                            'tableName'     => false,
-                            'generateFiles' => false,
-                            'table'         => false,
-                            'pluginTable'   => false,
-                            'children'      => array(),
-                            'auditLog'      => true,
-                            );
+    protected $_options = array('className'         => '%CLASS%Version',
+                                'version'           => array('name'   => 'version',
+                                                             'alias'  => null,
+                                                             'type'   => 'integer',
+                                                             'length' => 8,
+                                                             'options' => array('primary' => true)),
+                                'tableName'         => false,
+                                'generateFiles'     => false,
+                                'table'             => false,
+                                'pluginTable'       => false,
+                                'children'          => array(),
+                                'auditLog'          => true,
+                                'deleteVersions'    => true);
 
     /**
      * Accepts array of options to configure the AuditLog
@@ -67,6 +70,8 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
     public function setTableDefinition()
     {
         $name = $this->_options['table']->getComponentName();
+
+        // Building columns
         $columns = $this->_options['table']->getColumns();
 
         // remove all sequence, autoincrement and unique constraint definitions and add to the behavior model
@@ -86,7 +91,11 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
         }
 
         // the version column should be part of the primary key definition
-        $this->hasColumn($this->_options['versionColumn'], 'integer', 8, array('primary' => true));
+        $this->hasColumn(
+	        $this->_options['version']['name'], 
+            $this->_options['version']['type'], 
+            $this->_options['version']['length'], 
+            $this->_options['version']['options']);
     }
 
     /**
@@ -108,12 +117,11 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
             $values[] = $record->get($id);
         }
 
-        $where = implode(' AND ', $conditions) . ' AND ' . $className . '.' . $this->_options['versionColumn'] . ' = ?';
+        $where = implode(' AND ', $conditions) . ' AND ' . $className . '.' . $this->_options['version']['name'] . ' = ?';
 
         $values[] = $version;
 
-        $q->from($className)
-          ->where($where);
+        $q->from($className)->where($where);
 
         return $q->execute($values, Doctrine::HYDRATE_ARRAY);
     }
@@ -127,7 +135,7 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
     public function getMaxVersion(Doctrine_Record $record)
     {
         $className = $this->_options['className'];
-        $select = 'MAX(' . $className . '.' . $this->_options['versionColumn'] . ') max_version';
+        $select = 'MAX(' . $className . '.' . $this->_options['version']['name'] . ') max_version';
 
         foreach ((array) $this->_options['table']->getIdentifier() as $id) {
             $conditions[] = $className . '.' . $id . ' = ?';

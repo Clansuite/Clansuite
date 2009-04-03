@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Mssql.php 5210 2008-11-24 13:20:58Z guilhermeblanco $
+ *  $Id: Mssql.php 5554 2009-02-26 20:19:38Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @author      Lukas Smith <smith@pooteeweet.org> (PEAR MDB2 library)
  * @author      Frank M. Kromann <frank@kromann.info> (PEAR MDB2 Mssql driver)
  * @author      David Coallier <davidc@php.net> (PEAR MDB2 Mssql driver)
- * @version     $Revision: 5210 $
+ * @version     $Revision: 5554 $
  * @link        www.phpdoctrine.org
  * @since       1.0
  */
@@ -153,7 +153,7 @@ class Doctrine_Import_Mssql extends Doctrine_Import
      */
     public function listTables($database = null)
     {
-        $sql = "SELECT name FROM sysobjects WHERE type = 'U' AND name <> 'dtproperties' ORDER BY name";
+        $sql = "SELECT name FROM sysobjects WHERE type = 'U' AND name <> 'dtproperties' AND name <> 'sysdiagrams' ORDER BY name";
 
         return $this->conn->fetchColumn($sql);
     }
