@@ -52,6 +52,8 @@ class language implements ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
         $this->language['PDO_LIBRARY'] = 'PDO - Library';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Library';
+        $this->language['CLASS_REFLECTION'] = 'PHP Reflection Support';
+        $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
         $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Can write: /templates_c';
@@ -60,10 +62,13 @@ class language implements ArrayAccess
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
 
         # RECOMMENDED SETTINGS (in order)
-        $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit (Minimum 8M, recommend 16M)';
+        $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit';
         $this->language['FILE_UPLOADS'] = 'File Uploads enabled?';
+        $this->language['MAX_UPLOAD_FILESIZE'] = 'Checking maximal upload filesize';
+        $this->language['POST_MAX_SIZE'] = 'Checking maximal size of posts';
         $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
-        $this->language['ALLOW_URL_FOPEN'] = 'ALLOW_URL_FOPEN';
+        $this->language['ALLOW_URL_FOPEN'] = 'Remote File Open';
+        $this->language['ALLOW_URL_INCLUDE'] = 'Remote File Inclusion';
         $this->language['SAFE_MODE'] = 'SAFE_MODE';
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
@@ -80,6 +85,9 @@ class language implements ArrayAccess
         $this->language['EXTENSION_GEOIP'] = 'PHP Extension: GeoIP';
         $this->language['EXTENSION_CURL'] = 'PHP Extension: cURL';
         $this->language['EXTENSION_SYCK'] = 'PHP Extension: SYCK';
+        $this->language['EXTENSION_APC'] = 'PHP Extension: APC';
+        $this->language['EXTENSION_MEMCACHE'] = 'PHP Extension: MEMCACHE';
+        $this->language['EXTENSION_MCRYPT'] = 'PHP Extension: MCRYPT';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
