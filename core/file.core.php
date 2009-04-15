@@ -188,43 +188,52 @@ class Clansuite_File
      * Moves uploaded file to the specified destination directory.
      *
      * @param $destination string  destination directory
+     * @param $overwrite boolean overwrite 
      * @throws Clansuite_Exception  on failure
      */
     public function moveTo($destination, $overwrite = false)
     {
-        if ( ! $this->isValid())
+        # ensure upload was valid
+        if ( false == $this->isValid())
         {
             throw new Clansuite_Exception('File upload was not successful.', $this->getError());
         }
 
-        if ( ! $this->hasValidExtension())
+        # ensure a valid file extension was used
+        if ( false == $this->hasValidExtension())
         {
             throw new Clansuite_Exception('File does not have an allowed extension.');
         }
 
-        if ( ! is_dir($destination))
+        # ensure destination directory exists
+        if ( false == is_dir($destination))
         {
             throw new Clansuite_Exception($destination . ' is not a directory.');
         }
 
-        if ( ! is_writeable($destination))
+        # ensure destination directory is writeable
+        if ( false == is_writeable($destination))
         {
             throw new Clansuite_Exception('Cannot write to destination directory ' . $destination);
         }
 
+        # check if the destination as a file exists
         if (is_file($destination))
-        {
-            if ( ! $overwrite)
+        {  
+            # exit here, if overwrite is not requested
+            if ( false == $overwrite)
             {
                 throw new Clansuite_Exception('File ' . $destination . ' already exists.');
             }
-            if ( ! is_writeable($destination))
+            
+            
+            if ( false == is_writeable($destination))
             {
                 throw new Clansuite_Exception('Cannot overwrite ' . $destination);
             }
         }
 
-        if ( ! move_uploaded_file($this->tmpName, $destination))
+        if ( false == move_uploaded_file($this->tmpName, $destination))
         {
             throw new Clansuite_Exception('Moving uploaded file failed.');
         }

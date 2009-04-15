@@ -75,10 +75,7 @@ class Clansuite_Eventdispatcher
     private $eventhandlers = array();
 
     /**
-     * Clansuite_EventManager is a Singelton implementation
-     *
-     * @static
-     * @access public
+     * Clansuite_Eventhandler is a Singelton implementation
      */
     public static function instantiate()
     {
@@ -86,14 +83,31 @@ class Clansuite_Eventdispatcher
         {
             self::instance = new Clansuite_Eventhandler();
         }
-        return self::instance;       
+        return self::instance;
     }
 
     /**
-     * add an EventHandler to the Eventhandlers Array
+     * Returns an array of all registered eventhandlers for a eventName.
      *
-     * @param $eventName Name of the Event
-     * @param $event Instance of Clansuite_Event
+     * @param string $name    The event name
+     *
+     * @return array  Array of all eventhandlers for a certain event.
+     */
+    public function getEventHandlersForEvent($eventName)
+    {
+        if (!isset($this->eventhandlers[$eventName]))
+        {
+            return array();
+        }
+
+        return $this->eventhandlers[$eventName];
+    }
+
+    /**
+     * Adds an Event to the Eventhandlers Array
+     *
+     * @param $eventName    Name of the Event
+     * @param $event        Instance of Clansuite_Event
      */
     public function addEventHandler($eventName, Clansuite_Event $event)
     {
@@ -107,6 +121,18 @@ class Clansuite_Eventdispatcher
         $this->eventhandlers[$eventName][] = $event;
     }
 
+    public function removeEventHandlers($eventName)
+    {
+        # if eventhandler is not added, we have nothing to remove
+        if (!isset($this->eventhandlers[$eventName]))
+        {
+            return false;
+        }
+
+        # unset all eventhandlers for this event
+        unset($this->eventhandlers[$eventName]);
+    }
+
     /**
      * triggerEvent
      *
@@ -116,7 +142,11 @@ class Clansuite_Eventdispatcher
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
-        # init Event Class with constructor settings
+        /**
+         * init Event Class with constructor settings
+         * if $event is not an instance of Clansuite_Event.
+         * $event string will be the $name inside $event object,
+         * accessible with $event->getName();
         if(!$event instanceof Clansuite_Event)
         {
             $event = new Clansuite_Event($event, $context, $info);
@@ -158,7 +188,7 @@ class Clansuite_Eventdispatcher
  * @subpackage  eventhandler
  * @category    core
  */
-class Clansuite_Event
+class Clansuite_Event implements ArrayAccess
 {
     # name of the event
     private $name;
@@ -172,17 +202,21 @@ class Clansuite_Event
     /**
      * Event constructor
      *
-     * @param $name
-     * @param $context default null
-     * @param $info default null
+     * @param $name     Event Name
+     * @param $context  default null
+     * @param $info     default null
      */
     public function __construct($name, $context = null, $info = null)
     {
-
+        $this->name     = $name;
+        $this->content  = $context;
+        $this->info;    = $info;
     }
 
     /**
-     * getName
+     * getName returns the Name of the Event.
+     *
+     * @return string
      */
     public function getName()
     {
@@ -190,7 +224,9 @@ class Clansuite_Event
     }
 
     /**
-     * getContext
+     * getContext returns the Context.
+     *
+     * @return string
      */
     public function getContext()
     {
@@ -198,7 +234,9 @@ class Clansuite_Event
     }
 
     /**
-     * getInfo
+     * getInfo returns
+     *
+     * @return string
      */
     public function getInfo()
     {
@@ -206,17 +244,45 @@ class Clansuite_Event
     }
 
     /**
-     * getCancelled
+     * getCancelled returns the cancelled-status of the event
+     *
+     * @returns boolean
      */
     public function getCancelled()
     {
-        return $this->cancelled;
+        return (boolean) $this->cancelled;
     }
 
-    # action cancel, sets cancelled to true
+    /**
+     * sets the cancelled flag to true
+     */
     public function cancel()
     {
         $this->cancelled = true;
     }
+
+    /**
+     * ArrayAccess Implementation
+     */
+
+   public function offsetExists($name)
+   {
+
+   }
+
+   public function offsetGet($name)
+   {
+
+   }
+
+   public function offsetSet($name, $value)
+   {
+
+   }
+
+   public function offsetUnset($name)
+   {
+
+   }
 }
 ?>

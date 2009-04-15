@@ -126,17 +126,22 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
         ini_set('session.use_trans_sid'     , 0 );
-        ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
+
+        # @todo check if there is a problem with rewriting
+        #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
+
+        # use a cookie to store the session id
         ini_set('session.use_cookies'       , $this->config['session']['use_cookies'] );
         ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
 
-        # Setup the custom session handler
+        # Setup the custom session handler methods
         session_set_save_handler(   array($this, "session_open"   ),
                                     array($this, "session_close"  ),
                                     array($this, "session_read"   ),
-                                    array($this, "session_write"  ),
-                                    array($this, "session_destroy"),
-                                    array($this, "session_gc"     ));
+                                    array($this, "session_write"  ), # this redefines session_write_close()
+                                    array($this, "session_destroy"), # this redefines session_destroy()
+                                    array($this, "session_gc"     )
+                                 );
 
         # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
         if (  strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string)$_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
@@ -188,6 +193,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     }
 
     /**
+     * =========================================
+     *      Custom Session Handler Methods
+     * =========================================
+     */
+
+    /**
      * Opens a session
      *
      * @return true
@@ -236,6 +247,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     /**
      * Write a session
      *
+     * This redefines php's session_write_close()
+     *
      * @param integer $id contains session_id
      * @param array $data contains session_data
      * @return bool
@@ -261,12 +274,14 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $session_query->session_where      = $userlocation;
         $session_query->user_id            = 0;
         $session_query->replace();
-        
+
         return true;
     }
 
    /**
 	 * Destroy the current session.
+	 *
+	 * This redefines php's session_destroy()
 	 *
 	 * @param  string $session_id
 	 *
@@ -332,6 +347,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     }
 
     /**
+     * =======================
+     *       Get and Set
+     * =======================
+     */
+
+    /**
      * Sets Data into the Session.
      *
      * @param string key
@@ -362,8 +383,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     }
 
     /**
-     * Implementation of SPL ArrayAccess
+     * =====================================
+     *   Implementation of SPL ArrayAccess
+     * =====================================
      */
+
     public function offsetExists($offset)
     {
         return isset($_SESSION[$offset]);

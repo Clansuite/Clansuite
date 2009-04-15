@@ -186,11 +186,9 @@ class clansuite_preprocessor
      */
     public static function apc_compile_files($dir)
     {
-
-
         if (!function_exists('apc_compile_file'))
         {
-            echo "ERROR: apc_compile_file does not exist!";
+            trigger_error('ERROR: apc_compile_file does not exist!');
             exit();
         }
 
