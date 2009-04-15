@@ -35,7 +35,9 @@
 
 // Security Handler
 #if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
+
 $cron = new Clansuite_Cronjobs;
+
 /**
  * Clansuite Cronjobs is a service wrapper class for stack processing of regular tasks.
  *
@@ -149,6 +151,10 @@ $cron = new Clansuite_Cronjobs;
  *
  * v1.0	01-17-2003
  * 	initial release
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cron
  */
 class Clansuite_Cronjobs
 {
@@ -576,7 +582,7 @@ class Clansuite_Cronjobs
 /**
  * Interface for Clansuite_Cronjob
  */
-interface Clansuite_Cronjob
+interface Clansuite_Cronjob_Interface
 {
     function execute();
 }

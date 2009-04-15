@@ -45,9 +45,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
- * @package     clansuite
- * @subpackage  core
- * @category    httprequest
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Doorkeeper
  */
 class Clansuite_DoorKeeper
 {
@@ -81,7 +81,7 @@ class Clansuite_DoorKeeper
             $request = array( 'GET'     => $_GET,
                               'POST'    => $_POST,
                               'COOKIE'  => $_COOKIE,
-                              'REQUEST' => $_REQUEST ); # @todo: determine, if $_REQUEST is redundant and already in $_GET + $_POST
+                              'REQUEST' => $_REQUEST ); # @todo determine, if $_REQUEST is redundant and already in $_GET + $_POST
 
             # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
 
@@ -111,7 +111,7 @@ class Clansuite_DoorKeeper
                     $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
                 }
 
-                # @todo: Use the IDS Logger or our own?
+                # @todo Use the IDS Logger or our own?
                 # require_once 'IDS/Log/File.php';  
                 # require_once 'IDS/Log/Email.php';  
                 # require_once 'IDS/Log/Composite.php';  
@@ -120,7 +120,7 @@ class Clansuite_DoorKeeper
                 # $compositeLog->execute($result);
                 
                 # Stop the execution of the application.
-                # @todo: advanced intrustion handling system (logs, blocking etc.)
+                # @todo advanced intrustion handling system (logs, blocking etc.)
                 exit($access_block_message);
             }
         }

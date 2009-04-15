@@ -41,11 +41,11 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * The Clansuite_Event has to implement a method handle()
  *
- * @package     clansuite
- * @subpackage  eventhandler
- * @category    interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Event
  */
-interface Clansuite_Event
+interface Clansuite_Event_Interface
 {
     # methods gets an Event Object
     public function execute(Clansuite_Event $event);
@@ -55,16 +55,16 @@ interface Clansuite_Event
  * Clansuite_Eventdispatcher
  *
  * Purpose:
- * Eventdispatcher is a container class for all the EventHandlers. This class is an aide for event-driven development. 
- * You can register eventhandlers under a eventname. When you trigger an event, it performs an lookup of the eventname 
+ * Eventdispatcher is a container class for all the EventHandlers. This class is an aide for event-driven development.
+ * You can register eventhandlers under a eventname. When you trigger an event, it performs an lookup of the eventname
  * over all registered eventhandlers and fires the event, if found.
  * This is a very flexible form of communication between objects.
- * 
+ *
  * @pattern EventDispatcher, Event, Advanced Subject-Observer-Pattern, Notification Queue
  *
- * @package     clansuite
- * @subpackage  eventhandler
- * @category    core
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Eventdispatcher
  */
 class Clansuite_Eventdispatcher
 {
@@ -75,13 +75,13 @@ class Clansuite_Eventdispatcher
     private $eventhandlers = array();
 
     /**
-     * Clansuite_Eventhandler is a Singelton implementation
+     * Clansuite_Eventdispatcher is a Singelton implementation
      */
     public static function instantiate()
     {
         if (self::$instance === null)
         {
-            self::instance = new Clansuite_Eventhandler();
+            self::instance = new Clansuite_Eventdispatcher();
         }
         return self::instance;
     }
@@ -139,6 +139,7 @@ class Clansuite_Eventdispatcher
      * @param $name
      * @param $context default null
      * @param $info default null
+     * @return $event object
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
@@ -184,9 +185,9 @@ class Clansuite_Eventdispatcher
 /**
  * Represents an Event
  *
- * @package     clansuite
- * @subpackage  eventhandler
- * @category    core
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Event
  */
 class Clansuite_Event implements ArrayAccess
 {
