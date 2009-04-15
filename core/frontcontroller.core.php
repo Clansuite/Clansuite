@@ -338,8 +338,8 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
 interface Clansuite_FrontController_Interface
 {
     public function processRequest(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
-    public function addPreFilter(Clansuite_FilterInterface $filter);
-    public function addPostFilter(Clansuite_FilterInterface $filter);
+    public function addPreFilter(Clansuite_Filter_Interface $filter);
+    public function addPostFilter(Clansuite_Filter_Interface $filter);
 }
 
 /**
@@ -400,7 +400,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * Method to add a Prefilter
      * Filter is processed before Controller->Action is executed
      */
-    public function addPreFilter(Clansuite_FilterInterface $filter)
+    public function addPreFilter(Clansuite_Filter_Interface $filter)
     {
         $this->pre_filtermanager->addFilter($filter);
     }
@@ -409,7 +409,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * Method to add a Postfilter
      * Filter is processed after Controller->Action was executed
      */
-    public function addPostFilter(Clansuite_FilterInterface $filter)
+    public function addPostFilter(Clansuite_Filter_Interface $filter)
     {
         $this->post_filtermanager->addFilter($filter);
     }

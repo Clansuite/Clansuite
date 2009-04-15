@@ -160,21 +160,21 @@ class Clansuite_Doctrine
 		# Get Doctrine Locator and set ClassPrefix
 		$this->locator = Doctrine_Locator::instance();
 		$this->locator->setClassPrefix('Clansuite_');
-        
+
         /**
          * Set Cache Driver
          */
         # if we have APC available and are not in debug mode, then try to cache doctrine queries
 		if(extension_loaded('apc') and (defined('DEBUG') == false) and
 		   isset($this->config['database']['db_cache']) and ('APC' == $this->config['database']['db_cache']))
-		{   
-		    $cachedriver = new Doctrine_Cache_Apc()
+		{
+		    $cachedriver = new Doctrine_Cache_Apc();
 			$this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cachedriver);
-			
+
 			# set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
 		    $this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
-		}		
-				
+		}
+
 		/**
 		 * Setup phpDoctrine Attributes for that later Connection
 		 */
@@ -215,22 +215,22 @@ class Clansuite_Doctrine
 
 		#$path = Doctrine::getPath();
 		#var_dump($path);
-		
+
 		# DBMS Portability All is Doctrines default, therefore commented out.
 		# $manager->setAttribute(Doctrine::ATTR_PORTABILITY, Doctrine::PORTABILITY_ALL);
 
 		# Validate All
-		$manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
-		
+		$this->manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
+
 		# Export All
-		$manager->setAttribute(Doctrine::ATTR_EXPORT, Doctrine::EXPORT_ALL);
+		$this->manager->setAttribute(Doctrine::ATTR_EXPORT, Doctrine::EXPORT_ALL);
 
 		# Identifier Quoting
 		# In general, quoting make things worse.
 		# Only one problem solved by quoting: usage of reserved words as field names.
 		# We won't use reserved words - therefore this attribute is disabled for now.
-		$manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, false);
-		
+		$this->manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, false);
+
 		# Set Connection Listener for Profiling
 		$this->profiler = new Doctrine_Connection_Profiler();
 		$this->connection->setListener($this->profiler);

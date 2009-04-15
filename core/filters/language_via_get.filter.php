@@ -56,9 +56,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @package clansuite
  * @subpackage filters
- * @implements Clansuite_FilterInterface
+ * @implements Clansuite_Filter_Interface
  */
-class language_via_get implements Clansuite_FilterInterface
+class language_via_get implements Clansuite_Filter_Interface
 {
     private $config     = null;     # holds instance of config
 
