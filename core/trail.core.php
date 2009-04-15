@@ -77,7 +77,7 @@ class Clansuite_Trail
                                         'link'  => WWW_ROOT . $homeLink);
             }
         }
-        
+
         /**
          * Assigns a trailstep "Control Center >>"
          *

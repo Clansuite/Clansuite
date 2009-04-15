@@ -93,6 +93,9 @@ class Clansuite_CMS
         Clansuite_CMS::start_Session();
 
         Clansuite_CMS::execute_Frontcontroller();
+        
+        # register own shutdown function
+        # register_shutdown_function(array(self,'shutdown_and_exit'));
     }
 
     /**
@@ -172,17 +175,29 @@ class Clansuite_CMS
      */
     private static function initialize_Paths()
     {
-        # DEFINE Shorthands and Syntax Declarations for DIRECTORY_SEPARATOR & PATH_SEPARATOR
+        /**
+         * DEFINE Shorthands and Syntax Declarations
+         */
         define('DS', DIRECTORY_SEPARATOR);
         define('PS', PATH_SEPARATOR);
 
-        # DEFINE -> ROOT
-        # Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+        # HTML Break + Carriage Return
+        define('NL', "<br />\r\n");
+        define('CR', "\n");
+
+        /**
+         * DEFINE -> ROOT
+         *
+         * Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+         */
         define('ROOT',  getcwd() . DS);
         #define('ROOT'       , str_replace('\\', '/', dirname(dirname(__FILE__)) ) . '/'); # Replace the DSs to Unix Style
 
-        # DEFINE -> Directories related to ROOT
-        # Purpose: absolute path shortcuts
+        /**
+         * DEFINE -> Directories related to ROOT
+         *
+         * Purpose: absolute path shortcuts
+         */
         define('ROOT_MOD'           , ROOT . self::$config['paths']['mod_folder'].DS);
         define('ROOT_THEMES'        , ROOT . self::$config['paths']['themes_folder'].DS);
         define('ROOT_LANGUAGES'     , ROOT . self::$config['paths']['language_folder'].DS);
@@ -193,9 +208,12 @@ class Clansuite_CMS
         define('ROOT_CACHE'         , ROOT . 'cache'.DS);
         define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
 
-        # DEFINE -> Webpaths for Templates
-
-        # @toto get rid of using $_SERVER
+        /**
+         * DEFINE -> Webpaths for Templates
+         *
+         * Purpose: direct usage of wwwpaths as constants in templates
+         * @toto get rid of using $_SERVER, use abstraction
+         */
 
         # 1. Determine Type of Protocol for Webpaths (http/https)
         if(isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on')
@@ -224,13 +242,15 @@ class Clansuite_CMS
         define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
         define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
 
-        # DEFINE -> Database Prefix
+        /**
+         * DEFINE -> Database Prefix
+         * @todo: maybe define this inside doctrine.core.php
+         */
         define('DB_PREFIX'          , self::$config['database']['db_prefix']);
-        # DEFINE -> HTML Break + Carriage Return
-        define('NL', "<br />\r\n");
-        define('CR', "\n");
 
-        # Set Include Path for PEAR Libraries
+        /**
+         * SET INCLUDE PATH -> for PEAR and other 3th party Libraries
+         */
         # Note: Path order is important <first path to look>:<second path>:<etc>:
         set_include_path( ROOT_LIBRARIES . 'PEAR' . DS . PS .                   # /libraries/PEAR
                           #$_SERVER['DOCUMENT_ROOT'].'/libraries/PEAR/' . PS .  # /libraries/PEAR
@@ -248,6 +268,7 @@ class Clansuite_CMS
      * The Error Reporting depends on the Debug Mode Setting.
      * When the Debug Mode is enabled Clansuite runs with error reporting set to E_ALL | E_STRICT.
      * When the Debug is disabled Clansuite will not report any errors (0).
+     *
      * For security reasons you are advised to change the Debug Mode Setting to disabled when your site goes live.
     |* For more info visit:  http://www.php.net/error_reporting
      * @note: in php6 e_strict will be moved into e_all
@@ -270,8 +291,14 @@ class Clansuite_CMS
             error_reporting(0);                 # do not report errors
         }
 
-        # Setup XDebug
-        # XDebug is set via config
+        /**
+         * Setup XDebug
+         *
+         * If Clansuite is in XDEBUG Mode an additional class is loaded, providing some
+         * helper methods for profiling, tracing and enhancing the debug displays.
+         * @see clansuite_xdebug:printR()
+         */
+        # define XDebug and set it's value via the config
         define('XDEBUG', self::$config['error']['xdebug']);
 
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
@@ -287,8 +314,9 @@ class Clansuite_CMS
      */
     private static function initialize_Loader()
     {
-        # get loaders and register/overwrite spl_autoload handling
+        # get clansuite loaders
         require 'core/bootstrap/clansuite.loader.php';
+        # and register the loading handlers by overwriting the spl_autoload handling
         clansuite_loader::register_autoload();
     }
 
@@ -317,11 +345,11 @@ class Clansuite_CMS
     }
 
     /**
-     * Register the Core Classes at the Dependency Injector
+     * Register the Clansuite Core Classes at the Dependency Injector
      */
     private static function register_DI_Core()
     {
-        # core classes to load
+        # define the core classes to load
         $core_classes = array(
                               'Clansuite_Config',
                               'Clansuite_HttpRequest',
@@ -334,7 +362,7 @@ class Clansuite_CMS
                               'Clansuite_Statistics'
                              );
 
-        # register to DI as singletons
+        # register them to the DI as singletons
         foreach( $core_classes as $class )
         {
             self::$injector->register( new Singleton( $class ) );
@@ -346,7 +374,7 @@ class Clansuite_CMS
      */
     private static function register_DI_Filters()
     {
-        # prefilters to load
+        # define prefilters to load
         self::$prefilter_classes = array(
                                          'maintenance',
                                          'get_user',
@@ -360,19 +388,19 @@ class Clansuite_CMS
                                          'statistics'
                                         );
 
-        # register the prefilters
+        # register the prefilters at the DI
         foreach( self::$prefilter_classes as $class )
         {
             self::$injector->register( $class );
         }
 
-        # postfilters to load
+        # define postfilters to load
         self::$postfilter_classes = array(
                                           #empty-at-this-time
                                           'html_tidy'
                                           );
 
-        # register the postfilters
+        # register the postfilters at the DI
         foreach( self::$postfilter_classes as $class )
         {
             self::$injector->register( $class );
@@ -390,16 +418,23 @@ class Clansuite_CMS
         $request  = self::$injector->instantiate('Clansuite_HttpRequest');
         $response = self::$injector->instantiate('Clansuite_HttpResponse');
 
-        # Setup Frontcontroller and ControllerResolver; add default module and action; start passing $injector around
+        /**
+         * Setup Frontcontroller
+         *
+         * pass ControllerResolvers for Module and Action with their defaults as fallback
+         * start passing the dependency $injector around
+         */
         $clansuite = new Clansuite_FrontController(
                          new Clansuite_ModuleController_Resolver(self::$config['defaults']['default_module']),
                          new Clansuite_ActionController_Resolver(self::$config['defaults']['default_action']),
                          self::$injector);
 
         /**
-         * Prefilters or Postfilters
+         * Add the Prefilters and Postfilters to the Frontcontroller
+         *
          * - PRE-Filters are executed before ModuleAction is triggered
          *   Examples: caching, theme
+         *
          * - POST-Filters are executed afterwards, but before view rendering
          *   Examples: output compression, character set modifications, breadcrumbs
          */
@@ -415,19 +450,7 @@ class Clansuite_CMS
         # Take off.
         $clansuite->processRequest($request, $response);
 
-        # XDebug has the last word: Stop tracing and show debugging infos.
-        if(XDEBUG)
-        {
-            clansuite_xdebug::end_xdebug();
-        }
 
-        # If DEBUG is on: fetch Doctrine's SQL-Profiling Report
-        if(DEBUG)
-        {
-            self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
-
-            echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
-        }
     }
 
     /**
@@ -481,6 +504,31 @@ class Clansuite_CMS
     private static function set_Version()
     {
         require ROOT_CORE . 'bootstrap/clansuite.version.php';
+    }
+    
+    /**
+     * ==================================================
+     *     Perform a proper Shutdown and Exit
+     * ==================================================
+     */
+    private static function shutdown_and_exit()
+    {
+        # 1) XDebug has the last word, if it was loaded.
+        if(XDEBUG)
+        {
+            # Stop the tracing and show debugging infos.
+            clansuite_xdebug::end_xdebug();
+        }
+
+        # 2) If DEBUG is on
+        if(DEBUG)
+        {
+            # append Doctrine's SQL-Profiling Report
+            self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
+
+            # and the general Application Runtime
+            echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
+        }
     }
 }
 ?>

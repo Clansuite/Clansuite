@@ -55,7 +55,7 @@ class Clansuite_Errorhandler
     /**
      * Errorhandler Constructor
      *
-     * Sets up the ErrorHandler and ExceptionHandler
+     * Sets up the ErrorHandler
      *
      * Usage:
      * trigger_error('Errormessage', E_ERROR_TYPE);
@@ -128,20 +128,21 @@ class Clansuite_Errorhandler
      * Clansuite Error callback.
      *
      * This is basically a switch defining the actions taken,
-     * in case of serveral PHP Error States
+     * in case of serveral PHP error states
+     *
+     * @link http://www.usegroup.de/software/phptutorial/debugging.html
+     * @link http://www.php.net/manual/de/function.set-error-handler.php
+     * @link http://www.php.net/manual/de/errorfunc.constants.php
      *
      * @param integer $errornumber contains the error as integer
      * @param string $errorstring contains error string info
      * @param string $errorfile contains the filename with occuring error
      * @param string $errorline contains the line of error
-     * @link http://www.usegroup.de/software/phptutorial/debugging.html
-     * @link http://www.php.net/manual/de/function.set-error-handler.php
-     * @link http://www.php.net/manual/de/errorfunc.constants.php
      */
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # do just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
-        if(($this->config['error']['suppress_errors'] == 1) OR (error_reporting() == 0))
+        if(($this->config['error']['suppress_errors'] == 1) or (error_reporting() == 0))
         {
             return;
         }
@@ -203,14 +204,14 @@ class Clansuite_Errorhandler
             default:                        $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
         }
 
-        # if DEBUG is set, display the error, else log the error
-        if ( defined('DEBUG') && DEBUG == 1 )
+        # if DEBUG is set, display the error
+        if ( defined('DEBUG') and DEBUG == 1 )
         {
-            # smarty errors are trigger_errors - so they bubble up as e_user_errors
-            # so we need to detect if an e_user_errors is coming from smarty
+            # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
+            # so we need to detect if an E_USER_ERROR is incoming from SMARTY
             if(strpos(strtolower($errorfile),'smarty') !== false)
             {
-                # echo Smarty Template Error
+                # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
             else # give normal Error Display
@@ -220,32 +221,87 @@ class Clansuite_Errorhandler
             }
         }
 
+        /*
+        # if config setting log_errors is true, log the errormessage also to file
+        if($this->config['errors']['log_to_file'] == true)
+        {
+            Clansuite_Logger::log();
+        }
+        */
+
         # Skip PHP internal error handler
         return true;
     }
 
     /**
      * Smarty Error Display
-     * prints a shorter Version of ErrorReport
+     *
+     * This method defines the html-output when an Smarty Template Error occurs.
+     * It's output is a shortened version of the normal error report, presenting
+     * only errorname, filename and the line of the error.
+     * The parameters used for the small report are $errorname, $errorfile, $errorline.
+     * If you need a full errorreport, you can add more parameters from the methodsignature
+     * to the $errormessage output.
+     *
+     * A Smarty Template Error is only displayed, when Clansuite is in DEBUG Mode.
+     * @see clansuite_error_handler()
+     *
+     * The directlink to the templateeditor to edit the template file with the error is only available,
+     * when Clansuite runs in DEVELOPMENT Mode.
+     * @see addTemplateEditorLink()
+     *
+     * @param $errornumber
+     * @param $errorname
+     * @param $errorstring
+     * @param $errorfile
+     * @param $errorline
+     * @param $errorcontext
      */
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
+        # small errorreport
         $errormessage  = "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
         $errormessage .=  '<pre/>';
         $errormessage .=  "<u>$errorname:</u><br/>";
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
         $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
         $errormessage .=  '</pre><br/>';
+
+        # add link to edit the errorous template file
+        $errormessage .= self::addTemplateEditorLink($errorfile, $errorline);
+
         return $errormessage;
     }
 
     /**
-     * Yellow Screen of Death (YSOD) is used to display errors
+     * addTemplateEditorLink
      *
-     * @param string $ErrorObject contains ErrorObject
-     * @param string $errorstring contains the Name of the Error
-     * @param string $string contains errorstring
-     * @param integer $errornumber contains errorlvl
+     * a) constructs a valid path to the errorous template file
+     * b) provides the html-link to the templateeditor for this file
+     *
+     * @param $errorfile Template File with the Error.
+     * @param $errorline Line Number of the Error.
+     * @todo correct link to the templateeditor
+     */
+    private static function addTemplateEditorLink($errorfile, $errorline)
+    {
+        # display the link to the templateeditor, if we are in DEVELOPMENT MODE
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
+        {
+            # return the link
+            return '<a href="/templateeditor/$errorfile/$errorline">Edit the Template</a>';
+        }
+    }
+
+    /**
+     * Yellow Screen of Death (YSOD) is used to display a Clansuite Error
+     *
+     * @param int $errornumber
+     * @param string $errorname
+     * @param string $errorstring
+     * @param string $errorfile
+     * @param int $errorline
+     * @param string $errorcontext
      */
     private function ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
@@ -291,11 +347,8 @@ class Clansuite_Errorhandler
         $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
         $errormessage  .= '<tr><td><strong>Clansuite :</strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
 
-        # Tracing
-        /*if ( defined('DEBUG') && DEBUG == 1 )
-        {
-        $errormessage   .= '<tr><td>' . $this->getDebugBacktrace() . '</td></tr>';
-        }*/
+        # Add Debug Backtracing
+        $errormessage   .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
 
         # HR Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -309,79 +362,101 @@ class Clansuite_Errorhandler
         return $errormessage;
     }
 
-    function getDebugBacktrace()
+    /**
+     * getDebugBacktrace
+     *
+     * Transforms the output of php's debug_backtrace() to a more readable html format.
+     *
+     * @return string $backtrace_string contains the backtrace
+     * @todo: translations
+     */
+    private static function getDebugBacktrace()
     {
-        $backtrace_string = '';
-        $dbg_backtrace = debug_backtrace();
+        # provide backtrace only when we are in Clansuite DEBUG Mode
+        # if we are not in debug mode, just return
+        if ( defined('DEBUG') == false xor DEBUG == 0 )
+        {
+            return;
+        }
 
+        # get php's backtrace output
+        $debug_backtrace = debug_backtrace();
+
+        # prepare a new backtrace_string
+        $backtrace_string = '';
         $backtrace_string  .= '<tr><td><h3>Backtrace</h3>(Recent function calls last)</td></tr>';
 
-        for($i = 0; $i <= count($dbg_backtrace) - 1; $i++)
+        # restructure the debug_backtrace
+        $backtrace_counter_i = count($debug_backtrace) - 1;
+        for($i = 0; $i <= $backtrace_counter_i; $i++)
         {
-            if(!isset($dbg_backtrace[$i]['file']))
+            if(!isset($debug_backtrace[$i]['file']))
             {
                 $backtrace_string .= '<tr><td><strong>[PHP core called function]</strong></td>';
             }
             else
             {
-                $backtrace_string .= '<tr><td><strong>Datei :</strong></td><td>' . $dbg_backtrace[$i]['file'] . '</td>';
+                $backtrace_string .= '<tr><td><strong>Datei :</strong></td><td>' . $debug_backtrace[$i]['file'] . '</td>';
             }
 
-            if(isset($dbg_backtrace[$i]['line']))
+            if(isset($debug_backtrace[$i]['line']))
             {
-                $backtrace_string .= '</tr><tr><td><strong>Zeile</strong></td><td>' . $dbg_backtrace[$i]['line'] . '</td></tr>';
-                $backtrace_string .= '<tr><td><strong>Function called :</strong></td><td>' . $dbg_backtrace[$i]['function'] . '</td></tr>';
+                $backtrace_string .= '</tr>';
+                $backtrace_string .= '<tr><td><strong>Zeile</strong></td><td>' . $debug_backtrace[$i]['line'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Function called :</strong></td><td>' . $debug_backtrace[$i]['function'] . '</td></tr>';
             }
 
-            if($dbg_backtrace[$i]['args'] && !is_object($dbg_backtrace[$i]['args']))
+            if($debug_backtrace[$i]['args'] and !is_object($debug_backtrace[$i]['args']))
             {
                 $backtrace_string .= '<tr><td>Arguments: ';
-                for($j = 0; $j <= count($dbg_backtrace[$i]['args']) - 1; $j++)
+
+                $backtrace_counter_j = count($debug_backtrace[$i]['args']) - 1;
+                for($j = 0; $j <= $backtrace_counter_j; $j++)
                 {
                     # if array, print_r
-                    if(is_array($dbg_backtrace[$i]['args'][$j]))
+                    if(is_array($debug_backtrace[$i]['args'][$j]))
                     {
-                        #$backtrace_string .= print_r($dbg_backtrace[$i]['args'][$j]);
+                        #$backtrace_string .= print_r($debug_backtrace[$i]['args'][$j]);
                     }
                     # if object, convert via toString
-                    elseif (is_object($dbg_backtrace[$i]['args'][$j]) && method_exists($dbg_backtrace[$i]['args'][$j], 'tostring'))
+                    elseif (is_object($debug_backtrace[$i]['args'][$j]) && method_exists($debug_backtrace[$i]['args'][$j], 'tostring'))
                     {
                          # @todo: this is buggy!
-        			     $backtrace_string .= new $dbg_backtrace[$i]['args'][$j]->toString();
+        			     $backtrace_string .= new $debug_backtrace[$i]['args'][$j]->toString();
         			}
         			# if object, without toString method return null
-        			elseif (is_object($dbg_backtrace[$i]['args'][$j]))
+        			elseif (is_object($debug_backtrace[$i]['args'][$j]))
         			{
         			     $backtrace_string .= 'Object';
         			}
-        			# when string, simple add it
+        			# when string, simply add it
                     else
                     {
-                        $backtrace_string .= $dbg_backtrace[$i]['args'][$j];
+                        $backtrace_string .= $debug_backtrace[$i]['args'][$j];
                     }
 
-                    if($j != count($dbg_backtrace[$i]['args']) - 1)
+                    if($j != $backtrace_counter_j)
                     {
                         # split
                         $backtrace_string .= ', ';
                     }
                 }
             }
+
             # spacer
             $backtrace_string .= '</td></tr>';
         }
 
-        # Returns the Backtrace String
+        # returns the Backtrace String
         return $backtrace_string;
     }
 
     /**
-     * register_shutdown_function
-     * @todo: needed?
+     * shutdown_and_exit() is the callback function for register_shutdown_function()
      */
     public function shutdown_and_exit()
     {
-        echo '<p><b>Clansuite execution stopped.</b></p>';
+        echo '<p><b>Clansuite Error. Execution stopped.</b></p>';
     }
 }
 ?>

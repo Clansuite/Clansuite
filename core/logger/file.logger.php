@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: httpresponse.core.php 2614 2008-12-05 21:18:45Z vain $response.class.php 2580 2008-11-20 20:38:03Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler
@@ -45,7 +45,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     {
         $this->config = $config;
     }
-    
+
     /**
      * returns an instance / singleton
      *
@@ -61,14 +61,41 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         return self::$instance;
     }
 
-    /**    
+    /**
+     * writeLog
+     *
+     * writes a string to the logfile.
+     *
+     * @param $logfilename The name of the Logfile to append to.
+     * @param $string The string to append to the logfile.
+     */
+    public function writeLog($logfilename, $string)
+    {
+        # construct name of the log file ( FILENAME_log_DATE.txt )
+        $filename =  ROOT_LOGS . $logfilename.'_log_' . date('m-d-y') . '.txt';
+
+        # and append string to file
+        file_put_contents( $filename, $string, FILE_APPEND & LOCK_EX );
+    }
+
+    /**
+     * writeErrorLog is a shortcut method
+     * for writing a string to the error_log
+     *
+     * @param $string The string to append to the errorlog.
+     */
+    public function writeErrorLog($string)
+    {
+        $this->writeLog('error', $string);
+    }
+
+    /**
+     * readLog
      *
      */
-    public function writeLog($string)
+    public function readLog()
     {
-        # name of the log file
-        $filename =  ROOT_LOGS . 'log_' . date('m-d-y') . '.txt'; 
-        file_put_contents( $filename, $string, FILE_APPEND & LOCK_EX );       
+
     }
 }
 ?>
