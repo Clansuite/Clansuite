@@ -40,9 +40,9 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 /**
  * Clansuite_Upload - Clansuite Core Class for Upload Handling
  *
- * @package     Clansuite
- * @category    File Uploading
- * @since       1.0
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Upload
  */
 class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
 {

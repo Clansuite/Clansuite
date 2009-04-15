@@ -46,9 +46,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
- * @subpackage  session
- * @category    core
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Session
  */
 class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 {
@@ -403,7 +403,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $this->set($offset, $value);
     }
 
-    // @todo: note by vain: check if this works on single array of session?
+    // @todo note by vain: check if this works on single array of session?
     public function offsetUnset($offset)
     {
         unset($_SESSION[$offset]);
@@ -414,9 +414,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 /**
  * Interface for Clansuite_Session
  *
- * @package clansuite
- * @subpackage session
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Session
  */
 interface Clansuite_Session_Interface
 {
