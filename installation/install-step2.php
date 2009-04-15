@@ -54,7 +54,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          }
 
                          # Case-Images, to determine if a certain Setting is OK or NOT
-                         define('SETTING_TRUE', '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
+                         define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
                          define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" border="0" />');
 
                          /**
@@ -177,14 +177,14 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          # Permissions Check: write on \smarty\templates_c
                          $required['is_writable_smarty_templates_c']['text']     = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];
                          $required['is_writable_smarty_templates_c']['expected'] = 'w';
-                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . '/libraries/smarty/templates_c') ? 'w' : '---';
-                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . '/libraries/smarty/templates_c') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . '/cache/templates_c') ? 'w' : '---';
+                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . '/cache/templates_c') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on \smarty\cache
                          $required['is_writable_smarty_cache']['text']     = $language['IS_WRITEABLE_SMARYT_CACHE'];
                          $required['is_writable_smarty_cache']['expected'] = 'w';
-                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . '/libraries/smarty/cache') ? 'w' : '---';
-                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . '/libraries/smarty/cache') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . '/cache') ? 'w' : '---';
+                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . '/cache') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['text']     = $language['IS_WRITEABLE_UPLOADS'];
@@ -213,10 +213,20 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['file_uploads']['actual']     = get_php_setting('file_uploads',true, 'string');
                          $recommended['file_uploads']['status']     = get_php_setting('file_uploads',true, 'img');
 
+                         # Checking max_upload_filesize (min 2M, recommend 10M)
+                         $max_upload_filesize = ini_get('upload_max_filesize');
+                         $recommended['max_upload_filesize']['text']       = $language['MAX_UPLOAD_FILESIZE'];
+                         $recommended['max_upload_filesize']['expected']   = 'min 2MB';
+                         $recommended['max_upload_filesize']['actual']     = '('. $max_upload_filesize .')';
+                         $recommended['max_upload_filesize']['status']     = ($max_upload_filesize >= 10 ) ? SETTING_TRUE : SETTING_FALSE;
 
-                         #Checking max upload file size (min 2M, recommend 10M)
-
-                         # Checking for basic XML (expat) support
+                         # Checking post_max_size (min 2M, recommended 10M)
+                         # @todo post_max_size > max_upload_filesize
+                         $post_max_size = ini_get('post_max_size');
+                         $recommended['post_max_size']['text']       = $language['POST_MAX_SIZE'];
+                         $recommended['post_max_size']['expected']   = 'min 2MB';
+                         $recommended['post_max_size']['actual']     = '('. $post_max_size .')';
+                         $recommended['post_max_size']['status']     = ($post_max_size >= 10 ) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking RegisterGlobals
                          $recommended['register_globals']['text']       = $language['REGISTER_GLOBALS'];
@@ -229,6 +239,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['allow_url_fopen']['expected']    = 'on';
                          $recommended['allow_url_fopen']['actual']      = get_php_setting('allow_url_fopen',true,'string');
                          $recommended['allow_url_fopen']['status']      = get_php_setting('allow_url_fopen',true,'img');
+
+                         # Checking for allow_url_include
+                         $recommended['allow_url_include']['text']        = $language['ALLOW_URL_INCLUDE'];
+                         $recommended['allow_url_include']['expected']    = 'on';
+                         $recommended['allow_url_include']['actual']      = get_php_setting('allow_url_include',true,'string');
+                         $recommended['allow_url_include']['status']      = get_php_setting('allow_url_include',true,'img');
 
                          # Checking for Safe mode
                          $recommended['safe_mode']['text']          = $language['SAFE_MODE'];

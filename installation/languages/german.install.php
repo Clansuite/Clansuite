@@ -52,6 +52,8 @@ class language implements ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Bibliothek';
+        $this->language['CLASS_REFLECTION'] = 'PHP Reflection';
+        $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: /clansuite';
         $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Beschreibbar: /templates_c';
@@ -62,8 +64,11 @@ class language implements ArrayAccess
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'PHP Memory Limit';
         $this->language['FILE_UPLOADS'] = 'Dateiuploads erlaubt?';
+        $this->language['MAX_UPLOAD_FILESIZE'] = 'Maximale Dateigröße für Uploads';
+        $this->language['POST_MAX_SIZE'] = 'Maximale Größe von Posts';
         $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
-        $this->language['ALLOW_URL_FOPEN'] = 'ALLOW_URL_FOPEN';
+        $this->language['ALLOW_URL_FOPEN'] = 'Zugriff auf entfernte Dateien';
+        $this->language['ALLOW_URL_INCLUDE'] = 'Direkteinbindung entfernter Dateien';
         $this->language['SAFE_MODE'] = 'SAFE_MODE';
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
@@ -80,6 +85,9 @@ class language implements ArrayAccess
         $this->language['EXTENSION_GEOIP'] = 'PHP Bibliothek: GeoIP';
         $this->language['EXTENSION_CURL'] = 'PHP Bibliothek: cURL';
         $this->language['EXTENSION_SYCK'] = 'PHP Bibliothek: SYCK';
+        $this->language['EXTENSION_APC'] = 'PHP Bibliothek: APC';
+        $this->language['EXTENSION_MEMCACHE'] = 'PHP Bibliothek: MEMCACHE';
+        $this->language['EXTENSION_MCRYPT'] = 'PHP Bibliothek: MCRYPT';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
@@ -190,7 +198,7 @@ class language implements ArrayAccess
 
     public function offsetGet($offset)
     {
-        // @todo: i have still no clue why utf8-encode() won't work!
+        // @todo i have still no clue why utf8-encode() won't work!
         return $this->unicode_converter($this->language[$offset]);
     }
 
