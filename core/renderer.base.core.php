@@ -40,10 +40,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * A abstract base class for all our view rendering engines.
  * All renderers must extend from this class.
  *
- * @package    clansuite
- * @category   core
- * @subpackage view
- * @abstract
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  View
  */
 abstract class Clansuite_Renderer_Base
 {
@@ -98,7 +97,6 @@ abstract class Clansuite_Renderer_Base
     /**
      * Assigns a value to a template parameter.
      *
-     * @abstract
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
@@ -107,7 +105,6 @@ abstract class Clansuite_Renderer_Base
     /**
      * Executes the template rendering and returns the result.
      *
-     * @abstract
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
      * @return string
@@ -117,7 +114,6 @@ abstract class Clansuite_Renderer_Base
     /**
      * Executes the template rendering and displays the result.
      *
-     * @abstract
      * @param string $template Template Filename
      * @param mixed $data Additional data to process
      * @return string
@@ -127,7 +123,6 @@ abstract class Clansuite_Renderer_Base
     /**
      * Returns the render engine object
      *
-     * @abstract
      * @return string
      */
     abstract public function getEngine();
@@ -135,7 +130,6 @@ abstract class Clansuite_Renderer_Base
     /**
      * Renders the given Template
      *
-     * @abstract
      * @return string
      */
     abstract public function render($template);
@@ -175,7 +169,7 @@ abstract class Clansuite_Renderer_Base
      * @param string $template Template Filename
      * @return string
      *
-     * @todo: for renderer related templates we have to add "renderer/", like
+     * @todo for renderer related templates we have to add "renderer/", like
      *        modules/modulename/templates/renderer/actioname.tpl
      */
     public function getThemeTemplatePath($template)

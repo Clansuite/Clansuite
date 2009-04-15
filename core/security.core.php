@@ -46,9 +46,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @copyright  Jens-André Koch (2005 - onwards)
  * @since      Class available since Release 0.2
  *
- * @package     clansuite
- * @category    core
- * @subpackage  security
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Security
  */
 class Clansuite_Security
 {
@@ -176,7 +176,7 @@ class Clansuite_Security
         # set salt to empty
         $salt = '';
         # seed the randoms generator with microseconds since last "whole" second
-        # @todo: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
+        # @todo this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
         mt_srand((double)microtime()*1000000);
         # set up the random chars to choose from
         $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
