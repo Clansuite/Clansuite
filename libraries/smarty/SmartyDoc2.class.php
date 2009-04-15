@@ -140,7 +140,7 @@ class Render_SmartyDoc extends Smarty
 	 * exist in the document (e.g., if taking advantage of SmartyDocB features
 	 * strictly through the PHP interface)
 	 * Need to fix to use with dtds and not just xsds to allow http, etc. to show in the page HTML code?
-	 * @todo: where does this belong to?
+	 * @todo where does this belong to?
 	 */
 	public $use_auto = true; //
 
@@ -781,7 +781,7 @@ class Render_SmartyDoc extends Smarty
 		 * - cdata
 		 * - xinclude
 		 *
-		 * @todo: Check if these could be cached?
+		 * @todo Check if these could be cached?
 		 */
 
 		$this->register_block('xsl',            array($this, 'smarty_block_xsl'), false);
@@ -2418,7 +2418,7 @@ class Render_SmartyDoc extends Smarty
 	 * Insert html header items from anywhere at anytime
 	 *
 	 * @return nothing
-	 * @todo: the functionality is doubled ! search for "$repeatno = false;" and look some lines after that
+	 * @todo the functionality is doubled ! search for "$repeatno = false;" and look some lines after that
 	 */
 	public function smarty_function_info($params, &$smarty)
 	{
