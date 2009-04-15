@@ -42,9 +42,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @package     clansuite
- * @category    core
- * @subpackage  errorhandler
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Errorhandler
  */
 class Clansuite_Errorhandler
 {
@@ -156,7 +156,7 @@ class Clansuite_Errorhandler
         /**
          * define errorTypes array - with names for all the php error codes
          * @link http://php.oss.eznetsols.org/manual/de/errorfunc.constants.php
-         * @todo: return correct errorcodes for the actual php version
+         * @todo return correct errorcodes for the actual php version
          */
         $errorTypes = array (    1      => 'E_ERROR',               # fatal run-time errors, like php is failing memory allocation
                                  2      => 'E_WARNING',             # Run-time warnings (non-fatal errors)
@@ -421,7 +421,7 @@ class Clansuite_Errorhandler
                     # if object, convert via toString
                     elseif (is_object($debug_backtrace[$i]['args'][$j]) && method_exists($debug_backtrace[$i]['args'][$j], 'tostring'))
                     {
-                         # @todo: this is buggy!
+                         # @todo this is buggy!
         			     $backtrace_string .= new $debug_backtrace[$i]['args'][$j]->toString();
         			}
         			# if object, without toString method return null

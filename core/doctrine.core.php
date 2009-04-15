@@ -52,6 +52,10 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *    - Odbc
  *    - PostgreSQL
  *    - Sqlite
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Doctrine
  */
 class Clansuite_Doctrine
 {
@@ -253,7 +257,7 @@ class Clansuite_Doctrine
 
 	/**
 	 * Displayes all Doctrine Querys with profiling Informations
-	 * @todo: This is debug output + direct output breaks the abstraction
+	 * @todo This is debug output + direct output breaks the abstraction
 	 */
 	public function displayProfilingHTML()
 	{
