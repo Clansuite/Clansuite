@@ -133,7 +133,7 @@ class language implements ArrayAccess
 
     public function offsetGet($offset)
     {
-        // @todo: i have still no clue why utf8-encode() won't work!
+        // @todo i have still no clue why utf8-encode() won't work!
         return $this->unicode_converter($this->language[$offset]);
     }
 
