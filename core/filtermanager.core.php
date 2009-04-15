@@ -39,11 +39,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * interface FilterInterface
  *
- * @package clansuite
- * @subpackage core
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filter
  */
-interface Clansuite_FilterInterface
+interface Clansuite_Filter_Interface
 {
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
 }
@@ -55,9 +55,9 @@ interface Clansuite_FilterInterface
  * - $filters is an array containing the filters to be processed
  * - addFilter method, adds them to the array
  *
- * @package clansuite
- * @subpackage core
- * @category filters
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filter
  */
 class Clansuite_FilterManager
 {

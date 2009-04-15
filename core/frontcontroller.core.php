@@ -42,9 +42,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * The ModuleController_Resolver has to implement the following methods
  * to resolve the Request to a Module and the Action/Command.
  *
- * @package clansuite
- * @subpackage controller
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  ActionController
  */
 interface Clansuite_ActionController_Resolver_Interface
 {
@@ -123,7 +123,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
         /*
         elseif
         {
-            @todo: callFileActions
+            @todo callFileActions
             # example: 'modulename/commands/action_show.php'
             return 'modulename/commands/'$methodname.'.php';
         }
@@ -163,10 +163,9 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
  * The ModuleController_Resolver has to implement the following methods
  * to resolve the Request to a Module.
  *
- *
- * @package clansuite
- * @subpackage controller
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  ModuleController
  */
 interface Clansuite_ModuleController_Resolver_Interface
 {
@@ -183,9 +182,9 @@ interface Clansuite_ModuleController_Resolver_Interface
  *
  * @implements ControllerResolverInterface
  *
- * @package     clansuite
- * @subpackage  controller
- * @category    core
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  ModuleController
  */
 class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
 {
@@ -273,7 +272,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
         else
         {
-            # @todo: throw correct Status Header via httprequest - if not found and redirect to default
+            # @todo throw correct Status Header via httprequest - if not found and redirect to default
             # Trigger a error to show, that the required module does not exist
             trigger_error('Module does not exist: ' . $module, E_USER_NOTICE);
             exit();
@@ -332,9 +331,9 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
  *
  * The Frontcontroller has to implement the following methods.
  *
- * @package     clansuite
- * @subpackage  controller
- * @category    interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  FrontController
  */
 interface Clansuite_FrontController_Interface
 {
@@ -359,9 +358,9 @@ interface Clansuite_FrontController_Interface
  * and the Dependency Injector.
  *
  * @implements  Clansuite_FrontController_Interface
- * @package     clansuite
- * @category    core
- * @subpackage  controller
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  FrontController
  */
 class Clansuite_FrontController implements Clansuite_FrontController_Interface
 {

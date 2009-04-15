@@ -64,8 +64,8 @@ public function __construct(Clansuite_Config $config)
          */
         if($this->config['maintenance']['maintenance'] == 1)
         {
-            # @todo: a) create template?
-            # @todo: b) create override of maintenance mode, in case it's an admin user?
+            # @todo a) create template?
+            # @todo b) create override of maintenance mode, in case it's an admin user?
             $response->setContent($this->config['maintenance']['maintenance_reason']);
             $response->flush();
             exit();

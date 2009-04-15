@@ -102,13 +102,13 @@ public function __construct(Clansuite_Config $config)
                 $debug = new PHP_Debug($options);
 
                 /* Load JS / CSS */
-                #$response->setContent($data, BEFORE_BODY_END);
-                /*
+                $response->setContent($data, BEFORE_BODY_END);
+                
                 ?>
                 <script type="text/javascript" src="<?php echo $options['HTML_DIV_js_path']; ?>/html_div.js"></script>
                 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $options['HTML_DIV_css_path']; ?>/html_div.css" />
                 <?php
-                */
+                
                 # unset $options
                 unset($options);
 
@@ -116,7 +116,7 @@ public function __construct(Clansuite_Config $config)
                 $debug->add('Clansuite DEBUG INFO');
 
                 # display the console
-                #$debug->display();
+                $debug->display();
             }
         }// else => bypass
     }

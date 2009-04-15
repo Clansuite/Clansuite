@@ -54,9 +54,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
  * @since       Class available since Release 0.1
  *
- * @package     clansuite
+ * @category    Clansuite
+ * @package     Core
  * @subpackage  ACM
- * @category    core
  */
 class Clansuite_ACM
 {

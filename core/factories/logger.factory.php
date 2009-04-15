@@ -43,8 +43,6 @@ class Clansuite_Logger_Factory
      *
      * @param $logger_type String (A Logger Name like "file", "db")
      * @param $injector Dependency Injector Phemto
-     * @static
-     * @access public
      * @return Renderer Object
      */
     public static function getLogger($logger_type, Phemto $injector)
@@ -80,9 +78,9 @@ class Clansuite_Logger_Factory
 /**
  * Clansuit Exception - LoggerFactoryClassNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Logger
  */
 class LoggerFactoryClassNotFoundException extends Exception
 {
@@ -97,9 +95,9 @@ class LoggerFactoryClassNotFoundException extends Exception
 /**
  * Clansuit Exception - LoggerFactoryFileNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Logger
  */
 class LoggerFactoryFileNotFoundException extends Exception
 {
