@@ -43,9 +43,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @package clansuite
  * @subpackage filters
- * @implements Clansuite_FilterInterface
+ * @implements Clansuite_Filter_Interface
  */
-class startup_checks implements Clansuite_FilterInterface
+class startup_checks implements Clansuite_Filter_Interface
 {
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {

@@ -43,9 +43,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @package clansuite
  * @subpackage filters
- * @implements Clansuite_FilterInterface
+ * @implements Clansuite_Filter_Interface
  */
-class set_module_language implements Clansuite_FilterInterface
+class set_module_language implements Clansuite_Filter_Interface
 {
     private $locale     = null;     # holds instance of localization
 
