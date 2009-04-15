@@ -42,9 +42,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * This class initializes xdebug at system start-up and displays debug
  * and runtime-informations at application shutdown.
  *
- * @package     clansuite
- * @category    core
- * @subpackage  xdebug
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  XDebug
  */
 class clansuite_xdebug
 {
@@ -62,9 +62,6 @@ class clansuite_xdebug
     
     /**
      * XDebug Helper Functions
-     *
-     * @static
-     * @access public
      */
     public static function is_xdebug_active()
     {
@@ -77,9 +74,6 @@ class clansuite_xdebug
 
     /**
      * Initializes XDEBUG
-     *
-     * @static
-     * @access public
      */
     public static function start_xdebug()
     {
@@ -115,9 +109,6 @@ class clansuite_xdebug
 
     /**
      * Shutdown XDEBUG and give some Debugging Reports
-     *
-     * @static
-     * @access public
      */
     public static function end_xdebug()
     {
@@ -180,8 +171,6 @@ class clansuite_xdebug
      * @author  Cagret @ pl.gosu.php/debug/printR.php
      * @version created 2005-06-18 modified 2006-06-04
      * @param   mixed/array/object $var Array or Object as Variable to display
-     * @static
-     * @access  public
      *
      * @returns Returns a better structured display of an array/object as native print_r
      */

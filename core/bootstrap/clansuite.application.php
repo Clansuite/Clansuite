@@ -128,7 +128,7 @@ class Clansuite_CMS
         }
 
         # PDO mysql driver Check
-        # @todo: the type of db-driver for pdo is set on installtion + available via config
+        # @todo the type of db-driver for pdo is set on installtion + available via config
         if ( !in_array('mysql', PDO::getAvailableDrivers()) )
         {
             die('<i>php_pdo_mysql</i> driver not enabled.');
