@@ -41,9 +41,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *
  * The Filecache stores directly to disk.
  *
- * @package clansuite
- * @subpackage cache
- * @category caches
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class Clansuite_Cache_File implements Clansuite_Cache_Interface
 {

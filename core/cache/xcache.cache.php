@@ -48,9 +48,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *
  * @link http://xcache.lighttpd.net/
  *
- * @package clansuite
- * @subpackage cache
- * @category caches
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
 {
