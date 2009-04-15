@@ -47,9 +47,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @package     clansuite
- * @category    view
- * @subpackage  view_smarty
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  View
  */
 
 class view_smarty extends Clansuite_Renderer_Base
@@ -418,7 +418,7 @@ class view_smarty extends Clansuite_Renderer_Base
         # Error Block {error level="1" title="Error"}
         # $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
-        # @todo: caching
+        # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
 
         /**

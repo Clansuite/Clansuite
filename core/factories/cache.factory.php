@@ -39,9 +39,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 /**
  * Interface for all Cachehandler Classes to implement
  *
- * @package clansuite
- * @subpackage session
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 interface Clansuite_Cache_Interface
 {
@@ -61,8 +61,8 @@ interface Clansuite_Cache_Interface
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @package     clansuite
- * @category    Cache
+ * @category    Clansuite
+ * @package     Core
  * @subpackage  Cache
  */
 class Clansuite_Cache_Factory
@@ -72,8 +72,6 @@ class Clansuite_Cache_Factory
      *
      * @param $cache_type String (A Cache Engine Name like "apc", "xcache", "memcache" or "file")
      * @param $injector Dependency Injector Phemto
-     * @static
-     * @access public
      * @return Cache Engine Object
      */
     public static function getCache($cache_type, Phemto $injector)
@@ -109,9 +107,9 @@ class Clansuite_Cache_Factory
 /**
  * Clansuit Exception - CacheFactoryClassNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class CacheFactoryClassNotFoundException extends Exception
 {
@@ -126,9 +124,9 @@ class CacheFactoryClassNotFoundException extends Exception
 /**
  * Clansuit Exception - CacheFactoryFileNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class CacheFactoryFileNotFoundException extends Exception
 {

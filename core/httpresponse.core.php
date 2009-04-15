@@ -39,9 +39,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Interface for the Response Object
  *
- * @package clansuite
- * @subpackage core
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  HttpResponse
  */
 interface Clansuite_Response_Interface
 {
@@ -59,11 +59,11 @@ interface Clansuite_Response_Interface
  *
  * This class represents the web response object on a request processed by Clansuite.
  *
- * @todo: headers, cookies
+ * @todo headers, cookies
  *
- * @package clansuite
- * @subpackage core
- * @category Clansuite_HttpResponse $response
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  HttpResponse
  */
 class Clansuite_HttpResponse implements Clansuite_Response_Interface
 {
@@ -237,7 +237,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * Method 1: zlib
      * Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
      *
-     * @todo: note by vain: problems reported with cached smarty templates... we'll see how that works out
+     * @todo note by vain: problems reported with cached smarty templates... we'll see how that works out
      */
     public function activateOutputCompression()
     {
@@ -372,7 +372,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
         # Prevent "headers already sent" error with utf8 support (BOM)
         //if ( utf8_support ) header('Content-Type: text/html; charset=utf-8');
-        # @todo: appending to string with dots is slow, "sprintf"y this
+        # @todo appending to string with dots is slow, "sprintf"y this
         header('Set-Cookie: '.rawurlencode($name).'='.rawurlencode($value)
                                     .(empty($domain) ? '' : '; Domain='.$domain)
                                     .(empty($maxage) ? '' : '; Max-Age='.$maxage)
@@ -449,7 +449,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             # Flush the content on the normal way!
             $this->flush();
 
-            # @todo: event log
+            # @todo event log
         }
         else # headers already send!
         {

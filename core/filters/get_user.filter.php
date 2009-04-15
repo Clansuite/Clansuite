@@ -56,8 +56,8 @@ class get_user implements Clansuite_FilterInterface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $this->user->createUser();		    # Create a user (empty)
-        $this->user->checkLoginCookie();	# Check for login cookie - Guest/Member
+        $this->user->createUser();		    # Create a user (Guest)
+        $this->user->checkLoginCookie();	# Check for login cookie (Guest/Member)
     }
 }
 ?>

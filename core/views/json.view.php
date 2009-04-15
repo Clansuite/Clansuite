@@ -50,9 +50,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @package     clansuite
- * @category    view
- * @subpackage  view_json
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  View
  */
 class view_json extends Clansuite_Renderer_Base
 {

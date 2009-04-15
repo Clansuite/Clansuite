@@ -38,10 +38,10 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite Core Class for BBCode Handling (Wrapper)
+ * Clansuite Core Class for BBCode Handling (Wrapper) and Syntax Highlighting
  *
- * It's a wrapper class for 
- * a) GeShi Code Highligther 
+ * It's a wrapper class for
+ * a) GeShi Code/Syntax Highligther
  * b) bbcode_stringparser.
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
@@ -49,19 +49,19 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005-onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
- * @subpackage  core
- * @category    bbcode
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  BBCode
  */
-class bbcode
+class Clansuite_Bbcode
 {
     /**
      * @var array
-     */    
+     */
     public $bb_code;
-    
+
     /**
-     * 
+     *
      */
     function __construct($injector)
     {
@@ -69,21 +69,21 @@ class bbcode
          * Include Stringpaser_bbcode Class
          * Generate the object
          */
-         
+
         require_once( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' );
         $this->bb_code = new StringParser_BBCode();
 
         // Load the BB Code Vars
-        #$db = $injector->instantiate('clansuite_doctrine');      
+        #$db = $injector->instantiate('clansuite_doctrine');
         $bb_codes = Doctrine_Query::create()
                                   ->select('*')
                                   ->from('CsBbCode')
                                   ->execute();
-                      
+
         /**
          * Conversions & Filters
          */
-         
+
         $this->bb_code->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
         $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'htmlspecialchars');
         $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
@@ -91,7 +91,7 @@ class bbcode
         /**
          * Generate Standard BB Codes such as [url][/url] etc.
          */
-         
+
         $this->bb_code->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
         $this->bb_code->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
@@ -122,8 +122,8 @@ class bbcode
      *
      * @param string
      * @return bb_code parsed text
-     */     
-    function parse($text)
+     */
+    public function parse($text)
     {
         return $this->bb_code->parse($text);
     }
@@ -139,8 +139,8 @@ class bbcode
      * @return return url
      *
      * @todo $params and $node_objects are unuseed check
-     */     
-    function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
+     */
+    private function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
         {
@@ -151,32 +151,32 @@ class bbcode
         {
             return '<a href="'.htmlspecialchars ($content).'">'.htmlspecialchars ($content).'</a>';
         }
-        
+
         return '<a href="'.htmlspecialchars ($attributes['default']).'">'.$content.'</a>';
     }
 
-    /** 
+    /**
      * Handle Pictures
-     * 
+     *
      * @todo comment params
      * @return image string
-     */     
-    function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
+     */
+    private function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
         {
             return true;
         }
-        
+
         return '<img src="'.htmlspecialchars($content).'" alt="">';
     }
 
     /**
      * Handle PHP Code Hightlightning with GeShi
-     * 
+     *
      * @return codehighlighted string
-     */     
-    function do_bbcode_code ($action, $attributes, $content, $params, $node_object)
+     */
+    private function do_bbcode_code ($action, $attributes, $content, $params, $node_object)
     {
         if ($action == 'validate')
         {
@@ -186,7 +186,7 @@ class bbcode
         // Include & Instantiate GeSHi
         require_once( ROOT_LIBRARIES . '/geshi/geshi.php' );
         $geshi = new GeSHi($content, $attributes['default']);
-         
+
         return $geshi->parse_code();
     }
 
@@ -197,8 +197,8 @@ class bbcode
      * @return line_break_converted string
      *
      * @todo note by vain: why is this needed? describe problem?
-     */     
-    function convertlinebreaks ($text)
+     */
+    private function convertlinebreaks ($text)
     {
         return preg_replace ("/\015\012|\015|\012/", "\n", $text);
     }

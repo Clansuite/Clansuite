@@ -60,7 +60,7 @@ class permissions implements Clansuite_FilterInterface
     {
         if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
         {   
-            # @todo: errorpage, no permission to perform this action. access denied.
+            # @todo errorpage, no permission to perform this action. access denied.
 			$response->redirect(); 
 		}
     }

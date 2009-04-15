@@ -39,9 +39,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Interface for the Request Object
  *
- * @package clansuite
- * @subpackage core
- * @category interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  HttpRequest
  */
 interface Clansuite_Request_Interface
 {
@@ -73,9 +73,9 @@ interface Clansuite_Request_Interface
  *
  * @todo split $_REQUEST into GET and POST with each seperate access methods
  *
- * @package clansuite
- * @subpackage core
- * @category httprequest
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  HttpRequest
  */
 class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
@@ -173,7 +173,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * defineWWWPathConstants()
      *
-     * @todo: These defines are used throughout the response with themes. This should therefore be part of Repsonse object.
+     * @todo These defines are used throughout the response with themes. This should therefore be part of Repsonse object.
      * So the clansuite.init is the wrong position for this function, "but, we need it" for the exception and errorhandler outputs.
      * still todo
      */
@@ -393,12 +393,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Determine Type of Protocol for Webpaths (http/https)
      * Get for $_SERVER['HTTPS']
      *
-     * @todo: check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']?
+     * @todo check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']?
      * @return string
      */
     public static function getServerProtocol()
     {
-        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo: check -> or $_SERVER['SSL_PROTOCOL']
+        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo check -> or $_SERVER['SSL_PROTOCOL']
         {
              return 'https://';
         }
@@ -512,7 +512,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     public function detectRESTTunneling()
     {
         # this will allow DELETE and PUT
-        $REST_MethodNames = array('DELETE', 'PUT');  # @todo: allow 'GET' through POST?
+        $REST_MethodNames = array('DELETE', 'PUT');  # @todo allow 'GET' through POST?
 
         # request_method has to be POST AND GET has to to have the method GET
         if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
@@ -685,7 +685,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Essential clean-up of $_REQUEST
      * Handles possible Injections
      *
-     * @todo: deprecated, this will move into the routes validation
+     * @todo deprecated, this will move into the routes validation
      * @return void
      */
     private function sanitizeRequest()

@@ -41,9 +41,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Force classes implementing the interface to define this (must have) methods!
  *
- * @package     clansuite
- * @subpackage  controller
- * @category    interfaces
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
  */
 interface Clansuite_Module_Interface
 {
@@ -63,6 +63,9 @@ interface Clansuite_Module_Interface
  * 2. makes sure that controllers have an index() and execute() method
  * 3. provide access to create_global_view
  *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Modulecontroller
  */
 abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Resolver
 {
@@ -108,7 +111,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      *
      * @param object $injector Dependency Injector (Phemto)
      * @access public
-     * @TODO: move config injection somewhere else
+     * @TODO move config injection somewhere else
      */
     public function setInjector(Phemto $injector)
     {
@@ -152,16 +155,20 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     public function getClansuiteConfig()
     {
-        # determine, if this function is called from an static background
-        # this is the case, if called from an module widget
+        /**
+         * determine, if this function is called from an static background.
+         * if it's dynamically called it's an object, else it's static.
+         * a static call is used, if called from inside a module widget.
+         */
         if(is_object($this->injector))
         {
             $this->config = $this->injector->instantiate('Clansuite_Config')->toArray;
         }
-        else
+        else # deliver config via an static call (for example: from inside a widget)
         {
             $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
         }
+        
         return $this->config;
     }
 
@@ -246,7 +253,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * Returns the Name of the Rendering Engine.
-     * Returns Smarty if no rendering engine is set
+     * Returns Json if an XMLHttpRequest is given.
+     * Returns Smarty as default if no rendering engine is set.
      *
      * @access public
      *
@@ -254,7 +262,13 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getRenderEngineName()
     {
-        if(empty($this->renderEngineName))
+        # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
+        if($this->injector->instantiate('Clansuite_HttpRequest')->isxhr() === true)
+        {
+            $this->setRenderEngine('json');
+        }
+        # use smarty as default, if renderEngine is not set and it's not an ajax request
+        elseif(empty($this->renderEngineName))
         {
             $this->setRenderEngine('smarty');
         }
@@ -374,6 +388,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # 2) get the view
         $view = $this->getView();
+       
 
         # 3) get the layout (like admin/index.tpl)
         #$view->getLayoutTemplate();
@@ -434,6 +449,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # event log
         #$this->addEvent('logErrormessage');
+        
+        # set flash message  ?
     }
 
     /**
@@ -442,6 +459,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
+     * @param string redirect text
      * @access public
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
@@ -466,10 +484,22 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param object Eventobject
      * @access public
      */
-    public function addEvent($eventName, Clansuite_Event $event)
+    public function addEvent($eventName, Clansuite_Event $event)  
     {
         $eventhandler = Clansuite_Eventhandler::instantiate();
         $eventhandler->addEventHandler($eventName, $event);
     }
+    
+    /**
+     * notify is alternate methodname for addEvent (shortcut for usage in modules)
+     *
+     * @param string Name of the Event
+     * @param object Eventobject
+     * @access public
+     */
+    public function notify($eventName, Clansuite_Event $event)
+    {
+        $this->addEvent($eventName, $event);
+    } 
 }
 ?>

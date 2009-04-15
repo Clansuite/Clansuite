@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Purpose: Assembles all Core files into one monolithic file.
  * Performance Strategy : Include Tuning. Merge Files, for lower number of includes.
  *
- * @todo: detect dependencies with get_required_files()
+ * @todo detect dependencies with get_required_files()
  *
  * 2) APC Compile Files
  */

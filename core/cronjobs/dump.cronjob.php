@@ -36,7 +36,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 
-class Clansuite_Cronjob_Dump implements Clansuite_Cronjob
+class Clansuite_Cronjob_Dump implements Clansuite_Cronjob_Interface
 {
     public function execute()
     {

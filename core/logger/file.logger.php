@@ -49,7 +49,6 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     /**
      * returns an instance / singleton
      *
-     * @static
      * @return an instance of the logger
      */
     public static function getInstance()

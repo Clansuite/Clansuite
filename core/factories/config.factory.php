@@ -44,9 +44,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @package     clansuite
- * @category    factory
- * @subpackage  configuration
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
  */
 class Clansuite_Config_Factory
 {
@@ -112,8 +112,6 @@ class Clansuite_Config_Factory
      *
      * @param $cache_type String (a configuration filename type like "php", "xml", "yaml", "ini")
      * @param $configfile Configfile to load
-     * @static
-     * @access public
      * @return Renderer Object
      */
     public static function getConfiguration($configfile)
@@ -151,9 +149,9 @@ class Clansuite_Config_Factory
 /**
  * Clansuite Exception - CacheFactoryClassNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
  */
 class ConfigFactoryClassNotFoundException extends Exception
 {
@@ -168,9 +166,9 @@ class ConfigFactoryClassNotFoundException extends Exception
 /**
  * Clansuite Exception - CacheFactoryFileNotFoundException
  *
- * @package clansuite
- * @category    core
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
  */
 class ConfigFactoryFileNotFoundException extends Exception
 {
