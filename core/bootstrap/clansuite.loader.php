@@ -57,9 +57,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * PHP Manual: __autoload
  * @http://www.php.net/manual/en/language.oop5.autoload.php
  *
- * @package     clansuite
- * @category    core
- * @subpackage  loader
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Loader
  */
 class Clansuite_Loader
 {
@@ -71,8 +71,6 @@ class Clansuite_Loader
      *
      * PHP Manual: spl_autoload_register
      * @link http://www.php.net/manual/de/function.spl-autoload-register.php
-     * @static
-     * @access public
      */
     public static function register_autoload()
     {
@@ -87,9 +85,6 @@ class Clansuite_Loader
      * if file found
      *
      * @param string $fileName The file to be required
-     * @static
-     * @access private
-     *
      * @return bool
      */
     private static function requireFile($fileName)
@@ -124,9 +119,6 @@ class Clansuite_Loader
      *
      * @param string $className The class, which should be loaded
      * @param string $directory without start/end slashes
-     * @static
-     * @access public
-     *
      * @return boolean
      */
     public static function loadClass($className, $directory = null)
@@ -146,9 +138,6 @@ class Clansuite_Loader
      *
      * @param string $className The class, which should be loaded
      * @param string $directory without start/end slashes
-     * @static
-     * @access public
-     *
      * @return boolean
      */
     public static function loadLibrary($className, $directory = null)
@@ -173,9 +162,6 @@ class Clansuite_Loader
      * require if found
      *
      * @param string $className
-     * @static
-     * @access public
-     *
      * @return boolean
      */
     public static function loadCoreClass($className)
@@ -202,17 +188,13 @@ class Clansuite_Loader
      * The classname for modules is prefixed 'module_' . $modname
      * The filename is 'clansuite/modules/'. $modname .'.module.php'
      *
-     * @param string $modulename The name of the module, which should be loaded.
-     * @static
-     * @access public
-     *
-     * @return boolean
-     *
      * String Variants to consider:
      * 1) admin
      * 2) module_admin
      * 3) module_admin_menueditor
      *
+     * @param string $modulename The name of the module, which should be loaded.
+     * @return boolean
      */
     public static function loadModul($modulename)
     {
@@ -272,7 +254,6 @@ class Clansuite_Loader
      *
      * @param string $className The name of the filter class
      * @static
-     * @access public
      *
      * @return boolean
      */
@@ -294,9 +275,6 @@ class Clansuite_Loader
      * require if found
      *
      * @param string $className The name of the factories class
-     * @static
-     * @access public
-     *
      * @return boolean
      */
     public static function loadFactory($className)
