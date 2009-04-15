@@ -45,7 +45,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *
  * @package clansuite
  * @subpackage cache
- * @category caches
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {

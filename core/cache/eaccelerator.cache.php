@@ -47,9 +47,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *
  * @link http://eaccelerator.net/
  *
- * @package clansuite
- * @subpackage cache
- * @category caches
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
 {
