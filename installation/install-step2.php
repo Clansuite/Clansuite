@@ -147,6 +147,18 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? 'on' : 'off';
                          $required['pdo_mysql_library']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
 
+                         # Checking for Reflection Class (used by DI-Phemto, maybe missing on modified PHP Versions)
+                         $required['class_reflection']['text']       = $language['CLASS_REFLECTION'];
+                         $required['class_reflection']['expected']   = 'on';
+                         $required['class_reflection']['actual']     = class_exists('Reflection',false) ? 'on' : 'off';
+                         $required['class_reflection']['status']     = class_exists('Reflection',false) ? SETTING_TRUE : SETTING_FALSE;
+
+                         # Checking for SPL
+                         $required['extension_spl']['text']       = $language['EXTENSION_SPL'];
+                         $required['extension_spl']['expected']   = 'on';
+                         $required['extension_spl']['actual']     = extension_loaded("SPL") ? 'on' : 'off';
+                         $required['extension_spl']['status']     = extension_loaded("SPL") ? SETTING_TRUE : SETTING_FALSE;
+
               # NOT USED # Checking if session.save_path is writable
               # NOT USED # Setting: Database
 
@@ -248,13 +260,13 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['output_buffering']['actual']     = get_php_setting('output_buffering',false,'string');
                          $recommended['output_buffering']['status']     = get_php_setting('output_buffering',false,'img');
 
-                         # Checking for PHP Extension : HASH
+                         # Checking for PHP Extension : HASH (used in Clansuite_Security)
                          $recommended['extension_hash']['text']       = $language['EXTENSION_HASH'];
                          $recommended['extension_hash']['expected']   = 'on';
                          $recommended['extension_hash']['actual']     = extension_loaded('hash') ? 'on' : 'off';
                          $recommended['extension_hash']['status']     = extension_loaded('hash') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Checking for PHP Extension : gettext
+                         # Checking for PHP Extension : gettext (used in Clansuite_Localization)
                          $recommended['extension_gettext']['text']     = $language['EXTENSION_GETTEXT'];
                          $recommended['extension_gettext']['expected'] = 'on';
                          $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? 'on' : 'off';
@@ -266,7 +278,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_tokenizer']['actual']    = function_exists('token_get_all') ? 'on' : 'off';
                          $recommended['extension_tokenizer']['status']    = function_exists('token_get_all') ? SETTING_TRUE : SETTING_FALSE;
 
-                         #  Checking for PHP Extension : GD
+                         #  Checking for PHP Extension : GD (used systemwide, e.g. on captcha)
                          $recommended['extension_gd']['text']       = $language['EXTENSION_GD'];
                          $recommended['extension_gd']['expected']   = 'on';
                          $recommended['extension_gd']['actual']     = extension_loaded('gd') ? 'on' : 'off';
@@ -278,7 +290,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_xml']['actual']     = extension_loaded('xml') ? 'on' : 'off';
                          $recommended['extension_xml']['status']     = extension_loaded('xml') ? SETTING_TRUE : SETTING_FALSE;
 
-                         #  Checking for PHP Extension : SimpleXML
+                         #  Checking for PHP Extension : SimpleXML (used systemwide for xml parsing)
                          $recommended['extension_simplexml']['text']       = $language['EXTENSION_SIMPLEXML'];
                          $recommended['extension_simplexml']['expected']   = 'on';
                          $recommended['extension_simplexml']['actual']     = extension_loaded('SimpleXML') ? 'on' : 'off';
@@ -290,7 +302,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_suhosin']['actual']     = extension_loaded('suhosin') ? 'on' : 'off';
                          $recommended['extension_suhosin']['status']     = extension_loaded('suhosin') ? SETTING_TRUE : SETTING_FALSE;
 
-                         #  Checking for PHP Extension : Skein Hash
+                         #  Checking for PHP Extension : Skein Hash (used in Clansuite_Security)
                          $recommended['extension_skein']['text']       = $language['EXTENSION_SKEIN'];
                          $recommended['extension_skein']['expected']   = 'on';
                          $recommended['extension_skein']['actual']     = extension_loaded('skein') ? 'on' : 'off';
@@ -308,11 +320,29 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_curl']['actual']     = extension_loaded('curl') ? 'on' : 'off';
                          $recommended['extension_curl']['status']     = extension_loaded('curl') ? SETTING_TRUE : SETTING_FALSE;
 
-                         #  Checking for PHP Extension : SYCK
+                         #  Checking for PHP Extension : SYCK (is a YAML-Parser used in Clansuite_YAML_Config)
                          $recommended['extension_syck']['text']       = $language['EXTENSION_SYCK'];
                          $recommended['extension_syck']['expected']   = 'on';
                          $recommended['extension_syck']['actual']     = extension_loaded('syck') ? 'on' : 'off';
                          $recommended['extension_syck']['status']     = extension_loaded('syck') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : APC (used in Clansuite_APC_Cache)
+                         $recommended['extension_apc']['text']       = $language['EXTENSION_APC'];
+                         $recommended['extension_apc']['expected']   = 'on';
+                         $recommended['extension_apc']['actual']     = extension_loaded('apc') ? 'on' : 'off';
+                         $recommended['extension_apc']['status']     = extension_loaded('apc') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : MEMCACHED? or memcache? (used in Clansuite_Memcache_Cache)
+                         $recommended['extension_memcache']['text']       = $language['EXTENSION_MEMCACHE'];
+                         $recommended['extension_memcache']['expected']   = 'on';
+                         $recommended['extension_memcache']['actual']     = extension_loaded('memcache') ? 'on' : 'off';
+                         $recommended['extension_memcache']['status']     = extension_loaded('memcache') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : MCrypt (used in Clansuite_Security)
+                         $recommended['extension_mcrypt']['text']       = $language['EXTENSION_MCRYPT'];
+                         $recommended['extension_mcrypt']['expected']   = 'on';
+                         $recommended['extension_mcrypt']['actual']     = extension_loaded('mcrypt') ? 'on' : 'off';
+                         $recommended['extension_mcrypt']['status']     = extension_loaded('mcrypt') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>
                 <table class="settings" border="0">
