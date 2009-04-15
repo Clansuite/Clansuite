@@ -24,8 +24,8 @@ function smarty_block_tabpane($params, $content, &$smarty, &$repeat)
     $name = isset($params['name']) ? $params['name'] : '1';
 
     # Initialize
-    # @todo: addJavascript('header', 'once', $js)
-    # @todo: addCss('once', $css);
+    # @todo addJavascript('header', 'once', $js)
+    # @todo addCss('once', $css);
     $start_tabpane  = '<!-- Tabs with Tabpane -->';
     $start_tabpane .= '<link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE.'/css/tabpane/luna.css" />';
     $start_tabpane .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE.'/javascript/tabpane/tabpane.js"></script>';
@@ -37,7 +37,7 @@ function smarty_block_tabpane($params, $content, &$smarty, &$repeat)
     # End TAB Pane
 
     $end_tabpane = '</div><!-- END TAB PANE : '.$name.' -->';
-    # @todo: addJavascript('bottom','once', $js);
+    # @todo addJavascript('bottom','once', $js);
     $end_tabpane .= '<!-- Init TabPane -->
                     <script type="text/javascript">setupAllTabs();</script>';
 
