@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage filters
  * @implements FilterInterface
  */
-class statistics implements Clansuite_FilterInterface
+class statistics implements Clansuite_Filter_Interface
 {
     private $config     = null;
     private $statistics = null;
@@ -84,7 +84,11 @@ class statistics implements Clansuite_FilterInterface
             #$browserVersion   = $phpSniff->property('maj_ver').$phpSniff->property('min_ver');
 
             # and store it to DB
-
+            
+            
+            */
+            
+            
         }// else => bypass
     }
 }
