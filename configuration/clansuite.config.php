@@ -41,6 +41,7 @@ from = "system@website.com"
 [template]
 std_page_title = "Team Clansuite"
 theme = "standard"
+backend_theme = "admin"
 tpl_wrapper_file = "index.tpl"
 std_css = "standard.css"
 std_javascript = "standard.js"
@@ -112,10 +113,11 @@ maximal_password_tries = 3
 ; error
 ;----------------------------------------
 [error]
+debug           = 1
+xdebug          = 1
+development     = 1
 suppress_errors = 0
-debug = 1
-xdebug = 1
-debug_popup = 0
+debug_popup     = 0
 
 ;----------------------------------------
 ; cache
@@ -138,7 +140,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-André Koch, Florian Wolf & Clansuite Development Team"
+author = "Jens-André Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 domain = "clansuite-dev.com"

@@ -93,7 +93,7 @@ class Clansuite_CMS
         Clansuite_CMS::start_Session();
 
         Clansuite_CMS::execute_Frontcontroller();
-        
+
         # register own shutdown function
         # register_shutdown_function(array(self,'shutdown_and_exit'));
     }
@@ -275,8 +275,10 @@ class Clansuite_CMS
      */
     private static function initialize_Debug()
     {
-        # Debug-Mode is set via config
-        define('DEBUG', self::$config['error']['debug']);
+        /**
+         * Debug-Mode is set via config
+         */
+        define('DEBUG',       self::$config['error']['debug']);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if ( defined('DEBUG') && DEBUG == true ) # == true or false
@@ -290,6 +292,11 @@ class Clansuite_CMS
             ini_set('display_errors',   false); # do not display errors in the browser
             error_reporting(0);                 # do not report errors
         }
+
+        /**
+         * Development-Mode is set via config
+         */
+        define('DEVELOPMENT', self::$config['error']['development']);
 
         /**
          * Setup XDebug
@@ -505,7 +512,7 @@ class Clansuite_CMS
     {
         require ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
-    
+
     /**
      * ==================================================
      *     Perform a proper Shutdown and Exit
