@@ -41,7 +41,9 @@ require( ROOT_LIBRARIES . 'libacts2/Absurd.php');
 /**
  * Clansuite Module - Teamspeakviewer
  * 
- * v0.1
+ * @category    Clansuite
+ * @package     Module
+ * @subpackage  TeamspeakViewer
  */
 class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -156,7 +158,11 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
 }
 
 /**
- * @desc Advanced Implemenation of the Absurd_TeamSpeak2_Viewer
+ * Advanced Implemenation of the Absurd_TeamSpeak2_Viewer
+ *
+ * @category    Clansuite
+ * @package     Module
+ * @subpackage  TeamspeakViewer
  */
 class AdvancedTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
 {
@@ -321,8 +327,12 @@ class AdvancedTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
 }
 
 /**
- * @desc Text Implementation of the Absurd_TeamSpeak2_Viewer
+ * Text Implementation of the Absurd_TeamSpeak2_Viewer
  * This is SimpleTeamSpeak2Viewer by absurdcoding.
+ *
+ * @category    Clansuite
+ * @package     Module
+ * @subpackage  TeamspeakViewer
  */ 
 class TextTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
 {
