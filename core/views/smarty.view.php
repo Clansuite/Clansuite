@@ -407,16 +407,10 @@ class view_smarty extends Clansuite_Renderer_Base
     {
         # Debug Display
         # echo 'Smarty was asked to render template: '.$template;
+        $this->setTemplate($template);
 
         # Assign Constants
         $this->assignConstants();
-
-        # Module Loading {loadModule }
-        # $this->smarty->assign_by_ref('cs', $this);
-        # $this->smarty->register_function('load_module', array('view_smarty','loadStaticModule'), false);
-
-        # Error Block {error level="1" title="Error"}
-        # $this->smarty->register_block("error", array('view_smarty',"smartyBlockError"), false);
 
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
@@ -429,10 +423,12 @@ class view_smarty extends Clansuite_Renderer_Base
          *
          * Debugging Hint:
          * Change Fetch to Display to get an echo of the pure ModuleContent
-         * else var_dump the fetch!
+         * else use the xdebug::printR to display the fetch!
          */
 
         $modulecontent =  $this->fetch($template);
+
+        #clansuite_xdebug::printR($template);
 
         # check for existing errors and prepend them
         #if( errorhandler::hasErrors() == true )
