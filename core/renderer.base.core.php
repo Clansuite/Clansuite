@@ -46,9 +46,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 abstract class Clansuite_Renderer_Base
 {
-    public $view = null;     # holds instance of the Rendering Engine
-    public $config = null;
-    public $layoutTemplate = null;
+    public $view                = null;     # holds instance of the Rendering Engine
+    public $config              = null;
+    public $layoutTemplate      = null;
+    public $template            = null;
     protected $injector;     # holds instance of Dependency Injector Phemto (object)
 
     /**
@@ -119,20 +120,38 @@ abstract class Clansuite_Renderer_Base
      * @return string
      */
     /*abstract*/ public function display($template, $data = null) {}
-    
+
     /**
      * Returns the render engine object
      *
      * @return string
      */
     abstract public function getEngine();
-    
+
     /**
      * Renders the given Template
      *
      * @return string
      */
     abstract public function render($template);
+
+    /**
+     * Set the template name
+     *
+     * @param string $template Name of the Template with full Path
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * Get the template name
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
 
     /**
      * Returns the Template Path
@@ -146,7 +165,6 @@ abstract class Clansuite_Renderer_Base
     public function getTemplatePath($template)
     {
         # if template is a qualified path and template filename
-        # @todo why this? not needed?
         if(is_file($template)) { return $template; }
 
         # default is Theme Template Path
@@ -213,33 +231,37 @@ abstract class Clansuite_Renderer_Base
      *
      * @param string $template Template Filename
      * @return string
+     * @todo clean this mess up!
      */
     public function getModuleTemplatePath($template)
     {
+        # Debug Display
+        # echo $template;
+        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
+        
         # init var
         $modulepath = '';
 
-        # Method 1: get module/action names (we dont have action controller resolver yet)
-        # Leave this!
+        # Method 1: get module/action names
         $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
-        # $actionName = Clansuite_ActionController_Resolver::getActionName(); ???
-        /*
-         if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
+        $actionName = Clansuite_ActionController_Resolver::getActionName();
+        
+        if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
         {
-            $modulepath = ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
-        }*/
+            return ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
+        }
 
         # Method 2: detect it via $template string
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
-        #echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
+        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
 
         # if template was found in session theme directory
         #
         # Example:
         # index\action_show.tpl
-        # D:\xampplite\htdocs\work\clansuite\trunk\themes\standard\index\index\action_show.tpl
+        # ROOT \clansuite\trunk\themes\standard\index\index\action_show.tpl
         if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template ))
         {
             return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
@@ -279,6 +301,8 @@ abstract class Clansuite_Renderer_Base
         }
 
         #echo '<br>We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
+
+        $this->setTemplate($template);
 
         return $modulepath;
     }
@@ -339,8 +363,14 @@ abstract class Clansuite_Renderer_Base
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Trail::getTrail();
 
+        # Templatename itself
+        $template_constants['template_to_render'] = $this->getTemplate();
+
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
+
+        # Debug Display
+        #clansuite_xdebug::printR($template_constants);
 
         return $template_constants;
     }
@@ -382,7 +412,7 @@ abstract class Clansuite_Renderer_Base
 
         return $this->layoutTemplate;
     }
-    
+
     /**
      * View Helpers
      *
@@ -396,7 +426,7 @@ abstract class Clansuite_Renderer_Base
     /*
     function viewhelper($src, $return)
     {
-        $src = 'this->' . trim($src);            
+        $src = 'this->' . trim($src);
         require_once $this->getEngine.'/HelperImplementation.php';
         return ENGINE_HelperImplementation::($src);
     }

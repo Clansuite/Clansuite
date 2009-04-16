@@ -331,8 +331,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         $module = Clansuite_Functions::cut_string_backwards($module, '_admin');
 
-        # Construct Templatename, like news/action_show.tpl
-        $template = $module.DS.$action.'.tpl';
+        # Construct Templatename, like news/templates/action_show.tpl
+        $template = $module.DS.'templates'.DS.$action.'.tpl';
 
         # Debug
         #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
