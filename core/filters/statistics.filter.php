@@ -84,11 +84,7 @@ class statistics implements Clansuite_Filter_Interface
             #$browserVersion   = $phpSniff->property('maj_ver').$phpSniff->property('min_ver');
 
             # and store it to DB
-            
-            
-            */
-            
-            
+
         }// else => bypass
     }
 }
