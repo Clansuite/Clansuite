@@ -54,9 +54,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005-onwards)
  * @since      Class available since Release 0.2
  *
- * @category    clansuite.core.feed
- * @package     clansuite.core
- * @subpackage  feed
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Feed
  */
 class Clansuite_Feed
 {
@@ -98,12 +98,12 @@ class Clansuite_Feed
         # finally: fetch the feed and cache it!
         $simplepie->SimplePie($feed_url, $cache_location, $cache_duration)
     }
-    
+
     public static function write()
     {
         clansuite_loader::loadLibrary('feedcreator.class.php');
-        
-        return new UniversalFeedCreator();   
+
+        return new UniversalFeedCreator();
     }
 }
 ?>

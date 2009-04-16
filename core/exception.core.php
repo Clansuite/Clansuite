@@ -44,6 +44,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
  * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Clansuite_Exception().
  *
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Errorhandler
  * @todo: implement usage of exceptions provides by SPL
  */
 class Clansuite_Exception extends Exception
@@ -104,8 +110,7 @@ class Clansuite_Exception extends Exception
     /**
      * Exception Handler Callback
      *
-     * Type Hint: only Exception Object valid
-     * @param $exception
+     * @param $exception A valid Exception Object is valid (Type Hint).
      */
     public function clansuite_exception_handler( Exception $exception )
     {
