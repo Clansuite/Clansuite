@@ -50,9 +50,9 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
-    * @package    clansuite
-    * @category   installer
-    * @subpackage webinstaller
+    * @category    Clansuite
+    * @package     Installation
+    * @subpackage  Webinstaller
     *
     * HTML Written = Version 0.2 - 06 June 2007
     * HTML Document begins near Line #1000

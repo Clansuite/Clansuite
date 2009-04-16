@@ -37,32 +37,34 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+# Load Clansuite_Config_Base
+require dirname(__FILE__) . '/abstract.core.php';
+
 /**
  * Clansuite Core File - Config Handler for YAML Format
- * 
+ *
  * Purpose: This Confighandler supports the YAML-Fileformat.
- * 
- * What is YAML? 
+ *
+ * What is YAML?
  * 1) YAML Ain't Markup Language
- * 2) YAML(tm) (rhymes with "camel") is a straightforward machine parsable data serialization format 
- * designed for human readability and interaction with scripting languages. YAML is optimized for 
+ * 2) YAML(tm) (rhymes with "camel") is a straightforward machine parsable data serialization format
+ * designed for human readability and interaction with scripting languages. YAML is optimized for
  * data serialization, configuration settings, log files, Internet messaging and filtering.
- * 
+ *
  * The YAML Support of this class is based around two parser libraries:
- * a) the php extension SYCK (available via PECL) 
+ * a) the php extension SYCK (available via PECL)
  * b) the SPYC Library.
- * 
+ *
  * @link http://www.yaml.org/ YAML Website
  * @link http://www.yaml.org/spec/ YAML Format Specification
  * @link http://pecl.php.net/package/syck/ PECL SYCK Package maintained by Alexey Zakhlestin
  * @link http://github.com/why/syck/tree/master PECL SYCK Repository
  * @link http://spyc.sourceforge.net/ SPYC Library Website at Sourceforge
  *
- * @package     clansuite
- * @category    core
- * @subpackage  config
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
  */
-require dirname(__FILE__) . '/abstract.core.php';
 class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements ArrayAccess
 {
      /**
@@ -73,24 +75,24 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      * @access protected
      */
     protected $config = array();
-    
+
     # holds SPYC instance
     private $spyc = null;
-    
+
     /**
      * CONSTRUCTOR
      * sets up all variables
      */
     public function __construct($filename)
     {
-        # load SPYC 
+        # load SPYC
         require ROOT_LIBARIES . 'spyc/spyc.class.php';
-        
+
         # instantiate SPYC
         $this->spyc = new Spyc;
-        
+
         # read config file, set to array
-        $this->config = self::readConfig($filename);        
+        $this->config = self::readConfig($filename);
     }
 
     /**
@@ -110,7 +112,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
 
         return $instance;
     }
-    
+
     /**
      * Write the config array to a yaml file
      *
@@ -124,7 +126,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     {
         # transform PHP Array into YAML Format
         $yaml_content = $this->spyc->dump($assoc_array);
-       
+
        # ensure file is writable
         if (is_writable($filename))
         {
@@ -134,7 +136,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
                  throw new Clansuite_Exception("Kann die Datei $filename nicht öffnen");
                  return false;
             }
-            
+
             # write YAML content to file
             if (!fwrite($filehandle, $yaml_content))
             {
@@ -142,7 +144,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
                 return false;
 
             }
-            
+
             # close file
             fclose($filehandle);
             return true;
@@ -153,7 +155,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
             return false;
         }
     }
-    
+
     /**
      *  Read the complete config file *.yaml
      *
@@ -165,33 +167,33 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     {
         # check if the filename exists
         if(is_file($filename))
-        {   
-            # read the yaml content of the file         
+        {
+            # read the yaml content of the file
             $yaml_content = file_get_contents($filename);
         }
         else
         {
             throw new Clansuite_Exception("Die Datei $filename existiert nicht. Kann YAML Config nicht lesen!");
-        }        
-        
+        }
+
         /**
          * check if the php extension SYCK is available as parser
          * SYCK is written in C, so it's implementation is faster then SPYC, which is pure PHP.
          */
         if( extension_loaded('syck') ) # take the faster one first
         {
-            # syck_load accepts a YAML string as input and converts it into a PHP data structure 
+            # syck_load accepts a YAML string as input and converts it into a PHP data structure
             $php_datastructure = syck_load($yaml_content);
         }
-        # else check if we habe spyc as a library 
+        # else check if we habe spyc as a library
         elseif(is_file(ROOT_LIBRARIES.'/Spyc.class.php'))
         {
             # ok, load spyc
             require_once ROOT_LIBRARIES.'/Spyc.class.php';
-            
+
             # instantiate
-            $spyc = new Spyc(); 
-            
+            $spyc = new Spyc();
+
             # parse the yaml content with spyc
             $php_datastructure = $spyc->load($yaml_content);
         }
@@ -208,7 +210,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         }
         else # return an empty array
         {
-            return array(); 
+            return array();
         }
     }
 }

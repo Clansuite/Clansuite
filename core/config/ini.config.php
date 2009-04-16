@@ -37,9 +37,12 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+# Load Clansuite_Config_Base
+require dirname(__FILE__) . '/abstract.core.php';
+
 /**
- * Clansuite Core File - Config Handler for INI Format      
- * 
+ * Clansuite Core File - Config Handler for INI Format
+ *
  * This is the Config class of Clansuite. And it's build around the $config array,
  * which is a storage container for settings.
  *
@@ -53,11 +56,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * get data, using get() : echo $cfg->get ('name');
  * get data, using array access: echo $cfg['name'];
  *
- * @package     clansuite
- * @category    core
- * @subpackage  config
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
  */
-require dirname(__FILE__) . '/abstract.core.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
      /**
@@ -222,7 +224,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     {
         # when ini_filename exists, get config array
         if(is_file($filename))
-        {            
+        {
             return self::_manageKeys(parse_ini_file($filename, true));
         }
         return false;

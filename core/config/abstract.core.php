@@ -36,6 +36,14 @@
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+
+/**
+ * Clansuite_Config_Base
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Config
+ */
 abstract class Clansuite_Config_Base
 {
     /**

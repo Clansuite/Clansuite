@@ -53,6 +53,7 @@ class Clansuite_Version
         define('CLANSUITE_VERSION',         '0.2');
         define('CLANSUITE_VERSION_NAME',    'Trajan');
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
+        define('CLANSUITE_VERSION_DATE',    'DD-MM-2009');
 
         # Define Clansuite SVN Revision
         if (!defined('CLANSUITE_REVISION'))
@@ -111,6 +112,6 @@ class Clansuite_Version
     }
 }
 
-# autocall this call when loaded
+# (auto)call this call when loaded
 new Clansuite_Version;
 ?>
