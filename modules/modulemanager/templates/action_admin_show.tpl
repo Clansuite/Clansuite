@@ -10,6 +10,9 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mocha/mocha-init.js"></script>
 {/move_to}
 
+{modulenavigation}
+<div class="ModuleHeading">{t}Modulemanager{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can edit, activate and deactivate your Modules.{/t}</div>
 
 {confirm class="delete"
          htmlTemplate="confirm_mocha_ok.tpl" 

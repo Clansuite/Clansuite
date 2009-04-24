@@ -7,7 +7,7 @@
     <hr>
     {$downloadcategories|@var_dump}
 *}
-
+{modulenavigation}
 <!-- Module Heading -->
 <div class="ModuleHeading">Downloads</div>
 <div class="ModuleHeadingSmall">Sie können Downloads hinzufügen, verändern und löschen.</div>
