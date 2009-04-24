@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+    <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
+        xmlns:atom="http://www.w3.org/2005/Atom">
+        <channel>
+            <item>
+                <title>Tropfen</title>
+                <media:description>Mein lieblingstropfen :-)</media:description>
+                <link>uploads/images/gallery/tropfen.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/tropfen.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/tropfen.jpg"/>
+            </item>
+            
+            <item>
+                <title>Stimme von Oben</title>
+                <media:description>was denn für eine Stimme ???</media:description>
+                <link>uploads/images/gallery/stimme_von_oben.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/stimme_von_oben.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/stimme_von_oben.jpg"/>
+            </item>
+            
+            <item>
+                <title>Rätsel 2</title>
+                <media:description>wieso das denn ...</media:description>
+                <link>uploads/images/gallery/raetsel_2.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/raetsel_2.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/raetsel_2.jpg"/>
+            </item>
+            
+            <item>
+                <title>Rätsel 1</title>
+                <media:description>jetzt gehts aber los</media:description>
+                <link>uploads/images/gallery/raetsel_1.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/raetsel_1.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/raetsel_1.jpg"/>
+            </item>
+            
+            <item>
+                <title>Platsch</title>
+                <media:description>platsch nass</media:description>
+                <link>uploads/images/gallery/platsch.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/platsch.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/platsch.jpg"/>
+            </item>
+            
+            <item>
+                <title>Kunst</title>
+                <media:description>Das soll Kunst sein ?</media:description>
+                <link>uploads/images/gallery/kunst.jpg</link>
+                <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/kunst.jpg"/>
+                <media:content url="http://localhost/clansuite/uploads/images/gallery/kunst.jpg"/>
+            </item>
+        </channel>
+        </rss>
