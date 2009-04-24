@@ -5,7 +5,9 @@
    <hr>
    {$pagination_links|@var_dump}
 
-
+{modulenavigation}
+<div class="ModuleHeading">{t}Gallery - Administration{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can manage your Galleries.{/t}</div>
 <table border="0" cellspacing="1" cellpadding="3" style="width:99%">
 
     <caption class="td_header">Gallery</caption>

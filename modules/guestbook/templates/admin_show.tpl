@@ -1,4 +1,7 @@
 {* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|@var_dump} *}
+{modulenavigation}
+<div class="ModuleHeading">{t}Guestbook - Administration{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can manage your Guestbook.{/t}</div>
 
 <form action="index.php?mod=controlcenter&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 

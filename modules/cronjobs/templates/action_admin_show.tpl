@@ -1,5 +1,5 @@
 {* {$cronjobs|@var_dump} *}
-{* {include file="modulenavigation.tpl"} *}
+{modulenavigation}
 <div class="ModuleHeading">{t}Cronjobs - timed and repetitive Tasks{/t}</div>
 <div class="ModuleHeadingSmall">{t}Administrate the timed tasks. You can add, delete, activate, deactivate tasks.{/t}</div>
 

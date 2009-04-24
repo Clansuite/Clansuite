@@ -16,6 +16,9 @@
     {/error}
 {/if}
 *}
+{modulenavigation}
+<div class="ModuleHeading">{t}Users - Administration{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can create Users, edit and delete them.{/t}</div>
 
 <form action="index.php?mod=controlcenter&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
 
