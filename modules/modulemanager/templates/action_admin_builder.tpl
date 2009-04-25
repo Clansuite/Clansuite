@@ -1,3 +1,7 @@
+{modulenavigation}
+<div class="ModuleHeading">{t}Builder for Modules{/t}</div>
+<div class="ModuleHeadingSmall">{t}With the Modulebuilder you can easily create your own Clansuite Module. The builder will guide you in several steps through the creation of your module.{/t}</div>
+
 {literal}
 <script type="text/javascript">
     window.addEvent('domready', function() {
@@ -221,7 +225,7 @@
 
             $('backend_module_add').fireEvent('click');
         });
-        
+
         // SAMPLE_BREAD
         // CRUD
         var breadLink = $('sample_bread');
@@ -337,7 +341,7 @@
             <tr>
                 <td class="cell2">{t}Choose a Methodname Structure for the Module{/t}</td>
                 <td class="cell1"><a href="" id="sample_crud">CRUD (create, read, update, delete)</a>
-                {* <a href="" id="sample_bread">BREAD (browse, read, edit, add, delete)</a> 
+                {* <a href="" id="sample_bread">BREAD (browse, read, edit, add, delete)</a>
                  <a href="" id="sample_abcd">ABCD (add, brosw, change, delete)</a> *}</td>
             </tr>
             <tr>
@@ -618,22 +622,22 @@
                     </div>
                 </td>
             </tr>
-            
+
             <tr>
                 <td class="cell2">Create Documenation?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;">
                         <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
-                    </div>                    
+                    </div>
                 </td>
-            </tr>            
+            </tr>
 
             <tr>
                 <td class="cell2">Create a Unit-Test Skeleton for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;">
                         <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
-                    </div>                    
+                    </div>
                 </td>
             </tr>
 
@@ -642,7 +646,7 @@
                 <td class="cell1">
                     <div style="padding-bottom: 5px;">
                         <input type="checkbox" name="m[create_dependencies][checked]" id="create_dependencies" class="check_below" value="1" />
-                    </div>                   
+                    </div>
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
                         <tr>
                             <td class="cell2" width="100px">{t}Dependency{/t}</td>

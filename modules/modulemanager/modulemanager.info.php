@@ -4,8 +4,8 @@
 ;
 
 [modulemanager_info]
-author="Florian Wolf"
-license="GPLv2 or any later"
+author="Florian Wolf, Jens-André Koch"
+license="GPL v2 or any later"
 link="http://www.clansuite.com"
 name = Modulemanager
 description = Modulemanager helps to create, edit, import, export and package modules
@@ -17,7 +17,5 @@ version = 0.2-0.x-dev
 project = modulemanager
 datestamp = 
 uniqueid = 
-
-[modulemanager_adminmenu]
 
 ; DO NOT REMOVE THIS LINE */ ?>
