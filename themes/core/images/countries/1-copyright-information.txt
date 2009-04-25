@@ -1,0 +1,27 @@
+                            _________________________
+                            C  L  A  N  S  U  I  T  E
+
+  Copyright Information
+  ---------------------
+
+  The Iconpack in the folder "/trunk/themes/core/images/countries" is:
+
+    Iconpack:       FamFamFam_Flag_Icons
+    Author:         Mark James
+    License:        Public Domain
+                    These flag icons are available for free use for any purpose with no requirement for attribution.
+    Website:        http://www.famfamfam.com/lab/icons/flags/
+    Download:       http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
+    Last Visit:     25 April 2009
+
+  Last Words
+  ----------
+
+    Thanks for using Clansuite!
+
+      Best Regards,
+
+        Jens-André Koch
+        Clansuite Maintainer
+
+  Version: $Id: README.EN.txt 2664 2009-01-08 22:38:40Z vain $
