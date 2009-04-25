@@ -1,4 +1,4 @@
-{include file="modulenavigation.tpl"}
+{modulenavigation}
 {* {$apc_sysinfos.sma_info|@dump:APC_SYSINFOS_sma_info} *}
 {* {$apc_sysinfos.cache_info|@dump:APC_SYSINFOS_cache_info} *}
 {* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
