@@ -44,27 +44,27 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-										    'url'	  => 'index.php?mod=menu&sub=admin', # &action=show
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'     => 'index.php?mod=menu&sub=admin', # &action=show
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'2' => array(
-							                'action'  => 'imexport',
-							                'name'    => 'Import &amp; Export',
-										    'url'     => 'index.php?mod=menu&sub=admin&action=imexport',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
-										
-							'3' => array(
-							                'action'  => 'backup',
-							                'name'    => 'Backup',
-										    'url'     => 'index.php?mod=menu&sub=admin&action=backup',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),						  
-						 );
+                            '2' => array(
+                                            'action'  => 'imexport',
+                                            'name'    => 'Import &amp; Export',
+                                            'url'     => 'index.php?mod=menu&sub=admin&action=imexport',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
+
+                            '3' => array(
+                                            'action'  => 'backup',
+                                            'name'    => 'Backup',
+                                            'url'     => 'index.php?mod=menu&sub=admin&action=backup',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
+                         );
 
 /**
  * Clansuite Adminmenu for Module Menu
