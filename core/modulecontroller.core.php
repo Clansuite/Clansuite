@@ -52,6 +52,58 @@ interface Clansuite_Module_Interface
 }
 
 /**
+ * Interface for all modules which implement a BREAD action structure
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface
+{
+    public function action_browse();
+    public function action_read();
+    public function action_erase();
+    public function action_add();
+    public function action_delete();
+}
+
+/**
+ * Interface for all modules which implement a CRUD action structure
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface
+{
+    public function action_create();
+    public function action_read();
+    public function action_update();
+    public function action_delete();
+}
+
+/**
+ * Interface for all modules which implement a ABCD action structure
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface
+{
+    public function action_add();
+    public function action_browse();
+    public function action_change();
+    public function action_delete();
+}
+
+/**
  * ModuleController
  *
  * Is an abstract class (parent class) to share some common features
@@ -168,7 +220,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         {
             $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
         }
-        
+
         return $this->config;
     }
 
@@ -286,7 +338,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @return renderengine object
      */
     public function getRenderEngine()
-    {      
+    {
         return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
 
@@ -388,7 +440,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # 2) get the view
         $view = $this->getView();
-       
+
 
         # 3) get the layout (like admin/index.tpl)
         #$view->getLayoutTemplate();
@@ -449,7 +501,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # event log
         #$this->addEvent('logErrormessage');
-        
+
         # set flash message  ?
     }
 
@@ -466,7 +518,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     {
         $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
     }
-    
+
     /**
     * @desc  Shortcut for Redirect with an 404 Repsonse Code
     * @param string Redirect to this URL
@@ -484,12 +536,12 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param object Eventobject
      * @access public
      */
-    public function addEvent($eventName, Clansuite_Event $event)  
+    public function addEvent($eventName, Clansuite_Event $event)
     {
         $eventhandler = Clansuite_Eventhandler::instantiate();
         $eventhandler->addEventHandler($eventName, $event);
     }
-    
+
     /**
      * notify is alternate methodname for addEvent (shortcut for usage in modules)
      *
@@ -500,6 +552,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function notify($eventName, Clansuite_Event $event)
     {
         $this->addEvent($eventName, $event);
-    } 
+    }
 }
 ?>
