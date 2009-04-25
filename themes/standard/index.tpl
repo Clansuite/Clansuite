@@ -54,7 +54,7 @@
 
     {* Cascading Style Sheets *}
     <link rel="stylesheet" type="text/css" href="{$css}" />
-    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/photo.rss" title="" id="gallery" />
+    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
 
 
 
