@@ -471,7 +471,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             }
 
             # it was an folder, close it
-            # @todo: combine both if's with OR?
+            # @todo combine both if's with OR?
             if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
