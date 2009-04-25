@@ -1,3 +1,4 @@
+{modulenavigation}
 {move_to target="head"}
 <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/DynamicTree.css" />
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
