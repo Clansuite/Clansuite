@@ -287,7 +287,113 @@ class Clansuite_Form_Factory implements Clansuite_Form_Factory_Interface
 class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
 {
     /**
+     * Error Flag: Are there any errors occured while validating?
      *
+     * @var boolean
+     */
+    public $isError = false;
+
+    /**
+     * Validity Flag: Is this Form Element valid?
+     *
+     * @var boolean
+     */
+    public $isValid = false;
+
+    /**
+     * Validation Rules Array
+     *
+     * @var array
+     */
+    public $rules = array();
+
+    /**
+     * Validation Errors Array
+     */
+    public $errors = array();
+
+    /**
+     * Setter for "isError" Flag-Variable
+     */
+    public function setError()
+    {
+        # set error flag
+        $this->isError = true;
+
+        # @todo set error array
+    }
+
+    /**
+     * Getter for Validation Errors Array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Getter for "isError" Flag-Variable
+     *
+     * Example Usage;:
+     * if(Clansuite_Form_Validation->isError() == false) { }
+     *
+     * @return boolean
+     */
+    public function isError()
+    {
+        if($this->isError == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * This is a shortcut to isError
+     *
+     * Example Usage;:
+     * if(Clansuite_Form_Validation->ok() == false) { }
+     *
+     * @return boolean
+     */
+    public function ok()
+    {
+        return $this->isError();
+    }
+
+    /**
+     * setRules
+     *
+     * Example Usage (in Module Action):
+     *
+     * // set validation rules
+     * $rules['firstname']  = "required";
+     * $rules['email']      = "required,email";
+     *
+     * $this->validation->setRules($rules);
+     */
+    public function setRules(array $rules_array)
+    {
+        $this->rules = $rules_array;
+    }
+
+    /**
+     * Getter for Validation Rules
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * valdate is the main method of this class
+     * the data for a formelement is validated against the validation rules.
+     * in case the the data is not matching the rule, it's invalid and a validation error is set.
      */
     public function validate(Clansuite_Form_Element_Interface $formelement)
     {
@@ -295,7 +401,7 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
     }
 
     /**
-     *
+     * @todo right location?
      */
     public function generateJavaScriptValidation(Clansuite_Form_Element_Interface $formelement)
     {
@@ -448,6 +554,18 @@ interface Clansuite_Form_Element_Interface
  */
 interface Clansuite_Form_Validation_Interface
 {
+    # set/get validation rules
+    public function setRules()
+    public function getRules()
+
+    # main method of this class
+    public function validate()
+
+    # set/get/is validation errors
+    public function setError();
+    public function getErrors();
+    public function isError();
+
     # factory method for validation rules
     public function factory();
 }
