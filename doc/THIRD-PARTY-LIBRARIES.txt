@@ -51,11 +51,10 @@ TabPane                   1.02       Apache License v2        http://webfx.eae.n
 webtoolkit.sha1                      MIT License              http://www.webtoolkit.info/
 XulMenu (mygosuMenu)      1.4.2      BSD (revised/new)        http://gosu.pl/dhtml/mygosumenu.html
 
-SUBVERSION:EXTERNALS OF "/trunk/libraries" FOLDER ARE:
-======================================================
+The Folder "/trunk/themes/core/images" contains the following iconpacks / iconsets:
 
-doctrine http://svn.phpdoctrine.org/branches/0.11/lib/
-fckeditor http://svn.fckeditor.net/FCKeditor/releases/latest/
-geshi https://geshi.svn.sourceforge.net/svnroot/geshi/branches/RELEASE_1_0_8_STABLE/geshi-1.0.X/src
-ids https://svn.php-ids.org/svn/trunk/lib/IDS/
-swiftmailer https://swiftmailer.svn.sourceforge.net/svnroot/swiftmailer/tags/php5/3.3.3/lib/
+ICONPACK/ICONSET          VERSION    LICENCE(S)               WEBSITE
+------------------        -------    ----------               -------
+
+The folder "/countries" contains
+FAMFAMFAM_FLAGS           -          NONE, Public Domain      http://www.famfamfam.com/lab/icons/flags/
