@@ -50,14 +50,37 @@ $modulenavigation = array(
 										),
 
 							'2' => array(
-							                'action'  => 'create',
-							                'name'    => 'Create new',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=create',
+							                'action'  => 'builder',
+							                'name'    => 'Create with Modulebuilder',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=builder',
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
 
-						    '3' => array(
+							'3' => array(
+							                'action'  => 'install',
+							                'name'    => 'Install',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
+
+							'4' => array(
+							                'action'  => 'imexport',
+							                'name'    => 'Import &amp; Export',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=imexport',
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
+
+							'5' => array(
+							                'action'  => 'backup',
+							                'name'    => 'Backup',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=backup',
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
+							'6' => array(
 							                'action'  => 'settings',
 							                'name'    => 'Settings',
 										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=settings',
