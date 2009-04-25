@@ -1,6 +1,6 @@
 {* {$config|@var_dump} *}
-
-<div class="ModuleHeading">{t}Settings{/t}</div>
+{modulenavigation}
+<div class="ModuleHeading">{t}Clansuite Settings{/t}</div>
 <div class="ModuleHeadingSmall">{t}Konfiguration des Systems.{/t}</div>
 
 <form action="index.php?mod=controlcenter&amp;sub=settings&amp;action=update" method="post" accept-charset="UTF-8">
@@ -14,7 +14,7 @@
        {tabpage name="Developers"}  {include file='tabpage-developer.tpl'}  {/tabpage}
        {tabpage name="Date & Time"} {include file='tabpage-datetime.tpl'}   {/tabpage}
        {tabpage name="Cache"}       {include file='tabpage-cache.tpl'}      {/tabpage}
-       {tabpage name="Updates"}       {include file='tabpage-updates.tpl'}    {/tabpage}
+       {tabpage name="Updates"}     {include file='tabpage-updates.tpl'}    {/tabpage}
     {/tabpane}
 
     <br />
