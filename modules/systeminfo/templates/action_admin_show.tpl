@@ -1,4 +1,4 @@
-{include file="modulenavigation.tpl"}
+{modulenavigation}
 <div class="ModuleHeading">Systeminformation</div>
 <div class="ModuleHeadingSmall">Die Systeminformation zeigt Ihnen den aktuellen Status der Clansuite Webserver-Umgebung und der Erweiterungen an.</div>
 
