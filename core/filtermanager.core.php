@@ -68,7 +68,6 @@ class Clansuite_FilterManager
      * $filter is type-hinted, to ensure that the array filter only contains Filter-Objects
      *
      * @param object $filter
-     * @access public
      */
     public function addFilter(Clansuite_Filter_Interface $filter)
     {
@@ -80,7 +79,6 @@ class Clansuite_FilterManager
      *
      * @param request object
      * @param response object
-     * @access public
      */
     public function processFilters(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {

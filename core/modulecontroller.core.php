@@ -149,8 +149,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * Constructor
-     *
-     * @access public
      */
     public function __construct()
     {
@@ -162,8 +160,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * Type Hint set to only accept Phemto
      *
      * @param object $injector Dependency Injector (Phemto)
-     * @access public
-     * @TODO move config injection somewhere else
+
+     * @todo move config injection somewhere else
      */
     public function setInjector(Phemto $injector)
     {
@@ -186,7 +184,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * var_dump($this->moduleconfig);
      *
      * @param string $filename configuration ini-filename to read
-     * @access public
      */
     public function getModuleConfig($filename = null)
     {
@@ -249,8 +246,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Get the dependency injector
      *
-     * @access public
-     *
      * @return Returns a static reference to the Dependency Injector
      */
     public static function getInjector()
@@ -261,8 +256,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Set view
      *
-     * @access public
-     *
      * @param object $view RenderEngine Object
      */
     public function setView($view)
@@ -272,8 +265,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * Get view
-     *
-     * @access public
      *
      * @return Returns the View Object (Rendering Engine)
      */
@@ -295,7 +286,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * sets the Rendering Engine
      *
-     * @access public
      * @param string $renderEngineName Name of the RenderEngine
      */
     public function setRenderEngine($renderEngineName)
@@ -307,8 +297,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * Returns the Name of the Rendering Engine.
      * Returns Json if an XMLHttpRequest is given.
      * Returns Smarty as default if no rendering engine is set.
-     *
-     * @access public
      *
      * @return renderengine object, smarty as default
      */
@@ -334,7 +322,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * param1 getRenderEngineName looks up the Renderer-Name
      * param2 pass injector to renderer
      *
-     * @access public
      * @return renderengine object
      */
     public function getRenderEngine()
@@ -345,7 +332,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Set the template name
      *
-     * @access public
      * @param string $template Name of the Template with full Path
      */
     public function setTemplate($template)
@@ -356,7 +342,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Returns the Template Name
      *
-     * @access public
      * @return Returns the templateName as String
      */
     public function getTemplateName()
@@ -431,7 +416,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * 4. assign model data to that view object (a,b,c)
      * 5. set data to response object
      *
-     * @access public
      */
     public function prepareOutput()
     {
@@ -471,8 +455,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * is a call for errorhandler::addError
      *
      * This passes the errormessage and errorcode to the errorhandler.
-     *
-     * @access public
      */
     public function addError($errormessage, $errorcode)
     {
@@ -492,7 +474,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * another function of the same controller
      * or to functions of an different controller.
      *
-     * @access public
      */
     public function forward($class, $method, array $arguments = array())
     {
@@ -512,7 +493,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @param string redirect text
-     * @access public
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
@@ -534,7 +514,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      *
      * @param string Name of the Event
      * @param object Eventobject
-     * @access public
      */
     public function addEvent($eventName, Clansuite_Event $event)
     {
@@ -547,7 +526,6 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      *
      * @param string Name of the Event
      * @param object Eventobject
-     * @access public
      */
     public function notify($eventName, Clansuite_Event $event)
     {

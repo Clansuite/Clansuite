@@ -96,7 +96,6 @@ class Clansuite_Security
      *
      * @param string A clear-text string, like a password "JohnDoe$123"
      * @return $hash is an array, containing ['salt'] and ['hash']
-     * @access public
      */
     public function build_salted_hash( $string = '', $hash_algo = '')
     {
@@ -123,7 +122,6 @@ class Clansuite_Security
      * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
      * @return hashed string
      * @link http://www.php.net/manual/en/ref.hash.php
-     * @access public
      */
     public function generate_hash($hash_algo = null, $string = '')
     {
@@ -169,7 +167,6 @@ class Clansuite_Security
      *
      * @param integer $length Length of random string to return
      * @return string Returns a string with random generated characters and numbers
-     * @access public
      */
     public function generate_salt($length)
     {

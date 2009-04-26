@@ -57,14 +57,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     const session_name = 'suiteSID'; # session_name contains the session name
 
     /**
-     * @access public
      * @var integer
      */
     public $session_expire_time     = 30; # Session Expire time in minutes
     public $session_probability     = 30; # Probabliity of trashing the Session as percentage
 
     /**
-     * @access public
      * @var object
      */
     private  $config     = null;
