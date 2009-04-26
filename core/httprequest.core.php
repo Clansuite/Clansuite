@@ -505,6 +505,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * Get $_SERVER HTTP_USER_AGENT
+     *
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'];
+    }
+
+    /**
      * This method takes care for REST (Representational State Transfer) by tunneling PUT, DELETE through POST (principal of least power).
      * Ok, this is faked or spoofed REST, but lowers the power of POST and it's short and nice in html forms.
      * @see https://wiki.nbic.nl/index.php/REST.inc
