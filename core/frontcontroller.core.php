@@ -148,7 +148,6 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     /**
      * Method to get the Action
      *
-     * @access public
      * @return $string
      */
     public static function getActionName()
@@ -292,7 +291,6 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     /**
      * Method to get the ModuleName
      *
-     * @access public
      * @return $string
      */
     public static function getModuleName()
@@ -317,7 +315,6 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     /**
      * Method to get the SubModuleName
      *
-     * @access public
      * @return $string
      */
     public static function getSubModuleName()

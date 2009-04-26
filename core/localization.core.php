@@ -138,7 +138,6 @@ class Clansuite_Localization
      * So if $domain = 'clansuite'; => clansuite.mo
      *
      * @link http://www.php.net/function.bindtextdomain
-     * @access public
      */
     public function loadTextDomain($category, $domain, $locale, $moduleBaseDir = null)
     {
@@ -182,7 +181,6 @@ class Clansuite_Localization
      *  @param $supported   (optional) An array with the list of supported languages.
      *                      Default Setting is 'en' for english.
      *  @return $language Returns a $language string, which is supported by browser and system.
-     *  @access public
      */
     public function getLanguage( $supported=array( 'en', 'de' ) )
     {
@@ -225,7 +223,6 @@ class Clansuite_Localization
      *              secondary and further selections have a lower Q value (value <1).
      * EXAMPLE:     de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
      *
-     * @access public
      * @return Array containing the list of supported languages
      * @todo $_SERVER is an httprequest object...
      *        the method should be placed there and data fetch from the httprequest->method

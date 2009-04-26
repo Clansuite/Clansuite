@@ -105,7 +105,6 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      *
      * @param string $ini_filename Filename of .ini to write
      * @param array $assoc_array Associative Array with Ini-Values
-     * @access public
      *
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
