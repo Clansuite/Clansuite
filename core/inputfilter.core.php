@@ -59,7 +59,6 @@ class Clansuite_Inputfilter
      *
      * @param string $string String to modify
      * @param string $modificators One OR Multiple Modificators to use on the String
-     * @access public
      */
     public function modify($string='', $modificators='' )
     {
@@ -163,7 +162,6 @@ class Clansuite_Inputfilter
      * @param string $types Check for a specific type, Default empty
      * @param string $pattern Check for a specific pattern, Default empty
      * @param int $length Check for a specific string length, Default (int) 0
-     * @access public
      *
      * @return Returns boolean TRUE or FALSE.
      * @todo search for globals and replace!
@@ -311,24 +309,6 @@ class Clansuite_Inputfilter
             $error->error_log['security']['checked_false'] = _('A variable is checked as "false":').'Type: ' . $a_types[0];
         }
         return $r_bool;
-    }
-
-    /**
-     * Intrusion Warning
-     *
-     * This method displayes a Intrusion Detection Warning
-     * via the security_breach.php template
-     *
-     * @todo 1) this breaks MVC, by direct output! do output over response class!
-     * @todo 2) add logging!
-     * @todo 3) should the intrusion warning be combined with session::session_security()?
-     * @access public
-     */
-    public function display_intrusion_warning()
-    {
-        # Require the Security Breach Template
-        require ROOT_THEMES . '/core/security_breach.php';
-        exit();
     }
 }
 ?>
