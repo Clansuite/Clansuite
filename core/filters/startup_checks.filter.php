@@ -67,7 +67,7 @@ class startup_checks implements Clansuite_Filter_Interface
         if (!is_dir( ROOT . 'cache/cache' ))
         {
             # try to create the missing directories, throw exception if it fails
-            if( (false == mkdir(ROOT . 'cache/cache', 0755))
+            if( (false == mkdir(ROOT . 'cache/cache', 0755)) )
             {
                 throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
             }
