@@ -45,11 +45,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 interface Clansuite_Response_Interface
 {
+    # Output Methods
     public function setStatusCode($statusCode);
     public function addHeader($name, $value);
-    public function setContent($data);
+    public function setContent($content, $replace = false);
     public function flush();
+
+    # Cookie Methods
     public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
+    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null)
 }
 
 /**
@@ -318,7 +322,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public function clearHeaders()
     {
         $this->headers  = array();
-        $this->data     = null;
+        $this->body     = null;
     }
     /**
      * A better alternative (RFC 2109 compatible) to the php setcookie() function
@@ -331,7 +335,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string Path where the cookie can be used
      * @param string Domain which can read the cookie
      * @param bool Secure mode?
-     * @param bool Only allow HTTP usage?
+     * @param bool Only allow HTTP usage? (PHP 5.2)
      * @return bool True or false whether the method has successfully run
      *
      * @todo until php6 namespaces, the methodname can not be setCookie()
@@ -382,6 +386,20 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         return true;
     }
 
+    /**
+     * Deletes a cookie
+     *
+     * @param string $name Name of the cookie
+     * @param string $path Path where the cookie is used
+     * @param string $domain Domain of the cookie
+     * @param bool Secure mode?
+     * @param bool Only allow HTTP usage? (PHP 5.2)
+     */
+    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null)
+    {
+        # expire = 324993600 = 1980-04-19
+        setcookie($name, '', 324993600, $path, $domain, $secure, $httponly);
+    }
 
     /**
      * Sets NoCache Header Values
