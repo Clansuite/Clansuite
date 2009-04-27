@@ -74,7 +74,6 @@ abstract class Clansuite_Renderer_Base
      *
      * @param string $method Name of the Method
      * @param array $arguments Array with Arguments
-     * @access public
      *
      * @return Function Call to Method
      */
@@ -129,11 +128,18 @@ abstract class Clansuite_Renderer_Base
     abstract public function getEngine();
 
     /**
-     * Renders the given Template
+     * Renders the given Template with renderMode wrapped (with Layout)
      *
      * @return string
      */
     abstract public function render($template);
+
+    /**
+     * Renders the given Template with renderMode unwrapped (without Layout)
+     *
+     * @return string
+     */
+    #abstract public function renderPartial($template);
 
     /**
      * Set the template name
@@ -238,14 +244,14 @@ abstract class Clansuite_Renderer_Base
         # Debug Display
         # echo $template;
         # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
-        
+
         # init var
         $modulepath = '';
 
         # Method 1: get module/action names
         $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
         $actionName = Clansuite_ActionController_Resolver::getActionName();
-        
+
         if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
         {
             return ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
@@ -379,7 +385,6 @@ abstract class Clansuite_Renderer_Base
      * Sets a so called Wrapper-Template = Layout.
      * The Content of a Module is rendered at variable $content inside this layout!
      *
-     * @access public
      * @param string $template Template Filename for the wrapper Layout
      * @return string
      */
@@ -399,7 +404,6 @@ abstract class Clansuite_Renderer_Base
      * Returns the Name of the Layout Template.
      * Returns the config value if no layout template is set
      *
-     * @access public
      * @return string layout name, config tpl_wrapper_file as default
      */
     public function getLayoutTemplate()
@@ -412,24 +416,5 @@ abstract class Clansuite_Renderer_Base
 
         return $this->layoutTemplate;
     }
-
-    /**
-     * View Helpers
-     *
-     * You can use this inside templates
-     * Smarty-> PHP = $this->helper(helpername);
-     *
-     * @name viewhelper
-     * @param string $src
-     * @param bool $nothrow
-     */
-    /*
-    function viewhelper($src, $return)
-    {
-        $src = 'this->' . trim($src);
-        require_once $this->getEngine.'/HelperImplementation.php';
-        return ENGINE_HelperImplementation::($src);
-    }
-    */
 }
 ?>
