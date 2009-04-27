@@ -95,7 +95,7 @@
 
 <!-- TableHeader + Breadcrumbs //-->
 <tr class="tr_header">
-    <td colspan="3">{include file='tools/breadcrumbs.tpl'}</td>
+    <td colspan="3">{include file='breadcrumbs.tpl'}</td>
 </tr>
 
 <!-- Middle/Center Part of Table //-->

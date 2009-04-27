@@ -59,7 +59,7 @@
         <tr>
             <td class="admin_header">
 
-                {include file="tools/breadcrumbs.tpl"}
+                {include file='breadcrumbs.tpl'}
 
                 {literal}
                     <!-- Javascript for the Help Toggle -->
@@ -124,7 +124,7 @@
 
 <!-- Start Footer with Theme-Copyright and Server-Stats // -->
 <div id="footer" class="admin_content_seperated" style="height: auto; margin-top: 10px; padding: 10px; clear:both;">
-    {include file="tools/breadcrumbs.tpl"}
+    {include file='breadcrumbs.tpl'}
     <div style="font-size: 10px; text-align: center;">
     <br/>
     Frontpage-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}

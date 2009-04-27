@@ -213,7 +213,7 @@ class view_smarty extends Clansuite_Renderer_Base
          * 2) "/themes/theme_of_user_session/modulename/"
          * 3) "/modules/"
          * 4) "/modules/modulename/templates/"
-         * 5) "/themes/core/"
+         * 5) "/themes/core/templates/"
          * 6) "/themes/admin/"
          */
         $this->smarty->template_dir   = array();
@@ -222,7 +222,7 @@ class view_smarty extends Clansuite_Renderer_Base
         # this sets the "views" subdirectory under the directory containing the modulecontroller class file
         $this->smarty->template_dir[] = ROOT_MOD;
         $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
-        $this->smarty->template_dir[] = ROOT_THEMES . 'core' .DS;
+        $this->smarty->template_dir[] = ROOT_THEMES . 'core/templates/' .DS;
         $this->smarty->template_dir[] = ROOT_THEMES . 'admin' .DS;
         $this->smarty->template_dir[] = ROOT_THEMES;
 
@@ -447,8 +447,11 @@ class view_smarty extends Clansuite_Renderer_Base
         }
         else # render with wrapper: WRAPPED
         {
-            # ensure that {$content} variable and {include for copyright} exists in the layout template
-            if( $this->ensure_content_var_exists() && $this->ensure_copyright_included())
+            /**
+             * fire some preRenderChecks to ensure that {$content} variable
+             * and {include for copyright} exists in the layout template
+             */
+            if( true == $this->preRenderChecks())
             {
                 # then assign the modulecontent to it
                 $this->assign('content',  $modulecontent );
@@ -456,55 +459,72 @@ class view_smarty extends Clansuite_Renderer_Base
 
                 return $this->smarty->fetchDOC($this->getLayoutTemplate());
             }
-            else # {$content} or copyright include is missing, throw error.
-            {
-                if($this->ensure_content_var_exists() == false)
-                {
-                    die('The content variable {$content} must be within the wrapper template!');
-                }
-
-                if($this->ensure_copyright_included() == false)
-                {
-                    die("The content variable {include file='copyright.tpl'} must be within the wrapper template!");
-                }
-            }
         }
     }
 
     /**
-     * Ensures that the Layouttemplate has the Copyright-Sign from copyright.tpl applied.
+     * preRenderChecks
+     */
+    public function preRenderChecks()
+    {
+        foreach( $this->smarty->template_dir as $dir )
+        {
+            $file = $dir . DS . $this->getLayoutTemplate();
+            if (is_file($file) != 0)
+            {
+                $filecontent = file_get_contents($file);
+
+                $renderChecksArray = array(
+                        '1' => array(
+                                      'string' => '{include file=\'copyright.tpl\'}',
+                                      'exceptionmessage' => "The content variable {include file='copyright.tpl'} must be within the wrapper template!",
+                                      'exceptioncode' => '12'
+                                    ),
+
+                        '2' => array(
+                                      'string' => '{include file=\'clansuite_header_notice.tpl\'}',
+                                      'exceptionmessage' => "The content variable {include file='clansuite_header_notice.tpl'} must be within the wrapper template!",
+                                      'exceptioncode' => '13'
+                                    ),
+
+                        '3' => array(
+                                      'string' => '{$content}',
+                                      'exceptionmessage' => 'The content variable {$content} must be within the wrapper template!',
+                                      'exceptioncode' => '14'
+                                    ),
+                                );
+
+                return self::preRenderCheck_checkForStrings($renderChecksArray, $filecontent);
+            }
+        }
+
+    }
+
+    /**
+     * Ensures that the Layouttemplate has the Copyright-Signs applied
+     *
+     * - copyright.tpl
+     * - clansuite_header_notice.tpl
      *
      * Keep in mind ! that we spend a lot of time and ideas on this project.
      * Do not remove this! Please give something back to the community.
      *
+     * @param $array array with the string to check for.
+     * @param $filecontent string The content of the layouttemplate file.
      * @return boolean
      */
-    public function ensure_copyright_included()
+    public static function preRenderCheck_checkForStrings($strings_array, $filecontent)
     {
-        foreach( $this->smarty->template_dir as $dir )
+        foreach($strings_array as $preRenderCheck)
         {
-            $file = $dir . DS . $this->getLayoutTemplate();
-            if (is_file($file) != 0)
-            {
-                return ( false != strpos(file_get_contents($file), "{include file='copyright.tpl'}") );
-            }
-        }
-    }
-
-    /**
-     * Check for a content variable
-     *
-     * @return boolean
-     */
-    public function ensure_content_var_exists()
-    {
-        foreach( $this->smarty->template_dir as $dir )
-        {
-            $file = $dir . DS . $this->getLayoutTemplate();
-            if (is_file($file) != 0)
-            {
-                return ( false != strpos(file_get_contents($file), '{$content}') );
-            }
+           if( false != strpos($filecontent, $preRenderCheck['string']) )
+           {
+                return true;
+           }
+           else
+           {
+                throw new Clansuite_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
+           }
         }
     }
 }
