@@ -47,6 +47,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * JSON defines formatting rules for the portable representation of structured data.
  * @see http://www.ietf.org/rfc/rfc4627.
  *
+ * This class implements two ways of rendering data as json.
+ * 1) The method renderByHeader() wraps the json directly in the header.
+ * 2) The method render() returns the json data for later rendering (as body).
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
@@ -65,26 +69,22 @@ class view_json extends Clansuite_Renderer_Base
     {
       # apply instances to class
       $this->injector = $injector;
-      #var_dump($injector);
 
 	  # get instances from injector
       $this->config         = $this->injector->instantiate('Clansuite_Config');
       $this->response       = $this->injector->instantiate('Clansuite_HttpResponse');
 
-      # eventlog initalization
+      # @todo eventlog
     }
 
     /**
-     * Render PHP data as JSON
+     * jsonEncode
+     *
+     * @param mixed $data the data which should json encoded.
+     * return $json_encoded_data
      */
-    public function render($data)
+    public function jsonEncode($data)
     {
-        /**
-         * The MIME media type for JSON text is application/json.
-         * @see http://www.ietf.org/rfc/rfc4627
-         */
-        $this->response->setHeader ("Content-Type: application/json;charset={$this->config['language']['outputcharset']}");
-
         # take php's json encode
 		if (function_exists('json_encode'))
 		{
@@ -105,6 +105,38 @@ class view_json extends Clansuite_Renderer_Base
 		}
 
 		return $json_encoded_data;
+    }
+
+    /**
+     * Render PHP data as JSON (through HEADER)
+     * This method does not return the json encoded string for rendering,
+     * instead it applies it directly to the header.
+     *
+     * @param $data array php-array
+     */
+    public function renderByHeader($data)
+    {
+        $this->response->addHeader ("X-JSON", '('.$this->jsonEncode($data).')');
+
+        return;
+    }
+
+    /**
+     * Render PHP data as JSON (through BODY)
+     * This method returns the json encoded string.
+     *
+     * @param $data array
+     * @return $json_encoded_data
+     */
+    public function render($data)
+    {
+        /**
+         * The MIME media type for JSON text is application/json.
+         * @see http://www.ietf.org/rfc/rfc4627
+         */
+        $this->response->addHeader ("Content-Type' 'application/json; charset={$this->config['language']['outputcharset']}");
+
+        return $this->jsonEncode($data);
     }
 }
 ?>
