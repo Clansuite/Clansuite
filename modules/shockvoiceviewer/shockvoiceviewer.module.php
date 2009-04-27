@@ -69,7 +69,6 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
      */
     private function startElement($parser, $name, $attrs)
     {
-
         #$this->shockvoice_output .= "&nbsp;&nbsp;&nbsp;&nbsp;";
 
 	    $name_attr = "?";
@@ -151,8 +150,8 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
 
     /**
      * Widget Shockvoiceviewer
-     * 
-     * @todo: set serverdata to configfile
+     *
+     * @todo set serverdata to configfile
      */
     public function widget_shockvoiceviewer()
     {
@@ -176,7 +175,7 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
         # finally get the parsed output
         $this->shockvoice_output .= xml_parse($this->parser, $xmldata, true);
 
-        # if we really have something to output
+        # if there is nothing to output
         if ($this->shockvoice_output{1} == '')
         {
             # assemble errormessage
@@ -184,8 +183,8 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
                                     xml_error_string(xml_get_error_code($this->parser)),
                                     xml_get_current_line_number($this->parser));
 
-            # for output with an exception
-            throw new Clansuite_Exception('Shockvoice Vier reports: <br/>'.$errormessage );
+            # for output as an exception
+            throw new Clansuite_Exception('Shockvoice Viewer reports: <br/>'.$errormessage );
         }
 
         # unset some data

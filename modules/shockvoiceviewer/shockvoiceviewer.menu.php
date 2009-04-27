@@ -1,25 +1,75 @@
-; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-;
-; shockvoiceviewer Info
-;
+<?php
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    *
+    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
+    */
 
-[shockvoiceviewer_info]
-author="Daniel Winterfeldt, Jens-Andre Koch"
-license="GPLv2 or any later"
-link="http://www.clansuite.com"
-name = shockvoiceviewer
-description = 
-dependencies =
-package = Development
+//Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-[shockvoiceviewer_package]
-version = 0.2-0.x-dev
-project = shockvoiceviewer
-datestamp =
-uniqueid =
+/**
+ * Clansuite Modulenavigation for Module Shockvoiceviewer
+ */
 
-[shockvoiceviewer_widgets]
-widget_shockvoiceviewer
+$modulenavigation = array(
+                            '1' => array(
+                                            'action'  => 'show',
+                                            'name'    => 'Overview',
+										    'url'	  => 'index.php?mod=shockvoiceviewer&sub=admin', # &action=show
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
 
+							'2' => array(
+							                'action'  => 'settings',
+							                'name'    => 'Settings',
+										    'url'     => 'index.php?mod=shockvoiceviewer&sub=admin&action=settings',
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
+						 );
 
-; DO NOT REMOVE THIS LINE */ ?>
+/**
+ * Clansuite Adminmenu for Module Shockvoiceviewer
+ */
+
+$adminmenu        = array(
+                             '1' => array(
+                                            'name'       => '',
+                                            'url'        => '',
+                                            'tooltip'    => '',
+                                            'target'     => '',
+                                            'permission' => '',
+                                            'icon'       => ''
+                                         ),
+                         );
+?>
