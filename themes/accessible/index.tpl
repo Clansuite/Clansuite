@@ -59,7 +59,7 @@
 	</div>
 	<div id="breadcrumb">
 		{* Breadcrumbs Navigation *}
-		{include file='tools/breadcrumbs.tpl'}
+		{include file='breadcrumbs.tpl'}
 	</div>
 	<div id="sidebar">
 		{load_module name="account" action="login"} 

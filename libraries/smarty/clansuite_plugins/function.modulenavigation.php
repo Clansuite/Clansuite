@@ -40,7 +40,7 @@ function smarty_function_modulenavigation($params, &$smarty)
         $smarty->assign('modulenavigation', $modulenavigation);
 
         # load the generic modulenavigation template
-        return $smarty->fetch('tools/modulenavigation-generic.tpl');
+        return $smarty->fetch('modulenavigation-generic.tpl');
     }
     else # if no file was found - say so
     {
