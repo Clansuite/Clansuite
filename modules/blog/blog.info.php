@@ -4,7 +4,7 @@
 ;
 
 [blog_info]
-author="Daniel Winterfeldt, Jens-Andre Koch"
+author="Jens-Andre Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = blog
