@@ -53,7 +53,7 @@ interface Clansuite_Response_Interface
 
     # Cookie Methods
     public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
-    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null)
+    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
 }
 
 /**
