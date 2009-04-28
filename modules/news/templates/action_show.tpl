@@ -15,7 +15,9 @@
                  alt="Clansuite RSS News Feed" />
         </a>
         </div>
-        {include file="tools/paginate.tpl"}
+
+        {pagination}
+
     </td>
 </tr>
 </table>
