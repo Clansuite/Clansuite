@@ -38,9 +38,11 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module - Shockvoice Viewer
+ * Clansuite Module - Shockvoiceviewer
  *
- * @version 0.1
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
+ * @version    0.1
  */
 class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -58,6 +60,7 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        #$this->moduleconfig = $this->getModuleConfig();
     }
 
     /**
@@ -155,13 +158,13 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
      */
     public function widget_shockvoiceviewer()
     {
-        # setup serverdata
-        $HOSTNAME = "79.133.63.12";
-        $PORT = "8010";
-        $SERVER_ID = "3";
+        # set modulename, because outside this widget a different module could be active
+        $modulename = 'shockvoiceviewer';
+        # insert the modulename to construct a configfilename and fetch it
+        $this->getModuleConfig(ROOT_MOD.$modulename.DS.$modulename.'.config.php');
 
-        # connect and fetch XML
-        $xmldata = file_get_contents("http://" . $HOSTNAME . ":" . $PORT . "/" . $SERVER_ID);
+        # insert the values from moduleconfig to fetch the XML of the server
+        $xmldata = file_get_contents("http://" . $this->getConfigValue('hostname', 'druckwelle-hq.de') . ":" . $this->getConfigValue('port', '8010') . "/" . $this->getConfigValue('serverid', '1') );
 
         # parse XML
         $this->parser = xml_parser_create(); #'UTF-8'

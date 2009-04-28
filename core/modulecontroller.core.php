@@ -197,7 +197,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
 
         # set moduleconfig['modulename'] = configarray
-        $this->moduleconfig[$modulename] = $this->config->readConfig($filename);
+        $this->moduleconfig[$modulename] = self::getInjector()->instantiate('Clansuite_Config')->readConfig($filename);
 
         return $this->moduleconfig[$modulename];
     }
@@ -227,17 +227,17 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param $keyname
      * @param $default
      */
-    public function getConfigValue($keyname, $default)
+    public function getConfigValue($keyname, $default = null)
     {
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
 
         # return value or default
-        if(isset($value))
+        if(isset($value) and $value{1} != '')
         {
             return $value;
         }
-        else
+        elseif( $default != null )
         {
             return $default;
         }
