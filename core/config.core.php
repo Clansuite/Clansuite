@@ -62,7 +62,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     # array
     public $config;
 
-    function __construct($configfile = 'configuration/clansuite.config.php')
+    function __construct($configfile) # = 'configuration/clansuite.config.php'
     {
         $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
         $this->config = $this->confighandler->toArray();
@@ -87,7 +87,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      *
      * @return instance of Clansuite_Config
      */
-    public static function getInstance($filename)
+    public static function newInstance($filename)
     {
     	static $instance;
 

@@ -99,12 +99,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     function __construct(Phemto $injector)
     {
         # Setup References
-        # Clansuite_Config $config, Clansuite_Doctrine $doctrine, Clansuite_HttpRequest $request, Clansuite_HttpResponse $response
-
-        $this->config       = $injector->instantiate('Clansuite_Config');
-        $this->doctrine     = $injector->instantiate('Clansuite_Doctrine');
-        $this->request      = $injector->instantiate('Clansuite_HttpRequest');
-        $this->response     = $injector->instantiate('Clansuite_HttpResponse');
+        $this->config       = $injector->create('Clansuite_Config', 'configuration/clansuite.config.php');
+        $this->doctrine     = $injector->create('Clansuite_Doctrine', 'configuration/clansuite.config.php');
+        $this->request      = $injector->create('Clansuite_HttpRequest');
+        $this->response     = $injector->create('Clansuite_HttpResponse');
 
         /**
          * Configure Session
