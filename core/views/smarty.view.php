@@ -74,14 +74,13 @@ class view_smarty extends Clansuite_Renderer_Base
      * 1) Initialize Smarty via class constructor
      * 2) Load Settings for Smarty
      */
-    function __construct(Phemto $injector = null)
+    function __construct(Phemto $injector = null, Clansuite_Config $config)
     {
       # apply instances to class
       $this->injector = $injector;
       #var_dump($injector);
 
-	  # get instances from injector
-      $this->config         = $this->injector->instantiate('Clansuite_Config');
+      $this->config = $config;
 
       /**
        * ==============================================
@@ -389,6 +388,18 @@ class view_smarty extends Clansuite_Renderer_Base
             $this->renderMode = 'WRAPPED';
         }
         return $this->renderMode;
+    }
+
+    public function renderPartial($template)
+    {
+        # Debug Display
+        # echo 'Smarty was asked to render template: '.$template;
+        $this->setTemplate($template);
+
+        # Assign Constants
+        $this->assignConstants();
+
+        return $this->fetch($template);
     }
 
     /**

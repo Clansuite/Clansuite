@@ -57,11 +57,11 @@ abstract class Clansuite_Renderer_Base
      *
      * @param Phemto $injector Dependency Injector
      */
-    public function __construct(Phemto $injector)
+    public function __construct(Phemto $injector, Clansuite_Config $config)
     {
         $this->injector = $injector;    # set Injector
 
-        $this->config   = $this->injector->instantiate('Clansuite_Config');
+        $this->config   = $config;
     }
 
     /**
