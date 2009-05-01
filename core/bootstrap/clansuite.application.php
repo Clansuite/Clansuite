@@ -171,7 +171,6 @@ class Clansuite_CMS
      *   - Path Assignments
      *   - ROOT & *_ROOT
      *   - WWW_ROOT & WWW_ROOT_*
-     *   - DB_PREFIX
      *   - NL, CR
      *  ------------------------------------------------
      */
@@ -243,12 +242,6 @@ class Clansuite_CMS
         # Purpose: webpath shortcuts for direct usage in templates
         define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
         define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
-
-        /**
-         * DEFINE -> Database Prefix
-         * @todo: maybe define this inside doctrine.core.php
-         */
-        define('DB_PREFIX'          , self::$config['database']['db_prefix']);
 
         /**
          * SET INCLUDE PATH -> for PEAR and other 3th party Libraries
@@ -363,6 +356,11 @@ class Clansuite_CMS
                        ->forVariable('configfile')
                        ->willUse(new value('configuration/clansuite.config.php'));
 
+
+        self::$injector->whenCreating('Clansuite_Doctrine')
+                       ->forVariable('configfile')
+                       ->willUse(new value('configuration/clansuite.config.php'));
+
         # define the core classes to load
         $core_classes = array(
                               'Clansuite_Config',
@@ -381,6 +379,8 @@ class Clansuite_CMS
         {
             self::$injector->willUse( $class  );
         }
+
+        self::$injector->create('Clansuite_Doctrine');
     }
 
     /**

@@ -67,7 +67,8 @@ class Clansuite_Doctrine
 
 	function __construct(Clansuite_Config $config)
 	{
-		$this->config = $config; # set config instance
+	    # set config instance
+		$this->config = $config;
 
 		# Load DBAL
 		$this->doctrine_initialize();
@@ -92,15 +93,17 @@ class Clansuite_Doctrine
 	 */
 	private function doctrine_initialize()
 	{
-		if (!class_exists('Doctrine')) // prevent redeclaration
+		# prevent redeclaration
+		if (!class_exists('Doctrine'))
 		{
 			# Require compiled or normal Library
 			if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
 			{
 				require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
 			}
-			elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php')) # require the normal Library
+			elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
 			{
+			    # require the normal Library
 				require ROOT_LIBRARIES .'doctrine/Doctrine.php';
 			}
 			else
@@ -179,6 +182,11 @@ class Clansuite_Doctrine
 		 * Setup phpDoctrine Attributes for that later Connection
 		 */
 
+		/**
+         * DEFINE -> Database Prefix
+         */
+        define('DB_PREFIX'          , $this->config['database']['db_prefix'] );
+
 		# Set portability for all rdbms = default
 		#$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
 		# Changing the database naming convention by adding
@@ -253,7 +261,6 @@ class Clansuite_Doctrine
 	{
 			return $this->profiler;
 	}
-
 
 	/**
 	 * Displayes all Doctrine Querys with profiling Informations
