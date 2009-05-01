@@ -69,7 +69,7 @@ class view_factory
 	            if (class_exists($class))
 	            {
 	                # instantiate and return the renderer and pass $injector into
-	                $view = new $class($injector);
+	                $view = new $class($injector, $injector->create('Clansuite_Config'));
 	                #var_dump($view);
 	                return $view;
 	            }
