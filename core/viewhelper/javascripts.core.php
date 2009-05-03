@@ -47,7 +47,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * For single (non-library) files: "/themes/core/css" and "/themes/core/javascripts/".
  * For libraries with own subfolders for css, js, misc stuff: "/themes/core/libraries/".
  */
-class Clansuite_Javascripts
+class Clansuite_Javascripts extends Clansuite_Layout
 {
     public static function addJS_InitCFE()
     {
@@ -197,7 +197,7 @@ class Clansuite_Javascripts
 	        echo '<!--[if IE]>';
 	    }
 
-	    echo '<link rel="stylesheet" type="text/css" href=".'{$www_root_themes_core}.'/css/{$filename}.css" />'.CR;
+	    echo "<style type=\"text/css\"> @import \"{$www_root_themes_core}/css/{$filename}.css\"; </style>".CR;
 
 	    if($iehack == true)
 	    {
