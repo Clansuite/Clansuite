@@ -36,7 +36,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite View Class - View for native PHP Templates
+ * Clansuite Renderer Class - Renderer for native PHP Templates
  *
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *
@@ -46,10 +46,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
 
-class view_php extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 {
 	private $template;
 	private $data = array();

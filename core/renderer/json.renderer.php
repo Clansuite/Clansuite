@@ -61,20 +61,27 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
 class view_json extends Clansuite_Renderer_Base
 {
     /**
-     * holds instance of Dependency Injector Phemto
+     * RenderEngineConstructor
+     *
+     * parent::__construct does the following:
+     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
+     * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
+     * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    protected $injector   = null;
-
-    public function __construct(Phemto $injector = null)
+    function __construct(Phemto $injector = null, Clansuite_Config $config)
     {
-      # apply instances to class
-      $this->injector = $injector;
+        parent::__construct();
 
-	  # get instances from injector
-      $this->config         = $this->injector->instantiate('Clansuite_Config');
-      $this->response       = $this->injector->instantiate('Clansuite_HttpResponse');
-
-      # @todo eventlog
+        # we need the response object for direct rendering
+        $this->response = $this->injector->instantiate('Clansuite_HttpResponse');
+    }
+    
+    public function initializeEngine()
+    {        
+    }
+    
+    public function configureEngine()
+    {        
     }
 
     /**

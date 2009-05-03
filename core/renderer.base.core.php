@@ -42,57 +42,85 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
 abstract class Clansuite_Renderer_Base
 {
-    public $view                = null;     # holds instance of the Rendering Engine
-    public $config              = null;
+    /**
+     * Holds instance of the Rendering Engine Object
+     *
+     * @var Object
+     */
+    public $renderer            = null;     #
+
     public $layoutTemplate      = null;
     public $template            = null;
-    protected $injector;     # holds instance of Dependency Injector Phemto (object)
 
     /**
-     * Construct View from Module.
+     * Variable for the RenderMode (available: WRAPPED)
+     *
+     * @var string
+     */
+    public $renderMode = null;
+
+    /**
+     * Instances of Dependency Injector Phemto and Clansuite_Config
+     *
+     * @var object
+     */
+    protected $injector         = null;
+    protected $config           = null;
+
+    /**
+     * Construct Renderer
      *
      * @param Phemto $injector Dependency Injector
+     * @param Clansuite_Config Object
      */
     public function __construct(Phemto $injector, Clansuite_Config $config)
     {
-        $this->injector = $injector;    # set Injector
-
+        # set injector and config
+        $this->injector = $injector;
         $this->config   = $config;
+
+        self::initializeEngine();
+        self::configureEngine();
+
+        #Clansuite_Eventlog();
     }
 
     /**
-     * Magic Method __call / Overloading.
+     * Returns the render engine object
      *
-     * This is basically a simple passthrough (aggregation)
-     * of a method and its arguments to the renderingEngine!
-     * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
-     * or pull out the renderEngine Object itself. We just pass things to it.
-     *
-     * @param string $method Name of the Method
-     * @param array $arguments Array with Arguments
-     *
-     * @return Function Call to Method
+     * @return string
      */
-    public function __call($method, $arguments)
-    {
-        #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
-        if(method_exists($this->view, $method))
-        {
-            # this should be faster then call_user_func_array
-            return clansuite_loader::callMethod($this->view, $method, $arguments);
+    abstract public function getEngine();
 
-            # leave this for clarification
-            # return call_user_func_array(array($this->view, $method), $arguments);
-        }
-        else
-        {
-            throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->view) .'"!', 1);
-        }
-    }
+    /**
+     * Initialize the render engine object
+     *
+     * @return Engine Object
+     */
+    abstract public function initializeEngine();
+
+    /**
+     * Configure the render engine object
+     */
+    abstract public function configureEngine();
+
+    /**
+     * Renders the given Template with renderMode wrapped (with Layout)
+     *
+     * @return string
+     */
+    abstract public function render($template);
+
+    /**
+     * Renders the given Template with renderMode unwrapped (without Layout)
+     *
+     * @return string
+     */
+    /** abstract **/ public function renderPartial($template);
 
     /**
      * Assigns a value to a template parameter.
@@ -119,27 +147,6 @@ abstract class Clansuite_Renderer_Base
      * @return string
      */
     /*abstract*/ public function display($template, $data = null) {}
-
-    /**
-     * Returns the render engine object
-     *
-     * @return string
-     */
-    abstract public function getEngine();
-
-    /**
-     * Renders the given Template with renderMode wrapped (with Layout)
-     *
-     * @return string
-     */
-    abstract public function render($template);
-
-    /**
-     * Renders the given Template with renderMode unwrapped (without Layout)
-     *
-     * @return string
-     */
-    #abstract public function renderPartial($template);
 
     /**
      * Set the template name
@@ -415,6 +422,36 @@ abstract class Clansuite_Renderer_Base
         }
 
         return $this->layoutTemplate;
+    }
+
+    /**
+     * Magic Method __call / Overloading.
+     *
+     * This is basically a simple passthrough (aggregation)
+     * of a method and its arguments to the renderingEngine!
+     * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
+     * or pull out the renderEngine Object itself. We just pass things to it.
+     *
+     * @param string $method Name of the Method
+     * @param array $arguments Array with Arguments
+     *
+     * @return Function Call to Method
+     */
+    public function __call($method, $arguments)
+    {
+        #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
+        if(method_exists($this->renderer, $method))
+        {
+            # this should be faster then call_user_func_array
+            return clansuite_loader::callMethod($this->renderer, $method, $arguments);
+
+            # leave this for clarification
+            # return call_user_func_array(array($this->renderer, $method), $arguments);
+        }
+        else
+        {
+            throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->renderer) .'"!', 1);
+        }
     }
 }
 ?>
