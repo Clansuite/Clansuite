@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * @category    view
  * @subpackage  blockcontainer
  */
-class BlockContainer
+class Clansuite_BlockContainer extends Clansuite_Layout
 {
     # var $_blocks contains all block elements as Separate Objects
 	private $_blockObjects = array();
@@ -54,7 +54,7 @@ class BlockContainer
 
 	}
 
-	# add block object 
+	# add block object
 	public function addBlock($name, Block $block)
 	{
 		$this->_blockObjects[$name] = $block;
@@ -65,7 +65,7 @@ class BlockContainer
     {
 		foreach($this->_blockObjects as $block)
 		{
-			$block->execute(); # $_blocks[] = $smarty->fetch("blockTemplate.tpl"); 
+			$block->execute(); # $_blocks[] = $smarty->fetch("blockTemplate.tpl");
 		}
 	}
 
