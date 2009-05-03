@@ -203,7 +203,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->template_dir   = array();
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
-        # this sets the "views" subdirectory under the directory containing the modulecontroller class file
+        # this sets the "templates" subdirectory under the directory containing the modulecontroller class file
         $this->renderer->template_dir[] = ROOT_MOD;
         $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES . 'core/templates/' .DS;
@@ -212,11 +212,19 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         #var_dump($this->renderer->template_dir);
 
-        $this->renderer->compile_dir    = ROOT .'cache/templates_c/';                   # directory for compiled files
-        $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';            # directory for config files (example.conf)
-        $this->renderer->cache_dir      = ROOT .'cache/';                               # directory for cached files
-        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';            # directory for clansuite smarty plugins
-        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';            # direcotry for original smarty plugins
+        $this->renderer->compile_dir    = ROOT .'cache/templates_c/';           # directory for compiled files
+        $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';    # directory for config files (example.conf)
+        $this->renderer->cache_dir      = ROOT .'cache/';                       # directory for cached files
+
+        /**
+         * Configure Smarty Viewhelper Directories
+         * 1) original smarty plugins
+         * 2) clansuite core/common smarty plugins
+         * 3) clansuite module smarty plugins
+         */
+        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';
+        $this->renderer->plugins_dir[]  = ROOT_CORE .'viewhelper/smarty/';
+        $this->renderer->plugins_dir[]  = ROOT_MOD . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'viewhelper/smarty' .DS;
 
         # Modifiers
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
