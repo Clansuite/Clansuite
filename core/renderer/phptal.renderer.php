@@ -37,7 +37,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); }
 
 /**
- * Clansuite View Class - View for PHPTAL
+ * Clansuite Renderer Class - Renderer for PHPTAL
  *
  * This is a wrapper/adapter for rendering with PHPTAL.
  *
@@ -46,24 +46,65 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
-class view_phptal extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
 {
     /**
-     * holds PHPTAL Render Engine object
-     * @var object PHPTAL
+     * RenderEngineConstructor
+     *
+     * parent::__construct does the following:
+     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
+     * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
+     * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
+     * 4) Eventlog
      */
-    protected $phptal = null;
-    
-    public function __construct()
+    function __construct(Phemto $injector = null, Clansuite_Config $config)
     {
-        # eventlog initalization
+        parent::__construct();
     }
-    
+
+    /**
+     * Sets up PHPTAL Template Engine
+     *
+     * @return PHPTAL Object
+     */
+    public function initializeEngine()
+    {
+		# prevent redeclaration
+        if (!class_exists('PHPTAL'))
+        {
+    		# check if library exists
+            if ( is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') )
+            {
+                require(ROOT_LIBRARIES . 'phptal/PHPTAL.php');
+                $this->renderer = new PHPTAL();
+            }
+            else // throw error in case PHPTAL library is missing
+            {
+                die('PHPTAL Template Library missing!');
+            }
+        }
+        else // throw error in case engine was already loaded
+        {
+            die('PHPTAL already loaded!');
+        }
+
+		return $this->phptal;
+    }
+
+    /**
+     * Render Engine Configuration
+     * Configures the PHPTAL Object
+     */
+    public function configureEngine()
+    {
+
+    }
+
     /**
      * Plug in PHPTAL object into View
-     *      
+     *
      * @param object PHPTAL $phptal
      */
     public function setEngine(PHPTAL $phptal)
@@ -75,11 +116,31 @@ class view_phptal extends Clansuite_Renderer_Base
     }
 
     /**
-     * Get PHPTAL object from View
+     * Returns a clean Smarty Object
+     *
+     * @return Smarty Object
      */
     public function getEngine()
     {
-        return $this->phptal;
+        if($this->renderer)
+        {
+			/**
+			 * we don't know what happened to the renderer on it's way
+			 * so in order to get a clean render object
+			 * we remove all prior assigns and configuration settings
+			 */
+			#$this->renderer->clear_all_assign();
+			#$this->renderer->clear_config();
+		}
+		else
+		{
+		    self::initializeEngine();
+		}
+
+		# then we reload the base configuration to have default template paths and debug-settings
+		#self::configureEngine();
+
+		return $this->renderer;
     }
 
     /**
@@ -129,8 +190,8 @@ class view_phptal extends Clansuite_Renderer_Base
 
     /**
      * Clone PHPTAL object
-     * 
-     * @todo Check if clone is needed to work with several instances of phptal for widgets? 
+     *
+     * @todo Check if clone is needed to work with several instances of phptal for widgets?
      */
     /*
     public function __clone()
@@ -145,11 +206,11 @@ class view_phptal extends Clansuite_Renderer_Base
     protected function render($template)
     {
         $this->phptal->setTemplate($template);
-        
+
         try
         {
             echo $this->phptal->execute();
-        } 
+        }
         catch (Clansuite_Exception $e)
         {
                 throw new Clansuite_Exception($e);

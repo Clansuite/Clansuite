@@ -36,7 +36,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * View Factory
+ * Renderer Factory
  *
  * The static method getRenderer() returns the included and instantiated
  * Rendering Engine Object - which is the View in MVC!
@@ -46,9 +46,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
-class view_factory
+class Clansuite_Renderer_Factory
 {
     /**
      * getRenderer
@@ -61,11 +61,11 @@ class view_factory
     {
         try
         {
-			$file = ROOT_CORE .'views'.DS. strtolower($view_type) .'.view.php';
+			$file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
         	if (is_file($file) != 0)
 			{
 				require_once($file);
-	            $class = 'view_'. $view_type;
+	            $class = 'Clansuite_Renderer_'. $view_type;
 	            if (class_exists($class))
 	            {
 	                # instantiate and return the renderer and pass $injector into
@@ -75,12 +75,12 @@ class view_factory
 	            }
 	            else
 	            {
-	            	 throw new ViewFactoryClassNotFoundException($class);
+	            	 throw new RendererFactoryClassNotFoundException($class);
 	            }
 	        }
 			else
 			{
-				throw new ViewFactoryFileNotFoundException($file);
+				throw new RendererFactoryFileNotFoundException($file);
 	        }
 	    }
 		catch(Clansuite_Exception $e) {}
@@ -88,35 +88,35 @@ class view_factory
 }
 
 /**
- * Clansuit Exception - ViewFactoryClassNotFoundException
+ * Clansuit Exception - RendererFactoryClassNotFoundException
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
-class ViewFactoryClassNotFoundException extends Exception
+class RendererFactoryClassNotFoundException extends Exception
 {
 	function __construct($class)
 	{
 		parent::__construct();
-	  	echo 'View_Factory -> Class not found: ' . $class;
+	  	echo 'Renderer_Factory -> Class not found: ' . $class;
 	  	die();
 	}
 }
 
 /**
- * Clansuit Exception - ViewFactoryFileNotFoundException
+ * Clansuit Exception - RendererFactoryFileNotFoundException
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
-class ViewFactoryFileNotFoundException extends Exception
+class RendererFactoryFileNotFoundException extends Exception
 {
 	function __construct($file)
 	{
 		parent::__construct();
-		echo 'View_Factory -> File not found: ' . $file;
+		echo 'Renderer_Factory -> File not found: ' . $file;
 		die();
 	}
 }

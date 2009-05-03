@@ -49,131 +49,116 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  View
+ * @subpackage  Renderer
  */
 
-class view_smarty extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 {
     /**
-	 * holds instance of Smarty Template Engine (object)
-	 * @var object Smarty
-	 */
-    protected $smarty     = null;
-
-    /**
-     * holds instance of Dependency Injector Phemto
-     */
-    protected $injector   = null;
-
-    /**
-     * variable for the RenderMode (available: WRAPPED)
-     */
-    public $renderMode = null;
-
-    /**
-     * 1) Initialize Smarty via class constructor
-     * 2) Load Settings for Smarty
+     * RenderEngineConstructor
+     *
+     * parent::__construct does the following:
+     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
+     * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
+     * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
+     * 4) Eventlog
      */
     function __construct(Phemto $injector = null, Clansuite_Config $config)
     {
-      # apply instances to class
-      $this->injector = $injector;
-      #var_dump($injector);
-
-      $this->config = $config;
-
-      /**
-       * ==============================================
-       * Sets up Smarty Template Engine (Smarty Object)
-       *    by initializing Render_SmartyDoc as
-       *    custom-made Smarty Document Processor
-       * ==============================================
-       *
-       * @note by vain: Please leave the following commented lines,
-       *                i need them for SmartyDOC development!
-       */
-       if (!class_exists('Smarty')) // prevent redeclaration
-       {
-          # developer switch to enable Render_SmartyDoc
-          $use_RenderSmartyDOC = true;
-
-          if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') ) // check if library exists
-          {
-              require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
-              $this->smarty = new Smarty();
-          }
-          else // throw error in case smarty library is missing
-          {
-              die('Smarty Template Library missing!');
-          }
-
-          if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
-          {
-              require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
-              #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
-              # Set view and smarty to the smarty object
-              $this->smarty = new Render_SmartyDoc();
-              $this->view = $this->smarty;
-          }
-          else // throw error in case Smarty RenderDoc Library is missing
-          {
-              die('Smarty RenderDoc Library missing!');
-          }
-
-       }
-       else // throw error in case smarty was already loaded
-       {
-          die('Smarty already loaded!');
-       }
-
-      /**
-       * ===================================
-       * Set Configurations to Smarty Object
-       * ===================================
-       */
-        self::smarty_configuration();
+        parent::__construct();
     }
 
     /**
-     * Smarty Configurations
+     * ==============================================
+     * Sets up Smarty Template Engine (Smarty Object)
+     *    by initializing Render_SmartyDoc as
+     *    custom-made Smarty Document Processor
+     * ==============================================
+     *
+     * @note by vain: Please leave the following commented lines,
+     *                i need them for SmartyDOC development!
+     *
+     * @return Smarty Object
      */
-    private function smarty_configuration()
+    private function initializeEngine()
+    {
+        # prevent redeclaration
+        if (!class_exists('Smarty'))
+        {
+            # developer switch to enable Render_SmartyDoc
+            $use_RenderSmartyDOC = true;
+
+            # check if library exists
+            if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
+            {
+                require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
+                $this->renderer = new Smarty();
+            }
+            else // throw error in case smarty library is missing
+            {
+                die('Smarty Template Library missing!');
+            }
+
+            # RenderSmartyDoc - eat like a bird, poop like an elefant!
+            if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
+            {
+                require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
+                #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
+                # Set view and smarty to the smarty object
+                $this->renderer = new Render_SmartyDoc();
+            }
+            else // throw error in case Smarty RenderDoc Library is missing
+            {
+                die('Smarty RenderDoc Library missing!');
+            }
+        }
+        else // throw error in case smarty was already loaded
+        {
+            die('Smarty already loaded!');
+        }
+    }
+
+    /**
+     * Render Engine Configuration
+     * Configures the Smarty Object
+     */
+    private function configureEngine()
     {
         #### SMARTY DEBUGGING
-        $this->smarty->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
-        $this->smarty->debug_tpl           = ROOT_THEMES . 'core/debug.tpl';   # set debugging template for smarty
-        if ( $this->smarty->debugging == true )
+        $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
+        $this->renderer->debug_tpl           = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
+        if ( $this->renderer->debugging == true )
         {
-           $this->smarty->clear_compiled_tpl(); # clear compiled tpls in case of debug
+            $this->renderer->clear_compiled_tpl(); # clear compiled tpls in case of debug
         }
-        # $this->debug_tpl        = SMARTY_DIR."libs/";   # define path to debug_tpl file only if not found with std path or moved
-        # $this->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in quey string
-        # $this->global_assign    = "";                   # list of vars assign to all template files
-        # $this->undefined        = null;                 # defines value of undefined variables
+        # $this->renderer->debug_tpl        = SMARTY_DIR."libs/";   # define path to debug_tpl file only if not found with std path or moved
+        # $this->renderer->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in query string
+        # $this->renderer->global_assign    = "";                   # list of vars assign to all template files
+        # $this->renderer->undefined        = null;                 # defines value of undefined variables
 
         #### SMARTY FILTERS
-        # $this->autoload_filters = "";                   # loading filters used for every template
-        $this->smarty->autoload_filters    = array(       # indicates which filters will be auto-loaded
+        # $this->renderer->autoload_filters = "";                   # loading filters used for every template
+        $this->renderer->autoload_filters    = array(       # indicates which filters will be auto-loaded
                                                      #'pre'    => array('inserttplnames')
                                                      #,'post'   => array()
                                                      #,'output' => array()
                                                    );
 
         #### COMPILER OPTIONS
-        # $this->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
-        # $this->compile_id               = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
-        $this->smarty->compile_check      = true;                  # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-        $this->smarty->force_compile      = true;                  # if true compiles each template everytime, overwrites $compile_check
+        # $this->renderer->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
+        # $this->renderer->compile_id               = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
+        $this->renderer->compile_check      = true;                  # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+        $this->renderer->force_compile      = true;                  # if true compiles each template everytime, overwrites $compile_check
 
 
         #### CACHING OPTIONS (set these options if caching is enabled)
-        $this->smarty->caching              = $this->config['cache']['caching'];
-        $this->smarty->cache_lifetime       = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
-        # $this->cache_handler_func         = "";            # Specify your own cache_handler function
-        $this->smarty->cache_modified_check	= 0;             # set to 1 to activate
+        $this->renderer->caching              = $this->config['cache']['caching'];
+        $this->renderer->cache_lifetime       = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+        # $this->renderer->cache_handler_func         = "";            # Specify your own cache_handler function
+        $this->renderer->cache_modified_check	= 0;             # set to 1 to activate
 
         #### DEFAULT TEMPLATE HANDLER FUNCTION
-        # $this->default_template_handler_func = "";
+        # $this->renderer->default_template_handler_func = "";
 
         #### PASS THROUGH CODE TEMPLATES
         # You can use this options for php handling:
@@ -181,27 +166,27 @@ class view_smarty extends Clansuite_Renderer_Base
         #   + SMARTY_PHP_QUOTE    ... display as HTML-Entities
         #   + SMARTY_PHP_REMOVE   ... removes the tags
         #   + SMARTY_PHP_ALLOW    ... runs the php code in templates
-        $this->smarty->php_handling = SMARTY_PHP_PASSTHRU;
+        $this->renderer->php_handling = SMARTY_PHP_PASSTHRU;
 
         #### SECURITY SETTINGS for templates if access over FTP is granted to some users
 
-        $this->smarty->security                    = false;
-        # $this->secure_directory                  = "";    # defines trusted directories if security is enabled
-        # $this->trusted_directory                 = "";    # defines trusted directories if security is enabled
-        # $this->security_settings[PHP_HANDLING]   = false; # if true ... $php_handling will be ignored
-        # $this->security_settings[IF_FUNCS]       = "";    # Array of allowed functions if IF statements
-        # $this->security_settings[INCLUDE_ANY]    = false; # if true ... every template can be loaded, also those which are not in secure_dir
-        # $this->security_settings[MODIFIER_FUNCS] = "";    # Array of functions which can used as variable modifier
+        $this->renderer->security                            = false;
+        # $this->renderer->secure_directory                  = "";    # defines trusted directories if security is enabled
+        # $this->renderer->trusted_directory                 = "";    # defines trusted directories if security is enabled
+        # $this->renderer->security_settings[PHP_HANDLING]   = false; # if true ... $php_handling will be ignored
+        # $this->renderer->security_settings[IF_FUNCS]       = "";    # Array of allowed functions if IF statements
+        # $this->renderer->security_settings[INCLUDE_ANY]    = false; # if true ... every template can be loaded, also those which are not in secure_dir
+        # $this->renderer->security_settings[MODIFIER_FUNCS] = "";    # Array of functions which can used as variable modifier
 
         #### ENGINE SETTINGS
 
-        # $this->left_delimiter                   = "{";    # default : {
-        # $this->right_delimiter                  = "}";    # default : }
-        $this->smarty->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
-        $this->smarty->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
-        # $this->request_vars_order               = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        $this->smarty->request_use_auto_globals   = true;   # for templates using $smarty.get.*, $smarty.request.*, etc...
-        $this->smarty->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
+        # $this->renderer->left_delimiter           = "{";    # default : {
+        # $this->renderer->right_delimiter          = "}";    # default : }
+        $this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
+        $this->renderer->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
+        # $this->renderer->request_vars_order       = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
+        $this->renderer->request_use_auto_globals   = true;   # for templates using $smarty.get.*, $smarty.request.*, etc...
+        $this->renderer->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**
          * Smarty Template Directories
@@ -215,38 +200,56 @@ class view_smarty extends Clansuite_Renderer_Base
          * 5) "/themes/core/templates/"
          * 6) "/themes/admin/"
          */
-        $this->smarty->template_dir   = array();
-        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
-        $this->smarty->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+        $this->renderer->template_dir   = array();
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         # this sets the "views" subdirectory under the directory containing the modulecontroller class file
-        $this->smarty->template_dir[] = ROOT_MOD;
-        $this->smarty->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
-        $this->smarty->template_dir[] = ROOT_THEMES . 'core/templates/' .DS;
-        $this->smarty->template_dir[] = ROOT_THEMES . 'admin' .DS;
-        $this->smarty->template_dir[] = ROOT_THEMES;
+        $this->renderer->template_dir[] = ROOT_MOD;
+        $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . 'core/templates/' .DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
+        $this->renderer->template_dir[] = ROOT_THEMES;
 
-        #var_dump($this->smarty->template_dir);
+        #var_dump($this->renderer->template_dir);
 
-        $this->smarty->compile_dir    = ROOT .'cache/templates_c/';                   # directory for compiled files
-        $this->smarty->config_dir     = ROOT_LIBRARIES .'smarty/configs/';            # directory for config files (example.conf)
-        $this->smarty->cache_dir      = ROOT .'cache/';                               # directory for cached files
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';            # directory for clansuite smarty plugins
-        $this->smarty->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';            # direcotry for original smarty plugins
+        $this->renderer->compile_dir    = ROOT .'cache/templates_c/';                   # directory for compiled files
+        $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';            # directory for config files (example.conf)
+        $this->renderer->cache_dir      = ROOT .'cache/';                               # directory for cached files
+        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/clansuite_plugins/';            # directory for clansuite smarty plugins
+        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';            # direcotry for original smarty plugins
 
         # Modifiers
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
-        # $this->smarty->default_modifiers = array('escape:"htmlall"');
-        # $this->smarty->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+        # $this->renderer->default_modifiers = array('escape:"htmlall"');
+        # $this->renderer->register_modifier('timemarker',  array('benchmark', 'timemarker'));
      }
 
     /**
-     * Returns Smarty Object
+     * Returns a clean Smarty Object
      *
-     * @return Smarty
+     * @return Smarty Object
      */
     public function getEngine()
     {
-        return $this->smarty;
+        if($this->renderer)
+        {
+			/**
+			 * we don't know what happened to the renderer on it's way
+			 * so in order to get a clean render object
+			 * we remove all prior assigns and configuration settings
+			 */
+			$this->renderer->clear_all_assign();
+			$this->renderer->clear_config();
+		}
+		else
+		{
+		    self::initializeEngine();
+		}
+
+		# then we reload the base configuration to have default template paths and debug-settings
+		self::configureEngine();
+
+		return $this->renderer;
     }
 
     /**
@@ -259,7 +262,7 @@ class view_smarty extends Clansuite_Renderer_Base
     {
         if (is_dir($templatepath) && is_readable($templatepath))
         {
-            $this->smarty->template_dir[] = $templatepath;
+            $this->renderer->template_dir[] = $templatepath;
         }
         else
         {
@@ -274,7 +277,7 @@ class view_smarty extends Clansuite_Renderer_Base
      */
     public function getTemplatePaths()
     {
-        return $this->smarty->template_dir;
+        return $this->renderer->template_dir;
     }
 
     /**
@@ -293,12 +296,12 @@ class view_smarty extends Clansuite_Renderer_Base
         # if array
         if (is_array($tpl_parameter))
         {
-            $this->smarty->assign($tpl_parameter);
+            $this->renderer->assign($tpl_parameter);
             return;
         }
 
         # if single key-value pair
-        $this->smarty->assign($tpl_parameter, $value);
+        $this->renderer->assign($tpl_parameter, $value);
     }
 
      /**
@@ -309,7 +312,7 @@ class view_smarty extends Clansuite_Renderer_Base
      */
     public function __get($key)
     {
-        return $this->smarty->get_template_vars($key);
+        return $this->renderer->get_template_vars($key);
     }
 
    /**
@@ -333,7 +336,7 @@ class view_smarty extends Clansuite_Renderer_Base
 
         #echo 'Template in view_smarty->fetch() : '.$template . '<br>';
 
-        return $this->smarty->fetch($template, $data = null);
+        return $this->renderer->fetch($template, $data = null);
     }
 
     /**
@@ -345,7 +348,7 @@ class view_smarty extends Clansuite_Renderer_Base
 
         #echo 'Template in view_smarty->display() : '.$template . '<br>';
 
-        $this->smarty->display($template, $data = null);
+        $this->renderer->display($template, $data = null);
     }
 
     public function getSmartyConstants()
@@ -365,15 +368,15 @@ class view_smarty extends Clansuite_Renderer_Base
     protected function assignConstants()
     {
         # fetch the general clansuite constants from Clansuite_Renderer_Base->getConstants()
-        $this->smarty->assign($this->getConstants());
+        $this->renderer->assign($this->getConstants());
         #var_dump($this->getConstants());
 
         # fetch the specific smarty constants from view_smarty->getSmartyConstants()
-        $this->smarty->assign($this->getSmartyConstants());
+        $this->renderer->assign($this->getSmartyConstants());
         #var_dump($this->getSmartyConstants());
 
         # leave this for debugging purposes
-        #var_dump($this->smarty);
+        #var_dump($this->renderer);
     }
 
     public function setRenderMode($mode)
@@ -468,7 +471,7 @@ class view_smarty extends Clansuite_Renderer_Base
                 $this->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                return $this->smarty->fetchDOC($this->getLayoutTemplate());
+                return $this->renderer->fetchDOC($this->getLayoutTemplate());
             }
         }
     }
@@ -478,7 +481,7 @@ class view_smarty extends Clansuite_Renderer_Base
      */
     public function preRenderChecks()
     {
-        foreach( $this->smarty->template_dir as $dir )
+        foreach( $this->renderer->template_dir as $dir )
         {
             $file = $dir . DS . $this->getLayoutTemplate();
             if (is_file($file) != 0)
