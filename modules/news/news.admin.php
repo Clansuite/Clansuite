@@ -126,7 +126,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #$perms::check('cc_view_news');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
+        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
 
         # Incoming Variables
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
@@ -229,7 +229,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Get Render Engine
         $smarty = $this->getView();
-  
+
         $smarty->assign('news', $news);
         $smarty->assign('newscategories', $newscategories);
 
@@ -353,7 +353,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     *
     */
     function create()
-    {            
+    {
 
         // Permission check
         $perms->check('cc_create_news');
