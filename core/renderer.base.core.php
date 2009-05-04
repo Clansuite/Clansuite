@@ -82,12 +82,7 @@ abstract class Clansuite_Renderer_Base
         # set injector and config
         $this->injector = $injector;
         $this->config   = $config;
-
-        self::initializeEngine();
-        self::configureEngine();
-
-        #Clansuite_Eventlog();
-    }
+     }
 
     /**
      * Returns the render engine object
@@ -101,12 +96,12 @@ abstract class Clansuite_Renderer_Base
      *
      * @return Engine Object
      */
-    abstract public function initializeEngine();
+    /** abstract **/ public function initializeEngine(){}
 
     /**
      * Configure the render engine object
      */
-    abstract public function configureEngine();
+    /** abstract **/ public function configureEngine(){}
 
     /**
      * Renders the given Template with renderMode wrapped (with Layout)
@@ -120,7 +115,7 @@ abstract class Clansuite_Renderer_Base
      *
      * @return string
      */
-    /** abstract **/ public function renderPartial($template);
+    /** abstract **/ public function renderPartial($template) {}
 
     /**
      * Assigns a value to a template parameter.
