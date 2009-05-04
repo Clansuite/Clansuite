@@ -14,7 +14,7 @@
     <!-- Pagination -->
     <tr class="tr_row1">
         <td height="20" colspan="8" align="right">
-            {include file="tools/paginate.tpl"}
+            {pagination}
         </td>
     </tr>
 
