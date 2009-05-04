@@ -495,13 +495,47 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get $_SERVER REMOTE_ADDRESS
+     * Get IP = $_SERVER REMOTE_ADDRESS
      *
      * @return string
      */
     public function getRemoteAddress()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && self::validateIP($_SERVER["HTTP_CLIENT_IP"]))
+        {
+            return $_SERVER["HTTP_CLIENT_IP"];
+        }
+
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
+        {
+            foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip)
+            {
+                if (self::validateIP(trim($ip)))
+                {
+                    return $ip;
+                }
+            }
+        }
+
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && self::validateIP($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        {
+            return $_SERVER["HTTP_X_FORWARDED"];
+        }
+        elseif (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) && self::validateIP($_SERVER["HTTP_FORWARDED_FOR"]))
+        {
+            return $_SERVER["HTTP_FORWARDED_FOR"];
+        }
+        elseif (array_key_exists('HTTP_FORWARDED', $_SERVER) && self::validateIP($_SERVER["HTTP_FORWARDED"]))
+        {
+            return $_SERVER["HTTP_FORWARDED"];
+        }
+        elseif (array_key_exists('HTTP_X_FORWARDED', $_SERVER) && self::validateIP($_SERVER["HTTP_X_FORWARDED"]))
+        {
+            return $_SERVER["HTTP_X_FORWARDED"];
+        }
+        else {
+            return $_SERVER["REMOTE_ADDR"];
+        }
     }
 
     /**
@@ -513,6 +547,46 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         return $_SERVER['HTTP_USER_AGENT'];
     }
+
+    /**
+     * Validates a given IP and takes care of reserved IANA IPv4 addresses
+     *
+     * @author <admin@webbsense.com>
+     * @link http://algorytmy.pl/doc/php/function.getenv.php
+     * @see getRemoteAddress()
+     * @param $ip
+     * @return boolean
+     */
+    public static function validateIP($ip)
+    {
+        if (!empty($ip) && ip2long($ip)!=-1) {
+                // reserved IANA IPv4 addresses
+                // http://www.iana.org/assignments/ipv4-address-space
+                $reserved_ips = array (
+                                array('0.0.0.0','2.255.255.255'),
+                                array('10.0.0.0','10.255.255.255'),
+                                array('127.0.0.0','127.255.255.255'),
+                                array('169.254.0.0','169.254.255.255'),
+                                array('172.16.0.0','172.31.255.255'),
+                                array('192.0.2.0','192.0.2.255'),
+                                array('192.168.0.0','192.168.255.255'),
+                                array('255.255.255.0','255.255.255.255')
+                );
+
+                foreach ($reserved_ips as $r) {
+                        $min = ip2long($r[0]);
+                        $max = ip2long($r[1]);
+                        if ((ip2long($ip) >= $min) && (ip2long($ip) <= $max)) {
+                                return false;
+                        }
+                }
+                return true;
+        }
+        else {
+                return false;
+        }
+    }
+
 
     /**
      * This method takes care for REST (Representational State Transfer) by tunneling PUT, DELETE through POST (principal of least power).
@@ -667,7 +741,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                        #,'argc','argv'
                      );
 
-     	// Create a list of all of the keys from the super-global values.
+        // Create a list of all of the keys from the super-global values.
         // Use array_keys() here to preserve key integrity.
         $keys = array_merge(
                     array_keys($_ENV),
