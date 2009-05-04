@@ -25,17 +25,20 @@
  */
 function smarty_function_pagination($params, &$smarty)
 {
-    #clansuite_xdebug::printR($smarty->get_template_vars());
-
     # check if file exists true and if it's necessary to paginate
-    if( $smarty->template_exists('pagination-generic.tpl') and $smarty->get_template_vars('pager')->haveToPaginate() )
+    if( $smarty->template_exists('pagination-generic.tpl') == false )
+    {
+        echo 'Pagination Template not found.';
+    }
+
+    if( $smarty->get_template_vars('pager')->haveToPaginate() )
     {
         # load the generic pagination template
         return $smarty->fetch('pagination-generic.tpl');
     }
-    else # if no file was found - say so
+    else # there's no need to paginate
     {
-        echo 'Pagination Template not found.';
+        #return 'No need to paginate!';
     }
 }
 ?>
