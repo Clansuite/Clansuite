@@ -8,7 +8,7 @@
 <table cellpadding="0" cellspacing="0" border="0" width="800" align="center">
     <tr class="tr_row1">
         <td height="20" colspan="11" align="right">
-            {include file="tools/paginate.tpl"}
+            {pagination}
         </td>
     </tr>
     <tr class="tr_header">
@@ -54,7 +54,7 @@
     </tr>
     <tr class="tr_row1">
         <td height="20" colspan="11" align="right">
-             {include file="tools/paginate.tpl"}
+             {pagination}
         </td>
     </tr>
 </table>

@@ -40,7 +40,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * This is the Clansuite Module Class - Guestbook Admin
  *
  * @author     Jens-André Koch <vain@clansuite.com>
- * @author     Florian Wolf    <xsign.dll@clansuite.com>           
+ * @author     Florian Wolf    <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
@@ -67,14 +67,14 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     {
         # Permission check
         #$perms::check('cc_view_news');
-        
+
         # Set Pagetitle and Breadcrumbs
         #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
-        
+
         # Incoming Variables
         $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
-        $resultsPerPage = (int) 10;  
-      
+        $resultsPerPage = (int) 10;
+
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
@@ -102,21 +102,21 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
                                  )),
                                  '?mod=guestbook&sub=admin&action=show&page={%page}'
                                  );
-            
+
         # Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
         # Retrieving Doctrine_Pager instance
-        $pager = $pager_layout->getPager();                    
-                             
+        $pager = $pager_layout->getPager();
+
         // Fetching news
         #var_dump($pager->getExecuted());
         $guestbook_entries = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // Transform RAW text to BB-formatted Text
-        require_once( ROOT_CORE . '/bbcode.core.php' );
-        $bbcode = new bbcode($this->injector);
-        
+        Clansuite_Loader::loadCoreClass('bbcode');
+        $bbcode = new Clansuite_Bbcode($this->injector);
+
         foreach( $guestbook_entries as $key => $value )
         {
             $guestbook_entries[$key]['gb_text']     = $bbcode->parse($value['gb_text']);
@@ -129,21 +129,21 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         // echo 'Found Rows: ' . $count;
 
          # Get Render Engine
-        $smarty = $this->getView(); 
-        
+        $smarty = $this->getView();
+
         // Pagination
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-               
+
         // give $newslist array to Smarty for template output
         $smarty->assign('guestbook', $guestbook_entries);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
+
         # specifiy the template manually
         #$this->setTemplate('guestbook/admin_show.tpl');
-        
+
         # Prepare the Output
         $this->prepareOutput();
 
@@ -180,7 +180,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $stmt->execute( array( $comment, $gb_id ) );
 
         // Transform RAW text to BB-formatted Text
-        require_once( ROOT_CORE . '/bbcode.class.php' );
+        Clansuite_Loader::loadCoreClass('bbcode');
         $bbcode = new bbcode();
         $parsed_comment = $bbcode->parse($comment);
 

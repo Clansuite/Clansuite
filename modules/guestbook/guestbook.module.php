@@ -61,7 +61,7 @@ class module_guestbook extends Clansuite_ModuleController implements Clansuite_M
 
     /**
      * Function: Show Guestbook
-     * @todo: change setLimit to a Variable for editing by user from (Guestbook Module Settings)
+     * @todo change setLimit to a Variable for editing by user from (Guestbook Module Settings)
      */
     function action_show()
     {
