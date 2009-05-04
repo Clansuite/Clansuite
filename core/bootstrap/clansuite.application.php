@@ -160,7 +160,7 @@ class Clansuite_CMS
         ini_set('short_open_tag'                , 'off');
         ini_set('arg_separator.input'           , '&amp;');
         ini_set('arg_separator.output'          , '&amp;');
-        ini_set('memory_limit'                  , '20M' );
+        ini_set('memory_limit'                  , '30M' );
     }
 
     /**
@@ -331,7 +331,7 @@ class Clansuite_CMS
         set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
 
         # Set Error Handler
-        new Clansuite_Errorhandler(new Clansuite_Config('configuration/clansuite.config.php'));
+        new Clansuite_Errorhandler(new Clansuite_Config);
     }
 
     /**
@@ -351,37 +351,25 @@ class Clansuite_CMS
      */
     private static function register_DI_Core()
     {
-        #
-        self::$injector->whenCreating('Clansuite_Config')
-                       ->forVariable('configfile')
-                       ->willUse(new value('configuration/clansuite.config.php'));
-
-
-        self::$injector->whenCreating('Clansuite_Doctrine')
-                       ->forVariable('configfile')
-                       ->willUse(new value('configuration/clansuite.config.php'));
-
         # define the core classes to load
         $core_classes = array(
                               'Clansuite_Config',
                               'Clansuite_HttpRequest',
                               'Clansuite_HttpResponse',
                               'Clansuite_FilterManager',
-                              'Clansuite_Doctrine',
                               'Clansuite_Localization',
                               'Clansuite_Security',
                               'Clansuite_Inputfilter',
-                              'Clansuite_Statistics'
+                              'Clansuite_Statistics',
+                              'Clansuite_Localization'
                              );
 
         # register them to the DI as singletons
         foreach( $core_classes as $class )
         {
-            self::$injector->willUse( $class  );
+            self::$injector->register( new Singleton( $class ) );
         }
-
-        self::$injector->create('Clansuite_Doctrine');
-    }
+}
 
     /**
      * Register the Pre- and Postfilters Classes at the Dependency Injector
@@ -405,9 +393,8 @@ class Clansuite_CMS
         # register the prefilters at the DI
         foreach( self::$prefilter_classes as $class )
         {
-            self::$injector->willUse( $class );
+            self::$injector->register( $class );
         }
-
         # define postfilters to load
         self::$postfilter_classes = array(
                                           #empty-at-this-time
@@ -417,7 +404,7 @@ class Clansuite_CMS
         # register the postfilters at the DI
         foreach( self::$postfilter_classes as $class )
         {
-            self::$injector->willUse( $class );
+            self::$injector->register( $class );
         }
     }
 
@@ -429,8 +416,8 @@ class Clansuite_CMS
     private static function execute_Frontcontroller()
     {
         # Get request and response objects for Filters and RequestProcessing
-        $request  = self::$injector->create('Clansuite_HttpRequest');
-        $response = self::$injector->create('Clansuite_HttpResponse');
+        $request  = self::$injector->instantiate('Clansuite_HttpRequest');
+        $response = self::$injector->instantiate('Clansuite_HttpResponse');
 
         /**
          * Setup Frontcontroller
@@ -443,8 +430,6 @@ class Clansuite_CMS
                          new Clansuite_ActionController_Resolver(self::$config['defaults']['default_action']),
                          self::$injector);
 
-        #Clansuite_XDebug::printR($clansuite);
-
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
          *
@@ -456,17 +441,15 @@ class Clansuite_CMS
          */
         foreach(self::$prefilter_classes as $class)
         {
-            $clansuite->addPrefilter(self::$injector->create($class));
+            $clansuite->addPrefilter(self::$injector->instantiate($class));
         }
         foreach(self::$postfilter_classes as $class)
         {
-            $clansuite->addPostfilter(self::$injector->create($class));
+            $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
         # Take off.
         $clansuite->processRequest($request, $response);
-
-
     }
 
     /**
@@ -504,12 +487,16 @@ class Clansuite_CMS
     private static function start_Session()
     {
         # instantiate the Locale
-        #self::$injector->create('Clansuite_Localization');
+        self::$injector->instantiate('Clansuite_Localization');
+
+        new Clansuite_Doctrine(new Clansuite_Config());
 
         # Initialize Session, then register the session-depending User-Object manually
-        #Clansuite_Session::getInstance(self::$injector);
+        self::$injector->register(new Singleton('Clansuite_Session'));
+        self::$injector->instantiate('Clansuite_Session');
 
-        #self::$injector->create('Clansuite_User');
+        self::$injector->register(new Singleton('Clansuite_User'));
+        self::$injector->instantiate('Clansuite_User');
     }
 
     /**
@@ -517,7 +504,7 @@ class Clansuite_CMS
      *     Clansuite Version Information
      *  ================================================
      */
-    private static function set_Version()
+    private static function set_version()
     {
         require ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
@@ -540,7 +527,7 @@ class Clansuite_CMS
         if(DEBUG)
         {
             # append Doctrine's SQL-Profiling Report
-            self::$injector->create('Clansuite_Doctrine')->displayProfilingHTML();
+            self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
 
             # and the general Application Runtime
             echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';

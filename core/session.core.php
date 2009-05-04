@@ -67,26 +67,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     private  $config     = null;
     private  $request    = null;
-    private  $response   = null;
-
-    /**
-     * Clansuite_Session is a Singleton
-     *
-     * @param object $injector DependencyInjector
-     *
-     * @return instance of session class
-     */
-    public static function getInstance($injector)
-    {
-    	static $instance;
-
-        if ( ! isset($instance))
-        {
-            $instance = new Clansuite_Session($injector);
-        }
-
-        return $instance;
-    }
 
     /**
      * This creates the session
@@ -96,13 +76,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @param object $injector Contains the Dependency Injector Phemto.
      */
 
-    function __construct(Phemto $injector)
+    function __construct(Clansuite_Config $config, Clansuite_HttpRequest $request)
     {
-        # Setup References
-        $this->config       = $injector->create('Clansuite_Config', 'configuration/clansuite.config.php');
-        $this->doctrine     = $injector->create('Clansuite_Doctrine', 'configuration/clansuite.config.php');
-        $this->request      = $injector->create('Clansuite_HttpRequest');
-        $this->response     = $injector->create('Clansuite_HttpResponse');
+        $this->config   = $config;
+        $this->request  = $request;
 
         /**
          * Configure Session
@@ -199,7 +176,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @return true
      */
-
     public function session_open()
     {
         return true;
@@ -210,7 +186,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @return true
      */
-
     public function session_close()
     {
         session_write_close();
@@ -233,6 +208,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                          ->from('CsSession')
                          ->where('session_name = ? AND session_id = ?')
                          ->fetchOne(array(self::session_name, $id ), Doctrine::HYDRATE_ARRAY);
+
         if( $result )
         {
             return (string) $result['session_data'];  # unserialize($result['session_data']);
@@ -249,7 +225,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @param array $data contains session_data
      * @return bool
      */
-    public function session_write( $id, $data )
+    public function session_write($id, $data)
     {
         /**
          * Determine the current location of a user by checking request['mod']

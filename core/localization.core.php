@@ -87,7 +87,7 @@ class Clansuite_Localization
          * @link https://savannah.nongnu.org/projects/php-gettext PHP-GETTEXT Library
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
-        require ROOT_LIBRARIES.'/php-gettext/gettext.inc';
+        require_once ROOT_LIBRARIES.'/php-gettext/gettext.inc';
 
         # Load Clansuite Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $locale);
