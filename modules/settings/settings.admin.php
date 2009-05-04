@@ -60,16 +60,16 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=settings&sub=admin');
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config')->toArray();
 
         # Assign Config to Smarty
-        $smarty->view->assign('config', $config);
+        $view->assign('config', $config);
 
         # Set Admin Layout Template
-        $smarty->setLayoutTemplate('admin/index.tpl');
+        $view->setLayoutTemplate('admin/index.tpl');
 
         # Specifiy the template manually
         $this->setTemplate('settings.tpl');
