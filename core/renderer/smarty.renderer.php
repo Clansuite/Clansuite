@@ -63,9 +63,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    function __construct(Phemto $injector, Clansuite_Config $config)
     {
-        parent::__construct();
+        parent::__construct($injector, $config);
+        
+        self::initializeEngine();
+        self::configureEngine();
+
+        #Clansuite_Eventlog();
+
     }
 
     /**
@@ -80,7 +86,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      *
      * @return Smarty Object
      */
-    private function initializeEngine()
+    public function initializeEngine()
     {
         # prevent redeclaration
         if (!class_exists('Smarty'))
@@ -122,7 +128,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * Render Engine Configuration
      * Configures the Smarty Object
      */
-    private function configureEngine()
+    public function configureEngine()
     {
         #### SMARTY DEBUGGING
         $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on

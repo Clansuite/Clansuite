@@ -318,7 +318,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Returns the Rendering Engine Object via view_factory
      *
-     * view_factory::getRenderer() has following parameters:
+     * renderer_factory::getRenderer() has following parameters:
      * param1 getRenderEngineName looks up the Renderer-Name
      * param2 pass injector to renderer
      *
@@ -326,7 +326,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getRenderEngine()
     {
-        return view_factory::getRenderer($this->getRenderEngineName(), $this->injector);
+        return Clansuite_Renderer_Factory::getRenderer($this->getRenderEngineName(), $this->injector);
     }
 
     /**

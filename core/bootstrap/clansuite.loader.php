@@ -103,9 +103,9 @@ class Clansuite_Loader
      */
     private static function prepareClassnameAsFilename($className)
     {
-        # replace "Clansuite_View_Factory" for the correct filename
+        # replace "Clansuite_Renderer_Factory" for the correct filename
         $className = str_replace('Clansuite_','',$className);
-        # replace the classname "view_factory" with "view.factory" for the correct filename
+        # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
         $className = str_replace('_','.',$className);
         # strtolower
         $className = strtolower($className);
