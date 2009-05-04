@@ -170,7 +170,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         # b) as a dynamic var
     	self::$static_injector = $this->injector = $injector;
     	# fetch config from dependency injector
-    	$this->config = $this->injector->create('Clansuite_Config');
+    	$this->config = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
 
         # set moduleconfig['modulename'] = configarray
-        $this->moduleconfig[$modulename] = self::getInjector()->create('Clansuite_Config')->readConfig($filename);
+        $this->moduleconfig[$modulename] = self::getInjector()->instantiate('Clansuite_Config')->readConfig($filename);
 
         return $this->moduleconfig[$modulename];
     }
@@ -211,11 +211,11 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
          */
         if(is_object($this->injector))
         {
-            $this->config = $this->injector->create('Clansuite_Config')->toArray;
+            $this->config = $this->injector->instantiate('Clansuite_Config')->toArray;
         }
         else # deliver config via an static call (for example: from inside a widget)
         {
-            $this->config = self::getInjector()->create('Clansuite_Config')->toArray();
+            $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
         }
 
         return $this->config;
@@ -303,7 +303,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function getRenderEngineName()
     {
         # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
-        if($this->injector->create('Clansuite_HttpRequest')->isxhr() === true)
+        if($this->injector->instantiate('Clansuite_HttpRequest')->isxhr() === true)
         {
             $this->setRenderEngine('json');
         }
@@ -420,7 +420,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function prepareOutput()
     {
         # 1) get the Response Object
-        $response = $this->injector->create('Clansuite_HttpResponse');
+        $response = $this->injector->instantiate('Clansuite_HttpResponse');
 
         # 2) get the view
         $view = $this->getView();
@@ -441,8 +441,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
          * b) Render Engine -> method fetch() which returns a fetch template (without layout/mainframe)
          * c) Render Engine -> method render() which returns a complete layout (rendered mainframe)
          */
-        # a)
-        #$response->setContent($this->output);       
+        # a)$response->setContent($this->output);
+
+        #var_dump( $view->render($this->getTemplateName()) );
 
         # b)
         # $response->setContent($view->fetch($this->getTemplateName()));
@@ -496,7 +497,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
-        $this->injector->create('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
+        $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
     }
 
     /**
