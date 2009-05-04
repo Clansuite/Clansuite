@@ -361,7 +361,8 @@ class Clansuite_CMS
                               'Clansuite_Security',
                               'Clansuite_Inputfilter',
                               'Clansuite_Statistics',
-                              'Clansuite_Localization'
+                              'Clansuite_Localization',
+                              'Clansuite_User',
                              );
 
         # register them to the DI as singletons
@@ -369,7 +370,7 @@ class Clansuite_CMS
         {
             self::$injector->register( new Singleton( $class ) );
         }
-}
+    }
 
     /**
      * Register the Pre- and Postfilters Classes at the Dependency Injector
@@ -492,10 +493,8 @@ class Clansuite_CMS
         new Clansuite_Doctrine(new Clansuite_Config());
 
         # Initialize Session, then register the session-depending User-Object manually
-        self::$injector->register(new Singleton('Clansuite_Session'));
-        self::$injector->instantiate('Clansuite_Session');
+        new Clansuite_Session(new Clansuite_Config, self::$injector->instantiate('Clansuite_HttpRequest'));
 
-        self::$injector->register(new Singleton('Clansuite_User'));
         self::$injector->instantiate('Clansuite_User');
     }
 
