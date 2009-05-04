@@ -25,6 +25,12 @@
  */
 function smarty_function_pagination($params, &$smarty)
 {
+    if( isset($params['type']) and $params['type']== 'alphabet' and $smarty->template_exists('pagination-alphabet.tpl') )
+    {
+        # load the generic pagination template
+        return $smarty->fetch('pagination-alphabet.tpl');
+    }
+
     # check if file exists true and if it's necessary to paginate
     if( $smarty->template_exists('pagination-generic.tpl') == false )
     {

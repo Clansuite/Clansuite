@@ -66,7 +66,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     function __construct(Phemto $injector, Clansuite_Config $config)
     {
         parent::__construct($injector, $config);
-        
+
         self::initializeEngine();
         self::configureEngine();
 
@@ -212,11 +212,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # this sets the "templates" subdirectory under the directory containing the modulecontroller class file
         $this->renderer->template_dir[] = ROOT_MOD;
         $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
-        $this->renderer->template_dir[] = ROOT_THEMES . 'core/templates/' .DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'templates' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES;
 
-        #var_dump($this->renderer->template_dir);
+        #clansuite_xdebug::printR($smarty->template_dir);
 
         $this->renderer->compile_dir    = ROOT .'cache/templates_c/';           # directory for compiled files
         $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';    # directory for config files (example.conf)
@@ -231,6 +231,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';
         $this->renderer->plugins_dir[]  = ROOT_CORE .'viewhelper/smarty/';
         $this->renderer->plugins_dir[]  = ROOT_MOD . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'viewhelper/smarty' .DS;
+
+        #clansuite_xdebug::printR($smarty->plugins_dir);
 
         # Modifiers
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
