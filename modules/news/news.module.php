@@ -250,7 +250,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         /**
          * Set Feed Format and save to file
-         * 
+         *
          * Valid format strings are:
          * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
          * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
@@ -466,6 +466,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                               ->orderby('n.news_id DESC')
                               ->limit($numberNews)
                               ->execute( array() );
+
+        #var_dump($news);
 
         # assign the fetched news to the view
         $smarty->assign('news_widget', $news);
