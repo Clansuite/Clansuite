@@ -213,7 +213,7 @@
         });
         $('ajax_loader').fade('hide');
 
-        // SAMPLE_CRUD
+        // CRUD - MODULE ACTION STRUCTURE
         var crudLink = $('sample_crud');
         crudLink.addEvent('click', function(event) {
             event.stop();
@@ -226,8 +226,7 @@
             $('backend_module_add').fireEvent('click');
         });
 
-        // SAMPLE_BREAD
-        // CRUD
+        // BREAD - MODULE ACTION STRUCTURE
         var breadLink = $('sample_bread');
         crudLink.addEvent('click', function(event) {
             event.stop();
@@ -236,113 +235,46 @@
                 check.fireEvent('click');
             });
             $('frontend_module_add').fireEvent('click');
-            $('frontend_module_add').fireEvent('click');
-            $('frontend_module_add').fireEvent('click');
 
-            $('backend_module_add').fireEvent('click');
-            $('backend_module_add').fireEvent('click');
             $('backend_module_add').fireEvent('click');
         });
 
+        // ABCD - MODULE ACTION STRUCTURE
+        var breadLink = $('sample_bread');
+        crudLink.addEvent('click', function(event) {
+            event.stop();
+            allChecks.each( function(check, i) {
+                check.checked = 1;
+                check.fireEvent('click');
+            });
+            $('frontend_module_add').fireEvent('click');
+
+            $('backend_module_add').fireEvent('click');
+        });
 
     });
 </script>
 {/literal}
+
+
 <div id="modulcreator">
+
     <form action="index.php?mod=modulecreator&sub=admin&action=preview" method="POST" id="create_form">
+
         <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
             <tr>
-                <td class="cell2">{t}Module Defaults{/t}</td>
-                <td class="cell1">
-                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                        <tr>
-                            <td class="cell2">{t}Modulename{/t}</td>
-                            <td class="cell1"><input name="m[module_name]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9]+$" />&nbsp;&nbsp;<span id="the_link"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2">{t}Description{/t}</td>
-                            <td class="cell1"><input name="m[meta][description]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}Initial Version{/t}</td>
-                            <td class="cell1"><input name="m[meta][inititalversion]" class="input_text" type="text" value="0.0.1" pattern="^[0-9_\s]+$" /></td>
-                        </tr>
-                         <tr>
-                            <td class="cell2">{t}License{/t}</td>
-                            <td class="cell1"><input name="m[meta][license]" class="input_text" type="text" value="" pattern="^[a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                    </table>
-                </td>
+                {include file="action_admin_builder_moduledefaults.tpl"}
             </tr>
             <tr>
-                <td class="cell2">{t}Lead-Developer{/t}</td>
-                <td class="cell1">
-                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                        <tr>
-                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}E-Mail{/t}</td>
-                            <td class="cell1"><input name="m[meta][email]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}Organisation{/t}</td>
-                            <td class="cell1"><input name="m[meta][organisation]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2">{t}Website{/t}</td>
-                            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
-                        </tr>
-                         <tr>
-                            <td class="cell2" width="100px">{t}Repository Username{/t}</td>
-                            <td class="cell1"><input name="m[meta][svnnickname]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                    </table>
-                </td>
+                {include file="action_admin_builder_developer.tpl"}
             </tr>
             {* @todo add multiple developers
             <tr>
-                <td class="cell2">{t}Additional Parties / Developers{/t}</td>
-                <td class="cell1">
-                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                        <tr>
-                            <td class="cell2" width="100px">{t}Role{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="Co-Developer, Lead-Developer, Maintainer, Sponsor" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}Name of Author{/t}</td>
-                            <td class="cell1"><input name="m[meta][author]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}E-Mail{/t}</td>
-                            <td class="cell1"><input name="m[meta][email]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2" width="100px">{t}Organisation{/t}</td>
-                            <td class="cell1"><input name="m[meta][organisation]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                        <tr>
-                            <td class="cell2">{t}Website{/t}</td>
-                            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
-                        </tr>
-                         <tr>
-                            <td class="cell2" width="100px">{t}Repository Username{/t}</td>
-                            <td class="cell1"><input name="m[meta][svnnickname]" class="input_text" type="text" value="" pattern="^[-a-zA-Z0-9_\s]+$" /></td>
-                        </tr>
-                    </table>
-                </td>
+                {include file="action_admin_builder_multipledevelopers.tpl"}
             </tr>
             *}
             <tr>
-                <td class="cell2">{t}Choose a Methodname Structure for the Module{/t}</td>
-                <td class="cell1"><a href="" id="sample_crud">CRUD (create, read, update, delete)</a>
-                {* <a href="" id="sample_bread">BREAD (browse, read, edit, add, delete)</a>
-                 <a href="" id="sample_abcd">ABCD (add, brosw, change, delete)</a> *}</td>
+                {include file="action_admin_builder_methodnamestructure.tpl"}
             </tr>
             <tr>
                 <td class="cell2">Create Frontend for the module?</td>
@@ -584,92 +516,25 @@
                     </div>
                 </td>
             </tr>
+
             <tr>
-                <td class="cell2">Create Config for the module?</td>
-                <td class="cell1">
-                    <div style="padding-bottom: 5px;"><input type="checkbox" name="m[config][checked]" id="config" class="check_below" value="1" /></div>
-                    <div id="config_display">
-                        <div>
-                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                                <thead>
-                                    <tr>
-                                        <td class="td_header_small">
-                                            {t}Key{/t}
-                                        </td>
-                                        <td class="td_header_small">
-                                            {t}Value{/t}
-                                        </td>
-                                        <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="config_add" />
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody id="config_wrapper">
-                                    <tr id="config_input">
-                                        <td height="20" class="cell2">
-                                            <input class="input_text" type="text" value="" name="m[config][config_keys][0]" pattern="^[a-zA-Z0-9_]+$" />
-                                        </td>
-                                        <td height="20" class="cell1">
-                                            <input class="input_text" type="text" value="" name="m[config][config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
-                                        </td>
-                                        <td class="cell2" align="left" width="99%">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="config_delete" style="margin-top: 2px; cursor: pointer;" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </td>
+                {include file="action_admin_builder_createconfig.tpl"}
             </tr>
 
             <tr>
-                <td class="cell2">Create Documenation?</td>
-                <td class="cell1">
-                    <div style="padding-bottom: 5px;">
-                        <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
-                    </div>
-                </td>
+                {include file="action_admin_builder_createdocumentation.tpl"}
             </tr>
 
             <tr>
-                <td class="cell2">Create a Unit-Test Skeleton for the module?</td>
-                <td class="cell1">
-                    <div style="padding-bottom: 5px;">
-                        <input type="checkbox" name="m[create_documentation][checked]" id="create_documentation" class="check_below" value="1" />
-                    </div>
-                </td>
+                {include file="action_admin_builder_createunittests.tpl"}
             </tr>
 
             <tr>
-                <td class="cell2">Constraints and Dependencies</td>
-                <td class="cell1">
-                    <div style="padding-bottom: 5px;">
-                        <input type="checkbox" name="m[create_dependencies][checked]" id="create_dependencies" class="check_below" value="1" />
-                    </div>
-                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                        <tr>
-                            <td class="cell2" width="100px">{t}Dependency{/t}</td>
-                            <td class="cell2" width="100px">{t}Type{/t}</td>
-                            <td class="cell2" width="100px">{t}Key{/t}</td>
-                            <td class="cell2" width="100px">{t}Minimum{/t}</td>
-                            <td class="cell2" width="100px">{t}Maximum{/t}</td>
-                            </tr>
-                        <tr>
-                            <td class="cell2" width="100px">Depends on, Conflicting with</td>
-                            <td class="cell2" width="100px">Core, Module, Environment</td>
-                            <td class="cell2" width="100px">{t}Key{/t}</td>
-                            <td class="cell2" width="100px">{t}Minimum{/t}</td>
-                            <td class="cell2" width="100px">{t}Maximum{/t}</td>
-                        </tr>
-                        Environment: PHP, PHP Extension, Operating System, Memory, PEAR
-                    </table>
-                </td>
+                {include file="action_admin_builder_dependencies.tpl"}
             </tr>
 
             <tr>
-                <td class="cell2">Select the Locales to create:</td>
-                <td>locales drop-down</td>
+                {include file="action_admin_builder_locales.tpl"}
             </tr>
 
             <tr>
