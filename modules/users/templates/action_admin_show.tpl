@@ -27,7 +27,8 @@
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
 
-                    {include file="tools/paginate.tpl"}
+                    {pagination type="alphabet"}
+                    {pagination}
 
                 </td>
             </tr>
@@ -52,13 +53,7 @@
                     <td>                        {$wert.joined|date_format:"%d.%m.%Y"}    </td>
                     <td align="center">
 
-                       <input class="ButtonGreen" type="button" value="{t}User settings{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_standard&id={/literal}{$wert.user_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-
-                       <input class="ButtonGreen" type="button" value="{t}General{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_general", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-
-                       <input class="ButtonGreen" type="button" value="{t}Computers{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_computer", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
-
-                       <input class="ButtonGreen" type="button" value="{t}Guestbook{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=edit_guestbook", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                       <input class="ButtonOrange" type="button" value="{t}Edit Profile{/t}" />
 
                        {*
 
@@ -92,7 +87,8 @@
             <tr class="tr_row1">
                 <td height="20" colspan="8" align="right">
 
-                     {include file="tools/paginate.tpl"}
+                    {pagination type="alphabet"}
+                    {pagination}
 
                 </td>
             </tr>
