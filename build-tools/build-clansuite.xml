@@ -8,10 +8,12 @@
     1) Properties & General Settings
     2) Subversion Tasks
     3) Deployment Tasks (Release Building)
-    4) Testing & Validation Tasks (running lint and unittests)
+    4) Testing & Validation Tasks (running lint, sniffer and unittests)
     5) Documentation Tasks (building the manuals and API documentation)
+    6) Create Archives (build tar and zip archives)
 
     Phing Handbook:     http://phing.info/docs/guide/current/
+                        http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html
 
     Requirements:
 
@@ -23,7 +25,7 @@
 
     Version:  $Id$
 -->
-<project name="Clansuite" description="Clansuite Build File" basedir="/home/clansuite/svn" default="build">
+<project name="Clansuite" description="Phing Build File | Clansuite - just an eSports CMS" basedir="/home/clansuite/" default="build">
 
     <!-- ==================================================== -->
     <!-- ======     0) Display HELP TEXT first, ok?    ====== -->
@@ -64,18 +66,25 @@
     <!-- ==================================================== -->
 
     <!-- Define Common Properties for all Build Commands | make constants -->
-    <property name="build.base.directory" value="/home/clansuite/build/" />         <!-- name of the build directory -->
-    <property name="clansuite_version" value="0.2" override="true" />               <!-- version number -->
-    <property name="clansuite_version_state" value="alpha-dev" override="true" />   <!-- version state -->
-    <property name="clansuite_version_name" value="Trajan" override="true" />       <!-- version name -->
+    <property name="build.directory" value="/home/clansuite/build/" />              <!-- name of the build directory -->
+    <property name="clansuite.version" value="0.2" override="true" />               <!-- version number -->
+    <property name="clansuite.version.state" value="alpha-dev" override="true" />   <!-- version state -->
+    <property name="clansuite.version.name" value="Trajan" override="true" />       <!-- version name -->
 
-    <!-- Define Fileset "clansuite_projectfiles" -->
-    <fileset id="clansuite_projectfiles" dir="./">  <!-- based on trunk -->
-        <include name="**" />                       <!-- include all files -->
-        <exclude name="build-tools" />              <!-- exclude build-tools directory -->
-        <exclude name="tests" />                    <!-- exclude tests directory -->
-        <exclude name="tmp" />                      <!-- exclude temporary directory -->
-        <exclude name=".htaccess"/>                 <!-- exclude htaccess -->
+    <!-- Define Fileset "clansuite.projectfiles" -->
+    <fileset id="clansuite.projectfiles" dir="./svn">   <!-- based on trunk -->
+        <include name="**" />                           <!-- include all files -->
+        <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
+        <exclude name="tests" />                        <!-- exclude tests directory -->
+        <exclude name="tmp" />                          <!-- exclude temporary directory -->
+        <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
+    </fileset>
+
+    <!-- Define Fileset "clansuite.testfiles" -->
+    <fileset id="clansuite.testfiles" dir="./svn/">    <!-- based on trunk -->
+       <include name="*Test.php"/>                     <!-- include all test files -->
+       <include name="**/*Test.php"/>
+       <exclude name="libraries" />                    <!-- exclude the libraries folder -->
     </fileset>
 
     <!-- ============================================ -->
@@ -83,15 +92,15 @@
     <!-- ============================================ -->
 
     <!-- setup the svn properties -->
-    <property name="svn.path"   value="/usr/bin/svn" />                             <!-- Path to SVN -->
-    <property name="username"   value="YOUR_SVN_USERNAME" />                        <!-- SVN Username -->
-    <property name="password"   value="YOUR_SVN_PASSWORD" />                        <!-- SVN Password -->
-    <property name="repository" value="http://svn.gna.org/svn/clansuite/trunk/" />  <!-- SVN Repository URL -->
+    <property name="svn.path"        value="/usr/bin/svn" />                             <!-- Path to SVN -->
+    <property name="svn.username"    value="YOUR_SVN_USERNAME" />                        <!-- SVN Username -->
+    <property name="svn.password"    value="YOUR_SVN_PASSWORD" />                        <!-- SVN Password -->
+    <property name="svn.repository"  value="http://svn.gna.org/svn/clansuite/trunk/" />  <!-- SVN Repository URL -->
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="svn.local.export.dir"  value="/home/clansuite/svn-export" />                               <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.dir"     value="/home/clansuite/svn" />
+    <property name="svn.local.export.dir"  value="/home/clansuite/svn-export" />     <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.dir"         value="/home/clansuite/svn" />            <!-- Local SVN Directory -->
 
     <!-- COMMAND = "svn-update" -->
     <target name="svn-update" description="Updates ${svn.local.dir} via svn update.">
@@ -102,7 +111,7 @@
     <target name="svn-checkout" description="Checks out a Subversion repository to a local directory.">
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
-                     repositoryurl="${repository}"
+                     repositoryurl="${svn.repository}"
                      todir="${svn.local.export.dir}" />
     </target>
 
@@ -110,21 +119,23 @@
     <target name="svn-export-from-gna" description="Exports the GNA Subversion repository to a local export directory.">
         <echo>Performing an SVN Export</echo>
         <svnexport svnpath="${svn.path}"
-                   username="${username}"
-                   password="${password}"
+                   username="${svn.username}"
+                   password="${svn.password}"
                    nocache="true"
-                   repositoryurl="${repository}"
+                   force="true"
+                   repositoryurl="${svn.repository}"
                    todir="${svn.local.export.dir}" />
     </target>
 
     <!-- COMMAND = "svn-local-export" -->
     <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to a local export directory.">
-        <echo>Performing an SVN Export</echo>
+        <echo>Performing an SVN Export on local SVN Repository</echo>
         <svnexport svnpath="${svn.path}"
-                   username="${username}"
-                   password="${password}"
+                   username="${svn.username}"
+                   password="${svn.password}"
                    nocache="true"
-                   repositoryurl="${repository}"
+                   force="true"
+                   repositoryurl="${svn.local.dir}"
                    todir="${svn.local.export.dir}" />
     </target>
 
@@ -132,36 +143,43 @@
     <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
         <echo>Fetching the Revision Number</echo>
         <svnlastrevision svnpath="${svn.path}"
-                         workingcopy="{svn.local.dir}"
+                         workingcopy="${svn.local.dir}"
                          propertyname="svn.lastrevision"/>
-     </target>
+    </target>
+
+    <-- COMMAND = "mrproper-svn-dir" -->
+    <target name "mrproper-svn-dir" description="Mr.Proper will clean the SVN Export Dir">
+        <echo>Removes and recreates the SVN Export Dir to have a clean copy</echo>
+        <delete dir="${svn.local.export.dir}" failonerror="true" verbose="false" includeemptydirs="true" />
+        <mkdir dir="${svn.local.export.dir}" />
+    </target>
 
     <!-- =============================================== -->
     <!-- ======        3) Deployment Tasks        ====== -->
     <!-- =============================================== -->
 
     <!-- COMMAND = "all" -->
-    <!-- all phing-build commands in order -->
-    <target name="all">
+    <target name="all" description="All build commands in order">
         <echo>------------------------------------------</echo>
-        <echo msg="Building Clansuite ${clansuite_version} ${clansuite_version_state}" />
+        <echo msg="Building Clansuite ${clansuite.version} ${clansuite.version.state}" />
         <echo>------------------------------------------</echo>
-        <phingcall target="phplint" />
-        <phingcall target="all_docs" />
+        <phingcall target="lint-report" />
+        <phingcall target="all-docs" />
         <phingcall target="tar" />
         <echo file="core/clansuite.version.php" append="false">
         <?php
-            $clansuite_version       = '${clansuite_version}';
-            $clansuite_version_state = '${clansuite_version_state}';
-            $clansuite_version_name  = '${clansuite_version_name}';
+            $clansuite_version       = '${clansuite.version}';
+            $clansuite_version_state = '${clansuite.version.state}';
+            $clansuite_version_name  = '${clansuite.version.name}';
          ?>
         </echo>
     </target>
 
     <!-- COMMAND = "mrproper"  -->
-    <target name="mrproper" description="cleans the Building Directories">
-        <echo>Mr.Proper wipes the Building (Delete build directory: ${build.base.directory})</echo>
-        <delete dir="${build.base.directory}"/>
+    <target name="mrproper" description="Cleans the Building Directory">
+        <echo>Mr.Proper wipes the Building (removes and recreates the build directory: ${build.directory})</echo>
+        <delete dir="${build.directory}"/>
+        <mkdir dir="${build.directory}" />
     </target>
 
     <!-- COMMAND = "build"  -->
@@ -170,7 +188,7 @@
     <!-- 2) Then inserts the missing htaccess files -->
     <target name="build-clansuite" description="Build Clansuite Package">
         <copy todir="/build"> <!-- Dir to Copy INTO -->
-            <fileset refid="clansuite_projectfiles" />
+            <fileset refid="clansuite.projectfiles" />
         </copy>
         <!-- <phingcall target="create-htaccess-files" /> -->
     </target>
@@ -179,7 +197,7 @@
     <!-- is a combined task: -->
     <!-- 1) cleans the Building Directories via comannd "mrproper" -->
     <!-- 2) runs a clansuite build via command "build_clansuite" -->
-    <target name="rebuild" description="Rebuilds the Clansuite Package">
+    <target name="rebuild" description="Cleans and Rebuilds the Clansuite Package">
         <phingcall target="mrproper" />
         <phingcall target="build-clansuite" />
     </target>
@@ -189,35 +207,86 @@
         <echo>Creating htaccess files (deny from all)</echo>
         <property name="htaccess.deny" value="deny from all"/>
         <!-- Write the above property to the file location ! -->
-        <echo file="./${build.base.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.base.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.base.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
     </target>
 
+    <!-- COMMAND = "create-demo" -->
+    <property name="demo.directory" value="/srv/www/clansuite/public_html/demo/" />     <!-- name of the demo directory -->
+    <target name="create-demo" description="Create a Demo">
+        <copy todir="${demo.directory}" overwrite="true">
+          <fileset refid="clansuite.projectfiles" />
+        </copy>
+    </target>
 
     <!-- =================================================== -->
     <!-- ======     4) Testing & Validation Tasks     ====== -->
     <!-- =================================================== -->
 
-    <!-- append to target: depends="lint" -->
-    <target name="phplint" description="PhpLint validates the PHPSource">
-        <phplint haltonfailure="true">
-            <!-- Stop if Syntax Error Detected -->
-            <fileset dir="./${application.name}">
-                <exclude name="./${application.name}/library"/>
-                <include name="**/*.php"/>
-            </fileset>
+    <!-- Define Fileset "clansuite_reportfiles" -->
+    <fileset id="clansuite.reportfiles" dir="./${build.directory}">
+        <include name="**/*.php"/>
+        <exclude name="./${build.directory}/libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
+    </fileset>
+
+    <!-- COMMAND = "codequality-report" -->
+    <target name="codequality-report" description="Generates the overall project codequality report"
+            depends="lint-report, codesniffer-report, test-report" />
+
+    <!-- COMMAND = "lint-report" -->
+    <target name="lint-report" description="PHP-Lint validates Clansuite's PHP Sourcecode">
+        <phplint> <!-- add haltonfailure="true" to Stop if Syntax Error Detected -->
+           <fileset refid="clansuite.reportfiles" />
         </phplint>
     </target>
+
+    <!-- COMMAND = "codesniffer-report" -->
+    <target name="codesniffer-report" description="Runs the PHP-Codesniffer task and reports coding standard violations">
+    <phpcodesniffer standard="PEAR" format="summary">
+        <fileset refid="clansuite.reportfiles" />
+    </phpcodesniffer>
+    </target>
+
+    <!-- COMMAND = "test-report" -->
+    <target name="test-report" description="Runs unit-tests and reports">
+
+    </target>
+
+    <!-- COMMAND = "code-coverage" -->
+    <target name="code-coverage" description="Creates a code-coverage report">
+
+        <mkdir dir="coverage_db"/>
+        <mkdir dir="coverage_result"/>
+
+        <coverage-setup database="coverage_db/coverage.db">
+            <fileset refid="clansuite.projectfiles"/>
+        </coverage-setup>
+
+        <phpunit2 codecoverage="true">
+            <batchtest>
+                <fileset refid="clansuite.testfiles"/>
+            </batchtest>
+        </phpunit2>
+
+        <coverage-report outfile="coverage_db/coverage.xml">
+            <report todir="coverage_result"/>
+        </coverage-report>
+    </target>
+
 
     <!-- ================================================= -->
     <!-- ======        5) Documentation Tasks       ====== -->
     <!-- ================================================= -->
 
+    <!-- Defines -->
     <property name="documentations_dir" value="documentation/developer/" override="true" />
+    <property name="phpdoc_dir" value="phpdoc" override="true" />
+    <property name="doxygen_dir" value="doxygen" override="true" />
+    <property name="phpxref_dir" value="phpxref" override="true" />
 
-    <!-- COMMAND = "all_docs" -->
-    <target name="all_docs" description="creates all documentations (combined task)">
+    <!-- COMMAND = "all-docs" -->
+    <target name="all-docs" description="Generates the overall project documentation (combined task)">
         <echo>-----------------------------------</echo>
  	    <echo>|   Creating ALL Documentations   |</echo>
 	    <echo>-----------------------------------</echo>
@@ -227,10 +296,7 @@
     </target>
 
     <!-- COMMAND = "doc_phpdoc" -->
-    <!-- Generates the API documentation using PHPDocumentor -->
-    <!-- Windows Version -->
-    <property name="phpdoc_dir" value="phpdoc" override="true" />
-    <target name="doc_phpdoc_w32">
+    <target name="doc_phpdoc_w32" description="Generates the API documentation using PHPDocumentor (for w32)">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <delete dir="${documentations_dir}/${phpdoc_dir}" />
         <mkdir dir="${documentations_dir}/${phpdoc_dir}" />
@@ -238,19 +304,18 @@
     </target>
 
     <!-- COMMAND = "doc_phpdoc2" -->
-    <!-- Generates the API documentation using PHPDocumentor -->
-    <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
-    <target name="doc_phpdoc">
+    <!-- destdir="${build.directory}/docs/API/phpdoc/html" -->
+    <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
-        <phpdoc title="Clansuite API PHPDocumentation"
+        <phpdoc title="Clansuite API Documentation"
                 destdir="apidocs"
-                sourcepath="${build.base.directory}/"
-                sourcecode="yes"
-                output="HTML:Smarty:PHP">
+                quiet="true"
+                sourcepath="${build.directory}/"
+                sourcecode="no"
+                output="HTML:Smarty:PHP"
+                defaultpackagename="Clansuite">
 
-            <fileset dir="./classes">
-              <include name="**/*.php" />
-            </fileset>
+           <fileset refid="clansuite.projectfiles"/>
 
             <projdocfileset dir=".">
               <include name="README" />
@@ -261,38 +326,33 @@
     </target>
 
     <!-- COMMAND = "doc_doxygen" -->
-    <!-- Generates the API documentation using Doxygen -->
-    <property name="doxygen_dir" value="doxygen" override="true" />
-    <target name="doc_doxygen">
+    <target name="doc_doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
         <exec command="doxygen" dir="."/>
     </target>
 
     <!-- COMMAND = "doc_phpxref" -->
-    <!-- Generates the API documentation using PHP Cross Reference -->
-    <property name="phpxref_dir" value="phpxref" override="true" />
-    <target name="doc_phpxref">
+    <target name="doc_phpxref" description="Generates the API documentation using PHP Cross Reference">
         <echo>Generates the API documentation using PHP Cross Reference</echo>
         <exec command="phpxref" dir="."/>
     </target>
 
     <!-- ======================================== -->
-    <!-- =======      Create Archives      ====== -->
+    <!-- =======    6) Create Archives     ====== -->
     <!-- ======================================== -->
 
     <!-- Properties for the Archives -->
-    <property name="archive_dir" value=""${build.base.directory}/archive" override="true" />
+    <property name="archive_dir" value=""${build.directory}/archive" override="true" />
     <property name="archive_filename" value="clansuite-${version}" override="true" />
 
     <!-- COMMAND = "tar" -->
-    <!-- Create Tar Archive -->
-    <target name="tar">
+    <target name="tar" description="Create Tar Archive">
         <mkdir dir="${archive_dir}" />
         <delete file="${archive_dir}/${archive_filename}.tgz" />
         <delete file="${archive_dir}/${archive_filename}.tgz.md5" />
 
         <tar destfile="${archive_dir}/${archive_filename}.tgz" compression="gzip">
-            <fileset refid="projectfile" />
+            <fileset refid="clansuite.projectfiles" />
         </tar>
 
         <php function="md5_file" returnProperty="md5file">
@@ -302,14 +362,10 @@
         <echo msg="${md5file}" file="${archive_dir}/${archive_filename}.tgz.md5"/>
      </target>
 
-    <!-- COMMAND = "tar_doc" -->
-    <!-- Create new Documentation Archive -->
-    <target name="tar_doc">
-        <delete file="${archive_dir}/${archive_filename}-doc.tgz" />
-        <tar destfile="${archive_dir}/${archive_filename}-doc.tgz" compression="gzip">
-	      <fileset id="docfile" dir="${docdir}">
-	        <include name="**" />
-	      </fileset>
-	    </tar>
+    <!-- COMMAND = "zip" -->
+    <target name="zip" description="Create Zip Archive">
+        <zip desfile="${archive_dir}/${archive_filename}.zip">
+            <fileset refid="clansuite.projectfiles" />
+        </zip>
     </target>
 </project>
