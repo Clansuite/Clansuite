@@ -39,9 +39,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 /**
  * Clansuite Blockcontainer
  *
- * @package     clansuite
- * @category    view
- * @subpackage  blockcontainer
+ * Clansuite_Layout
+ *  \- Clansuite_BlockContainer
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Layout
  */
 class Clansuite_BlockContainer extends Clansuite_Layout
 {

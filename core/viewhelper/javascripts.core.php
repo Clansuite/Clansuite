@@ -128,6 +128,42 @@ class Clansuite_Javascripts extends Clansuite_Layout
         Clansuite_Javascripts::addJS('clip');
     }
 
+    /**
+     * Adds a JQuery Link, which fetches directly from jquery.com
+     *
+     * If you don't specifiy the version parameter, the latest version will be fetched.
+     * This procedure is implemented to provide an easy of developing with the latest release of JQuery.
+     * It has several problems:
+     * 1) incompatibilities of the latest version to dependent local javascripts
+     * 2) the download depends on jquery.com and not on your own domain
+     * 3) this adds one external reference to the page loading and requires a DNS-lookup
+     * 4) if you use clansuite as intranet system or offline, it's simply not loadable
+     *
+     * The best practice usage is to provide a version number.
+     * The versions are whitelisted to keep a certain compatibilty frame.
+     *
+     * @param $version string The JQuery Version Number to load, like "1.3.2".
+     */
+    public static function addJS_JQuery_Service($version = null)
+    {
+        if($version === null)
+        {
+            Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-latest.pack.js');
+        }
+        else
+        {
+            /**
+             * JQuery version whitelist ensures a certain compatibilty frame
+             */
+            $jquery_version_whitelist = array( '1.3.2', '1.3.1' ); # not 'latest'
+
+            if( in_array($version, $jquery_version_whitelist) )
+            {
+                Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
+            }
+        }
+    }
+
     /** Wrapper Methods **/
 
     /**
