@@ -25,7 +25,7 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 
-START AB VERSION 0.2
+START AB CLANSUITE VERSION 0.2
 ------------  ----------------------------------------------------------------
 
 
