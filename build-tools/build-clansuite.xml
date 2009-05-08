@@ -11,6 +11,7 @@
     4) Testing & Validation Tasks (running lint, sniffer and unittests)
     5) Documentation Tasks (building the manuals and API documentation)
     6) Create Archives (build tar and zip archives)
+    7) Visualization
 
     Phing Handbook:     http://phing.info/docs/guide/current/
                         http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html
@@ -20,8 +21,11 @@
     Phing               http://phing.info
     Subversion          http://subversion.tigris.org/
     phpDocumentor       http://www.phpdoc.org/
-    phpxref             http://phpxref.sourceforge.net/
-    phplint             http://www.icosaedro.it/phplint/
+    phpXref             http://phpxref.sourceforge.net/
+    phpLint             http://www.icosaedro.it/phplint/
+    phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer
+    Graphviz            http://www.graphviz.org/
+
 
     Version:  $Id$
 -->
@@ -66,10 +70,22 @@
     <!-- ==================================================== -->
 
     <!-- Define Common Properties for all Build Commands | make constants -->
-    <property name="build.directory" value="/home/clansuite/build/" />              <!-- name of the build directory -->
-    <property name="clansuite.version" value="0.2" override="true" />               <!-- version number -->
-    <property name="clansuite.version.state" value="alpha-dev" override="true" />   <!-- version state -->
-    <property name="clansuite.version.name" value="Trajan" override="true" />       <!-- version name -->
+    <property name="clansuite.version" value="0.2" />                                                   <!-- version number -->
+    <property name="clansuite.version.state" value="alpha-dev" override="true" />                       <!-- version state -->
+    <property name="clansuite.version.name" value="Trajan" override="true" />                           <!-- version name -->
+    <property name="packagename" value="${phing.project.name}-${clansuite.version}" override="true" />  <!-- package name -->
+    
+    <property name="build.base.directory" value="/home/clansuite/build/" />             <!-- name of the base build directory -->
+    <property name="build.src.dir" value="${build.base.directory}/${packagename}"/>     <!-- name of the build directory for current package -->
+
+    <!-- Define the Properties for Section 5) Documentation -->
+    <property name="documentations_dir" value="documentation/developer/" override="true" />
+    <property name="phpdoc_dir" value="phpdoc" override="true" />
+    <property name="doxygen_dir" value="doxygen" override="true" />
+    <property name="phpxref_dir" value="phpxref" override="true" />
+
+    <!-- Define the Properties for Section 6) Building Archives -->
+    <property name="archive_dir" value=""${build.base.directory}/archives" override="true" />
 
     <!-- Define Fileset "clansuite.projectfiles" -->
     <fileset id="clansuite.projectfiles" dir="./svn">   <!-- based on trunk -->
@@ -78,6 +94,12 @@
         <exclude name="tests" />                        <!-- exclude tests directory -->
         <exclude name="tmp" />                          <!-- exclude temporary directory -->
         <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
+    </fileset>
+
+    <!-- Define Fileset "clansuite.reportfiles" -->
+    <fileset id="clansuite.reportfiles" dir="./${build.base.directory}">
+        <include name="**/*.php"/>
+        <exclude name="./${build.base.directory}/libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
@@ -158,8 +180,20 @@
     <!-- ======        3) Deployment Tasks        ====== -->
     <!-- =============================================== -->
 
+    <target name="versioncheck" unless="version">
+        <echo message="-[version not specified]----------------------"/>
+        <echo message="Please specify version for this package."/>
+        <echo message=" "/>
+        <echo message="Example : "/>
+        <echo message="phing -Dversion=1.2.3b2"/>
+        <echo message="----------------------------------------------"/>
+        <input propertyname="version" promptChar=":">Version</input>
+        <property name="packagename" value="${phing.project.name}-${version}" override="true"/>
+        <property name="build.src.dir" value="${build.base.dir}/${archive_filename}" override="true"/>
+    </target>
+
     <!-- COMMAND = "all" -->
-    <target name="all" description="All build commands in order">
+    <target name="all" description="All build commands in order" if="clansuite.version" depends="versioncheck">
         <echo>------------------------------------------</echo>
         <echo msg="Building Clansuite ${clansuite.version} ${clansuite.version.state}" />
         <echo>------------------------------------------</echo>
@@ -177,9 +211,9 @@
 
     <!-- COMMAND = "mrproper"  -->
     <target name="mrproper" description="Cleans the Building Directory">
-        <echo>Mr.Proper wipes the Building (removes and recreates the build directory: ${build.directory})</echo>
-        <delete dir="${build.directory}"/>
-        <mkdir dir="${build.directory}" />
+        <echo>Mr.Proper wipes the Building (removes and recreates the build directory: ${build.base.directory})</echo>
+        <delete dir="${build.base.directory}"/>
+        <mkdir dir="${build.base.directory}" />
     </target>
 
     <!-- COMMAND = "build"  -->
@@ -189,6 +223,10 @@
     <target name="build-clansuite" description="Build Clansuite Package">
         <copy todir="/build"> <!-- Dir to Copy INTO -->
             <fileset refid="clansuite.projectfiles" />
+            <filterchain>
+                <stripphpcomments />
+                <tabtospaces tablength="4" />
+            </filterchain>
         </copy>
         <!-- <phingcall target="create-htaccess-files" /> -->
     </target>
@@ -207,9 +245,9 @@
         <echo>Creating htaccess files (deny from all)</echo>
         <property name="htaccess.deny" value="deny from all"/>
         <!-- Write the above property to the file location ! -->
-        <echo file="./${build.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.base.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.base.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="./${build.base.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
     </target>
 
     <!-- COMMAND = "create-demo" -->
@@ -223,12 +261,6 @@
     <!-- =================================================== -->
     <!-- ======     4) Testing & Validation Tasks     ====== -->
     <!-- =================================================== -->
-
-    <!-- Define Fileset "clansuite_reportfiles" -->
-    <fileset id="clansuite.reportfiles" dir="./${build.directory}">
-        <include name="**/*.php"/>
-        <exclude name="./${build.directory}/libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
-    </fileset>
 
     <!-- COMMAND = "codequality-report" -->
     <target name="codequality-report" description="Generates the overall project codequality report"
@@ -279,11 +311,7 @@
     <!-- ======        5) Documentation Tasks       ====== -->
     <!-- ================================================= -->
 
-    <!-- Defines -->
-    <property name="documentations_dir" value="documentation/developer/" override="true" />
-    <property name="phpdoc_dir" value="phpdoc" override="true" />
-    <property name="doxygen_dir" value="doxygen" override="true" />
-    <property name="phpxref_dir" value="phpxref" override="true" />
+
 
     <!-- COMMAND = "all-docs" -->
     <target name="all-docs" description="Generates the overall project documentation (combined task)">
@@ -295,22 +323,15 @@
         <phingcall target="doc_phpxref" />
     </target>
 
-    <!-- COMMAND = "doc_phpdoc" -->
-    <target name="doc_phpdoc_w32" description="Generates the API documentation using PHPDocumentor (for w32)">
-        <echo>Generates the API documentation using PHPDocumentor</echo>
-        <delete dir="${documentations_dir}/${phpdoc_dir}" />
-        <mkdir dir="${documentations_dir}/${phpdoc_dir}" />
-        <exec command="c:\xampplite\htdocs\work\phpdocumentor\phpdoc -c c:/xampplite/htdocs/work/clansuite/doc/clansuite-phpdoc.ini -f c:/xampplite/htdocs/work/clansuite/trunk/*.php -t c:/xampplite/htdocs/work/clansuite/${documentations_dir}/${phpdoc_dir} > debug.txt"/>
-    </target>
-
     <!-- COMMAND = "doc_phpdoc2" -->
-    <!-- destdir="${build.directory}/docs/API/phpdoc/html" -->
+    <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
+        <delete dir="${documentations_dir}/${phpdoc_dir}" />
         <phpdoc title="Clansuite API Documentation"
                 destdir="apidocs"
                 quiet="true"
-                sourcepath="${build.directory}/"
+                sourcepath="${build.base.directory}/"
                 sourcecode="no"
                 output="HTML:Smarty:PHP"
                 defaultpackagename="Clansuite">
@@ -341,9 +362,6 @@
     <!-- =======    6) Create Archives     ====== -->
     <!-- ======================================== -->
 
-    <!-- Properties for the Archives -->
-    <property name="archive_dir" value=""${build.directory}/archive" override="true" />
-    <property name="archive_filename" value="clansuite-${version}" override="true" />
 
     <!-- COMMAND = "tar" -->
     <target name="tar" description="Create Tar Archive">
@@ -368,4 +386,46 @@
             <fileset refid="clansuite.projectfiles" />
         </zip>
     </target>
+
+    <!-- ======================================== -->
+    <!-- =======     6) Visualization      ====== -->
+    <!-- ======================================== -->
+
+    <!--
+         COMMAND = "visualize-buildfile"
+         Thanks and credits to the original author of the following target:
+         @author Raphael Stolt
+         @link http://raphaelstolt.blogspot.com/2008/10/getting-visualization-of-phing.html
+    -->
+    <target name="visualize-buildfile" description="Generates a visualization of the Clansuite Build File">
+
+        <property name="buildfile" value="build.xml" />
+        <property name="phing2dot.xsl" value="${project.basedir}/ant2dot.xsl" />
+        <property name="dot.file" value="${buildfile}.dot" />
+        <property name="png.file" value="${buildfile}.png" />
+        <property name="dot.command.win" value="dot.exe -Tpng ${dot.file} -o ${png.file}" />
+        <property name="dot.command.mac" value="dot -Tpng ${dot.file} -o ${png.file}" />
+
+        <!-- Transform buildfile into DOT file -->
+        <xslt file="${buildfile}"
+              style="${phing2dot.xsl}"
+              overwrite="true"
+              tofile="${project.basedir}/${dot.file}">
+            <param name="graph.label" expression="${buildfile}" />
+            <param name="use.target.description" expression="true" />
+        </xslt>
+
+        <!-- Generate image from DOT file -->
+        <exec command="${dot.command.win}" dir="${project.basedir}" os="WINNT" />
+        <exec command="${dot.command.mac}" dir="${project.basedir}" os="Darwin" />
+
+        <delete file="${project.basedir}/${dot.file}" />
+
+    </target>
+
+    <target name="visualize-uml" description="Generates UML diagrams for Clansuite">
+
+
+    </target>
+
 </project>
