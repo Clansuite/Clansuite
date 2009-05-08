@@ -1,0 +1,16 @@
+# $Id$
+
+MASTER_URL="http://www.linadd.org:10081/builds"
+
+LOG_FILE="/var/log/bitten.log"
+#DEBUG="-v"
+
+BUILD_DIRECTORY="/var/build"
+BUILD_USER="build"
+BUILD_INTERVAL="-i 30"
+
+TRAC_USER="user"
+TRAC_PASS="password"
+# Projects to build, accept more than one,
+# just list them with space between...
+TRAC_ENV="/var/trac/addons" 

@@ -1,0 +1,10 @@
+/var/log/bitten.log
+{
+     compress
+     missingok
+     notifempty
+     weekly
+     postrotate
+     /etc/init.d/bitten restart
+     endscript
+} 
