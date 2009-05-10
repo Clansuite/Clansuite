@@ -1,8 +1,8 @@
 <?php
 /**
- * @package         Clansuite
- * @subpackage      Installation
- * @category        Installer
+ * @category        Clansuite
+ * @package         Installation
+ * @subpackage      Languages
  * @author          Jens-André Koch <vain@clansuite.com>
  * @copyright       Jens-André Koch & Clansuite Development Team
  * @license         http://www.gnu.org/copyleft/gpl.html GNU/GPL Public Licence
@@ -74,11 +74,13 @@ class language implements ArrayAccess
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
+        $this->language['XSLT_PROCESSOR'] = 'XSLT-Prozessor';
         $this->language['EXTENSION_HASH'] = 'PHP Bibliothek: Hash';
         $this->language['EXTENSION_GETTEXT'] = 'PHP Bibliothek: Gettext';
         $this->language['EXTENSION_TOKENIZER'] = 'PHP Bibliothek: Tokenizer';
         $this->language['EXTENSION_GD'] = 'PHP Bibliothek: GD';
         $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
+        $this->language['EXTENSION_PCRE'] = 'PHP Bibliothek: PCRE (Perl Regexp)';
         $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
         $this->language['EXTENSION_SUHOSIN'] = 'PHP Bibliothek: Suhosin';
         $this->language['EXTENSION_SKEIN'] = 'PHP Bibliothek: Skein';

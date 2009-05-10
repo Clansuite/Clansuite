@@ -806,9 +806,9 @@ session_write_close();
 /**
  * Clansuit Exception - Installation Startup Exception
  *
- * @package clansuite
- * @category installer
- * @subpackage exceptions
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Exception
  */
 class Clansuite_Installation_Startup_Exception extends Exception
 {
