@@ -123,9 +123,9 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
 
                          # Setting: PHP-Version
                          $php_version    = phpversion();
-                         $compare_result = version_compare($php_version,'5.2.0','>=');
+                         $compare_result = version_compare($php_version,'5.2.9','>=');
                          $required['php_version']['text']       = $language['PHP_VERSION'];
-                         $required['php_version']['expected']   = '>= 5.2.0';
+                         $required['php_version']['expected']   = '>= 5.2.9';
                          $required['php_version']['actual']     = $php_version;
                          $required['php_version']['status']     = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
 
@@ -276,6 +276,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['output_buffering']['actual']     = get_php_setting('output_buffering',false,'string');
                          $recommended['output_buffering']['status']     = get_php_setting('output_buffering',false,'img');
 
+                         # Checking presence of XSLTProcessor
+                         $recommended['xsltprocessor']['text']       = $language['XSLT_PROCESSOR'];
+                         $recommended['xsltprocessor']['expected']   = 'on';
+                         $recommended['xsltprocessor']['actual']     = class_exists('XSLTProcessor') ? 'on' : 'off';
+                         $recommended['xsltprocessor']['status']     = class_exists('XSLTProcessor') ? SETTING_TRUE : SETTING_FALSE;
+
                          # Checking for PHP Extension : HASH (used in Clansuite_Security)
                          $recommended['extension_hash']['text']       = $language['EXTENSION_HASH'];
                          $recommended['extension_hash']['expected']   = 'on';
@@ -305,6 +311,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_xml']['expected']   = 'on';
                          $recommended['extension_xml']['actual']     = extension_loaded('xml') ? 'on' : 'off';
                          $recommended['extension_xml']['status']     = extension_loaded('xml') ? SETTING_TRUE : SETTING_FALSE;
+
+                         #  Checking for PHP Extension : PCRE
+                         $recommended['extension_pcre']['text']       = $language['EXTENSION_PCRE'];
+                         $recommended['extension_pcre']['expected']   = 'on';
+                         $recommended['extension_pcre']['actual']     = extension_loaded('pcre') ? 'on' : 'off';
+                         $recommended['extension_pcre']['status']     = extension_loaded('pcre') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : SimpleXML (used systemwide for xml parsing)
                          $recommended['extension_simplexml']['text']       = $language['EXTENSION_SIMPLEXML'];
