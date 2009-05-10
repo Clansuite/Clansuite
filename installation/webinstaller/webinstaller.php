@@ -119,9 +119,9 @@ $webInstaller->main();
 /**
  * WebInstaller Main Class
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 class WebInstaller {
 
@@ -528,9 +528,9 @@ class WebInstaller {
 /**
  * Plattform
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 class Platform
 {
@@ -622,9 +622,9 @@ class Platform
 /**
  * DownloadMethod
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class DownloadMethod
@@ -648,9 +648,9 @@ class DownloadMethod
 /**
  * WgetDownloader
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class WgetDownloader extends DownloadMethod
@@ -680,9 +680,9 @@ class WgetDownloader extends DownloadMethod
 /**
  * FopenDownloader
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class FopenDownloader extends DownloadMethod
@@ -753,9 +753,9 @@ class FopenDownloader extends DownloadMethod
 /**
  * FsockopenDownloader
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class FsockopenDownloader extends DownloadMethod
@@ -865,9 +865,9 @@ class FsockopenDownloader extends DownloadMethod
 /**
  * CurlDownloader
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class CurlDownloader extends DownloadMethod
@@ -924,9 +924,9 @@ class CurlDownloader extends DownloadMethod
 /**
  * ExtractMethod
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class ExtractMethod
@@ -958,9 +958,9 @@ class ExtractMethod
 /**
  * UnzipExtractor
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class UnzipExtractor extends ExtractMethod
@@ -994,9 +994,9 @@ class UnzipExtractor extends ExtractMethod
 /**
  * TargzExtractor
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class TargzExtractor extends ExtractMethod
@@ -1030,9 +1030,9 @@ class TargzExtractor extends ExtractMethod
 /**
  * PhpTargzExtractor
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class PhpTargzExtractor extends ExtractMethod
@@ -1063,9 +1063,9 @@ class PhpTargzExtractor extends ExtractMethod
 /**
  * PhpUnzipExtractor
  *
- * @package     clansuite
- * @category    installer
- * @subpackage  webinstaller
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Webinstaller
  */
 
 class PhpUnzipExtractor extends ExtractMethod

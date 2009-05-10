@@ -44,6 +44,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * memcached was developed by Danga Interactive to enhance the speed of LiveJournal.com.
  * You need two things to get this running: a memcache daemon (server) and the php extension memcached.
  *
+ * More information can be obtained here:
  * @link http://www.danga.com/memcached/
  * @link http://php.net/manual/en/book.memcached.php
  *
@@ -51,13 +52,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * @link http://github.com/andreiz/php-memcached/tree/master
  * @link http://pecl.php.net/package/memcached ()
  *
- * @package clansuite
- * @subpackage cache
- * @category caches
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 {
     public $memcache = null;
+
+    private $memcached_servers = array();
 
     /**
      * Instantiate and connect to Memcache Server
@@ -87,14 +90,14 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         $this->memcache = new Memcache;
 
         # fetch configuration and connection data
-        # @todo
+        # @todo  one server / multiple servers
         $config = clansuite_registry::getConfigurationStatic();
 
         # if memcache server pooling should be used
         # we can't use connect/pconnect, but have to addServers
         if($config['cache']['memcached_serverpool'] === true)
         {
-            $this->memcache->addServer('servernode1', 11211);
+            $this->memcache->addServer('servernode1', 11211);   #@todo
             $this->memcache->addServer('servernode2', 11211);
             $this->memcache->addServer('servernode3', 11211);
         }
@@ -150,6 +153,42 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     function __get($key)
     {
         return $this->fetch($key);
+    }
+
+    /**
+     * setServer(s)
+     * adds one or multiple Servers
+     *
+     * @link http://de2.php.net/manual/en/memcached.addserver.php   One Server
+     * @link http://de2.php.net/manual/en/memcached.addservers.php  Multiple Servers per Array
+     * @param array $servers
+     * @return boolean
+     */
+    function setServer($servers)
+    {
+        if(!$servers)
+        {
+            Clansuite_Exception('The Memcache Server Array empty. No memcache server to add.');
+        }
+
+        if(is_array($servers))
+        {
+            $this->addservers($servers);
+        }
+        else
+        {
+            $this->addserver($host, $port, $weigth);
+        }
+    }
+
+    /**
+     * getServer
+     *
+     * @return $this->memcached_servers
+     */
+    function  getServers();
+    {
+        return $this->memcached_servers;
     }
 
     /**
@@ -215,7 +254,6 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was succesfully cached, false on failure
-     * @access public
      */
     function store($key, $data, $cache_lifetime)
     {
@@ -284,14 +322,21 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      */
     function stats()
     {
+        # ensure memcache is loaded
         if(CSID_EXTENSION_LOADED_MEMC == false)
         {
-            return;
+            return; # extension Memcache not loaded
         }
 
+        # get Extended Stats and Version
+        $extended_stats = $this->memcache->getExtendedStats();
+        $version        = $this->memcache->getVersion();
         # return $this->memcache->memcache_get_version($memcache);
-        # return $this->memcache->getExtendedStats();
-        # return $this->memcache->getVersion();
+
+        # combine arrays
+        $stats = array_merge_recursive($extended_stats, $version);
+
+        return $stats;
     }
 
     public function __destruct()

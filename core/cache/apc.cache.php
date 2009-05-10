@@ -43,8 +43,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  *
  * @link http://de3.php.net/manual/de/ref.apc.php
  *
- * @package clansuite
- * @subpackage cache
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {
