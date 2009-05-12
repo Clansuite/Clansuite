@@ -1,12 +1,15 @@
 ;<?php die( ' Access forbidden!' ); /* DO NOT MODIFY THIS LINE!
-; 
+;
+; File: /installation/clansuite.config.installer
+;
 ; Clansuite Configuration File : Installer Minimum
 ;
 
 ;----------------------------------------
 ; Database Connection Data
 ;----------------------------------------
-db_cache = "" 
+db_cache = ""
+db_type  = "mysql"
 
 ;----------------------------------------
 ; Standard Path Configuration
