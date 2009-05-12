@@ -41,9 +41,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * Purpose: Setup the user object
  *
- * @package clansuite
- * @subpackage filters
- * @implements Clansuite_Filter_Interface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class get_user implements Clansuite_Filter_Interface
 {

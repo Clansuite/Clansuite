@@ -37,30 +37,31 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); }
 
 /**
- * Clansuite Filter - Permissions / RBACL
+ * Clansuite Filter - Ajax Request Filter
  *
- * Purpose: Perform an Permissions / RBACL Check
+ * Purpose: Ajax Request Filter
  *
- * @package clansuite
- * @subpackage filters
- * @implements FilterInterface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
-class ajax_request implements Clansuite_FilterInterface
+class ajax_request implements Clansuite_Filter_Interface
 {
     public function __construct()
     {
-        
+
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # check if the request is an xmlhttprequest / ajax request
         if ($request->isXhr())
-        {   
-            #$response-> 
-            # set rendering as wrapped, when smarty
-            
-            # set JSON output 
+        {
+            # set rendering as wrapped, when html return with smarty
+
+            # set JSON output
+
 		}
     }
 }

@@ -44,9 +44,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @link http://de3.php.net/manual/de/ref.tidy.php PHP Extension Tidy
  * @link http://de3.php.net/manual/de/function.tidy-get-config.php Tidy Config Parameters
  *
- * @package clansuite
- * @subpackage filters
- * @implements FilterInterface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class html_tidy implements Clansuite_Filter_Interface
 {

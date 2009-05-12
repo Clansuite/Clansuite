@@ -45,7 +45,7 @@ require dirname(__FILE__) . '/abstract.core.php';
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  Config
+ * @subpackage  Configuration
  */
 class Clansuite_Config_DatabaseHandler extends Clansuite_Config_Base implements ArrayAccess
 {

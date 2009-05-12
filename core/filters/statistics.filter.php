@@ -41,9 +41,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * Purpose: this updates the statistics with the data of the current visitor
  *
- * @package clansuite
- * @subpackage filters
- * @implements FilterInterface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class statistics implements Clansuite_Filter_Interface
 {
