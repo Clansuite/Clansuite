@@ -42,7 +42,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  Config
+ * @subpackage  Configuration
  */
 abstract class Clansuite_Config_Base
 {

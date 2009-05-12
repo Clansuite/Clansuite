@@ -48,9 +48,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * 3) Host changed
  * 4) wrong passwords where tried a number of times
  *
- * @package clansuite
- * @subpackage filters
- * @implements FilterInterface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class session_security implements Clansuite_Filter_Interface 
 {

@@ -43,9 +43,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Usage example: index.php?theme=themename
  * When request parameter 'theme' is set, the user session value for theme will be updated
  *
- * @package clansuite
- * @subpackage filters
- * @implements Clansuite_Filter_Interface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class theme_via_get implements Clansuite_Filter_Interface
 {

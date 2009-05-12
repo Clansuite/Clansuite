@@ -41,11 +41,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * Purpose: Perform an Permissions / RBACL Check
  *
- * @package clansuite
- * @subpackage filters
- * @implements FilterInterface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
-class permissions implements Clansuite_FilterInterface
+class permissions implements Clansuite_Filter_Interface
 {
     private $user    = null;
     private $rbacl   = null;
@@ -59,9 +60,9 @@ class permissions implements Clansuite_FilterInterface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
-        {   
+        {
             # @todo errorpage, no permission to perform this action. access denied.
-			$response->redirect(); 
+			$response->redirect();
 		}
     }
 }

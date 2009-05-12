@@ -54,9 +54,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * Note: The check if a certain language exists is not important,
  *       because there are 1) english hardcoded values and 2) the default language as fallback.
  *
- * @package clansuite
- * @subpackage filters
- * @implements Clansuite_Filter_Interface
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Filters
+ * @implements  Clansuite_Filter_Interface
  */
 class language_via_get implements Clansuite_Filter_Interface
 {
