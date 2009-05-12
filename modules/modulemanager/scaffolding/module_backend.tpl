@@ -33,43 +33,46 @@
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-{literal}  
+{literal}
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-{/literal}  
+{/literal}
 
-/**  
- * Clansuite Administration Module - {$mod.module_name|capitalize} 
+/**
+ * Clansuite Administration Module - {$mod.module_name|capitalize}
  *
  * Description: {$mod.meta.description}
  *
- * @version    {$mod.meta.initialversion}
- * @author     {$mod.meta.author} {$mod.meta.email}
- * @copyright  {$mod.meta.copyright}
- * @license    {$mod.meta.license} 
- * @link       {$mod.meta.website}
+ * @version     {$mod.meta.initialversion}
+ * @author      {$mod.meta.author} {$mod.meta.email}
+ * @copyright   {$mod.meta.copyright}
+ * @license     {$mod.meta.license}
+ * @link        {$mod.meta.website}
  *
- * @package Clansuite
- * @subpackage Module_{$mod.module_name|capitalize}
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  {$mod.module_name|capitalize}
  */
+ 
 class Module_{$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface{literal}
 {{/literal}
-    
+
     /**
-     * Module_{$mod.module_name|capitalize}_Admin -> Execute 
+     * Module_{$mod.module_name|capitalize}_Admin -> Execute
      *
      * Execute sets up common module specific stuff, needed by all actions of the module.
      * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
+     
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response){literal}
     {{/literal}
-        
+
         # read module config
         $this->config->readConfig( ROOT_MOD . '{$mod.module_name}/{$mod.module_name}.config.php');
 
     {literal}
     }{/literal}
-        
+
 {$backend_methods|default}
 
 {literal}

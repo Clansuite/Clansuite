@@ -43,9 +43,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
- * @package clansuite
- * @subpackage module_menu
- * @category modules
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Menu
  */
 class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -673,6 +673,16 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             }
         }
         return array_values($output);
+    }
+
+    public function writeSQLBackup()
+    {
+        # count backupfiles and check the setting on how many backups to keep
+    }
+
+    public function detectSQLBackupFiles()
+    {
+
     }
 }
 ?>

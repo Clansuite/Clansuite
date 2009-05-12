@@ -43,12 +43,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch, Florian Wolf (2005 - $Date$)
+ * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2005 - 2008)
  * @since      Class available since Release 1.0alpha
  *
- * @package     clansuite
- * @category    module
- * @subpackage  news
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  News
  */
 class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -59,59 +59,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-    }
 
-    /**
-    * @desc First function to run - switches between $_REQUEST['action'] Vars to the functions
-    * @desc Loads necessary language files
-    */
-
-    function auto_run()
-    {
-        global $lang, $trail, $perms;
-        $params = func_get_args();
-
-        // Permission check
-        $perms->check('cc_access');
-
-        // Set Pagetitle and Breadcrumbs
-        $trail->addStep($lang->t('News'), '/index.php?mod=news&amp;sub=admin');
-
-        switch ($_REQUEST['action'])
-        {
-            default:
-            case 'show':
-                $trail->addStep($lang->t('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
-                $this->show();
-                break;
-
-            case 'instant_show':
-                $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-                break;
-
-            case 'create':
-                $trail->addStep($lang->t('Create News'), '/index.php?mod=news&amp;sub=admin&amp;action=show&amp;action=create');
-                $this->create();
-                break;
-
-            case 'edit':
-                $trail->addStep($lang->t('Edit News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=edit');
-                $this->edit();
-                break;
-
-            case 'delete':
-                $trail->addStep($lang->t('Delete News'), '/index.php?mod=news&amp;sub=admin&action=show&amp;action=delete');
-                $this->delete();
-                break;
-
-            case 'show_single':
-                $this->show_single();
-                break;
-        }
-
-        return array( 'OUTPUT'          => $this->output,
-                      'ADDITIONAL_HEAD' => $this->additional_head,
-                      'SUPPRESS_WRAPPER'=> $this->suppress_wrapper );
     }
 
     /**
@@ -249,14 +197,14 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * Deletes a news with questioning
-    *
-    * @global $db
-    * @global $lang
-    * @global $functions
-    * @global $input
-    * @global $perms
-    */
+     * Deletes a news with questioning
+     *
+     * @global $db
+     * @global $lang
+     * @global $functions
+     * @global $input
+     * @global $perms
+     */
     function delete()
     {
         global $db, $functions, $input, $lang, $perms;
@@ -349,9 +297,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * Create news
-    *
-    */
+     * Create news
+     *
+     */
     function create()
     {
 
@@ -421,16 +369,16 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * Edit news
-    *
-    * @global $db
-    * @global $lang
-    * @global $functions
-    * @global $input
-    * @global $tpl
-    * @global $cfg
-    * @global $perms
-    */
+     * Edit news
+     *
+     * @global $db
+     * @global $lang
+     * @global $functions
+     * @global $input
+     * @global $tpl
+     * @global $cfg
+     * @global $perms
+     */
     function edit()
     {
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
@@ -540,9 +488,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
-    * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-    */
+     * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
+     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
+     */
     function instant_show($my_text)
     {
         global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
@@ -554,16 +502,16 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * Show a single news
-    *
-    * @global $db
-    * @global $lang
-    * @global $functions
-    * @global $input
-    * @global $tpl
-    * @global $cfg
-    * @global $perms
-    */
+     * Show a single news
+     *
+     * @global $db
+     * @global $lang
+     * @global $functions
+     * @global $input
+     * @global $tpl
+     * @global $cfg
+     * @global $perms
+     */
     function show_single()
     {
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;

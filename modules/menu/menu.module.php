@@ -38,10 +38,11 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite
+ * Clansuite Module- Menu
  *
- * Module:      Menu
- *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Menu
  */
 class Module_Menu extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -76,7 +77,7 @@ class Module_Menu extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_menu($item)
     {
-        
+
     }
 }
 ?>

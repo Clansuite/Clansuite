@@ -39,16 +39,30 @@
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+/**  
+ * Clansuite Administration Module - Modulemanager
+ *
+ * Description: Administration for the Modules
+ *
+ * @version    0.1
+ * @author     Florian Wolf <xsign.dll@clansuite.com>
+ * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008), 
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @license    GPL v2 any later version
+ * @link       -
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Modulemanager
+ */
 /**
  * Module:       Module_Creator
  * Submodule:    Admin
  *
- * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
+ * @author     
+ * @copyright  
  *
- * @package clansuite
- * @subpackage modulemanager
- * @category modules
+
  */
 class Module_Modulemanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -74,21 +88,23 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        $view = $this->getView();
 
         // Init vars
         $modules = array();
 
-        $mod_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
-        foreach( $mod_glob as $mod )
+        // Scan all modules
+        $module_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
+        foreach( $module_glob as $module_path )
         {
-            $modules[] = array(
-                'name' => str_replace( ROOT . 'modules' . DS ,'', $mod)
-            );
+            echo $module_path;
+
+            #$modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $mod);
+
+            #$modules[$modulename_by_dirname][] = array();
+            #getModuleInfo()
         }
 
-        $view->assign('modules', $modules);
-
+        $this->getView()->assign('modules', $modules);
 
         // Prepare the Output
         $this->prepareOutput();
@@ -134,6 +150,21 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         $this->prepareOutput();
     }
 
+    /**
+     * Import/Export of Modules
+     */
+    public function action_admin_imexport()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Import & Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
+
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        // Prepare the Output
+        $this->prepareOutput();
+    }
+
 
     //
     // Module creator + methods below
@@ -173,22 +204,22 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
     /**
      * Preview the new mod
-     * 
+     *
      * @todo convention ajaxaction_
      */
     public function action_admin_preview()
-    {   
-        $smarty = $this->getView(); 
-        
+    {
+        $smarty = $this->getView();
+
         # request init
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         # get parameter for module data
         $mod = $request->getParameter('m');
         var_dump($mod);
-        
-        # serialize the module data 
+
+        # serialize the module data
         $mod['data'] = base64_encode(serialize($mod));
-        
+
         # assign the whole pack to smarty
         $smarty->assign( 'mod', $mod );
 
@@ -207,19 +238,19 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
          */
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {
-            
+
             /**
              * Frontend Header
              */
             $frontend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend.tpl');
             $smarty->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
-            
+
             /**
              * Frontend Method
              */
             $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
             $smarty->assign( 'frontend_methods',  $frontend_methods);
-            
+
             /**
              * Widget Method (Module integrated)
              */
@@ -227,7 +258,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             {
                 $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                 $smarty->assign( 'widget_methods',  $widget_methods);
-            }            
+            }
         }
 
         /**
@@ -235,13 +266,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
          */
         if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
         {
-          
+
             /**
              * Admin Module Header
              */
             $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
             $smarty->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
-            
+
             /**
              * Admin Module Method
              */
@@ -337,11 +368,11 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         }
 
         # Config
-        $this->createConfigFromTemplate($mod['module_name']); 
-         
+        $this->createConfigFromTemplate($mod['module_name']);
+
         # Setup
-        $this->createSetupFromTemplate($mod['module_name']); 
-      
+        $this->createSetupFromTemplate($mod['module_name']);
+
         # Frontend Templates
         $this->createFrontendTemplatesFromTemplate($mod['module_name'], $mod['frontend']);
 
@@ -364,26 +395,26 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         $this->prepareOutput();
     }
-    
+
      /**
       * This Method creates the Config for the Module
-      * 
+      *
       * @param $modulename string Name of the Module
       */
      public function createConfigFromTemplate($modulename)
      {
         # get smarty
         $smarty = $this->getView();
-         
+
         # load scaffolding template
-        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl'); 
-        
+        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
+
         # inject modifications
-        
+
         # save to file
         file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.config.php' , $config);
      }
-    
+
     /**
      * This Method creates the Setup for the Module
      */
@@ -391,21 +422,21 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     {
         # get smarty
         $smarty = $this->getView();
-        
+
         # load scaffolding template
         $setup = $smarty->fetch( ROOT_MOD . 'scaffolding/module_setup.tpl');
-        
+
         # inject modifications
-        
+
         # save to file
         file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.setup.php' , $setup);
     }
-   
+
     /**
      * This Method creates the Templates for the Frontend Methods
      */
     public function createFrontendTemplatesFromTemplate($module_name, $module_frontend_data)
-    { 
+    {
         if( isset( $module_frontend_data['checked']) && $module_frontend_data['checked'] == 1 )
         {
             foreach( $module_frontend_data['frontend_methods'] as $key => $value )
@@ -415,13 +446,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                     file_put_contents(ROOT_MOD . $module_name . DS . 'templates' . DS . $value . '.tpl', '');
                 }
             }
-        }    
+        }
     }
-   
+
     /**
      * This Method creates the templates for the backend methods.
-     * 
-     * @param 
+     *
+     * @param
      */
     public function createBackendTemplatesFromTemplate($module_name, $module_backend_data)
     {
@@ -436,10 +467,10 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             }
         }
     }
-    
+
     /**
      * This Method creates a Widget for the Module
-     * 
+     *
      * @param string $module modulename
      * @param array $module_widget widget parameters array
      * @return void
@@ -448,8 +479,8 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     {
         # Create the Widget Method
         # @todo
-        
-        
+
+
         # Create Widget Template
         if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
         {
@@ -460,7 +491,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
                     file_put_contents(ROOT_MOD .  $module . DS . 'templates' . DS . $value . '.tpl', '');
                 }
             }
-        } 
+        }
     }
 
     /**
@@ -476,7 +507,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         {
             # get some moduleinfos from module_info.xml
 
-            # fill the documentation template with the moduleinfo data 
+            # fill the documentation template with the moduleinfo data
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_documentation.tpl');
 
             # write the documentation file to the moduledir
@@ -485,12 +516,67 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     }
 
     /**
-     * This Method is loop over all Module Directories.
+     * This Method is a loop over all Module Directories.
      * It uses DirectoryIterator.
      */
     private function runThroughAllModuleDirectories()
     {
 
+    }
+
+    public function activate()
+    {
+        #$module = new CsModule;
+        #$module
+
+
+        $this->module->id = (int) $_GET['id'];
+        $this->module->getBy(array('id'));
+        $this->module->active = 'Y';
+        $this->module->save();
+
+        $this->pageDetails->addMessage("Module has been activated. Don't forget to check the access levels to make sure every user has access to it!");
+        $this->pageDetails->goTo('index.php?module=modules');
+
+    }
+
+    public function deactivate()
+    {
+
+        $this->_load('modules','module');
+        $this->module->id = (int) $_GET['id'];
+        $this->module->getBy(array('id'));
+        $this->module->active = 'N';
+        $this->module->save();
+
+        $this->pageDetails->addMessage("Module has been de-activated.");
+        $this->pageDetails->goTo('index.php?module=modules');
+
+    }
+
+    public function remove($id)
+    {
+
+        $disallowed_to_delete = array('account', 'controlcenter', 'modulemanager', 'permissions', 'users');
+
+        if( in_array($module->module, $disallowed_to_delete) == false )
+        {
+            throw new Clansuite_Exception('You cannot delete the login, modules or accesslevels module.');
+        }
+        else
+        {
+            $module = new CsModule;
+            $module->id = (int) $_GET['id'];
+            $module->getby(array('id'));
+
+            $module->remove();
+
+            # report position to the eventdispatcher
+            $this->addEvent('onAfterModuleRemove');
+
+            # redirect back to the administration area of the modulemanager
+            $this->redirect('index.php?mod=modulemanager&sub=admin');
+        }
     }
 }
 ?>

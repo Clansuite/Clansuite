@@ -40,6 +40,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite Module - News
  *
  * @since      File available since Release 0.2
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  News
  */
 class Module_News extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

@@ -43,10 +43,11 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @license    GPL
  * @author     Florian Wolf
  * @link       http://www.clansuite.com
- * @version    SVN: $Id$
+ * @version    SVN: $Id:$
  *
- * @package Clansuite
- * @subpackage module_gallery
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Gallery
  */
 class Module_Gallery extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

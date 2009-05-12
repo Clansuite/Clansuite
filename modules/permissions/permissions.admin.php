@@ -50,8 +50,11 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * @package Clansuite
- * @subpackage module_admin_permissions
+ * Clansuite Module Permissions Administration
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Permissions
  */
 class Module_Permissions_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -62,15 +65,15 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
      * Calls the requested Action $_REQUEST['action']
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {  
+    {
         # read module config
         $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
-    }     
+    }
 
     /**
      * The action_admin_show method for the Permissions module
      * @param void
-     * @return void 
+     * @return void
      */
     public function action_admin_show()
     {
@@ -79,8 +82,8 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
-                
+
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -88,7 +91,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
     /**
      * The action_admin_create method for the Permissions module
      * @param void
-     * @return void 
+     * @return void
      */
     public function action_admin_create()
     {
@@ -97,13 +100,13 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
+
         # insert permission into database
-               
+
         # else
         $this->setErrormessage('Could not create Permission');
-                
-                
+
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -111,7 +114,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
     /**
      * The action_admin_update method for the Permissions module
      * @param void
-     * @return void 
+     * @return void
      */
     public function action_admin_update()
     {
@@ -120,8 +123,8 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
-                
+
+
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -129,7 +132,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
     /**
      * The action_admin_delete method for the Permissions module
      * @param void
-     * @return void 
+     * @return void
      */
     public function action_admin_delete()
     {
@@ -138,8 +141,8 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
-                
+
+
         # Prepare the Output
         $this->prepareOutput();
     }
