@@ -124,7 +124,7 @@ class Module_Index extends Clansuite_ModuleController implements Clansuite_Modul
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
         # Set Errormessage
-        #$this->addError('Errormessage', 100);
+        $this->addError('Errormessage', 100);
 
         # Prepare the Output
         $this->prepareOutput();

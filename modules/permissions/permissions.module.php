@@ -50,8 +50,11 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * @package Clansuite
- * @subpackage module_permissions
+ * Clansuite Module Permissions
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Permissions
  */
 class Module_Permissions extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -62,22 +65,22 @@ class Module_Permissions extends Clansuite_ModuleController implements Clansuite
      * Calls the requested Action $_REQUEST['action']
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {  
+    {
         # read module config
         $this->config->readConfig( ROOT_MOD . '/permissions/permissions.config.php');
-    }     
+    }
 
     /**
      * The action_show method for the Permissions module
      * @param void
-     * @return void 
+     * @return void
      */
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=permissions&amp;action=show');
 
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }

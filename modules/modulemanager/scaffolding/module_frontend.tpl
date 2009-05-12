@@ -49,17 +49,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @license    {$mod.meta.license} 
  * @link       {$mod.meta.website}
  *
- * @package Clansuite
- * @subpackage Module_{$mod.module_name|capitalize}
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  {$mod.module_name|capitalize}
  */
-{literal}
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-{/literal}
-/**
- * @package Clansuite
- * @subpackage module_{$mod.module_name}
- */
+
 class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface{literal}
 {{/literal}
     
@@ -69,6 +63,7 @@ class Module_{$mod.module_name|capitalize} extends ModuleController implements C
      * Execute sets up common module specific stuff, needed by all actions of the module.
      * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
+     
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response){literal}
     {{/literal}
         

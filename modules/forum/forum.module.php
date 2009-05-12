@@ -16,8 +16,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * An example class, this is grouped with
  * other classes in the "sample" package and
  * is part of "classes" subpackage
- * @package Clansuite
- * @subpackage module_forum
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Forum
  */
 class Module_Forum extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

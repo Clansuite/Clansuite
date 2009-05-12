@@ -42,9 +42,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Florian Wolf <xsign.dll@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
  *
- * @package clansuite
- * @subpackage modulemanager
- * @category modulesetup
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Modulemanager
  */
 class Module_Modulemanager_Setup extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -55,10 +55,10 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . 'modulemanager/modulemanager.config.php');
-        
+
         $this->loadModuleInformations( ROOT_MOD . 'modulemanager/modulemanager.info.php');
     }
-    
+
     /**
      * Loads the module informations from file
      *
@@ -66,12 +66,12 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
      */
     public function loadModuleInformations(Clansuite_ModuleInformationsController $modInfoController, $info_file)
     {
-        
+
         require $info_file;
-        
+
         #$modInfoController
         #$this->moduleInformations = array();
-                    
+
     }
 
     /**
@@ -81,7 +81,7 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
     {
 
     }
-    
+
     /**
      * Uninstall the module
      */

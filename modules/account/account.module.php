@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Module:  Account (User Account Registration/ Login / Logout etc. )
  *
- * @todo: registration and usage conditions agreement
+ * @todo registration and usage conditions agreement
  */
 class Module_Account extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -118,7 +118,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             if ( !empty($_SESSION['login_attempts'])
                  AND $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
             {
-                # @todo: ban action
+                # @todo ban action
                 $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
                 die();
             }
@@ -144,7 +144,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                 }
                 else
                 {
-                    # @todo: whats LOGIN_ALREADY??
+                    # @todo whats LOGIN_ALREADY??
                     #if( !defined('LOGIN_ALREADY') )
                     #{
                         #define('LOGIN_ALREADY', 1);
@@ -247,7 +247,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         // Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $input = $this->injector->instantiate('input');
+        #$input = $this->injector->instantiate('input');
         $security = $this->injector->instantiate('Clansuite_Security');
         $config = $this->injector->instantiate('Clansuite_Config');
         $smarty = $this->getView();
@@ -385,9 +385,6 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $smarty->assign( 'min_length', $config['login']['min_pass_length'] );
         $smarty->assign( 'err', $err );
         #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
-
-        // Get the template
-        #$this->setTemplate('register.tpl');
 
         // Output
         $this->prepareOutput();

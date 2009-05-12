@@ -36,7 +36,11 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
-* Admin Module - Config Class
+ * Admin Module - Config Class
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Users
 */
 class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -70,7 +74,9 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		// Defining initial variables
 		// Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
 		$currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
-		$resultsPerPage = 3;
+		$resultsPerPage = 25;
+
+        $searchletter = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('searchletter');
 
 		// SmartyColumnSort -- Easy sorting of html table columns.
 		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
@@ -83,23 +89,23 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		// Get sort order from columnsort
 		$sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-		// Creating Pager Object with a Query Object inside
-		$pager_layout = new Doctrine_Pager_Layout(
-						new Doctrine_Pager(
-							Doctrine_Query::create()
-									->select('u.user_id, u.nick, u.email, u.joined, u.timestamp')
-									->from('CsUser u')
-									#->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-									->orderby($sortorder),
-								 # The following is Limit  ?,? =
-								 $currentPage, // Current page of request
-								 $resultsPerPage // (Optional) Number of results per page Default is 25
-							 ),
-							 new Doctrine_Pager_Range_Sliding(array(
-								 'chunk' => 5
-							 )),
-							 '?mod=users&sub=admin&action=show&page={%page}'
-							 );
+        // Creating Pager Object with a Query Object inside
+        $pager_layout = new Doctrine_Pager_Layout(
+                        new Doctrine_Pager(
+                            Doctrine_Query::create()
+                                    ->select('u.user_id, u.nick, u.email, u.joined, u.timestamp')
+                                    ->from('CsUser u')
+                                    #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->orderby($sortorder),
+                                 # The following is Limit  ?,? =
+                                 $currentPage, // Current page of request
+                                 $resultsPerPage // (Optional) Number of results per page Default is 25
+                             ),
+                             new Doctrine_Pager_Range_Sliding(array(
+                                 'chunk' => 5  // Displays: [1][2][3][4][5]
+                             )),
+                             '?mod=users&sub=admin&action=show&page={%page}'
+                             );
 
 		// Assigning templates for page links creation
 		$pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');

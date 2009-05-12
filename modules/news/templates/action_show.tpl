@@ -9,11 +9,12 @@
 </tr>
 <tr>
     <td class="td_header_small">
+
+        <!-- RSS Icon -->
         <div style="float:right;">
-        <a href="/index.php">
-            <img src="{$www_root_themes_core}/images/rss/16px-Feed-icon.png"
-                 alt="Clansuite RSS News Feed" />
-        </a>
+            <a href="/index.php">
+                <img src="{$www_root_themes_core}/images/icons/rss.png" alt="Clansuite RSS News Feed" />
+            </a>
         </div>
 
         {pagination}
@@ -26,7 +27,7 @@
 
 {foreach item=news from=$news}
 
-<!-- Anker-Sprungmarke f?r {$news.news_id}--> <a name="news-{$news.news_id}"></a>
+<!-- Anker-Sprungmarke für {$news.news_id}--> <a name="news-{$news.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
 
 

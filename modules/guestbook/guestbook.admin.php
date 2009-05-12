@@ -44,9 +44,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
- * @category    module
- * @subpackage  guestbook_admin
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Guestbook
  */
 class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

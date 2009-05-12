@@ -46,9 +46,9 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @link
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
- * @category    module
- * @subpackage  module_userslist
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Users
  */
 class Module_Users extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -78,7 +78,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = 25;
 
-        /* @todo: news with status: draft, published, private, private+protected*/
+        /* @todo news with status: draft, published, private, private+protected*/
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                         new Doctrine_Pager(
@@ -128,7 +128,8 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         # Prepare the Output
         $this->prepareOutput();
     }
-/**
+
+    /**
      * widget_lastregisteredusers
      *
      * Displayes the specified number of last registered Users in the lastregisteredusers_widget.tpl.

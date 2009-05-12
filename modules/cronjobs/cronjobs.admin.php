@@ -70,6 +70,10 @@ class Module_Cronjobs_Admin extends Clansuite_ModuleController implements Clansu
         # Applying a Layout Template
         $view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
+        $cronjobs = array();
+
+        $this->getView()->assign('cronjobs', $cronjobs);
+
         # Prepare the Output
         $this->prepareOutput();
     }

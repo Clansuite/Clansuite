@@ -38,18 +38,15 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module
- *
- * Module:      Thememanager
- * Submodule:   Admin
+ * Clansuite Module Administration - Thememanager
  *
  * @author      Jens-André Koch  <vain@clansuite.com>
  * @copyright   Jens-André Koch, (2005 - onwards)
  * @since       0.2alpha
  *
- * @package     clansuite
- * @category    module
- * @subpackage  thememanager
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Thememanager
  */
 class Module_Thememanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -108,12 +105,12 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
                 $preview_image = glob( ROOT_THEMES. $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
-                
+
                 # turn ROOT_THEMES path into WWW_ROOT
                 $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES.'/', $preview_image);
                 # fix slashes
-                $preview_image = str_replace('\\','/', $preview_image); 
-                
+                $preview_image = str_replace('\\','/', $preview_image);
+
                 if ( is_array($preview_image) and (empty($preview_image) == false))
                 {
                     $theme_info[$i]['preview_image']     = $preview_image[0];  # path to [0]preview
@@ -126,9 +123,9 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
             }
         }
 
-       # sort and return
-       asort ($theme_info);
-       return $theme_info;
+        # sort and return
+        asort ($theme_info);
+        return $theme_info;
     }
 
     /**
@@ -164,6 +161,16 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
     }
 
     public static function generateThemeInfoXML()
+    {
+
+    }
+
+    public static function widget_frontend_themechooser()
+    {
+
+    }
+
+    public static function widget_backend_themechooser()
     {
 
     }
