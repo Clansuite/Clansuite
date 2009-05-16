@@ -48,7 +48,7 @@ class php_debug_console implements Clansuite_Filter_Interface
 {
     private $config     = null;
 
-public function __construct(Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config)
     {
        $this->config    = $config;
     }
@@ -95,28 +95,35 @@ public function __construct(Clansuite_Config $config)
                         'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
                 );
 
-                # Guess what? => developers from localhost only :)
+                # Guess what? => developers from localhost only :) @todo we might change that to a config settings
+                # Guess why? => security
                 $allowedip = array('127.0.0.1');
 
                 # Initialiaze Object
                 $debug = new PHP_Debug($options);
 
-                /* Load JS / CSS */
-                $response->setContent($data, BEFORE_BODY_END);
-                
-                ?>
-                <script type="text/javascript" src="<?php echo $options['HTML_DIV_js_path']; ?>/html_div.js"></script>
-                <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $options['HTML_DIV_css_path']; ?>/html_div.css" />
-                <?php
-                
+                /**
+                 *  Load JS / CSS for PHP Debug Console into the Output Buffer
+                 */
+                ob_start();
+                echo '<script type="text/javascript" src="'.$options['HTML_DIV_js_path'].'/html_div.js"></script>';
+                echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$options['HTML_DIV_css_path'].'/html_div.css" />';
+                $content = ob_get_contents();
+    		    ob_end_clean();
+
                 # unset $options
                 unset($options);
 
-                # Set Title
+                # Set Title to Debug Console
                 $debug->add('Clansuite DEBUG INFO');
 
-                # display the console
-                $debug->display();
+                # we like to fetch the console contents also into the buffer
+                # for displaying it at the end of application runtime
+                # for a direct display of the console use $debug->display()
+                $content .= $debug->getOutput();
+
+                # we append the console output ($content) to "BEFORE_BODY_END</body>"
+                $response->setContent($content, BEFORE_BODY_END);
             }
         }// else => bypass
     }
