@@ -379,6 +379,7 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
+                                         'php_debug_console', # let the debug console be first
                                          'maintenance',
                                          'get_user',
                                          'session_security',
@@ -386,7 +387,6 @@ class Clansuite_CMS
                                          'theme_via_get',
                                          'set_module_language',
                                          'set_breadcrumbs',
-                                         'php_debug_console',
                                          'startup_checks',
                                          'statistics'
                                         );
