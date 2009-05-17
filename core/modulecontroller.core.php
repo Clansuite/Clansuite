@@ -52,9 +52,9 @@ interface Clansuite_Module_Interface
 }
 
 /**
- * Interface for all modules which implement a BREAD action structure
+ * Interface for all modules which implement the BREAD action structure
  *
- * Force classes implementing the interface to define this (must have) methods!
+ * Force classes implementing the interface to define these (must have) methods!
  *
  * @category    Clansuite
  * @package     Core
@@ -70,9 +70,9 @@ interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface
 }
 
 /**
- * Interface for all modules which implement a CRUD action structure
+ * Interface for all modules which implement the CRUD action structure
  *
- * Force classes implementing the interface to define this (must have) methods!
+ * Force classes implementing the interface to define these (must have) methods!
  *
  * @category    Clansuite
  * @package     Core
@@ -87,9 +87,9 @@ interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface
 }
 
 /**
- * Interface for all modules which implement a ABCD action structure
+ * Interface for all modules which implement the ABCD action structure
  *
- * Force classes implementing the interface to define this (must have) methods!
+ * Force classes implementing the interface to define these (must have) methods!
  *
  * @category    Clansuite
  * @package     Core
@@ -460,11 +460,10 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function addError($errormessage, $errorcode)
     {
         # pass variables to errorhandler
-        errorhandler::addError($errormessage, $errorcode);
+        Clansuite_Errorhandler::addError($errormessage, $errorcode);
 
         # event log
         #$this->addEvent('logErrormessage')
-
     }
 
     /**
@@ -531,6 +530,11 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function notify($eventName, Clansuite_Event $event)
     {
         $this->addEvent($eventName, $event);
+    }
+    
+    public function flashmessage($type, $message)
+    {        
+        Clansuite_Flashmessages::setMessage($type, $message);
     }
 }
 ?>
