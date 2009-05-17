@@ -63,8 +63,6 @@ interface Clansuite_Response_Interface
  *
  * This class represents the web response object on a request processed by Clansuite.
  *
- * @todo headers, cookies
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  HttpResponse
@@ -406,9 +404,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public function setNoCacheHeader()
     {
+        # reset pragma header
         $this->addHeader('Pragma',        'no-cache');
+        # reset cache-control
         $this->addHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        # append cache-control
         $this->addHeader('Cache-Control', 'post-check=0, pre-check=0');
+        # force immediate expiration
         $this->addHeader('Expires',       '1');
     }
 
@@ -452,14 +454,17 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         # redirect only, if headers are NOT already send
         if (headers_sent($filename, $linenum) == false)
         {
+            # clear all output buffers
+            while(@ob_end_clean());
+
+            # redirect to ...
+            $this->setStatusCode($statusCode);
+
             # redirect html content
             $redirect_html  = '';
             $redirect_html  = '<html><head>';
             $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
             $redirect_html .= '</head><body>' . $text . '</body></html>';
-
-            # redirect to ...
-            $this->setStatusCode($statusCode);
 
             # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
