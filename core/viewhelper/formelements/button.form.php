@@ -39,12 +39,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *
- *  Clansuite_Form_Formelement
+ *  Clansuite_Form
  *  |
  *  \- Clansuite_Formelement_Button
  */
-class Clansuite_Formelement_Button extends Clansuite_Form_Formelement
+class Clansuite_Formelement_Button extends Clansuite_Form
 {
-
+    
 }
 ?>

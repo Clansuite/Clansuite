@@ -39,21 +39,29 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *
- *  Clansuite_Form_Formelement
+ *  Clansuite_Form
  *  |
- *  \- Clansuite_Form_Formelement_Button
+ *  \- Clansuite_Formelement_Button
  *     |
  *     \- Clansuite_Formelement_ConfirmSubmitButton
  */
-class Clansuite_Formelement_ConfirmSubmitButton extends Clansuiute_Formelement_Button
+class Clansuite_Formelement_ConfirmSubmitButton extends Clansuite_Formelement_Button
 {
+    private $action = null;
 
-    function FEConfirmActionButton($label, $value, $message = NULL, $width = NULL, $height = NULL)
+    function __construct($label, $value, $message = null, $width =null, $height = null)
     {
-        $action = "if (confirm('".$message."')) {this.form.".$this->formaction.".value='".$value."'; submit();}";
-        $this->FEButton($label, $value, $action, $width, $height);
+        $this->action = "if (confirm('".$message."')) {this.form.".$this->formaction.".value='".$value."'; submit();}";
+    }
+
+    function render()
+    {
+        return Clansuiute_Formelement_Button($label, $value, $action, $width, $height);
+    }
+
+    function __toString()
+    {
+        return $this->render();
     }
 }
-
-
 ?>

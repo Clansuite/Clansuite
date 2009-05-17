@@ -39,9 +39,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *
- *  Clansuite_Form_Formelement
+ *  Clansuite_Form
  *  |
- *  \- Clansuite_Form_Formelement_Button
+ *  \- Clansuite_Form_Button
  *     |
  *     \- Clansuite_Formelement_JQConfirmSubmitButton
  */
