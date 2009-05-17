@@ -29,30 +29,243 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: trail.core.php 2870 2009-03-25 23:21:42Z vain $
+    * @version    SVN: $Id: layout.core.php 2870 2009-03-25 23:21:42Z vain $
     */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
+ * Interface for all Nodes (Leaf-Objects)
+ *
+ * Each node (leaf-object) has to provide a method...
+ */
+interface Clansuite_View_Node_Interface
+{
+    /**
+     * Get the contents of this component in string form
+     */
+    public function render();
+    public function __toString();
+
+    /**
+     * Set the data
+     */
+    public function setData(array $data); # array | assign placeholders 'data' = $data
+
+    /**
+     * Set the default content or to overwrite the leaf-content
+     */
+    public function setContent($content); # string | set content / placeholders 'data'
+
+    /**
+     * Set the default content
+     */
+    public function __construct($defaultContent);
+}
+
+/**
+ * Clansuite_CompositeView_Iterator
+ */
+class Clansuite_Composite_Iterator implements ArrayAccess, Countable, Iterator
+{
+    private $composite = array();
+
+    public function __construct($composite)
+    {
+        $this->composite = $composite;
+    }
+
+    /**
+     * Implementation of {@see ArrayAccess::offsetExists()}.
+     *
+     * @return
+     */
+    public function offsetExists( $key )
+    {
+        return isset( $this->composite[$key] );
+    }
+
+    /**
+     * Gets a node from the composite.
+     *
+     * Implementation of {@see ArrayAccess::offsetGet()}.
+     *
+     * @return
+     */
+    public function offsetGet( $key )
+    {
+        return $this->composite[$key];
+    }
+
+    /**
+     * Sets a node to the composite.
+     *
+     * Implementation of {@see ArrayAccess::offsetSet()}.
+     *
+     * @return
+     */
+    public function offsetSet( $key, $value )
+    {
+        return $this->composite[$key] = $value;
+    }
+
+    /**
+     * Unsets a composite node.
+     *
+     * Implementation of {@see ArrayAccess::offsetUnset()}.
+     *
+     * @return
+     */
+    public function offsetUnset( $key )
+    {
+        unset( $this->composite[$key] );
+    }
+
+    /**
+     * Returns the number of nodes.
+     *
+     * Implementation of {@see Countable::count()}.
+     *
+     * @return void
+     */
+    public function count( )
+    {
+        return count( $this->composite );
+    }
+
+    /**
+     * Return the current Iterator node element
+     *
+     * Implementation of {@see Iterator::current()}.
+     *
+     * @return mixed Current node
+     */
+    public function current()
+    {
+        $key = key( $this->composite );
+        return $this->offsetGet( $key );
+    }
+
+    /**
+     * Go to the next Node.
+     *
+     * Implementation of {@see Iterator::next()}.
+     *
+     * @return
+     */
+    public function next()
+    {
+        next ( $this->composite );
+    }
+
+    /**
+     * Returns the current node key.
+     *
+     * Implementation of {@see Iterator::key()}.
+     *
+     * @return int Key
+     */
+    public function key()
+    {
+        return key( $this->composite );
+    }
+
+    /**
+     * Check if current Node position is valid.
+     *
+     * Implementation of {@see Iterator::valid()}.
+     *
+     * @return bool Is valid
+     */
+    public function valid()
+    {
+        return false !== current( $this->composite );
+    }
+
+    /**
+     * Resets the Iterator to the first element.
+     *
+     * Implementation of {@see Iterator::rewind()}.
+     *
+     * @return
+     */
+    public function rewind()
+    {
+        reset( $this->composite );
+    }
+}
+
+/**
  * Clansuite Core Class for Layout Handling
  *
  * The Layout Object provides a document tree for the output elements.
- * This is a composite view / slot mechanism.
+ * Speaking in patterns: this is a "composite" view (GoF - German Edition - Page 239).
+ * To get a better picture of the idea we speak of a tree/leaf(s) or parent/child(s) structure.
+ * Every internal-node is-a leaf-node. At the end we render the whole tree.
  *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005-onwards)
- * @since      Class available since Release 0.2
+ * The Purpose is to divide / seperate all controller logic and view logic from each other.
+ * Each controller (C) can add an element to the tree (V).
+ * Doing this means, that we process all the controller logic before going on to the view logic.
+ * First we get all controller's done, then we get all view's done.
+ *
+ * I know that there are some frameworks out there, which work with another approach,
+ * where they switch back and forth between doing controller and doing view logic.
+ * But i have decided not to implement it that way.
+ *
+ * @link http://www.tml.tkk.fi/~pnr/GoF-models/html/Composite.html
+ * @link http://java.sun.com/blueprints/patterns/CompositeView.html
+ * @link http://java.sun.com/blueprints/corej2eepatterns/Patterns/CompositeView.html
+ *
+ * @author      Jens-André Koch   <vain@clansuite.com>
+ * @copyright   Jens-André Koch (2005-onwards)
+ * @since       Class available since Release 0.2
+ * @version     0.1
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Layout
  */
-class Clansuite_Layout
+class Clansuite_View_Layout implements Clansuite_View_Node_Interface
 {
+    /**
+     * Representation of the tree with leaf-nodes.
+     *
+     * @var array
+     */
+    private $components = array();
 
+    /**
+     * Adds / appends a new view-node (leaf-object) to the bottom of the stack
+     *
+     * @return void
+     */
+    public function appendNode(Clansuite_View_Node_Interface $component)
+    {
+        $components[] = $component;
+    }
 
+    /**
+     * Fetches an iterator to traverse the nodes
+     */
+    public function getIterator()
+    {
+        $composite = new Clansuite_Composite_Iterator($this->composite);
+    }
+
+    /**
+     * Loops over all components / nodes and renders
+     */
+    function render($response)
+    {
+        foreach($this->components as $child)
+        {
+            $subview .=  $child->render($response);
+        }
+
+        return $subview;
+    }
 }
+?>
