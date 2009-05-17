@@ -99,16 +99,55 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @subpackage  Form
  */
 
-class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
+class Clansuite_Form extends Clansuite_HTML implements Clansuite_Form_Interface, ArrayAccess, Countable, Iterator
 {
-    # contains all formelements / formobjects registered for this form
-    protected $elements = array();
+    /**
+     * Contains all formelements / formobjects registered for this form.
+     *
+     * @var array
+     */
+    protected $formelements = array();
 
-    # contains action of the form
+    /**
+     * Contains action of the form.
+     *
+     * @var string
+     */
     protected $action;
 
-    # contains action of the method
+    /**
+     * Contains action of the method.
+     *
+     * @var string
+     */
     protected $method;
+
+    /**
+     * Contains action of the method.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Construct
+     */
+    public function __construct($name, $method, $action)
+    {
+         $this->setName($name);
+
+         $method = strtolower($method);
+         if($method == "post" or $method == "get")
+         {
+             $this->setMethod($method);
+         }
+         else
+         {
+            throw new Clansuite_Exception('When instantiating the form object the second parameter has to be GET or POST.');
+         }
+
+          $this->setAction($action);
+    }
 
     /**
      * Sets the method to the form.
@@ -151,6 +190,199 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
     }
 
     /**
+     * Set name of this form.
+     *
+     * @param $action string Name of this form.
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Returns name of this form.
+     *
+     * @return string Name of this form.
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * processForm
+     *
+     * This is the main formular processing loop.
+     * If the form doesn't validate, redisplay it, else present "Success"-Message!
+     */
+    public function processForm()
+    {
+        # not needed, because its all in one file for dev-purposes
+        # clansuite_loader::loadCoreClass('clansuite_form_validation');
+
+        # check if form has been submitted properly
+        if ($this->validation->ok() == false)
+        {
+            # if not, redisplay the form
+
+        }
+        else # form was properly filled, display a success web page
+        {
+
+        }
+
+        # check if there are any errors set
+        if ($validate->isError())
+        {
+            $errors = Clansuite_Form_Validation::getErrors();
+            foreach ($errors as $error)
+            {
+              // let Clansuite know about the error
+              form_set_error($error['field'], t($error['msg']));
+            }
+        }
+    }
+
+    /**
+     * Renders the Form
+     *
+     * @return $html_form string HTML Code of the Form.
+     */
+    public function render()
+    {
+        # init html form
+        $html_form = '' . CR;
+
+        # open form
+        $html_form = '<form action="'.$this->getAction().'" method="'.$this->getMethod().'" name="'.$this->getName().'">' . CR;
+
+        /**
+         * sort formelements by index
+         * loop over all registered formelements of this form
+         * and render them
+         */
+        ksort($this->formelements);
+        foreach( $this->formelements as $formelement )
+        {
+            $htmlform .= CR . $formelement->render() . CR;
+        }
+
+        # add buttons
+
+        # close form
+        $html_form = '</form>' . CR;
+
+        return $html_form;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
+    }
+
+    /**
+     * Adds a formelement to the form
+     *
+     * @param $formelement Clansuite_Form_Element Object implementing the Clansuite_Form_Interface
+     * @param $position integer The position number of this formelement (ordering).
+     * @return $this Form Object
+     */
+    public function addElement(Clansuite_Form_Element_Interface $formelement, $position = null)
+    {
+        # if we don't have a position to order the elements, we just add an element
+        if($position === null)
+        {
+          $this->formelements[] = $formelement;
+        }
+        # else we position the element under it's number to keep things in an order
+        elseif(is_int($position))
+        {
+          $this->formelements[$position] = $formelement;
+        }
+        return $this;
+    }
+
+    /**
+     * Fetches a formelement via it's position number
+     *
+     * @param $position integer The position number the requested formelement (ordering).
+     * @return $formelement Clansuite_Form_Element Object implementing the Clansuite_Form_Interface
+     */
+    public function getElementByPosition($position)
+    {
+        if(is_int($position) and isset($this->elements[$position]))
+        {
+            return $this->elements[$position];
+        }
+        else
+        {
+            throw new Clansuite_Exception('There is no Formelement registered under this position number');
+        }
+    }
+
+    /**
+     * Fetches a formelement via it's name
+     *
+     * @param $name string The name of the requested formelement.
+     * @return $formelement Clansuite_Form_Element Object
+     */
+    public function getElementByName($name)
+    {
+        foreach($this->formelements as $formelement)
+        {
+            if($name == $formelement->getName())
+            {
+                return $formelement;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Removes a formelement from the form
+     */
+    public function delElement()
+    {
+    }
+
+    public function getAttribute()
+    {
+    }
+
+    public function setAttribute()
+    {
+    }
+
+    public function addFilter()
+    {
+    }
+
+    public function delFilter()
+    {
+    }
+
+    /**
+     * Load the XML form description file
+     */
+    public function loadDescriptionXML()
+    {
+
+    }
+
+    /**
+     * Save the form to a XML description file
+     */
+    public function saveDescriptionXML()
+    {
+
+    }
+
+    public static function factory()
+    {
+
+    }
+
+    /**
      * ===================================================================================
      *    SPL Implementation
      *    ArrayObject implements IteratorAggregate, Traversable, ArrayAccess, Countable
@@ -169,17 +401,8 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
     }
 
     /**
-     * Construct a new array object
-     * Implementation of SPL ArrayObject::__construct()
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Get the number of elements in the Iterator
-     * Implementation of SPL ArrayObject
-     * ArrayObject implements Countable::count()
+     * Implementation of SPL Countable::count()
      *
      * @return integer Returns the number of formelements/objects registered to this form object.
      */
@@ -190,29 +413,67 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
 
     /**
      * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL ArrayObject
+     * Implementation of SPL Iterator::current
      *
      * @return void
      */
-    public function getIterator()
+    public function current()
+    {
+    }
+
+    /**
+     * Create a new iterator from an ArrayObject instance
+     * Implementation of SPL Iterator::key
+     *
+     * @return void
+     */
+    public function key()
+    {
+    }
+
+    /**
+     * Create a new iterator from an ArrayObject instance
+     * Implementation of SPL Iterator::next
+     *
+     * @return void
+     */
+    public function next()
+    {
+    }
+
+    /**
+     * Create a new iterator from an ArrayObject instance
+     * Implementation of SPL Iterator::rewind
+     *
+     * @return void
+     */
+    public function rewind()
+    {
+    }
+
+    /**
+     * Create a new iterator from an ArrayObject instance
+     * Implementation of SPL Iterator::valid
+     *
+     * @return void
+     */
+    public function valid()
     {
     }
 
     /**
      * Returns whether the requested $index exists
-     * Implementation of SPL ArrayObject
-     * ArrayObject implements ArrayAccess::offsetExists()
+     * Implementation of SPL ArrayAccess::offsetExists()
      *
      * @return void
      */
-    public function offsetExits($index)
+    public function offsetExists($index)
     {
     }
 
     /**
      * Returns the value at the specfied $index
-     * Implementation of SPL ArrayObject
-     * ArrayObject implements ArrayAccess::offsetGet()
+     * Implementation of SPL ArrayAccess::offsetGet()
      *
      * @return void
      */
@@ -222,8 +483,7 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
 
     /**
      * Sets the value at the specified $index
-     * Implementation of SPL ArrayObject
-     * ArrayObject implements ArrayAccess::offsetSet()
+     * Implementation of SPL ArrayAccess::offsetSet()
      *
      * @param $index
      * @param $value
@@ -235,8 +495,7 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
 
     /**
      * Unsets the value at the specified $index
-     * Implementation of SPL ArrayObject
-     * ArrayObject implements ArrayAccess::offsetUnset()
+     * Implementation of SPL ArrayAccess::offsetUnset()
      *
      * @return void
      */
@@ -279,6 +538,10 @@ class Clansuite_Form implements ArrayObject, Clansuite_Form_Interface
  */
 class Clansuite_Form_Factory implements Clansuite_Form_Factory_Interface
 {
+    public function factory()
+    {
+
+    }
 }
 
 /**
@@ -391,6 +654,39 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
     }
 
     /**
+     * Getter for "isValid" Flag-Variable.
+     * Checks if the submitted form data is valid.
+     *
+     * @todo abstract $_SERVER $_POST $_GET
+     * @return true if the data is valid, otherwise false
+     */
+    public function isValid()
+    {
+        if (!isset($this->isValid))
+        {
+            if ('POST' == $_SERVER['REQUEST_METHOD'])
+            {
+                list($this->isValid, $_POST) = $this->validateForm($_POST);
+            }
+            elseif('GET' == $_SERVER['REQUEST_METHOD'])
+            {
+                list($this->isValid, $_GET) = $this->validateForm($_GET);
+            }
+        }
+        return $this->isValid;
+    }
+
+    /**
+     * valdate is the main method of this class
+     * the data for a formelement is validated against the validation rules.
+     * in case the the data is not matching the rule, it's invalid and a validation error is set.
+     */
+    public function validateForm(Clansuite_Form__Interface $form)
+    {
+
+    }
+
+    /**
      * valdate is the main method of this class
      * the data for a formelement is validated against the validation rules.
      * in case the the data is not matching the rule, it's invalid and a validation error is set.
@@ -412,10 +708,9 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
 /**
  * Clansuite Form Generator via Doctrine Records
  *
- * Automatic form generation from doctrine records/tables.
+ * Purpose: automatic form generation from doctrine records/tables.
  *
- * @todo
- * determine and set excluded columns (maybe in record?)
+ * @todo determine and set excluded columns (maybe in record?)
  */
 class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
 {
@@ -431,7 +726,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
                                'float'      => 'text',
                                'decimal'    => 'string',
                                'string'     => 'text',
-                               'text'       => 'textarea'
+                               'text'       => 'textarea',
                                'enum'       => 'select',
                                'array'      => null,
                                'object'     => null,
@@ -488,7 +783,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
             else
             {
                 # transform columnName to a printable name
-                $printableName = ucwords(str_replace('_','',$columnName);
+                $printableName = ucwords(str_replace('_','',$columnName));
 
                 # determine the columnname type and add the formfield
                 $form[] = new Clansuite_Form_Factory( $table->getTypeOf($columnName), $fieldName, $printableName);
@@ -500,6 +795,14 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
 }
 
 /**
+ * Clansuite_HTML
+ */
+class Clansuite_HTML extends DOMDocument
+{
+
+}
+
+/**
  * Interface for the whole Clansuite_Form
  */
 interface Clansuite_Form_Interface
@@ -508,11 +811,11 @@ interface Clansuite_Form_Interface
     public function render();
 
     # set action and method
-    public function setAction();
-    public function setMethod();
+    public function setAction($action);
+    public function setMethod($method);
 
     # add/remove a formelement
-    public function addElement();
+    public function addElement($formelement);
     public function delElement();
 
     # add/remove attributes for a formelement
@@ -530,11 +833,8 @@ interface Clansuite_Form_Interface
     # shortcut method / factory method for accessing the formelements
     public static function formfactory();
 
-    # shortcut method / factory method for accessing the validations
-    public static function validationfactory();
-
-    # callback for validation on all formelements
-    public function validate();
+    # callback for validation on the whole form (all formelements)
+    public function processForm();
 }
 
 /**
@@ -555,23 +855,20 @@ interface Clansuite_Form_Element_Interface
 interface Clansuite_Form_Validation_Interface
 {
     # set/get validation rules
-    public function setRules()
-    public function getRules()
+    public function setRules(array $rules_array);
+    public function getRules();
 
     # main method of this class
-    public function validate()
+    public function validate(Clansuite_Form_Element_Interface $formelement);
 
     # set/get/is validation errors
     public function setError();
     public function getErrors();
     public function isError();
-
-    # factory method for validation rules
-    public function factory();
 }
 
 /**
- * Interface for Clansuite Form Factory
+ * Interface for Clansuite Form Elements (Factory)
  */
 interface Clansuite_Form_Factory_Interface
 {
