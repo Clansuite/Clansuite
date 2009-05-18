@@ -47,7 +47,7 @@ php_value output_handler        ob_gzhandler
 #  (7c) Rewrite Rules
 
         # disable rewrite for css, images, javascript, archives and pdf,txt
-        RewriteCond %{REQUEST_FILENAME} !\.(?:png|gif|jpe?g|pdf|php|js|ico|txt|css|rar|zip|tar\.gz)$
+        RewriteCond %{REQUEST_FILENAME} !\.(?:png|gif|jpeg|jpg|pdf|php|js|ico|txt|css|rar|zip|tar\.gz)$
 
         #RewriteCond %{REQUEST_FILENAME} !-f
         #RewriteCond %{REQUEST_FILENAME} !-d
