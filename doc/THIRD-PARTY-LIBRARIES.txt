@@ -6,8 +6,7 @@ The Folder "/trunk/libraries" contains the following libraries:
 
 PHP-LIBRARY               VERSION    LICENCE(S)               WEBSITE
 -----------               -------    ----------               -------
-BB Code String Parsing    0.3.1      GPL v1 or above
-                                     Artistic L v2 or above   http://www.christian-seiler.de
+BB Code String Parsing    0.3.3      MIT License              http://www.christian-seiler.de
 CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
 DOCTRINE                  0.11       LGPL                     http://www.doctrine.org
 FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckeditor.net
