@@ -25,11 +25,13 @@
     phpLint             http://www.icosaedro.it/phplint/
     phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer
     Graphviz            http://www.graphviz.org/
+    phpUML              http://pear.php.net/manual/en/package.php.php-uml.api.php
+                        API: http://www.baptisteautin.com/wp-content/uploads/PHP_UML/API/
 
 
     Version:  $Id$
 -->
-<project name="Clansuite" description="Phing Build File | Clansuite - just an eSports CMS" basedir="/home/clansuite/" default="build">
+<project name="Clansuite" description="Phing Build File | Clansuite - just an eSports CMS" basedir="/home/clansuite/" default="help">
 
     <!-- ==================================================== -->
     <!-- ======     0) Display HELP TEXT first, ok?    ====== -->
@@ -47,8 +49,11 @@
 
         where &lt;build command&gt; can be one of the following:
 
-        List of Clansuite Build Commands:
-        - help      : guess what, displays this help text
+
+        List of Clansuite Build Commands
+        --------------------------------
+
+        - help      : guess what? displays this help text
         - all       : do all build steps (phplint, docs, tar/zip)
         - all_docs  : generate documentation (phpxref, phpdoc, doxygen)
         - dist      : create release files
@@ -57,11 +62,31 @@
         - rebuild   : clean first and then build
         - translate : search files for strings to translate
         - run_tests : runs simpletest testsuite
-        SVN
-        - svn-update
-        - svn-checkout
-        - svn-export-from-gna
-        - svn-export-from-local
+
+        List of Subversion Commands
+        ---------------------------
+
+        - svn-update            : updates ${svn.local.dir} via svn update
+        - svn-checkout          : svn checkout from ${svn.repository}
+        - svn-export-from-gna   : svn export from ${svn.repository}
+        - svn-export-from-local : svn export from ${svn.local.dir}
+
+        General Settings and Paths
+        --------------------------
+
+        Release/Packagename : ${phing.project.name}-${clansuite.version}
+        Release-Directory   : ${build.src.dir}
+
+        <!-- Paths for Debugging
+        "basedir"              : ${base.directory}
+        "build.base.directory" : ${build.base.directory}
+        "svn.repository"       : ${svn.repository}
+        "svn.local.export.dir" : ${svn.local.export.dir}
+        "svn.local.dir"        : ${svn.local.dir}
+        "archive.dir"          : ${archive.dir}
+        "phpdoc.dir"           : ${phpdoc.dir}
+        -->
+
         </echo>
     </target>
 
@@ -74,21 +99,22 @@
     <property name="clansuite.version.state" value="alpha-dev" override="true" />                       <!-- version state -->
     <property name="clansuite.version.name" value="Trajan" override="true" />                           <!-- version name -->
     <property name="packagename" value="${phing.project.name}-${clansuite.version}" override="true" />  <!-- package name -->
-    
+
+    <property name="base.directory" value="/home/clansuite/" />                         <!-- name of the base directory = ROOT for this project-->
     <property name="build.base.directory" value="/home/clansuite/build/" />             <!-- name of the base build directory -->
-    <property name="build.src.dir" value="${build.base.directory}/${packagename}"/>     <!-- name of the build directory for current package -->
+    <property name="build.src.dir" value="${build.base.directory}${packagename}/"/>     <!-- name of the build directory for current package -->
 
     <!-- Define the Properties for Section 5) Documentation -->
-    <property name="documentations_dir" value="documentation/developer/" override="true" />
-    <property name="phpdoc_dir" value="phpdoc" override="true" />
-    <property name="doxygen_dir" value="doxygen" override="true" />
-    <property name="phpxref_dir" value="phpxref" override="true" />
+    <property name="documentations.dir" value="/documentation/developer/" override="true" />
+    <property name="phpdoc.dir" value="${documentations.dir}phpdoc/" override="true" />
+    <property name="doxygen.dir" value="${documentations.dir}doxygen/" override="true" />
+    <property name="phpxref.dir" value="${documentations.dir}phpxref/" override="true" />
 
     <!-- Define the Properties for Section 6) Building Archives -->
-    <property name="archive_dir" value=""${build.base.directory}/archives" override="true" />
+    <property name="archive.dir" value="${build.base.directory}archives" override="true" />
 
     <!-- Define Fileset "clansuite.projectfiles" -->
-    <fileset id="clansuite.projectfiles" dir="./svn">   <!-- based on trunk -->
+    <fileset id="clansuite.projectfiles" dir="${base.directory}svn/">   <!-- based on trunk -->
         <include name="**" />                           <!-- include all files -->
         <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
         <exclude name="tests" />                        <!-- exclude tests directory -->
@@ -97,13 +123,13 @@
     </fileset>
 
     <!-- Define Fileset "clansuite.reportfiles" -->
-    <fileset id="clansuite.reportfiles" dir="./${build.base.directory}">
+    <fileset id="clansuite.reportfiles" dir="${base.directory}svn/">
         <include name="**/*.php"/>
-        <exclude name="./${build.base.directory}/libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
+        <exclude name="./${build.base.directory}libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
-    <fileset id="clansuite.testfiles" dir="./svn/">    <!-- based on trunk -->
+    <fileset id="clansuite.testfiles" dir="${base.directory}svn/">    <!-- based on trunk -->
        <include name="*Test.php"/>                     <!-- include all test files -->
        <include name="**/*Test.php"/>
        <exclude name="libraries" />                    <!-- exclude the libraries folder -->
@@ -121,8 +147,8 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="svn.local.export.dir"  value="/home/clansuite/svn-export" />     <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.dir"         value="/home/clansuite/svn" />            <!-- Local SVN Directory -->
+    <property name="svn.local.export.dir"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.dir"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
 
     <!-- COMMAND = "svn-update" -->
     <target name="svn-update" description="Updates ${svn.local.dir} via svn update.">
@@ -130,11 +156,11 @@
     </target>
 
     <!-- COMMAND = "svn-checkout" -->
-    <target name="svn-checkout" description="Checks out a Subversion repository to a local directory.">
+    <target name="svn-checkout" description="Checks out the GNA Subversion repository to the local dir ${svn.local.dir}.">
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
                      repositoryurl="${svn.repository}"
-                     todir="${svn.local.export.dir}" />
+                     todir="${svn.local.dir}" />
     </target>
 
     <!-- COMMAND = "svn-export-from-gna" -->
@@ -169,8 +195,8 @@
                          propertyname="svn.lastrevision"/>
     </target>
 
-    <-- COMMAND = "mrproper-svn-dir" -->
-    <target name "mrproper-svn-dir" description="Mr.Proper will clean the SVN Export Dir">
+    <!-- COMMAND = "mrproper-svn-dir" -->
+    <target name="mrproper-svn-dir" description="Mr.Proper will clean the SVN Export Dir">
         <echo>Removes and recreates the SVN Export Dir to have a clean copy</echo>
         <delete dir="${svn.local.export.dir}" failonerror="true" verbose="false" includeemptydirs="true" />
         <mkdir dir="${svn.local.export.dir}" />
@@ -189,7 +215,7 @@
         <echo message="----------------------------------------------"/>
         <input propertyname="version" promptChar=":">Version</input>
         <property name="packagename" value="${phing.project.name}-${version}" override="true"/>
-        <property name="build.src.dir" value="${build.base.dir}/${archive_filename}" override="true"/>
+        <property name="build.src.dir" value="${build.base.dir}${archive_filename}" override="true"/>
     </target>
 
     <!-- COMMAND = "all" -->
@@ -245,9 +271,9 @@
         <echo>Creating htaccess files (deny from all)</echo>
         <property name="htaccess.deny" value="deny from all"/>
         <!-- Write the above property to the file location ! -->
-        <echo file="./${build.base.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.base.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
-        <echo file="./${build.base.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="${build.base.directory}/libraries/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="${build.base.directory}/doc/.htaccess" append="false">${htaccess.deny}</echo>
+        <echo file="${build.base.directory}/logs/.htaccess" append="false">${htaccess.deny}</echo>
     </target>
 
     <!-- COMMAND = "create-demo" -->
@@ -274,10 +300,19 @@
     </target>
 
     <!-- COMMAND = "codesniffer-report" -->
+    <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-    <phpcodesniffer standard="PEAR" format="summary">
-        <fileset refid="clansuite.reportfiles" />
-    </phpcodesniffer>
+        <phpcodesniffer standard="Clansuite" format="checkstyle">
+            <fileset refid="clansuite.reportfiles" />
+        </phpcodesniffer>
+    </target>
+
+    <!-- COMMAND = "codesniffer-report-w32" -->
+    <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
+    <target name="codesniffer-report-w32" description="Runs the PHP-Codesniffer task and reports coding standard violations">
+        <exec executable="phpcs" dir="${basedir}/source" output="${basedir}/build/logs/checkstyle.xml" error="/tmp/checkstyle.error.log">
+            <arg line="--report=checkstyle --standard=Clansuite"/>
+        </exec>
     </target>
 
     <!-- COMMAND = "test-report" -->
@@ -311,8 +346,6 @@
     <!-- ======        5) Documentation Tasks       ====== -->
     <!-- ================================================= -->
 
-
-
     <!-- COMMAND = "all-docs" -->
     <target name="all-docs" description="Generates the overall project documentation (combined task)">
         <echo>-----------------------------------</echo>
@@ -327,9 +360,9 @@
     <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
-        <delete dir="${documentations_dir}/${phpdoc_dir}" />
+        <delete dir="${documentations.dir}${phpdoc.dir}" />
         <phpdoc title="Clansuite API Documentation"
-                destdir="apidocs"
+                destdir="${documentations.dir}${phpdoc.dir}"
                 quiet="true"
                 sourcepath="${build.base.directory}/"
                 sourcecode="no"
@@ -399,8 +432,8 @@
     -->
     <target name="visualize-buildfile" description="Generates a visualization of the Clansuite Build File">
 
-        <property name="buildfile" value="build.xml" />
-        <property name="phing2dot.xsl" value="${project.basedir}/ant2dot.xsl" />
+        <property name="buildfile" value="build-clansuite.xml" />
+        <property name="phing2dot.xsl" value="${base.directory}/ant2dot.xsl" />
         <property name="dot.file" value="${buildfile}.dot" />
         <property name="png.file" value="${buildfile}.png" />
         <property name="dot.command.win" value="dot.exe -Tpng ${dot.file} -o ${png.file}" />
