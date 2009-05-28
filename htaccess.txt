@@ -36,6 +36,8 @@ php_value output_handler        ob_gzhandler
 # (7a) Turn Rewrite Engine on
 
        RewriteEngine on
+       # uncomment for better debugging of rewrite rules
+       #RewriteLog /var/log/apache2/clansuite-rewrite.log
 
 # (7b) Set the Base for the Rewrite Engine (which is the path to your /Clansuite Directory)
 #      Examples:
