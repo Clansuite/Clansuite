@@ -95,7 +95,8 @@ class language implements ArrayAccess
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
 
         $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz Version 2 und jeder späteren Version veröffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
-        $this->language['STEP3_REVIEW'] = 'Bitte überprüfen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
+        $this->language['STEP3_REVIEW_THIRDPARTY'] = 'Bitte überprüfen Sie nach Abschluß der Installation die Lizenzbestimmungen der Fremdbibliotheken die von Clansuite eingesetzt werden. Sie sind in der Datei THIRD-PARTY-LIBRARIES.txt im Verzeichnis "/doc" zu finden.';
+        $this->language['STEP3_REVIEW_CLANSUITE'] = 'Bitte überprüfen Sie die Lizenzbestimmungen bevor Sie Clansuite installieren:';
         $this->language['STEP3_MUST_AGREE'] = 'Sie müssen der GNU/GPL Lizenz zustimmen um Clansuite zu installieren.';
         $this->language['STEP3_CHECKBOX'] = 'Ich habe zur Kenntnis genommen und stimme zu, dass Clansuite unter der GNU/GPL Lizenz steht!';
 

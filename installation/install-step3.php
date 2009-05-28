@@ -12,7 +12,8 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                     <?=$language['STEP3_LICENCE']; ?>
                 </h2>
                 <p><?=$language['STEP3_SENTENCE1']; ?></p>
-                <p><?=$language['STEP3_REVIEW']; ?></p>
+                <p><?=$language['STEP3_REVIEW_THIRDPARTY']; ?></p>
+                <p><?=$language['STEP3_REVIEW_CLANSUITE']; ?></p>
                 <!-- IFRAME WITH LICENCE -->
                 <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
                 <!-- CHECKBOX -> READ LICENCE -->
