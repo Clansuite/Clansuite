@@ -41,6 +41,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * This is a wrapper/adapter for rendering with PHPTAL.
  *
+ * @link http://phptal.org/ Official Website of the PHPTal Project.
+ * @link http://phptal.sourceforge.net/ Project's Website at Sourceforge
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *

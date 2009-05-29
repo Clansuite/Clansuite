@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,11 +41,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * This is a wrapper/adapter for the Smarty Template Engine.
  *
- * {@link http://smarty.php.net/ smarty.php.net}
- * {@link http://smarty.incutio.com/ smarty wiki}
+ * @link http://smarty.php.net/ Official Website of Smarty Template Engine
+ * @link http://smarty.incutio.com/ Smarty Wiki
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+ * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core
@@ -527,7 +527,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                 return self::preRenderCheck_checkForStrings($renderChecksArray, $filecontent);
             }
         }
-
     }
 
     /**
@@ -556,6 +555,78 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                 throw new Clansuite_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
            }
         }
+    }
+
+    /**
+     * smartyDebugFirePHP()
+     * This take all Smarty Variables and stuffs them in to the Firebug-Console.
+     *
+     * @author SaWeyy
+     * @link http://n2.nabble.com/Smarty-debugging-tc2402750.html#a2428254
+     */
+    function smartyDebugFirePHP()
+    {
+        # get required debug variables
+        $assigned_vars = $this->_tpl_vars;
+        ksort($assigned_vars);
+
+        $config_vars = array();
+        if (is_array($this->_config[0]))
+        {
+            $config_vars = $this->_config[0];
+            ksort($config_vars);
+        }
+
+        $firephp = FirePHP::getInstance(true);
+
+        $firephp->group('Smarty Debug Output');
+
+        # 1) Log template files
+        $firephp->group('included templates & config files (load time in seconds)');
+
+        foreach($this->_smarty_debug_info as $tml)
+        {
+            $msg = str_repeat('--', $tml['depth']);
+            $msg .= ($tml['depth'] != 0) ? '>' : '';
+            $msg .= $tml['filename'] . ' (' . substr($tml['exec_time'], 0, 7) . 's)';
+            $firephp->log($msg);
+        }
+
+        # end group 'included templates &...'
+        $firephp->groupEnd();
+
+        # 2) Log assigned template variables
+        $firephp->group('assigned template variables');
+
+        foreach($assigned_vars as $key => $value)
+        {
+            $firephp->log($value, '{$' . $key . '}');
+        }
+
+        # end group 'assigned template variables'
+        $firephp->groupEnd();//
+
+        # 3) Log assigned config file variables (outer template scope)
+        $firephp->group('assigned config file variables (outer template scope)');
+
+        # Check if there is something in the config
+        if(!empty($config_vars))
+        {
+            foreach($config_vars as $key => $value)
+            {
+                $firephp->log($value, '{#' . $key . '#}');
+            }
+        }
+        else
+        {
+            $firephp->log("No configuration values available");
+        }
+
+        # end group 'assigned config file variables (outer template scope)'
+        $firephp->groupEnd();
+
+        # end group 'Smarty Debug Output'
+        $firephp->groupEnd();
     }
 }
 ?>
