@@ -116,18 +116,25 @@ class Clansuite_Form extends Clansuite_HTML implements Clansuite_Form_Interface,
     protected $action;
 
     /**
-     * Contains action of the method.
+     * Contains action of the form.
      *
      * @var string
      */
     protected $method;
 
     /**
-     * Contains action of the method.
+     * Contains action of the form.
      *
      * @var string
      */
     protected $name;
+
+    /**
+     * Contains id of the form.
+     *
+     * @var string
+     */
+    protected $id;
 
     /**
      * Construct
@@ -187,6 +194,26 @@ class Clansuite_Form extends Clansuite_HTML implements Clansuite_Form_Interface,
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * Set id of this form.
+     *
+     * @param $id string ID of this form.
+     */
+    public function setID($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Returns action of this form.
+     *
+     * @return string ID of this form.
+     */
+    public function getID()
+    {
+        return $this->id;
     }
 
     /**
@@ -254,7 +281,7 @@ class Clansuite_Form extends Clansuite_HTML implements Clansuite_Form_Interface,
         $html_form = '' . CR;
 
         # open form
-        $html_form = '<form action="'.$this->getAction().'" method="'.$this->getMethod().'" name="'.$this->getName().'">' . CR;
+        $html_form = '<form id="'.$this->getID().'" action="'.$this->getAction().'" method="'.$this->getMethod().'" name="'.$this->getName().'">' . CR;
 
         /**
          * sort formelements by index
