@@ -21,7 +21,7 @@
         </div>
     </div>
 {else}
-    {include file="tools/paginate.tpl"}
+    {pagination}
     <div class="options">
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
@@ -95,6 +95,6 @@
     <div class="options">
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
     </div>
-    {include file="tools/paginate.tpl"}
+    {pagination}
 {/if}
 </div>

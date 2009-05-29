@@ -1,6 +1,6 @@
 <h1>{t}Userlist{/t}</h1>
 {* Debugausgabe des Arrays: {$userslist|@var_dump} {html_alt_table loop=$userslist} *}
-{include file="tools/paginate.tpl"}
+{pagination}
 <table id="userslist" class="forum">
 	<thead>
 		<tr>
