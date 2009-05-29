@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  *
  * This is a wrapper/adapter for the PDF Engine tcpdf.
  *
- * {@link http://www.tcpdf.com/ TCPDF Website}
+ * @link http://www.tcpdf.com/ TCPDF Website
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
