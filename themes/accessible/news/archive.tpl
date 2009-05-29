@@ -15,7 +15,7 @@
 {/move_to}
 
 {if !empty($news)}
-{include file="tools/paginate.tpl"}
+{pagination}
 {foreach item=news from=$news}
 <div id="news-{$news.news_id}" class="newsbox">
 	<h4 class="news-head">{$news.news_title} - {$news.CsCategory.name}</h4>
