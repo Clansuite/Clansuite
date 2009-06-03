@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Jens-Andrï¿½ Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -317,7 +317,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
-     * @return data | null
+     * @return mixed data | null
      */
     public function getParameter($parametername, $parameterArrayName = 'REQUEST')
     {
@@ -336,7 +336,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
-     * @return data | null
+     * @return mixed data | null
      */
     public function setParameter($parametername, $parameterArrayName = 'REQUEST')
     {
@@ -354,7 +354,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Shortcut to get a Parameter from $_POST
      *
      * @param string $parametername Name of the Parameter
-     * @return string data | null
+     * @return mixed data | null
      */
     public function getParameterFromPost($parametername)
     {
@@ -365,11 +365,29 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Shortcut to get a Parameter from $_GET
      *
      * @param string $parametername Name of the Parameter
-     * @return string data | null
+     * @return mixed data | null
      */
     public function getParameterFromGet($parametername)
     {
         return $this->getParameter($parametername, 'GET');
+    }
+
+    /**
+ 	 * Shortcut to get a Parameter from $_SERVER
+     *
+     * @param string $parametername Name of the Parameter
+     * @return mixed data | null
+     */
+ 	public function getParameterFromServer($parametername)
+ 	{
+ 	    if (in_array($parametername, array_keys($_SERVER)))
+        {
+ 	        return $_SERVER[$parametername];
+ 	    }
+        else
+        {
+            return null;
+ 	    }
     }
 
     /**

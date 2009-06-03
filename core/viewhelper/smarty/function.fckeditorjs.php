@@ -24,7 +24,7 @@
 * @param CheckBrowser optional check the browser compatibility when rendering the editor
 * @param DisplayErrors optional show error messages on errors while rendering the editor
 *
-* {fckeditor BasePath="/javascripts/FCKeditor/" InstanceName="test" Width="650px" Height="300px" ToolbarSet="Basic"}
+* {fckeditorJS BasePath="/javascripts/FCKeditor/" InstanceName="test" Width="650px" Height="300px" ToolbarSet="Basic"}
 *
 * Default values for optional parameters (except BasePath) are taken from fckeditor.js.
 *
@@ -32,7 +32,7 @@
 * CustomConfigurationsPath is useful for example.
 * See http://wiki.fckeditor.net/Developer%27s_Guide/Configuration/Configurations_File for more configuration info.
 */
-function smarty_function_fckeditor($params, &$smarty)
+function smarty_function_fckeditorJS($params, &$smarty)
 {
    if(!isset($params['InstanceName']) || empty($params['InstanceName']))
    {
