@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Jens-Andrï¿½ Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -51,8 +51,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * 1) The method renderByHeader() wraps the json directly in the header.
  * 2) The method render() returns the json data for later rendering (as body).
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005-onwards)
+ * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+ * @copyright  Jens-Andrï¿½ Koch (2005-onwards)
  *
  * @category    Clansuite
  * @package     Core
@@ -93,25 +93,17 @@ class view_json extends Clansuite_Renderer_Base
     public function jsonEncode($data)
     {
         # take php's json encode
-		if (function_exists('json_encode'))
-		{
-			$json_encoded_data = json_encode($data);
-		}
-		# take a separate library
-		elseif( clansuite_loader::loadLibrary('json') == true)
-		{
-		    # create a new instance of Services_JSON
-            $json = new Services_JSON();
-            # encode
-			$json_encoded_data = $json->encode($data);
-		}
-		else
-		{
-		    trigger_error('Error: No json_encode function available!', 1);
-		    exit(0);
-		}
+        if (function_exists('json_encode'))
+        {
+            $json_encoded_data = json_encode($data);
+        }
+        else
+        {
+            trigger_error('Error: No json_encode function available!', 1);
+            exit(0);
+        }
 
-		return $json_encoded_data;
+        return $json_encoded_data;
     }
 
     /**
