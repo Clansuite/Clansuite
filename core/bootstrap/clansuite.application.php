@@ -478,6 +478,9 @@ class Clansuite_CMS
         {
             putenv('TZ=' . self::$config['language']['timezone']);
         }
+        
+        # set date formating via config
+        define('DATE_FORMAT', self::$config['default']['default_dateformat']);
     }
 
     /**
