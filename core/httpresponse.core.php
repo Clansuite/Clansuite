@@ -235,20 +235,24 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *  ================================================
      *     Compress output if the browser supports it
      *  ================================================
-     *
-     * Method 1: zlib
+     * This method takes care of the output compression.
+     * Because you cannot use both ob_gzhandler() and zlib.output_compression.
+     * Therefore zlib.output_compression is preferred over ob_gzhandler().
+     * So two methods are used:
+     * Method 1: zlib.output_compression
      * Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
-     *
-     * @todo note by vain: problems reported with cached smarty templates... we'll see how that works out
+     
+     * @link http://www.php.net/ob_gzhandler
      */
     public function activateOutputCompression()
     {
-        # Check for Debugging
+        # Check for Debugging (because we want no Output-Compression when Debugging! )
         if( (bool)XDEBUG === false or (bool)DEBUG === false)
         {
-            # Method 1: zlib
+            # both methods depend on the zlib extension
             if (extension_loaded('zlib'))
             {
+                # Method 1: zlib.output_compression
                 ini_set('zlib.output_compression'       , true);
                 ini_set('zlib.output_compression_level' , $this->output_compression_level);
 
