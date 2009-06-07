@@ -18,4 +18,10 @@ abstract class BaseCsCategory extends Doctrine_Record
     $this->hasColumn('color', 'string', 7, array('type' => 'string', 'length' => 7));
   }
 
+public function setUp()
+  {
+    parent::setUp();
+  }
+
 }
+?>
