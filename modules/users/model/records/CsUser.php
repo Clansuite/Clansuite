@@ -19,7 +19,7 @@ class CsUser extends BaseCsUser
                        ->where('u.id = ?', $id)
                        ->execute( array(), Doctrine::HYDRATE_ARRAY);
 
-        Clansuite_Logger::log('Doctrine Query '.__CLASS__.' '.__METHOD__.' '.var_export($user_array,true));
+        Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
 
         return $user_array;
     }
@@ -38,7 +38,7 @@ class CsUser extends BaseCsUser
                        ->where('u.email = ?', $email)
                        ->execute( array(), Doctrine::HYDRATE_ARRAY);
 
-        Clansuite_Logger::log('Doctrine Query '.__CLASS__.' '.__METHOD__.' '.var_export($user_array,true));
+        Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
 
         return $user_array;
     }
