@@ -52,6 +52,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+
     }
 
     /**
@@ -459,6 +460,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     {
         # get smarty as the view
         $smarty = $this->getView();
+
+        parent::initRecords('users');
 
         # fetch news via doctrine query
         $news = Doctrine_Query::create()

@@ -39,14 +39,14 @@
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-/**  
+/**
  * Clansuite Administration Module - Modulemanager
  *
  * Description: Administration for the Modules
  *
  * @version    0.1
  * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008), 
+ * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008),
  * @author     Jens-André Koch <vain@clansuite.com>
  * @license    GPL v2 any later version
  * @link       -
@@ -59,8 +59,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:       Module_Creator
  * Submodule:    Admin
  *
- * @author     
- * @copyright  
+ * @author
+ * @copyright
  *
 
  */
@@ -526,18 +526,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
     public function activate()
     {
-        #$module = new CsModule;
-        #$module
+        $module = new CsModule;
+        $module['id'] = (int) $this->request['id'];
+        $module['active'] = true;
+        $module->save();
 
-
-        $this->module->id = (int) $_GET['id'];
-        $this->module->getBy(array('id'));
-        $this->module->active = 'Y';
-        $this->module->save();
-
-        $this->pageDetails->addMessage("Module has been activated. Don't forget to check the access levels to make sure every user has access to it!");
-        $this->pageDetails->goTo('index.php?module=modules');
-
+        $this->flashMessage("Module has been activated. Please check the access levels!");
+        $this->redirect('index.php?module=modulemangager');
     }
 
     public function deactivate()

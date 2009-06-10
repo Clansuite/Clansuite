@@ -30,35 +30,70 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
-    */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Clansuite
  *
- * Module:     Matches
+ * Module:      Downloads 
+ * Submodule:   Admin
  *
- * @since      File available since Release 0.2
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - $Date: 2008-06-12 01:44:20 +0200 (Do, 12 Jun 2008) $)
+ *
+ * @package     clansuite
+ * @category    module
+ * @subpackage  news
  */
 class Module_Matches_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Matches -> Execute
-     */
+
+    public function __construct(Phemto $injector=null)
+    {
+        parent::__construct(); # run constructor on controller_base
+    }
+
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+
     }
- 
+    
+    /**
+     * Module_Matches_Admin - action_admin_show
+     *
+     */
     public function action_admin_show()
     {
+        # Permission check
+        #$perms::check('cc_view_matches');
+        
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
+        
+        #
+        
+        # Get Render Engine
+        $smarty = $this->getView();        
+        
+        #$smarty->assign('news', $news->toArray());
+        #$smarty->assign('newsarchiv', $newsarchiv);
+        #$smarty->assign('newscategories', $newscategories);
+
+        // Return true if it's necessary to paginate or false if not
+        #$smarty->assign('pagination_needed',$pager->haveToPaginate());
+
+        // Pagination
+        #$smarty->assign_by_ref('pager', $pager);
+        #$smarty->assign_by_ref('pager_layout', $pager_layout);
+        
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
+        # specifiy the template manually
+        #$this->setTemplate('news/admin_show.tpl');
         # Prepare the Output
         $this->prepareOutput();
-    }    
+       
+    }
 }
-?>
