@@ -156,6 +156,20 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
+     * initalize the records of the module
+     */
+    public static function initRecords($modulename = null)
+    {
+        if($modulename === null)
+        {
+            $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+        }
+
+ 	    $models_path = ROOT_MOD . $modulename . DS . 'model' . DS . 'records';
+ 	    Doctrine::loadModels($models_path);
+    }
+
+    /**
      * Set dependency injector (SetterInjection)
      * Type Hint set to only accept Phemto
      *
@@ -531,9 +545,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     {
         $this->addEvent($eventName, $event);
     }
-    
+
     public function flashmessage($type, $message)
-    {        
+    {
         Clansuite_Flashmessages::setMessage($type, $message);
     }
 }

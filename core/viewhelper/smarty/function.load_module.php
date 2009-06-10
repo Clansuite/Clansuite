@@ -76,6 +76,7 @@ function smarty_function_load_module($params, &$smarty)
     # Instantiate Class
     $controller = new $module_name;
     $controller->setView($smarty);
+    $controller->initRecords($mod);
 
     /**
      * Get the Ouptut of the Object->Method Call
