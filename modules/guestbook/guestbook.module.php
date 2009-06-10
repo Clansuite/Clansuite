@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Guestbook
  */
-class module_guestbook extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
      * Module_Guestbook -> Execute
