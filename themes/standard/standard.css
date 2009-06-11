@@ -1,3 +1,14 @@
+/*
+    Document   : standard.css
+    Description: CSS for the Clansuite Standard Layout
+
+    Created on : 11.05.2009 17:23
+    Author     : vain@clansuite.com
+    Version    : SVN: $Id:$
+
+    Syntax recommendation http://www.w3.org/TR/REC-CSS2
+*
+
 *
 {
     margin:0;
@@ -283,6 +294,17 @@ form select
 	padding-left: 3px;
 }
 
+input[type="text"],
+input[type="password"],
+textarea
+{
+    background-color:#FFFFFF;
+    border:1px solid #EEEEEE;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size:100%;
+    margin:2px 0;
+    padding-left:0.2em;
+}
 .input_text
 {
 	border: 1px solid black;
