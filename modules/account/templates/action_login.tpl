@@ -21,25 +21,38 @@
         <tr>
              <td class="td_header" colspan="2">
                 <form action="index.php?mod=account&action=login"
-                method="post" id="block_login_form" accept-charset="UTF-8" onsubmit="hashLoginPassword(this);">
+                      method="post"
+                      id="block_login_form"
+                      accept-charset="UTF-8"
+                      onsubmit="hashLoginPassword(this);"
+                />
              {t}Login{/t}
              </td>
         </tr>
-        {if $config.login.login_method == 'email'}
+        {if isset($config.login.login_method) && $config.login.login_method == 'email'}
         <tr>
             <td class="cell1">{t}Email:{/t}</td>
-            <td class="cell2"><input class="input_text" type="text" name="email" value="{$smarty.post.email|escape:"html"}" /></td>
+            <td class="cell2"><input class="input_text" type="text" name="email"
+                                     onblur="if(this.value=='')this.value=this.defaultValue;"
+                                     onfocus="if(this.value==this.defaultValue)this.value='';"
+                                     value="email" /></td>
         </tr>
         {/if}
-        {if $config.login.login_method == 'nick'}
+        {if isset($config.login.login_method) && $config.login.login_method == 'nick'}
         <tr>
             <td class="cell1">{t}Nickname:{/t}</td>
-            <td class="cell2"><input class="input_text" type="text" name="nickname" value="{$smarty.post.nickname|default|escape:"html"}" /></td>
+            <td class="cell2"><input class="input_text" type="text" name="nickname"
+                                     onblur="if(this.value=='')this.value=this.defaultValue;"
+                                     onfocus="if(this.value==this.defaultValue)this.value='';"
+                                     value="username" /></td>
         </tr>
         {/if}
         <tr>
             <td class="cell1">{t}Password:{/t}</td>
-            <td class="cell2"><input class="input_text" type="password" name="password" id="block_password" value="" autocomplete="off" /></td>
+            <td class="cell2"><input class="input_text" type="password" name="password"
+                                     onblur="if(this.value=='')this.value=this.defaultValue;"
+                                     onfocus="if(this.value==this.defaultValue)this.value='';"
+                                     id="block_password" value="*****" autocomplete="off" /></td>
         </tr>
         <tr>
             <td colspan="2" class="cell1">
