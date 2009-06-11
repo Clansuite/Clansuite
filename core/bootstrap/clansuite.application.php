@@ -480,7 +480,7 @@ class Clansuite_CMS
         }
         
         # set date formating via config
-        define('DATE_FORMAT', self::$config['default']['default_dateformat']);
+        define('DATE_FORMAT', self::$config['defaults']['default_dateformat']);
     }
 
     /**
