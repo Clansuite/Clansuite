@@ -45,8 +45,5 @@ mooflow                   0.2.1      MIT-style license        http://www.outcut.
 mootools                  1.2.0      MIT-style license        http://www.mad4milk.net
 mootools-more             ?          MIT-style license        http://www.mootools.net/more
 PHP.JS                    1.26       DUAL: MIT, GPL           http://kevin.vanzonneveld.net/techblog/article/phpjs_licensing/
-
-
-TabPane                   1.02       Apache License v2        http://webfx.eae.net/dhtml/tabpane/
 webtoolkit.sha1                      MIT License              http://www.webtoolkit.info/
 XulMenu (mygosuMenu)      1.4.2      BSD (revised/new)        http://gosu.pl/dhtml/mygosumenu.html

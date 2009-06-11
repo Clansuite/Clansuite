@@ -46,7 +46,6 @@ mootools-more             ?          MIT-style license        http://www.mootool
 PHP.JS                    1.26       DUAL: MIT, GPL           http://kevin.vanzonneveld.net/techblog/article/phpjs_licensing/
 prototype                 1.5.1rc1   MIT-style license        http://www.prototypejs.org/
 scriptaculous             1.7.1beta1                          http://script.aculo.us
-TabPane                   1.02       Apache License v2        http://webfx.eae.net/dhtml/tabpane/
 webtoolkit.sha1                      MIT License              http://www.webtoolkit.info/
 XulMenu (mygosuMenu)      1.4.2      BSD (revised/new)        http://gosu.pl/dhtml/mygosumenu.html
 
