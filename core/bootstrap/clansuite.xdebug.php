@@ -54,12 +54,12 @@ class clansuite_xdebug
     {
         xdebug_enable();
     }
-    
+
     public static function disable()
     {
         xdebug_disable();
     }
-    
+
     /**
      * XDebug Helper Functions
      */
@@ -97,13 +97,13 @@ class clansuite_xdebug
 
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
-                 
+
             #xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
-            
+
             #xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
-            #var_dump(xdebug_get_code_coverage()); 
-            #var_dump(xdebug_get_function_count()); 
-            #xdebug_get_code_coverage();           
+            #var_dump(xdebug_get_code_coverage());
+            #var_dump(xdebug_get_function_count());
+            #xdebug_get_code_coverage();
         }
     }
 
@@ -198,25 +198,25 @@ class clansuite_xdebug
         echo '</pre>';
         exit;
     }
-    
+
     public static function xd_varDump()
     {
         echo xdebug_var_dump();
     }
-    
+
     public static function xd_break()
     {
         echo xdebug_break();
     }
-    
+
     public static function showCallStack()
     {
         echo "CallStack - File: ".xdebug_call_file();
-        echo "<br />Class: ".xdebug_call_class(); 
-        echo "<br />Function: ".xdebug_call_function(); 
+        echo "<br />Class: ".xdebug_call_class();
+        echo "<br />Function: ".xdebug_call_function();
         echo "<br />Line: ".xdebug_call_line();
-        echo "<br />Depth of Stacks: ".xdebug_get_stack_depth(); 
-        echo "<br />Content of Stack:"; xdebug_var_dump(xdebug_get_function_stack()); 
+        echo "<br />Depth of Stacks: ".xdebug_get_stack_depth();
+        echo "<br />Content of Stack:"; xdebug_var_dump(xdebug_get_function_stack());
     }
 }
 ?>

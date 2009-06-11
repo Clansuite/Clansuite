@@ -79,7 +79,7 @@ class Clansuite_Loader
         spl_autoload_register(array (__CLASS__,'loadFilter'));
         spl_autoload_register(array (__CLASS__,'loadFactory'));
     }
-    
+
     /**
      * Require File
      * if file found
