@@ -267,8 +267,14 @@ class Clansuite_Errorhandler
         $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
         $errormessage .=  '</pre><br/>';
 
-        # add link to edit the errorous template file
-        $errormessage .= self::addTemplateEditorLink($errorfile, $errorline);
+        # if error relates to a template file, then add link to edit the errorous template file
+        if(strpos(strtolower($errorstring),'.tpl') == true)
+        {
+            # @todo extract filename and line from errorstring
+            # var_dump($errorstring);
+
+            $errormessage .= self::addTemplateEditorLink($errorfile, $errorline);
+        }
 
         return $errormessage;
     }
