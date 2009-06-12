@@ -396,10 +396,12 @@ class Clansuite_CMS
         {
             self::$injector->register( $class );
         }
+
         # define postfilters to load
         self::$postfilter_classes = array(
                                           #empty-at-this-time
-                                          'html_tidy'
+                                          'html_tidy',
+                                          'smarty_moves'
                                           );
 
         # register the postfilters at the DI
@@ -478,7 +480,7 @@ class Clansuite_CMS
         {
             putenv('TZ=' . self::$config['language']['timezone']);
         }
-        
+
         # set date formating via config
         define('DATE_FORMAT', self::$config['defaults']['default_dateformat']);
     }
