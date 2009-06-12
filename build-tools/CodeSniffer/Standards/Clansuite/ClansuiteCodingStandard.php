@@ -57,6 +57,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
                      'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
                      'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
+                     'Squiz/Sniffs/PHP/EvalSniff.php',
 
                      # WhiteSpace
                      'Squiz/Sniffs/WhiteSpace/',
