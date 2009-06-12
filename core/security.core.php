@@ -40,7 +40,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * This is the Clansuite Core Class for Security Handling
  *
  * It contains helper functions for encrypting and salting strings/passwords.
- * The file itself and all functions got rewritten entirely for Release 0.2.
+ *
+ * @link http://www.schneier.com/cryptography.html Website of Bruce Schneier
+ * @link http://www.php.net/manual/en/refs.crypto.php
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
@@ -115,7 +117,7 @@ class Clansuite_Security
      * This function generates a HASH of a given string using the requested hash_algorithm.
      * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
      * To get a complete list of available hash encodings use: print_r(hash_algos());
-     * When you have the "skein_hash" extension installed, we use "skein_hash". 
+     * When you have the "skein_hash" extension installed, we use "skein_hash".
      * When it's not possible to use hash() or skein_hash() for any reason, we use "md5" and "sha1".
      *
      * @param $string String to build a HASH from
@@ -134,11 +136,11 @@ class Clansuite_Security
         # check, if we can use hash()
         if (function_exists('hash'))
         {
-            return hash($hash_algo,$string);
+            return hash($hash_algo, $string);
         }
         /**
-         * check, if we can use skein_hash() 
-         * 
+         * check, if we can use skein_hash()
+         *
          * therefore the php extension "skein" has to be installed.
          * website: http://www.skein-hash.info/downloads
          */
@@ -146,7 +148,7 @@ class Clansuite_Security
         {
             # get the binary 512-bits hash of string
             return skein_hash($string, 512);
-        }        
+        }
         else
         {   # when hash() not available, do hashing the old way
             switch($hash_algo)
