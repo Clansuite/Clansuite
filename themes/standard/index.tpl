@@ -1,10 +1,8 @@
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
-{move_to}{* disabled: <html><head> *}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
 
     {* display cache time as comment *}
-    <!--
-        This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
-     -->
+    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     {* Include the Clansuite Header Notice *}
     {include file='clansuite_header_notice.tpl'}
@@ -58,7 +56,7 @@
 
 
 
-{/move_to}{* disabled </head><body> *}
+</head><body>
 
 {* BrowserCheck *}
  <h2 class="oops">{t}
@@ -147,3 +145,6 @@
 </p>
 
 {include file='copyright.tpl'}
+
+</body>
+</html>
