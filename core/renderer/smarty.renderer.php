@@ -91,9 +91,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # prevent redeclaration
         if (!class_exists('Smarty'))
         {
-            # developer switch to enable Render_SmartyDoc
-            $use_RenderSmartyDOC = true;
-
             # check if library exists
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
             {
@@ -103,19 +100,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             else // throw error in case smarty library is missing
             {
                 die('Smarty Template Library missing!');
-            }
-
-            # RenderSmartyDoc - eat like a bird, poop like an elefant!
-            if ( is_file(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php') && ($use_RenderSmartyDOC === true) )
-            {
-                require(ROOT_LIBRARIES . 'smarty/Render_SmartyDoc.class.php');
-                #require(ROOT_LIBRARIES . 'smarty/SmartyDoc2.class.php');
-                # Set view and smarty to the smarty object
-                $this->renderer = new Render_SmartyDoc();
-            }
-            else // throw error in case Smarty RenderDoc Library is missing
-            {
-                die('Smarty RenderDoc Library missing!');
             }
         }
         else // throw error in case smarty was already loaded
@@ -487,7 +471,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                 $this->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
 
-                return $this->renderer->fetchDOC($this->getLayoutTemplate());
+                return $this->renderer->fetch($this->getLayoutTemplate());
             }
         }
     }
