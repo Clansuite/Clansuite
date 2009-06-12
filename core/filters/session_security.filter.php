@@ -94,7 +94,8 @@ class session_security implements Clansuite_Filter_Interface
             }
             elseif ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
             {
-                session_destroy(session_id());
+                session_unset();
+                session_destroy();
                 
                 $this->response->redirect('index.php?mod=login');
             }
@@ -112,7 +113,8 @@ class session_security implements Clansuite_Filter_Interface
             }
             else if ( gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'] )
             {
-                session_destroy(session_id());
+                session_unset();
+                session_destroy();
                 
                 $this->response->redirect('index.php?mod=login');
             }
