@@ -1,7 +1,7 @@
 <div class="ModuleHeading">{t}About Clansuite{/t}</div>
 <!-- <div class="ModuleHeadingSmall">{t}About - Credits.{/t}</div> -->
 
-{move_to target="head"}
+{move_to target="pre_head_close"}
 {* Tabs with Tabpane *}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabpane/luna.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane/tabpane.js"></script>

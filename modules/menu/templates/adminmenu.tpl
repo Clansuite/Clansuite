@@ -1,4 +1,4 @@
-{move_to target="head"}
+{move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root}/modules/menu/css/menu.css" />
 <script type="text/javascript" src="{$www_root}/modules/menu/javascript/XulMenu.js"></script>
 {/move_to}

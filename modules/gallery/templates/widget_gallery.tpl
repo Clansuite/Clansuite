@@ -1,4 +1,4 @@
-{move_to target="head"}
+{move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/mooflow/MooFlow.css" />
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/milkbox/milkbox.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/MooFlow.js"></script>

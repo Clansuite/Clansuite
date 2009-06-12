@@ -6,7 +6,7 @@
    {$pagination_links|@var_dump} 
 *}
 
-{move_to target="head"}
+{move_to target="pre_head_close"}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
