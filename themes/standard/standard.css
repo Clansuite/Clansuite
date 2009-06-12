@@ -14,22 +14,22 @@
 }
 body
 {   margin: 10px;
-	padding: 10px;
-	color:#000;
-	background: #E4E0C7;
-	/* background: url(../images/bgr.png); */
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
+    padding: 10px;
+    color:#000;
+    background: #E4E0C7;
+    /* background: url(../images/bgr.png); */
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
 }
 
 html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
 
 #header {
-	height:180px;
-	border-bottom:1px solid #fff;
-	background:#cccccc;
-	text-align:center;
-	color:#fff;
+    height:180px;
+    border-bottom:1px solid #fff;
+    background:#cccccc;
+    text-align:center;
+    color:#fff;
 }
 
 #inner {
@@ -38,25 +38,25 @@ float:left;
 }
 
 #left {
-	float:left;
-	width:32%;/* note this width is 32% and not 20% */
-	margin-left:-31.9%;/* must be less than width */
-	position:relative;
-	left:-.01%;
+    float:left;
+    width:32%;/* note this width is 32% and not 20% */
+    margin-left:-31.9%;/* must be less than width */
+    position:relative;
+    left:-.01%;
 }
 #right {
-	margin-right:-31.9%;/* must be less than width */
-	float:right;
-	width:32%;/* note this width is 32% and not 20% */
-	position:relative;
-	left:.01%;
+    margin-right:-31.9%;/* must be less than width */
+    float:right;
+    width:32%;/* note this width is 32% and not 20% */
+    position:relative;
+    left:.01%;
 }
 #middle {
-	border-left:1px solid #fff;
-	border-right:1px solid #fff;
-	background:#7eddff;
-	margin-left:20%;
-	margin-right:20%;
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    background:#7eddff;
+    margin-left:20%;
+    margin-right:20%;
  min-height:0;
 }
 /* mac hie \*/
@@ -111,15 +111,15 @@ p {padding:0 5px;margin:.5em 0}
 h3 {margin:0;padding-top:10px}
 
 .clearer{
-	height:1px;
-	overflow:hidden;
-	margin-top:-1px;
-	clear:both;
+    height:1px;
+    overflow:hidden;
+    margin-top:-1px;
+    clear:both;
 }
 
 .oops
 {
-	display: none;
+    display: none;
 }
 
 /* Links */
@@ -128,16 +128,16 @@ a,
 a:link,
 a:visited
 {
-	text-decoration: none;
-	color: blue;
-	font-weight: bold;
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
 }
 
 a:hover
 {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }
 
 /* External Links */
@@ -145,22 +145,22 @@ a:hover
 a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.de"])::after
 {
    padding-left: 0.2em;
-   content:	  url(images/remote.png);
+   content:   url(images/remote.png);
 }
 
 /* Breadcrumb / Trail ( You are here >> )*/
 
 .breadcrumbs {
-	font-size : 85%;
-	color : #000;
-	margin-bottom : 5px;
+    font-size : 85%;
+    color : #000;
+    margin-bottom : 5px;
 }
 .breadcrumbs a {
-	color : #f00;
+    color : #f00;
 }
 .breadcrumbs a:hover {
-	color : #fff;
-	background-color : #f00;
+    color : #fff;
+    background-color : #f00;
 }
 
 /* Colored Buttons */
@@ -172,43 +172,43 @@ a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.d
 .ButtonGrey,
 .ButtonOrange
 {
-	background-color: #FFFFFF;
-	border: 1px solid #999999;
-	border-top-color: #CCCCCC;
-	border-left-color: #CCCCCC;
-	color: #333333;
-	font-size: 9px;
-	font-family: tahoma, sans-serif;
-	font-weight: bold;
-	padding: .25em;
-	margin: 3px;
-	white-space: nowrap;
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    border-top-color: #CCCCCC;
+    border-left-color: #CCCCCC;
+    color: #333333;
+    font-size: 9px;
+    font-family: tahoma, sans-serif;
+    font-weight: bold;
+    padding: .25em;
+    margin: 3px;
+    white-space: nowrap;
 }
 
 .Button,
 .ButtonGrey
 {
-	background: url(images/background_form_element_grey.gif) repeat-x;
+    background: url(images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-	background: url(images/background_form_element_yellow.gif) repeat-x;
+    background: url(images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-	background: url(images/background_form_element_orange.gif) repeat-x;
+    background: url(images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-	background: url(images/background_form_element_red.gif) repeat-x;
+    background: url(images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-	background: url(images/background_form_element_green.gif) repeat-x;
+    background: url(images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -218,79 +218,79 @@ a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.d
 .ButtonGrey:active,
 .ButtonOrange:active
 {
-	border: 1px solid #CCCCCC;
-	border-top-color: #999999;
-	border-left-color: #999999;
+    border: 1px solid #CCCCCC;
+    border-top-color: #999999;
+    border-left-color: #999999;
 }
 
 .small_grey
 {
-	margin-top: -5px;
-	margin-left: -3px;
-	color: grey;
-	font-size: 9px;
-	font-family: tahoma, sans-serif;
+    margin-top: -5px;
+    margin-left: -3px;
+    color: grey;
+    font-size: 9px;
+    font-family: tahoma, sans-serif;
 }
 
 .crudbutton
 {
-	text-align: center;
+    text-align: center;
 
-	margin-top: 5px;
-	margin-left: 10px;
-	margin-right: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 
-	padding: 3px;
-	/* width: 30%; */
-	height: 14px;
+    padding: 3px;
+    /* width: 30%; */
+    height: 14px;
 
 
-	position:relative;
-	border: 1px solid #F1EFE2;
-	z-index: 5;
-	cursor: default;
+    position:relative;
+    border: 1px solid #F1EFE2;
+    z-index: 5;
+    cursor: default;
 }
 
 .crudbutton:hover
 {
-	background-color: #ffffff;
-	border: 1px solid #ACA899;
+    background-color: #ffffff;
+    border: 1px solid #ACA899;
 }
 
 .redirect
 {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 200px;
-	height: 50px;
-	margin-top: -25px;
-	margin-left: -100px;
-	padding: 10px;
-	background: #CCCCCC;
-	border: 1px solid #000000;
-	text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -100px;
+    padding: 10px;
+    background: #CCCCCC;
+    border: 1px solid #000000;
+    text-align: center;
 }
 
 .font_mini
 {
-	font-size: 10px;
+    font-size: 10px;
 }
 
 .error
 {
-	color: red;
-	font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 form input,
 form textarea,
 form select
 {
-	width:auto;	  /* auto-size, otherwise watch for wrap on resize */
-	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
-							  label aligns textarea better in IE */
-	padding-left: 3px;
+    width:auto;   /* auto-size, otherwise watch for wrap on resize */
+    margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
 }
 
 input[type="text"],
@@ -306,259 +306,259 @@ textarea
 }
 .input_text
 {
-	border: 1px solid black;
-	height: 13px;
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
 }
 
 form select.input_text,
 select.input_text
 {
-	height: auto;
+    height: auto;
 }
 
 .input_textarea
 {
-	border: 1px solid black;
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
+    border: 1px solid black;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
 }
 
 .checkbox
 {
-	border: 1px solid black;
+    border: 1px solid black;
 }
 
 img {
-	border: 0px;
+    border: 0px;
 }
 
 table td
 {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 p
 {
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
-	margin: 2em;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+    margin: 2em;
 }
 
 table.admintable thead th
 {
-	background: #254161;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
-	font-size: 12px;
-	font-weight: bold;
-	color: white;
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
 }
 
 table.admintable tbody
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	cursor: default;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
 }
 
 table.admintable td{
 
-	padding: 5px;
-	vertical-align: middle;
-	border-color: white;
-	border: 1px solid white;
+    padding: 5px;
+    vertical-align: middle;
+    border-color: white;
+    border: 1px solid white;
 }
 
 table.admintable tr#cell2
 {
-	background: #E4E0C7;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	cursor: default;
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
 }
 
 table.admintable tr#cell3
 {
-	background: #E4E0C7;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	cursor: default;
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
 }
 
 .tr_row1 td
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .tr_row2 td
 {
-	background: #E4E0C7;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .cell1
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .cell2
 {
-	background: #E4E0C7;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .cell3
 {
-	background: #E4E0C7;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 0px;
-	cursor: default;
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 0px;
+    cursor: default;
 }
 
 .red_cell
 {
-	background: #FF0000;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #FF0000;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .td_header
 {
-	background: #254161;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
-	font-size: 12px;
-	font-weight: bold;
-	background: url(images/thback.gif) repeat-x;
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    background: url(images/thback.gif) repeat-x;
 }
 
 .tr_header td
 {
-	background: #254161;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
-	font-size: 12px;
-	font-weight: bold;
-	background: url(images/thback.gif) repeat-x;
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    background: url(images/thback.gif) repeat-x;
 }
 
 .tr_header_small td
 {
-	background: #D5CCBB;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 2px;
-	padding-left: 5px;
-	cursor: default;
-	font-size: 12px;
-	font-weight: bold;
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .td_header_small
 {
-	background: #D5CCBB;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 2px;
-	padding-left: 5px;
-	cursor: default;
-	font-size: 12px;
-	font-weight: bold;
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .left_menu
 {
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px; margin: 2em;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px; margin: 2em;
 }
 
 .right_menu
 {
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
-	margin: 2em;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+    margin: 2em;
 }
 
 .header
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
-	font-weight: bold;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-weight: bold;
 }
 
 .header span
 {   /* move Date inside Header to right-side */
-	position: absolute;
-	right: 38px;
+    position: absolute;
+    right: 38px;
 }
 
 .menugradient {
 
-	height: 24px;
+    height: 24px;
 
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	/* overflow: auto; Aufgrund des Floatens der Innencontainer */
-	padding-top:	1px;
-	padding-bottom: 1px;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    /* overflow: auto; Aufgrund des Floatens der Innencontainer */
+    padding-top:    1px;
+    padding-bottom: 1px;
 
 }
 
 .message_new
 {
-	border: 1px solid #999999;
-	background: #CCFF99;
-	padding: 3px;
+    border: 1px solid #999999;
+    background: #CCFF99;
+    padding: 3px;
 }
 
 .message_old
 {
-	border: 1px solid #999999;
-	background: #EEEEEE;
-	padding: 3px;
+    border: 1px solid #999999;
+    background: #EEEEEE;
+    padding: 3px;
 
 }
 
 .message_date
 {
-	clear: left;
-	font-size: 10px;
+    clear: left;
+    font-size: 10px;
 }
 
 .message_headline
 {
-	float: left;
-	clear: both;
+    float: left;
+    clear: both;
 }
 
 .message_message
@@ -568,87 +568,87 @@ table.admintable tr#cell3
 
 .message_divider
 {
-	border-width: 1px 0px 0px 0px;
-	border-color: #000000;
-	border-style: solid;
-	clear: both;
-	height: 1px;
+    border-width: 1px 0px 0px 0px;
+    border-color: #000000;
+    border-style: solid;
+    clear: both;
+    height: 1px;
 }
 
 .message_buttons
 {
-	float: right;
-	top: 0px;
+    float: right;
+    top: 0px;
 }
 
 .message_selections
 {
-	float: right;
+    float: right;
 }
 
 .profile_editcell
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
-	padding: 5px;
-	cursor: default;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
 }
 
 .profile_icon
 {
-	height: 13px;
-	text-align: center;
+    height: 13px;
+    text-align: center;
 }
 
 .ajax_input_class
 {
-	width:auto;	  /* auto-size, otherwise watch for wrap on resize */
-	margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
-							  label aligns textarea better in IE */
-	padding-left: 3px;
-	border: 1px solid black;
-	height: 13px;
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
+    width:auto;   /* auto-size, otherwise watch for wrap on resize */
+    margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
 }
 
 .bar
 {
-	float: left;
-	width: auto;
+    float: left;
+    width: auto;
 }
 
 .search
 {
-	vertical-align: middle;
-	height: 30px;
-	float:  right;
-	width:  auto;
-	margin-right: 5px;
+    vertical-align: middle;
+    height: 30px;
+    float:  right;
+    width:  auto;
+    margin-right: 5px;
 }
 
 .search input,
 .search select
 {
-	font-family: georgia, tahoma, verdana;
-	font-size: 12px;
-	margin-top: 4px;
+    font-family: georgia, tahoma, verdana;
+    font-size: 12px;
+    margin-top: 4px;
 }
 
 .content
 {
-	padding: 8px;
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 8px;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
 }
 
 .border3d
 {
-	background: #ECE9D8;
-	border: 1px solid;
-	border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
 }
 
 /**
@@ -656,41 +656,41 @@ table.admintable tr#cell3
 */
 .Bold
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .Title
 {
-	font-weight: bold;
-	font-size: 18px;
-	color: #cc3300;
+    font-weight: bold;
+    font-size: 18px;
+    color: #cc3300;
 }
 
 .Code
 {
-	border: #8b4513 1px solid;
-	padding-right: 5px;
-	padding-left: 5px;
-	color: #000066;
-	font-family: 'Courier New' , Monospace;
-	background-color: #ff9933;
+    border: #8b4513 1px solid;
+    padding-right: 5px;
+    padding-left: 5px;
+    color: #000066;
+    font-family: 'Courier New' , Monospace;
+    background-color: #ff9933;
 }
 
 /* Userslist */
 #userslist {
-	width: 100%;
-	text-align: center;
+    width: 100%;
+    text-align: center;
 }
 #userslist, #userslist tr, #userslist th, #userslist td {
-	padding: 0 2px;
-	border: 1px solid #333;
-	border-collapse: collapse;
+    padding: 0 2px;
+    border: 1px solid #333;
+    border-collapse: collapse;
 }
 #userslist .nick-rank {
-	text-align: left;
+    text-align: left;
 }
 #userslist .nick-rank span, #userslist .nick-rank span {
-	float: right;
+    float: right;
 }
 
 /*
@@ -706,36 +706,36 @@ table.admintable tr#cell3
 */
 
 .XulMenu {
-	font-family: tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
 }
 .XulMenu .button,
 .XulMenu .button:hover,
 .XulMenu .button-active,
 .XulMenu .button-active:hover {
-	line-height: normal;
-	padding: 4px 6px 4px 6px;
-	margin: 1px;
-	color: #000000;
-	text-decoration: none;
-	cursor: default;
-	white-space: nowrap;
-	display: block;
-	position: relative;
-	/*width: 100%;*/
-	border: 1px solid lightgrey;
-	text-align: center;
+    line-height: normal;
+    padding: 4px 6px 4px 6px;
+    margin: 1px;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
+    /*width: 100%;*/
+    border: 1px solid lightgrey;
+    text-align: center;
 }
 .XulMenu .button:hover {
-	margin: 1px;
-	border: 1px solid #8F8F85;
-	background:#EFECDE;
+    margin: 1px;
+    border: 1px solid #8F8F85;
+    background:#EFECDE;
 }
 .XulMenu .button-active,
 .XulMenu .button-active:hover {
-	margin: 1px;
-	border: 1px solid #8F8F85;
-	background:#C9D5E5;
+    margin: 1px;
+    border: 1px solid #8F8F85;
+    background:#C9D5E5;
 }
 
 
@@ -744,75 +744,75 @@ table.admintable tr#cell3
 .XulMenu .item:hover,
 .XulMenu .item-active,
 .XulMenu .item-active:hover {
-	border:1px solid #FDFDF9;
-	background: #FDFDF9;
-	line-height: normal;
-	padding: 4px 30px 4px 25px;
-	color: black;
-	text-decoration: none;
-	cursor: default;
-	white-space: nowrap;
-	display: block;
-	position: relative;
+    border:1px solid #FDFDF9;
+    background: #FDFDF9;
+    line-height: normal;
+    padding: 4px 30px 4px 25px;
+    color: black;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+    position: relative;
 }
 .XulMenu .item:hover,
 .XulMenu .item-active,
 .XulMenu .item-active:hover {
-	border:1px solid #316BC6;
-	background: #C9D5E5;
-	color: black;
+    border:1px solid #316BC6;
+    background: #C9D5E5;
+    color: black;
 }
 
 /*
 .XulMenu .item {
-	margin:1px;
-	background: #ffffff;
-	padding: 3px 30px 3px 20px;
+    margin:1px;
+    background: #ffffff;
+    padding: 3px 30px 3px 20px;
 }
 .XulMenu .item,
 .XulMenu .item:hover,
 .XulMenu .item-active,
 .XulMenu .item-active:hover {
-	line-height: normal;
+    line-height: normal;
 
-	color: #000000;
-	text-decoration: none;
-	cursor: default;
-	white-space: nowrap;
-	position: relative;
-	display: block;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    position: relative;
+    display: block;
 }
 .XulMenu .item:hover,
 .XulMenu .item-active,
 .XulMenu .item-active:hover {
-	margin:0px;
-	border:1px solid #316BC6;
-	background: #C9D5E5;
-	padding: 2px 30px 2px 20px;
+    margin:0px;
+    border:1px solid #316BC6;
+    background: #C9D5E5;
+    padding: 2px 30px 2px 20px;
 }
 */
 .XulMenu .section {
-	background: #FCFCF8;
-	border: 1px solid;
-	border-color: #F1EFE2 #716F64 #716F64 #F1EFE2;
-	padding: 2px 1px 1px 2px; /* top right bottom left */
-	position: absolute;
-	visibility: hidden;
-	/*filter:progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=2);*/
-	z-index: -1;
+    background: #FCFCF8;
+    border: 1px solid;
+    border-color: #F1EFE2 #716F64 #716F64 #F1EFE2;
+    padding: 2px 1px 1px 2px; /* top right bottom left */
+    position: absolute;
+    visibility: hidden;
+    /*filter:progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=2);*/
+    z-index: -1;
 }
 .XulMenu .arrow {
-	position: absolute;
-	top: 7px;
-	right: 8px;
-	border: 0;
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    border: 0;
 }
 
 .XulMenu .pic {
-	position: absolute;
-	top: 2px;
-	left: 3px;
-	border: 0;
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    border: 0;
 }
 
 
@@ -820,22 +820,22 @@ table.admintable tr#cell3
 .XulMenu .itembtn:hover,
 .XulMenu .itembtn-active,
 .XulMenu .itembtn-active:hover {
-	line-height: normal;
-	padding: 1px 3px 3px 3px;
-	color: #000000;
-	text-decoration: none;
-	cursor: default;
-	white-space: nowrap;
-	position: relative;
+    line-height: normal;
+    padding: 1px 3px 3px 3px;
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+    white-space: nowrap;
+    position: relative;
 }
 .XulMenu .itembtn:hover,
 .XulMenu .itembtn-active,
 .XulMenu .itembtn-active:hover {
-	background: #C9D5E5;
-	border:1px solid;
-	border-color: #316BC6;
-	color: black;
-	padding: 1px 2px 3px 2px;
+    background: #C9D5E5;
+    border:1px solid;
+    border-color: #316BC6;
+    color: black;
+    padding: 1px 2px 3px 2px;
 }
 
 * html .XulMenu td { position: relative; } /* ie 5.0 fix */
@@ -843,20 +843,20 @@ table.admintable tr#cell3
 /* AJAX Progress Indicator */
 
 #notification {
-	display: block;
-	position: fixed;
-	width: 100%;
-	margin: 0px;
-	left: 0px;
-	bottom: 0px;
-	/* top: 0px; */
-	height: 20px;
-	background-color: #FFFF99;
-	text-align: center;
-	font-weight: bold;
-	font-size: 1.3em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	padding-top: 5px;
+    display: block;
+    position: fixed;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    bottom: 0px;
+    /* top: 0px; */
+    height: 20px;
+    background-color: #FFFF99;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding-top: 5px;
 }
 
 /* Sidebar Widgets: News, TSViewer etc. */
@@ -867,6 +867,7 @@ table.admintable tr#cell3
     display: inline-block;
     vertical-align: top;
     text-align: left;
+    padding-bottom: 15px;
 }
 
 #all_widgets
