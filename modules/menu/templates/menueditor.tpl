@@ -1,5 +1,5 @@
 {modulenavigation}
-{move_to target="head"}
+{move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/DynamicTree.css" />
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>

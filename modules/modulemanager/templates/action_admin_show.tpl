@@ -2,7 +2,7 @@
 <div class="ModuleHeading">{t}Modulemanager{/t}</div>
 <div class="ModuleHeadingSmall">{t}Administrate the modules. You can add, delete, activate, deactivate modules.{/t}</div>
 
-{move_to target="head"}
+{move_to target="pre_head_close"}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
 {/move_to}
