@@ -44,13 +44,13 @@ function smarty_block_move_it($params, $content, &$smarty, &$repeat)
         return;
     }
 
-    if( isset($params['position']) )
+    if( isset($params['target']) )
     {
-        $tag = strtoupper($params['position']);
+        $tag = strtoupper($params['target']);
     }
     else
     {
-        $smarty->trigger_error("Parameter 'positions' missing. Available Options: pre_head_close, post_body_open, pre_body_close.");
+        $smarty->trigger_error("Parameter 'target' missing. Available Options: pre_head_close, post_body_open, pre_body_close.");
         return;
     }
 
@@ -62,10 +62,10 @@ function smarty_block_move_it($params, $content, &$smarty, &$repeat)
                                       'POST_BODY_OPEN',  #  <body>x
                                       'PRE_BODY_CLOSE'); #  x</body>
 
-    # check if tag is a valid movement position
+    # whitelist: check if tag is a valid movement position
     if( !in_array($tag, $valid_movement_positions) )
     {
-        $smarty->trigger_error("Parameter 'position' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
+        $smarty->trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
         return;
     }
 
