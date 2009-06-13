@@ -53,6 +53,8 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
     {
         # read module config
         #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
+
+        parent::initRecords('menu');
     }
 
     /**

@@ -29,7 +29,7 @@
                                     </script>
                                 {/literal}
 
-                                {move_to}
+                                {move_to target="pre_head_close"}
                                 <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/vertical-tabs.css" />
                                 {/move_to}
 
