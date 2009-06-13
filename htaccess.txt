@@ -7,6 +7,12 @@
 
 DirectoryIndex index.php
 
+# Allow Symlinks
+Options +FollowSymLinks
+
+# Disallow Index-Listings
+Options -Indexes
+
 # (4) General and PHP.ini Settings
 SetEnv    TZ                    Europe/Berlin
 <IfModule mod_php5.c>
