@@ -1,5 +1,5 @@
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
-{move_to}{* disabled: <html><head> *}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
 
     {* display cache time as comment *}
     <!--
@@ -44,7 +44,7 @@
     {* Pagetitle *}
     <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
-{/move_to}{* disabled </head><body> *}
+</head><body>
 
 
 <div class="header">
@@ -146,3 +146,6 @@
     <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
+
+</body>
+</html>
