@@ -1,3 +1,13 @@
+/*
+    Document   : admin.css
+    Description: CSS for the Clansuite Administration Layout
+
+    Created on : 11.05.2009 17:23
+    Author     : vain@clansuite.com
+    Version    : SVN: $Id:$
+
+    Syntax recommendation http://www.w3.org/TR/REC-CSS2
+*/
 body
 {
     margin: 0;
@@ -382,7 +392,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    heigth: 20px;
+    height: 20px;
 }
 
 .left_menu
@@ -491,12 +501,11 @@ table.admintable tr#cell3
 
 .ModuleHeading
 {
-    border-bottom:2px solid #ACA899;
-    color:#333333;
-    font-size:1.6em;
-    margin:0 0 20px;
-    padding:-10;
-    font-weight:bold;
+    border-bottom: 2px solid #ACA899;
+    color: #333333;
+    font-size: 1.6em;
+    margin: 0 0 20px;
+    font-weight: bold;
 }
 
 .ModuleHeadingSmall
