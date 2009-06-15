@@ -11,11 +11,6 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
 
-    {* Mootools *}
-
-    <script src="{$www_root_themes_core}/javascript/mootools/mootools.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/mootools/mootools-more.js" type="text/javascript"></script>
-
     {* Clip *}
 
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
@@ -62,25 +57,16 @@
                 {include file='breadcrumbs.tpl'}
 
                 {literal}
-                    <!-- Javascript for the Help Toggle -->
+                    <!-- (jQuery) Javascript for the Help Toggle -->
                     <script type="text/javascript">
-                    window.addEvent('domready', function() {
-                        var mySlide = new Fx.Slide('help', {
-                            duration: 500,
-                            transition: Fx.Transitions.Pow.easeOut,
-                            wait: false
+                    $(document).ready( function(){
+                        $("#help").hide();
+                        $("#help-toggler").click( function(){
+                            $("#help").slideToggle("normal");
                         });
-                        mySlide.hide();
-                        //alert(mySlide.open);
-
-                        $('help-toggler').addEvent('click', function() {
-                            mySlide.toggle('vertical');
-                        });
-                    }, 'javascript');
+                    });
                     </script>
                 {/literal}
-
-
 
                 <!-- Help Icon -->
                 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
