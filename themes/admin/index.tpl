@@ -1,10 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head>
-
     {* display cache time as comment *}
-    <!--
-        This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}.
-     -->
+    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     {* jQuery *}
 
@@ -25,9 +22,8 @@
 
     <meta name="author" content="{$meta.author}" />
     <meta name="description" content="{$meta.description}" />
-    <meta name="keywords" content="{$meta.keywords}" />
 
-     {* Favicon *}
+    {* Favicon *}
 
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
     <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
