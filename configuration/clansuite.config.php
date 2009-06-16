@@ -60,7 +60,7 @@ webdebug = 0
 [defaults]
 default_module = "index"
 default_action = "show"
-default_dateformat = "%d.%m.%Y"
+default_dateformat = "l, d.m.Y H:i"
 
 ;----------------------------------------
 ; language
