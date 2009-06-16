@@ -2,19 +2,35 @@
 <!-- <div class="ModuleHeadingSmall">{t}About - Credits.{/t}</div> -->
 
 {move_to target="pre_head_close"}
-{* Tabs with Tabpane *}
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabpane/luna.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane/tabpane.js"></script>
+{* Tabs with jQuery + YAML Accessible Tabs Plugin *}
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tabs.js"></script>
+
+{literal}
+<script type="text/javascript">
+	$(document).ready(function(){
+    	$(".tabs").accessibleTabs({
+    	                            fx:"fadeIn",
+                                	tabbody:'.tab-page',
+                                	tabhead: '.tab',
+                                    currentInfoText: '&raquo; ',
+                                    currentInfoPosition: 'prepend',
+                                    currentInfoClass: 'current-info'
+                                  });
+    });
+</script>
+{/literal}
+
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabs.css" />
 {/move_to}
 
-<div class="tab-pane">
+<div class="tabs">
 
    {*  /---------------------------------------------------
        |
        |     Tab: Clansuite
        |
        \--------------------------------------------------- *}
-   <div class="tab-page" id="tab-page-1">
+   <div class="tab-page">
    <h2 class="tab">Clansuite</h2>
 
     <img style="float:left; margin: 10px 0px 15px 1%;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite_clown_mini.png">
@@ -355,5 +371,5 @@
         </tr>
 		</tbody>
 	   </table>
-   </div>    
+   </div>
 </div>
