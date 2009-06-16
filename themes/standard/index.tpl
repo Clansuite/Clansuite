@@ -41,20 +41,11 @@
     {* Clip *}
 
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/mootools-more.js"></script>
-
-    {* Include several Hacks and Fixes for Internet Explorer *}
-    <!--[if IE]>
-    <link rel="stylesheet" href="{$www_root_themes_core}/css/IEhack.css" type="text/css" />
-    <script type="application/javascript" src="{$www_root_themes_core}/javascript/catfish.js">
-    <![endif]-->
 
     {* Cascading Style Sheets *}
+
     <link rel="stylesheet" type="text/css" href="{$css}" />
     <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
-
-
 
 </head><body>
 

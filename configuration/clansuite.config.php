@@ -141,7 +141,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-André Koch & Clansuite Development Team"
+author = "Jens-AndrÃ© Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 domain = "clansuite-dev.com"
