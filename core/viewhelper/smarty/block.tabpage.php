@@ -30,11 +30,15 @@ function smarty_block_tabpage($params, $content, &$smarty, &$repeat)
     }
 
     # Start TAB Page
-    $start_tabpage  = '<!-- NEW TABPAGE : '.$name.' -->';
-    $start_tabpage .= '<div class="tab-page"> <h2 class="tab">'.$name.'</h2>';
+    $start_tabpage  = '<!-- START - TABPAGE "'.$name.'" -->';
+    $start_tabpage .= "\n";
+    $start_tabpage .= '<div class="tab-page">';
+    $start_tabpage .= "\n";
+    $start_tabpage .= '<h2 class="tab">'.$name.'</h2>';
+    $start_tabpage .= "\n";
 
     # End TAB Page
-    $end_tabpage = '</div><!-- END TABPAGE :'.$name.' -->';
+    $end_tabpage = '</div><!-- END - TABPAGE "'.$name.'" -->';
 
     # Construct content for whole BLOCK
     $content = $start_tabpage . $content . $end_tabpage;
