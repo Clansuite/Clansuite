@@ -15,7 +15,7 @@
 	</tr>
 
 	<tr>
-		<td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.0.CsUser.user_id}'>{$news.0.CsUser.nick}</a> am {$news.0.news_added}</font></td>
+		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$news.0.CsUser.user_id}'>{$news.0.CsUser.nick}</a> on {$news.0.news_added|dateformat}</font></td>
 	</tr>
 
 	<tr>

@@ -2,7 +2,7 @@
 <html><head>
 
     {* display cache time as comment *}
-    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
+    <!-- This Page was cached on {$smarty.now|dateformat}. -->
 
     {* Include the Clansuite Header Notice *}
     {include file='clansuite_header_notice.tpl'}
