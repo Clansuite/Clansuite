@@ -1,8 +1,8 @@
--- MySQL dump 10.11
+-- MySQL dump 10.13  Distrib 5.1.33, for Win32 (ia32)
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.0.51a
+-- Server version	5.1.33-community
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,11 +20,11 @@
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `parent` tinyint(3) unsigned NOT NULL default '0',
+  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
@@ -33,16 +33,16 @@ CREATE TABLE `cs_adminmenu` (
   `sortorder` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`,`parent`)
+  PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_adminmenu`
 --
 
 /*!40000 ALTER TABLE `cs_adminmenu` DISABLE KEYS */;
-INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Control Center','?mod=controlcenter','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Forum','','Forum','_self',1,'application_view_list.png',''),(6,5,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Manage Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',0,'pencil.png',''),(27,25,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',1,'add.png',''),(28,2,'folder','Quotes','','Quotes','_self',11,'report.png',''),(29,28,'item','Manage Quotes','index.php?mod=quotes&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(30,0,'folder','Layout','','Layout','_self',2,'layout_header.png',''),(31,30,'item','BB Codes','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(32,30,'item','Adminmenu','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(33,30,'item','Templates','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(34,30,'item','Themes','index.php?mod=thememanager&amp;sub=admin','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(35,0,'folder','Users','','Users','_self',3,'user_suit.png',''),(36,35,'folder','Users','','Users','_self',0,'user_suit.png',''),(37,36,'item','Manage Users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'table.png','cc_show_users'),(38,36,'item','Search User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(39,35,'folder','Groups','','Groups','_self',1,'group.png',''),(40,39,'item','Manage Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(41,39,'item','Create Group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(42,35,'folder','Permissions','','Permissions','_self',2,'key.png',''),(43,42,'item','Manage Permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(44,0,'folder','System','','System','_self',4,'computer.png',''),(45,44,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(46,44,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',1,'spellcheck.png',''),(47,44,'item','Cache','index.php?mod=cache&amp;sub=admin','Cache','self',2,'bullet_disk.png',''),(48,44,'folder','Database','','Database','_self',3,'database_gear.png',''),(49,48,'item','Import','','Import','_self',0,'database_go.png',''),(50,48,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',1,'database_gear.png',''),(51,48,'item','Export & Backup','index.php?mod=database&amp;action=backup','Export & Backup','_self',2,'database_key.png',''),(52,44,'item','Cronjobs','index.php?mod=cronjobs&amp;sub=admin','Cronjobs','self',4,'settings.png',''),(53,44,'folder','Hooks & Events','','Hooks & Events','self',5,'settings.png',''),(54,53,'item','Bridges','index.php?mod=bridges&amp;sub=admin','Bridges','_self',0,'application_view_list.png',''),(55,44,'folder','Paket-Management','','Paket-Mangement','_self',6,'bricks.png',''),(56,55,'item','Search Pakets','index.php?mod=paketmanager&amp;sub=admin','Search Pakets','self',0,'package.png',''),(57,55,'item','Search Module','Search%20Modules','Search Module','self',1,'package.png',''),(58,55,'item','Search Themes','index.php?mod=paketmanager&amp;sub=admin','Search Themes','self',2,'package.png',''),(59,44,'folder','Modules','','Modules','_self',7,'bricks.png',''),(60,59,'item','Install Modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(61,59,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=builder','Create a module','_self',1,'add.png',''),(62,59,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(63,59,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(64,44,'folder','Language','','Language','_self',8,'spellcheck.png',''),(65,64,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(66,44,'folder','Information','','Information','_self',9,'information.png',''),(67,66,'item','Systeminformation','index.php?mod=systeminfo&amp;sub=admin','Systeminformation','_self',0,'information.png',''),(68,66,'folder','Logs','index.php?mod=logs&amp;sub=admin','Logs','self',1,'table.png',''),(69,68,'item','Overview','index.php?mod=logs&amp;ampsub=admin','Overview','self',0,'table.png',''),(70,68,'item','Error Log','index.php?mod=logs&amp;sub=admin&amp;action=errorlog','Error Log','self',1,'table.png',''),(71,68,'item','Moderator Log','index.php?mod=logs&amp;sub=admin&amp;action=','Moderator Log','self',2,'table.png',''),(72,66,'item','Statistics','index.php?mod=statistics&amp;mod=admin','Statistics','self',2,'table.png',''),(73,0,'folder','Help','','Help','_self',5,'help.png',''),(74,73,'item','Help & Support','index.php?mod=help&amp;sub=admin&amp;action=show&amp;action=supportlinks','Help','_self',0,'help.png',''),(75,73,'item','Online-Manuals','http://www.clansuite.com/documentation','Manual','_blank',1,'book_open.png',''),(76,73,'item','Report Bugs & Issues','index.php?mod=controlcenter&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(77,73,'item','About Clansuite','index.php?mod=controlcenter&amp;action=about','About Clansuite','_self',3,'information.png','');
+INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Control Center','?mod=controlcenter','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Redaktion','','Redaktion','_self',1,'page_edit.png',''),(3,2,'folder','News','','News','_self',0,'page_edit.png',''),(4,3,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(5,3,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(6,2,'folder','Blog','','Blog','_self',1,'book_open.png',''),(7,6,'item','Manage Blog','index.php?mod=blog&amp;sub=admin','Manage Blog','_self',0,'pencil.png',''),(8,2,'folder','Articles','','Articles','_self',2,'application_form_edit.png',''),(9,8,'item','Manage Articles','index.php?mod=articles&amp;sub=admin','Manage Articles','_self',0,'bricks_edit.png',''),(10,2,'folder','Reviews','','Reviews','_self',3,'pencil.png',''),(11,10,'item','Manage Reviews','index.php?mod=reviews&amp;sub=admin','Manage Reviews','_self',0,'report.png',''),(12,2,'folder','Coverages','','Coverages','_self',4,'package.png',''),(13,12,'item','Manage Coverages','index.php?mod=coverages&amp;sub=admin','Manage Coverages','_self',0,'application_view_list.png',''),(14,0,'folder','Community','','Community','_self',2,'bricks.png',''),(15,14,'folder','Forum','','Forum','_self',0,'application_view_list.png',''),(16,15,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(17,14,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',1,'book_open.png',''),(18,17,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(19,14,'folder','Shoutbox','','Shoutbox','_self',2,'comment.png',''),(20,19,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(21,0,'folder','Clanverwaltung','','Clanverwaltung','_self',3,'group.png',''),(22,21,'folder','Clankasse','','Clankasse','_self',0,'book_open.png',''),(23,22,'item','Manage Clancash','index.php?mod=clancash&amp;sub=admin','Manage Clancash','_self',0,'money_dollar.png',''),(24,21,'folder','Teams','','Teams','_self',1,'user_suit.png',''),(25,24,'item','Manage Teams','index.php?mod=teams&amp;sub=admin','Manage Teams','_self',0,'group.png',''),(26,21,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',2,'database_go.png',''),(27,26,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(28,21,'folder','Replays','','Replays','_self',3,'film.png',''),(29,28,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(30,21,'folder','Serverlist','','Serverlist','_self',4,'table.png',''),(31,30,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(32,30,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(33,0,'folder','Mediacenter','','Mediacenter','_self',4,'film.png',''),(34,33,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(35,34,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(36,33,'folder','Gallery','','Gallery','_self',1,'map_go.png',''),(37,36,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(38,33,'folder','Videos','','Videos','_self',2,'film.png',''),(39,0,'folder','Website','','Website','_self',5,'table.png',''),(40,39,'folder','Slideshow','','Slideshow','_self',0,'comment.png',''),(41,39,'folder','Quotes','','Quotes','_self',1,'report.png',''),(42,41,'item','Manage Quotes','index.php?mod=quotes&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(43,39,'folder','Static Pages','','Static Pages','_self',2,'html.png',''),(44,43,'item','Manage Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',0,'pencil.png',''),(45,43,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',1,'add.png',''),(46,0,'folder','Users','','Users','_self',6,'user_suit.png',''),(47,46,'folder','Users','','Users','_self',0,'user_suit.png',''),(48,47,'item','Manage Users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'table.png','cc_show_users'),(49,47,'item','Search User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(50,46,'folder','Groups','','Groups','_self',1,'group.png',''),(51,50,'item','Manage Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(52,50,'item','Create Group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(53,46,'folder','Permissions','','Permissions','_self',2,'key.png',''),(54,53,'item','Manage Permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(55,0,'folder','System','','System','_self',7,'computer.png',''),(56,55,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(57,55,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',1,'spellcheck.png',''),(58,55,'item','Cache','index.php?mod=cache&amp;sub=admin','Cache','self',2,'bullet_disk.png',''),(59,55,'folder','Wartung','','Wartung','_self',3,'warning.png',''),(60,59,'item','Cronjobs','index.php?mod=cronjobs&amp;sub=admin','Cronjobs','self',0,'settings.png',''),(61,59,'folder','Hooks & Events','','Hooks & Events','self',1,'settings.png',''),(62,61,'item','Bridges','index.php?mod=bridges&amp;sub=admin','Bridges','_self',0,'application_view_list.png',''),(63,59,'folder','Paket-Management','','Paket-Mangement','_self',2,'bricks.png',''),(64,63,'item','Search Pakets','index.php?mod=paketmanager&amp;sub=admin','Search Pakets','self',0,'package.png',''),(65,63,'item','Search Module','Search%20Modules','Search Module','self',1,'package.png',''),(66,63,'item','Search Themes','index.php?mod=paketmanager&amp;sub=admin','Search Themes','self',2,'package.png',''),(67,59,'folder','Database','','Database','_self',3,'database_gear.png',''),(68,67,'item','Import','','Import','_self',0,'database_go.png',''),(69,67,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',1,'database_gear.png',''),(70,67,'item','Export & Backup','index.php?mod=database&amp;action=backup','Export & Backup','_self',2,'database_key.png',''),(71,55,'folder','Layout','','Layout','_self',4,'layout_header.png',''),(72,71,'item','BB Codes','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(73,71,'item','Adminmenu','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(74,71,'item','Templates','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(75,71,'item','Themes','index.php?mod=thememanager&amp;sub=admin','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(76,55,'folder','Modules','','Modules','_self',5,'bricks.png',''),(77,76,'item','Install Modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(78,76,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=builder','Create a module','_self',1,'add.png',''),(79,76,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(80,76,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(81,55,'folder','Language','','Language','_self',6,'spellcheck.png',''),(82,81,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(83,55,'folder','Information','','Information','_self',7,'information.png',''),(84,83,'item','Systeminformation','index.php?mod=systeminfo&amp;sub=admin','Systeminformation','_self',0,'information.png',''),(85,83,'folder','Logs','index.php?mod=logs&amp;sub=admin','Logs','self',1,'table.png',''),(86,85,'item','Overview','index.php?mod=logs&amp;ampsub=admin','Overview','self',0,'table.png',''),(87,85,'item','Error Log','index.php?mod=logs&amp;sub=admin&amp;action=errorlog','Error Log','self',1,'table.png',''),(88,85,'item','Moderator Log','index.php?mod=logs&amp;sub=admin&amp;action=','Moderator Log','self',2,'table.png',''),(89,83,'item','Statistics','index.php?mod=statistics&amp;mod=admin','Statistics','self',2,'table.png',''),(90,0,'folder','Help','','Help','_self',8,'help.png',''),(91,90,'item','Help & Support','index.php?mod=help&amp;sub=admin&amp;action=show&amp;action=supportlinks','Help','_self',0,'help.png',''),(92,90,'item','Online-Manuals','http://www.clansuite.com/documentation','Manual','_blank',1,'book_open.png',''),(93,90,'item','Report Bugs & Issues','index.php?mod=controlcenter&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(94,90,'item','About Clansuite','index.php?mod=controlcenter&amp;action=about','About Clansuite','_self',3,'information.png',''),(95,38,'item','Manage Videos','index.php?mod=quotes&amp;sub=admin','Manage Videos','_self',0,'film.png','');
 /*!40000 ALTER TABLE `cs_adminmenu` ENABLE KEYS */;
 
 --
@@ -50,11 +50,11 @@ INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Control Center','?mod=controlce
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu_backup`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu_backup` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `parent` tinyint(3) unsigned NOT NULL default '0',
+  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
@@ -63,16 +63,16 @@ CREATE TABLE `cs_adminmenu_backup` (
   `sortorder` tinyint(4) NOT NULL,
   `icon` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`,`parent`)
+  PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_adminmenu_backup`
 --
 
 /*!40000 ALTER TABLE `cs_adminmenu_backup` DISABLE KEYS */;
-INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Control Center','?mod=controlcenter','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Downloads','','Downloads','_self',0,'disk.png',''),(4,3,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(5,2,'folder','Forum','','Forum','_self',1,'application_view_list.png',''),(6,5,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(7,2,'folder','Gallery','','Gallery','_self',2,'map_go.png',''),(8,7,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(9,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',3,'book_open.png',''),(10,9,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(11,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',4,'database_go.png',''),(12,11,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(13,2,'folder','Messaging','','Messaging','_self',5,'email_open_image.png',''),(14,13,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(15,2,'folder','News','','News','_self',6,'page_edit.png',''),(16,15,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(17,15,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(18,2,'folder','Replays','','Replays','_self',7,'film.png',''),(19,18,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(20,2,'folder','Serverlist','','Serverlist','_self',8,'table.png',''),(21,20,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(22,20,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(23,2,'folder','Shoutbox','','Shoutbox','_self',9,'comment.png',''),(24,23,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(25,2,'folder','Static Pages','','Static Pages','_self',10,'html.png',''),(26,25,'item','Manage Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',0,'pencil.png',''),(27,25,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',1,'add.png',''),(28,2,'folder','Quotes','','Quotes','_self',11,'report.png',''),(29,28,'item','Manage Quotes','index.php?mod=quotes&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(30,0,'folder','Layout','','Layout','_self',2,'layout_header.png',''),(31,30,'item','BB Codes','index.php?mod=admin&amp;sub=bbcode','BB Code Editor','_self',0,'text_bold.png',''),(32,30,'item','Adminmenu','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(33,30,'item','Templates','index.php?mod=admin&amp;sub=templates','Template Editor','_self',2,'layout_edit.png',''),(34,30,'item','Themes','index.php?mod=thememanager&amp;sub=admin','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(35,0,'folder','Users','','Users','_self',3,'user_suit.png',''),(36,35,'folder','Users','','Users','_self',0,'user_suit.png',''),(37,36,'item','Manage Users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'table.png','cc_show_users'),(38,36,'item','Search User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(39,35,'folder','Groups','','Groups','_self',1,'group.png',''),(40,39,'item','Manage Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(41,39,'item','Create Group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(42,35,'folder','Permissions','','Permissions','_self',2,'key.png',''),(43,42,'item','Manage Permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(44,0,'folder','System','','System','_self',4,'computer.png',''),(45,44,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(46,44,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',1,'spellcheck.png',''),(47,44,'item','Cache','index.php?mod=cache&amp;sub=admin','Cache','self',2,'bullet_disk.png',''),(48,44,'folder','Database','','Database','_self',3,'database_gear.png',''),(49,48,'item','Import','','Import','_self',0,'database_go.png',''),(50,48,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',1,'database_gear.png',''),(51,48,'item','Export & Backup','index.php?mod=database&amp;action=backup','Export & Backup','_self',2,'database_key.png',''),(52,44,'item','Cronjobs','index.php?mod=cronjobs&amp;sub=admin','Cronjobs','self',4,'settings.png',''),(53,44,'folder','Hooks & Events','','Hooks & Events','self',5,'settings.png',''),(54,53,'item','Bridges','index.php?mod=bridges&amp;sub=admin','Bridges','_self',0,'application_view_list.png',''),(55,44,'folder','Paket-Management','','Paket-Mangement','_self',6,'bricks.png',''),(56,55,'item','Search Pakets','index.php?mod=paketmanager&amp;sub=admin','Search Pakets','self',0,'package.png',''),(57,55,'item','Search Module','Search%20Modules','Search Module','self',1,'package.png',''),(58,55,'item','Search Themes','index.php?mod=paketmanager&amp;sub=admin','Search Themes','self',2,'package.png',''),(59,44,'folder','Modules','','Modules','_self',7,'bricks.png',''),(60,59,'item','Install Modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(61,59,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=builder','Create a module','_self',1,'add.png',''),(62,59,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(63,59,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(64,44,'folder','Language','','Language','_self',8,'spellcheck.png',''),(65,64,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(66,44,'folder','Information','','Information','_self',9,'information.png',''),(67,66,'item','Systeminformation','index.php?mod=systeminfo&amp;sub=admin','Systeminformation','self',0,'information.png',''),(68,66,'folder','Logs','index.php?mod=logs&amp;sub=admin','Logs','self',1,'table.png',''),(69,68,'item','Overview','index.php?mod=logs&amp;ampsub=admin','Overview','self',0,'table.png',''),(70,68,'item','Error Log','index.php?mod=logs&amp;sub=admin&amp;action=errorlog','Error Log','self',1,'table.png',''),(71,68,'item','Moderator Log','index.php?mod=logs&amp;sub=admin&amp;action=','Moderator Log','self',2,'table.png',''),(72,66,'item','Statistics','index.php?mod=statistics&amp;mod=admin','Statistics','self',2,'table.png',''),(73,0,'folder','Help','','Help','_self',5,'help.png',''),(74,73,'item','Help & Support','index.php?mod=help&amp;sub=admin&amp;action=show&amp;action=supportlinks','Help','_self',0,'help.png',''),(75,73,'item','Online-Manuals','http://www.clansuite.com/documentation','Manual','_blank',1,'book_open.png',''),(76,73,'item','Report Bugs & Issues','index.php?mod=controlcenter&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(77,73,'item','About Clansuite','index.php?mod=controlcenter&amp;action=about','About Clansuite','_self',3,'information.png','');
+INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Control Center','?mod=controlcenter','Clansuite Control Center','_self',0,'layout_header.png','admin'),(2,0,'folder','Modules','','Modules','_self',1,'package.png','cc_access'),(3,2,'folder','Teamspeak','','Teamspeak','_self',0,'book_open.png',''),(4,3,'item','Manage Teamspeak','index.php?mod=teamspeakviewer&amp;sub=admin','Manage Teamspeak','_self',0,'book_open.png',''),(5,2,'folder','Downloads','','Downloads','_self',1,'disk.png',''),(6,5,'item','Manage Downloads','index.php?mod=downloads&amp;sub=admin','Manage Downloads','_self',0,'application_form_edit.png',''),(7,2,'folder','Forum','','Forum','_self',2,'application_view_list.png',''),(8,7,'item','Manage Forum','index.php?mod=forum&amp;sub=admin','Manage Forum','_self',0,'application_form_edit.png',''),(9,2,'folder','Gallery','','Gallery','_self',3,'map_go.png',''),(10,9,'item','Manage Gallery','index.php?mod=gallery&amp;sub=admin','Manage Gallery','_self',0,'application_form_edit.png',''),(11,2,'folder','Guestbook','index.php?mod=guestbook&amp;action=show','Guestbook','_self',4,'book_open.png',''),(12,11,'item','Manage Guestbook','index.php?mod=guestbook&amp;sub=admin','Manage Guestbook','_self',0,'application_form_edit.png',''),(13,2,'folder','Matches','index.php?mod=matches&amp;action=show','Matches','_self',5,'database_go.png',''),(14,13,'item','Manage Matches','index.php?mod=matches&amp;sub=admin','Manage Matches','_self',0,'application_form_edit.png',''),(15,2,'folder','Messaging','','Messaging','_self',6,'email_open_image.png',''),(16,15,'item','Manage Messages','index.php?mod=messaging&amp;sub=admin','Manage Messages','_self',0,'application_form_edit.png',''),(17,2,'folder','News','','News','_self',7,'page_edit.png',''),(18,17,'item','Manage News','index.php?mod=news&amp;sub=admin','Manage News','_self',0,'application_form_edit.png','cc_edit_news'),(19,17,'item','Create news','index.php?mod=news&amp;sub=admin&amp;action=create','Create news','_self',1,'add.png','cc_create_news'),(20,2,'folder','Replays','','Replays','_self',8,'film.png',''),(21,20,'item','Manage Replays','index.php?mod=replays&amp;sub=admin','Manage Replays','_self',0,'application_form_edit.png',''),(22,2,'folder','Serverlist','','Serverlist','_self',9,'table.png',''),(23,22,'item','Show Servers','index.php?mod=serverlist&amp;sub=admin&amp;action=show','Show Servers','_self',0,'application_view_list.png',''),(24,22,'item','Add Server','index.php?mod=serverlist&amp;sub=admin&amp;action=create','Add Server','_self',1,'application_form_edit.png',''),(25,2,'folder','Shoutbox','','Shoutbox','_self',10,'comment.png',''),(26,25,'item','Manage Shoutbox','index.php?mod=shoutbox&amp;sub=admin','Manage Shoutbox','_self',0,'application_form_edit.png',''),(27,2,'folder','Static Pages','','Static Pages','_self',11,'html.png',''),(28,27,'item','Manage Static Pages','index.php?mod=staticpages&amp;sub=admin','Show Static Pages','_self',0,'pencil.png',''),(29,27,'item','Create new Static Page','index.php?mod=staticpages&amp;sub=admin&amp;action=create','Create new Static Page','_self',1,'add.png',''),(30,2,'folder','Quotes','','Quotes','_self',12,'report.png',''),(31,30,'item','Manage Quotes','index.php?mod=quotes&amp;sub=admin','Manage Quotes','_self',0,'report.png',''),(32,0,'folder','Layout','','Layout','_self',2,'layout_header.png',''),(33,32,'item','BB Codes','index.php?mod=bbcode&amp;sub=admin','BB Code Editor','_self',0,'text_bold.png',''),(34,32,'item','Adminmenu','index.php?mod=menu&amp;sub=admin&amp;action=menueditor','Adminmenu Editor','_self',1,'application_form_edit.png',''),(35,32,'item','Templates','index.php?mod=templates&amp;sub=admin','Template Editor','_self',2,'layout_edit.png',''),(36,32,'item','Themes','index.php?mod=thememanager&amp;sub=admin','Themes Manager','_self',3,'layout_edit.png','cc_edit_themes'),(37,0,'folder','Users','','Users','_self',3,'user_suit.png',''),(38,37,'folder','Users','','Users','_self',0,'user_suit.png',''),(39,38,'item','Manage Users','index.php?mod=users&amp;sub=admin','Manage users','_self',0,'table.png','cc_show_users'),(40,38,'item','Search User','index.php?mod=users&amp;sub=admin&amp;action=search','Search a User','_self',1,'magnifier.png','cc_search_users'),(41,37,'folder','Groups','','Groups','_self',1,'group.png',''),(42,41,'item','Manage Groups','index.php?mod=groups&amp;sub=admin','Show all Groups','_self',0,'table.png',''),(43,41,'item','Create Group','index.php?mod=groups&amp;sub=admin&amp;action=create','Create a group','_self',1,'add.png',''),(44,37,'folder','Permissions','','Permissions','_self',2,'key.png',''),(45,44,'item','Manage Permissions','index.php?mod=permissions&amp;sub=admin','Manage permissions','_self',0,'add.png',''),(46,0,'folder','System','','System','_self',4,'computer.png',''),(47,46,'item','Settings','index.php?mod=settings&amp;sub=admin','Settings','_self',0,'settings.png',''),(48,46,'item','Categories','index.php?mod=categories&amp;sub=admin','Categories','_self',1,'spellcheck.png',''),(49,46,'item','Cache','index.php?mod=cache&amp;sub=admin','Cache','_self',2,'bullet_disk.png',''),(50,46,'folder','Database','','Database','_self',3,'database_gear.png',''),(51,50,'item','Import','','Import','_self',0,'database_go.png',''),(52,50,'item','Optimize','index.php?mod=database&amp;action=optimize','Optimize','_self',1,'database_gear.png',''),(53,50,'item','Export & Backup','index.php?mod=database&amp;action=backup','Export & Backup','_self',2,'database_key.png',''),(54,46,'item','Cronjobs','index.php?mod=cronjobs&amp;sub=admin','Cronjobs','_self',4,'settings.png',''),(55,46,'folder','Hooks & Events','','Hooks & Events','_self',5,'settings.png',''),(56,55,'item','Bridges','index.php?mod=bridges&amp;sub=admin','Bridges','_self',0,'application_view_list.png',''),(57,46,'folder','Paket-Management','','Paket-Mangement','_self',6,'bricks.png',''),(58,57,'item','Search Pakets','index.php?mod=paketmanager&amp;sub=admin','Search Pakets','_self',0,'package.png',''),(59,57,'item','Search Module','Search%20Modules','Search Module','_self',1,'package.png',''),(60,57,'item','Search Themes','index.php?mod=paketmanager&amp;sub=admin','Search Themes','_self',2,'package.png',''),(61,46,'folder','Modules','','Modules','_self',7,'bricks.png',''),(62,61,'item','Install Modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=install','Install new modules','_self',0,'package.png',''),(63,61,'item','Create Module','index.php?mod=modulemanager&amp;sub=admin&amp;action=builder','Create a module','_self',1,'add.png',''),(64,61,'item','Manage modules','index.php?mod=modulemanager&amp;sub=admin&amp;action=show','Manage modules','_self',2,'bricks_edit.png',''),(65,61,'item','Export a module','index.php?mod=modulemanager&amp;sub=admin&amp;action=export','Export a module','_self',3,'compress.png',''),(66,46,'folder','Language','','Language','_self',8,'spellcheck.png',''),(67,66,'item','Language Editor','index.php?mod=language&amp;sub=admin','Language Editor','_self',0,'spellcheck.png',''),(68,46,'folder','Information','','Information','_self',9,'information.png',''),(69,68,'item','Systeminformation','index.php?mod=systeminfo&amp;sub=admin','Systeminformation','_self',0,'information.png',''),(70,68,'folder','Logs','index.php?mod=logs&amp;sub=admin','Logs','self',1,'table.png',''),(71,70,'item','Overview','index.php?mod=logs&amp;ampsub=admin','Overview','_self',0,'table.png',''),(72,70,'item','Error Log','index.php?mod=logs&amp;sub=admin&amp;action=errorlog','Error Log','_self',1,'table.png',''),(73,70,'item','Moderator Log','index.php?mod=logs&amp;sub=admin&amp;action=','Moderator Log','_self',2,'table.png',''),(74,68,'item','Statistics','index.php?mod=statistics&amp;mod=admin','Statistics','_self',2,'table.png',''),(75,0,'folder','Help','','Help','_self',5,'help.png',''),(76,75,'item','Help & Support','index.php?mod=help&amp;sub=admin&amp;action=show&amp;action=supportlinks','Help','_self',0,'help.png',''),(77,75,'item','Online-Manuals','http://www.clansuite.com/documentation','Manual','_blank',1,'book_open.png',''),(78,75,'item','Report Bugs & Issues','index.php?mod=controlcenter&amp;action=bugs','Report Bugs & Issues','_self',2,'error.png',''),(79,75,'item','About Clansuite','index.php?mod=controlcenter&amp;action=about','About Clansuite','_self',3,'information.png','');
 /*!40000 ALTER TABLE `cs_adminmenu_backup` ENABLE KEYS */;
 
 --
@@ -80,18 +80,18 @@ INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Control Center','?mod=co
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu_shortcuts` (
-  `id` tinyint(4) NOT NULL auto_increment,
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL default '30',
+  `order` tinyint(4) NOT NULL DEFAULT '30',
   `cat` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_adminmenu_shortcuts`
@@ -106,15 +106,15 @@ INSERT INTO `cs_adminmenu_shortcuts` VALUES (1,'Console','index.php?mod=admin&am
 --
 
 DROP TABLE IF EXISTS `cs_areas`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_areas` (
-  `area_id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default 'New Area',
+  `area_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT 'New Area',
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY  (`area_id`)
+  PRIMARY KEY (`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_areas`
@@ -129,20 +129,20 @@ INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'Contr
 --
 
 DROP TABLE IF EXISTS `cs_bb_code`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_bb_code` (
-  `bb_code_id` int(11) NOT NULL auto_increment,
+  `bb_code_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `start_tag` varchar(255) NOT NULL,
   `end_tag` varchar(255) NOT NULL,
   `content_type` varchar(255) NOT NULL,
   `allowed_in` varchar(255) NOT NULL,
   `not_allowed_in` varchar(255) NOT NULL,
-  PRIMARY KEY  (`bb_code_id`),
+  PRIMARY KEY (`bb_code_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_bb_code`
@@ -157,25 +157,25 @@ INSERT INTO `cs_bb_code` VALUES (1,'b','<b>','</b>','block','listitem,block,inli
 --
 
 DROP TABLE IF EXISTS `cs_board_forums`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_forums` (
-  `forumid` int(11) NOT NULL auto_increment,
-  `forumparent` int(11) NOT NULL default '0',
-  `name` varchar(128) default NULL,
+  `forumid` int(11) NOT NULL AUTO_INCREMENT,
+  `forumparent` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
   `description` text,
-  `displayorder` smallint(6) NOT NULL default '0',
-  `moderator` int(11) default NULL,
+  `displayorder` smallint(6) NOT NULL DEFAULT '0',
+  `moderator` int(11) DEFAULT NULL,
   `posts` int(11) NOT NULL,
   `threads` int(11) NOT NULL,
-  `permissions` int(11) default NULL,
-  `password` varchar(32) default NULL,
+  `permissions` int(11) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
   `lastpost` varchar(54) NOT NULL,
   `status` varchar(15) NOT NULL,
   `type` varchar(15) NOT NULL,
-  PRIMARY KEY  (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
+  PRIMARY KEY (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_board_forums`
@@ -190,29 +190,29 @@ INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1,NULL,0,0,NULL,
 --
 
 DROP TABLE IF EXISTS `cs_board_posts`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_posts` (
-  `forumid` int(11) NOT NULL default '0',
-  `threadid` int(11) NOT NULL default '0',
-  `postid` int(11) NOT NULL auto_increment,
+  `forumid` int(11) NOT NULL DEFAULT '0',
+  `threadid` int(11) NOT NULL DEFAULT '0',
+  `postid` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(32) NOT NULL,
   `message` text NOT NULL,
   `subject` tinytext NOT NULL,
-  `date` int(10) NOT NULL default '0',
-  `icon` varchar(50) default NULL,
+  `date` int(10) NOT NULL DEFAULT '0',
+  `icon` varchar(50) DEFAULT NULL,
   `signatur` varchar(15) NOT NULL,
   `ip` varchar(15) NOT NULL,
   `bbcodeoff` varchar(15) NOT NULL,
   `smileyoff` varchar(15) NOT NULL,
   `edited_by` text,
-  PRIMARY KEY  (`postid`),
+  PRIMARY KEY (`postid`),
   KEY `fid` (`forumid`),
   KEY `tid` (`threadid`),
   KEY `dateline` (`date`),
   KEY `author` (`author`(8))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_board_posts`
@@ -226,28 +226,28 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_board_threads`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_threads` (
-  `threadid` int(11) NOT NULL auto_increment,
-  `forumid` int(11) NOT NULL default '0',
+  `threadid` int(11) NOT NULL AUTO_INCREMENT,
+  `forumid` int(11) NOT NULL DEFAULT '0',
   `subject` varchar(128) NOT NULL,
   `icon` varchar(75) NOT NULL,
   `lastpost` varchar(54) NOT NULL,
-  `views` bigint(32) NOT NULL default '0',
-  `replies` int(10) NOT NULL default '0',
+  `views` bigint(32) NOT NULL DEFAULT '0',
+  `replies` int(10) NOT NULL DEFAULT '0',
   `author` varchar(32) NOT NULL,
   `closed` varchar(15) NOT NULL,
-  `stickified` tinyint(1) NOT NULL default '0',
+  `stickified` tinyint(1) NOT NULL DEFAULT '0',
   `poll` text NOT NULL,
-  PRIMARY KEY  (`forumid`),
+  PRIMARY KEY (`forumid`),
   KEY `fid` (`forumid`),
   KEY `tid` (`threadid`),
   KEY `lastpost` (`lastpost`),
   KEY `author` (`author`(8)),
   KEY `closed` (`closed`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_board_threads`
@@ -262,10 +262,10 @@ INSERT INTO `cs_board_threads` VALUES (1,1,'Apfelernte','','',0,0,'','',0,'');
 --
 
 DROP TABLE IF EXISTS `cs_calendar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_calendar` (
-  `event_id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `cat_id` smallint(2) NOT NULL,
   `day` varchar(2) NOT NULL,
   `month` varchar(2) NOT NULL,
@@ -273,9 +273,9 @@ CREATE TABLE `cs_calendar` (
   `eventname` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  PRIMARY KEY  (`event_id`,`cat_id`)
+  PRIMARY KEY (`event_id`,`cat_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_calendar`
@@ -290,22 +290,22 @@ INSERT INTO `cs_calendar` VALUES (1,1,'19','4','2007','badday','badday','lalal')
 --
 
 DROP TABLE IF EXISTS `cs_categories`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_categories` (
-  `cat_id` tinyint(4) NOT NULL auto_increment,
-  `module_id` tinyint(4) default NULL,
-  `sortorder` tinyint(4) default '0',
-  `name` varchar(200) default 'New Category',
+  `cat_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `module_id` tinyint(4) DEFAULT NULL,
+  `sortorder` tinyint(4) DEFAULT '0',
+  `name` varchar(200) DEFAULT 'New Category',
   `description` text,
-  `image` varchar(60) default NULL,
-  `icon` varchar(60) default NULL,
-  `color` varchar(7) default NULL,
-  PRIMARY KEY  (`cat_id`),
+  `image` varchar(60) DEFAULT NULL,
+  `icon` varchar(60) DEFAULT NULL,
+  `color` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`cat_id`),
   UNIQUE KEY `cat_id` (`cat_id`),
   KEY `modul_id` (`module_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_categories`
@@ -320,20 +320,20 @@ INSERT INTO `cs_categories` VALUES (1,7,1,'-keine-','Diese News sind keiner Kate
 --
 
 DROP TABLE IF EXISTS `cs_comments`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_comments` (
-  `comment_id` int(10) unsigned NOT NULL auto_increment,
-  `user_id` int(11) unsigned NOT NULL default '0',
+  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `email` varchar(200) NOT NULL,
   `body` text NOT NULL,
-  `added` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pseudo` varchar(25) default NULL,
+  `added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `pseudo` varchar(25) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
   `host` varchar(255) NOT NULL,
-  PRIMARY KEY  (`comment_id`)
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_comments`
@@ -348,17 +348,17 @@ INSERT INTO `cs_comments` VALUES (1,1,'','123','2005-07-29 13:04:07','','127.0.0
 --
 
 DROP TABLE IF EXISTS `cs_forum_boards`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_boards` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `board_id` bigint(20) default NULL,
-  `category_id` bigint(20) default NULL,
-  `name` varchar(100) collate latin1_general_ci default NULL,
-  `description` text collate latin1_general_ci,
-  PRIMARY KEY  (`id`)
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `board_id` bigint(20) DEFAULT NULL,
+  `category_id` bigint(20) DEFAULT NULL,
+  `name` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `description` text COLLATE latin1_general_ci,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_forum_boards`
@@ -372,18 +372,18 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_forum_category`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_category` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `root_category_id` bigint(20) default NULL,
-  `parent_category_id` bigint(20) default NULL,
-  `name` varchar(50) collate latin1_general_ci default NULL,
-  `description` text collate latin1_general_ci,
-  PRIMARY KEY  (`id`),
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `root_category_id` bigint(20) DEFAULT NULL,
+  `parent_category_id` bigint(20) DEFAULT NULL,
+  `name` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `description` text COLLATE latin1_general_ci,
+  PRIMARY KEY (`id`),
   KEY `root_category_id_idx` (`root_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_forum_category`
@@ -397,24 +397,24 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_forum_entry`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_entry` (
-  `entry_id` bigint(20) NOT NULL default '0',
-  `thread_id` bigint(20) default NULL,
-  `parent_entry_id` bigint(20) default NULL,
-  `author` varchar(50) collate latin1_general_ci default NULL,
-  `topic` varchar(100) collate latin1_general_ci default NULL,
-  `message` text collate latin1_general_ci,
-  `date` bigint(20) default NULL,
-  `smileyoff` tinyint(1) default NULL,
-  `bbcodeoff` tinyint(1) default NULL,
-  `edited_by` varchar(50) collate latin1_general_ci default NULL,
-  PRIMARY KEY  (`entry_id`),
+  `entry_id` bigint(20) NOT NULL DEFAULT '0',
+  `thread_id` bigint(20) DEFAULT NULL,
+  `parent_entry_id` bigint(20) DEFAULT NULL,
+  `author` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `topic` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
+  `message` text COLLATE latin1_general_ci,
+  `date` bigint(20) DEFAULT NULL,
+  `smileyoff` tinyint(1) DEFAULT NULL,
+  `bbcodeoff` tinyint(1) DEFAULT NULL,
+  `edited_by` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  PRIMARY KEY (`entry_id`),
   KEY `parent_entry_id_idx` (`parent_entry_id`),
   KEY `thread_id_idx` (`thread_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_forum_entry`
@@ -428,25 +428,25 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_forum_threads`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_threads` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `thread_id` bigint(20) default NULL,
-  `board_id` bigint(20) default NULL,
-  `title` varchar(200) collate latin1_general_ci default NULL,
-  `updated` bigint(20) default NULL,
-  `closed` tinyint(4) default NULL,
-  `author` varchar(32) collate latin1_general_ci default NULL,
-  `icon` varchar(75) collate latin1_general_ci default NULL,
-  `lastpost` varchar(54) collate latin1_general_ci default NULL,
-  `views` bigint(20) default NULL,
-  `replies` int(11) default NULL,
-  `stickified` tinyint(4) default NULL,
-  PRIMARY KEY  (`id`),
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `thread_id` bigint(20) DEFAULT NULL,
+  `board_id` bigint(20) DEFAULT NULL,
+  `title` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
+  `updated` bigint(20) DEFAULT NULL,
+  `closed` tinyint(4) DEFAULT NULL,
+  `author` varchar(32) COLLATE latin1_general_ci DEFAULT NULL,
+  `icon` varchar(75) COLLATE latin1_general_ci DEFAULT NULL,
+  `lastpost` varchar(54) COLLATE latin1_general_ci DEFAULT NULL,
+  `views` bigint(20) DEFAULT NULL,
+  `replies` int(11) DEFAULT NULL,
+  `stickified` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `board_id_idx` (`board_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_forum_threads`
@@ -460,17 +460,17 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_gallery_album`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_gallery_album` (
-  `id` int(4) unsigned NOT NULL auto_increment,
+  `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `position` int(4) unsigned NOT NULL,
   `thumb` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_gallery_album`
@@ -485,14 +485,14 @@ INSERT INTO `cs_gallery_album` VALUES (1,'Erstes Album','Mein erstes Album',1,'/
 --
 
 DROP TABLE IF EXISTS `cs_group_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_group_rights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `right_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_group_rights`
@@ -507,19 +507,19 @@ INSERT INTO `cs_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(
 --
 
 DROP TABLE IF EXISTS `cs_groups`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_groups` (
-  `group_id` int(5) unsigned NOT NULL auto_increment,
-  `sortorder` int(4) unsigned NOT NULL default '0',
+  `group_id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `sortorder` int(4) unsigned NOT NULL DEFAULT '0',
   `name` varchar(80) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `icon` varchar(255) default NULL,
-  `image` varchar(255) default NULL,
-  `color` varchar(7) default NULL,
-  PRIMARY KEY  (`group_id`)
+  `icon` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `color` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`group_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_groups`
@@ -534,24 +534,24 @@ INSERT INTO `cs_groups` VALUES (1,1,'Guest','The non-registered users.','','','#
 --
 
 DROP TABLE IF EXISTS `cs_guestbook`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_guestbook` (
-  `gb_id` int(11) NOT NULL auto_increment,
-  `user_id` int(11) NOT NULL default '0',
-  `gb_added` int(12) default NULL,
-  `gb_nick` varchar(25) default NULL,
-  `gb_email` varchar(35) default NULL,
-  `gb_icq` varchar(15) default NULL,
-  `gb_website` varchar(35) default NULL,
-  `gb_town` varchar(25) default NULL,
+  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `gb_added` int(12) DEFAULT NULL,
+  `gb_nick` varchar(25) DEFAULT NULL,
+  `gb_email` varchar(35) DEFAULT NULL,
+  `gb_icq` varchar(15) DEFAULT NULL,
+  `gb_website` varchar(35) DEFAULT NULL,
+  `gb_town` varchar(25) DEFAULT NULL,
   `gb_text` text,
-  `gb_ip` varchar(15) default NULL,
+  `gb_ip` varchar(15) DEFAULT NULL,
   `gb_comment` text,
-  `image_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`gb_id`)
+  `image_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_guestbook`
@@ -566,19 +566,19 @@ INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','jakoch@web.de','123124
 --
 
 DROP TABLE IF EXISTS `cs_help`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_help` (
-  `help_id` int(11) NOT NULL auto_increment,
+  `help_id` int(11) NOT NULL AUTO_INCREMENT,
   `mod` varchar(255) NOT NULL,
   `sub` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
   `helptext` text NOT NULL,
   `related_links` text NOT NULL,
-  PRIMARY KEY  (`help_id`),
+  PRIMARY KEY (`help_id`),
   UNIQUE KEY `help_id` (`help_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_help`
@@ -593,17 +593,17 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[
 --
 
 DROP TABLE IF EXISTS `cs_images`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_images` (
-  `image_id` int(11) NOT NULL auto_increment,
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  PRIMARY KEY  (`image_id`),
+  PRIMARY KEY (`image_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_images`
@@ -614,24 +614,67 @@ INSERT INTO `cs_images` VALUES (3,1,'upload','images/avatars/1.jpg');
 /*!40000 ALTER TABLE `cs_images` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_matches`
+--
+
+DROP TABLE IF EXISTS `cs_matches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_matches` (
+  `match_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `date` int(14) NOT NULL,
+  `status` tinyint(3) NOT NULL,
+  `team1score` int(6) NOT NULL,
+  `team2score` int(6) NOT NULL,
+  `team1mapscore1` int(11) NOT NULL,
+  `team1mapscore2` int(11) NOT NULL,
+  `team2mapscore1` int(11) NOT NULL,
+  `team2mapscore2` int(11) NOT NULL,
+  `team1players` int(11) NOT NULL,
+  `team2players` int(11) NOT NULL,
+  `matchreport` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL,
+  `matchcategory_id` int(11) NOT NULL,
+  `matchmedia_screenshots` text NOT NULL,
+  `matchmedia_replays` text NOT NULL,
+  `team1statement` text NOT NULL,
+  `team2statement` text NOT NULL,
+  `team1_id` int(11) NOT NULL,
+  `team2_id` int(11) NOT NULL,
+  `mapname1` int(11) NOT NULL,
+  `mapname2` int(11) NOT NULL,
+  `server_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_matches`
+--
+
+/*!40000 ALTER TABLE `cs_matches` DISABLE KEYS */;
+INSERT INTO `cs_matches` VALUES (1,0,1234567890,1,23,25,12,11,12,13,0,0,0,0,0,'','','team1: schönes spiel','team2: schönes spiel',0,0,0,0,0);
+/*!40000 ALTER TABLE `cs_matches` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_messages`
 --
 
 DROP TABLE IF EXISTS `cs_messages`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_messages` (
-  `message_id` int(11) NOT NULL auto_increment,
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `from` int(11) NOT NULL,
   `to` int(11) NOT NULL,
   `headline` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `timestamp` int(11) NOT NULL,
   `read` int(1) NOT NULL,
-  PRIMARY KEY  (`message_id`),
+  PRIMARY KEY (`message_id`),
   KEY `from` (`from`,`to`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_messages`
@@ -646,14 +689,14 @@ INSERT INTO `cs_messages` VALUES (10,1,1,'uschi','furuzzz',1171204602,1),(11,1,1
 --
 
 DROP TABLE IF EXISTS `cs_mod_rel_sub`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_mod_rel_sub` (
   `module_id` int(11) NOT NULL,
   `submodule_id` int(11) NOT NULL,
-  PRIMARY KEY  (`module_id`,`submodule_id`)
+  PRIMARY KEY (`module_id`,`submodule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_mod_rel_sub`
@@ -668,10 +711,10 @@ INSERT INTO `cs_mod_rel_sub` VALUES (1,70),(1,124),(1,125),(1,126),(2,1),(2,2),(
 --
 
 DROP TABLE IF EXISTS `cs_modules`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_modules` (
-  `module_id` int(11) NOT NULL auto_increment,
+  `module_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   `homepage` varchar(255) NOT NULL,
@@ -686,11 +729,11 @@ CREATE TABLE `cs_modules` (
   `image_name` varchar(255) NOT NULL,
   `module_version` float NOT NULL,
   `clansuite_version` float NOT NULL,
-  `core` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`module_id`),
+  `core` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`module_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_modules`
@@ -705,19 +748,19 @@ INSERT INTO `cs_modules` VALUES (1,'account','Jens-AndrÃ© Koch, Florian Wolf',
 --
 
 DROP TABLE IF EXISTS `cs_news`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_news` (
-  `news_id` int(11) NOT NULL auto_increment,
+  `news_id` int(11) NOT NULL AUTO_INCREMENT,
   `news_title` varchar(255) NOT NULL,
   `news_body` text NOT NULL,
-  `cat_id` tinyint(4) NOT NULL default '0',
-  `user_id` int(11) unsigned NOT NULL default '0',
-  `news_added` int(11) default NULL,
+  `cat_id` tinyint(4) NOT NULL DEFAULT '0',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `news_added` int(11) DEFAULT NULL,
   `news_status` int(11) NOT NULL,
-  PRIMARY KEY  (`news_id`,`cat_id`,`user_id`)
+  PRIMARY KEY (`news_id`,`cat_id`,`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_news`
@@ -728,19 +771,44 @@ INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\
 /*!40000 ALTER TABLE `cs_news` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_opponents`
+--
+
+DROP TABLE IF EXISTS `cs_opponents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_opponents` (
+  `opponent_id` int(3) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `clantag` varchar(10) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `websiteurl` varchar(200) NOT NULL,
+  `ircchannel` varchar(100) NOT NULL,
+  `image_id` tinyint(4) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_opponents`
+--
+
+/*!40000 ALTER TABLE `cs_opponents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_opponents` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_options`
 --
 
 DROP TABLE IF EXISTS `cs_options`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_options` (
-  `option_id` int(10) unsigned NOT NULL auto_increment,
+  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name_id` int(10) unsigned NOT NULL,
   `value` varchar(255) NOT NULL,
-  PRIMARY KEY  (`option_id`,`name_id`)
+  PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_options`
@@ -755,32 +823,32 @@ INSERT INTO `cs_options` VALUES (1,1,'drahtgitter'),(2,2,'en');
 --
 
 DROP TABLE IF EXISTS `cs_profiles`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles` (
-  `profile_id` int(11) NOT NULL auto_increment,
+  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL default '-',
+  `gender` varchar(255) NOT NULL DEFAULT '-',
   `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL default '-',
-  `zipcode` varchar(255) NOT NULL default '-',
-  `city` varchar(255) NOT NULL default '-',
-  `country` varchar(255) NOT NULL default '-',
-  `homepage` varchar(255) NOT NULL default '-',
-  `icq` varchar(255) NOT NULL default '-',
-  `msn` varchar(255) NOT NULL default '-',
-  `skype` varchar(255) NOT NULL default '-',
-  `phone` varchar(255) NOT NULL default '-',
-  `mobile` varchar(255) NOT NULL default '-',
+  `address` varchar(255) NOT NULL DEFAULT '-',
+  `zipcode` varchar(255) NOT NULL DEFAULT '-',
+  `city` varchar(255) NOT NULL DEFAULT '-',
+  `country` varchar(255) NOT NULL DEFAULT '-',
+  `homepage` varchar(255) NOT NULL DEFAULT '-',
+  `icq` varchar(255) NOT NULL DEFAULT '-',
+  `msn` varchar(255) NOT NULL DEFAULT '-',
+  `skype` varchar(255) NOT NULL DEFAULT '-',
+  `phone` varchar(255) NOT NULL DEFAULT '-',
+  `mobile` varchar(255) NOT NULL DEFAULT '-',
   `custom_text` text NOT NULL,
-  PRIMARY KEY  (`profile_id`),
+  PRIMARY KEY (`profile_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_profiles`
@@ -795,8 +863,8 @@ INSERT INTO `cs_profiles` VALUES (1,1,1175369474,'Florian','Wolf',496274400,'mal
 --
 
 DROP TABLE IF EXISTS `cs_profiles_computer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_computer` (
   `computer_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -813,10 +881,10 @@ CREATE TABLE `cs_profiles_computer` (
   `network` text NOT NULL,
   `other` text NOT NULL,
   `image_id` int(11) NOT NULL,
-  PRIMARY KEY  (`computer_id`),
+  PRIMARY KEY (`computer_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_profiles_computer`
@@ -830,34 +898,34 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_profiles_general`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_general` (
-  `general_id` int(11) NOT NULL auto_increment,
+  `general_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL default '-',
+  `gender` varchar(255) NOT NULL DEFAULT '-',
   `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL default '-',
-  `zipcode` varchar(255) NOT NULL default '-',
-  `city` varchar(255) NOT NULL default '-',
+  `address` varchar(255) NOT NULL DEFAULT '-',
+  `zipcode` varchar(255) NOT NULL DEFAULT '-',
+  `city` varchar(255) NOT NULL DEFAULT '-',
   `state` varchar(255) NOT NULL,
-  `country` varchar(255) NOT NULL default '-',
-  `homepage` varchar(255) NOT NULL default '-',
-  `icq` varchar(255) NOT NULL default '-',
-  `msn` varchar(255) NOT NULL default '-',
-  `skype` varchar(255) NOT NULL default '-',
-  `phone` varchar(255) NOT NULL default '-',
-  `mobile` varchar(255) NOT NULL default '-',
+  `country` varchar(255) NOT NULL DEFAULT '-',
+  `homepage` varchar(255) NOT NULL DEFAULT '-',
+  `icq` varchar(255) NOT NULL DEFAULT '-',
+  `msn` varchar(255) NOT NULL DEFAULT '-',
+  `skype` varchar(255) NOT NULL DEFAULT '-',
+  `phone` varchar(255) NOT NULL DEFAULT '-',
+  `mobile` varchar(255) NOT NULL DEFAULT '-',
   `custom_text` text NOT NULL,
   `image_id` int(11) NOT NULL,
-  PRIMARY KEY  (`general_id`),
+  PRIMARY KEY (`general_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_profiles_general`
@@ -872,25 +940,25 @@ INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274
 --
 
 DROP TABLE IF EXISTS `cs_profiles_guestbook`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_guestbook` (
-  `gb_id` int(11) NOT NULL auto_increment,
-  `from` int(11) NOT NULL default '0',
+  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
+  `from` int(11) NOT NULL DEFAULT '0',
   `to` int(11) NOT NULL,
-  `gb_added` int(12) default NULL,
-  `gb_nick` varchar(25) default NULL,
-  `gb_email` varchar(35) default NULL,
-  `gb_icq` varchar(15) default NULL,
-  `gb_website` varchar(35) default NULL,
-  `gb_town` varchar(25) default NULL,
+  `gb_added` int(12) DEFAULT NULL,
+  `gb_nick` varchar(25) DEFAULT NULL,
+  `gb_email` varchar(35) DEFAULT NULL,
+  `gb_icq` varchar(15) DEFAULT NULL,
+  `gb_website` varchar(35) DEFAULT NULL,
+  `gb_town` varchar(25) DEFAULT NULL,
   `gb_text` text,
-  `gb_ip` varchar(15) default NULL,
+  `gb_ip` varchar(15) DEFAULT NULL,
   `gb_comment` text,
-  `image_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`gb_id`)
+  `image_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_profiles_guestbook`
@@ -905,16 +973,16 @@ INSERT INTO `cs_profiles_guestbook` VALUES (1,0,0,1003200322,'nick','email','123
 --
 
 DROP TABLE IF EXISTS `cs_quotes`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_quotes` (
-  `quote_id` tinyint(4) NOT NULL auto_increment,
+  `quote_id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `quote_body` text NOT NULL,
   `quote_author` varchar(40) NOT NULL,
   `quote_source` text NOT NULL,
-  PRIMARY KEY  (`quote_id`)
+  PRIMARY KEY (`quote_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_quotes`
@@ -929,14 +997,14 @@ INSERT INTO `cs_quotes` VALUES (1,'The turning point came when the mechanics of 
 --
 
 DROP TABLE IF EXISTS `cs_rel_category_module`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_category_module` (
   `category_id` int(10) unsigned NOT NULL,
   `module_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`category_id`,`module_id`)
+  PRIMARY KEY (`category_id`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_category_module`
@@ -950,14 +1018,14 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_rel_category_name`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_category_name` (
   `category_id` int(10) unsigned NOT NULL,
   `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`category_id`,`name_id`)
+  PRIMARY KEY (`category_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_category_name`
@@ -971,14 +1039,14 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_rel_group_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_group_rights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`,`right_id`)
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `right_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_group_rights`
@@ -993,14 +1061,14 @@ INSERT INTO `cs_rel_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,1
 --
 
 DROP TABLE IF EXISTS `cs_rel_news_comments`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_news_comments` (
   `news_id` int(10) unsigned NOT NULL,
   `comment_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`news_id`,`comment_id`)
+  PRIMARY KEY (`news_id`,`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_news_comments`
@@ -1015,14 +1083,14 @@ INSERT INTO `cs_rel_news_comments` VALUES (16,1),(16,2),(16,3),(16,4);
 --
 
 DROP TABLE IF EXISTS `cs_rel_option_name`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_option_name` (
   `option_id` int(10) unsigned NOT NULL,
   `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`option_id`,`name_id`)
+  PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_option_name`
@@ -1036,14 +1104,14 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_rel_user_groups`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_user_groups`
@@ -1058,14 +1126,14 @@ INSERT INTO `cs_rel_user_groups` VALUES (1,3),(8,3);
 --
 
 DROP TABLE IF EXISTS `cs_rel_user_options`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_options` (
   `option_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY  (`option_id`,`user_id`)
+  PRIMARY KEY (`option_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_user_options`
@@ -1080,14 +1148,14 @@ INSERT INTO `cs_rel_user_options` VALUES (1,1),(2,1);
 --
 
 DROP TABLE IF EXISTS `cs_rel_user_profile`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_profile` (
   `user_id` int(10) unsigned NOT NULL,
   `profile_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`user_id`,`profile_id`)
+  PRIMARY KEY (`user_id`,`profile_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_user_profile`
@@ -1101,14 +1169,14 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_rel_user_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_rights` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `right_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`right_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rel_user_rights`
@@ -1122,16 +1190,16 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rights` (
-  `right_id` int(11) unsigned NOT NULL auto_increment,
-  `area_id` int(11) NOT NULL default '0',
+  `right_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `area_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(150) NOT NULL,
   `description` varchar(255) NOT NULL,
-  PRIMARY KEY  (`right_id`,`area_id`)
+  PRIMARY KEY (`right_id`,`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_rights`
@@ -1146,26 +1214,27 @@ INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the
 --
 
 DROP TABLE IF EXISTS `cs_serverviewer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_serverviewer` (
-  `server_id` int(5) NOT NULL auto_increment,
-  `ip` varchar(15) default NULL,
-  `port` varchar(5) default NULL,
-  `name` varchar(250) default NULL,
-  `csquery_engine` varchar(60) default NULL,
-  `gametype` varchar(60) default NULL,
-  `image_country` varchar(20) default NULL,
-  PRIMARY KEY  (`server_id`)
+  `server_id` int(5) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) DEFAULT NULL,
+  `port` varchar(5) DEFAULT NULL,
+  `password` varchar(20) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `csquery_engine` varchar(60) DEFAULT NULL,
+  `gametype` varchar(60) DEFAULT NULL,
+  `image_country` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_serverviewer`
 --
 
 /*!40000 ALTER TABLE `cs_serverviewer` DISABLE KEYS */;
-INSERT INTO `cs_serverviewer` VALUES (1,'team-n1.com','27339','knd-squad DEATHMATCH powered by CLANSUITE DOT COM ','steam','cs','de.png'),(2,'87.117.208.193','27025',' DigitalTakedown.org UK - Public Server','steam','cs','de.png'),(3,'83.133.81.95','27015','#German Headquarter 3 WC3FT | Team.GHQ | www.team-GHQ.eu ','steam','cs','de.png'),(4,'210.55.92.68','27980','Xtra Quake 3 RA #1','q3a','q3a','de.png'),(5,'85.14.233.32','27015','B I E R F R I E D H O F | TICK100 | by ngz-server.de','steam','cssource','de.png');
+INSERT INTO `cs_serverviewer` VALUES (1,'team-n1.com','27339','','knd-squad DEATHMATCH powered by CLANSUITE DOT COM ','steam','cs','de.png'),(2,'87.117.208.193','27025','',' DigitalTakedown.org UK - Public Server','steam','cs','de.png'),(3,'83.133.81.95','27015','','#German Headquarter 3 WC3FT | Team.GHQ | www.team-GHQ.eu ','steam','cs','de.png'),(4,'210.55.92.68','27980','','Xtra Quake 3 RA #1','q3a','q3a','de.png'),(5,'85.14.233.32','27015','','B I E R F R I E D H O F | TICK100 | by ngz-server.de','steam','cssource','de.png');
 /*!40000 ALTER TABLE `cs_serverviewer` ENABLE KEYS */;
 
 --
@@ -1173,27 +1242,27 @@ INSERT INTO `cs_serverviewer` VALUES (1,'team-n1.com','27339','knd-squad DEATHMA
 --
 
 DROP TABLE IF EXISTS `cs_session`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_session` (
-  `user_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `session_id` varchar(32) NOT NULL,
   `session_data` text NOT NULL,
   `session_name` text NOT NULL,
-  `session_starttime` int(11) NOT NULL default '0',
-  `session_visibility` tinyint(4) NOT NULL default '0',
+  `session_starttime` int(11) NOT NULL DEFAULT '0',
+  `session_visibility` tinyint(4) NOT NULL DEFAULT '0',
   `session_where` text NOT NULL,
   UNIQUE KEY `session_id` (`session_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_session`
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'0ab0ce955c67789e2b6123431669aba0','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:87:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.8) Gecko/2009032609 Firefox/3.0.8\";client_host|s:9:\"localhost\";SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:4:{i:0;s:9:\"u.user_id\";i:1;s:7:\"u.email\";i:2;s:6:\"u.nick\";i:3;s:8:\"u.joined\";}s:14:\"default_column\";i:2;s:12:\"default_sort\";s:3:\"asc\";s:14:\"current_column\";i:2;s:12:\"current_sort\";s:3:\"asc\";s:11:\"target_page\";s:30:\"/index.php?mod=users&sub=admin\";}}','suiteSID',1238620498,1,'menu');
+INSERT INTO `cs_session` VALUES (0,'77649e8aa9ac043934f95ef8a49841f7','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11\";client_host|s:9:\"localhost\";','suiteSID',1245272914,1,'matches');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1201,10 +1270,10 @@ INSERT INTO `cs_session` VALUES (0,'0ab0ce955c67789e2b6123431669aba0','user|a:11
 --
 
 DROP TABLE IF EXISTS `cs_shoutbox`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_shoutbox` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `mail` varchar(100) NOT NULL,
   `msg` tinytext NOT NULL,
@@ -1212,7 +1281,7 @@ CREATE TABLE `cs_shoutbox` (
   `ip` varchar(15) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_shoutbox`
@@ -1227,19 +1296,19 @@ INSERT INTO `cs_shoutbox` VALUES (1,'12345','123test@test.com','texttext',115589
 --
 
 DROP TABLE IF EXISTS `cs_static_pages`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_static_pages` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `html` text NOT NULL,
-  `iframe` tinyint(1) NOT NULL default '0',
-  `iframe_height` int(11) NOT NULL default '300',
-  PRIMARY KEY  (`id`)
+  `iframe` tinyint(1) NOT NULL DEFAULT '0',
+  `iframe_height` int(11) NOT NULL DEFAULT '300',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_static_pages`
@@ -1254,16 +1323,16 @@ INSERT INTO `cs_static_pages` VALUES (1,'Credits','Without their brains Clansuit
 --
 
 DROP TABLE IF EXISTS `cs_submodules`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_submodules` (
-  `submodule_id` int(11) NOT NULL auto_increment,
+  `submodule_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
-  PRIMARY KEY  (`submodule_id`)
+  PRIMARY KEY (`submodule_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_submodules`
@@ -1278,14 +1347,14 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 --
 
 DROP TABLE IF EXISTS `cs_user_groups`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_groups` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`group_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_user_groups`
@@ -1300,17 +1369,17 @@ INSERT INTO `cs_user_groups` VALUES (1,3);
 --
 
 DROP TABLE IF EXISTS `cs_user_options`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_options` (
   `option_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `language` varchar(255) NOT NULL,
   `theme` varchar(255) NOT NULL,
-  PRIMARY KEY  (`option_id`),
+  PRIMARY KEY (`option_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_user_options`
@@ -1325,14 +1394,14 @@ INSERT INTO `cs_user_options` VALUES (0,1,'en','accessible');
 --
 
 DROP TABLE IF EXISTS `cs_user_rights`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_rights` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `right_id` int(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`user_id`,`right_id`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_user_rights`
@@ -1346,31 +1415,31 @@ SET character_set_client = @saved_cs_client;
 --
 
 DROP TABLE IF EXISTS `cs_users`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_users` (
-  `user_id` int(10) unsigned NOT NULL auto_increment,
-  `email` varchar(150) default NULL,
+  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(150) DEFAULT NULL,
   `nick` varchar(25) NOT NULL,
   `passwordhash` varchar(40) NOT NULL,
   `new_passwordhash` varchar(40) NOT NULL,
   `salt` varchar(20) NOT NULL,
   `new_salt` varchar(40) NOT NULL,
   `activation_code` varchar(255) NOT NULL,
-  `joined` int(11) NOT NULL default '0',
-  `timestamp` int(11) NOT NULL default '0',
-  `disabled` tinyint(1) NOT NULL default '0',
-  `activated` tinyint(1) NOT NULL default '0',
-  `status` tinyint(4) NOT NULL default '0',
+  `joined` int(11) NOT NULL DEFAULT '0',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `disabled` tinyint(1) NOT NULL DEFAULT '0',
+  `activated` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   `country` varchar(5) NOT NULL,
   `language` varchar(12) NOT NULL,
-  `timezone` varchar(8) default NULL,
+  `timezone` varchar(8) DEFAULT NULL,
   `theme` varchar(255) NOT NULL,
-  PRIMARY KEY  (`user_id`),
+  PRIMARY KEY (`user_id`),
   KEY `email` (`email`),
   KEY `nick` (`nick`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cs_users`
@@ -1389,4 +1458,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-04-03  1:45:49
+-- Dump completed on 2009-06-17 21:10:46

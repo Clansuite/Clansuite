@@ -55,6 +55,9 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        parent::initRecords('matches');
+
+        #Doctrine::generateModelsFromDb( ROOT_MOD . 'matches/model/records' );
     }
 
     public function action_show()
@@ -62,7 +65,11 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=matches&amp;action=show');
 
-        $matches = array();
+        $matches = Doctrine_Query::create()
+                       ->select('m.*') # all matches
+                       ->from('CsMatches m')
+                      #->leftJoin()
+                       ->execute();
 
         $view = $this->getView();
         $view->assign('matches', $matches);
