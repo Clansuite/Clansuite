@@ -621,31 +621,33 @@ DROP TABLE IF EXISTS `cs_matches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_matches` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `match_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
-  `date` int(14) NOT NULL,
-  `status` tinyint(3) NOT NULL,
-  `team1score` int(6) NOT NULL,
-  `team2score` int(6) NOT NULL,
-  `team1mapscore1` int(11) NOT NULL,
-  `team1mapscore2` int(11) NOT NULL,
-  `team2mapscore1` int(11) NOT NULL,
-  `team2mapscore2` int(11) NOT NULL,
+  `server_id` int(11) NOT NULL,
+  `team1_id` int(11) NOT NULL,
+  `team2_id` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL,
+  `matchcategory_id` int(11) NOT NULL,
+  `matchdate` bigint(20) NOT NULL,
+  `matchstatus` tinyint(4) NOT NULL,
+  `team1score` int(11) NOT NULL,
+  `team2score` int(11) NOT NULL,
+  `team1map1score` int(11) NOT NULL,
+  `team1map2score` int(11) NOT NULL,
+  `team2map1score` int(11) NOT NULL,
+  `team2map2score` int(11) NOT NULL,
   `team1players` int(11) NOT NULL,
   `team2players` int(11) NOT NULL,
   `matchreport` int(11) NOT NULL,
-  `comment_id` int(11) NOT NULL,
-  `matchcategory_id` int(11) NOT NULL,
   `matchmedia_screenshots` text NOT NULL,
   `matchmedia_replays` text NOT NULL,
   `team1statement` text NOT NULL,
   `team2statement` text NOT NULL,
-  `team1_id` int(11) NOT NULL,
-  `team2_id` int(11) NOT NULL,
   `mapname1` int(11) NOT NULL,
   `mapname2` int(11) NOT NULL,
-  `server_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -653,7 +655,6 @@ CREATE TABLE `cs_matches` (
 --
 
 /*!40000 ALTER TABLE `cs_matches` DISABLE KEYS */;
-INSERT INTO `cs_matches` VALUES (1,0,1234567890,1,23,25,12,11,12,13,0,0,0,0,0,'','','team1: schönes spiel','team2: schönes spiel',0,0,0,0,0);
 /*!40000 ALTER TABLE `cs_matches` ENABLE KEYS */;
 
 --
@@ -1262,7 +1263,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'77649e8aa9ac043934f95ef8a49841f7','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11\";client_host|s:9:\"localhost\";','suiteSID',1245272914,1,'matches');
+INSERT INTO `cs_session` VALUES (0,'77649e8aa9ac043934f95ef8a49841f7','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:89:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11\";client_host|s:9:\"localhost\";','suiteSID',1245273947,1,'matches');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1458,4 +1459,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-06-17 21:10:46
+-- Dump completed on 2009-06-17 21:26:18
