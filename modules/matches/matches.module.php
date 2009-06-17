@@ -56,8 +56,6 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initRecords('matches');
-
-        #Doctrine::generateModelsFromDb( ROOT_MOD . 'matches/model/records' );
     }
 
     public function action_show()
@@ -69,12 +67,61 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
                        ->select('m.*') # all matches
                        ->from('CsMatches m')
                       #->leftJoin()
-                       ->execute();
+                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                       ->fetchArray();
+
+        #clansuite_xdebug::printr($matches);
 
         $view = $this->getView();
         $view->assign('matches', $matches);
 
         $this->prepareOutput();
+    }
+
+
+    public function widget_nextmatches()
+    {
+        # get smarty as view
+        $smarty = $this->getView();
+
+        # fetch topmatch via doctrine
+
+        # demo data
+        $nextmatches = array();
+        $nextmatches['id'] = '1';
+
+        # assign the fetched topmatch to the view
+        $smarty->assign('nextmatches_widget', $nextmatches);
+    }
+
+    public function widget_latestmatches()
+    {
+               # get smarty as view
+        $smarty = $this->getView();
+
+        # fetch topmatch via doctrine
+
+         # demo data
+        $latestmatches = array();
+        $latestmatches['id'] = '1';
+
+        # assign the fetched topmatch to the view
+        $smarty->assign('latestmatches_widget', $latestmatches);
+    }
+
+    public function widget_topmatch()
+    {
+        # get smarty as view
+        $smarty = $this->getView();
+
+        # fetch topmatch via doctrine
+
+         # demo data
+        $topmatch = array();
+        $topmatch['id'] = '1';
+
+        # assign the fetched topmatch to the view
+        $smarty->assign('topmatch_widget', $topmatch);
     }
 }
 ?>
