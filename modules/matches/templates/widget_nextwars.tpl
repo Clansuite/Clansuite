@@ -5,12 +5,21 @@
 *}
 
 <!--
-latest		(man muss einstellen können wieviele Matches angezeigt werden, am Besten im Backend)
+teamname1
+teamname2
+matchtime
 //-->
 
 
 <!-- Start Widget Nextmatches //-->
 <div id="widget_nextmatches">
-	<span class="nextmatches_row">{$matches.next}</span>
-</div>
+ 	<table class="nextmatches">
+		<tr>
+    		<td><span class="nextmatches_team1">{$matches.teamname1}</span></td>
+    		<td><span class="team_divider"> - </span></td>
+    		<td><span class="nextmatches_team2">{$matches.teamname2}</span></td>
+    		<td><span class="nextmatches_time">{$matches.matchtime}</span></td>
+  		</tr>
+	</table>
+ </div>
 <!-- End Widget Nextmatches //-->
