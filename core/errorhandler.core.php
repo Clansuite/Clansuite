@@ -208,8 +208,8 @@ class Clansuite_Errorhandler
         if ( defined('DEBUG') and DEBUG == 1 )
         {
             # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
-            # so we need to detect if an E_USER_ERROR is incoming from SMARTY
-            if(strpos(strtolower($errorfile),'smarty') !== false)
+            # so we need to detect if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
+            if( (strpos(strtolower($errorfile),'smarty') !== false) or (strpos(strtolower($errorfile),'tpl.php') !== false) )
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
