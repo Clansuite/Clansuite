@@ -4,15 +4,12 @@
    {$matches|@var_dump}
 *}
 
-<!--
-teamname1
-teamname2
-matchtime
-//-->
+<!-- Start Widget Nextmatches from Module Matches //-->
 
+<div class="news_widget" id="widget_nextmatches" width="100%">
 
-<!-- Start Widget Nextmatches //-->
-<div id="widget_nextmatches">Nextmatches
+    <h2 class="td_header">{t}Next Matches{/t}</h2>
+
  	<table class="nextmatches">
 		<tr>
 		{*
@@ -23,5 +20,6 @@ matchtime
         *}
   		</tr>
 	</table>
- </div>
+
+</div>
 <!-- End Widget Nextmatches //-->
