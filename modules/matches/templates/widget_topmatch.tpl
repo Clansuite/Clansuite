@@ -3,22 +3,27 @@
    <hr>
    {$topmatch|@var_dump}
 *}
-<!--
-teamlogo1
-teamlogo2
-matchtime
-//-->
 
-<!-- Start Widget Topmatch //-->
-<div id="widget_topmatch">Topmatch
+<!-- Start Widget Topmatch from Module Matches //-->
+
+<div class="news_widget" id="widget_topmatch" width="100%">
+
+    <h2 class="td_header">{t}Topmatch{/t}</h2>
+
     {*
-    {$topmatch.team1name}
-    {$topmatch.team2name}
-	<div class="teamlogo1">{$topmatch.teamlogo1}</div>				<!-- float left 30% | Logo muss automatisch verkleinert werden!! //-->
-	<div class="team_divider">vs</div>
-	<div class="teamlogo2">{$topmatch.teamlogo2}</div>				<!-- float left rest | Logo muss automatisch verkleinert werden!! //-->
-	<div style="clear:both"></div>									<!-- break float //-->
-	<div class="matchtime">{$topmatch.matchtime}</div>
-	*}
+    <div class="left">
+        {$topmatch.team1name}
+        <span class="teamlogo1">{$topmatch.teamlogo1}</span>
+    </div>
+    <div class="team_divider">vs</div>
+    <div class="right">
+        {$topmatch.team2name}
+        <span class="teamlogo2">{$topmatch.teamlogo2}</span>
+    </div>
+    <div style="clear:both"></div>
+    <div class="matchtime">{$topmatch.matchtime}</div>
+    *}
+
 </div>
+
 <!-- End Widget Topmatch //-->
