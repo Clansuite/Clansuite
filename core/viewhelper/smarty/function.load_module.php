@@ -96,23 +96,30 @@ function smarty_function_load_module($params, &$smarty)
         $controller->$action($items);
 
         /**
-         * Outputs the widget template of a module
-         * check for theme tpl / else take module tpl
+         * Outputs the template of a widget
          *
-         * The reason for outcommenting this is:
-         * you can set an alternative widgettemplate inside the widget itself.
-         * if this would be active, it would be a direct translation of the mod/action
-         * with no other choice
+         * The template is fetched from the module or from the various theme folders!
+         * You can also set an alternative widgettemplate inside the widget itself.
+         *
+         * the templatepath checked is relative to the common smarty templatepaths array,
+         * wich is defined by $smarty->template_dir.
+         * the order of detection is also determined by that array.
+         * @see $smarty->template_dir, clansuite_xdebug::printr($smarty->template_dir);
          */
-        if($smarty->template_exists( $mod.DS.$action.'.tpl'))
+
+        if($smarty->template_exists($mod.DS.$action.'.tpl'))
         {
-            # Themefolder: news\widget_news.tpl
+            # $smarty->template_dir[s]..\news\widget_news.tpl
             return $smarty->fetch($mod.DS.$action.'.tpl');
+        }
+        elseif($smarty->template_exists($mod.DS.'templates'.DS.$action.'.tpl'))
+        {
+            # $smarty->template_dir[s]..\news\templates\widget_news.tpl
+            return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
         }
         else
         {
-            # Modulefolder: news\templates\widget_news.tpl
-            return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
+            return "Error! Failed to load Widget-Template for <br /> $module_name -> $action($items)";
         }
     }
     else
