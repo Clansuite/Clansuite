@@ -193,7 +193,18 @@ class Clansuite_Doctrine
 		# TBLNAME: clansuite.DB_PREFIX_tablename
 		$this->manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
 		$this->manager->setAttribute(Doctrine::ATTR_USE_NATIVE_ENUM, true);
-		#$manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+
+		# Load Tables (with custom methods) automatically
+		$this->manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+
+		# Enables the auto freeing of query objects after execution
+		$this->manager->setAttribute('auto_free_query_objects', true);
+
+		/**
+		 * Sets Charset and Collation globally on Doctrine_Manager instance
+		 */
+        $this->manager->setCollate('utf8_unicode_ci');
+        $this->manager->setCharset('utf8');
 
 		/**
 		 * Load Models (automatic + lazy loading)
