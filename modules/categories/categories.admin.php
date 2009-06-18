@@ -57,7 +57,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+        parent::initRecords('categories');
     }
 
     /**
