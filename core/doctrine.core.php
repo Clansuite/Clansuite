@@ -205,8 +205,8 @@ class Clansuite_Doctrine
 		 * This changes the column identifier from 'id' to 'tablename_id',
 		 * where %s stands for tablename. table news, column "id" becomes "news_id".
 		 */
-		$this->manager->setAttribute(Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
-        array('name' => '%s_id', 'type' => 'string', 'length' => 30));
+		#$this->manager->setAttribute(Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
+        #array('name' => '%s_id', 'type' => 'string', 'length' => 30));
 
 		/**
 		 * Sets Charset and Collation globally on Doctrine_Manager instance
