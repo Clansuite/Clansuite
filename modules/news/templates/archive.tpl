@@ -23,8 +23,8 @@
     <!-- News Wrap -->
     <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
         <tr>
-            <td height="20" ><b>{$news.news_title} - {$news.CsCategory.name}</b></td>
-            <td rowspan="3" valign="top"><img src="{$news.CsCategory.image}" alt="Category-Image: {$news.CsCategory.name} " /></td>
+            <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
+            <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
         </tr>
 
         <tr>
@@ -55,7 +55,7 @@
     </table>
     <br />
 
-    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategory.image}" alt="{$news.CsCategory.image}"/> {/if}</div>
+    <div>{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
 
 
     {/foreach}
