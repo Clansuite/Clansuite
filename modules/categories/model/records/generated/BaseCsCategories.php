@@ -25,15 +25,14 @@ abstract class BaseCsCategories extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('categories');
-        $this->hasColumn('cat_id', 'integer');
-        $this->hasColumn('module_id', 'integer');
-        $this->hasColumn('sortorder', 'integer');
-        $this->hasColumn('name', 'string');
-        $this->hasColumn('description', 'string');
-        $this->hasColumn('image', 'string');
-        $this->hasColumn('icon', 'string');    
-        $this->hasColumn('color', 'string');        
+        $this->hasColumn('cat_id', 'integer', 1, array('type' => 'integer', 'length' => 1, 'primary' => true, 'autoincrement' => true));
+        $this->hasColumn('module_id', 'integer', 1, array('type' => 'integer', 'length' => 1));
+        $this->hasColumn('sortorder', 'integer', 1, array('type' => 'integer', 'length' => 1, 'default' => '0'));
+        $this->hasColumn('name', 'string', 200, array('type' => 'string', 'length' => 200, 'default' => 'New Category'));
+        $this->hasColumn('description', 'string', null, array('type' => 'string'));
+        $this->hasColumn('image', 'string', 60, array('type' => 'string', 'length' => 60));
+        $this->hasColumn('icon', 'string', 60, array('type' => 'string', 'length' => 60));
+        $this->hasColumn('color', 'string', 7, array('type' => 'string', 'length' => 7));       
     }
-
 }
 ?>
