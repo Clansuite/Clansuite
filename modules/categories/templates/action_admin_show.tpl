@@ -1,9 +1,6 @@
  DEBUG OUTPUT of assigned Arrays:
     {$smarty.session|@var_dump}
     {if $smarty.const.DEBUG eq "1"} Debug of Categories {html_alt_table loop=$categories}   {/if}
-    {$pagination_links|@var_dump}
-    <hr>
-    {$categories|@var_dump}
     <hr>
     {$categories|@var_dump}
 
