@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
    {$smarty.session|@var_dump}
    <hr>
-   {$matches|@var_dump}
+   {$nextmatches|@var_dump}
 *}
 
 <!-- Start Widget Nextmatches from Module Matches //-->
@@ -13,10 +13,12 @@
  	<table class="nextmatches">
 		<tr>
 		{*
-    		<td><span class="nextmatches_team1">{$matches.teamname1}</span></td>
+		{foreach item=match from=$nextmatches}
+    		<td><span class="nextmatches_team1">{$match.teamname1}</span></td>
     		<td><span class="team_divider"> - </span></td>
-    		<td><span class="nextmatches_team2">{$matches.teamname2}</span></td>
-    		<td><span class="nextmatches_time">{$matches.matchtime}</span></td>
+    		<td><span class="nextmatches_team2">{$match.teamname2}</span></td>
+    		<td><span class="nextmatches_time">{$match.matchtime}</span></td>
+        {/foreach}
         *}
   		</tr>
 	</table>
