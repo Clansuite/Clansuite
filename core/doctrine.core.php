@@ -201,6 +201,14 @@ class Clansuite_Doctrine
 		$this->manager->setAttribute('auto_free_query_objects', true);
 
 		/**
+		 * Set default added auto-id
+		 * This changes the column identifier from 'id' to 'tablename_id',
+		 * where %s stands for tablename. table news, column "id" becomes "news_id".
+		 */
+		$this->manager->setAttribute(Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
+        array('name' => '%s_id', 'type' => 'string', 'length' => 30));
+
+		/**
 		 * Sets Charset and Collation globally on Doctrine_Manager instance
 		 */
         $this->manager->setCollate('utf8_unicode_ci');
