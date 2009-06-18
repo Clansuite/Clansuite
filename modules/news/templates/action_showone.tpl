@@ -10,8 +10,8 @@
 
 
 	<tr>
-		<td height="20" ><b>{$news.0.news_title} - {$news.0.CsCategory.name}</b></td>
-		<td rowspan="3" valign="top"><img src="{$news.0.CsCategory.image}" alt="Category-Image: {$news.0.CsCategory.name} " /></td>
+		<td height="20" ><b>{$news.0.news_title} - {$news.0.CsCategories.name}</b></td>
+		<td rowspan="3" valign="top"><img src="{$news.0.CsCategories.image}" alt="Category-Image: {$news.0.CsCategories.name} " /></td>
 	</tr>
 
 	<tr>
