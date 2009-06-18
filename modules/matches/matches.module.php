@@ -63,12 +63,9 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=matches&amp;action=show');
 
-        $matches = Doctrine_Query::create()
-                       ->select('m.*') # all matches
-                       ->from('CsMatches m')
-                      #->leftJoin()
-                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                       ->fetchArray();
+        # fetch nextmatches
+        $matches = Doctrine::getTable('CsMatches')->fetchAMatches($num);
+
 
         #clansuite_xdebug::printr($matches);
 
@@ -79,49 +76,19 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
     }
 
 
-    public function widget_nextmatches()
+    public function widget_nextmatches($num)
     {
-        # get smarty as view
-        $smarty = $this->getView();
-
-        # fetch topmatch via doctrine
-
-        # demo data
-        $nextmatches = array();
-        $nextmatches['id'] = '1';
-
-        # assign the fetched topmatch to the view
-        $smarty->assign('nextmatches_widget', $nextmatches);
+        $this->getView()->assign('nextmatches_widget', Doctrine::getTable('CsMatches')->fetchNextMatches($num));
     }
 
-    public function widget_latestmatches()
+    public function widget_latestmatches($num)
     {
-               # get smarty as view
-        $smarty = $this->getView();
-
-        # fetch topmatch via doctrine
-
-         # demo data
-        $latestmatches = array();
-        $latestmatches['id'] = '1';
-
-        # assign the fetched topmatch to the view
-        $smarty->assign('latestmatches_widget', $latestmatches);
+        $this->getView()->assign('latestmatches_widget', Doctrine::getTable('CsMatches')->fetchLatestMatches($num));
     }
 
     public function widget_topmatch()
     {
-        # get smarty as view
-        $smarty = $this->getView();
-
-        # fetch topmatch via doctrine
-
-         # demo data
-        $topmatch = array();
-        $topmatch['id'] = '1';
-
-        # assign the fetched topmatch to the view
-        $smarty->assign('topmatch_widget', $topmatch);
+        $this->getView()->assign('topmatch_widget', Doctrine::getTable('CsMatches')->fetchTopmatch());
     }
 }
 ?>
