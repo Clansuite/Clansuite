@@ -54,6 +54,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     {
         parent::initRecords('news');
         parent::initRecords('users');
+        parent::initRecords('categories');
     }
 
     /**
@@ -86,7 +87,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                               ncu.nick, ncu.email, ncu.country')
                                     ->from('CsNews n')
                                     ->leftJoin('n.CsUser u')
-                                    ->leftJoin('n.CsCategory c')
+                                    ->leftJoin('n.CsCategories c')
                                     ->leftJoin('n.CsComment nc')
                                     ->leftJoin('nc.CsUser ncu')
                                     #->where('c.module_id = 7')
@@ -222,7 +223,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                   ncu.nick, ncu.email, ncu.country')
                         ->from('CsNews n')
                         ->leftJoin('n.CsUser u')
-                        ->leftJoin('n.CsCategory c')
+                        ->leftJoin('n.CsCategories c')
                         ->leftJoin('n.CsComment nc')
                         ->leftJoin('nc.CsUser ncu')
                         #->where('c.module_id = 7')
@@ -286,7 +287,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                   ncu.nick, ncu.email, ncu.country')
                         ->from('CsNews n')
                         ->leftJoin('n.CsUser u')
-                        ->leftJoin('n.CsCategory c')
+                        ->leftJoin('n.CsCategories c')
                         ->leftJoin('n.CsComment nc')
                         ->leftJoin('nc.CsUser ncu')
                         #->where('c.module_id = 7')
@@ -361,7 +362,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->select('n.*, u.nick, u.user_id, c.name, c.image')
                                     ->from('CsNews n')
                                     ->leftJoin('n.CsUser u')
-                                    ->leftJoin('n.CsCategory c')
+                                    ->leftJoin('n.CsCategories c')
                                     ->where('n.news_status = 4')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('n.news_id DESC'),
@@ -463,13 +464,14 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty = $this->getView();
 
         parent::initRecords('users');
+        parent::initRecords('categories');
 
         # fetch news via doctrine query
         $news = Doctrine_Query::create()
                               ->select('n.*, u.nick, u.user_id, c.name, c.image')
                               ->from('CsNews n')
                               ->leftJoin('n.CsUser u')
-                              ->leftJoin('n.CsCategory c')
+                              ->leftJoin('n.CsCategories c')
                               ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                               ->orderby('n.news_id DESC')
                               ->limit($numberNews)

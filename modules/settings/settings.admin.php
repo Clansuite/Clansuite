@@ -81,7 +81,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
     /**
      * action_settings_update
      */
-    function action_settings_update()
+    function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');

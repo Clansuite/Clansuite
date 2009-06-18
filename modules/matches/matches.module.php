@@ -75,17 +75,29 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
         $this->prepareOutput();
     }
 
-
-    public function widget_nextmatches($num)
+    /**
+     * Widget Next Matches
+     * 
+     * @param integer $number Number of Matches to fetch
+     */
+    public function widget_nextmatches($number)
     {
-        $this->getView()->assign('nextmatches_widget', Doctrine::getTable('CsMatches')->fetchNextMatches($num));
+        $this->getView()->assign('nextmatches_widget', Doctrine::getTable('CsMatches')->fetchNextMatches($number));
     }
 
-    public function widget_latestmatches($num)
+    /**
+     * Widget Latest Matches
+     *
+     * @param integer $number Number of Matches to fetch 
+     */
+    public function widget_latestmatches($number)
     {
-        $this->getView()->assign('latestmatches_widget', Doctrine::getTable('CsMatches')->fetchLatestMatches($num));
+        $this->getView()->assign('latestmatches_widget', Doctrine::getTable('CsMatches')->fetchLatestMatches($number));
     }
 
+    /**
+     * Widget Topmatch
+     */
     public function widget_topmatch()
     {
         $this->getView()->assign('topmatch_widget', Doctrine::getTable('CsMatches')->fetchTopmatch());

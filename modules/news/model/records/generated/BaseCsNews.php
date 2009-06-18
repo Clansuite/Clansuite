@@ -30,7 +30,7 @@ abstract class BaseCsNews extends Doctrine_Record
 
 
         $this->index('cat_id', array('fields' => 'cat_id'));
-        $this->hasOne('CsCategory', array('local' => 'cat_id',
+        $this->hasOne('CsCategories', array('local' => 'cat_id',
                                         'foreign' => 'cat_id'
                                         #,
                                         #'onDelete' => 'CASCADE')
