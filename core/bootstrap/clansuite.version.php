@@ -50,6 +50,9 @@ class Clansuite_Version
 {
     public static function setVersionInformation()
     {
+        /**
+         * Define Clansuite software version, version name and state for usage throughout the system
+         */
         define('CLANSUITE_VERSION',         '0.2');
         define('CLANSUITE_VERSION_NAME',    'Trajan');
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
