@@ -37,7 +37,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Clansuite
  *
- * Module:      Downloads 
+ * Module:      Downloads
  * Submodule:   Admin
  *
  * @author     Jens-André Koch <vain@clansuite.com>
@@ -59,7 +59,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     {
 
     }
-    
+
     /**
      * Module_Matches_Admin - action_admin_show
      *
@@ -68,32 +68,25 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     {
         # Permission check
         #$perms::check('cc_view_matches');
-        
+
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=categories&amp;sub=admin&amp;action=show');
-        
-        #
-        
-        # Get Render Engine
-        $smarty = $this->getView();        
-        
-        #$smarty->assign('news', $news->toArray());
-        #$smarty->assign('newsarchiv', $newsarchiv);
-        #$smarty->assign('newscategories', $newscategories);
 
-        // Return true if it's necessary to paginate or false if not
-        #$smarty->assign('pagination_needed',$pager->haveToPaginate());
+        $categories = Doctrine_Query::create()
+               ->select('c.*')
+               ->from('CsCategories c')
+               ->fetchArray();
 
-        // Pagination
-        #$smarty->assign_by_ref('pager', $pager);
-        #$smarty->assign_by_ref('pager_layout', $pager_layout);
-        
+        #clansuite_xdebug::printr($categories);
+
+        $view = $this->getView();
+        $view->assign('categories', $categories);
+
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        # specifiy the template manually
-        #$this->setTemplate('news/admin_show.tpl');
+
         # Prepare the Output
         $this->prepareOutput();
-       
     }
 }
+?>
