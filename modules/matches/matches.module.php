@@ -64,8 +64,7 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=matches&amp;action=show');
 
         # fetch nextmatches
-        $matches = Doctrine::getTable('CsMatches')->fetchAMatches($num);
-
+        $matches = Doctrine::getTable('CsMatches')->fetchAll($num);
 
         #clansuite_xdebug::printr($matches);
 
