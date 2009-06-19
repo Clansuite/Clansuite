@@ -51,7 +51,7 @@ class Module_Menu extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+        parent::initRecords('menu');
     }
 
     /**
