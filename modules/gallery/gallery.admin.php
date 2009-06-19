@@ -53,7 +53,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+		parent::initRecords('gallery');
     }
 
     /**
