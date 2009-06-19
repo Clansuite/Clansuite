@@ -94,9 +94,10 @@
         <div class="widget" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
         <div class="widget" id="widget_news">{load_module name="news" action="widget_news" items="2"}</div>
         <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
-        <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches"}</div>
-        <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches"}</div>
+        <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div>
+        <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div>
         <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div>
+        <div class="widget" id="widget_shoutbox">{load_module name="shoutbox" action="widget_shoutbox"}</div>
     </td>
 
     <!-- Middle + Center = Main Content //-->
