@@ -46,6 +46,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 {
 	public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
 	{
+		parent::initRecords('users');
 	}
 
 	function action_admin_banuser()
