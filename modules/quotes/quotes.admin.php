@@ -49,6 +49,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+		parent::initRecords('quotes');
     }
 
     public function action_admin_show()
