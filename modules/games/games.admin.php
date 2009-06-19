@@ -66,21 +66,11 @@ class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite
      */
     public function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_view_games');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=games&amp;sub=admin&amp;action=show');
-
-        $games = Doctrine_Query::create()
-               ->select('c.*')
-               ->from('CsGames c')
-               ->fetchArray();
-
-        #clansuite_xdebug::printr($games);
-
-        $view = $this->getView();
-        $view->assign('games', $games);
+        
+        # Fetch Data and Assign to View
+        $this->getView()->assign('games', Doctrine::getTable('CsGames')->fetchAll());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
