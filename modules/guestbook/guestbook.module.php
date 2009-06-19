@@ -56,7 +56,7 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+        parent::initRecords('guestbook');
     }
 
     /**
