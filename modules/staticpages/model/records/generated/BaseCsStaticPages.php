@@ -8,7 +8,7 @@ abstract class BaseCsStaticPages extends Doctrine_Record
 
   public function setTableDefinition()
   {
-    $this->setTableName('static_pages');
+    $this->setTableName('staticpages');
     $this->hasColumn('id', 'integer', 4, array('unsigned' => 0, 'primary' => true, 'notnull' => true, 'autoincrement' => true));
     $this->hasColumn('title', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
     $this->hasColumn('description', 'string', 255, array('fixed' => false, 'primary' => false, 'default' => '', 'notnull' => true, 'autoincrement' => false));
