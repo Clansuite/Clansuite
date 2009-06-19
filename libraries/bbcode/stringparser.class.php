@@ -282,7 +282,7 @@ class StringParser {
 			StringParser_Node::destroyNode ($this->_root);
 		}
 		unset ($this->_root);
-		$this->_root =& new StringParser_Node_Root ();
+		$this->_root = new StringParser_Node_Root ();
 		$this->_stack[0] =& $this->_root;
 		
 		$this->_parserInit ();
@@ -979,7 +979,7 @@ class StringParser_Node {
 	function appendToLastTextChild ($text) {
 		$ccount = count ($this->_children);
 		if ($ccount == 0 || $this->_children[$ccount-1]->_type != STRINGPARSER_NODE_TEXT) {
-			$ntextnode =& new StringParser_Node_Text ($text);
+			$ntextnode = new StringParser_Node_Text ($text);
 			return $this->appendChild ($ntextnode);
 		} else {
 			$this->_children[$ccount-1]->appendText ($text);
@@ -1205,7 +1205,7 @@ class StringParser_Node {
 		}
 		
 		if ($destroy) {
-			return StringParser_Node::destroyNode ($object);
+			return StringParser_Node::destroyNode($object);
 			unset ($object);
 		}
 		return true;
@@ -1248,7 +1248,7 @@ class StringParser_Node {
 	 * @param object $node The node to destroy
 	 * @return bool True on success, else false.
 	 */
-	function destroyNode (&$node) {
+	static function destroyNode (&$node) {
 		if ($node === null) {
 			return false;
 		}
