@@ -59,7 +59,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+        parent::initRecords('news');
+        parent::initRecords('users');
+        parent::initRecords('categories');
     }
 
     /**
