@@ -22,7 +22,7 @@ abstract class BaseCsGames extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('games');
-        $this->hasColumn('games_id', 'integer', 1, array('type' => 'integer', 'length' => 1, 'primary' => true, 'autoincrement' => true));
+        $this->hasColumn('games_id', 'integer', 3, array('type' => 'integer', 'length' => 1, 'primary' => true, 'autoincrement' => true));
         $this->hasColumn('name', 'string', 200, array('type' => 'string', 'length' => 200, 'default' => 'New Category'));
         $this->hasColumn('description', 'string', null, array('type' => 'string'));
         $this->hasColumn('image', 'string', 60, array('type' => 'string', 'length' => 60));
