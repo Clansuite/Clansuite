@@ -344,6 +344,33 @@ INSERT INTO `cs_comments` VALUES (1,1,'','123','2005-07-29 13:04:07','','127.0.0
 /*!40000 ALTER TABLE `cs_comments` ENABLE KEYS */;
 
 --
+-- Table structure for table `cs_downloads`
+--
+
+DROP TABLE IF EXISTS `cs_downloads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_downloads` (
+  `download_id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `filename` text NOT NULL,
+  `description` text NOT NULL,
+  `filepath` text NOT NULL,
+  `added_date` datetime NOT NULL,
+  PRIMARY KEY (`download_id`),
+  UNIQUE KEY `download_id` (`download_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_downloads`
+--
+
+/*!40000 ALTER TABLE `cs_downloads` DISABLE KEYS */;
+INSERT INTO `cs_downloads` VALUES (1,'test','testfile1','this is a testdescription for testfile1','/uploads/downloads/testfile1.zip','2009-06-20 00:00:00');
+/*!40000 ALTER TABLE `cs_downloads` ENABLE KEYS */;
+
+--
 -- Table structure for table `cs_forum_boards`
 --
 
@@ -1288,7 +1315,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'913bcd0ba9458da38a9faf3116d42773','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:110:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11 (.NET CLR 3.5.30729)\";client_host|s:11:\"Thunderm00n\";SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:3:{i:0;s:12:\"q.quote_body\";i:1;s:14:\"q.quote_author\";i:2;s:14:\"q.qoute_source\";}s:14:\"default_column\";i:1;s:12:\"default_sort\";s:4:\"desc\";s:14:\"current_column\";i:1;s:12:\"current_sort\";s:4:\"desc\";s:11:\"target_page\";s:31:\"/index.php?mod=quotes&sub=admin\";}}','suiteSID',1245453783,1,'staticpages');
+INSERT INTO `cs_session` VALUES (0,'b72e9f101968c6294f6f6c95b717b08e','user|a:11:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:110:\"Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11 (.NET CLR 3.5.30729)\";client_host|s:11:\"Thunderm00n\";','suiteSID',1245533716,1,'matches');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1484,4 +1511,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-06-19 23:26:51
+-- Dump completed on 2009-06-20 21:39:58
