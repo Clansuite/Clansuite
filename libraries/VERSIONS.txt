@@ -16,11 +16,13 @@ GESHI                     1.0.8      GPL                      http://www.qbnz.co
 GRAPH                     1.7.4      NONE, FREE               http://www.zackbloom.org/graph/ *down
 GZIP_ENCODE               0.67       LGPL                     http://www.leknor.com/code/php/ *down, fetchable via typo3 repos
 LIBACTS2                  #30        GPL v2 or above          http://forum.planetteamspeak.com/showthread.php?t=81
+MINIFY                    2.1.2      BSD                      http://code.google.com/p/minify/
 PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
 PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto
 PHP-DEBUG                 1.0.2      MIT-License              http://www.php-debug.com/
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
+PHP-Sniffer               2.1.4      LGPL                     http://sourceforge.net/projects/phpsniff/
 SMARTY                    2.6.18     LGPL v2.1 or above       http://www.smarty.net/
 SNOOPY                    1.2.3      LGPL v2.1 or above       http://www.sourceforge.net/projects/snoopy/
 SWIFTMAILER               3.3.2      LGPL                     http://www.swiftmailer.org/
@@ -30,14 +32,12 @@ The Folder "/trunk/themes/core/javascript" contains the following libraries:
 JAVASCRIPT-LIBRARY        VERSION    LICENCE(S)               WEBSITE
 ------------------        -------    ----------               -------
 
-*overlib                  4.2.1                               http://www.bosrup.com/web/overlib/
 *lightbox                 ?          ?                        http://www.particletree.com
 *smarty_ajax              ?          ?                        http://www.
 
 DynamicTree               1.5.2      Free for any use (c)     http://www.gosu.pl
 DynamicTreeBuilder        1.5.0      Free for any use (c)     http://www.gosu.pl
 Edit-In-Place             0.3.3      MIT-style Licence        http://www.josephscott.org/code/js/eip/
-jscalendar                1.0        LGPL 2.1 or above        http://www.dynarch.com/projects/calendar
 jQuery                    1.2.6      Dual: MIT, GPL           http://www.jquery.com
 milkbox                   1.3.1      MIT-style license        http://www.reghellin.com
 moo-fx                    1.2.3      MIT-style Licence        http://moofx.mad4milk.net
