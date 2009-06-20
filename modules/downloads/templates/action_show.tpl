@@ -1,7 +1,8 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {downloads|@var_dump}
-   {downloadcategories|@var_dump}
-*}{downloads|@var_dump}
+   {$downloads|@var_dump}
+   {$downloadcategories|@var_dump}
+   {$downloads|@var_dump}
+*}
 
 <div class="content" id="downloads_show">
 	<div class="download_top_widget">
@@ -15,5 +16,5 @@
 		{/foreach} *}
         <div style="clear:both"></div>																								<!-- clear floating //-->
     </div>
-    
+
 </div>

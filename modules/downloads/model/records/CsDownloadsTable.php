@@ -10,7 +10,7 @@ class CsDownloadsTable extends Doctrine_Table
         return Doctrine_Query::create()
                ->select('m.*')
                ->from('CsDownloads m')
-               ->orderby('m.download_rating DESC')
+               #->orderby('m.download_rating DESC') # @todo rating table
                ->limit($number)
                ->fetchArray();
     }
@@ -20,17 +20,9 @@ class CsDownloadsTable extends Doctrine_Table
         return Doctrine_Query::create()
                ->select('m.*')
                ->from('CsDownloads m')
-               ->orderby('m.added_date DESC')
-               ->where('m.added_date < ?', time() )
+               #->orderby('m.added_date DESC')
+               #->where('m.added_date < ?', time() ) # @todo added_date
                ->limit($number)
-               ->fetchArray();
-    }
-
-    public function fetchAllDownloads()
-    {
-        return Doctrine_Query::create()
-               ->select('m.*')
-               ->from('CsDownloads m')
                ->fetchArray();
     }
 }

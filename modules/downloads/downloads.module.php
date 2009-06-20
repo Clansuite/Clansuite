@@ -40,7 +40,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite - just an eSports CMS
  *
  * Module:     Downloads
- * 
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
@@ -55,14 +55,14 @@ class Module_Downloads extends Clansuite_ModuleController implements Clansuite_M
     {
         parent::initRecords('downloads');
     }
-    
+
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=downloads&amp;action=show');
 
         # fetch nextmatches
-        $downloads = Doctrine::getTable('CsDownloads')->fetchAll();
+        $downloads = Doctrine::getTable('CsDownloads')->findAll()->toArray();
 
         #clansuite_xdebug::printr($downloads);
 
@@ -71,25 +71,25 @@ class Module_Downloads extends Clansuite_ModuleController implements Clansuite_M
 
         $this->prepareOutput();
     }
-	
-	    /**
+
+	/**
      * Widget LatestFiles
      *
-     * @param integer $number Number of Files to fetch 
+     * @param integer $number Number of Files to fetch
      */
     public function widget_latestfiles($number)
     {
-        $this->getView()->assign('latestfiles_widget', Doctrine::getTable('CsDownloads')->fetchLatestFiles($number));
+        $this->getView()->assign('widget_latestfiles', Doctrine::getTable('CsDownloads')->fetchLatestFiles($number));
     }
-	
+
 	/**
      * Widget TopFiles
      *
-     * @param integer $number Number of Files to fetch 
+     * @param integer $number Number of Files to fetch
      */
-	    public function widget_topfiles($number)
+	public function widget_topfiles($number)
     {
-        $this->getView()->assign('otpfiles_widget', Doctrine::getTable('CsDownloads')->fetchTopFiles($number));
+        $this->getView()->assign('widget_topfiles', Doctrine::getTable('CsDownloads')->fetchTopFiles($number));
     }
 }
 ?>

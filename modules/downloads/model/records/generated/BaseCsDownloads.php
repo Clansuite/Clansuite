@@ -21,7 +21,7 @@ abstract class BaseCsDownloads extends Doctrine_Record
 {
     public function setTableDefinition()
     {
-        $this->setTableName('cs_downloads');
+        $this->setTableName('downloads');
         $this->hasColumn('download_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'primary' => true, 'autoincrement' => true));
         $this->hasColumn('name', 'string', null, array('type' => 'string', 'notnull' => true));
         $this->hasColumn('filename', 'string', null, array('type' => 'string', 'notnull' => true));
