@@ -83,5 +83,7 @@ Clansuite is developed by:
 9  Niklas Karoly              creep7
 
    Developer .................................................................. (+) GNA Approved User 23.03.2009 vain
+                                                                                (-) GNA Removed  User 09.06.2009 vain
+   R                                                                                Reason: inactive
 
 ------------------------------------------------------------------------------------------------------------------------
