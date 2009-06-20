@@ -64,7 +64,7 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=matches&amp;action=show');
 
         # fetch nextmatches
-        $matches = Doctrine::getTable('CsMatches')->fetchAll($num);
+        $matches = Doctrine::getTable('CsMatches')->findAll()->toArray();
 
         #clansuite_xdebug::printr($matches);
 
@@ -81,7 +81,7 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_nextmatches($number)
     {
-        $this->getView()->assign('nextmatches_widget', Doctrine::getTable('CsMatches')->fetchNextMatches($number));
+        $this->getView()->assign('widget_nextmatches', Doctrine::getTable('CsMatches')->fetchNextMatches($number));
     }
 
     /**
@@ -91,7 +91,7 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_latestmatches($number)
     {
-        $this->getView()->assign('latestmatches_widget', Doctrine::getTable('CsMatches')->fetchLatestMatches($number));
+        $this->getView()->assign('widget_latestmatches', Doctrine::getTable('CsMatches')->fetchLatestMatches($number));
     }
 
     /**
@@ -99,7 +99,7 @@ class Module_Matches extends Clansuite_ModuleController implements Clansuite_Mod
      */
     public function widget_topmatch()
     {
-        $this->getView()->assign('topmatch_widget', Doctrine::getTable('CsMatches')->fetchTopmatch());
+        $this->getView()->assign('widget_topmatch', Doctrine::getTable('CsMatches')->fetchTopmatch());
     }
 }
 ?>

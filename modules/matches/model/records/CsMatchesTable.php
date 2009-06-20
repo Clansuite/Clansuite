@@ -34,13 +34,5 @@ class CsMatchesTable extends Doctrine_Table
                ->limit($number)
                ->fetchArray();
     }
-
-    public function fetchAllMatches()
-    {
-        return Doctrine_Query::create()
-               ->select('m.*')
-               ->from('CsMatches m')
-               ->fetchArray();
-    }
 }
 ?>
