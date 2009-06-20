@@ -270,10 +270,7 @@ class Clansuite_Errorhandler
         # if error relates to a template file, then add link to edit the errorous template file
         if(strpos(strtolower($errorstring),'.tpl') == true)
         {
-            # @todo extract filename and line from errorstring
-            # var_dump($errorstring);
-
-            $errormessage .= self::addTemplateEditorLink($errorfile, $errorline);
+            $errormessage .= self::addTemplateEditorLink($errorstring);
         }
 
         return $errormessage;
@@ -289,13 +286,23 @@ class Clansuite_Errorhandler
      * @param $errorline Line Number of the Error.
      * @todo correct link to the templateeditor
      */
-    private static function addTemplateEditorLink($errorfile, $errorline)
+    private static function addTemplateEditorLink($errorstring)
     {
         # display the link to the templateeditor, if we are in DEVELOPMENT MODE
         if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
         {
+            # extract filename and line from errorstring - @todo optimize this regexp
+            preg_match('/Smarty error: (.*) (?<filename>.*) line (?<line>.*)]:(.*)/', $errorstring, $matches);
+            # correct slashes
+            $matches['filename'] = str_replace('/', '\\', $matches['filename']);
+
+            # construct the link to the tpl-editor
+            $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin';
+            $link_tpledit .= '&amp;file='.$matches['filename'];
+            $link_tpledit .= '&amp;line='.$matches['line'].'">Edit the Template</a>';
+
             # return the link
-            return '<a href="/templateeditor/$errorfile/$errorline">Edit the Template</a>';
+            return $link_tpledit;
         }
     }
 
