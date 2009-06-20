@@ -5,7 +5,7 @@
 
 <div class="content" id="downloads_show_single">
 
-	<div class="download_navigation">{$downloads.downloadcategories_id}</div>
+	<div class="download_navigation">{$downloads.downloadcategories_id}</div>	<!-- Download-Categories needed to be included here for navigational issues //-->
 	<div class="download_infos">
     	<span class="download_name">{$downloads.name}</span>
         <span class="download_time">{$downloads_added_date|date_format:"%d.%m.%y, %H:%M:%S"}</span>
