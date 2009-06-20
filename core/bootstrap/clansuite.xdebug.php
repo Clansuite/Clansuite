@@ -105,7 +105,11 @@ class clansuite_xdebug
             #var_dump(xdebug_get_function_count());
             #xdebug_get_code_coverage();
         }
+
+        # stop tracing and display infos
+        register_shutdown_function('clansuite_xdebug::shutdown');
     }
+
 
     /**
      * Shutdown XDEBUG and give some Debugging Reports
@@ -217,6 +221,15 @@ class clansuite_xdebug
         echo "<br />Line: ".xdebug_call_line();
         echo "<br />Depth of Stacks: ".xdebug_get_stack_depth();
         echo "<br />Content of Stack:"; xdebug_var_dump(xdebug_get_function_stack());
+    }
+
+    /**
+     * XDebug has the last word, if it was loaded.
+     */
+    public static function shutdown()
+    {
+        # Stop the tracing and show debugging infos.
+        clansuite_xdebug::end_xdebug();
     }
 }
 ?>
