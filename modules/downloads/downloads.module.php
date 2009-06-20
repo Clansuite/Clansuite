@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
+    * @version    SVN: $Id: downloads.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
 //Security Handler
@@ -53,12 +53,43 @@ class Module_Downloads extends Clansuite_ModuleController implements Clansuite_M
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        parent::initRecords('downloads');
     }
     
     public function action_show()
     {
-    # Prepare the Output
+        // Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=downloads&amp;action=show');
+
+        # fetch nextmatches
+        $downloads = Doctrine::getTable('CsDownloads')->fetchAll();
+
+        #clansuite_xdebug::printr($downloads);
+
+        $view = $this->getView();
+        $view->assign('downloads', $downloads);
+
         $this->prepareOutput();
+    }
+	
+	    /**
+     * Widget LatestFiles
+     *
+     * @param integer $number Number of Files to fetch 
+     */
+    public function widget_latestfiles($number)
+    {
+        $this->getView()->assign('latestfiles_widget', Doctrine::getTable('CsDownloads')->fetchLatestFiles($number));
+    }
+	
+	/**
+     * Widget TopFiles
+     *
+     * @param integer $number Number of Files to fetch 
+     */
+	    public function widget_topfiles($number)
+    {
+        $this->getView()->assign('otpfiles_widget', Doctrine::getTable('CsDownloads')->fetchTopFiles($number));
     }
 }
 ?>
