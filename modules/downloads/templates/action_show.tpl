@@ -11,7 +11,7 @@
     </div>
     <div class="download_categories">
     	{foreach name=downloads item="downloads" from=$downloads}
-    	<span class="download_cat">{$downloads.downloadcategories_id}</span>																	<!-- float left, fixed width //-->
+    	<span class="download_cat">{$downloads.downloadcategories_id}</span>														<!-- float left, fixed width, Download-Categories Strukture needed to be included here for navigational issues //-->
 		{/foreach}
         <div style="clear:both"></div>																								<!-- clear floating //-->
     </div>
