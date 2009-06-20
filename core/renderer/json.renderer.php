@@ -75,13 +75,13 @@ class view_json extends Clansuite_Renderer_Base
         # we need the response object for direct rendering
         $this->response = $this->injector->instantiate('Clansuite_HttpResponse');
     }
-    
+
     public function initializeEngine()
-    {        
+    {
     }
-    
+
     public function configureEngine()
-    {        
+    {
     }
 
     /**
@@ -93,17 +93,7 @@ class view_json extends Clansuite_Renderer_Base
     public function jsonEncode($data)
     {
         # take php's json encode
-        if (function_exists('json_encode'))
-        {
-            $json_encoded_data = json_encode($data);
-        }
-        else
-        {
-            trigger_error('Error: No json_encode function available!', 1);
-            exit(0);
-        }
-
-        return $json_encoded_data;
+        return json_encode($data);
     }
 
     /**
