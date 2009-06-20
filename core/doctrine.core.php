@@ -258,9 +258,12 @@ class Clansuite_Doctrine
 		# We won't use reserved words - therefore this attribute is disabled for now.
 		$this->manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, false);
 
-		# Set Connection Listener for Profiling
-		$this->profiler = new Doctrine_Connection_Profiler();
-		$this->connection->setListener($this->profiler);
+		# Set Connection Listener for Profiling if we are in DEBUG MODE
+		if(DEBUG)
+		{
+		    $this->attachProfiler();
+		    register_shutdown_function(array($this,'shutdown'));
+		}
 	}
 
 	/**
@@ -278,7 +281,16 @@ class Clansuite_Doctrine
 	 */
 	public function getProfiler()
 	{
-			return $this->profiler;
+	    return $this->connection->getListener();
+	}
+
+    /**
+	 * Attached the Doctrine Profiler as Listener to the connection
+	 */
+	public function attachProfiler()
+	{
+	    # instantiate Profiler and attach to doctrine connection
+		$this->connection->setListener(new Doctrine_Connection_Profiler);
 	}
 
 	/**
@@ -293,8 +305,8 @@ class Clansuite_Doctrine
 
 		</p>";
 		echo '<table width="95%" border="1">';
-		echo '<tr style="font-weight: bold;"><td>Command</td><td>Time</td><td width="50%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
-		foreach ( $this->profiler as $event )
+		echo '<tr style="font-weight: bold;"><td>Query Counter</td><td>Command</td><td>Time</td><td width="50%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
+		foreach ( $this->getProfiler() as $event )
 		{
 			/*if ($event->getName() != 'execute')
 			{
@@ -304,7 +316,9 @@ class Clansuite_Doctrine
 			$query_count++;
 			echo "<tr>";
 			$time += $event->getElapsedSecs();
-			echo "<td>" . $event->getName() . "</td><td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
+			echo "<td>" . $query_count . "</td>";
+			echo "<td>" . $event->getName() . "</td>";
+			echo "<td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
 			echo "<td>" . $event->getQuery() . "</td>";
 			$params = $event->getParams();
 			if ( !empty($params))
@@ -317,6 +331,12 @@ class Clansuite_Doctrine
 		}
 		echo "</table>";
 		echo "<br />$query_count Queries in " . sprintf("%2.5f", $time) . " secs.<br>\n";
+	}
+
+	public function shutdown()
+	{
+	     # append Doctrine's SQL-Profiling Report
+         $this->displayProfilingHTML();
 	}
 }
 ?>

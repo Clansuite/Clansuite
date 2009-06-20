@@ -94,8 +94,7 @@ class Clansuite_CMS
 
         Clansuite_CMS::execute_Frontcontroller();
 
-        # register own shutdown function
-        # register_shutdown_function(array(self,'shutdown_and_exit'));
+        Clansuite_CMS::shutdown_and_exit();
     }
 
     /**
@@ -518,22 +517,11 @@ class Clansuite_CMS
      *     Perform a proper Shutdown and Exit
      * ==================================================
      */
-    private static function shutdown_and_exit()
+    public static function shutdown_and_exit()
     {
-        # 1) XDebug has the last word, if it was loaded.
-        if(XDEBUG)
-        {
-            # Stop the tracing and show debugging infos.
-            clansuite_xdebug::end_xdebug();
-        }
-
-        # 2) If DEBUG is on
         if(DEBUG)
         {
-            # append Doctrine's SQL-Profiling Report
-            self::$injector->instantiate('Clansuite_Doctrine')->displayProfilingHTML();
-
-            # and the general Application Runtime
+            # Display the General Application Runtime
             echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
         }
     }
