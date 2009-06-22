@@ -74,11 +74,36 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # Set Pagetitle and Breadcrumbs - not needed
         # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
 
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        $sysinfo = array_merge($this->assembleSystemInfos(),
+                               $this->assembleDatabaseInfos());
+
+        $this->getView()->assign('sysinfos', $sysinfo);
+        unset($sysinfo);
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+    /**
+     * Assemble the complete stack of System Informations
+     *
+     * @return array
+     */
+    private function assembleSystemInfos()
+    {
         # get system informations and server variables
 
         # WEBSERVER
         $sysinfos['apache_get_version'] = apache_get_version();
         $sysinfos['apache_modules']     = apache_get_modules();
+        asort($sysinfos['apache_modules']);
+
+        # fetch server's IP address and it's name
+        $sysinfos['server_ip']   = gethostbyname($_SERVER['SERVER_NAME']);
+        $sysinfos['server_name'] = gethostbyaddr($sysinfos['server_ip']);
 
         # PHP
         # Get Interface Webserver<->PHP (Server-API)
@@ -90,17 +115,48 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
             $sysinfos['php_sapi_cgi'] = true;
         }
 
-        $sysinfos['php_uname']          = php_uname();
-        $sysinfos['php_os']             = PHP_OS;
-        $sysinfos['php_sapi']           = PHP_SAPI;
-        $sysinfos['phpversion']         = phpversion();
-        $sysinfos['php_extensions']     = get_loaded_extensions();
-        $sysinfos['zendversion']        = zend_version();
-        $sysinfos['path_to_phpini']     = php_ini_loaded_file();
-        $sysinfos['cfg_include_path']   = get_cfg_var('include_path');
-        $sysinfos['cfg_file_path']      = realpath(get_cfg_var("cfg_file_path"));
+        $sysinfos['php_uname']                    = php_uname();
+        $sysinfos['php_os']                       = PHP_OS;
+        $sysinfos['php_os_bit']                   = (PHP_INT_SIZE * 8).'Bit';
+        $sysinfos['php_sapi']                     = PHP_SAPI; # @todo check out, if this is the same as php_sapi_name?
+        $sysinfos['phpversion']                   = phpversion();
+        $sysinfos['php_extensions']               = get_loaded_extensions();
+        asort($sysinfos['php_extensions']);
+        $sysinfos['zendversion']                  = zend_version();
+        $sysinfos['path_to_phpini']               = php_ini_loaded_file();
+        $sysinfos['cfg_include_path']             = get_cfg_var('include_path');
+        $sysinfos['cfg_file_path']                = realpath(get_cfg_var("cfg_file_path"));
+        $sysinfos['zend_thread_safty']            = (int) function_exists('zend_thread_id');
+        $sysinfos['safe_mode']                    = (int) ini_get('safe_mode');
+        $sysinfos['open_basedir']                 = (int) ini_get('open_basedir');
+        $sysinfos['memory_limit']                 = ini_get('memory_limit');
+        $sysinfos['allow_url_fopen']              = (int) ini_get('allow_url_fopen');
+        $sysinfos['allow_url_include']            = (int) ini_get('allow_url_include');
+        $sysinfos['file_uploads']                 = ini_get('file_uploads');
+        $sysinfos['upload_max_filesize']          = ini_get('upload_max_filesize');
+        $sysinfos['post_max_size']                = ini_get('post_max_size');
+        $sysinfos['disable_functions']            = (int) ini_get('disable_functions');
+        $sysinfos['disable_classes']              = (int) ini_get('disable_classes');
+        $sysinfos['enable_dl']                    = (int) ini_get('enable_dl');
+        $sysinfos['magic_quotes_gpc']             = (int) ini_get('magic_quotes_gpc');
+        $sysinfos['register_globals']             = (int) ini_get('register_globals');
+        $sysinfos['filter_default']               = ini_get('filter.default');
+        $sysinfos['zend_ze1_compatibility_mode']  = (int) ini_get('zend.ze1_compatibility_mode');
+        $sysinfos['unicode_semantics']            = (int) ini_get('unicode.semantics');
+        $sysinfos['mbstring_func_overload']       = ini_get('mbstring.func_overload');
+        $sysinfos['max_input_time']               = ini_get('max_input_time');
+        $sysinfos['max_execution_time']           = ini_get('max_execution_time');
 
-        # Fetch Database infos from PDO
+        return $sysinfos;
+    }
+
+    /**
+     * Fetch Database infos from PDO
+     *
+     * @return array
+     */
+    private function assembleDatabaseInfos()
+    {
         # get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();
         # fetch PDO::getAttributes and store them in
@@ -112,21 +168,11 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # $sysinfos['pdo']['prefetch']         = $pdo->getAttribute(PDO::ATTR_PREFETCH);
         $sysinfos['pdo']['oracle_nulls']       = $pdo->getAttribute(PDO::ATTR_ORACLE_NULLS);
         $sysinfos['pdo']['connection_status']  = $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-        $sysinfos['pdo']['persistent']         = $pdo->getAttribute(PDO::ATTR_PERSISTENT);
+        $sysinfos['pdo']['persistent']         = (int) $pdo->getAttribute(PDO::ATTR_PERSISTENT);
         $sysinfos['pdo']['attr_case']          = $pdo->getAttribute(PDO::ATTR_CASE);
         $sysinfos['pdo']['server_infos']       = explode('  ', $pdo->getAttribute(PDO::ATTR_SERVER_INFO));
 
-        # apply sorting
-        asort($sysinfos['apache_modules']);
-        asort($sysinfos['php_extensions']);
-
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
-
-        $this->getView()->assign('sysinfos', $sysinfos);
-
-        # Prepare the Output
-        $this->prepareOutput();
+        return $sysinfos;
     }
 
     /**
