@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head>
+
     {* display cache time as comment *}
+
     <!-- This Page was cached on {$smarty.now|dateformat}. -->
 
     {* jQuery *}
@@ -33,42 +35,32 @@
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
 
     {* Pagetitle *}
+
     <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 </head><body>
 
+{* Header with Logo *}
 
 <div class="header">
     <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
 
+{* Adminmenu Navigation *}
 {include file="menu/templates/adminmenu.tpl"}
 
+{* Main Table *}
+
 <table class="adminForm" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 20px">
+
+    {* Breadcrumb Navigation and Help *}
+
     <thead>
         <tr>
             <td class="admin_header">
-
                 {include file='breadcrumbs.tpl'}
-
-                {literal}
-                    <!-- (jQuery) Javascript for the Help Toggle -->
-                    <script type="text/javascript">
-                    $(document).ready( function(){
-                        $("#help").hide();
-                        $("#help-toggler").click( function(){
-                            $("#help").slideToggle("normal");
-                        });
-                    });
-                    </script>
-                {/literal}
-
-                <!-- Help Icon -->
-                <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/help.png" alt="Help Toggle" />
-                    {t}Help{/t}
-                </div>
+                {include file='help_button.tpl'}
 
                 {*
 
@@ -89,16 +81,14 @@
             </td>
         </tr>
     </thead>
+
+    {* Content *}
+
     <tbody>
         <tr>
             <td class="admin_content">
-
-                 <!-- Maincontent -->
+                <!-- Maincontent -->
                 {$content}
-
-                <!-- Help -->
-                {include file="../modules/help/templates/help.tpl"}
-
             </td>
         </tr>
     </tbody>
@@ -109,7 +99,7 @@
     {include file='breadcrumbs.tpl'}
     <div style="font-size: 10px; text-align: center;">
     <br/>
-    Frontpage-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}
+    Frontend-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}
     <br/>
     {include file='server_stats.tpl'}
     </div>
