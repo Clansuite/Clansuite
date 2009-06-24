@@ -416,7 +416,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getServerProtocol()
     {
-        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) # @todo check -> or $_SERVER['SSL_PROTOCOL']
+        if($this->isSecure()) # @todo check -> or $_SERVER['SSL_PROTOCOL']
         {
              return 'https://';
         }
@@ -429,6 +429,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Determine Type of Protocol for Webpaths (http/https)
      * Get for $_SERVER['HTTPS'] with boolean return value
+     *
+     * @todo check about $_SERVER['SERVER_PORT'] == 443, is this always ssl then?
      * @see $this->getServerProtocol()
      * @return bool
      */
