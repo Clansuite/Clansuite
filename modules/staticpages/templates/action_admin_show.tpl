@@ -1,27 +1,12 @@
-{* DEBUG OUTPUT of assigned Arrays:
-    {$smarty.session|@var_dump}
-    {if $smarty.const.DEBUG eq "1"} Debug of Staticpages {html_alt_table loop=$staticpages}   {/if}
-    <hr>
-    {$staticpages|@var_dump}
-*}
+{* Debugausgabe des Arrays:  {$overview|@var_dump} *}   
 
-{modulenavigation}
 <!-- Module Heading -->
-<div class="ModuleHeading">Staticpages</div>
-<div class="ModuleHeadingSmall">Sie können Staticpages hinzufügen, verändern und löschen.</div>
+<div class="ModuleHeading">{t}Static Pages Overview[/t}</div>
+<div class="ModuleHeadingSmall">{t}This page shows all your static pages. You can create, modify and delete them.</div>
 
-<div class="content" id="staticpages_admin_show">
-<table>
-    {foreach item=staticpages from=$staticpages}
-	<tr>
-		<td>{$staticpages.id}</td>
-		<td>{$staticpages.title}</td>
-		<td>{$staticpages.description}</td>
-		<td>{$staticpages.url}</td>
-		<td>{$staticpages.html}</td>
-		<td>{$staticpages.iframe}</td>
-		<td>{$staticpages.iframe_height}</td>
-	</tr>
-	{/foreach}
-</table>
-</div>
+<!-- Content -->
+<dl>
+{foreach item=staticpage from=$overview}
+  <dt>({$staticpage.id}) <a href='index.php?mod=staticpages&amp;page={$staticpage.title}'>{$staticpage.title}</a> {$staticpage.description}</dt>
+{/foreach}
+</dl>

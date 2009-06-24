@@ -51,18 +51,6 @@
             <input type="radio" value="0" name="config[error][suppress_errors]" {if isset($config.error.suppress_errors) && ($config.error.suppress_errors == 0)}checked="checked"{/if} /> {t}no{/t}
         </td>
     </tr>
-    <!--
-     tr>
-        <td class="cell2" width="15%">
-            {t}Report Errors{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
-            <small>{t}When you turn this setting on, your errors are reported back to the Clansuite Community for bug resolving:{/t}</small><br />
-            <input type="radio" value="1" name="config[error][reporthome_errors]" {if isset($config.error.reporthome_errors) && ($config.error.reporthome_errors == 1)}checked="checked"{/if} /> {t}yes{/t}
-            <input type="radio" value="0" name="config[error][reporthome_errors]" {if isset($config.error.reporthome_errors) && ($config.error.reporthome_errors == 0)}checked="checked"{/if} /> {t}no{/t}
-        </td>
-    </tr>
-    -->
     <tr>
         <td class="cell2" width="15%">
             {t}Debugging{/t}
@@ -70,6 +58,18 @@
         <td class="cell1" style="padding: 3px">
             <input type="radio" value="1" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 1)}checked="checked"{/if} /> {t}yes{/t}
             <input type="radio" value="0" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 0)}checked="checked"{/if} /> {t}no{/t}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2" width="15%">
+            {t}Enable Webdebug Toolbar{/t}
+             <br/>
+            ?lang=
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <small>{t}You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner.{/t}</small><br />
+            <input type="radio" value="1" name="config[debug][webdebug]" {if isset($config.debug.webdebug) && $config.debug.webdebug == 1}checked="checked"{/if} /> {t}activated{/t}
+            <input type="radio" value="0" name="config[debug][webdebug]" {if isset($config.debug.webdebug) && $config.debug.webdebug == 0}checked="checked"{/if} /> {t}deactivated{/t}
         </td>
     </tr>
     <tr>
