@@ -165,7 +165,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
             $modulename = Clansuite_ModuleController_Resolver::getModuleName();
         }
 
- 	    $models_path = ROOT_MOD . $modulename . DS . 'model' . DS . 'records';
+ 	    $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
  	    Doctrine::loadModels($models_path);
     }
 
