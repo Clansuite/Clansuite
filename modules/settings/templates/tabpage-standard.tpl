@@ -53,6 +53,15 @@
 </tr>
 <tr>
     <td class="cell2" width="15%">
+        {t}Default Backend Theme{/t}
+    </td>
+    <td class="cell1" style="padding: 3px">
+        <small>{t}Select the default Backend-Theme to load. This is defines the wrapper layout for the Control Center..{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.template.backend_theme}" name="config[template][backend_theme]" />
+    </td>
+</tr>
+<tr>
+    <td class="cell2" width="15%">
         {t}Default Layout Filename{/t}
     </td>
     <td class="cell1" style="padding: 3px">
@@ -138,12 +147,10 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like "?lang=de", the german language (de_DE) will be used.{/t}</small><br />
-        <input type="radio" value="1" name="config['switches']['languageswitch_via_url']" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 1}checked="checked"{/if} /> {t}activated{/t}
-        <input type="radio" value="0" name="config['switches']['languageswitch_via_url']" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 0}checked="checked"{/if} /> {t}deactivated{/t}
+        <input type="radio" value="1" name="config[switches][languageswitch_via_url]" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 1}checked="checked"{/if} /> {t}activated{/t}
+        <input type="radio" value="0" name="config[switches][languageswitch_via_url]" {if isset($config.switches.languageswitch_via_url) && $config.switches.languageswitch_via_url == 0}checked="checked"{/if} /> {t}deactivated{/t}
     </td>
 </tr>
-
-
 
 {* /---------------------------------------------------
    |

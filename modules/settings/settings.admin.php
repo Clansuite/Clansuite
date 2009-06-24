@@ -65,6 +65,13 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config')->toArray();
 
+        # Assign array with all cache adapters to smarty
+        $cache_adapters = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
+        $view->assign('cache_adapters', $cache_adapters);
+
+        $timezones = array('Berlin', 'Rio');
+        $view->assign('timezones', $timezones);
+
         # Assign Config to Smarty
         $view->assign('config', $config);
 
@@ -93,7 +100,9 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
 
-        $config->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
+        #clansuite_xdebug::printr($config->confighandler);
+
+        $config->confighandler->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
 
         # Redirect
         header('index.php?mod=controlcenter&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );

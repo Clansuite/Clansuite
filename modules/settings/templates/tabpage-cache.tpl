@@ -13,6 +13,15 @@
     </tr>
     <tr>
         <td class="cell2" width="15%">
+            {t}Cache{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <small>Specify one of the following Cache Adapter to use: APC, memcached, xcache, eaccelerator, file-based. </small><br/>
+            {html_options name='config[cache][adapter]' options=$cache_adapters selected=$config.cache.adapter separator='<br />'}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2" width="15%">
             {t}Cache On{/t}
         </td>
         <td class="cell1" style="padding: 3px">

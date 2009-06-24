@@ -1,4 +1,5 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+; SVN: $Id$
 ;
 ; Clansuite Configuration File :
 ; D:\xampplite\htdocs\work\clansuite\trunk\/configuration/clansuite.config.php
@@ -33,13 +34,21 @@ logfiles_folder = "logs"
 ; email
 ;----------------------------------------
 [email]
+mailmethod = "mail"
+mailerhost = ""
+mailerport = ""
+mailencryption = "SWIFT_OPEN"
+smtp_username = ""
+smtp_password = ""
 from = "system@website.com"
+from_name = ""
 
 ;----------------------------------------
 ; template
 ;----------------------------------------
 [template]
 std_page_title = "Team Clansuite"
+favicon = ""
 theme = "standard"
 backend_theme = "admin"
 tpl_wrapper_file = "index.tpl"
@@ -124,7 +133,7 @@ debug_popup     = 0
 ; cache
 ;----------------------------------------
 [cache]
-cache = APC
+adapter = "apc"
 caching = 0
 cache_lifetime = 90
 
@@ -156,9 +165,19 @@ mod_rewrite = 0
 ; locale
 ;----------------------------------------
 [locale]
-locale = 3600
+dateformat = "l, d.m.Y H:i"
+locale = "de_DE"
+timezone = "Berlin"
+dst = 1
 
 [statistics]
 enabled = 1
+
+;----------------------------------------
+; updater
+;----------------------------------------
+[updater]
+enabled  = 1
+interval = 604800
 
 ; DO NOT REMOVE THIS LINE */ ?>

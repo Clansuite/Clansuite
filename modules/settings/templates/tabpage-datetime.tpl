@@ -18,6 +18,7 @@
         <td class="cell1" style="padding: 3px">
             <small>{t}You may provide the format in which dates are displayed. Example: d-m-Y. For an How-To read: http://us2.php.net/manual/en/function.date.php{/t}</small><br />
             <input class="input_text" type="text" value="{if isset($config.locale.dateformat)}{$config.locale.dateformat}{/if}" name="config[locale][dateformat]" />
+            Example: {$smarty.now|dateformat}
         </td>
     </tr>
     <tr>
@@ -26,10 +27,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Select the default timzone:{/t}</small><br />
-            <select name="config[locale][timezone]" class="input_text">
-                <option value="md5" {if isset($config.locale.timezone) && $config.locale.timezone == 'Berlin'}selected="selected"{/if}>Berlin</option>
-                <option value="sha1" {if isset($config.locale.timezone) && $config.locale.timezone == '123'}selected="selected"{/if}>123</option>
-            </select>
+            {html_options name='config[locale][timezone]' options=$timezones selected=´$config.locale.timezone´ separator='<br />'}
         </td>
     </tr>
     <tr>
