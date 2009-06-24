@@ -302,10 +302,10 @@ abstract class Clansuite_Renderer_Base
             $modulepath =  ROOT_MOD . $moduleName . '/templates/' . $template;
         }
 
+        # If template is not existant, show template_not_found
         if(strlen($modulepath) == 0)
         {
-            # NOT EXISTANT
-            $modulepath = ROOT_THEMES . 'core/template_not_found.tpl';
+            $modulepath = ROOT_THEMES . 'core/templates/template_not_found.tpl';
         }
 
         #echo '<br>We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
