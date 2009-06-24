@@ -293,13 +293,21 @@ class Clansuite_Errorhandler
         {
             # extract filename and line from errorstring - @todo optimize this regexp
             preg_match('/Smarty error: (.*) (?<filename>.*) line (?<line>.*)]:(.*)/', $errorstring, $matches);
-            # correct slashes
-            $matches['filename'] = str_replace('/', '\\', $matches['filename']);
 
-            # construct the link to the tpl-editor
-            $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin';
-            $link_tpledit .= '&amp;file='.$matches['filename'];
-            $link_tpledit .= '&amp;line='.$matches['line'].'">Edit the Template</a>';
+            if(count($matches) >= 1)
+            {
+                # correct slashes
+                $matches['filename'] = str_replace('/', '\\', $matches['filename']);
+
+                # construct the link to the tpl-editor
+                $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin';
+                $link_tpledit .= '&amp;file='.$matches['filename'];
+                $link_tpledit .= '&amp;line='.$matches['line'].'">Edit the Template</a>';
+            }
+            else # We have no match, no filename, no linenumber, so we have no link
+            {
+                $link_tpledit = '';
+            }
 
             # return the link
             return $link_tpledit;
