@@ -6,6 +6,12 @@
 <div class="cell1">
 
     {if $serverinfo.request_ok == true}
+    
+        <div style="float:right; clear:both;">
+        <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_tcpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
+        Connect
+        </a>
+        </div>
 
         {$serverinfo.server_name}
         <br /><br />
@@ -51,10 +57,7 @@
             {literal}}{/literal}
         -->
         </style>
-        <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_tcpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
-        Connect
-        </a>
-
+       
     {else}
 
         {* ({$serverinfo.server_address}:{$serverinfo.server_tcpport}) *}
