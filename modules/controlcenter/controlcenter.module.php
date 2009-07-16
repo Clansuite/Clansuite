@@ -115,7 +115,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         #$view->assign( 'newsfeed-updatetime', $this->assignFeedContent());
 
         # Fetch Render Engine and Set Layout
-        $view->setLayoutTemplate('admin/index.tpl');
+        $view->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -133,7 +133,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
         # Fetch Render Engine and Set Layout
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -150,7 +150,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
 
         # Fetch Render Engine and Set Layout
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
