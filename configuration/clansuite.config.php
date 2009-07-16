@@ -74,7 +74,7 @@ default_dateformat = "l, d.m.Y H:i"
 ;----------------------------------------
 [language]
 language = "de"
-charset = ""
+outputcharset = "UTF-8"
 timezone = "Europe/Berlin"
 gmtoffset = 3600
 
