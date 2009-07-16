@@ -165,4 +165,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
         }
         return true;
     }
+    
+    
+}
 ?>
