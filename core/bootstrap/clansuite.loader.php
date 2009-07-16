@@ -64,6 +64,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 class Clansuite_Loader
 {
     /**
+     * @var array Whitelist array for libraries
+     */
+    private $libraries = array( 'simplepie' => array ( 'path' => 'simplepie', 
+                                                       'filename' => '/simplepie/simplepie.inc'),
+                                                     
+                                                     );
+
+    /**
      * clansuite_loader:register_autoload();
      *
      * Overwrites Zend Engines __autoload cache with our own loader-functions
@@ -133,25 +141,25 @@ class Clansuite_Loader
     }
 
     /**
-     * Load a Library by name and dir
-     * Extensions .php
+     * Load a Library
      *
-     * @param string $className The class, which should be loaded
-     * @param string $directory without start/end slashes
+     * @todo: Suboptimal! Filename based, because of classes like "simplepie/simplepie.inc"
+     *
+     * @param string $file Full path and filename of the library to load.
      * @return boolean
      */
-    public static function loadLibrary($className, $directory = null)
+    public static function loadLibrary($file)
     {
-        if (class_exists($className, false))
+        $className = explode( DS , dirname($file));
+
+        #clansuite_xdebug::printr($className['0']);
+
+        if (class_exists($className['0'], false))
         {
             return false;
         }
-        $fileName = ROOT_LIBRARIES;
-        if ( $directory != null )
-        {
-            $fileName .= $directory . DS;
-        }
-        $fileName .= $className . '.php';
+
+        $fileName = ROOT_LIBRARIES. $file;
         #echo '<br>loaded Library => '. $fileName;
         return self::requireFile($fileName);
     }
