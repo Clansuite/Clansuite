@@ -22,6 +22,15 @@
     </tr>
     <tr>
         <td class="cell2" width="15%">
+            {t}Devlopment Mode{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <input type="radio" value="1" name="config[error][development]" {if isset($config.error.development) && ($config.error.development == 1)}checked="checked"{/if} /> {t}yes{/t}
+            <input type="radio" value="0" name="config[error][development]" {if isset($config.error.development) && ($config.error.development == 0)}checked="checked"{/if} /> {t}no{/t}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2" width="15%">
             {t}GZip Compression{/t}
         </td>
         <td class="cell1" style="padding: 3px">

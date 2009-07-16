@@ -1,8 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; SVN: $Id$
-;
-; Clansuite Configuration File :
-; D:\xampplite\htdocs\work\clansuite\trunk\/configuration/clansuite.config.php
+; 
+; Clansuite Configuration File : 
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
 ;
 
 
@@ -61,7 +60,6 @@ std_javascript = "standard.js"
 [switches]
 themeswitch_via_url = 0
 languageswitch_via_url = 0
-webdebug = 0
 
 ;----------------------------------------
 ; defaults
@@ -75,10 +73,10 @@ default_dateformat = "l, d.m.Y H:i"
 ; language
 ;----------------------------------------
 [language]
+language = "de"
+charset = ""
 timezone = "Europe/Berlin"
 gmtoffset = 3600
-language = "de"
-outputcharset = "UTF-8"
 
 ;----------------------------------------
 ; login
@@ -91,7 +89,7 @@ login_ban_minutes = 30
 min_pass_length = 6
 encryption = "sha1"
 salt = "1-3-5-8-4-1-7-2-4-1-4-1"
-email_activation = 0
+registration_term = ""
 
 ;----------------------------------------
 ; openid
@@ -99,7 +97,6 @@ email_activation = 0
 [openid]
 openid_trustroot = "http://www.clansuite.com/openid/"
 openid_showloginbox = 1
-openid_showcommentsbox = 0
 
 ;----------------------------------------
 ; upload
@@ -113,11 +110,8 @@ max_upload_filesize = 1048576
 [session]
 use_cookies = 1
 use_cookies_only = 0
-session_expire_time = 30
-check_ip = 1
-check_browser = 1
-check_host = 1
-maximal_password_tries = 3
+session_expire_time = " 30 "
+session_name = ""
 
 ;----------------------------------------
 ; error
@@ -127,7 +121,8 @@ debug           = 1
 xdebug          = 1
 development     = 1
 suppress_errors = 0
-debug_popup     = 0
+debug = 1
+debug_popup = 0
 
 ;----------------------------------------
 ; cache
@@ -153,7 +148,6 @@ language = "de"
 author = "Jens-André Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
-domain = "clansuite-dev.com"
 
 ;----------------------------------------
 ; webserver
@@ -166,10 +160,11 @@ mod_rewrite = 0
 ;----------------------------------------
 [locale]
 dateformat = "l, d.m.Y H:i"
-locale = "de_DE"
-timezone = "Berlin"
-dst = 1
+timezone = 0
 
+;----------------------------------------
+; statistics
+;----------------------------------------
 [statistics]
 enabled = 1
 
@@ -177,7 +172,7 @@ enabled = 1
 ; updater
 ;----------------------------------------
 [updater]
-enabled  = 1
+enabled = 1
 interval = 604800
 
 ; DO NOT REMOVE THIS LINE */ ?>

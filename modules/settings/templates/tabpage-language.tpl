@@ -25,7 +25,7 @@
             {t}Charset{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.language.charset)}{$config.language.charset}{/if}" name="config[language][charset]" />
+            <input class="input_text" type="text" value="{if isset($config.language.outputcharset)}{$config.language.outputcharset}{/if}" name="config[language][outputcharset]" />
         </td>
     </tr>
     <tr>
