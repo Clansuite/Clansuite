@@ -120,28 +120,7 @@ class clansuite_xdebug
         if (self::is_xdebug_active())
         {
             # get page parsing time from xdebug
-            echo "
-            <div id='xdebug' style='display:none;'>
-            <center>
-                <script type='application/javascript'>
-                window.addEvent('domready', function() {
-
-                    window.addEvent('keydown', function(event){
-                        if (event.control && event.shift)
-                        {
-                            if( \$('xdebug').style.display == 'block' )
-                            {
-                                \$('xdebug').style.display = 'none'
-                            }
-                            else
-                            {
-                                \$('xdebug').style.display = 'block'
-                            }
-                        }
-                    });
-                });
-                </script>
-            ";
+            echo "<div id='xdebug'><center>";
 
             self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
             self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
