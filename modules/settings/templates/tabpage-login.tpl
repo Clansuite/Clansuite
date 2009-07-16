@@ -136,6 +136,30 @@
             <input class="input_text" type="text" value="{if isset($config.session.session_name)} {$config.session.session_name} {/if}" name="config[session][session_name]" />
         </td>
     </tr>
+    <tr>
+        <td class="cell2" width="15%">
+            {t}Filter: Session Security - check_browser{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <input class="input_text" type="text" value="{if isset($config.session.check_browser)} {$config.session.check_browser} {/if}" name="config[session][check_browser]" />
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2" width="15%">
+            {t}Filter: Session Security -  check_host{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <input class="input_text" type="text" value="{if isset($config.session.check_host)} {$config.session.check_host} {/if}" name="config[session][check_host]" />
+        </td>
+    </tr>
+    <tr>
+        <td class="cell2" width="15%">
+            {t}Filter: Session Security - check_ip{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <input class="input_text" type="text" value="{if isset($config.session.check_ip)} {$config.session.check_ip} {/if}" name="config[session][check_ip]" />
+        </td>
+    </tr>
 
     {* /---------------------------------------------------
        |
@@ -197,5 +221,5 @@
             <textarea name="config[login][registration_term]" cols="30" rows="10" class="input_textarea">{if isset($config.login.registration_term)}{$config.login.registration_term}{/if}</textarea>
         </td>
     </tr>
-   
+
 </table>
