@@ -202,6 +202,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 6) "/themes/admin/"
          */
         $this->renderer->template_dir   = array();
+        # Backend Theme Detections
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS.'modules'.DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+        # Frontend Theme Detections
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS.'modules'.DS;
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;

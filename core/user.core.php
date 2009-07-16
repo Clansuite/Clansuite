@@ -44,9 +44,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
- * @package     clansuite
- * @category    core
- * @subpackage  users
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  User
  */
 class Clansuite_User
 {
@@ -83,16 +83,22 @@ class Clansuite_User
 
     public function getUser( $user_id = null, $fields = '*')
     {
-        $user_id = empty($user_id) ? $_SESSION['user']['user_id'] : (int)$user_id;
-
-        $userdata = null;
+        if($user_id == null)
+        {
+           $user_id = $_SESSION['user']['user_id'];
+        }
+        else
+        {
+            $user_id = (int) $user_id;
+        }
+         /*
         $userdata = Doctrine_Query::create()
                         ->select($fields)
                         ->from('CsUser')
                         ->leftJoin('CsProfile')
                         ->where('CsUser.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
-
+                           */
         if(is_array($userdata))
         {
             return $userdata;
@@ -162,7 +168,7 @@ class Clansuite_User
                          ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
         }
-        else
+        /*else
         {
             // Get the user from the session_id
             $session_result = Doctrine_Query::create()
@@ -170,10 +176,10 @@ class Clansuite_User
                                 ->from('CsSession')
                                 ->where('session_id = ?')
                                 ->fetchOne(array(session_id()), Doctrine::HYDRATE_ARRAY);
-        }
+        } */
 
         // check if session-table[user_id] is a valid user-table[user_id]
-        if (!empty($_SESSION['user']['user_id']))
+        /*if (!empty($_SESSION['user']['user_id']))
         {
             if ( isset($session_result) and $session_result['user_id'] == $_SESSION['user']['user_id'] )
             {
@@ -190,7 +196,7 @@ class Clansuite_User
             {
                 session_regenerate_id(true);
             }
-        }
+        }  */
 
         // check if this user is activated, else reset cookie, session and redirect
         if ( is_array($this->user) AND $this->user['activated'] == 0 )
@@ -230,6 +236,8 @@ class Clansuite_User
             {
                 $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['template']['theme']);
             }
+            
+            $_SESSION['user']['backendtheme'] = (!empty($this->user['backendtheme']) ? $this->user['backendtheme'] : $this->config['template']['backend_theme']);
 
             /**
              * Get Groups & Rights of user_id
@@ -283,6 +291,10 @@ class Clansuite_User
             {
                 $_SESSION['user']['theme']      = $this->config['template']['theme'];
             }
+
+            # @todo this is a workaround / backendthemes is enabled for guests .. it's nonsense
+            # this rule is active, unless the login is activated
+            $_SESSION['user']['backendtheme'] = (!empty($this->user['backendtheme']) ? $this->user['backendtheme'] : $this->config['template']['backend_theme']);
 
             /**
              * Groups & Rights (Guest Group id = 1)
@@ -412,7 +424,7 @@ class Clansuite_User
          * 3. user_id is now inserted into the session without user_id
          * This transforms the so called Guest-Session to a User-Session
          */
-        $this->sessionSetUserId();
+        $this->sessionSetUserId($user_id);
 
         /**
          * 4. Delete Login attempts
@@ -501,12 +513,10 @@ class Clansuite_User
 
     /**
      * Sets user_id to a session
-     *
-     * @todo: maybe param user_id?
      */
-    public function sessionSetUserId()
+    public function sessionSetUserId($user_id)
     {
-        $result = Doctrine_Query::create()
+        /*$result = Doctrine_Query::create()
                          #->select('*') // automatically set when left out
                          ->from('CsSession')
                          ->where('session_id = ?')
@@ -516,12 +526,12 @@ class Clansuite_User
         {
             /**
              * Update Session, because we know that session_id already exists
-             */
-            $result->user_id = $this->user['user_id'];
+             */   /*
+            $result->user_id = $user_id;
             $result->save();
             return true;
         }
-        return false;
+        return false; */
     }
 
     /**
@@ -538,5 +548,18 @@ class Clansuite_User
         }
         return false;
     }
+
+    /**
+     * DELETE : USERS which have joined but are not activated after 3 days.
+     *
+     * 259200 = (60s * 60m * 24h * 3d)
+     */
+     public function deleteJoinedButNotActivitatedUsers()
+     {
+        $query = Doctrine_Query::create()->delete('CsUser')
+                                         ->from('CsUser')
+                                         ->where('activated = ? AND joined < ?')
+                                         ->execute( array( 0, time() - 259200 ) );
+     }
 }
 ?>
