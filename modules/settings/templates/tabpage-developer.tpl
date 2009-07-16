@@ -86,8 +86,8 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner.{/t}</small><br />
-            <input type="radio" value="1" name="config[debug][webdebug]" {if isset($config.debug.webdebug) && $config.debug.webdebug == 1}checked="checked"{/if} /> {t}activated{/t}
-            <input type="radio" value="0" name="config[debug][webdebug]" {if isset($config.debug.webdebug) && $config.debug.webdebug == 0}checked="checked"{/if} /> {t}deactivated{/t}
+            <input type="radio" value="1" name="config[error][webdebug]" {if isset($config.error.webdebug) && $config.error.webdebug == 1}checked="checked"{/if} /> {t}activated{/t}
+            <input type="radio" value="0" name="config[error][webdebug]" {if isset($config.error.webdebug) && $config.error.webdebug == 0}checked="checked"{/if} /> {t}deactivated{/t}
         </td>
     </tr>
     <tr>
