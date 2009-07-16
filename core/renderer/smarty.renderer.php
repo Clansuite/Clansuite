@@ -91,7 +91,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # prevent redeclaration
         if (!class_exists('Smarty'))
         {
-            # check if library exists
+            # check if Smarty library exists - eat like a bird, poop like an elefant!
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
             {
                 require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
@@ -127,7 +127,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # $this->renderer->undefined        = null;                 # defines value of undefined variables
 
         #### SMARTY FILTERS
-        # $this->renderer->autoload_filters = "";                   # loading filters used for every template
+        # $this->renderer->autoload_filters  = "";                   # loading filters used for every template
         $this->renderer->autoload_filters    = array(       # indicates which filters will be auto-loaded
                                                      #'pre'    => array('inserttplnames')
                                                      #,'post'   => array()
@@ -135,16 +135,27 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                                                    );
 
         #### COMPILER OPTIONS
-        # $this->renderer->compiler_class           = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
-        # $this->renderer->compile_id               = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
-        $this->renderer->compile_check      = true;                  # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-        $this->renderer->force_compile      = true;                  # if true compiles each template everytime, overwrites $compile_check
+        # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
+        # $this->renderer->compile_id       = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
+        # recompile/rewrite templates only in debug mode
+        if ( $this->renderer->debugging == true )
+        {
+             $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+             $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
+        }
+        else
+        {
+             $this->renderer->compile_check      = false;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+             $this->renderer->force_compile      = false;             # if true compiles each template everytime, overwrites $compile_check
+        }
+
 
 
         #### CACHING OPTIONS (set these options if caching is enabled)
-        $this->renderer->caching              = $this->config['cache']['caching'];
-        $this->renderer->cache_lifetime       = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
-        # $this->renderer->cache_handler_func         = "";            # Specify your own cache_handler function
+        #clansuite_xdebug::printr($this->config['cache']);
+        $this->renderer->caching                = $this->config['cache']['caching'];
+        $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+        # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
         $this->renderer->cache_modified_check	= 0;             # set to 1 to activate
 
         #### DEFAULT TEMPLATE HANDLER FUNCTION
@@ -442,6 +453,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         $modulecontent =  $this->fetch($template);
 
+        #clansuite_xdebug::printR($this->renderer->_tpl_vars);
+
         #clansuite_xdebug::printR($template);
 
         # check for existing errors and prepend them
@@ -467,6 +480,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
              */
             if( true == $this->preRenderChecks())
             {
+
                 # then assign the modulecontent to it
                 $this->assign('content',  $modulecontent );
                 #echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
