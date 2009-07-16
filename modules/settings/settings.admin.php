@@ -105,7 +105,8 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         $config->confighandler->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
 
         # Redirect
-        header('index.php?mod=controlcenter&sub=settings'); #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
+        $this->redirect('index.php?mod=settings&amp;sub=admin');
+        #'metatag|newsite', 3, $lang->t( 'The config file has been succesfully updated...' ), 'admin' );
     }
 }
 ?>
