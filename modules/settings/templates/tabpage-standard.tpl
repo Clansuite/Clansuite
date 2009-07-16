@@ -115,6 +115,15 @@
         <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
     </td>
 </tr>
+<tr>
+    <td class="cell2" width="15%">
+        {t}default_dateformat{/t}
+    </td>
+    <td class="cell1" style="padding: 3px">
+        <small>{t}Set the default default_dateformat.{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.defaults.default_dateformat}" name="config[defaults][default_dateformat]" />
+    </td>
+</tr>
 
 {* /---------------------------------------------------
    |
