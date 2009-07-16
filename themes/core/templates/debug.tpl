@@ -1,9 +1,9 @@
 {* Get Debug Informations *}
- {assign_debug_info}
+{assign_debug_info}
 
 {* Start - Assign the following content to Variable debug_content *}
 {capture assign=debug_output}
-    {move_to}
+    {move_to target="pre_head_close"}
 
     {literal}
     <style type="text/css">
@@ -24,7 +24,7 @@
 <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 
 <br />
-<h2 class="debug_heading">Clansuite Debug Console</h2>
+<h2 class="debug_heading">Clansuite - Smarty Debug Console</h2>
 <div class="debug_wrapper">
 
 <div class="debug_one" onclick="clip('element_1');">1. Error Log</div>
@@ -177,7 +177,7 @@
                 {/foreach}
             {else}
             <dt class="debug_initial">
-                {if $outerkey == 'db_password' OR $outerkey == 'smtp_password'} 
+                {if $outerkey == 'db_password' OR $outerkey == 'smtp_password'}
                 <b>{$outerkey}</b>: ******** {else} <b> {$outerkey}</b>: {$debugouter} {/if}
              </dt>
             {/if}
@@ -205,11 +205,9 @@
 {* Stop - Assign the above content to Variable debug_content *}
 {/capture}
 
-
-
 {if $debug.debug_popup == 0}
     {* Captures Content from above is in $debug_output and moved with doc_raw to body_post *}
-    {doc_raw target="body_post"}    {$debug_output}    {/move_to}
+    {move_to target="pre_head_close"}   {$debug_output}    {/move_to}
 {else}
     <script type="text/javascript">
     	if ( self.name == '' )
@@ -231,3 +229,19 @@
     	_csuite_console.document.close();
     </script>
 {/if}
+
+{literal}
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        // check to see if firebug is installed and enabled
+        if (window.console && console.firebug)
+        {
+            var firebug = document.getElementById('firebug');
+            firebug.style.display = 'block';
+            firebug.innerHTML = 'It appears that <strong>you have firebug enabled</strong>.' +
+            'Using firebug with Clansuite will cause a <strong>significant performance degradation</strong>.';
+        }
+    }
+</script>
+{/literal}
