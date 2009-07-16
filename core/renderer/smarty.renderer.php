@@ -226,7 +226,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES;
 
-        clansuite_xdebug::printR($this->renderer->template_dir);
+        #clansuite_xdebug::printR($this->renderer->template_dir);
 
         $this->renderer->compile_dir    = ROOT .'cache/templates_c/';           # directory for compiled files
         $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';    # directory for config files (example.conf)
