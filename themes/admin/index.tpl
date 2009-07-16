@@ -101,6 +101,8 @@
     <br/>
     Frontend-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}
     <br/>
+    Backend-Theme: {$smarty.session.user.backendtheme} {* by {$theme_copyright} *}
+    <br/>
     {include file='server_stats.tpl'}
     </div>
     <div style="font-size: 10px; text-align: right;">
