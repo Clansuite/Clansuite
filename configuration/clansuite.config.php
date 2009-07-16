@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
+;
+; Clansuite Configuration File :
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
 ;
 
 
@@ -112,6 +112,9 @@ use_cookies = 1
 use_cookies_only = 0
 session_expire_time = " 30 "
 session_name = ""
+check_ip = 1
+check_browser = 1
+check_host = 1
 
 ;----------------------------------------
 ; error
@@ -121,8 +124,8 @@ debug           = 1
 xdebug          = 1
 development     = 1
 suppress_errors = 0
-debug = 1
-debug_popup = 0
+debug_popup     = 0
+webdebug        = 0
 
 ;----------------------------------------
 ; cache
