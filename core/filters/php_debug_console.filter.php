@@ -57,7 +57,7 @@ class php_debug_console implements Clansuite_Filter_Interface
     {
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)
-        if($this->config['switches']['webdebug'] == 1)
+        if($this->config['error']['webdebug'] == 1)
         {
             /**
              *  ================================================
