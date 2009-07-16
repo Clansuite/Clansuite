@@ -202,22 +202,31 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 6) "/themes/admin/"
          */
         $this->renderer->template_dir   = array();
-        # Backend Theme Detections
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS.'modules'.DS;
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
-        # Frontend Theme Detections
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS.'modules'.DS;
-        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+        # Backend Theme Detections in case the controlcenter is the requested module
+        if(Clansuite_ModuleController_Resolver::getModuleName() == 'controlcenter' or Clansuite_ModuleController_Resolver::getSubModuleName() == 'admin')
+        {
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS.'modules'.DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+        }
+        else
+        {
+             # Frontend Theme Detections
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS.'modules'.DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+        }
+        # FALLBACKS
         # this sets the "templates" subdirectory under the directory containing the modulecontroller class file
+        # FALLBACK to the modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
         $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'templates' .DS;
+        # FALLBACK to the themes dir
         $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'templates' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
         $this->renderer->template_dir[] = ROOT_THEMES;
 
-        #clansuite_xdebug::printR($smarty->template_dir);
+        clansuite_xdebug::printR($this->renderer->template_dir);
 
         $this->renderer->compile_dir    = ROOT .'cache/templates_c/';           # directory for compiled files
         $this->renderer->config_dir     = ROOT_LIBRARIES .'smarty/configs/';    # directory for config files (example.conf)
