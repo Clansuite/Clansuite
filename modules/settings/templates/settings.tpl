@@ -15,6 +15,7 @@
        {tabpage name="Date & Time"} {include file='tabpage-datetime.tpl'}   {/tabpage}
        {tabpage name="Cache"}       {include file='tabpage-cache.tpl'}      {/tabpage}
        {tabpage name="Updates"}     {include file='tabpage-updates.tpl'}    {/tabpage}
+       {tabpage name="Minifer"}     {include file='tabpage-minifier.tpl'}    {/tabpage}
     {/tabpanel}
 
     <br />
