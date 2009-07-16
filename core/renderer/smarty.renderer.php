@@ -203,6 +203,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         $this->renderer->template_dir   = array();
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
+        $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS.'modules'.DS;
         $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         # this sets the "templates" subdirectory under the directory containing the modulecontroller class file
         $this->renderer->template_dir[] = ROOT_MOD;
