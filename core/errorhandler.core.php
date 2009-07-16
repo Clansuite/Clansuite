@@ -297,7 +297,7 @@ class Clansuite_Errorhandler
             if(count($matches) >= 1)
             {
                 # correct slashes
-                $matches['filename'] = $_SESSION['user']['theme'] . str_replace('/', '\\', $matches['filename']);
+                $matches['filename'] = $_SESSION['user']['theme'] .DS. str_replace('/', '\\', $matches['filename']);
 
                 # construct the link to the tpl-editor
                 $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin';
