@@ -60,6 +60,15 @@
             <input type="radio" value="0" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 0)}checked="checked"{/if} /> {t}no{/t}
         </td>
     </tr>
+     <tr>
+        <td class="cell2" width="15%">
+            {t}XDebug{/t}
+        </td>
+        <td class="cell1" style="padding: 3px">
+            <input type="radio" value="1" name="config[error][xdebug]" {if isset($config.error.xdebug) && ($config.error.xdebug == 1)}checked="checked"{/if} /> {t}yes{/t}
+            <input type="radio" value="0" name="config[error][xdebug]" {if isset($config.error.xdebug) && ($config.error.xdebug == 0)}checked="checked"{/if} /> {t}no{/t}
+        </td>
+    </tr>
     <tr>
         <td class="cell2" width="15%">
             {t}Enable Webdebug Toolbar{/t}
