@@ -47,30 +47,30 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'PEAR/Sniffs/Files/IncludingFileSniff.php',
 
                      # Formatting
-                     'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+                     #'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
 
                      # Functions
-                     'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
-                     'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
+                     #'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
+                     #'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
 
                      # PHP
-                     'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
-                     'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
-                     'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
-                     'Squiz/Sniffs/PHP/EvalSniff.php',
+                     #'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
+                     #'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
+                     #'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
+                     #'Squiz/Sniffs/PHP/EvalSniff.php',
 
                      # WhiteSpace
-                     'Squiz/Sniffs/WhiteSpace/',
-                     'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
-                     'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
-                     'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+                     #'Squiz/Sniffs/WhiteSpace/',
+                     #'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
+                     #'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+                     #'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
 
                      # ControlStructures
-                     'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
-                     'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
-                     'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
-                     'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
-                     'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+                     #'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
+                     #'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
+                     #'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
+                     #'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
+                     #'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
 
                      # VersionControl -> SVN
                      #'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
@@ -79,10 +79,10 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      #'Squiz/Sniffs/CSS',
 
                      # Strings
-                     'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
+                     #'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
 
                      # Array
-                     'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
+                     #'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
                    );
 
     }
