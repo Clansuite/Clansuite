@@ -32,6 +32,7 @@
     <meta http-equiv="reply-to" content="{$meta.email}" />
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
+    <meta name="generator" content="Clansuite - just an eSports CMS" />
 
     {* Favicon *}
 
@@ -135,11 +136,14 @@
 <p style="float:left; text-align:left;">
     <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
 </p>
+
 <p style="text-align:right;">
     <br /> {include file='server_stats.tpl'}
 </p>
 
 {include file='copyright.tpl'}
+
+{* debug *}
 
 </body>
 </html>
