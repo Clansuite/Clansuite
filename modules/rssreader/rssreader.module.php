@@ -38,7 +38,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  * Clansuite Module - rssreader
- * 
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
@@ -51,34 +51,31 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # nothing to do
-		
+
     }
-    
+
     public function action_show()
     {
         $smarty = $this->getView();
 
-        
-        
-        
+
+
+
         # Prepare the Output
         $this->prepareOutput();
     }
 
     public function widget_rssreader()
     {
+        # get smarty as the view
         $smarty = $this->getView();
 
-		#get Feed
+		# get Feed
 		$cs_feed = new Clansuite_Feed();
-		$cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
-		
-		
-		#assign Feed to Smarty
-		$view->assign('newsfeed', $cs_feed);
-        # Prepare the Output
-        $this->prepareOutput();
+		$rss = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
+		# assign the Feed to Smarty
+		$smarty->assign('rssreader', $rss);
     }
 }
 ?>
