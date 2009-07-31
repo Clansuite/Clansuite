@@ -51,6 +51,7 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # nothing to do
+		
     }
     
     public function action_show()
@@ -69,10 +70,12 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
         $smarty = $this->getView();
 
 		#get Feed
-		$rss = Clansuite_Feed::fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+		$cs_feed = new Clansuite_Feed();
+		$cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+		
 		
 		#assign Feed to Smarty
-		$view->assign('newsfeed', $rss);
+		$view->assign('newsfeed', $cs_feed);
         # Prepare the Output
         $this->prepareOutput();
 
