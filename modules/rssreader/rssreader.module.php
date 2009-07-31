@@ -68,10 +68,11 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
     {
         $smarty = $this->getView();
 
+		#get Feed
+		$rss = Clansuite_Feed::fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 		
-		
-		
-		
+		#assign Feed to Smarty
+		$view->assign('newsfeed', $rss);
         # Prepare the Output
         $this->prepareOutput();
 
