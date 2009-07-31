@@ -79,7 +79,7 @@
 					<div class="box-heading">Aktuelle ClanSuite News</div>
                 </div>
                 <div class="box-content">
-					{$newsfeed}
+					 {load_module name="rssreader" action="widget_rssreader"}
                 </div>
             </div>																<!-- Ende rss-news //-->
 			<div id="content">													<!-- Start Content //-->
