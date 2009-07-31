@@ -206,14 +206,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         if(Clansuite_ModuleController_Resolver::getModuleName() == 'controlcenter' or Clansuite_ModuleController_Resolver::getSubModuleName() == 'admin')
         {
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS.'modules'.DS;
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         }
         else
         {
              # Frontend Theme Detections
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS.'modules'.DS;
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         }
         # FALLBACKS
