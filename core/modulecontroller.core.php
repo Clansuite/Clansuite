@@ -166,7 +166,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
 
  	    $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
- 	    Doctrine::loadModels($models_path);
+
+        if( is_dir($models_path) )
+        {
+ 	        Doctrine::loadModels($models_path);
+ 	    }
+ 	    else
+ 	    {
+ 	        # Module doesnt have Doctrine Records (Models)
+ 	    }
     }
 
     /**
@@ -377,13 +385,19 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     private function constructTemplateName()
     {
-        $module = Clansuite_ModuleController_Resolver::getModuleName();
-        $action = Clansuite_ActionController_Resolver::getActionName();
+        $module    = Clansuite_ModuleController_Resolver::getModuleName();
+        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+        $action    = Clansuite_ActionController_Resolver::getActionName();
 
         $module = Clansuite_Functions::cut_string_backwards($module, '_admin');
 
         # Construct Templatename, like news/templates/action_show.tpl
         $template = $module.DS.'templates'.DS.$action.'.tpl';
+
+        if( $module == 'controlcenter' or $submodule == 'admin' )
+        {
+            $template = $action.'.tpl';
+        }
 
         # Debug
         #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
