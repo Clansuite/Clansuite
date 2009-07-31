@@ -85,7 +85,7 @@ class Clansuite_Feed
     public function fetchRSS($feed_url, $cache_duration = null, $cache_location = null)
     {
         # load simplepie
-        $simplepie = self::instantiateSimplePie();
+        $simplepie = $this->instantiateSimplePie();
 
         # if cache_location was not specified manually
         if ( $cache_location == null)
@@ -95,14 +95,27 @@ class Clansuite_Feed
         }
 
         # if cache_duration was not specified manually
-        if ( $cache_duration == null)
+        /*if ( $cache_duration == null)
         {
             # we set it to the default cache duration time of 1800
             $cache_duration = 1800;
-        }
+        }*/
 
         # finally: fetch the feed and cache it!
-        $simplepie->SimplePie($feed_url, $cache_location, $cache_duration);
+        $simplepie->set_feed_url($feed_url);
+        $simplepie->set_cache_location($cache_location);
+        $simplepie->init();
+
+        # get all items and return them, else return false
+        $items = $simplepie->get_items();
+        if ($items)
+        {
+            return $items;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
