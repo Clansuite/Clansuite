@@ -18,8 +18,6 @@
         </td>
 
         <td width="40%" valign="top">
-
-        <!-- Clansuite Newsfeed Box 
         </td>
     </tr>
 </tbody>
