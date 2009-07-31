@@ -114,7 +114,7 @@ class Clansuite_Feed
     public static function fetchRawRSS($feed_url)
     {
         # Cache Filename and Path
-        $this->cachefile = ROOT_CACHE . 'feeds' . urlencode($feedURL);
+        $this->cachefile = ROOT_CACHE . 'feeds' . urlencode($feed_url);
 
         # define cache lifetime
         $cachetime = 60*60*3; # 10800min = 3h
@@ -139,7 +139,7 @@ class Clansuite_Feed
             }
 
             # Get Feed, Write File
-            $feedcontent = file_get_contents($feedURL);
+            $feedcontent = file_get_contents($feed_url);
             $fp=fopen($this->cachefile, "w");
             fwrite($fp, $feedcontent);
             fclose($fp);
