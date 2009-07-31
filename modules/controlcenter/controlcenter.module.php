@@ -109,7 +109,8 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         }*/
 
         ;
-        #$view->assign( 'shortcuts', $images );
+        $images = '';
+        $view->assign( 'shortcuts', $images );
 
         $view->assign( 'newsfeed', $this->assignFeedContent());
         # @todo assign the lat change date of the file
@@ -147,7 +148,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     private function assignFeedContent()
     {
         # get Feed Data (from Cache or File)
