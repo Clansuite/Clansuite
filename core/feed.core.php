@@ -101,13 +101,22 @@ class Clansuite_Feed
             $cache_duration = 1800;
         }*/
 
+        /**
+         * simplepie is not e_strict, yet. hmpf!
+         * therefore we have to cheat with the error_reporting toggle.
+         * @link: http://tech.groups.yahoo.com/group/simplepie-support/message/3289
+         */
         # finally: fetch the feed and cache it!
-        $simplepie->set_feed_url($feed_url);
+        @$simplepie->set_feed_url($feed_url);
         $simplepie->set_cache_location($cache_location);
-        $simplepie->init();
+        @$simplepie->init();
 
         # get all items and return them, else return false
-        $items = $simplepie->get_items();
+        @$items = $simplepie->get_items();
+
+        # set old errorreporting
+        error_reporting(E_ALL | E_STRICT);
+
         if ($items)
         {
             return $items;
