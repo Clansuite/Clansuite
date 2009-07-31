@@ -23,6 +23,7 @@ PHP-DEBUG                 1.0.2      MIT-License              http://www.php-deb
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
 PHP-Sniffer               2.1.4      LGPL                     http://sourceforge.net/projects/phpsniff/
+SIMPLEPIE                 1.2        BSD                      http://simplepie.org
 SMARTY                    2.6.18     LGPL v2.1 or above       http://www.smarty.net/
 SNOOPY                    1.2.3      LGPL v2.1 or above       http://www.sourceforge.net/projects/snoopy/
 SWIFTMAILER               3.3.2      LGPL                     http://www.swiftmailer.org/

@@ -9,7 +9,7 @@ PHP-LIBRARY               VERSION    LICENCE(S)               WEBSITE
 BB Code String Parsing    0.3.3      MIT License              http://www.christian-seiler.de
 BROWSCAP                  0.7        LGPL 2.1 or above        http://garetjax.info/projects/browscap/
 CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
-DOCTRINE                  0.11       LGPL                     http://www.doctrine.org
+DOCTRINE                  1.1.0      LGPL                     http://www.doctrine-project.org/
 FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
@@ -23,6 +23,7 @@ PHP-DEBUG                 1.0.2      MIT-License              http://www.php-deb
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
 PHP-Sniffer               2.1.4      LGPL                     http://sourceforge.net/projects/phpsniff/
+SIMPLEPIE                 1.2        BSD                      http://simplepie.org
 SMARTY                    2.6.18     LGPL v2.1 or above       http://www.smarty.net/
 SNOOPY                    1.2.3      LGPL v2.1 or above       http://www.sourceforge.net/projects/snoopy/
 SWIFTMAILER               3.3.2      LGPL                     http://www.swiftmailer.org/
