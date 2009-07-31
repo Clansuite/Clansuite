@@ -70,6 +70,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Load DBAL
         #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
 
+        /*
         $row    = 0;
         $col    = 0;
         $images = array();
@@ -108,14 +109,11 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         }*/
 
         ;
-        $view->assign( 'shortcuts', $images );
+        #$view->assign( 'shortcuts', $images );
 
         $view->assign( 'newsfeed', $this->assignFeedContent());
         # @todo assign the lat change date of the file
         #$view->assign( 'newsfeed-updatetime', $this->assignFeedContent());
-
-        # Fetch Render Engine and Set Layout
-        $view->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -132,9 +130,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
-        # Fetch Render Engine and Set Layout
-        $this->getView()->setLayoutTemplate('index.tpl');
-
         # Prepare the Output
         $this->prepareOutput();
     }
@@ -148,9 +143,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
-
-        # Fetch Render Engine and Set Layout
-        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
