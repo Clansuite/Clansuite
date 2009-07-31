@@ -60,10 +60,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Feed
 {
-    private static function instantiateSimplePie()
+    private function instantiateSimplePie()
     {
         # try to load SimplePie library
-        if( clansuite_loader::loadLibrary('simplepie','.inc','simplepie') == true)
+        if( clansuite_loader::loadLibrary('simplepie/simplepie.inc') == true)
         {
             # create a new instance of SimplePie
             return new SimplePie();
@@ -82,7 +82,7 @@ class Clansuite_Feed
 	 * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
 	 * @param string $cache_location This is where you want the cached feeds to be stored.
      */
-    public static function fetchRSS($feed_url, $cache_duration = null, $cache_location = null)
+    public function fetchRSS($feed_url, $cache_duration = null, $cache_location = null)
     {
         # load simplepie
         $simplepie = self::instantiateSimplePie();
@@ -91,7 +91,7 @@ class Clansuite_Feed
         if ( $cache_location == null)
         {
             # we set it to the default cache directory for feeds
-            $cache_location = ROOT_CACHE . 'feeds';
+            $cache_location = ROOT_CACHE; # . 'feeds';
         }
 
         # if cache_duration was not specified manually
@@ -113,8 +113,8 @@ class Clansuite_Feed
      */
     public static function fetchRawRSS($feed_url)
     {
-        # Cache Filename and Path
-        $cachefile = ROOT_CACHE . 'feeds' . urlencode($feed_url);
+        # Cache Filename and Path # . 'feeds' .
+        $cachefile = ROOT_CACHE . urlencode($feed_url);
 
         # define cache lifetime
         $cachetime = 60*60*3; # 10800min = 3h
