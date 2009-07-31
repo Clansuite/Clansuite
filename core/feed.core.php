@@ -63,27 +63,26 @@ class Clansuite_Feed
     private static function instantiateSimplePie()
     {
         # try to load SimplePie library
-        if( clansuite_loader::loadLibrary('simplepie') == true)
+        if( clansuite_loader::loadLibrary('simplepie','.inc','simplepie') == true)
         {
             # create a new instance of SimplePie
             return new SimplePie();
-
         }
         else
         {
-            trigger_error('Error: No Library SimplePie available!', 1);
+            trigger_error('Error: No Library SimplePie available!', E_USER_NOTICE);
             exit(0);
         }
     }
 
     /**
-     * fetches a feed_url and caches it.
+     * fetches a feed_url and caches it via SimplePie.
      *
      * @param string $feed_url This is the URL you want to parse.
 	 * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
 	 * @param string $cache_location This is where you want the cached feeds to be stored.
      */
-    public static function fetch($feed_url, $cache_duration = null, $cache_location = null)
+    public static function fetchRSS($feed_url, $cache_duration = null, $cache_location = null)
     {
         # load simplepie
         $simplepie = self::instantiateSimplePie();
@@ -95,8 +94,57 @@ class Clansuite_Feed
             $cache_location = ROOT_CACHE . 'feeds';
         }
 
+        # if cache_duration was not specified manually
+        if ( $cache_duration == null)
+        {
+            # we set it to the default cache duration time of 1800
+            $cache_duration = 1800;
+        }
+
         # finally: fetch the feed and cache it!
-        $simplepie->SimplePie($feed_url, $cache_location, $cache_duration)
+        $simplepie->SimplePie($feed_url, $cache_location, $cache_duration);
+    }
+
+    /**
+     * fetches a feed_url and caches
+     * (be advised to use the method fetchRSS() instead.)
+     *
+     * @param string $feed_url This is the URL you want to parse.
+     */
+    public static function fetchRawRSS($feed_url)
+    {
+        # Cache Filename and Path
+        $this->cachefile = ROOT_CACHE . 'feeds' . urlencode($feedURL);
+
+        # define cache lifetime
+        $cachetime = 60*60*3; # 10800min = 3h
+
+        # try to return the file from cache
+        if (is_file($this->cachefile) and (time()-filemtime($this->cachefile))>$cachetime)
+        {
+            #return readfile($this->cachefile); # this writes directly to the output buffer
+            return file_get_contents($this->cachefile);
+        }
+        else # get the feed from the source
+        {
+            # ensure file exists, before we write
+            if (!is_file($this->cachefile))
+            {
+                # create and chmod
+                touch($this->cachefile);
+                chmod($this->cachefile, 0666);
+            }
+            else # the cachefile already exists
+            {
+            }
+
+            # Get Feed, Write File
+            $feedcontent = file_get_contents($feedURL);
+            $fp=fopen($this->cachefile, "w");
+            fwrite($fp, $feedcontent);
+            fclose($fp);
+            return $feedcontent;
+        }
     }
 
     public static function write()

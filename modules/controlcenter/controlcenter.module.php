@@ -147,50 +147,11 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Prepare the Output
         $this->prepareOutput();
     }
-
-    private function getFeed()
-    {
-        # URL of Clansuite News Feed
-        $feedURL = "http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml";
-
-        # Cache Filename and Path
-        $this->cachefile = ROOT_CACHE . urlencode($feedURL);
-
-        # define cache lifetime
-        $cachetime = 60*60*3; # 10800min = 3h
-
-        # try to return the file from cache
-        if (is_file($this->cachefile) and (time()-filemtime($this->cachefile))>$cachetime)
-        {
-            #return readfile($this->cachefile); # this writes directly to the output buffer
-            return file_get_contents($this->cachefile);
-        }
-        else # get the feed from the source
-        {
-            # ensure file exists, before we write
-            if (!is_file($this->cachefile))
-            {
-                # create and chmod
-                touch($this->cachefile);
-                chmod($this->cachefile, 0666);
-            }
-            else # the cachefile already exists
-            {
-            }
-
-            # Get Feed, Write File
-            $feedcontent = file_get_contents($feedURL);
-            $fp=fopen($this->cachefile, "w");
-            fwrite($fp, $feedcontent);
-            fclose($fp);
-            return $feedcontent;
-        }
-    }
-
+    
     private function assignFeedContent()
     {
         # get Feed Data (from Cache or File)
-        $feedcontent = $this->getFeed();
+        $feedcontent = Clansuite_Feed::fetchRawRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
         # read as xml
         $xml = new SimpleXMLElement($feedcontent);
