@@ -4,7 +4,7 @@ require_once 'simplepie.inc';
 
 function normalize_character_set($charset)
 {
-	return strtolower(preg_replace('/[\x09-\x0D\x20-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]/', '', $charset));
+	return strtolower(preg_replace('/(?:[^a-zA-Z0-9]+|([^0-9])0+)/', '\1', $charset));
 }
 
 function build_character_set_list()
@@ -27,12 +27,12 @@ function build_character_set_list()
 				// If we already have one, push it on to the array
 				if (isset($aliases))
 				{
-					natcasesort($aliases);
 					for ($i = 0, $count = count($aliases); $i < $count; $i++)
 					{
 						$aliases[$i] = normalize_character_set($aliases[$i]);
 					}
-					$charsets[$preferred] = $aliases;
+					$charsets[$preferred] = array_unique($aliases);
+					natsort($charsets[$preferred]);
 				}
 				
 				$start = 5 + strspn($line, "\x09\x0A\x0B\xC\x0D\x20", 5);
@@ -60,14 +60,15 @@ function build_character_set_list()
 		
 		// Compatibility replacements
 		$compat = array(
-			'EUC-KR' => 'Windows-949',
+			'EUC-KR' => 'windows-949',
 			'GB2312' => 'GBK',
 			'GB_2312-80' => 'GBK',
-			'ISO-8859-1' => 'Windows-1252',
-			'ISO-8859-9' => 'Windows-1254',
-			'ISO-8859-11' => 'Windows-874',
-			'KS_C_5601-1987' => 'Windows-949',
-			'TIS-620' => 'Windows-874',
+			'ISO-8859-1' => 'windows-1252',
+			'ISO-8859-9' => 'windows-1254',
+			'ISO-8859-11' => 'windows-874',
+			'KS_C_5601-1987' => 'windows-949',
+			'TIS-620' => 'windows-874',
+			//'US-ASCII' => 'windows-1252',
 			'x-x-big5' => 'Big5',
 		);
 		
@@ -82,17 +83,33 @@ function build_character_set_list()
 			{
 				$charsets[$replace] = $charsets[$real];
 				$charsets[$replace][] = normalize_character_set($replace);
-				$charsets[$replace] = array_unique($charsets[$replace]);
 				unset($charsets[$real]);
 			}
 			else
 			{
 				$charsets[$replace][] = normalize_character_set($real);
 			}
+			$charsets[$replace] = array_unique($charsets[$replace]);
+			natsort($charsets[$replace]);
 		}
 		
 		// Sort it
 		uksort($charsets, 'strnatcasecmp');
+		
+		// Check that nothing matches more than one
+		$all = call_user_func_array('array_merge', $charsets);
+		$all_count = array_count_values($all);
+		if (max($all_count) > 1)
+		{
+			echo "Duplicated charsets:\n";
+			foreach ($all_count as $charset => $count)
+			{
+				if ($count > 1)
+				{
+					echo "$charset\n";
+				}
+			}
+		}
 		
 		// And we're done!
 		return $charsets;
@@ -126,10 +143,8 @@ function build_function()
 		$return = <<<EOF
 function charset(\$charset)
 {
-	/* Character sets are case-insensitive, and also need some further
-	normalization in the real world (though we'll return them in the form given
-	in their registration). */
-	switch (strtolower(preg_replace('/[\\x09-\\x0D\\x20-\\x2F\\x3A-\\x40\\x5B-\\x60\\x7B-\\x7E]/', '', \$charset)))
+	// Normalization from UTS #22
+	switch (strtolower(preg_replace('/(?:[^a-zA-Z0-9]+|([^0-9])0+)/', '\\1', \$charset)))
 	{
 
 EOF;
