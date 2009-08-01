@@ -203,17 +203,27 @@ abstract class Clansuite_Renderer_Base
         # Debug Display
         # echo $template;
         # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
+        # echo ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
         # echo ROOT_THEMES . 'admin' .DS. $template;
 
         # init var
         $themepath = '';
-
-        # 1. Check, if template exists in current Session THEME/templates
-        if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
+        
+        $module    = Clansuite_ModuleController_Resolver::getModuleName();
+        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+        if(($module == 'controlcenter' or $submodule == 'admin')
+           and is_file( ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) 
+           and isset($_SESSION['user']['backendtheme']) > 0)
+        {
+            $themepath =  ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
+        }
+        # 2. Check, if template exists in current Session THEME/templates
+        elseif(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
         {
             $themepath =  ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
         }
-
+              
+        
         # 2. Check, if template exists in standard theme
         /*
         elseif(is_file( ROOT_THEMES . '/standard/' . $template))
@@ -229,7 +239,7 @@ abstract class Clansuite_Renderer_Base
             $themepath = ROOT_THEMES . 'admin' .DS. $template;
         }
 
-        #print '<br>getThemeTemplatePath: '. $themepath . '<br>';
+        # print '<br>getThemeTemplatePath: '. $themepath . '<br>';
 
         return $themepath;
     }

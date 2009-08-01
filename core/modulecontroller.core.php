@@ -396,7 +396,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         if( $module == 'controlcenter' or $submodule == 'admin' )
         {
-            $template = $action.'.tpl';
+            $template = $module.DS.$action.'.tpl';
         }
 
         # Debug
@@ -458,7 +458,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         #echo $view->getLayoutTemplate();
 
         # Debug
-        #echo $this->getTemplateName();
+        # echo $this->getTemplateName();
 
         /**
          * 4+5) Set Content on the Response Object
