@@ -80,8 +80,6 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
 
 		# assign the Feed to Smarty
 		$smarty->assign_by_ref('feed', $feeditems);
-
-        error_reporting(E_ALL | E_STRICT);
     }
 }
 ?>
