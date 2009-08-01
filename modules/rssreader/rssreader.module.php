@@ -67,15 +67,21 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
 
     public function widget_rssreader()
     {
+        error_reporting(0);
+
         # get smarty as the view
         $smarty = $this->getView();
 
 		# get Feed
 		$cs_feed = new Clansuite_Feed();
-		$rss = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+		$feeditems = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+
+        #clansuite_xdebug::printR($feeditems);
 
 		# assign the Feed to Smarty
-		$smarty->assign('rssreader', $rss);
+		$smarty->assign_by_ref('feed', $feeditems);
+
+        error_reporting(E_ALL | E_STRICT);
     }
 }
 ?>
