@@ -240,7 +240,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->plugins_dir[]  = ROOT_CORE .'viewhelper/smarty/';
         $this->renderer->plugins_dir[]  = ROOT_MOD . Clansuite_ModuleController_Resolver::getModuleName() .DS. 'viewhelper/smarty' .DS;
 
-        #clansuite_xdebug::printR($smarty->plugins_dir);
+        #clansuite_xdebug::printR($this->renderer->plugins_dir);
 
         # Modifiers
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
