@@ -82,7 +82,7 @@ class Clansuite_Feed
 	 * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
 	 * @param string $cache_location This is where you want the cached feeds to be stored.
      */
-    public function fetchRSS($feed_url, $cache_duration = null, $cache_location = null)
+    public function fetchRSS($feed_url, $number_of_items = null, $cache_duration = null, $cache_location = null)
     {
         # load simplepie
         $simplepie = $this->instantiateSimplePie();
@@ -95,11 +95,18 @@ class Clansuite_Feed
         }
 
         # if cache_duration was not specified manually
-        /*if ( $cache_duration == null)
+        if ( $cache_duration == null)
         {
             # we set it to the default cache duration time of 1800
             $cache_duration = 1800;
-        }*/
+        }
+
+        # if number of items to fetch is null
+        if ( $number_of_items == null)
+        {
+            # we set it to the default value of 5 items
+            $number_of_items = 5;
+        }
 
         /**
          * simplepie is not e_strict, yet. hmpf!
@@ -108,23 +115,37 @@ class Clansuite_Feed
          */
         # finally: fetch the feed and cache it!
         @$simplepie->set_feed_url($feed_url);
-        $simplepie->set_cache_location($cache_location);
+        @$simplepie->set_cache_location($cache_location);
+        @$simplepie->set_cache_duration($cache_duration);
+        @$simplepie->set_timeout(5);
+        @$simplepie->set_output_encoding('UTF-8');
+        @$simplepie->set_stupidly_fast(true);
         @$simplepie->init();
+        @$simplepie->handle_content_type();
 
-        # get all items and return them, else return false
-        @$items = $simplepie->get_items();
-
-        # set old errorreporting
-        error_reporting(E_ALL | E_STRICT);
-
-        if ($items)
+        /*
+        # build array
+        $feeditems = $simplepie->get_items();
+        foreach ($feeditems as $item)
         {
-            return $items;
+            $feeditems[] = $item;
+        }
+
+        #clansuite_xdebug::printR($feeditems);
+
+        # slice
+        $feeditems = array_slice($feeditems, 0, $number_of_items);
+
+        if ($feeditems)
+        {
+            return $feeditems;
         }
         else
         {
             return false;
-        }
+        }*/
+
+        return $simplepie;
     }
 
     /**
