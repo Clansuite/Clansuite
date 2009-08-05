@@ -178,4 +178,11 @@ enabled = 1
 enabled = 1
 interval = 604800
 
+
+;----------------------------------------
+; logging
+;----------------------------------------
+[logs]
+rotation = 1
+
 ; DO NOT REMOVE THIS LINE */ ?>
