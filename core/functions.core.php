@@ -47,12 +47,102 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author      Jens-André Koch  <vain@clansuite.com>
  * @copyright   Jens-André Koch, (2005 - onwards)
  *
- * @package     clansuite
- * @category    core
- * @subpackage  functions
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Functions
  */
 class Clansuite_Functions
 {
+     /**
+      * @brief Generates a Universally Unique IDentifier, version 4.
+      *
+      * This function generates a truly random UUID.
+      *
+      * @author: sean at seancolombo dot com; 06.01.2009; http://www.php.net/uniqid
+      * @see http://tools.ietf.org/html/rfc4122#section-4.4
+      * @see http://en.wikipedia.org/wiki/UUID
+      * @return string A UUID, made up of 32 hex digits and 4 hyphens.
+      */
+     public static function generateSecureUUID() {
+
+        $pr_bits = null;
+        $fp = @fopen('/dev/urandom','rb');
+        if ($fp !== false)
+        {
+            $pr_bits .= @fread($fp, 16);
+            @fclose($fp);
+        }
+        else
+        {
+            # If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
+            $pr_bits = "";
+            for($cnt=0; $cnt < 16; $cnt++)
+            {
+                $pr_bits .= chr(mt_rand(0, 255));
+            }
+        }
+
+        $time_low = bin2hex(substr($pr_bits,0, 4));
+        $time_mid = bin2hex(substr($pr_bits,4, 2));
+        $time_hi_and_version = bin2hex(substr($pr_bits,6, 2));
+        $clock_seq_hi_and_reserved = bin2hex(substr($pr_bits,8, 2));
+        $node = bin2hex(substr($pr_bits,10, 6));
+
+        /**
+         * Set the four most significant bits (bits 12 through 15) of the
+         * time_hi_and_version field to the 4-bit version number from
+         * Section 4.1.3.
+         * @see http://tools.ietf.org/html/rfc4122#section-4.1.3
+         */
+        $time_hi_and_version = hexdec($time_hi_and_version);
+        $time_hi_and_version = $time_hi_and_version >> 4;
+        $time_hi_and_version = $time_hi_and_version | 0x4000;
+
+        /**
+         * Set the two most significant bits (bits 6 and 7) of the
+         * clock_seq_hi_and_reserved to zero and one, respectively.
+         */
+        $clock_seq_hi_and_reserved = hexdec($clock_seq_hi_and_reserved);
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
+
+        return sprintf('%08s-%04s-%04x-%04x-%012s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
+    }
+
+
+    /**
+     * Calculates the size of an Directory (recursiv)
+     */
+    public static function dirsize($dir)
+    {
+       if (!is_dir($dir))
+       {
+           return false;
+       }
+
+       $size = 0;
+       $dh = opendir($dir);
+       while(($entry = readdir($dh)) !== false)
+       {
+          # exclude ./..
+          if($entry == "." or $entry == "..")
+          {
+             continue;
+          }
+
+          if(is_dir( $dir . "/" . $entry))
+          {
+             $size += dirsize($dir . "/" . $entry);
+          }
+          else
+          {
+            $size += filesize($dir . "/" . $entry);
+          }
+       }
+       closedir($dh);
+       return $size;
+   }
+
     /**
      * Converts an Object to an Array
      *
@@ -133,6 +223,7 @@ class Clansuite_Functions
     	}
     	else
     	{
+            #@todo this returns a string? should it be an array?
     		return (string)$simplexml;
     	}
     }
@@ -585,47 +676,84 @@ class Clansuite_Functions
     }
 
     /**
-    * @desc Delete a directory or it's content recursively
-    */
-    function delete_dir_content($directory, $sub=false)
+     * Delete a directory or it's content recursively
+     *
+     * @param directory string Name / Path of the Directory to delete.
+     * @param sub
+     */
+    public static function delete_dir_content($directory, $subdirectory = false)
     {
     	if(substr($directory,-1) == '/')
     	{
     		$directory = substr($directory,0,-1);
     	}
 
-    	if(!is_file($directory) || !is_dir($directory))
+    	if( (is_file($directory) == false) or (is_dir($directory) == false) )
     	{
     		return false;
     	}
         elseif (is_readable($directory))
     	{
+    		# loop over all elements in that directory
     		$handle = opendir($directory);
     		while (false !== ($item = readdir($handle)))
     		{
     			if($item != '.' && $item != '..')
     			{
+    			    # path of that element (dir/file)
     				$path = $directory.'/'.$item;
+
+    				# delete dir
     				if(is_dir($path))
     				{
+    					# remove all subdirectries via recursive call
     					$this->delete_dir_content($path, true);
     				}
-                    else
+                    else # delete file
                     {
     					unlink($path);
     				}
     			}
     		}
     		closedir($handle);
-    		if($sub == true)
+
+    		# remove that subdir
+    		if($subdirectory == true)
     		{
-    			if(!rmdir($directory))
+    			if(rmdir($directory) == false)
     			{
     				return false;
     			}
     		}
     	}
     	return true;
+    }
+
+    /**
+     * The Magic Call __call() is triggered when invoking inaccessible methods in an object context.
+     * Method overloading.
+     *
+     * @param $name string The $name argument is the name of the method being called.
+     * @param $arguments array The $arguments  argument is an enumerated array containing the parameters passed to the $name'ed method.
+     */
+    public function __call($name, $arguments)
+    {
+        // Note: value of $name is case sensitive.
+        # Clansuite_xdebug::printr("Debug Display: Calling object method '$name' ". implode(', ', $arguments). "\n");
+    }
+
+    /**
+     * The Magic Call __callStatic() is triggered when invoking inaccessible methods in a static context.
+     * Method overloading.
+     * Available from PHP 5.3 onwards.
+     *
+     * @param $name string The $name argument is the name of the method being called.
+     * @param $arguments arra The $arguments argument is an enumerated array containing the parameters passed to the $name'ed method.
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        // Note: value of $name is case sensitive.
+        # Clansuite_xdebug::printr("Debug Display: Calling static method '$name' ". implode(', ', $arguments). "\n");
     }
 }
 ?>
