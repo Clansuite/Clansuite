@@ -68,13 +68,10 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
      * @param $logfilename The name of the Logfile to append to.
      * @param $string The string to append to the logfile.
      */
-    public function writeLog($logfilename, $string)
+    public function writeLog($string)
     {
-        # construct name of the log file ( FILENAME_log_DATE.txt )
-        $filename =  ROOT_LOGS . $logfilename.'_log_' . date('m-d-y') . '.txt';
-
-        # and append string to file
-        file_put_contents( $filename, $string, FILE_APPEND & LOCK_EX );
+        # append string to file
+        file_put_contents( $this->getErrorLogFilename(), $string, FILE_APPEND & LOCK_EX );
     }
 
     /**
@@ -95,6 +92,26 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     public function readLog()
     {
 
+    }
+
+    /**
+     * This method gives back the filename for logging
+     * If rotation is active it will add a date,
+     * if seperation is active it will
+     *
+     * @return $filename string
+     */
+    public function getErrorLogFilename()
+    {
+        $logfilename = 'error';
+
+        if($config['log']['rotation'] == true)
+        {
+            # construct name of the log file ( FILENAME_log_DATE.txt )
+            $filename =  ROOT_LOGS . $logfilename.'_log_' . date('m-d-y') . '.txt';
+        }
+
+        return $filename;
     }
 }
 ?>
