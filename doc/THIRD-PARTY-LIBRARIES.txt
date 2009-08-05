@@ -6,9 +6,10 @@ The Folder "/trunk/libraries/" contains the following libraries:
 
 PHP-LIBRARY               VERSION    LICENCE(S)               WEBSITE
 -----------               -------    ----------               -------
-BB Code String Parsing    0.3.3      MIT License              http://www.christian-seiler.de
+BB Code String Parsing    0.3.3      MIT License              http://www.christian-seiler.de/
 BROWSCAP                  0.7        LGPL 2.1 or above        http://garetjax.info/projects/browscap/
-CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
+CodeMirror                0.62       ZLIB Style License       http://marijn.haverbeke.nl/codemirror/
+CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com ( Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
 DOCTRINE                  1.1.0      LGPL                     http://www.doctrine-project.org/
 FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
@@ -18,12 +19,12 @@ GZIP_ENCODE               0.67       LGPL                     http://www.leknor.
 LIBACTS2                  #30        GPL v2 or above          http://forum.planetteamspeak.com/showthread.php?t=81
 MINIFY                    2.1.2      BSD                      http://code.google.com/p/minify/
 PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
-PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto
+PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto/
 PHP-DEBUG                 1.0.2      MIT-License              http://www.php-debug.com/
 PHP-GETTEXT               1.0        GPL v2 or above          http://www.savannah.nongnu.org/projects/php-gettext/
 PHP-IDS                   0.4        LGPL                     http://www.php-ids.org/
 PHP-Sniffer               2.1.4      LGPL                     http://sourceforge.net/projects/phpsniff/
-SIMPLEPIE                 1.2        BSD                      http://simplepie.org
+SIMPLEPIE                 1.2        BSD                      http://simplepie.org/
 SMARTY                    2.6.18     LGPL v2.1 or above       http://www.smarty.net/
 SNOOPY                    1.2.3      LGPL v2.1 or above       http://www.sourceforge.net/projects/snoopy/
 SWIFTMAILER               3.3.2      LGPL                     http://www.swiftmailer.org/
@@ -33,18 +34,18 @@ The Folder "/trunk/themes/core/javascript" contains the following libraries:
 JAVASCRIPT-LIBRARY        VERSION    LICENCE(S)               WEBSITE
 ------------------        -------    ----------               -------
 
-*lightbox                 ?          ?                        http://www.particletree.com
+*lightbox                 ?          ?                        http://www.particletree.com/
 *smarty_ajax              ?          ?                        http://www.
 
-DynamicTree               1.5.2      Free for any use (c)     http://www.gosu.pl
-DynamicTreeBuilder        1.5.0      Free for any use (c)     http://www.gosu.pl
+DynamicTree               1.5.2      Free for any use (c)     http://www.gosu.pl/
+DynamicTreeBuilder        1.5.0      Free for any use (c)     http://www.gosu.pl/
 Edit-In-Place             0.3.3      MIT-style Licence        http://www.josephscott.org/code/js/eip/
-jQuery                    1.2.6      Dual: MIT, GPL           http://www.jquery.com
-milkbox                   1.3.1      MIT-style license        http://www.reghellin.com
-moo-fx                    1.2.3      MIT-style Licence        http://moofx.mad4milk.net
+jQuery                    1.2.6      Dual: MIT, GPL           http://www.jquery.com/
+milkbox                   1.3.1      MIT-style license        http://www.reghellin.com/
+moo-fx                    1.2.3      MIT-style Licence        http://moofx.mad4milk.net/
 mooflow                   0.2.1      MIT-style license        http://www.outcut.de/MooFlow/
-mootools                  1.2.0      MIT-style license        http://www.mad4milk.net
-mootools-more             ?          MIT-style license        http://www.mootools.net/more
+mootools                  1.2.0      MIT-style license        http://www.mad4milk.net/
+mootools-more             ?          MIT-style license        http://www.mootools.net/more/
 PHP.JS                    1.26       DUAL: MIT, GPL           http://kevin.vanzonneveld.net/techblog/article/phpjs_licensing/
 webtoolkit.sha1                      MIT License              http://www.webtoolkit.info/
 XulMenu (mygosuMenu)      1.4.2      BSD (revised/new)        http://gosu.pl/dhtml/mygosumenu.html

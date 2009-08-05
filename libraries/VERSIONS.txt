@@ -8,6 +8,7 @@ PHP-LIBRARY               VERSION    LICENCE(S)               WEBSITE
 -----------               -------    ----------               -------
 BB Code String Parsing    0.3.3      MIT License              http://www.christian-seiler.de
 BROWSCAP                  0.7        LGPL 2.1 or above        http://garetjax.info/projects/browscap/
+CodeMirror                0.62       ZLIB Style License       http://marijn.haverbeke.nl/codemirror/
 CSQUERY                   0.11       LGPL v2 or above         http://www.clansuite.com (Fork of GSQuery http://jr.terragate.net/gsQuery/docs/ )
 DOCTRINE                  1.1.0      LGPL                     http://www.doctrine-project.org
 FCKEDITOR                 2.6.3      GPL,LGPL,MPL             http://www.fckeditor.net
