@@ -112,15 +112,16 @@ class Clansuite_DoorKeeper
                 }
 
                 # @todo Use the IDS Logger or our own?
-                # require_once 'IDS/Log/File.php';  
-                # require_once 'IDS/Log/Email.php';  
-                # require_once 'IDS/Log/Composite.php';  
-                # $compositeLog = new IDS_Log_Composite();  
-                # $compositeLog->addLogger(IDS_Log_Email::getInstance($init),IDS_Log_File::getInstance($init));  
+                # require_once 'IDS/Log/File.php';
+                # require_once 'IDS/Log/Email.php';
+                # require_once 'IDS/Log/Composite.php';
+                # $compositeLog = new IDS_Log_Composite();
+                # $compositeLog->addLogger(IDS_Log_Email::getInstance($init),IDS_Log_File::getInstance($init));
                 # $compositeLog->execute($result);
-                
+
                 # Stop the execution of the application.
                 # @todo advanced intrustion handling system (logs, blocking etc.)
+                # test the system by adding: &id=17281 union select concat(version(),0x3a,database(),0x3a,user()),2,3--
                 exit($access_block_message);
             }
         }
