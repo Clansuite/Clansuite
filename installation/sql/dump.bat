@@ -8,8 +8,8 @@
 @ECHO OFF
 
 @REM Verzeichnisse 
-SET basedir=C:\xampplite\htdocs\work\clansuite\trunk\installation
-SET mysqldir=C:\xampplite\mysql\bin
+SET basedir=D:\xampplite\htdocs\work\clansuite\trunk\installation
+SET mysqldir=D:\xampplite\mysql\bin
 SET mysqluser=clansuite
 SET mysqlpassword=toop
 SET dbname=clansuite
