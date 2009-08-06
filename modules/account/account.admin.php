@@ -74,7 +74,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 		}
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('admin/index.tpl');
+		$smarty->setLayoutTemplate('index.tpl');
 
 		# Prepare the Output
 		$this->prepareOutput();
@@ -135,7 +135,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 		#}
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('admin/index.tpl');
+		$smarty->setLayoutTemplate('index.tpl');
 
 		# Specifiy the template manually
 		#$this->setTemplate('admin/users/usercenter.tpl');
