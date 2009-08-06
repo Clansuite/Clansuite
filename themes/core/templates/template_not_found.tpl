@@ -1,5 +1,6 @@
 {literal}
 <style type="text/css">
+/* this defines the look of the red error box, for example: when an template is missing */
 .error {
     background:#FFDDDD url({/literal}{$www_root_themes_core}{literal}/images/icons/error.png) no-repeat scroll 15px 12px;
     border:1px solid #FFBBBB;
@@ -9,6 +10,7 @@
     padding:15px 20px 15px 50px;
 }
 
+/* this defines the look of box, providing the link to the editor, if an template is missing */
 .create {
     background:#DDFFDD url({/literal}{$www_root_themes_core}{literal}/images/icons/page_edit.png) no-repeat scroll 15px 12px;
     border:1px solid #BBFFBB;
