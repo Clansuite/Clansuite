@@ -58,15 +58,21 @@ class Module_Help_Admin extends Clansuite_ModuleController implements Clansuite_
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
-    
-    public function action_admin_supportlinks()
-    {   
+
+    public function action_admin_show()
+    {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
-            
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
+        Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=help&amp;sub=admin');
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+    public function action_admin_supportlinks()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Links for Help & Support'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
+
         # Prepare the Output
         $this->prepareOutput();
     }

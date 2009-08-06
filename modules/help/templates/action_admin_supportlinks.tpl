@@ -1,5 +1,5 @@
 <!-- Module Heading -->
-<div class="ModuleHeading">{t}Links & Help{/t}</div>
+<div class="ModuleHeading">{t}Links for Help & Support{/t}</div>
 <div class="ModuleHeadingSmall">{t}On this page you find Help and Support Links.{/t}</div>
 
 <!-- Content -->
