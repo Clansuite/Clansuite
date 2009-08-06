@@ -50,7 +50,15 @@ function smarty_block_move_to($params, $content, &$smarty, &$repeat)
     }
     else
     {
-        $smarty->trigger_error("Parameter 'target' missing. Available Options: pre_head_close, post_body_open, pre_body_close.");
+        /**
+         * the full errormessage is created by appending the first string
+         * (one line would be over 130 chars long and the whitespaces matter)
+         */
+        $errormessage  = 'You are using the <font color="#FF0033">{move_to}</font> command, but the <font color="#FF0033">Parameter "target" is missing.</font>';
+        $errormessage .= ' Try to append one of the following parameters:';
+        $errormessage .= ' <font color="#66CC00">target="pre_head_close" , target="post_body_open" , target="pre_body_close"</font>.';
+        $smarty->trigger_error($errormessage);
+        unset($errormessage);
         return;
     }
 

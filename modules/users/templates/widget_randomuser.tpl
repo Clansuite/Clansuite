@@ -1,6 +1,6 @@
 {* {$random_user|var_dump} *}
 
-<!-- Start: random_user widget @ from Module Users // -->
+<!-- Start: widget_randomuser @ module users // -->
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 	<tr>
@@ -18,7 +18,7 @@
 				<br />
 				{$random_user.country}
 				<br />
-				{$random_user.joined|duration} ago )
+				{$random_user.joined|duration} ago
 				<br />
 		</td>
 	</tr>
