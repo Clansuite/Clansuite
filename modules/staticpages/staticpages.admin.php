@@ -76,7 +76,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         $smarty->assign( 'staticpages', $staticpages);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
         # Prepare the Output
@@ -150,7 +150,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         $smarty->assign( 'error'       , $error);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('staticpages/create.tpl');
         # Prepare the Output
@@ -231,7 +231,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         $smarty->assign( 'info' , $info);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('staticpages/edit.tpl');
         # Prepare the Output

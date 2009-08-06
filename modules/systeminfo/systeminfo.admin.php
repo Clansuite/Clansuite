@@ -75,7 +75,7 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         $sysinfo = array_merge($this->assembleSystemInfos(),
                                $this->assembleDatabaseInfos());
@@ -192,7 +192,7 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -210,7 +210,7 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();

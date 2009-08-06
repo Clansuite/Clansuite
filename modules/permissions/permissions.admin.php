@@ -81,7 +81,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=permissions&amp;action=show');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
 
         # Prepare the Output
@@ -99,7 +99,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
         Clansuite_Trail::addStep( _('Create'), '/index.php?mod=permissions&amp;action=create');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # insert permission into database
 
@@ -122,7 +122,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=permissions&amp;action=update');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
 
         # Prepare the Output
@@ -140,7 +140,7 @@ class Module_Permissions_Admin extends Clansuite_ModuleController implements Cla
         Clansuite_Trail::addStep( _('Delete'), '/index.php?mod=permissions&amp;action=delete');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
 
         # Prepare the Output

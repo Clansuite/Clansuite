@@ -76,7 +76,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
         $view->assign('config', $config);
 
         # Set Admin Layout Template
-        $view->setLayoutTemplate('admin/index.tpl');
+        $view->setLayoutTemplate('index.tpl');
 
         # Specifiy the template manually
         $this->setTemplate('settings.tpl');

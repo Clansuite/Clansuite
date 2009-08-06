@@ -124,7 +124,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
          */
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -136,7 +136,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
         Clansuite_Trail::addStep( _('Delete'), '/index.php?mod=quotes&amp;sub=admin&amp;action=delete');
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -155,7 +155,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
         Clansuite_Trail::addStep( _('Create'), '/index.php?mod=quotes&amp;sub=admin&amp;action=create');
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -170,7 +170,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
 
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();

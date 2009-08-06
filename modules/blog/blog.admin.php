@@ -55,7 +55,7 @@ class Module_Blog_Admin extends Clansuite_ModuleController implements Clansuite_
     public function action_admin_show()
     {
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
         # Prepare the Output
         $this->prepareOutput();

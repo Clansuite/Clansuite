@@ -85,7 +85,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         #$smarty->assign_by_ref('pager_layout', $pager_layout);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
         # Prepare the Output
@@ -117,7 +117,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
        	$smarty->assign('id', $id);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # specifiy the template manually
         $this->setTemplate('admin_create_album.tpl');
@@ -148,7 +148,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
        	$smarty->assign('album', $album);
 
         # set layout template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # specifiy the template manually
         $this->setTemplate('admin_update_album.tpl');

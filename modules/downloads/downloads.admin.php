@@ -55,7 +55,7 @@ class Module_Downloads_Admin extends Clansuite_ModuleController implements Clans
     public function action_admin_show()
     {
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
         # Prepare the Output
         $this->prepareOutput();

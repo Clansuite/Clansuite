@@ -191,7 +191,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $smarty->assign_by_ref('pager_layout', $pager_layout);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
         # Prepare the Output
