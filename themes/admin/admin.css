@@ -24,6 +24,8 @@ body
     padding-left: 8px;
 }
 
+/* ###################   Footer   ################### */
+
 #footer {
 
 clear:both;
@@ -82,6 +84,8 @@ a:hover
     color: black;
     font-weight: bold;
 }
+
+/* ###################   Buttons   ################### */
 
 .Button,
 .ButtonYellow,
@@ -167,6 +171,8 @@ a:hover
     border: 1px solid #ACA899;
 }
 
+/* ###################   Redirect Messages   ################### */
+
 .redirect_message
 {
     background-color: #e3e3e3;
@@ -188,10 +194,14 @@ a:hover
     text-align: center;
 }
 
+/* ###################   Font   ################### */
+
 .font_mini
 {
     font-size: 10px;
 }
+
+/* ###################   Errors  ################### */
 
 .error
 {
@@ -199,25 +209,8 @@ a:hover
     font-weight: bold;
 }
 
-/* this defines the look of the red error box, for example: when an template is missing */
-.error {
-    background:#FFDDDD url(/themes/core/images/icons/error.png) no-repeat scroll 15px 12px;
-    border:1px solid #FFBBBB;
-    color:#BB0000;
-    font-weight:bold;
-    margin:0.5em 0 1em;
-    padding:15px 20px 15px 50px;
-}
+/* ###################   Forms   ################### */
 
-/* this defines the look of box, providing the link to the editor, if an template is missing */
-.create {
-    background:#DDFFDD url(/themes/core/images/icons/page_edit.png) no-repeat scroll 15px 12px;
-    border:1px solid #BBFFBB;
-    color:#00BB00;
-    font-weight:bold;
-    margin:0.5em 0 1em;
-    padding:15px 20px 15px 50px;
-}
 
 form input,
 form textarea,
@@ -265,17 +258,14 @@ img {
     border: 0px;
 }
 
-table td
-{
-
-}
-
 p
 {
     font-family: tahoma, verdana, arial, sans-serif;
     font-size: 11px;
     margin: 2em;
 }
+
+/* ###################   Tables   ################### */
 
 table.admintable thead th
 {
@@ -495,8 +485,8 @@ table.admintable tr#cell3
 }
 
 /**
-* @desc FCK Editor
-*/
+ * FCK Editor
+ */
 .Bold
 {
     font-weight: bold;
@@ -519,6 +509,9 @@ table.admintable tr#cell3
     background-color: #ff9933;
 }
 
+/**
+ * These are the header elements for modules
+ */
 .ModuleHeading
 {
     border-bottom: 2px solid #ACA899;
@@ -554,7 +547,7 @@ table.admintable tr#cell3
 }
 
 /**
-* @desc Admin Header,Content,Helptext
+* Admin Header,Content,Helptext
 */
 .admin_header
 {
