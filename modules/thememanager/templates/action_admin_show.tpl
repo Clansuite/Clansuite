@@ -37,11 +37,13 @@
             <br />
         </td>
         <td>
-        {if !$theme.activated}Select{/if}
-        <br/>
-        Edit
-        <br/>
-        Delete
+        {if !$theme.activated} <input class="ButtonGreen" type="Button" value="Select" /> {/if}
+        
+        {* {if $admin} <input class="ButtonGreen" type="Button" value="Select as Default Theme" /> {/if} *}
+        
+        <input class="ButtonOrange" type="Button" value="Edit" />
+        
+        <input class="ButtonRed" type="Button" value="Delete" />
         </td>
     </tr>
 

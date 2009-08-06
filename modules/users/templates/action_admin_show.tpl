@@ -1,7 +1,7 @@
 {* Debuganzeige, wenn DEBUG = 1 | {$users|@var_dump} {$pager|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$users} {/if} *}
 
-{move_to}
+{move_to target="pre_head_close"}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
 {/move_to}
 

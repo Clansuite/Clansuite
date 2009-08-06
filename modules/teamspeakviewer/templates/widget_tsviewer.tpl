@@ -1,6 +1,7 @@
 {* {$serverinfo|@var_dump} *}
 
-<!-- [Start] Widget: Teamspeak Viewer //-->
+<!-- [Start] widget_tsviewer @ module teamspeakviewer //-->
+
 <div class="td_header">Teamspeak Viewer</div>
 
 <div class="cell1">
@@ -23,4 +24,4 @@
  {/if} *}
 
 </div>
-<!-- [-End-] Widget: Teamspeak Viewer //-->
+<!-- [-End-] widget_tsviewer @ module teamspeakviewer //-->
