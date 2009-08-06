@@ -87,7 +87,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         // Init vars
         $modules = array();
@@ -122,7 +122,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
 
 
@@ -142,7 +142,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
 
 
@@ -159,7 +159,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Import & Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
         $this->prepareOutput();
@@ -196,7 +196,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         $smarty->assign('existing_modules_js', $existing_modules_js);
 
         // Set Layout Template
-        $smarty->setLayoutTemplate('admin/index.tpl');
+        $smarty->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
         $this->prepareOutput();
@@ -391,7 +391,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         # MODULE META INFORMATIONS
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->prepareOutput();
     }

@@ -93,7 +93,7 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->getView()->assign('icons', $icons );
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         // specifiy the template manually
         $this->setTemplate('menueditor.tpl');

@@ -139,7 +139,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $smarty->assign('guestbook', $guestbook_entries);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # specifiy the template manually
         #$this->setTemplate('guestbook/admin_show.tpl');

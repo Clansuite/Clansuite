@@ -73,7 +73,7 @@ class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite
         $this->getView()->assign('games', Doctrine::getTable('CsGames')->fetchAll());
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();

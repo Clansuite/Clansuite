@@ -46,7 +46,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=forum&amp;action=show');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -64,7 +64,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Create Category'), '/index.php?mod=forum&amp;action=create_category');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -82,7 +82,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Create Board'), '/index.php?mod=forum&amp;action=create_board');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -100,7 +100,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Edit Category'), '/index.php?mod=forum&amp;action=edit_category');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -118,7 +118,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Edit Board'), '/index.php?mod=forum&amp;action=edit_board');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -136,7 +136,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Delete Category'), '/index.php?mod=forum&amp;action=delete_category');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output
@@ -154,7 +154,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Delete Board'), '/index.php?mod=forum&amp;action=delete_board');
 
         // Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
         
                 
         # Prepare the Output

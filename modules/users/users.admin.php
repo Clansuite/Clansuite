@@ -135,7 +135,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		}
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('admin/index.tpl');
+		$smarty->setLayoutTemplate('index.tpl');
 
 		# Specifiy the template manually
 		#$this->setTemplate('admin/show.tpl');
@@ -264,7 +264,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		$this->setTemplate('admin_create.tpl');
 
 		// Set Layout Template
-		$this->getView()->setLayoutTemplate('admin/index.tpl');
+		$this->getView()->setLayoutTemplate('index.tpl');
 
 		// Prepare the Output
 		$this->prepareOutput();
@@ -456,7 +456,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		$smarty->assign( 'error'         , $error );
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('admin/index.tpl');
+		$smarty->setLayoutTemplate('index.tpl');
 
 		# Specifiy the template manually
 		$this->setTemplate('admin_edit.tpl');
@@ -497,7 +497,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		}
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('admin/index.tpl');
+		$smarty->setLayoutTemplate('index.tpl');
 
 		# Specifiy the template manually
 		$this->setTemplate('admin_search.tpl');

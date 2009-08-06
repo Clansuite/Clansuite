@@ -83,7 +83,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $view->assign('categories', $categories);
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('admin/index.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
