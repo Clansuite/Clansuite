@@ -97,9 +97,12 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
         # get system informations and server variables
 
         # WEBSERVER
-        $sysinfos['apache_get_version'] = apache_get_version();
-        $sysinfos['apache_modules']     = apache_get_modules();
-        asort($sysinfos['apache_modules']);
+        if ( is_callable('apache_get_version') )
+        {
+            $sysinfos['apache_get_version'] = apache_get_version();
+            $sysinfos['apache_modules']     = apache_get_modules();
+            asort($sysinfos['apache_modules']);
+        }
 
         # fetch server's IP address and it's name
         $sysinfos['server_ip']   = gethostbyname($_SERVER['SERVER_NAME']);

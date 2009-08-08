@@ -17,9 +17,9 @@
         <p>
             Clansuite {$clansuite_version} - Milestone: {$clansuite_version_name} - State: {$clansuite_version_state} - SVN: [{$clansuite_revision}]
         </p>
-        
+
         <br />
-        
+
         <h3>Operating System Information</h3><br />
         <p>
             {$sysinfos.php_uname} ({$sysinfos.php_os} {$sysinfos.php_os_bit}).
@@ -172,7 +172,8 @@
 
         The Webserver Interface is {$sysinfos.php_sapi_name} on {$sysinfos.php_uname} ({$sysinfos.php_os}). <br /><br />
         {if isset($sysinfos.php_sapi_cgi)} Server-API is using CGI.  <br /><br /> {/if}
-        Apache Server Version {$sysinfos.apache_get_version} <br /><br />
+        {if isset($sysinfos.apache_get_version)} Apache Server Version {$sysinfos.apache_get_version} <br /><br /> {/if}
+        {if isset($sysinfos.apache_modules)}
         Modules loaded with Apache <br />
         <ul>
             {* DEBUG: {$sysinfos.apache_modules|var_dump} *}
@@ -180,6 +181,7 @@
             <li style="float:none;"> {$apache_module} </li>
             {/foreach}
         </ul>
+        {/if}
 
         {/tabpage}
 
