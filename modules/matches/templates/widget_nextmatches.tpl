@@ -6,7 +6,7 @@
 
 {move_to target="pre_head_close"}
 
-<link rel="stylesheet" href="{$www_root_themes_core}/core/css-libraries/jQuery-easyslider/jquery-easyslider.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="{$www_root_themes_core}/css/jquery-easyslider.css" type="text/css" media="screen" />
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.easySlider1.5.js"></script>
 
