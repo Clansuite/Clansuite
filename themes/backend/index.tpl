@@ -30,7 +30,7 @@
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
     <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
-    {* Cascading Style Sheets *}backend\css\smoothness
+    {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/backend/backend.css" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/backend/css/custom/jquery-ui-1.7.2.custom.css" />
