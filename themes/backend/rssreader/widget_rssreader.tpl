@@ -5,15 +5,19 @@
 
 
 <div class="rss-inside">
+
 {literal}
 <script type="text/javascript">
 	$(function() {
-		$("#accordion").accordion({
-			autoHeight: false
-		});
+		$('#accordion').accordion(
+		{autoHeight: false},
+		{header: 'h3' },
+		{collapsible: true}
+		);
 	});
-	</script>
+</script>
 {/literal}
+
 <div id="accordion">
 	{foreach from=$feed->get_items() item=i}
 	
