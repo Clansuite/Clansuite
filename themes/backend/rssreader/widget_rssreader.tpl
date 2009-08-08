@@ -7,19 +7,19 @@
     {* Initialize Accordion with jQuery *}
     {literal}
     <script type="text/javascript">
-        $(function() {
-            $('#accordion').accordion(
-            {autoHeight: false},
-            {header: 'h3' },
-            {collapsible: true}
-            );
-        });
+        jQuery().ready(function(){
+            jQuery('#accordion').accordion({
+                    autoHeight: false,
+                    header: 'h3',
+                    collapsible: true
+                });
+            });
     </script>
     {/literal}
 
     <!-- ## Start: RssReader Accordion ## ///-->
     <div id="accordion">
-        {foreach from=$feed->get_items() item=i}
+        {foreach from=$feed->get_items() item=i name=csRSSForeach}
 
             <h3><a href="#">{$i->get_title()}</a></h3>
             <div>
@@ -29,6 +29,9 @@
                 <span style="float:right; font-size:10px;"><a href="{$i->get_link()}" class="more" target="_blank" >[...mehr]</a></span>
                 </p>
             </div>
+
+            {* Limit to 5 Entries *}
+            {if $smarty.foreach.csRSSForeach.iteration == '5' } {break} {/if}
 
         {/foreach}
     </div>
