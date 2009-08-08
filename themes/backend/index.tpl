@@ -33,6 +33,7 @@
     {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/backend/backend.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css-libraries/jQuery-pepper-grinder/jquery-ui-1.7.2.custom.css" />
 
     {* Pagetitle *}
 
@@ -42,31 +43,31 @@
 
 <div id="header">
 	<div class="inside">
-    
+
 		<div class="logo"><img class="logo" src="{$www_root_themes}/backend/images/logo_backend.gif" width="197px" height="91px" alt="backend_logo" /></div>
-        
+
 	</div>
 </div>
 
 <div id="subHeader">
 	<div class="inside">
-    
+
 		<div id="taskbar_Header">												<!-- Start Taskbar-Header //-->
 			<div class="inside">
 				<div class="taskbar_title">Taskbar</div>
             </div>
         </div>																	<!-- Ende Taskbar-Header //-->
-        
+
         <div id="navmain">														<!-- Start Main-Navigation //-->
 			<div class="inside">
 				{* Adminmenu Navigation *}
 				{include file="menu/templates/adminmenu.tpl"}
             </div>
         </div>																	<!-- Ende Main-Navigation //-->
-              
+
 	</div>
-</div>    
-													
+</div>
+
 <div class="floatclearall"></div>												<!-- clear all floatings //-->
 
 <table cellpadding="0" cellspacing="0" id="main">
@@ -97,7 +98,7 @@
         </div>
     </td>
     <td valign="top" id="main_right">
-  <div class="inside">		
+  <div class="inside">
             <div id="taskbar">
             	<div class="inside">
                     <div id="taskbar_widget_Aufgaben">
