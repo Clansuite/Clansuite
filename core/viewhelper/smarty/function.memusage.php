@@ -25,7 +25,7 @@ function smarty_function_memusage($params, &$smarty)
                    {
                        $output = array();
                        exec( 'tasklist /FI "PID eq ' . getmypid() . '" /FO LIST', $output );
-          
+
                        return preg_replace( '/[\D]/', '', $output[5] ) * 1024;
                    }
            }else
@@ -45,14 +45,14 @@ function smarty_function_memusage($params, &$smarty)
     }
     $memusage=memory_get_usage();
     */
-    
+
     if (function_exists('memory_get_usage')) {
       $memusage = memory_get_usage();
     } else {
-      return $memusage = 'n/a';      
+      return $memusage = 'n/a';
     }
-    
-    
+
+
     if ($memusage>0) {
       $memunit="B";
       if ($memusage>1024) {
@@ -67,7 +67,7 @@ function smarty_function_memusage($params, &$smarty)
         $memusage=$memusage/1024;
         $memunit="GB";
       }
-      print(number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit');
+      print(number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit') .'B'; # append the missing B of MB :)
     }
 }
 
