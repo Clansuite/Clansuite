@@ -10,14 +10,11 @@
 <table cellspacing="6" width="100%">
 <tbody>
     <tr>
-        <td width="60%" valign="top">
+        <td valign="top">
 
                 <!-- Shortcuts Template from the Module or the Theme (autodetected) -->
                 {include file="shortcuts.tpl"}
 
-        </td>
-
-        <td width="40%" valign="top">
         </td>
     </tr>
 </tbody>
