@@ -40,9 +40,10 @@ JAVASCRIPT-LIBRARY        VERSION    LICENCE(S)               WEBSITE
 DynamicTree               1.5.2      Free for any use (c)     http://www.gosu.pl/
 DynamicTreeBuilder        1.5.0      Free for any use (c)     http://www.gosu.pl/
 Edit-In-Place             0.3.3      MIT-style Licence        http://www.josephscott.org/code/js/eip/
-jQuery                    1.2.6      Dual: MIT, GPL           http://www.jquery.com/
-milkbox                   1.3.1      MIT-style license        http://www.reghellin.com/
-moo-fx                    1.2.3      MIT-style Licence        http://moofx.mad4milk.net/
+jQuery                    1.2.6      Dual: MIT, GPL           http://www.jquery.com
+jQuery.Corner             1.99       Dual: MIT, GPL           http://jquery.malsup.com/corner/
+jQuery.EasySlider         1.5.2      Dual: MIT, GPL           http://cssglobe.com/post/4004/easy-slider-15-the-easiest-jquery-plugin-for-sliding
+milkbox                   1.3.1      MIT-style license        http://www.reghellin.com
 mooflow                   0.2.1      MIT-style license        http://www.outcut.de/MooFlow/
 mootools                  1.2.0      MIT-style license        http://www.mad4milk.net/
 mootools-more             ?          MIT-style license        http://www.mootools.net/more/
