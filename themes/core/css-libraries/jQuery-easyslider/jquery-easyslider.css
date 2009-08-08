@@ -1,0 +1,36 @@
+/**
+ * jQuery EasySlider CSS
+ * SVN: $ID:
+ */
+
+#slider{}
+#slider ul, #slider li{
+	margin:0;
+	padding:0;
+	list-style:none;
+	}
+#slider li{
+	width:696px;
+	height:241px;
+	overflow:hidden;
+	}
+#prevBtn, #nextBtn{
+	display:block;
+	width:30px;
+	height:77px;
+	position:absolute;
+	left:-30px;
+	top:71px;
+	}
+#nextBtn{
+	left:696px;
+	}
+#prevBtn a, #nextBtn a{
+	display:block;
+	width:30px;
+	height:77px;
+	background:url(images/btn_prev.gif) no-repeat 0 0;
+	}
+#nextBtn a{
+	background:url(images/btn_next.gif) no-repeat 0 0;
+	}
