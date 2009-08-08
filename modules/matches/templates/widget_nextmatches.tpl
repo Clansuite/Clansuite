@@ -1,6 +1,5 @@
  {*  {$widget_nextmatches|@var_dump} *}
 
-
 <!-- Start Widget Nextmatches from Module Matches //-->
 
 <div class="news_widget" id="widget_nextmatches" width="100%">
@@ -13,8 +12,9 @@
 
 {literal}
      <script type="text/javascript">
-         $(document).ready(function(){
-            $("#nextmatches_slider").easySlider();
+     var $j = jQuery.noConflict();
+         $j(document).ready(function(){
+            $j("#nextmatches_slider").easySlider();
         });
     </script>
 {/literal}
