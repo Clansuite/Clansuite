@@ -171,15 +171,15 @@ class Clansuite_Exception extends Exception
         # HEADING <Exception Object>
         $errormessage   .= '<table>';
         $errormessage   .= '<tr><td colspan="2"><h3>Exception</h3></td></tr>';
-        $errormessage   .= '<tr><td width=15%><strong>Code :</strong></td><td>'.self::getCode().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.self::getMessage().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'.dirname(self::getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'.basename(self::getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.self::getLine().'</td></tr>';
+        $errormessage   .= '<tr><td width=15%><strong>Code: </strong></td><td>'.self::getCode().'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.self::getMessage().'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Pfad: </strong></td><td>'.dirname(self::getFile()).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename(self::getFile()).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Zeile: </strong></td><td>'.self::getLine().'</td></tr>';
 
         /*if ( defined('DEBUG') && DEBUG == 1 )
         {
-            $errormessage   .= '<tr><td><strong>Trace :</strong></td><td colspan=2 width=80%>'. self::formatGetTraceString(self::getTraceAsString()) . '</td></tr>';
+            $errormessage   .= '<tr><td><strong>Trace: </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString(self::getTraceAsString()) . '</td></tr>';
         }*/
 
         # Environmental Informations at Errortime
@@ -190,12 +190,12 @@ class Clansuite_Exception extends Exception
 
         # HEADING <Server Environment>
         $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Request :</strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Clansuite :</strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
+        $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Request: </strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
         }
 
         # Split
