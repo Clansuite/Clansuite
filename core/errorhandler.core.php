@@ -356,8 +356,12 @@ class Clansuite_Errorhandler
         $errormessage   .= '<tr><td><strong>File: </strong></td><td>'. basename($errorfile).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Line: </strong></td><td>'.$errorline.'</td></tr>';
 
+        # HR Split
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
         # Error Context
-        $errormessage   .= '<tr><td><strong>Context: </strong></td><td>'.self::getErrorContext($errorfile, $errorline, 8).'</td></tr>';
+        $errormessage  .= '<tr><td colspan="2"><h3>Context</h3></td></tr>';
+        $errormessage  .= '<tr><td colspan="2">'.self::getErrorContext($errorfile, $errorline, 8).'</td></tr>';
 
         # HR Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -370,6 +374,9 @@ class Clansuite_Errorhandler
         $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
         $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
         $errormessage  .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
+
+        # HR Split
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Add Debug Backtracing
         $errormessage   .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
@@ -546,11 +553,13 @@ class Clansuite_Errorhandler
             $errorcontext_starting_line = $line - $surrounding_lines;
             $errorcontext_ending_line = $line + $surrounding_lines;
 
+            # get linenumbers array
             $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
 
-            # now colourize the background of the errorous line with RED
+            # now colourize the errorous linenumber
             $lines_array[$scope-$surrounding_lines-1]  = '<span style="color: white; background-color:#BF0000;">'. $lines_array[$scope-$surrounding_lines-1]  .'</span>';
-            #clansuite_xdebug::printr($lines_array);
+
+            # transform linenumbers array to string for later display
             $lines  = implode($lines_array, '<br />');
 
             # get ALL LINES syntax highlighted source-code of the file and explode it into an array
