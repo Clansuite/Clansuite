@@ -95,9 +95,9 @@ class Clansuite_Errorhandler
 
         foreach(self::$errorstack as $error)
         {
-		    $output .= '<font color="#DF2F3D"> Error: '. $error['message'] .' Code: ' .$error['code'] . "</font><br /> \n\n";
-		}
-		return $output;
+            $output .= '<font color="#DF2F3D"> Error: '. $error['message'] .' Code: ' .$error['code'] . "</font><br /> \n\n";
+        }
+        return $output;
     }
 
     /**
@@ -350,23 +350,26 @@ class Clansuite_Errorhandler
         # Error Messages
         $errormessage   .= '<table>';
         $errormessage   .= '<tr><td colspan="2"><h3>'. wordwrap($errorstring,50,"\n") .'</h3></td></tr>';
-        $errormessage   .= '<tr><td width=15%><strong>Errorcode :</strong></td><td>'.$errorname.' ('.$errornumber.')</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message :</strong></td><td>'.$errorstring.'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Path :</strong></td><td>'. dirname($errorfile).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>File :</strong></td><td>'. basename($errorfile).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Line :</strong></td><td>'.$errorline.'</td></tr>';
+        $errormessage   .= '<tr><td width=15%><strong>Errorcode: </strong></td><td>'.$errorname.' ('.$errornumber.')</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.$errorstring.'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Path: </strong></td><td>'. dirname($errorfile).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>File: </strong></td><td>'. basename($errorfile).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Line: </strong></td><td>'.$errorline.'</td></tr>';
+
+        # Error Context
+        $errormessage   .= '<tr><td><strong>Context: </strong></td><td>'.self::getErrorContext($errorfile, $errorline, 8).'</td></tr>';
 
         # HR Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
         $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Date :</strong></td><td>'.date('r').'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Request :</strong></td><td>'.htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Server :</strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Remote :</strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Agent :</strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
-        $errormessage  .= '<tr><td><strong>Clansuite :</strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
+        $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Request: </strong></td><td>'.htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
+        $errormessage  .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
 
         # Add Debug Backtracing
         $errormessage   .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
@@ -428,19 +431,19 @@ class Clansuite_Errorhandler
             }
             else
             {
-                $backtrace_string .= '<tr><td><strong>File :</strong></td><td>' . $debug_backtrace[$i]['file'] . '</td>';
+                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $debug_backtrace[$i]['file'] . '</td>';
             }
 
             if(isset($debug_backtrace[$i]['line']))
             {
                 $backtrace_string .= '</tr>';
-                $backtrace_string .= '<tr><td><strong>Line :</strong></td><td>' . $debug_backtrace[$i]['line'] . '</td></tr>';
-                $backtrace_string .= '<tr><td><strong>Function :</strong></td><td>' . $debug_backtrace[$i]['function'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $debug_backtrace[$i]['line'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Function: </strong></td><td>' . $debug_backtrace[$i]['function'] . '</td></tr>';
             }
 
             if($debug_backtrace[$i]['args'])
             {
-                $backtrace_string .= '<tr><td><strong>Arguments :</strong></td><td>';
+                $backtrace_string .= '<tr><td><strong>Arguments: </strong></td><td>';
 
                 $backtrace_counter_j = count($debug_backtrace[$i]['args']) - 1;
                 for($j = 0; $j <= $backtrace_counter_j; $j++)
@@ -520,6 +523,86 @@ class Clansuite_Errorhandler
                 $args .= 'Unknown';
         }
         return $args;
+    }
+
+    /**
+     * getErrorContext displayes some additional lines of sourcecode around the line with error.
+     *
+     * This is based on a code-snippet posted on the php manual website by
+     * @author dynamicflurry [at] gmail dot com
+     * @link http://us3.php.net/manual/en/function.highlight-file.php#92697
+     *
+     * @param int $scope the context scope (defining how many lines surrounding the error are displayed)
+     * @param int $line the line with the error in it
+     * @param string $file file with the error in it
+     */
+    public static function getErrorContext($file, $line, $scope)
+    {
+        # ensure that sourcefile is readable
+        if (is_readable($file))
+        {
+            # Scope Calculations
+            $surrounding_lines = round($scope/2);
+            $errorcontext_starting_line = $line - $surrounding_lines;
+            $errorcontext_ending_line = $line + $surrounding_lines;
+
+            $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
+
+            # now colourize the background of the errorous line with RED
+            $lines_array[$scope-$surrounding_lines-1]  = '<span style="color: white; background-color:#BF0000;">'. $lines_array[$scope-$surrounding_lines-1]  .'</span>';
+            #clansuite_xdebug::printr($lines_array);
+            $lines  = implode($lines_array, '<br />');
+
+            # get ALL LINES syntax highlighted source-code of the file and explode it into an array
+            $array_content = explode('<br />', highlight_file($file, true));
+
+            # get the ERROR SURROUNDING LINES from ALL LINES
+            $array_content_sliced = array_slice($array_content, $errorcontext_starting_line, $scope, true);
+
+            /**
+             * reindexig the array,
+             * we need the first element’s index being [1], because linenumbers don't start with [0]
+             * think of this problem moved from [0] to the [$errorcontext_starting_line] (because of slicing)
+             * this is not working on the whole array, but reindexing only the sliced segment
+             */
+            $result = array();
+            foreach ( $array_content_sliced as $key => $val )
+            {
+                $result[ $key+1 ] = $val;
+            }
+
+            # now colourize the background of the errorous line with RED
+            # $result[$line] = '<span style="background-color:#BF0000;">'. $result[$line] .'</span>';
+
+            /**
+             * transform the array into a string again
+             * (1) we have to re-add <code> , bevause it got lost somewhere... hmm? @todo figure out why!
+             * (2) implode array with linebreaks
+             */
+            $errorcontext_lines  = '<code>'.implode($result, '<br />');
+
+            #clansuite_xdebug::printr($errorcontext_lines);
+
+            # attach some hardcoded style
+            $style_string = '<style type="text/css">
+                    .num {
+                    float: left;
+                    color: gray;
+                    font-size: 13px;
+                    font-family: monospace;
+                    text-align: right;
+                    margin-right: 6pt;
+                    padding-right: 6pt;
+                    border-right: 1px solid gray;}
+
+                    body {margin: 0px; margin-left: 5px;}
+                    td {vertical-align: top;}
+                    code {white-space: nowrap;}
+                </style>';
+
+            # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
+            return "$style_string <table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
+        }
     }
 
     /**
