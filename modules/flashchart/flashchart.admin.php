@@ -42,6 +42,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * @license    GPLv2 or any later version
  * @author     Jens-André Koch
+ * @author     Daniel Winterfeldt
  * @link       http://www.clansuite.com
  *
  * @category    Clansuite
@@ -69,15 +70,14 @@ class Module_Flashchart_Admin extends Clansuite_ModuleController implements Clan
      */
     public function action_admin_show()
     {
-    	
-    	Clansuite_Loader::loadLibrary('ofc/open_flash_chart_object.php');
-    	open_flash_chart_object( 500, 250, 'http://'. $_SERVER['SERVER_NAME'] .'/cache/chart-data.php', false );
-    	
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
+    	# initialize OFC
+    	require 'ofc/open_flash_chart_object.php';
 
-        //$this->getView()->assign('flashchart', $flashchart);
-        //unset($flashchart);
+    	# get an OFC Object
+    	$flashchart = open_flash_chart_object_str( 500, 250, 'http://'. $_SERVER['SERVER_NAME'] .'/cache/chart-data.php', false );
+
+        $this->getView()->assign('flashchart', $flashchart);
+        unset($flashchart);
 
         # Prepare the Output
         $this->prepareOutput();
