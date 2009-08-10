@@ -20,10 +20,10 @@
  *
  * Calls the openflashchart object from templates-side with parameters applied
  * {openflashchart ...}
- * Parameters: width, heigth, url, data, swfobject, baseurl
+ * Parameters: width, heigth, url, data, swfobject, baseurl, debug
  *
  * Example usage:
- * {openflashchart width="200" height="200" url="http" data="" swfobject=false}
+ * {openflashchart width="200" height="200" url="http" data="" swfobject=false debug=false}
  *
  * @param array $params as described above
  * @param Smarty $smarty
@@ -36,11 +36,16 @@ function smarty_function_openflashchart($params, &$smarty)
     $params += array(
                         'width'         => 320,
                         'height'        => 200,
-                        'url'           => null,
+                        'url'           => WWW_ROOT . $params['url'],
                         'swfobject'     => false,
-                        'baseurl'       => ROOT_LIBRARIES . '/ofc/', # path to open-flash-chart.swf
+                        'baseurl'       => WWW_ROOT . '/libraries/ofc/', # path to open-flash-chart.swf
     );
 
     open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
+
+    if($params['debug'] == true or DEBUG == true)
+    {
+        echo '<br /> The source for the dynamic data is: <a href="'. WWW_ROOT . $params['url'].'">'. WWW_ROOT . $params['url'] .'</a>';
+    }
 }
 ?>
