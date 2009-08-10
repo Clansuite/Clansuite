@@ -61,6 +61,12 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
      */
     public function widget_shockvoiceviewer()
     {
+        # ensure the php extension cURL is loaded
+        if (!function_exists('curl_init'))
+        {
+            return _('The module shockvoiceviewer requires cURL.');
+        }
+
         # set modulename, because outside this widget a different module could be active
         $modulename = 'shockvoiceviewer';
         # insert the modulename to construct a configfilename and fetch it
