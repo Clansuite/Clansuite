@@ -31,7 +31,7 @@
  */
 function smarty_function_openflashchart($params, &$smarty)
 {
-    require ( ROOT_LIBRARIES . "/ofc/php-ofc-library/open_flash_chart_object.php");
+    require ROOT_LIBRARIES . '/ofc/php-ofc-library/open_flash_chart_object.php';
 
     $params += array(
                         'width'         => 320,
@@ -41,13 +41,6 @@ function smarty_function_openflashchart($params, &$smarty)
                         'baseurl'       => ROOT_LIBRARIES . '/ofc/', # path to open-flash-chart.swf
     );
 
-    if ($params['return'] != null)
-    {
-        open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
-    }
-    else
-    {
-        open_flash_chart_object_str($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
-    }
+    open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
 }
 ?>
