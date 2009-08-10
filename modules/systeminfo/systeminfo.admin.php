@@ -240,6 +240,10 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
          */
 
         echo $g->render();
+
+        # eject here unnicely, because of headers exist error
+        # @todo debug and find out, where after $g->render any output is done
+        exit();
     }
 
     /**
