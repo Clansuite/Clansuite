@@ -207,8 +207,11 @@ class clansuite_xdebug
      */
     public static function shutdown()
     {
-        # Stop the tracing and show debugging infos.
-        clansuite_xdebug::end_xdebug();
+        if(defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
+        {        
+            # Stop the tracing and show debugging infos.
+            clansuite_xdebug::end_xdebug();
+        }
     }
 }
 ?>

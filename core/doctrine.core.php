@@ -333,10 +333,16 @@ class Clansuite_Doctrine
 		echo "<br />$query_count Queries in " . sprintf("%2.5f", $time) . " secs.<br>\n";
 	}
 
+    /**
+     * shutdown function for register_shutdown_function
+     */
 	public function shutdown()
 	{
-	     # append Doctrine's SQL-Profiling Report
-         $this->displayProfilingHTML();
+        if (defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
+        {
+            # append Doctrine's SQL-Profiling Report
+            $this->displayProfilingHTML();
+        }
 	}
 }
 ?>
