@@ -14,8 +14,8 @@
  * @license     GNU Public License (GPL) v2 or any later version
  * @version     SVN $Id$
  *
- * Name:     	openflashchart
- * Type:     	function
+ * Name:        openflashchart
+ * Type:        function
  * Purpose: This TAG inserts a openflashchart flash object.
  *
  * Calls the openflashchart object from templates-side with parameters applied
@@ -36,7 +36,7 @@ function smarty_function_openflashchart($params, &$smarty)
     $params += array(
                         'width'         => 320,
                         'height'        => 200,
-                        'url'           => WWW_ROOT . $params['url'],
+                        'url'           => WWW_ROOT .'/'. $params['url'],
                         'swfobject'     => false,
                         'baseurl'       => WWW_ROOT . '/libraries/ofc/', # path to open-flash-chart.swf
     );
@@ -45,7 +45,7 @@ function smarty_function_openflashchart($params, &$smarty)
 
     if($params['debug'] == true or DEBUG == true)
     {
-        echo '<br /> The source for the dynamic data is: <a href="'. WWW_ROOT . $params['url'].'">'. WWW_ROOT . $params['url'] .'</a>';
+        echo '<br /> The source for the dynamic data is: <a target="_blank" href="'. WWW_ROOT .'/'. $params['url'].'">'. WWW_ROOT .'/'. $params['url'] .'</a>';
     }
 }
 ?>

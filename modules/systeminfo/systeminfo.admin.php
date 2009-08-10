@@ -179,6 +179,70 @@ class Module_Systeminfo_Admin extends Clansuite_ModuleController implements Clan
     }
 
     /**
+     * action_admin_return_ofc_hitrates()
+     *
+     * the function returns dynamic data (hitrate of apc) and visualizes an piechart with ofc.
+     * function consists of 4 segments:
+     * (1) get data
+     * (2) init ofc
+     * (3) draw the chart
+     * (4) render it
+     *
+     * @return dynamic data for an open flash chart
+     */
+    public function action_admin_return_ofc_hitrates()
+    {
+        /**
+         * (1) get DATA for Visualization
+         */
+
+        # get apc cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
+        $apc_stats = $cache_apc->stats();
+
+        # debug display of the stats data
+        # var_dump($apc_stats);
+
+        # setup the data array
+        $data[] = $apc_stats['cache_info']['num_hits'];
+        $data[] = $apc_stats['cache_info']['num_misses'];
+
+        /**
+         * (2) initialize Open Flash Chart
+         */
+        require 'libraries/ofc/php-ofc-library/open-flash-chart.php';
+        $g = new graph();
+
+        /**
+         * (3) draw the ofc chart
+         */
+        # title
+        $g->title( 'APC Hitrate', '{font-size:18px; color: #d01f3c}' );
+
+        # ok, now draw one piece of the pie :)
+        $g->pie(60,'#505050','{font-size: 11px; color: #404040;');
+
+        /**
+         * we have to pass in 2 arrays
+         * (1) $data
+         * (2) labels for the data
+         */
+        $g->pie_values( $data, array('Hits','Misses') );
+
+        # colours for each slice (hits = green, misses = red)
+        $g->pie_slice_colours( array('#acb132','#d01f3c') );
+
+        # mouseover tooltip displayes the values
+        $g->set_tool_tip( '#val#' );
+
+        /**
+         * (4) output/generate the dynamic data for the swf
+         */
+
+        echo $g->render();
+    }
+
+    /**
      * The action_admin_show method for the sysinfo module
      * @param void
      * @return void

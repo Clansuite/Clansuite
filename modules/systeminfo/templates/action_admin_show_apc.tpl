@@ -21,8 +21,6 @@
                                      ({$apc_sysinfos.system_cache_info.memory_type} memory, {$apc_sysinfos.system_cache_info.locking_type} locking)</td></tr>
 </table>
 
-<br/>
-
 <h2>System Cache Informations</h2>
 <table>
     <tr><td>Start Time</td>          <td>{$apc_sysinfos.system_cache_info.start_time|dateformat}</td></tr>
@@ -31,7 +29,10 @@
 	<tr><td>Cache Full Counter</td>  <td>{$apc_sysinfos.system_cache_info.expunges}</td></tr>
 	<tr><td>File Upload Support</td> <td>{$apc_sysinfos.system_cache_info.file_upload_progress}</td></tr>
 	<tr><td>Cache Size Files</td>    <td>{$apc_sysinfos.system_cache_info.size_files}</td></tr>
+
 </table>
+
+<h2>Stats</h2>
 <table>
 <thead>
     <th>Host</th><th>Version</th>
@@ -55,6 +56,8 @@
 </tr>
 </tbody>
 </table>
+
+{openflashchart width="220" heigth="110" url="index.php?mod=systeminfo&sub=admin&action=return_ofc_hitrates"}
 
 <h2>Runtime Settings</h2>
 {* Debug {$apc_sysinfos.settings|@dump} *}
