@@ -274,6 +274,12 @@ class Clansuite_CMS
          */
         define('DEBUG',       self::$config['error']['debug']);
 
+        /**
+         * flag constant for the "output" suppresion of shutdown functions
+         * functions are called, but if set "true" no output is returned
+         */
+        #define('SHUTDOWN_FUNCTION_SUPPRESSION', false);
+
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if ( defined('DEBUG') && DEBUG == true ) # == true or false
         {
@@ -519,7 +525,7 @@ class Clansuite_CMS
      */
     public static function shutdown_and_exit()
     {
-        if(DEBUG)
+        if(DEBUG == true and defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
         {
             # Display the General Application Runtime
             echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';

@@ -33,6 +33,9 @@ function smarty_function_openflashchart($params, &$smarty)
 {
     require ROOT_LIBRARIES . '/ofc/php-ofc-library/open_flash_chart_object.php';
 
+    # auto-prefix url with www_root if http is not in the url string
+    $params['url'] = WWW_ROOT .'/'. $params['url'];
+
     $params += array(
                         'width'         => 320,
                         'height'        => 200,
@@ -43,9 +46,9 @@ function smarty_function_openflashchart($params, &$smarty)
 
     open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
 
-    if($params['debug'] == true or DEBUG == true)
+    if(isset($params['debug']) and $params['debug'] == true or DEBUG == true)
     {
-        echo '<br /> The source for the dynamic data is: <a target="_blank" href="'. WWW_ROOT .'/'. $params['url'].'">'. WWW_ROOT .'/'. $params['url'] .'</a>';
+        echo '<br /> The source for the dynamic data is: <a target="_blank" href="'. $params['url'].'">'. $params['url'] .'</a>';
     }
 }
 ?>
