@@ -37,7 +37,6 @@ function smarty_function_openflashchart($params, &$smarty)
                         'width'         => 320,
                         'height'        => 200,
                         'url'           => null,
-                        'data'          => null,
                         'swfobject'     => false,
                         'baseurl'       => ROOT_LIBRARIES . '/ofc/', # path to open-flash-chart.swf
     );
