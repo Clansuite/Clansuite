@@ -5,10 +5,10 @@
 
 <div class="cell1">
 
-{if $serverinfos.request_ok == true}
+{if isset($serverinfos) and $serverinfos.request_ok == true}
 
     <div style="float:right; clear:both;"><a href="svlink::{$serverinfos.servername}:{$serverinfos.port}">Connect</a></div>
-    
+
     {$serverinfos.servername} - Shockvoice
     {*
     {if isset($serverinfos.num_clients)}  <br/> {t}Users :{/t}    {$serverinfos.num_clients}  {/if}
@@ -59,7 +59,7 @@
         {/if}
 
     {/foreach}
-    
+
 {else}
 
     {* ({$serverinfo.servername}:{$serverinfo.server_port}) *}
