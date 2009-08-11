@@ -271,10 +271,11 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
         else
         {
-            # @todo throw correct Status Header via httprequest - if not found and redirect to default
-            # Trigger a error to show, that the required module does not exist
-            trigger_error('Module does not exist: ' . $module, E_USER_NOTICE);
-            exit();
+            /**
+             * the module was not found. we cannot create it, because system is not in debug/dev mode.
+             * @todo throw correct Status Header via httprequest - if not found and redirect to default
+             */
+            throw new Clansuite_Exception('Module does not exist: ' . $module, 3);
         }
     }
 
