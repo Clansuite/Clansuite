@@ -123,7 +123,6 @@ check_host = 1
 debug           = 1
 xdebug          = 1
 development     = 1
-suppress_errors = 0
 debug_popup     = 0
 webdebug        = 0
 

@@ -53,18 +53,10 @@
     </tr>
     <tr>
         <td class="cell2" width="15%">
-            {t}Suppress Errors{/t}
+            {t}Debug Mode{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input type="radio" value="1" name="config[error][suppress_errors]" {if isset($config.error.suppress_errors) && ($config.error.suppress_errors == 1)}checked="checked"{/if} /> {t}yes{/t}
-            <input type="radio" value="0" name="config[error][suppress_errors]" {if isset($config.error.suppress_errors) && ($config.error.suppress_errors == 0)}checked="checked"{/if} /> {t}no{/t}
-        </td>
-    </tr>
-    <tr>
-        <td class="cell2" width="15%">
-            {t}Debugging{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
+            <small>{t}When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog.{/t}</small>
             <input type="radio" value="1" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 1)}checked="checked"{/if} /> {t}yes{/t}
             <input type="radio" value="0" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 0)}checked="checked"{/if} /> {t}no{/t}
         </td>
