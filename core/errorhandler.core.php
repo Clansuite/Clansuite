@@ -141,8 +141,8 @@ class Clansuite_Errorhandler
      */
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        # do just return, if ErrorReporting is suppressed or silenced (in case of @ operator)
-        if(($this->config['error']['suppress_errors'] == 1) or (error_reporting() == 0))
+		# do just return, if silenced (in case of @ operator) or DEBUG mode active
+        if((error_reporting() == 0))
         {
             return;
         }
