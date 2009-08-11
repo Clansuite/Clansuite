@@ -55,6 +55,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Clansuite_Exception extends Exception
 {
     private static $exception_template_content = '';
+    private static $exception_development_template_content = '';
 
     # redeclare exception, so that it is not optional
     public function __construct($message = null, $code = 0)
@@ -62,10 +63,11 @@ class Clansuite_Exception extends Exception
         # assign to parent
         parent::__construct($message, $code);
 
-        # fetch errorTemplate, but not for $code = 0
+        # fetch exceptionTemplates, but not for $code = 0
         if( $code > 0 )
         {
-            self::fetchExceptionTemplate($code);
+            self::fetchExceptionTemplates($code);
+
         }
 
         # debug display of exception object
@@ -73,13 +75,34 @@ class Clansuite_Exception extends Exception
     }
 
     /**
-     * Fetches an ErrorTemplate from File and sets it to the object
+     * Fetches the normal and rapid development templates for exceptions and sets them to class.
+     * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate().
      *
-     * @param $code errorcode
+     * @param $code exception
+     */
+    private static function fetchExceptionTemplates($code)
+    {
+        self::fetchExceptionTemplate($code);
+
+        if( defined('DEBUG') and DEBUG == 1 and defined('DEVELOPMENT') and DEVELOPMENT == 1)
+        {
+            self::fetchExceptionDevelopmentTemplate($code);
+        }
+    }
+
+    /**
+     * Fetches an ErrorTemplate from File and sets it to the object
+     * Filename has to be "exception-ID.html", where ID is the exception id.
+     * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
+     *
+     * @param $code exception
      */
     private static function fetchExceptionTemplate($code)
     {
+        # construct filename with code
         $exception_template_file = ROOT . 'themes/core/exceptions/exception-'.$code.'.html';
+
+        # ensure file is there, load it and set it to classvariable
         if(is_file($exception_template_file))
         {
             $content = file_get_contents($exception_template_file);
@@ -105,6 +128,46 @@ class Clansuite_Exception extends Exception
     private static function getExceptionTemplate()
     {
         return self::$exception_template_content;
+    }
+
+    /**
+     * Fetches an ErrorTemplate for rapid development purposes from file and sets it to the object
+     * Place filename with exception id into the folder: /themes/core/exceptions/
+     * Filename has to be "exception-dev-ID.html", where ID is the exception id.
+     * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
+     *
+     * @param $code exception
+     */
+    private static function fetchExceptionDevelopmentTemplate($code)
+    {
+        # construct filename with code
+        $exception_template_file = ROOT . 'themes/core/exceptions/exception-dev-'.$code.'.html';
+
+        if(is_file($exception_template_file))
+        {
+            $content = file_get_contents($exception_template_file);
+            self::setExceptionDevelopmentTemplate($content);
+        }
+    }
+
+    /**
+     * Setter Method for the Content of the ExceptionDevelopmentTemplate
+     *
+     * @param $content
+     */
+    private static function setExceptionDevelopmentTemplate($content)
+    {
+        self::$exception_development_template_content = $content;
+    }
+
+    /**
+     * Getter Method for the exception_development_template_content
+     *
+     * @return Content of $exception_development_template_content
+     */
+    private static function getExceptionDevelopmentTemplate()
+    {
+        return self::$exception_development_template_content;
     }
 
     /**
@@ -149,7 +212,7 @@ class Clansuite_Exception extends Exception
     {
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Exception : [ '. self::getMessage() .' | Errorcode: '. self::getCode() .' ] </title>';
+        $errormessage   .= '<title>Clansuite Exception : [ '. self::getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
@@ -177,39 +240,56 @@ class Clansuite_Exception extends Exception
         $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename(self::getFile()).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Zeile: </strong></td><td>'.self::getLine().'</td></tr>';
 
-        /*if ( defined('DEBUG') && DEBUG == 1 )
+        # Split
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
+        /*if ( defined('DEBUG') and DEBUG == 1 )
         {
             $errormessage   .= '<tr><td><strong>Trace: </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString(self::getTraceAsString()) . '</td></tr>';
+
+            # Split
+            $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
         }*/
 
         # Environmental Informations at Errortime
-        if ( defined('DEBUG') && DEBUG == 1 )
+        if ( defined('DEBUG') and DEBUG == 1 )
         {
-        # Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+            # HEADING <Server Environment>
+            $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
+            $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Request: </strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
 
-        # HEADING <Server Environment>
-        $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Request: </strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
+            # Split
+            $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
         }
-
-        # Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # HEADING <Additional Information>
         if(self::getExceptionTemplate() != '')
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3></td></tr>';
-            $errormessage   .= '<tr><td colspan="2">'.self::getExceptionTemplate().'</td></tr>';
+            $errormessage  .= '<tr><td colspan="2">'.self::getExceptionTemplate().'</td></tr>';
+
+            # Split
+            $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        }
+
+        # HEADING <Rapid Development>
+        if(self::getExceptionDevelopmentTemplate() != '')
+        {
+            $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
+            $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate().'</td></tr>';
+
+            # Split
+            $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
         }
 
         # Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr></table>';
+        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
 
         # Footer with Support-Backlinks
         $errormessage  .= '<div style="float:right;">
