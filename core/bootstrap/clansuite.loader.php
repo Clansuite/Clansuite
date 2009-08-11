@@ -66,10 +66,13 @@ class Clansuite_Loader
     /**
      * @var array Whitelist array for libraries
      */
-    private $libraries = array( 'simplepie' => array ( 'path' => 'simplepie', 
-                                                       'filename' => '/simplepie/simplepie.inc'),
-                                                     
-                                                     );
+    private $libraries = array( 'simplepie'         => array (
+                                    'path'     => 'simplepie/',
+                                    'filename' => 'simplepie.inc'),
+                                'openflashchart'    => array (
+                                    'path'     => 'ofc/php-ofc-library/',
+                                    'filename' => 'open-flash-chart.php'),
+    );
 
     /**
      * clansuite_loader:register_autoload();
