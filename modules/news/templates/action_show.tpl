@@ -13,7 +13,7 @@
         <!-- RSS Icon -->
         <div style="float:right;">
             <a href="/index.php">
-                <img src="{$www_root_themes_core}/images/icons/rss.png" alt="Clansuite RSS News Feed" />
+                {icon name="rss" alt="Clansuite RSS News Feed"}
             </a>
         </div>
 
@@ -32,12 +32,15 @@
 
 
     <tr>
-        <td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
+        <td height="20" ><b>{$news.news_title} {icon name="category"} {$news.CsCategories.name} {icon name="tag"} No Tags applied yet!</b></td>
         <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
     </tr>
 
     <tr>
-        <td valign="top" class="dunkler"><font size="1">geschrieben von <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> am {$news.news_added|dateformat} - <a href='index.php?mod=news&amp;action=showone&amp;id={$news.news_id}'>{$news.nr_news_comments} comments</a></font></td>
+        <td valign="top" class="dunkler">
+            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> on {$news.news_added|dateformat}.
+            <span class="comments">{icon name="comment"}Until now, it has <a href='index.php?mod=news&amp;action=showone&amp;id={$news.news_id}'>{$news.nr_news_comments} comments.</a></span>
+        </td>
     </tr>
 
     <tr>
