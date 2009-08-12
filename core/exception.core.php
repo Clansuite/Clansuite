@@ -290,6 +290,8 @@ class Clansuite_Exception extends Exception
         # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
+        # close all html elements: table, fieldset, body+page
+        $errormessage   .= '</table>';
 
         # Footer with Support-Backlinks
         $errormessage  .= '<div style="float:right;">
@@ -299,11 +301,7 @@ class Clansuite_Exception extends Exception
                            <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
                            </div>';
 
-        # Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
-
-        # close all html elements: table, fieldset, body+page
-        $errormessage   .= '</table>';
+        # close all html elements: fieldset, body+page
         $errormessage   .= '</fieldset>';
         $errormessage   .= '</body></html>';
 

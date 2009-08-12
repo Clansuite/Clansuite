@@ -12,7 +12,15 @@
   Exceptioncode    Exceptionname                                        Used in File
   -----------------------------------------------------------------------------------------------
   09               Smarty Template Directories do not exist.            startup_checks.filter.php
-  10               Smarty Template Directories not writable.            *
+  10               Smarty Template Directories not writable.            "
+
+  12               The copyright tag is missing.                        Smarty.renderer.php
+                   {include file='copyright.tpl'}
+                   in your layout/wrapper template file:
+  13               The header notice tag is missing.
+                   {include file='clansuite_header_notice.tpl'}         "
+  14               The content variable {$content} must be within       "
+                   the wrapper template
 
   [tbc]
 
