@@ -281,7 +281,7 @@ class Clansuite_CMS
         #define('SHUTDOWN_FUNCTION_SUPPRESSION', false);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-        if ( defined('DEBUG') && DEBUG == true ) # == true or false
+        if ( defined('DEBUG') and DEBUG == true ) # == true or false
         {
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser

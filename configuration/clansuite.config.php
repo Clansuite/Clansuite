@@ -120,9 +120,9 @@ check_host = 1
 ; error
 ;----------------------------------------
 [error]
-debug           = 1
-xdebug          = 1
-development     = 1
+debug           = 0
+xdebug          = 0
+development     = 0
 debug_popup     = 0
 webdebug        = 0
 
