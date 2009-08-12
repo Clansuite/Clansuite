@@ -368,6 +368,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getTemplateName()
     {
+        #clansuite_xdebug::printR($this->template);
+
         # if the templateName was not set manually, we construct it from module/action infos
         if(empty($this->template))
         {
@@ -385,19 +387,20 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     private function constructTemplateName()
     {
-        $module    = Clansuite_ModuleController_Resolver::getModuleName();
-        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+        #$module    = Clansuite_ModuleController_Resolver::getModuleName();
+        #$submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
         $action    = Clansuite_ActionController_Resolver::getActionName();
 
-        $module = Clansuite_Functions::cut_string_backwards($module, '_admin');
+        #$module = Clansuite_Functions::cut_string_backwards($module, '_admin');
 
         # Construct Templatename, like news/templates/action_show.tpl
-        $template = $module.DS.'templates'.DS.$action.'.tpl';
+        #$template = $module.DS.'templates'.DS.$action.'.tpl';
+        $template = $action.'.tpl';
 
-        if( $module == 'controlcenter' or $submodule == 'admin' )
+        /*if( $module == 'controlcenter' or $submodule == 'admin' )
         {
             $template = $module.DS.$action.'.tpl';
-        }
+        }*/
 
         # Debug
         #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
@@ -455,10 +458,10 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
 
         # 3) get the layout (like admin/index.tpl)
-        #echo $view->getLayoutTemplate();
+        #echo 'Layout/Wrapper Template: ' . $view->getLayoutTemplate() . '<br />';
 
         # Debug
-        # echo $this->getTemplateName();
+        #echo 'Template Name: ' .$this->getTemplateName() . '<br />';
 
         /**
          * 4+5) Set Content on the Response Object

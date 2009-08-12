@@ -175,16 +175,20 @@ abstract class Clansuite_Renderer_Base
         # if template is a qualified path and template filename
         if(is_file($template)) { return $template; }
 
-        # default is Theme Template Path
+        # fetch the template via looking through Theme Template Paths
         $theme_template = $this->getThemeTemplatePath($template);
 
-        # return THEME path, if this is more than empty ( != not found)
-        if(strlen($theme_template) > 0)
+        # check if template was found there, else it's null
+        if($theme_template != null)
         {
+            #echo '<br>'. __METHOD__ .' via THEME = '. $theme_template . '<br>';
             return $theme_template;
         }
         else # try a lookup in the Module Template Path
         {
+            # fetch the template via looking through Module Template Paths
+            #$module_template = $this->getModuleTemplatePath($template);
+            #echo '<br>'. __METHOD__ .' via MODULE = '. $module_template . '<br>';
             return $this->getModuleTemplatePath($template);
         }
     }
@@ -200,48 +204,45 @@ abstract class Clansuite_Renderer_Base
      */
     public function getThemeTemplatePath($template)
     {
-        # Debug Display
-        # echo $template;
-        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
-        # echo ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
-        # echo ROOT_THEMES . 'admin' .DS. $template;
-
         # init var
         $themepath = '';
-        
+
+        # get module and submodule names
         $module    = Clansuite_ModuleController_Resolver::getModuleName();
         $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-        if(($module == 'controlcenter' or $submodule == 'admin')
-           and is_file( ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) 
-           and isset($_SESSION['user']['backendtheme']) > 0)
+
+        # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
+        if($module == 'controlcenter' or $submodule == 'admin')
         {
-            $themepath =  ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
+            # (a) USER BACKENDTHEME - check in the active session backendtheme
+            if(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
+            {
+                return  ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
+            }
+            # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
+            elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
+            {
+                return ROOT_THEMES . 'admin' .DS. $template;
+            }
         }
-        # 2. Check, if template exists in current Session THEME/templates
-        elseif(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
+        else # 2. it's a FRONTEND theme
         {
-            $themepath =  ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
+            # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
+            if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
+            {
+                return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
+            }
+            # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
+            elseif(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS. $template ))
+            {
+                return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS.  $template;
+            }
+            # (c) FRONTEND FALLBACK - check, if template exists in standard theme
+            elseif(is_file( ROOT_THEMES . '/standard/' . $template))
+            {
+                return ROOT_THEMES . '/standard/' . $template;
+            }
         }
-              
-        
-        # 2. Check, if template exists in standard theme
-        /*
-        elseif(is_file( ROOT_THEMES . '/standard/' . $template))
-        {
-
-            $themepath = ROOT_THEMES . '/standard/' . $template;
-        }*/
-
-        # ADMIN-Theme
-
-        elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
-        {
-            $themepath = ROOT_THEMES . 'admin' .DS. $template;
-        }
-
-        # print '<br>getThemeTemplatePath: '. $themepath . '<br>';
-
-        return $themepath;
     }
 
     /**
@@ -249,78 +250,69 @@ abstract class Clansuite_Renderer_Base
      *
      * @param string $template Template Filename
      * @return string
-     * @todo clean this mess up!
      */
     public function getModuleTemplatePath($template)
     {
         # Debug Display
-        # echo $template;
-        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
+       # echo '<br>'. __METHOD__ .' INPUT '. $template . '<br>';
 
         # init var
         $modulepath = '';
 
         # Method 1: get module/action names
-        $moduleName = Clansuite_ModuleController_Resolver::getModuleName();
-        $actionName = Clansuite_ActionController_Resolver::getActionName();
+        $module = Clansuite_ModuleController_Resolver::getModuleName();
+        #$action = Clansuite_ActionController_Resolver::getActionName();
 
+        /*
         if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
         {
             return ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
         }
+        */
 
         # Method 2: detect it via $template string
         # Given is a string like "news/show.tpl"
         # we insert "/templates" at the last slash
 
-        # echo ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template;
-
-        # if template was found in session theme directory
-        #
-        # Example:
-        # index\action_show.tpl
-        # ROOT \clansuite\trunk\themes\standard\index\index\action_show.tpl
-        if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS. $template ))
-        {
-            return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $moduleName .DS.  $template;
-        }
-
+        /*
         # attach "/template/" to the $template string, at "news\action_show.tpl" DS
         $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
-
         # single slash correction
         $template = str_replace("\\", "/",  $template);
         # get rid of double slashes
         $template = str_replace("//", "/",  $template);
         $template = str_replace("\\\\", "\\",  $template);
+        */
 
         # Check, if template exists in module folder + 'templates/name.tpl'
+        # template has to be something like "/news/templates/action_show.tpl"
         if(is_file( ROOT_MOD . $template ))
         {
             $modulepath = ROOT_MOD . $template;
         }
 
         # Check, if template exists in module folder + 'news' + 'templates/name.tpl'
-        if(is_file( ROOT_MOD . $moduleName . $template))
+        elseif(is_file( ROOT_MOD . $module . $template))
         {
-            $modulepath =  ROOT_MOD . $moduleName . $template;
+            $modulepath =  ROOT_MOD . $module . $template;
         }
 
         # Check, if template exists in module folder + 'news' + 'templates' +'/name.tpl'
-        if(is_file( ROOT_MOD . $moduleName . '/templates/' . $template))
+        elseif(is_file( ROOT_MOD . $module . '/templates/' . $template))
         {
-            $modulepath =  ROOT_MOD . $moduleName . '/templates/' . $template;
+            $modulepath =  ROOT_MOD . $module . '/templates/' . $template;
         }
 
         # If template is not existant, show template_not_found
-        if(strlen($modulepath) == 0)
+        elseif(strlen($modulepath) == 0)
         {
             $modulepath = ROOT_THEMES . 'core/templates/template_not_found.tpl';
         }
 
-        #echo '<br>We tried to getModuleTemplatePath: '.$modulepath . '<br> while requested Template is: ' . $template;
+        # single slash correction
+        $modulepath = str_replace("\\", "/",  $modulepath);
 
-        $this->setTemplate($template);
+        #echo '<br>'. __METHOD__ .' OUTPUT '.'<br>We found '. $template  . ' on the module path: '. $modulepath. '<br>'; 
 
         return $modulepath;
     }
