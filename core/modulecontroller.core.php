@@ -165,16 +165,16 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
             $modulename = Clansuite_ModuleController_Resolver::getModuleName();
         }
 
- 	    $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+        $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
 
         if( is_dir($models_path) )
         {
- 	        Doctrine::loadModels($models_path);
- 	    }
- 	    else
- 	    {
- 	        # Module doesnt have Doctrine Records (Models)
- 	    }
+            Doctrine::loadModels($models_path);
+        }
+        else
+        {
+            # Module doesnt have Doctrine Records (Models)
+        }
     }
 
     /**
@@ -190,9 +190,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         # Set the incomming $injector
         # a) as a static var
         # b) as a dynamic var
-    	self::$static_injector = $this->injector = $injector;
-    	# fetch config from dependency injector
-    	$this->config = $this->injector->instantiate('Clansuite_Config');
+        self::$static_injector = $this->injector = $injector;
+        # fetch config from dependency injector
+        $this->config = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**
@@ -358,7 +358,28 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function setTemplate($template)
     {
+        self::checkTemplateExtension($template);
         $this->template = $template;
+    }
+
+    public static function checkTemplateExtension($template)
+    {
+        # get extension of template
+        $template_extension = strtolower(pathinfo($template, PATHINFO_EXTENSION));
+
+        # whitelist definition for listing all allowed template filetypes
+        $allowed_filetypes = array('html','php','tpl');
+
+        # check if extension is one of the allowed ones
+        if (in_array($template_extension,$allowed_filetypes))
+        {
+
+        }
+        else
+        {
+            # @todo development template with link to fileeditor's rename dialog ?
+            trigger_error('Invalid Template Extension <strong>'.$template_extension.'</strong> on <strong>'. $template.'</strong>', E_USER_NOTICE);
+        }
     }
 
     /**
@@ -404,6 +425,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
         # Debug
         #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
+
 
         $this->setTemplate($template);
     }
