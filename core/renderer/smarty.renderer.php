@@ -162,7 +162,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->caching                = (bool) $this->config['cache']['caching'];
         $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
         # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
-        $this->renderer->cache_modified_check	= 0;             # set to 1 to activate
+        $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
 
         #### DEFAULT TEMPLATE HANDLER FUNCTION
         # $this->renderer->default_template_handler_func = "";
@@ -277,23 +277,23 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     {
         if($this->renderer)
         {
-			/**
-			 * we don't know what happened to the renderer on it's way
-			 * so in order to get a clean render object
-			 * we remove all prior assigns and configuration settings
-			 */
-			$this->renderer->clear_all_assign();
-			$this->renderer->clear_config();
-		}
-		else
-		{
-		    self::initializeEngine();
-		}
+            /**
+             * we don't know what happened to the renderer on it's way
+             * so in order to get a clean render object
+             * we remove all prior assigns and configuration settings
+             */
+            $this->renderer->clear_all_assign();
+            $this->renderer->clear_config();
+        }
+        else
+        {
+            self::initializeEngine();
+        }
 
-		# then we reload the base configuration to have default template paths and debug-settings
-		self::configureEngine();
+        # then we reload the base configuration to have default template paths and debug-settings
+        self::configureEngine();
 
-		return $this->renderer;
+        return $this->renderer;
     }
 
     /**
@@ -535,13 +535,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                 $renderChecksArray = array(
                         '1' => array(
                                       'string' => '{include file=\'copyright.tpl\'}',
-                                      'exceptionmessage' => "The content variable {include file='copyright.tpl'} must be within the wrapper template!",
+                                      'exceptionmessage' => "The copyright tag is missing. Please insert {include file='copyright.tpl'} in your layout/wrapper template file: <br /> $file",
                                       'exceptioncode' => '12'
                                     ),
 
                         '2' => array(
                                       'string' => '{include file=\'clansuite_header_notice.tpl\'}',
-                                      'exceptionmessage' => "The content variable {include file='clansuite_header_notice.tpl'} must be within the wrapper template!",
+                                      'exceptionmessage' => "The header notice tag is missing. Please insert {include file='clansuite_header_notice.tpl'} in your layout/wrapper template file: <br /> $file",
                                       'exceptioncode' => '13'
                                     ),
 
