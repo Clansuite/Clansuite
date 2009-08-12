@@ -1,10 +1,11 @@
+<!-- themes/accessible/news/show.tpl -->
 <h1>{t}News{/t}</h1>
 {* DEBUG OUTPUT of assigned Arrays:
 	{$news|@var_dump}
 	{$paginate|@var_dump}
 *}
     <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
-{move_to}
+{move_to target="pre_head_close"}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>

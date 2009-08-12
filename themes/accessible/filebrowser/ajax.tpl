@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
     {literal}
         <script type="text/javascript" src="{$www_root_themes_core}/javascript/ajax.js"></script>
         <script type="text/javascript">

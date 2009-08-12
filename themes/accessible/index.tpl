@@ -1,45 +1,48 @@
-{* Document-Type and Level is set *}
-{doc_info DOCTYPE=XHTML LEVEL=Transitional}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
 
-{* doc_raw movement! -> everything in doc_raw is moved "as is" to header *}
-{move_to}
+    {* display cache time as comment *}
+    <!-- This Page was cached on {$smarty.now|dateformat}. -->
 
-{* Dublin Core Metatags *}
-<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
-<meta name="DC.Title" content="Clansuite - just an eSport CMS" />
-<meta name="DC.Creator" content="Tino Goratsch" />
-<meta name="DC.Date" content="20070101" />
-<meta name="DC.Identifier" content="http://www.clansuite.com/" />
-<meta name="DC.Subject" content="Subject" />
-<meta name="DC.Subject.Keyword " content="Subject.Keyword" />
-<meta name="DC.Subject.Keyword" content="Subject.Keyword" />
-<meta name="DC.Description" content="Description" />
-<meta name="DC.Publisher" content="Publisher" />
-<meta name="DC.Coverage" content="Coverage" />
+    {* Include the Clansuite Header Notice *}
+    {include file='clansuite_header_notice.tpl'}
 
-{* Standard Metatags *}
-<meta http-equiv="content-language" content="{$meta.language}" />
-<meta name="author" content="{$meta.author}" />
-<meta http-equiv="reply-to" content="{$meta.email}" />
-<meta name="description" content="{$meta.description}" />
-<meta name="keywords" content="{$meta.keywords}" />
+    {* Dublin Core Metatags *}
+    <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+    <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
+    <meta name="DC.Creator" content="Tino Goratsch" />
+    <meta name="DC.Date" content="20070101" />
+    <meta name="DC.Identifier" content="http://www.clansuite.com/" />
+    <meta name="DC.Subject" content="Subject" />
+    <meta name="DC.Subject.Keyword " content="Subject.Keyword" />
+    <meta name="DC.Subject.Keyword" content="Subject.Keyword" />
+    <meta name="DC.Description" content="Description" />
+    <meta name="DC.Publisher" content="Publisher" />
+    <meta name="DC.Coverage" content="Coverage" />
 
-{* Favicon Include *}
-<link rel="shortcut icon" href="{$www_root_theme}/images/favicon.ico" />
-<link rel="icon" href="{$www_root_theme}/images/animated_favicon.gif" type="image/gif" />
+    {* Standard Metatags *}
+    <meta http-equiv="content-language" content="{$meta.language}" />
+    <meta name="author" content="{$meta.author}" />
+    <meta http-equiv="reply-to" content="{$meta.email}" />
+    <meta name="description" content="{$meta.description}" />
+    <meta name="keywords" content="{$meta.keywords}" />
 
-{* Inserts from index.php *}
-<link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/accessible.css" />
-<link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/ui.datepicker.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
-<script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script>
+    {* Favicon Include *}
+    <link rel="shortcut icon" href="{$www_root_theme}/images/favicon.ico" />
+    <link rel="icon" href="{$www_root_theme}/images/animated_favicon.gif" type="image/gif" />
 
-{* set title - and apply -breadcrumb title="1"- to it *}
-<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
-{* display cache time as comment *}
-<!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"} -->
-{/move_to}
+    {* Inserts from index.php *}
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/accessible.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/ui.datepicker.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
+    {* @todo <script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script> *}
+
+    {* set title - and apply -breadcrumb title="1"- to it *}
+    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+
+</head><body>
+
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:80;"></div>
 <div id="box">
 	<div id="header">
@@ -62,7 +65,7 @@
 		{include file='breadcrumbs.tpl'}
 	</div>
 	<div id="sidebar">
-		{load_module name="account" action="login"} 
+		{*{load_module name="account" action="login"} *}
 		{* {mod name="shoutbox" func="show"} *}
 		<h3>Lorem Ipsum</h3>
 		<div class="content">
@@ -106,7 +109,6 @@
 	</div>
 	<div id="footer">
 		<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-		{$copyright}<br />
 		Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
 		<br/>
 		{include file='server_stats.tpl'}
@@ -117,3 +119,7 @@
     <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>
+
+<br />
+
+{* {include file='copyright.tpl'} *}

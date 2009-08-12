@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/prototype.js" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/scriptaculous.js" type="text/javascript"></script>
 <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>

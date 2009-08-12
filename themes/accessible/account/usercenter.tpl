@@ -12,7 +12,7 @@
 	</ul>{*
 	SessionCountdown:
     <div id="countdown"></div>
-{move_to}
+{move_to target="pre_head_close"}
 {literal}
     <script type="text/javascript">
     var ServerCurrentTime        = {/literal}{$SessionCurrentTime}{literal};	    // Current

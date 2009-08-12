@@ -410,7 +410,7 @@ form select.input_text
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/td_header.gif) repeat-x;
+    background: url(../images/td_header.gif) repeat-x;
 }
 
 .tr_header td,
@@ -423,7 +423,7 @@ form select.input_text
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/td_header.gif) repeat-x;
+    background: url(../images/td_header.gif) repeat-x;
 }
 
 .tr_header_small td
