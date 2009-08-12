@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
 	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
 {/move_to}
 
