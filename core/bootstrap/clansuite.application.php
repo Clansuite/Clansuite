@@ -72,9 +72,9 @@ class Clansuite_CMS
 
         Clansuite_CMS::initialize_Config();
 
-        Clansuite_CMS::initialize_Debug();
-
         Clansuite_CMS::initialize_Paths();
+
+        Clansuite_CMS::initialize_Debug();
 
         Clansuite_CMS::set_Version();
 
@@ -149,7 +149,7 @@ class Clansuite_CMS
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
         # Debug Display of Config Array
-        # clansuite_xdebug::printR($config);
+        # clansuite_xdebug::printR(self::$config);
 
         /**
          *  ================================================
@@ -224,8 +224,10 @@ class Clansuite_CMS
         {
             define('PROTOCOL','http://');
         }
+
         # 2. SERVER_URL
         define('SERVER_URL'    , PROTOCOL.$_SERVER['SERVER_NAME']);
+
         # 3. Build WWW_ROOT = complete www-path with server from SERVER_URL, depending on os-system
         # Purpose of WWW_ROOT is to provide the complete www-path for later use in templates
         # Example: WWW_ROOT = 'http://www.yourdomain.com/clansuite_root_directory/';
@@ -247,7 +249,6 @@ class Clansuite_CMS
          */
         # Note: Path order is important <first path to look>:<second path>:<etc>:
         set_include_path( ROOT_LIBRARIES . 'PEAR' . DS . PS .                   # /libraries/PEAR
-                          #$_SERVER['DOCUMENT_ROOT'].'/libraries/PEAR/' . PS .  # /libraries/PEAR
                           ROOT_LIBRARIES . PS  .                                # /libraries/
                           get_include_path()                                    # attach rest
                          );
@@ -264,7 +265,7 @@ class Clansuite_CMS
      * When the Debug is disabled Clansuite will not report any errors (0).
      *
      * For security reasons you are advised to change the Debug Mode Setting to disabled when your site goes live.
-    |* For more info visit:  http://www.php.net/error_reporting
+     * For more info visit:  http://www.php.net/error_reporting
      * @note: in php6 e_strict will be moved into e_all
      */
     private static function initialize_Debug()
@@ -272,7 +273,7 @@ class Clansuite_CMS
         /**
          * Debug-Mode is set via config
          */
-        define('DEBUG',       self::$config['error']['debug']);
+        define('DEBUG', self::$config['error']['debug']);
 
         /**
          * flag constant for the "output" suppresion of shutdown functions
@@ -289,8 +290,11 @@ class Clansuite_CMS
         }
         else
         {
+            ini_set('log_errors', true);        # enable error_logging
             ini_set('display_errors',   false); # do not display errors in the browser
-            error_reporting(0);                 # do not report errors
+            error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
+            #error_reporting(0);                 # do not report errors
+            ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt'); # write to errorlog
         }
 
         /**
