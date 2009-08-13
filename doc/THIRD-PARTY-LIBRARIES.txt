@@ -60,3 +60,6 @@ ICONPACK / ICONSET        VERSION    LICENCE(S)               WEBSITE
 
 The folder "/countries" contains
 FAMFAMFAM_FLAGS           -          NONE, Public Domain      http://www.famfamfam.com/lab/icons/flags/
+
+The folder "/lullacons" contains
+Lullacons                 Pack 1     GPLv2                    http://www.lullabot.com/
