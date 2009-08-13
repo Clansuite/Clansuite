@@ -92,8 +92,9 @@ class Clansuite_Logger_Email extends Clansuite_Logger implements Clansuite_Logge
     public function writeLog($data)
     {
         $to_address   = $this->config['mail']['to_sysadmin'];
-        $from_address = $this->config['mail']['to_sysadmin'];
-        $subject      = $data['label']
+        $from_address = $this->config['mail']['from'];
+        # append date/time to msg
+        $subject      = '[' . date(DATE_FORMAT, mktime()) . '] ' . $data['label']; 
         $body         = var_export($data);
 
         $this->sendmail($to_address, $from_address, $subject, $body)
