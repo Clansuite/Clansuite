@@ -36,9 +36,23 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+/**
+ * Clansuite Core File - Clansuite_Logger_File
+ *
+ * This class is a service wrapper for logging messages to a logfile.
+ *
+ * @author      Jens-André Koch <vain@clansuite.com>
+ * @copyright   Jens-André Koch (2005 - onwards)
+ * @license     GPLv2 any later license
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Logger
+ */
 class Clansuite_Logger_File implements Clansuite_Logger_Interface
 {
-    private static $instance = 0;
+    private static $instance = null;
+
     private $config;
 
     public function __construct(Clansuite_Config $config)
@@ -75,8 +89,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     }
 
     /**
-     * writeErrorLog is a shortcut method
-     * for writing a string to the error_log
+     * writeErrorLog is a shortcut method for writing a string to the error_log
      *
      * @param $string The string to append to the errorlog.
      */
@@ -87,28 +100,33 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
 
     /**
      * readLog
-     *
      */
     public function readLog()
     {
-
+        # @todo
     }
 
     /**
      * This method gives back the filename for logging
-     * If rotation is active it will add a date,
-     * if seperation is active it will
+     * If rotation is active it will add a date, if seperation is active it will
      *
      * @return $filename string
      */
     public function getErrorLogFilename()
     {
+        # default hardcoded logfilename
         $logfilename = 'error';
 
+        # if rotation is active we add a date to the filename
         if($config['log']['rotation'] == true)
         {
             # construct name of the log file ( FILENAME_log_DATE.txt )
             $filename =  ROOT_LOGS . $logfilename.'_log_' . date('m-d-y') . '.txt';
+        }
+        else
+        {
+            # construct name of the log file ( FILENAME_log.txt )
+            $filename =  ROOT_LOGS . $logfilename.'_log.txt';
         }
 
         return $filename;
