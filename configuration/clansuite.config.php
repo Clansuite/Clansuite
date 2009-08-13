@@ -40,7 +40,8 @@ mailencryption = "SWIFT_OPEN"
 smtp_username = ""
 smtp_password = ""
 from = "system@website.com"
-from_name = ""
+from_name = "Clansuite CMS - HAL 9000"
+to_sysadmin = ""
 
 ;----------------------------------------
 ; template
@@ -177,11 +178,16 @@ enabled = 1
 enabled = 1
 interval = 604800
 
-
 ;----------------------------------------
 ; logging
 ;----------------------------------------
 [logs]
 rotation = 1
+
+;----------------------------------------
+; minifer
+;----------------------------------------
+[minifer]
+enabled = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>
