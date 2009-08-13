@@ -60,7 +60,7 @@ interface Clansuite_Logger_Interface
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  HttpResponse
+ * @subpackage  Logger
  */
 class Clansuite_Logger implements Clansuite_Logger_Interface
 {
@@ -73,6 +73,8 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
 
     /**
      * Iterates over all registered loggers and writes the logs
+     *
+     * @param array $data array('message', 'label', 'priority')
      */
     public function writeLog($data)
     {
@@ -107,7 +109,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     {
         foreach($loggers as $logger)
         {
-            if ( (in_array($logger, $this->loggers) == true) and ($logger instanceof Clansuite_Logger_Interface) )
+            if ( (in_array($logger, $this->loggers) == true))
             {
                 unset($this->loggers[$logger]);
                 return true;
