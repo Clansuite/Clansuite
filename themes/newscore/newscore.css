@@ -1,0 +1,193 @@
+@charset "utf-8";
+
+/* Main Style */
+body {
+margin:0;
+padding:0;
+}
+
+#header {
+height:120px;
+background-image:url(images/header_bg.jpg);
+background-repeat:repeat-x;
+}
+
+#logowrapp {
+height:81px;
+width:1000px;
+margin:auto;
+}
+
+img.logo {
+margin-top:18px;
+}
+
+#navigation {
+height:37px;
+background-image:url(images/nav_bg.jpg);
+background-repeat:repeat-x;
+}
+
+#navigation ul {
+height:37px;
+padding:0;
+margin:0;
+}
+
+#navigation ul li {
+height:21px;
+min-width:60px;
+list-style:none;
+float:left;
+padding-top:8px;
+}
+
+a.navlink {
+padding-bottom:3px;
+padding-left:10px;
+padding-right:10px;
+text-decoration:none;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+color:#000000;
+font-weight:bold;
+clear:both;
+}
+
+a.navlink:hover {
+border-bottom:3px solid #006699;
+text-decoration:none;
+}
+
+a.navlink:active  {
+border-bottom:3px solid #CC0000;
+text-decoration:none;
+}
+
+a.navlink:visited {
+}
+
+div.center {
+margin:auto;
+width:1000px;
+}
+
+#left {
+width:250px;
+float:left;
+}
+
+#main {
+margin-left:270px;
+padding:10px;
+}
+
+#foot {
+clear:both;
+}
+
+/* Widget Main Style */
+.widget {
+margin:10px;
+border:1px solid #666666;
+background-color:#FFFFCC;
+}
+
+.widget_head {
+padding-left:10px;
+padding-top:5px;
+padding-bottom:5px;
+padding-right:10px;
+font-weight:bold;
+}
+
+.widget_title {
+}
+
+/* Login Widget */
+#widget_login .text{
+min-width:60px;
+float:left;
+padding-left:10px;
+padding-right:4px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+color:#000000;
+height:20px;
+}
+
+#widget_login .field{
+height:20px;
+float:right;
+padding-right:10px;
+}
+
+.input_text {
+width:130px;
+}
+
+#widget_login .extrafield {
+clear:both;
+padding-left:10px;
+}
+
+#widget_login .submitbutton {
+padding-left:10px;
+text-align:right;
+padding-right:10px;
+}
+
+#widget_login .helplinks{
+padding-left:10px;
+color:#000000;
+font-size:12px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+text-decoration:none;
+text-align:right;
+padding-right:10px;
+padding-bottom:10px;
+}
+
+#widget_login a {
+color:#000000;
+font-size:10px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+text-decoration:none;
+}
+
+/* Usercenter Widget */
+#widget_usercenter {
+}
+
+/* News Widget */
+#widget_news ul {
+padding:0;
+margin:0;
+}
+
+#widget_news ul li {
+list-style:none;
+padding-left:10px;
+padding-right:10px;
+padding-bottom:5px;
+border-top:1px solid #E1E1E1;
+}
+
+#widget_news a.newslink {
+text-decoration:none;
+color:#333333;
+font-size:12px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+.time {
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:10px;
+text-align:right;
+color:#666666;
+}
+
+/* Categories Widget */
+#widget_categories {
+}
+
