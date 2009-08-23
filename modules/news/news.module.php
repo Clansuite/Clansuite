@@ -73,7 +73,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $currentPage 	= $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+		#$cat 			= $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('cat');
+	
+			
         $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
@@ -90,12 +93,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->leftJoin('n.CsCategories c')
                                     ->leftJoin('n.CsComment nc')
                                     ->leftJoin('nc.CsUser ncu')
-                                    #->where('c.module_id = 7')
+                                    #->where('n.cat_id = '.$cat)
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('n.news_id DESC, n.news_added DESC'),
                                  # The following is Limit  ?,? =
                                  $currentPage, // Current page of request
                                  $resultsPerPage // (Optional) Number of results per page Default is 25
+								 
                              ),
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5
@@ -483,7 +487,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty->assign('news_widget', $news);
     }
     
-    public function widget_newsCategorie()
+    public function widget_newscats()
     {
         # get smarty as the view
         $smarty = $this->getView();
@@ -491,9 +495,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         parent::initRecords('categories');
 
 
-  		$newsCategorie = Doctrine_Query::create()
-                                    ->select('n.cat_id, c.name')
-                                    
+  		$newscats = Doctrine_Query::create()
+                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
                                     ->from('CsNews n')
                                     ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
                                     ->where('c.module_id = 7')
@@ -501,11 +504,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
                                     
-
-                              
-
         # assign the fetched news to the view
-        $smarty->assign('newsCategorie', $newsCategorie);
+        $smarty->assign('widget_newscats', $newscats);
     }
+	
+		
 }
 ?>

@@ -53,8 +53,6 @@
 
 <body>
 
-<pre>{load_module name="news" action="widget_newsCategorie"}</pre>
-
 	<div id="header">
     	<div id="logowrapp">
         	<img class="logo" src="{$www_root_theme}/images/cs_logo.gif" />
@@ -79,7 +77,7 @@
     		{/if} *}
         
         	<div class="widget" id="widget_news">{load_module name="news" action="widget_news" items="2"}</div>
-        	<div class="widget" id="widget_categories">{load_module name="news" action="widget_newsCategorie"}</div>
+        	<div class="widget" id="widget_categories">{load_module name="news" action="widget_newscats"}</div>
     	</div>
     	<div id="main">{$content}</div>
 	</div>
