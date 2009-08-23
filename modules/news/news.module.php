@@ -482,5 +482,30 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('news_widget', $news);
     }
+    
+    public function widget_newsCategorie()
+    {
+        # get smarty as the view
+        $smarty = $this->getView();
+
+        parent::initRecords('categories');
+
+
+  		$newsCategorie = Doctrine_Query::create()
+                                    ->select('n.cat_id, c.name')
+                                    
+                                    ->from('CsNews n')
+                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
+                                    ->where('c.module_id = 7')
+                                    ->groupBy('c.name')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->execute( array() );
+                                    
+
+                              
+
+        # assign the fetched news to the view
+        $smarty->assign('newsCategorie', $newsCategorie);
+    }
 }
 ?>
