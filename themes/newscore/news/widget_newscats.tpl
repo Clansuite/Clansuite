@@ -1,7 +1,7 @@
   {* {$widget_newscats|@var_dump} *}
   
 <div class="widget_head">
-	<span class="widget_title">Latest News</span>
+	<span class="widget_title">News Categories</span>
 </div>
 <ul>
 	{foreach item=widget_newscats from=$widget_newscats}
