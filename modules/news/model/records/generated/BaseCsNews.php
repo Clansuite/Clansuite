@@ -13,13 +13,21 @@ abstract class BaseCsNews extends Doctrine_Record
     $this->hasColumn('news_body', 'string', null, array('type' => 'string', 'notnull' => true));
     $this->hasColumn('cat_id', 'integer', 1, array('type' => 'integer', 'length' => 1, 'primary' => true));
     $this->hasColumn('user_id', 'integer', 4, array('type' => 'integer', 'length' => 4, 'unsigned' => 1, 'primary' => true));
-    $this->hasColumn('news_added', 'integer', 4, array('type' => 'integer', 'length' => 4));
     $this->hasColumn('news_status', 'integer', 4, array('type' => 'integer', 'length' => 4, 'notnull' => true));
   }
 
   public function setUp()
   {
         parent::setUp();
+
+        # Doctrine Behaviour: Timestampable
+        $this->actAs('Timestampable'); # created_at, modified_at
+        
+        # Doctrine Behaviour: Searchable
+        $this->actAs('Searchable', array(
+                'fields' => array('news_title', 'news_body')
+            )
+        );
 
         $this->index('user_id', array('fields' => 'user_id'));
         $this->hasOne('CsUser', array('local' => 'user_id',
