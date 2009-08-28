@@ -575,22 +575,45 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty->assign('widget_newscatsdropdown', $newscatsdropdown);
     }
 
-	public function widget_archiv()
-	{
-		#get smarty as view
-		$smarty = $this->getView();
-		
-		$archiv = Doctrine_Query::create()
-									->select('n.news_id, n.created_at')
-									->from('CsNews n')
-									->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-									->execute( array() );
-									
-		
-									
-		#assign the fetched news to the view
-		$smarty->assign('widget_archiv', $archiv);
-	}
-	
+    public function widget_archiv()
+    {
+        #get smarty as view
+        $smarty = $this->getView();
+
+        # fetch all newsentries, ordered by creation date ASCENDING
+        $newsentries = Doctrine_Query::create()
+                                    ->select('n.news_id, n.created_at')
+                                    ->from('CsNews n')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->orderby('n.created_at ASC')
+                                    ->execute( array() );
+
+        # init a new array, to assign the year-month structured entries to
+        $archiv = array();
+
+        #clansuite_xdebug::printR($newsentries);
+
+        # loop over all entries
+        foreach($newsentries as $entry)
+        {
+            #clansuite_xdebug::printR($entry);
+
+            # extract year and month from created_at
+            $year  = date('Y',strtotime($entry['created_at']));
+            $month = date('M',strtotime($entry['created_at']));
+
+            # use extracted year and month to build up the new array
+            # and reassign the entry itself
+            $archiv[$year][$month]['entries'][] = $entry;
+            
+            #$archiv['years'][$year]['months'][$month]['entries'][] = $entry;
+        }
+
+        #clansuite_xdebug::printR($archiv);
+
+        #assign the fetched news to the view
+        $smarty->assign('widget_archiv', $archiv);
+    }
+
 }
 ?>
