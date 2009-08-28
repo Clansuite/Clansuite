@@ -6,7 +6,7 @@
               onchange="top.location.href=this.options[this.selectedIndex].value;">
     
       {* First Item in Options *}
-      <option>- {t}All{/t} -</option>
+      <option value="{$www_root}/index.php?mod=news&action=show">- {t}All{/t} -</option>
 
       {foreach item=widget_newscatsdropdown from=$widget_newscatsdropdown}
         
