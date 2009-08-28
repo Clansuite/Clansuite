@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-;
-; Clansuite Configuration File :
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
+; 
+; Clansuite Configuration File : 
+; D:\clansuite\xampplite\htdocs\configuration\clansuite.config.php 
 ;
 
 
@@ -41,7 +41,6 @@ smtp_username = ""
 smtp_password = ""
 from = "system@website.com"
 from_name = "Clansuite CMS - HAL 9000"
-to_sysadmin = ""
 
 ;----------------------------------------
 ; template
@@ -49,10 +48,10 @@ to_sysadmin = ""
 [template]
 std_page_title = "Team Clansuite"
 favicon = ""
-theme = "standard"
-backend_theme = "admin"
+theme = "newscore"
+backend_theme = "backend"
 tpl_wrapper_file = "index.tpl"
-std_css = "standard.css"
+std_css = "newscore.css"
 std_javascript = "standard.js"
 
 ;----------------------------------------
@@ -111,27 +110,27 @@ max_upload_filesize = 1048576
 [session]
 use_cookies = 1
 use_cookies_only = 0
-session_expire_time = 30
-session_name = ""
-check_ip = 1
-check_browser = 1
-check_host = 1
+session_expire_time = "  30  "
+session_name = "    "
+check_browser = "  1  "
+check_host = "  1  "
+check_ip = "  1  "
 
 ;----------------------------------------
 ; error
 ;----------------------------------------
 [error]
-debug           = 0
-xdebug          = 0
-development     = 0
-debug_popup     = 0
-webdebug        = 0
+development = 0
+debug = 0
+xdebug = 0
+webdebug = 0
+debug_popup = 0
 
 ;----------------------------------------
 ; cache
 ;----------------------------------------
 [cache]
-adapter = "apc"
+adapter = 0
 caching = 0
 cache_lifetime = 90
 
@@ -148,7 +147,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-André Koch & Clansuite Development Team"
+author = "Jens-AndrÃ© Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 
@@ -179,7 +178,7 @@ enabled = 1
 interval = 604800
 
 ;----------------------------------------
-; logging
+; logs
 ;----------------------------------------
 [logs]
 rotation = 1
