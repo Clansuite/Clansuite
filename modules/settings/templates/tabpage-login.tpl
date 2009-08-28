@@ -125,7 +125,7 @@
             {t}Session expire time{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.session_expire_time)} {$config.session.session_expire_time} {/if}" name="config[session][session_expire_time]" />&nbsp; minutes
+            <input class="input_text" type="text" {if isset($config.session.session_expire_time)}value="{$config.session.session_expire_time}"{/if} name="config[session][session_expire_time]" />&nbsp; minutes
         </td>
     </tr>
     <tr>
@@ -133,7 +133,7 @@
             {t}Session name{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.session_name)} {$config.session.session_name} {/if}" name="config[session][session_name]" />
+            <input class="input_text" type="text" {if isset($config.session.session_name)}value="{$config.session.session_name}"{/if} name="config[session][session_name]" />
         </td>
     </tr>
     <tr>
@@ -141,7 +141,7 @@
             {t}Filter: Session Security - check_browser{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.check_browser)} {$config.session.check_browser} {/if}" name="config[session][check_browser]" />
+            <input class="input_text" type="text" {if isset($config.session.check_browser)}value="{$config.session.check_browser}"{/if} name="config[session][check_browser]" />
         </td>
     </tr>
     <tr>
@@ -149,7 +149,7 @@
             {t}Filter: Session Security -  check_host{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.check_host)} {$config.session.check_host} {/if}" name="config[session][check_host]" />
+            <input class="input_text" type="text" {if isset($config.session.check_host)}value="{$config.session.check_host}"{/if} name="config[session][check_host]" />
         </td>
     </tr>
     <tr>
@@ -157,7 +157,7 @@
             {t}Filter: Session Security - check_ip{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.check_ip)} {$config.session.check_ip} {/if}" name="config[session][check_ip]" />
+            <input class="input_text" type="text" {if isset($config.session.check_ip)}value="{$config.session.check_ip}"{/if} name="config[session][check_ip]" />
         </td>
     </tr>
 
