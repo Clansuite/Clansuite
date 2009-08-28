@@ -90,11 +90,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'n.news_added', 'n.news_title', 'c.name','u.nick', 'n.draft');
+        $columns = array( 'n.created_at', 'n.news_title', 'c.name','u.nick', 'n.draft');
         // Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         // And set the the default sort column and order.
-        $columnsort->setDefault('n.news_added', 'desc');
+        $columnsort->setDefault('n.created_at', 'desc');
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
@@ -333,12 +333,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
             */
 
             // Query DB
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ?' );
+            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, draft = ?' );
             $stmt->execute( array(  $infos['title'],
                                     $infos['body'],
                                     $infos['cat_id'],
                                     $_SESSION['user']['user_id'],
-                                    time(),
                                     $infos['draft'],
                                     //$groups ) );
                                     ) );
@@ -418,12 +417,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                     */
 
                     // Query DB
-                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, news_added = ?, draft = ? WHERE news_id = ?' );
+                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, draft = ? WHERE news_id = ?' );
                     $stmt->execute( array(  $infos['title'],
                                             $infos['news_body'],
                                             $infos['cat_id'],
                                             $_SESSION['user']['user_id'],
-                                            time(),
                                             $infos['draft'],
                                             //$groups ) );
                                             $id ) );

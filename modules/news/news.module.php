@@ -97,7 +97,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                             ->leftJoin('n.CsComment nc')
                                             ->leftJoin('nc.CsUser ncu')
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.news_added DESC'),
+                                            ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # The following is Limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage // (Optional) Number of results per page Default is 25
@@ -130,7 +130,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                             ->leftJoin('nc.CsUser ncu')
                                             ->where('n.cat_id = ?', array( $cat ) )
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.news_added DESC'),
+                                            ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # The following is Limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage, // (Optional) Number of results per page Default is 25
@@ -555,7 +555,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty->assign('widget_newscats', $newscats);
     }
 
-	public function widget_newscatsdropdown()
+    public function widget_newscatsdropdown()
     {
         # get smarty as the view
         $smarty = $this->getView();
@@ -574,6 +574,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('widget_newscatsdropdown', $newscatsdropdown);
     }
-	
+
 }
 ?>
