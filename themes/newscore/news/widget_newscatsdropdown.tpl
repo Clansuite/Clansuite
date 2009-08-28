@@ -6,6 +6,9 @@
               onchange="top.location.href=this.options[this.selectedIndex].value;">
     
       {* First Item in Options *}
+      <option>- {t}Choose{/t} -</option>
+      
+      {* Second is all Cats (normal news display) *}
       <option value="{$www_root}/index.php?mod=news&action=show">- {t}All{/t} -</option>
 
       {foreach item=widget_newscatsdropdown from=$widget_newscatsdropdown}
