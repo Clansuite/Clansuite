@@ -1,4 +1,4 @@
-  {* {$widget_newscats|@var_dump} *}
+ {* {$widget_newscats|@var_dump} *}
   
 <div class="widget_head">
 	<span class="widget_title">News Categories</span>
@@ -6,7 +6,7 @@
 <ul>
 	{foreach item=widget_newscats from=$widget_newscats}
 	<li>
-		{$widget_newscats.CsCategories.name} ({$widget_newscats.sum})
+		<a href="{$www_root}/index.php?mod=news&action=show&page=1&cat={$widget_newscats.cat_id}"> {$widget_newscats.CsCategories.name} ({$widget_newscats.sum})</a>
 	</li>
 	{/foreach}
 </ul>
