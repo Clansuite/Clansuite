@@ -71,60 +71,99 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
 
+        # @todo get resultsPerPage from ModuleConfig
+        $resultsPerPage = 3;
+
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         $cat         = (int) $this->getHttpRequest()->getParameter('cat');
-        if(empty($cat) or $cat == 0) { $cat = 1; }
 
-        # @todo get resultsPerPage from ModuleConfig
-        $resultsPerPage = 1;
+        # if cat is no set, we need a query to show all news regardless which category,
+        if(empty($cat))
+        {
+            // Creating Pager Object with a Query Object inside
+            $pager_layout = new Doctrine_Pager_Layout(
+                                new Doctrine_Pager(
+                                    Doctrine_Query::create()
+                                            ->select('n.*,
+                                                      u.nick, u.user_id, u.email, u.country,
+                                                      c.name, c.image, c.icon, c.color,
+                                                      nc.*,
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->from('CsNews n')
+                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsCategories c')
+                                            ->leftJoin('n.CsComment nc')
+                                            ->leftJoin('nc.CsUser ncu')
+                                            ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                            ->orderby('n.news_id DESC, n.news_added DESC'),
+                                         # The following is Limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                     ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                    )),
+                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                 );
 
-        // Creating Pager Object with a Query Object inside
-        $pager_layout = new Doctrine_Pager_Layout(
-                            new Doctrine_Pager(
-                                Doctrine_Query::create()
-                                        ->select('n.*,
-                                                  u.nick, u.user_id, u.email, u.country,
-                                                  c.name, c.image, c.icon, c.color,
-                                                  nc.*,
-                                                  ncu.nick, ncu.email, ncu.country')
-                                        ->from('CsNews n')
-                                        ->leftJoin('n.CsUser u')
-                                        ->leftJoin('n.CsCategories c')
-                                        ->leftJoin('n.CsComment nc')
-                                        ->leftJoin('nc.CsUser ncu')
-                                        ->where('n.cat_id = ?', array( $cat ) )
-                                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                        ->orderby('n.news_id DESC, n.news_added DESC'),
-                                     # The following is Limit  ?,? =
-                                     $currentPage, // Current page of request
-                                     $resultsPerPage, // (Optional) Number of results per page Default is 25
-                                     $cat
+            // Assigning templates for page links creation
+            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
 
-                                 ),
-                             new Doctrine_Pager_Range_Sliding(array(
-                                 'chunk' => 5
-                                )),
-                             '?mod=news&amp;action=show&amp;page={%page}'
-                             );
+        }
+        else # else we need a qry with the where(cat) statement
+        {
+            // Creating Pager Object with a Query Object inside
+            $pager_layout = new Doctrine_Pager_Layout(
+                                new Doctrine_Pager(
+                                    Doctrine_Query::create()
+                                            ->select('n.*,
+                                                      u.nick, u.user_id, u.email, u.country,
+                                                      c.name, c.image, c.icon, c.color,
+                                                      nc.*,
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->from('CsNews n')
+                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsCategories c')
+                                            ->leftJoin('n.CsComment nc')
+                                            ->leftJoin('nc.CsUser ncu')
+                                            ->where('n.cat_id = ?', array( $cat ) )
+                                            ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                            ->orderby('n.news_id DESC, n.news_added DESC'),
+                                         # The following is Limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage, // (Optional) Number of results per page Default is 25
+                                         $cat
 
-        // Assigning templates for page links creation
-        $pager_layout->setTemplate('[<a href="{%url}&amp;cat='.$cat.'">{%page}</a>]');
+                                     ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                    )),
+                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                 );
+
+            # Assigning templates for page links creation
+            $pager_layout->setTemplate('[<a href="{%url}&amp;cat='.$cat.'">{%page}</a>]');
+
+        }
+
         $pager_layout->setSelectedTemplate('[{%page}]');
-                                      
+
         // Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
-        
+
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-        
-                
-        // Displaying pager links with cat added
-        $pager_layout->display( array(
-                                      'cat' => urlencode($cat)),
-                                      true
-                                      );
+
+        if(!empty($cat))
+        {
+            # Displaying pager links with cat added
+            $pager_layout->display( array(
+                                              'cat' => urlencode($cat)),
+                                              true
+                                              );
+        }
 
         // Calculate Number of Comments
         foreach ($news as $k => $v)
