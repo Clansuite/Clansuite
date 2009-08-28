@@ -1,12 +1,20 @@
   {* {$widget_newscatsdropdown|@var_dump} *}
-  
+
 <form action="">
   <label>
-  <select id="newscatsdropdown" size=1 name="Auswahl">
-  {foreach item=widget_newscatsdropdown from=$widget_newscatsdropdown}
-    <option value="{$www_root}/index.php?mod=news&action=show&page=1&cat={$widget_newscatsdropdown.cat_id}">{$widget_newscatsdropdown.CsCategories.name} ({$widget_newscatsdropdown.sum})</option>
-  {/foreach}
-  </select>
-<input type="submit" name="button" id="button" value="Anzeigen"/>
-</label>
+      <select name="newscatsdropdown" id="newscatsdropdown" size=1
+              onchange="top.location.href=this.options[this.selectedIndex].value;">
+    
+      {* First Item in Options *}
+      <option>- {t}All{/t} -</option>
+
+      {foreach item=widget_newscatsdropdown from=$widget_newscatsdropdown}
+        
+        <option value="{$www_root}/index.php?mod=news&action=show&cat={$widget_newscatsdropdown.cat_id}">
+            {$widget_newscatsdropdown.CsCategories.name} ({$widget_newscatsdropdown.sum})
+        </option>
+      {/foreach}
+
+      </select>
+    </label>
 </form>
