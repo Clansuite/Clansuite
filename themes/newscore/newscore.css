@@ -191,3 +191,47 @@ color:#666666;
 #widget_categories {
 }
 
+/* Start CSS for Footer with Copyright */
+#footer {
+border-top:1px solid;
+clear:both;
+color:#999999;
+font-size:10px;
+height:31px;
+padding:0.25em 0pt;
+}
+
+#footer *:link, #footer *:visited {
+color:#999999;
+}
+
+#footer hr {
+display:none;
+}
+
+#footer #poweredby {
+border:0pt none;
+float:left;
+}
+
+#footer #poweredby:hover {
+background:transparent none repeat scroll 0%;
+}
+
+#footer p {
+margin:0pt;
+}
+
+#footer p.left {
+border-left:1px solid #B7B7B7;
+border-right:1px solid #B7B7B7;
+float:left;
+margin-left:1em;
+padding:0pt 1em;
+}
+
+#footer p.right {
+float:right;
+text-align:right;
+}
+/* End CSS for Footer with Copyright */
