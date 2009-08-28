@@ -585,9 +585,25 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         $this->addEvent($eventName, $event);
     }
 
+    /**
+     * Shortcut to set a Flashmessage
+     *
+     * @param $type
+     * @param $message
+     */
     public function flashmessage($type, $message)
     {
         Clansuite_Flashmessages::setMessage($type, $message);
+    }
+
+    /**
+     * Shortcut to get the HttpRequest Object
+     *
+     * @return HttpRequest Object
+     */
+    public function getHttpRequest()
+    {
+        return $this->injector->instantiate('Clansuite_HttpRequest');
     }
 }
 ?>
