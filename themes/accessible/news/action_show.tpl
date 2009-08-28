@@ -19,7 +19,7 @@
 <div id="news-{$news.news_id}" class="newsbox">
 	<h4 class="news-head">{$news.news_title} - {$news.CsCategory.name}</h4>
 	<div class="news-author-comments">
-		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}am{/t} {$news.news_added} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} {t}comments{/t}</a>
+		{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}am{/t} {$news.created_at} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments} {t}comments{/t}</a>
 	</div>
 	<div class="news-content">
 		<div class="news-cat-img">

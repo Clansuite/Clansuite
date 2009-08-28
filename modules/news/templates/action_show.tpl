@@ -38,7 +38,7 @@
 
     <tr>
         <td valign="top" class="dunkler">
-            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> on {$news.news_added|dateformat}.
+            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> on {$news.created_at|dateformat}.
             <span class="comments">{icon name="comment"}Until now, it has <a href='index.php?mod=news&amp;action=showone&amp;id={$news.news_id}'>{$news.nr_news_comments} comments.</a></span>
         </td>
     </tr>

@@ -15,7 +15,7 @@
     {foreach item=news_widget from=$news_widget}
     <tr>
         <td class="cell1" ><a href="index.php?mod=news&action=showone&id={$news_widget.news_id}">{$news_widget.news_title}</a></td>
-        <td class="cell2" width="70">{$news_widget.news_added|dateformat}</td>
+        <td class="cell2" width="70">{$news_widget.created_at|date_format}</td>
     </tr>
     {/foreach}
 </table>
