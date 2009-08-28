@@ -52,7 +52,7 @@
 </head>
 
 <body>
-
+{load_module name="news" action="widget_archiv"}
 	<div id="header">
     	<div id="logowrapp">
         	<img class="logo" src="{$www_root_theme}/images/cs_logo.gif" />
@@ -79,6 +79,7 @@
         	<div class="widget" id="widget_news">{load_module name="news" action="widget_news" items="2"}</div>
         	<div class="widget" id="widget_categories">{load_module name="news" action="widget_newscats"}</div>
 			<div class="widget" id="widget_newscatsdropdown">{load_module name="news" action="widget_newscatsdropdown"}</div>
+			<!-- <div class="widget" id="widget_archiv">{load_module name="news" action="widget_archiv"}</div> //-->
     	</div>
     	<div id="main">{$content}</div>
 	</div>
