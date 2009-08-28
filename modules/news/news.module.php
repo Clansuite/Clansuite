@@ -73,10 +73,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage 	= $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
-		#$cat 			= $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('cat');
-	
-			
+        $currentPage    = (int) $this->getHttpRequest()->getParameter('page');
+        #$cat           = (int) $this->getHttpRequest()->getParameter('cat');
+
+
         $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside
@@ -99,7 +99,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                  # The following is Limit  ?,? =
                                  $currentPage, // Current page of request
                                  $resultsPerPage // (Optional) Number of results per page Default is 25
-								 
+
                              ),
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5
@@ -181,7 +181,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         /**
          * Get Number of Feed Items to create
          */
-        $feed_items = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('items');
+        $feed_items = (int) $this->getHttpRequest()->getParameter('items');
 
         # Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)   { $feed_items = 15;  }
@@ -280,7 +280,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # Get Render Engine
         $smarty = $this->getView();
 
-        $news_id = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('id');
+        $news_id = (int) $this->getHttpRequest()->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
 
         $single_news = Doctrine_Query::create()
@@ -355,7 +355,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
-        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         $resultsPerPage = 3;
 
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
@@ -486,7 +486,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('news_widget', $news);
     }
-    
+
     public function widget_newscats()
     {
         # get smarty as the view
@@ -494,8 +494,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         parent::initRecords('categories');
 
-
-  		$newscats = Doctrine_Query::create()
+        $newscats = Doctrine_Query::create()
                                     ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
                                     ->from('CsNews n')
                                     ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
@@ -503,11 +502,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
-                                    
+
         # assign the fetched news to the view
         $smarty->assign('widget_newscats', $newscats);
     }
-	
-		
+
 }
 ?>
