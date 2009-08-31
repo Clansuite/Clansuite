@@ -42,7 +42,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * Purpose:
  * This Filter ensures the session integrity.
  * It will destroy the current session and redirect to login, on the following conditions:
- * 
+ *
  * 1) IP changed
  * 2) Browser changed
  * 3) Host changed
@@ -53,7 +53,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class session_security implements Clansuite_Filter_Interface 
+class session_security implements Clansuite_Filter_Interface
 {
     private $config     = null;
 
@@ -64,6 +64,8 @@ class session_security implements Clansuite_Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        $this->response = $response;
+
         /**
          * 1. Check for IP
          */
@@ -77,11 +79,11 @@ class session_security implements Clansuite_Filter_Interface
             elseif ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
                 session_destroy(session_id());
-                
+
                 $this->response->redirect('index.php?mod=login');
             }
         }
-        
+
         /**
          * 2. Check for Browser
          */
@@ -96,11 +98,11 @@ class session_security implements Clansuite_Filter_Interface
             {
                 session_unset();
                 session_destroy();
-                
+
                 $this->response->redirect('index.php?mod=login');
             }
         }
-        
+
         /**
          * 3. Check for Host Address
          */
@@ -115,15 +117,15 @@ class session_security implements Clansuite_Filter_Interface
             {
                 session_unset();
                 session_destroy();
-                
+
                 $this->response->redirect('index.php?mod=login');
             }
-        }        
-        
+        }
+
         /**
          * 4. Check maximal password tries
          */
-        
+
         # take the initiative, if maximal_password_tries is enabled (greater 0)in Clansuite_Config
         # or pass to the next filter / do nothing
         /*if($this->config['session']['maximal_password_tries'] > 0)
@@ -132,7 +134,7 @@ class session_security implements Clansuite_Filter_Interface
             if($_SESSION['PW_TRIES'] < $this->config['session']['maximal_password_tries'])
             {
                 # check, if a form field input $_POST['password'] exists
-                if(true == $this->request->issetParameter('POST','password')) 
+                if(true == $this->request->issetParameter('POST','password'))
                 {
                     # if PW_TRIES does not exist, it's the first try of a password
                     if(!isset($_SESSION['PW_TRIES']))
