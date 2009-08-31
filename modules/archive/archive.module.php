@@ -92,8 +92,7 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
 												->leftJoin('n.CsCategories c')
 												->leftJoin('n.CsComment nc')
 												->leftJoin('nc.CsUser ncu')
-												->where('c.module_id = 7' AND 'n.created_at = ?', array($year) AND 'n.created_at = ?', array($month))
-												->andwhere('n.news_status = 4')
+												->where('c.module_id = 7' AND 'n.news_status = 4')
 												->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 												->orderby('n.created_at DESC'),
 											# The following is Limit  ?,? =
@@ -128,8 +127,8 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
 												->leftJoin('n.CsComment nc')
 												->leftJoin('nc.CsUser ncu')
 												->where('c.module_id = 7')
-												->andWhere('n.created_at = ?', array( $year))
-												->andWhere('n.created_at = ?', array( $month))
+												->andWhere('n.created_at = ?', array( $year ))
+												->andWhere('n.created_at = ?', array( $month ))
 												->andWhere('n.news_status = 4')
 												->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 												->orderby('n.created_at DESC'),
