@@ -9,22 +9,22 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
             <div class="accordion">
                 <h2 class="headerstyle">
                     <img src="images/64px-Preferences-system.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                    <?=$language['STEP5_CONFIG']?>
+                    <?php echo $language['STEP5_CONFIG']?>
                 </h2>
-                <p><?=$language['STEP5_SENTENCE1']?></p>
-                <p><?=$language['STEP5_SENTENCE2']?></p>
+                <p><?php echo $language['STEP5_SENTENCE1']?></p>
+                <p><?php echo $language['STEP5_SENTENCE2']?></p>
                 <form action="index.php" method="post">
                     <ol class="formular">
                         <li>
-                            <label class="formularleft" for="pae_title"><?=$language['STEP5_CONFIG_SITENAME']?></label>
-                            <input class="formularright" type="text" id="page_title" name="config[template][std_page_title]" value="<?=$values['std_page_title']?>" />
+                            <label class="formularleft" for="pae_title"><?php echo $language['STEP5_CONFIG_SITENAME']?></label>
+                            <input class="formularright" type="text" id="page_title" name="config[template][std_page_title]" value="<?php echo $values['std_page_title']?>" />
                         </li>
                         <li>
-                            <label class="formularleft" for="from"><?=$language['STEP5_CONFIG_EMAILFROM']?></label>
-                            <input class="formularright" type="text" id="from" name="config[email][from]" value="<?=$values['from']?>" />
+                            <label class="formularleft" for="from"><?php echo $language['STEP5_CONFIG_EMAILFROM']?></label>
+                            <input class="formularright" type="text" id="from" name="config[email][from]" value="<?php echo $values['from']?>" />
                         </li>
                         <li>
-                            <label class="formularleft" for="encrytion"><?=$language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></label>
+                            <label class="formularleft" for="encrytion"><?php echo $language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']?></label>
                             <select class="formularright" id="encryption" name="encryption">
                                 <?php # SHA1 ?>
                                 <option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         </li>
                         <li>
                             <? # timezone detection fucntion ?>
-                            <label class="formularleft" for="timezone"><?=$language['STEP5_CONFIG_TIMEZONE']?></label>
+                            <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_TIMEZONE']?></label>
                             <select class="formularright" id="timezone" name="config[language][timezone]" class="form">
                                 <option value="-36000">UTC -10 Hawaii</option>
                                 <option value="-32400">UTC -9 Alaska</option>
@@ -76,15 +76,15 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                     <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">
-                                <?=$language['CLICK_NEXT_TO_PROCEED']?><br />
-                                <?=$language['CLICK_BACK_TO_RETURN']?>
+                                <?php echo $language['CLICK_NEXT_TO_PROCEED']?><br />
+                                <?php echo $language['CLICK_BACK_TO_RETURN']?>
                             </span>
                             <div class="alignright">
-                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
                             </div>
                             <div class="alignleft">
-                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
-                                <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+                                <input type="submit" value="<?php echo $language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']?>" />
                             </div>
                         </div><!-- div navigation end -->
                     </div> <!-- div content_footer end -->
