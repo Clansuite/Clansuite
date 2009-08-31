@@ -11,19 +11,19 @@ date_default_timezone_set('Europe/Berlin');
                 <ul>
 
                     <!-- Installation Progress BAR -->
-                    <li><h2><?=$language['INSTALL_PROGRESS']?></h2></li>
-                    <li><?=$language['COMPLETED']?> <b><?=$_SESSION['progress']?>%</b>
+                    <li><h2><?php echo $language['INSTALL_PROGRESS']?></h2></li>
+                    <li><?php echo $language['COMPLETED']?> <b><?php echo $_SESSION['progress']?>%</b>
                       <div id="progressbar">
                             <?php
                             #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
                             if ($_SESSION['step'] == 7 ) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
                             ?>
-                            <div style="border: 1px solid white; height: 5px ! important; width: <?=$_SESSION['progress']?>px; background-color: rgb(181, 0, 22);"/>
+                            <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']?>px; background-color: rgb(181, 0, 22);"/>
                         </div>
                     </li>
 
                     <!-- Change Language -->
-                    <li><h2><?=$language['CHANGE_LANGUAGE']?></h2></li>
+                    <li><h2><?php echo $language['CHANGE_LANGUAGE']?></h2></li>
                     <li>
                         <?php # pruefen ob es die aktuelle sprache ist, die reloaded werden soll
                               # nur reloaden, wenn neue sprache ausgewaehlt                ?>
@@ -49,7 +49,7 @@ date_default_timezone_set('Europe/Berlin');
                     </li>
 
                     <!-- Clansuite Shortcuts -->
-                    <li><h2><?=$language['SHORTCUTS']?></h2></li>
+                    <li><h2><?php echo $language['SHORTCUTS']?></h2></li>
                     <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
                     <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
                     <li><strong><a href="http://forum.clansuite.com/index.php?board=25">Installsupport</a></strong></li>
@@ -88,7 +88,7 @@ date_default_timezone_set('Europe/Berlin');
             <br />
             SVN: $Rev$ $Author$
             <br />
-            &copy; 2005-<?=date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+            &copy; 2005-<?php echo date("Y"); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
         </p>
     </div><!-- Fusszeile ENDE -->
 </div><!-- PAGE ENDE -->
