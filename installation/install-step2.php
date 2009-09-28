@@ -374,6 +374,12 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_mcrypt']['actual']     = extension_loaded('mcrypt') ? 'on' : 'off';
                          $recommended['extension_mcrypt']['status']     = extension_loaded('mcrypt') ? SETTING_TRUE : SETTING_FALSE;
 
+                         #  Checking for PHP Calendar : Calendar
+                         $recommended['extension_calendar']['text']       = $language['EXTENSION_Calendar'];
+                         $recommended['extension_calendar']['expected']   = 'on';
+                         $recommended['extension_calendar']['actual']     = extension_loaded('calendar') ? 'on' : 'off';
+                         $recommended['extension_calendar']['status']     = extension_loaded('calendar') ? SETTING_TRUE : SETTING_FALSE;
+
                          ?>
                 <table class="settings" border="0">
                     <thead class="tbhead">
@@ -412,7 +418,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                 <br />
                 <div style="text-align:center;">
                 <script language="javascript"> function reload() { window.location.reload(true); }</script>
-		        <input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="2">
+                <input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="2">
                 </div>
                 -->
                 <div id="content_footer">
