@@ -5,7 +5,7 @@
  */
 class CsNews extends BaseCsNews
 {
-
+    
 
 
 }

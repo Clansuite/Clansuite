@@ -75,95 +75,28 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $resultsPerPage = 3;
 
         // Defining initial variables
-        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
+
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
-        $cat         = (int) $this->getHttpRequest()->getParameter('cat');
+        $category    = (int) $this->getHttpRequest()->getParameter('cat');
 
         # if cat is no set, we need a query to show all news regardless which category,
-        if(empty($cat))
+        if(empty($category))
         {
-            // Creating Pager Object with a Query Object inside
-            $pager_layout = new Doctrine_Pager_Layout(
-                                new Doctrine_Pager(
-                                    Doctrine_Query::create()
-                                            ->select('n.*,
-                                                      u.nick, u.user_id, u.email, u.country,
-                                                      c.name, c.image, c.icon, c.color,
-                                                      nc.*,
-                                                      ncu.nick, ncu.email, ncu.country')
-                                            ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
-                                            ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
-                                            ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
-                                         # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
-                                     ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                    )),
-                                 '?mod=news&amp;action=show&amp;page={%page}'
-                                 );
-
-            // Assigning templates for page links creation
-            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-
+            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage);
         }
         else # else we need a qry with the where(cat) statement
         {
-            // Creating Pager Object with a Query Object inside
-            $pager_layout = new Doctrine_Pager_Layout(
-                                new Doctrine_Pager(
-                                    Doctrine_Query::create()
-                                            ->select('n.*,
-                                                      u.nick, u.user_id, u.email, u.country,
-                                                      c.name, c.image, c.icon, c.color,
-                                                      nc.*,
-                                                      ncu.nick, ncu.email, ncu.country')
-                                            ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
-                                            ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
-                                            ->where('n.cat_id = ?', array( $cat ) )
-                                            ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
-                                         # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage, // (Optional) Number of results per page Default is 25
-                                         $cat
-
-                                     ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                    )),
-                                 '?mod=news&amp;action=show&amp;page={%page}'
-                                 );
-
-            # Assigning templates for page links creation
-            $pager_layout->setTemplate('[<a href="{%url}&amp;cat='.$cat.'">{%page}</a>]');
-
+            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
         }
 
-        $pager_layout->setSelectedTemplate('[{%page}]');
+        # get news, pager, pager_layout
+        #clansuite_xdebug::printR($newsQuery['pager_layout']);
+        #extract($newsQuery);
+        #unset($newsQuery);
 
-        // Retrieving Doctrine_Pager instance
-        $pager = $pager_layout->getPager();
-
-        // Fetching news
-        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-
-        if(!empty($cat))
-        {
-            # Displaying pager links with cat added
-            $pager_layout->display( array(
-                                              'cat' => urlencode($cat)),
-                                              true
-                                              );
-        }
+        $news           = $newsQuery['news'];
+        $pager          = $newsQuery['pager'];
+        $pager_layout   = $newsQuery['pager_layout'];
 
         // Calculate Number of Comments
         foreach ($news as $k => $v)
@@ -393,40 +326,54 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      *      1: draft
      *      2: published
      *      3: unpublished
-     *      4: archive
+     *      ??? 4: archive
      *
-     * @output: $news ( array for smarty template output )
      */
-    public function action_archive()
+    public function action_archiv()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
+        $date        = $this->getHttpRequest()->getParameter('date');
+        $date = '2008-00-00';
+        #clansuite_xdebug::printR($date);
+
         $resultsPerPage = 3;
 
-        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        // Creating Pager Object with a Query Object inside
-        $pager_layout = new Doctrine_Pager_Layout(
-                        new Doctrine_Pager(
-                            Doctrine_Query::create()
-                                    ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                                    ->from('CsNews n')
-                                    ->leftJoin('n.CsUser u')
-                                    ->leftJoin('n.CsCategories c')
-                                    ->where('n.news_status = 4')
-                                    #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->orderby('n.news_id DESC'),
-                                 # The following is Limit  ?,? =
-                                 $currentPage, // Current page of request
-                                 $resultsPerPage // (Optional) Number of results per page Default is 25
-                             ),
-                             new Doctrine_Pager_Range_Sliding(array(
-                                 'chunk' => 5
-                             )),
-                             '?mod=news&amp;action=archive&amp;page={%page}'
-                             );
+        # Creating Pager Object with a Query Object inside
+        $pager_layout= new Doctrine_Pager_Layout(
+                                new Doctrine_Pager(
+                                    Doctrine_Query::create()
+                                            ->select('n.*,
+                                                      u.nick, u.user_id, u.email, u.country,
+                                                      c.name, c.image, c.icon, c.color,
+                                                      nc.*,
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->from('CsNews n')
+                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsCategories c')
+                                            ->leftJoin('n.CsComment nc')
+                                            ->leftJoin('nc.CsUser ncu')
+                                            ->andWhere('n.created_at >= ?', array( $date ))
+                                            #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                            ->orderby('n.news_id DESC, n.created_at DESC'),
+                                         # the following two values are the (sql) limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
+                                     ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                    )),
+                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                 );
+         /*
+        if($var)
+      $query->andWhere('var >= "'.$var.'"');
+    if($var)
+      $query->andWhere('var <= "'.var.'"');
+*/
 
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
@@ -437,6 +384,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+        #clansuite_xdebug::printR($news);
 
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
@@ -494,6 +443,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Specifiy the template manually
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
+
+        clansuite_xdebug::printR($news);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -560,8 +511,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # get smarty as the view
         $smarty = $this->getView();
 
+        # initialize the records of other modules
         parent::initRecords('categories');
 
+        # get catdropdown options from database
         $newscatsdropdown = Doctrine_Query::create()
                                     ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
                                     ->from('CsNews n')
@@ -591,29 +544,22 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # init a new array, to assign the year-month structured entries to
         $archiv = array();
 
-        #clansuite_xdebug::printR($newsentries);
-
         # loop over all entries
         foreach($newsentries as $entry)
         {
-            #clansuite_xdebug::printR($entry);
-
             # extract year and month from created_at
             $year  = date('Y',strtotime($entry['created_at']));
             $month = date('M',strtotime($entry['created_at']));
 
             # use extracted year and month to build up the new array
             # and reassign the entry itself
-            $archiv[$year][$month]['entries'][] = $entry;
-            
+            $archiv[$year][$month][] = $entry;
+
             #$archiv['years'][$year]['months'][$month]['entries'][] = $entry;
         }
-
-        #clansuite_xdebug::printR($archiv);
 
         #assign the fetched news to the view
         $smarty->assign('widget_archiv', $archiv);
     }
-
 }
 ?>
