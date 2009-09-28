@@ -1,6 +1,6 @@
 {* {$news_widget|var_dump} *}
 
-<!-- Start News Widget from Module News /-->
+<!-- Start News Widget from Theme Newscore /-->
 
 <div class="widget_head">
 	<span class="widget_title">Latest News</span>

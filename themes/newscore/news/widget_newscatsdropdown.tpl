@@ -1,4 +1,10 @@
-  {* {$widget_newscatsdropdown|@var_dump} *}
+{* {$widget_newscatsdropdown|@var_dump} *}
+
+<!-- Start News-Categories Selection Widget from Theme Newscore /-->
+
+<div class="widget_head">
+    <span class="widget_title">News Categories</span>
+</div>
 
 <form action="">
   <label>
@@ -21,3 +27,5 @@
       </select>
     </label>
 </form>
+
+<!-- Ende News-Categories Selection Widget from Theme Newscore /-->
