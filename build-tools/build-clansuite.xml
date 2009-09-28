@@ -302,7 +302,14 @@
     <!-- COMMAND = "codesniffer-report" -->
     <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <phpcodesniffer standard="Clansuite" format="checkstyle">
+        <phpcodesniffer standard="Clansuite" 
+                        format="checkstyle"
+                        tabWidth="4"
+                        error="/dev/null"
+                        failonerror="false"
+                        verbosity="0"
+                        allowedFileExtensions="php"
+                        >
             <fileset refid="clansuite.reportfiles" />
         </phpcodesniffer>
     </target>
@@ -310,8 +317,11 @@
     <!-- COMMAND = "codesniffer-report-w32" -->
     <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report-w32" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <exec executable="phpcs" dir="${basedir}/source" output="${basedir}/build/logs/checkstyle.xml" error="/tmp/checkstyle.error.log">
-            <arg line="--report=checkstyle --standard=Clansuite"/>
+        <exec executable="phpcs --report=checkstyle --standard=Clansuite"
+              dir="${basedir}/source"
+              output="${basedir}/build/logs/checkstyle.xml"
+              error="/tmp/checkstyle.error.log"
+		      escape="false">
         </exec>
     </target>
 
