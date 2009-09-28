@@ -8,7 +8,7 @@
 
 {* Years *}
 {foreach key=year item=year_archiv from=$widget_archiv}
-<a href="{$smarty.server.PHP_SELF}?mod=news&action=action_archiv&date={$year}">{$year}</a>
+<a href="{$smarty.server.PHP_SELF}?mod=news&action=archiv&date={$year}">{$year}</a>
 
     {* Months *}
     {foreach key=month item=month_archiv from=$year_archiv}
