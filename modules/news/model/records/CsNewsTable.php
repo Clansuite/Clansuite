@@ -87,10 +87,8 @@ class CsNewsTable extends Doctrine_Table
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # The following is Limit  ?,? =
                                          $currentPage, // Current page of request
-                                         $resultsPerPage, // (Optional) Number of results per page Default is 25
-                                         $category
-
-                                     ),
+                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                    ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
@@ -104,7 +102,7 @@ class CsNewsTable extends Doctrine_Table
         $pager_layout->setSelectedTemplate('[{%page}]');
 
         # Displaying pager links with cat added / 2nd parameter (true) surpresses the direct display
-        $pager_layout->display( array( 'cat' => urlencode($category)), true);
+        #$pager_layout->display( array('cat' => urlencode($category)), true);
 
         # Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
@@ -118,10 +116,10 @@ class CsNewsTable extends Doctrine_Table
                       'pager_layout' => $pager_layout
                      );
     }
-    
-    
+
+
     /**
-    
+
     //this returns a query for journal entries complete with account entries per period
   static function getQueryForJournal($fund,$period,$startdate=null,$enddate=null)
   {
@@ -138,6 +136,6 @@ class CsNewsTable extends Doctrine_Table
   }
 
 */
-    
+
 }
 ?>
