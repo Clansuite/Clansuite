@@ -37,7 +37,7 @@
 
     {* Pagetitle *}
 
-    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+    <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 </head><body>
 

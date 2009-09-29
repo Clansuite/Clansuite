@@ -55,6 +55,7 @@ date_default_timezone_set('Europe/Berlin');
                     <li><strong><a href="http://forum.clansuite.com/index.php?board=25">Installsupport</a></strong></li>
                     <li><strong><a href="http://trac.clansuite.com/">Bugtracker</a></strong></li>
                     <li><strong><a href="teamspeak://clansuite.com:8000?channel=Clansuite%20Admins?subchannel=Clansuite%20Support">Teamspeak</a></strong></li>
+                    <li><strong><a href="http://webchat.quakenet.org/?channels=clansuite">IRC Webchat</a></strong></li>
                     <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
 
                     <!-- Donate -->
@@ -69,7 +70,7 @@ date_default_timezone_set('Europe/Berlin');
                             </form>
                         -->
                     <!-- Pledige Campaign -->
-                    <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>
+                    <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterstï¿½tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>
                     </li>
 
                     <!-- Link Us -->

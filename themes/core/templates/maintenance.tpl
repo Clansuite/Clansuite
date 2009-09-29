@@ -21,7 +21,7 @@ div#centered {
 }
 </style>
 {/literal}
-<title>{$std_page_title} - Maintenance Mode</title>
+<title>{$pagetitle} - Maintenance Mode</title>
 </head>
 <body>
 

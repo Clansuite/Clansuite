@@ -39,7 +39,7 @@
     {* @todo <script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script> *}
 
     {* set title - and apply -breadcrumb title="1"- to it *}
-    <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+    <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 </head><body>
 

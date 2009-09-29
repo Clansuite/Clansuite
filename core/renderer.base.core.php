@@ -362,13 +362,13 @@ abstract class Clansuite_Renderer_Base
          */
 
         # Page Title
-        $template_constants['std_page_title'] = $this->config['template']['std_page_title'];
+        $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
         # Normal CSS (global)
-        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_css'];
+        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['css'];
 
         # Normal Javascript (global)
-        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['std_javascript'];
+        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['javascript'];
 
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Trail::getTrail();
@@ -408,14 +408,14 @@ abstract class Clansuite_Renderer_Base
      * Returns the Name of the Layout Template.
      * Returns the config value if no layout template is set
      *
-     * @return string layout name, config tpl_wrapper_file as default
+     * @return string layout name, config layout as default
      */
     public function getLayoutTemplate()
     {
         #echo 'Layout Template: '.$this->layoutTemplate.'<br>';
         if (empty($this->layoutTemplate))
         {
-            $this->setLayoutTemplate($this->config['template']['tpl_wrapper_file']);
+            $this->setLayoutTemplate($this->config['template']['layout']);
         }
 
         return $this->layoutTemplate;

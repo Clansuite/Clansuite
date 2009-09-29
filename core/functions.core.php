@@ -482,7 +482,7 @@ class Clansuite_Functions
                 }
                 else
                 {
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css);
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->css);
                     $tpl->display( 'tools/redirect.tpl' );
                 }
                 exit;
@@ -521,7 +521,7 @@ class Clansuite_Functions
                 }
                 else
                 {
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->std_css);
+                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->css);
                     $tpl->display( 'tools/confirm.tpl' );
                 }
                 exit;

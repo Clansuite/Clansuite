@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * Clansuite Installer
@@ -22,8 +22,8 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Jens-Andrï¿½ Koch (2005 - onwards)
     *
     * @author     Florian Wolf <xsign.dll@clansuite.com> 2005-2006
     * @copyright  Florian Wolf (2005-2006)
@@ -238,7 +238,7 @@ if( isset($_POST['step_forward']) && $step == 5 )
         if ($db_connection == false)
         {
             $step = 4;
-            $error = 'Konnte keine Verbindung zur Datenbank herstellen. Host, User+PW prüfen.' . '<br />' . mysql_error();
+            $error = 'Konnte keine Verbindung zur Datenbank herstellen. Host, User+PW prï¿½fen.' . '<br />' . mysql_error();
         }
 
 	    /**
@@ -323,7 +323,7 @@ if( isset($_POST['step_forward']) && $step == 6 )
 {
     #var_dump($_SESSION);
     # check if input-fields are filled
-    if( isset($_POST['config']['template']['std_page_title']) &&
+    if( isset($_POST['config']['template']['pagetitle']) &&
         isset($_POST['config']['email']['from']) &&
         isset($_POST['config']['language']['timezone']) )
     {
@@ -358,7 +358,7 @@ if( isset($_POST['step_forward']) && $step == 6 )
 if( isset($_POST['step_forward']) && $step == 7 )
 {
     # checken, ob admin name und password vorhanden
-    # wenn nicht, fehler : zurück zu STEP6
+    # wenn nicht, fehler : zurï¿½ck zu STEP6
     if( !isset($_POST['admin_name']) && !isset($_POST['admin_password']) )
     {
         $step = 6;
@@ -466,7 +466,7 @@ function get_total_steps()
  * This functions takes a clear (password) string and prefixes a random string called
  * "salt" to it. The new combined "salt+password" string is then passed to the hashing
  * method to get an hash return value.
- * So what’s stored in the database is Hash(password, users_salt).
+ * So whatï¿½s stored in the database is Hash(password, users_salt).
  *
  * Why salting? 2 Reasons:
  * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
@@ -608,7 +608,7 @@ function installstep_4($language, $error)
 // STEP 5 - System Check
 function installstep_5($language)
 {
-    $values['std_page_title']      = isset($_SESSION['std_page_title']) ? $_SESSION['std_page_title'] : 'Team Clansuite';
+    $values['pagetitle']      = isset($_SESSION['pagetitle']) ? $_SESSION['pagetitle'] : 'Team Clansuite';
     $values['from']                = isset($_SESSION['from']) ? $_SESSION['from'] : 'system@website.com';
     $values['timezone']            = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : '0';
     $values['encryption']          = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
