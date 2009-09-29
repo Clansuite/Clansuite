@@ -9,13 +9,13 @@
 ; database
 ;----------------------------------------
 [database]
-db_host = "localhost"
-db_type = "mysql"
-db_username = "clansuite"
-db_password = "toop"
-db_name = "clansuite"
-db_prefix = "cs_"
-db_cache = "APC"
+host = "localhost"
+type = "mysql"
+username = "clansuite"
+password = "toop"
+name = "clansuite"
+prefix = "cs_"
+cache = "APC"
 
 ;----------------------------------------
 ; paths
@@ -46,13 +46,13 @@ from_name = "Clansuite CMS - HAL 9000"
 ; template
 ;----------------------------------------
 [template]
-std_page_title = "Team Clansuite"
+pagetitle = "Team Clansuite"
 favicon = ""
 theme = "newscore"
 backend_theme = "backend"
-tpl_wrapper_file = "index.tpl"
-std_css = "newscore.css"
-std_javascript = "standard.js"
+layout = "index.tpl"
+css = "standard.css"
+javascript = "standard.js"
 
 ;----------------------------------------
 ; switches
@@ -65,9 +65,9 @@ languageswitch_via_url = 0
 ; defaults
 ;----------------------------------------
 [defaults]
-default_module = "index"
-default_action = "show"
-default_dateformat = "l, d.m.Y H:i"
+module = "index"
+action = "show"
+dateformat = "l, d.m.Y H:i"
 
 ;----------------------------------------
 ; language
@@ -95,8 +95,8 @@ registration_term = ""
 ; openid
 ;----------------------------------------
 [openid]
-openid_trustroot = "http://www.clansuite.com/openid/"
-openid_showloginbox = 1
+trustroot = "http://www.clansuite.com/openid/"
+showloginbox = 1
 
 ;----------------------------------------
 ; upload
@@ -110,11 +110,11 @@ max_upload_filesize = 1048576
 [session]
 use_cookies = 1
 use_cookies_only = 0
-session_expire_time = "  30  "
-session_name = "    "
-check_browser = "  1  "
-check_host = "  1  "
-check_ip = "  1  "
+session_expire_time = 30
+session_name = ""
+check_ip = 1
+check_browser = 1
+check_host = 1
 
 ;----------------------------------------
 ; error
@@ -130,7 +130,7 @@ debug_popup = 0
 ; cache
 ;----------------------------------------
 [cache]
-adapter = 0
+adapter = "apc"
 caching = 0
 cache_lifetime = 90
 
@@ -147,7 +147,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-AndrÃ© Koch & Clansuite Development Team"
+author = "Jens-Andr� Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 
