@@ -191,7 +191,7 @@ class Clansuite_Doctrine
 		#$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
 		# Changing the database naming convention by adding
 		# TBLNAME: clansuite.DB_PREFIX_tablename
-		$this->manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+		$this->manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, PREFIX ."%s");
 		$this->manager->setAttribute(Doctrine::ATTR_USE_NATIVE_ENUM, true);
 
 		# Load Tables (with custom methods) automatically
