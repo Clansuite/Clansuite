@@ -28,16 +28,16 @@ logfiles_folder    = "logs"
 ;----------------------------------------
 [template]
 theme               = "standard"
-tpl_wrapper_file    = "index.tpl"
-std_css             = "standard.css"
-std_javascript      = "standard.js"
+layout    = "index.tpl"
+css             = "standard.css"
+javascript      = "standard.js"
 
 ;----------------------------------------
 ; Controller Resolver : Module and Action
 ;----------------------------------------
 [defaults]
-default_module = "index"
-default_action = "show"
+module = "index"
+action = "show"
 
 ;----------------------------------------
 ; Default Language Setting

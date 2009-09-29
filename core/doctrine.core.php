@@ -138,11 +138,11 @@ class Clansuite_Doctrine
 		 * echo 'Doctrine DSN: '.$dsn; exit();
 		 */
 		$dsn = sprintf('%s://%s:%s@%s/%s',
-					   $this->config['database']['db_type'],
-					   $this->config['database']['db_username'] ,
-					   $this->config['database']['db_password'],
-					   $this->config['database']['db_host'],
-					   $this->config['database']['db_name']
+					   $this->config['database']['type'],
+					   $this->config['database']['username'] ,
+					   $this->config['database']['password'],
+					   $this->config['database']['host'],
+					   $this->config['database']['name']
 		);
 
 		/**
@@ -152,8 +152,8 @@ class Clansuite_Doctrine
 		if (count($this->manager) === 0)
 		{
 			#$this->connection = $this->manager->openConnection(new PDO('sqlite::memory:'));
-			#Doctrine_Manager::getInstance()->connection($dsn, $this->config['database']['db_name']);
-			$this->connection = $this->manager->connection($dsn, $this->config['database']['db_name']);
+			#Doctrine_Manager::getInstance()->connection($dsn, $this->config['database']['name']);
+			$this->connection = $this->manager->connection($dsn, $this->config['database']['name']);
 		} else
 		{
 			#Doctrine_Manager::getInstance()->getCurrentConnection();
@@ -169,7 +169,7 @@ class Clansuite_Doctrine
          */
         # if we have APC available and are not in debug mode, then try to cache doctrine queries
 		if(extension_loaded('apc') and (defined('DEBUG') == false) and
-		   isset($this->config['database']['db_cache']) and ('APC' == $this->config['database']['db_cache']))
+		   isset($this->config['database']['cache']) and ('APC' == $this->config['database']['cache']))
 		{
 		    $cachedriver = new Doctrine_Cache_Apc();
 			$this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cachedriver);
@@ -185,7 +185,7 @@ class Clansuite_Doctrine
 		/**
          * DEFINE -> Database Prefix
          */
-        define('DB_PREFIX'          , $this->config['database']['db_prefix'] );
+        define('PREFIX'          , $this->config['database']['prefix'] );
 
 		# Set portability for all rdbms = default
 		#$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);

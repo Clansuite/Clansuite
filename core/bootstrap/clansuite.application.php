@@ -438,8 +438,8 @@ class Clansuite_CMS
          * start passing the dependency $injector around
          */
         $clansuite = new Clansuite_FrontController(
-                         new Clansuite_ModuleController_Resolver(self::$config['defaults']['default_module']),
-                         new Clansuite_ActionController_Resolver(self::$config['defaults']['default_action']),
+                         new Clansuite_ModuleController_Resolver(self::$config['defaults']['module']),
+                         new Clansuite_ActionController_Resolver(self::$config['defaults']['action']),
                          self::$injector);
 
         /**
@@ -491,7 +491,7 @@ class Clansuite_CMS
         }
 
         # set date formating via config
-        define('DATE_FORMAT', self::$config['defaults']['default_dateformat']);
+        define('DATE_FORMAT', self::$config['defaults']['dateformat']);
     }
 
     /**

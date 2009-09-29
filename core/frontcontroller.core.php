@@ -77,7 +77,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     */
     private function mapAction($action, $submodule = null)
     {
-        # action not set by URL, so we set default_action from config
+        # action not set by URL, so we set action from config
         if( !isset( $action ) )
         {
             # set the method name

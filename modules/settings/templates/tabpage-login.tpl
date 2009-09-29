@@ -177,7 +177,7 @@
             {t}Trust Root{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.openid.openid_trustroot)}{$config.openid.openid_trustroot}{/if}" name="config[openid][openid_trustroot]" />
+            <input class="input_text" type="text" value="{if isset($config.openid.trustroot)}{$config.openid.trustroot}{/if}" name="config[openid][trustroot]" />
         </td>
     </tr>
     <tr>
@@ -186,8 +186,8 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}When you enable this setting, the OpenID login fields will be displayed in the login box:{/t}</small><br />
-            <input type="radio" value="1" name="config[openid][openid_showloginbox]" {if isset($config.openid.openid_showloginbox) && $config.openid.openid_showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
-            <input type="radio" value="0" name="config[openid][openid_showloginbox]" {if isset($config.openid.openid_showloginbox) && $config.openid.openid_showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
+            <input type="radio" value="1" name="config[openid][showloginbox]" {if isset($config.openid.showloginbox) && $config.openid.showloginbox == 1}checked="checked"{/if} /> {t}yes{/t}
+            <input type="radio" value="0" name="config[openid][showloginbox]" {if isset($config.openid.showloginbox) && $config.openid.showloginbox == 0}checked="checked"{/if} /> {t}no{/t}
         </td>
     </tr>
     <tr>

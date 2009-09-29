@@ -17,7 +17,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Name your website:{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.template.std_page_title}" name="config[template][std_page_title]" />
+        <input class="input_text" type="text" value="{$config.template.pagetitle}" name="config[template][pagetitle]" />
     </td>
 </tr>
 <tr>
@@ -66,7 +66,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Select the default Layout to load.{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.template.tpl_wrapper_file}" name="config[template][tpl_wrapper_file]" />
+        <input class="input_text" type="text" value="{$config.template.layout}" name="config[template][layout]" />
     </td>
 </tr>
   <tr>
@@ -74,7 +74,7 @@
         {t}Standard CSS File{/t}
     </td>
     <td class="cell1" style="padding: 3px">
-        <input class="input_text" type="text" value="{$config.template.std_css}" name="config[template][std_css]" />
+        <input class="input_text" type="text" value="{$config.template.css}" name="config[template][css]" />
     </td>
 </tr>
 <tr>
@@ -82,7 +82,7 @@
         {t}Standard JS File{/t}
     </td>
     <td class="cell1" style="padding: 3px">
-        <input class="input_text" type="text" value="{$config.template.std_javascript}" name="config[template][std_javascript]" />
+        <input class="input_text" type="text" value="{$config.template.javascript}" name="config[template][javascript]" />
     </td>
 </tr>
 
@@ -103,7 +103,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Select the default Module to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.defaults.default_module}" name="config[defaults][default_module]" />
+        <input class="input_text" type="text" value="{$config.defaults.module}" name="config[defaults][module]" />
      </td>
 </tr>
 <tr>
@@ -112,16 +112,16 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Select the default Action to load, when calling "index.php" or "http://yoursite.com".{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.defaults.default_action}" name="config[defaults][default_action]" />
+        <input class="input_text" type="text" value="{$config.defaults.action}" name="config[defaults][action]" />
     </td>
 </tr>
 <tr>
     <td class="cell2" width="15%">
-        {t}default_dateformat{/t}
+        {t}dateformat{/t}
     </td>
     <td class="cell1" style="padding: 3px">
-        <small>{t}Set the default default_dateformat.{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.defaults.default_dateformat}" name="config[defaults][default_dateformat]" />
+        <small>{t}Set the default dateformat.{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.defaults.dateformat}" name="config[defaults][dateformat]" />
     </td>
 </tr>
 
