@@ -16,8 +16,10 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                 <form action="index.php" method="post">
                     <ol class="formular">
                         <li>
-                            <label class="formularleft" for="pae_title"><?php echo $language['STEP5_CONFIG_SITENAME']?></label>
-                            <input class="formularright" type="text" id="page_title" name="config[template][std_page_title]" value="<?php echo $values['std_page_title']?>" />
+
+                            <label class="formularleft" for="page_title"><?php echo $language['STEP5_CONFIG_SITENAME']?></label>
+                            <input class="formularright" type="text" id="page_title" name="config[template][pagetitle]" value="<?=$values['pagetitle']?>" />
+
                         </li>
                         <li>
                             <label class="formularleft" for="from"><?php echo $language['STEP5_CONFIG_EMAILFROM']?></label>
