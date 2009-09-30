@@ -341,12 +341,27 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # if date is an string
         if($date != null)
         {
+            # check if only year is given
+            if(strpos($date, '-') === false)
+            {
+                # convert date string like "2008"
+                $startdate  = date("Y-m-d", strtotime($date));
+                $enddate    = date("Y-m-d", strtotime($date . '+ 1 year'));
+            }
+            else
+            {
+                # convert date string like "2008-Jul" to "2008-07-01"
+                $startdate  = date("Y-m-d", strtotime($date));
+                $enddate    = date("Y-m-d", strtotime($date . '+ 1 year'));
+            }
+
             # convert date string like 2008-Jul to 2008-07-01
             $date = date("Y-m-d", strtotime($date));
         }
-        else # set custom starting date
+        else # set custom starting and ending date
         {
-            $date = '1980-04-19';
+            $startdate = '1980-04-19';
+            $enddate = date();
         }
 
         $resultsPerPage = 3;
@@ -365,7 +380,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                             ->leftJoin('n.CsCategories c')
                                             ->leftJoin('n.CsComment nc')
                                             ->leftJoin('nc.CsUser ncu')
-                                            ->andWhere('n.created_at >= ?', array( $date ))
+                                            ->andWhere('n.created_at >= ?', array( $startdate ))
+                                            ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # the following two values are the (sql) limit  ?,? =
