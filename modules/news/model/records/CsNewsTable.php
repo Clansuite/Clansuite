@@ -92,11 +92,11 @@ class CsNewsTable extends Doctrine_Table
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
-                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                 '?mod=news&amp;action=show&amp;page={%page}&amp;cat='.$category
                                  );
 
         # Set Layout of the pager links
-        $pager_layout->setTemplate('[<a href="{%url}&amp;cat='.$category.'">{%page}</a>]');
+        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
 
         # Set Layout of the pager
         $pager_layout->setSelectedTemplate('[{%page}]');

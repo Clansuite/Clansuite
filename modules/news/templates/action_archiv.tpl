@@ -1,16 +1,10 @@
-{* DEBUG OUTPUT of assigned Arrays: 
+{* DEBUG OUTPUT of assigned Arrays:
    {$smarty.session|@var_dump}
    <hr>
    {$news|@var_dump}
    <hr>
-   {$pagination_links|@var_dump} 
+   {$pagination_links|@var_dump}
 *}
-
-{move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
-{/move_to}
 
 {if !empty($news)}
     {pagination}
@@ -28,7 +22,7 @@
         </tr>
 
         <tr>
-            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}at{/t} {$news.created_at} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsNewsComments.nr_news_comments}{t} comments{/t}</a></font></td>
+            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> {t}at{/t} {$news.created_at} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsComment.nr_news_comments}{t} comments{/t}</a></font></td>
         </tr>
 
         <tr>
@@ -38,8 +32,8 @@
         <tr>
              <td>
                 <strong>&raquo;</strong>
-                <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsNewsComments.nr_news_comments} Comments</a>
-                {if isset($news.CsNewsComments.CsUser.lastcomment_by) }<span> : {$news.CsNewsComments.CsUser.lastcomment_by}</span>{/if}
+                <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsComment.nr_news_comments} Comments</a>
+                {* {if isset($news.CsComments.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if} *}
             </td>
     	    <td>
     	    {if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access)}

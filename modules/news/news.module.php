@@ -347,8 +347,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                 # convert date string like "2008"
                 $startdate  = date('Y-m-d', strtotime($date . '-01-01'));
                 $enddate    = date('Y-m-d', strtotime($date . '-01-01 + 1 year'));
-
-                clansuite_xdebug::printR($enddate);
             }
             else # the string is a year-month combination
             {
@@ -390,7 +388,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
-                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                 '?mod=news&amp;action=show&amp;page={%page}&amp;date='.$startdate
                                  );
 
         // Assigning templates for page links creation
@@ -403,40 +401,22 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-        /**
-        // Fetch the related COUNT on news_comments and the author of the latest!
-        // a) Count all news
-        // b) Get the nickname of the last comment for certain news_id
-        // TODO: One query possible with some joins ?
-        $stmt1 = Doctrine_Query::create()
-                         ->select('nc.*,
-                                   u.nick as lastcomment_by,
-                                   COUNT(nc.comment_id) as nr_news_comments')
-                         ->from('CsComments nc')
-                         ->leftJoin('nc.CsUser u')
-                         ->groupby('nc.news_id')
-                         #->setHydrationMode(HYDRATE_NONE)
-                         ->where('nc.news_id = ?');
+        #clansuite_xdebug::printR($news);
 
         // Calculate Number of Comments
         foreach ($news as $k => $v)
         {
-            // add to $newslist array, the numbers of news_comments for each news_id
-            $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::HYDRATE_ARRAY);
-
             # check if something was returned
-            if(isset($cs_news_comments_array[0]))
+            if(isset($news[$k]['CsComment']) and ($news[$k]['CsComment'] !== null) )
             {
-                # strip the [0] array off
-                $news[$k]['CsComments'] = $cs_news_comments_array[0];
+                $news[$k]['CsComment']['nr_news_comments'] = count($news[$k]['CsComment']);
             }
             else
             {
-                # nothing was returned, so we set 0
-                $news[$k]['CsComments'] = array('nr_news_comments' => 0);
+                # no comments found, so we set 0
+                $news[$k]['CsComment'] = array('nr_news_comments' => 0);
             }
         }
-        */
 
         # Get Render Engine
         $smarty = $this->getView();
