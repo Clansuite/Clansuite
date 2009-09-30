@@ -348,11 +348,11 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                 $startdate  = date("Y-m-d", strtotime($date));
                 $enddate    = date("Y-m-d", strtotime($date . '+ 1 year'));
             }
-            else
+            else # the string is a year-month combination
             {
                 # convert date string like "2008-Jul" to "2008-07-01"
                 $startdate  = date("Y-m-d", strtotime($date));
-                $enddate    = date("Y-m-d", strtotime($date . '+ 1 year'));
+                $enddate    = date("Y-m-d", strtotime($date . '+ 1 month'));
             }
 
             # convert date string like 2008-Jul to 2008-07-01
