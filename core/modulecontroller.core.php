@@ -605,5 +605,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     {
         return $this->injector->instantiate('Clansuite_HttpRequest');
     }
+
+    /**
+     * Shortcut to get the HttpResponse Object
+     *
+     * @return HttpResponse Object
+     */
+    public function getHttpResponse()
+    {
+        return $this->injector->instantiate('Clansuite_HttpResponse');
+    }
 }
 ?>
