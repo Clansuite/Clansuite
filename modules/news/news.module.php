@@ -337,8 +337,17 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         $date        = $this->getHttpRequest()->getParameter('date');
-        $date = '2008-00-00';
-        #clansuite_xdebug::printR($date);
+
+        # if date is an string
+        if($date != null)
+        {
+            # convert date string like 2008-Jul to 2008-07-01
+            $date = date("Y-m-d", strtotime($date));
+        }
+        else # set custom starting date
+        {
+            $date = '1980-04-19';
+        }
 
         $resultsPerPage = 3;
 
@@ -368,12 +377,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                                     )),
                                  '?mod=news&amp;action=show&amp;page={%page}'
                                  );
-         /*
-        if($var)
-      $query->andWhere('var >= "'.$var.'"');
-    if($var)
-      $query->andWhere('var <= "'.var.'"');
-*/
 
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
@@ -385,36 +388,40 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-        #clansuite_xdebug::printR($news);
-
+        /**
         // Fetch the related COUNT on news_comments and the author of the latest!
         // a) Count all news
         // b) Get the nickname of the last comment for certain news_id
         // TODO: One query possible with some joins ?
         $stmt1 = Doctrine_Query::create()
-                         ->select('nc.*, u.nick as lastcomment_by, COUNT(nc.comment_id) as nr_news_comments')
-                         ->from('CsNewsComments nc')
+                         ->select('nc.*,
+                                   u.nick as lastcomment_by,
+                                   COUNT(nc.comment_id) as nr_news_comments')
+                         ->from('CsComments nc')
                          ->leftJoin('nc.CsUser u')
                          ->groupby('nc.news_id')
                          #->setHydrationMode(HYDRATE_NONE)
                          ->where('nc.news_id = ?');
 
+        // Calculate Number of Comments
         foreach ($news as $k => $v)
         {
             // add to $newslist array, the numbers of news_comments for each news_id
             $cs_news_comments_array = $stmt1->execute(array( $v['news_id'] ), Doctrine::HYDRATE_ARRAY);
+
             # check if something was returned
             if(isset($cs_news_comments_array[0]))
             {
                 # strip the [0] array off
-                $news[$k]['CsNewsComments'] = $cs_news_comments_array[0];
+                $news[$k]['CsComments'] = $cs_news_comments_array[0];
             }
             else
             {
                 # nothing was returned, so we set 0
-                $news[$k]['CsNewsComments'] = array('nr_news_comments' => 0);
+                $news[$k]['CsComments'] = array('nr_news_comments' => 0);
             }
         }
+        */
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -444,7 +451,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
         //$this->setTemplate('news/show.tpl');
 
-        clansuite_xdebug::printR($news);
+        #clansuite_xdebug::printR($news);
 
         # Prepare the Output
         $this->prepareOutput();

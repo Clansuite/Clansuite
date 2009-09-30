@@ -58,7 +58,7 @@ class CsNewsTable extends Doctrine_Table
         return array( 'news' => $news,
                       'pager'=> $pager,
                       'pager_layout' => $pager_layout
-                     );
+                    );
     }
 
     /**
@@ -114,28 +114,7 @@ class CsNewsTable extends Doctrine_Table
         return array( 'news' => $news,
                       'pager'=> $pager,
                       'pager_layout' => $pager_layout
-                     );
+                    );
     }
-
-
-    /**
-
-    //this returns a query for journal entries complete with account entries per period
-  static function getQueryForJournal($fund,$period,$startdate=null,$enddate=null)
-  {
-    $query= Doctrine_Query::create()
-      ->from('JournalEntry je, je.AccountEntries ae')
-      ->where('je.period_id = ?',$period->getId())
-      ->andWhere('je.fund_id=?',$fund->getId())
-      ->orderBy('je.id');
-    if($startdate)
-      $query->andWhere('je.date >= "'.$startdate.'"');
-    if($enddate)
-      $query->andWhere('je.date <= "'.$enddate.'"');
-   return $query;
-  }
-
-*/
-
 }
 ?>
