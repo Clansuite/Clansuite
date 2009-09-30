@@ -30,6 +30,7 @@
        |     Tab: Clansuite
        |
        \--------------------------------------------------- *}
+       
    <div class="tab-page">
    <h2 class="tab">Clansuite</h2>
 
@@ -63,17 +64,20 @@
        </h3>
 	</div>
 
-	{*  /---------------------------------------------------
+	{* /---------------------------------------------------
        |
-       |     Tab: Clansuite Developemt Team
+       |     Tab: Clansuite Development Team
        |
        \--------------------------------------------------- *}
+       
 	<div class="tab-page">
 	<h2 class="tab">{t}Developers{/t}</h2>
 
-   <h2 align="center">Clansuite Development Team</h2>
-   <h3 align="center">{t}Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ...{/t}</h3>
-   <table cellspacing="5" cellpadding="2" border="0" width="100%">
+    <h2 align="center">Clansuite Development Team</h2>
+    <h3 align="center">{t}Thanks to everyone who tested, reported bugs, made suggestions and contributed to this project. ^ _ ^ {/t}
+                      <br />
+                      {t}Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ...{/t}</h3>
+    <table cellspacing="5" cellpadding="2" border="0" width="100%">
      <tbody><tr>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
           <td bgcolor="#dddddd"><strong>Nickname</strong></td>
@@ -106,11 +110,11 @@
           <td valign="top"><b>Ren&#233; Stalder</b></td>
           <td valign="top"><b>nachtmeister</b></td>
           <td valign="top"><b>nachtmeister@6pounder.com</b></td>
-          <td valign="top">Developer</td>
+          <td valign="top"></td>
           <td/>
         </tr>
          <tr>
-          <td valign="top"><b>B. S.</b></td>
+          <td valign="top"><b>Björn Sp.</b></td>
           <td valign="top"><b>freq77</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top">Developer (Shoutbox)</td>
@@ -134,12 +138,12 @@
           <td valign="top"><b>Pascal</b></td>
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>---</b></td>
-          <td valign="top">Developer</td>
+          <td valign="top"></td>
           <td/>
         </tr>
         <tr>
-          <td valign="top"><b>Niklas</b></td>
-          <td valign="top"><b>Karoly</b></td>
+          <td valign="top"><b>Niklas Karoly</b></td>
+          <td valign="top"><b>creep7</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top"></td>
           <td/>
