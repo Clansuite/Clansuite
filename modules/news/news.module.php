@@ -200,21 +200,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $rss->image = $image;
 
         # Fetch News via Doctrine
-        $news = Doctrine_Query::create()
-                        ->select('n.*,
-                                  u.nick, u.user_id, u.email, u.country,
-                                  c.name, c.image, c.icon, c.color,
-                                  nc.*,
-                                  ncu.nick, ncu.email, ncu.country')
-                        ->from('CsNews n')
-                        ->leftJoin('n.CsUser u')
-                        ->leftJoin('n.CsCategories c')
-                        ->leftJoin('n.CsComment nc')
-                        ->leftJoin('nc.CsUser ncu')
-                        #->where('c.module_id = 7')
-                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                        ->fetchArray();
+		
+		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFeed();
 
+		$news           = $newsQuery['news'];
         /**
          * Loop over Dataset
          */
@@ -264,21 +253,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news_id = (int) $this->getHttpRequest()->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
 
-        $single_news = Doctrine_Query::create()
-                        ->select('n.*,
-                                  u.nick, u.user_id, u.email, u.country,
-                                  c.name, c.image, c.icon, c.color,
-                                  nc.*,
-                                  ncu.nick, ncu.email, ncu.country')
-                        ->from('CsNews n')
-                        ->leftJoin('n.CsUser u')
-                        ->leftJoin('n.CsCategories c')
-                        ->leftJoin('n.CsComment nc')
-                        ->leftJoin('nc.CsUser ncu')
-                        #->where('c.module_id = 7')
-                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                        ->where('news_id = ' . $news_id)
-                        ->fetchArray();
+		$newsQuery = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
+
+		$single_news           = $newsQuery['single_news'];
 
         #var_dump($single_news);
 
@@ -363,43 +340,18 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         $resultsPerPage = 3;
 
-        # Creating Pager Object with a Query Object inside
-        $pager_layout= new Doctrine_Pager_Layout(
-                                new Doctrine_Pager(
-                                    Doctrine_Query::create()
-                                            ->select('n.*,
-                                                      u.nick, u.user_id, u.email, u.country,
-                                                      c.name, c.image, c.icon, c.color,
-                                                      nc.*,
-                                                      ncu.nick, ncu.email, ncu.country')
-                                            ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
-                                            ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
-                                            ->andWhere('n.created_at >= ?', array( $startdate ))
-                                            ->andWhere('n.created_at <= ?', array( $enddate ))
-                                            #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
-                                         # the following two values are the (sql) limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
-                                     ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                    )),
-                                 '?mod=news&amp;action=show&amp;page={%page}&amp;date='.$startdate
-                                 );
+		#Fetch News for Archiv with Doctrine
+		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
 
-        // Assigning templates for page links creation
-        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-        $pager_layout->setSelectedTemplate('[{%page}]');
+        # get news, pager, pager_layout
+        #clansuite_xdebug::printR($newsQuery['pager_layout']);
+        #extract($newsQuery);
+        #unset($newsQuery);
 
-        // Retrieving Doctrine_Pager instance
-        $pager = $pager_layout->getPager();
-
-        // Fetching news
-        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $news           = $newsQuery['news'];
+        $pager          = $newsQuery['pager'];
+        $pager_layout   = $newsQuery['pager_layout'];
+		
 
         #clansuite_xdebug::printR($news);
 

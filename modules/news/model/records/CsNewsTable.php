@@ -116,5 +116,112 @@ class CsNewsTable extends Doctrine_Table
                       'pager_layout' => $pager_layout
                     );
     }
+	
+	/**
+    * fetchNewsForFeed
+    *
+    * Doctrine_Query to fetch News by Category
+    */
+	public static function fetchNewsForFeed()
+	{
+	    $news = Doctrine_Query::create()
+                        ->select('n.*,
+                                  u.nick, u.user_id, u.email, u.country,
+                                  c.name, c.image, c.icon, c.color,
+                                  nc.*,
+                                  ncu.nick, ncu.email, ncu.country')
+                        ->from('CsNews n')
+                        ->leftJoin('n.CsUser u')
+                        ->leftJoin('n.CsCategories c')
+                        ->leftJoin('n.CsComment nc')
+                        ->leftJoin('nc.CsUser ncu')
+                        #->where('c.module_id = 7')
+                        ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                        ->fetchArray();
+
+		# put things in an array-box for delivery multiple things with one return stmt
+        return array( 'news' => $news
+                     );
+	}
+
+	/**
+    * fetchSingleNews
+    *
+    * Doctrine_Query to fetch News by Category
+    */
+	public static function fetchSingleNews($news_id)
+	{
+	    $single_news = Doctrine_Query::create()
+                    ->select('n.*,
+                              u.nick, u.user_id, u.email, u.country,
+                              c.name, c.image, c.icon, c.color,
+                              nc.*,
+                              ncu.nick, ncu.email, ncu.country')
+                    ->from('CsNews n')
+                    ->leftJoin('n.CsUser u')
+                    ->leftJoin('n.CsCategories c')
+                    ->leftJoin('n.CsComment nc')
+                    ->leftJoin('nc.CsUser ncu')
+                    #->where('c.module_id = 7')
+                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                    ->where('news_id = ' . $news_id)
+                    ->fetchArray();
+
+		# put things in an array-box for delivery multiple things with one return stmt					
+        return array( 'single_news' => $single_news
+                     );
+	}
+	
+	/**
+    * fetchNewsForArchiv
+    *
+    * Doctrine_Query to fetch News for Archiv
+    */
+	public static function fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage)
+	{
+        # Creating Pager Object with a Query Object inside
+        $pager_layout= new Doctrine_Pager_Layout(
+                                new Doctrine_Pager(
+                                    Doctrine_Query::create()
+                                            ->select('n.*,
+                                                      u.nick, u.user_id, u.email, u.country,
+                                                      c.name, c.image, c.icon, c.color,
+                                                      nc.*,
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->from('CsNews n')
+                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsCategories c')
+                                            ->leftJoin('n.CsComment nc')
+                                            ->leftJoin('nc.CsUser ncu')
+                                            ->andWhere('n.created_at >= ?', array( $startdate ))
+                                            ->andWhere('n.created_at <= ?', array( $enddate ))
+                                            #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                            ->orderby('n.news_id DESC, n.created_at DESC'),
+                                         # the following two values are the (sql) limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
+                                     ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                    )),
+                                 '?mod=news&amp;action=show&amp;page={%page}&amp;date='.$startdate
+                                 );
+
+        // Assigning templates for page links creation
+        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+        $pager_layout->setSelectedTemplate('[{%page}]');
+
+        // Retrieving Doctrine_Pager instance
+        $pager = $pager_layout->getPager();
+
+        // Fetching news
+        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+		
+        # put things in an array-box for delivery multiple things with one return stmt
+        return array( 'news' => $news,
+                      'pager'=> $pager,
+                      'pager_layout' => $pager_layout
+                    );
+	}
 }
 ?>
