@@ -77,7 +77,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         $result = Doctrine_Query::create()
                                  ->select('s.*')
-                                 ->from('CsAdminmenuShortcut s')
+                                 ->from('CsAdminmenuShortcuts s')
                                  ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                  #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                  ->orderby('s.cat DESC, s.order ASC, s.title ASC')

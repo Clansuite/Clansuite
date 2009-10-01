@@ -15,7 +15,7 @@
 	</tr>
 
 	<tr>
-		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$news.0.CsUser.user_id}'>{$news.0.CsUser.nick}</a> on {$news.0.created_at|date_format}</font></td>
+		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$news.0.CsUsers.user_id}'>{$news.0.CsUsers.nick}</a> on {$news.0.created_at|date_format}</font></td>
 	</tr>
 
 	<tr>
@@ -67,8 +67,8 @@
 		  <tr>
 			<td width="150" rowspan="2" align="center" valign="middle">
 				<div align="center">
-				<p>{$news_comment.pseudo} {$news_comment.CsUser.nick}</p>
-				{gravatar email="`$news_comment.CsUser.email`"}
+				<p>{$news_comment.pseudo} {$news_comment.CsUsers.nick}</p>
+				{gravatar email="`$news_comment.CsUsers.email`"}
 				</div>
 			</td>
 			<td>
@@ -94,8 +94,8 @@
 		  <tr>
 			<td width="150" rowspan="2" align="center" valign="middle">
 				<div align="center">
-				<p>{$news_comments.pseudo} {$news_comments.CsUser.nick}</p>
-				{gravatar email="`$news_comments.CsUser.email`"}
+				<p>{$news_comments.pseudo} {$news_comments.CsUsers.nick}</p>
+				{gravatar email="`$news_comments.CsUsers.email`"}
 				</div>
 			</td>
 			<td><div align="right">geschrieben am: {$news_comments.added}</div></td>

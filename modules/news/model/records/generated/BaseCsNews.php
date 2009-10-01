@@ -30,7 +30,7 @@ abstract class BaseCsNews extends Doctrine_Record
         );
 
         $this->index('user_id', array('fields' => 'user_id'));
-        $this->hasOne('CsUser', array('local' => 'user_id',
+        $this->hasOne('CsUsers', array('local' => 'user_id',
                                         'foreign' => 'user_id'
                                         #,
                                         #'onDelete' => 'CASCADE')
@@ -45,9 +45,9 @@ abstract class BaseCsNews extends Doctrine_Record
                                         ));
 
         $this->index('news_id', array('fields' => 'news_id'));
-        $this->hasMany('CsComment', array('local' => 'news_id',
+        $this->hasMany('CsComments', array('local' => 'news_id',
                                         'foreign' => 'comment_id',
-                                        'refClass' => 'CsRelNewsComment'#,
+                                        'refClass' => 'CsRelNewsComments'#,
                                         #'onDelete' => 'CASCADE')
                                         ));
 

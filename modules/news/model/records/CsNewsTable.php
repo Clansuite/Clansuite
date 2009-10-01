@@ -26,10 +26,10 @@ class CsNewsTable extends Doctrine_Table
                                                       nc.*,
                                                       ncu.nick, ncu.email, ncu.country')
                                             ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
+                                            ->leftJoin('n.CsComments nc')
+                                            ->leftJoin('nc.CsUsers ncu')
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # the following two values are the (sql) limit  ?,? =
@@ -78,10 +78,10 @@ class CsNewsTable extends Doctrine_Table
                                                       nc.*,
                                                       ncu.nick, ncu.email, ncu.country')
                                             ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
+                                            ->leftJoin('n.CsComments nc')
+                                            ->leftJoin('nc.CsUsers ncu')
                                             ->where('n.cat_id = ?', array( $category ) )
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
@@ -131,10 +131,10 @@ class CsNewsTable extends Doctrine_Table
                                   nc.*,
                                   ncu.nick, ncu.email, ncu.country')
                         ->from('CsNews n')
-                        ->leftJoin('n.CsUser u')
+                        ->leftJoin('n.CsUsers u')
                         ->leftJoin('n.CsCategories c')
-                        ->leftJoin('n.CsComment nc')
-                        ->leftJoin('nc.CsUser ncu')
+                        ->leftJoin('n.CsComments nc')
+                        ->leftJoin('nc.CsUsers ncu')
                         #->where('c.module_id = 7')
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                         ->fetchArray();
@@ -158,10 +158,10 @@ class CsNewsTable extends Doctrine_Table
                               nc.*,
                               ncu.nick, ncu.email, ncu.country')
                     ->from('CsNews n')
-                    ->leftJoin('n.CsUser u')
+                    ->leftJoin('n.CsUsers u')
                     ->leftJoin('n.CsCategories c')
-                    ->leftJoin('n.CsComment nc')
-                    ->leftJoin('nc.CsUser ncu')
+                    ->leftJoin('n.CsComments nc')
+                    ->leftJoin('nc.CsUsers ncu')
                     #->where('c.module_id = 7')
                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                     ->where('news_id = ' . $news_id)
@@ -189,10 +189,10 @@ class CsNewsTable extends Doctrine_Table
                                                       nc.*,
                                                       ncu.nick, ncu.email, ncu.country')
                                             ->from('CsNews n')
-                                            ->leftJoin('n.CsUser u')
+                                            ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
-                                            ->leftJoin('n.CsComment nc')
-                                            ->leftJoin('nc.CsUser ncu')
+                                            ->leftJoin('n.CsComments nc')
+                                            ->leftJoin('nc.CsUsers ncu')
                                             ->andWhere('n.created_at >= ?', array( $startdate ))
                                             ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
