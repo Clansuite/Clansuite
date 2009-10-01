@@ -71,7 +71,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
         {
             $result = Doctrine_Query::create()
                                     ->select('*')
-                                    ->from('CsStaticPage')
+                                    ->from('CsStaticPages')
                                     ->where('title = ?')
                                     ->execute( array( $page ), Doctrine::HYDRATE_ARRAY);
 
@@ -128,7 +128,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
         // get all static pages without page content
         $result = Doctrine_Query::create()
                               ->select('id,title,description')
-                              ->from('CsStaticPage')
+                              ->from('CsStaticPages')
                               ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                               ->execute();
 

@@ -64,7 +64,7 @@
                 <td>{$news.created_at|date_format:"%H:%M:%S"}</td>
                 <td>{$news.news_title}</td>
                 <td>{$news.CsCategories.name}</td>
-                <td><a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a></td>
+                <td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
                 <td>published</td>
                 <td><input class="ButtonOrange" type="button" value="{t}Edit{/t}" /></td>
                 <td align="center" width="1%">

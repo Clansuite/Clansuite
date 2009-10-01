@@ -95,7 +95,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
                         new Doctrine_Pager(
                             Doctrine_Query::create()
                                     ->select('u.user_id, u.nick, u.email, u.joined, u.timestamp')
-                                    ->from('CsUser u')
+                                    ->from('CsUsers u')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby($sortorder),
                                  # The following is Limit  ?,? =

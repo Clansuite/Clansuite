@@ -318,7 +318,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             // Check if email already exists
             $result = Doctrine_Query::create()
                             ->select('email')
-                            ->from('CsUser')
+                            ->from('CsUsers')
                             ->where('email = ?')
                             ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
 
@@ -328,7 +328,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             // Check if nick already exists
             $result = Doctrine_Query::create()
                             ->select('nick')
-                            ->from('CsUser')
+                            ->from('CsUsers')
                             ->where('nick = ?')
                             ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 

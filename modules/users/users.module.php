@@ -84,10 +84,10 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
                         new Doctrine_Pager(
                             Doctrine_Query::create()
                                     ->select('u.user_id, u.nick, u.email, u.joined, g.name, g.color, p.icq')
-                                    ->from('CsUser u')
+                                    ->from('CsUsers u')
                                     #->leftJoin('u.CsRelUserGroup ug')
-                                    ->leftJoin('u.CsGroup g')
-                                    ->leftJoin('u.CsProfile p')
+                                    ->leftJoin('u.CsGroups g')
+                                    ->leftJoin('u.CsProfiles p')
                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
                                    ->orderby('u.user_id ASC'),
                                  # The following is Limit  ?,? =
@@ -147,7 +147,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         # fetch specified num of last registered users
         $last_registered_users = Doctrine_Query::create()
                                  ->select('u.user_id, u.email, u.nick, u.country, u.joined')
-                                 ->from('CsUser u')
+                                 ->from('CsUsers u')
                                  ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                  ->orderby('u.joined DESC')
                                  ->where('u.activated = 1')
@@ -204,7 +204,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
 
         $random_user = Doctrine_Query::create()
                  ->select('u.nick, u.email, u.country, u.joined, RANDOM() rand')
-                 ->from('CsUser u')
+                 ->from('CsUsers u')
                  ->orderby('rand')
                  ->limit(1)
                  ->execute()

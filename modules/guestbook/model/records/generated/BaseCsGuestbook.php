@@ -28,20 +28,20 @@ abstract class BaseCsGuestbook extends Doctrine_Record
     
     /*
     $this->index('gb_id', array('fields' => 'gb_id'));
-    $this->hasOne('CsUser', array('local' => 'gb_id',
+    $this->hasOne('CsUsers', array('local' => 'gb_id',
                                     'foreign' => 'gb_id'
                                     #,
                                     #'onDelete' => 'CASCADE')
                                     ));*/
                                     
     $this->index('user_id', array('fields' => 'user_id'));
-    $this->hasOne('CsUser', array('local' => 'user_id',
+    $this->hasOne('CsUsers', array('local' => 'user_id',
                                     'foreign' => 'user_id'
                                     #,
                                     #'onDelete' => 'CASCADE')
                                     ));
     $this->index('image_id', array('fields' => 'image_id'));
-    $this->hasOne('CsImage', array('local' => 'image_id',
+    $this->hasOne('CsImages', array('local' => 'image_id',
                                     'foreign' => 'image_id'
                                     #,
                                     #'onDelete' => 'CASCADE')

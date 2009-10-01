@@ -79,8 +79,8 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
                             Doctrine_Query::create()
                                     ->select('i.*,g.*,u.nick')
                                     ->from('CsGuestbook g')
-                                    ->leftJoin('g.CsImage i')
-                                    ->leftJoin('g.CsUser u')
+                                    ->leftJoin('g.CsImages i')
+                                    ->leftJoin('g.CsUsers u')
                                     #->where('c.module_id = 7')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('g.gb_added DESC'),

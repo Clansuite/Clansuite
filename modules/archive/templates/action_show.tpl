@@ -36,7 +36,7 @@
 
     <tr>
         <td valign="top" class="dunkler">
-            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$news.CsUser.user_id}'>{$news.CsUser.nick}</a> on {$news.created_at|date_format}.
+            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> on {$news.created_at|date_format}.
             <span class="comments">{icon name="comment"}Until now, it has <a href='index.php?mod=news&amp;action=showone&amp;id={$news.news_id}'>{$news.nr_news_comments} comments.</a></span>
         </td>
     </tr>
@@ -49,7 +49,7 @@
          <td>
             <strong>&raquo;</strong>
             <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
-            {if isset($news.CsComment.CsUser.lastcomment_by) }<span> : {$news.CsComment.CsUser.lastcomment_by}</span>{/if}
+            {if isset($news.CsComment.CsUsers.lastcomment_by) }<span> : {$news.CsComment.CsUsers.lastcomment_by}</span>{/if}
         </td>
     	<td>
     	{if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access) }

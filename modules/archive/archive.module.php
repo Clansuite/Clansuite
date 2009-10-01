@@ -88,10 +88,10 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
 														nc.*,
 														ncu.nick, ncu.email, ncu.country')
 												->from('CsNews n')
-												->leftJoin('n.CsUser u')
+												->leftJoin('n.CsUsers u')
 												->leftJoin('n.CsCategories c')
-												->leftJoin('n.CsComment nc')
-												->leftJoin('nc.CsUser ncu')
+												->leftJoin('n.CsComments nc')
+												->leftJoin('nc.CsUsers ncu')
 												->where('c.module_id = 7' AND 'n.news_status = 4')
 												->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 												->orderby('n.created_at DESC'),
@@ -122,10 +122,10 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
 														nc.*,
 														ncu.nick, ncu.email, ncu.country')
 												->from('CsNews n')
-												->leftJoin('n.CsUser u')
+												->leftJoin('n.CsUsers u')
 												->leftJoin('n.CsCategories c')
-												->leftJoin('n.CsComment nc')
-												->leftJoin('nc.CsUser ncu')
+												->leftJoin('n.CsComments nc')
+												->leftJoin('nc.CsUsers ncu')
 												->where('c.module_id = 7')
 												->andWhere('n.created_at = ?', array( $year ))
 												->andWhere('n.created_at = ?', array( $month ))
@@ -170,10 +170,10 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
         foreach ($news as $k => $v)
         {
             # check if something was returned
-            if( isset($v['CsComment']) && !empty($v['CsComment']) )
+            if( isset($v['CsComments']) && !empty($v['CsComments']) )
             {
                 # add to $newslist array, the numbers of news_comments for each news_id
-                $news[$k]['nr_news_comments'] = count($v['CsComment']);
+                $news[$k]['nr_news_comments'] = count($v['CsComments']);
             }
             else
             {
@@ -227,10 +227,10 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
 														nc.*,
 														ncu.nick, ncu.email, ncu.country')
 												->from('CsNews n')
-												->leftJoin('n.CsUser u')
+												->leftJoin('n.CsUsers u')
 												->leftJoin('n.CsCategories c')
-												->leftJoin('n.CsComment nc')
-												->leftJoin('nc.CsUser ncu')
+												->leftJoin('n.CsComments nc')
+												->leftJoin('nc.CsUsers ncu')
 												->where('c.module_id = ?', array($module) AND 'n.news_status = 4')
 												->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 												->orderby('n.created_at ASC'),
@@ -268,10 +268,10 @@ class Module_Archive extends Clansuite_ModuleController implements Clansuite_Mod
         foreach ($news as $k => $v)
         {
             # check if something was returned
-            if( isset($v['CsComment']) && !empty($v['CsComment']) )
+            if( isset($v['CsComments']) && !empty($v['CsComments']) )
             {
                 # add to $newslist array, the numbers of news_comments for each news_id
-                $news[$k]['nr_news_comments'] = count($v['CsComment']);
+                $news[$k]['nr_news_comments'] = count($v['CsComments']);
             }
             else
             {

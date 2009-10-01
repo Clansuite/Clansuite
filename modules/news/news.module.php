@@ -102,10 +102,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         foreach ($news as $k => $v)
         {
             # check if something was returned
-            if( isset($v['CsComment']) && !empty($v['CsComment']) )
+            if( isset($v['CsComments']) && !empty($v['CsComments']) )
             {
                 # add to $newslist array, the numbers of news_comments for each news_id
-                $news[$k]['nr_news_comments'] = count($v['CsComment']);
+                $news[$k]['nr_news_comments'] = count($v['CsComments']);
             }
             else
             {
@@ -273,10 +273,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
              * {$news_comments.} for easier access on template side
              * (yes, it's doubled: you could also access the values via {$news.} )
              */
-            if ( !empty($single_news['0']['CsComment']) )
+            if ( !empty($single_news['0']['CsComments']) )
             {
                 # Assign News
-                $smarty->assign('news_comments', $single_news['0']['CsComment']);
+                $smarty->assign('news_comments', $single_news['0']['CsComments']);
             }
             else
             {
@@ -359,9 +359,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         foreach ($news as $k => $v)
         {
             # check if something was returned
-            if(isset($news[$k]['CsComment']) and ($news[$k]['CsComment'] !== null) )
+            if(isset($news[$k]['CsComments']) and ($news[$k]['CsComments'] !== null) )
             {
-                $news[$k]['CsComment']['nr_news_comments'] = count($news[$k]['CsComment']);
+                $news[$k]['CsComments']['nr_news_comments'] = count($news[$k]['CsComments']);
             }
             else
             {
@@ -427,7 +427,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news = Doctrine_Query::create()
                               ->select('n.*, u.nick, u.user_id, c.name, c.image')
                               ->from('CsNews n')
-                              ->leftJoin('n.CsUser u')
+                              ->leftJoin('n.CsUsers u')
                               ->leftJoin('n.CsCategories c')
                               ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                               ->orderby('n.news_id DESC')
