@@ -427,11 +427,11 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 		// SmartyColumnSort -- Easy sorting of html table columns.
 		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
 		// A list of database columns to use in the table.
-		$columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
+		$columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nc.nr_news_comments');
 		// Create the columnsort object
 		$columnsort = new SmartyColumnSort($columns);
 		// And set the the default sort column and order.
-		$columnsort->setDefault('u.nick', 'asc');
+		$columnsort->setDefault('n.created_at', 'desc');
 		// Get sort order from columnsort
 		$sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 		
