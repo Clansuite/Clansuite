@@ -177,7 +177,7 @@ class CsNewsTable extends Doctrine_Table
     *
     * Doctrine_Query to fetch News for Archiv
     */
-	public static function fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage)
+	public static function fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
 	{
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
@@ -196,7 +196,7 @@ class CsNewsTable extends Doctrine_Table
                                             ->andWhere('n.created_at >= ?', array( $startdate ))
                                             ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
+                                            ->orderby($sortorder),
                                          # the following two values are the (sql) limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage  // (Optional) Number of results per page Default is 25

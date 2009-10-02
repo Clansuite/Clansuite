@@ -424,6 +424,17 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         
+		// SmartyColumnSort -- Easy sorting of html table columns.
+		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+		// A list of database columns to use in the table.
+		$columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
+		// Create the columnsort object
+		$columnsort = new SmartyColumnSort($columns);
+		// And set the the default sort column and order.
+		$columnsort->setDefault('u.nick', 'asc');
+		// Get sort order from columnsort
+		$sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+		
         # set custom starting and ending date
         
             $startdate = '1980-04-19';
@@ -433,7 +444,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $resultsPerPage = 25;
 
 		#Fetch News for Archiv with Doctrine
-		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
+		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
         # get news, pager, pager_layout
         #clansuite_xdebug::printR($newsQuery['pager_layout']);
