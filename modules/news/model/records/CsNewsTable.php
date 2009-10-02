@@ -177,17 +177,18 @@ class CsNewsTable extends Doctrine_Table
     *
     * Doctrine_Query to fetch News for Archiv
     */
-	public static function fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
+	public static function fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage)
 	{
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
                                     Doctrine_Query::create()
-                                            ->select('n.*,
+                                            ->select('n.*,   
                                                       u.nick, u.user_id, u.email, u.country,
                                                       c.name, c.image, c.icon, c.color,
                                                       nc.*,
-                                                      ncu.nick, ncu.email, ncu.country')
+                                                      ncu.nick, ncu.email, ncu.country ')
+											->addSelect(' (SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments ')
                                             ->from('CsNews n')
                                             ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
@@ -196,17 +197,17 @@ class CsNewsTable extends Doctrine_Table
                                             ->andWhere('n.created_at >= ?', array( $startdate ))
                                             ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby($sortorder),
-                                         # the following two values are the (sql) limit  ?,? =
+                                            ->orderby('n.created_at'),
+											# the following two values are the (sql) limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage  // (Optional) Number of results per page Default is 25
                                      ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
-                                 '?mod=news&amp;action=show&amp;page={%page}&amp;date='.$startdate
+                                 '?mod=news&amp;action=archiv&amp;page={%page}&amp;date='.$startdate
                                  );
-
+		
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
@@ -216,7 +217,60 @@ class CsNewsTable extends Doctrine_Table
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+		#clansuite_xdebug::printR($news);
+        # put things in an array-box for delivery multiple things with one return stmt
+        return array( 'news' => $news,
+                      'pager'=> $pager,
+                      'pager_layout' => $pager_layout
+                    );
+	}
+	
+	/**
+    * fetchNewsForFullArchiv
+    *
+    * Doctrine_Query to fetch News for Archiv
+    */
+	public static function fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
+	{
+        # Creating Pager Object with a Query Object inside
+        $pager_layout= new Doctrine_Pager_Layout(
+                                new Doctrine_Pager(
+                                    Doctrine_Query::create()
+                                            ->select('n.*,   
+                                                      u.nick, u.user_id, u.email, u.country,
+                                                      c.name, c.image, c.icon, c.color,
+                                                      nc.*,
+                                                      ncu.nick, ncu.email, ncu.country ')
+											->addSelect(' (SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments ')
+                                            ->from('CsNews n')
+                                            ->leftJoin('n.CsUsers u')
+                                            ->leftJoin('n.CsCategories c')
+                                            ->leftJoin('n.CsComments nc')
+                                            ->leftJoin('nc.CsUsers ncu')
+                                            ->andWhere('n.created_at >= ?', array( $startdate ))
+                                            ->andWhere('n.created_at <= ?', array( $enddate ))
+                                            #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                            ->orderby($sortorder),
+											# the following two values are the (sql) limit  ?,? =
+                                         $currentPage, // Current page of request
+                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
+                                     ),
+                                 new Doctrine_Pager_Range_Sliding(array(
+                                     'chunk' => 5
+                                    )),
+                                 '?mod=news&amp;action=fullarchiv&amp;page={%page}&amp;date='.$startdate
+                                 );
 		
+        // Assigning templates for page links creation
+        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
+        $pager_layout->setSelectedTemplate('[{%page}]');
+
+        // Retrieving Doctrine_Pager instance
+        $pager = $pager_layout->getPager();
+
+        // Fetching news
+        $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+		#clansuite_xdebug::printR($news);
         # put things in an array-box for delivery multiple things with one return stmt
         return array( 'news' => $news,
                       'pager'=> $pager,

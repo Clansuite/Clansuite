@@ -427,7 +427,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 		// SmartyColumnSort -- Easy sorting of html table columns.
 		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
 		// A list of database columns to use in the table.
-		$columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nc.nr_news_comments');
+		$columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
 		// Create the columnsort object
 		$columnsort = new SmartyColumnSort($columns);
 		// And set the the default sort column and order.
@@ -444,7 +444,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $resultsPerPage = 25;
 
 		#Fetch News for Archiv with Doctrine
-		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
+		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
         # get news, pager, pager_layout
         #clansuite_xdebug::printR($newsQuery['pager_layout']);
@@ -471,7 +471,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                 # no comments found, so we set 0
                 $news[$k]['CsComment'] = array('nr_news_comments' => 0);
             }
-        }
+        } 
 
         # Get Render Engine
         $smarty = $this->getView();
