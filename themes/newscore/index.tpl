@@ -63,7 +63,7 @@
     	<ul>
         	<li><a class="navlink" href="{$www_root}/index.php">Home</a></li>
         	<li><a class="navlink" href="{$www_root}/index.php?mod=news">News</a></li>
-            <li><a class="navlink" href="{$www_root}/index.php?mod=archive&action=show&module=7">Newsarchiv</a></li>
+            <li><a class="navlink" href="{$www_root}/index.php?mod=news&action=fullarchiv">Newsarchiv</a></li>
 		</ul>
     	</div>
     </div>
