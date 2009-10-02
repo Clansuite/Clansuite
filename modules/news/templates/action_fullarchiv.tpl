@@ -24,7 +24,7 @@
 		<!-- Anker-Sprungmarke für {$news.news_id}-->
 		<a name="news-{$news.news_id}"></a>
 		<tr>
-			<td>{$news.created_at|date_format:"%Y.%m.%d"}</td>
+			<td>{$news.created_at|date_format:"%d.%m.%Y"}</td>
 			<td><a href='index.php?mod=news&action=showone&id={$news.news_title}'>{$news.news_title}</a></td>
 			<td><a href='index.php?mod=news&action=show&cat={$news.CsCategories.cat_id}'>{$news.CsCategories.name}</a></td>
 			<td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
