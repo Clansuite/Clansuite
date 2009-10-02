@@ -25,6 +25,7 @@ class CsNewsTable extends Doctrine_Table
                                                       c.name, c.image, c.icon, c.color,
                                                       nc.*,
                                                       ncu.nick, ncu.email, ncu.country')
+                                            ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')
                                             ->from('CsNews n')
                                             ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
@@ -77,6 +78,7 @@ class CsNewsTable extends Doctrine_Table
                                                       c.name, c.image, c.icon, c.color,
                                                       nc.*,
                                                       ncu.nick, ncu.email, ncu.country')
+                                            ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')
                                             ->from('CsNews n')
                                             ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
@@ -116,15 +118,15 @@ class CsNewsTable extends Doctrine_Table
                       'pager_layout' => $pager_layout
                     );
     }
-	
-	/**
+
+    /**
     * fetchNewsForFeed
     *
     * Doctrine_Query to fetch News by Category
     */
-	public static function fetchNewsForFeed()
-	{
-	    $news = Doctrine_Query::create()
+    public static function fetchNewsForFeed()
+    {
+        $news = Doctrine_Query::create()
                         ->select('n.*,
                                   u.nick, u.user_id, u.email, u.country,
                                   c.name, c.image, c.icon, c.color,
@@ -139,19 +141,18 @@ class CsNewsTable extends Doctrine_Table
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                         ->fetchArray();
 
-		# put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news
-                     );
-	}
+        # put things in an array-box for delivery multiple things with one return stmt
+        return array( 'news' => $news );
+    }
 
-	/**
-    * fetchSingleNews
-    *
-    * Doctrine_Query to fetch News by Category
-    */
-	public static function fetchSingleNews($news_id)
-	{
-	    $single_news = Doctrine_Query::create()
+    /**
+     * fetchSingleNews
+     *
+     * Doctrine_Query to fetch News by Category
+     */
+    public static function fetchSingleNews($news_id)
+    {
+        $single_news = Doctrine_Query::create()
                     ->select('n.*,
                               u.nick, u.user_id, u.email, u.country,
                               c.name, c.image, c.icon, c.color,
@@ -167,28 +168,27 @@ class CsNewsTable extends Doctrine_Table
                     ->where('news_id = ' . $news_id)
                     ->fetchArray();
 
-		# put things in an array-box for delivery multiple things with one return stmt					
-        return array( 'single_news' => $single_news
-                     );
-	}
-	
-	/**
-    * fetchNewsForArchiv
-    *
-    * Doctrine_Query to fetch News for Archiv
-    */
-	public static function fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage)
-	{
+        # put things in an array-box for delivery multiple things with one return stmt
+        return array( 'single_news' => $single_news );
+    }
+
+    /**
+     * fetchNewsForFullArchiv
+     *
+     * Doctrine_Query to fetch News for Archiv
+     */
+    public static function fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
+    {
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
                                     Doctrine_Query::create()
-                                            ->select('n.*,   
+                                            ->select('n.*,
                                                       u.nick, u.user_id, u.email, u.country,
                                                       c.name, c.image, c.icon, c.color,
                                                       nc.*,
-                                                      ncu.nick, ncu.email, ncu.country ')
-											->addSelect(' (SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments ')
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')
                                             ->from('CsNews n')
                                             ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
@@ -198,7 +198,7 @@ class CsNewsTable extends Doctrine_Table
                                             ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.created_at'),
-											# the following two values are the (sql) limit  ?,? =
+                                            # the following two values are the (sql) limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage  // (Optional) Number of results per page Default is 25
                                      ),
@@ -207,7 +207,7 @@ class CsNewsTable extends Doctrine_Table
                                     )),
                                  '?mod=news&amp;action=archiv&amp;page={%page}&amp;date='.$startdate
                                  );
-		
+
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
@@ -217,31 +217,31 @@ class CsNewsTable extends Doctrine_Table
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-		#clansuite_xdebug::printR($news);
+        #clansuite_xdebug::printR($news);
         # put things in an array-box for delivery multiple things with one return stmt
         return array( 'news' => $news,
                       'pager'=> $pager,
                       'pager_layout' => $pager_layout
                     );
-	}
-	
-	/**
-    * fetchNewsForFullArchiv
-    *
-    * Doctrine_Query to fetch News for Archiv
-    */
-	public static function fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
-	{
+    }
+
+    /**
+     * fetchNewsForFullArchiv
+     *
+     * Doctrine_Query to fetch News for Archiv
+     */
+    public static function fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
+    {
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
                                     Doctrine_Query::create()
-                                            ->select('n.*,   
+                                            ->select('n.*,
                                                       u.nick, u.user_id, u.email, u.country,
                                                       c.name, c.image, c.icon, c.color,
                                                       nc.*,
-                                                      ncu.nick, ncu.email, ncu.country ')
-											->addSelect(' (SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments ')
+                                                      ncu.nick, ncu.email, ncu.country')
+                                            ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments ')
                                             ->from('CsNews n')
                                             ->leftJoin('n.CsUsers u')
                                             ->leftJoin('n.CsCategories c')
@@ -251,7 +251,7 @@ class CsNewsTable extends Doctrine_Table
                                             ->andWhere('n.created_at <= ?', array( $enddate ))
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby($sortorder),
-											# the following two values are the (sql) limit  ?,? =
+                                         # the following two values are the (sql) limit  ?,? =
                                          $currentPage, // Current page of request
                                          $resultsPerPage  // (Optional) Number of results per page Default is 25
                                      ),
@@ -260,7 +260,6 @@ class CsNewsTable extends Doctrine_Table
                                     )),
                                  '?mod=news&amp;action=fullarchiv&amp;page={%page}&amp;date='.$startdate
                                  );
-		
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
@@ -270,12 +269,12 @@ class CsNewsTable extends Doctrine_Table
 
         // Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-		#clansuite_xdebug::printR($news);
+
         # put things in an array-box for delivery multiple things with one return stmt
         return array( 'news' => $news,
                       'pager'=> $pager,
                       'pager_layout' => $pager_layout
                     );
-	}
+    }
 }
 ?>
