@@ -98,22 +98,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $pager          = $newsQuery['pager'];
         $pager_layout   = $newsQuery['pager_layout'];
 
-        // Calculate Number of Comments
-        foreach ($news as $k => $v)
-        {
-            # check if something was returned
-            if( isset($v['CsComments']) && !empty($v['CsComments']) )
-            {
-                # add to $newslist array, the numbers of news_comments for each news_id
-                $news[$k]['nr_news_comments'] = count($v['CsComments']);
-            }
-            else
-            {
-                # nothing was returned, so we set 0
-                $news[$k]['nr_news_comments'] = 0;
-            }
-        }
-
         # Get Render Engine
         $smarty = $this->getView();
 
@@ -200,10 +184,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $rss->image = $image;
 
         # Fetch News via Doctrine
-		
-		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFeed();
 
-		$news           = $newsQuery['news'];
+        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFeed();
+
+        $news           = $newsQuery['news'];
         /**
          * Loop over Dataset
          */
@@ -253,11 +237,11 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news_id = (int) $this->getHttpRequest()->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
 
-		$newsQuery = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
+        $newsQuery = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
-		$single_news           = $newsQuery['single_news'];
+        $single_news = $newsQuery['single_news'];
 
-        #var_dump($single_news);
+        #clansuite_xdebug::printR($single_news);
 
         # if a news was found
         if(!empty($single_news) && is_array($single_news))
@@ -340,8 +324,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         $resultsPerPage = 3;
 
-		#Fetch News for Archiv with Doctrine
-		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
+        #Fetch News for Archiv with Doctrine
+        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
 
         # get news, pager, pager_layout
         #clansuite_xdebug::printR($newsQuery['pager_layout']);
@@ -351,24 +335,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news           = $newsQuery['news'];
         $pager          = $newsQuery['pager'];
         $pager_layout   = $newsQuery['pager_layout'];
-		
 
         #clansuite_xdebug::printR($news);
-
-        // Calculate Number of Comments
-        foreach ($news as $k => $v)
-        {
-            # check if something was returned
-            if(isset($news[$k]['CsComments']) and ($news[$k]['CsComments'] !== null) )
-            {
-                $news[$k]['CsComments']['nr_news_comments'] = count($news[$k]['CsComments']);
-            }
-            else
-            {
-                # no comments found, so we set 0
-                $news[$k]['CsComment'] = array('nr_news_comments' => 0);
-            }
-        }
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -423,28 +391,26 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
-        
-		// SmartyColumnSort -- Easy sorting of html table columns.
-		require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
-		// A list of database columns to use in the table.
-		$columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
-		// Create the columnsort object
-		$columnsort = new SmartyColumnSort($columns);
-		// And set the the default sort column and order.
-		$columnsort->setDefault('n.created_at', 'desc');
-		// Get sort order from columnsort
-		$sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
-		
+
+        // SmartyColumnSort -- Easy sorting of html table columns.
+        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        // A list of database columns to use in the table.
+        $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'n.nr_news_comments');
+        // Create the columnsort object
+        $columnsort = new SmartyColumnSort($columns);
+        // And set the the default sort column and order.
+        $columnsort->setDefault('n.created_at', 'desc');
+        // Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+
         # set custom starting and ending date
-        
-            $startdate = '1980-04-19';
-            $enddate = date('Y-m-d');
-        
+        $startdate = '1980-04-19';
+        $enddate   = date('Y-m-d');
 
         $resultsPerPage = 25;
 
-		#Fetch News for Archiv with Doctrine
-		$newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
+        #Fetch News for Archiv with Doctrine
+        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
         # get news, pager, pager_layout
         #clansuite_xdebug::printR($newsQuery['pager_layout']);
@@ -454,24 +420,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news           = $newsQuery['news'];
         $pager          = $newsQuery['pager'];
         $pager_layout   = $newsQuery['pager_layout'];
-		
+
 
         #clansuite_xdebug::printR($news);
-
-        // Calculate Number of Comments
-        foreach ($news as $k => $v)
-        {
-            # check if something was returned
-            if(isset($news[$k]['CsComments']) and ($news[$k]['CsComments'] !== null) )
-            {
-                $news[$k]['CsComments']['nr_news_comments'] = count($news[$k]['CsComments']);
-            }
-            else
-            {
-                # no comments found, so we set 0
-                $news[$k]['CsComment'] = array('nr_news_comments' => 0);
-            }
-        } 
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -506,7 +457,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # Prepare the Output
         $this->prepareOutput();
     }
-	
+
     /**
      * widget_news
      *
@@ -536,8 +487,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
                               ->orderby('n.news_id DESC')
                               ->limit($numberNews)
                               ->execute( array() );
-
-        #var_dump($news);
 
         # assign the fetched news to the view
         $smarty->assign('news_widget', $news);
