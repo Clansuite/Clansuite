@@ -51,7 +51,7 @@ favicon = ""
 theme = "newscore"
 backend_theme = "backend"
 layout = "index.tpl"
-css = "standard.css"
+css = "newscore.css"
 javascript = "standard.js"
 
 ;----------------------------------------
@@ -112,17 +112,17 @@ use_cookies = 1
 use_cookies_only = 0
 session_expire_time = 30
 session_name = ""
-check_ip = 1
 check_browser = 1
 check_host = 1
+check_ip = 1
 
 ;----------------------------------------
 ; error
 ;----------------------------------------
 [error]
 development = 0
-debug = 0
-xdebug = 0
+debug = 1
+xdebug = 1
 webdebug = 0
 debug_popup = 0
 
@@ -130,7 +130,7 @@ debug_popup = 0
 ; cache
 ;----------------------------------------
 [cache]
-adapter = "apc"
+adapter = 0
 caching = 0
 cache_lifetime = 90
 
@@ -147,7 +147,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-André Koch & Clansuite Development Team"
+author = "Jens-Andrï¿½ Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 
