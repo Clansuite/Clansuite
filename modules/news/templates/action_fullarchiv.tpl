@@ -13,11 +13,11 @@
 	
 	<table width="100%">
 		<tr>
-			<td>Datum</td>
-			<td>Titel</td>
-			<td>Kategorie</td>
-			<td>Author</td>
-			<td>Kommentare</td>
+			<td>{columnsort html='Datum'}</td>
+			<td>{columnsort html='Titel'}</td>
+			<td>{columnsort html='Kategorie'}</td>
+			<td>{columnsort html='Author'}</td>
+			<td>{columnsort html='Kommentare'}</td>
 		</tr>
 		
 		{foreach item=news from=$news}
