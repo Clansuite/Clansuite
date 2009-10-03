@@ -325,7 +325,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             $enddate = date('Y-m-d');
         }
 
-        $resultsPerPage = 3;
+        # get resultsPerPage from ModuleConfig
+        $resultsPerPage = $this->getConfigValue('resultsPerPage_archiv', '3');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
@@ -411,7 +412,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $startdate = '1980-04-19';
         $enddate   = date('Y-m-d');
 
-        $resultsPerPage = 25;
+        # get resultsPerPage from ModuleConfig
+        $resultsPerPage = $this->getConfigValue('resultsPerPage_fullarchiv', '25');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
