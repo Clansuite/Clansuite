@@ -70,7 +70,7 @@ date_default_timezone_set('Europe/Berlin');
                             </form>
                         -->
                     <!-- Pledige Campaign -->
-                    <a href='http://www.pledgie.com/campaigns/1180'><img alt='Click here to lend your support to: Unterst�tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/1180.png?skin_name=eight_bit' border='0' /></a>
+                    <a href='http://www.pledgie.com/campaigns/6324'><img alt='Click here to lend your support to: Unterst�tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6324.png?skin_name=eight_bit' border='0' /></a>
                     </li>
 
                     <!-- Link Us -->
