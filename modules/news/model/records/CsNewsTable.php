@@ -177,7 +177,7 @@ class CsNewsTable extends Doctrine_Table
      *
      * Doctrine_Query to fetch News for Archiv
      */
-    public static function fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage)
+    public static function fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage)
     {
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(

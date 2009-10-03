@@ -22,7 +22,7 @@
         </tr>
 
         <tr>
-            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}at{/t} {$news.created_at} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.CsComments.nr_news_comments}{t} comments{/t}</a></font></td>
+            <td valign="top"><font size="1">{t}written by{/t} <a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> {t}at{/t} {$news.created_at} - <a href='index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}'>{$news.nr_news_comments}{t} comments{/t}</a></font></td>
         </tr>
 
         <tr>
@@ -32,7 +32,7 @@
         <tr>
              <td>
                 <strong>&raquo;</strong>
-                <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.CsComments.nr_news_comments} Comments</a>
+                <a href="index.php?mod=news&amp;sub=newscomments&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
                 {* {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsComments.CsUsers.lastcomment_by}</span>{/if} *}
             </td>
     	    <td>
