@@ -52,6 +52,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        # read module config
+        $this->getModuleConfig();
+
+        # initialize related active-records
         parent::initRecords('news');
         parent::initRecords('users');
         parent::initRecords('categories');
@@ -68,14 +72,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function action_show()
     {
-        // Set Pagetitle and Breadcrumbs
+        # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
 
-        # @todo get resultsPerPage from ModuleConfig
-        $resultsPerPage = 3;
+        # get resultsPerPage from ModuleConfig
+        $resultsPerPage = $this->getConfigValue('resultsPerPage_show', '3');
 
-        // Defining initial variables
-
+        # Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         $category    = (int) $this->getHttpRequest()->getParameter('cat');
 
@@ -371,7 +374,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # Prepare the Output
         $this->prepareOutput();
     }
-/**
+
+    /**
      * module news action_fullarchive()
      *
      * 1. Get news with nick of author and category
@@ -395,7 +399,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'n.nr_news_comments');
+        $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
         // Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         // And set the the default sort column and order.
