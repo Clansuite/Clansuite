@@ -256,14 +256,18 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             $smarty->assign('news', $single_news);
 
             /**
-             * Check if this news_id has comments and assign them to an extra smarty var
-             * {$news_comments.} for easier access on template side
-             * (yes, it's doubled: you could also access the values via {$news.} )
+             * Check if this news_id has comments and assign them to an extra smarty variable
+             * {$news_comments.} for easier access on template side.
+             * Notice: if unset is not commented, the comments array is doubled:
+             * you could also access the values via {$news.} in the tpl.
              */
             if ( !empty($single_news['0']['CsComments']) )
             {
                 # Assign News
                 $smarty->assign('news_comments', $single_news['0']['CsComments']);
+
+                # unsetting the $single_news['0']['CsComments'] to save memory
+                unset($single_news['0']['CsComments']);
             }
             else
             {
