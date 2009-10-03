@@ -38,13 +38,62 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Radio
+ *  \- Clansuite_Formelement_Input
+ *      |
+ *      \- Clansuite_Formelement_Radio
  */
-class Clansuite_Formelement_Radio extends Clansuite_Form
+class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    /**
+     * label next to element
+     *
+     * @var string
+     */
+    protected $label;
 
+    /**
+     * constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->type = 'radio';
+    }
+
+    /**
+     * checks or unchecks radio button
+     *
+     * @return void
+     * @param bool checked
+     */
+    public function setChecked($checked)
+    {
+        $this->checked = $checked;
+    }
+
+    /**
+     * sets clickable label next to element
+     *
+     * @return void
+     * @param string $text
+     */
+    public function setLabel($text)
+    {
+        $this->label = '<label for="'.$this->id.'">'.$text.'</label>';
+    }
+
+    /**
+     * sets description
+     *
+     * @return void
+     * @param string $text
+     */
+    public function setDescription($text)
+    {
+        $this->text = $text;
+    }
 }
 ?>
