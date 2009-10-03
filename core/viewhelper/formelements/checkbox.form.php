@@ -38,13 +38,63 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Checkbox
+ *  \- Clansuite_Formelement_Input
+ *      |
+ *      \- Clansuite_Formelement_Checkbox
  */
-class Clansuite_Formelement_Checkbox extends Clansuite_Form
+class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    /**
+     * label next to element
+     *
+     * @var string
+     */
+    protected $label;
 
+    /**
+     * constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->type = 'checkbox';
+        $this->label = null;
+    }
+
+    /**
+     * check or unchecks the checkbox
+     *
+     * @return void
+     * @param bool checked
+     */
+    public function setChecked($checked)
+    {
+        $this->checked = $checked;
+    }
+
+    /**
+     * sets clickable label next to element
+     *
+     * @return void
+     * @param string $text
+     */
+    public function setLabel($text)
+    {
+        $this->label = '<label for="'.$this->id.'">'.$text.'</label>';
+    }
+
+    /**
+     * sets description
+     *
+     * @return void
+     * @param string $text
+     */
+    public function setDescription($text)
+    {
+        $this->text = $text;
+    }
 }
 ?>
