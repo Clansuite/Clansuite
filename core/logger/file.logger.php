@@ -99,11 +99,35 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     }
 
     /**
-     * readLog
+     * readLog returns the content of a logfile
+     *
+     * @param $logfilename The name of the logfile to read.
+     * @return $string Content of the logfile.
      */
-    public function readLog()
+    public function readLog($logfilename)
     {
-        # @todo
+        # errorlog filename as set bei ini_set('error_log')
+        #$logfilename = ini_get('error_log');
+
+        # hardcoded errorlog filename
+        $logfilename = 'logs/clansuite_errorlog.txt';
+
+        # determine size of file
+        $logfilesize = filesize($logfilename);
+
+        # size greater zero, means we have entries in that file
+        if($logfilesize > 0)
+        {
+            # so open and read till eof
+            $logfile = fopen($logfilename, "r");
+            $logfile_content = fread($logfile, $logfilesize);
+
+            # @todo: split or explode logfile_content into an array
+            # to select a certain number of entries to display
+
+            # returns the complete logfile
+            return printf("<pre>%s</pre>", $logfile_content);
+        }
     }
 
     /**
