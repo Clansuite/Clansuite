@@ -410,7 +410,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $resultsPerPage = 25;
 
         #Fetch News for Archiv with Doctrine
-        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
+        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
         # get news, pager, pager_layout
         #clansuite_xdebug::printR($newsQuery['pager_layout']);
