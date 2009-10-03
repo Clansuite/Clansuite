@@ -38,13 +38,44 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Text
+ *  \- Clansuite_Formelement_Input
+ *      |
+ *      \- Clansuite_Formelement_Text
  */
-class Clansuite_Formelement_Text extends Clansuite_Form
+class Clansuite_Formelement_Text extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    /**
+     * constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->type = 'text';
+    }
 
+    /**
+     * defines length of field in letters
+     *
+     * @return void
+     * @param int $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * defines allowed length of input in letters
+     *
+     * @return void
+     * @param int $length
+     */
+    public function setMaxLength($length)
+    {
+        $this->maxlength = $length;
+    }
 }
 ?>
