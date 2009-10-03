@@ -255,7 +255,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
 
         # return value or default
-        if(isset($value) and $value{1} != '')
+        if(empty($value) == false)
         {
             return $value;
         }
