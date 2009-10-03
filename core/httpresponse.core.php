@@ -241,7 +241,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * So two methods are used:
      * Method 1: zlib.output_compression
      * Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
-     
+
      * @link http://www.php.net/ob_gzhandler
      */
     public function activateOutputCompression()
@@ -431,10 +431,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
      */
-    public function redirectNoCache($url, $time = 0, $statusCode = 302, $text='')
+    public function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '')
     {
         $this->setNoCacheHeader();
-        $this->redirect($url, $time = 0, $statusCode = 302, $text='');
+        $this->redirect($url, $time, $statusCode, $text);
     }
 
     /**
@@ -453,7 +453,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $text='')
+    public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
         # redirect only, if headers are NOT already send
         if (headers_sent($filename, $linenum) == false)
