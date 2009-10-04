@@ -4,10 +4,12 @@
   font-family: monospace;
   font-size: 10pt;
   color: black;
+  z-index: auto;
 }
 
 pre.code, .editbox {
   color: #666666;
+  background-color: #cccccc;
 }
 
 .editbox p {

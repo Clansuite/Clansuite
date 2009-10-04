@@ -78,21 +78,53 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;action=editor');
 
+        # Incomming Variables
+
+        # GET: file (path+templatefilename)
+        if(empty($_GET['file']))
+        {
+            throw new Clansuite_Exception('No filename given. Please specify a filename for the template you want to edit.', 100);
+        }
+
         $file = ROOT_MOD . stripslashes($_GET['file']);
-        #$file = ROOT_MOD . 'templatemanager\templates\action_admin_editor.tpl';
 
-        #Clansuite_xdebug::printr($file);
+        # DS on win is "\"
+        if( DS == '\\')
+        {
+            # correct slashes
+            $file = str_replace('/', '\\', $file);
+        }
 
+        # GET: tplmod (module of the template)
+        if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
+        {
+            $tplmod = stripslashes($_GET['tplmod']);
+        }
+        else
+        {
+            $tplmod = null;
+        }
+
+        # let's check, if this template exists
         if(is_file($file))
         {
+            # ok, it does exist - fetch it's content
             $handle = fopen($file, 'r') or die('Unable to open the file');
             $templateText = fread($handle, filesize($file));
             fclose($handle);
+
+        }
+        else # template does not exist
+        {
+            $templateText = '<!-- Start of Template: '.$file.' -->'.CR.CR.'Insert your template content here'.CR.CR.'<!-- End of Template -->';
         }
 
+        #Clansuite_xdebug::printr($templateText);
+
         $smarty = $this->getView();
-        $smarty->assign('templateName', $file);
-        $smarty->assign('templateText', htmlentities($templateText));
+        $smarty->assign('templateName',     $file);
+        $smarty->assign('templateModule',   $tplmod);
+        $smarty->assign('templateText',     htmlentities($templateText));
 
         #$request = $this->injector->instantiate('Clansuite_HttpRequest');
         /**
