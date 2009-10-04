@@ -464,10 +464,17 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function render($template)
     {
         # Debug Display
-        # echo '<br /> '. __METHOD__ .' => Smarty was asked to render the template: '.$template .'</br>';
+        #echo '<br /> '. __METHOD__ .' => Smarty was asked to render the template: '.$template .'</br>';
 
         # Assign Constants
         $this->assignConstants();
+
+        /**
+         * Assign the original template name and the requested module
+         * This is used in template_not_found.tpl to provide a link to the templateeditor
+         */
+        $this->renderer->assign('template_of_module', Clansuite_ModuleController_Resolver::getModuleName());
+        $this->renderer->assign('template_to_render', $template);
 
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
@@ -482,6 +489,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Change Fetch to Display to get an echo of the pure ModuleContent
          * else use the xdebug::printR to display the fetch!
          */
+
+        #$this->renderer->assign('template_to_render', Clansuite_ModuleController->getTemplateName());
 
         $modulecontent =  $this->fetch($template);
 

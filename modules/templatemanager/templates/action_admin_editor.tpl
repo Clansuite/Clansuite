@@ -11,7 +11,7 @@
       .CodeMirror-line-numbers {
         width: 2.2em;
         color: #aaa;
-        background-color: #eee;
+        background-color: #fff;
         text-align: right;
         padding-right: .3em;
         font-size: 10pt;
@@ -25,9 +25,11 @@
 <form action="index.php?mod=templatemanager&sub=admin&action=editor" method="post">
 
     {* Textarea for the content of the template. *}
-    <textarea rows="10" cols="80" id="codecontent">  {$templateText}> </textarea>
+    <textarea rows="10" cols="80" id="codecontent">{$templateText}</textarea>
 
     <br />
+
+    <div align="right">
 
     {* Save Button *}
     <input class="ButtonGreen" type="submit" name="from_submit" value="Save" />
@@ -38,6 +40,29 @@
     {* This is the template name, the content is saved to. *}
     <input type="hidden" value="{$templateName}" />
 
+    {* This is the module name, the template is created for. *}
+    <input type="hidden" value="{$templateModule}" />
+
+    </div>
+
 </form>
 
+
+<!--
+Options
+
+<br />
+
+Create for
+a) module/templates
+or
+b) theme
+
+<br />
+
 Variables and Plugins in Use (In Order Of Use):
+
+<br />
+
+Useable Placeholders:
+-->
