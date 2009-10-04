@@ -312,7 +312,7 @@ abstract class Clansuite_Renderer_Base
         # single slash correction
         $modulepath = str_replace("\\", "/",  $modulepath);
 
-        #echo '<br>'. __METHOD__ .' OUTPUT '.'<br>We found '. $template  . ' on the module path: '. $modulepath. '<br>'; 
+        #echo '<br>'. __METHOD__ .' OUTPUT '.'<br>We found '. $template  . ' on the module path: '. $modulepath. '<br>';
 
         return $modulepath;
     }

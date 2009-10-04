@@ -246,8 +246,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Get Config Value
      *
-     * @param $keyname
-     * @param $default
+     * @param $keyname The keyname to find in the array.
+     * @param $default A default value, which is returned, if the keyname was not found.
      */
     public function getConfigValue($keyname, $default = null)
     {
