@@ -157,16 +157,16 @@ class Clansuite_Functions
             $array = array();
             foreach (get_object_vars($object) as $key => $value)
             {
-				if(is_object($value))
-				{
-					$array[$key] = self::object2Array($value);
-				}
-				else
-				{
-					$array[$key] = $value;
-				}
-			}
-	    }
+                if(is_object($value))
+                {
+                    $array[$key] = self::object2Array($value);
+                }
+                else
+                {
+                    $array[$key] = $value;
+                }
+            }
+        }
         return $array;
     }
 
@@ -194,38 +194,38 @@ class Clansuite_Functions
     /**
      * Converts a SimpleXML String recursivly to an Array
      *
-	 * @author : Jason Sheets <jsheets at shadonet dot com>
-	 * @param unknown_type $xml
-	 * @return Array
-	 */
+     * @author : Jason Sheets <jsheets at shadonet dot com>
+     * @param unknown_type $xml
+     * @return Array
+     */
     public static function SimpleXMLToArray($simplexml)
     {
-    	$array = array();
+        $array = array();
 
-    	if ($simplexml)
-    	{
-    		foreach ($simplexml as $k => $v)
-    		{
-    			if ($simplexml['list'])
-    			{
-    				$array[] = self::SimpleXMLToArray($v);
-    			}
-    			else
-    			{
-    				$array[$k] = self::SimpleXMLToArray($v);
-    			}
-    		}
-    	}
+        if ($simplexml)
+        {
+            foreach ($simplexml as $k => $v)
+            {
+                if ($simplexml['list'])
+                {
+                    $array[] = self::SimpleXMLToArray($v);
+                }
+                else
+                {
+                    $array[$k] = self::SimpleXMLToArray($v);
+                }
+            }
+        }
 
-    	if (sizeof($array) > 0)
-    	{
-    		return $array;
-    	}
-    	else
-    	{
+        if (sizeof($array) > 0)
+        {
+            return $array;
+        }
+        else
+        {
             #@todo this returns a string? should it be an array?
-    		return (string)$simplexml;
-    	}
+            return (string)$simplexml;
+        }
     }
 
     public static function str_replace_count($search,$replace,$subject,$times)
@@ -389,171 +389,6 @@ class Clansuite_Functions
     }
 
     /**
-     *  Redirection modes
-     */
-    function redirect($url = '', $type = '', $time = 0, $message = '', $use_tpl = 'user', $heading = '' )
-    {
-        global $session, $tpl, $cfg;
-
-        switch ($type)
-        {
-            case 'header':
-                $c = parse_url($url);
-                if( array_key_exists('host', $c) OR isset($_COOKIE[$session->session_name]) )
-                {
-                    session_write_close();
-                    header('Location: ' . $url );
-                }
-                else
-                {
-                    session_write_close();
-                    if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
-                    {
-                        header('Location: ' . $url.'&'.$session->session_name.'='.session_id() );
-                    }
-                    else
-                    {
-                        header('Location: ' . $url.'?'.$session->session_name.'='.session_id() );
-                    }
-                }
-                exit();
-                break;
-
-            case 'metatag':
-                $c = parse_url($url);
-                if( array_key_exists('host', $c) )
-                {
-                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-                }
-                else
-                {
-                    if( !preg_match( '#^\/(.*)$#', $url ) )
-                    {
-                        $url = '/'. $url;
-                    }
-
-                    if ( !isset($_COOKIE[$session->session_name]) )
-                    {
-                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
-                        {
-                            $url = $url.'&'.$session->session_name.'='.session_id();
-                        }
-                        else
-                        {
-                            $url = $url.'?'.$session->session_name.'='.session_id();
-                        }
-                    }
-
-                    $this->redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . WWW_ROOT . $url . '" />';
-                }
-                break;
-
-            case 'metatag|newsite':
-                $c = parse_url($url);
-                if( !array_key_exists('host', $c) )
-                {
-                    if( !preg_match( '#^\/(.*)$#', $url ) )
-                    {
-                        $url = '/'. $url;
-                    }
-                    $url = WWW_ROOT . $url;
-
-                    if ( !isset($_COOKIE[$session->session_name]) )
-                    {
-                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
-                        {
-                            $url = $url.'&'.$session->session_name.'='.session_id();
-                        }
-                        else
-                        {
-                            $url = $url.'?'.$session->session_name.'='.session_id();
-                        }
-                    }
-                }
-                $redirect = '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-                $tpl->assign( 'redirect', $redirect );
-
-                $tpl->assign( 'message', $message );
-                session_write_close();
-                if ( $use_tpl == 'admin' )
-                {
-                    $tpl->assign( 'css', WWW_ROOT . '/templates/core/admin/admin.css');
-                    $tpl->display( 'admin/tools/redirect.tpl' );
-                }
-                else
-                {
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->css);
-                    $tpl->display( 'tools/redirect.tpl' );
-                }
-                exit;
-                break;
-
-            case 'confirm':
-                $c = parse_url($url);
-                if( !array_key_exists('host', $c) )
-                {
-                    if( !preg_match( '#^\/(.*)$#', $url ) )
-                    {
-                        $url = '/'. $url;
-                    }
-                    $url = WWW_ROOT . $url;
-
-                    if ( !isset($_COOKIE[$session->session_name]) )
-                    {
-                        if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
-                        {
-                            $url = $url.'&'.$session->session_name.'='.session_id();
-                        }
-                        else
-                        {
-                            $url = $url.'?'.$session->session_name.'='.session_id();
-                        }
-                    }
-                }
-                $tpl->assign( 'link', $url );
-                $tpl->assign( 'message', $message );
-                $tpl->assign( 'heading', $heading );
-                session_write_close();
-                if ( $use_tpl == 'admin' )
-                {
-                    $tpl->assign( 'css', WWW_ROOT . '/templates/core/admin/admin.css');
-                    $tpl->display( 'admin/tools/confirm.tpl' );
-                }
-                else
-                {
-                    $tpl->assign( 'css', WWW_ROOT . '/' . $cfg->tpl_folder . '/' . $_SESSION['user']['theme'] . '/' . $cfg->css);
-                    $tpl->display( 'tools/confirm.tpl' );
-                }
-                exit;
-                break;
-
-
-
-            default:
-                $c = parse_url($url);
-                if( array_key_exists('host', $c) OR isset($_COOKIE[$session->session_name]) )
-                {
-                    session_write_close();
-                    header('Location: ' . $url );
-                    exit();
-                }
-                else
-                {
-                    session_write_close();
-                    if( preg_match( '/(.*)?(.+)=(.+)/', $url ) )
-                    {
-                        header('Location: ' . $url.'&'.$session->session_name.'='.session_id() );
-                    }
-                    else
-                    {
-                        header('Location: ' . $url.'?'.$session->session_name.'='.session_id() );
-                    }
-                }
-                break;
-        }
-    }
-
-    /**
     * @desc Try a chmod
     */
 
@@ -636,22 +471,22 @@ class Clansuite_Functions
 
                     if(!is_file($dest . $file) || $overwrite)
                     {
-						$folder_path = array( strstr($dest.$file, '.') ? dirname($dest.$file) : $dest.$file );
+                        $folder_path = array( strstr($dest.$file, '.') ? dirname($dest.$file) : $dest.$file );
 
-						while(is_dir(dirname(end($folder_path)))
-						       && dirname(end($folder_path)) != '/'
-						       && dirname(end($folder_path)) != '.'
-						       && dirname(end($folder_path)) != ''
-						       && !preg_match( '#^[A-Za-z]+\:\\\$#', dirname(end($folder_path)) ) )
-						{
-							array_push($folder_path, dirname(end($folder_path)));
-						}
+                        while(is_dir(dirname(end($folder_path)))
+                               && dirname(end($folder_path)) != '/'
+                               && dirname(end($folder_path)) != '.'
+                               && dirname(end($folder_path)) != ''
+                               && !preg_match( '#^[A-Za-z]+\:\\\$#', dirname(end($folder_path)) ) )
+                        {
+                            array_push($folder_path, dirname(end($folder_path)));
+                        }
 
-						while($parent_folder_path = array_pop($folder_path))
-						{
-						    if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
-						    	$this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
-						}
+                        while($parent_folder_path = array_pop($folder_path))
+                        {
+                            if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
+                                $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
+                        }
 
                         $old = ini_set("error_reporting", 0);
                         if(!copy($path, $dest . $file))
@@ -683,50 +518,50 @@ class Clansuite_Functions
      */
     public static function delete_dir_content($directory, $subdirectory = false)
     {
-    	if(substr($directory,-1) == '/')
-    	{
-    		$directory = substr($directory,0,-1);
-    	}
+        if(substr($directory,-1) == '/')
+        {
+            $directory = substr($directory,0,-1);
+        }
 
-    	if( (is_file($directory) == false) or (is_dir($directory) == false) )
-    	{
-    		return false;
-    	}
+        if( (is_file($directory) == false) or (is_dir($directory) == false) )
+        {
+            return false;
+        }
         elseif (is_readable($directory))
-    	{
-    		# loop over all elements in that directory
-    		$handle = opendir($directory);
-    		while (false !== ($item = readdir($handle)))
-    		{
-    			if($item != '.' && $item != '..')
-    			{
-    			    # path of that element (dir/file)
-    				$path = $directory.'/'.$item;
+        {
+            # loop over all elements in that directory
+            $handle = opendir($directory);
+            while (false !== ($item = readdir($handle)))
+            {
+                if($item != '.' && $item != '..')
+                {
+                    # path of that element (dir/file)
+                    $path = $directory.'/'.$item;
 
-    				# delete dir
-    				if(is_dir($path))
-    				{
-    					# remove all subdirectries via recursive call
-    					$this->delete_dir_content($path, true);
-    				}
+                    # delete dir
+                    if(is_dir($path))
+                    {
+                        # remove all subdirectries via recursive call
+                        $this->delete_dir_content($path, true);
+                    }
                     else # delete file
                     {
-    					unlink($path);
-    				}
-    			}
-    		}
-    		closedir($handle);
+                        unlink($path);
+                    }
+                }
+            }
+            closedir($handle);
 
-    		# remove that subdir
-    		if($subdirectory == true)
-    		{
-    			if(rmdir($directory) == false)
-    			{
-    				return false;
-    			}
-    		}
-    	}
-    	return true;
+            # remove that subdir
+            if($subdirectory == true)
+            {
+                if(rmdir($directory) == false)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
