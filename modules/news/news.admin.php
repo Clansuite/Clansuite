@@ -79,7 +79,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
 
         # Incoming Variables
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $request = $this->getHttpRequest();
         $cat_id      = (int) $request->getParameter('cat_id');
         // add cat_id to select statement if set, else empty
         #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
@@ -90,7 +90,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
-        $columns = array( 'n.created_at', 'n.news_title', 'c.name','u.nick', 'n.draft');
+        $columns = array( 'n.created_at', 'n.news_title', 'c.name','u.nick', 'n.news_status');
         // Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         // And set the the default sort column and order.
@@ -299,18 +299,28 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Create news
-     *
+     * Create News
      */
-    function create()
+    function action_admin_create()
+    {
+        #require
+        #$create_form = new Clansuite_Form();
+
+        $this->prepareOutput();
+    }
+
+    /**
+     * Create News
+     */
+    function action_admin_creates()
     {
 
         // Permission check
-        $perms->check('cc_create_news');
+        #$perms->check('cc_create_news');
 
         // Incoming Vars
         $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
-        $infos = $_POST['infos'];
+        #$infos = $_POST['infos'];
 
         // check for fills
         if( ( empty($infos['title']) OR
@@ -485,20 +495,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
             $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
-    }
-
-    /**
-     * @desc This content can be instantly displayed by adding {mod name="admin" func="instant_show" params="mytext"} into a template
-     * @desc You have to add the lines as shown above into the case block: $this->output .= call_user_func_array( array( $this, 'instant_show' ), $params );
-     */
-    function instant_show($my_text)
-    {
-        global $cfg, $db, $tpl, $error, $lang, $functions, $security, $input, $perms;
-
-        /**
-        * @desc Handle the output - $lang-t() translates the text.
-        */
-        $this->output .= $lang->t($my_text);
     }
 
     /**

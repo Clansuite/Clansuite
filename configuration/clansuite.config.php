@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; D:\clansuite\xampplite\htdocs\configuration\clansuite.config.php 
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
 ;
 
 
@@ -49,7 +49,7 @@ from_name = "Clansuite CMS - HAL 9000"
 pagetitle = "Team Clansuite"
 favicon = ""
 theme = "newscore"
-backend_theme = "backend"
+backend_theme = "admin"
 layout = "index.tpl"
 css = "newscore.css"
 javascript = "standard.js"
@@ -65,7 +65,7 @@ languageswitch_via_url = 0
 ; defaults
 ;----------------------------------------
 [defaults]
-module = "index"
+module = "news"
 action = "show"
 dateformat = "l, d.m.Y H:i"
 
@@ -120,7 +120,7 @@ check_ip = 1
 ; error
 ;----------------------------------------
 [error]
-development = 0
+development = 1
 debug = 1
 xdebug = 1
 webdebug = 0
@@ -147,7 +147,7 @@ maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />S
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-Andr� Koch & Clansuite Development Team"
+author = "Jens-Andre Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 

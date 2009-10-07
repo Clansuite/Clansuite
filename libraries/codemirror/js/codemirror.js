@@ -68,6 +68,7 @@ var CodeMirror = (function(){
       nums.style.top = "0px";
       nums.style.overflow = "hidden";
       place(container);
+      container.style.top = "10px";
       container.appendChild(node);
       container.appendChild(nums);
       scroller.className = "CodeMirror-line-numbers";

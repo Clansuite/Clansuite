@@ -113,18 +113,22 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             $templateText = fread($handle, filesize($file));
             fclose($handle);
 
+            $templateeditor_newfile = false;
         }
         else # template does not exist
         {
             $templateText = '<!-- Start of Template: '.$file.' -->'.CR.CR.'Insert your template content here'.CR.CR.'<!-- End of Template -->';
+
+            $templateeditor_newfile = true;
         }
 
         #Clansuite_xdebug::printr($templateText);
 
         $smarty = $this->getView();
-        $smarty->assign('templateName',     $file);
-        $smarty->assign('templateModule',   $tplmod);
-        $smarty->assign('templateText',     htmlentities($templateText));
+        $smarty->assign('templateeditor_filename',    $file);
+        $smarty->assign('templateeditor_modulename',  $tplmod);
+        $smarty->assign('templateeditor_textarea',    htmlentities($templateText));
+        $smarty->assign('templateeditor_newfile',     $templateeditor_newfile);
 
         #$request = $this->injector->instantiate('Clansuite_HttpRequest');
         /**
@@ -138,6 +142,23 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
            fclose($handle);
         }
         */
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+
+    public function action_admin_save()
+    {
+        #Clansuite_Xdebug::printR($this->getHttpRequest());
+
+        $tplfilename    = (string) stripslashes($this->getHttpRequest()->getParameter('templateeditor_filename'));
+        $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
+        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');
+
+        if(isset($tplfilename) and isset($tpltextarea))
+        {
+            file_put_contents($tplfilename, $tpltextarea);
+        }
 
         # Prepare the Output
         $this->prepareOutput();

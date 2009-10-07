@@ -6,23 +6,24 @@
     {$news|@var_dump}
     <hr>
     {$newscategories|@var_dump}
-*}        
+*}
 
 <style type="text/css">
 {literal}
     .selected { color:green; }
 {/literal}
 </style>
+
 {modulenavigation}
 <div class="ModuleHeading">{t}News - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can write Articles, categorize, edit and delete them.{/t}</div>
- 
+
 <table border="0" cellspacing="1" cellpadding="3" style="width:99%">
 
-    <caption class="td_header">News</caption>   
+    <caption class="td_header">News</caption>
 
-    <tr class="tr_row2">        
-    
+    <tr class="tr_row2">
+
          <!-- Modify the View : Drop-Down Selection of the News-Categories -->
          <td colspan="8" align="right">Select Categorie:
             <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
@@ -30,8 +31,8 @@
                 <option value="0">----</option>
                 {foreach item=cats from=$newscategories}
                 <option value="{$cats.cat_id}">{$cats.name}</option>
-                {/foreach}                
-            </select> 
+                {/foreach}
+            </select>
             <input type="submit" name="submit" value="Change View" class="ButtonOrange"/>
             </form>
         </td>
@@ -42,8 +43,8 @@
         <td height="20" colspan="8" align="right">
             {pagination}
         </td>
-    </tr>    
-    
+    </tr>
+
     <!-- Header of Table -->
     <tr class="td_header">
         <th>{columnsort html='Date'}</th>
@@ -84,7 +85,7 @@
         </tr>
     </form>
     <!-- Close Form -->
-    
+
     <!-- Table-Footer Pagination -->
     <tr class="tr_row1">
         <td height="20" colspan="8" align="right">
