@@ -22,47 +22,61 @@
 {/literal}
 {/move_to}
 
-<form action="index.php?mod=templatemanager&sub=admin&action=editor" method="post">
+<div class="ModuleHeading">{t}Templatemanager - Editor{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can create and edit your templates here.{/t}</div>
 
-    {* Textarea for the content of the template. *}
-    <textarea rows="10" cols="80" id="codecontent">{$templateText}</textarea>
+{if isset($templateeditor_newfile) and ($templateeditor_newfile) == 1}
+    <div class="ModuleHeadingSmall">{t}You are about to create: {/t} <font color="red"> {$templateeditor_filename} </font></div>
+{else}
+    <div class="ModuleHeadingSmall">{t}You are editing: {/t} <font color="red"> {$templateeditor_filename} </font></div>
+{/if}
 
-    <br />
+<table width="100%">
+<tr>
+    <td width="75%">
 
-    <div align="right">
+        <form action="index.php?mod=templatemanager&sub=admin&action=save" method="post">
 
-    {* Save Button *}
-    <input class="ButtonGreen" type="submit" name="from_submit" value="Save" />
+            {* Textarea for the content of the template. *}
+            <textarea rows="10" cols="80" id="codecontent" name="templateeditor_textarea">{$templateeditor_textarea}</textarea>
 
-    {* Reset Button *}
-    <input class="Button" type="reset" value="Reset" name="reset" />
+            <br />
 
-    {* This is the template name, the content is saved to. *}
-    <input type="hidden" value="{$templateName}" />
+            <div align="right">
 
-    {* This is the module name, the template is created for. *}
-    <input type="hidden" value="{$templateModule}" />
+                {* This is the template name, the content is saved to. *}
+                <input type="hidden" name="templateeditor_filename" value="{$templateeditor_filename}" />
 
-    </div>
+                {* This is the module name, the template is created for. *}
+                <input type="hidden" name="templateeditor_modulename" value="{$templateeditor_modulename}" />
 
-</form>
+                {* Save Button *}
+                <input class="ButtonGreen" type="submit" value="Save" />
 
+                {* Reset Button *}
+                <input class="Button" type="reset" value="Reset" />
+            </div>
 
-<!--
-Options
+        </form>
 
-<br />
+    </td>
+    <td>
+            Options
 
-Create for
-a) module/templates
-or
-b) theme
+            <br />
 
-<br />
+            Create for
+            a) module/templates
+            or
+            b) theme
 
-Variables and Plugins in Use (In Order Of Use):
+            <br />
 
-<br />
+            Variables and Plugins in Use (In Order Of Use):
 
-Useable Placeholders:
--->
+            <br />
+
+            Useable Placeholders:Options
+    </td>
+</tr>
+</table>

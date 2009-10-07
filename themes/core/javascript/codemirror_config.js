@@ -16,31 +16,31 @@ $(document).ready(function() {
      * @link http://marijn.haverbeke.nl/codemirror/manual.html
      */
 
-    //var editor = CodeMirror.fromTextArea("codecontent", {    
-    var textarea = document.getElementById('codecontent');
-    var editor = new MirrorFrame(CodeMirror.replace(textarea), {     
-      content: textarea.value, 
+    var editor = CodeMirror.fromTextArea("codecontent", {
+    //var textarea = document.getElementById('codecontent');
+    //var editor = new MirrorFrame(CodeMirror.replace(textarea), {
+      //content: textarea.value,
 
       // The path parameter specifies the location where the script will find the parser and tokenizers files.
-	  path: "/libraries/codemirror/js/",
+      path: "/libraries/codemirror/js/",
 
-	  // The parserfile parameter specifies which parsers and tokenizer to load.
-	  // The following will enable a mixed-mode syntax highlighting by combining several parsers:
-	  // PHP+HTML+JavaScript+CSS.
-	  parserfile: ["parsexml.js",
-	               "parsecss.js",
-	               "tokenizejavascript.js", "parsejavascript.js",
+      // The parserfile parameter specifies which parsers and tokenizer to load.
+      // The following will enable a mixed-mode syntax highlighting by combining several parsers:
+      // PHP+HTML+JavaScript+CSS.
+      parserfile: ["parsexml.js",
+                   "parsecss.js",
+                   "tokenizejavascript.js", "parsejavascript.js",
                    "tokenizephp.js", "parsephp.js",
                    "parsephphtmlmixed.js"],
 
       //parserfile: ["parsexml.js", "parsecss.js", "tokenizejavascript.js", "parsejavascript.js", "parsehtmlmixed.js"],
 
-	  // The stylesheet parameter defines the CSS to pull in for each corresponding parser.
-	  stylesheet: ["/libraries/codemirror/css/xmlcolors.css",
+      // The stylesheet parameter defines the CSS to pull in for each corresponding parser.
+      stylesheet: ["/libraries/codemirror/css/xmlcolors.css",
                    "/libraries/codemirror/css/jscolors.css",
                    "/libraries/codemirror/css/csscolors.css"],
 
-	  autoMatchParens: true,
+      autoMatchParens: true,
       width: '100%',
       height: '480px',
       textWrapping: false,
@@ -50,5 +50,5 @@ $(document).ready(function() {
       indentUnit: 4,
       continuousScanning: 500
 
-	});
+    });
 });
