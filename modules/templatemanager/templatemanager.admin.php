@@ -80,21 +80,6 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
 
         # Incomming Variables
 
-        # GET: file (path+templatefilename)
-        if(empty($_GET['file']))
-        {
-            throw new Clansuite_Exception('No filename given. Please specify a filename for the template you want to edit.', 100);
-        }
-
-        $file = ROOT_MOD . stripslashes($_GET['file']);
-
-        # DS on win is "\"
-        if( DS == '\\')
-        {
-            # correct slashes
-            $file = str_replace('/', '\\', $file);
-        }
-
         # GET: tplmod (module of the template)
         if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
         {
@@ -103,6 +88,39 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         else
         {
             $tplmod = null;
+        }
+
+        # GET: tpltheme (theme of the template)
+        if(isset($_GET['tpltheme']) and (empty($_GET['tpltheme']) == false) )
+        {
+            $tpltheme = stripslashes($_GET['tpltheme']);
+        }
+        else
+        {
+            $tpltheme = null;
+        }
+
+        # GET: file (path+templatefilename)
+        if(empty($_GET['file']))
+        {
+            throw new Clansuite_Exception('No filename given. Please specify a filename for the template you want to edit.', 100);
+        }
+
+        # append ROOT_MOD path if tplmod is set
+        if(empty($tplmod) == false)
+        {
+            $file = ROOT_MOD . stripslashes($_GET['file']);
+        }
+        else # it's a complete filepath
+        {
+            $file = stripslashes($_GET['file']);
+        }
+
+        # DS on win is "\"
+        if( DS == '\\')
+        {
+            # correct slashes
+            $file = str_replace('/', '\\', $file);
         }
 
         # let's check, if this template exists
@@ -127,21 +145,9 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         $smarty = $this->getView();
         $smarty->assign('templateeditor_filename',    $file);
         $smarty->assign('templateeditor_modulename',  $tplmod);
+        $smarty->assign('templateeditor_themename',   $tpltheme);
         $smarty->assign('templateeditor_textarea',    htmlentities($templateText));
         $smarty->assign('templateeditor_newfile',     $templateeditor_newfile);
-
-        #$request = $this->injector->instantiate('Clansuite_HttpRequest');
-        /**
-         *
-
-         if ( $_POST['form_submit'] )
-         {
-           $file = 'template.tpl';
-           $handle = fopen($file, 'w') or die('Unable to open the file');
-           fwrite($handle, $_POST['template']);
-           fclose($handle);
-        }
-        */
 
         # Prepare the Output
         $this->prepareOutput();
@@ -153,11 +159,12 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
 
         $tplfilename    = (string) stripslashes($this->getHttpRequest()->getParameter('templateeditor_filename'));
         $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
+        $tplthemename   = (string) $this->getHttpRequest()->getParameter('templateeditor_themename');
         $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');
 
         if(isset($tplfilename) and isset($tpltextarea))
         {
-            file_put_contents($tplfilename, $tpltextarea);
+            file_put_contents($tplfilename, stripslashes($tpltextarea));
         }
 
         # Prepare the Output

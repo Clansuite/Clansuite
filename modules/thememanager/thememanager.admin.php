@@ -52,7 +52,7 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
 {
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $this->config = $this->getClansuiteConfig();
+
     }
 
     public function action_admin_show()
@@ -90,6 +90,14 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
                 # add fullpath
                 $theme_info[$i]['fullpath' ]  = $dir->getPathName();
 
+                # add templatefilename
+                if(isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl']))
+                {
+                    $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
+                    $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'].DS.$theme_info[$i]['layouttpl'];
+                }
+                
+
                 # add dirname
                 $theme_info[$i]['dirname']    = (string) $dir;
 
@@ -108,6 +116,7 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
 
                 # turn ROOT_THEMES path into WWW_ROOT
                 $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES.'/', $preview_image);
+
                 # fix slashes
                 $preview_image = str_replace('\\','/', $preview_image);
 
