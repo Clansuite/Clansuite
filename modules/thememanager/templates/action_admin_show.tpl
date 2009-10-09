@@ -1,4 +1,6 @@
-{* DEBUG OUTPUT of assigned Arrays: {$themes|@var_dump} *}
+{* DEBUG OUTPUT of assigned Arrays:
+{$themes|@var_dump}
+*}
 
 <div class="ModuleHeading">{t}Thememanager{/t}</div>
 <div class="ModuleHeadingSmall">{t}Themes verändern das Aussehen Ihrer Clansuite Webseite. Sie können hier das Standard-Theme ändern, ein Theme für alle Mitglieder festlegen oder neue Themes installieren.{/t}</div>
@@ -37,13 +39,28 @@
             <br />
         </td>
         <td>
-        {if !$theme.activated} <input class="ButtonGreen" type="Button" value="Select" /> {/if}
-        
-        {* {if $admin} <input class="ButtonGreen" type="Button" value="Select as Default Theme" /> {/if} *}
-        
-        <input class="ButtonOrange" type="Button" value="Edit" />
-        
-        <input class="ButtonRed" type="Button" value="Delete" />
+
+        {* Select Theme *}
+        {if $theme.activated == false}
+            <form action="http://www.irgendwo.de" method="GET">
+                <input class="ButtonGreen" type="submit" value="Select" />
+            </form>
+        {else}
+            This Theme is active!
+            <br />
+        {/if}
+
+        <form action="http://www.irgendwo.de" method="GET">
+             {* {if $admin} <input class="ButtonGreen" type="submit"  value="Select as Default Theme" /> {/if} *}
+        </form>
+
+        <a href="http://www.clansuite-dev.com/index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
+           class="ButtonOrange">{t}Edit{/t}</a>
+
+        <form action="http://www.irgendwo.de" method="GET">
+            <input class="ButtonRed" type="submit" value="Delete" />
+        </form>
+
         </td>
     </tr>
 
