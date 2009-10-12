@@ -5,6 +5,9 @@
     <theme_version>0.1</theme_version>
     <required_clansuite_version>0.1</required_clansuite_version>
     <date>August 2009</date>
+    <layoutfiles>
+        <layoutfile tpl="index.tpl"/>
+    </layoutfiles>
     <cssfiles>
         <stylename name="Clansuite Admin CSS">
             <cssfile css="admin.css"/>

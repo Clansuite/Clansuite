@@ -5,5 +5,8 @@
     <theme_version>0.1</theme_version>
     <required_clansuite_version>0.1</required_clansuite_version>
     <date>April 2008</date>
+    <layoutfiles>
+        <layoutfile tpl="index.tpl"/>
+    </layoutfiles>
     <renderengine>smarty</renderengine>
 </theme>
