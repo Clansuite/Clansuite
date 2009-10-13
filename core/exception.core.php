@@ -76,7 +76,7 @@ class Clansuite_Exception extends Exception
 
     /**
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
-     * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate().
+     * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
      * @param $code exception
      */
@@ -165,9 +165,14 @@ class Clansuite_Exception extends Exception
      *
      * @return Content of $exception_development_template_content
      */
-    private static function getExceptionDevelopmentTemplate()
+    private static function getExceptionDevelopmentTemplate($placeholders)
     {
-        return self::$exception_development_template_content;
+        $original_file_content = self::$exception_development_template_content;
+        
+        $replaced_content = str_replace('{$modulename}', $placeholders['modulename'], $original_file_content);
+        $replaced_content = str_replace('{$classname}', $placeholders['classname'], $replaced_content);
+        
+        return $replaced_content; 
     }
 
     /**
@@ -278,10 +283,15 @@ class Clansuite_Exception extends Exception
         }
 
         # HEADING <Rapid Development>
-        if(self::getExceptionDevelopmentTemplate() != '')
+        
+		# assign placeholders for replacements in the html
+		$placeholders['classname']  = str_replace("Module does not exist: ", '', self::getMessage());            
+        $placeholders['modulename'] = $_GET['mod'];
+        
+		if(self::getExceptionDevelopmentTemplate($placeholders) != '')
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
-            $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate().'</td></tr>';
+            $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
 
             # Split
             $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
