@@ -8,6 +8,7 @@ margin:0;
 font: 11px tahoma, verdana, arial, sans-serif;
 }
 
+
 div.inside {
 padding:0;
 margin:0;
@@ -112,6 +113,7 @@ padding-top:7px;
 .box-content {
 padding:5px;
 background-color:#ffffff;
+z-index:1;
 }
 
 #breadcrumbs {
@@ -189,7 +191,39 @@ padding-top:4px;
     font-weight: bold;
 }
 
+#breadcrumb {
+float:left;
+margin-right:20px;
+}
 
+/**
+ * This is the "HELP" element; on the right side; in the admin header
+ */
+#help-toggler
+{
+    padding-right: 10px;
+	padding-top: 7px;
+	color:#ffffff;
+	position:relative;
+	float:right;
+}
+
+#helpbutton {
+	float:right;
+}
+
+#help.admin_help {
+	position:relative;
+	float:right;
+	top:10px;
+    width: 350px;
+    padding: 8px;
+    background: #EEEEEE;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+	z-index:2;
+}
 
 
 /* admin.css */
@@ -640,14 +674,6 @@ table.admintable tr#cell3
 }
 
 /**
- * This is the "HELP" element; on the right side; in the admin header
- */
-#help-toggler
-{
-    padding-right: 10px;
-}
-
-/**
 * @desc Admin Header,Content,Helptext
 */
 .admin_header
@@ -690,17 +716,6 @@ table.admintable tr#cell3
 /**
  * this is the box which fades in after you clicked HELP in the admin header
  */
-.admin_help
-{
-    width: 350px;
-    padding: 8px;
-    background: #EEEEEE;
-    border: 1px solid;
-    border-color: #ffffff #ACA899 #ACA899 #ffffff;
-    cursor: default;
-    z-index: auto;
-}
-
 .admin_content
 {
     padding: 8px;

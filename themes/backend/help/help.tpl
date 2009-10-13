@@ -1,7 +1,7 @@
 <!-- Module Help - help.tpl -->
-<div style="position: absolute; right: 509px; top: 184px; border:1px solid #d3d1d1; color:#000000;">
+<div id="help_wrapper">
 
-    <div id="help" class="admin_help" style="float: right; z-index: 99;">
+    <div id="help" class="admin_help">
 
           <p>
             <strong>Help-Topics</strong>            
