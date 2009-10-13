@@ -86,8 +86,8 @@
 			<div id="content">													<!-- Start Content //-->
             	<div class="box-head">
                 	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
-					{include file='breadcrumbs.tpl'}
-                   <!-- <div id="helpbutton">{include file='help_button.tpl'}</div> //-->
+					<div id="breadcrumb">{include file='breadcrumbs.tpl'}</div>
+                    <div id="helpbutton">{include file='help/help_button.tpl'}</div>
                 </div>
                 <div class="box-content">
 					<div class="inside">
