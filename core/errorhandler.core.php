@@ -260,13 +260,12 @@ class Clansuite_Errorhandler
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # small errorreport
-        $errormessage  = "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
-        $errormessage .=  '<pre/>';
+        $errormessage  =  "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
         $errormessage .=  "<u>$errorname:</u><br/>";
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
         $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
-        $errormessage .=  '</pre><br/>';
-        $errormessage .= self::addTemplateEditorLink($errorcontext['resource_name'], $errorline);
+        $errormessage .= self::addTemplateEditorLink($errorfile, $errorline, $errorcontext);
+        $errormessage .=  '<br/>';
 
         return $errormessage;
     }
@@ -281,14 +280,27 @@ class Clansuite_Errorhandler
      * @param $errorline Line Number of the Error.
      * @todo correct link to the templateeditor
      */
-    private static function addTemplateEditorLink($errorfile, $errorline)
+    private static function addTemplateEditorLink($errorfile, $errorline, $errorcontext)
     {
         # display the link to the templateeditor,
         # if we are in DEVELOPMENT MODE and if the error relates to a template file
         if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
+            $tpl_vars = $errorcontext['this']->get_template_vars();
+
+            if(isset($tpl_vars['templatename']))
+            {
+                $errorfile = $tpl_vars['templatename'];
+            }
+            else
+            {
+                $errorfile = $errorcontext['resourcename'];
+            }
+
+            #clansuite_xdebug::printR($errorfile);
+
             # construct the link to the tpl-editor
-            $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
+            $link_tpledit  = '<br/><a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
             $link_tpledit .= '&amp;file='.$errorfile;
             $link_tpledit .= '&amp;line='.$errorline;
             $link_tpledit .= '">Edit the Template</a>';

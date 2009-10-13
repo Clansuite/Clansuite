@@ -168,11 +168,23 @@ class Clansuite_Exception extends Exception
     private static function getExceptionDevelopmentTemplate($placeholders)
     {
         $original_file_content = self::$exception_development_template_content;
-        
-        $replaced_content = str_replace('{$modulename}', $placeholders['modulename'], $original_file_content);
-        $replaced_content = str_replace('{$classname}', $placeholders['classname'], $replaced_content);
-        
-        return $replaced_content; 
+
+        if(isset($placeholders['modulename']))
+        {
+            $replaced_content = str_replace('{$modulename}', $placeholders['modulename'], $original_file_content);
+        }
+
+        if(isset($placeholders['classname']))
+        {
+            $replaced_content = str_replace('{$classname}', $placeholders['classname'], $replaced_content);
+        }
+
+        if(isset($placeholders['actionname']))
+        {
+            $replaced_content = str_replace('{$actionname}', $placeholders['actionname'], $replaced_content);
+        }
+
+        return $replaced_content;
     }
 
     /**
@@ -283,11 +295,18 @@ class Clansuite_Exception extends Exception
         }
 
         # HEADING <Rapid Development>
-        
+
 		# assign placeholders for replacements in the html
-		$placeholders['classname']  = str_replace("Module does not exist: ", '', self::getMessage());            
+		if(strpos(self::getMessage(),"action_"))
+		{
+		    $placeholders['actionname']  = substr(self::getMessage(),strpos(self::getMessage(),"action_"));
+		}
+		elseif(strpos(self::getMessage(),"module_"))
+		{
+		    $placeholders['classname']  = substr(self::getMessage(),strpos(self::getMessage(),"module_"));
+		}
         $placeholders['modulename'] = $_GET['mod'];
-        
+
 		if(self::getExceptionDevelopmentTemplate($placeholders) != '')
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
