@@ -108,8 +108,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * 3) Import SUPERGLOBAL $_REQUEST into $parameters
      */
     public function __construct()
-    {
-        # 1) Filter Globals and Request
+    {                 
+        # 1) run IDS
+        $doorKeeper = new Clansuite_DoorKeeper;
+        $doorKeeper->runIDS();
+        
+        # 2) Filter Globals and Request
 
         // Reverse the effect of register_globals
         if ((bool)ini_get('register_globals') && strtolower(ini_get('register_globals')) != 'off')
@@ -129,18 +133,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         /**
-         *  2) Security
+         *  3) Additional Security Checks
          */
-
-        # a) run IDS
-        $doorKeeper = new Clansuite_DoorKeeper;
-        $doorKeeper->runIDS();
-
-        # b) block Proxies
+        # Block Proxies
         Clansuite_DoorKeeper::blockProxies();
 
         /**
-         *  3) Clear Array, Filter and Assign the $_REQUEST Global to it
+         *  4) Clear Array, Filter and Assign the $_REQUEST Global to it
          */
 
         # Clear Parameters Array
@@ -160,12 +159,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->cookie_parameters  = $_COOKIE;
 
         /**
-         * 4) set WWW_ROOT defines
+         * 5) set WWW_ROOT defines
          */
         #self::defineWWWPathConstants();
 
         /**
-         * 5) Detect REST Tunneling through POST and set request_method accordingly
+         * 6) Detect REST Tunneling through POST and set request_method accordingly
          */
         $this->detectRESTTunneling();
     }
@@ -373,21 +372,21 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
- 	 * Shortcut to get a Parameter from $_SERVER
+     * Shortcut to get a Parameter from $_SERVER
      *
      * @param string $parametername Name of the Parameter
      * @return mixed data | null
      */
- 	public function getParameterFromServer($parametername)
- 	{
- 	    if (in_array($parametername, array_keys($_SERVER)))
+    public function getParameterFromServer($parametername)
+    {
+        if (in_array($parametername, array_keys($_SERVER)))
         {
- 	        return $_SERVER[$parametername];
- 	    }
+            return $_SERVER[$parametername];
+        }
         else
         {
             return null;
- 	    }
+        }
     }
 
     /**
