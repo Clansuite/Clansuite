@@ -204,25 +204,25 @@ margin-right:20px;
     padding-right: 10px;
 	padding-top: 7px;
 	color:#ffffff;
-	position:relative;
 	float:right;
 }
 
 #helpbutton {
 	float:right;
+	z-index:3;
+	position:relative;
 }
 
 #help.admin_help {
-	position:relative;
-	float:right;
-	top:10px;
+	position:absolute;
+	top:30px;
+	right:0px;
     width: 350px;
     padding: 8px;
     background: #EEEEEE;
     border: 1px solid;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     cursor: default;
-	z-index:2;
 }
 
 
