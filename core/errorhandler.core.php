@@ -141,7 +141,7 @@ class Clansuite_Errorhandler
      */
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-		# do just return, if silenced (in case of @ operator) or DEBUG mode active
+        # do just return, if silenced (in case of @ operator) or DEBUG mode active
         if((error_reporting() == 0))
         {
             return;
@@ -266,12 +266,7 @@ class Clansuite_Errorhandler
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
         $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
         $errormessage .=  '</pre><br/>';
-
-        # if error relates to a template file, then add link to edit the errorous template file
-        if(strpos(strtolower($errorstring),'.tpl') == true)
-        {
-            $errormessage .= self::addTemplateEditorLink($errorstring);
-        }
+        $errormessage .= self::addTemplateEditorLink($errorcontext['resource_name'], $errorline);
 
         return $errormessage;
     }
@@ -286,28 +281,17 @@ class Clansuite_Errorhandler
      * @param $errorline Line Number of the Error.
      * @todo correct link to the templateeditor
      */
-    private static function addTemplateEditorLink($errorstring)
+    private static function addTemplateEditorLink($errorfile, $errorline)
     {
-        # display the link to the templateeditor, if we are in DEVELOPMENT MODE
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
+        # display the link to the templateeditor,
+        # if we are in DEVELOPMENT MODE and if the error relates to a template file
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
-            # extract filename and line from errorstring - @todo optimize this regexp
-            preg_match('/Smarty error: (.*) (?<filename>.*) line (?<line>.*)]:(.*)/', $errorstring, $matches);
-
-            if(count($matches) >= 1)
-            {
-                # correct slashes
-                $matches['filename'] = $_SESSION['user']['theme'] .DS. str_replace('/', '\\', $matches['filename']);
-
-                # construct the link to the tpl-editor
-                $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin';
-                $link_tpledit .= '&amp;file='.$matches['filename'];
-                $link_tpledit .= '&amp;line='.$matches['line'].'">Edit the Template</a>';
-            }
-            else # We have no match, no filename, no linenumber, so we have no link
-            {
-                $link_tpledit = '';
-            }
+            # construct the link to the tpl-editor
+            $link_tpledit  = '<a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
+            $link_tpledit .= '&amp;file='.$errorfile;
+            $link_tpledit .= '&amp;line='.$errorline;
+            $link_tpledit .= '">Edit the Template</a>';
 
             # return the link
             return $link_tpledit;
