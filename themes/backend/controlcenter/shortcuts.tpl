@@ -46,7 +46,8 @@
                                     <div id="fragment-1">
                                         {* Table for Administration Symbols/Shortcuts *}
                                         <table cellspacing="10" cellpadding="5" {* Tabelle zentrieren: style="margin:0 auto" *}>
-
+                                            
+                                          {*
                                             {foreach key=row item=image from=$shortcuts}
                                                 <tr class="tr_row2">
 
@@ -62,6 +63,7 @@
 
                                                 </tr>
                                             {/foreach}
+                                           *}
 
                                         </table>
                                     </div>

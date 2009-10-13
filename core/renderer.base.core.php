@@ -210,14 +210,18 @@ abstract class Clansuite_Renderer_Base
         # get module and submodule names
         $module    = Clansuite_ModuleController_Resolver::getModuleName();
         $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-
+        
         # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             if(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
+            {                     
+                return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
+            }
+            elseif(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
             {
-                return  ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
+                return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template;   
             }
             # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
             elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
@@ -254,7 +258,7 @@ abstract class Clansuite_Renderer_Base
     public function getModuleTemplatePath($template)
     {
         # Debug Display
-       # echo '<br>'. __METHOD__ .' INPUT '. $template . '<br>';
+        #echo '<br>'. __METHOD__ .' INPUT '. $template . '<br>';
 
         # init var
         $modulepath = '';
