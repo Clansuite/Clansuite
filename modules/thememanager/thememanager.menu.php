@@ -42,28 +42,21 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 $modulenavigation = array(
                             '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-										    'url'	  => 'index.php?mod=thememanager&sub=admin', # &action=show
+                                            'action'  => 'show_frontend',
+                                            'name'    => 'Frontend',
+										    'url'	  => 'index.php?mod=thememanager&sub=admin', # &action=show_frontend
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
 
 							'2' => array(
-							                'action'  => 'create',
-							                'name'    => 'Create new',
-										    'url'     => 'index.php?mod=thememanager&sub=admin&action=create',
+							                'action'  => 'show_backend',
+							                'name'    => 'Backend',
+										    'url'     => 'index.php?mod=thememanager&sub=admin&action=show_backend',
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
 
-						    '3' => array(
-							                'action'  => 'settings',
-							                'name'    => 'Settings',
-										    'url'     => 'index.php?mod=thememanager&sub=admin&action=settings',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
 						 );
 
 /**
