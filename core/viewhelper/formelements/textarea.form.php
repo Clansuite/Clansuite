@@ -37,14 +37,88 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+require ROOT_CORE . 'viewhelper/formelement.core.php';
+
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Textarea
  */
-class Clansuite_Formelement_Textarea extends Clansuite_Form
+class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * width of textarea in letters
+     *
+     * @var int
+     */
+    protected $cols = 0;
 
+    /**
+     * height of textarea in rows
+     *
+     * @var int
+     */
+    protected $rows = 0;
+
+    /**
+     * defines width of textarea in letters
+     *
+     * @return void
+     * @param int $cols
+     */
+    public function setCols($cols)
+    {
+        $this->cols = $cols;
+        
+        return $this;
+    }
+
+    /**
+     * defines height of textarea in rows
+     *
+     * @return void
+     * @param int $rows
+     */
+    public function setRows($rows)
+    {
+        $this->rows = $rows;
+        
+        return $this;
+    }
+
+
+    public function __construct()
+    {
+        $this->type  = 'textarea';
+    }
+
+    public function render()
+    {
+        /**
+         * Opening of tag
+         */
+        $html  = '<textarea ';
+        $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
+        $html .= (bool)$this->name ? ' name="'.$this->name.'"' : null;
+        $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
+        $html .= (bool)$this->cols ? ' cols="'.$this->cols.'"' : null;
+        $html .= (bool)$this->rows ? ' rows="'.$this->rows.'"' : null;
+        $html .= (bool)$this->class ? ' class="'.$this->class.'"' : null;
+        $html .= (bool)$this->disabled ? ' disabled="disabled"' : null;
+        $html .= (bool)$this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
+        $html .= '>';
+
+        /**
+         * Content of tag (value)
+         */
+        $html .= $this->getValue();
+
+        /**
+         * Closing of tag
+         */
+        $html .= "</textarea>\n";
+
+        return $html;
+    }
 }
 ?>
