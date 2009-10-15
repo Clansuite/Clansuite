@@ -150,6 +150,20 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     protected $encoding;
 
     /**
+     * Contains description of the form.
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * Contains heading of the form.
+     *
+     * @var string
+     */
+    protected $heading;
+
+    /**
      * Construct
      */
     public function __construct($name, $method, $action)
@@ -236,7 +250,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set name of this form.
      *
-     * @param $action string Name of this form.
+     * @param $name string Name of this form.
      */
     public function setName($name)
     {
@@ -251,6 +265,68 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set class of this form.
+     *
+     * @param $class string Name of this form.
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+    }
+
+    /**
+     * Returns class of this form.
+     *
+     * @return string Name of this form.
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set class of this form.
+     *
+     * @param $description string Name of this form.
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Returns class of this form.
+     *
+     * @return string Name of this form.
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set heading of this form.
+     *
+     * @param $heading string Name of this form.
+     */
+    public function setHeading($heading)
+    {
+        $this->heading = $heading;
+
+        return $this;
+    }
+
+    /**
+     * Returns heading of this form.
+     *
+     * @return string Name of this form.
+     */
+    public function getHeading()
+    {
+        return $this->heading;
     }
 
     /**
@@ -316,10 +392,53 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         $html_form = '' . CR;
 
         # open form
-        $html_form  = '<form id="'.$this->getID().'" action="'.$this->getAction().'" method="'.$this->getMethod().'" '
-        $html_form .= 'enctype="'.$this->getEncoding().'" name="'.$this->getName().'" '
-        $html_form .= 'class="'.$this->getClass().'"'
+        $html_form  = '<form ';
+
+        if( strlen($this->getID()) > 0 )
+        {
+            $html_form .= 'id="'.$this->getID().'" ';
+        }
+
+        if( strlen($this->getAction()) > 0 )
+        {
+            $html_form .= 'action="'.$this->getAction().'" ';
+        }
+
+        if( strlen($this->getMethod()) > 0 )
+        {
+            $html_form .= 'method="'.$this->getMethod().'" ';
+        }
+
+        if( strlen($this->getEncoding()) > 0 )
+        {
+            $html_form .= 'enctype="'.$this->getEncoding().'" ';
+        }
+
+        if( strlen($this->getName()) > 0 )
+        {
+             $html_form .= 'name="'.$this->getName().'" ';
+        }
+
+        if( strlen($this->getClass()) > 0 )
+        {
+             $html_form .= 'class="'.$this->getClass().'"';
+        }
+
+        # close the form tag
         $html_form .= '>' . CR;
+
+
+        # add heading
+        if( strlen($this->getHeading()) > 0 )
+        {
+             $html_form .= '<br /> <h2>'.$this->getHeading().'</h2>' . CR;
+        }
+
+        # add description
+        if( strlen($this->getDescription()) > 0 )
+        {
+             $html_form .= '<p>'.$this->getDescription().'</p>' .CR;
+        }
 
         # sort formelements by index
         ksort($this->formelements);
@@ -327,14 +446,14 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
-            $htmlform .= CR . $formelement->render() . CR;
+            $html_form .= CR . $formelement->render() . CR;
         }
 
         # add buttons @todo
         #$html_form .= $this->buttons;
 
         # close form
-        $html_form = '</form>' . CR;
+        $html_form .= '</form>' . CR;
 
         return $html_form;
     }
@@ -356,8 +475,15 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @param $position integer The position number of this formelement (ordering).
      * @return $this Form Object
      */
-    public function addElement(Clansuite_Formelement_Interface $formelement, $position = null)
+    public function addElement($formelement, $position = null)
     {
+        if( ($formelement instanceof Clansuite_Formelement_Interface) == false )
+        {
+           require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+           $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
+           $formelement = new $formelement_classname;
+        }
+
         # if we don't have a position to order the elements, we just add an element
         if($position === null)
         {
@@ -369,7 +495,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $this->formelements[$position] = $formelement;
         }
 
-        return $this;
+        # return object -> fluent interface / method chaining
+        return $formelement;
     }
 
     /**
@@ -601,17 +728,17 @@ interface Clansuite_Form_Interface
     public function setMethod($method);
 
     # add/remove a formelement
-    public function addElement($formelement);
+    public function addElement($formelement, $position = null);
     public function delElement($name);
 
     # load/save the XML description of the form
-    public function loadDescriptionXML($xmlfile);
-    public function saveDescriptionXML($xmlfile);
+    #public function loadDescriptionXML($xmlfile);
+    #public function saveDescriptionXML($xmlfile);
 
     # shortcut method / factory method for accessing the formelements
     public static function formfactory();
 
     # callback for validation on the whole form (all formelements)
-    public function processForm();
+    #public function processForm();
 }
 ?>
