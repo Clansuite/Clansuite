@@ -60,7 +60,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
     protected $default = '';
 
     # string
-    protected $description ='Select an item from this pull-down menu.';
+    protected $label ='Select an item from this pull-down menu.';
 
     public function __construct()
     {
