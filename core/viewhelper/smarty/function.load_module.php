@@ -119,12 +119,12 @@ function smarty_function_load_module($params, &$smarty)
         }
         else
         {
-            return "Error! Failed to load Widget-Template for <br /> $module_name -> $action($items)";
+            return $smarty->trigger_error("Error! Failed to load Widget-Template for <br /> $module_name -> $action($items)");
         }
     }
     else
     {
-        return "Error! Failed to load Widget: <br /> $module_name -> $action($items)";
+        return $smarty->trigger_error("Error! Failed to load Widget: <br /> $module_name -> $action($items)");
     }
 }
 ?>
