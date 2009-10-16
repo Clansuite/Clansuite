@@ -261,21 +261,29 @@ class Clansuite_Functions
      */
     static function array_find_element_by_key($key, $array)
     {
-        if (array_key_exists($key, $array))
+        # ensure we have a haystack array
+        if(is_array($array))
         {
-            $result= $array[$key];
-            return $result;
-        }
-
-        foreach ($array as $k => $v)
-        {
-            if (is_array($v))
+            # take a look for the needle
+            if (array_key_exists($key, $array))
             {
-                $result = self::array_find_element_by_key($key, $array[$k]);
+                # if found, return it
+                $result= $array[$key];
+                return $result;
+            }
 
-                if ($result)
+            # dig a little bit deeper in the array structure
+            foreach ($array as $k => $v)
+            {
+                if (is_array($v))
                 {
-                    return $result;
+                    # recursion
+                    $result = self::array_find_element_by_key($key, $array[$k]);
+
+                    if ($result)
+                    {
+                        return $result;
+                    }
                 }
             }
         }
