@@ -102,6 +102,20 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->prepareOutput();
     }
 
+    public function action_admin_menueditor2()
+    {
+        #$user::hasAccess('admin','about');
+
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
+		
+
+        // specifiy the template manually
+		$this->setTemplate('menueditor2.tpl');
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+	
     /**
      * Update the Adminmenu
      *
