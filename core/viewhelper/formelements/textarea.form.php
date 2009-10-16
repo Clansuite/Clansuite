@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-require ROOT_CORE . 'viewhelper/formelement.core.php';
+if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -63,7 +63,6 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     /**
      * defines width of textarea in letters
      *
-     * @return void
      * @param int $cols
      */
     public function setCols($cols)
@@ -76,7 +75,6 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     /**
      * defines height of textarea in rows
      *
-     * @return void
      * @param int $rows
      */
     public function setRows($rows)
@@ -90,6 +88,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     public function __construct()
     {
         $this->type  = 'textarea';
+
+        return $this;
     }
 
     public function render()

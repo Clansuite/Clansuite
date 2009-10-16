@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
+
 /**
  *  Clansuite_Formelement
  *  |
@@ -56,44 +58,53 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
     /**
      * constructor
      *
-     * @return void
      */
     public function __construct()
     {
         $this->type = 'radio';
+        
+        return $this;
     }
 
     /**
      * checks or unchecks radio button
      *
-     * @return void
      * @param bool checked
      */
     public function setChecked($checked)
     {
         $this->checked = $checked;
+        
+        return $this;
     }
 
     /**
      * sets clickable label next to element
      *
-     * @return void
      * @param string $text
      */
     public function setLabel($text)
     {
         $this->label = '<label for="'.$this->id.'">'.$text.'</label>';
+        
+        return $this;
     }
 
     /**
      * sets description
      *
-     * @return void
      * @param string $text
      */
     public function setDescription($text)
     {
         $this->text = $text;
+        
+        return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->render();   
     }
 }
 ?>
