@@ -43,8 +43,69 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  *  |
  *  \- Clansuite_Formelement_Select
  */
-class Clansuite_Formelement_Select extends Clansuite_Form
+class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * array with options for the dropdown
+     *
+     * @var array
+     */
+    protected $options;
+    
+    /**
+     * default option of the select dropdown
+     *
+     * @var string
+     */
+    protected $default = '';
 
+    # string
+    protected $description ='Select an item from this pull-down menu.';
+
+    public function __construct()
+    {
+        $this->type = 'select';
+    }
+    
+    public function setDefaultOption($default)
+    {
+        $this->default = $default;
+        
+        return $this;   
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    public function render()
+    {
+        $html = '';
+        $html .= '<select name='.$this->name.' class="'.$this->class.'">';
+
+        foreach ($this->options as $key => $value)
+        {
+            if ($key == $this->default)
+            {
+                $html .= '<option value='.$key.' selected >'.$value.'</option>';
+            }
+            else
+            {
+                $html .= '<option value='.$key.'>'.$value.'</option>';
+            }
+        }
+
+        $html .= '</select>';
+        
+        return $html;
+    }
+    
+    public function __toString()
+    {
+        return $this->render();   
+    }
 }
 ?>
