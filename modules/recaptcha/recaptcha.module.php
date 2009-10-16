@@ -62,7 +62,7 @@ class Module_Recaptcha extends Clansuite_ModuleController implements Clansuite_M
         require_once( ROOT_MOD . 'recaptcha/library/recaptchalib.php');
 
         # fetch publickey from config, you got this key from the recaptcha signup page
-        $publicKey = $this->getConfigValue('public_key','');
+        $publicKey = $this->getConfigValue('public_key','No PublicKey given!');
 
         echo recaptcha_get_html($publicKey);
     }
@@ -76,11 +76,12 @@ class Module_Recaptcha extends Clansuite_ModuleController implements Clansuite_M
     {
         # Load Recaptcha Library
         require_once( ROOT_MOD . 'recaptcha/library/recaptchalib.php');
-
+        
         $resp = recaptcha_check_answer( $this->getConfigValue('public_key',''),
                                         $this->request->getRemoteAddress(),
-                                        $this->request->getParameter('recaptcha_challenge_field'), # POST
-                                        $this->request->getParameter('recaptcha_response_field');  # POST
+                                        $this->request->getParameter('recaptcha_challenge_field'),  # POST
+                                        $this->request->getParameter('recaptcha_response_field')    # POST
+                                      );  
 
         if (!$resp->is_valid)
         {
