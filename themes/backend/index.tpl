@@ -90,7 +90,7 @@
                     <div id="helpbutton">{include file='help/help_button.tpl'}</div>
                 </div>
                 <div class="box-content">
-					<div class="inside">
+					<div class="inside" style="overflow:hidden">
 						{$content}
                     </div>
                 </div>
