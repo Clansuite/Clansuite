@@ -209,7 +209,7 @@ class Clansuite_Errorhandler
         {
             # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
             # so we need to detect if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
-            if( (strpos(strtolower($errorfile),'smarty') !== false) or (strpos(strtolower($errorfile),'tpl.php') !== false) )
+            if( (strpos(strtolower($errorfile),'smarty') == true) or (strpos(strtolower($errorfile),'tpl.php') == true) )
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
@@ -286,6 +286,8 @@ class Clansuite_Errorhandler
         # if we are in DEVELOPMENT MODE and if the error relates to a template file
         if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
+            #clansuite_xdebug::printR($errorcontext);
+
             $tpl_vars = $errorcontext['this']->get_template_vars();
 
             if(isset($tpl_vars['templatename']))
@@ -294,7 +296,7 @@ class Clansuite_Errorhandler
             }
             else
             {
-                $errorfile = $errorcontext['resourcename'];
+                $errorfile = $errorcontext['resource_name'];
             }
 
             #clansuite_xdebug::printR($errorfile);
