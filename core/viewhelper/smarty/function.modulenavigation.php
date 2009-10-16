@@ -44,11 +44,10 @@ function smarty_function_modulenavigation($params, &$smarty)
     }
     else # if no file was found - say so
     {
-        $errormessage  = '<div class="error">You are using the Smarty command: {modulenavigation}, but the description file for the modulenavigation is missing: "'
-                        .Clansuite_ModuleController_Resolver::getModuleName(). '.menu.php".</div>';
-                        
-                        # @todo add link to moduleeditor
-        $errormessage .= '<div class="create">You can create this file directly in the Moduleeditor now.</div>';
+        $smarty->assign('modulename', Clansuite_ModuleController_Resolver::getModuleName());
+
+        $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
+
         $smarty->trigger_error($errormessage);
     }
 }
