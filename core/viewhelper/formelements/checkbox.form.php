@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
+
 /**
  *  Clansuite_Formelement
  *  |
@@ -55,19 +57,18 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
 
     /**
      * constructor
-     *
-     * @return void
      */
     public function __construct()
     {
         $this->type = 'checkbox';
         $this->label = null;
+
+        return $this;
     }
 
     /**
      * check or unchecks the checkbox
      *
-     * @return void
      * @param bool checked
      */
     public function setChecked($checked)
@@ -78,7 +79,6 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     /**
      * sets clickable label next to element
      *
-     * @return void
      * @param string $text
      */
     public function setLabel($text)
@@ -89,7 +89,6 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     /**
      * sets description
      *
-     * @return void
      * @param string $text
      */
     public function setDescription($text)
