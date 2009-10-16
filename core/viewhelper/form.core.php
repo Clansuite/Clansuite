@@ -389,10 +389,10 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function render()
     {
         # init html form
-        $html_form = '' . CR;
+        $html_form = '<!-- Start of Form "'. $this->getName() .'" -->' . CR;
 
         # open form
-        $html_form  = '<form ';
+        $html_form  .= '<form ';
 
         if( strlen($this->getID()) > 0 )
         {
@@ -446,14 +446,24 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
+            # render the formelement
             $html_form .= CR . $formelement->render() . CR;
+
+            # add label
+            if ( $formelement->hasLabel() == true )
+            {
+                $html_form .= CR . '<span class="label">' . $formelement->getLabel() . '</span>' . CR;
+            }
+
+            # seperator
+            $html_form .= '<br/>' .CR;
         }
 
         # add buttons @todo
         #$html_form .= $this->buttons;
 
         # close form
-        $html_form .= '</form>' . CR;
+        $html_form .= '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
 
         return $html_form;
     }
