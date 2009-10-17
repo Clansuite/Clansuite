@@ -2,7 +2,7 @@
 
 {modulenavigation}
 <div class="ModuleHeading">Systeminformation</div>
-<div class="ModuleHeadingSmall">Die Systeminformation zeigt Ihnen den aktuellen Status der Clansuite Webserver-Umgebung und der Erweiterungen an.</div>
+<div class="ModuleHeadingSmall">{t}This overview shows pieces of information about your system, the current state of your webserver-environment and it's plugins.{/t}</div>
 
 <div class="clansuite-container" style="font-family: Verdana, Arial, sans-serif">
 
