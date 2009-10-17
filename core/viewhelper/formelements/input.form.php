@@ -116,15 +116,15 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     {
         $html  = null;
         $html .= '<input type="'.$this->type.'" id="'.$this->id.'" name="'.$this->name.'" value="'.$this->value.'"';
-        $html .= (bool)$this->size ? ' size= "'.$this->size.'"' : NULL;
-        $html .= (bool)$this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : NULL;
-        $html .= ($this->type == 'text' || $this->type == 'password') ? ' class="' . $this->class .'"' : NULL;
-        $html .= ($this->type == 'submit') ? ' class="submit ' . $this->class .'"' : NULL;
-        $html .= ($this->type == 'checkbox') ? ' class="checkbox ' . $this->class .'"' : NULL;
-        $html .= ($this->type == 'radio') ? ' class="radio ' . $this->class .'"' : NULL;
-        $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : NULL;
-        $html .= ($this->type == 'image' && (bool)$this->width && (bool)$this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : NULL;
-        $html .= (bool)$this->checked ? ' checked' : NULL;
+        $html .= (bool)$this->size ? ' size= "'.$this->size.'"' : null;
+        $html .= (bool)$this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
+        $html .= ($this->type == 'text' || $this->type == 'password') ? ' class="' . $this->class .'"' : null;
+        $html .= ($this->type == 'submit') ? ' class="submit ' . $this->class .'"' : null;
+        $html .= ($this->type == 'checkbox') ? ' class="checkbox ' . $this->class .'"' : null;
+        $html .= ($this->type == 'radio') ? ' class="radio ' . $this->class .'"' : null;
+        $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
+        $html .= ($this->type == 'image' && (bool)$this->width && (bool)$this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
+        $html .= (bool)$this->checked ? ' checked' : null;
         $html .= ' />' . CR;
 
         return $html;

@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement_Select')) { require 'select.form.php'; }
+
 /**
  *
  *  Clansuite_Form
@@ -45,8 +47,25 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  *     |
  *     \- Clansuite_Formelement_Selectyesno
  */
-class Clansuite_Formelement_Selectyesno extends Clansuite_Formelement_Select
+class Clansuite_Formelement_Selectyesno extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
-
+    public function getYesNo()
+    {
+        $options = array( '1' => 'yes', '0' => 'no' );        
+        return $options;   
+    }
+    
+    public function render()
+    {      
+        $select_element = new Clansuite_Formelement_Select();
+        $select_element->setOptions($this->getYesNo());        
+        $html = $select_element;        
+        return $html;
+    }
+    
+    public function __toString()
+    {
+        return $this->render();        
+    }
 }
 ?>

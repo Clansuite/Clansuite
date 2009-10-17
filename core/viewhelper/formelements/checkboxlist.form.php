@@ -37,14 +37,43 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-/**
- *
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Checkboxlist
- */
-class Clansuite_Formelement_Checkboxlist extends Clansuite_Form
-{
+if (!class_exists('Clansuite_Formelement_Checkbox')) { require 'checkbox.form.php'; }
 
+/**
+ *  Clansuite_Formelement_Input
+ *  |
+ *  \ - Clansuite_Formelement_Checkbox
+ *      |
+ *      \- Clansuite_Formelement_Checkboxlist
+ */
+class Clansuite_Formelement_Checkboxlist extends Clansuite_Formelement_Checkbox implements Clansuite_Formelement_Interface
+{
+    public function getOptions()
+    {
+        $options = array( '1' => 'eins', '2' => 'zwei', '3' => 'drei', '4' => 'Polizei' );
+        return $options;
+    }
+
+    public function render()
+    {
+        $html = '';
+
+        foreach ($this->getOptions() as $key => $value)
+        {
+            $checkbox_element = new Clansuite_Formelement_Checkbox();
+            $checkbox_element->setLabel($value);
+            $checkbox_element->setName($value);
+            $checkbox_element->setDescription($value);
+            $checkbox_element->setValue($key);
+            $html .= $checkbox_element;
+        }
+
+        return $html;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
+    }
 }
 ?>
