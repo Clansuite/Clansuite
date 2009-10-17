@@ -37,15 +37,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Clansuite
  *
- * Module:      Downloads 
+ * Module:      Matches
  * Submodule:   Admin
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - $Date: 2008-06-12 01:44:20 +0200 (Do, 12 Jun 2008) $)
  *
- * @package     clansuite
- * @category    module
- * @subpackage  news
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Matches
  */
 class Module_Matches_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

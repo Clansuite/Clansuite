@@ -41,9 +41,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Module:       Admin Settings
  *
- * @package clansuite
- * @subpackage module_admin_settings
- * @category modules
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Settings
  */
 class Module_Settings_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
