@@ -450,7 +450,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $html_form .= CR . $formelement->render() . CR;
 
             # add label
-            if ( $formelement->hasLabel() == true )
+            if ( $formelement->hasLabel() == true)
             {
                 $html_form .= CR . '<span class="label">' . $formelement->getLabel() . '</span>' . CR;
             }
@@ -489,9 +489,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         if( ($formelement instanceof Clansuite_Formelement_Interface) == false )
         {
-           require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
-           $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
-           $formelement = new $formelement_classname;
+            $formelement = $this->formfactory($formelement);   
         }
 
         # if we don't have a position to order the elements, we just add an element
@@ -569,9 +567,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @return object
      */
-    public static function formfactory($name = 'none', $type = '')
+    public static function formfactory($formelement, $type = '')
     {
-        return new Clansuite_Formelement($name, $type);
+        require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+        $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
+        $formelement = new $formelement_classname;
+        
+        return $formelement;
     }
 
     /**
@@ -746,7 +748,7 @@ interface Clansuite_Form_Interface
     #public function saveDescriptionXML($xmlfile);
 
     # shortcut method / factory method for accessing the formelements
-    public static function formfactory();
+    public static function formfactory($formelement, $type = '');
 
     # callback for validation on the whole form (all formelements)
     #public function processForm();
