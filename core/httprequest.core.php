@@ -122,7 +122,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         // disable magic_quotes_runtime
-        set_magic_quotes_runtime(0);
+        @set_magic_quotes_runtime(0);
 
         # if magic quotes gpc is on, stripslash them
         if ( 1 == get_magic_quotes_gpc() )

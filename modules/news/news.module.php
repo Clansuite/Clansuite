@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Jens-Andrï¿½ Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -297,10 +297,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      *      ??? 4: archive
      *
      */
-    public function action_archiv()
+    public function action_archive()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archiv');
+        Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
@@ -330,7 +330,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         }
 
         # get resultsPerPage from ModuleConfig
-        $resultsPerPage = $this->getConfigValue('resultsPerPage_archiv', '3');
+        $resultsPerPage = $this->getConfigValue('resultsPerPage_archive', '3');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
@@ -393,10 +393,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      *      ??? 4: archive
      *
      */
-    public function action_fullarchiv()
+    public function action_fullarchive()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Archiv'), '/index.php?mod=news&amp;action=fullarchiv');
+        Clansuite_Trail::addStep( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
 
         // Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
@@ -417,7 +417,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $enddate   = date('Y-m-d');
 
         # get resultsPerPage from ModuleConfig
-        $resultsPerPage = $this->getConfigValue('resultsPerPage_fullarchiv', '25');
+        $resultsPerPage = $this->getConfigValue('resultsPerPage_fullarchive', '25');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);

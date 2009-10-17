@@ -6,8 +6,8 @@
 
 ; Limitation for different Actions
 resultsPerPage_show = 3
-resultsPerPage_archiv = 3
-resultsPerPage_fullarchiv = 25
+resultsPerPage_archive = 3
+resultsPerPage_fullarchive = 25
 
 
 ; DO NOT REMOVE THIS LINE */ ?>
