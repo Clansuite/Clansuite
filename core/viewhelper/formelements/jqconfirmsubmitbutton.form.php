@@ -38,28 +38,75 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Form_Button
+ *  \- Clansuite_Formelement_Input
  *     |
  *     \- Clansuite_Formelement_JQConfirmSubmitButton
  */
-class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuiute_Formelement_Button
-{
-    /**
-     * @todo javascript to implement
-     *
-     *  jConfirm('Can you confirm this?', 'Confirmation Dialog', function(r) {
-     *      jAlert('Confirmed: ' + r, 'Confirmation Results');
-     *  });
-     *
-     **/
+class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+{    
+    protected $message = 'Please Confirm';
+    
+    # takes the name of the form (to trigger the original sumbit)
+    protected $formid;
 
-    function Clansuite_Formelement_JQConfirmSubmitButton($label, $value, $message = null, $width = null, $height = null)
+    function __construct()
     {
-        $action = "if (confirm('".$message."')) {this.form.".$this->formaction.".value='".$value."'; submit();}";
+        $this->type = "submit";
+        $this->value = _("Confirm & Submit");
+        $this->class = "ButtonGreen";
+        
+        #clansuite_xdebug::printR($this->formid);
 
-        $this->Clansuite_Formelement_Button($label, $value, $action, $width, $height);
+        # Add the Form Submit Confirmation Javascript. This is a jQuery UI Modal Confirm Dialog.
+        # to add the value of specific form.elements to the message use "+ form.elements['email'].value +"
+        # watch out, that div dialog is present in the dom, before you assign function to it via $('#dialog')
+        $this->description = "<div id=\"dialog\" title=\"Verify Form\">
+                                  <p>If your is correct click Submit Form.</p>
+                                  <p>To edit, click Cancel.<p>                                  
+                              </div>
+                              
+                              <script type=\"text/javascript\">
+                                      
+                               // jQuery UI Dialog
+
+                               $('#dialog').dialog({
+                                    autoOpen: false,
+                                    width: 400,
+                                    modal: true,
+                                    resizable: false,
+                                    buttons: {
+                                        \"Submit Form\": function() {
+                                            document.".$this->formid.".submit();
+                                        },
+                                        \"Cancel\": function() {
+                                            $(this).dialog(\"close\");
+                                        }
+                                    }
+                                });
+        
+        
+                              $('form#".$this->formid."').submit(function(){
+                                $('#dialog').dialog('open');
+                                 return false;
+                               });
+                              </script>                             
+                             ";
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+    
+    public function setFormId($formid)
+    {
+        $this->formid = $formid;
+
+        return $this;
     }
 }
+?>

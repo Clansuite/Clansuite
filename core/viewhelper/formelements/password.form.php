@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement_Text')) { require 'text.form.php'; }
+
 /**
  *
  *  Clansuite_Formelement
@@ -49,8 +51,6 @@ class Clansuite_Formelement_Password extends Clansuite_Formelement_Text implemen
 {
     /**
      * constructor
-     *
-     * @return void
      */
     public function __construct()
     {

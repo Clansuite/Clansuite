@@ -195,6 +195,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setMethod($method)
     {
         $this->method = $method;
+
+        return $this;
     }
 
     /**
@@ -215,6 +217,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setAction($action)
     {
         $this->action = $action;
+
+        return $this;
     }
 
     /**
@@ -235,6 +239,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setID($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -255,6 +261,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -275,6 +283,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setClass($class)
     {
         $this->class = $class;
+
+        return $this;
     }
 
     /**
@@ -295,6 +305,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -340,6 +352,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             $this->encoding = $encoding;
         }
+
+        return $this;
     }
 
     /**
@@ -370,6 +384,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
 
         $this->buttons = array_merge($this->buttons, $button);
+
+        return $this;
     }
 
 
@@ -489,7 +505,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         if( ($formelement instanceof Clansuite_Formelement_Interface) == false )
         {
-            $formelement = $this->formfactory($formelement);   
+            $formelement = $this->formfactory($formelement);
         }
 
         # if we don't have a position to order the elements, we just add an element
@@ -572,7 +588,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
         $formelement = new $formelement_classname;
-        
+
         return $formelement;
     }
 

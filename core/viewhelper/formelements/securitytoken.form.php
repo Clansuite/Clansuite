@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  *  |
  *  \- Clansuite_Formelement_Securitytoken
  */
-class Clansuite_Formelement_Securitytoken extends Clansuite_Form
+class Clansuite_Formelement_Securitytoken extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
 
 }

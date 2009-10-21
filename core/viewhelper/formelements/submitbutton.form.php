@@ -38,7 +38,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Input
  *     |
@@ -54,6 +54,9 @@ class Clansuite_Formelement_Submitbutton extends Clansuite_Formelement_Input imp
     public function __construct()
     {
         $this->type = 'submit';
+        $this->value = _('Submit');
+        
+        $this->class = "ButtonGreen";
     }
 }
 ?>

@@ -53,7 +53,7 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
      *
      * @var string
      */
-    protected $label;
+    protected $label, $description;
 
     /**
      * constructor
@@ -62,7 +62,7 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
     public function __construct()
     {
         $this->type = 'radio';
-        
+
         return $this;
     }
 
@@ -74,7 +74,7 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
     public function setChecked($checked)
     {
         $this->checked = $checked;
-        
+
         return $this;
     }
 
@@ -86,25 +86,25 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
     public function setLabel($text)
     {
         $this->label = '<label for="'.$this->id.'">'.$text.'</label>';
-        
+
         return $this;
     }
 
     /**
      * sets description
      *
-     * @param string $text
+     * @param string $description
      */
-    public function setDescription($text)
+    public function setDescription($description)
     {
-        $this->text = $text;
-        
+        $this->description = $description;
+
         return $this;
     }
-    
+
     public function __toString()
     {
-        return $this->render();   
+        return $this->render();
     }
 }
 ?>

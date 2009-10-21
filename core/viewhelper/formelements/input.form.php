@@ -38,9 +38,9 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *  Clansuite_Formelement_Input
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement
+ *  \- Clansuite_Formelement_Input
  */
 class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
@@ -106,7 +106,29 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var int
      */
     protected $height;
+    
+    /**
+     * additional string to attach to the opening form tag
+     * for instance 'onSubmit="xy"'
+     *
+     * @var $string;
+     */
+    protected $additionals;
+    
+    protected $description;
+    
+    /**
+     * Set Additionals to t formelement.
+     *
+     * @param $additionals of this formelement.
+     */
+    public function setAdditionals($additionals)
+    {
+        $this->additionals = $additionals;
 
+        return $this;
+    }
+         
     /**
      * generates html code of element
      *
@@ -119,13 +141,15 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool)$this->size ? ' size= "'.$this->size.'"' : null;
         $html .= (bool)$this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
         $html .= ($this->type == 'text' || $this->type == 'password') ? ' class="' . $this->class .'"' : null;
-        $html .= ($this->type == 'submit') ? ' class="submit ' . $this->class .'"' : null;
+        $html .= ($this->type == 'submit' || $this->type == 'reset') ? ' class="submit ' . $this->class .'"' : null;
         $html .= ($this->type == 'checkbox') ? ' class="checkbox ' . $this->class .'"' : null;
         $html .= ($this->type == 'radio') ? ' class="radio ' . $this->class .'"' : null;
         $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
         $html .= ($this->type == 'image' && (bool)$this->width && (bool)$this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
         $html .= (bool)$this->checked ? ' checked' : null;
+        $html .= (bool)$this->additionals ? $this->additionals : null;
         $html .= ' />' . CR;
+        $html .= (bool)$this->description ? $this->description : null;
 
         return $html;
     }
