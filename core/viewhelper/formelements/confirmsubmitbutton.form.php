@@ -38,30 +38,32 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Button
+ *  \- Clansuite_Formelement_Input
  *     |
  *     \- Clansuite_Formelement_ConfirmSubmitButton
  */
-class Clansuite_Formelement_ConfirmSubmitButton extends Clansuite_Formelement_Button
+class Clansuite_Formelement_ConfirmSubmitButton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
-    private $action = null;
+    protected $message = 'Please Confirm';
 
-    function __construct($label, $value, $message = null, $width =null, $height = null)
+    function __construct($message = null)
     {
-        $this->action = "if (confirm('".$message."')) {this.form.".$this->formaction.".value='".$value."'; submit();}";
+        $this->type = "submit";
+        $this->value = _("Confirm & Submit");
+        $this->class = "ButtonGreen";
+
+        # Add the Form Submit Confirmation Javascript. This is a pure Javacript Return Confirm.
+        # to add the value of specific form.elements to the message use "+ form.elements['email'].value +"
+        $this->setAdditionals("onclick=\"if (confirm('Are you sure you want to submit this form?\\n\\nClick OK to submit or Cancel to abort.')) { submit(); } else { return false; } \" value=\"Submit\"");
     }
 
-    function render()
+    public function setMessage($message)
     {
-        return Clansuiute_Formelement_Button($label, $value, $action, $width, $height);
-    }
+        $this->message = $message;
 
-    function __toString()
-    {
-        return $this->render();
+        return $this;
     }
 }
 ?>

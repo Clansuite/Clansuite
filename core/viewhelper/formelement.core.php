@@ -182,7 +182,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getLabel()
     {
         return $this->label;
-    }
+    }  
     
     /**
      * Returns boolean true if a label exists for this formelement.

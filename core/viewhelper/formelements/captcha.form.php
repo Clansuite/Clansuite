@@ -37,13 +37,15 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
+
 /**
  *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Captcha
  */
-class Clansuite_Formelement_Captcha extends Clansuite_Form
+class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
 
 }

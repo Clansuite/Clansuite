@@ -39,12 +39,18 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Timetoken
  */
-class Clansuite_Formelement_Timetoken extends Clansuite_Form
+class Clansuite_Formelement_Timetoken extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
-
+    /**
+     * Inserts a hidden input field for a token. Reducing the risk of an CSRF exploit.
+     */
+    public function render()
+    {
+        return '<input type="hidden" name="'.generateToken().'" value="1" />';
+    }
 }
 ?>

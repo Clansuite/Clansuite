@@ -38,15 +38,46 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
- *  Clansuite_Form
+ *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Button
+ *  \- Clansuite_Formelement_Input
  *     |
  *     \- Clansuite_Formelement_Imagebutton
  */
-class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Button
+class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    /**
+     * constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->type = 'image';
+    }
 
+    /**
+     * sets URL of image
+     *
+     * @return void
+     * @param string $source
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * sets width and height of image (px)
+     *
+     * @return void
+     * @param int $width
+     * @param int $height
+     */
+    public function setDimensions($width, $height)
+    {
+        $this->width = $width;
+        $this->height = $height;
+    }
 }
 ?>

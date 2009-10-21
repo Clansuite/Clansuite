@@ -38,15 +38,71 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *
  *  Clansuite_Form
  *  |
  *  \- Clansuite_Formelement_Radio
  *     |
  *     \- Clansuite_Formelement_Radiolist
  */
-class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio
+class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implements Clansuite_Formelement_Interface
 {
+    protected $options;
 
+    /**
+     * constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->type = 'radio';
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    protected $separator = '<br/>';
+
+    public function render()
+    {
+        $options = array( 'option1' => 'berlin',
+                          'option2' => 'new york');
+
+        $this->setOptions($options);
+
+        $i=0;
+        $html = '';
+        while ( list($key, $value) = each($this->options))
+        {
+            # setup a new radio formelement
+            $radio = new Clansuite_Formelement_Radio();
+            $radio->setValue($key)
+                  ->setName($value)
+                  ->setDescription($value)
+                  ->setLabel($value);
+            
+            # check the element, if value is "active"
+            if( $this->value == $key)
+            {
+                $radio->setChecked();
+            }
+
+            # assign it as output
+            $html .= $radio;
+            
+            #clansuite_xdebug::printR($html);
+
+            # if we have more options comming up, add a seperator
+            if (++$i!=count($this->options))
+            {
+                $html .= $this->separator;
+            }
+        }
+        return $html;
+    }
 }
 ?>
