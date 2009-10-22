@@ -33,7 +33,7 @@
     {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css-libraries/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
 
     {* Pagetitle *}
 
