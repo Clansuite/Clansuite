@@ -2,12 +2,15 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tree.js"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.cookie.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css-libraries/jquery-jstree-themes/default/style.css" />
+	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/jquery-jstree-themes/default/style.css" />
 
 {/move_to}
+
 {modulenavigation}
+
 <div class="ModuleHeading">{t}Adminmenü - Verwaltung{/t}</div>
 <div class="ModuleHeadingSmall">{t}Mit dem Menüeditor können Sie die Menüpunkte des Adminmenüs verändern oder neue hinzufügen, sowie alte entfernen.{/t}</div>
+
 {literal}
 	<script type="text/javascript">
 	$(function () { $("#basic_html").tree({ rules : { multitree : true } });
@@ -16,29 +19,34 @@
 	</script>
 {/literal}
 
-	<div id="basic_html">
-		<ul>
-			<li id="phtml_1" class="open"><a href="#"><ins>&nbsp;</ins>Root node 1</a>
-				<ul>
-					<li id="phtml_2"><a href="#"><ins>&nbsp;</ins>Child node 1</a></li>
-					<li id="phtml_3"><a href="#"><ins>&nbsp;</ins>Child node 2</a></li>
-					<li id="phtml_4"><a href="#"><ins>&nbsp;</ins>Some other child node with longer text</a></li>
-				</ul>
-			</li>
-			<li id="phtml_5"><a href="#"><ins>&nbsp;</ins>Root node 2</a></li>
-		</ul>
-	</div>
-<br></br><br></br>
-		<div id="basic_html2">
-		<ul>
-			<li class="open"><a href="#"><ins>&nbsp;</ins>Root node 1</a>
-				<ul>
-					<li ><a href="#"><ins>&nbsp;</ins>Child node 1</a></li>
-					<li ><a href="#"><ins>&nbsp;</ins>Child node 2</a></li>
-					<li ><a href="#"><ins>&nbsp;</ins>Some other child node with longer text</a></li>
-				</ul>
-			</li>
-			<li ><a href="#"><ins>&nbsp;</ins>Root node 2</a></li>
-		</ul>
-	</div>
 
+<div id="basic_html">
+	<ul>
+		<li id="phtml_1" class="open"><a href="#"><ins>&nbsp;</ins>Root node 1</a>
+			<ul>
+				<li id="phtml_2"><a href="#"><ins>&nbsp;</ins>Child node 1</a></li>
+				<li id="phtml_3"><a href="#"><ins>&nbsp;</ins>Child node 2</a></li>
+				<li id="phtml_4"><a href="#"><ins>&nbsp;</ins>Some other child node with longer text</a></li>
+			</ul>
+		</li>
+		<li id="phtml_5"><a href="#"><ins>&nbsp;</ins>Root node 2</a></li>
+	</ul>
+</div>
+
+<br>
+</br>
+<br>
+</br>
+
+<div id="basic_html2">
+<ul>
+	<li class="open"><a href="#"><ins>&nbsp;</ins>Root node 1</a>
+		<ul>
+			<li ><a href="#"><ins>&nbsp;</ins>Child node 1</a></li>
+			<li ><a href="#"><ins>&nbsp;</ins>Child node 2</a></li>
+			<li ><a href="#"><ins>&nbsp;</ins>Some other child node with longer text</a></li>
+		</ul>
+	</li>
+	<li ><a href="#"><ins>&nbsp;</ins>Root node 2</a></li>
+</ul>
+</div>
