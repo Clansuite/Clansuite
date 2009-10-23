@@ -303,8 +303,47 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     function action_admin_create()
     {
-        #require
-        #$create_form = new Clansuite_Form();
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+        # Create a new form
+        $form = new Clansuite_Form('news_create_form', 'POST', 'action_admin_create');
+        $form->setId('news_create_form')->setHeading('News Create Form')->setDescription('My news create form...');
+        
+        # Assign some Formlements
+        $form->addElement('captcha')->setLabel('captcha label');
+
+        $form->addElement('checkbox')->setLabel('checkbox label');
+        $form->addElement('checkboxlist')->setLabel('checkboxlist label');
+        $form->addElement('confirmsubmitbutton')->setLabel('confirmsubmitbutton label');
+        
+        $form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
+        
+        $form->addElement('jqselectdate')->setLabel('jqconfirmsubmitbutton label'); #->setFormId('news_create_form')
+
+        $form->addElement('hidden')->setLabel('hidden label');
+
+        $form->addElement('radio')->setLabel('radio label');
+        $form->addElement('radiolist')->setLabel('radiolist label');
+
+        $form->addElement('selectcountry');
+        $form->addElement('selectyesno');
+
+        $form->addElement('text')->setLabel('text label');
+        $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
+        
+        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
+        
+        $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
+
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
     }
