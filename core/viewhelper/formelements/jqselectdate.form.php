@@ -44,6 +44,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    protected $asIcon = false;
+
     function __construct()
     {
         $this->type = "date";
@@ -57,16 +59,39 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
 
         # Add the jQuery UI Date Select Dialog.
         # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
-        $this->js   = '<script type="text/javascript">
-                              $(document).ready(function(){
-                                $("#datepicker").datepicker();
-                              });
-                              </script>';
+        $this->datepicker_default   = '<script type="text/javascript">
+                                      $(document).ready(function(){
+                                        $("#datepicker").datepicker();
+                                      });
+                                      </script>';
+
+        $this->datepicker_icon   = '<script type="text/javascript">
+                                      $(document).ready(function(){
+                                        $("#datepicker").datepicker({showOn: \'button\', buttonImage: \'themes/core/images/lullacons/calendar.png\', buttonImageOnly: true});
+                                      });
+                                      </script>';
+    }
+
+    public function asIcon()
+    {
+        $this->asIcon = true;
+
+        return $this;
     }
 
     public function render()
     {
-        return $this->js.'<div type="text" id="datepicker" title="JQuery Datepicker"></div>';
+        if($this->asIcon == true)
+        {
+            # datepicker icon trigger needs a input element
+            return $this->datepicker_icon.' <input type="text" id="datepicker">';
+        }
+        else
+        {
+            # default needs a div-element
+            return $this->js_default.'<div type="text" id="datepicker" title="JQuery Datepicker"></div>';
+        }
+
     }
 
     public function __toString()
