@@ -21,5 +21,6 @@
     {t}Help{/t}
 </div>
 
-<!-- Help Text -->
+<!-- Theme Standard: Help Text = none -->
+<!-- Include: Help Text from Module -->
 {include file="../modules/help/templates/help.tpl"}
