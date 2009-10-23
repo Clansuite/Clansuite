@@ -89,7 +89,7 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
         else
         {
             # default needs a div-element
-            return $this->js_default.'<div type="text" id="datepicker" title="JQuery Datepicker"></div>';
+            return $this->datepicker_default.'<div type="text" id="datepicker" title="JQuery Datepicker"></div>';
         }
 
     }
