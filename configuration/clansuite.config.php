@@ -48,10 +48,10 @@ from_name = "Clansuite CMS - HAL 9000"
 [template]
 pagetitle = "Team Clansuite"
 favicon = ""
-theme = "newscore"
+theme = "standard"
 backend_theme = "admin"
 layout = "index.tpl"
-css = "newscore.css"
+css = "standard.css"
 javascript = "standard.js"
 
 ;----------------------------------------
@@ -188,5 +188,11 @@ rotation = 1
 ;----------------------------------------
 [minifer]
 enabled = 0
+
+;----------------------------------------
+; help
+;----------------------------------------
+[help]
+tracking = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>
