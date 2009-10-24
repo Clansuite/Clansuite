@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE.'viewhelper/formelement.core.php'; }
+
 /**
  *  Clansuite_Formelement
  *  |
@@ -106,7 +108,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var int
      */
     protected $height;
-    
+
     /**
      * additional string to attach to the opening form tag
      * for instance 'onSubmit="xy"'
@@ -114,9 +116,9 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var $string;
      */
     protected $additionals;
-    
+
     protected $description;
-    
+
     /**
      * Set Additionals to t formelement.
      *
@@ -128,7 +130,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
 
         return $this;
     }
-         
+
     /**
      * generates html code of element
      *
@@ -137,8 +139,10 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public function render()
     {
         $html  = null;
-        $html .= '<input type="'.$this->type.'" id="'.$this->id.'" name="'.$this->name.'" value="'.$this->value.'"';
-        $html .= (bool)$this->size ? ' size= "'.$this->size.'"' : null;
+        $html .= '<input type="'.$this->type.'" name="'.$this->name.'"';
+        $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
+        $html .= (bool)$this->value ? ' value="'.$this->value.'"' : null;
+        $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
         $html .= (bool)$this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
         $html .= ($this->type == 'text' || $this->type == 'password') ? ' class="' . $this->class .'"' : null;
         $html .= ($this->type == 'submit' || $this->type == 'reset') ? ' class="submit ' . $this->class .'"' : null;
@@ -152,6 +156,11 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool)$this->description ? $this->description : null;
 
         return $html;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
     }
 }
 ?>
