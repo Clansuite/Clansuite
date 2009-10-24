@@ -64,17 +64,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
 class Clansuite_Loader
 {
     /**
-     * @var array Whitelist array for libraries
-     */
-    private $libraries = array( 'simplepie'         => array (
-                                    'path'     => 'simplepie/',
-                                    'filename' => 'simplepie.inc'),
-                                'openflashchart'    => array (
-                                    'path'     => 'ofc/php-ofc-library/',
-                                    'filename' => 'open-flash-chart.php'),
-    );
-
-    /**
      * clansuite_loader:register_autoload();
      *
      * Overwrites Zend Engines __autoload cache with our own loader-functions
