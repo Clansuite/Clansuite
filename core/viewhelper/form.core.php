@@ -162,6 +162,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @var string
      */
     protected $heading;
+    
+    protected $target;
 
     /**
      * Construct
@@ -366,11 +368,35 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         if( empty($this->encoding) )
         {
             $this->encoding = 'multipart/form-data';
+            
+            return $this->encoding;
         }
         else
         {
             return $this->encoding;
         }
+    }
+    
+    /**
+     * Set target of this form.
+     *
+     * @param $target string ID of this form.
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * Returns target of this form.
+     *
+     * @return string target of this form.
+     */
+    public function getTarget()
+    {
+        return $this->target;
     }
 
     /**
@@ -428,6 +454,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         if( strlen($this->getEncoding()) > 0 )
         {
             $html_form .= 'enctype="'.$this->getEncoding().'" ';
+        }
+        
+        if( strlen($this->getTarget()) > 0 )
+        {
+            $html_form .= 'target="'.$this->getTarget().'" ';
         }
 
         if( strlen($this->getName()) > 0 )
